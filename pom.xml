@@ -1,0 +1,172 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>es.caib.portafib</groupId>
+    <version>1.0.0</version>
+    <artifactId>portafib</artifactId>
+    <packaging>pom</packaging>
+    <name>PortaFIB</name>
+
+    <modules>
+        <module>model</module> 
+        <module>jpa</module>
+        <module>ejb</module> 
+        <module>utils</module> 
+        <module>scripts</module>
+        <module>persistence</module>
+        <module>ws</module>
+        <module>logic</module>
+        <module>back</module>
+        <module>ear</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>clientcert</id>
+            <modules>
+              <module>back-clientcert</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>produccio</id>
+            <modules>
+              <module>earplugins</module>
+            </modules>
+        </profile>
+        
+        <profile>
+            <id>applet</id>
+            <modules>
+              <module>applet</module> 
+            </modules>
+        </profile>
+    </profiles>
+
+    <repositories>
+
+        <repository>
+            <id>maven-nuxeo</id>
+            <name>Maven Nuxeo Repository</name>
+            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>pluginsib-maven-repos</id>
+            <name>PluginsIB Maven Repository</name>
+            <url>http://pluginsib.sourceforge.net/maven/</url>
+        </repository>
+		
+		<repository>
+		    <id>org.fundaciobit.genapp</id>
+		    <name>GenApp Maven Repository</name>
+		    <url>http://genapp.sourceforge.net/maven/</url>
+	    </repository>
+
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+<properties>
+        <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
+        <version_txt_file>./versio.txt</version_txt_file>
+        <spring.version>3.1.2.RELEASE</spring.version>
+        <springsecurity.version>3.1.2.RELEASE</springsecurity.version>
+        <cxf.version>2.2.12</cxf.version>  <!-- 2.2.12 -->
+        <ibkey.version>3.3.2</ibkey.version>
+        <global.version>${project.version}</global.version>
+        <miniapplet.version>1.2</miniapplet.version>
+        <hibernate.version>3.3.2.GA</hibernate.version>
+        <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
+    </properties>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-idea-plugin</artifactId>
+                    <configuration>
+                        <jdkName>JDK1.5</jdkName>
+                        <downloadSources>true</downloadSources>
+                        <downloadJavadocs>true</downloadJavadocs>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>maven-replacer-plugin</artifactId>
+                <version>1.4.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>${version_txt_template_file}</file>
+                    <outputFile>${version_txt_file}</outputFile>
+                    <replacements>
+                        <replacement>
+                            <token>@project.version@</token>
+                            <value>${project.version}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+</project>

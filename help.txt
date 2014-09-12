@@ -1,0 +1,39 @@
+
+Per compilar en mode desenvolupament: deploydev.sh/bat [OPCIONS]
+Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
+
+-------------------------------- OPCIONS ---------------------------------
+-Dcaib            Propietat que indica als projectes que activins les 
+                  caracteristiques especials requerides en l'entorn 
+                  de la CAIB (Govern Balear)
+
+-Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
+                  informacio a /scripts/sqlgenerator/readme.txt
+
+-Papplet          Compila l'applet i el firma amb el afirma.keystore. Sino
+                  s'ha d'executar install_portafib_applet_signed_jar.sh/bat
+
+-Pclientcert      Genera un segon context web amb autenticacio
+                  CLIENT-CERT (context a /portafibs)
+
+-Pws-portafib     Crea WS per atacar a PortaFIB (Contexte /portafib/ws)
+                  Exemple de cridada a ws\portafib_client.
+				  
+-Pws-portafib-callback-server  Crea WS per provar la recepcio dels Callback
+                           de PortaFIB. Els usuaris aplicacio han de tenir callback
+                           url http://HOST:8080/portafib/cb/v1/PortaFIBCallBack
+                           i callback versio 1. Per veure les cridades accedir
+                           a http://HOST:8080/portafib/cbweb
+
+-Pws-indra        Crea WS compatible amb l'API del PortaFirmas de INDRA
+                  (Context a /portafirmasws). Exemple de cridada 
+                  a ws\indra_client.
+
+-Pws-indra-callback-server Crea WS per provar la recepcio dels Callback Indra
+                           Els usuaris aplicacio han de tenir calback url
+                           http://HOST:8080/portafib/cbindra/v0/PortafirmasCallBack
+                           i callback versio 0. Per veure les cridades accedir
+                           a http://HOST:8080/portafib/cbindra/
+
+--------------------------------------------------------------------------
+

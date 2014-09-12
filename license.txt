@@ -1,0 +1,18 @@
+﻿
+--------------------------- CA ---------------------------
+
+Aquest programa s'allibera baix una llicència dual:
+    +  EUPL versió 1.1 (http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1)
+	+  GNU GPL versió 3 (http://www.gnu.org/licenses/gpl.html)
+	
+--------------------------- ES ---------------------------
+
+Este programa se librera bajo una licencia dual:
+    +  EUPL versión 1.1 (http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1)
+	+  GNU GPL versión 3 (http://www.gnu.org/licenses/gpl.html)
+	
+--------------------------- EN ---------------------------
+
+This program is distributed under dual license:
+    +  EUPL version 1.1 (http://www.osor.eu/eupl/european-union-public-licence-eupl-v.1.1)
+	+  GNU GPL version 3 (http://www.gnu.org/licenses/gpl.html)
