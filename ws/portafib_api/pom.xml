@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>    
+    <artifactId>portafib-ws-api</artifactId>
+	<groupId>es.caib.portafib</groupId>
+    <packaging>jar</packaging>
+	
+    <name>PortaFIB WS - API</name>
+
+	<parent>
+        <groupId>es.caib.portafib</groupId>
+        <artifactId>portafib-ws</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+	
+    <build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+				  <execution>
+					<phase>package</phase>
+					<goals>
+					  <goal>shade</goal>
+					</goals>
+					<configuration>
+					<!--
+					  <artifactSet>
+						<excludes>
+						  <exclude>log4j:log4j</exclude>
+						  <exclude>es.gob.afirma:afirma-miniapplet-full</exclude>
+						  <exclude>com.itextpdf:itextpdf</exclude>
+						  <exclude>org.bouncycastle:*</exclude>
+						  <exclude>es.caib.portafib:portafib-ws-indra-callback-api</exclude>
+						</excludes>
+					  </artifactSet>
+					  -->
+					  <filters>
+						<filter>
+						  <artifact>es.caib.portafib:portafib-utils</artifact>
+						  <includes>
+							<include>es/caib/portafib/utils/Constants.*</include>
+						  </includes>
+						</filter>
+                        <filter>
+						  <artifact>org.fundaciobit.genapp:genapp-core</artifact>
+						  <includes>
+							<include>org/fundaciobit/genapp/common/i18n/I18N*.*</include>
+						  </includes>
+						</filter>
+					  </filters>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
+
+            
+            
+            
+			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+				  <execution>
+					<id>copy-resources</id>				
+					<phase>validate</phase>
+					<goals>
+					  <goal>copy-resources</goal>
+					</goals>
+					<configuration>
+					  <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+					  <resources>          
+						<resource>
+						  <directory>${basedir}/../../logic/src/main/resources</directory>
+							<includes>
+							   <include>logicmissatges_*.properties</include>
+							   <include>genapp_*.properties</include>
+							   <include>portafib_genapp_*.properties</include>
+							</includes>
+						  <filtering>true</filtering>
+						</resource>
+					  </resources>
+					  <overwrite>true</overwrite>
+					</configuration>            
+				  </execution>
+				</executions>
+			</plugin>
+			
+			
+		</plugins>
+
+    </build>
+
+	
+	<repositories>
+	  <repository>
+        <id>java.net-m2</id>
+        <name>java.net - Maven 2</name>
+        <url>https://repository.jboss.org/nexus/content/repositories/java.net-m2</url>
+      </repository>
+	</repositories>
+	
+	
+    <dependencies>
+ 
+		<dependency>
+		  <groupId>es.caib.portafib</groupId>
+		  <artifactId>portafib-utils</artifactId>
+		  <version>${project.version}</version>
+		  <scope>compile</scope>
+		</dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.genapp</groupId>
+          <artifactId>genapp-core</artifactId>
+          <version>1.0</version>
+		  <scope>compile</scope>
+		</dependency>
+
+		<dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.2</version>
+			<scope>test</scope>
+        </dependency>
+		
+    </dependencies>
+
+</project>

@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="PortaFIBUsuariAplicacioWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:ns2="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema targetNamespace="http://jaxb.dev.java.net/array" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:complexType final="#all" name="stringArray">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:complexType name="wsI18NTranslation">
+<xs:sequence>
+<xs:element minOccurs="0" name="code" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="tns:wsI18NArgument" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsI18NArgument">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string" />
+<xs:element name="translate" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="usuariAplicacioFilterWs">
+<xs:sequence>
+<xs:element minOccurs="0" name="filterByActiu" type="xs:boolean" />
+<xs:element minOccurs="0" name="filterByCallBackURL" type="xs:string" />
+<xs:element minOccurs="0" name="filterByEntitatID" type="xs:string" />
+<xs:element minOccurs="0" name="filterByUsuariAplicacioID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="usuariAplicacioBean">
+<xs:sequence>
+<xs:element name="actiu" type="xs:boolean" />
+<xs:element minOccurs="0" name="callbackURL" type="xs:string" />
+<xs:element name="callbackVersio" type="xs:int" />
+<xs:element minOccurs="0" name="contrasenya" type="xs:string" />
+<xs:element minOccurs="0" name="descripcio" type="xs:string" />
+<xs:element minOccurs="0" name="emailAdmin" type="xs:string" />
+<xs:element minOccurs="0" name="entitatID" type="xs:string" />
+<xs:element minOccurs="0" name="idiomaID" type="xs:string" />
+<xs:element minOccurs="0" name="logoSegell" type="tns:fitxerBean" />
+<xs:element minOccurs="0" name="logoSegellID" type="xs:long" />
+<xs:element minOccurs="0" name="potCustodiar" type="xs:boolean" />
+<xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fitxerBean">
+<xs:sequence>
+<xs:element minOccurs="0" name="data" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="descripcio" type="xs:string" />
+<xs:element minOccurs="0" name="encryptedFileID" type="xs:string" />
+<xs:element name="fitxerID" type="xs:long" />
+<xs:element minOccurs="0" name="mime" type="xs:string" />
+<xs:element minOccurs="0" name="nom" type="xs:string" />
+<xs:element name="tamany" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsFieldValidationError">
+<xs:sequence>
+<xs:element name="label" type="xs:string" />
+<xs:element name="field" type="xs:string" />
+<xs:element name="translation" type="tns:wsI18NTranslation" />
+<xs:element name="error" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="#all" name="usuariAplicacioBeanArray">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="tns:usuariAplicacioBean" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="WsI18NError" type="tns:WsI18NError" />
+<xs:complexType name="WsI18NError">
+<xs:sequence>
+<xs:element name="translation" nillable="true" type="tns:wsI18NTranslation" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="WsValidationErrors" type="tns:WsValidationErrors" />
+<xs:complexType name="WsValidationErrors">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="fieldFaults" type="tns:wsFieldValidationError" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="removeRolAdminToUsuariAplicacioResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsValidationException">
+    <wsdl:part element="tns:WsValidationErrors" name="WsValidationException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioFilterWs" type="tns:usuariAplicacioFilterWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUsuariAplicacioResponse">
+  </wsdl:message>
+  <wsdl:message name="removeRolAdminToUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listUsuariAplicacioResponse">
+    <wsdl:part name="return" type="tns:usuariAplicacioBeanArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatIDResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+  </wsdl:message>
+  <wsdl:message name="getEntitatID">
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariAplicacioResponse">
+  </wsdl:message>
+  <wsdl:message name="addRolUserToUsuariAplicacioResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsI18NException">
+    <wsdl:part element="tns:WsI18NError" name="WsI18NException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersion">
+  </wsdl:message>
+  <wsdl:message name="removeRolUserToUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolUserToUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="return" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguages">
+  </wsdl:message>
+  <wsdl:message name="addRolAdminToUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addRolAdminToUsuariAplicacioResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariAplicacioResponse">
+    <wsdl:part name="return" type="tns:usuariAplicacioBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguagesResponse">
+    <wsdl:part name="return" type="ns1:stringArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileID">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioBean" type="tns:usuariAplicacioBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeRolUserToUsuariAplicacioResponse">
+    <wsdl:part name="return" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
+    <wsdl:part name="return" type="tns:fitxerBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariAplicacio">
+    <wsdl:part name="usuariAplicacioID" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PortaFIBUsuariAplicacioWs">
+    <wsdl:operation name="getEntitatID">
+      <wsdl:input message="tns:getEntitatID" name="getEntitatID">
+    </wsdl:input>
+      <wsdl:output message="tns:getEntitatIDResponse" name="getEntitatIDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input message="tns:getVersionWs" name="getVersionWs">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionWsResponse" name="getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUsuariAplicacio">
+      <wsdl:input message="tns:deleteUsuariAplicacio" name="deleteUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteUsuariAplicacioResponse" name="deleteUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="listUsuariAplicacio">
+      <wsdl:input message="tns:listUsuariAplicacio" name="listUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:listUsuariAplicacioResponse" name="listUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolUserToUsuariAplicacio">
+      <wsdl:input message="tns:removeRolUserToUsuariAplicacio" name="removeRolUserToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:removeRolUserToUsuariAplicacioResponse" name="removeRolUserToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolAdminToUsuariAplicacio">
+      <wsdl:input message="tns:addRolAdminToUsuariAplicacio" name="addRolAdminToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:addRolAdminToUsuariAplicacioResponse" name="addRolAdminToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariAplicacio">
+      <wsdl:input message="tns:createUsuariAplicacio" name="createUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:createUsuariAplicacioResponse" name="createUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsValidationException" name="WsValidationException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input message="tns:getVersion" name="getVersion">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionResponse" name="getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariAplicacio">
+      <wsdl:input message="tns:getUsuariAplicacio" name="getUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:getUsuariAplicacioResponse" name="getUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input message="tns:getSupportedLanguages" name="getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output message="tns:getSupportedLanguagesResponse" name="getSupportedLanguagesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <wsdl:input message="tns:downloadFileUsingEncryptedFileID" name="downloadFileUsingEncryptedFileID">
+    </wsdl:input>
+      <wsdl:output message="tns:downloadFileUsingEncryptedFileIDResponse" name="downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolUserToUsuariAplicacio">
+      <wsdl:input message="tns:addRolUserToUsuariAplicacio" name="addRolUserToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:addRolUserToUsuariAplicacioResponse" name="addRolUserToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolAdminToUsuariAplicacio">
+      <wsdl:input message="tns:removeRolAdminToUsuariAplicacio" name="removeRolAdminToUsuariAplicacio">
+    </wsdl:input>
+      <wsdl:output message="tns:removeRolAdminToUsuariAplicacioResponse" name="removeRolAdminToUsuariAplicacioResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortaFIBUsuariAplicacioWsServiceSoapBinding" type="tns:PortaFIBUsuariAplicacioWs">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getEntitatID">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getEntitatID">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="deleteUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersionWs">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionWsResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="listUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="listUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolUserToUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="removeRolUserToUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeRolUserToUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolAdminToUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="addRolAdminToUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addRolAdminToUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal" />
+      </wsdl:fault>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersion">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getSupportedLanguages">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addRolUserToUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="addRolUserToUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addRolUserToUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="downloadFileUsingEncryptedFileID">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeRolAdminToUsuariAplicacio">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="removeRolAdminToUsuariAplicacio">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="removeRolAdminToUsuariAplicacioResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortaFIBUsuariAplicacioWsService">
+    <wsdl:port binding="tns:PortaFIBUsuariAplicacioWsServiceSoapBinding" name="PortaFIBUsuariAplicacioWs">
+      <soap:address location="http://ibit151:8080/portafib/ws/v1/PortaFIBUsuariAplicacio" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

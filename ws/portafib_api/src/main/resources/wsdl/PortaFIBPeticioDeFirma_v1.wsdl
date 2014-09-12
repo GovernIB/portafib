@@ -1,0 +1,749 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="PortaFIBPeticioDeFirmaWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:ns2="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema targetNamespace="http://jaxb.dev.java.net/array" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:complexType final="#all" name="stringArray">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:complexType name="wsI18NTranslation">
+<xs:sequence>
+<xs:element minOccurs="0" name="code" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="tns:wsI18NArgument" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsI18NArgument">
+<xs:sequence>
+<xs:element minOccurs="0" name="value" type="xs:string" />
+<xs:element name="translate" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fluxDeFirmesBean">
+<xs:sequence>
+<xs:element name="fluxDeFirmesID" type="xs:long" />
+<xs:element minOccurs="0" name="nom" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fluxDeFirmesWs">
+<xs:complexContent>
+<xs:extension base="tns:fluxDeFirmesBean">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="blocsDeFirmes" nillable="true" type="tns:blocDeFirmesWs" />
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="blocDeFirmesWs">
+<xs:complexContent>
+<xs:extension base="tns:blocDeFirmesBean">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="firmes" nillable="true" type="tns:firmaBean" />
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="blocDeFirmesBean">
+<xs:sequence>
+<xs:element name="blocDeFirmesID" type="xs:long" />
+<xs:element minOccurs="0" name="dataFinalitzacio" type="xs:dateTime" />
+<xs:element name="fluxDeFirmesID" type="xs:long" />
+<xs:element name="minimDeFirmes" type="xs:int" />
+<xs:element name="ordre" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="firmaBean">
+<xs:sequence>
+<xs:element name="blocDeFirmaID" type="xs:long" />
+<xs:element minOccurs="0" name="caixaAlt" type="xs:int" />
+<xs:element minOccurs="0" name="caixaAmple" type="xs:int" />
+<xs:element name="caixaPagina" type="xs:int" />
+<xs:element minOccurs="0" name="caixaX" type="xs:int" />
+<xs:element minOccurs="0" name="caixaY" type="xs:int" />
+<xs:element minOccurs="0" name="destinatariID" type="xs:string" />
+<xs:element minOccurs="0" name="emissorCertificat" type="xs:string" />
+<xs:element name="firmaID" type="xs:long" />
+<xs:element minOccurs="0" name="fitxerFirmat" type="tns:fitxerBean" />
+<xs:element minOccurs="0" name="fitxerFirmatID" type="xs:long" />
+<xs:element name="mostrarRubrica" type="xs:boolean" />
+<xs:element minOccurs="0" name="nomCertificat" type="xs:string" />
+<xs:element minOccurs="0" name="numFirmaDocument" type="xs:int" />
+<xs:element minOccurs="0" name="numeroSerieCertificat" type="xs:integer" />
+<xs:element name="obligatori" type="xs:boolean" />
+<xs:element minOccurs="0" name="tipusEstatDeFirmaFinalID" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="fitxerBean">
+<xs:sequence>
+<xs:element minOccurs="0" name="data" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="descripcio" type="xs:string" />
+<xs:element minOccurs="0" name="encryptedFileID" type="xs:string" />
+<xs:element name="fitxerID" type="xs:long" />
+<xs:element minOccurs="0" name="mime" type="xs:string" />
+<xs:element minOccurs="0" name="nom" type="xs:string" />
+<xs:element name="tamany" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsFieldValidationError">
+<xs:sequence>
+<xs:element name="label" type="xs:string" />
+<xs:element name="field" type="xs:string" />
+<xs:element name="translation" type="tns:wsI18NTranslation" />
+<xs:element name="error" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="peticioDeFirmaBean">
+<xs:sequence>
+<xs:element name="algorismeDeFirmaID" type="xs:long" />
+<xs:element name="avisWeb" type="xs:boolean" />
+<xs:element minOccurs="0" name="custodiaInfoID" type="xs:long" />
+<xs:element minOccurs="0" name="dataCaducitat" type="xs:dateTime" />
+<xs:element minOccurs="0" name="dataFinal" type="xs:dateTime" />
+<xs:element minOccurs="0" name="dataSolicitud" type="xs:dateTime" />
+<xs:element minOccurs="0" name="descripcio" type="xs:string" />
+<xs:element minOccurs="0" name="descripcioTipusDocument" type="xs:string" />
+<xs:element minOccurs="0" name="fitxerAFirmar" type="tns:fitxerBean" />
+<xs:element name="fitxerAFirmarID" type="xs:long" />
+<xs:element minOccurs="0" name="fitxerAdaptat" type="tns:fitxerBean" />
+<xs:element minOccurs="0" name="fitxerAdaptatID" type="xs:long" />
+<xs:element name="fluxDeFirmesID" type="xs:long" />
+<xs:element minOccurs="0" name="idiomaID" type="xs:string" />
+<xs:element minOccurs="0" name="informacioAdicional" type="xs:string" />
+<xs:element minOccurs="0" name="logoSegell" type="tns:fitxerBean" />
+<xs:element minOccurs="0" name="logoSegellID" type="xs:long" />
+<xs:element minOccurs="0" name="modeDeFirma" type="xs:boolean" />
+<xs:element minOccurs="0" name="motiu" type="xs:string" />
+<xs:element minOccurs="0" name="motiuDeRebuig" type="xs:string" />
+<xs:element name="peticioDeFirmaID" type="xs:long" />
+<xs:element name="posicioTaulaFirmesID" type="xs:int" />
+<xs:element name="prioritatID" type="xs:int" />
+<xs:element minOccurs="0" name="remitentDescripcio" type="xs:string" />
+<xs:element minOccurs="0" name="remitentNom" type="xs:string" />
+<xs:element name="tipusDocumentID" type="xs:long" />
+<xs:element name="tipusEstatPeticioDeFirmaID" type="xs:int" />
+<xs:element name="tipusFirmaID" type="xs:int" />
+<xs:element minOccurs="0" name="titol" type="xs:string" />
+<xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string" />
+<xs:element minOccurs="0" name="usuariEntitatID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="peticioDeFirmaWs">
+<xs:complexContent>
+<xs:extension base="tns:peticioDeFirmaBean">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="annexs" nillable="true" type="tns:annexBean" />
+<xs:element minOccurs="0" name="custodiaInfo" type="tns:custodiaInfoBean" />
+<xs:element minOccurs="0" name="fluxDeFirmes" type="tns:fluxDeFirmesWs" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="metadades" nillable="true" type="tns:metadadaBean" />
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="annexBean">
+<xs:sequence>
+<xs:element name="adjuntar" type="xs:boolean" />
+<xs:element name="annexID" type="xs:long" />
+<xs:element name="firmar" type="xs:boolean" />
+<xs:element minOccurs="0" name="fitxer" type="tns:fitxerBean" />
+<xs:element name="fitxerID" type="xs:long" />
+<xs:element name="peticioDeFirmaID" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="custodiaInfoBean">
+<xs:sequence>
+<xs:element minOccurs="0" name="codiBarresID" type="xs:string" />
+<xs:element name="codiBarresPosicioPaginaID" type="xs:long" />
+<xs:element minOccurs="0" name="codiBarresText" type="xs:string" />
+<xs:element name="custodiaInfoID" type="xs:long" />
+<xs:element minOccurs="0" name="custodiaPluginClassID" type="xs:string" />
+<xs:element minOccurs="0" name="custodiaPluginID" type="xs:string" />
+<xs:element minOccurs="0" name="custodiaPluginParameters" type="xs:string" />
+<xs:element name="custodiar" type="xs:boolean" />
+<xs:element minOccurs="0" name="dataCustodia" type="xs:dateTime" />
+<xs:element name="editable" type="xs:boolean" />
+<xs:element minOccurs="0" name="entitatID" type="xs:string" />
+<xs:element minOccurs="0" name="missatge" type="xs:string" />
+<xs:element name="missatgePosicioPaginaID" type="xs:long" />
+<xs:element minOccurs="0" name="nomPlantilla" type="xs:string" />
+<xs:element minOccurs="0" name="pagines" type="xs:string" />
+<xs:element minOccurs="0" name="titolPeticio" type="xs:string" />
+<xs:element minOccurs="0" name="urlFitxerCustodiat" type="xs:string" />
+<xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string" />
+<xs:element minOccurs="0" name="usuariEntitatID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="metadadaBean">
+<xs:sequence>
+<xs:element minOccurs="0" name="descripcio" type="xs:string" />
+<xs:element name="metadadaID" type="xs:long" />
+<xs:element minOccurs="0" name="nom" type="xs:string" />
+<xs:element name="peticioDeFirmaID" type="xs:long" />
+<xs:element name="tipusMetadadaID" type="xs:int" />
+<xs:element minOccurs="0" name="valor" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="tipusDocumentInfoWs">
+<xs:sequence>
+<xs:element minOccurs="0" name="nom" type="xs:string" />
+<xs:element name="tipusDocumentID" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="#all" name="tipusDocumentInfoWsArray">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="tns:tipusDocumentInfoWs" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="WsI18NError" type="tns:WsI18NError" />
+<xs:complexType name="WsI18NError">
+<xs:sequence>
+<xs:element name="translation" nillable="true" type="tns:wsI18NTranslation" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="WsValidationErrors" type="tns:WsValidationErrors" />
+<xs:complexType name="WsValidationErrors">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="fieldFaults" type="tns:wsFieldValidationError" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getTipusDeDocuments">
+    <wsdl:part name="idioma" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentCustodiaPluginClass">
+  </wsdl:message>
+  <wsdl:message name="createPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsValidationException">
+    <wsdl:part element="tns:WsValidationErrors" name="WsValidationException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startPeticioDeFirmaResponse">
+  </wsdl:message>
+  <wsdl:message name="getDefaultCustodiaInfoResponse">
+    <wsdl:part name="return" type="tns:custodiaInfoBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatIDResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="resetPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+  </wsdl:message>
+  <wsdl:message name="getStateOfPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLastSignedFileOfPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLastSignedFileOfPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="tns:fitxerBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatID">
+  </wsdl:message>
+  <wsdl:message name="pausePeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPlantillaFluxDeFirmes">
+    <wsdl:part name="fluxDeFirmesWs" type="tns:fluxDeFirmesWs">
+    </wsdl:part>
+    <wsdl:part name="compartir" type="xsd:boolean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAndStartPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePeticioDeFirmaResponse">
+  </wsdl:message>
+  <wsdl:message name="WsI18NException">
+    <wsdl:part element="tns:WsI18NError" name="WsI18NException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersion">
+  </wsdl:message>
+  <wsdl:message name="createAndStartPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaWs" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="instantiatePlantillaFluxDeFirmesResponse">
+    <wsdl:part name="return" type="tns:fluxDeFirmesWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="return" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPlantillaFluxDeFirmesResponse">
+    <wsdl:part name="return" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguages">
+  </wsdl:message>
+  <wsdl:message name="resetPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguagesResponse">
+    <wsdl:part name="return" type="ns1:stringArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDefaultCustodiaInfo">
+    <wsdl:part name="title" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="language" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileID">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="instantiatePlantillaFluxDeFirmes">
+    <wsdl:part name="plantillaDeFluxDeFirmesID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStateOfPeticioDeFirmaResponse">
+    <wsdl:part name="return" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaID" type="xsd:long">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
+    <wsdl:part name="return" type="tns:fitxerBean">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentCustodiaPluginClassResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTipusDeDocumentsResponse">
+    <wsdl:part name="return" type="tns:tipusDocumentInfoWsArray">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPeticioDeFirma">
+    <wsdl:part name="peticioDeFirmaWs" type="tns:peticioDeFirmaWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pausePeticioDeFirmaResponse">
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PortaFIBPeticioDeFirmaWs">
+    <wsdl:operation name="getEntitatID">
+      <wsdl:input message="tns:getEntitatID" name="getEntitatID">
+    </wsdl:input>
+      <wsdl:output message="tns:getEntitatIDResponse" name="getEntitatIDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="startPeticioDeFirma">
+      <wsdl:input message="tns:startPeticioDeFirma" name="startPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:startPeticioDeFirmaResponse" name="startPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPlantillaFluxDeFirmes">
+      <wsdl:input message="tns:createPlantillaFluxDeFirmes" name="createPlantillaFluxDeFirmes">
+    </wsdl:input>
+      <wsdl:output message="tns:createPlantillaFluxDeFirmesResponse" name="createPlantillaFluxDeFirmesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsValidationException" name="WsValidationException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input message="tns:getVersionWs" name="getVersionWs">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionWsResponse" name="getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createPeticioDeFirma">
+      <wsdl:input message="tns:createPeticioDeFirma" name="createPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:createPeticioDeFirmaResponse" name="createPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsValidationException" name="WsValidationException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createAndStartPeticioDeFirma">
+      <wsdl:input message="tns:createAndStartPeticioDeFirma" name="createAndStartPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:createAndStartPeticioDeFirmaResponse" name="createAndStartPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsValidationException" name="WsValidationException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPeticioDeFirma">
+      <wsdl:input message="tns:getPeticioDeFirma" name="getPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:getPeticioDeFirmaResponse" name="getPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePeticioDeFirma">
+      <wsdl:input message="tns:deletePeticioDeFirma" name="deletePeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:deletePeticioDeFirmaResponse" name="deletePeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLastSignedFileOfPeticioDeFirma">
+      <wsdl:input message="tns:getLastSignedFileOfPeticioDeFirma" name="getLastSignedFileOfPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:getLastSignedFileOfPeticioDeFirmaResponse" name="getLastSignedFileOfPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStateOfPeticioDeFirma">
+      <wsdl:input message="tns:getStateOfPeticioDeFirma" name="getStateOfPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:getStateOfPeticioDeFirmaResponse" name="getStateOfPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pausePeticioDeFirma">
+      <wsdl:input message="tns:pausePeticioDeFirma" name="pausePeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:pausePeticioDeFirmaResponse" name="pausePeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultCustodiaInfo">
+      <wsdl:input message="tns:getDefaultCustodiaInfo" name="getDefaultCustodiaInfo">
+    </wsdl:input>
+      <wsdl:output message="tns:getDefaultCustodiaInfoResponse" name="getDefaultCustodiaInfoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="resetPeticioDeFirma">
+      <wsdl:input message="tns:resetPeticioDeFirma" name="resetPeticioDeFirma">
+    </wsdl:input>
+      <wsdl:output message="tns:resetPeticioDeFirmaResponse" name="resetPeticioDeFirmaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input message="tns:getVersion" name="getVersion">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionResponse" name="getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="instantiatePlantillaFluxDeFirmes">
+      <wsdl:input message="tns:instantiatePlantillaFluxDeFirmes" name="instantiatePlantillaFluxDeFirmes">
+    </wsdl:input>
+      <wsdl:output message="tns:instantiatePlantillaFluxDeFirmesResponse" name="instantiatePlantillaFluxDeFirmesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input message="tns:getSupportedLanguages" name="getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output message="tns:getSupportedLanguagesResponse" name="getSupportedLanguagesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentCustodiaPluginClass">
+      <wsdl:input message="tns:getCurrentCustodiaPluginClass" name="getCurrentCustodiaPluginClass">
+    </wsdl:input>
+      <wsdl:output message="tns:getCurrentCustodiaPluginClassResponse" name="getCurrentCustodiaPluginClassResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTipusDeDocuments">
+      <wsdl:input message="tns:getTipusDeDocuments" name="getTipusDeDocuments">
+    </wsdl:input>
+      <wsdl:output message="tns:getTipusDeDocumentsResponse" name="getTipusDeDocumentsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <wsdl:input message="tns:downloadFileUsingEncryptedFileID" name="downloadFileUsingEncryptedFileID">
+    </wsdl:input>
+      <wsdl:output message="tns:downloadFileUsingEncryptedFileIDResponse" name="downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortaFIBPeticioDeFirmaWsServiceSoapBinding" type="tns:PortaFIBPeticioDeFirmaWs">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getEntitatID">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getEntitatID">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="startPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="startPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="startPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPlantillaFluxDeFirmes">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createPlantillaFluxDeFirmes">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createPlantillaFluxDeFirmesResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal" />
+      </wsdl:fault>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersionWs">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionWsResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAndStartPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createAndStartPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createAndStartPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal" />
+      </wsdl:fault>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="createPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal" />
+      </wsdl:fault>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="deletePeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deletePeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLastSignedFileOfPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getLastSignedFileOfPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getLastSignedFileOfPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStateOfPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getStateOfPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getStateOfPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultCustodiaInfo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getDefaultCustodiaInfo">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDefaultCustodiaInfoResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pausePeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="pausePeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="pausePeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersion">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="resetPeticioDeFirma">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="resetPeticioDeFirma">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="resetPeticioDeFirmaResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="instantiatePlantillaFluxDeFirmes">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="instantiatePlantillaFluxDeFirmes">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="instantiatePlantillaFluxDeFirmesResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getSupportedLanguages">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentCustodiaPluginClass">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getCurrentCustodiaPluginClass">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCurrentCustodiaPluginClassResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTipusDeDocuments">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getTipusDeDocuments">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getTipusDeDocumentsResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="downloadFileUsingEncryptedFileID">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortaFIBPeticioDeFirmaWsService">
+    <wsdl:port binding="tns:PortaFIBPeticioDeFirmaWsServiceSoapBinding" name="PortaFIBPeticioDeFirmaWs">
+      <soap:address location="http://ibit151:8080/portafib/ws/v1/PortaFIBPeticioDeFirma" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

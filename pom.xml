@@ -168,5 +168,29 @@
 
         </plugins>
     </build>
+	
+	<distributionManagement>
+        <site>
+            <id>es.caib.portafib</id>
+            <url>scp://shell.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
+        </site>
+        <repository>
+            <id>es.caib.portafib</id>
+            <name>portafib Maven Repository</name>
+            <url>scp://shell.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
+        </repository>
+        
+        <!--   COM UTILITZAR: AFEGIR AQUEST CODI AL pom.xml    -->
+        <!--
+        <repositories>
+           <repository>
+             <id>es.caib.portafib</id>
+             <name>portafib Maven Repository</name>
+             <url>http://portafib.sourceforge.net/maven/</url>
+           </repository>
+        <repositories>
+        -->
+
+    </distributionManagement>
 
 </project>

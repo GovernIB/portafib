@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/ejb3/jboss-ejb3-ext-api/1.1.1/jboss-ejb3-ext-api-1.1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/javaee/jboss-ejb-api/3.0.0.CR1/jboss-ejb-api-3.0.0.CR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/javaee/jboss-transaction-api/1.0.1.CR1/jboss-transaction-api-1.0.1.CR1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jboss/jbossws/jboss-jaxrpc/1.0.4.GA/jboss-jaxrpc-1.0.4.GA.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/metadata/jboss-metadata/1.0.0.CR16/jboss-metadata-1.0.0.CR16.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/logging/jboss-logging-spi/2.0.5.GA/jboss-logging-spi-2.0.5.GA.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/jboss-common-core/2.2.8.GA/jboss-common-core-2.2.8.GA.jar"/>
+  <classpathentry kind="src" path="/portafib-utils"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/ws/jbossws-spi/1.1.2.GA/jbossws-spi-1.1.2.GA.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/ant/ant/1.7.0/ant-1.7.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/ant/ant-launcher/1.7.0/ant-launcher-1.7.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/gnu-getopt/getopt/1.0.13/getopt-1.0.13.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/javaee-api/6.0/javaee-api-6.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.2/junit-4.8.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
+</classpath>

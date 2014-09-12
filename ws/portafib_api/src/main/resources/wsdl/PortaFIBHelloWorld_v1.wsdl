@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="PortaFIBHelloWorldWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:ns1="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:message name="getVersion">
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="return" type="xsd:int">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="echoResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="echo">
+    <wsdl:part name="echo" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+  </wsdl:message>
+  <wsdl:portType name="PortaFIBHelloWorldWs">
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input message="tns:getVersionWs" name="getVersionWs">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionWsResponse" name="getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input message="tns:getVersion" name="getVersion">
+    </wsdl:input>
+      <wsdl:output message="tns:getVersionResponse" name="getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echo">
+      <wsdl:input message="tns:echo" name="echo">
+    </wsdl:input>
+      <wsdl:output message="tns:echoResponse" name="echoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortaFIBHelloWorldWsServiceSoapBinding" type="tns:PortaFIBHelloWorldWs">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getVersionWs">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersionWs">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionWsResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="getVersion">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echo">
+      <soap:operation soapAction="" style="rpc" />
+      <wsdl:input name="echo">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:input>
+      <wsdl:output name="echoResponse">
+        <soap:body namespace="http://impl.v1.ws.portafib.caib.es/" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortaFIBHelloWorldWsService">
+    <wsdl:port binding="tns:PortaFIBHelloWorldWsServiceSoapBinding" name="PortaFIBHelloWorldWs">
+      <soap:address location="http://ibit151:8080/portafib/ws/v1/PortaFIBHelloWorld" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

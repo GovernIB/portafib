@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 3.2//EN"
+"http://www.jboss.org/j2ee/dtd/jboss_3_2.dtd">
+<jboss>
+	<security-domain>java:/jaas/seycon</security-domain>
+</jboss>
