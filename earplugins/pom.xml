@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>portafib-earplugins</artifactId>
+    <groupId>es.caib.portafib</groupId>
+    <packaging>ear</packaging>
+
+    <name>PortaFIB EarPlugins</name>
+
+    <parent>
+        <groupId>es.caib.portafib</groupId>
+        <artifactId>portafib</artifactId>
+        <version>1.0.0</version>
+    </parent>
+	
+    <dependencies>
+	
+		  <!-- ============================================ -->
+    	  <!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
+		  <!-- ============================================ -->
+		  <!--
+		  <dependency>
+			<groupId>org.fundaciobit.plugins</groupId>
+			<artifactId>plugin-documentconverter-openoffice</artifactId>
+			<version>1.0</version>
+		  </dependency>	
+		  -->
+	
+	
+	     <!-- ============================================ -->
+		 <!-- =====       PLUGIN DE AFIRMA           ===== -->
+		 <!-- ============================================ -->
+		 
+		 <!--
+		 <dependency>
+		 	<groupId>org.fundaciobit.plugins</groupId>
+			<artifactId>plugin-certificate-afirma</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		 
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+				
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis-jaxrpc</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+				
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis-saaj</artifactId>
+			<version>1.3</version>
+		</dependency>
+
+				
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis-wsdl4j</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+		
+		
+		
+		<dependency>
+			<groupId>org.apache.ws.security</groupId>
+			<artifactId>wss4j</artifactId>
+			<version>1.5.9</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		-->
+		
+		
+		<!-- ====================================== -->
+		<!-- == PLUGIN DE USERINFORMATION ========= -->
+		<!-- ====================================== -->
+
+		<!--
+		<dependency>
+			  <groupId>org.fundaciobit.plugins</groupId>
+			  <artifactId>plugin-userinformation-seycondev</artifactId>				  
+			  <version>1.0</version>
+		</dependency>
+		-->
+		
+		
+		<!-- ====================================== -->
+		<!-- == PLUGIN DE DATA EXPORTER ========= -->
+		<!-- ====================================== -->
+		
+		<dependency>
+			<groupId>org.fundaciobit.plugins</groupId>
+			<artifactId>plugin-exportdata-ods</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jopendocument</groupId>
+			<artifactId>jOpenDocument</artifactId>
+			<version>1.3b1</version>
+		</dependency>
+		
+
+
+    </dependencies>
+	
+	
+
+    <build>
+        <finalName>portafib_plugins</finalName>
+		
+		<filters>
+            <filter>../config.properties</filter>
+        </filters>
+		
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>2.3.2</version>
+        <!-- configuring the ear plugin -->
+        <configuration>
+
+          <displayName>PortaFIB Plugins</displayName>
+          <description>PortaFIB Plugins</description>
+
+          <defaultLibBundleDir>lib</defaultLibBundleDir>
+
+          <jboss>
+              <version>5</version>
+              <loader-repository>es.caib.portafib.:loader=portafib_plugins.ear</loader-repository>
+              <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
+              <!--<security-domain>java:/jaas/seycon</security-domain>-->
+          </jboss>
+
+          <modules>
+
+		  <!--
+            <jarModule>
+			  <groupId>org.fundaciobit.plugins</groupId>
+			  <artifactId>plugin-certificate-afirma</artifactId>
+			  <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
+
+            <jarModule>
+			  <groupId>org.fundaciobit.plugins</groupId>
+     		  <artifactId>plugin-userinformation-seycondev</artifactId>				  
+              <includeInApplicationXml>true</includeInApplicationXml>	
+            </jarModule>
+			
+			-->
+			
+			 <jarModule>
+			  <groupId>org.fundaciobit.plugins</groupId>
+			  <artifactId>plugin-exportdata-ods</artifactId>			  
+              <includeInApplicationXml>true</includeInApplicationXml>	
+            </jarModule>
+			
+
+
+          </modules>
+
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <configuration>
+         <!-- <jbossHome>D:\servers\jboss-eap-5.1\jboss-as</jbossHome>-->
+          <serverName>default</serverName>
+          <fileName>target/portafib_plugins.ear</fileName> 
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
