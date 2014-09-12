@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <mbean code="org.jboss.varia.property.SystemPropertiesService" name="jboss:type=Service,name=PortaFIBSystemProperties">
+    <attribute name="Properties">
+      # Dialecte de Hibernate
+      es.caib.portafib.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
+      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.DB2Dialect
+      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.SQLServerDialect
+      # es.caib.portafib.hibernate.dialect=net.sf.hibernate.dialect.Oracle9Dialect
+      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+      # es.caib.portafib.hibernate.query.substitutions=true 1, false 0
+
+      <!-- Directori on es guardaran tots els fitxers de PortaFIB-->
+      es.caib.portafib.filesdirectory=c:\\tmp\\portafibfiles
+      <!-- Accés HTTP a l'aplicació de PortaFIB (Important que sigui http, no https)  -->
+      es.caib.portafib.url=http://localhost:8080/portafib
+      es.caib.portafib.email.from=portafib@portafib.org
+      es.caib.portafib.defaultlanguage=ca
+      es.caib.portafib.development=false
+      <!-- Comprova que el nif del certificat amb el que s'ha firmat és igual al de la persona requerida -->
+      es.caib.portafib.checknifcertificate=true
+      <!-- Tamany màxim de pujada de fitxers en bytes. No definit significa sense límit -->
+      es.caib.portafib.maxuploadsizeinbytes=
+      <!-- Tamany màxim del fitxer PDF una vegada se li han afegit els annexes i taula de firmes. No definit significa sense límit -->
+      es.caib.portafib.maxfitxeradaptatsizeinbytes=
+      <!-- Clau per encriptar l'identificador del fitxers a descarregar (IMPORTANT tamany de 16 caràcters) -->
+      es.caib.portafib.encryptkey=portafibportafib
+      es.caib.portafib.name=PortaFIB
+      <!-- Permet editar l'email  dels usuari-persona i usuaris-entitats, així com el logo dels usuaris-entitat -->
+      es.caib.portafib.editableuser=true
+      <!-- Identificador de la taula pfi_algorismedefirma que representa l'algorisme de firma per defecte. -->
+      #es.caib.portafib.defaultsignalgorithmid=0
+	  <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->	  es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
+	  <!-- A partir de quants d'errors en una notificació callback s'enviarà un correu al responsable de l'usuari aplicació  -->
+	  es.caib.portafib.numberoferrorsinnotificationtosendmail=
+	  <!-- A partir de quants d'errors en una notificació callback aquesta automàticament es pausarà  -->
+	  es.caib.portafib.numberoferrorstopausenotification=
+
+      <!-- =========== MODUL APPLET DE FIRMA ======== -->
+
+      <!-- Firma emprant @firma -->
+      es.caib.portafib.applet.signerClass=es.caib.portafib.applet.signers.AfirmaSigner
+      <!-- Firma emprant IB-KEY -->
+      <!-- applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner -->
+
+      <!-- ======== PLUGIN DE CUSTODIA - FILESYSTEM ============== -->
+      es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
+      es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
+      es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\PortaFIB-jboss-as\\server\\default\\deployportafib\\custodia.war
+
+      # {0} = custodyID  i {1} = URL.Encoded(custodyID)
+      es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
+      
+      <!-- ======== PLUGIN DE CUSTODIA - CUSTODIA CAIB ============== -->
+      # es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.custodiacaibaxis.CustodiaCaibAxisPlugin
+      # {0}=HASH | {1}=CodiExtern | {2}=Codi Especial
+      es.caib.portafib.plugins.documentcustody.custodiacaib.urlvalidation=http://192.168.31.143:8080/signatura/sigpub/viewdoc?hash={0}
+      es.caib.portafib.plugins.documentcustody.custodiacaib.server=http://192.168.31.143:8080/signatura/services/CustodiaDocumentos
+      es.caib.portafib.plugins.documentcustody.custodiacaib.username=valcust
+      es.caib.portafib.plugins.documentcustody.custodiacaib.password=valcust
+      es.caib.portafib.plugins.documentcustody.custodiacaib.defaultdocumenttype=PDF
+      es.caib.portafib.plugins.documentcustody.custodiacaib.defaultreserveprefix=PORTAFIB
+
+      <!-- ======== PLUGIN DE CONVERSIO DE DOCUMENTS - OPENOFFICE ======= -->
+      es.caib.portafib.documentconverterplugin=org.fundaciobit.plugins.documentconverter.openoffice.OpenOfficeDocumentConverterPlugin
+      es.caib.portafib.plugins.documentconverter.openoffice.host=localhost
+      es.caib.portafib.plugins.documentconverter.openoffice.port=8100
+
+      <!-- ======== PLUGIN CHECK CERTIFICATE - FAKE ======= -->
+      es.caib.portafib.certificateplugin=org.fundaciobit.plugins.certificate.fake.FakeCertificatePlugin
+      
+      <!-- ======== PLUGIN CHECK CERTIFICATE - @FIRMA ======= -->
+
+      <!--
+      #es.caib.portafib.certificateplugin=org.fundaciobit.plugins.certificate.afirma.AfirmaCertificatePlugin
+      es.caib.portafib.certificateplugin=org.fundaciobit.plugins.certificate.afirmacxf.AfirmaCxfCertificatePlugin
+
+      # MODE_VALIDACIO_SIMPLE = 0;
+      # MODE_VALIDACIO_AMB_REVOCACIO = 1;
+      # MODE_VALIDACIO_CADENA = 2;      
+      es.caib.portafib.plugins.certificate.afirma.validationmode=1
+      
+      #es.caib.portafib.plugins.certificate.afirma.endpoint=http://afirma.redsara.es/afirmaws/services/
+      es.caib.portafib.plugins.certificate.afirma.endpoint=http://des-afirma.redsara.es/afirmaws/services/
+      es.caib.portafib.plugins.certificate.afirma.applicationid=
+
+      # USERNAME-PASSWORD Token
+      #es.caib.portafib.plugins.certificate.afirma.authorization.username=
+      #es.caib.portafib.plugins.certificate.afirma.authorization.password=
+
+      # CERTIFICATE Token
+      es.caib.portafib.plugins.certificate.afirma.authorization.ks.path=D:/dades/dades/CarpetesPersonals/Programacio/PortaFIB/plugins/plugins-certificate/afirma/proves-dgidt.jks
+      es.caib.portafib.plugins.certificate.afirma.authorization.ks.type=JKS
+      es.caib.portafib.plugins.certificate.afirma.authorization.ks.password=
+      es.caib.portafib.plugins.certificate.afirma.authorization.ks.cert.alias=1
+      es.caib.portafib.plugins.certificate.afirma.authorization.ks.cert.password=
+	  -->
+      
+      
+      <!-- ======== PLUGIN USER-INFORMATION - DATABASE ======= -->
+      es.caib.portafib.userinformationplugin=org.fundaciobit.plugins.userinformation.database.DataBaseUserInformationPlugin
+      es.caib.portafib.plugins.userinformation.database.jndi=java:/es.caib.seycon.db.wl
+      es.caib.portafib.plugins.userinformation.database.users_table=SC_WL_USUARI
+      es.caib.portafib.plugins.userinformation.database.username_column=USU_CODI
+      es.caib.portafib.plugins.userinformation.database.administrationid_column=USU_NIF
+      es.caib.portafib.plugins.userinformation.database.name_column=USU_NOM
+      #es.caib.portafib.plugins.userinformation.database.surname_1_column
+      #es.caib.portafib.plugins.userinformation.database.surname_2_column      
+      #es.caib.portafib.plugins.userinformation.database.language_column
+      #es.caib.portafib.plugins.userinformation.database.telephone_column
+      #es.caib.portafib.plugins.userinformation.database.email_column
+      #es.caib.portafib.plugins.userinformation.database.gender_column
+      #es.caib.portafib.plugins.userinformation.database.password_column
+      es.caib.portafib.plugins.userinformation.database.roles_table=SC_WL_USUGRU
+      es.caib.portafib.plugins.userinformation.database.rolename_column=UGR_CODGRU
+      es.caib.portafib.plugins.userinformation.database.username_column_in_roles_table=UGR_CODUSU
+      
+      
+      <!-- ======== PLUGIN USER-INFORMATION - LDAP ======= -->
+      <!--
+      es.caib.portafib.userinformationplugin=org.fundaciobit.plugins.userinformation.ldap.LdapUserInformationPlugin
+      
+      es.caib.portafib.plugins.userinformation.ldap.host_url=ldap://ldap.ibit.org:389
+      es.caib.portafib.plugins.userinformation.ldap.security_principal=[LDAPUSERNAME]
+      es.caib.portafib.plugins.userinformation.ldap.security_authentication=simple
+      es.caib.portafib.plugins.userinformation.ldap.security_credentials=[PASSWORD of LDAPUSERNAME]
+      es.caib.portafib.plugins.userinformation.ldap.users_context_dn=cn=Users,dc=ibitnet,dc=lan
+      es.caib.portafib.plugins.userinformation.ldap.search_scope=onelevel
+      es.caib.portafib.plugins.userinformation.ldap.search_filter=(|(memberOf=CN=@PFI_ADMIN,CN=Users,DC=ibitnet,DC=lan)(memberOf=CN=@PFI_USER,CN=Users,DC=ibitnet,DC=lan))
+      es.caib.portafib.plugins.userinformation.ldap.attribute.username=sAMAccountName
+      es.caib.portafib.plugins.userinformation.ldap.attribute.mail=mail
+      es.caib.portafib.plugins.userinformation.ldap.attribute.administration_id=postOfficeBox
+      es.caib.portafib.plugins.userinformation.ldap.attribute.name=givenName
+      es.caib.portafib.plugins.userinformation.ldap.attribute.surname=sn
+      es.caib.portafib.plugins.userinformation.ldap.attribute.telephone=telephoneNumber
+      es.caib.portafib.plugins.userinformation.ldap.attribute.memberof=memberOf
+      es.caib.portafib.plugins.userinformation.ldap.prefix_role_match_memberof=CN=@
+      es.caib.portafib.plugins.userinformation.ldap.suffix_role_match_memberof=,CN=Users,DC=ibitnet,DC=lan
+      -->
+
+      <!--  Afegir aqui altres propietats -->
+
+    </attribute>
+  </mbean>
+</server>

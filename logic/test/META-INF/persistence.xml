@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="1.0"
+        xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+    <persistence-unit name="portafirmesDBStandalone" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>es.caib.portafib.jpa.AnnexJPA</class>
+		<class>es.caib.portafib.jpa.AnnexFirmatJPA</class>
+		<class>es.caib.portafib.jpa.BitacolaJPA</class>
+		<class>es.caib.portafib.jpa.BlocDeFirmesJPA</class>
+		<class>es.caib.portafib.jpa.ColaboracioDelegacioJPA</class>
+		<class>es.caib.portafib.jpa.EntitatJPA</class>
+		<class>es.caib.portafib.jpa.EstatDeFirmaJPA</class>
+		<class>es.caib.portafib.jpa.FirmaJPA</class>
+		<class>es.caib.portafib.jpa.FitxerJPA</class>
+		<class>es.caib.portafib.jpa.FluxDeFirmesJPA</class>
+		<class>es.caib.portafib.jpa.PlantillaFluxDeFirmes</class>
+		<class>es.caib.portafib.jpa.IdiomaJPA</class>
+		<class>es.caib.portafib.jpa.MetadadaJPA</class>
+		<class>es.caib.portafib.jpa.MitjaDeComunicacioJPA</class>
+		<class>es.caib.portafib.jpa.NotificacioWSJPA</class>
+		<class>es.caib.portafib.jpa.PeticioDeFirmaJPA</class>
+		<class>es.caib.portafib.jpa.PeticioDeFirmaUsuariEntitatJPA</class>
+		<class>es.caib.portafib.jpa.PosicioTaulaFirmesJPA</class>
+		<class>es.caib.portafib.jpa.PrioritatJPA</class>
+		<class>es.caib.portafib.jpa.RebreAvisJPA</class>
+		<class>es.caib.portafib.jpa.RoleJPA</class>
+		<class>es.caib.portafib.jpa.RoleUsuariAplicacioJPA</class>
+		<class>es.caib.portafib.jpa.RoleUsuariEntitatJPA</class>
+		<class>es.caib.portafib.jpa.TipusDocumentJPA</class>
+		<class>es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA</class>
+		<class>es.caib.portafib.jpa.TipusEstatDeFirmaFinalJPA</class>
+		<class>es.caib.portafib.jpa.TipusEstatDeFirmaInicialJPA</class>
+		<class>es.caib.portafib.jpa.TipusEstatPeticioDeFirmaJPA</class>
+		<class>es.caib.portafib.jpa.TipusFirmaJPA</class>
+		<class>es.caib.portafib.jpa.TipusNotificacioJPA</class>
+		<class>es.caib.portafib.jpa.UsuariAplicacioJPA</class>
+		<class>es.caib.portafib.jpa.UsuariEntitatJPA</class>
+		<class>es.caib.portafib.jpa.UsuariEntitatFavoritJPA</class>
+		<class>es.caib.portafib.jpa.UsuariPersonaJPA</class>
+
+        <properties>
+
+        </properties>
+    </persistence-unit>
+</persistence>

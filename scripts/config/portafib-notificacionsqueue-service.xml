@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mbean code="org.jboss.jms.server.destination.QueueService" name="jboss.messaging.destination:service=Queue,name=jms/PortaFIBNotificacionsQueue" xmbean-dd="xmdesc/Queue-xmbean.xml">
+	<depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>	
+	<depends>jboss.messaging:service=PostOffice</depends>	
+	<attribute name="JNDIName">jms/PortaFIBNotificacionsQueue</attribute>
+	<!-- Reintents cada 10 minuts -->
+	<attribute name="RedeliveryDelay">600000</attribute>
+	<!-- Numero de reintents: 10 anys si es fa un reintent cada 10 minuts -->
+	<attribute name="MaxDeliveryAttempts">525600</attribute>
+</mbean>

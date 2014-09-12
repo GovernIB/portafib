@@ -1,0 +1,159 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>es.caib.portafib</groupId>
+  <artifactId>portafib-utils</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>es.caib.portafib</groupId>
+    <artifactId>portafib</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <name>PortaFIB Utils</name>
+  
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	 <!--
+	 <version_template_file>../scripts/templates/Caib.java.template</version_template_file>
+     <version_file>src/main/java/es/caib/portafib/utils/Caib.java</version_file>
+	 -->
+  </properties>
+ 
+  <build>
+  <plugins>
+  
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+			<version>3.1</version>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+               <compilerVersion>1.6</compilerVersion>
+            </configuration>
+         </plugin>
+
+		 <plugin>
+			<artifactId>maven-clean-plugin</artifactId>
+			<version>2.4.1</version>
+			<executions>
+			  <execution>
+				<id>auto-clean</id>
+				<phase>initialize</phase>
+				<goals>
+				  <goal>clean</goal>
+				</goals>
+			  </execution>
+			</executions>
+		  </plugin>
+
+  <!--
+		  <plugin>
+			<groupId>com.google.code.maven-replacer-plugin</groupId>
+			<artifactId>maven-replacer-plugin</artifactId>
+			<version>1.4.0</version>
+			<executions>
+				<execution>
+					<phase>process-sources</phase>
+					<goals>
+						<goal>replace</goal>
+					</goals>
+				</execution>
+			</executions>
+			<configuration>
+				<file>${version_template_file}</file>
+				<outputFile>${version_file}</outputFile>
+				<replacements>
+					<replacement>
+						<token>@project.isCAIB@</token>
+						<value>${caib}</value>
+					</replacement>
+				</replacements>
+			</configuration>
+		</plugin>
+-->
+  
+  </plugins>
+  </build>
+  
+  
+	
+	<profiles>
+		<profile>
+			<id>caib</id>
+			<activation>
+			   <activeByDefault>false</activeByDefault>
+			   <property>				    
+                    <name>caib</name>
+                </property>
+			</activation>
+			<build>
+				<plugins>
+				  <plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.1</version>
+					<executions>
+					  <execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+						  <goal>add-source</goal>
+						</goals>
+						<configuration>
+						  <sources>
+							<source>src-caib/main/java</source>
+						  </sources>
+						</configuration>
+					  </execution>
+					</executions>
+				  </plugin>
+			</plugins>
+		  </build>
+		</profile>
+	
+		<profile>
+			<id>bydefault</id>
+			
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>				    
+					<name>!caib</name>
+				</property>
+			</activation>
+			
+			<build>
+				<plugins>
+					  <plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+						  <execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+							  <goal>add-source</goal>
+							</goals>
+							<configuration>
+							  <sources>
+								<source>src-bydefault/main/java</source>
+							  </sources>
+							</configuration>
+						  </execution>
+						</executions>
+					  </plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+  <dependencies>
+
+  </dependencies>
+
+</project>

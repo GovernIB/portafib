@@ -1,0 +1,6 @@
+	  <Connector protocol="HTTP/1.1" SSLEnabled="true" allowUnsafeLegacyRenegotiation="true"  
+     port="8443" address="${jboss.bind.address}"  
+     scheme="https" secure="true" clientAuth="true"  
+     keystoreFile="${jboss.server.home.dir}/conf/jboss.keystore"  
+     keystorePass="fundaciobit" sslProtocol = "TLS"   
+     truststoreFile="${jboss.server.home.dir}/conf/jboss.truststore" truststorePass="fundaciobit"/> 
