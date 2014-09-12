@@ -1,0 +1,1 @@
+java -classpath portafib-applet-1.0-signed.jar;miniapplet-full.jar  es.caib.portafib.applet.TestApplet .
