@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:sec="http://www.springframework.org/schema/security"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="es.caib.portafib">
+    </context:component-scan>
+
+    <!--  
+    <context:component-scan base-package="es.caib.portafib.back"/>
+    <context:component-scan base-package="es.caib.portafib.ejb"/>
+    <context:component-scan base-package="es.caib.portafib.back.preparer" />
+    <context:component-scan base-package="es.caib.portafib.back.security" />
+    <context:component-scan base-package="es.caib.portafib.back.form.webdb" />
+    
+    -->
+    
+    <sec:global-method-security pre-post-annotations="enabled"   secured-annotations="enabled"  jsr250-annotations="enabled" />
+    
+
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
+<!--
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/"
+    			p:suffix=".jsp" p:order="2"/>
+    			-->
+
+    <!-- Etiquetes idiomes -->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="lang" />
+    </bean>
+    
+    <!-- Declare the Resolver org.springframework.web.servlet.i18n.SessionLocaleResolver -->
+    <bean id="localeResolver" class="es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver">
+      <property name="defaultLocale" value="ca"/>
+    </bean>
+    
+    <!-- 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="ca"/>
+    </bean>
+     -->
+    
+    <!-- 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+            p:basename="/WEB-INF/classes/missatges" p:defaultEncoding="UTF-8"/>
+            
+    -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+      <!--   <property name="basenames" value="/WEB-INF/classes/missatges"/>  -->
+      <property name="basenames">
+	      <list>
+	        <value>/WEB-INF/classes/missatges</value>
+	        <value>/WEB-INF/classes/logicmissatges</value>
+	        <value>/WEB-INF/classes/portafib_genapp</value>
+	        <value>/WEB-INF/classes/genapp</value>
+	      </list>
+	  </property>
+      <property name="defaultEncoding" value="UTF-8"/>        
+    </bean>         
+             
+
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors" ref="localeChangeInterceptor"/>
+    </bean>
+
+
+    <!-- Suport per arxius en els formularis 
+     org.springframework.web.multipart.commons.CommonsMultipartResolver
+    -->
+    <bean id="multipartResolver" class="es.caib.portafib.back.utils.PortaFIBCommonsMultipartResolver">
+      <!--    
+       <property name="maxUploadSize" value="10000000"/>   
+        <property name="defaultEncoding" value="UTF-8"/>
+      -->
+    </bean>
+    
+    <bean id="fileSizeExceeds" class= "es.caib.portafib.back.utils.PortaFIBMaxUploadSizeExceededExceptionHandler" >
+    </bean>
+   
+    
+    
+    <!-- Configuracion TILES-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver" >        
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+    </bean>
+
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles.xml</value>
+            </list>
+        </property>
+        <property name="preparerFactoryClass" 
+                  value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,44 @@
+  <c:if test="${empty usuariEntitatItems}">
+     <%@include file="usuariEntitatListEmpty.jsp" %>
+
+  </c:if>
+  
+  <c:if test="${not empty usuariEntitatItems}">
+
+  <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
+    <thead>
+      <tr>
+
+          <%@include file="usuariEntitatListCoreHeaderMultipleSelect.jsp" %>
+
+          <%@include file="usuariEntitatListCoreHeader.jsp" %>
+
+          <%-- ADD HERE NEW COLUMNS HEADER  --%>
+
+          <%@include file="usuariEntitatListButtonsHeader.jsp" %>
+
+      </tr>
+    </thead>
+    <tbody>
+
+      <c:forEach var="usuariEntitat" items="${usuariEntitatItems}">
+
+        <tr>
+          <%@include file="usuariEntitatListCoreMultipleSelect.jsp" %>
+
+          <%@include file="usuariEntitatListCoreContent.jsp" %>
+
+          <%--  ADD HERE NEW COLUMNS CONTENT --%>
+
+
+          <%@include file="usuariEntitatListButtons.jsp" %>
+
+            
+        </tr>
+
+      </c:forEach>
+
+    </tbody>
+  </table>
+  </c:if>
+  

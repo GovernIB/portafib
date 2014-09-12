@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib
+        xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+        http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0"
+        >
+<tlib-version>1.0</tlib-version>
+
+<short-name>PortaFIB</short-name>
+
+<function>
+        <name>fileUrl</name>
+        <description>Crea una URL a partir d'un objecte IFile</description>
+        <function-class>es.caib.portafib.back.controller.FileDownloadController</function-class>
+        <function-signature>String fileUrl(es.caib.portafib.model.entity.Fitxer) throws Exception
+        </function-signature>
+</function>
+
+<function>
+        <name>retallar</name>
+        <description>Retalla un string a la longitud desitjada i el fa net de tags html </description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String retallar(java.lang.String, int)
+        </function-signature>
+</function>
+
+<function>
+        <name>getSortIcons</name>
+        <description>Genera Icones per ordenar columnes </description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String getSortIcons(org.fundaciobit.genapp.common.web.form.BaseFilterForm, org.fundaciobit.genapp.common.query.Field) throws Exception
+        </function-signature>
+</function>
+
+<function>
+        <name>intArrayToString</name>
+        <description>Retorna un array en format string separat per comes sense espais</description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String intArrayToString(int[])</function-signature>
+</function>
+
+<function>
+        <name>getNom</name>
+        <description>Nom i llinatges amb DNI d'un usuari-persona</description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String getNom(es.caib.portafib.model.entity.UsuariPersona)</function-signature>
+</function>
+
+
+<function>
+        <name>escapeJavaScript</name>
+        <description>escapeJavaScript</description>
+        <function-class>org.apache.commons.lang.StringEscapeUtils</function-class>
+        <function-signature>java.lang.String escapeJavaScript(java.lang.String)</function-signature>
+</function>
+
+<function>
+        <name>base64</name>
+        <description>Codificar en Base64</description>
+        <function-class>es.caib.portafib.utils.Base64</function-class>
+        <function-signature>java.lang.String encode(java.lang.String)</function-signature>
+</function>
+
+
+<function>
+        <name>encodeHTML</name>
+        <description>Codificar URL o text en HTML</description>
+        <function-class>java.net.URLEncoder</function-class>
+        <function-signature>java.lang.String encode(java.lang.String)</function-signature>
+</function>
+
+
+<function>
+        <name>getLlinatgeNom</name>
+        <description>Llinatge i Nom amb DNI d'un usuari-persona</description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String getLlinatgeNom(es.caib.portafib.model.entity.UsuariPersona)</function-signature>
+</function>
+
+<function>
+        <name>isDesenvolupament</name>
+        <description>Retorna si estam en mode desenvolupament</description>
+        <function-class>es.caib.portafib.utils.Configuracio</function-class>
+        <function-signature>boolean isDesenvolupament()</function-signature>
+</function>
+
+</taglib>

@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+    <definition name="base.cap" template="/WEB-INF/jsp/moduls/cap.jsp" preparer="capPreparer"/>
+    <definition name="base.menu_i_contingut" template="/WEB-INF/jsp/moduls/menu_i_contingut.jsp"/>
+    <definition name="base.menu" template="/WEB-INF/jsp/moduls/blanc.jsp" preparer="menuPreparer"/>
+    <definition name="base.contingut" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
+	<definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
+
+    <definition name="base.definition" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
+        <put-attribute name="cap" value="base.cap" />
+        <put-attribute name="menu_i_contingut" value="base.menu_i_contingut" />
+        <put-attribute name="menu" value="base.menu"  />
+        <put-attribute name="contingut" value="base.contingut"  />       
+        <put-attribute name="peu" value="base.peu" />
+    </definition>
+
+    <!--  ===========  PRINCIPAL ================== -->
+
+    <!--  TODO Això s'emplea ????? --> 
+    <definition name="principal.body" template="/WEB-INF/web/tiles/principal/principal.jsp"/>
+
+    <definition name="principal" extends="base.definition" >  
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_inici.jsp"  />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/principal.jsp"  />
+    </definition>
+
+    <definition name="rebreAvisForm" extends="principal">
+        <put-attribute name="titol" value="rebreAvis.rebreAvis" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisForm.jsp" />
+    </definition>
+
+    <definition name="rebreAvisList" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisList.jsp" />
+    </definition>
+
+    <definition name="configuracioUsuariPersonaForm" extends="principal">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
+    </definition>
+    
+    <definition name="configuracioAdminForm" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
+    </definition>
+
+    <definition name="configuracioUsuariEntitatForm" extends="principal">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
+    </definition>
+
+    <definition name="usuariEntitatFavoritForm" extends="principal">
+        <put-attribute name="titol" value="usuariEntitatFavorit.usuariEntitatFavorit" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritForm.jsp" />
+    </definition>
+
+    <definition name="usuariEntitatFavoritList" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
+    </definition>
+
+    <definition name="selectUsuariEntitatFavoritByNif" extends="principal">
+        <put-attribute name="titol" value="usuariEntitatFavorit.usuariEntitatFavorit" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+    
+    <definition name="autoFirmaForm" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaForm.jsp" />
+    </definition>
+  
+    <definition name="autoFirmaFinal" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaFinal.jsp" />
+    </definition>
+    
+    <definition name="firmaApplet_AutoFirma" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
+    </definition>
+
+    <definition name="carrecsList" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
+    </definition>
+    
+    <!--  ===========  WEBDB ================== -->
+    
+    <definition name="webdb" extends="base.definition">
+        <put-attribute name="pipella" value="webdb" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/webdb/menu_webdb.jsp" />
+    </definition>
+    
+    <!--  ===========  DESENVOLUPAMENT ================== -->
+    
+    <definition name="desenvolupament" extends="base.definition">
+        <put-attribute name="pipella" value="desenvolupament" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_desenvolupament.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/desenvolupament.jsp" />
+    </definition>
+    
+    <!--  ===========  ADMINISTRADOR ENTITAT ================== -->
+    
+    <definition name="role_aden" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_ADEN" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_aden.jsp" />
+    </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesFormAden" extends="role_aden">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="PlantillaDeFluxDeFirmesListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariPersonaFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariPersonaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaList.jsp" />
+    </definition>
+
+    <definition name="selectUsuariPersonaByNifAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+
+    <definition name="selectUsuariEntitatByNif" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+
+    <definition name="seleccionaCarrecForm" extends="role_aden">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuariEntitatCarrec.jsp" />
+    </definition>
+
+    <definition name="usuariEntitatFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
+    </definition>
+
+    <definition name="usuariEntitatListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
+    </definition>
+
+    <definition name="carrecFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
+    </definition>
+
+    <definition name="carrecListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariAplicacioFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariAplicacio.usuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioForm.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariAplicacioListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioList.jsp" />
+    </definition>
+
+     <definition name="gestioEntitatFormAden" extends="role_aden">
+        <put-attribute name="titol" value="entitat.entitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/entitatForm.jsp" />
+    </definition>
+    
+    <definition name="gestioTipusDocumentAdenForm" extends="role_aden">
+        <put-attribute name="titol" value="tipusDocument.tipusDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentForm.jsp" />
+    </definition>
+        
+    <definition name="gestioTipusDocumentAdenList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentList.jsp" />
+    </definition>
+    
+    
+    <definition name="selectUsuariPersonaForGestioRoleSolicitantForm" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+    
+        
+    <definition name="gestioRoleSolicitantForm" extends="role_aden">
+        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="aturarPeticionsDeFirma" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="selectNifDestinatariPerAturarPeticio" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+    
+    
+    <definition name="peticionsDeFirmaCaducadesList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="peticioDeFirmaCaducadaForm" extends="role_aden">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
+    </definition>
+
+    <definition name="notificacioWSForm" extends="role_aden">
+        <put-attribute name="titol" value="notificacio.notificacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSForm.jsp" />
+    </definition>
+    
+    <definition name="notificacioWSList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSList.jsp" />
+    </definition>
+        
+    <definition name="seleccionaFluxDeFirmaPerAplicacioForm" extends="role_aden">
+        <put-attribute name="titol" value="fluxDeFirmes.fluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/seleccionaFluxDeFirma.jsp" />
+    </definition>
+    
+    <definition name="peticioDeFirmaAplicacioForm" extends="role_aden">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaForm.jsp" />
+    </definition>
+
+    <definition name="peticioDeFirmaAplicacioList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="custodiaInfoForm_aden" extends="role_aden">
+        <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
+    </definition>
+    
+    <definition name="custodiaInfoList_aden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
+    </definition>
+    
+    <definition name="generarFiltreCaib" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/generarfiltrecaib.jsp" />
+    </definition>
+    
+    
+    <definition name="grupEntitatForm_aden" extends="role_aden">
+        <put-attribute name="titol" value="grupEntitat.grupEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="grupEntitatList_aden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatList.jsp" />
+    </definition>
+    
+    <definition name="usuarisDeGrupList_aden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp" />
+    </definition>
+
+    
+
+    <!--  ===========  ADMINISTRADOR ================== -->
+    
+    <definition name="role_admin" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_ADMIN" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_admin.jsp" />
+    </definition>
+
+    <definition name="selectUsuariPersonaByNif" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+
+    <definition name="modifUsuariPersonaByNif" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariPersonaForm" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
+    </definition>
+    
+    <definition name="gestioUsuariPersonaList" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaList.jsp" />
+    </definition>
+
+    <definition name="gestioEntitatForm" extends="role_admin">
+        <put-attribute name="titol" value="entitat.entitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/entitatForm.jsp" />
+    </definition>
+
+    <definition name="gestioEntitatList" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/entitatList.jsp" />
+    </definition>
+    
+    <definition name="gestioRoleAdminEntitatForm" extends="role_admin">
+        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="gestioRoleAdminEntitatList" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/admin/administradorEntitatList.jsp" />
+    </definition>
+
+    <definition name="selectUsuariPersonaForGestioRoleAdminEntitatForm" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+    </definition>
+    
+    <definition name="gestioTipusDocumentAdminForm" extends="role_admin">
+        <put-attribute name="titol" value="tipusDocument.tipusDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentForm.jsp" />
+    </definition>
+    
+    <definition name="gestioTipusDocumentAdminList" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentList.jsp" />
+    </definition>
+
+    <definition name="gestioUsuariAplicacioListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioList.jsp" />
+    </definition>
+    
+    <definition name="fluxDeFirmesOrfes" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fluxDeFirmesList.jsp" />
+    </definition>
+    
+    <definition name="fitxersOrfesList" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
+    </definition>
+
+    <!--  ===========  COL·LABORADOR ================== -->
+    
+    <definition name="role_cola" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_COLA" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_cola.jsp" />        
+    </definition>
+    
+    <definition name="estatFirmaList_ROLE_COLA" extends="role_cola">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+    </definition>
+    
+    <!--  ===========  DELEGAT ================== -->
+    
+    <definition name="role_dele" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_DELE" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dele.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaList_ROLE_DELE" extends="role_dele">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+    </definition>
+    
+    <definition name="firmaApplet_ROLE_DELE" extends="role_dele">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaFullView_ROLE_DELE" extends="role_dele">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+  
+    <!--  ===========  DESTINATARI ================== -->
+    
+    <definition name="role_dest" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_DEST" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" />
+    </definition>
+    
+    <definition name="firmaApplet_ROLE_DEST" extends="role_dest">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
+    </definition>
+
+    <definition name="estatFirmaList_ROLE_DEST" extends="role_dest">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaFullView_ROLE_DEST" extends="role_dest">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    
+<!--   
+    
+    <definition name="colaboracioDelegacioDestForm_ROLE_DELE" extends="role_dest">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
+    </definition>
+    
+    <definition name="colaboracioDelegacioDestForm_ROLE_COLA" extends="role_dest">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
+    </definition>
+     -->
+     
+   <definition name="colaboracioDelegacioDestForm" extends="role_dest">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
+    </definition>
+     
+     
+    <definition name="colaboracioDelegacioDestList" extends="role_dest">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
+   
+    
+    
+
+    <!--  ===========  SOL·LICITANT ================== -->
+    
+    <definition name="role_soli" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_SOLI" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_soli.jsp" />
+    </definition>
+
+    <definition name="PlantillaDeFluxDeFirmesFormSoli" extends="role_soli">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+    
+    
+    <definition name="PlantillaDeFluxDeFirmesFormSoliPopup" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesForm.jsp" />
+    </definition>
+
+    
+    <definition name="PlantillaDeFluxDeFirmesListSoli" extends="role_soli">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/flux/plantillaDeFluxDeFirmesList.jsp" />
+    </definition>
+
+    <definition name="seleccionaFluxDeFirmaForm" extends="role_soli">
+        <put-attribute name="titol" value="fluxDeFirmes.fluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/seleccionaFluxDeFirma.jsp" />
+    </definition>
+   
+   
+    <definition name="peticioDeFirmaForm" extends="role_soli">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="peticioDeFirmaList" extends="role_soli">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
+    </definition>
+    
+   <definition name="custodiaInfoForm_soli" extends="role_soli">
+        <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
+    </definition>
+    
+    <definition name="custodiaInfoList_soli" extends="role_soli">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
+    </definition>
+    
+
+    <definition name="permisosPlantillaDeFluxDeFirmes" extends="role_soli">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/permisosPlantillaDeFluxDeFirmes.jsp" />
+    </definition>
+
+
+<!-- ==== GENAPP MARK START -->
+
+
+    <definition name="algorismeDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="algorismeDeFirma.algorismeDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/algorismeDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="algorismeDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/algorismeDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="annexFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="annex.annex" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexForm.jsp" />
+    </definition>
+    
+    <definition name="annexListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexList.jsp" />
+    </definition>
+
+
+    <definition name="annexFirmatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="annexFirmat.annexFirmat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexFirmatForm.jsp" />
+    </definition>
+    
+    <definition name="annexFirmatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexFirmatList.jsp" />
+    </definition>
+
+
+    <definition name="bitacolaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="bitacola.bitacola" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaForm.jsp" />
+    </definition>
+    
+    <definition name="bitacolaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
+    </definition>
+
+
+    <definition name="blocDeFirmesFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="blocDeFirmes.blocDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/blocDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="blocDeFirmesListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/blocDeFirmesList.jsp" />
+    </definition>
+
+
+    <definition name="codiBarresFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="codiBarres.codiBarres" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/codiBarresForm.jsp" />
+    </definition>
+    
+    <definition name="codiBarresListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/codiBarresList.jsp" />
+    </definition>
+
+
+    <definition name="colaboracioDelegacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioForm.jsp" />
+    </definition>
+    
+    <definition name="colaboracioDelegacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
+
+
+    <definition name="custodiaInfoFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
+    </definition>
+    
+    <definition name="custodiaInfoListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
+    </definition>
+
+
+    <definition name="entitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="entitat.entitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/entitatForm.jsp" />
+    </definition>
+    
+    <definition name="entitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/entitatList.jsp" />
+    </definition>
+
+
+    <definition name="estatDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="estatDeFirma.estatDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="estatDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="firmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="firma.firma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/firmaForm.jsp" />
+    </definition>
+    
+    <definition name="firmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/firmaList.jsp" />
+    </definition>
+
+
+    <definition name="fitxerFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="fitxer.fitxer" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerForm.jsp" />
+    </definition>
+    
+    <definition name="fitxerListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
+    </definition>
+
+
+    <definition name="fluxDeFirmesFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="fluxDeFirmes.fluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fluxDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="fluxDeFirmesListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fluxDeFirmesList.jsp" />
+    </definition>
+
+
+    <definition name="grupEntitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="grupEntitat.grupEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="grupEntitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatList.jsp" />
+    </definition>
+
+
+    <definition name="grupEntitatUsuariEntitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="grupEntitatUsuariEntitat.grupEntitatUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="grupEntitatUsuariEntitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp" />
+    </definition>
+
+
+    <definition name="idiomaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="idioma.idioma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/idiomaForm.jsp" />
+    </definition>
+    
+    <definition name="idiomaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/idiomaList.jsp" />
+    </definition>
+
+
+    <definition name="metadadaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="metadada.metadada" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/metadadaForm.jsp" />
+    </definition>
+    
+    <definition name="metadadaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/metadadaList.jsp" />
+    </definition>
+
+
+    <definition name="notificacioWSFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="notificacioWS.notificacioWS" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSForm.jsp" />
+    </definition>
+    
+    <definition name="notificacioWSListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSList.jsp" />
+    </definition>
+
+
+    <definition name="permisGrupPlantillaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="permisGrupPlantilla.permisGrupPlantilla" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/permisGrupPlantillaForm.jsp" />
+    </definition>
+    
+    <definition name="permisGrupPlantillaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/permisGrupPlantillaList.jsp" />
+    </definition>
+
+
+    <definition name="permisUsuariPlantillaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="permisUsuariPlantilla.permisUsuariPlantilla" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/permisUsuariPlantillaForm.jsp" />
+    </definition>
+    
+    <definition name="permisUsuariPlantillaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/permisUsuariPlantillaList.jsp" />
+    </definition>
+
+
+    <definition name="peticioDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="peticioDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="plantillaFluxDeFirmesFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="plantillaFluxDeFirmes.plantillaFluxDeFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/plantillaFluxDeFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="plantillaFluxDeFirmesListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/plantillaFluxDeFirmesList.jsp" />
+    </definition>
+
+
+    <definition name="posicioPaginaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="posicioPagina.posicioPagina" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioPaginaForm.jsp" />
+    </definition>
+    
+    <definition name="posicioPaginaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioPaginaList.jsp" />
+    </definition>
+
+
+    <definition name="posicioTaulaFirmesFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="posicioTaulaFirmes.posicioTaulaFirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioTaulaFirmesForm.jsp" />
+    </definition>
+    
+    <definition name="posicioTaulaFirmesListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioTaulaFirmesList.jsp" />
+    </definition>
+
+
+    <definition name="prioritatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="prioritat.prioritat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/prioritatForm.jsp" />
+    </definition>
+    
+    <definition name="prioritatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/prioritatList.jsp" />
+    </definition>
+
+
+    <definition name="rebreAvisFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="rebreAvis.rebreAvis" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisForm.jsp" />
+    </definition>
+    
+    <definition name="rebreAvisListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisList.jsp" />
+    </definition>
+
+
+    <definition name="roleFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="role.role" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleForm.jsp" />
+    </definition>
+    
+    <definition name="roleListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleList.jsp" />
+    </definition>
+
+
+    <definition name="roleUsuariAplicacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="roleUsuariAplicacio.roleUsuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariAplicacioForm.jsp" />
+    </definition>
+    
+    <definition name="roleUsuariAplicacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariAplicacioList.jsp" />
+    </definition>
+
+
+    <definition name="roleUsuariEntitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="roleUsuariEntitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatList.jsp" />
+    </definition>
+
+
+    <definition name="tipusDocumentFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusDocument.tipusDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentForm.jsp" />
+    </definition>
+    
+    <definition name="tipusDocumentListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentList.jsp" />
+    </definition>
+
+
+    <definition name="tipusDocumentColaboracioDelegacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusDocumentColaboracioDelegacio.tipusDocumentColaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioForm.jsp" />
+    </definition>
+    
+    <definition name="tipusDocumentColaboracioDelegacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioList.jsp" />
+    </definition>
+
+
+    <definition name="tipusEstatDeFirmaFinalFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusEstatDeFirmaFinal.tipusEstatDeFirmaFinal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaFinalForm.jsp" />
+    </definition>
+    
+    <definition name="tipusEstatDeFirmaFinalListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaFinalList.jsp" />
+    </definition>
+
+
+    <definition name="tipusEstatDeFirmaInicialFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusEstatDeFirmaInicial.tipusEstatDeFirmaInicial" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaInicialForm.jsp" />
+    </definition>
+    
+    <definition name="tipusEstatDeFirmaInicialListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaInicialList.jsp" />
+    </definition>
+
+
+    <definition name="tipusEstatPeticioDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatPeticioDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="tipusEstatPeticioDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatPeticioDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="tipusFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusFirma.tipusFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="tipusFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="tipusMetadadaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusMetadada.tipusMetadada" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusMetadadaForm.jsp" />
+    </definition>
+    
+    <definition name="tipusMetadadaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusMetadadaList.jsp" />
+    </definition>
+
+
+    <definition name="tipusNotificacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="tipusNotificacio.tipusNotificacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusNotificacioForm.jsp" />
+    </definition>
+    
+    <definition name="tipusNotificacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusNotificacioList.jsp" />
+    </definition>
+
+
+    <definition name="traduccioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="traduccio.traduccio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/traduccioForm.jsp" />
+    </definition>
+    
+    <definition name="traduccioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/traduccioList.jsp" />
+    </definition>
+
+
+    <definition name="usuariAplicacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariAplicacio.usuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioForm.jsp" />
+    </definition>
+    
+    <definition name="usuariAplicacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioList.jsp" />
+    </definition>
+
+
+    <definition name="usuariEntitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="usuariEntitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
+    </definition>
+
+
+    <definition name="usuariEntitatFavoritFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariEntitatFavorit.usuariEntitatFavorit" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritForm.jsp" />
+    </definition>
+    
+    <definition name="usuariEntitatFavoritListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
+    </definition>
+
+
+    <definition name="usuariPersonaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
+    </definition>
+    
+    <definition name="usuariPersonaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaList.jsp" />
+    </definition>
+
+<!-- ==== GENAPP MARK END -->
+
+
+
+
+    
+
+	<!-- ============ EXEMPLES ====================  -->
+	
+	<!--
+	
+    <definition name="exemple_plantilla" extends="sense_enlaces">
+        <put-attribute name="titulo" value="Portafirmes" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/exemples/example_plantilla.jsp" />
+    </definition>
+    
+
+    <definition name="exemple_pagina completa" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/exemples/exemple_pagina completa.jsp" />
+    </definition>
+
+    <definition name="rss" template="/WEB-INF/jsp/rss/agro.rss.jsp" />
+	
+	-->
+    
+
+
+</tiles-definitions>
