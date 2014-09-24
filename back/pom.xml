@@ -47,7 +47,7 @@
 		<dependency>
 		  <groupId>org.fundaciobit.plugins</groupId>
 		  <artifactId>plugins-api</artifactId>
-		  <version>1.0</version>
+		  <version>${plugins.version}</version>
 		  <scope>provided</scope>
 		</dependency>
 

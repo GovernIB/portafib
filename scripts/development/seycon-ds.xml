@@ -3,7 +3,7 @@
 <datasources>
   <local-tx-datasource>
     <jndi-name>es.caib.seycon.db.wl</jndi-name>
-	
+
 	<!--   =========== ORACLE ============ -->
     <!--
     <connection-url>jdbc:oracle:thin:@oracle_host:1521:bbdd</connection-url>

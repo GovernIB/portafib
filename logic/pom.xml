@@ -21,7 +21,7 @@
 		<dependency>
 		  <groupId>es.caib.portafib</groupId>
 		  <artifactId>portafib-persistence-resourcelocal</artifactId> 
-		  <version>1.0.0</version>
+		  <version>${project.version}</version>
 		  <scope>test</scope>
 		</dependency>
 		
@@ -43,28 +43,28 @@
 		<dependency>
 		  <groupId>org.fundaciobit.plugins</groupId>
 		  <artifactId>plugins-api</artifactId>
-		  <version>1.0</version>
+		  <version>${plugins.version}</version>
 		  <scope>provided</scope>
 		</dependency>
         
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
             <artifactId>plugin-barcode-pdf417</artifactId>
-            <version>1.0</version>
+            <version>${plugins.version}</version>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
             <artifactId>plugin-barcode-qr</artifactId>
-            <version>1.0</version>
+            <version>${plugins.version}</version>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
             <artifactId>plugin-barcode-barcode128</artifactId>
-            <version>1.0</version>
+            <version>${plugins.version}</version>
             <scope>test</scope>
         </dependency>
 

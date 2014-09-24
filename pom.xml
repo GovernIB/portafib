@@ -101,6 +101,7 @@
         <miniapplet.version>1.2</miniapplet.version>
         <hibernate.version>3.3.2.GA</hibernate.version>
         <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
+		<plugins.version>1.0.0</plugins.version>
     </properties>
     
     <build>

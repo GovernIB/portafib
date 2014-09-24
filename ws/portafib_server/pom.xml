@@ -104,21 +104,21 @@
 	    <dependency>
 			<groupId>es.caib.portafib</groupId>
 			<artifactId>portafib-ejb</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 		
 		<dependency>
 			<groupId>es.caib.portafib</groupId>
 			<artifactId>portafib-logic</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 
 	    <dependency>
 		  <groupId>org.fundaciobit.plugins</groupId>
 		  <artifactId>plugins-api</artifactId>
-		  <version>1.0</version>
+		  <version>${plugins.version}</version>
 		  <scope>provided</scope>
 		</dependency>
 
@@ -136,9 +136,7 @@
             <version>${hibernate.annotations.version}</version>
             <scope>provided</scope>
         </dependency>
-		
 
-		
     </dependencies>
 
 

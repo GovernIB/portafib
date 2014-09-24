@@ -3,6 +3,7 @@ package es.caib.portafib.logic.utils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 
@@ -448,15 +449,25 @@ public class NotificacionsQueue implements MessageListener {
       log.info("--------------------");
       log.info("");
     }
+    
+    String endPoint = usuariAplicacio.getCallbackURL();
 
-    URL wsdlLocation = PortaFIBCallBackWsService.class.getResource("/wsdl/PortaFIBCallBack_v1.wsdl");
+    //URL wsdlLocation = PortaFIBCallBackWsService.class.getResource("/wsdl/PortaFIBCallBack_v1.wsdl");
+    URL wsdlLocation;
+    
+    try {
+      wsdlLocation =  new URL(endPoint + "?wsdl");
+    } catch (MalformedURLException e) {
+      log.error("Error creant URL de wsdl: " + e.getMessage(), e);
+      wsdlLocation = PortaFIBCallBackWsService.class.getResource("/wsdl/PortaFIBCallBack_v1.wsdl");
+    }
     PortaFIBCallBackWsService callbackService = new PortaFIBCallBackWsService(wsdlLocation);
 
     PortaFIBCallBackWs callbackApi = callbackService.getPortaFIBCallBackWs();
 
     // Adreça servidor
     Map<String, Object> reqContext = ((BindingProvider) callbackApi).getRequestContext();
-    reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, usuariAplicacio.getCallbackURL());
+    reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
     PortaFIBEvent event = new PortaFIBEvent();
 
@@ -575,7 +586,8 @@ public class NotificacionsQueue implements MessageListener {
         XTrustProvider.install();
       }
 
-      URL wsdlLocation = MCGDwsService.class.getResource("/wsdl/PortafirmasCallBack.wsdl");
+      //URL wsdlLocation = MCGDwsService.class.getResource("/wsdl/PortafirmasCallBack.wsdl");
+      URL wsdlLocation =  new URL(endPoint + "?wsdl");
       MCGDwsService service = new MCGDwsService(wsdlLocation);
       MCGDws api = service.getMCGDWS();
       Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();

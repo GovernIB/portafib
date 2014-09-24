@@ -60,18 +60,17 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
 		<!-- Externes -->
-		
+
 		<!--  Plugins API -->
 
 		<dependency>
 		  <groupId>org.fundaciobit.plugins</groupId>
 		  <artifactId>plugins-api</artifactId>
-		  <version>1.0</version>
+		  <version>${plugins.version}</version>
 		  <type>jar</type>
 		</dependency>
-
 
         <!-- Commons Dependencies -->
 		
@@ -147,11 +146,10 @@
 				<!-- ============================================ -->
 				
 				<!-- Excel Plugin -->
-
 			    <dependency>
 					<groupId>org.fundaciobit.plugins</groupId>
 					<artifactId>plugin-exportdata-excel</artifactId>
-					<version>1.0</version>
+					<version>${plugins.version}</version>
 				</dependency>
 
 				<dependency>
@@ -164,7 +162,7 @@
 				<dependency>
 					<groupId>org.fundaciobit.plugins</groupId>
 					<artifactId>plugin-exportdata-ods</artifactId>
-					<version>1.0</version>
+					<version>${plugins.version}</version>
 				</dependency>
 				
 				<dependency>
@@ -174,11 +172,10 @@
 				</dependency>
 
 				<!-- CSV Plugin -->
-
 				<dependency>
 					<groupId>org.fundaciobit.plugins</groupId>
 					<artifactId>plugin-exportdata-csv</artifactId>
-					<version>1.0</version>
+					<version>${plugins.version}</version>
 				</dependency>
 
                 <!-- ============================================ -->
@@ -187,19 +184,19 @@
 			    <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-barcode-pdf417</artifactId>
-                    <version>1.0</version>
+                    <version>${plugins.version}</version>
 				</dependency>
 
                 <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-barcode-qr</artifactId>
-                    <version>1.0</version>
+                    <version>${plugins.version}</version>
 				</dependency>
 
                 <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-barcode-barcode128</artifactId>
-                    <version>1.0</version>
+                    <version>${plugins.version}</version>
                 </dependency>
             
             
@@ -209,13 +206,13 @@
 			    <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-documentcustody-filesystem</artifactId>
-				    <version>1.0</version>
+				    <version>${plugins.version}</version>
 				</dependency>
 				
 				<dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-documentcustody-custodiacaibaxis</artifactId>
-				    <version>1.0</version>
+				    <version>${plugins.version}</version>
 				</dependency>
 			
 				<!-- ============================================ -->
@@ -224,7 +221,7 @@
 			    <dependency>
 				    <groupId>org.fundaciobit.plugins</groupId>
 	                <artifactId>plugin-documentconverter-openoffice</artifactId>
-				    <version>1.0</version>
+				    <version>${plugins.version}</version>
 					<exclusions>
 						<exclusion>
 						  <groupId>org.slf4j</groupId>
@@ -240,44 +237,37 @@
 			    <dependency>
 				    <groupId>org.fundaciobit.plugins</groupId>
 				    <artifactId>plugin-certificate-afirma</artifactId>				  
-				    <version>1.0</version>
+				    <version>${plugins.version}</version>
 				</dependency>
 				
 				<dependency>
 				    <groupId>org.fundaciobit.plugins</groupId>
 				    <artifactId>plugin-certificate-afirmacxf</artifactId>				  
-				    <version>1.0</version>
+				    <version>${plugins.version}</version>
 				</dependency>
 				
 				<dependency>
 				    <groupId>org.fundaciobit.plugins</groupId>
 					<artifactId>plugin-certificate-fake</artifactId>
-					<version>1.0</version>
+					<version>${plugins.version}</version>
 				</dependency>
 				
 				
 				<!-- ====================================== -->
 		        <!-- ===== PLUGINS DE USERINFORMATION ===== -->
 		        <!-- ====================================== -->
-				
-				<dependency>
-				  <groupId>org.fundaciobit.plugins</groupId>
-				  <artifactId>plugin-userinformation-seycondev</artifactId>				  
-				  <version>1.0</version>
-				</dependency>
-				
-				
+
 				<dependency>
 				  <groupId>org.fundaciobit.plugins</groupId>
 				  <artifactId>plugin-userinformation-database</artifactId>				  
-				  <version>1.0</version>
+				  <version>${plugins.version}</version>
 				</dependency>
 				
 				
 				<dependency>
 				  <groupId>org.fundaciobit.plugins</groupId>
 				  <artifactId>plugin-userinformation-ldap</artifactId>				  
-				  <version>1.0</version>
+				  <version>${plugins.version}</version>
 				</dependency>
 				
 			</dependencies>

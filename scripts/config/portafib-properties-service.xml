@@ -112,9 +112,9 @@
       #es.caib.portafib.plugins.userinformation.database.email_column
       #es.caib.portafib.plugins.userinformation.database.gender_column
       #es.caib.portafib.plugins.userinformation.database.password_column
-      es.caib.portafib.plugins.userinformation.database.roles_table=SC_WL_USUGRU
-      es.caib.portafib.plugins.userinformation.database.rolename_column=UGR_CODGRU
-      es.caib.portafib.plugins.userinformation.database.username_column_in_roles_table=UGR_CODUSU
+      es.caib.portafib.plugins.userinformation.database.userroles_table=SC_WL_USUGRU
+      es.caib.portafib.plugins.userinformation.database.userroles_rolename_column=UGR_CODGRU
+      es.caib.portafib.plugins.userinformation.database.userroles_username_column=UGR_CODUSU
       
       
       <!-- ======== PLUGIN USER-INFORMATION - LDAP ======= -->
