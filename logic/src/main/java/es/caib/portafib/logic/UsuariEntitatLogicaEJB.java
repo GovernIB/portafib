@@ -417,6 +417,40 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   
   
   @Override
+  public UsuariEntitatJPA findUsuariEntitatByUsername(String entitatID, String username) 
+    throws I18NException {
+    
+    
+    // genapp.validation.required=El camp {0} és obligatori.
+    if (entitatID == null || entitatID.trim().length() == 0) {
+      throw new I18NException("genapp.validation.required",
+          new I18NArgumentCode(UsuariEntitatFields.ENTITATID.fullName));
+    }
+    
+    if (username == null || username.trim().length() == 0) {
+      throw new I18NException("genapp.validation.required",
+          new I18NArgumentCode(UsuariPersonaFields.USUARIPERSONAID.fullName));
+    }
+
+    
+    List<UsuariEntitat> list = select(Where.AND(
+        USUARIPERSONAID.equal(username),
+        ENTITATID.equal(entitatID),
+        CARREC.isNull()
+        ));
+    
+    if (list.size() == 0) {
+      return null;
+    } else {
+      return (UsuariEntitatJPA)list.get(0);
+    }
+
+  }
+  
+  
+  
+  
+  @Override
   public UsuariEntitatJPA findUsuariEntitatByNif(String entitatID, String nif) 
     throws I18NException {
     

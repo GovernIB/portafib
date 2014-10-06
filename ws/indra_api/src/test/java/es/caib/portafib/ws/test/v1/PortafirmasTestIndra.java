@@ -215,8 +215,10 @@ public class PortafirmasTestIndra extends IndraTestUtils {
     // Indica si s'han de verificar els certificats dels fitxers firmats
     peticioInfo.checkCert = true; 
 
-    peticioInfo.dateLimit = Calendar.getInstance();
-    
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.MONTH, 1);
+    peticioInfo.dateLimit = cal;
+
     peticioInfo.description = "Descripció de la petició";
     
     // Document a firmar
@@ -229,12 +231,14 @@ public class PortafirmasTestIndra extends IndraTestUtils {
 
     peticioInfo.minSignersByBloc.put(0, 1); // una firma en el bloc 0
     
+    String signerDNIorUsername = IndraTestUtils.getSigner();
+    
     peticioInfo.senderUserEmail = "anadal@fundaciobit.org";
-    peticioInfo.senderUserName = "Antoni Nadal desde APP";
+    peticioInfo.senderUserName = "Nom de " + signerDNIorUsername;
     
     peticioInfo.signAnnexes = false; // S'han de firmar el anexos ??
     
-    peticioInfo.signersIdsByBloc.put(0, new String[]{ "43096845C" });
+    peticioInfo.signersIdsByBloc.put(0, new String[]{ signerDNIorUsername });
     
     peticioInfo.signMode = SignModeEnum._attached;
 
@@ -1124,7 +1128,7 @@ public class PortafirmasTestIndra extends IndraTestUtils {
     //field2.setName(CriteriaEnum.dateentry);
     field2.setCondition(ConditionEnum.equal);
     field2.setValue(null);
-    field2.setValue("43096845C");
+    field2.setValue(IndraTestUtils.getSigner());
     
     //field2.setValue("X0468112Q");
 

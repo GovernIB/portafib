@@ -1702,7 +1702,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setUsuariAplicacio(usuariAplicacio);
       peticioDeFirma.setLogoSegellID(null);
-
+      
       // Verificar que aquest tipus de document pertany al usuari app
       DocumentAttributes attributes = documentReq.getAttributes();
       Integer tipusDoc = attributes.getType();
@@ -1878,7 +1878,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       if (signers == null || signers.size() == 0) {
         throw createFault(10, "signers de step es obligatorio");
       }
-    
+
       for (Signer signer : signers) {
         String signerID = signer.getId();
         if (signerID == null || signerID.trim().length() == 0) {
@@ -1887,16 +1887,23 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         FirmaJPA firma = new FirmaJPA();
         UsuariEntitatJPA usuariEntitat;
         try {
+          // Cercam l'usuari per NIF
           usuariEntitat = usuariEntitatLogicaEjb.findUsuariEntitatByNif(
               usuariAplicacio.getEntitatID(), signerID.toUpperCase());
+          // Cercam l'usuari per USERNAME
+          if (usuariEntitat == null) {
+            usuariEntitat = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(
+                usuariAplicacio.getEntitatID(), signerID);
+          }
+
         } catch (I18NException e) {
           throw new Exception(I18NLogicUtils.getMessage(e,
               new Locale(usuariAplicacio.getIdiomaID())));          
         }
-        
+
         if (usuariEntitat == null) {
           // TODO Que fa el portafirmes de INDRA amb usuari que no existeix
-          throw createFault(-1, "No existeix usuari amb DNI " + signer.getId());
+          throw createFault(-1, "No existeix usuari amb DNI o UserName igual a [" + signer.getId() + "]");
         }
         firma.setDestinatariID(usuariEntitat.getUsuariEntitatID());
         firma.setUsuariEntitat(usuariEntitat);
@@ -2300,6 +2307,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       }
     }
     peticioDeFirma.setTipusFirmaID(nouTipus);
+    
+    peticioDeFirma.setAlgorismeDeFirmaID(APPLET_SIGN_ALGORITHM_SHA1WITHRSA);
+    
+    peticioDeFirma.setModeDeFirma(APPLET_SIGN_MODE_IMPLICIT);
 
     peticioDeFirma.setFitxerAFirmarID(0); // Index 0 conté el fitxer a firmar
     

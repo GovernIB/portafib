@@ -34,5 +34,12 @@ public abstract class IndraTestUtils {
   public static String getPassword() {
     return testProperties.getProperty("test_pwd");
   }
+  
+  
+  public static String getSigner() {
+    return testProperties.getProperty("test_signer");
+  }
+  
+  
 
 }

@@ -714,7 +714,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       int defaultSignAlgorithm = Configuracio.getDefaultSignAlgorithmID();
       peticioDeFirma.setAlgorismeDeFirmaID(defaultSignAlgorithm);
-      peticioDeFirma.setModeDeFirma(false);
+      peticioDeFirma.setModeDeFirma(Constants.APPLET_SIGN_MODE_IMPLICIT);
 
       String usuariAplicacioID;
       if (isSolicitantUsuariEntitat()) {
