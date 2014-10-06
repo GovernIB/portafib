@@ -208,10 +208,10 @@ public class PortafirmasTestIndra extends IndraTestUtils {
   
   public static PeticioInfo createPeticioInfo() throws IOException {
     PeticioInfo peticioInfo = new PeticioInfo();
-    
+
     // Annexes
     peticioInfo.annexos = new DocInfo[] { createAnnex() };
-    
+
     // Indica si s'han de verificar els certificats dels fitxers firmats
     peticioInfo.checkCert = true; 
 
@@ -220,17 +220,16 @@ public class PortafirmasTestIndra extends IndraTestUtils {
     peticioInfo.dateLimit = cal;
 
     peticioInfo.description = "Descripció de la petició";
-    
+
     // Document a firmar
     peticioInfo.docToSign = createDocToSign();
-    
-    
+
     peticioInfo.externalData = "ID Extern 123456789";
-    
+
     peticioInfo.importance = ImportanceEnum._normal;
 
     peticioInfo.minSignersByBloc.put(0, 1); // una firma en el bloc 0
-    
+
     String signerDNIorUsername = IndraTestUtils.getSigner();
     
     peticioInfo.senderUserEmail = "anadal@fundaciobit.org";
