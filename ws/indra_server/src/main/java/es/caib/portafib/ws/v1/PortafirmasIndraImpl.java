@@ -2104,29 +2104,31 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     Set<AnnexJPA> annexosPortaFIB = new HashSet<AnnexJPA>();
     
     int count = 1;
-    for (es.indra.portafirmasws.cws.Annex annex : annexosIndra) {
-      
-      if (annex.getReference() == null || annex.getReference().trim().length() == 0) {
-        throw createFault(10,"reference de annex es obligatorio");
+    if (annexosIndra != null) {
+      for (es.indra.portafirmasws.cws.Annex annex : annexosIndra) {
+        
+        if (annex.getReference() == null || annex.getReference().trim().length() == 0) {
+          throw createFault(10,"reference de annex es obligatorio");
+        }
+        
+        AnnexJPA nouannex = new AnnexJPA();
+        
+        nouannex.setAdjuntar(attached);
+        if (annex.isIsFileSign() != null) {
+          nouannex.setFirmar(annex.isIsFileSign());
+        }
+        nouannex.setFitxerID(count); // Index al datahandler
+              
+        FitxerJPA fitxer = new FitxerJPA();
+        fitxer.setDescripcio(annex.getDescription());
+        fitxer.setNom("annexe_" + count + "." + annex.getExtension());
+  
+        files.put(count, fitxer);
+        
+        annexosPortaFIB.add(nouannex);
+        
+        count++;
       }
-      
-      AnnexJPA nouannex = new AnnexJPA();
-      
-      nouannex.setAdjuntar(attached);
-      if (annex.isIsFileSign() != null) {
-        nouannex.setFirmar(annex.isIsFileSign());
-      }
-      nouannex.setFitxerID(count); // Index al datahandler
-            
-      FitxerJPA fitxer = new FitxerJPA();
-      fitxer.setDescripcio(annex.getDescription());
-      fitxer.setNom("annexe_" + count + "." + annex.getExtension());
-
-      files.put(count, fitxer);
-      
-      annexosPortaFIB.add(nouannex);
-      
-      count++;
     }
     
     peticioDeFirma.setAnnexs(annexosPortaFIB);

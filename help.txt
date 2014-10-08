@@ -16,9 +16,13 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 -Pclientcert      Genera un segon context web amb autenticacio
                   CLIENT-CERT (context a /portafibs)
 
--Pws-portafib     Crea WS per atacar a PortaFIB (Contexte /portafib/ws)
-                  Exemple de cridada a ws\portafib_client.
-				  
+-Pws-portafib     Crea WS per atacar a PortaFIB. Els WS definits son 
+                       /portafib/ws/v1/PortaFIBPeticioDeFirma
+                       /portafib/ws/v1/PortaFIBUsuariEntitat
+                       /portafib/ws/v1/PortaFIBUsuariAplicacio
+                       /portafib/ws/v1/PortaFIBHelloWorld
+                  Exemple de cridada a ws\portafib_api.
+
 -Pws-portafib-callback-server  Crea WS per provar la recepcio dels Callback
                            de PortaFIB. Els usuaris aplicacio han de tenir callback
                            url http://HOST:8080/portafib/cb/v1/PortaFIBCallBack
@@ -26,8 +30,8 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                            a http://HOST:8080/portafib/cbweb
 
 -Pws-indra        Crea WS compatible amb l'API del PortaFirmas de INDRA
-                  (Context a /portafirmasws). Exemple de cridada 
-                  a ws\indra_client.
+                  El WS es accessible des de /portafirmasws/web/services/CWS.
+                  Exemple de cridada a ws\indra_api.
 
 -Pws-indra-callback-server Crea WS per provar la recepcio dels Callback Indra
                            Els usuaris aplicacio han de tenir calback url
