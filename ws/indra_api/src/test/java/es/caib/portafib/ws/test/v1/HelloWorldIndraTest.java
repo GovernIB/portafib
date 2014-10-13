@@ -13,7 +13,7 @@ import es.caib.portafib.ws.v1.HelloWorldIndraProxy;
  * @author anadal
  * 
  */
-public class HelloWorldTestIndra extends IndraTestUtils {
+public class HelloWorldIndraTest extends IndraTestUtils {
 
   /**
    * @param args

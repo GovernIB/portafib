@@ -1,5 +1,5 @@
 
-BEGIN;
+
 
 -- ===========================================================================
 -- És el mateix fitxer que posgresql però substiuint true per 1 i false per 0.
@@ -207,4 +207,5 @@ INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (3, 'tip
 INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (4, 'tipusmetadada.base64', 'org.fundaciobit.plugins.utils.Base64');
 INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (5, 'tipusmetadada.date', 'org.fundaciobit.plugins.utils.ISO8601');
 
-COMMIT;
+
+

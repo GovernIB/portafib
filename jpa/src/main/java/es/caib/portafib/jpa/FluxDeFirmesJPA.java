@@ -31,7 +31,7 @@ private static final long serialVersionUID = -624049275L;
 	@Column(name="fluxdefirmesid",nullable = false,length = 19)
 	long fluxDeFirmesID;
 
-	@Column(name="nom",nullable = false,length = 50)
+	@Column(name="nom",nullable = false,length = 255)
 	java.lang.String nom;
 
 

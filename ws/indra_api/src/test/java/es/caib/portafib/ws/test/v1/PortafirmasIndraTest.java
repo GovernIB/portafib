@@ -89,7 +89,7 @@ import es.indra.www.portafirmasws.cws.UploadResponse;
  * @author anadal
  * 
  */
-public class PortafirmasTestIndra extends IndraTestUtils {
+public class PortafirmasIndraTest extends IndraTestUtils {
   
   
   public  static final String VERSION = "1.0"; 
@@ -255,7 +255,7 @@ public class PortafirmasTestIndra extends IndraTestUtils {
 
   private static DocInfo createDocToSign() throws IOException {
     final String fileName ="hola.pdf";
-    InputStream inputStream =  PortafirmasTestIndra.class.getClassLoader().getResourceAsStream(fileName);
+    InputStream inputStream =  PortafirmasIndraTest.class.getClassLoader().getResourceAsStream(fileName);
     byte[] arxiuContingut = readFully(inputStream);
     System.out.println("FileName size: " + arxiuContingut.length);
     
@@ -277,7 +277,7 @@ public class PortafirmasTestIndra extends IndraTestUtils {
     final String annexName = "hola.jpg";
   
   
-    InputStream inputStream =  PortafirmasTestIndra.class.getClassLoader().getResourceAsStream(annexName);
+    InputStream inputStream =  PortafirmasIndraTest.class.getClassLoader().getResourceAsStream(annexName);
     byte[] arxiuContingut = readFully(inputStream);
     System.out.println("AnnexName size: " + arxiuContingut.length);
     

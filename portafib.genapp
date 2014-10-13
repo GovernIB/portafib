@@ -7208,7 +7208,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <boolean>true</boolean> 
           </void> 
           <void property="size"> 
-           <int>50</int> 
+           <int>255</int> 
           </void> 
           <void property="sqlName"> 
            <string>nom</string> 

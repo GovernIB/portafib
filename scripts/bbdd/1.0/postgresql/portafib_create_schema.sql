@@ -321,7 +321,7 @@ ALTER TABLE portafib.pfi_fitxer OWNER TO portafib;
 
 CREATE TABLE pfi_fluxdefirmes (
     fluxdefirmesid bigint DEFAULT nextval('pfi_portafib_seq'::regclass) NOT NULL,
-    nom character varying(50) NOT NULL
+    nom character varying(255) NOT NULL
 );
 
 

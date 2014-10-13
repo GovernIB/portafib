@@ -3,6 +3,8 @@ Per compilar en mode desenvolupament: deploydev.sh/bat [OPCIONS]
 Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 
 -------------------------------- OPCIONS ---------------------------------
+clean             Neteja els projectes abans de compilar.
+
 -Dcaib            Propietat que indica als projectes que activins les 
                   caracteristiques especials requerides en l'entorn 
                   de la CAIB (Govern Balear)

@@ -14,7 +14,7 @@ import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 
-import es.caib.portafib.ws.test.v1.PortafirmasTestIndra;
+import es.caib.portafib.ws.test.v1.PortafirmasIndraTest;
 import es.indra.www.portafirmasws.cws.Annex;
 import es.indra.www.portafirmasws.cws.Application;
 import es.indra.www.portafirmasws.cws.CWSSoapBindingStub;
@@ -100,7 +100,7 @@ public class PortasignaturesPluginCaib /*implements PortasignaturesPlugin */{
         dataLimit, checkCert); 
 		
 		
-		UploadRequest request = new UploadRequest(app,urd,PortafirmasTestIndra.VERSION);
+		UploadRequest request = new UploadRequest(app,urd,PortafirmasIndraTest.VERSION);
 	
 		UploadResponse response = stub.uploadDocument(request);
 		

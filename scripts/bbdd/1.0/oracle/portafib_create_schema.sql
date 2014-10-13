@@ -147,7 +147,7 @@
 
     create table pfi_fluxdefirmes (
         fluxdefirmesid number(19,0) not null,
-        nom varchar2(50 char) not null
+        nom varchar2(255 char) not null
     );
 
     create table pfi_grupentitat (
