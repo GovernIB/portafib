@@ -1708,6 +1708,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       firmaLogicaEjb.update(firma);
 
       // 4.- Descartar tots els EstatDeFirma associats a la firma
+      if (log.isDebugEnabled()) {
+        log.debug(" FIRMAID = " + firmaID);
+      }
       Where w = Where.AND(EstatDeFirmaFields.FIRMAID.equal(firmaID),
           EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
       List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.select(w);

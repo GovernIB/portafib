@@ -59,7 +59,7 @@ public class EstatFirmaServlet extends HttpServlet {
     int index = uri.indexOf(search);
     if (index == -1) {
       // TODO traduir
-      String msg = "URL incorrecte " + uri + " (Esperat /estatDeFirma/destination/{estatDeFirmaID}/{peticioDeFirmaID/{token})";
+      String msg = "URL incorrecte " + uri + " (Esperat /estatDeFirma/peticioDeFirma/token/numfirma)";
       log.error(msg, new Exception());
       response.setHeader("MSGPORTAFIB", msg);
       response.sendError(EstatFirmaServlet.ERROR_SERVLET);
