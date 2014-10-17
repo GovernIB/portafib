@@ -1711,9 +1711,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (log.isDebugEnabled()) {
         log.debug(" FIRMAID = " + firmaID);
       }
+      
+      // XYZ
+      {
+        log.info("XYZ PROVA-ORA = PRE CRIDADA - FIRMAID = " + firmaID);
+        List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.selectSpecial(firmaID);
+        log.info("XYZ PROVA-ORA = POST  CRIDADA - Count Estats de Firma = " + estatsDeFirma.size() );
+      }
+      
+      
       Where w = Where.AND(EstatDeFirmaFields.FIRMAID.equal(firmaID),
           EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
       List<EstatDeFirma> estatsDeFirma = estatDeFirmaLogicaEjb.select(w);
+      log.info("XYZ Count Estats de Firma = " + estatsDeFirma.size() );
       for (EstatDeFirma estat : estatsDeFirma) {
         estat.setDataFi(now);
         estat.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);

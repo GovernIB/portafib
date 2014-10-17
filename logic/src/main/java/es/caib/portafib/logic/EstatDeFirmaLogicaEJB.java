@@ -21,6 +21,8 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
@@ -45,6 +47,27 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  
+  
+  
+  // XYZ
+  public List<EstatDeFirma> selectSpecial(Long firmaID) throws I18NException {
+
+    String select = "select estatDeFirma from EstatDeFirmaJPA estatDeFirma " + " where "
+        + " (  ( ( estatDeFirma.firmaID = " + firmaID + " ) )" + " AND "
+        + " ( ( estatDeFirma.tipusEstatDeFirmaFinalID IS NULL ) )  ))";
+
+    log.info("XYZ ORA: Executant Special Query: " + select);
+
+    EntityManager em = super.getEntityManager();
+
+    Query query = em.createQuery(select);
+
+    return query.getResultList();
+
+  }
+  
+  
   
   @Override
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException {
