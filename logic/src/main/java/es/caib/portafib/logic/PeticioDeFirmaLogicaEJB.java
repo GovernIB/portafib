@@ -1661,9 +1661,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         // Obtenir informació del certificat
         firma.setNumeroSerieCertificat(info.getNumeroSerie());
+        log.info("NumeroSerieCertificat = " + info.getNumeroSerie());
+
+        if (info.getEmissorID() != null) {
+          log.info("Emissor LEN = " + info.getEmissorID().length());
+        }
         firma.setEmissorCertificat(info.getEmissorID());
+
+        if (info.getSubject() != null) {
+          log.info("Subject LEN = " + info.getSubject().length());
+        }
         firma.setNomCertificat(info.getSubject());
+
         nifFirmant = info.getNifResponsable();
+        if (info.getNifResponsable() != null) {
+          log.info("NIF LEN = " + info.getNifResponsable().length());
+        }
 
         break;
 
