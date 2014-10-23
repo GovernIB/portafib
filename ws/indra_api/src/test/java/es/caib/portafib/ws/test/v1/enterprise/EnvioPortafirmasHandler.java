@@ -155,7 +155,7 @@ public class EnvioPortafirmasHandler {
       attributesRequest.setImportance(ImportanceEnum.low);
     }
 
-    attributesRequest.setType(peticioInfo.signTipus);
+    attributesRequest.setType(peticioInfo.docToSign.getTipus());
 
     // mapear las etapas
     

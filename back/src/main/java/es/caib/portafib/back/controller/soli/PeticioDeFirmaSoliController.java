@@ -961,15 +961,42 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,
       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
     
-    Where whereTD = Where.OR(
-        TipusDocumentFields.USUARIAPLICACIOID.equal(
-            peticioDeFirmaForm.getPeticioDeFirma().getUsuariAplicacioID()),
-        TipusDocumentFields.USUARIAPLICACIOID.isNull()
-    );
     
-    return super.getReferenceListForTipusDocumentID(request, mav,
+    String usuariAplicacioID = peticioDeFirmaForm.getPeticioDeFirma().getUsuariAplicacioID(); 
+    Where whereTD;
+    whereTD = Where.OR(
+      TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
+      TipusDocumentFields.USUARIAPLICACIOID.isNull()
+    );
+  
+
+    if (isSolicitantUsuariEntitat()) {
+      whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.greaterThan(0L));
+    } else {
+
+      UsuariAplicacio ua = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+
+      // Per usuaris aplicacio tipus Indra només mostram els tipus negatius
+      if (ua.getCallbackVersio() == 0) {
+        whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.lessThan(0L));
+      }
+
+    }
+
+    List<StringKeyValue> result;
+    result = super.getReferenceListForTipusDocumentID(request, mav,
         peticioDeFirmaForm, Where.AND(where, whereTD));
     
+    
+    if (!isSolicitantUsuariEntitat()) {
+      for (StringKeyValue stringKeyValue : result) {
+        String id = stringKeyValue.getKey();
+        String newvalue = stringKeyValue.getValue() + " (" + id + ")";
+        stringKeyValue.setValue(newvalue);      
+      }
+    }
+    return result;
+
   }
   
 

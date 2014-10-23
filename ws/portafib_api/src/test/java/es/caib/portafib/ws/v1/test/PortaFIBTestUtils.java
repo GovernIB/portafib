@@ -57,17 +57,16 @@ public abstract class PortaFIBTestUtils {
   }
 
   public static String getTestAppUserName() {
-    String caib = System.getProperty("caib");
-    return testProperties.getProperty("test_usr" + (caib == null? "" : "_caib"));
+    
+    return testProperties.getProperty("test_usr");
   }
   
   public static boolean isCAIB() {
-    return System.getProperty("caib") != null;
+    return "true".equals(testProperties.getProperty("iscaib"));
   }
 
   public static String getTestAppPassword() {
-    String caib = System.getProperty("caib");
-    return testProperties.getProperty("test_pwd"  + (caib == null? "" : "_caib"));
+    return testProperties.getProperty("test_pwd");
   }
 
   public static String getTestPersonaNif() {
@@ -83,11 +82,11 @@ public abstract class PortaFIBTestUtils {
     reqContext.put(BindingProvider.PASSWORD_PROPERTY, pwd);
   }
 
-  public static PortaFIBHelloWorldWs getHelloWorldApi() {
+  public static PortaFIBHelloWorldWs getHelloWorldApi() throws Exception {
 
     final String endpoint = getEndPoint(HELLO_WORLD);
     
-    URL wsdlLocation = ClassLoader.getSystemResource("wsdl/PortaFIBHelloWorld_v1.wsdl");
+    URL wsdlLocation = new URL(endpoint + "?wsdl");
 
     PortaFIBHelloWorldWsService helloService = new PortaFIBHelloWorldWsService(wsdlLocation);
 
@@ -101,14 +100,16 @@ public abstract class PortaFIBTestUtils {
 
   }
 
-  public static PortaFIBUsuariAplicacioWs getUsuariAplicacioApi() {
+  public static PortaFIBUsuariAplicacioWs getUsuariAplicacioApi() throws Exception {
     return getUsuariAplicacioApi(getTestAppUserName(), getTestAppPassword());
   }
 
-  public static PortaFIBUsuariAplicacioWs getUsuariAplicacioApi(String usr, String pwd) {
+  public static PortaFIBUsuariAplicacioWs getUsuariAplicacioApi(String usr, String pwd) throws Exception {
     final String endpoint = getEndPoint(USUARI_APLICACIO);
+    
+    URL wsdlLocation = new URL(endpoint + "?wsdl");
 
-    PortaFIBUsuariAplicacioWsService service = new PortaFIBUsuariAplicacioWsService();
+    PortaFIBUsuariAplicacioWsService service = new PortaFIBUsuariAplicacioWsService(wsdlLocation);
 
     PortaFIBUsuariAplicacioWs api = service.getPortaFIBUsuariAplicacioWs();
 

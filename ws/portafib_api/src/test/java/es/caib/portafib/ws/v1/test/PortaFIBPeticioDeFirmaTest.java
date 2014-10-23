@@ -121,7 +121,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
       peticioDeFirmaAPI.createPeticioDeFirma(peticioDeFirmaWs);
       Assert.fail("Hauria d'haver llançat una excepció: Validation");
     } catch (WsValidationException ve) {
-      final int expected = 3;
+      final int expected = 2;
       final int current = ve.getFaultInfo().getFieldFaults().size();
       if (expected != current) {
         log.info(ve.getMessage());
@@ -317,9 +317,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
     for (TipusDocumentInfoWs td : list) {
       log.info(td.getTipusDocumentID() + "\t" + td.getNom());
     }
-    
-    
-    
+
   }
 
 }

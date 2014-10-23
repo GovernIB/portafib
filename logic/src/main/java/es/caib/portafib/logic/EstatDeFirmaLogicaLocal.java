@@ -19,10 +19,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 @Local
 public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
   
-  // XYZ
-  public List<EstatDeFirma> selectSpecial(Long firmaID) throws I18NException;
-  
-  
+ 
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id);
   
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException;

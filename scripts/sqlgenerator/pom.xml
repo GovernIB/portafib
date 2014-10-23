@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.4.0.GA</version>
+            <version>3.3.2.GA</version>
             <scope>provided</scope>
         </dependency>
 		
@@ -160,7 +160,7 @@
 				<version>2.2</version>
                 <executions>
                 <execution>
-                  <phase>process-classes</phase>
+                  <phase>process-test-classes</phase><!--process-classes-->
                   <goals>
                     <goal>hbm2ddl</goal>
                   </goals>

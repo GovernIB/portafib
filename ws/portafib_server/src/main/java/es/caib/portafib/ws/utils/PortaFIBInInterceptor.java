@@ -163,6 +163,16 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
       // TODO traduir
       throw new SoapFault("L'usuari aplicació " + userapp + " no està actiu", QNAME);
     }
+    
+    int versio = usuariAplicacio.getCallbackVersio(); 
+    if (versio == 0) {
+      String msg = "Usuari Aplicació " + userapp + " funciona a traves de l'API " +
+          "de Portafirmas de Indra amb versió 0. L'API a la que s'esta " +
+          " cridant requereix una versió de PortaFIB (> 0) (Veure versió de CallBack)";
+      log.error(msg);
+      // TODO traduir
+      throw new SoapFault(msg, QNAME);
+    }
 
     UsuariAplicacioCache.put(usuariAplicacio);
   }

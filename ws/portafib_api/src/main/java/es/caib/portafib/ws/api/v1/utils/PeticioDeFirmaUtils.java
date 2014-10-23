@@ -59,8 +59,8 @@ public class PeticioDeFirmaUtils {
     peticioDeFirmaWs.setMotiu(titol);
     
     GregorianCalendar gc = (GregorianCalendar)GregorianCalendar.getInstance();
-    gc.add(GregorianCalendar.MONTH, 1);
     gc.setTimeInMillis(new Date().getTime());
+    gc.add(GregorianCalendar.MONTH, 1);
     peticioDeFirmaWs.setDataCaducitat(new XMLGregorianCalendarImpl(gc));
     
     

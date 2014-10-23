@@ -32,7 +32,6 @@ import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.Configuracio;
 
 /**
  * 
@@ -111,9 +110,9 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 				// No volem cap agrupacio
 				tipusDocumentFilterForm.setGroupByFields(new ArrayList<Field<?>>());				
 			} else {
-				if (!Configuracio.isDesenvolupament()) {
-					tipusDocumentFilterForm.addHiddenField(TIPUSDOCUMENTID);
-				}
+				//if (!Configuracio.isDesenvolupament()) {
+				//	tipusDocumentFilterForm.addHiddenField(TIPUSDOCUMENTID);
+				//}
 				tipusDocumentFilterForm.addFilterByField(USUARIAPLICACIOID);
 				tipusDocumentFilterForm.addGroupByField(USUARIAPLICACIOID);
 			}
@@ -169,6 +168,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 			throws I18NException {
 		Where where;
 		if (isAdmin()) {
+		  // Tots els comuns 
 			where = USUARIAPLICACIOID.isNull();
 		} else {
 			String entitatID = LoginInfo.getInstance().getEntitatID();
@@ -217,7 +217,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 						"genapp.validation.required", new String[] { I18NUtils
 								.tradueix(get(USUARIAPLICACIOID)) }, null);
 			}
-		}		
+		}
 	}
 	
 	

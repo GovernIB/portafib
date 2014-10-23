@@ -282,6 +282,13 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       log.error("Usuari no està actiu (" + user + ")");
       throw createFaultNoAutenticat();
     }
+    int versio = usuariAplicacio.getCallbackVersio(); 
+    if (versio != 0) {
+      log.error("Usuari Aplicació " + user + " funciona a traves de l'API " +
+      		"de PORTAFIB amb versió " + versio + ". L'API a la que s'esta " +
+      				" cridant requereix una versió de WS 0 (Veure versió de CallBack)");
+      throw createFaultNoAutenticat();
+    }
 
     boolean isOK;
       
@@ -1394,21 +1401,26 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       }
 
       // Llegir tipusDeDocuments
-      Where where = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(user));
-
-      List<TipusDocument> list = tipusDocumentLogicaEjb.select(where);
+      
+          // Llegim els tipus amb id negatiu i amb:
+          //      + usrapp == null o
+          //      + usrapp == username_app
+      Where whereId = TipusDocumentFields.TIPUSDOCUMENTID.lessThan(0L);
+      Where whereUsr = Where.OR(
+          TipusDocumentFields.USUARIAPLICACIOID.isNull(),
+          TipusDocumentFields.USUARIAPLICACIOID.equal(user));
+      
+      Where where = Where.AND(whereId, whereUsr);
+      OrderBy orderby = new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID, OrderType.DESC); 
+      List<TipusDocument> list = tipusDocumentLogicaEjb.select(where, orderby);
 
       TypeDocuments allTypes = new TypeDocuments();
-      List<TypeDocument> tipusDocuments = allTypes.getType(); // new
-                                                              // ArrayList<TypeDocument>();
+      List<TypeDocument> tipusDocuments = allTypes.getType(); 
+      // new ArrayList<TypeDocument>();
 
       for (TipusDocument tipusDocument : list) {
-        int id = (int) tipusDocument.getTipusDocumentID();
+        int id = tipusDocumentFromPortaFIBToIndra(tipusDocument.getTipusDocumentID());
 
-        if (id < 99) {
-          // Ignoram el tipus globals
-          continue;
-        }
 
         TypeDocument typeDocument = new TypeDocument();
         typeDocument.setId(id);
@@ -1705,19 +1717,20 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       
       // Verificar que aquest tipus de document pertany al usuari app
       DocumentAttributes attributes = documentReq.getAttributes();
-      Integer tipusDoc = attributes.getType();
-      if (tipusDoc == null) {
-        tipusDoc = 999;
-      }
+      
+      long tipusDocumentID = tipusDocumentFromIndraToPortaFIB(attributes.getType());
       
       Long count = tipusDocumentEjb.count(
-          Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.equal(new Long(tipusDoc)),
+          Where.AND(
+              TipusDocumentFields.TIPUSDOCUMENTID.equal(tipusDocumentID),
               Where.OR(
                   TipusDocumentFields.USUARIAPLICACIOID.isNull(),
                   TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacio.getUsuariAplicacioID())
                   )));
       if (count == 0) {
         // No existeix aquest document
+        log.error("Tipus de document amb id=" + tipusDocumentID + " per l'usuari aplicació "
+            + usuariAplicacio.getUsuariAplicacioID() + " no existeix.");
         throw createFault(20, "tipo documento no existe");
       }      
             
@@ -1786,6 +1799,29 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         }
       }
     }
+  }
+
+   
+  public Integer tipusDocumentFromPortaFIBToIndra(long tipusDocumentID) {
+    if (tipusDocumentID > 0) {
+      log.error("S'esta convertint un tipus de document (positiu) "
+          + " per un usuari aplicació, per la qual cosa aquest tipus de document "
+          + " hauria de ser negatiu (" + tipusDocumentID + ")" );
+    }
+    return new Integer((int)(-1 * tipusDocumentID));   
+  }
+   
+   
+  public long tipusDocumentFromIndraToPortaFIB(Integer tipusDoc) {
+    long tipusDocumentID;
+         
+    if (tipusDoc == null) {
+      tipusDocumentID = -999;
+    } else {
+      tipusDocumentID = -1 * tipusDoc;
+    }
+  
+    return tipusDocumentID;
   }
    
    
@@ -2286,8 +2322,14 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     peticioDeFirma.setTitol(titol);
     
     // Ja s'ha verificat abans
-    peticioDeFirma.setTipusDocumentID(attributes.getType());
-    
+    long tipusDocumentID = tipusDocumentFromIndraToPortaFIB(attributes.getType());
+    if (log.isDebugEnabled()) {
+      log.debug("API Indra: Indra = " + attributes.getType() 
+          + " | PortaFIB: " + tipusDocumentID);
+    }
+
+    peticioDeFirma.setTipusDocumentID(tipusDocumentID);
+
     // Tipus Firma
     Integer tipusFirma =  attributes.getTypeSign();
     int nouTipus;
@@ -2391,8 +2433,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
     attributes.setSubject(peticioDeFirma.getMotiu());
     
-    attributes.setType((int)peticioDeFirma.getTipusDocumentID());
-    
+    attributes.setType(tipusDocumentFromPortaFIBToIndra(peticioDeFirma.getTipusDocumentID()));
+
     // Tipus Firma
     int tipusFirma =  peticioDeFirma.getTipusFirmaID();
     int nouTipus;

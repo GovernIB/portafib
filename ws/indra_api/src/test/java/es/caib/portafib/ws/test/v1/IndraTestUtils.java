@@ -40,6 +40,12 @@ public abstract class IndraTestUtils {
     return testProperties.getProperty("test_signer");
   }
   
+
+  public static boolean waitToSign() {
+    return "true".equals(testProperties.getProperty("wait_to_sign"));
+  }
+  
+  
   
 
 }

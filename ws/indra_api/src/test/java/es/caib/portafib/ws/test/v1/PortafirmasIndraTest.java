@@ -131,12 +131,16 @@ public class PortafirmasIndraTest extends IndraTestUtils {
   @SuppressWarnings("unused")
   protected static void test(final CodeBase codeBase) throws Exception {
 
-    /** Esperar a que el fitxer sigui firmat i descarregar-ho: **/
-    //final java.io.File storeSignedFile = new java.io.File("FitxerFirmat.pdf");
-  
-    /** No esperar a que el fitxer es firmi. */
-    final java.io.File storeSignedFile = null;
-
+    
+    final java.io.File storeSignedFile;
+    if (waitToSign()) {
+      /** Esperar a que el fitxer sigui firmat i descarregar-ho: **/
+      storeSignedFile = new java.io.File("FitxerFirmat.pdf");
+    } else {
+      /** No esperar a que el fitxer es firmi. */
+      storeSignedFile = null;
+    }
+    
     final String endPoint=  getEndPoint("CWS");
 
     Application app = new Application();
@@ -161,6 +165,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
 
       callToListTypeDocuments(proxy, app);
 
+      
       callToListServerSigners(proxy, app);
    
       PeticioInfo peticioInfo = createPeticioInfo();
@@ -175,7 +180,9 @@ public class PortafirmasIndraTest extends IndraTestUtils {
       // No implementat
       //callUpdateDocument(proxy, app);
  
+      
         callToListDocuments(proxy, app);
+        
         
         callToDownloadDocument(proxy, app, peticioID);
         
@@ -195,6 +202,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
       } else {
         callDownloadFile_Enterprise(proxy, app, peticioID, storeSignedFile, uploadedDocuments);
       }
+      
 
     } finally {
       if (peticioID != null) {
@@ -266,7 +274,7 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     docToSign.setContentType("application/pdf");
     // docToSign.setReference(reference); Només per annexes
     docToSign.setSignat(false);
-    docToSign.setTipus(1); // TipusDeDocument
+    docToSign.setTipus(310); // TipusDeDocument  CARTA tipus CAIB
     docToSign.setTitol("Document a firmar " + fileName);
     return docToSign;
   }

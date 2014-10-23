@@ -132,7 +132,7 @@
         mostrarrubrica number(1,0) not null,
         nomcertificat varchar2(1000 char),
         numfirmadocument number(10,0),
-        numeroseriecertificat number(19,2),
+        numeroseriecertificat number,
         obligatori number(1,0) not null,
         tipusestatdefirmafinalid number(19,0)
     );
