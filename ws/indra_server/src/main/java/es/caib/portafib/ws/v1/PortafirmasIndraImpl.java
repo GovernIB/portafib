@@ -2260,12 +2260,19 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     XMLGregorianCalendar gregCalendar = attributes.getDateLimit();
     Timestamp dateLimit;
-    if (gregCalendar == null) {
+    if (gregCalendar != null) {
+      long time = gregCalendar.toGregorianCalendar().getTimeInMillis();
+      Calendar plusTresDies = Calendar.getInstance();
+      plusTresDies.add(Calendar.DATE, 4);
+      if ( time < plusTresDies.getTimeInMillis() ) {
+        dateLimit = new Timestamp(plusTresDies.getTimeInMillis()); 
+      } else {
+        dateLimit = new Timestamp(time); 
+      }
+    } else {
       Calendar cal = Calendar.getInstance();
       cal.add(Calendar.MONTH, 1);
       dateLimit = new Timestamp(cal.getTimeInMillis());
-    } else {
-      dateLimit = new Timestamp(gregCalendar.toGregorianCalendar().getTimeInMillis());
     }
     
     peticioDeFirma.setDataCaducitat(dateLimit);
