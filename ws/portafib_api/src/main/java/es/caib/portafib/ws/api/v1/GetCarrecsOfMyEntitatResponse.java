@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for tipusDocumentInfoWsArray complex type.
+ * <p>Java class for getCarrecsOfMyEntitatResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="tipusDocumentInfoWsArray">
+ * &lt;complexType name="getCarrecsOfMyEntitatResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://impl.v1.ws.portafib.caib.es/}tipusDocumentInfoWs" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://impl.v1.ws.portafib.caib.es/}carrecWs" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,41 +29,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tipusDocumentInfoWsArray", propOrder = {
-    "item"
+@XmlType(name = "getCarrecsOfMyEntitatResponse", propOrder = {
+    "_return"
 })
-public class TipusDocumentInfoWsArray {
+public class GetCarrecsOfMyEntitatResponse {
 
-    @XmlElement(nillable = true)
-    protected List<TipusDocumentInfoWs> item;
+    @XmlElement(name = "return")
+    protected List<CarrecWs> _return;
 
     /**
-     * Gets the value of the item property.
+     * Gets the value of the return property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the item property.
+     * This is why there is not a <CODE>set</CODE> method for the return property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getItem().add(newItem);
+     *    getReturn().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TipusDocumentInfoWs }
+     * {@link CarrecWs }
      * 
      * 
      */
-    public List<TipusDocumentInfoWs> getItem() {
-        if (item == null) {
-            item = new ArrayList<TipusDocumentInfoWs>();
+    public List<CarrecWs> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<CarrecWs>();
         }
-        return this.item;
+        return this._return;
     }
 
 }

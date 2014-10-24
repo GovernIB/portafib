@@ -128,7 +128,6 @@ public class PortafirmasIndraTest extends IndraTestUtils {
    *      de firma i la baixada de fitxers: HELIUM o ENTERPRISE
    * @throws Exception
    */
-  @SuppressWarnings("unused")
   protected static void test(final CodeBase codeBase) throws Exception {
 
     

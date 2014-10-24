@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for usuariAplicacioBeanArray complex type.
+ * <p>Java class for getSupportedLanguagesResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="usuariAplicacioBeanArray">
+ * &lt;complexType name="getSupportedLanguagesResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://impl.v1.ws.portafib.caib.es/}usuariAplicacioBean" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,41 +29,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "usuariAplicacioBeanArray", propOrder = {
-    "item"
+@XmlType(name = "getSupportedLanguagesResponse", propOrder = {
+    "_return"
 })
-public class UsuariAplicacioBeanArray {
+public class GetSupportedLanguagesResponse {
 
-    @XmlElement(nillable = true)
-    protected List<UsuariAplicacioBean> item;
+    @XmlElement(name = "return")
+    protected List<String> _return;
 
     /**
-     * Gets the value of the item property.
+     * Gets the value of the return property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the item property.
+     * This is why there is not a <CODE>set</CODE> method for the return property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getItem().add(newItem);
+     *    getReturn().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link UsuariAplicacioBean }
+     * {@link String }
      * 
      * 
      */
-    public List<UsuariAplicacioBean> getItem() {
-        if (item == null) {
-            item = new ArrayList<UsuariAplicacioBean>();
+    public List<String> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<String>();
         }
-        return this.item;
+        return this._return;
     }
 
 }

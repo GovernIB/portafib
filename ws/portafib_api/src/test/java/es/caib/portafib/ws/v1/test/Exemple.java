@@ -70,8 +70,7 @@ public class Exemple {
       }
 
       log.info("Versio " + api.getVersion());
-      log.info("Idiomes:"
-          + Arrays.toString(api.getSupportedLanguages().getItem().toArray()));
+      log.info("Idiomes:" + Arrays.toString(api.getSupportedLanguages().toArray()));
 
       final String titol = "Peticio de Test amb Custodia";
       final String remitent = "Helium";

@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for stringArray complex type.
+ * <p>Java class for listUsuariAplicacioResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="stringArray">
+ * &lt;complexType name="listUsuariAplicacioResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://impl.v1.ws.portafib.caib.es/}usuariAplicacioBean" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,41 +29,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "stringArray", namespace = "http://jaxb.dev.java.net/array", propOrder = {
-    "item"
+@XmlType(name = "listUsuariAplicacioResponse", propOrder = {
+    "_return"
 })
-public class StringArray {
+public class ListUsuariAplicacioResponse {
 
-    @XmlElement(nillable = true)
-    protected List<String> item;
+    @XmlElement(name = "return")
+    protected List<UsuariAplicacioBean> _return;
 
     /**
-     * Gets the value of the item property.
+     * Gets the value of the return property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the item property.
+     * This is why there is not a <CODE>set</CODE> method for the return property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getItem().add(newItem);
+     *    getReturn().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * {@link UsuariAplicacioBean }
      * 
      * 
      */
-    public List<String> getItem() {
-        if (item == null) {
-            item = new ArrayList<String>();
+    public List<UsuariAplicacioBean> getReturn() {
+        if (_return == null) {
+            _return = new ArrayList<UsuariAplicacioBean>();
         }
-        return this.item;
+        return this._return;
     }
 
 }

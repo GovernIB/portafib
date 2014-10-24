@@ -63,11 +63,13 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
 @org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
-@WebService(name = PortaFIBUsuariEntitatWsImpl.NAME_WS, portName = PortaFIBUsuariEntitatWsImpl.NAME_WS, serviceName = PortaFIBUsuariEntitatWsImpl.NAME_WS
-    + "Service")
+@WebService(name = PortaFIBUsuariEntitatWsImpl.NAME_WS,
+            portName = PortaFIBUsuariEntitatWsImpl.NAME_WS,
+            serviceName = PortaFIBUsuariEntitatWsImpl.NAME_WS + "Service",
+            endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariEntitatWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = CompileConstants.AUTH_METHOD)
-public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl {
+public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBUsuariEntitatWs {
 
   public static final String NAME = "PortaFIBUsuariEntitat";
 

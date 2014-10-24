@@ -19,7 +19,6 @@ import es.caib.portafib.ws.api.v1.PeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWs;
 import es.caib.portafib.ws.api.v1.TipusDocumentInfoWs;
-import es.caib.portafib.ws.api.v1.TipusDocumentInfoWsArray;
 import es.caib.portafib.ws.api.v1.UsuariEntitatBean;
 import es.caib.portafib.ws.api.v1.WsI18NException;
 import es.caib.portafib.ws.api.v1.WsValidationException;
@@ -310,9 +309,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
   
   @Test
   public void testTipusDocuments() throws Exception {
-    TipusDocumentInfoWsArray array = peticioDeFirmaAPI.getTipusDeDocuments("es");
-    
-    List<TipusDocumentInfoWs> list = array.getItem();
+    List<TipusDocumentInfoWs> list = peticioDeFirmaAPI.getTipusDeDocuments("es");
     
     for (TipusDocumentInfoWs td : list) {
       log.info(td.getTipusDocumentID() + "\t" + td.getNom());

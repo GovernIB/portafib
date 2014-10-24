@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -64,11 +63,13 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
 @org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.portafib.ws.utils.PortaFIBInInterceptor" })
-@WebService(name = PortaFIBPeticioDeFirmaWsImpl.NAME_WS, portName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS, serviceName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS
-    + "Service")
+@WebService(name = PortaFIBPeticioDeFirmaWsImpl.NAME_WS,
+    portName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS,
+    serviceName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS + "Service",
+    endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBPeticioDeFirmaWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBPeticioDeFirmaWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = CompileConstants.AUTH_METHOD)
-public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl {
+public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBPeticioDeFirmaWs {
   
   public static final String NAME = "PortaFIBPeticioDeFirma";
 

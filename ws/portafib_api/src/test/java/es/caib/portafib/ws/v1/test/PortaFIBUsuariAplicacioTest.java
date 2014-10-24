@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariAplicacioWs;
 import es.caib.portafib.ws.api.v1.UsuariAplicacioBean;
-import es.caib.portafib.ws.api.v1.UsuariAplicacioBeanArray;
 import es.caib.portafib.ws.api.v1.UsuariAplicacioFilterWs;
 import es.caib.portafib.ws.api.v1.WsFieldValidationError;
 import es.caib.portafib.ws.api.v1.WsI18NException;
@@ -215,9 +214,7 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
    
     UsuariAplicacioFilterWs filtre = new UsuariAplicacioFilterWs();
     
-    UsuariAplicacioBeanArray listOriginalArray = usuariAplicacioAPI.listUsuariAplicacio(filtre);
-    
-    List<UsuariAplicacioBean> listOriginal = listOriginalArray.getItem();
+    List<UsuariAplicacioBean> listOriginal = usuariAplicacioAPI.listUsuariAplicacio(filtre);
     
     for (UsuariAplicacioBean ua : listOriginal) {
       String id = ua.getUsuariAplicacioID();
@@ -228,10 +225,9 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
     String usr2 = username.substring(1, username.length() - 1);
     System.out.println(usr2);
     filtre.setFilterByUsuariAplicacioID("%" + usr2 + "%");
-    listOriginalArray = usuariAplicacioAPI.listUsuariAplicacio(filtre);
+    listOriginal = usuariAplicacioAPI.listUsuariAplicacio(filtre);
     
-    listOriginal = listOriginalArray.getItem();
-    
+   
     List<String> ids = new ArrayList<String>();
     for (UsuariAplicacioBean ua : listOriginal) {
       String id = ua.getUsuariAplicacioID();

@@ -3,15 +3,12 @@ package es.caib.portafib.ws.v1.test;
 import java.util.List;
 import java.util.Locale;
 
-import javax.xml.ws.WebServiceException;
-
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import es.caib.portafib.ws.api.v1.CarrecWs;
-import es.caib.portafib.ws.api.v1.CarrecWsArray;
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWs;
 import es.caib.portafib.ws.api.v1.UsuariEntitatBean;
 import es.caib.portafib.ws.api.v1.UsuariPersonaBean;
@@ -22,9 +19,9 @@ import es.caib.portafib.ws.api.v1.utils.I18NUtils;
 import es.caib.portafib.ws.api.v1.utils.WsClientUtils;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
   
@@ -334,9 +331,8 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
       try {
         usuariEntitatAPI.createCarrecSimple(null, entitatID, carrecID, carrecName);
         Assert.fail();
-      } catch (WebServiceException wse) {
-        Assert.assertEquals(true, wse.getMessage().contains("Method Parameter:"));
-        Assert.assertEquals(true, wse.getMessage().contains("cannot be null"));
+      } catch (WsI18NException wse) {
+        Assert.assertEquals("usuaripersona.noexisteix", wse.getFaultInfo().getTranslation().getCode());
       }
 
       // Test de nif no existent
@@ -365,9 +361,7 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
         Assert.assertEquals(true, carrec.isActiu());
 
         // Obtenir tots els càrrec d'una entitat
-        CarrecWsArray carrecArray = usuariEntitatAPI.getCarrecsByEntitatID(entitatID);
-        Assert.assertNotNull(carrecArray);
-        List<CarrecWs> listCarrecs = carrecArray.getItem();
+        List<CarrecWs> listCarrecs = usuariEntitatAPI.getCarrecsByEntitatID(entitatID);
         Assert.assertNotNull(listCarrecs);
         boolean contains = false;
         for (CarrecWs carrecWs : listCarrecs) {

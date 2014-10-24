@@ -13,9 +13,9 @@
         <module>utils</module> 
         <module>scripts</module>
         <module>persistence</module>
-        <module>ws</module>
         <module>logic</module>
         <module>back</module>
+		<module>ws</module>
         <module>ear</module>
     </modules>
 
