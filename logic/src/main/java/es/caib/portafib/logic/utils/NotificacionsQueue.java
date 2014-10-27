@@ -608,13 +608,12 @@ public class NotificacionsQueue implements MessageListener {
       return;
     }
 
-    
-
     ArrayOfLogMessage logs = cbresp.getLogMessages();
     StringBuffer str = new StringBuffer();
 
-    str.append("La petició Webservices a " + endPoint + " ha retornat un estat d´error."
-        + "Els missatges són:\n");
+    str.append("La petició Webservices a " + endPoint + " ha retornat un estat d´error ("
+        + cbresp.getReturn()
+        + "). Els missatges són:\n");
 
     if (logs != null && logs.getItem() != null && logs.getItem().size() != 0) {
       int i = 0;
@@ -628,7 +627,7 @@ public class NotificacionsQueue implements MessageListener {
         i++;
       }
     }
-    
+
     log.error("WS Indra Estat: Error");
     log.error(str.toString());
 
