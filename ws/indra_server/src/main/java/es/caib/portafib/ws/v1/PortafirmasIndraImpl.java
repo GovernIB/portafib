@@ -2285,6 +2285,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     files.put(0, fitxer);
 
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
+    
+    
+    log.info(" XYZ Indra Server ExternalData: ]" + attributes.getExternalData() + "[");
+
     peticioDeFirma.setInformacioAdicional(attributes.getExternalData());
     
     

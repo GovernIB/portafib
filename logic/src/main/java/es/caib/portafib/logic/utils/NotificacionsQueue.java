@@ -713,6 +713,9 @@ public class NotificacionsQueue implements MessageListener {
     Attributes attributes = new Attributes();
 
     attributes.setDateLastUpdate(XMLGregorianCalendarConverter.asXMLGregorianCalendar(fe.getDateEvent()));
+    
+    log.info(" XYZ Callback ExternalData: ]" + fe.getPeticioDeFirmaInfoAdicional() + "[");
+    
     attributes.setExternalData(fe.getPeticioDeFirmaInfoAdicional()); 
     attributes.setSignAnnexes(fe.isSignAnnexos());
     int state = PortafirmasIndraUtils.peticioEstat2IndraEstat(fe.getTipusEstatPeticioDeFirmaID(), fe.getEstatDeFirmaUsuariEntitatID());
