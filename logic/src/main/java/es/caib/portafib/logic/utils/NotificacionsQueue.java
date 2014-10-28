@@ -34,6 +34,8 @@ import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.model.entity.Firma;
 
 import es.caib.portafib.model.entity.UsuariAplicacio;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.XMLGregorianCalendarConverter;
@@ -674,7 +676,7 @@ public class NotificacionsQueue implements MessageListener {
 
         Delegate delegate = new Delegate();
 
-        delegate.setId(extractUserName(fe.getEstatDeFirmaColaboracioDelegacioDestinatariID()));
+        delegate.setId(extractAdministrationID(fe.getEstatDeFirmaColaboracioDelegacioDestinatariID()));
 
         signer.setDelegate(delegate);
       }
@@ -683,7 +685,7 @@ public class NotificacionsQueue implements MessageListener {
 
       Firma firma = firmaEjb.findByPrimaryKey(fe.getFirmaID());
 
-      signer.setId(extractUserName(firma.getDestinatariID()));
+      signer.setId(extractAdministrationID(firma.getDestinatariID()));
     }
 
     if (eventID == Constants.NOTIFICACIOAVIS_PETICIO_REBUTJADA) {
@@ -748,6 +750,7 @@ public class NotificacionsQueue implements MessageListener {
    * @param usuariEntitatID
    * @return
    */
+  /*
   private static String extractUserName(String usuariEntitatID) throws I18NException {
     // Cridar a API per extreure l'identificador de l'usuari persona
     
@@ -761,6 +764,32 @@ public class NotificacionsQueue implements MessageListener {
     } else {
       return ue.getUsuariPersonaID();
     }
+  }
+  */
+  
+  
+  /**
+   * 
+   * @param usuariEntitatID
+   * @return
+   */
+  private static String extractAdministrationID(String usuariEntitatID) throws I18NException {
+    // Cridar a API per extreure el NIF de l'usuari persona
+    
+    UsuariEntitatLogicaLocal usuariEntitatLogicaEJB =  EjbManager.getUsuariEntitatLogicaEJB();
+
+    UsuariEntitatQueryPath ueqp = new UsuariEntitatQueryPath();
+    
+    String nif = usuariEntitatLogicaEJB.executeQueryOne(ueqp.USUARIPERSONA().NIF(),
+        UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
+
+    if (nif == null) {
+      throw new I18NException("error.unknown",
+          "No trob l'usuari entitat amb ID = " + usuariEntitatID);
+    } else {
+      return nif;
+    }
+    
   }
 
   
