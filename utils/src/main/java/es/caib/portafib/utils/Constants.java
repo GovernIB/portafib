@@ -228,6 +228,12 @@ public interface Constants {
 
   public static final String APPLET_LANGUAGE_SIGN = "sign_language";
   
+  /**
+   * Refereix a si és PADES, XADES o CADES
+   * @see TIPUSFIRMA_PADES
+   * @see TIPUSFIRMA_XADES
+   * @see TIPUSFIRMA_CADES
+   */
   public static final String APPLET_SIGN_TYPE = "sign_type";
   
   public static final String APPLET_SIGN_ALGORITHM = "sign_algorithm";
