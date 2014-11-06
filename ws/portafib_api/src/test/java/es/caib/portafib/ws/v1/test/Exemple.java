@@ -1,6 +1,7 @@
 package es.caib.portafib.ws.v1.test;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -41,11 +42,11 @@ public class Exemple {
 
       PortaFIBPeticioDeFirmaWs api;
       {
-        PortaFIBPeticioDeFirmaWsService service;
-        service = new PortaFIBPeticioDeFirmaWsService();
-        api = service.getPortaFIBPeticioDeFirmaWs();
-
         String endpoint = endpointBase + "PortaFIBPeticioDeFirma";
+        PortaFIBPeticioDeFirmaWsService service;
+        URL wsdl = new URL(endpoint + "?wsdl");
+        service = new PortaFIBPeticioDeFirmaWsService(wsdl);
+        api = service.getPortaFIBPeticioDeFirmaWs();
 
         Map<String, Object> reqContext;
         reqContext = ((BindingProvider) api).getRequestContext();
@@ -56,11 +57,11 @@ public class Exemple {
 
       PortaFIBUsuariEntitatWs apiUE;
       {
-        PortaFIBUsuariEntitatWsService service;
-        service = new PortaFIBUsuariEntitatWsService();
-        apiUE = service.getPortaFIBUsuariEntitatWs();
-
         String endpoint = endpointBase + "PortaFIBUsuariEntitat";
+        PortaFIBUsuariEntitatWsService service;
+        URL wsdl = new URL(endpoint + "?wsdl");
+        service = new PortaFIBUsuariEntitatWsService(wsdl);
+        apiUE = service.getPortaFIBUsuariEntitatWs();
 
         Map<String, Object> reqContext;
         reqContext = ((BindingProvider) apiUE).getRequestContext();
