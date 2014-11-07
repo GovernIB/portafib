@@ -107,9 +107,9 @@ public abstract class PortaFIBTestUtils {
   public static PortaFIBUsuariAplicacioWs getUsuariAplicacioApi(String usr, String pwd) throws Exception {
     final String endpoint = getEndPoint(USUARI_APLICACIO);
     
-    URL wsdlLocation = new URL(endpoint + "?wsdl");
+    URL wsdl = new URL(endpoint + "?wsdl");
 
-    PortaFIBUsuariAplicacioWsService service = new PortaFIBUsuariAplicacioWsService(wsdlLocation);
+    PortaFIBUsuariAplicacioWsService service = new PortaFIBUsuariAplicacioWsService(wsdl);
 
     PortaFIBUsuariAplicacioWs api = service.getPortaFIBUsuariAplicacioWs();
 
@@ -119,10 +119,10 @@ public abstract class PortaFIBTestUtils {
   }
   
   
-  public static PortaFIBUsuariEntitatWs getUsuariEntitatApi() {
+  public static PortaFIBUsuariEntitatWs getUsuariEntitatApi() throws Exception {
     final String endpoint = getEndPoint(USUARI_ENTITAT);
-
-    PortaFIBUsuariEntitatWsService service = new PortaFIBUsuariEntitatWsService();
+    URL wsdl = new URL(endpoint + "?wsdl");
+    PortaFIBUsuariEntitatWsService service = new PortaFIBUsuariEntitatWsService(wsdl);
 
     PortaFIBUsuariEntitatWs api = service.getPortaFIBUsuariEntitatWs();
 
@@ -132,10 +132,10 @@ public abstract class PortaFIBTestUtils {
   }
   
   
-  public static PortaFIBPeticioDeFirmaWs getPeticioDeFirmaApi() {
+  public static PortaFIBPeticioDeFirmaWs getPeticioDeFirmaApi() throws Exception  {
     final String endpoint = getEndPoint(PETICIO_DE_FIRMA);
-
-    PortaFIBPeticioDeFirmaWsService service = new PortaFIBPeticioDeFirmaWsService();
+    URL wsdl = new URL(endpoint + "?wsdl");
+    PortaFIBPeticioDeFirmaWsService service = new PortaFIBPeticioDeFirmaWsService(wsdl);
 
     PortaFIBPeticioDeFirmaWs api = service.getPortaFIBPeticioDeFirmaWs();
 
