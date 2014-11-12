@@ -170,7 +170,11 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
     PlantillaFluxDeFirmesJPA plantilla = flux.getPlantillaFluxDeFirmes(); 
     if (!plantilla.getCompartir()) {
       String userapp = wsContext.getUserPrincipal().getName();
-      if (!userapp.equals(plantilla.getUsuariAplicacio())) {
+      if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
+        // TODO Traduir i llançar una excepció
+        log.error("L'usuari app connectat " + userapp + 
+            " no és el mateix que l'usuari aplicacio que té permis sobre la plantilla ('"
+            + plantilla.getUsuariAplicacioID() + "')");
         return null;
       }
     }
