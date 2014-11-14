@@ -72,6 +72,11 @@ public abstract class PortaFIBTestUtils {
   public static String getTestPersonaNif() {
     return testProperties.getProperty("test_nif");
   }
+  
+  public static boolean isWaitToSign() {
+    return "true".equals(testProperties.getProperty("waittosign"));
+  }
+  
 
   public static void configAddressUserPassword(String usr, String pwd,
       String endpoint, Object api) {

@@ -214,10 +214,16 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
           for (FirmaJPA firmaJPA : firmes) {
             Hibernate.initialize(firmaJPA.getUsuariEntitat());
             UsuariEntitatJPA ue = firmaJPA.getUsuariEntitat();
-            if (ue == null) {
-              log.error("No es pot inicialitzar l'usuariEntitat de la firma "
-                  + firmaJPA.getFirmaID() , new Exception());
-            } else {
+            if (ue == null) {              
+              ue = usuariEntitatEjb.findByPrimaryKey(firmaJPA.getDestinatariID());
+              if (ue == null) {
+                log.error("No es pot inicialitzar l'usuariEntitat " +  firmaJPA.getDestinatariID() + " de la firma "
+                    + firmaJPA.getFirmaID() , new Exception());
+              } else {
+                firmaJPA.setUsuariEntitat(ue);
+              }
+            }
+            if (ue != null) {
               if (isDebug) {
                 log.info("Inicialitzar l'usuariPersona " + ue.getUsuariPersonaID() 
                   + "(" + ue.getUsuariEntitatID() + ") de la firma " + firmaJPA.getFirmaID());

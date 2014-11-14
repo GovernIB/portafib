@@ -403,7 +403,21 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Hibernate.initialize(peticioDeFirma.getUsuariEntitat().getUsuariPersona());
     }
 
-    Hibernate.initialize(peticioDeFirma.getUsuariAplicacio());
+    if (peticioDeFirma.getUsuariAplicacioID() != null) {
+      Hibernate.initialize(peticioDeFirma.getUsuariAplicacio());
+      
+      if (peticioDeFirma.getUsuariAplicacio() == null) {
+        
+        peticioDeFirma.setUsuariAplicacio(
+            usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getUsuariAplicacioID()));
+
+        if (peticioDeFirma.getUsuariAplicacio() == null) {
+          log.error("No s'ha pogut inicialitzar l'usuari Aplicacio "
+            + peticioDeFirma.getUsuariAplicacioID(), new Exception());
+        }
+      }
+      
+    }
   }
 
   /**
@@ -768,6 +782,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
         for (FirmaJPA firma : firmes) {
           UsuariEntitatJPA usuariEntitatJPA = firma.getUsuariEntitat();
+          
           if (usuariEntitatJPA.getCarrec() == null) {
             destinatarisUsuari.add(firma.getDestinatariID());
           } else {

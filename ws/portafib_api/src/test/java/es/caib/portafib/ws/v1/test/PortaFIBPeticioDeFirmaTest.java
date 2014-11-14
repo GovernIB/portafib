@@ -15,6 +15,7 @@ import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.api.v1.AnnexBean;
 import es.caib.portafib.ws.api.v1.CustodiaInfoBean;
 import es.caib.portafib.ws.api.v1.FitxerBean;
+import es.caib.portafib.ws.api.v1.FluxDeFirmesWs;
 import es.caib.portafib.ws.api.v1.PeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBPeticioDeFirmaWs;
 import es.caib.portafib.ws.api.v1.PortaFIBUsuariEntitatWs;
@@ -196,26 +197,44 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
           "El fitxer original i el fitxer d'una peticio iniciada no han de ser iguals",
           fitxer.getTamany() != fitxerAFirmar.getTamany());
 
-      // Pause
-      peticioDeFirmaAPI.pausePeticioDeFirma(peticioDeFirmaID);
-      // Check estat
-      status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
-      Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT, status);
 
-      // Restart
-      peticioDeFirmaAPI.startPeticioDeFirma(peticioDeFirmaID);
-
-      status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
-      Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES, status);
-
-      // Get peticio de Firma
-      PeticioDeFirmaWs peticio = peticioDeFirmaAPI.getPeticioDeFirma(peticioDeFirmaID);
-
-      Assert.assertEquals(peticioDeFirmaWsResposta.getTitol(), peticio.getTitol());
-      Assert.assertEquals(peticioDeFirmaWsResposta.getPeticioDeFirmaID(),
-          peticio.getPeticioDeFirmaID());
-      Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-          peticio.getTipusEstatPeticioDeFirmaID());
+      if (isWaitToSign()) {
+        
+        System.out.println("Esperant a que es firmi o denegui la petició ...");
+        Thread.sleep(10000);
+        do {
+          System.out.println(" Esperant ...");
+          Thread.sleep(5000);
+          status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
+        } while(status != Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT &&
+            status != Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
+                
+        
+      } else {
+        
+        // Pause
+        peticioDeFirmaAPI.pausePeticioDeFirma(peticioDeFirmaID);
+        // Check estat
+        status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
+        Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT, status);
+  
+        // Restart
+        peticioDeFirmaAPI.startPeticioDeFirma(peticioDeFirmaID);
+  
+        status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
+        Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES, status);
+  
+        // Get peticio de Firma
+        PeticioDeFirmaWs peticio = peticioDeFirmaAPI.getPeticioDeFirma(peticioDeFirmaID);
+  
+        Assert.assertEquals(peticioDeFirmaWsResposta.getTitol(), peticio.getTitol());
+        Assert.assertEquals(peticioDeFirmaWsResposta.getPeticioDeFirmaID(),
+            peticio.getPeticioDeFirmaID());
+        Assert.assertEquals(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+            peticio.getTipusEstatPeticioDeFirmaID());
+      }
+      
+      
 
     } finally {
       if (peticioDeFirmaWsResposta != null) {
@@ -307,7 +326,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
   }
   
   
-  @Test
+  // XYZ @Test
   public void testTipusDocuments() throws Exception {
     List<TipusDocumentInfoWs> list = peticioDeFirmaAPI.getTipusDeDocuments("es");
     
@@ -316,5 +335,69 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
     }
 
   }
+  
+  
+  //@Test
+  public void testPlantillaFluxDeFirmes() throws Exception {
+    int status;
+    PeticioDeFirmaWs peticioDeFirmaWsResposta = null;
+    Long plantillaID = null;
+    try {
+    String[] nifs = new String[] { getTestPersonaNif() };
+    FluxDeFirmesWs fluxPlantilla = PeticioDeFirmaUtils.constructFluxDeFirmesWs(usuariEntitatAPI, nifs);
+    
+    
+    plantillaID = peticioDeFirmaAPI.createPlantillaFluxDeFirmes(fluxPlantilla, true);
+    
+       System.out.println("Plantilla ID = " + plantillaID);
+    
+    
+    final String titol = "Peticio a Partir de Plantilla";
+    final String remitent = "Sistra";
+    
+    
+    // Crear Peticio
+    FitxerBean fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromResource("test.pdf",
+        Constants.PDF_MIME_TYPE);
+
+    
+    FluxDeFirmesWs plantillaInstance = peticioDeFirmaAPI.instantiatePlantillaFluxDeFirmes(plantillaID);
+    
+
+    PeticioDeFirmaWs peticioDeFirmaWs;
+    peticioDeFirmaWs = PeticioDeFirmaUtils.constructPeticioDeFirma(titol,
+        remitent, fitxerAFirmar, plantillaInstance);
+    
+    peticioDeFirmaWsResposta = peticioDeFirmaAPI.createAndStartPeticioDeFirma(peticioDeFirmaWs);
+    long peticioDeFirmaID = peticioDeFirmaWsResposta.getPeticioDeFirmaID();
+    
+    if (isWaitToSign()) {
+      
+      System.out.println("Esperant a que es firmi o denegui la petició ...");
+      Thread.sleep(10000);
+      do {
+        System.out.println(" Esperant ...");
+        Thread.sleep(5000);
+        status = peticioDeFirmaAPI.getStateOfPeticioDeFirma(peticioDeFirmaID);
+      } while(status != Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT &&
+          status != Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
+              
+      
+    }
+    
+    } finally {
+      if (peticioDeFirmaWsResposta != null) {
+        peticioDeFirmaAPI.deletePeticioDeFirma(peticioDeFirmaWsResposta.getPeticioDeFirmaID());
+      }
+      if (plantillaID != null) {
+        // peticioDeFirmaAPI.deletePlantillaDeFluxDeFirmes(plantillaID)
+      }
+    }
+    
+    
+  }
+  
+  
+  
 
 }
