@@ -185,6 +185,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     public List<StringKeyValue> getReferenceListForCallbackVersio(HttpServletRequest request,
         ModelAndView mav, Where where)  throws I18NException {
      List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+          
+     __tmp.add(new StringKeyValue("-1" , "No Callback"));
      __tmp.add(new StringKeyValue("0" , "Portafirmas CAIB"));
      __tmp.add(new StringKeyValue("1" , "PortaFIB Callback v1.0"));
      return __tmp;

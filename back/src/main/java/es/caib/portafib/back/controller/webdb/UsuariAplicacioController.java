@@ -708,6 +708,7 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCallbackVersio(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("-1" , "-1"));
     __tmp.add(new StringKeyValue("0" , "0"));
     __tmp.add(new StringKeyValue("1" , "1"));
     return __tmp;

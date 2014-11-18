@@ -5,7 +5,7 @@
         method="${method}"  enctype="multipart/form-data">
 
   <%@include file="estatDeFirmaListCommon.jsp" %>
-  <div class="filterLine lead" style="margin-bootom:10px">
+  <div class="filterLine lead" style="margin-bottom:10px">
     <%@include file="estatDeFirmaListHeaderButtons.jsp" %>
     <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
 

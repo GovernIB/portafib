@@ -321,16 +321,21 @@ public class NotificacionsQueue implements MessageListener {
           log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
         }
 
-        if (usuariAplicacio.getCallbackVersio() == 0) {
-          // Enviem a l'api de Indra
-          enviarNotificacioApiIndra(notificacioInfo, usuariAplicacio);
-  
-        } else {
-  
-          // Enviem a l'API de Portafib
-          enviarNotificacioApiPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
-
+        switch(usuariAplicacio.getCallbackVersio()) {
+          case 0:
+            // Enviem a l'api de Indra
+            enviarNotificacioApiIndra(notificacioInfo, usuariAplicacio);
+          break;
+          
+          case 1:  
+            // Enviem a l'API de Portafib
+            enviarNotificacioApiPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
+            
+          case -1:
+          default:
+              // Do nothing
         }
+        
       }
 
       notificacioLogicaEjb.delete(notificacioJPA);

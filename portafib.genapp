@@ -16130,7 +16130,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            </void> 
           </void> 
           <void property="minAllowedValue"> 
-           <string>0,1</string> 
+           <string>-1,0,1</string> 
           </void> 
           <void property="notNullable"> 
            <boolean>true</boolean> 

@@ -1,7 +1,7 @@
 <%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
-<div class="lead" style="margin-bootom:10px">
+<div class="lead" style="margin-bottom:10px">
   <c:if test="${empty traduccioForm.entityNameCode}">
     <fmt:message var="entityname" key="traduccio.traduccio"/>
   </c:if>
