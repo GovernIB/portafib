@@ -228,6 +228,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     }
   }
   
+  
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER })
   @WebMethod
@@ -236,6 +237,50 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
       throws WsI18NException, Throwable {
     String entitatID = UsuariAplicacioCache.get().getEntitatID();
     return getUsuariEntitatIDByAdministrationID(administrationID, entitatID);
+  }
+  
+  
+  /**
+   * 
+   * @param username
+   * @param entitatID
+   * @return
+   * @throws WsI18NException
+   * @throws Throwable
+   */
+  @RolesAllowed({ PFI_ADMIN })
+  @WebMethod
+  @Override
+  public String getUsuariEntitatIDByUsuariPersonaID(
+      @WebParam(name = "usuariPersonaID") String username,
+      @WebParam(name = "entitatID") String entitatID)
+      throws WsI18NException, Throwable {
+    UsuariEntitatJPA ue;
+    FitxerJPA.enableEncryptedFileIDGeneration();
+    try {
+      ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, username);
+    } finally {
+      FitxerJPA.disableEncryptedFileIDGeneration();
+    }
+    
+    if (ue == null) {
+      // usuaripersona.noexisteix=No existeix usuari persona amb {0} {1}
+      throw new I18NException("usuaripersona.noexisteix", "UserName", username);      
+    } else {
+      return ue.getUsuariEntitatID();
+    }
+  }
+  
+  
+
+  @RolesAllowed({ PFI_ADMIN, PFI_USER })
+  @WebMethod
+  @Override
+  public String getUsuariEntitatIDInMyEntitatByUsuariPersonaID(
+      @WebParam(name = "usuariPersonaID") String username)
+      throws WsI18NException, Throwable {
+    String entitatID = UsuariAplicacioCache.get().getEntitatID();
+    return getUsuariEntitatIDByUsuariPersonaID(username, entitatID);
   }
 
 

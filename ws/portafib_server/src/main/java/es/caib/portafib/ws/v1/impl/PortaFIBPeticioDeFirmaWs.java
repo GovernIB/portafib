@@ -75,6 +75,18 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
       @WebParam(name = "fluxDeFirmesWs") FluxDeFirmesWs fluxDeFirmesWs,
       @WebParam(name = "compartir") boolean compartir)
     throws WsValidationException,WsI18NException, Throwable;
+  
+  /**
+   * 
+   * @param plantillaDeFluxDeFirmesID
+   * @throws WsI18NException
+   * @throws Throwable
+   */
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  public void deletePlantillaFluxDeFirmes(
+      @WebParam(name = "plantillaDeFluxDeFirmesID") long plantillaDeFluxDeFirmesID) 
+    throws WsI18NException, Throwable;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------

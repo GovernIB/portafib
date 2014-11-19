@@ -27,6 +27,7 @@ public class ObjectFactory {
     private final static QName _GetTipusDeDocuments_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getTipusDeDocuments");
     private final static QName _GetCurrentCustodiaPluginClass_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getCurrentCustodiaPluginClass");
     private final static QName _CreatePeticioDeFirmaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "createPeticioDeFirmaResponse");
+    private final static QName _DeletePlantillaFluxDeFirmes_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "deletePlantillaFluxDeFirmes");
     private final static QName _StartPeticioDeFirmaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "startPeticioDeFirmaResponse");
     private final static QName _GetDefaultCustodiaInfoResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getDefaultCustodiaInfoResponse");
     private final static QName _WsI18NError_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "WsI18NError");
@@ -34,6 +35,7 @@ public class ObjectFactory {
     private final static QName _GetVersionWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getVersionWs");
     private final static QName _ResetPeticioDeFirmaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "resetPeticioDeFirmaResponse");
     private final static QName _GetStateOfPeticioDeFirma_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getStateOfPeticioDeFirma");
+    private final static QName _DeletePlantillaFluxDeFirmesResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "deletePlantillaFluxDeFirmesResponse");
     private final static QName _GetLastSignedFileOfPeticioDeFirmaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getLastSignedFileOfPeticioDeFirmaResponse");
     private final static QName _GetLastSignedFileOfPeticioDeFirma_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getLastSignedFileOfPeticioDeFirma");
     private final static QName _PausePeticioDeFirma_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "pausePeticioDeFirma");
@@ -52,8 +54,8 @@ public class ObjectFactory {
     private final static QName _ResetPeticioDeFirma_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "resetPeticioDeFirma");
     private final static QName _GetSupportedLanguages_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedLanguages");
     private final static QName _StartPeticioDeFirma_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "startPeticioDeFirma");
-    private final static QName _GetSupportedLanguagesResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedLanguagesResponse");
     private final static QName _GetDefaultCustodiaInfo_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getDefaultCustodiaInfo");
+    private final static QName _GetSupportedLanguagesResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedLanguagesResponse");
     private final static QName _DownloadFileUsingEncryptedFileID_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "downloadFileUsingEncryptedFileID");
     private final static QName _InstantiatePlantillaFluxDeFirmes_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "instantiatePlantillaFluxDeFirmes");
     private final static QName _GetStateOfPeticioDeFirmaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getStateOfPeticioDeFirmaResponse");
@@ -73,259 +75,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PeticioDeFirmaWs }
-     * 
-     */
-    public PeticioDeFirmaWs createPeticioDeFirmaWs() {
-        return new PeticioDeFirmaWs();
-    }
-
-    /**
-     * Create an instance of {@link DownloadFileUsingEncryptedFileIDResponse }
-     * 
-     */
-    public DownloadFileUsingEncryptedFileIDResponse createDownloadFileUsingEncryptedFileIDResponse() {
-        return new DownloadFileUsingEncryptedFileIDResponse();
-    }
-
-    /**
-     * Create an instance of {@link PausePeticioDeFirma }
-     * 
-     */
-    public PausePeticioDeFirma createPausePeticioDeFirma() {
-        return new PausePeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NTranslation }
-     * 
-     */
-    public WsI18NTranslation createWsI18NTranslation() {
-        return new WsI18NTranslation();
-    }
-
-    /**
-     * Create an instance of {@link GetStateOfPeticioDeFirmaResponse }
-     * 
-     */
-    public GetStateOfPeticioDeFirmaResponse createGetStateOfPeticioDeFirmaResponse() {
-        return new GetStateOfPeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetVersion }
-     * 
-     */
-    public GetVersion createGetVersion() {
-        return new GetVersion();
-    }
-
-    /**
-     * Create an instance of {@link FirmaBean }
-     * 
-     */
-    public FirmaBean createFirmaBean() {
-        return new FirmaBean();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NArgument }
-     * 
-     */
-    public WsI18NArgument createWsI18NArgument() {
-        return new WsI18NArgument();
-    }
-
-    /**
-     * Create an instance of {@link CreatePlantillaFluxDeFirmes }
-     * 
-     */
-    public CreatePlantillaFluxDeFirmes createCreatePlantillaFluxDeFirmes() {
-        return new CreatePlantillaFluxDeFirmes();
-    }
-
-    /**
-     * Create an instance of {@link CreatePeticioDeFirmaResponse }
-     * 
-     */
-    public CreatePeticioDeFirmaResponse createCreatePeticioDeFirmaResponse() {
-        return new CreatePeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
-     * 
-     */
-    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
-        return new GetDefaultCustodiaInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link WsValidationErrors }
-     * 
-     */
-    public WsValidationErrors createWsValidationErrors() {
-        return new WsValidationErrors();
-    }
-
-    /**
-     * Create an instance of {@link CreatePeticioDeFirma }
-     * 
-     */
-    public CreatePeticioDeFirma createCreatePeticioDeFirma() {
-        return new CreatePeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link CreateAndStartPeticioDeFirmaResponse }
-     * 
-     */
-    public CreateAndStartPeticioDeFirmaResponse createCreateAndStartPeticioDeFirmaResponse() {
-        return new CreateAndStartPeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link InstantiatePlantillaFluxDeFirmes }
-     * 
-     */
-    public InstantiatePlantillaFluxDeFirmes createInstantiatePlantillaFluxDeFirmes() {
-        return new InstantiatePlantillaFluxDeFirmes();
-    }
-
-    /**
-     * Create an instance of {@link GetDefaultCustodiaInfo }
-     * 
-     */
-    public GetDefaultCustodiaInfo createGetDefaultCustodiaInfo() {
-        return new GetDefaultCustodiaInfo();
-    }
-
-    /**
-     * Create an instance of {@link ResetPeticioDeFirmaResponse }
-     * 
-     */
-    public ResetPeticioDeFirmaResponse createResetPeticioDeFirmaResponse() {
-        return new ResetPeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link BlocDeFirmesBean }
-     * 
-     */
-    public BlocDeFirmesBean createBlocDeFirmesBean() {
-        return new BlocDeFirmesBean();
-    }
-
-    /**
-     * Create an instance of {@link ResetPeticioDeFirma }
-     * 
-     */
-    public ResetPeticioDeFirma createResetPeticioDeFirma() {
-        return new ResetPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link AnnexBean }
-     * 
-     */
-    public AnnexBean createAnnexBean() {
-        return new AnnexBean();
-    }
-
-    /**
-     * Create an instance of {@link CustodiaInfoBean }
-     * 
-     */
-    public CustodiaInfoBean createCustodiaInfoBean() {
-        return new CustodiaInfoBean();
-    }
-
-    /**
-     * Create an instance of {@link GetTipusDeDocuments }
-     * 
-     */
-    public GetTipusDeDocuments createGetTipusDeDocuments() {
-        return new GetTipusDeDocuments();
-    }
-
-    /**
-     * Create an instance of {@link PeticioDeFirmaBean }
-     * 
-     */
-    public PeticioDeFirmaBean createPeticioDeFirmaBean() {
-        return new PeticioDeFirmaBean();
-    }
-
-    /**
-     * Create an instance of {@link GetLastSignedFileOfPeticioDeFirma }
-     * 
-     */
-    public GetLastSignedFileOfPeticioDeFirma createGetLastSignedFileOfPeticioDeFirma() {
-        return new GetLastSignedFileOfPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link GetPeticioDeFirma }
-     * 
-     */
-    public GetPeticioDeFirma createGetPeticioDeFirma() {
-        return new GetPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
-     * 
-     */
-    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
-        return new DownloadFileUsingEncryptedFileID();
-    }
-
-    /**
-     * Create an instance of {@link WsFieldValidationError }
-     * 
-     */
-    public WsFieldValidationError createWsFieldValidationError() {
-        return new WsFieldValidationError();
-    }
-
-    /**
-     * Create an instance of {@link PausePeticioDeFirmaResponse }
-     * 
-     */
-    public PausePeticioDeFirmaResponse createPausePeticioDeFirmaResponse() {
-        return new PausePeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetEntitatID }
-     * 
-     */
-    public GetEntitatID createGetEntitatID() {
-        return new GetEntitatID();
-    }
-
-    /**
-     * Create an instance of {@link MetadadaBean }
-     * 
-     */
-    public MetadadaBean createMetadadaBean() {
-        return new MetadadaBean();
-    }
-
-    /**
      * Create an instance of {@link GetSupportedLanguagesResponse }
      * 
      */
     public GetSupportedLanguagesResponse createGetSupportedLanguagesResponse() {
         return new GetSupportedLanguagesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetEntitatIDResponse }
-     * 
-     */
-    public GetEntitatIDResponse createGetEntitatIDResponse() {
-        return new GetEntitatIDResponse();
     }
 
     /**
@@ -337,19 +91,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateAndStartPeticioDeFirma }
+     * Create an instance of {@link FirmaBean }
      * 
      */
-    public CreateAndStartPeticioDeFirma createCreateAndStartPeticioDeFirma() {
-        return new CreateAndStartPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link DeletePeticioDeFirma }
-     * 
-     */
-    public DeletePeticioDeFirma createDeletePeticioDeFirma() {
-        return new DeletePeticioDeFirma();
+    public FirmaBean createFirmaBean() {
+        return new FirmaBean();
     }
 
     /**
@@ -361,139 +107,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTipusDeDocumentsResponse }
+     * Create an instance of {@link MetadadaBean }
      * 
      */
-    public GetTipusDeDocumentsResponse createGetTipusDeDocumentsResponse() {
-        return new GetTipusDeDocumentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link StartPeticioDeFirma }
-     * 
-     */
-    public StartPeticioDeFirma createStartPeticioDeFirma() {
-        return new StartPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link TipusDocumentInfoWs }
-     * 
-     */
-    public TipusDocumentInfoWs createTipusDocumentInfoWs() {
-        return new TipusDocumentInfoWs();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NError }
-     * 
-     */
-    public WsI18NError createWsI18NError() {
-        return new WsI18NError();
-    }
-
-    /**
-     * Create an instance of {@link BlocDeFirmesWs }
-     * 
-     */
-    public BlocDeFirmesWs createBlocDeFirmesWs() {
-        return new BlocDeFirmesWs();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedLanguages }
-     * 
-     */
-    public GetSupportedLanguages createGetSupportedLanguages() {
-        return new GetSupportedLanguages();
-    }
-
-    /**
-     * Create an instance of {@link GetLastSignedFileOfPeticioDeFirmaResponse }
-     * 
-     */
-    public GetLastSignedFileOfPeticioDeFirmaResponse createGetLastSignedFileOfPeticioDeFirmaResponse() {
-        return new GetLastSignedFileOfPeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link FitxerBean }
-     * 
-     */
-    public FitxerBean createFitxerBean() {
-        return new FitxerBean();
-    }
-
-    /**
-     * Create an instance of {@link GetCurrentCustodiaPluginClass }
-     * 
-     */
-    public GetCurrentCustodiaPluginClass createGetCurrentCustodiaPluginClass() {
-        return new GetCurrentCustodiaPluginClass();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionWs }
-     * 
-     */
-    public GetVersionWs createGetVersionWs() {
-        return new GetVersionWs();
-    }
-
-    /**
-     * Create an instance of {@link FluxDeFirmesBean }
-     * 
-     */
-    public FluxDeFirmesBean createFluxDeFirmesBean() {
-        return new FluxDeFirmesBean();
-    }
-
-    /**
-     * Create an instance of {@link GetStateOfPeticioDeFirma }
-     * 
-     */
-    public GetStateOfPeticioDeFirma createGetStateOfPeticioDeFirma() {
-        return new GetStateOfPeticioDeFirma();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionWsResponse }
-     * 
-     */
-    public GetVersionWsResponse createGetVersionWsResponse() {
-        return new GetVersionWsResponse();
-    }
-
-    /**
-     * Create an instance of {@link StartPeticioDeFirmaResponse }
-     * 
-     */
-    public StartPeticioDeFirmaResponse createStartPeticioDeFirmaResponse() {
-        return new StartPeticioDeFirmaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionResponse }
-     * 
-     */
-    public GetVersionResponse createGetVersionResponse() {
-        return new GetVersionResponse();
-    }
-
-    /**
-     * Create an instance of {@link CreatePlantillaFluxDeFirmesResponse }
-     * 
-     */
-    public CreatePlantillaFluxDeFirmesResponse createCreatePlantillaFluxDeFirmesResponse() {
-        return new CreatePlantillaFluxDeFirmesResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetCurrentCustodiaPluginClassResponse }
-     * 
-     */
-    public GetCurrentCustodiaPluginClassResponse createGetCurrentCustodiaPluginClassResponse() {
-        return new GetCurrentCustodiaPluginClassResponse();
+    public MetadadaBean createMetadadaBean() {
+        return new MetadadaBean();
     }
 
     /**
@@ -505,11 +123,411 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetVersionWsResponse }
+     * 
+     */
+    public GetVersionWsResponse createGetVersionWsResponse() {
+        return new GetVersionWsResponse();
+    }
+
+    /**
+     * Create an instance of {@link BlocDeFirmesWs }
+     * 
+     */
+    public BlocDeFirmesWs createBlocDeFirmesWs() {
+        return new BlocDeFirmesWs();
+    }
+
+    /**
+     * Create an instance of {@link CreateAndStartPeticioDeFirmaResponse }
+     * 
+     */
+    public CreateAndStartPeticioDeFirmaResponse createCreateAndStartPeticioDeFirmaResponse() {
+        return new CreateAndStartPeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
+     * 
+     */
+    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
+        return new GetDefaultCustodiaInfoResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetStateOfPeticioDeFirmaResponse }
+     * 
+     */
+    public GetStateOfPeticioDeFirmaResponse createGetStateOfPeticioDeFirmaResponse() {
+        return new GetStateOfPeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVersionWs }
+     * 
+     */
+    public GetVersionWs createGetVersionWs() {
+        return new GetVersionWs();
+    }
+
+    /**
+     * Create an instance of {@link GetVersionResponse }
+     * 
+     */
+    public GetVersionResponse createGetVersionResponse() {
+        return new GetVersionResponse();
+    }
+
+    /**
+     * Create an instance of {@link StartPeticioDeFirma }
+     * 
+     */
+    public StartPeticioDeFirma createStartPeticioDeFirma() {
+        return new StartPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link GetPeticioDeFirma }
+     * 
+     */
+    public GetPeticioDeFirma createGetPeticioDeFirma() {
+        return new GetPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link GetTipusDeDocumentsResponse }
+     * 
+     */
+    public GetTipusDeDocumentsResponse createGetTipusDeDocumentsResponse() {
+        return new GetTipusDeDocumentsResponse();
+    }
+
+    /**
+     * Create an instance of {@link DownloadFileUsingEncryptedFileIDResponse }
+     * 
+     */
+    public DownloadFileUsingEncryptedFileIDResponse createDownloadFileUsingEncryptedFileIDResponse() {
+        return new DownloadFileUsingEncryptedFileIDResponse();
+    }
+
+    /**
+     * Create an instance of {@link WsI18NTranslation }
+     * 
+     */
+    public WsI18NTranslation createWsI18NTranslation() {
+        return new WsI18NTranslation();
+    }
+
+    /**
+     * Create an instance of {@link WsFieldValidationError }
+     * 
+     */
+    public WsFieldValidationError createWsFieldValidationError() {
+        return new WsFieldValidationError();
+    }
+
+    /**
+     * Create an instance of {@link CreatePeticioDeFirma }
+     * 
+     */
+    public CreatePeticioDeFirma createCreatePeticioDeFirma() {
+        return new CreatePeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link WsValidationErrors }
+     * 
+     */
+    public WsValidationErrors createWsValidationErrors() {
+        return new WsValidationErrors();
+    }
+
+    /**
+     * Create an instance of {@link AnnexBean }
+     * 
+     */
+    public AnnexBean createAnnexBean() {
+        return new AnnexBean();
+    }
+
+    /**
+     * Create an instance of {@link GetCurrentCustodiaPluginClass }
+     * 
+     */
+    public GetCurrentCustodiaPluginClass createGetCurrentCustodiaPluginClass() {
+        return new GetCurrentCustodiaPluginClass();
+    }
+
+    /**
+     * Create an instance of {@link WsI18NArgument }
+     * 
+     */
+    public WsI18NArgument createWsI18NArgument() {
+        return new WsI18NArgument();
+    }
+
+    /**
+     * Create an instance of {@link CreatePeticioDeFirmaResponse }
+     * 
+     */
+    public CreatePeticioDeFirmaResponse createCreatePeticioDeFirmaResponse() {
+        return new CreatePeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link TipusDocumentInfoWs }
+     * 
+     */
+    public TipusDocumentInfoWs createTipusDocumentInfoWs() {
+        return new TipusDocumentInfoWs();
+    }
+
+    /**
+     * Create an instance of {@link GetEntitatIDResponse }
+     * 
+     */
+    public GetEntitatIDResponse createGetEntitatIDResponse() {
+        return new GetEntitatIDResponse();
+    }
+
+    /**
+     * Create an instance of {@link InstantiatePlantillaFluxDeFirmes }
+     * 
+     */
+    public InstantiatePlantillaFluxDeFirmes createInstantiatePlantillaFluxDeFirmes() {
+        return new InstantiatePlantillaFluxDeFirmes();
+    }
+
+    /**
+     * Create an instance of {@link DeletePlantillaFluxDeFirmesResponse }
+     * 
+     */
+    public DeletePlantillaFluxDeFirmesResponse createDeletePlantillaFluxDeFirmesResponse() {
+        return new DeletePlantillaFluxDeFirmesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetLastSignedFileOfPeticioDeFirma }
+     * 
+     */
+    public GetLastSignedFileOfPeticioDeFirma createGetLastSignedFileOfPeticioDeFirma() {
+        return new GetLastSignedFileOfPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link DeletePeticioDeFirma }
+     * 
+     */
+    public DeletePeticioDeFirma createDeletePeticioDeFirma() {
+        return new DeletePeticioDeFirma();
+    }
+
+    /**
      * Create an instance of {@link GetPeticioDeFirmaResponse }
      * 
      */
     public GetPeticioDeFirmaResponse createGetPeticioDeFirmaResponse() {
         return new GetPeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link PausePeticioDeFirmaResponse }
+     * 
+     */
+    public PausePeticioDeFirmaResponse createPausePeticioDeFirmaResponse() {
+        return new PausePeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetTipusDeDocuments }
+     * 
+     */
+    public GetTipusDeDocuments createGetTipusDeDocuments() {
+        return new GetTipusDeDocuments();
+    }
+
+    /**
+     * Create an instance of {@link CreatePlantillaFluxDeFirmes }
+     * 
+     */
+    public CreatePlantillaFluxDeFirmes createCreatePlantillaFluxDeFirmes() {
+        return new CreatePlantillaFluxDeFirmes();
+    }
+
+    /**
+     * Create an instance of {@link GetStateOfPeticioDeFirma }
+     * 
+     */
+    public GetStateOfPeticioDeFirma createGetStateOfPeticioDeFirma() {
+        return new GetStateOfPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link BlocDeFirmesBean }
+     * 
+     */
+    public BlocDeFirmesBean createBlocDeFirmesBean() {
+        return new BlocDeFirmesBean();
+    }
+
+    /**
+     * Create an instance of {@link PeticioDeFirmaWs }
+     * 
+     */
+    public PeticioDeFirmaWs createPeticioDeFirmaWs() {
+        return new PeticioDeFirmaWs();
+    }
+
+    /**
+     * Create an instance of {@link ResetPeticioDeFirma }
+     * 
+     */
+    public ResetPeticioDeFirma createResetPeticioDeFirma() {
+        return new ResetPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedLanguages }
+     * 
+     */
+    public GetSupportedLanguages createGetSupportedLanguages() {
+        return new GetSupportedLanguages();
+    }
+
+    /**
+     * Create an instance of {@link StartPeticioDeFirmaResponse }
+     * 
+     */
+    public StartPeticioDeFirmaResponse createStartPeticioDeFirmaResponse() {
+        return new StartPeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
+     * 
+     */
+    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
+        return new DownloadFileUsingEncryptedFileID();
+    }
+
+    /**
+     * Create an instance of {@link FitxerBean }
+     * 
+     */
+    public FitxerBean createFitxerBean() {
+        return new FitxerBean();
+    }
+
+    /**
+     * Create an instance of {@link GetEntitatID }
+     * 
+     */
+    public GetEntitatID createGetEntitatID() {
+        return new GetEntitatID();
+    }
+
+    /**
+     * Create an instance of {@link CreateAndStartPeticioDeFirma }
+     * 
+     */
+    public CreateAndStartPeticioDeFirma createCreateAndStartPeticioDeFirma() {
+        return new CreateAndStartPeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link CreatePlantillaFluxDeFirmesResponse }
+     * 
+     */
+    public CreatePlantillaFluxDeFirmesResponse createCreatePlantillaFluxDeFirmesResponse() {
+        return new CreatePlantillaFluxDeFirmesResponse();
+    }
+
+    /**
+     * Create an instance of {@link CustodiaInfoBean }
+     * 
+     */
+    public CustodiaInfoBean createCustodiaInfoBean() {
+        return new CustodiaInfoBean();
+    }
+
+    /**
+     * Create an instance of {@link FluxDeFirmesBean }
+     * 
+     */
+    public FluxDeFirmesBean createFluxDeFirmesBean() {
+        return new FluxDeFirmesBean();
+    }
+
+    /**
+     * Create an instance of {@link GetDefaultCustodiaInfo }
+     * 
+     */
+    public GetDefaultCustodiaInfo createGetDefaultCustodiaInfo() {
+        return new GetDefaultCustodiaInfo();
+    }
+
+    /**
+     * Create an instance of {@link DeletePlantillaFluxDeFirmes }
+     * 
+     */
+    public DeletePlantillaFluxDeFirmes createDeletePlantillaFluxDeFirmes() {
+        return new DeletePlantillaFluxDeFirmes();
+    }
+
+    /**
+     * Create an instance of {@link ResetPeticioDeFirmaResponse }
+     * 
+     */
+    public ResetPeticioDeFirmaResponse createResetPeticioDeFirmaResponse() {
+        return new ResetPeticioDeFirmaResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVersion }
+     * 
+     */
+    public GetVersion createGetVersion() {
+        return new GetVersion();
+    }
+
+    /**
+     * Create an instance of {@link WsI18NError }
+     * 
+     */
+    public WsI18NError createWsI18NError() {
+        return new WsI18NError();
+    }
+
+    /**
+     * Create an instance of {@link PeticioDeFirmaBean }
+     * 
+     */
+    public PeticioDeFirmaBean createPeticioDeFirmaBean() {
+        return new PeticioDeFirmaBean();
+    }
+
+    /**
+     * Create an instance of {@link PausePeticioDeFirma }
+     * 
+     */
+    public PausePeticioDeFirma createPausePeticioDeFirma() {
+        return new PausePeticioDeFirma();
+    }
+
+    /**
+     * Create an instance of {@link GetCurrentCustodiaPluginClassResponse }
+     * 
+     */
+    public GetCurrentCustodiaPluginClassResponse createGetCurrentCustodiaPluginClassResponse() {
+        return new GetCurrentCustodiaPluginClassResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetLastSignedFileOfPeticioDeFirmaResponse }
+     * 
+     */
+    public GetLastSignedFileOfPeticioDeFirmaResponse createGetLastSignedFileOfPeticioDeFirmaResponse() {
+        return new GetLastSignedFileOfPeticioDeFirmaResponse();
     }
 
     /**
@@ -537,6 +555,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "createPeticioDeFirmaResponse")
     public JAXBElement<CreatePeticioDeFirmaResponse> createCreatePeticioDeFirmaResponse(CreatePeticioDeFirmaResponse value) {
         return new JAXBElement<CreatePeticioDeFirmaResponse>(_CreatePeticioDeFirmaResponse_QNAME, CreatePeticioDeFirmaResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeletePlantillaFluxDeFirmes }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "deletePlantillaFluxDeFirmes")
+    public JAXBElement<DeletePlantillaFluxDeFirmes> createDeletePlantillaFluxDeFirmes(DeletePlantillaFluxDeFirmes value) {
+        return new JAXBElement<DeletePlantillaFluxDeFirmes>(_DeletePlantillaFluxDeFirmes_QNAME, DeletePlantillaFluxDeFirmes.class, null, value);
     }
 
     /**
@@ -600,6 +627,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getStateOfPeticioDeFirma")
     public JAXBElement<GetStateOfPeticioDeFirma> createGetStateOfPeticioDeFirma(GetStateOfPeticioDeFirma value) {
         return new JAXBElement<GetStateOfPeticioDeFirma>(_GetStateOfPeticioDeFirma_QNAME, GetStateOfPeticioDeFirma.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeletePlantillaFluxDeFirmesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "deletePlantillaFluxDeFirmesResponse")
+    public JAXBElement<DeletePlantillaFluxDeFirmesResponse> createDeletePlantillaFluxDeFirmesResponse(DeletePlantillaFluxDeFirmesResponse value) {
+        return new JAXBElement<DeletePlantillaFluxDeFirmesResponse>(_DeletePlantillaFluxDeFirmesResponse_QNAME, DeletePlantillaFluxDeFirmesResponse.class, null, value);
     }
 
     /**
@@ -765,21 +801,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetSupportedLanguagesResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getSupportedLanguagesResponse")
-    public JAXBElement<GetSupportedLanguagesResponse> createGetSupportedLanguagesResponse(GetSupportedLanguagesResponse value) {
-        return new JAXBElement<GetSupportedLanguagesResponse>(_GetSupportedLanguagesResponse_QNAME, GetSupportedLanguagesResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetDefaultCustodiaInfo }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getDefaultCustodiaInfo")
     public JAXBElement<GetDefaultCustodiaInfo> createGetDefaultCustodiaInfo(GetDefaultCustodiaInfo value) {
         return new JAXBElement<GetDefaultCustodiaInfo>(_GetDefaultCustodiaInfo_QNAME, GetDefaultCustodiaInfo.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetSupportedLanguagesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getSupportedLanguagesResponse")
+    public JAXBElement<GetSupportedLanguagesResponse> createGetSupportedLanguagesResponse(GetSupportedLanguagesResponse value) {
+        return new JAXBElement<GetSupportedLanguagesResponse>(_GetSupportedLanguagesResponse_QNAME, GetSupportedLanguagesResponse.class, null, value);
     }
 
     /**

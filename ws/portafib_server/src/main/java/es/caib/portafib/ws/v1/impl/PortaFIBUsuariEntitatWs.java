@@ -90,6 +90,19 @@ public interface PortaFIBUsuariEntitatWs extends IBaseAutenticatedWs {
   public String getUsuariEntitatIDInMyEntitatByAdministrationID(
       @WebParam(name = "administrationID") String administrationID)
       throws WsI18NException, Throwable;
+  
+  @RolesAllowed({ Constants.PFI_ADMIN })
+  @WebMethod
+  public String getUsuariEntitatIDByUsuariPersonaID(
+      @WebParam(name = "usuariPersonaID") String username,
+      @WebParam(name = "entitatID") String entitatID)
+      throws WsI18NException, Throwable;
+  
+  @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
+  @WebMethod
+  public String getUsuariEntitatIDInMyEntitatByUsuariPersonaID(
+      @WebParam(name = "usuariPersonaID") String username)
+      throws WsI18NException, Throwable;
 
 
   @RolesAllowed({ Constants.PFI_ADMIN })

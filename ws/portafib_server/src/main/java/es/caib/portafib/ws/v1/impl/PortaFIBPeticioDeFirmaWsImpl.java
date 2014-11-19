@@ -172,10 +172,11 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       String userapp = wsContext.getUserPrincipal().getName();
       if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
         // TODO Traduir i llançar una excepció
-        log.error("L'usuari app connectat " + userapp + 
-            " no és el mateix que l'usuari aplicacio que té permis sobre la plantilla ('"
-            + plantilla.getUsuariAplicacioID() + "')");
-        return null;
+        String msg = "L'usuari app connectat " + userapp + 
+        " no té permis sobre la plantilla amd ID " + plantillaDeFluxDeFirmesID; 
+        log.error(msg);
+     // Error desconegut: {0}
+        throw new I18NException("error.unknown", msg);
       }
     }
 
@@ -195,6 +196,44 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
     return fluxWs;
   }
+  
+  
+  /**
+   * @return retornarà null si la plantilla no existeix, no es propietat de l'usuari
+   *  aplicació que fa la cridada o no esta compartida.  
+   */
+  @RolesAllowed({ PFI_ADMIN ,PFI_USER })
+  @WebMethod
+  @Override
+  public void deletePlantillaFluxDeFirmes(
+      @WebParam(name = "plantillaDeFluxDeFirmesID") long plantillaDeFluxDeFirmesID) 
+    throws WsI18NException, Throwable {
+    
+    
+    FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
+    if (flux == null || flux.getPlantillaFluxDeFirmes() == null) {
+      return;
+    }
+    // Check que el propietari de la plantilla és de l'usuari app que crida
+    PlantillaFluxDeFirmesJPA plantilla = flux.getPlantillaFluxDeFirmes(); 
+    {
+      String userapp = wsContext.getUserPrincipal().getName();
+      if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
+        // TODO Traduir i llançar una excepció
+        String msg = "L'usuari app connectat " + userapp + 
+        " no és propietari de la plantilla ('"
+        + plantilla.getUsuariAplicacioID() + "')";
+        log.error(msg);
+        // Error desconegut: {0}
+        throw new I18NException("error.unknown", msg);
+      }
+    }
+
+    fluxDeFirmesLogicaEjb.deleteFull(plantillaDeFluxDeFirmesID);
+  
+  }
+  
+  
   
   /**
    * 

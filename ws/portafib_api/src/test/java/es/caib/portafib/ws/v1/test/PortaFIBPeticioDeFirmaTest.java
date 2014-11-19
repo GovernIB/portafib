@@ -337,7 +337,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
   }
   
   
-  //@Test
+  @Test
   public void testPlantillaFluxDeFirmes() throws Exception {
     int status;
     PeticioDeFirmaWs peticioDeFirmaWsResposta = null;
@@ -390,7 +390,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
         peticioDeFirmaAPI.deletePeticioDeFirma(peticioDeFirmaWsResposta.getPeticioDeFirmaID());
       }
       if (plantillaID != null) {
-        // peticioDeFirmaAPI.deletePlantillaDeFluxDeFirmes(plantillaID)
+        peticioDeFirmaAPI.deletePlantillaFluxDeFirmes(plantillaID);
       }
     }
     

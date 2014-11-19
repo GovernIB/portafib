@@ -46,8 +46,12 @@
 <xs:element name="getUsuariEntitat" type="tns:getUsuariEntitat" />
 <xs:element name="getUsuariEntitatIDByAdministrationID" type="tns:getUsuariEntitatIDByAdministrationID" />
 <xs:element name="getUsuariEntitatIDByAdministrationIDResponse" type="tns:getUsuariEntitatIDByAdministrationIDResponse" />
+<xs:element name="getUsuariEntitatIDByUsuariPersonaID" type="tns:getUsuariEntitatIDByUsuariPersonaID" />
+<xs:element name="getUsuariEntitatIDByUsuariPersonaIDResponse" type="tns:getUsuariEntitatIDByUsuariPersonaIDResponse" />
 <xs:element name="getUsuariEntitatIDInMyEntitatByAdministrationID" type="tns:getUsuariEntitatIDInMyEntitatByAdministrationID" />
 <xs:element name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse" type="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse" />
+<xs:element name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID" type="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID" />
+<xs:element name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" type="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" />
 <xs:element name="getUsuariEntitatResponse" type="tns:getUsuariEntitatResponse" />
 <xs:element name="getUsuariPersona" type="tns:getUsuariPersona" />
 <xs:element name="getUsuariPersonaIDByAdministrationID" type="tns:getUsuariPersonaIDByAdministrationID" />
@@ -154,6 +158,16 @@
 <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string" />
 </xs:sequence>
 </xs:complexType>
+<xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+<xs:sequence>
+<xs:element minOccurs="0" name="usuariPersonaID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
 <xs:complexType name="createCarrec">
 <xs:sequence>
 <xs:element minOccurs="0" name="carrec" type="tns:carrecWs" />
@@ -222,6 +236,17 @@
 <xs:complexType name="getUsuariEntitatResponse">
 <xs:sequence>
 <xs:element minOccurs="0" name="return" type="tns:usuariEntitatBean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUsuariEntitatIDByUsuariPersonaID">
+<xs:sequence>
+<xs:element minOccurs="0" name="usuariPersonaID" type="xs:string" />
+<xs:element minOccurs="0" name="entitatID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="createCarrecSimple">
@@ -498,12 +523,12 @@
     <wsdl:part element="tns:downloadFileUsingEncryptedFileID" name="parameters">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUsuariPersonaIDByAdministrationIDResponse">
-    <wsdl:part element="tns:getUsuariPersonaIDByAdministrationIDResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCarrecsByEntitatID">
     <wsdl:part element="tns:getCarrecsByEntitatID" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariPersonaIDByAdministrationIDResponse">
+    <wsdl:part element="tns:getUsuariPersonaIDByAdministrationIDResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="activateUsuariEntitat">
@@ -578,6 +603,10 @@
     <wsdl:part element="tns:getUsuariPersonaIDByAdministrationID" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    <wsdl:part element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteCarrec">
     <wsdl:part element="tns:deleteCarrec" name="parameters">
     </wsdl:part>
@@ -606,12 +635,20 @@
     <wsdl:part element="tns:deactivateCarrec" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaID">
+    <wsdl:part element="tns:getUsuariEntitatIDByUsuariPersonaID" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationID">
     <wsdl:part element="tns:getUsuariEntitatIDInMyEntitatByAdministrationID" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsuariEntitatIDByAdministrationIDResponse">
     <wsdl:part element="tns:getUsuariEntitatIDByAdministrationIDResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+    <wsdl:part element="tns:getUsuariEntitatIDByUsuariPersonaIDResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsuariEntitat">
@@ -666,6 +703,10 @@
     <wsdl:part element="tns:createCarrecSimple" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    <wsdl:part element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteCarrecResponse">
     <wsdl:part element="tns:deleteCarrecResponse" name="parameters">
     </wsdl:part>
@@ -710,6 +751,14 @@
     </wsdl:input>
       <wsdl:output message="tns:getCarrecsOfMyEntitatResponse" name="getCarrecsOfMyEntitatResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+      <wsdl:input message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID" name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    </wsdl:input>
+      <wsdl:output message="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse" name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createCarrec">
       <wsdl:input message="tns:createCarrec" name="createCarrec">
@@ -774,6 +823,14 @@
     </wsdl:input>
       <wsdl:output message="tns:getUsuariEntitatResponse" name="getUsuariEntitatResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
+      <wsdl:input message="tns:getUsuariEntitatIDByUsuariPersonaID" name="getUsuariEntitatIDByUsuariPersonaID">
+    </wsdl:input>
+      <wsdl:output message="tns:getUsuariEntitatIDByUsuariPersonaIDResponse" name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WsI18NException" name="WsI18NException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createCarrecSimple">
       <wsdl:input message="tns:createCarrecSimple" name="createCarrecSimple">
@@ -1009,6 +1066,18 @@
         <soap:fault name="WsI18NException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDInMyEntitatByUsuariPersonaIDResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getUsuariEntitatIDInMyEntitatByAdministrationID">
       <soap:operation soapAction="" style="document" />
       <wsdl:input name="getUsuariEntitatIDInMyEntitatByAdministrationID">
@@ -1077,6 +1146,18 @@
       <wsdl:output name="getUsuariEntitatResponse">
         <soap:body use="literal" />
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsuariEntitatIDByUsuariPersonaID">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getUsuariEntitatIDByUsuariPersonaID">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUsuariEntitatIDByUsuariPersonaIDResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createCarrecSimple">
       <soap:operation soapAction="" style="document" />
