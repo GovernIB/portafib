@@ -170,13 +170,12 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/error.jsp</location>
     </error-page>
-
-
  
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>portafib_back-public</web-resource-name>            
+            <web-resource-name>portafib_back-public</web-resource-name>   
             <url-pattern>/applet/*</url-pattern>
+            <url-pattern>/carrecscaib/*</url-pattern>
             <url-pattern>/css/*</url-pattern>
             <url-pattern>/img/*</url-pattern>
             <url-pattern>/js/*</url-pattern>

@@ -646,4 +646,22 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     return usuariEntitatJPA;
   }
 
+  @Override
+  public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID)
+      throws I18NException {
+
+
+    UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
+    List<String> correusAdEn = roleUsuariEntitatEjb.executeQuery(
+        usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
+        Where.AND(
+            RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
+            usuariEntitatQueryPath.ENTITATID().equal(entitatID)
+        )
+      );
+    // Eliminam duplicats    
+    return new ArrayList<String>(new HashSet<String>(correusAdEn));
+  }
+
+
 }

@@ -1196,10 +1196,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             {
               UsuariEntitatJPA dest = firmaJPA.getUsuariEntitat();
               if (dest.getCarrec() == null) {
+                // Usuari Persona
                 destinatariReal = dest.getUsuariEntitatID();
               } else {
-                // És un carrec, llavors hem de cercar l'usuari entitat associat
-                // a aquest càrrec
+                // És un carrec, llavors:
+                // (1) Hem de verificar que estigui actiu
+                // (2) Hem de cercar l'usuari entitat (persona) associat a aquest càrrec
+                if (!dest.isActiu()) {
+                  // TODO TRADUIR !!!!!!!
+                  String msg = "El carrec "+ dest.getCarrec() + "(ID=" + dest.getUsuariEntitatID()
+                    + ", " + dest.getEntitatID() + ") no esta actiu. "
+                    + "Esperi a que s'activi o se li assigni una persona."; 
+                  I18NException e = new I18NException("error.unknown",msg);
+                  log.error(msg, e);
+                  throw e;                  
+                }
+
                 destinatariReal = usuariEntitatEjb.executeQueryOne(
                     UsuariEntitatFields.USUARIENTITATID, Where.AND(
                         UsuariEntitatFields.ENTITATID.equal(dest.getEntitatID()),
@@ -1208,8 +1220,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 if (destinatariReal == null) {
                   // TODO TRADUIR !!!!!!!
                   String msg = "No s'ha trobat un usuari persona"
-                    + " associat al carrec amb ID=" + dest.getUsuariEntitatID() + "("
-                    + dest.getCarrec() + ", " + dest.getEntitatID() + ")"; 
+                    + " associat al carrec "+ dest.getCarrec() + "(ID=" + dest.getUsuariEntitatID()
+                    + ", " + dest.getEntitatID() + ")"; 
                   I18NException e = new I18NException("error.unknown",msg);
                   log.error(msg, e);
                   throw e;

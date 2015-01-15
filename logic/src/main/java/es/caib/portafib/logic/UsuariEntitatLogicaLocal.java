@@ -69,4 +69,8 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
 
   public void updateCarrec(String carrecID, String administrationID)
     throws I18NValidationException, I18NException;
+  
+  
+  public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException;
+  
 }

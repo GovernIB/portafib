@@ -14,6 +14,7 @@
         <sec:logout logout-success-url="/index.jsp" />
 
         <sec:intercept-url pattern="/applet/**" access="permitAll"/>
+        <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
 		<sec:intercept-url pattern="/js/**" access="permitAll"/>
 		<sec:intercept-url pattern="/doc/**" access="permitAll"/>
 		<sec:intercept-url pattern="/img/**" access="permitAll"/>

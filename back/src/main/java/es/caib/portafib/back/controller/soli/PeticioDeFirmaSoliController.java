@@ -1516,11 +1516,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     } catch (I18NException e) {
       String msg = annexController.createMessageError(request, "error.deleting", annexID, e);
       log.error(msg, e);
-      if (annex == null) {
-        return getModelAndViewFromPeticioID2(null);
-      } else {
-        return getModelAndViewFromPeticioID2(annex.getPeticioDeFirmaID());
-      }
+      return getModelAndViewFromPeticioID2(annex.getPeticioDeFirmaID());
     }
   }
   

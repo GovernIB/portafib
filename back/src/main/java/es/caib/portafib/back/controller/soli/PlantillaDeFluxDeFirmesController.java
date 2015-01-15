@@ -499,7 +499,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
           
         // && peticio.getTipusEstatPeticioDeFirmaID() != TIPUSESTATPETICIODEFIRMA_NOINICIAT
         */
-        log.info(" Entra dins processarBackgroundColors");
+        
         procesaBackgroundColors(ff, form, ff.getPeticioDeFirma() != null );
       // }
       
@@ -646,7 +646,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     
     Map<Long,String> backgroundColorsOfFirma = new HashMap<Long,String>();
     
+
     final boolean isDebug = log.isDebugEnabled();
+    
+    if (isDebug) {
+      log.info(" Entra dins processarBackgroundColors");
+    }
+    
     
     for (BlocDeFirmesJPA bloc : ff.getBlocDeFirmess()) {
       Set<FirmaJPA> firmes = bloc.getFirmas();
@@ -679,7 +685,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       }
 
       for (FirmaJPA firma : firmes) {
-        if (isDebug) {  log.info("===== COLORS: Firma[" + firma.getFirmaID() + "]"); }
+        
         if (!firma.getUsuariEntitat().isActiu()) {
           backgroundColorsOfFirma.put(firma.getFirmaID(), VERMELL);
         } else {
@@ -710,6 +716,10 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
               backgroundColorsOfFirma.put(firma.getFirmaID(), VERD);
             }
           }
+        }
+        if (isDebug) {
+          log.info("===== COLORS: Firma[" + firma.getFirmaID() + "] = "
+             + backgroundColorsOfFirma.get(firma.getFirmaID())); 
         }
       }
     }

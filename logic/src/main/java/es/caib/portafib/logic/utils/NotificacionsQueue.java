@@ -721,7 +721,9 @@ public class NotificacionsQueue implements MessageListener {
 
     attributes.setDateLastUpdate(XMLGregorianCalendarConverter.asXMLGregorianCalendar(fe.getDateEvent()));
 
-    log.info(" XYZ Callback ExternalData: ]" + fe.getPeticioDeFirmaInfoAdicional() + "[");
+    if (log.isDebugEnabled()) {
+      log.debug(" Callback ExternalData: ]" + fe.getPeticioDeFirmaInfoAdicional() + "[");
+    }
 
     attributes.setExternalData(fe.getPeticioDeFirmaInfoAdicional()); 
     attributes.setSignAnnexes(fe.isSignAnnexos());

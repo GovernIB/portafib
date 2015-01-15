@@ -201,7 +201,6 @@
                               <div class="radius"
                                 style="float: right; border: 2px solid #0000ff; margin: 4px; padding: 8px;">
                                 <center>
-
                                   <div class="btn-group" style="text-align: left">
                                     <button
                                       class="btn btn-success btn-mini dropdown-toggle"
@@ -295,9 +294,13 @@
                                 <c:if test="${not empty background}">
                                   <c:set var="background">background:#${background};</c:set>
                                 </c:if>
+                                
+                                <c:if test="${firma.usuariEntitat.actiu == false}">
+                                  <c:set var="backgroundimage">background-image: url(<c:url value='/img/userdisabled.png'/>);background-repeat: no-repeat;background-position: center; </c:set>                                  
+                                </c:if>
 
                                 <div class="radius"
-                                  style="${background} float:left; border: 2px solid #00ff00; margin: 4px; padding: 8px; text-align: left">
+                                  style="${background} ${backgroundimage} float:left; border: 2px solid #00ff00; margin: 4px; padding: 8px; text-align: left">
                                   <c:if test="${pfi:isDesenvolupament()}">
                                   ${firma.firmaID}
                                   </c:if>
@@ -334,7 +337,7 @@
                                     <td>                       
                                     <label class="checkbox inline">
                                       <input type="checkbox"
-                                      ${firma.obligatori? 'checked="checked"': ''}
+                                      ${firma.obligatori? 'checked="checked" ': ''}
                                       ${readOnly? 'disabled="disabled"' : ''} 
                                       onclick="ferFirmaObligatoria('${bloc.blocDeFirmesID}','${firma.firmaID}')" />
                                         <fmt:message key="firma.obligatori" />
