@@ -6,13 +6,14 @@
   <artifactId>portafib-sqlgenerator</artifactId>
   <packaging>jar</packaging>
 
-  <name>PortaFIB Scripts - SQL Generator</name>
+  <name>PortaFIB - Scripts - SQL Generator</name>
   
   <parent>
 		<groupId>es.caib.portafib</groupId>
 		<artifactId>portafib-scripts</artifactId>
 		<version>1.0.0</version>
   </parent>
+  
 
   <properties>	
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,50 +21,22 @@
 
   <dependencies>
 	
-	<dependency>
-		<groupId>es.caib.portafib</groupId>
-		<artifactId>portafib-model</artifactId>
-		<version>${project.version}</version>
-		<type>jar</type>
-		<scope>compile</scope>
-	</dependency>
-	
-	<dependency>
-		<groupId>es.caib.portafib</groupId>
-		<artifactId>portafib-jpa</artifactId>
-		<version>${project.version}</version>
-		<type>jar</type>
-		<scope>compile</scope>
-	</dependency>
-
-    <dependency>
-	  <groupId>org.fundaciobit.genapp</groupId>
-	  <artifactId>genapp-core</artifactId>
-	  <version>1.0</version>
-	  <scope>compile</scope>
-	</dependency>
-
-        <dependency>
-          <groupId>javax.persistence</groupId>
-          <artifactId>persistence-api</artifactId>
-          <version>1.0</version>
-          <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>3.3.2.GA</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.3.2.GA</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>es.caib.portafib</groupId>
+			<artifactId>portafib-model</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 		
+		<dependency>
+			<groupId>es.caib.portafib</groupId>
+			<artifactId>portafib-jpa</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	
 		<dependency>
 			<groupId>es.caib.portafib</groupId>
 			<artifactId>portafib-persistence-jta</artifactId>
@@ -71,121 +44,49 @@
 			<type>jar</type>
 		</dependency>
 
+        <dependency>
+		  <groupId>org.fundaciobit.genapp</groupId>
+  		  <artifactId>genapp-gen</artifactId>
+		  <version>1.0</version>
+	  	</dependency>
+
+        <dependency>
+          <groupId>javax.persistence</groupId>
+          <artifactId>persistence-api</artifactId>
+          <version>1.0</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.3.2.GA</version>
+        </dependency>
+
+		<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+
+		<dependency>
+			 <groupId>org.slf4j</groupId>
+			 <artifactId>slf4j-log4j12</artifactId>
+			 <version>1.5.4</version>			 
+		</dependency>
+	
   </dependencies>
   
 
   
-  <build>
-        
-        <filters>
-            <filter>./hibernate.properties</filter>
-        </filters>
-       
+<build> 
         <plugins>
-		
-			<plugin>
-			<artifactId>maven-jar-plugin</artifactId>
-			<version>2.4</version>
-			<executions>
-			  <execution>
-				<id>default-jar</id>
-				<phase>never</phase>
-				<configuration>
-				  <finalName>unwanted</finalName>
-				  <classifier>unwanted</classifier>
-				</configuration>
-			  </execution>
-			</executions>
-		  </plugin>
-		  
-		  <plugin>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<configuration>
-				<!-- Run only tests whose name end with "UnitTest" -->
-				<includes>
-					<include>**</include>
-				</includes>
-			</configuration>
-		</plugin>
-		
-		
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-					<artifactId>properties-maven-plugin</artifactId>
-					<version>1.0-alpha-1</version>
-					<executions>
-					<execution>
-					<phase>initialize</phase>
-					<goals>
-					  <goal>read-project-properties</goal>
-					</goals>
-					<configuration>
-					  <files>
-						<file>${basedir}/hibernate.properties</file>
-					  </files>
-					</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.google.code.maven-replacer-plugin</groupId>
-				<artifactId>maven-replacer-plugin</artifactId>
-				<version>1.4.0</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<file>./template/hibernate.cfg.xml</file>
-					<outputFile>./target/hibernate.cfg.xml</outputFile>
-					<replacements>
-						<replacement>
-							<token>HIBERNATE_DIALECT</token>
-							<value>${hibernate.dialect}</value>
-						</replacement>
-					</replacements>
-				</configuration>
-			</plugin>
-
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>hibernate3-maven-plugin</artifactId>
-				<version>2.2</version>
-                <executions>
-                <execution>
-                  <phase>process-test-classes</phase><!--process-classes-->
-                  <goals>
-                    <goal>hbm2ddl</goal>
-                  </goals>
-                </execution>
-                </executions>
-                <configuration>
-                <components>
-                  <component>
-                    <name>hbm2ddl</name>
-                   <implementation>jpaconfiguration</implementation>
-				   <outputDirectory>.</outputDirectory>
-                  </component>
-                </components>
-                <componentProperties>
-				  <configurationfile>./target/hibernate.cfg.xml</configurationfile>
-                  <persistenceunit>portafibDB</persistenceunit>
-                  <outputfilename>${hibernate.dialect}_create_schema.sql</outputfilename>
-                  <drop>false</drop>
-                  <create>true</create>
-                  <export>false</export>
-                  <format>true</format>
-                </componentProperties>
-                </configuration>
-            </plugin>
         </plugins>
-  </build>
+</build>
   
 </project>

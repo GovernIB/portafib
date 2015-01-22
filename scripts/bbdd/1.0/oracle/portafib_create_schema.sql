@@ -1010,32 +1010,18 @@
 
  -- INICI UNIQUES
     alter table pfi_algorismedefirma add constraint pfi_algofirma_nom_uk unique (nom);
-
     alter table pfi_grupentitat add constraint pfi_grupentita_nomentitat_uk unique (nom, entitatid);
-
     alter table pfi_grupentitatusuarientitat add constraint pfi_grupusrent_usrgrup_uk unique (usuarientitatid, grupentitatid);
-
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrpl_grupflux_uk unique (grupentitatid, fluxdefirmesid);
-
     alter table pfi_permisusuariplantilla add constraint pfi_permisuspl_usrflux_uk unique (usuarientitatid, fluxdefirmesid);
-
     alter table pfi_peticiodefirma add constraint pfi_petifirma_fluxfirmesid_uk unique (fluxdefirmesid);
-
     alter table pfi_rebreavis add constraint pfi_rebreavis_tnotiusr_uk unique (tipusnotificacioid, usuarientitatid);
-
     alter table pfi_roleusuariaplicacio add constraint pfi_roleusrapp_approle_uk unique (usuariaplicacioid, roleid);
-
     alter table pfi_roleusuarientitat add constraint pfi_roleusrent_roleusrent_uk unique (roleid, usuarientitatid);
-
     alter table pfi_tipusdocumentcoladele add constraint pfi_tipusdoccd_codetdoc_uk unique (colaboraciodelegacioid, tipusdocumentid);
-
     alter table pfi_tipusmetadada add constraint pfi_tipmetada_nom_uk unique (nom);
-
     alter table pfi_usuarientitat add constraint pfi_usrentitat_perentcar_uk unique (usuaripersonaid, entitatid, carrec);
-
     alter table pfi_usuarientitatfavorit add constraint pfi_favorit_origfavo_uk unique (origenid, favoritid);
-
     alter table pfi_usuaripersona add constraint pfi_persona_nif_uk unique (nif);
-
  -- FINAL UNIQUES
 
