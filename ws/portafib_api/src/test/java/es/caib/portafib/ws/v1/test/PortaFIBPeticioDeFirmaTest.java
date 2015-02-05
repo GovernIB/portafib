@@ -326,7 +326,7 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
   }
   
   
-  // XYZ @Test
+  @Test
   public void testTipusDocuments() throws Exception {
     List<TipusDocumentInfoWs> list = peticioDeFirmaAPI.getTipusDeDocuments("es");
     

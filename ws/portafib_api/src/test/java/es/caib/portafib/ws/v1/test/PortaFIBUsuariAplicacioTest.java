@@ -33,7 +33,7 @@ public final class PortaFIBUsuariAplicacioTest extends PortaFIBTestUtils {
 
   /**
    * S'executa una vegada abans de l'execució de tots els tests d'aquesta classe
-   * 
+   *
    * @throws Exception
    */
   @BeforeClass

@@ -340,7 +340,7 @@
 			Per veure les cridades accedir a http://localhost:8080/portafirmascb
 		-->
 		<profile>
-		   <id>ws-indra-callback-server</id>
+		   <id>ws-portafirmas-callback-server</id>
 		   <dependencies>
 				<dependency>
 					<groupId>es.caib.portafib</groupId>
@@ -371,10 +371,10 @@
 		</profile>
 		
 		
-		<!-- WS de INDRA -->
+		<!-- WS de PORTAFIRMAS antic de CAIB -->
 		<!-- http://localhost:8080/portafirmasws/web/services/CWS -->
 		<profile>
-		   <id>ws-indra</id>
+		   <id>ws-portafirmas</id>
 		   <dependencies>
 				<dependency>
 					<groupId>es.caib.portafib</groupId>

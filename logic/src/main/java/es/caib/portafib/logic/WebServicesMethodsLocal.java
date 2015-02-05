@@ -16,7 +16,7 @@ import org.fundaciobit.genapp.common.query.Where;
  *
  */
 @Local
-public interface WebServicesMethodsLocal {
+public interface WebServicesMethodsLocal extends PeticioDeFirmaLogicaLocal {
 
   public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma)
     throws Exception, I18NException, I18NValidationException;

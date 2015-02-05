@@ -26,36 +26,36 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless(name = "WebServicesMethodsEJB")
 @SecurityDomain("seycon")
 @RunAs("PFI_USER")
-public class WebServicesMethodsEJB  implements WebServicesMethodsLocal {
+public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB  implements WebServicesMethodsLocal {
   
   protected final Logger log = Logger.getLogger(getClass());
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
-  private PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  //@EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
+  //private PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+  //@EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
+  //protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
   
 
   @Override
   public PeticioDeFirmaJPA createAndStartPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) 
     throws Exception, I18NException, I18NValidationException {
     
-    peticioDeFirma = peticioDeFirmaLogicaEjb.createFull(peticioDeFirma);
+    peticioDeFirma = /*peticioDeFirmaLogicaEjb.*/createFull(peticioDeFirma);
     
-    peticioDeFirmaLogicaEjb.start(peticioDeFirma.getPeticioDeFirmaID());
+    /*peticioDeFirmaLogicaEjb.*/start(peticioDeFirma.getPeticioDeFirmaID());
     return peticioDeFirma;
   }
   
   @Override
   public List<Long> deletePeticionsDeFirma(Where filtre, String usuariAplicacioID) throws Exception, I18NException {
     
-    List<Long> list = peticioDeFirmaLogicaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, filtre);
+    List<Long> list = /*peticioDeFirmaLogicaEjb.*/executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, filtre);
     
     Set<Long> fitxers = new HashSet<Long>();
     for (Long peticioDeFirmaID : list) {
-      fitxers.addAll(peticioDeFirmaLogicaEjb.deleteFullUsingUsuariAplicacio(peticioDeFirmaID, usuariAplicacioID));
+      fitxers.addAll(/*peticioDeFirmaLogicaEjb.*/deleteFullUsingUsuariAplicacio(peticioDeFirmaID, usuariAplicacioID));
     }
     
     

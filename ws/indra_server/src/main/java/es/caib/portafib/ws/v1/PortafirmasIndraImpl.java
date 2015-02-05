@@ -258,7 +258,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     RESULT_OK.setCode(0);
     RESULT_OK.setMessage("OK");
   }
+  
+  
 
+  
   /**
    * 
    * @param application
@@ -385,6 +388,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       UsuariAplicacioJPA usuariAplicacio) {
     
     if (th instanceof SoapFault) {
+      log.error("SOAPFAULT: Error cridant a " + methodname + ": " + th.getMessage(), th);
       return (SoapFault)th;
     }
     if (th instanceof I18NException) {
@@ -399,7 +403,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       log.error("ValidationException::Error cridant a " + methodname + ":" + msg, ve);
       throw createFaultErrorGeneral(msg);
     }
-    log.error("Error cridant a " + methodname + ": " + th.getMessage(), th);
+    log.error("EXCEPTION: Error cridant a " + methodname + ": " + th.getMessage(), th);
     return createFaultErrorGeneral(th);
   }
   
@@ -2286,8 +2290,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
     
-    
-    log.info(" XYZ Indra Server ExternalData: ]" + attributes.getExternalData() + "[");
+    if (log.isDebugEnabled()) {
+      log.debug("Indra Server ExternalData: ]" + attributes.getExternalData() + "[");
+    }
 
     peticioDeFirma.setInformacioAdicional(attributes.getExternalData());
     

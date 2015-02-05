@@ -6,7 +6,6 @@ import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaEJB;
 import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
-
 import es.caib.portafib.jpa.AnnexFirmatJPA;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;

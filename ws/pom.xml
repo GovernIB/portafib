@@ -28,7 +28,7 @@
 		</profile>
 
 		<profile>
-			<id>ws-indra</id>
+			<id>ws-portafirmas</id>
 			<modules>
 	          <module>indra_server</module>
 	          <module>indra_api</module>
@@ -36,7 +36,7 @@
 		</profile>
 
 		<profile>
-			<id>ws-indra-callback-server</id>
+			<id>ws-portafirmas-callback-server</id>
 			<modules>
 	          <module>indra_callback_server</module>	   
 			</modules>
