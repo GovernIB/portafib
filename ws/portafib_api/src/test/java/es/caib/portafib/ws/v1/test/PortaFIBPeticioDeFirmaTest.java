@@ -255,7 +255,6 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
     if (pluginClassID == null) {
       Assert.assertNotNull("No hi ha sistema de custodia definit o l´usuari aplicació "
           + getTestAppUserName() + " no pot custodiar", pluginClassID);
-      return;
     }
 
     // Obtenir sistema de custodia

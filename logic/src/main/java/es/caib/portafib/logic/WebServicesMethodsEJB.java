@@ -8,7 +8,6 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 
 import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
