@@ -120,7 +120,7 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
     List<UsuariEntitat> usuariEntitatList = usuariEntitatLogicaEjb.select(w);
     // Si no hi ha usuaris entitat
     if (usuariEntitatList.isEmpty()) {
-    result.rejectValue("nif", "usuarientitat.noexisteix", new Object[] { "nif", nif,
+    result.rejectValue("nif", "usuarientitat.noexisteix.full", new Object[] { "nif", nif,
         entitatActualID }, null);
     return mav;
     }

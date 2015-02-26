@@ -154,6 +154,15 @@
     <definition name="carrecListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
+    
+    <definition name="colaboracioDelegacioDeCarrecAdenForm" extends="role_aden">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
+    </definition>
+     
+    <definition name="colaboracioDelegacioDeCarrecAdenList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
 
     <definition name="gestioUsuariAplicacioFormAden" extends="role_aden">
         <put-attribute name="titol" value="usuariAplicacio.usuariAplicacio" />

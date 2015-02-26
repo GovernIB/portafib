@@ -10,14 +10,16 @@
 <%!
 
 final String[] menu = {
-    "entitat.modificar", // Modificació de les dades d'una Entitat"}
+    "entitat.modificar", // Modificació de les dades d'una Entitat
     "",
     "usuaripersona.gestio",    
     "usuarientitat.gestio",
+    "",
     "carrec.gestio",
+    "colaboradordecarrec.plural",
     /*
     "altausuariaplicacio",
-    "modificaciodadesusuariaplicacio", // Modificació de les dades d'un usuari-aplicació"}
+    "modificaciodadesusuariaplicacio", // Modificació de les dades d'un usuari-aplicació"
     */
     
     "",
@@ -71,6 +73,12 @@ static {
   mapping.put("usuaripersona.gestio", "/aden/usuariPersona/nif");
   mapping.put("usuarientitat.gestio", "/aden/usuariEntitat/nif");
   mapping.put("carrec.gestio", "/aden/carrec/list");
+  
+  mapping.put("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list");
+  
+  
+  
+  
   mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
 
   mapping.put("grups.gestio", "/aden/grup/list");

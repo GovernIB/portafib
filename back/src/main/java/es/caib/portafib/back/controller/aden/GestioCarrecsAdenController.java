@@ -179,7 +179,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
     Long count = usuariEntitatEjb.count(checkUE);
     if (count == 0) {
       //usuarientitat.noexisteix=La persona amb {0} {1} no existeix dins l´entitat {2}
-      result.rejectValue("nif","usuarientitat.noexisteix",
+      result.rejectValue("nif","usuarientitat.noexisteix.full",
           new Object[]{"nif", nif, entitatActualID},null);
       return mav;
     }

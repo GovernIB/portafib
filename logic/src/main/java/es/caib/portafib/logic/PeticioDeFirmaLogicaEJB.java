@@ -1107,6 +1107,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    */
   protected boolean startNextSign(PeticioDeFirmaJPA peticioDeFirma, FluxDeFirmesJPA flux,
       EstatDeFirmaJPA estatDeFirma, FirmaEventList events) throws I18NException {
+    
+    System.out.println(" ---------------------------------------- ");
+    System.out.println(" ---------------------------------------- ");
+    System.out.println(" --------   startNextSign  -------------- ");
+    System.out.println(" ---------------------------------------- ");
+    System.out.println(" ---------------------------------------- ");
+    
 
     if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       log.error("S'esta cercant un nou bloc de firmes disponible per la petició "
@@ -1125,7 +1132,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
 
-      log.debug("  ----- Bloc " + blocDeFirmesJPA.getBlocDeFirmesID());
+      
+      log.debug("----- Bloc " + blocDeFirmesJPA.getBlocDeFirmesID());
 
       // Descartam els blocs tancats
       if (blocDeFirmesJPA.getDataFinalitzacio() != null) {
@@ -1167,7 +1175,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       } else {
 
-        log.debug("  Bloc verge o amb firmes no realitzades ????");
+        
+        log.debug("Bloc verge o amb firmes no realitzades ????");
 
         // Aqui hem d'esbrinar si es tracta d'un bloc verge
         // o d'un bloc amb estat de firmes pendents
@@ -1183,7 +1192,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           log.debug("  Bloc amb  firmes pendent: NO FER RES");
           return false;
         } else {
-          log.debug("  Bloc Verge te " + firmes.size() + " firmes ");
+          
+          log.debug(" Bloc Verge te " + firmes.size() + " firmes ");
           // Es un bloc verge, per la qual cosa cream els estats de firma
           // associades a les firmes
           for (FirmaJPA firmaJPA : firmes) {
@@ -1191,13 +1201,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             log.debug("  +++ Firma " + firmaJPA.getFirmaID());
 
             String destinatariReal;
+            String carrec;
             // Miram si és un càrrec
             {
               UsuariEntitatJPA dest = firmaJPA.getUsuariEntitat();
               if (dest.getCarrec() == null) {
                 // Usuari Persona
                 destinatariReal = dest.getUsuariEntitatID();
+                carrec = null;
               } else {
+                carrec = dest.getUsuariEntitatID();
                 // És un carrec, llavors:
                 // (1) Hem de verificar que estigui actiu
                 // (2) Hem de cercar l'usuari entitat (persona) associat a aquest càrrec
@@ -1256,23 +1269,48 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID
                     .equal(ColaboracioDelegacioFields.COLABORACIODELEGACIOID));
 
-            // Mirar Col.laboradors i Delegats
-            Where w = Where.AND(ColaboracioDelegacioFields.DESTINATARIID
-                .equal(destinatariReal), ColaboracioDelegacioFields.ACTIVA.equal(true), Where
-                .OR(ColaboracioDelegacioFields.DATAINICI.isNull(),
-                    ColaboracioDelegacioFields.DATAINICI.lessThan(now)), Where.OR(
-                ColaboracioDelegacioFields.DATAFI.isNull(),
-                ColaboracioDelegacioFields.DATAFI.greaterThan(now)), Where.OR(
-                ColaboracioDelegacioFields.COLABORACIODELEGACIOID.in(subquery),
-                new LongConstantField(0L).in(subquery2)));
+            // (A) Cercar Col.laboradors i Delegats 
+            
+            final Where commonWhere =
+                Where.AND(
+                  ColaboracioDelegacioFields.ACTIVA.equal(true),
+                  Where.OR(
+                    ColaboracioDelegacioFields.DATAINICI.isNull(),
+                    ColaboracioDelegacioFields.DATAINICI.lessThan(now)),
+                  Where.OR(
+                     ColaboracioDelegacioFields.DATAFI.isNull(),
+                     ColaboracioDelegacioFields.DATAFI.greaterThan(now)),
+                  Where.OR(
+                     ColaboracioDelegacioFields.COLABORACIODELEGACIOID.in(subquery),
+                     new LongConstantField(0L).in(subquery2))
+                );
+
+            final Where w1 = Where.AND(ColaboracioDelegacioFields.DESTINATARIID
+                .equal(destinatariReal), commonWhere);
+            
+            // (B) Cercar col·laboradors de càrrec
+            Where w2 = null;
+            if (carrec != null) {
+              w2 = Where.AND(ColaboracioDelegacioFields.DESTINATARIID
+                .equal(carrec), commonWhere);
+            }
+
+            Where w = Where.OR(w1, w2);
 
             if (log.isDebugEnabled()) {
-              log.debug("  Seleccio de COLABORADORS/DELEGATS: " + w.toSQL());
+              log.info("  Seleccio de COLABORADORS/DELEGATS: " + w.toSQL());
             }
 
             List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
+
             if (log.isDebugEnabled()) {
-              log.debug("   == # COLABORADORS/DELEGATS " + llistaColaDele.size());
+              log.info("   == # COLABORADORS/DELEGATS " + llistaColaDele.size());
+
+              for(ColaboracioDelegacio cd : llistaColaDele) {
+                log.info("       + " + (cd.isEsDelegat()?"DELE": "COLA")
+                   + "[" + cd.getColaboracioDelegacioID() + "] : "
+                   + cd.getColaboradorDelegatID() + "  =>  " + cd.getDestinatariID());
+              }
             }
 
             for (ColaboracioDelegacio colaboracioDelegacio : llistaColaDele) {
