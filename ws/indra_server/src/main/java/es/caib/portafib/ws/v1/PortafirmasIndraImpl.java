@@ -1738,7 +1738,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         throw createFault(20, "tipo documento no existe");
       }      
             
-      String titol = documentAttributes2PeticioDeFirma(attributes, peticioDeFirma, files);
+      String titol = documentAttributes2PeticioDeFirma(attributes, peticioDeFirma,
+          files, usuariAplicacio);
       peticioDeFirma.setMotiu(titol);
      
       if (documentReq.getArchiveOptions() != null) {
@@ -2248,8 +2249,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   }
 
   private String documentAttributes2PeticioDeFirma(DocumentAttributes attributes,
-      PeticioDeFirmaJPA peticioDeFirma,
-      Map<Integer, FitxerJPA> files) throws Exception {
+      PeticioDeFirmaJPA peticioDeFirma,  Map<Integer, FitxerJPA> files,
+      UsuariAplicacioJPA usuariAplicacio) throws Exception {
     
     if (attributes.getDateEntry() != null) {
       throw createFault(106, "El campo date-entry está prohibido en la operación de UploadDocument");
@@ -2322,7 +2323,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     //attributes.getNumberAnnexes()
     Sender sender = attributes.getSender();
-    if (sender != null) { 
+    if (sender == null || sender.getName() == null) {
+      peticioDeFirma.setRemitentNom(usuariAplicacio.getUsuariAplicacioID());
+      peticioDeFirma.setRemitentDescripcio(usuariAplicacio.getEmailAdmin());
+    } else {
       peticioDeFirma.setRemitentNom(sender.getName());
       peticioDeFirma.setRemitentDescripcio(sender.getEmail());
     }
