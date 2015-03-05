@@ -285,12 +285,14 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       log.error("Usuari no està actiu (" + user + ")");
       throw createFaultNoAutenticat();
     }
-    int versio = usuariAplicacio.getCallbackVersio(); 
-    if (versio != 0) {
-      log.error("Usuari Aplicació " + user + " funciona a traves de l'API " +
-      		"de PORTAFIB amb versió " + versio + ". L'API a la que s'esta " +
-      				" cridant requereix una versió de WS 0 (Veure versió de CallBack)");
-      throw createFaultNoAutenticat();
+    {
+      int versio = usuariAplicacio.getCallbackVersio(); 
+      if (versio != -1 && versio != 0) {
+        log.error("Usuari Aplicació " + user + " funciona a traves de l'API " +
+        		"de PORTAFIB amb versió " + versio + ". L'API a la que s'esta " +
+        				" cridant requereix una versió de WS 0 (Veure versió de CallBack)");
+        throw createFaultNoAutenticat();
+      }
     }
 
     boolean isOK;
@@ -2320,9 +2322,13 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     if (docJaFirmat != null && docJaFirmat.booleanValue()) {
       peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
     }
-    
+
     //attributes.getNumberAnnexes()
     Sender sender = attributes.getSender();
+    log.info(" Sender = " + sender);
+    if (sender != null) {
+      log.info(" Sender.getName() = " + sender.getName());
+    }
     if (sender == null || sender.getName() == null) {
       peticioDeFirma.setRemitentNom(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setRemitentDescripcio(usuariAplicacio.getEmailAdmin());
@@ -2330,6 +2336,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       peticioDeFirma.setRemitentNom(sender.getName());
       peticioDeFirma.setRemitentDescripcio(sender.getEmail());
     }
+    
+    log.info(" peticioDeFirma.getRemitentNom() = " + peticioDeFirma.getRemitentNom());
+    log.info(" peticioDeFirma.getRemitentDescripcio() = " + peticioDeFirma.getRemitentDescripcio());
 
     // attributes.getSignAnnexes().getValue(); DEPRECATED
 
