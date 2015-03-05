@@ -2329,7 +2329,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     if (sender != null) {
       log.info(" Sender.getName() = " + sender.getName());
     }
-    if (sender == null || sender.getName() == null) {
+    if (sender == null || sender.getName() == null || "".equals(sender.getName().trim())) {
       peticioDeFirma.setRemitentNom(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setRemitentDescripcio(usuariAplicacio.getEmailAdmin());
     } else {
