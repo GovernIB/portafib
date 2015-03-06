@@ -60,6 +60,7 @@ public abstract class PortaFIBTestUtils {
     
     return testProperties.getProperty("test_usr");
   }
+
   
   public static boolean isCAIB() {
     return "true".equals(testProperties.getProperty("iscaib"));

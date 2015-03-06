@@ -24,7 +24,7 @@ public class CallBackIndraTest {
   public static void main(String[] args) {
     try {
 
-      String endPoint ="http://localhost:8080/portafib/cbindra/v0/PortafirmasCallBack";
+      String endPoint ="http://localhost:8080/portafib/portafirmascb/v0/PortafirmasCallBack";
       /*
       if (endPoint.startsWith("https")) {
         XTrustProvider.install();

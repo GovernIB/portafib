@@ -45,7 +45,6 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 
-import es.caib.portafib.utils.CompileConstants;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.utils.FitxerUtils;
@@ -68,7 +67,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
             serviceName = PortaFIBUsuariEntitatWsImpl.NAME_WS + "Service",
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariEntitatWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
-    + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = CompileConstants.AUTH_METHOD)
+    + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
 public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBUsuariEntitatWs {
 
   public static final String NAME = "PortaFIBUsuariEntitat";

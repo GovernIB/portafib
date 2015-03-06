@@ -14,7 +14,6 @@ public class TestUtils {
 
   @Test
   public void printVersion() {
-    log.info("IS CAIB = " + CompileConstants.IS_CAIB);
     log.info("ADEN CONTEXT" + Constants.CONTEXT_ADEN_NOTIFICACIONSWS);
   }
 

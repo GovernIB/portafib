@@ -30,6 +30,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Rejection }
+     * 
+     */
+    public Rejection createRejection() {
+        return new Rejection();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
      * Create an instance of {@link Attributes }
      * 
      */
@@ -38,19 +54,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Signer }
+     * Create an instance of {@link LogMessage }
      * 
      */
-    public Signer createSigner() {
-        return new Signer();
+    public LogMessage createLogMessage() {
+        return new LogMessage();
     }
 
     /**
-     * Create an instance of {@link Rejection }
+     * Create an instance of {@link Certificate }
      * 
      */
-    public Rejection createRejection() {
-        return new Rejection();
+    public Certificate createCertificate() {
+        return new Certificate();
     }
 
     /**
@@ -62,11 +78,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Certificate }
+     * Create an instance of {@link Signer }
      * 
      */
-    public Certificate createCertificate() {
-        return new Certificate();
+    public Signer createSigner() {
+        return new Signer();
     }
 
     /**
@@ -86,11 +102,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Document }
+     * Create an instance of {@link CallbackResponse }
      * 
      */
-    public Document createDocument() {
-        return new Document();
+    public CallbackResponse createCallbackResponse() {
+        return new CallbackResponse();
     }
 
     /**
@@ -99,22 +115,6 @@ public class ObjectFactory {
      */
     public Application createApplication() {
         return new Application();
-    }
-
-    /**
-     * Create an instance of {@link LogMessage }
-     * 
-     */
-    public LogMessage createLogMessage() {
-        return new LogMessage();
-    }
-
-    /**
-     * Create an instance of {@link CallbackResponse }
-     * 
-     */
-    public CallbackResponse createCallbackResponse() {
-        return new CallbackResponse();
     }
 
 }

@@ -45,7 +45,6 @@ import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.utils.CompileConstants;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
@@ -68,7 +67,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
     serviceName = PortaFIBPeticioDeFirmaWsImpl.NAME_WS + "Service",
     endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBPeticioDeFirmaWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
-    + PortaFIBPeticioDeFirmaWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = CompileConstants.AUTH_METHOD)
+    + PortaFIBPeticioDeFirmaWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
 public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBPeticioDeFirmaWs {
   
   public static final String NAME = "PortaFIBPeticioDeFirma";

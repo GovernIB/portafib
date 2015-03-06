@@ -12,7 +12,7 @@ public class Configuracio implements Constants {
 
 
   public static boolean isCAIB() {
-    return CompileConstants.IS_CAIB;
+    return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "iscaib");
   }
 
   public static File getFilesDirectory() {

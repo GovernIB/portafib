@@ -5,10 +5,6 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 -------------------------------- OPCIONS ---------------------------------
 clean             Neteja els projectes abans de compilar.
 
--Dcaib            Propietat que indica als projectes que activins les 
-                  caracteristiques especials requerides en l'entorn 
-                  de la CAIB (Govern Balear)
-
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
 
@@ -29,7 +25,7 @@ clean             Neteja els projectes abans de compilar.
                   de PortaFIB. Els usuaris aplicacio han de tenir callback
                   url http://HOST:8080/portafib/cb/v1/PortaFIBCallBack
                   i callback versio 1. Per veure les cridades accedir
-                  a http://HOST:8080/portafib/cbweb
+                  a http://HOST:8080/portafib/portafibcb
 
 -Pws-portafirmas  Crea WS compatible amb l'API del PortaFirmas antic de la CAIB.
                   El WS es accessible des de /portafirmasws/web/services/CWS.
@@ -37,9 +33,10 @@ clean             Neteja els projectes abans de compilar.
 
 -Pws-portafirmas-callback-server Crea WS per provar la recepcio dels Callback del
                   PortaFirmas antic de la CAIB. Els usuaris aplicacio han de tenir
-                  calback url http://HOST:8080/portafib/cbindra/v0/PortafirmasCallBack
+				  calback url 
+				  http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
                   i callback versio 0. Per veure les cridades accedir a
-                  http://HOST:8080/portafib/cbindra/
+                  http://HOST:8080/portafib/portafirmascb
 
 --------------------------------------------------------------------------
 

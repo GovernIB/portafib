@@ -147,7 +147,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdl:port binding="impl:MCGDWSSoapBinding" name="MCGDWS">
 
-         <wsdlsoap:address location="http://localhost:8080/portafib/cbindra/v0/PortafirmasCallBack"/>
+         <wsdlsoap:address location="http://localhost:8080/portafib/portafirmascb/v0/PortafirmasCallBack"/>
 
       </wsdl:port>
 

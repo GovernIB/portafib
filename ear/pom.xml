@@ -332,12 +332,12 @@
             </build>
 		</profile>
 
-		<!-- WS INDRA CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
+		<!-- WS PORTAFIRMAS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
 		<!-- 
-		    Mòdul de desenvolupament per provar els Callback
+		    Mòdul de desenvolupament per provar els Callback del Portafirmas antic de la CAIB
 			Definir els usuari aplicacio amb calback versio 0 i calback url
 			igual a http://localhost:8080/portafirmascb/web/services/MCGDWS
-			Per veure les cridades accedir a http://localhost:8080/portafirmascb
+			Per veure les cridades accedir a http://localhost:8080/portafib/portafirmascb
 		-->
 		<profile>
 		   <id>ws-portafirmas-callback-server</id>
@@ -361,7 +361,7 @@
 						<webModule>
 						  <groupId>es.caib.portafib</groupId>
 						  <artifactId>portafib-ws-indra-callback-server</artifactId>
-						  <contextRoot>portafib/cbindra</contextRoot> <!-- portafirmascb -->
+						  <contextRoot>portafib/portafirmascb</contextRoot>
 						</webModule>
 					   </modules>
 					</configuration>
@@ -441,7 +441,7 @@
 		    Mòdul de desenvolupament per provar els Callback
 			Definir els usuari aplicacio amb calback versio 1 i calback url
 			igual a http://localhost:8080/portafib/cb/v1/PortaFIBCallBack
-			Per veure les cridades accedir a http://localhost:8080/portafib/cbweb
+			Per veure les cridades accedir a http://localhost:8080/portafib/portafibcb
 		-->
 		<profile>
 		   <id>ws-portafib-callback-server</id>
@@ -474,7 +474,7 @@
 							<webModule>
 							  <groupId>es.caib.portafib</groupId>
 							  <artifactId>portafib-ws-callback-server-web</artifactId>
-							  <contextRoot>portafib/cbweb</contextRoot>
+							  <contextRoot>portafib/portafibcb</contextRoot>
 							</webModule>
 					   </modules>
 					</configuration>

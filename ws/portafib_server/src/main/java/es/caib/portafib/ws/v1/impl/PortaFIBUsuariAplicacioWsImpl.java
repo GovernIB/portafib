@@ -30,7 +30,6 @@ import es.caib.portafib.model.bean.UsuariAplicacioBean;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
-import es.caib.portafib.utils.CompileConstants;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.utils.FitxerUtils;
@@ -53,7 +52,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
             serviceName = PortaFIBUsuariAplicacioWsImpl.NAME_WS + "Service",
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariAplicacioWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
-    + PortaFIBUsuariAplicacioWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = CompileConstants.AUTH_METHOD)
+    + PortaFIBUsuariAplicacioWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
 public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseWsImpl 
   implements PortaFIBUsuariAplicacioWs {
 

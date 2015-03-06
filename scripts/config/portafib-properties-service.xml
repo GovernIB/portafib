@@ -2,6 +2,10 @@
 <server>
   <mbean code="org.jboss.varia.property.SystemPropertiesService" name="jboss:type=Service,name=PortaFIBSystemProperties">
     <attribute name="Properties">
+	  <!-- Propietat que indica als projectes que activin les caracteristiques
+           especials requerides en l'entorn de la CAIB (Govern Balear) si val true -->
+	  es.caib.portafib.iscaib=false
+	
       # Dialecte de Hibernate
       es.caib.portafib.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
       # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
