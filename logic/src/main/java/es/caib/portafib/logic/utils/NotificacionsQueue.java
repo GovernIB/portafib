@@ -610,7 +610,7 @@ public class NotificacionsQueue implements MessageListener {
 
     // log.info("Version: " + cbresp.getVersion());
 
-    if (cbresp.getReturn() == +1) {
+    if (cbresp.getReturn() > 0) {
       log.debug("WS Indra  Estat: OK");
       return;
     }

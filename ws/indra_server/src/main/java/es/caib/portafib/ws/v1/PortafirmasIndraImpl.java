@@ -525,8 +525,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     // Volem tots    
     //Integer maxResults = null;
     
-    log.error(" SQL WHERE = " + where.toSQL());
-    log.error(" SQL PETICIO = " + peticioDeFirma.getPeticioDeFirmaID());
+    log.info(" SQL WHERE = " + where.toSQL());
+    log.info(" SQL PETICIO = " + peticioDeFirma.getPeticioDeFirmaID());
     
     List<Firma> firmes = firmaLogicaEjb.select(where, firstResult, maxResults,
         // El primers fitxers seran els darrers que s'han firmat
