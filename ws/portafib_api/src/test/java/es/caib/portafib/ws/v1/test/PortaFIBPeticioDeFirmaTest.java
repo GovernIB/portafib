@@ -26,9 +26,9 @@ import es.caib.portafib.ws.api.v1.WsValidationException;
 import es.caib.portafib.ws.api.v1.utils.PeticioDeFirmaUtils;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
   
