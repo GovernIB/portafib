@@ -23,7 +23,8 @@ import es.caib.portafib.ws.utils.BaseWsImpl;
 (
     name=PortaFIBHelloWorldWsImpl.NAME_WS,
     portName = PortaFIBHelloWorldWsImpl.NAME_WS,
-    serviceName = PortaFIBHelloWorldWsImpl.NAME_WS + "Service"
+    serviceName = PortaFIBHelloWorldWsImpl.NAME_WS + "Service",
+    endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBHelloWorldWsImpl.NAME_WS
 )
 @WebContext
 (
