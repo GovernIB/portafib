@@ -377,8 +377,9 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
     File dstPDF = form.signedFile;
     
+    
     response.setContentType(Constants.PDF_MIME_TYPE);
-    response.setHeader("Content-Disposition", "inline; filename=\"" + dstPDF.getName() + "\"");
+    response.setHeader("Content-Disposition", "inline; filename=\"" + form.fileName + "\"");
     response.setContentLength((int) dstPDF.length());
 
     java.io.OutputStream output = response.getOutputStream();
