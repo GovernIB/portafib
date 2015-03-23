@@ -372,7 +372,7 @@
 		
 		
 		<!-- WS de PORTAFIRMAS antic de CAIB -->
-		<!-- http://localhost:8080/portafirmasws/web/services/CWS -->
+		<!-- http://localhost:8080/portafib/portafirmasws/web/services/CWS -->
 		<profile>
 		   <id>ws-portafirmas</id>
 		   <dependencies>

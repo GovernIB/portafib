@@ -201,7 +201,7 @@ import org.apache.log4j.Logger;
 )
 @WebContext
 (
-    contextRoot="/portafirmasws/web/services",
+    contextRoot="/portafib/portafirmasws/web/services",
     urlPattern="/CWS",
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false    

@@ -30,7 +30,7 @@ import org.jboss.wsf.spi.annotation.WebContext;
 
 @WebContext
 (
-    contextRoot="/portafirmasws/web/services",
+    contextRoot="/portafib/portafirmasws/web/services",
     urlPattern="/HelloWorldIndra",
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false    

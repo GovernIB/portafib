@@ -28,7 +28,7 @@ clean             Neteja els projectes abans de compilar.
                   a http://HOST:8080/portafib/portafibcb
 
 -Pws-portafirmas  Crea WS compatible amb l'API del PortaFirmas antic de la CAIB.
-                  El WS es accessible des de /portafirmasws/web/services/CWS.
+                  El WS es accessible des de /portafib/portafirmasws/web/services/CWS.
                   Exemple de cridada a ws\indra_api.
 
 -Pws-portafirmas-callback-server Crea WS per provar la recepcio dels Callback del
