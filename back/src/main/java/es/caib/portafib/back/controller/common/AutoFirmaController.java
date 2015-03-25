@@ -350,20 +350,18 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     
   }
 
-  
-  
 
-  
-  
   @RequestMapping(value = "/final/{id}", method = RequestMethod.GET)
   public ModelAndView firmaFinal(@PathVariable("id") Long id) {
 
     ModelAndView mav = new ModelAndView("autoFirmaFinal");
     mav.addObject("id", id);
+    AutoFirmaBean form = autofirmaEjb.get(id);
+    mav.addObject("filename", form.fileName);
     return mav;
   }
   
-  
+ 
   @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
   public void download(@PathVariable("id") Long id, 
       HttpServletResponse response) throws Exception {
@@ -376,8 +374,8 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     }
 
     File dstPDF = form.signedFile;
-    
-    
+
+
     response.setContentType(Constants.PDF_MIME_TYPE);
     response.setHeader("Content-Disposition", "inline; filename=\"" + form.fileName + "\"");
     response.setContentLength((int) dstPDF.length());
