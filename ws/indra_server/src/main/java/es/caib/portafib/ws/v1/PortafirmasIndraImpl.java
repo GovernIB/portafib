@@ -43,7 +43,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-
 import org.apache.cxf.binding.soap.SoapFault;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -83,7 +82,6 @@ import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortafirmasIndraUtils;
-
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.TipusDocument;
@@ -99,13 +97,10 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
-
 import es.indra.portafirmasws.cws.Cws;
-
 import es.indra.portafirmasws.cws.Application;
 import es.indra.portafirmasws.cws.DeleteRequest;
 import es.indra.portafirmasws.cws.DeleteResponse;
-
 import es.indra.portafirmasws.cws.Annex;
 import es.indra.portafirmasws.cws.Annexes;
 import es.indra.portafirmasws.cws.ArchiveMetadata;
@@ -520,7 +515,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     
     // Només volem el darrer
-    Integer maxResults = 1;
+    final Integer maxResults = 1;
 
     // Volem tots    
     //Integer maxResults = null;
@@ -543,6 +538,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     List<Long> firmesIDs = new ArrayList<Long>();
     List<FitxerJPA> fitxers = new ArrayList<FitxerJPA>();
     Map<Long,Integer> numFirmesByFirmaID = new HashMap<Long, Integer>();
+    // Firmes com a molt contindrà un valor
     for (Firma firma : firmes) {
 
       SignatureFile signature = new SignatureFile();
@@ -559,6 +555,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       firmesIDs.add(firma.getFirmaID());
       fitxers.add(((FirmaJPA)firma).getFitxerFirmat());
       numFirmesByFirmaID.put(firma.getFirmaID(),firma.getNumFirmaDocument());
+      break;
     }
     
     // (2) Afegir annexesFirmats
@@ -1193,7 +1190,6 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         
         returnedFiles.getFile().add(returnedFile);
       }
-         
       
       Map<String, DataHandler> outDataHandlers = (Map<String, DataHandler>) wsContext.getMessageContext().get(
           MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS);
