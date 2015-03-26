@@ -121,6 +121,31 @@ public class PortafirmasIndraTest extends IndraTestUtils {
     final CodeBase codeBase = CodeBase.ENTERPRISE;
     test(codeBase);
   }
+  
+  
+  public static void main(String[] args) {
+    try {
+      final String endPoint = getEndPoint("CWS");
+
+      Application app = new Application();
+
+      app.setUser(getUserName());
+      app.setPassword(getPassword());
+
+      if (endPoint.startsWith("https")) {
+        XTrustProvider.install();
+      }
+
+      CwsProxy proxy = new CwsProxy(endPoint);
+
+      int peticioID = 132000;
+
+      callToDownloadDocument(proxy, app, peticioID);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
   /**
    * 
