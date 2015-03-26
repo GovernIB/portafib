@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="codiBarres.codiBarresID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="codiBarres.codiBarresID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.CODIBARRESID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="codiBarres.codiBarresID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="codiBarres.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="codiBarres.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CodiBarresFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="codiBarres.nom"   />
+
            </td>
         </tr>
         </c:if>

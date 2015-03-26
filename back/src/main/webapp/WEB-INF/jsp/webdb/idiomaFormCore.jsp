@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="idioma.idiomaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'input-mini uneditable-input' : 'input-mini'}"  maxlength="5" path="idioma.idiomaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.IDIOMAID)? 'input-mini uneditable-input' : 'input-mini'}"  maxlength="5" path="idioma.idiomaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="idioma.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="idioma.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="idioma.nom"   />
+
            </td>
         </tr>
         </c:if>
@@ -70,7 +72,8 @@
             </td>
             <td>
             <form:errors path="idioma.ordre" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="idioma.ordre" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,IdiomaFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="idioma.ordre"   />
+
            </td>
         </tr>
         </c:if>

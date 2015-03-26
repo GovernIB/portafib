@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="tipusDocument.tipusDocumentID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusDocument.tipusDocumentID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusDocument.tipusDocumentID"   />
+
            </td>
         </tr>
         </c:if>

@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirmaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirmaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirmaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="tipusEstatPeticioDeFirma.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="tipusEstatPeticioDeFirma.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusEstatPeticioDeFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="tipusEstatPeticioDeFirma.nom"   />
+
            </td>
         </tr>
         </c:if>

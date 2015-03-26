@@ -90,7 +90,8 @@
             </td>
             <td>
             <form:errors path="colaboracioDelegacio.motiu" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="60" path="colaboracioDelegacio.motiu" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIU)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="60" path="colaboracioDelegacio.motiu"   />
+
            </td>
         </tr>
         </c:if>

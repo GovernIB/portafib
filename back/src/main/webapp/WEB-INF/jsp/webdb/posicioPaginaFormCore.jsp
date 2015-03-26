@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="posicioPagina.posicioPaginaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.POSICIOPAGINAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.POSICIOPAGINAID)? 'input-large uneditable-input' : 'input-large'}"   path="posicioPagina.posicioPaginaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.POSICIOPAGINAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.POSICIOPAGINAID)? 'input-large uneditable-input' : 'input-large'}"   path="posicioPagina.posicioPaginaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="posicioPagina.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="posicioPagina.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioPaginaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="posicioPagina.nom"   />
+
            </td>
         </tr>
         </c:if>

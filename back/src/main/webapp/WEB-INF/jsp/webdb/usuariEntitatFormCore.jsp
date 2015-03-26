@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="usuariEntitat.usuariEntitatID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.USUARIENTITATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="usuariEntitat.usuariEntitatID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.USUARIENTITATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="usuariEntitat.usuariEntitatID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="usuariEntitat.carrec" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CARREC)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CARREC)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="150" path="usuariEntitat.carrec" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CARREC)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CARREC)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="150" path="usuariEntitat.carrec"   />
+
            </td>
         </tr>
         </c:if>
@@ -124,7 +126,8 @@
             </td>
             <td>
             <form:errors path="usuariEntitat.email" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.EMAIL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.EMAIL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariEntitat.email" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.EMAIL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.EMAIL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariEntitat.email"   />
+
            </td>
         </tr>
         </c:if>

@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="algorismeDeFirma.algorismeDeFirmaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="algorismeDeFirma.algorismeDeFirmaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="algorismeDeFirma.algorismeDeFirmaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="algorismeDeFirma.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="algorismeDeFirma.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="algorismeDeFirma.nom"   />
+
            </td>
         </tr>
         </c:if>

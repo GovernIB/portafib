@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="usuariPersona.usuariPersonaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="usuariPersona.usuariPersonaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIPERSONAID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="usuariPersona.usuariPersonaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="usuariPersona.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="usuariPersona.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="usuariPersona.nom"   />
+
            </td>
         </tr>
         </c:if>
@@ -48,7 +50,8 @@
             </td>
             <td>
             <form:errors path="usuariPersona.llinatges" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariPersona.llinatges" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.LLINATGES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariPersona.llinatges"   />
+
            </td>
         </tr>
         </c:if>
@@ -65,7 +68,8 @@
             </td>
             <td>
             <form:errors path="usuariPersona.email" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariPersona.email" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.EMAIL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="usuariPersona.email"   />
+
            </td>
         </tr>
         </c:if>
@@ -82,7 +86,8 @@
             </td>
             <td>
             <form:errors path="usuariPersona.nif" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'input-small uneditable-input' : 'input-small'}"  maxlength="9" path="usuariPersona.nif" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.NIF)? 'input-small uneditable-input' : 'input-small'}"  maxlength="9" path="usuariPersona.nif"   />
+
            </td>
         </tr>
         </c:if>

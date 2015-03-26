@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="posicioTaulaFirmes.posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID)? 'input-large uneditable-input' : 'input-large'}"   path="posicioTaulaFirmes.posicioTaulaFirmesID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID)? 'input-large uneditable-input' : 'input-large'}"   path="posicioTaulaFirmes.posicioTaulaFirmesID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="posicioTaulaFirmes.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="posicioTaulaFirmes.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PosicioTaulaFirmesFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="posicioTaulaFirmes.nom"   />
+
            </td>
         </tr>
         </c:if>

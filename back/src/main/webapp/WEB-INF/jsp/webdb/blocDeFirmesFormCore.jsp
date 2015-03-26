@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="blocDeFirmes.ordre" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="blocDeFirmes.ordre" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="blocDeFirmes.ordre"   />
+
            </td>
         </tr>
         </c:if>
@@ -94,7 +95,8 @@
             </td>
             <td>
             <form:errors path="blocDeFirmes.minimDeFirmes" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'input-mini uneditable-input' : 'input-mini'}"   path="blocDeFirmes.minimDeFirmes" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BlocDeFirmesFields.MINIMDEFIRMES)? 'input-mini uneditable-input' : 'input-mini'}"   path="blocDeFirmes.minimDeFirmes"   />
+
            </td>
         </tr>
         </c:if>

@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="prioritat.prioritatID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PrioritatFields.PRIORITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PrioritatFields.PRIORITATID)? 'input-small uneditable-input' : 'input-small'}"   path="prioritat.prioritatID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PrioritatFields.PRIORITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PrioritatFields.PRIORITATID)? 'input-small uneditable-input' : 'input-small'}"   path="prioritat.prioritatID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="prioritat.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PrioritatFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PrioritatFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="prioritat.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PrioritatFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PrioritatFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="prioritat.nom"   />
+
            </td>
         </tr>
         </c:if>

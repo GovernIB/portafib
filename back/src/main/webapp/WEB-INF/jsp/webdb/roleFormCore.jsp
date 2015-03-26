@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="role.roleID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="role.roleID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,RoleFields.ROLEID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="role.roleID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="role.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="role.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,RoleFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="role.nom"   />
+
            </td>
         </tr>
         </c:if>

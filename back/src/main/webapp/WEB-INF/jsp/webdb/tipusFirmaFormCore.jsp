@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="tipusFirma.tipusFirmaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.TIPUSFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.TIPUSFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusFirma.tipusFirmaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.TIPUSFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.TIPUSFIRMAID)? 'input-large uneditable-input' : 'input-large'}"   path="tipusFirma.tipusFirmaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="tipusFirma.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="tipusFirma.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="tipusFirma.nom"   />
+
            </td>
         </tr>
         </c:if>

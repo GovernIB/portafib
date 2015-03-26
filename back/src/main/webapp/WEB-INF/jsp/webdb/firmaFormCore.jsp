@@ -135,7 +135,8 @@
             </td>
             <td>
             <form:errors path="firma.numFirmaDocument" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.numFirmaDocument" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMFIRMADOCUMENT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.numFirmaDocument"   />
+
            </td>
         </tr>
         </c:if>
@@ -152,7 +153,8 @@
             </td>
             <td>
             <form:errors path="firma.caixaPagina" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaPagina" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAPAGINA)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaPagina"   />
+
            </td>
         </tr>
         </c:if>
@@ -169,7 +171,8 @@
             </td>
             <td>
             <form:errors path="firma.caixaX" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaX" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAX)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaX"   />
+
            </td>
         </tr>
         </c:if>
@@ -186,7 +189,8 @@
             </td>
             <td>
             <form:errors path="firma.caixaY" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaY" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAY)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaY"   />
+
            </td>
         </tr>
         </c:if>
@@ -203,7 +207,8 @@
             </td>
             <td>
             <form:errors path="firma.caixaAmple" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaAmple" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAAMPLE)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaAmple"   />
+
            </td>
         </tr>
         </c:if>
@@ -220,7 +225,8 @@
             </td>
             <td>
             <form:errors path="firma.caixaAlt" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaAlt" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CAIXAALT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.caixaAlt"   />
+
            </td>
         </tr>
         </c:if>
@@ -237,7 +243,8 @@
             </td>
             <td>
             <form:errors path="firma.numeroSerieCertificat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.numeroSerieCertificat" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NUMEROSERIECERTIFICAT)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.numeroSerieCertificat"   />
+
            </td>
         </tr>
         </c:if>
@@ -254,7 +261,8 @@
             </td>
             <td>
             <form:errors path="firma.emissorCertificat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="1000" path="firma.emissorCertificat" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.EMISSORCERTIFICAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="1000" path="firma.emissorCertificat"   />
+
            </td>
         </tr>
         </c:if>
@@ -271,7 +279,8 @@
             </td>
             <td>
             <form:errors path="firma.nomCertificat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="1000" path="firma.nomCertificat" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.NOMCERTIFICAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="1000" path="firma.nomCertificat"   />
+
            </td>
         </tr>
         </c:if>

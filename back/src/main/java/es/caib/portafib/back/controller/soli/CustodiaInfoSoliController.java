@@ -224,7 +224,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       
       filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-eye-open",
           "vistacompleta", getContextWeb() + "/view/{0}" ,"btn-info" ));
-
+      
       // TODO AGRUPAR i LLISTAT
       filterForm.setDeleteSelectedButtonVisible(false);
       filterForm.setVisibleMultipleSelection(false);
@@ -278,5 +278,28 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     super.initBinderForm(binder);
     getWebValidator().setValidator(validator);
   }
+  
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav, 
+    CustodiaInfoFilterForm filterForm,  List<CustodiaInfo> list)
+    throws I18NException {
+
+    
+    // Mostrar boto per editar usuaris que poden veure les meves plantilles
+   
+    filterForm.getAdditionalButtonsByPK().clear();
+
+    for (CustodiaInfo cust : list) {
+      String url = cust.getUrlFitxerCustodiat();
+      if (url != null && url.trim().length() != 0 )
+       filterForm.addAdditionalButtonByPK(cust.getCustodiaInfoID(),
+           new AdditionalButton("icon-download-alt",
+           "descarregar",
+           url, "btn-success"));
+    }
+
+  }
+  
 
 }

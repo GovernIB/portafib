@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.custodiaPluginID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.custodiaPluginClassID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginClassID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginClassID"   />
+
            </td>
         </tr>
         </c:if>
@@ -65,7 +67,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.nomPlantilla" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.nomPlantilla"   />
+
            </td>
         </tr>
         </c:if>
@@ -103,8 +106,21 @@
              </label>
             </td>
             <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.urlFitxerCustodiat}">
+               <a href="${__theForm.custodiaInfo.urlFitxerCustodiat}" target="_blank">${__theForm.custodiaInfo.urlFitxerCustodiat}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
+
             <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.urlFitxerCustodiat" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
+
+           </c:if>
+
            </td>
         </tr>
         </c:if>
@@ -121,7 +137,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.pagines" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.pagines" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PAGINES)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.pagines"   />
+
            </td>
         </tr>
         </c:if>
@@ -236,7 +253,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.codiBarresText" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.codiBarresText" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESTEXT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.codiBarresText"   />
+
            </td>
         </tr>
         </c:if>
@@ -340,7 +358,8 @@
             </td>
             <td>
             <form:errors path="custodiaInfo.titolPeticio" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.titolPeticio" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.TITOLPETICIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.titolPeticio"   />
+
            </td>
         </tr>
         </c:if>

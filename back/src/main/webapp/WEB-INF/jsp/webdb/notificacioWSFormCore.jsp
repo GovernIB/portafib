@@ -235,7 +235,8 @@
             </td>
             <td>
             <form:errors path="notificacioWS.reintents" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'input-mini uneditable-input' : 'input-mini'}"   path="notificacioWS.reintents" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.REINTENTS)? 'input-mini uneditable-input' : 'input-mini'}"   path="notificacioWS.reintents"   />
+
            </td>
         </tr>
         </c:if>

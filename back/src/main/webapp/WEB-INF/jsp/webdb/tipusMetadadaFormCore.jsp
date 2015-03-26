@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="tipusMetadada.tipusMetadadaID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.TIPUSMETADADAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.TIPUSMETADADAID)? 'input-small uneditable-input' : 'input-small'}"   path="tipusMetadada.tipusMetadadaID" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.TIPUSMETADADAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.TIPUSMETADADAID)? 'input-small uneditable-input' : 'input-small'}"   path="tipusMetadada.tipusMetadadaID"   />
+
            </td>
         </tr>
         </c:if>
@@ -31,7 +32,8 @@
             </td>
             <td>
             <form:errors path="tipusMetadada.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="tipusMetadada.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,TipusMetadadaFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="100" path="tipusMetadada.nom"   />
+
            </td>
         </tr>
         </c:if>

@@ -14,7 +14,8 @@
             </td>
             <td>
             <form:errors path="fitxer.nom" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="fitxer.nom" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="fitxer.nom"   />
+
            </td>
         </tr>
         </c:if>
@@ -48,7 +49,8 @@
             </td>
             <td>
             <form:errors path="fitxer.tamany" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.TAMANY)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.TAMANY)? 'input-mini uneditable-input' : 'input-mini'}"   path="fitxer.tamany" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.TAMANY)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.TAMANY)? 'input-mini uneditable-input' : 'input-mini'}"   path="fitxer.tamany"   />
+
            </td>
         </tr>
         </c:if>
@@ -65,7 +67,8 @@
             </td>
             <td>
             <form:errors path="fitxer.mime" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.MIME)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.MIME)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="45" path="fitxer.mime" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FitxerFields.MIME)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FitxerFields.MIME)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="45" path="fitxer.mime"   />
+
            </td>
         </tr>
         </c:if>
