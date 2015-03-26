@@ -44,6 +44,7 @@ private static final long serialVersionUID = 1603204493L;
 	@Column(name="custodiapluginparametres",length = 3000)
 	java.lang.String custodiaPluginParameters;
 
+  /** Si val diferent de null indica que és una plantilla d'entitat o d'usuari-aplicacio o usuari-entitat */
 	@Column(name="nomplantilla",length = 255)
 	java.lang.String nomPlantilla;
 

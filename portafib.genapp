@@ -2795,6 +2795,9 @@
         </void> 
         <void index="4"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>Si val diferent de null indica que és una plantilla d&apos;entitat o d&apos;usuari-aplicacio o usuari-entitat</string> 
+          </void> 
           <void property="digits"> 
            <int>0</int> 
           </void> 
@@ -2810,11 +2813,11 @@
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Nom Plantilla</string> 
+            <string>Nom de la Plantilla</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Nombre Plantilla</string> 
+            <string>Nombre de la Plantilla</string> 
            </void> 
           </void> 
           <void property="size"> 
