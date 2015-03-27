@@ -6,10 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -26,7 +24,6 @@ import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.query.Where;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -50,9 +47,9 @@ import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.misc.AutoFirmaBean;
 import es.caib.portafib.logic.misc.AutofirmaLocal;
+import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
-
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -154,28 +151,19 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
           autoFirmaForm.getAdjunt1(), autoFirmaForm.getAdjunt2(),
           autoFirmaForm.getAdjunt3(), autoFirmaForm.getAdjunt4()
       };
-      Map<File, String> attachments = new HashMap<File, String>();
+      //Map<File, String> attachments = new HashMap<File, String>();
+      List<AttachedFile> attachments = new ArrayList<AttachedFile>(files.length);
       for (int i = 0; i < files.length; i++) {
         if (files[i] != null && !files[i].isEmpty()) {
           File tmp = File.createTempFile(id + "_AutoFirma_Adjunt_" + i + "_", ".pdf", getAutofitmaPath());
           files[i].transferTo(tmp);
-          attachments.put(tmp, files[i].getOriginalFilename());
+          attachments.add(new AttachedFile(files[i].getOriginalFilename(), tmp));
           tmp.deleteOnExit();
         }
       }
       
-      File[] attachmentsArray = attachments.keySet().toArray(new File[attachments.size()]);
-      String[] attachmentNamesArray = new String[attachmentsArray.length];
       
-      for (int i = 0; i < attachmentsArray.length; i++) {
-        attachmentNamesArray[i] = attachments.get(attachmentsArray[i]);
-      }
-      
-      
-      autoFirmaForm.attachmentsFiles = attachmentsArray;
-      autoFirmaForm.attachmentsNames = attachmentNamesArray;
-      
-      
+      autoFirmaForm.attachments = attachments;
       
       // Preparar pàgina Applet
       String source = CONTEXTWEB + "/source/" + id; // /firma/source/
@@ -316,8 +304,10 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
       // PortaFIBCommonsMultipartResolver
       final Long maxSizeFitxerAdaptat = null;
       
+      
+     
       PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, dstPDF,
-          form.attachmentsFiles, form.attachmentsNames, maxSizeFitxerAdaptat,
+          form.attachments, maxSizeFitxerAdaptat,
           // numFirmes, posicioTaulaDeFirmes, signantLabel, resumLabel,
           // descLabel, desc, titolLabel, titol, logoFile)
           new StampTaulaDeFirmes(

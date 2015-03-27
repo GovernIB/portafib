@@ -6,12 +6,10 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
-
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.events.FirmaEvent;
 import es.caib.portafib.model.entity.Firma;
-
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
@@ -46,7 +43,6 @@ import es.caib.portafib.ws.callback.api.v1.PortaFIBCallBackWsService;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBEvent;
 import es.caib.portafib.ws.callback.api.v1.Sign;
 import es.caib.portafib.ws.callback.api.v1.SigningRequest;
-
 import es.indra.www.portafirmasmcgdws.mcgdws.Application;
 import es.indra.www.portafirmasmcgdws.mcgdws.ArrayOfLogMessage;
 import es.indra.www.portafirmasmcgdws.mcgdws.Attributes;
@@ -79,6 +75,7 @@ import javax.xml.ws.BindingProvider;
  * @author anadal
  * 
  */
+@SuppressWarnings("restriction")
 @RunAs("PFI_USER")
 @MessageDriven(name = Constants.NOTIFICACIONS_QUEUE, activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),

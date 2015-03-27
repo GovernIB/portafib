@@ -22,6 +22,7 @@ import es.caib.portafib.jpa.validator.CustodiaInfoBeanValidator;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
+import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
@@ -572,17 +573,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
     }
-    File[] attachments = null;
-    String[] attachmentsNames = null;
+    List<AttachedFile> attachments = null;
+    
     if (annexesAttached.size() != 0) {
-      attachments = new File[annexesAttached.size()];
-      attachmentsNames = new String[annexesAttached.size()];
-      int i = 0;
+      attachments = new ArrayList<AttachedFile>(annexesAttached.size());
       for (AnnexJPA annex : annexesAttached) {
         File f = FileSystemManager.getFile(annex.getFitxerID());
-        attachments[i] = f;
-        attachmentsNames[i] = annex.getFitxer().getNom();
-        i++;
+        attachments.add(new AttachedFile(annex.getFitxer().getNom(), f));
       }
     }
     
@@ -695,7 +692,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           Configuracio.getMaxFitxerAdaptatSizeInBytes());
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments, 
-          attachmentsNames, maxSize, taulaDeFirmes, custodiaInfoStamp);
+          maxSize, taulaDeFirmes, custodiaInfoStamp);
       /*
       TableSignAndAttachments(srcPDF, dstPDF, numFirmes, posicio, signantLabel,
           resumLabel, descLabel, desc, titolLabel, titol, logo, attachments, attachmentsNames,

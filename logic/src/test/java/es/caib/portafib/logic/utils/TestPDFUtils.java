@@ -3,15 +3,21 @@ package es.caib.portafib.logic.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import junit.framework.Assert;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin;
@@ -22,6 +28,9 @@ import org.fundaciobit.genapp.common.utils.Utils;
 import org.junit.Test;
 
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
@@ -182,7 +191,138 @@ public class TestPDFUtils implements Constants {
   }
   
   
-  public static void main(String[] args) {
+  @Test
+  public void testAttachingFilesToPDFwithAttachs() {
+    
+    
+    try {
+      File srcPDF = getFileFromResource("pdf_with_attach.pdf");
+      
+      final String[] names = new String[] {"annex_1.txt", "annex_2.jpg", "annex_3.bin" } ;
+      
+
+      
+      List<AttachedFile> files = new ArrayList<AttachedFile>();
+      
+       
+      for (int i = 0; i < names.length; i++) {
+        File f = getFileFromResource(names[i]);
+        files.add(new AttachedFile(names[i], f));
+      }
+      
+      File dstPDF = new File("provaXXXX.pdf");
+          
+          
+      PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, files, null, null, null);
+      
+      Set<String> attachments = extractDocLevelAttachments(dstPDF.getAbsolutePath());
+      
+      System.out.println(" TOTAL = " + attachments.size());
+      
+     
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    
+  }
+  
+  
+  
+  private static Set<String> extractDocLevelAttachments(String filename) throws IOException {
+    PdfReader reader = new PdfReader(filename);
+    PdfDictionary root = reader.getCatalog();
+    PdfDictionary documentnames = root.getAsDict(PdfName.NAMES);
+    PdfDictionary embeddedfiles = documentnames.getAsDict(PdfName.EMBEDDEDFILES);
+    PdfArray filespecs = embeddedfiles.getAsArray(PdfName.NAMES);
+    PdfDictionary filespec;
+    PdfDictionary refs;
+    Set<String> attachments = new HashSet<String>();
+    for (int i = 0; i < filespecs.size(); ) {
+      filespecs.getAsString(i++);
+      filespec = filespecs.getAsDict(i++);
+      refs = filespec.getAsDict(PdfName.EF);
+      for (PdfName key : refs.getKeys()) {
+ 
+        attachments.add(filespec.getAsString(key).toString());
+        break;
+      }
+    }
+    reader.close();
+    return attachments;
+}
+  
+  
+  
+  
+  /*
+  public static void addAttachments(
+    String srcPdf, String dest, String[] attachments) throws IOException, DocumentException {
+    PdfReader reader = new PdfReader(srcPdf);
+    PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
+    for (int i = 0; i < attachments.length; i++) {
+      
+      PdfWriter writer = stamper.getWriter();
+      File src = new File(attachments[i]);
+      
+      PdfFileSpecification fs =
+          PdfFileSpecification.fileEmbedded(writer, src.getAbsolutePath(), src.getName(), null);
+        writer.addFileAttachment(src.getName().substring(0, src.getName().indexOf('.')), fs);
+      
+    }
+    stamper.close();
+  }
+  */
+
+  
+    
+  
+  
+  public static PdfReader getPdfReaderFromResource(String name) throws Exception  {
+    
+    if (!name.startsWith("/")) {
+      name = '/' + name; 
+    }
+    InputStream is = TestPDFUtils.class.getResourceAsStream(name);
+    
+    return new PdfReader(is);
+
+  }
+  
+  
+  public static File getFileFromResource(String name) throws Exception {
+
+    if (!name.startsWith("/")) {
+      name = '/' + name;
+    }
+    InputStream is = TestPDFUtils.class.getResourceAsStream(name);
+    File parent = new File(System.getProperty("java.io.tmpdir"), String.valueOf(System.nanoTime()));
+    parent.mkdirs();
+    parent.deleteOnExit();
+    
+    File f = new File(parent, name);
+    f.deleteOnExit();
+
+    FileOutputStream fos = new FileOutputStream(f);
+    IOUtils.copy(is, fos);
+
+    fos.flush();
+    fos.close();
+
+    is.close();
+
+    return f;
+
+  }
+    
+  
+  
+  
+  
+  
+  public static void main4(String[] args) {
     
     File f = new File("C:\\Documents and Settings\\anadal\\Escritorio\\DEMO\\hola.pdf");
     
@@ -190,6 +330,10 @@ public class TestPDFUtils implements Constants {
     
   }
   
+  
+  public static void main(String[] args) {
+    new TestPDFUtils().testAttachingFilesToPDFwithAttachs();
+  }
   
 
   public static void main0(String[] args) {
@@ -287,8 +431,9 @@ public class TestPDFUtils implements Constants {
     File logoFile = new File("logotaulafirmescaib.jpg");
     // File logoFile = new File("logotaulafirmesfundaciobit2.jpg");
 
-    File[] attachments = new File[] { new File(parent, "hola.txt") };
-    String[] attachmentsNames = new String[] { "hola.txt" };
+    List<AttachedFile> attachments = new ArrayList<AttachedFile>(); 
+        
+    attachments.add( new AttachedFile( "hola.txt", new File(parent, "hola.txt")));
 
     try {
 
@@ -296,7 +441,7 @@ public class TestPDFUtils implements Constants {
       // File logoFile = null;
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments,
-          attachmentsNames, null, new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
+           null, new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
               resumLabel, descLabel, desc, titolLabel, titol, logoFile), null);
 
     } catch (Throwable e) {

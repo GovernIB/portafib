@@ -13,6 +13,8 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
+import es.caib.portafib.logic.utils.AttachedFile;
+
 /**
  * 
  * @author anadal
@@ -63,9 +65,10 @@ public class AutofirmaEJB implements AutofirmaLocal {
           files.add(form.signedFile);
         }
         
-        if (form.attachmentsFiles != null) {
-          for (int i = 0; i < form.attachmentsFiles.length; i++) {
-            files.add(form.attachmentsFiles[i]);  
+        
+        if (form.attachments != null) {
+          for (AttachedFile af : form.attachments) {
+            files.add(af.getContent());  
           } 
         }
 

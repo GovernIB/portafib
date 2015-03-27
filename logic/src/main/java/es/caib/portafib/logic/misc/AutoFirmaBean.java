@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
 
 import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.logic.utils.AttachedFile;
 
 /**
  * 
@@ -37,8 +38,7 @@ public class AutoFirmaBean {
   public transient String mimeType = null;
   public transient String fileName = null;
   
-  public transient File[] attachmentsFiles = null;
-  public transient String[] attachmentsNames = null;
+  public transient List<AttachedFile> attachments = null;
   public transient File taulaDeFirmesFile = null;
   public transient File signedFile = null;
 
@@ -118,14 +118,13 @@ public class AutoFirmaBean {
       if (signedFile != null) {
         llistat.add(signedFile);
       }
-      if (attachmentsFiles != null) {
-
-        for (int i = 0; i < attachmentsFiles.length; i++) {
-          if (attachmentsFiles[i] != null) {
-            llistat.add(attachmentsFiles[i]);
-          }
+      
+      if (attachments != null) {
+        for (AttachedFile af : attachments) {
+          llistat.add(af.getContent());          
         }
       }
+      
 
       for (File file : llistat) {
         if (file.exists()) {
@@ -138,6 +137,7 @@ public class AutoFirmaBean {
           }
         }
       }
+      
     } finally {
       super.finalize();
     }

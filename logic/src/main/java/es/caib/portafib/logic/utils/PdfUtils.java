@@ -44,6 +44,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.RectangleReadOnly;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PRStream;
 import com.itextpdf.text.pdf.PdfAWriter;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -466,16 +467,26 @@ public class PdfUtils implements Constants {
    * @throws Exception
    */
   public static void add_TableSign_Attachments_CustodyInfo(File srcPDF, File dstPDF,
-      File[] attachments, String[] attachmentsNames, Long maxSize,
+      final List<AttachedFile> attachmentsOrig, Long maxSize,
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo) throws Exception,
       I18NException {
+    
+    List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+    
+    if (attachmentsOrig != null && attachmentsOrig.size() != 0) {
+      for (AttachedFile attach : attachmentsOrig) { 
+        if (attach != null) {
+         attachments.add(attach);
+        }
+      }
+    }
 
     // 0.- Check
     if (maxSize != null) {
       long sum = srcPDF.length();
       if (attachments != null) {
-        for (File attach : attachments) {
-          sum = sum + attach.length();
+        for (AttachedFile attach : attachments) {
+          sum = sum + attach.getContent().length();
         }
       }
 
@@ -488,10 +499,19 @@ public class PdfUtils implements Constants {
 
     // 1. Modificar Contingut del PDF
     // Llegir PDF
+    
     PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
     ByteArrayOutputStream output = new ByteArrayOutputStream();
+    List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
     {
       PdfStamper stamper = new PdfStamper(reader, output);
+      // 1.0.- Llegir documents Adjunts del PDF original
+      // (Quan es converteix a PDF/A s'eliminen els adjunts)
+      attachmentsOriginalPDF.addAll(extractAttachments(reader));
+      for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+        fileAttached.getContent().deleteOnExit();
+      }
+      attachments.addAll(attachmentsOriginalPDF);
 
       // 1.1.- Afegir taula de firmes (si escau)
       int posicioTaulaFirmes = Constants.TAULADEFIRMES_SENSETAULA;
@@ -512,12 +532,17 @@ public class PdfUtils implements Constants {
     // 5.- Convertir PDF anterior a PDF/A
     PdfReader reader2 = new PdfReader(new ByteArrayInputStream(output.toByteArray()));
     ByteArrayOutputStream output2 = new ByteArrayOutputStream();
-    convertirPdfToPdfa(reader2, output2, attachments, attachmentsNames);
+    convertirPdfToPdfa(reader2, output2, attachments);
+    // Borrar del directori temporal els fitxers adjunts originals
+    for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+      fileAttached.getContent().delete();
+    }
+    
 
     // 6.- Afegir propietats inicials
     PdfReader reader3 = new PdfReader(new ByteArrayInputStream(output2.toByteArray()));
-    PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF)); // ,
-                                                                                 // PDFA_CONFORMANCE_LEVEL);
+    PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF));
+
     Map<String, String> info = reader.getInfo();
     info.put("PortaFIB.versio", Versio.VERSIO);
     stamper3.setMoreInfo(info);
@@ -786,11 +811,18 @@ public class PdfUtils implements Constants {
   public static final PdfAConformanceLevel PDFA_CONFORMANCE_LEVEL = PdfAConformanceLevel.PDF_A_3B;
 
   public static void convertirPdfToPdfa(PdfReader reader, OutputStream destiPDFA,
-      File[] attachments, String[] attachmentsNames) throws Exception {
+      List<AttachedFile> attachments) throws Exception {
 
+    
     Document document = new Document(PageSize.A4);
 
+
     PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
+    
+    
+    //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PdfAConformanceLevel.PDF_A_1B);
+    
+    
     // PDF_A_3B
     // PdfAConformanceLevel.PDF_A_1B);
 
@@ -816,22 +848,13 @@ public class PdfUtils implements Constants {
     }
 
     // 3.- Attach Files
-    if (attachments != null && attachments.length != 0) {
+    if (attachments != null && attachments.size() != 0) {
 
       // PdfWriter writer = stamper.getWriter();
-      for (int i = 0; i < attachments.length; i++) {
-        File src = attachments[i];
+      for (AttachedFile fa : attachments) {
+        File src = fa.getContent();
         if (src != null && src.exists()) {
-          String name = src.getName();
-          if (attachmentsNames != null) {
-            try {
-              name = attachmentsNames[i];
-            } catch (Exception e) {
-              log.error("Error cercant el nom d'un fitxer [" + i + "]: " + e.getMessage(), e);
-              name = src.getName();
-            }
-          }
-
+          String name = fa.getName();
           PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer,
               src.getAbsolutePath(), name, null);
           writer.addFileAttachment(name.substring(0, name.indexOf('.')), fs);
@@ -845,6 +868,101 @@ public class PdfUtils implements Constants {
     writer.close();
 
   }
+  
+  
+  
+  /**
+   * Extracts attachments from an existing PDF.
+   * @param src   the path to the existing PDF
+   * @param dest  where to put the extracted attachments
+   * @throws IOException
+   */
+  /*
+  public static List<FileAttached>  extractAttachments(PdfReader reader) throws IOException {
+      PdfArray array;
+      PdfDictionary annot;
+      PdfDictionary fs;
+      PdfDictionary refs;
+      String filename;
+      List<FileAttached> files = new ArrayList<FileAttached>();
+      for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+          array = reader.getPageN(i).getAsArray(PdfName.ANNOTS);
+          if (array == null) continue;
+          for (int j = 0; j < array.size(); j++) {
+              annot = array.getAsDict(j);
+              if (PdfName.FILEATTACHMENT.equals(annot.getAsName(PdfName.SUBTYPE))) {
+                  fs = annot.getAsDict(PdfName.FS);
+                  refs = fs.getAsDict(PdfName.EF);
+                  for (PdfName name : refs.getKeys()) {
+                      File output = File.createTempFile("portafib_pdf_attached_", ".file");
+                      FileOutputStream fos = new FileOutputStream(output);
+                      fos.write(PdfReader.getStreamBytes((PRStream)refs.getAsStream(name)));
+                      fos.flush();
+                      fos.close();
+                      filename = fs.getAsString(name).toString();
+                      System.out.println(" FILENAME = " + filename);
+                      files.add(new FileAttached(filename, output));
+                  }
+              }
+          }
+      }
+      
+      
+      return files;
+      
+      
+  }
+  
+  */
+  
+  
+  
+  public static List<AttachedFile> extractAttachments(PdfReader reader) throws IOException {
+   
+    PdfDictionary root = reader.getCatalog();
+    PdfDictionary names = root.getAsDict(PdfName.NAMES);
+    List<AttachedFile> files = new ArrayList<AttachedFile>();
+    if (names != null) {
+      PdfDictionary embedded = names.getAsDict(PdfName.EMBEDDEDFILES);
+      PdfArray filespecs = embedded.getAsArray(PdfName.NAMES);
+      
+      for (int i = 0; i < filespecs.size(); ) {
+        files.addAll(extractAttachment(reader, filespecs.getAsString(i++),
+        filespecs.getAsDict(i++)));
+      }
+    }
+    
+    return files;
+  }
+
+  
+  
+  private static List<AttachedFile> extractAttachment(PdfReader reader,
+      PdfString name, PdfDictionary filespec) throws IOException {
+    PRStream stream;
+    FileOutputStream fos;
+    String filename;
+    PdfDictionary refs = filespec.getAsDict(PdfName.EF);
+    
+    List<AttachedFile> files = new ArrayList<AttachedFile>();
+    
+    for (PdfName key : refs.getKeys()) {
+      stream = (PRStream)PdfReader.getPdfObject(refs.getAsIndirectObject(key));
+      filename = filespec.getAsString(key).toString();
+      File output = File.createTempFile("portafib_pdf_attached_", ".file");
+      fos = new FileOutputStream(output);
+      fos.write(PdfReader.getStreamBytes(stream));
+      fos.flush();
+      fos.close();
+      files.add(new AttachedFile(filename, output));
+      break; // Només en volem un (ja que la resta són el mateix)
+    }
+    
+    return files;
+  }
+
+  
+  
 
   public static boolean isSignedPDF(File pdf) throws Exception {
     PdfReader reader = new PdfReader(new FileInputStream(pdf));
