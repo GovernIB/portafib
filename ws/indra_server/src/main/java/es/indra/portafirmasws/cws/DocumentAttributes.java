@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -67,8 +68,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "externalData",
     "typeSign",
     "isFileSign",
-    "generateVisuals",
-    "externalIds"
+    //"generateVisuals",
+    //"externalIds"
 })
 public class DocumentAttributes {
 
@@ -103,9 +104,13 @@ public class DocumentAttributes {
     protected Integer typeSign;
     @XmlElement(name = "is-file-sign", nillable = true)
     protected Boolean isFileSign;
-    @XmlElement(name = "generate-visuals", nillable = true)
+    
+    @XmlTransient
+    //@XmlElement(name = "generate-visuals", nillable = true, required=false)
     protected Boolean generateVisuals;
-    @XmlElement(name = "external-ids", nillable = true)
+    
+    @XmlTransient
+    //@XmlElement(name = "external-ids", nillable = true, required=false)
     protected ExternalIDs externalIds;
 
     /**
