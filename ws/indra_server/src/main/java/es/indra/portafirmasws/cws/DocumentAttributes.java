@@ -67,7 +67,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "signAnnexes",
     "externalData",
     "typeSign",
-    "isFileSign",
+    "isFileSign"
     //"generateVisuals",
     //"externalIds"
 })
