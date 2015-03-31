@@ -40,13 +40,13 @@ public class ListStep
     extends Step
 {
 
-    @XmlElement(name = "minimal-signers", nillable = true)
+    @XmlElement(name = "minimal-signers")
     protected Integer minimalSigners;
-    @XmlElement(name = "signers-action", nillable = true)
+    @XmlElement(name = "signers-action")
     protected Signers signersAction;
-    @XmlElement(name = "signers-reject", nillable = true)
+    @XmlElement(name = "signers-reject")
     protected Signers signersReject;
-    @XmlElement(name = "signers-none", nillable = true)
+    @XmlElement(name = "signers-none")
     protected Signers signersNone;
 
     /**

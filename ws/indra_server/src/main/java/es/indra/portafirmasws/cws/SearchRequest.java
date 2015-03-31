@@ -40,7 +40,7 @@ public class SearchRequest {
 
     @XmlElement(required = true)
     protected Application application;
-    @XmlElement(name = "search-criterias", nillable = true)
+    @XmlElement(name = "search-criterias")
     protected SearchCriterias searchCriterias;
     @XmlAttribute(name = "version")
     protected String version;

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ArchiveMetadatas {
 
-    @XmlElement(name = "archive-metadata", nillable = true)
+    @XmlElement(name = "archive-metadata")
     protected List<ArchiveMetadata> archiveMetadata;
 
     /**

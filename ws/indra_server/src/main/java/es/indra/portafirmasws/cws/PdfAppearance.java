@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class PdfAppearance {
 
-    @XmlElement(name = "signature-image", nillable = true)
+    @XmlElement(name = "signature-image")
     protected SignatureImage signatureImage;
     protected Positions positions;
 

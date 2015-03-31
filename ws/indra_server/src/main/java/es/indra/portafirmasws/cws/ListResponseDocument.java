@@ -39,7 +39,7 @@ public class ListResponseDocument {
     protected int id;
     @XmlElement(required = true)
     protected DocumentAttributes attributes;
-    @XmlElement(name = "archive-options", nillable = true)
+    @XmlElement(name = "archive-options")
     protected ArchiveOptions archiveOptions;
 
     /**

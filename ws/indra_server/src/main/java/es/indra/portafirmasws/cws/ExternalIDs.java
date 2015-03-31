@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ExternalIDs {
 
-    @XmlElement(name = "logical-id", nillable = true)
+    @XmlElement(name = "logical-id")
     protected String logicalId;
-    @XmlElement(name = "verification-code", nillable = true)
+    @XmlElement(name = "verification-code")
     protected VerificationCode verificationCode;
 
     /**

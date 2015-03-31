@@ -44,9 +44,9 @@ public class VisualFile {
     @XmlElement(required = true)
     protected TypeEnum type;
     protected String reference;
-    @XmlElement(name = "external-ids", nillable = true)
+    @XmlElement(name = "external-ids")
     protected ExternalIDs externalIds;
-    @XmlElement(name = "archive-options", nillable = true)
+    @XmlElement(name = "archive-options")
     protected ArchiveOptions archiveOptions;
 
     /**

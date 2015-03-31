@@ -36,7 +36,7 @@ public class UploadStep
     extends Step
 {
 
-    @XmlElement(name = "minimal-signers", nillable = true)
+    @XmlElement(name = "minimal-signers")
     protected Integer minimalSigners;
     @XmlElement(required = true)
     protected Signers signers;

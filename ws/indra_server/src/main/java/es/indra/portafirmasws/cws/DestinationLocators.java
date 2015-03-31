@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class DestinationLocators {
 
-    @XmlElement(name = "archive-locator", nillable = true)
+    @XmlElement(name = "archive-locator")
     protected List<ArchiveLocator> archiveLocator;
 
     /**

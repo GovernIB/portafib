@@ -40,7 +40,7 @@ public class UploadRequestDocument {
 
     @XmlElement(required = true)
     protected DocumentAttributes attributes;
-    @XmlElement(name = "archive-options", nillable = true)
+    @XmlElement(name = "archive-options")
     protected ArchiveOptions archiveOptions;
     protected Annexes annexes;
     @XmlElement(required = true)

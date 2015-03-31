@@ -62,7 +62,7 @@ public class Signer {
     protected String id;
     protected String name;
     protected String email;
-    @XmlElement(name = "check-cert", nillable = true)
+    @XmlElement(name = "check-cert")
     protected Boolean checkCert;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar date;
@@ -71,11 +71,11 @@ public class Signer {
     protected Job job;
     protected Certificate certificate;
     protected Rejection rejection;
-    @XmlElement(name = "signature-files", nillable = true)
+    @XmlElement(name = "signature-files")
     protected SignerSignatureFiles signatureFiles;
-    @XmlElement(name = "id-update", nillable = true)
+    @XmlElement(name = "id-update")
     protected String idUpdate;
-    @XmlElement(name = "pdf-appearance", nillable = true)
+    @XmlElement(name = "pdf-appearance")
     protected PdfAppearance pdfAppearance;
 
     /**

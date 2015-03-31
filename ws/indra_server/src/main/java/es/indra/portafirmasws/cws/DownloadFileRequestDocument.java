@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public class DownloadFileRequestDocument {
 
     protected int id;
-    @XmlElement(name = "download-options", required = true, nillable = true)
+    @XmlElement(name = "download-options", required = true)
     protected DownloadOptions downloadOptions;
 
     /**

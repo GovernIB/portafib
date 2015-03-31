@@ -47,12 +47,12 @@ public class DownloadResponseDocument {
     protected int id;
     @XmlElement(required = true)
     protected DocumentAttributes attributes;
-    @XmlElement(name = "archive-options", nillable = true)
+    @XmlElement(name = "archive-options")
     protected ArchiveOptions archiveOptions;
     protected Annexes annexes;
-    @XmlElement(name = "signature-files", nillable = true)
+    @XmlElement(name = "signature-files")
     protected SignatureFiles signatureFiles;
-    @XmlElement(name = "visual-files", nillable = true)
+    @XmlElement(name = "visual-files")
     protected VisualFiles visualFiles;
     @XmlElement(required = true)
     protected Steps steps;

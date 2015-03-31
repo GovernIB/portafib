@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class DownloadOptions {
 
-    @XmlElement(name = "download-type", nillable = true)
+    @XmlElement(name = "download-type")
     protected ModeTypeEnum downloadType;
     protected Files files;
 

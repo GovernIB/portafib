@@ -82,35 +82,33 @@ public class DocumentAttributes {
     protected Sender sender;
     protected String url;
     protected ImportanceEnum importance;
-    @XmlElement(name = "date-entry", nillable = true)
+    @XmlElement(name = "date-entry")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dateEntry;
-    @XmlElement(name = "date-limit", nillable = true)
+    @XmlElement(name = "date-limit")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dateLimit;
-    @XmlElement(name = "date-last-update", nillable = true)
+    @XmlElement(name = "date-last-update")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dateLastUpdate;
-    @XmlElement(name = "date-notice", nillable = true)
+    @XmlElement(name = "date-notice")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dateNotice;
-    @XmlElement(name = "number-annexes", nillable = true)
+    @XmlElement(name = "number-annexes")
     protected Integer numberAnnexes;
-    @XmlElement(name = "sign-annexes", nillable = true)
+    @XmlElement(name = "sign-annexes")
     protected Boolean signAnnexes;
-    @XmlElement(name = "external-data", nillable = true)
+    @XmlElement(name = "external-data")
     protected String externalData;
-    @XmlElement(name = "type-sign", nillable = true)
+    @XmlElement(name = "type-sign")
     protected Integer typeSign;
-    @XmlElement(name = "is-file-sign", nillable = true)
+    @XmlElement(name = "is-file-sign")
     protected Boolean isFileSign;
-    
-    @XmlTransient
-    //@XmlElement(name = "generate-visuals", nillable = true, required=false)
+
+    @XmlElement(name = "generate-visuals")
     protected Boolean generateVisuals;
-    
-    @XmlTransient
-    //@XmlElement(name = "external-ids", nillable = true, required=false)
+
+    @XmlElement(name = "external-ids")
     protected ExternalIDs externalIds;
 
     /**

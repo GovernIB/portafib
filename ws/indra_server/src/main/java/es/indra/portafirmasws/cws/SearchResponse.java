@@ -40,7 +40,7 @@ public class SearchResponse {
 
     @XmlElement(required = true)
     protected Result result;
-    @XmlElement(name = "search-result", required = true, nillable = true)
+    @XmlElement(name = "search-result", required = true)
     protected SearchResult searchResult;
     @XmlAttribute(name = "version")
     protected String version;

@@ -42,7 +42,7 @@ public class UpdateRequestDocument {
 
     protected int id;
     protected DocumentAttributes attributes;
-    @XmlElement(name = "archive-options", nillable = true)
+    @XmlElement(name = "archive-options")
     protected ArchiveOptions archiveOptions;
     protected Annexes annexes;
     protected Steps steps;

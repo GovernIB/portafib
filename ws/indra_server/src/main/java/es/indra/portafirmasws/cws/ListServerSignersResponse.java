@@ -40,7 +40,7 @@ public class ListServerSignersResponse {
 
     @XmlElement(required = true)
     protected Result result;
-    @XmlElement(name = "server-signers", nillable = true)
+    @XmlElement(name = "server-signers")
     protected ServerSigners serverSigners;
     @XmlAttribute(name = "version")
     protected String version;

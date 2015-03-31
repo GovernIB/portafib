@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class SignatureImage {
 
-    @XmlElement(name = "base64-data", required = true, nillable = true)
+    @XmlElement(name = "base64-data", required = true)
     protected String base64Data;
-    @XmlElement(name = "mime-type", nillable = true)
+    @XmlElement(name = "mime-type")
     protected String mimeType;
 
     /**

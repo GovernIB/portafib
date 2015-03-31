@@ -36,10 +36,10 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class VerificationCode {
 
-    @XmlElement(name = "provider-id", required = true, nillable = true)
+    @XmlElement(name = "provider-id", required = true)
     protected String providerId;
     protected String value;
-    @XmlElement(name = "pdf-position", nillable = true)
+    @XmlElement(name = "pdf-position")
     protected PdfPosition pdfPosition;
 
     /**

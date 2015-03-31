@@ -50,25 +50,25 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ArchiveLocator {
 
-    @XmlElement(name = "repository-id", required = true, nillable = true)
+    @XmlElement(name = "repository-id", required = true)
     protected String repositoryId;
-    @XmlElement(name = "archive-uri", nillable = true)
+    @XmlElement(name = "archive-uri")
     protected String archiveUri;
-    @XmlElement(name = "archive-version", nillable = true)
+    @XmlElement(name = "archive-version")
     protected String archiveVersion;
-    @XmlElement(name = "repository-base", nillable = true)
+    @XmlElement(name = "repository-base")
     protected String repositoryBase;
-    @XmlElement(name = "folder-name", nillable = true)
+    @XmlElement(name = "folder-name")
     protected String folderName;
-    @XmlElement(name = "file-path-name", nillable = true)
+    @XmlElement(name = "file-path-name")
     protected String filePathName;
-    @XmlElement(name = "signature-files-path-pattern", nillable = true)
+    @XmlElement(name = "signature-files-path-pattern")
     protected String signatureFilesPathPattern;
-    @XmlElement(name = "visual-file-path-name", nillable = true)
+    @XmlElement(name = "visual-file-path-name")
     protected String visualFilePathName;
-    @XmlElement(name = "retention-policy", nillable = true)
+    @XmlElement(name = "retention-policy")
     protected String retentionPolicy;
-    @XmlElement(name = "signature-custody", nillable = true)
+    @XmlElement(name = "signature-custody")
     protected Boolean signatureCustody;
 
     /**

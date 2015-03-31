@@ -34,7 +34,7 @@ public class PendingResult
     extends SearchResult
 {
 
-    @XmlElement(name = "pending-documents", required = true, nillable = true)
+    @XmlElement(name = "pending-documents", required = true)
     protected PendingDocuments pendingDocuments;
 
     /**

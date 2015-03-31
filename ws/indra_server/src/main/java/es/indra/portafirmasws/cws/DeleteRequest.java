@@ -43,7 +43,7 @@ public class DeleteRequest {
     @XmlElement(required = true)
     protected Application application;
     protected DeleteRequestDocuments documents;
-    @XmlElement(name = "search-criterias", nillable = true)
+    @XmlElement(name = "search-criterias")
     protected SearchCriterias searchCriterias;
     @XmlAttribute(name = "version")
     protected String version;

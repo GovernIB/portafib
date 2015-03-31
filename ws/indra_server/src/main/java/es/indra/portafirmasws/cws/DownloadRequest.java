@@ -46,11 +46,11 @@ public class DownloadRequest {
 
     @XmlElement(required = true)
     protected Application application;
-    @XmlElement(name = "download-documents", nillable = true)
+    @XmlElement(name = "download-documents")
     protected Boolean downloadDocuments;
-    @XmlElement(name = "additional-info", nillable = true)
+    @XmlElement(name = "additional-info")
     protected Boolean additionalInfo;
-    @XmlElement(name = "archive-info", nillable = true)
+    @XmlElement(name = "archive-info")
     protected Boolean archiveInfo;
     @XmlElement(required = true)
     protected DownloadRequestDocument document;

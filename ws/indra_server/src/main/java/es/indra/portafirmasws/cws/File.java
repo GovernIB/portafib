@@ -56,16 +56,16 @@ public class File {
     protected String reference;
     @XmlElement(required = true)
     protected ProfileEnum profile;
-    @XmlElement(name = "file-format", required = true, nillable = true)
+    @XmlElement(name = "file-format", required = true)
     protected CodificationTypeEnum fileFormat;
     protected String extension;
-    @XmlElement(name = "mime-type", nillable = true)
+    @XmlElement(name = "mime-type")
     protected String mimeType;
-    @XmlElement(name = "base64-data", nillable = true)
+    @XmlElement(name = "base64-data")
     protected String base64Data;
-    @XmlElement(name = "number-signatures", nillable = true)
+    @XmlElement(name = "number-signatures")
     protected String numberSignatures;
-    @XmlElement(name = "signers-id", nillable = true)
+    @XmlElement(name = "signers-id")
     protected SignersID signersId;
 
     /**

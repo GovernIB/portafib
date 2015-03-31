@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class SearchCriterias {
 
-    @XmlElement(name = "search-criteria", required = true, nillable = true)
+    @XmlElement(name = "search-criteria", required = true)
     protected List<Field> searchCriteria;
 
     /**
