@@ -21,11 +21,14 @@
 <script>
   var attributes =
   {
-    id: 'SignApplet',
+    id: 'miniApplet',
     codebase:'<c:url value="/applet" />', // directory with the jar
     code:'es.caib.portafib.applet.SignApplet',
     archive:'${AppletUrl}portafib-applet-signed-<%=es.caib.portafib.versio.Versio.VERSIO%>.jar,${AppletUrl}miniapplet-full.jar',
-    width: 475, height: 300,
+    name: 'Applet de Firma de PortaFIB (Basat en el MiniApplet @firma)',
+    type: 'application/x-java-applet',
+    width: 475,
+    height: 300,
     boxbgcolor: '#ffffff'
   };
   var parameters = {
@@ -57,7 +60,7 @@
       ${Constants.APPLET_POLICYIDENTIFIERHASHALGORITHM}:'${pfi:escapeJavaScript(config.policyIdentifierHashAlgorithm)}',
       <c:if test="${not empty config.policyUrlDocument}">
       ${Constants.APPLET_POLICYURLDOCUMENT}:'${pfi:escapeJavaScript(config.policyUrlDocument)}',
-      </c:if>      
+      </c:if>
       </c:if>
       ${Constants.APPLET_SIGNERCLASS}:'${config.signerClass}'
 	};
