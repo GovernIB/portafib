@@ -148,7 +148,7 @@ public class FirmaEventManagerEJB implements Constants,
       case (int) NOTIFICACIOAVIS_PETICIO_EN_PROCES:
       case (int) NOTIFICACIOAVIS_PETICIO_PAUSADA:
         {
-          Solicitant soli = getSolicitant(firmaEvent);
+          Solicitant soli = getSolicitant(firmaEvent, eventID);
           log.info(" NOTIFICACIOAVIS_FIRMA_TOTAL => SOLICITANT: " + soli + ")");
           UsuariEntitatJPA ue = null;
           if (soli!= null) {
@@ -460,10 +460,10 @@ public class FirmaEventManagerEJB implements Constants,
   }
   
   
-  protected Solicitant getSolicitant(FirmaEvent firmaEvent) throws I18NException {
+  protected Solicitant getSolicitant(FirmaEvent firmaEvent, int tipusNotificacio) throws I18NException {
 
-    
     String usuariEntitatID = firmaEvent.getPeticioDeFirmaUsuariEntitatID();
+   
     if (usuariEntitatID != null) {
       // La petició de firma té UsuariEntitat associat
 
@@ -471,7 +471,7 @@ public class FirmaEventManagerEJB implements Constants,
       //String usuariEntitatID = usuariEntitat.get(0);
       Where w1 = UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID);
       // Ara verificam que l'usuari tengui marcat el rebre tots els avisos o rebre l'avis en concret 
-      Where w2 = getWhereDeRebreAvis(NOTIFICACIOAVIS_PETICIO_EN_PROCES);
+      Where w2 = getWhereDeRebreAvis(tipusNotificacio);
       // (2) i té la petició de firma associada a ell
       UsuariEntitatJPA ue = selectOneFull(Where.AND(w1, w2)); 
       if (ue != null) {
