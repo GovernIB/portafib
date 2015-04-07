@@ -114,12 +114,13 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
     UsuariAplicacioForm usuariAplicacioForm= super.getUsuariAplicacioForm(_jpa, __isView,request,mav);
 
-    // Fixam l'email de l'administrador
+    // Establim l'entitat de login
     usuariAplicacioForm.getUsuariAplicacio().setEntitatID(LoginInfo.getInstance().getEntitatID());
-    usuariAplicacioForm.getUsuariAplicacio().setEmailAdmin(Utils.getLoggedUserEmail());
 
     if (usuariAplicacioForm.isNou()) {
-      
+      // Fixam l'email de l'administrador si el formulari es nou      
+      usuariAplicacioForm.getUsuariAplicacio().setEmailAdmin(Utils.getLoggedUserEmail());
+
       UsuariAplicacioJPA aplicacio = usuariAplicacioForm.getUsuariAplicacio();
       if (!Configuracio.isCAIB()) {
         String prefix = LoginInfo.getInstance().getEntitatID() + "_";
