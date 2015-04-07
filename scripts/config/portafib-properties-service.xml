@@ -49,12 +49,16 @@
       <!-- applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner -->
 
       <!-- ======== PLUGIN DE CUSTODIA - FILESYSTEM ============== -->
-      es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
+	  es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
       es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
-      es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\PortaFIB-jboss-as\\server\\default\\deployportafib\\custodia.war
-
-      # {0} = custodyID  i {1} = URL.Encoded(custodyID)
-      es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
+      es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
+      # {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
+      #es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
+	  es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?hash={2}
+	  es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
+	  #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
+	  es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5
+	  
       
       <!-- ======== PLUGIN DE CUSTODIA - CUSTODIA CAIB ============== -->
       # es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.custodiacaibaxis.CustodiaCaibAxisPlugin

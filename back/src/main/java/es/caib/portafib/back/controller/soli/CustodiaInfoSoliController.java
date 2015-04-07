@@ -210,6 +210,9 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       if (!isUsuariEntitat()) {
         hiddenFields.remove(USUARIAPLICACIOID);
       }
+      
+      filterForm.setOrderBy(DATACUSTODIA.fullName);
+      filterForm.setOrderAsc(false);
 
       hiddenFields.remove(TITOLPETICIO);
       hiddenFields.remove(DATACUSTODIA);
