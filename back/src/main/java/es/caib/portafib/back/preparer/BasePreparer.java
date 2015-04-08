@@ -65,11 +65,7 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
 	    AttributeContext attributeContext) throws PreparerException {
 
 	  Map<String, Object> request = tilesContext.getRequestScope();
-	  
-	  
 
-	  
-	  
    	// URL 
 	  // TODO ficarho dins cache (veure Capperpare.java)
 	  Object[] requestObjects = tilesContext.getRequestObjects();
