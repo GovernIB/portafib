@@ -14,9 +14,9 @@ public interface Constants {
 
   public static final String MAIL_SERVICE = "java:/es.caib.portafib.mail";
 
-  public static final String MAIL_QUEUE = "jms/PortaFIBMailsQueue";
+  public static final String MAIL_QUEUE = "jms/es.caib.portafib.PortaFIBMailsQueue";
 
-  public static final String NOTIFICACIONS_QUEUE = "jms/PortaFIBNotificacionsQueue";
+  public static final String NOTIFICACIONS_QUEUE = "jms/es.caib.portafib.PortaFIBNotificacionsQueue";
   
   public static final String PDF_MIME_TYPE = "application/pdf";
   
