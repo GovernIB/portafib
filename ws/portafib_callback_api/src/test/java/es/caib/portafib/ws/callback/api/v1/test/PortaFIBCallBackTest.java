@@ -1,16 +1,12 @@
 package es.caib.portafib.ws.callback.api.v1.test;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
-
 
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.callback.api.v1.Actor;
@@ -62,10 +58,8 @@ public class PortaFIBCallBackTest extends PortaFIBTestUtils {
     event.setApplicationID("entitytest_userapp");
     
     event.setEntityID("entitytest");
-    
-    GregorianCalendar gc = (GregorianCalendar)GregorianCalendar.getInstance();    
-    gc.setTimeInMillis(new Date().getTime());
-    event.setEventDate(new XMLGregorianCalendarImpl(gc));
+
+    event.setEventDate(new Timestamp(new Date().getTime()));
 
     event.setEventTypeID((int)Constants.NOTIFICACIOAVIS_PETICIO_EN_PROCES);
     

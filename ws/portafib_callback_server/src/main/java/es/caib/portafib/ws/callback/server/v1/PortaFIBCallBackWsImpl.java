@@ -9,8 +9,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
-
-import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.VersionsWs;
 
 /**
@@ -20,10 +18,12 @@ import es.caib.portafib.ws.utils.VersionsWs;
  */
 @Stateless(name = PortaFIBCallBackWsImpl.NAME + "Ejb")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@WebService(name = PortaFIBCallBackWsImpl.NAME_WS, portName = PortaFIBCallBackWsImpl.NAME_WS, serviceName = PortaFIBCallBackWsImpl.NAME_WS
-    + "Service")
+@WebService(name = PortaFIBCallBackWsImpl.NAME_WS,
+             portName = PortaFIBCallBackWsImpl.NAME_WS, 
+             serviceName = PortaFIBCallBackWsImpl.NAME_WS + "Service",
+             endpointInterface = "es.caib.portafib.ws.callback.server.v1." + PortaFIBCallBackWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/cb", urlPattern = "/v1/" + PortaFIBCallBackWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false)
-public class PortaFIBCallBackWsImpl implements Constants {
+public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
 
   public static final String NAME = "PortaFIBCallBack";
 

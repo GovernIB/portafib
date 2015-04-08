@@ -1,11 +1,13 @@
 
 package es.caib.portafib.ws.api.v1;
 
+import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -77,8 +79,10 @@ public class CustodiaInfoBean {
     protected String custodiaPluginID;
     protected String custodiaPluginParameters;
     protected boolean custodiar;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar dataCustodia;
+    protected Timestamp dataCustodia;
     protected boolean editable;
     protected String entitatID;
     protected String missatge;
@@ -263,10 +267,10 @@ public class CustodiaInfoBean {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDataCustodia() {
+    public Timestamp getDataCustodia() {
         return dataCustodia;
     }
 
@@ -275,10 +279,10 @@ public class CustodiaInfoBean {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDataCustodia(XMLGregorianCalendar value) {
+    public void setDataCustodia(Timestamp value) {
         this.dataCustodia = value;
     }
 

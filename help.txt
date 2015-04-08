@@ -33,8 +33,8 @@ clean             Neteja els projectes abans de compilar.
 
 -Pws-portafirmas-callback-server Crea WS per provar la recepcio dels Callback del
                   PortaFirmas antic de la CAIB. Els usuaris aplicacio han de tenir
-				  calback url 
-				  http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
+                  calback url 
+                  http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
 

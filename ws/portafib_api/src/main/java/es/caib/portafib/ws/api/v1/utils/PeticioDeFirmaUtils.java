@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.api.v1.AnnexBean;
@@ -57,11 +55,11 @@ public class PeticioDeFirmaUtils {
     peticioDeFirmaWs.setTitol(titol);
     peticioDeFirmaWs.setDescripcio(titol);      
     peticioDeFirmaWs.setMotiu(titol);
+
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.MONTH, 1);
     
-    GregorianCalendar gc = (GregorianCalendar)GregorianCalendar.getInstance();
-    gc.setTimeInMillis(new Date().getTime());
-    gc.add(GregorianCalendar.MONTH, 1);
-    peticioDeFirmaWs.setDataCaducitat(new XMLGregorianCalendarImpl(gc));
+    peticioDeFirmaWs.setDataCaducitat(new Timestamp(cal.getTime().getTime()));
     
     
     peticioDeFirmaWs.setIdiomaID("ca");

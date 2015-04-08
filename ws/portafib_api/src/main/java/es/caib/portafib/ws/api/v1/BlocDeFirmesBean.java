@@ -1,12 +1,14 @@
 
 package es.caib.portafib.ws.api.v1;
 
+import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -46,8 +48,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class BlocDeFirmesBean {
 
     protected long blocDeFirmesID;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar dataFinalitzacio;
+    protected Timestamp dataFinalitzacio;
     protected long fluxDeFirmesID;
     protected int minimDeFirmes;
     protected int ordre;
@@ -73,10 +77,10 @@ public class BlocDeFirmesBean {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDataFinalitzacio() {
+    public Timestamp getDataFinalitzacio() {
         return dataFinalitzacio;
     }
 
@@ -85,10 +89,10 @@ public class BlocDeFirmesBean {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDataFinalitzacio(XMLGregorianCalendar value) {
+    public void setDataFinalitzacio(Timestamp value) {
         this.dataFinalitzacio = value;
     }
 

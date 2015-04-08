@@ -78,6 +78,7 @@
 						  <artifact>org.fundaciobit.genapp:genapp-core</artifact>
 						  <includes>
 							<include>org/fundaciobit/genapp/common/i18n/I18N*.*</include>
+							<include>org/fundaciobit/genapp/common/ws/Ws*Adapter.*</include>
 						  </includes>
 						</filter>
 					  </filters>
@@ -176,15 +177,7 @@
 						<version>1.0.0</version>
 						<scope>compile</scope>
 					</dependency>
-					
-					<!--
-					 <dependency>
-						<groupId>log4j</groupId>
-						<artifactId>log4j</artifactId>
-						<version>1.2.14</version>
-						<scope>compile</scope>
-					</dependency>
-					-->
+
 				</dependencies>
 			 
 				<executions>
@@ -254,7 +247,10 @@
 					<goalPrefix>wsconsume</goalPrefix>	
                     <extension>true</extension>					
 					<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>	
-                    <targetPackage>es.caib.portafib.ws.api.v1</targetPackage>					
+                    <targetPackage>es.caib.portafib.ws.api.v1</targetPackage>
+					<bindingFiles>
+						<bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
+					 </bindingFiles>					
 				  </configuration>  
 				  <executions>  
 					<execution>  

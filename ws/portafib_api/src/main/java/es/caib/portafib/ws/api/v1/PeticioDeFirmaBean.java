@@ -1,12 +1,14 @@
 
 package es.caib.portafib.ws.api.v1;
 
+import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -100,12 +102,18 @@ public class PeticioDeFirmaBean {
     protected long algorismeDeFirmaID;
     protected boolean avisWeb;
     protected Long custodiaInfoID;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar dataCaducitat;
+    protected Timestamp dataCaducitat;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar dataFinal;
+    protected Timestamp dataFinal;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar dataSolicitud;
+    protected Timestamp dataSolicitud;
     protected String descripcio;
     protected String descripcioTipusDocument;
     protected FitxerBean fitxerAFirmar;
@@ -193,10 +201,10 @@ public class PeticioDeFirmaBean {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDataCaducitat() {
+    public Timestamp getDataCaducitat() {
         return dataCaducitat;
     }
 
@@ -205,10 +213,10 @@ public class PeticioDeFirmaBean {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDataCaducitat(XMLGregorianCalendar value) {
+    public void setDataCaducitat(Timestamp value) {
         this.dataCaducitat = value;
     }
 
@@ -217,10 +225,10 @@ public class PeticioDeFirmaBean {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDataFinal() {
+    public Timestamp getDataFinal() {
         return dataFinal;
     }
 
@@ -229,10 +237,10 @@ public class PeticioDeFirmaBean {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDataFinal(XMLGregorianCalendar value) {
+    public void setDataFinal(Timestamp value) {
         this.dataFinal = value;
     }
 
@@ -241,10 +249,10 @@ public class PeticioDeFirmaBean {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDataSolicitud() {
+    public Timestamp getDataSolicitud() {
         return dataSolicitud;
     }
 
@@ -253,10 +261,10 @@ public class PeticioDeFirmaBean {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDataSolicitud(XMLGregorianCalendar value) {
+    public void setDataSolicitud(Timestamp value) {
         this.dataSolicitud = value;
     }
 

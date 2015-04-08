@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Arrays;
@@ -18,8 +17,6 @@ import javax.annotation.security.RunAs;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -75,7 +72,7 @@ import javax.xml.ws.BindingProvider;
  * @author anadal
  * 
  */
-@SuppressWarnings("restriction")
+//@SuppressWarnings("restriction")
 @RunAs("PFI_USER")
 @MessageDriven(name = Constants.NOTIFICACIONS_QUEUE, activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
@@ -475,9 +472,7 @@ public class NotificacionsQueue implements MessageListener {
 
     PortaFIBEvent event = new PortaFIBEvent();
 
-    GregorianCalendar gc = (GregorianCalendar)GregorianCalendar.getInstance();    
-    gc.setTimeInMillis(fe.getDateEvent().getTime());
-    event.setEventDate(new XMLGregorianCalendarImpl(gc));
+    event.setEventDate(new Timestamp(fe.getDateEvent().getTime()));
     
     event.setApplicationID(usuariAplicacio.getUsuariAplicacioID());
     

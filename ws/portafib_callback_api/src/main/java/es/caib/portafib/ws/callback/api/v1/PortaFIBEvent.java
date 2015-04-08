@@ -1,11 +1,13 @@
 
 package es.caib.portafib.ws.callback.api.v1;
 
+import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -50,8 +52,10 @@ public class PortaFIBEvent {
     protected Actor actor;
     protected String applicationID;
     protected String entityID;
+    @XmlElement(type = String.class)
+    @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar eventDate;
+    protected Timestamp eventDate;
     protected int eventTypeID;
     protected Sign sign;
     protected SigningRequest signingRequest;
@@ -134,10 +138,10 @@ public class PortaFIBEvent {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getEventDate() {
+    public Timestamp getEventDate() {
         return eventDate;
     }
 
@@ -146,10 +150,10 @@ public class PortaFIBEvent {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setEventDate(XMLGregorianCalendar value) {
+    public void setEventDate(Timestamp value) {
         this.eventDate = value;
     }
 
