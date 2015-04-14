@@ -2177,7 +2177,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   
   private ArchiveOptions peticioDeFirma2ArchiveOptions(PeticioDeFirmaJPA peticioDeFirma) {
     
-    ArchiveOptions archiveOptions = new ArchiveOptions();
+    ArchiveOptions archiveOptions = null;
+    
     
     // TODO Que fer amb això ????
     // SourceLocators srcLoc = ????;
@@ -2190,6 +2191,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     // METADADES
     Set<MetadadaJPA> listMetadadaPortaFIB = peticioDeFirma.getMetadadas();
     if (listMetadadaPortaFIB != null && listMetadadaPortaFIB.size() != 0) {
+      archiveOptions = new ArchiveOptions();
 
       ArchiveMetadatas archiveMetadatas = new ArchiveMetadatas();
 
