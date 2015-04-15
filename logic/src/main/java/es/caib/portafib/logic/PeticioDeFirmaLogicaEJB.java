@@ -442,6 +442,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             new I18NArgumentString(String.valueOf(peticioDeFirmaID)));
       }
 
+      peticioDeFirma.setDataSolicitud(new Timestamp(new Date().getTime()));
       int currentState = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
       peticioDeFirma
           .setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
@@ -461,7 +462,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           custodiaInfo = custodiaInfoEjb.findByPrimaryKey(peticioDeFirma.getCustodiaInfoID());
           if (custodiaInfo.isCustodiar()) {
             plugin = PortaFIBPluginsManager.getDocumentCustodyPluginInstance();
-            custodyID = String.valueOf(peticioDeFirma.getPeticioDeFirmaID());
+            // Afegir Hora de Solicitud evita duplicats si reiniciam la petició 
+            custodyID = peticioDeFirma.getPeticioDeFirmaID() + "_" + peticioDeFirma.getDataSolicitud().getTime();
             
             custodyID = plugin.reserveCustodyID(custodyID, custodiaInfo.getCustodiaPluginParameters());
             // TODO Check custodyID != null
@@ -512,7 +514,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
 
         peticioDeFirma.setFitxerAdaptatID(fitxerFinalAFirmarID);
-        peticioDeFirma.setDataSolicitud(new Timestamp(new Date().getTime()));
+        
 
       }
 
