@@ -82,6 +82,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
     
+    <definition name="senseSuportJava" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/senseSuportJava.jsp" />
+    </definition>
+    
     <!--  ===========  WEBDB ================== -->
     
     <definition name="webdb" extends="base.definition">

@@ -1,6 +1,8 @@
+<%@page import="org.apache.commons.io.FileUtils"%>
 <%@page import="java.io.InputStream"
 %><%@page import="java.io.ByteArrayOutputStream"
 %><%@page import="java.net.URL"
+%><%@page import="java.io.File"
 %><%@page import="org.apache.log4j.Logger"
 %><%@page import="java.net.HttpURLConnection"
 %><%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -22,7 +24,7 @@
 
   public static String contentDeployJava = null;
   
-  public static String downloadDeployJava(String urlPath) {
+  public static String downloadDeployJava(String urlPath,  HttpServletRequest request) {
     if (contentDeployJava == null) {
       try {
         URL url = new URL(urlPath);
@@ -45,7 +47,7 @@
 
           inputStream.close();
 
-          contentDeployJava = new String(outputStream.toByteArray());
+          setContentDeployJava(new String(outputStream.toByteArray()), request);
           
         }
       } catch(Throwable th) {
@@ -54,9 +56,16 @@
     }
     
     return contentDeployJava;
-    
-    
+
   }
+  
+  
+  public static void setContentDeployJava(String cdj, HttpServletRequest request) {
+    contentDeployJava = cdj.replace("http://java.com/dt-redirect",
+        request.getContextPath() + "/common/senseSuportJava");
+  }
+  
+  
   
   /*
   public static boolean exists(String URLName){
@@ -80,10 +89,28 @@
    if (quefer == null) {
 
      final String url = "http://java.com/js/deployJava.js";
-     String content = downloadDeployJava(url);
+     String content = downloadDeployJava(url, request);
      if (content == null) {
-       log.info("deployjava.jsp  ==> utilitzam REDIRECT a /js/deployJava.js");
-       quefer = REDIRECT;
+
+       try {
+         
+         //System.out.println(" Context Path = " + request.getContextPath());
+         
+         String localPath = "/js/deployJava.js";
+
+         File localJS = new File(session.getServletContext().getRealPath(localPath));
+         
+         //System.out.println("localJS: " + localJS.getAbsolutePath());
+       
+         setContentDeployJava(FileUtils.readFileToString(localJS), request);
+         
+         log.info("deployjava.jsp  ==> utilitzam CACHE del contingut de " + localPath);
+         quefer = CACHE;
+         
+       } catch(Throwable th) {
+          log.info("deployjava.jsp  ==> utilitzam REDIRECT a /js/deployJava.js");
+          quefer = REDIRECT;
+       }
      } else {
        log.info("deployjava.jsp  ==> utilitzam CACHE del contingut de " + url);
        quefer = CACHE;
