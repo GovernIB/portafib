@@ -924,11 +924,20 @@ public class PdfUtils implements Constants {
     List<AttachedFile> files = new ArrayList<AttachedFile>();
     if (names != null) {
       PdfDictionary embedded = names.getAsDict(PdfName.EMBEDDEDFILES);
-      PdfArray filespecs = embedded.getAsArray(PdfName.NAMES);
-      
-      for (int i = 0; i < filespecs.size(); ) {
-        files.addAll(extractAttachment(reader, filespecs.getAsString(i++),
-        filespecs.getAsDict(i++)));
+      if (embedded != null) {
+        PdfArray filespecs = embedded.getAsArray(PdfName.NAMES);
+        
+        if (filespecs != null) {
+          for (int i = 0; i < filespecs.size(); ) {
+            try {
+              files.addAll(extractAttachment(reader, filespecs.getAsString(i++),
+              filespecs.getAsDict(i++)));
+            } catch(Exception e) {
+              log.error("Error desconegut extraient attachments del PDF: "
+                 + e.getMessage(), e);
+            }
+          }
+        }
       }
     }
     
