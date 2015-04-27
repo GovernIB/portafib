@@ -226,9 +226,11 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
             usuariEntitatID, Arrays.toString(peticionsStr.toArray()) );
       }
 
+      // TODO
       // (4) L'usuari té colaboracions o delegacions
-      // Si no tenim solicituds de firma llavors les cola/dele es poden borrar
+      // Si no tenim solicituds de firma llavors les cola/dele es poden esborrar
       
+      // TODO
       // (5) L'usuari surt a bitacoles???
       // NOTA: Si no té sol.licituds de firmes ni peticions de firma 
       // ni colaboracions/delegacions llavors no surt a la bitacola

@@ -8,15 +8,14 @@ import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.validator.EntitatLogicValidator;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
@@ -34,16 +33,17 @@ import javax.servlet.http.HttpServletRequest;
  * Created 24/05/13 9:13
  *
  * @author mgonzalez
+ * @author anadal
  */
 @Controller
 @RequestMapping(value = "/admin/entitat")
 public class GestioEntitatController extends EntitatController {
 
-  @EJB(mappedName = "portafib/UsuariEntitatEJB/local")
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
-
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
+
+  @EJB(mappedName = "portafib/EntitatLogicaEJB/local")
+  protected EntitatLogicaLocal entitatLogicaEjb;
 
   @Override
   public String getTileForm() {
@@ -54,6 +54,13 @@ public class GestioEntitatController extends EntitatController {
   public String getTileList() {
     return "gestioEntitatList";
   }
+
+  @Override
+  public String getSessionAttributeFilterForm() {
+    return "EntitatWebDB_FilterForm_Admin";
+  }
+
+  
 
   @Override
   public EntitatForm getEntitatForm(EntitatJPA _jpa, boolean __isView,
@@ -115,26 +122,7 @@ public class GestioEntitatController extends EntitatController {
   @Override
   public void delete(HttpServletRequest request, Entitat entitat) throws Exception, I18NException {
 
-    String eId= entitat.getEntitatID();
-    Where w = UsuariEntitatFields.ENTITATID.equal(eId);
-    Long countUE =  usuariEntitatEjb.count(w);
-
-    // Si no te usuariEntitat associats, es pot esborrar.
-    if(countUE != 0){
-        String msg = I18NUtils.tradueix("entitat.teUsuariEntitat", eId);        
-        throw new Exception(msg);
-    }
-
-    w = UsuariAplicacioFields.ENTITATID.equal(eId);
-    Long countUA = usuariAplicacioEjb.count(w);
-
-    // Si no te usuariAplicacio associats, es pot esborrar.
-    if(countUA != 0){
-        String msg = I18NUtils.tradueix("entitat.teUsuariAplicacio",eId);
-        throw new Exception(msg);
-    }
-
-    super.delete(request, entitat);
+    entitatLogicaEjb.deleteFull(entitat.getEntitatID());
 
   }
   
