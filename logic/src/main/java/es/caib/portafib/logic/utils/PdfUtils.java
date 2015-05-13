@@ -38,6 +38,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
@@ -52,6 +53,7 @@ import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfFileSpecification;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfNumber;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfString;
@@ -814,61 +816,136 @@ public class PdfUtils implements Constants {
       List<AttachedFile> attachments) throws Exception {
 
     
-    Document document = new Document(PageSize.A4);
+    {
+      Document document = new Document(); //PageSize.A4);
+     
+      //OutputStream  destitmpPDFA = new FileOutputStream(tmpPDFA);
+  
+      PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
+      
+      
+      //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PdfAConformanceLevel.PDF_A_1B);
+      
+     // writer.setPDFXConformance(PdfAWriter.PDFX1A2001);
+      // PDF_A_3B
+      // PdfAConformanceLevel.PDF_A_1B);
+  
+      writer.createXmpMetadata();
+  
+      int numberPages = reader.getNumberOfPages();
+  
+      document.setMargins(0, 0, 0, 0);
+      
+  
+      PdfDictionary outi = new PdfDictionary(PdfName.OUTPUTINTENT);
+      outi.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
+      outi.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
+      outi.put(PdfName.S, PdfName.GTS_PDFA1);
+      writer.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(outi));
+  
+      
+      
+      PdfImportedPage p = null;
+      Image image;
+      
+      for (int i = 0; i < numberPages; i++) {
+        int pageNumber = i + 1;
+        p = writer.getImportedPage(reader, pageNumber);                
+        image = Image.getInstance(p);
 
+        Rectangle rect = reader.getPageSize(pageNumber);
 
-    PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
-    
-    
-    //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PdfAConformanceLevel.PDF_A_1B);
-    
-    
-    // PDF_A_3B
-    // PdfAConformanceLevel.PDF_A_1B);
+        //show(reader.getPageSize(pageNumber));
+        //show(reader.getPageSizeWithRotation(pageNumber));
 
-    writer.createXmpMetadata();
+        if(rect.getWidth() > rect.getHeight()) {
+          //System.out.println("Horitzontal: " + rect.getHeight() + " | " + rect.getWidth() );
+          Rectangle newrect = new Rectangle(0.0f, 0.0f,rect.getWidth(),  rect.getHeight());
+          document.setPageSize(newrect);
+        } else {
+          //System.out.println("Vertical: ");
+          document.setPageSize(rect);
+        }
 
-    int numberPages = reader.getNumberOfPages();
-
-    document.setMargins(0, 0, 0, 0);
-    document.open();
-
-    PdfDictionary outi = new PdfDictionary(PdfName.OUTPUTINTENT);
-    outi.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
-    outi.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
-    outi.put(PdfName.S, PdfName.GTS_PDFA1);
-    writer.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(outi));
-
-    PdfImportedPage p = null;
-    Image image;
-    for (int i = 0; i < numberPages; i++) {
-      p = writer.getImportedPage(reader, i + 1);
-      image = Image.getInstance(p);
-      document.add(image);
-    }
-
-    // 3.- Attach Files
-    if (attachments != null && attachments.size() != 0) {
-
-      // PdfWriter writer = stamper.getWriter();
-      for (AttachedFile fa : attachments) {
-        File src = fa.getContent();
-        if (src != null && src.exists()) {
-          String name = fa.getName();
-          PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer,
-              src.getAbsolutePath(), name, null);
-          writer.addFileAttachment(name.substring(0, name.indexOf('.')), fs);
+        if (i == 0) {
+          document.open();
+        }
+        document.newPage();
+        document.add(image);
+        
+        
+      }
+  
+      // 3.- Attach Files
+      if (attachments != null && attachments.size() != 0) {
+  
+        // PdfWriter writer = stamper.getWriter();
+        for (AttachedFile fa : attachments) {
+          File src = fa.getContent();
+          if (src != null && src.exists()) {
+            String name = fa.getName();
+            PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer,
+                src.getAbsolutePath(), name, null);
+            writer.addFileAttachment(name.substring(0, name.indexOf('.')), fs);
+          }
         }
       }
+  
+      document.close();      
+  
+      writer.flush();
+      writer.close();
+
+      //destitmpPDFA.close();
     }
-
-    document.close();
-
-    writer.flush();
-    writer.close();
+    
+    // Copiam i ajustam orientació perduda en la conversió anterior
+    /*{
+      
+      OutputStream output2 = destiPDFABo;
+      
+      PdfReader reader2 = new PdfReader(new FileInputStream(tmpPDFA));
+      int n = reader.getNumberOfPages();
+      int rot;
+      PdfDictionary pageDict;
+      for (int i = 1; i <= n; i++) {
+         // XYZ  
+         show(reader.getPageSize(i));
+         show(reader.getPageSizeWithRotation(i));
+         
+         if(reader.getPageSizeWithRotation(i).getWidth() > reader.getPageSizeWithRotation(i).getHeight()) {
+           System.out.println("Horitzontal: ");
+         } else {
+           System.out.println("Vertical: ");
+         }
+         
+      }
+      PdfStamper stamper = new PdfStamper(reader2, output2);
+      stamper.close();
+      reader2.close();
+      
+    }
+    */
+    // XYZ 
+    //if (!tmpPDFA.delete()) {
+    //  tmpPDFA.deleteOnExit();
+    //};
 
   }
   
+  
+  public static void show(Rectangle rect) {
+    System.out.print("llx: ");
+    System.out.print(rect.getLeft());
+    System.out.print(", lly: ");
+    System.out.print(rect.getBottom());
+    System.out.print(", urx: ");
+    System.out.print(rect.getRight());
+    System.out.print(", lly: ");
+    System.out.print(rect.getTop());
+    System.out.print(", rotation: ");
+   System.out.println(rect.getRotation());
+}
   
   
   /**
@@ -1010,15 +1087,17 @@ public class PdfUtils implements Constants {
   public static void addCustodiaInfo(PdfReader reader, PdfStamper stamp,
       StampCustodiaInfo custodiaInfo, int posicioTaulaDeFirmes) throws Exception, I18NException {
 
+
+
+    int positioCustodiaInfoGeneral = custodiaInfo.posicioCustodiaInfo;
+
+    if (positioCustodiaInfoGeneral == POSICIO_PAGINA_CAP) {
+      return;
+    }
+    
     int numberOfPages = reader.getNumberOfPages();
 
     BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-
-    int positioCustodiaInfo = custodiaInfo.posicioCustodiaInfo;
-
-    if (positioCustodiaInfo == POSICIO_PAGINA_CAP) {
-      return;
-    }
 
     /*
      * Indica en quines pàgines s'ha de mostrar el missatge i el codi de barres.
@@ -1055,12 +1134,13 @@ public class PdfUtils implements Constants {
       float height = pageSize.getHeight();
 
       int SIGNATURE_SPLIT_LEN = 0;
-      if (height > width)
-        SIGNATURE_SPLIT_LEN = (positioCustodiaInfo == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfo == POSICIO_PAGINA_DRETA) ? SIGNATURE_VERTICAL_SPLIT_LEN
+      if (height > width) {
+        SIGNATURE_SPLIT_LEN = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? SIGNATURE_VERTICAL_SPLIT_LEN
             : SIGNATURE_HORIZONTAL_SPLIT_LEN;
-      else
-        SIGNATURE_SPLIT_LEN = (positioCustodiaInfo == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfo == POSICIO_PAGINA_DRETA) ? SIGNATURE_HORIZONTAL_SPLIT_LEN
+      } else {
+        SIGNATURE_SPLIT_LEN = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? SIGNATURE_HORIZONTAL_SPLIT_LEN
             : SIGNATURE_VERTICAL_SPLIT_LEN;
+      }
 
       Vector<String> lines = new Vector<String>();
       int counter = 0;
@@ -1102,8 +1182,9 @@ public class PdfUtils implements Constants {
 
       final float SEP_LINE = 5.0f + SIGNATURE_SPLIT_MARGIN;
       float lineX, lineY;
+
       
-      switch (positioCustodiaInfo) {
+      switch (positioCustodiaInfoGeneral) {
       default:
       case (POSICIO_PAGINA_ESQUERRA):
         lineX = 24;
@@ -1186,10 +1267,10 @@ public class PdfUtils implements Constants {
 
         over.beginText();
         over.setFontAndSize(bf, 10);
-        float x = ((positioCustodiaInfo == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfo == POSICIO_PAGINA_DRETA) ? text_X
+        float x = ((positioCustodiaInfoGeneral == POSICIO_PAGINA_ESQUERRA || positioCustodiaInfoGeneral == POSICIO_PAGINA_DRETA) ? text_X
             + counter * SEP_LINE
             : text_X); 
-        float y = (positioCustodiaInfo == POSICIO_PAGINA_ADALT || positioCustodiaInfo == POSICIO_PAGINA_ABAIX) ? text_Y
+        float y = (positioCustodiaInfoGeneral == POSICIO_PAGINA_ADALT || positioCustodiaInfoGeneral == POSICIO_PAGINA_ABAIX) ? text_Y
             - counter * SEP_LINE
             : text_Y;
         over.showTextAligned(textAlign, lines.get(counter), x, y, rotation);

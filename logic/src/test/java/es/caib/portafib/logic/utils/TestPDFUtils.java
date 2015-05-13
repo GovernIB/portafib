@@ -1,10 +1,13 @@
 package es.caib.portafib.logic.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +30,10 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.junit.Test;
 
+import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
@@ -92,7 +97,7 @@ public class TestPDFUtils implements Constants {
     
     
     StringBuffer properties = new StringBuffer();
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 6; i++) {
       
       SignBoxRectangle sbr = PdfUtils.getPositionOfVisibleSignature(i +1);
       
@@ -210,7 +215,7 @@ public class TestPDFUtils implements Constants {
         files.add(new AttachedFile(names[i], f));
       }
       
-      File dstPDF = new File("provaXXXX.pdf");
+      File dstPDF = new File("testAttachingFilesToPDFwithAttachs_test.pdf");
           
           
       PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, files, null, null, null);
@@ -331,8 +336,17 @@ public class TestPDFUtils implements Constants {
   }
   
   
+  
+  
   public static void main(String[] args) {
-    new TestPDFUtils().testAttachingFilesToPDFwithAttachs();
+    
+    try {
+      //new TestPDFUtils().testAttachingFilesToPDFwithAttachs(); 
+      new TestPDFUtils().testHorizontal();
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
   
 
@@ -344,49 +358,28 @@ public class TestPDFUtils implements Constants {
 
     String dsfFileName = "hola_custodia.pdf";
 
-    IBarcodePlugin[] barcode = new IBarcodePlugin[] { new Pdf417Plugin(), new QrCodePlugin(),
+    IBarcodePlugin[] barcodes = new IBarcodePlugin[] { new Pdf417Plugin(), new QrCodePlugin(),
         new BarCode128Plugin() };
 
-    for (int i = 0; i < barcode.length; i++) {
+    for (int i = 0; i < barcodes.length; i++) {
 
       try {
 
-        File dstPDF = new File(barcode[i].getName() + dsfFileName);
+        File dstPDF = new File(barcodes[i].getName() + dsfFileName);
 
         PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
         FileOutputStream output = new FileOutputStream(dstPDF);
 
         PdfStamper stamper = new PdfStamper(reader, output);
 
-        String url = "http://vd.caib.es/1399274075742"; //PINBAL00000000000000001179161128677562589045";
-
-        //int position =  POSICIO_PAGINA_ABAIX;
-        int position = POSICIO_PAGINA_ADALT;
-        //int position = POSICIO_PAGINA_DRETA; 
-        //int position = POSICIO_PAGINA_ESQUERRA;
-
+        
+        StampCustodiaInfo custodiaInfo = getCustodyInfo(barcodes[i]);
+        
         int posicioTaulaDeFirmes = Constants.TAULADEFIRMES_DARRERAPAGINA;
-        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-        // "dd/MM/yyyy HH:mm:ss");
-
-        String missatge = " HOLA CARCOLA Data Validació: "  + url 
-           + " DAta " + new Date().toString() 
-           
-           //+ " XXXXX  XXXXXXXXXXXXXX "
-           
-           + " Plugin: " + barcode.getClass().getName() 
-           //+ " Special= {4}"
-
-           //+ " XXXXXXXXXXXX XXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXX XXXXXXXXXXXXXX"
-           ;
         
-        String barcodeText = url;
-        
-        String pagines = "*";
 
         // IBarcodePlugin barcode = new PDF417IText();
-        PdfUtils.addCustodiaInfo(reader, stamper, new StampCustodiaInfo(position, missatge,
-            barcode[i], barcodeText, pagines), posicioTaulaDeFirmes);
+        PdfUtils.addCustodiaInfo(reader, stamper, custodiaInfo, posicioTaulaDeFirmes);
 
         stamper.close();
 
@@ -400,6 +393,42 @@ public class TestPDFUtils implements Constants {
       }
     }
 
+  }
+
+
+
+
+  public static StampCustodiaInfo getCustodyInfo(IBarcodePlugin barcode) {
+    StampCustodiaInfo custodiaInfo;
+    String url = "http://vd.caib.es/1399274075742"; //PINBAL00000000000000001179161128677562589045";
+
+    //int position =  POSICIO_PAGINA_ABAIX;
+    //int position = POSICIO_PAGINA_ADALT;
+    //int position = POSICIO_PAGINA_DRETA; 
+    int position = POSICIO_PAGINA_ESQUERRA;
+
+    
+    // SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+    // "dd/MM/yyyy HH:mm:ss");
+
+    String missatge = " HOLA CARCOLA Data Validació: "  + url 
+       + " DAta " + new Date().toString() 
+       
+       //+ " XXXXX  XXXXXXXXXXXXXX "
+       
+       + " Plugin: " + barcode.getClass().getName() 
+       //+ " Special= {4}"
+
+       //+ " XXXXXXXXXXXX XXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXX XXXXXXXXXXXXXX"
+       ;
+    
+    String barcodeText = url;
+    
+    String pagines = "*";
+    
+    custodiaInfo = new StampCustodiaInfo(position, missatge,
+        barcode, barcodeText, pagines);
+    return custodiaInfo;
   }
 
   public static void main2(String[] args) {
@@ -493,4 +522,63 @@ public class TestPDFUtils implements Constants {
     }
   }
 
+  
+  @Test
+  public void testHorizontal() throws Exception, I18NException  {
+
+    List<File> files = new ArrayList<File>();
+
+    files.add(getFileFromResource("aa_horitzontal.pdf"));
+    files.add(getFileFromResource("ab_horitzontalvertical.pdf"));
+
+    List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+
+    log.info("TIPUS MIME = " + Utils.getMimeType("hola.pdf"));
+
+    StampTaulaDeFirmes taulaDeFirmesInfo = null; // getTaulaDeFirmesInfo();
+    
+    //IBarcodePlugin barcode = new BarCode128Plugin(); // new QrCodePlugin(), new BarCode128Plugin() 
+    
+    StampCustodiaInfo custodiaInfo = null; //getCustodyInfo(barcode);
+    
+
+    for (File file : files) {
+
+      File dstPDF = new File("testHorizontal_" + file.getName());
+
+      PdfUtils.add_TableSign_Attachments_CustodyInfo(file, dstPDF, attachments, null,
+          taulaDeFirmesInfo , custodiaInfo);
+
+    }
+
+  }
+
+
+
+
+  public static StampTaulaDeFirmes getTaulaDeFirmesInfo() throws Exception {
+    StampTaulaDeFirmes stamp;
+    int numFirmes = 18;
+    numFirmes = (numFirmes > APPLET_MAX_FIRMES_PER_TAULA) ? APPLET_MAX_FIRMES_PER_TAULA
+        : numFirmes;
+    log.info("Numero firmes a imprimir = " + numFirmes);
+    int posicio = (int) TAULADEFIRMES_PRIMERAPAGINA;
+    String signantLabel = "Signant";
+    String resumLabel = "Resum de Firmes";
+    String descLabel = "Descripció";
+    String desc = "Ammmmmmmm Bmmmmmmmm "
+        + "Cmmmmmmmm Dmmmmmmmm Emmmmmmmm Fmmmmmmmm Gmmmmmmmm "
+        + "Hmmmmmmmm Immmmmmmm Jmmmmmmmm Kmmmmmmmm Lmmmmmmmm " + "Mmmmmmmmm Nmmmmmmmm...";
+
+    String titolLabel = "Títol";
+    String titol = "Ammmmmmmmm Bmmmmmmmmm Cmmmmmmmmm Dmmmmmm";
+    log.info(titol.length());
+    // File logoFile = new File("logotaulafirmesfundaciobit.jpg");
+    File logoFile = getFileFromResource("logotaulafirmescaib.jpg");
+    
+      stamp = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel, resumLabel, descLabel,
+        desc, titolLabel, titol, logoFile);
+    return stamp;
+  }
+  
 }
