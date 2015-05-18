@@ -59,6 +59,7 @@ try {
     String missatgeTipusError="";
     String redirect = null;
 
+    boolean isLoginException = false;
     if (e == null){
         String stipusError = request.getParameter("errortype");
 
@@ -80,6 +81,7 @@ try {
         }
         log.error("   missatgeTipusError: " + missatgeTipusError);
     } else {
+      isLoginException = LoginException.class.equals(e.getClass());
       log.error(e.getMessage(), e);
       // Si els errors són de perdua de sessio no mostram el botó per tornar a principal,
       // han de tancar navegador i tornar obrir sessió.
@@ -155,8 +157,9 @@ try {
         </c:if>
 
         <!-- Mostram el botó de tornar a principal -->
+        <% if (!isLoginException && !sessioinvalida) { %>
         <a href="<c:url value="/common/principal.html"/>" class="btn"><%=etiquetaBoto%></a>
-
+        <% } %>
         <br/>
         <br/>
         <!-- Mostram la traça de l'error -->
