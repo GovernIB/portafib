@@ -81,7 +81,12 @@ public class PrincipalController {
     
     HtmlUtils.saveMessageSuccess(request, "Prova SUCCES 22");
     */
-    return new ModelAndView("principal");
+    
+    if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(Constants.ROLE_DEST)) {
+      return new ModelAndView(new RedirectView(Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+    } else {
+      return new ModelAndView("principal");
+    }
 
   }
 
