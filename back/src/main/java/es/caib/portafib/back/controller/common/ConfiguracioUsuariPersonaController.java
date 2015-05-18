@@ -7,6 +7,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.springframework.stereotype.Controller;
@@ -56,11 +57,17 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
               "No es pot modificar un usuari persona que no és el teu");
       }
 
-      // Ocultam els camps
+      // Només de lectura
       form.addReadOnlyField(NIF);
       form.addReadOnlyField(USUARIPERSONAID);
-      form.addReadOnlyField(NOM);
-      form.addReadOnlyField(LLINATGES);
+     
+      if (Configuracio.isCAIB() || request.isUserInRole(Constants.ROLE_ADMIN)
+          || Configuracio.getDefaultEntity() != null) {
+        // Podem modificar el nom i llinatge
+      } else {
+        form.addReadOnlyField(NOM);
+        form.addReadOnlyField(LLINATGES);
+      }
 
       form.addHiddenField(RUBRICAID);
 

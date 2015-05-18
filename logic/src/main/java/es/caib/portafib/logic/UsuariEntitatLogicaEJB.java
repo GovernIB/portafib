@@ -5,8 +5,10 @@ import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.jpa.validator.UsuariEntitatBeanValidator;
+import es.caib.portafib.jpa.validator.UsuariPersonaBeanValidator;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.validator.UsuariEntitatLogicValidator;
+import es.caib.portafib.logic.validator.UsuariPersonaLogicValidator;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -78,11 +80,10 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
 
-  
-  
   protected UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
-  
 
   @Override
   public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID) {
@@ -106,6 +107,54 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
   
   
+
+  @Override
+  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA, UsuariEntitatJPA usuariEntitatJPA)
+    throws I18NException, I18NValidationException, Exception {
+    
+    // 1.- UsuariPersona
+    
+    // 1.1- Validació Basica
+    UsuariPersonaLogicValidator<UsuariPersonaJPA> validadorUP = new UsuariPersonaLogicValidator<UsuariPersonaJPA>();
+    
+    UsuariPersonaBeanValidator upbv = new UsuariPersonaBeanValidator(validadorUP, idiomaEjb, this.usuariPersonaLogicaEjb);
+    final boolean isNou = true;
+    upbv.throwValidationExceptionIfErrors(usuariPersonaJPA, isNou);
+    
+    // 1.2.- Creacio
+    usuariPersonaJPA = (UsuariPersonaJPA)this.usuariPersonaLogicaEjb.create(usuariPersonaJPA);
+
+    if (usuariEntitatJPA == null) {
+      // Es nomes administrador de portafib
+      usuariEntitatJPA = new UsuariEntitatJPA();
+    } else {
+      // 2.- Usuari-Entitat
+      
+      // 2.1- Validació Basica
+      usuariEntitatJPA.setUsuariPersonaID(usuariPersonaJPA.getUsuariPersonaID());
+      usuariEntitatJPA.setUsuariEntitatID(usuariEntitatJPA.getEntitatID()
+          + "_" + usuariPersonaJPA.getUsuariPersonaID());
+      
+      UsuariEntitatLogicValidator<UsuariEntitatJPA> validadorUE = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
+      UsuariEntitatBeanValidator uebv = new UsuariEntitatBeanValidator(validadorUE, entitatEjb, this, this.usuariPersonaLogicaEjb);
+      uebv.throwValidationExceptionIfErrors(usuariEntitatJPA, isNou);
+      
+      // 2.2- Creacio
+      usuariEntitatJPA = (UsuariEntitatJPA)this.create(usuariEntitatJPA);
+      
+      // 2.3- Afegim Info d'Entitat
+      usuariEntitatJPA.setEntitat(entitatEjb.findByPrimaryKey(usuariEntitatJPA.getEntitatID()));
+      
+      // 2.4.- Assignam aquest usuariEntitat a la persona
+      Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
+      usuariEntitats.add(usuariEntitatJPA);
+      usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
+    }
+
+    usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);
+    
+    return usuariEntitatJPA;
+  }
   
 
 

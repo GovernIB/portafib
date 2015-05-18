@@ -21,6 +21,9 @@
       es.caib.portafib.url=http://localhost:8080/portafib
       es.caib.portafib.email.from=portafib@portafib.org
       es.caib.portafib.defaultlanguage=ca
+	  <!-- Si val null incica que l'alta de persone si usuaris l'ha de realitzar l'AdEn.-->
+	  <!-- En cas contrari s'utilitzarà aquest valor com a entitat on donar d'alta automaticament persona i usuari -->
+	  es.caib.portafib.defaultentity=fundaciobit
       es.caib.portafib.development=false
       <!-- Comprova que el nif del certificat amb el que s'ha firmat és igual al de la persona requerida -->
       es.caib.portafib.checknifcertificate=true

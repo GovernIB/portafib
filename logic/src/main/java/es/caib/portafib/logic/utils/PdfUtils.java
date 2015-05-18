@@ -38,9 +38,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.RectangleReadOnly;
 import com.itextpdf.text.pdf.AcroFields;
@@ -53,7 +51,6 @@ import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfFileSpecification;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfNumber;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfString;
@@ -896,40 +893,7 @@ public class PdfUtils implements Constants {
       writer.flush();
       writer.close();
 
-      //destitmpPDFA.close();
     }
-    
-    // Copiam i ajustam orientació perduda en la conversió anterior
-    /*{
-      
-      OutputStream output2 = destiPDFABo;
-      
-      PdfReader reader2 = new PdfReader(new FileInputStream(tmpPDFA));
-      int n = reader.getNumberOfPages();
-      int rot;
-      PdfDictionary pageDict;
-      for (int i = 1; i <= n; i++) {
-         // XYZ  
-         show(reader.getPageSize(i));
-         show(reader.getPageSizeWithRotation(i));
-         
-         if(reader.getPageSizeWithRotation(i).getWidth() > reader.getPageSizeWithRotation(i).getHeight()) {
-           System.out.println("Horitzontal: ");
-         } else {
-           System.out.println("Vertical: ");
-         }
-         
-      }
-      PdfStamper stamper = new PdfStamper(reader2, output2);
-      stamper.close();
-      reader2.close();
-      
-    }
-    */
-    // XYZ 
-    //if (!tmpPDFA.delete()) {
-    //  tmpPDFA.deleteOnExit();
-    //};
 
   }
   

@@ -47,6 +47,11 @@ public class Configuracio implements Constants {
   public static String getDefaultLanguage() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
   }
+  
+  public static String getDefaultEntity() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultentity");
+  }
+  
 
   public static Integer getDefaultSignAlgorithmID() {
     return Integer.getInteger(PORTAFIB_PROPERTY_BASE + "defaultsignalgorithmid",

@@ -41,11 +41,6 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
     </definition>
-    
-    <definition name="configuracioAdminForm" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
-    </definition>
 
     <definition name="configuracioUsuariEntitatForm" extends="principal">
         <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />

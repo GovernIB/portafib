@@ -6,7 +6,9 @@ import java.util.Set;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
+
 
 
 import javax.ejb.Local;
@@ -39,6 +41,9 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
 
   public List<UsuariEntitatJPA> selectFavorits(String usuariEntitatID,
       String roleID, boolean incloureCarrecs) throws I18NException;
+  
+  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA, UsuariEntitatJPA usuariEntitatJPA)
+      throws I18NException, I18NValidationException, Exception;
 
   public UsuariEntitatJPA createFull(UsuariEntitatJPA usuariEntitat)
     throws I18NValidationException, I18NException;

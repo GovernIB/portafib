@@ -35,7 +35,8 @@ public class LoginInfo {
 
   String entitatIDActual;
   
-  final boolean neededConfigAdmin;
+  boolean needConfigUser;
+  
   
   /**
    * @param usuari
@@ -44,13 +45,13 @@ public class LoginInfo {
    */
   public LoginInfo(User springSecurityUser, UsuariPersonaJPA usuariPersona, String entitatIDActual,
       Map<String, EntitatJPA> entitats, Map<String, Set<GrantedAuthority>> rolesPerEntitat,
-      Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID, boolean neededConfigAdmin) {
+      Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID, boolean needConfigUser) {
     this.springSecurityUser = springSecurityUser;
     this.usuariPersona = usuariPersona;
     this.entitats = entitats;
     this.rolesPerEntitat = rolesPerEntitat;
     this.usuariEntitatPerEntitatID = usuariEntitatPerEntitatID;
-    this.neededConfigAdmin=neededConfigAdmin;
+    this.needConfigUser=needConfigUser;
     setEntitatID(entitatIDActual);
   }
 
@@ -122,9 +123,12 @@ public class LoginInfo {
   }
 
 
+  public boolean getNeedConfigUser() {
+    return needConfigUser;
+  }
 
-  public boolean isNeededConfigAdmin() {
-    return neededConfigAdmin;
+  public void setNeedConfigUser(boolean needConfigUser) {
+    this.needConfigUser = needConfigUser;
   }
 
   public UsernamePasswordAuthenticationToken generateToken() {

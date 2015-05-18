@@ -13,7 +13,9 @@ import javax.naming.InitialContext;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.userinformation.UserInfo;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
@@ -30,6 +32,7 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.entity.Entitat;
@@ -50,6 +53,8 @@ public class AuthenticationSuccessListener implements
   
   
   protected UsuariPersonaLogicaLocal usuariPersonaEjb = null;
+  
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb = null;
   
 
   @Override
@@ -98,10 +103,12 @@ public class AuthenticationSuccessListener implements
     }
 
     UsuariPersonaJPA usuariPersona = usuariPersonaEjb.findByPrimaryKeyFull(name);
-    boolean necesitaConfigurarAdmin = false;
+    boolean necesitaConfigurar = false;
+    
     if (usuariPersona == null) {
       // Revisar si és un Administrador que entra per primera vegada 
-      if (containsRoleAdmin) {
+      log.info("Configuracio.getDefaultEntity() = ]" + Configuracio.getDefaultEntity() + "[");
+      if (containsRoleAdmin || Configuracio.isCAIB() || Configuracio.getDefaultEntity() != null) {
         try {
           IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
           UserInfo info = plugin.getUserInfoByUserName(name);
@@ -109,43 +116,103 @@ public class AuthenticationSuccessListener implements
             UsuariPersonaJPA admin = new UsuariPersonaJPA();
             admin.setEmail(info.getEmail()== null? Configuracio.getAppEmail() : info.getEmail());
             admin.setIdiomaID(Configuracio.getDefaultLanguage());
-            admin.setLlinatges((info.getSurname1()== null? "" : info.getSurname1())
-                + ((info.getSurname2()== null? "" : (" " + info.getSurname2()))) );
-            log.info(" PPPPPPP 11111111 = " + admin.getLlinatges());
-            if (admin.getLlinatges() == null || admin.getLlinatges().length() == 0) {
-              admin.setLlinatges(name);
+            final String nom, llinatges;
+            {
+              String nomTmp = info.getName() == null? name : info.getName();
+              
+              String llinatgesTmp = (info.getSurname1()== null? "" : info.getSurname1())
+                  + ((info.getSurname2()== null? "" : (" " + info.getSurname2()))).trim();
+              
+              if (llinatgesTmp.trim().length() == 0) {
+                // Miram si podem xapar el nom
+                int pos = nomTmp.indexOf(' ');
+                if (pos == -1) {
+                  nom = nomTmp;
+                  llinatges = name;
+                } else {
+                  nom = nomTmp.substring(0, pos);
+                  llinatges = nomTmp.substring(pos).trim();
+                }
+              } else {
+                nom = nomTmp;
+                llinatges = llinatgesTmp;
+              }
             }
-            log.info(" PPPPPPP 22222222 = " + admin.getLlinatges());
-            if (admin.getLlinatges() == null || admin.getLlinatges().length() == 0) {
-              admin.setLlinatges("unknown");
-            }
-            admin.setNom(info.getName() == null? name : info.getName());
+            admin.setNom(nom);
+            admin.setLlinatges(llinatges);
+            
+            
             admin.setUsuariPersonaID(name);
             admin.setNif(info.getAdministrationID().toUpperCase());
 
-            usuariPersona = (UsuariPersonaJPA)usuariPersonaEjb.create(admin);
-            necesitaConfigurarAdmin = true;
-            log.info("necesitaConfigurarAdmin = true");
+            UsuariEntitatJPA usuariEntitat = null;
+            if (containsRoleUser) {
+              String defaultEntity;
+              if (Configuracio.isCAIB()) {
+                defaultEntity = System.getProperty("entitatprocessarcarrecs", "caib");
+              } else {
+                defaultEntity = Configuracio.getDefaultEntity();                
+              }
+              usuariEntitat = new UsuariEntitatJPA();              
+              usuariEntitat.setActiu(true);
+              usuariEntitat.setCarrec(null);
+              usuariEntitat.setEntitatID(defaultEntity);
+              usuariEntitat.setPotCustodiar(false);
+              usuariEntitat.setPredeterminat(true);
+              usuariEntitat.setUsuariPersonaID(admin.getUsuariPersonaID());
+
+            }
+            necesitaConfigurar = true;
+            
+            if (usuariEntitatLogicaEjb == null) {
+              try {
+                usuariEntitatLogicaEjb = (UsuariEntitatLogicaLocal) new InitialContext()
+                    .lookup("portafib/UsuariEntitatLogicaEJB/local");
+              } catch (Exception e) {
+                // TODO traduccio
+                throw new LoginException("No puc accedir al gestor d´obtenció de" +
+                        " informació d´usuari-entitat per " + name + ": " + e.getMessage(), e);
+              }
+            }
+
+            usuariEntitat = (UsuariEntitatJPA)usuariEntitatLogicaEjb.create(admin, usuariEntitat);
+            usuariPersona = usuariEntitat.getUsuariPersona();
+            
+            log.info("necesitaConfigurarUsuari = " + necesitaConfigurar);
+            
           }
           
         } catch(Throwable e) {
            usuariPersona = null;
-           log.error("Error llegint informació del plugin de Login: " + e.getMessage(), e);
+           String msg;
+           if (e instanceof I18NException) {
+             msg = I18NUtils.getMessage( (I18NException)e);
+           } else if (e instanceof I18NValidationException) {
+             msg = I18NUtils.getMessage( (I18NValidationException)e);
+           } else {
+             msg = e.getMessage();
+           }
+           
+           log.error("Error llegint informació del plugin de Login: " + msg, e);
         }
       }
+      
       
       if (usuariPersona == null) {
         //  TODO traduccio
         throw new LoginException("L'usuari " + name
               + " està autenticat però no s'ha donat d'alta en el PortaFIB ");
       }
+      
     }
 
     Set<UsuariEntitatJPA> usuariEntitats = usuariPersona.getUsuariEntitats();
-    log.debug("POST getUsuariEntitats() = " + usuariEntitats);
+    if (log.isDebugEnabled()) {
+      log.debug("POST getUsuariEntitats() = " + usuariEntitats);
+    }
 
     if (usuariEntitats != null && log.isDebugEnabled()) {
-      log.debug("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
+      log.info("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
     }
 
     if (usuariEntitats == null) {
@@ -269,7 +336,7 @@ public class AuthenticationSuccessListener implements
     LoginInfo loginInfo;
     // create a new authentication token
     loginInfo = new LoginInfo(user, usuariPersona, entitatIDActual,
-        entitats, rolesPerEntitat, usuariEntitatPerEntitatID, necesitaConfigurarAdmin);
+        entitats, rolesPerEntitat, usuariEntitatPerEntitatID, necesitaConfigurar);
 
     // and set the authentication of the current Session context
     SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());

@@ -33,6 +33,5 @@ public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
 
   public UsuariPersonaJPA getUsuariPersonaIDByAdministrationID(String administrationID)
       throws I18NException;
-  
 
 }

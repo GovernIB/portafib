@@ -32,21 +32,20 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 @Stateless(name = "UsuariPersonaLogicaEJB")
 @SecurityDomain("seycon")
 public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     UsuariPersonaLogicaLocal {
   
- 
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
-  
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
   @Override
   public UsuariPersonaJPA findByPrimaryKeyFull(String _usuariPersonaID_) {
