@@ -96,7 +96,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     return fitxers;
   }
   
-  
+  /*
   private UsuariPersonaJPA checkBasic(String usuariPersonaID) throws I18NException {
     
     if (usuariPersonaID == null) {
@@ -120,7 +120,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
     
     return (UsuariPersonaJPA)ua;
   }
-
+*/
 
 
   @Override

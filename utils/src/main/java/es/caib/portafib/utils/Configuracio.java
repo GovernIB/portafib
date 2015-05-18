@@ -52,6 +52,10 @@ public class Configuracio implements Constants {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultentity");
   }
   
+  public static String getDefaultRolesInCreation() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultrolesincreation");
+  }
+  
 
   public static Integer getDefaultSignAlgorithmID() {
     return Integer.getInteger(PORTAFIB_PROPERTY_BASE + "defaultsignalgorithmid",

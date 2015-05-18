@@ -1,5 +1,6 @@
 package es.caib.portafib.back.security;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,12 +51,10 @@ public class AuthenticationSuccessListener implements
     ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
   protected final Logger log = Logger.getLogger(getClass());
-  
-  
+
   protected UsuariPersonaLogicaLocal usuariPersonaEjb = null;
-  
+
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb = null;
-  
 
   @Override
   public synchronized void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
@@ -146,20 +145,32 @@ public class AuthenticationSuccessListener implements
             admin.setNif(info.getAdministrationID().toUpperCase());
 
             UsuariEntitatJPA usuariEntitat = null;
+            Set<String> virtualRoles = null;
             if (containsRoleUser) {
               String defaultEntity;
+              
               if (Configuracio.isCAIB()) {
                 defaultEntity = System.getProperty("entitatprocessarcarrecs", "caib");
+                virtualRoles = new HashSet<String>();
+                virtualRoles.add(Constants.ROLE_DEST);
               } else {
-                defaultEntity = Configuracio.getDefaultEntity();                
+                defaultEntity = Configuracio.getDefaultEntity();
+                String defRolesStr = Configuracio.getDefaultRolesInCreation();
+                //log.info("defRolesStr = " + defRolesStr);
+                if (defRolesStr != null && defRolesStr.trim().length() != 0) {
+                  virtualRoles = new HashSet<String>(Arrays.asList(defRolesStr.split(",")));
+                  //log.info(" virtualRoles = " + Arrays.toString(virtualRoles.toArray()));
+                }
               }
-              usuariEntitat = new UsuariEntitatJPA();              
-              usuariEntitat.setActiu(true);
-              usuariEntitat.setCarrec(null);
-              usuariEntitat.setEntitatID(defaultEntity);
-              usuariEntitat.setPotCustodiar(false);
-              usuariEntitat.setPredeterminat(true);
-              usuariEntitat.setUsuariPersonaID(admin.getUsuariPersonaID());
+              if (defaultEntity != null && defaultEntity.trim().length() != 0) {
+                usuariEntitat = new UsuariEntitatJPA();              
+                usuariEntitat.setActiu(true);
+                usuariEntitat.setCarrec(null);
+                usuariEntitat.setEntitatID(defaultEntity);
+                usuariEntitat.setPotCustodiar(false);
+                usuariEntitat.setPredeterminat(true);
+                usuariEntitat.setUsuariPersonaID(admin.getUsuariPersonaID());
+              }
 
             }
             necesitaConfigurar = true;
@@ -175,7 +186,9 @@ public class AuthenticationSuccessListener implements
               }
             }
 
-            usuariEntitat = (UsuariEntitatJPA)usuariEntitatLogicaEjb.create(admin, usuariEntitat);
+            usuariEntitat = (UsuariEntitatJPA)usuariEntitatLogicaEjb.create(admin, usuariEntitat, virtualRoles);
+            
+
             usuariPersona = usuariEntitat.getUsuariPersona();
             
             log.info("necesitaConfigurarUsuari = " + necesitaConfigurar);

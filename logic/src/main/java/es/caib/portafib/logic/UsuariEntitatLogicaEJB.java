@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.*;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
+import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.jpa.validator.UsuariEntitatBeanValidator;
@@ -109,7 +110,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   
 
   @Override
-  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA, UsuariEntitatJPA usuariEntitatJPA)
+  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA,
+    UsuariEntitatJPA usuariEntitatJPA, Set<String> virtualRoles)
     throws I18NException, I18NValidationException, Exception {
     
     // 1.- UsuariPersona
@@ -142,13 +144,38 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // 2.2- Creacio
       usuariEntitatJPA = (UsuariEntitatJPA)this.create(usuariEntitatJPA);
       
-      // 2.3- Afegim Info d'Entitat
-      usuariEntitatJPA.setEntitat(entitatEjb.findByPrimaryKey(usuariEntitatJPA.getEntitatID()));
+      // 2.3- Afegim Info dels Rols assignats a l'Usuari-Entitat
+      //log.info("EJB virtualRoles: " + virtualRoles );
+      //log.info("EJB virtualRoles.size() : " + virtualRoles == null? -1 : virtualRoles.size()  );
       
-      // 2.4.- Assignam aquest usuariEntitat a la persona
+      if (virtualRoles != null && virtualRoles.size() != 0) {
+        Set<RoleUsuariEntitatJPA> roleUsuariEntitats = new HashSet<RoleUsuariEntitatJPA>();
+        
+        for (String vrol : virtualRoles) {
+          vrol = vrol.trim();
+          if (Constants.ROLE_SOLI.equals(vrol) || Constants.ROLE_DEST.equals(vrol) ||
+              Constants.ROLE_DELE.equals(vrol) || Constants.ROLE_COLA.equals(vrol) ) {
+            roleUsuariEntitats.add((RoleUsuariEntitatJPA)roleUsuariEntitatEjb.
+                create(vrol, usuariEntitatJPA.getUsuariEntitatID()));
+          } else {
+            log.error("ROL no valid: " + vrol);
+          }
+        }
+        
+        //log.info("EJB roleUsuariEntitats: " + roleUsuariEntitats );
+        //log.info("EJB roleUsuariEntitats.size() : " +roleUsuariEntitats.size()  );
+        
+        usuariEntitatJPA.setRoleUsuariEntitats(roleUsuariEntitats);
+      }
+
+      // 2.4- Afegim Info de l'Entitat associat a l'Usuari-Entitat
+      usuariEntitatJPA.setEntitat(entitatEjb.findByPrimaryKey(usuariEntitatJPA.getEntitatID()));
+
+      // 2.5.- Assignam aquest usuariEntitat a la persona
       Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
       usuariEntitats.add(usuariEntitatJPA);
       usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
+
     }
 
     usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);

@@ -2,10 +2,10 @@
 <server>
   <mbean code="org.jboss.varia.property.SystemPropertiesService" name="jboss:type=Service,name=PortaFIBSystemProperties">
     <attribute name="Properties">
-	  <!-- Propietat que indica als projectes que activin les caracteristiques
+      <!-- Propietat que indica als projectes que activin les caracteristiques
            especials requerides en l'entorn de la CAIB (Govern Balear) si val true -->
-	  es.caib.portafib.iscaib=false
-	
+      es.caib.portafib.iscaib=false
+    
       # Dialecte de Hibernate
       es.caib.portafib.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
       # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
@@ -21,9 +21,16 @@
       es.caib.portafib.url=http://localhost:8080/portafib
       es.caib.portafib.email.from=portafib@portafib.org
       es.caib.portafib.defaultlanguage=ca
-	  <!-- Si val null incica que l'alta de persone si usuaris l'ha de realitzar l'AdEn.-->
-	  <!-- En cas contrari s'utilitzarà aquest valor com a entitat on donar d'alta automaticament persona i usuari -->
-	  es.caib.portafib.defaultentity=fundaciobit
+      <!-- Si val null incica que l'alta de persone si usuaris l'ha de realitzar l'AdEn.
+           En cas contrari s'utilitzarà aquest valor com a entitat on donar d'alta
+		   automaticament persona i usuari. En entorns CAIB aquesta propietat es ignorada -->
+      #es.caib.portafib.defaultentity=fundaciobit
+      <!-- S'utilitza conjuntament amb la propietat "es.caib.portafib.defaultentity".
+           Indica els roles virtuals a asssignar per defecte a l'usuari-entitat quan aquest
+           es crea automàticament. Es tracta d'una llista de roles separats per comes.
+           Els valors possibles són: ROLE_SOLI (Sol·licitant), ROLE_DEST (Destinatari)
+           ROLE_DELE (Delegat) i ROLE_COLA (Col·laborador). En entorns CAIB aquesta propietat es ignorada -->
+      #es.caib.portafib.defaultrolesincreation=ROLE_SOLI,ROLE_DEST
       es.caib.portafib.development=false
       <!-- Comprova que el nif del certificat amb el que s'ha firmat és igual al de la persona requerida -->
       es.caib.portafib.checknifcertificate=true
@@ -38,11 +45,11 @@
       es.caib.portafib.editableuser=true
       <!-- Identificador de la taula pfi_algorismedefirma que representa l'algorisme de firma per defecte. -->
       #es.caib.portafib.defaultsignalgorithmid=0
-	  <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->	  es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
-	  <!-- A partir de quants d'errors en una notificació callback s'enviarà un correu al responsable de l'usuari aplicació  -->
-	  es.caib.portafib.numberoferrorsinnotificationtosendmail=
-	  <!-- A partir de quants d'errors en una notificació callback aquesta automàticament es pausarà  -->
-	  es.caib.portafib.numberoferrorstopausenotification=
+      <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->      es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
+      <!-- A partir de quants d'errors en una notificació callback s'enviarà un correu al responsable de l'usuari aplicació  -->
+      es.caib.portafib.numberoferrorsinnotificationtosendmail=
+      <!-- A partir de quants d'errors en una notificació callback aquesta automàticament es pausarà  -->
+      es.caib.portafib.numberoferrorstopausenotification=
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->
 
@@ -52,16 +59,16 @@
       <!-- applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner -->
 
       <!-- ======== PLUGIN DE CUSTODIA - FILESYSTEM ============== -->
-	  es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
+      es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
       es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
       es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
       # {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
       #es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
-	  es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?hash={2}
-	  es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
-	  #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
-	  es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5
-	  
+      es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?hash={2}
+      es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
+      #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
+      es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5
+      
       
       <!-- ======== PLUGIN DE CUSTODIA - CUSTODIA CAIB ============== -->
       # es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.custodiacaibaxis.CustodiaCaibAxisPlugin
@@ -106,7 +113,7 @@
       es.caib.portafib.plugins.certificate.afirma.authorization.ks.password=
       es.caib.portafib.plugins.certificate.afirma.authorization.ks.cert.alias=1
       es.caib.portafib.plugins.certificate.afirma.authorization.ks.cert.password=
-	  -->
+      -->
       
       
       <!-- ======== PLUGIN USER-INFORMATION - DATABASE ======= -->
