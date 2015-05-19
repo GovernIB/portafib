@@ -7,15 +7,14 @@
 <%!
 
 final String[] menu = {
-    "solicituddefirma.llistat",
+    //"solicituddefirma.llistat",
     /*
     "llistarsolicitudspendentsacceptadesrebutjades", //Llistar sol·licituds pendents, acceptades i rebutjades.  
     "signaturadocuments", //Signatura de documents. 
     "validarinvalidardocuments", //Validar o invalidar documents de firma   
     "rebutjarpeticiofirma", //Rebutjar petició de firma.
     */
-    
-    "",
+    // "",
     "solicituddefirma.llistat.pendent.plural",
     "solicituddefirma.llistat.firmat.plural",
     "solicituddefirma.llistat.rebutjat.plural",
@@ -31,7 +30,7 @@ static {
   mapping = new HashMap<String, String>();
 
   
-  mapping.put("solicituddefirma.llistat", Constants.CONTEXT_DELE_ESTATFIRMA + "/list");
+  //mapping.put("solicituddefirma.llistat", Constants.CONTEXT_DELE_ESTATFIRMA + "/list");
   
   mapping.put("solicituddefirma.llistat.pendent.plural", Constants.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list");
   mapping.put("solicituddefirma.llistat.firmat.plural", Constants.CONTEXT_DELE_ESTATFIRMA_FIRMAT + "/list");

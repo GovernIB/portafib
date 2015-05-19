@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@page import="es.caib.portafib.utils.Constants"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
@@ -10,8 +11,8 @@
 <%!
 
 final String[] menu = {
-    "solicituddefirma.llistat",
-    "",
+    //"solicituddefirma.llistat",
+    //"",
     "solicituddefirma.llistat.pendent.plural",
     "solicituddefirma.llistat.firmat.plural",
     "solicituddefirma.llistat.rebutjat.plural",
@@ -85,18 +86,32 @@ static {
 
 }
 
-%><%
+%>
+<ul class="tree" style="margin: 3px; padding: 0px;">
+<%
 
 session.setAttribute("menu", menu);
 
 session.setAttribute("mapping", mapping);
 
+  if (Configuracio.isDesenvolupament()) {  
+    session.setAttribute("theurl", Constants.CONTEXT_DEST_ESTATFIRMA + "/list");
+   %>
+      <li style="list-style-type: disc; list-style-position: inside;">
+        <a href="<c:url value="${theurl}"/>">
+          <span style="${(fn:contains(urlActual, theurl))? "font-weight: bold;" : ""}"><fmt:message key="solicituddefirma.llistat" /></span>
+        </a>
+      </li>
+      <li>
+      <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
+      </li>
+  <% }
 %>
-  <ul class="tree" style="margin: 3px; padding: 0px;">
+
 
     <c:forEach var="item" items="${menu}" >
     <c:if test="${empty item }">
-    <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
+      <li><hr  style="margin-top: 6px;  margin-bottom: 6px;" /></li>
     </c:if>
     <c:if test="${not empty item }">
       <fmt:message var="traduccio" key="${item}" />

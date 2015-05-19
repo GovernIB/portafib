@@ -10,13 +10,13 @@
 <%!
 
 static final String[] menu = {
-    "solicituddevalidacio.plural",
+    //"solicituddevalidacio.plural",
     /*
     "validarinvalidardocuments", //Validar o invalidar documents de firma   
     "rebutjarpeticiofirma", //Rebutjar petició de firma.
     "llistarvalidatsinvalidatspendentsrebutjats" //Llistar documents validats, invalidats, pendents de validació i rebutjats
     */
-    "",    
+    //"",    
     "solicitudpendent.plural",
     "solicitudvalidada.plural",
     "solicitudinvalidada.plural",
@@ -29,7 +29,7 @@ static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
 
-  mapping.put("solicituddevalidacio.plural", Constants.CONTEXT_COLA_ESTATFIRMA  + "/list");
+  //mapping.put("solicituddevalidacio.plural", Constants.CONTEXT_COLA_ESTATFIRMA  + "/list");
   
   mapping.put("solicitudpendent.plural", Constants.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list");
   mapping.put("solicitudvalidada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_VALIDAT + "/list");

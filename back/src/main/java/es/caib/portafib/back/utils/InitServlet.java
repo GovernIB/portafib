@@ -50,8 +50,6 @@ public class InitServlet extends HttpServlet {
     } catch (Throwable th) {
       log.error("Error inicialitzant el sistema de sistema de fitxers: " + th.getMessage(), th);
     }
-    
-    
 
     // Sistema de Fitxers
     // TODO Moure a logic

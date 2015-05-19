@@ -13,8 +13,8 @@
 public static final String[] menu = {
     "peticiodefirma.crear", // Realitzar petició de firma via Web o WebServices
     "",
-    "peticioDeFirma.peticioDeFirma.plural", // Peticions de Firma
-    "",
+    //"peticioDeFirma.peticioDeFirma.plural", // Peticions de Firma
+    //"",
     
     "peticiodefirma.activa.plural",
     "peticiodefirma.firmada.plural",
@@ -47,7 +47,7 @@ static {
   mapping = new HashMap<String, String>();
   mapping.put("peticiodefirma.crear", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/selectflux");
   
-  mapping.put("peticioDeFirma.peticioDeFirma.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
+  //mapping.put("peticioDeFirma.peticioDeFirma.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
 
   
   mapping.put("peticiodefirma.activa.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list");
