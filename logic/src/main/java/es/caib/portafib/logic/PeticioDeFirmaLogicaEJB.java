@@ -462,10 +462,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           custodiaInfo = custodiaInfoEjb.findByPrimaryKey(peticioDeFirma.getCustodiaInfoID());
           if (custodiaInfo.isCustodiar()) {
             plugin = PortaFIBPluginsManager.getDocumentCustodyPluginInstance();
-            // Afegir Hora de Solicitud evita duplicats si reiniciam la petició 
-            custodyID = peticioDeFirma.getPeticioDeFirmaID() + "_" + peticioDeFirma.getDataSolicitud().getTime();
-            
-            custodyID = plugin.reserveCustodyID(custodyID, custodiaInfo.getCustodiaPluginParameters());
+            // Afegir Hora de Solicitud evita duplicats si reiniciam la petició
+            custodyID = plugin.reserveCustodyID(custodiaInfo.getCustodiaPluginParameters());
             // TODO Check custodyID != null
             String url = plugin.getValidationUrl(custodyID);
             custodiaInfo.setCustodiaPluginID(custodyID);
