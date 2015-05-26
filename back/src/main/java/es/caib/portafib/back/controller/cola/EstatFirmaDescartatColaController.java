@@ -20,7 +20,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_COLA_ESTATFIRMA_DESCARTAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaDescartatColaController extends EstatFirmaColaController {
+public class EstatFirmaDescartatColaController extends EstatFirmaAbstractColaController {
 
   @Override
   public String getBaseEntityNameCode() {
@@ -54,6 +54,12 @@ public class EstatFirmaDescartatColaController extends EstatFirmaColaController 
     }
     
     return ff;
+  }
+
+
+  @Override
+  public int getFilterType() {
+    return FILTRAR_PER_NODEFINIT;
   }
 
 

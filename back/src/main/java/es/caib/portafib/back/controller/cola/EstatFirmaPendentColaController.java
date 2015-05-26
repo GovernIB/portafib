@@ -20,7 +20,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_COLA_ESTATFIRMA_PENDENT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaPendentColaController extends EstatFirmaColaController {
+public class EstatFirmaPendentColaController extends EstatFirmaAbstractColaController {
 
   @Override
   public String getBaseEntityNameCode() {
@@ -38,6 +38,7 @@ public class EstatFirmaPendentColaController extends EstatFirmaColaController {
     
   }
   
+  // TODO Això ho hauria de fer la classe pare
   @Override  
   public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -55,6 +56,12 @@ public class EstatFirmaPendentColaController extends EstatFirmaColaController {
     }
     
     return ff;
+  }
+  
+  
+  @Override
+  public int getFilterType() {   
+    return FILTRAR_PER_PENDENT;
   }
 
 

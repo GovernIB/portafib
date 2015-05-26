@@ -20,7 +20,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaPendentDestController extends  EstatFirmaDestController {
+public class EstatFirmaPendentDestController extends  EstatFirmaAbstractDestController {
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -37,6 +37,7 @@ public class EstatFirmaPendentDestController extends  EstatFirmaDestController {
   }
   
   
+  // TODO Això ho ha de fer la classe pare
   @Override  
   public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -55,6 +56,12 @@ public class EstatFirmaPendentDestController extends  EstatFirmaDestController {
     }
     
     return ff;
+  }
+
+
+  @Override
+  public int getFilterType() {   
+    return FILTRAR_PER_PENDENT;
   }
   
   

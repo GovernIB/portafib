@@ -21,7 +21,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA_FIRMAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaFirmatDestController extends  EstatFirmaDestController {
+public class EstatFirmaFirmatDestController extends  EstatFirmaAbstractDestController {
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -43,7 +43,8 @@ public class EstatFirmaFirmatDestController extends  EstatFirmaDestController {
   public String getBaseEntityNameCode() {
     return "solicituddefirma.llistat.firmat";
   }
-  
+
+  // TODO Això ho ha de fer la classe pare
   @Override  
   public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -59,6 +60,12 @@ public class EstatFirmaFirmatDestController extends  EstatFirmaDestController {
     }
     
     return ff;
+  }
+  
+  
+  @Override
+  public int getFilterType() {   
+    return FILTRAR_PER_ACCEPTAT; // == FIRMAT
   }
   
 }

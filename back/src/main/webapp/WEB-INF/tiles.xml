@@ -387,20 +387,7 @@
     <definition name="estatFirmaFullView_ROLE_DEST" extends="role_dest">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
     </definition>
-    
-<!--   
-    
-    <definition name="colaboracioDelegacioDestForm_ROLE_DELE" extends="role_dest">
-        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
-    </definition>
-    
-    <definition name="colaboracioDelegacioDestForm_ROLE_COLA" extends="role_dest">
-        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
-    </definition>
-     -->
-     
+
    <definition name="colaboracioDelegacioDestForm" extends="role_dest">
         <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />

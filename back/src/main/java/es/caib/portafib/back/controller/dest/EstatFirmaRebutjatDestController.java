@@ -15,14 +15,14 @@ import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
 import es.caib.portafib.utils.Constants;
 
 /**
- * Controller per gestionar un EstatDeFirma Rebutjat
+ * Controller per gestionar els EstatDeFirma Rebutjat
  * 
  * @author anadal
  */
 @Controller
 @RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA_REBUTJAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaRebutjatDestController extends  EstatFirmaDestController {
+public class EstatFirmaRebutjatDestController extends  EstatFirmaAbstractDestController {
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -46,7 +46,8 @@ public class EstatFirmaRebutjatDestController extends  EstatFirmaDestController 
     return "solicituddefirma.llistat.rebutjat";
   }
   
-  @Override  
+  //TODO Això ho ha de fer la classe pare
+  @Override
   public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
 
@@ -67,6 +68,13 @@ public class EstatFirmaRebutjatDestController extends  EstatFirmaDestController 
     }
     
     return ff;
+  }
+  
+ 
+  
+  @Override
+  public final int getFilterType() {   
+    return FILTRAR_PER_NOACCEPTAT; // == REBUTJAT
   }
   
 }

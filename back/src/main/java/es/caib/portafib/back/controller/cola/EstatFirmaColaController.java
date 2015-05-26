@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.dest.EstatFirmaDestController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.utils.Constants;
 
@@ -20,12 +19,8 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_COLA_ESTATFIRMA )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaColaController extends EstatFirmaDestController {
+public class EstatFirmaColaController extends EstatFirmaAbstractColaController {
 
-  @Override
-  public String getRole() {
-    return Constants.ROLE_COLA;
-  }
 
   @Override
   public String getBaseEntityNameCode() {
@@ -46,6 +41,10 @@ public class EstatFirmaColaController extends EstatFirmaDestController {
     return ff;
   }
 
-  
+
+  @Override
+  public int getFilterType() {
+    return FILTRAR_PER_RES;
+  }
 
 }

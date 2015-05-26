@@ -7,12 +7,15 @@
     <name>PortaFIB</name>
 
     <modules>
+	<!--
+	XYZ
         <module>model</module> 
         <module>jpa</module>
         <module>ejb</module> 
         <module>utils</module> 
         <module>scripts</module>
         <module>persistence</module>
+				-->
         <module>logic</module>
         <module>back</module>
 		<module>ws</module>

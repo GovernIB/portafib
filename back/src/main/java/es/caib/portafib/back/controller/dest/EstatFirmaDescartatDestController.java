@@ -13,14 +13,15 @@ import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.utils.Constants;
 
 /**
- * Controller per gestionar un EstatDeFirma Rebutjat
+ * Controller per gestionar els EstatDeFirma que un delegat ha firmat enlloc del destinatari
  * 
  * @author anadal
  */
 @Controller
 @RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA_DESCARTAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaDescartatDestController extends  EstatFirmaDestController {
+//TODO Aquesta classe ha de desapareixer 
+public class EstatFirmaDescartatDestController extends  EstatFirmaAbstractDestController {
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -52,6 +53,12 @@ public class EstatFirmaDescartatDestController extends  EstatFirmaDestController
     }
     
     return ff;
+  }
+
+  
+  @Override
+  public int getFilterType() {   
+    return FILTRAR_PER_NODEFINIT; // == ha firmat Delegat
   }
   
 }

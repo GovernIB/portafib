@@ -3,12 +3,15 @@
   
           <c:if test="${__theFilterForm.editButtonVisible || __theFilterForm.deleteButtonVisible || not empty __theFilterForm.additionalButtonsForEachItem || not empty __theFilterForm.additionalButtonsByPK}">
           <td>
+          <c:set var="pk" value="${annex.annexID}"/>
+          <c:choose>
+           <c:when test="${__theFilterForm.actionsRenderer == 1}">
             <div class="btn-group" data-toggle="buttons-checkbox">
             <c:if test="${__theFilterForm.editButtonVisible}">
-            <a class="btn" href="#" 
-              onclick="goTo('<c:url value="${contexte}/${annex.annexID}/edit"/>')"
-              title="<fmt:message key="genapp.edit"/>">
-              <i class="icon-pencil"></i>
+            <a class="btn " href="#"
+               onclick="goTo('<c:url value="${contexte}/${annex.annexID}/edit"/>')"
+               title="<fmt:message key="genapp.edit"/>">
+               <i class="icon-pencil"></i>
             </a>
             </c:if>
             <c:if test="${__theFilterForm.deleteButtonVisible}">
@@ -19,38 +22,122 @@
             </a>
             </c:if>
             <c:set var="bracket" value="{0}"/>
-            <c:set var="pk" value="${annex.annexID}"/>
             <c:forEach var="button" items="${__theFilterForm.additionalButtonsForEachItem}">
-            <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
-            <c:if test="${!fn:startsWith(thelink,'javascript:')}">
-            <c:url var="thelink" value="${thelink}"/>
-            <c:set var="thelink" value="goTo('${thelink}')"/>
-            </c:if>
-            <a class="btn ${button.type} " href="#" 
-              onclick="${thelink}" 
-              title="<fmt:message key="${button.codeText}"/>">
-              <i class="${button.icon}"></i>
-            </a>
+                  <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
+                  <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+                  <c:url var="thelink" value="${thelink}"/>
+                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  </c:if>
+                  <a class="btn ${button.type}" href="#"
+                     onclick="${thelink}"
+                     title="<fmt:message key="${button.codeText}"/>">
+                     <c:if test="${fn:startsWith(button.icon, '/')}">
+                     <img src="<c:url value="${button.icon}"/>"/>
+                     </c:if>                     <c:if test="${!fn:startsWith(button.icon, '/')}">
+                     <i class="${button.icon}"></i>
+                     </c:if>
+                  </a>
             </c:forEach>
-
 
             <c:if test="${not empty __theFilterForm.additionalButtonsByPK}">
               <c:if test="${not empty __theFilterForm.additionalButtonsByPK[pk]}">
-                <c:set var="button" value="${__theFilterForm.additionalButtonsByPK[pk]}"/>
-            <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
-            <c:if test="${!fn:startsWith(thelink,'javascript:')}">
-            <c:url var="thelink" value="${thelink}"/>
-            <c:set var="thelink" value="goTo('${thelink}')"/>
-            </c:if>
-            <a class="btn ${button.type} " href="#" 
-              onclick="${thelink}" 
-              title="<fmt:message key="${button.codeText}"/>">
-              <i class="${button.icon}"></i>
-            </a>
+                  <c:forEach var="button" items="${__theFilterForm.additionalButtonsByPK[pk]}">
+                  <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
+                  <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+                  <c:url var="thelink" value="${thelink}"/>
+                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  </c:if>
+                  <a class="btn ${button.type}" href="#"
+                     onclick="${thelink}"
+                     title="<fmt:message key="${button.codeText}"/>">
+                     <c:if test="${fn:startsWith(button.icon, '/')}">
+                     <img src="<c:url value="${button.icon}"/>"/>
+                     </c:if>                     <c:if test="${!fn:startsWith(button.icon, '/')}">
+                     <i class="${button.icon}"></i>
+                     </c:if>
+                  </a>
+                  </c:forEach>
+
                </c:if>
 
             </c:if>
 
             </div>
+            </c:when>
+           <c:when test="${__theFilterForm.actionsRenderer == 2}">
+                <div class="btn-group">
+      <a class="btn btn-small ${instanceFilterForm.additionalInfoForActionsRendererByPK[pk]}" href="#" style="${(empty instanceFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'color: white;'}"><i class="icon-list ${(empty instanceFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'icon-white'}"></i> <fmt:message key="genapp.actions" /></a>
+      <a class="btn btn-small ${instanceFilterForm.additionalInfoForActionsRendererByPK[pk]} dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;<span class="caret"> </span></a>
+      <ul class="dropdown-menu pull-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
+            <c:if test="${__theFilterForm.editButtonVisible}">
+            <li>
+            <a class="btn  btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+            onclick="goTo('<c:url value="${contexte}/${annex.annexID}/edit"/>')"> 
+            <i class="icon-pencil"></i>
+             <fmt:message key="genapp.edit"/>
+            </a>
+            </li>
+            </c:if>
+            <c:if test="${__theFilterForm.deleteButtonVisible}">
+            <li>
+            <a class="btn btn-danger btn-small a_item" style="margin-bottom:5px;color:white;" href="#myModal" 
+            onclick="openModal('<c:url value="${contexte}/${annex.annexID}/delete"/>','show');"> 
+            <i class="icon-trash icon-white"></i>
+             <fmt:message key="genapp.delete"/>
+            </a>
+            </li>
+            </c:if>
+            <c:set var="bracket" value="{0}"/>
+            <c:forEach var="button" items="${__theFilterForm.additionalButtonsForEachItem}">
+                  <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
+                  <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+                  <c:url var="thelink" value="${thelink}"/>
+                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  </c:if>
+                  <li>
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+                  onclick="${thelink}"> 
+                  <c:if test="${fn:startsWith(button.icon, '/')}">
+                  <img src="<c:url value="${button.icon}"/>"/>
+                  </c:if>                  <c:if test="${!fn:startsWith(button.icon, '/')}">
+                  <i class="${button.icon}"></i>
+                  </c:if>
+                   <fmt:message key="${button.codeText}"/>
+                  </a>
+                  </li>
+            </c:forEach>
+
+            <c:if test="${not empty __theFilterForm.additionalButtonsByPK}">
+              <c:if test="${not empty __theFilterForm.additionalButtonsByPK[pk]}">
+                  <c:forEach var="button" items="${__theFilterForm.additionalButtonsByPK[pk]}">
+                  <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
+                  <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+                  <c:url var="thelink" value="${thelink}"/>
+                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  </c:if>
+                  <li>
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+                  onclick="${thelink}"> 
+                  <c:if test="${fn:startsWith(button.icon, '/')}">
+                  <img src="<c:url value="${button.icon}"/>"/>
+                  </c:if>                  <c:if test="${!fn:startsWith(button.icon, '/')}">
+                  <i class="${button.icon}"></i>
+                  </c:if>
+                   <fmt:message key="${button.codeText}"/>
+                  </a>
+                  </li>
+                  </c:forEach>
+
+               </c:if>
+
+            </c:if>
+
+                 </ul>
+    </div>
+            </c:when>
+            <c:otherwise>
+              &nbsp;<!-- Sense Render d'accions -->
+            </c:otherwise>
+          </c:choose>
            </td>
            </c:if>

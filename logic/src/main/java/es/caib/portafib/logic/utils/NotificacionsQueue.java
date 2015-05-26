@@ -592,6 +592,8 @@ public class NotificacionsQueue implements MessageListener {
       Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
+      reqContext.put("com.sun.xml.ws.request.timeout", 3 * 60 * 1000);
+      
       cbresp = api.callback(cbRequest);
 
     } catch (Exception e) {

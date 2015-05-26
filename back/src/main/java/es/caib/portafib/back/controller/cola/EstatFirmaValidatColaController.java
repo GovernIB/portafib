@@ -20,7 +20,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_COLA_ESTATFIRMA_VALIDAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaValidatColaController extends EstatFirmaColaController {
+public class EstatFirmaValidatColaController extends EstatFirmaAbstractColaController {
 
   @Override
   public String getBaseEntityNameCode() {
@@ -52,6 +52,13 @@ public class EstatFirmaValidatColaController extends EstatFirmaColaController {
     }
     
     return ff;
+  }
+
+
+  @Override
+  public int getFilterType() {
+    // TODO Auto-generated method stub
+    return FILTRAR_PER_ACCEPTAT; // == Validat
   }
 
 }
