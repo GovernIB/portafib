@@ -196,7 +196,7 @@
              <name>PortaFIB Maven Repository</name>
              <url>http://portafib.sourceforge.net/maven/</url>
            </repository>
-        <repositories>
+        </repositories>
         -->
 
     </distributionManagement>
