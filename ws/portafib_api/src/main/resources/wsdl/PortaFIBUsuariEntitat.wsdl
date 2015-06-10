@@ -40,8 +40,10 @@
   <xs:element name="getCarrecsOfMyEntitatResponse" type="tns:getCarrecsOfMyEntitatResponse"/>
   <xs:element name="getEntitatID" type="tns:getEntitatID"/>
   <xs:element name="getEntitatIDResponse" type="tns:getEntitatIDResponse"/>
-  <xs:element name="getInfoFromPluginUserInfo" type="tns:getInfoFromPluginUserInfo"/>
-  <xs:element name="getInfoFromPluginUserInfoResponse" type="tns:getInfoFromPluginUserInfoResponse"/>
+  <xs:element name="getInfoFromPluginUserInfoByAdministrationID" type="tns:getInfoFromPluginUserInfoByAdministrationID"/>
+  <xs:element name="getInfoFromPluginUserInfoByAdministrationIDResponse" type="tns:getInfoFromPluginUserInfoByAdministrationIDResponse"/>
+  <xs:element name="getInfoFromPluginUserInfoByUsername" type="tns:getInfoFromPluginUserInfoByUsername"/>
+  <xs:element name="getInfoFromPluginUserInfoByUsernameResponse" type="tns:getInfoFromPluginUserInfoByUsernameResponse"/>
   <xs:element name="getSupportedLanguages" type="tns:getSupportedLanguages"/>
   <xs:element name="getSupportedLanguagesResponse" type="tns:getSupportedLanguagesResponse"/>
   <xs:element name="getUsuariEntitat" type="tns:getUsuariEntitat"/>
@@ -203,6 +205,28 @@
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByUsername">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByUsernameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="usuariPersonaBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="idiomaID" type="xs:string"/>
+      <xs:element minOccurs="0" name="llinatges" type="xs:string"/>
+      <xs:element minOccurs="0" name="nif" type="xs:string"/>
+      <xs:element minOccurs="0" name="nom" type="xs:string"/>
+      <xs:element minOccurs="0" name="rubrica" type="tns:fitxerBean"/>
+      <xs:element minOccurs="0" name="rubricaID" type="xs:long"/>
+      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="deactivateUsuariEntitat">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
@@ -279,42 +303,22 @@
   <xs:complexType name="removeRoleSolicitantResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByAdministrationID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getInfoFromPluginUserInfoByAdministrationIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="getUsuariPersona">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getUsuariPersonaResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="usuariPersonaBean">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="email" type="xs:string"/>
-      <xs:element minOccurs="0" name="idiomaID" type="xs:string"/>
-      <xs:element minOccurs="0" name="llinatges" type="xs:string"/>
-      <xs:element minOccurs="0" name="nif" type="xs:string"/>
-      <xs:element minOccurs="0" name="nom" type="xs:string"/>
-      <xs:element minOccurs="0" name="rubrica" type="tns:fitxerBean"/>
-      <xs:element minOccurs="0" name="rubricaID" type="xs:long"/>
-      <xs:element minOccurs="0" name="usuariPersonaID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="activateUsuariEntitat">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="activateUsuariEntitatResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getInfoFromPluginUserInfo">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getInfoFromPluginUserInfoResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:usuariPersonaBean"/>
     </xs:sequence>
@@ -326,6 +330,14 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="activateUsuariEntitat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="activateUsuariEntitatResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="addRoleAdministradorDeEntitat">
     <xs:sequence>
@@ -480,12 +492,20 @@
     <wsdl:part name="parameters" element="tns:getUsuariPersona">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByUsername">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByUsername">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getUsuariEntitatIDByAdministrationID">
     <wsdl:part name="parameters" element="tns:getUsuariEntitatIDByAdministrationID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="removeRoleSolicitantResponse">
     <wsdl:part name="parameters" element="tns:removeRoleSolicitantResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByUsernameResponse">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByUsernameResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createCarrecSimpleResponse">
@@ -536,12 +556,12 @@
     <wsdl:part name="parameters" element="tns:activateUsuariEntitat">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getCarrec">
     <wsdl:part name="parameters" element="tns:getCarrec">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
+    <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByAdministrationIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createUsuariEntitatResponse">
@@ -560,20 +580,20 @@
     <wsdl:part name="parameters" element="tns:deleteUsuariEntitatResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getInfoFromPluginUserInfo">
-    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfo">
+  <wsdl:message name="createUsuariPersonaResponse">
+    <wsdl:part name="parameters" element="tns:createUsuariPersonaResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCarrecsOfMyEntitatResponse">
     <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitatResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createUsuariPersonaResponse">
-    <wsdl:part name="parameters" element="tns:createUsuariPersonaResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="deleteUsuariEntitat">
     <wsdl:part name="parameters" element="tns:deleteUsuariEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByAdministrationIDResponse">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addRoleAdministradorDeEntitat">
@@ -592,20 +612,16 @@
     <wsdl:part name="parameters" element="tns:getVersionWs">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getInfoFromPluginUserInfoResponse">
-    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteUsuariPersona">
-    <wsdl:part name="parameters" element="tns:deleteUsuariPersona">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getUsuariPersonaIDByAdministrationID">
     <wsdl:part name="parameters" element="tns:getUsuariPersonaIDByAdministrationID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
     <wsdl:part name="parameters" element="tns:getUsuariEntitatIDInMyEntitatByUsuariPersonaID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUsuariPersona">
+    <wsdl:part name="parameters" element="tns:deleteUsuariPersona">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteCarrec">
@@ -682,6 +698,10 @@
   </wsdl:message>
   <wsdl:message name="getCarrecsOfMyEntitat">
     <wsdl:part name="parameters" element="tns:getCarrecsOfMyEntitat">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoFromPluginUserInfoByAdministrationID">
+    <wsdl:part name="parameters" element="tns:getInfoFromPluginUserInfoByAdministrationID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsuariPersonaResponse">
@@ -793,6 +813,14 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
+      <wsdl:input name="getInfoFromPluginUserInfoByUsername" message="tns:getInfoFromPluginUserInfoByUsername">
+    </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse" message="tns:getInfoFromPluginUserInfoByUsernameResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="deactivateUsuariEntitat">
       <wsdl:input name="deactivateUsuariEntitat" message="tns:deactivateUsuariEntitat">
     </wsdl:input>
@@ -859,6 +887,14 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
+      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID" message="tns:getInfoFromPluginUserInfoByAdministrationID">
+    </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse" message="tns:getInfoFromPluginUserInfoByAdministrationIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getUsuariPersona">
       <wsdl:input name="getUsuariPersona" message="tns:getUsuariPersona">
     </wsdl:input>
@@ -869,6 +905,12 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="activateUsuariEntitat">
       <wsdl:input name="activateUsuariEntitat" message="tns:activateUsuariEntitat">
     </wsdl:input>
@@ -876,20 +918,6 @@
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfo">
-      <wsdl:input name="getInfoFromPluginUserInfo" message="tns:getInfoFromPluginUserInfo">
-    </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoResponse" message="tns:getInfoFromPluginUserInfoResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getVersion">
-      <wsdl:input name="getVersion" message="tns:getVersion">
-    </wsdl:input>
-      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
-    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="addRoleAdministradorDeEntitat">
       <wsdl:input name="addRoleAdministradorDeEntitat" message="tns:addRoleAdministradorDeEntitat">
@@ -1112,6 +1140,18 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByUsername">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInfoFromPluginUserInfoByUsername">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByUsernameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="deleteUsuariPersona">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="deleteUsuariPersona">
@@ -1199,6 +1239,18 @@
         <soap:fault name="WsI18NException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getInfoFromPluginUserInfoByAdministrationID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInfoFromPluginUserInfoByAdministrationID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInfoFromPluginUserInfoByAdministrationIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getUsuariPersona">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getUsuariPersona">
@@ -1220,18 +1272,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="activateUsuariEntitatResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getInfoFromPluginUserInfo">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getInfoFromPluginUserInfo">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getInfoFromPluginUserInfoResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">

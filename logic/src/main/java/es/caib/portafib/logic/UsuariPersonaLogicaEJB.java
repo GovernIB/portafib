@@ -179,15 +179,25 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
       pfui = null;
     }
 
+    final String codeParam = "nif";
+    
+    checkUserInformationPlugin(nif, pfui, codeParam);
+
+    return pfui;
+  }
+
+
+  protected void checkUserInformationPlugin(String nifOrUsername, UserInfo pfui, final String codeParam)
+      throws I18NException {
     // No hi ha informació de l'usuari al sistema d'autenticació.
     if (pfui == null) {
       throw new I18NException("usuaripersona.senseinformacio",
-          new I18NArgumentCode("nif"), new I18NArgumentString(nif));
+          new I18NArgumentCode(codeParam), new I18NArgumentString(nifOrUsername));
     }
     // El plugin de login no ha tornat la informació correcta.
     if (pfui.getAdministrationID() == null || pfui.getUsername() == null) {
       throw new I18NException("usuaripersona.infoincorrecta",
-          new I18NArgumentCode("nif"), new I18NArgumentString(nif));
+          new I18NArgumentCode(codeParam), new I18NArgumentString(nifOrUsername));
     }
     
     if (pfui.getLanguage() == null) {
@@ -204,9 +214,32 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
         }
       }
     }
+  }
+  
+  /**
+   * Obtenim la informació de l'usuari del sistema d'autenticació.
+   */
+  @Override
+  public UserInfo checkUsernameInUserInformationPlugin(String username) throws I18NException {
+    // Obtenim la informació de l'usuari del sistema d'autenticació.
+    IUserInformationPlugin userInfoPlugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
+    UserInfo pfui;
+    try {
+      pfui = userInfoPlugin.getUserInfoByUserName(username);  
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      pfui = null;
+    }
+
+    final String codeParam = "username";
+    
+    checkUserInformationPlugin(codeParam, pfui, codeParam);
 
     return pfui;
   }
+  
+  
+  
   
   @Override
   public UsuariPersonaJPA getUsuariPersonaIDByAdministrationID(String administrationID)

@@ -98,7 +98,8 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
 
   @RolesAllowed({ PFI_ADMIN})
   @WebMethod
-  public UsuariPersonaBean getInfoFromPluginUserInfo(
+  @Override
+  public UsuariPersonaBean getInfoFromPluginUserInfoByAdministrationID(
       @WebParam(name = "administrationID") String administrationID) 
   throws WsI18NException, Throwable {
 
@@ -115,6 +116,30 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     
     return userBean;
   }
+  
+  
+  @RolesAllowed({ PFI_ADMIN})
+  @WebMethod
+  @Override
+  public UsuariPersonaBean getInfoFromPluginUserInfoByUsername(
+      @WebParam(name = "username") String username) 
+     throws WsI18NException, Throwable {
+
+    //Llançarà errors si el nif no és correcte
+    UserInfo userInfo = usuariPersonaLogicaEjb.checkUsernameInUserInformationPlugin(username);
+
+    UsuariPersonaBean userBean= new UsuariPersonaBean();
+    userBean.setEmail(userInfo.getEmail());
+    userBean.setIdiomaID(userInfo.getLanguage());
+    userBean.setLlinatges(userInfo.getSurname1() + (userInfo.getSurname2() == null? "" :  (" " + userInfo.getSurname2() )));
+    userBean.setNif(userInfo.getAdministrationID());
+    userBean.setNom(userInfo.getName());
+    userBean.setUsuariPersonaID(userInfo.getUsername());
+    
+    return userBean;
+  }
+  
+  
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER})
   @WebMethod
@@ -221,7 +246,8 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     
     if (ue == null) {
       // usuaripersona.noexisteix=No existeix usuari persona amb {0} {1}
-      throw new I18NException("usuaripersona.noexisteix", "NIF", administrationID);      
+      //throw new I18NException("usuaripersona.noexisteix", "NIF", administrationID);
+      return null;
     } else {
       return ue.getUsuariEntitatID();
     }
@@ -264,7 +290,8 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     
     if (ue == null) {
       // usuaripersona.noexisteix=No existeix usuari persona amb {0} {1}
-      throw new I18NException("usuaripersona.noexisteix", "UserName", username);      
+      //throw new I18NException("usuaripersona.noexisteix", "UserName", username);
+      return null;
     } else {
       return ue.getUsuariEntitatID();
     }

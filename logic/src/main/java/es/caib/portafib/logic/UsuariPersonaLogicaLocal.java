@@ -30,6 +30,8 @@ public interface UsuariPersonaLogicaLocal extends UsuariPersonaLocal {
       I18NValidationException, Exception;
 
   public UserInfo checkAdministrationIDInUserInformationPlugin(String nif) throws I18NException;
+  
+  public UserInfo checkUsernameInUserInformationPlugin(String username) throws I18NException;
 
   public UsuariPersonaJPA getUsuariPersonaIDByAdministrationID(String administrationID)
       throws I18NException;

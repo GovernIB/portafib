@@ -433,7 +433,8 @@ public class TestJPA {
   
   @SuppressWarnings("unused")
   private void testOneByOneDirect(EntityManager em) {
-    Query query = em.createQuery("select peticiodefirma from PeticioDeFirmaJPA peticiodefirma join fetch peticiodefirma.fluxDeFirmes f  join fetch f.blocDeFirmess b  join fetch b.firmas fi "
+    Query query = em.createQuery("select peticiodefirma from PeticioDeFirmaJPA peticiodefirma"
+        + " join fetch peticiodefirma.fluxDeFirmes f  join fetch f.blocDeFirmess b  join fetch b.firmas fi "
        
         // "   "  
         + " where ( "        

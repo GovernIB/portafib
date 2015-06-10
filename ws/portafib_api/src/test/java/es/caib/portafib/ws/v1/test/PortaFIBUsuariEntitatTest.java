@@ -87,7 +87,7 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
     }
 
     // Obtenim informacio de Plugin de Info
-    UsuariPersonaBean usb = usuariEntitatAPI.getInfoFromPluginUserInfo(nif);
+    UsuariPersonaBean usb = usuariEntitatAPI.getInfoFromPluginUserInfoByAdministrationID(nif);
     String usuariPersonaID = usb.getUsuariPersonaID();
     if (usb.getEmail() == null) {
       usb.setEmail("any@portafib.org");
@@ -262,7 +262,7 @@ public final class PortaFIBUsuariEntitatTest extends PortaFIBTestUtils {
       String nif) throws WsI18NException, WsValidationException {
     String usuariPersonaID;
     // Crear usuari persona
-    UsuariPersonaBean upb = usuariEntitatAPI2.getInfoFromPluginUserInfo(nif);
+    UsuariPersonaBean upb = usuariEntitatAPI2.getInfoFromPluginUserInfoByAdministrationID(nif);
     usuariPersonaID = upb.getUsuariPersonaID();
     if (upb.getEmail() == null) {
       upb.setEmail("any@portafib.org");

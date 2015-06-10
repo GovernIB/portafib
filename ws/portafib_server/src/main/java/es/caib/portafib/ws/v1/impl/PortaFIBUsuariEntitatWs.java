@@ -35,7 +35,13 @@ public interface PortaFIBUsuariEntitatWs extends IBaseAutenticatedWs {
 
   @RolesAllowed({ Constants.PFI_ADMIN})
   @WebMethod
-  public UsuariPersonaBean getInfoFromPluginUserInfo(
+  public UsuariPersonaBean getInfoFromPluginUserInfoByAdministrationID(
+      @WebParam(name = "administrationID") String administrationID) 
+  throws WsI18NException, Throwable;
+  
+  @RolesAllowed({ Constants.PFI_ADMIN})
+  @WebMethod
+  public UsuariPersonaBean getInfoFromPluginUserInfoByUsername(
       @WebParam(name = "administrationID") String administrationID) 
   throws WsI18NException, Throwable;
 
