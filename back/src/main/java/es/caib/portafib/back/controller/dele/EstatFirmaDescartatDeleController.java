@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import es.caib.portafib.back.controller.dest.EstatFirmaDescartatDestController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.utils.Constants;
 
@@ -16,10 +15,18 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = Constants.CONTEXT_DELE_ESTATFIRMA_DESCARTAT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
-public class EstatFirmaDescartatDeleController extends EstatFirmaDescartatDestController {
+//TODO Aquesta classe ha de desapareixer 
+public class EstatFirmaDescartatDeleController extends EstatFirmaAbstractDeleController {
+
 
   @Override
-  public String getRole() {
-    return Constants.ROLE_DELE;
+  public String getBaseEntityNameCode() {
+    return "solicituddefirma.llistat.descartat";
   }
+
+  @Override
+  public int getFilterType() {   
+    return FILTRAR_PER_NODEFINIT; // == ha firmat Delegat
+  }
+  
 }

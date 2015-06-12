@@ -1,13 +1,8 @@
 package es.caib.portafib.back.controller.cola;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.utils.Constants;
@@ -27,7 +22,7 @@ public class EstatFirmaValidatColaController extends EstatFirmaAbstractColaContr
     return "solicitudvalidada";
   }
   
-  
+  /*
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Where pare = super.getAdditionalCondition(request);
@@ -53,11 +48,10 @@ public class EstatFirmaValidatColaController extends EstatFirmaAbstractColaContr
     
     return ff;
   }
-
+*/
 
   @Override
   public int getFilterType() {
-    // TODO Auto-generated method stub
     return FILTRAR_PER_ACCEPTAT; // == Validat
   }
 

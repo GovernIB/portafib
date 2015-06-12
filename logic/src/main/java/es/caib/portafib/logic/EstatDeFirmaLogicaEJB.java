@@ -5,6 +5,7 @@ import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.EstatDeFirmaEJB;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -15,6 +16,7 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
+import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
@@ -103,6 +106,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     if (estatDeFirmaList == null) {
       return null;
     }
+    
+    
 
     Map<Long, PeticioDeFirma> map = new HashMap<Long, PeticioDeFirma>();
 
@@ -116,11 +121,11 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       subqueryBloc = blocDeFirmesEjb.getSubQuery(BlocDeFirmesFields.FLUXDEFIRMESID,
           BlocDeFirmesFields.BLOCDEFIRMESID.in(subqueryFirma));
 
-      /*
-       * SubQuery<FluxDeFirmes,Long> subqueryFlux ; subqueryFlux =
-       * fluxDeFirmesEjb.getSubQuery(FluxDeFirmesFields.FLUXDEFIRMESID,
-       * FluxDeFirmesFields.FLUXDEFIRMESID.in(subqueryBloc),(OrderBy[]) null);
-       */
+      
+      // SubQuery<FluxDeFirmes,Long> subqueryFlux ; subqueryFlux =
+      // fluxDeFirmesEjb.getSubQuery(FluxDeFirmesFields.FLUXDEFIRMESID,
+      // FluxDeFirmesFields.FLUXDEFIRMESID.in(subqueryBloc),(OrderBy[]) null);
+       
       // SubQuery<PeticioDeFirma,Long> subqueryPeticio ;
       // subqueryPeticio =
       // peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.PETICIODEFIRMAID,
@@ -133,10 +138,13 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       List<PeticioDeFirma> list = peticioDeFirmaEjb.select(w);
 
       if (list != null && list.size() != 0) {
-        map.put(estatDeFirma.getEstatDeFirmaID(), list.get(0));
+        PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)list.get(0);
+        Hibernate.initialize(pf.getTipusDocument());
+        map.put(estatDeFirma.getEstatDeFirmaID(), pf);
       }
 
     }
+   
 
     return map;
 

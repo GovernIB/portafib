@@ -99,6 +99,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.LongField;
@@ -1104,13 +1105,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    */
   protected boolean startNextSign(PeticioDeFirmaJPA peticioDeFirma, FluxDeFirmesJPA flux,
       EstatDeFirmaJPA estatDeFirma, FirmaEventList events) throws I18NException {
-    
-    System.out.println(" ---------------------------------------- ");
-    System.out.println(" ---------------------------------------- ");
-    System.out.println(" --------   startNextSign  -------------- ");
-    System.out.println(" ---------------------------------------- ");
-    System.out.println(" ---------------------------------------- ");
-    
 
     if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       log.error("S'esta cercant un nou bloc de firmes disponible per la petició "
@@ -2372,6 +2366,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       peticio.setPeticioDeFirmaID(0);
       peticio.setDataFinal(null);
+
       Calendar cal = Calendar.getInstance();
       peticio.setDataSolicitud(new Timestamp(cal.getTimeInMillis()));
       {
@@ -2379,6 +2374,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         peticio.setFitxerAFirmar(fitxerClonat);
         peticio.setFitxerAFirmarID(fitxerClonat.getFitxerID());
       }
+      cal.add(Calendar.DATE, 15);
+      peticio.setDataCaducitat(new Timestamp(cal.getTimeInMillis()));
 
       peticio.setFitxerAdaptat(null);
       peticio.setFitxerAdaptatID(null);
@@ -2501,6 +2498,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       return (PeticioDeFirmaJPA)update(peticio);
 
+
     } catch (Throwable e) {
       log.error(e.getMessage(), e);
       for (Fitxer fitxer : fitxers) {
@@ -2508,6 +2506,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
       if (e instanceof I18NException) {
         throw (I18NException) e;
+      } if (e instanceof I18NValidationException) {
+        
+        I18NValidationException valexc = (I18NValidationException)e;
+        
+        String msg = I18NLogicUtils.getMessage(valexc, new Locale("ca"));
+
+        throw new I18NException(e, "error.unknown", new I18NArgumentString(msg));        
+        
       } else {
         throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
       }

@@ -1,72 +1,72 @@
 package es.caib.portafib.back.controller;
 
   import org.fundaciobit.genapp.common.KeyValue;
-  import org.fundaciobit.genapp.common.StringKeyValue;
-  import org.fundaciobit.genapp.common.utils.Utils;
-  import org.fundaciobit.genapp.common.web.HtmlUtils;
-  import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-  import org.fundaciobit.genapp.common.web.form.AdditionalField;
-  import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-  import org.fundaciobit.genapp.common.i18n.I18NException;
-  import org.fundaciobit.genapp.common.query.Field;
-  import org.fundaciobit.genapp.common.query.GroupByItem;
-  import org.fundaciobit.genapp.common.query.GroupByValueItem;
-  import org.fundaciobit.genapp.common.query.IntegerField;
-  import org.fundaciobit.genapp.common.query.LongField;
-  import org.fundaciobit.genapp.common.query.OrderBy;
-  import org.fundaciobit.genapp.common.query.OrderType;
-  import org.fundaciobit.genapp.common.query.Select;
-  import org.fundaciobit.genapp.common.query.SelectGroupByAndCountForField;
-  import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
-  import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-  import org.fundaciobit.genapp.common.query.StringField;
-  import org.fundaciobit.genapp.common.query.Where;
-  import org.springframework.beans.factory.annotation.Autowired;
-  import org.springframework.stereotype.Controller;
-  import org.springframework.web.bind.annotation.*;
-  import org.springframework.web.servlet.ModelAndView;
-  import org.springframework.web.servlet.view.RedirectView;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.GroupByValueItem;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SelectGroupByAndCountForField;
+import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.Where;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
   import javax.annotation.PostConstruct;
-  import javax.ejb.EJB;
-  import javax.servlet.http.HttpServletRequest;
-  import javax.servlet.http.HttpServletResponse;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
   import java.util.ArrayList;
-  import java.util.HashMap;
-  import java.util.HashSet;
-  import java.util.List;
-  import java.util.Locale;
-  import java.util.Map;
-  import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
   import es.caib.portafib.back.form.webdb.*;
-  import es.caib.portafib.back.security.LoginInfo;
-  import es.caib.portafib.back.utils.AppletConfig;
-  import es.caib.portafib.back.utils.AppletSignFile;
-  import es.caib.portafib.back.controller.FileDownloadController;
-  import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
-  import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
-  import es.caib.portafib.ejb.FirmaLocal;
-  import es.caib.portafib.jpa.AnnexJPA;
-  import es.caib.portafib.jpa.EntitatJPA;
-  import es.caib.portafib.jpa.EstatDeFirmaJPA;
-  import es.caib.portafib.jpa.FirmaJPA;
-  import es.caib.portafib.jpa.FitxerJPA;
-  import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-  import es.caib.portafib.jpa.UsuariEntitatJPA;
-  import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-  import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-  import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-  import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-  import es.caib.portafib.utils.Constants;
-  import es.caib.portafib.model.entity.ColaboracioDelegacio;
-  import es.caib.portafib.model.entity.EstatDeFirma;
-  import es.caib.portafib.model.entity.Fitxer;
-  import es.caib.portafib.model.entity.PeticioDeFirma;
-  import es.caib.portafib.model.entity.UsuariPersona;
-  import es.caib.portafib.model.fields.*;
-  import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.AppletConfig;
+import es.caib.portafib.back.utils.AppletSignFile;
+import es.caib.portafib.back.controller.FileDownloadController;
+import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
+import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
+import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.jpa.AnnexJPA;
+import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.EstatDeFirmaJPA;
+import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
+import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.utils.Constants;
+import es.caib.portafib.model.entity.ColaboracioDelegacio;
+import es.caib.portafib.model.entity.EstatDeFirma;
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.*;
+import es.caib.portafib.utils.Configuracio;
 
   /**
    * Controller per gestionar un EstatDeFirma
@@ -107,7 +107,11 @@ package es.caib.portafib.back.controller;
     @Autowired
     protected TipusDocumentRefList tipusDocumentRefList;
     
-    private static final int COLUMN_PETICIODEFIRMA = -1; 
+    private static final int COLUMN_PETICIODEFIRMA = -3;
+    
+    private static final int COLUMN_TIPUS_DOC = -2;
+    
+    private static final int COLUMN_DATA_INICI = -1;
 
     private static final int COLUMN_REMITENT = 1;
     
@@ -168,6 +172,7 @@ package es.caib.portafib.back.controller;
         ff.addHiddenField(COLABORACIODELEGACIOID);
         ff.addHiddenField(DESCRIPCIO);
         ff.addHiddenField(USUARIENTITATID);
+        ff.addHiddenField(DATAINICI);
         // Ocultar estatinicial
         ff.addHiddenField(TIPUSESTATDEFIRMAINICIALID);
 
@@ -191,22 +196,78 @@ package es.caib.portafib.back.controller;
           // Propietat de Col.laboracio-Delegacio
           ff.addGroupByField(DESTINATARIID);
         }
+
+        
         ff.addGroupByField(DATAINICI);
         ff.addGroupByField(DATAFI);
-        // ff.addGroupByField(TIPUSESTATDEFIRMAINICIALID);
         ff.addGroupByField(TIPUSESTATDEFIRMAFINALID);
         
+        switch(getFilterType()) {
+        
+          case FILTRAR_PER_PENDENT: // Pendent de firma o validacio
+            ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
+            ff.addHiddenField(DATAFI);
+
+            ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
+            ff.getGroupByFields().remove(DATAFI);
+          break;
+          
+          case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
+            // Es la forma d'indicar que no volem la columna de Col·laborador
+            ff.addHiddenField(ColaboracioDelegacioFields.DESTINATARIID);
+            // Descripció conté el motiu de rebuig
+            ff.getHiddenFields().remove(DESCRIPCIO);
+            ff.addLabel(DESCRIPCIO, "motiurebutjar");
+
+            ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
+            ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
+          break;
+          
+          case FILTRAR_PER_NODEFINIT: // Descartat o ni validat ni invalidat
+          case FILTRAR_PER_ACCEPTAT:   // Firmat o validat
+            ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
+            ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
+
+          break;
+          
+          
+          default:
+        }
+
         //  NOVES COLUMNES
         
         // ===================  Nom de petició de firma
-        AdditionalField<String,String> adfieldPF = new AdditionalField<String,String>(); 
-        adfieldPF.setCodeName("document");
-        adfieldPF.setPosition(COLUMN_PETICIODEFIRMA);
+        AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
+        addfieldPF.setCodeName("document");
+        addfieldPF.setPosition(COLUMN_PETICIODEFIRMA);
         // Els valors s'ompliran al mètode postList()
-        adfieldPF.setValueMap(new HashMap<String, String>());
+        addfieldPF.setValueMap(new HashMap<String, String>());
 
-        ff.addAdditionalField(adfieldPF);
+        ff.addAdditionalField(addfieldPF);
+      
         
+        // ===================  tipus de document 
+        {
+        AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
+        adfieldTD.setCodeName("tipus");
+        adfieldTD.setPosition(COLUMN_TIPUS_DOC);
+        // Els valors s'ompliran al mètode postList()
+        adfieldTD.setValueMap(new HashMap<String, String>());
+        
+        ff.addAdditionalField(adfieldTD);
+        }
+        
+        // ===================  data inici (format curt)
+        {
+        AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
+        adfieldDI.setCodeName("datainici.short");
+        adfieldDI.setPosition(COLUMN_DATA_INICI);
+        // Els valors s'ompliran al mètode postList()
+        adfieldDI.setValueMap(new HashMap<String, String>());
+        
+        ff.addAdditionalField(adfieldDI);
+        }
+
         // =================== 
         final String role = getRole();
         if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
@@ -241,35 +302,7 @@ package es.caib.portafib.back.controller;
         }
         
         // =========================
-        
-        if (role.equals(Constants.ROLE_DEST)) {
 
-          // NOVA COLUMNA
-          AdditionalField<String,String> adfieldDD = new AdditionalField<String,String>(); 
-          adfieldDD.setCodeName("ROLE_DELE.plural");
-          adfieldDD.setPosition(COLUMN_DELEGATS_DE_DESTINATARI);
-          // Els valors s'ompliran al mètode postList()
-          adfieldDD.setEscapeXml(false);
-          adfieldDD.setValueMap(new HashMap<String, String>());
-          ff.addAdditionalField(adfieldDD);
-        }
-        
-        
-     // =========================
-        
-        //TODO  <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
-        if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
-          // NOVA COLUMNA
-          AdditionalField<String,String> adfieldDD = new AdditionalField<String,String>(); 
-          adfieldDD.setCodeName("colaborador.short");
-          adfieldDD.setPosition(COLUMN_COLABORADORS);
-          // Els valors s'ompliran al mètode postList()
-          adfieldDD.setEscapeXml(false);
-          adfieldDD.setValueMap(new HashMap<String, String>());
-          ff.addAdditionalField(adfieldDD);
-        }
-        
-        
         // NOVA COLUMNA: Prioritat
         AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
         adfieldPR.setCodeName("exclamacio");
@@ -452,7 +485,10 @@ package es.caib.portafib.back.controller;
     // PENDENT       1    pendent        pendent
     // ACCEPTAT      2    firmat         validat
     // NOACCEPTAT    3    rebutjat       invalidat
-    // NODEFINIT     4    <no>           no s'ha definit 
+    // NODEFINIT     4    descartat(*)   descartat
+    // TODO (*) En un futur el valor descartat per dest i dele no tindran sentit i les 
+    //          delegacions firmades per un dest o les destinacions firmades per un delegat 
+    //          serna tractades com l'estat final del la sol3licitud: firmada o rebutjada
     
     public static final int FILTRAR_PER_RES = -1;
     
@@ -461,7 +497,7 @@ package es.caib.portafib.back.controller;
     public static final int FILTRAR_PER_ACCEPTAT = 2;
     
     public static final int FILTRAR_PER_NOACCEPTAT = 3;
-    
+
     public static final int FILTRAR_PER_NODEFINIT = 4;
     
     
@@ -983,33 +1019,52 @@ package es.caib.portafib.back.controller;
           .getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaList);
       mav.addObject("peticionsByEstat", peticionsByEstat);
       
-      // Peticio de Firma
+      // Peticio de Firma, Tipus Document , Remitent i DataInici
       {
 
         Map<Long, String> mapPF;
         mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA).getValueMap();
         mapPF.clear();
         
+        Map<Long, String> mapTD;
+        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_TIPUS_DOC).getValueMap();
+        mapTD.clear();
+        
+        final boolean remitent = role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE);
+        Map<Long, String> mapCR = null;
+        if (remitent) {          
+          mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
+          mapCR.clear();
+        }
+
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
-           mapPF.put(estatDeFirmaId, peticionsByEstat.get(estatDeFirmaId).getTitol());         
+           PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
+           mapPF.put(estatDeFirmaId, pf.getTitol());
+           mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
+           
+           
+           
+           if (remitent) {
+             mapCR.put(estatDeFirmaId, "<small title=\"" + pf.getRemitentDescripcio() + "\" >"
+                 + pf.getRemitentNom() + "</small>");
+           }
         }
         
       }
       
-      // Remitent
-      if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
-        Map<Long, String> mapCR;
-        mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
-        mapCR.clear();
+      {
+        org.fundaciobit.genapp.common.web.i18n.I18NDateFormat dateFormat;
+        dateFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateFormat();
         
-        
-        for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
-          PeticioDeFirma pf = peticionsByEstat.get(estatDeFirmaId);
-          mapCR.put(estatDeFirmaId, "<small title=\"" + pf.getRemitentDescripcio() + "\" >"
-              + pf.getRemitentNom() + "</small>");
+        Map<Long, String> mapDI;
+        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA_INICI).getValueMap();
+        mapDI.clear();
+        for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+          mapDI.put(estatDeFirma.getEstatDeFirmaID(), dateFormat.format(estatDeFirma.getDataInici()));
         }
       }
       
+     
       
       List<Long> estatsID = new ArrayList<Long>();
       if (role.equals(Constants.ROLE_COLA) || role.equals(Constants.ROLE_DELE)) {
@@ -1047,12 +1102,13 @@ package es.caib.portafib.back.controller;
       //  Delegats
       if (role.equals(Constants.ROLE_DEST)) {
         
-        Map<Long, String> mapDD;
-        mapDD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DELEGATS_DE_DESTINATARI).getValueMap();
-        mapDD.clear();
+        Map<Long, String> mapDD = new HashMap<Long, String>();
+
         
         Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
             ESTATS_INICIALS_DELE);
+        
+        boolean existeixenDelegacions = false;
 
         for(Long estatDeFirmaId :  infoDelegatsByEstat.keySet()) {
       
@@ -1074,20 +1130,53 @@ package es.caib.portafib.back.controller;
             str.append("<small>" + I18NUtils.tradueix("pendent") 
                 + ": " + valors[1] + "/" + valors[0] + "</small><br/>\n");
           }
+          
+          if (str.length() != 0) {
+            existeixenDelegacions = true;
+          }
 
           mapDD.put(estatDeFirmaId, str.toString());
+          
         }
-      
-        //mav.addObject("infoDelegatsByEstat", infoDelegatsByEstat);
+
+        // Ocultar columna si esta buida
+        if (!existeixenDelegacions) {
+          filterForm.getAdditionalFields().remove(COLUMN_DELEGATS_DE_DESTINATARI);
+        } else {
+          
+          AdditionalField<Long,String> adfieldDD;
+          
+          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_DELEGATS_DE_DESTINATARI);
+          
+          if (adfieldDD == null) {
+            // NOVA COLUMNA si no esta creada
+            adfieldDD = new AdditionalField<Long,String>(); 
+            adfieldDD.setCodeName("ROLE_DELE.plural");
+            adfieldDD.setPosition(COLUMN_DELEGATS_DE_DESTINATARI);
+            // Els valors s'ompliran al mètode postList()
+            adfieldDD.setEscapeXml(false);
+            
+            filterForm.addAdditionalField(adfieldDD);
+          }
+          
+          adfieldDD.setValueMap(mapDD);
+
+        }
+
       }
       
       // Col·laboradors
+      boolean ocultarColumnaColaboradors = filterForm.getHiddenFields().contains(ColaboracioDelegacioFields.DESTINATARIID); 
       // TODO <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
-      if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+      if ((role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) 
+          // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
+          && !ocultarColumnaColaboradors) {
         
-        Map<Long, String> mapCC;
-        mapCC = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_COLABORADORS).getValueMap();
-        mapCC.clear();
+        Map<Long, String> mapCC = new HashMap<Long, String>();
+        //mapCC = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_COLABORADORS).getValueMap();
+        //mapCC.clear();
+
+        boolean existeixenColaboracions = false;
         
         
         Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
@@ -1115,7 +1204,41 @@ package es.caib.portafib.back.controller;
                  + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
            }
            
+           if (str.length() != 0) {
+             existeixenColaboracions = true;
+           }
+           
            mapCC.put(estatDeFirmaId, str.toString());
+        }
+        
+
+        // Ocultar columna si esta buida
+        if (!existeixenColaboracions) {
+          filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
+        } else {
+
+          AdditionalField<Long,String> adfieldDD;
+          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_COLABORADORS);
+          
+          if (adfieldDD == null) {
+            // NOVA COLUMNA si no esta creada
+
+            adfieldDD = new AdditionalField<Long,String>(); 
+            adfieldDD.setCodeName("colaborador.short");
+            adfieldDD.setPosition(COLUMN_COLABORADORS);
+            // Els valors s'ompliran al mètode postList()
+            adfieldDD.setEscapeXml(false);
+            
+            filterForm.addAdditionalField(adfieldDD);
+          }
+          
+          adfieldDD.setValueMap(mapCC);
+
+        }
+
+      } else {
+        if (ocultarColumnaColaboradors) {
+          filterForm.getAdditionalFields().remove(COLUMN_COLABORADORS);
         }
       }
       
@@ -1466,10 +1589,54 @@ package es.caib.portafib.back.controller;
         }
 
       }
+      
+      Where estatWhere;
+      switch(getFilterType()) {
+        case FILTRAR_PER_PENDENT: // Pendent de firma o de de validacio
+          estatWhere = TIPUSESTATDEFIRMAFINALID.isNull();
+        break;
+        
+        case FILTRAR_PER_ACCEPTAT: // Firmat o validat
+          if (role.equals(ROLE_COLA)) {
+            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT);
+          } else {
+            estatWhere = Where.OR(
+              // El propi usuari (destinatari o delegat) ha firmat el document
+              TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT),
+              // Alguna altra persona (delegat o destinatari) ha firmat el document
+              Where.AND(
+                  TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT),
+                  new EstatDeFirmaQueryPath().FIRMA().FITXERFIRMATID().isNotNull() )
+                  );
+          }
+        break;
+        
+        case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
+          if (role.equals(ROLE_COLA)) {
+            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+          } else {
+            estatWhere = Where.OR(
+                // El propi usuari (destinatari o delegat) ha rebutjat el document
+                TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_REBUTJAT),
+                // Algun altre usuari (delegat o destinatari/delegat) ha rebutjat el document
+                Where.AND(
+                    TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT),
+                    new EstatDeFirmaQueryPath().FIRMA().FITXERFIRMATID().isNull() )
+                );
+          }
+        break;
 
-      return Where
-          .AND(roleWhere, EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance()
-              .getUsuariEntitatID()));
+        case FILTRAR_PER_NODEFINIT: // Rebutjat o invalidat
+          // El propi usuari (destinatari o delegat) no ha firmat el document
+          estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+        break;
+
+        default:
+          estatWhere = null;
+      }
+
+      return Where.AND(roleWhere, estatWhere, super.getAdditionalCondition(request),
+              EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()));
     }
 
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)

@@ -27,7 +27,7 @@ public class EstatFirmaInvalidatColaController extends EstatFirmaAbstractColaCon
     return "solicitudinvalidada";
   }
   
-  
+  /*
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Where pare = super.getAdditionalCondition(request);
@@ -37,7 +37,9 @@ public class EstatFirmaInvalidatColaController extends EstatFirmaAbstractColaCon
     return Where.AND(pare, fill);
     
   }
+  */
   
+  /*
   @Override  
   public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -54,6 +56,7 @@ public class EstatFirmaInvalidatColaController extends EstatFirmaAbstractColaCon
     
     return ff;
   }
+ */
 
 
   @Override
