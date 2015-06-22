@@ -52,13 +52,9 @@
         <c:url var="thelink" value="${thelink}"/>
         <c:set var="thelink" value="goTo('${thelink}')"/>
       </c:if>
-      <a class="btn ${button.type} btn-small pull-right" href="#" 
-         onclick="${thelink}" 
-         title="<fmt:message key="${button.codeText}"/>">
+       <button type="button" class="btn btn-small ${button.type} pull-right" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
          <i class="${button.icon}"></i>
          <fmt:message key="${button.codeText}"/>
-      </a>
+       </button>
     </c:forEach>
-
-
   

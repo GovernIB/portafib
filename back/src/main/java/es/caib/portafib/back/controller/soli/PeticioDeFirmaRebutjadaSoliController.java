@@ -1,18 +1,21 @@
 package es.caib.portafib.back.controller.soli;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
-
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.Constants;
 
 
@@ -27,6 +30,9 @@ import es.caib.portafib.utils.Constants;
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
 public class PeticioDeFirmaRebutjadaSoliController extends PeticioDeFirmaSoliController {
 
+  
+
+  
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Where pare = super.getAdditionalCondition(request);
@@ -50,7 +56,11 @@ public class PeticioDeFirmaRebutjadaSoliController extends PeticioDeFirmaSoliCon
 
     if (peticioDeFirmaFilterForm.isNou()) {
 
+      // Ocultar columnes
       peticioDeFirmaFilterForm.addHiddenField(TIPUSESTATPETICIODEFIRMAID);
+      
+      // Mostrar columnes
+      peticioDeFirmaFilterForm.getHiddenFields().remove(PeticioDeFirmaFields.MOTIUDEREBUIG);
       
       if (peticioDeFirmaFilterForm.getGroupByFields() != null) {
         peticioDeFirmaFilterForm.getGroupByFields().remove(TIPUSESTATPETICIODEFIRMAID);

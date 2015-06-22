@@ -784,6 +784,74 @@ import es.caib.portafib.utils.Configuracio;
 
       return llistatPaginat(request, response, null);
     }
+    
+    
+    
+    @RequestMapping(value = "/rebutjarseleccionats", method = RequestMethod.POST)
+    public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+        @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
+
+      // seleccionats conté els estatIDs
+      String[] seleccionatsStr = filterForm.getSelectedItems();
+      // String role = filterForm.getRole();
+
+
+      if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+        HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("rebutjarseleccionats.cap"));
+        
+        return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+      } else {
+        
+       
+        
+        ArrayList<Long> seleccionats = new ArrayList<Long>();
+        for(int i = 0; i< seleccionatsStr.length; i++) {
+           try {
+            seleccionats.add(Long.parseLong(seleccionatsStr[i]));
+          } catch(Throwable e) {
+            log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+          }
+        }
+        
+        
+        EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
+        
+        
+        
+        
+        SelectMultipleStringKeyValue smskv;
+        smskv = new SelectMultipleStringKeyValue(ESTATDEFIRMAID.select, 
+            efqp.FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID().select
+            );
+        
+        List<StringKeyValue> listIds = estatDeFirmaEjb.executeQuery(smskv, ESTATDEFIRMAID.in(seleccionats));
+        
+
+        final boolean debug = log.isDebugEnabled();
+        for (StringKeyValue skv: listIds ) {
+          if (debug) {
+            log.info("rebutjarSeleccionats::SELECCIONAT = " + skv.getKey() + " / "
+              + skv.getValue());
+          }
+
+          Long estatDeFirmaID = new Long( skv.getKey());
+          Long peticioDeFirmaID = new Long(skv.getValue());
+          
+          rebutjar(request, response, estatDeFirmaID, peticioDeFirmaID);
+          
+        }
+      }
+      
+      
+      return llistatPaginat(request, response, null);
+    }
+    
+    
+    
+    
+    
+    
 
     @RequestMapping(value = "/validar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView validar(HttpServletRequest request, HttpServletResponse response,
@@ -1317,16 +1385,19 @@ import es.caib.portafib.utils.Configuracio;
    
            final long estatInicial = ef.getTipusEstatDeFirmaInicialID(); 
            if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
-          
+             
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-edit", "firmar",
                   getContextWeb() + "/firmar/" + estatId + "/" + peticioID ,
                   "btn-success"));
-
+             
+          
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-remove", "rebutjar",
                  "javascript:rebutjar('" + request.getContextPath() + "" + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")" ,
                   "btn-danger"));
+
+
              
            /*
           <c:url var="_tmpUrl" value="${contexte}/rebutjar/${estatID}/${peticioID}"/>
@@ -1427,9 +1498,12 @@ import es.caib.portafib.utils.Configuracio;
          
           
          if (filterForm.isVisibleMultipleSelection() && filterForm.getAdditionalButtons().isEmpty()) {
+
+            filterForm.addAdditionalButton(new  AdditionalButton("icon-remove",
+                "rebutjarseleccionats", "javascript:rebutjarseleccionats()" , "btn-danger"));
             
             filterForm.addAdditionalButton(new  AdditionalButton("icon-edit",
-                "firmarseleccionats", "javascript:firmarseleccionats()" , ""));
+                "firmarseleccionats", "javascript:firmarseleccionats()" , "btn-success"));
            
          }
        }

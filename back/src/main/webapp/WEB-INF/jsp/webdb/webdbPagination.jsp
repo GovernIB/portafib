@@ -23,11 +23,11 @@ function reassignAction() {
   currentActionForExporter = "";
 }
 </script>
-<div >
-<div class="pagination pagination-centered">
+<div id="${formName}_pagination" style="width:100%; text-align:center;" >
 
+  <div style="float:left;" id="${formName}_pagination_left">
   <c:if test="${__theFilterForm.visibleExportList}">
-      <div style="float:left; ">
+      
       <%
          for(IDataExporter dataExporter : DataExporterManager.getAllDataExporters()) {
       %>
@@ -36,10 +36,21 @@ function reassignAction() {
            <img alt="<%=dataExporter.getName()%>" src="<%=request.getContextPath() + "/common/icon/" + dataExporter.getID()%>"/> 
           </a>
       <% } %>
-      </div>
   </c:if>
+  </div>
+  
+  <fmt:message var="allitems" key="genapp.form.allitems" />
+    <div style="float:right;" id="${formName}_pagination_right" >
+      <label><fmt:message key="genapp.form.itemsperpage" />:</label>
+      <form:select cssClass="input-small" cssStyle="width:4em;"  onchange="document.${formName}.submit()" path="itemsPerPage" >
+        <c:forEach var="num" items="${__theFilterForm.allItemsPerPage}">
+           <form:option value="${num}" label="${ (num == -1)? allitems : num}"/>                 
+        </c:forEach>
+      </form:select>
+    </div>
 
 
+  <div class="pagination pagination-centered" id="${formName}_pagination_center">
     <c:url var="firstUrl" value="${contexte}/list/1" 
     /><c:url var="lastUrl" value="${contexte}/list/${totalPages}" 
     /><c:url var="prevUrl" value="${contexte}/list/${currentIndex - 1}" 
@@ -80,14 +91,8 @@ function reassignAction() {
             </c:otherwise>
         </c:choose>
     </ul>
-    <fmt:message var="allitems" key="genapp.form.allitems" />
-    <div style="float:right; ">
-      <label><fmt:message key="genapp.form.itemsperpage" />:</label>
-      <form:select cssClass="input-small" cssStyle="width:4em;"  onchange="document.${formName}.submit()" path="itemsPerPage" >
-        <c:forEach var="num" items="${__theFilterForm.allItemsPerPage}">
-           <form:option value="${num}" label="${ (num == -1)? allitems : num}"/>                 
-        </c:forEach>
-      </form:select>
     </div>
+    
+    
 </div>
-</div>
+

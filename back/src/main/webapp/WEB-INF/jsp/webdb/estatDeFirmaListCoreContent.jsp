@@ -17,7 +17,7 @@
                <c:forEach var="__tros" items="${__trosos}">
                   <c:set var="__tmp" value="${__tmp[__tros]}" />
                </c:forEach>
-               <c:out escapeXml="${__entry.value.escapeXml}" value="${__tmp}" /><br/>
+               <c:out escapeXml="${__entry.value.escapeXml}" value="${__tmp}" />
              </c:if>
           </td>
           </c:if>
