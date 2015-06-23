@@ -360,6 +360,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       peticioDeFirmaJPA.setUsuariAplicacioID(userapp);
 
       peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
+      
+      System.gc();
 
       return PeticioDeFirmaWs.toWs(peticioDeFirmaJPA);
 
@@ -438,6 +440,9 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       FitxerJPA fitxerJPA = peticioDeFirmaLogicaEjb
           .getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
       FitxerBean fb = FitxerBean.toBean(fitxerJPA);
+      
+      System.gc();
+      
       return fb;
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

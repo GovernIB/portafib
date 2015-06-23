@@ -1712,7 +1712,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       // Crear petició de firma i posar valors per defecte.
       PeticioDeFirmaJPA peticioDeFirma = new PeticioDeFirmaJPA();
       peticioDeFirma.setIdiomaID(usuariAplicacio.getIdiomaID());
-      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_DARRERAPAGINA);
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setUsuariAplicacio(usuariAplicacio);
       peticioDeFirma.setLogoSegellID(null);

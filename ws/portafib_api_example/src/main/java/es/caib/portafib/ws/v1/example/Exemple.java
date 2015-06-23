@@ -103,7 +103,8 @@ public class Exemple {
       log.info("Versio " + api.getVersion());
       log.info("Idiomes:" + Arrays.toString(api.getSupportedLanguages().toArray()));
 
-      final String titol = "Peticio de Test amb Custodia";
+      final String titol = "Peticio de Test amb Custodia - "
+         + ((System.currentTimeMillis() / 1000 ) % 100000);
       final String remitent = "Helium";
 
       // Existeix sistema de custodia
@@ -211,7 +212,7 @@ public class Exemple {
         }
 
       } finally {
-        if (peticioDeFirmaID != null) {
+        if (peticioDeFirmaID != null && isDeleteOnFinish()) {
           // Borrar la petició
           api.deletePeticioDeFirma(peticioDeFirmaID);
         }
@@ -259,6 +260,10 @@ public class Exemple {
   
   public static boolean isWaitToSign() {
     return "true".equals(testProperties.getProperty("waittosign"));
+  }
+  
+  public static boolean isDeleteOnFinish() {
+    return "true".equals(testProperties.getProperty("deleteonfinish"));
   }
   
   

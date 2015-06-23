@@ -4,6 +4,7 @@ package es.caib.portafib.applet;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -38,7 +39,9 @@ public class ProcessDeFirma extends Thread {
 
   private PortaFIBAppletException error = null;
 
-  private byte[] inputPDF = null;
+  private InputStream inputPDF = null;
+  
+  private File tmpFile = null;
 
   private final String source;
 
@@ -107,7 +110,7 @@ public class ProcessDeFirma extends Thread {
     return bundleSign;
   }
 
-  public byte[] llegirPDF(String source, DefaultBoundedRangeModel lecturaProgress)
+  public InputStream llegirPDF(String source, DefaultBoundedRangeModel lecturaProgress)
       throws Exception {
     System.out.println("llegirPDF::Inicialitzant SSL.");
     initSSL();
@@ -206,7 +209,19 @@ public class ProcessDeFirma extends Thread {
       byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
       int bytesRead;
       int nBytesReceived = 0;
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+      OutputStream baos;
+      try {
+        tmpFile = File.createTempFile("portafib_applet_", ".tmp");
+        System.out.println("Creat fitxer temporal a " + tmpFile.getAbsolutePath());
+        tmpFile.deleteOnExit();
+        baos = new FileOutputStream(tmpFile);
+      } catch (IOException e) {
+        System.err.println("No he pogut creat un fitxer temporal");
+        baos = new ByteArrayOutputStream();
+      }
+      
+
       while ((bytesRead = is.read(buffer)) != -1) {
         baos.write(buffer, 0, bytesRead);
         nBytesReceived += bytesRead;
@@ -220,22 +235,21 @@ public class ProcessDeFirma extends Thread {
         }
       }
 
-      return baos.toByteArray();
+      if (tmpFile == null) {
+        return new ByteArrayInputStream(((ByteArrayOutputStream)baos).toByteArray());
+      } else {
+        FileOutputStream fos = (FileOutputStream)baos;
+        fos.flush();
+        fos.close();
+        return new FileInputStream(tmpFile);
+      }
 
       // TODO falta listener
       // return IOUtils.toByteArray(sourceConnection.getInputStream());
-    } catch (IOException e) {
-      
-      
-      
-
+    } catch (Exception e) {
       throw new Exception(tradueix("error_llegint", e.getMessage()), e);
     }
-    
-    
-    
-    
-    
+
   }
 
   long firmaTime = 0;
@@ -262,6 +276,14 @@ public class ProcessDeFirma extends Thread {
 
       this.estat = EstatProcesDeFirma.FINAL;
       System.out.println("FINAL");
+      
+      try {
+        if (tmpFile != null) {
+          tmpFile.delete();
+        }
+      } catch(Throwable t) {
+          t.printStackTrace();
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -308,7 +330,7 @@ public class ProcessDeFirma extends Thread {
       throw new Exception(tradueix("error_desti", destination),e2);
     }
 
-    FilterOutput fio = new FilterOutput(os, this.inputPDF.length);
+    FilterOutput fio = new FilterOutput(os, this.inputPDF.available());
 
     try {
       firmarPDF(this.bundleSign,parentPanel.getSigner(), this.inputPDF, fio,
@@ -441,7 +463,7 @@ public class ProcessDeFirma extends Thread {
   
   
   public synchronized static void firmarPDF(PropertyResourceBundle bundleSign,
-      ISigner signer, byte[] input, OutputStream outStream, 
+      ISigner signer,InputStream input, OutputStream outStream, 
       String reason, int location_page, int num_firma,
       int signType, int signAlgorithm, boolean signMode,
       SignBoxRectangle signBoxRectangle) throws 
@@ -453,7 +475,7 @@ public class ProcessDeFirma extends Thread {
     //int num_firmes = signatureNames.size();
 
 
-    System.out.println(" NUMERO DE FIRMES: " + num_firma);
+    System.out.println(" NUMERO DE FIRMA: " + num_firma);
 
     // A4 210 x 297
     // AMPLADA 595 - ALT 842
@@ -469,7 +491,7 @@ public class ProcessDeFirma extends Thread {
     final float height = Constants.APPLET_HEIGHTSIGNBOX;
     */
     
-    signer.sign(bundleSign, new ByteArrayInputStream(input), outStream, reason,
+    signer.sign(bundleSign, input, outStream, reason,
         signType, signAlgorithm, signMode,
         location_page, signBoxRectangle);
         //top, left, height, width);
@@ -490,5 +512,23 @@ public class ProcessDeFirma extends Thread {
   public final String tradueix(String code, String... params) {
     return I18NUtils.traduiex(parentPanel.getBundleUI(), code, params);
   }
+  
+  
+  @Override
+  protected void finalize() throws Throwable {
+      try {
+          if (tmpFile != null) {
+            tmpFile.delete();
+          }
+      } catch(Throwable t) {
+          t.printStackTrace();
+      } finally {
+          System.out.println("Calling finalize of Super Class");
+          super.finalize();
+      }
+    
+  }
+
+
 
 }

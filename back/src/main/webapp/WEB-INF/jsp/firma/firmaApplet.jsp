@@ -32,6 +32,8 @@
     boxbgcolor: '#ffffff'
   };
   var parameters = {
+      java_arguments:'-Xmx1024m',
+      separate_jvm:'true',
       <c:forEach  var="fitxer"  items="${fitxers}" varStatus="status">
       ${Constants.APPLET_SOURCE}_${status.index}:'<c:url value="${AppUrl}${fitxer.source}" />',
       ${Constants.APPLET_DESTINATION}_${status.index}:'<c:url value="${AppUrl}${fitxer.destination}" />', 

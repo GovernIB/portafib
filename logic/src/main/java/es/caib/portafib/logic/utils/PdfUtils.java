@@ -498,12 +498,21 @@ public class PdfUtils implements Constants {
 
     // 1. Modificar Contingut del PDF
     // Llegir PDF
-    
+    File fileTmp1 = null;
+    FileOutputStream output1 = null;
+    File fileTmp2 = null;
+    FileOutputStream output2 = null;
+    try {
     PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
-    ByteArrayOutputStream output = new ByteArrayOutputStream();
+    //ByteArrayOutputStream output = new ByteArrayOutputStream();
+    fileTmp1 = File.createTempFile("portafib_pdfutils_1_", ".pdf");
+    fileTmp1.deleteOnExit();
+        
+    output1 = new FileOutputStream(fileTmp1);
+    
     List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
     {
-      PdfStamper stamper = new PdfStamper(reader, output);
+      PdfStamper stamper = new PdfStamper(reader, output1);
       // 1.0.- Llegir documents Adjunts del PDF original
       // (Quan es converteix a PDF/A s'eliminen els adjunts)
       attachmentsOriginalPDF.addAll(extractAttachments(reader));
@@ -528,24 +537,54 @@ public class PdfUtils implements Constants {
       stamper.close();
     }
 
+    // 
+    output1.flush();
+    output1.close();
+    output1 = null;
+    
+    
     // 5.- Convertir PDF anterior a PDF/A
-    PdfReader reader2 = new PdfReader(new ByteArrayInputStream(output.toByteArray()));
-    ByteArrayOutputStream output2 = new ByteArrayOutputStream();
+    PdfReader reader2 = new PdfReader(new FileInputStream(fileTmp1));
+    //ByteArrayOutputStream output2 = new ByteArrayOutputStream();
+    
+    
+    fileTmp2 = File.createTempFile("portafib_pdfutils_2_", ".pdf");
+    fileTmp2.deleteOnExit();
+        
+    output2 = new FileOutputStream(fileTmp2);
+    
+    
     convertirPdfToPdfa(reader2, output2, attachments);
     // Borrar del directori temporal els fitxers adjunts originals
     for (AttachedFile fileAttached : attachmentsOriginalPDF) {
       fileAttached.getContent().delete();
     }
-    
+
+    output2.flush();
+    output2.close();
+    output2 = null;
 
     // 6.- Afegir propietats inicials
-    PdfReader reader3 = new PdfReader(new ByteArrayInputStream(output2.toByteArray()));
+    //InputStream input3 = new ByteArrayInputStream(output2.toByteArray());
+    
+    InputStream input3 = new FileInputStream(fileTmp2);
+    
+    PdfReader reader3 = new PdfReader(input3);
     PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF));
 
     Map<String, String> info = reader.getInfo();
     info.put("PortaFIB.versio", Versio.VERSIO);
     stamper3.setMoreInfo(info);
     stamper3.close();
+    
+  } finally {
+    try { if (output1 != null) { output1.close(); } } catch (Exception e) { };
+    try { if (fileTmp1 != null) { fileTmp1.delete(); } } catch (Exception e) { };
+    
+    try { if (output2 != null) { output2.close(); } } catch (Exception e) { };
+    try { if (fileTmp2 != null) { fileTmp2.delete(); } } catch (Exception e) { };
+    
+  }
 
     if (maxSize != null) {
       if (dstPDF.length() > maxSize) {

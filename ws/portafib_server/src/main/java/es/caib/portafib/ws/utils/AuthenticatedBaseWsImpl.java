@@ -73,6 +73,8 @@ public class AuthenticatedBaseWsImpl extends BaseWsImpl {
       DataHandler dh = new DataHandler(new ByteArrayDataSource(data, fitxerBean.getMime()));
 
       fitxerBean.setData(dh);
+      
+      System.gc();
 
       return fitxerBean;
 

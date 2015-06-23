@@ -14,8 +14,8 @@
     
     if (reason!=null) {      
       document.getElementById("motiu").value=reason;
-      document.motiuform.action = url;
-      document.motiuform.submit();
+      document.estatDeFirma.action = url;
+      document.estatDeFirma.submit();
     }
   }
   
@@ -41,8 +41,8 @@
     
     if (reason != null) {      
       document.getElementById("motiu").value=reason;
-      document.motiuform.action = url;
-      document.motiuform.submit();
+      document.estatDeFirma.action = url;
+      document.estatDeFirma.submit();
     }
   }
 
