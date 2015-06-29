@@ -102,5 +102,15 @@ public class Configuracio implements Constants {
     return Long.getLong(PORTAFIB_PROPERTY_BASE + "numberoferrorstopausenotification");
   }
   
+  /**
+   * Si el valor és true llavors redireccióna segons el contexte:
+   *    (a) Si entra amb http dins portafibs llavors redirecciona a portafib
+   *    (b) Si entra amb https dins portafib i existeix portafibs llavors redirecciona a portafibs
+   * Si el valor es false, llavors no fa res.
+   * @return
+   */
+  public static boolean isAutomaticRedirect() {
+    return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "automaticredirect");
+  }
 
 }

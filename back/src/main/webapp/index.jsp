@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" 
 %><%@page import="java.io.InputStream"
 %><%@page import="java.util.Properties"
@@ -28,30 +29,31 @@ public boolean existsSecureContext() {
 
 
 %><%
-// TODO ficar dins una variable estatica
-boolean existsSecureContext = existsSecureContext(); 
-
-
-String context = request.getContextPath();
-
-if (existsSecureContext) {
+    String context = request.getContextPath();
   
-  final String scheme = request.getScheme();
-
-  final boolean thisContextIsClientCert = "/portafibs".equals(context);
-  
-  if (thisContextIsClientCert && "http".equals(scheme)) {
-    // Hem de passar a portafib
-    context = "/portafib";
-  } else {
-    // Hem de passar a portafibs
-    if (!thisContextIsClientCert && "https".equals(scheme)) {
-      context ="/portafibs";
+    if (Configuracio.isAutomaticRedirect()) {
+        //TODO ficar dins una variable estatica
+        boolean existsSecureContext = existsSecureContext(); 
+        
+        if (existsSecureContext) {
+          
+          final String scheme = request.getScheme();
+        
+          final boolean thisContextIsClientCert = "/portafibs".equals(context);
+          
+          if (thisContextIsClientCert && "http".equals(scheme)) {
+            // Hem de passar a portafib
+            context = "/portafib";
+          } else {
+            // Hem de passar a portafibs
+            if (!thisContextIsClientCert && "https".equals(scheme)) {
+              context ="/portafibs";
+            }
+          }
+        }
     }
-  }
-}
-
-request.getSession().setAttribute("theContext", context);
+    
+    request.getSession().setAttribute("theContext", context);
 
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
