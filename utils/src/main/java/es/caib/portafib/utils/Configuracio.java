@@ -113,4 +113,23 @@ public class Configuracio implements Constants {
     return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "automaticredirect");
   }
 
+  /**
+   * @param entitatID
+   * @param lang
+   * @return
+   */
+  public static String getFirmatPerFormat(String entitatID, String lang) {
+    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "firmatperformat."+ entitatID + "." + lang);
+  }
+  
+  
+  /**
+   * @param entitatID
+   * @param lang
+   * @return
+   */
+  public static String getMotiuDeFirmaFormat(String entitatID, String lang) {
+    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "motiudelegacioformat."+ entitatID + "." + lang);
+  }
+
 }

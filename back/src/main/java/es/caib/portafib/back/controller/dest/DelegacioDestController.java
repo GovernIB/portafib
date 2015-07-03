@@ -1014,10 +1014,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     LoginInfo loginInfo = LoginInfo.getInstance();
     String langUI = loginInfo.getUsuariPersona().getIdiomaID();
 
+
     fitxers.add(new AppletSignFile(source, destination, idname, location_sign_table, reason,
         sign_number, langUI, Constants.TIPUSFIRMA_PADES, 
         Configuracio.getDefaultSignAlgorithmID(),
-        Constants.APPLET_SIGN_MODE_IMPLICIT ));
+        Constants.APPLET_SIGN_MODE_IMPLICIT,
+        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI)
+        ));
 
 
     EntitatJPA entitat = loginInfo.getEntitat();

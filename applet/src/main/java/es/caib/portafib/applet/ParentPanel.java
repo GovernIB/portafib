@@ -139,6 +139,12 @@ public class ParentPanel extends JPanel {
         break;
       }
       
+      String firmatPerFormat = signerContext.getContextParameter(Constants.APPLET_FIRMATPERFORMAT + sep + x);
+      if (firmatPerFormat == null || firmatPerFormat.trim().length() == 0) {
+        System.out.println(" Break firmatPer ");
+        break;
+      }
+      
       
       String numFirmesTxt = signerContext.getContextParameter(Constants.APPLET_SIGN_NUMBER
           + sep + x);
@@ -226,7 +232,8 @@ public class ParentPanel extends JPanel {
       }
       
       firmes.add(new ProcessDeFirma(this, source, destination, idname, motiu,
-          posicio, numFirmes, langSign, signType, signAlgorithm, signMode, signBoxRectangle));
+          posicio, numFirmes, langSign, signType, signAlgorithm, signMode,
+          signBoxRectangle, firmatPerFormat));
       x++;
     } while (true);
 

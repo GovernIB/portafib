@@ -157,5 +157,37 @@ public class Utils {
     }
     return config;
   }
+  
+  
+  public static String getFirmatPerFormat(EntitatJPA entitat, String lang) {
+    
+    // TODO en un futur el format estirà dins l'entitat
+    
+    String firmatPerFormat = Configuracio.getFirmatPerFormat(entitat.getEntitatID(), lang); 
+    
+    if (firmatPerFormat == null) {
+      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - Càrrec {5}} (Emissor {3})
+      firmatPerFormat = I18NUtils.tradueix("firmatperformat");
+    }
+    
+    return firmatPerFormat;
 
+  }
+  
+  
+  public static String getMotiuDeFirmaFormat(EntitatJPA entitat, String lang) {
+    
+    // TODO en un futur el format estirà dins l'entitat
+    
+    String firmatPerFormat = Configuracio.getMotiuDeFirmaFormat(entitat.getEntitatID(), lang); 
+    
+    if (firmatPerFormat == null) {
+      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - Càrrec {5}} (Emissor {3})
+      firmatPerFormat = I18NUtils.tradueix("motiudelegacio");
+    }
+    
+    return firmatPerFormat;
+
+  }
+  
 }

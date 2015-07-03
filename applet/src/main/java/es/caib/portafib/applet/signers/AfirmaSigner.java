@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.PrivilegedActionException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +23,6 @@ import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
-
 import java.security.cert.X509Certificate;
 
 import javax.imageio.IIOImage;
@@ -35,12 +35,10 @@ import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import javax.swing.JLabel;
-
 import javax.swing.JOptionPane;
 
 import org.fundaciobit.plugins.utils.Base64;
-
-import sun.security.util.DerValue;
+import org.fundaciobit.plugins.utils.CertificateUtils;
 
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -83,7 +81,6 @@ import es.caib.portafib.applet.ParentPanel;
 import es.caib.portafib.applet.SignerContext;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
-
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSigner;
@@ -99,7 +96,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
-
 import java.util.logging.Logger;
 
 
@@ -135,7 +131,8 @@ public class AfirmaSigner implements ISigner {
   public void sign(PropertyResourceBundle bundleSign, 
       InputStream input, OutputStream outStream, String reason,
       int signType, int signAlgorithm, boolean signMode,
-      int location_page, SignBoxRectangle signBoxRectangle /*float top, float left, float height, float width*/)
+      int location_page, SignBoxRectangle signBoxRectangle, /*float top, float left, float height, float width*/
+      String firmatPerFormat)
         throws IOException, Exception {
 
     // =============================
@@ -259,20 +256,27 @@ public class AfirmaSigner implements ISigner {
 
       X509Certificate cert = (X509Certificate)privateKeyEntry.getCertificate();
 
-      System.out.println("OID = " + getCertificatePolicyId(cert));
+      System.out.println("OID = " + CertificateUtils.getCertificatePolicyId(cert));
 
+      
       String certName = AOUtil.getCN(cert);
-      if (certName.startsWith("NOMBRE ") && certName.indexOf(" - NIF ") != -1) {
-        certName = certName.substring("NOMBRE ".length());
+      
+      
+      System.out.println("CertName original = " + certName);
+      
+      String firmatPer = getFirmatPer(firmatPerFormat, cert, certName);
+          
+      
+      
+      String data;
+      {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(bundleSign.getString("data.format"));
+        data = sdf.format(cal.getTime());
       }
-      String emisor = AOUtil.getCN(cert.getIssuerDN().toString());
-      Calendar cal = Calendar.getInstance();
-
-      SimpleDateFormat sdf = new SimpleDateFormat(bundleSign.getString("data.format"));
       byte[] rubrica = getImage((urx - llx),(ury - lly),
-          bundleSign.getString("firmatper") + ": ",
-          certName + "  (" + bundleSign.getString("emissor") +": " + emisor+ ")",
-          bundleSign.getString("data") + ": ", sdf.format(cal.getTime()),
+          bundleSign.getString("firmatper") + ": ",firmatPer,
+          bundleSign.getString("data") + ": ", data,
           bundleSign.getString("motiu") + ": ", reason);
 
       // Rubrica
@@ -319,6 +323,100 @@ public class AfirmaSigner implements ISigner {
    
     outStream.write(result);
     
+  }
+
+  /**
+   * 
+   * {0} = NOM
+   * {1} = LONGITUD NIF
+   * {2} = NIF
+   * {3} = EMISSOR
+   * {4} = LONGITUD CARREC_CERTIFICAT
+   * {5} = CARREC_CERTIFICAT
+   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
+   * {7} = UNITAT_ADMINISTRATIVA
+   * @param bundleSign
+   * @param cert
+   * @param certName
+   * @return
+   */
+  protected String getFirmatPer(String firmatPerFormat, X509Certificate cert,
+      String certName) {
+    
+    
+      // Parche pels certificats FNMT que contenen la paraula NOMBRE al principi i el NIF del Firmant
+      if (certName.startsWith("NOMBRE ")) {
+        certName = certName.substring("NOMBRE ".length());
+      }
+      final int posNIF = certName.indexOf(" - NIF ");
+      if (posNIF != -1) {
+        certName = certName.substring(0, posNIF);
+      }
+      // Parche pels certificat DNIe (eliminar FIRMA i AUTENTICACION)
+      final String[] dnie = { " (FIRMA)", " (AUTENTICACIÓN)" };
+      for (String tipusDNIe : dnie) {
+        int pos = certName.indexOf(tipusDNIe);
+        if (pos != -1) {
+          // Eliminar tipus
+          certName = certName.replace(tipusDNIe, "");
+          // Posar Nom davant
+          pos = certName.lastIndexOf(',');
+          if (pos != -1) {
+            String nom = certName.substring(pos + 1).trim();
+            String llinatges = certName.substring(0, pos).trim();
+            certName = nom + " " + llinatges;
+          }
+        }
+      }
+    
+    
+    
+      System.out.println("CertName final = " + certName);
+      
+      final String emissor = AOUtil.getCN(cert.getIssuerDN().toString());
+      
+      final  String nif = CertificateUtils.getDNI(cert);
+      
+      final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
+      
+
+      String ua = CertificateUtils.getUnitatAdministrativa(cert);
+      // TODO ESPEFIFIC CAIB !!!!!
+      if (ua != null) {
+        int pos = ua.lastIndexOf('-');
+        if (pos != -1) {
+          ua = ua.substring(pos + 1);
+        }
+      }
+      final Long uaLen = new Long((ua== null || ua.trim().length() == 0)? 0 : ua.length());
+      
+      final String carrec = CertificateUtils.getCarrec(cert);      
+      final Long carrecLen = new Long((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
+
+      final String nom = CertificateUtils.getSubjectCorrectName(cert);
+      
+      System.out.println("Firmat Per FORMAT = ]" + firmatPerFormat + "[");
+      
+      MessageFormat form = new MessageFormat(firmatPerFormat);
+      
+      Object[] args = { 
+          nom,      // {0} = NOM
+          nifLen,   // {1} = LONGITUD NIF
+          nif,      // {2} = NIF
+          emissor,  // {3} = EMISSOR
+          carrecLen,// {4} = LONGITUD CARREC_CERTIFICAT
+          carrec,   // {5} = CARREC_CERTIFICAT
+          uaLen,    // {6} = LONGITUD UNITAT_ADMINISTRATIVA
+          ua        // {7} = UNITAT_ADMINISTRATIVA
+      };
+      
+      String firmatPer = form.format(args);
+      
+      //String firmatPer = certName + "  (" + bundleSign.getString("emissor") +": " + emisor+ ")";
+      
+      System.out.println("Firmat Per SUBSTITUIT = ]" + firmatPer + "[");
+   
+      return firmatPer;
   }
   
   
@@ -731,7 +829,7 @@ public class AfirmaSigner implements ISigner {
     @Override
     public boolean matches(X509Certificate cert) {
       try {
-        String oid = getCertificatePolicyId(cert);
+        String oid = CertificateUtils.getCertificatePolicyId(cert);
         if (oid == null) {
           System.out.println("No puc trobar la politica OID de " + cert.toString());
           return false;
@@ -750,38 +848,7 @@ public class AfirmaSigner implements ISigner {
   }
   
   
-  /**
-   * Get a certificate policy ID from a certificate policies extension
-   *
-   * @param cert certificate containing the extension
-   * @return String with the certificate policy OID
-   * @throws IOException if extension can not be parsed
-   */
-  public static String getCertificatePolicyId(X509Certificate cert) throws Exception {
 
-    String oid = null;
-    byte[] extvalue = cert.getExtensionValue("2.5.29.32");
-    if (extvalue != null) {
-
-      DerValue val = new DerValue(extvalue);
-
-      try {
-        DerValue octed = new DerValue(val.getOctetString());
-        DerValue[] secs = octed.getData().getSequence(0);
-
-        String fulloid = secs[0].toString();
-
-        if (fulloid != null && fulloid.startsWith("OID.")) {
-          return fulloid.substring(4);
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-
-    return oid;
-  }
   
   public class AfirmaSelectCertificate extends BasePanel implements Runnable {
 

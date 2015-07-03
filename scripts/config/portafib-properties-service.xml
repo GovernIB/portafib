@@ -55,6 +55,31 @@
             (b) Si entra amb https dins portafib i existeix portafibs llavors redirecciona a portafibs
            Si el valor es false, llavors no fa res.   -->
 	  es.caib.portafib.automaticredirect=true
+	  <!-- Format del camp "Firmat Per" de la taula de firmes definit per entitat i per idioma.
+           És opcional. Els camps disponibles són:
+		       * {0} = NOM
+			   * {1} = LONGITUD NIF
+			   * {2} = NIF
+			   * {3} = EMISSOR
+			   * {4} = LONGITUD CARREC_CERTIFICAT
+			   * {5} = CARREC_CERTIFICAT
+			   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
+               * {7} = UNITAT_ADMINISTRATIVA
+	  -->
+      # es.caib.portafib.firmatperformat.caib.ca={0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - Càrrec {5}}{6,choice,0#|1&lt; - Unitat {7}} (Emissor {3})
+	  # es.caib.portafib.firmatperformat.caib.es={0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - Cargo {5}}{6,choice,0#|1&lt; - Unidad {7}} (Emisor {3})
+      <!-- Format del camp "Motiu" de la taula de firmes quan es tracta d'una delegació 
+	       definit per entitat i idioma. És opcional. Els paràmetres disponibles són:
+		   * {0} Nom del delegat
+		   * {1} NIF del delegat
+		   * {2} Nom del destinatari
+		   * {3} NIF del destinatari
+		   * {4} Motiu de la delegació
+		   * {5} Motiu de la peticio de firma
+	  -->
+      # es.caib.portafib.motiudelegacioformat.caib.ca=Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
+	  # es.caib.portafib.motiudelegacioformat.caib.es=Firma {0} ({1}) por delegación de {2} ({3}). Motivo: {4}
+
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->
 

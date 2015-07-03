@@ -26,6 +26,8 @@ public class AppletSignFile {
 
   public String reason;
   
+  public String firmatPerFormat;
+  
   public int signNumber;
   
   public String languageSign;
@@ -48,7 +50,7 @@ public class AppletSignFile {
    */
   public AppletSignFile(String source, String destination, String idname,
       long location_sign_table, String reason, int sign_number, String languageSign,
-      long signType, long signAlgorithm, boolean signMode) {
+      long signType, long signAlgorithm, boolean signMode, String firmatPerFormat) {
     super();
     this.source = source;
     this.destination = destination;
@@ -61,6 +63,8 @@ public class AppletSignFile {
     this.signType = signType;
     this.signAlgorithm = signAlgorithm;
     this.signMode = signMode;
+    
+    this.firmatPerFormat = firmatPerFormat;
     
     if (this.signType == Constants.TIPUSFIRMA_PADES &&
         (this.locationSignTable == Constants.TAULADEFIRMES_PRIMERAPAGINA
@@ -155,6 +159,14 @@ public class AppletSignFile {
 
   public void setSignBoxRectangle(SignBoxRectangle signBoxRectangle) {
     this.signBoxRectangle = signBoxRectangle;
+  }
+
+  public String getFirmatPerFormat() {
+    return firmatPerFormat;
+  }
+
+  public void setFirmatPerFormat(String firmatPerFormat) {
+    this.firmatPerFormat = firmatPerFormat;
   }
 
 }

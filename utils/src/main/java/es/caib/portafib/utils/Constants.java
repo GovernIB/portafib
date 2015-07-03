@@ -219,6 +219,21 @@ public interface Constants {
   public static final String APPLET_LOCATION_SIGN_TABLE = "sign_location_table";
   
   public static final String APPLET_REASON = "sign_reason";
+  
+  
+  /** Codi que conté el missatge pre formatejat pel camp de "Firmat Per:" de la
+   *  taula de firmes. Els camps a substituir són:
+   * {0} = NOM
+   * {1} = LONGITUD NIF
+   * {2} = NIF
+   * {3} = EMISSOR
+   * {4} = LONGITUD CARREC_CERTIFICAT
+   * {5} = CARREC_CERTIFICAT
+   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
+   * {7} = UNITAT_ADMINISTRATIVA
+   */
+  public static final String APPLET_FIRMATPERFORMAT = "sign_firmatperformat";
+  
 
   /**
    * Numero de firma. S'utilitza per saber on colocar el recuadre de firmes.

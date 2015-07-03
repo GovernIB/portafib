@@ -40,6 +40,7 @@
       ${Constants.APPLET_IDNAME}_${status.index}:'${pfi:escapeJavaScript(fitxer.idname)}',
       ${Constants.APPLET_LOCATION_SIGN_TABLE}_${status.index}:'${fitxer.locationSignTable}',
       ${Constants.APPLET_REASON}_${status.index}:'${pfi:escapeJavaScript(fitxer.reason)}',
+      ${Constants.APPLET_FIRMATPERFORMAT}_${status.index}:'${pfi:escapeJavaScript(fitxer.firmatPerFormat)}',
       ${Constants.APPLET_SIGN_NUMBER}_${status.index}:'${fitxer.signNumber}',
       ${Constants.APPLET_LANGUAGE_SIGN}_${status.index}:'${fitxer.languageSign}',
       ${Constants.APPLET_SIGN_TYPE}_${status.index}:'${fitxer.signType}',

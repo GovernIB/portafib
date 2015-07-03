@@ -103,6 +103,7 @@
 				  <artifact>org.fundaciobit.plugins:plugins-api</artifact>
                   <includes>
 					<include>org/fundaciobit/plugins/utils/Base64*.*</include>
+					<include>org/fundaciobit/plugins/utils/CertificateUtils*.*</include>
                   </includes>
                 </filter>
 				<filter>

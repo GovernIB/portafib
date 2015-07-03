@@ -70,6 +70,8 @@ public class ProcessDeFirma extends Thread {
   private PropertyResourceBundle bundleSign;
   
   private SignBoxRectangle signBoxRectangle;
+  
+  private final String firmatPerFormat;
 
   /**
    * @param parentpanel
@@ -79,7 +81,7 @@ public class ProcessDeFirma extends Thread {
   public ProcessDeFirma(ParentPanel parentpanel, String source, String destination,
       String idName, String motiu, int posicio, int sign_number, String langSign,
       int signType, int signAlgorithm, boolean signMode,
-      SignBoxRectangle signBoxRectangle) {
+      SignBoxRectangle signBoxRectangle, String firmatPerFormat) {
     super();
     this.parentPanel = parentpanel;
     this.source = source;
@@ -88,11 +90,11 @@ public class ProcessDeFirma extends Thread {
     this.posicio = posicio;
     this.idName = idName;
     this.sign_number = sign_number;
-    
+
     this.signType = signType;
     this.signAlgorithm = signAlgorithm;
     this.signMode = signMode;
-    
+
     this.signBoxRectangle = signBoxRectangle;
 
     if (langSign == null) {
@@ -101,8 +103,8 @@ public class ProcessDeFirma extends Thread {
       bundleSign = (PropertyResourceBundle) ResourceBundle.getBundle("signatura", new Locale(
           langSign));
     }
-    
-    
+
+    this.firmatPerFormat = firmatPerFormat;
   }
   
 
@@ -323,6 +325,7 @@ public class ProcessDeFirma extends Thread {
 
       } else {
         File f = new File(new URL(destination).getFile());
+        @SuppressWarnings("resource")
         FileOutputStream fos = new FileOutputStream(f);
         os = fos;
       }
@@ -335,7 +338,7 @@ public class ProcessDeFirma extends Thread {
     try {
       firmarPDF(this.bundleSign,parentPanel.getSigner(), this.inputPDF, fio,
           motiu, posicio, this.sign_number, signType,
-          signAlgorithm, signMode, this.signBoxRectangle);
+          signAlgorithm, signMode, this.signBoxRectangle, this.firmatPerFormat);
     } catch (Throwable e) {
       throw new Exception(tradueix("error_firma", e.getMessage()),e);
     } finally {
@@ -466,7 +469,7 @@ public class ProcessDeFirma extends Thread {
       ISigner signer,InputStream input, OutputStream outStream, 
       String reason, int location_page, int num_firma,
       int signType, int signAlgorithm, boolean signMode,
-      SignBoxRectangle signBoxRectangle) throws 
+      SignBoxRectangle signBoxRectangle, String firmatPerFormat) throws 
       IOException, SignatureException, Exception {
 
     //PdfReader reader = new PdfReader(new ByteArrayInputStream(input));
@@ -493,7 +496,7 @@ public class ProcessDeFirma extends Thread {
     
     signer.sign(bundleSign, input, outStream, reason,
         signType, signAlgorithm, signMode,
-        location_page, signBoxRectangle);
+        location_page, signBoxRectangle, firmatPerFormat);
         //top, left, height, width);
     
     

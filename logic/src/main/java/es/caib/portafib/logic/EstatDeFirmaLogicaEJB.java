@@ -16,7 +16,6 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

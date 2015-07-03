@@ -32,6 +32,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.text.MessageFormat;
   import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -678,6 +679,13 @@ import es.caib.portafib.utils.Configuracio;
             + peticioDeFirmaID + "/" + token + "/" + sign_number;
 
         final int location_sign_table = (int) peticioDeFirma.getPosicioTaulaFirmesID();
+        
+        String langSign = peticioDeFirma.getIdiomaID();
+        if (langSign == null) {
+          langSign = langUI;
+        }
+        
+        EntitatJPA entitat = loginInfo.getEntitat();
 
         // Cercar el motiu segons si es DELEGACIO o DESTINATARI
         final String reason;
@@ -699,23 +707,27 @@ import es.caib.portafib.utils.Configuracio;
           UsuariPersona destUP = dest.getUsuariPersona();
           String[] args = {
               // Delegat
-              up.getNom() + " " + up.getLlinatges(), up.getNif(),
+              up.getNom() + " " + up.getLlinatges(), // {0} Nom del delegat
+              up.getNif(),            // {1} NIF del delegat
               // Destinatari Original
-              destUP.getNom() + " " + destUP.getLlinatges(), destUP.getNif(),
-              colaDele.getMotiu() };
-          reason = I18NUtils.tradueix(loc, "motiudelegacio", args);
+              destUP.getNom() + " " + destUP.getLlinatges(),  // {2} Nom del destinatari
+              destUP.getNif(),              // {3} NIF del destinatari
+              colaDele.getMotiu(),          // {4} Motiu de la delegació
+              peticioDeFirma.getMotiu(),    // {5} Motiu de la peticio de firma
+              };
+          String basemsg = es.caib.portafib.back.utils.Utils.getMotiuDeFirmaFormat(entitat, langSign);
+          MessageFormat mf = new MessageFormat(basemsg);
+          reason = mf.format(args);
         }
 
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
-        String langSign = peticioDeFirma.getIdiomaID();
-        if (langSign == null) {
-          langSign = langUI;
-        }
+        final String firmatPerFormat = es.caib.portafib.back.utils.Utils.getFirmatPerFormat(entitat, langSign);
 
         appletSignFile = new AppletSignFile(source, destination, idname, location_sign_table,
             reason, sign_number, langSign, peticioDeFirma.getTipusFirmaID(),
-            peticioDeFirma.getAlgorismeDeFirmaID(), peticioDeFirma.getModeDeFirma());
+            peticioDeFirma.getAlgorismeDeFirmaID(), peticioDeFirma.getModeDeFirma(),
+            firmatPerFormat);
 
       }
       return appletSignFile;

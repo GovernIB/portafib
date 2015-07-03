@@ -113,6 +113,19 @@ public static void main(String[] args) {
         prop.put(Constants.APPLET_REASON + "_" + x , "Firma Antoni Nadal Bennasar "
             + "(43096845C) per delegació de Antoni Nadal Bennasar (43096845C). Motiu: "
             + "123456789 123456789 123456789 123456789 123456789 123456789A"); // 60 chars
+        /** Codi que conté el missatge pre formatejat pel camp de "Firmat Per:" de la
+         *  taula de firmes. Els camps a substituir són:
+         * {0} = NOM
+         * {1} = LONGITUD NIF
+         * {2} = NIF
+         * {3} = EMISSOR
+         * {4} = LONGITUD CARREC_CERTIFICAT
+         * {5} = CARREC_CERTIFICAT
+         * {6} = LONGITUD UNITAT_ADMINISTRATIVA
+         * {7} = UNITAT_ADMINISTRATIVA
+         */
+        prop.put(Constants.APPLET_FIRMATPERFORMAT + "_" + x, 
+            "NOM={0} {1,choice,0#NO_NIF|1< - NIF {2}} {4,choice,0#NOCARREC|1< - Carrec {5}} (EMISSOR={3})");
 
         prop.put(Constants.APPLET_LANGUAGE_SIGN + "_" + x, "ca");
 

@@ -26,7 +26,7 @@ public interface ISigner {
   public void sign(PropertyResourceBundle bundleSign,InputStream input,
       OutputStream outStream, String reason, 
       int signType, int signAlgorithm, boolean signMode,
-      int location_page, SignBoxRectangle signBoxRectangle)
+      int location_page, SignBoxRectangle signBoxRectangle, String firmatPerFormat)
      throws IOException, Exception;
   
   

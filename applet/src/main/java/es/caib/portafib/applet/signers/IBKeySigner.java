@@ -108,12 +108,9 @@ public class IBKeySigner implements ISigner {
   public void sign(PropertyResourceBundle bundleSign, 
       InputStream input, OutputStream outStream,  String reason,
       int signType, int signAlgorithm, boolean signMode,
-      int location_page, SignBoxRectangle signBoxRectangle
-      ) throws 
-      IOException, Exception {
+      int location_page, SignBoxRectangle signBoxRectangle, String firmatPerFormat)
+          throws IOException, Exception {
 
-    
-    
     
       final float rot = 0;
       float top = 0;
