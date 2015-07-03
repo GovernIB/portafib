@@ -75,7 +75,7 @@
 		   * {2} Nom del destinatari
 		   * {3} NIF del destinatari
 		   * {4} Motiu de la delegació
-		   * {5} Motiu de la peticio de firma
+		   * {5} Motiu de la petició de firma
 	  -->
       # es.caib.portafib.motiudelegacioformat.caib.ca=Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
 	  # es.caib.portafib.motiudelegacioformat.caib.es=Firma {0} ({1}) por delegación de {2} ({3}). Motivo: {4}
