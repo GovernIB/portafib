@@ -20,7 +20,7 @@ import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "pfi_annex" )
-@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq")
+@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 public class AnnexJPA implements Annex {
 
 

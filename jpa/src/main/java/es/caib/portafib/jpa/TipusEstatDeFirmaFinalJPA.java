@@ -15,7 +15,7 @@ import javax.persistence.FetchType;
 
 @Entity
 @Table(name = "pfi_tipusestatdefirmafinal" )
-@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq")
+@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 public class TipusEstatDeFirmaFinalJPA implements TipusEstatDeFirmaFinal {
 
 

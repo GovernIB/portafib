@@ -19,7 +19,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_permisusuariplantilla"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"usuarientitatid","fluxdefirmesid"}) } )
-@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq")
+@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 public class PermisUsuariPlantillaJPA implements PermisUsuariPlantilla {
 
 

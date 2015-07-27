@@ -19,7 +19,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_roleusuarientitat"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"roleid","usuarientitatid"}) } )
-@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq")
+@SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 public class RoleUsuariEntitatJPA implements RoleUsuariEntitat {
 
 
