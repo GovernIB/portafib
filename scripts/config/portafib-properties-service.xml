@@ -65,8 +65,9 @@
 			   * {5} = CARREC_CERTIFICAT
 			   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
                * {7} = UNITAT_ADMINISTRATIVA
+		NOTA: S'han d'escapar els accents i caràcters especials a XML. Per exemple à = &#224;
 	  -->
-      # es.caib.portafib.firmatperformat.caib.ca={0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - Càrrec {5}}{6,choice,0#|1&lt; - Unitat {7}} (Emissor {3})
+      # es.caib.portafib.firmatperformat.caib.ca={0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - C&#224;rrec {5}}{6,choice,0#|1&lt; - Unitat {7}} (Emissor {3})
 	  # es.caib.portafib.firmatperformat.caib.es={0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - Cargo {5}}{6,choice,0#|1&lt; - Unidad {7}} (Emisor {3})
       <!-- Format del camp "Motiu" de la taula de firmes quan es tracta d'una delegació 
 	       definit per entitat i idioma. És opcional. Els paràmetres disponibles són:
@@ -76,9 +77,10 @@
 		   * {3} NIF del destinatari
 		   * {4} Motiu de la delegació
 		   * {5} Motiu de la petició de firma
+		 NOTA: S'han d'escapar els accents i caràcters especials a XML. Per exemple ó = &#243;
 	  -->
-      # es.caib.portafib.motiudelegacioformat.caib.ca=Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
-	  # es.caib.portafib.motiudelegacioformat.caib.es=Firma {0} ({1}) por delegación de {2} ({3}). Motivo: {4}
+      # es.caib.portafib.motiudelegacioformat.caib.ca=Firma {0} ({1}) per delegaci&#243; de {2} ({3}). Motiu: {4}
+	  # es.caib.portafib.motiudelegacioformat.caib.es=Firma {0} ({1}) por delegaci&#243;n de {2} ({3}). Motivo: {4}
 
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->

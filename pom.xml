@@ -180,7 +180,7 @@
 	<distributionManagement>
         <site>
             <id>es.caib.portafib</id>
-            <url>scp://shell.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
+            <url>sftp://web.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
         </site>
         <repository>
             <id>es.caib.portafib</id>
