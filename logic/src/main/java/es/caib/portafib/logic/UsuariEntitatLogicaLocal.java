@@ -12,6 +12,7 @@ import es.caib.portafib.model.entity.EstatDeFirma;
 
 
 
+
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -43,8 +44,13 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
   public List<UsuariEntitatJPA> selectFavorits(String usuariEntitatID,
       String roleID, boolean incloureCarrecs) throws I18NException;
   
-  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA, UsuariEntitatJPA usuariEntitatJPA, Set<String> virtualRoles)
+  public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA, 
+      UsuariEntitatJPA usuariEntitatJPA, Set<String> virtualRoles)
       throws I18NException, I18NValidationException, Exception;
+  
+  public UsuariEntitatJPA create(final String usuariPersonaID,
+      UsuariEntitatJPA usuariEntitatJPA, Set<String> virtualRoles)
+          throws I18NValidationException, I18NException;
 
   public UsuariEntitatJPA createFull(UsuariEntitatJPA usuariEntitat)
     throws I18NValidationException, I18NException;

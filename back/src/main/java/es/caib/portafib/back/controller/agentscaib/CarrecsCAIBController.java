@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.carrecscaib;
+package es.caib.portafib.back.controller.agentscaib;
 
 import org.apache.log4j.Logger;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.caib.portafib.logic.CarrecsCaibLocal;
+import es.caib.portafib.logic.AgentsCAIBLocal;
 
 import es.caib.portafib.model.entity.UsuariEntitat;
 
@@ -22,12 +22,12 @@ import java.util.*;
  * @author anadal
  */
 @Controller
-public class CarrecsCaibController {
+public class CarrecsCAIBController {
 
   protected final Logger log = Logger.getLogger(getClass());
 
-  @EJB(mappedName = "portafib/CarrecsCaibEJB/local")
-  protected CarrecsCaibLocal carrecsCaibEjb;
+  @EJB(mappedName = AgentsCAIBLocal.JNDI_NAME)
+  protected AgentsCAIBLocal carrecsCaibEjb;
 
   protected static final Locale locale = new Locale("ca");
 
@@ -35,7 +35,7 @@ public class CarrecsCaibController {
   @ResponseBody
   public void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    log.info(" ==================== Entra dins INDEX ========================");
+    log.info(" ==================== Entra dins INDEX CARRECS ========================");
 
     if (log.isDebugEnabled()) {
       Map<String, String[]> params = request.getParameterMap();
@@ -52,9 +52,8 @@ public class CarrecsCaibController {
     String agentsql = request.getParameter("agentsql");
     String nom = request.getParameter("nom");
 
-    UsuariEntitat ue;
-    ue = carrecsCaibEjb
-        .processarCarrecsCaib(tipus, codusu, nomrol, valordomini, agentsql, nom);
+    UsuariEntitat ue = carrecsCaibEjb
+        .processarCarrecCAIB(tipus, codusu, nomrol, valordomini, agentsql, nom);
 
     if (ue == null) {
       response.getOutputStream().println("ERROR");
@@ -62,7 +61,7 @@ public class CarrecsCaibController {
       response.getOutputStream().println("OK: " + ue.getUsuariEntitatID());
     }
 
-    log.info(" ------------------ Final INDEX ------------------");
+    log.info(" ------------------ Final INDEX CARRECS ------------------");
 
   }
 

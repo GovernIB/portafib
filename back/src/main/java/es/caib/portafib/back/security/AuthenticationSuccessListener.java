@@ -150,7 +150,7 @@ public class AuthenticationSuccessListener implements
               String defaultEntity;
               
               if (Configuracio.isCAIB()) {
-                defaultEntity = System.getProperty("entitatprocessarcarrecs", "caib");
+                defaultEntity = Configuracio.getEntitatIDForAgentsSQL();
                 virtualRoles = new HashSet<String>();
                 virtualRoles.add(Constants.ROLE_DEST);
               } else {

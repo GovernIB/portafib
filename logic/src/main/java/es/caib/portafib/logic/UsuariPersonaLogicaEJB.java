@@ -233,7 +233,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
 
     final String codeParam = "username";
     
-    checkUserInformationPlugin(codeParam, pfui, codeParam);
+    checkUserInformationPlugin(username, pfui, codeParam);
 
     return pfui;
   }

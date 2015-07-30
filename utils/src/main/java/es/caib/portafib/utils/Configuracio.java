@@ -131,5 +131,14 @@ public class Configuracio implements Constants {
   public static String getMotiuDeFirmaFormat(String entitatID, String lang) {
     return  System.getProperty(PORTAFIB_PROPERTY_BASE + "motiudelegacioformat."+ entitatID + "." + lang);
   }
+  
+  
+  public static String getEntitatIDForAgentsSQL() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "entitatidforagentssql", "caib");
+  }
+  
+  public static String getPasswordForAgentsSQL() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "passwordforagentssql");
+  }
 
 }

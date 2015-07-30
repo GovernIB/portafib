@@ -125,7 +125,26 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     
     // 1.2.- Creacio
     usuariPersonaJPA = (UsuariPersonaJPA)this.usuariPersonaLogicaEjb.create(usuariPersonaJPA);
+    final String usuariPersonaID = usuariPersonaJPA.getUsuariPersonaID();
 
+    usuariEntitatJPA = create(usuariPersonaID, usuariEntitatJPA, virtualRoles);
+
+    // Només per facilitar la vida al programador
+    // (a) Assignam la persona a l'usuari-entitat
+    usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);
+    // (b) Assignam aquest usuariEntitat a la persona
+    Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
+    usuariEntitats.add(usuariEntitatJPA);
+    usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
+    
+    return usuariEntitatJPA;
+  }
+
+  @Override
+  public UsuariEntitatJPA create(final String usuariPersonaID,
+      UsuariEntitatJPA usuariEntitatJPA, Set<String> virtualRoles)
+          throws I18NValidationException, I18NException {
+    final boolean isNou = true;
     if (usuariEntitatJPA == null) {
       // Es nomes administrador de portafib
       usuariEntitatJPA = new UsuariEntitatJPA();
@@ -133,9 +152,9 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // 2.- Usuari-Entitat
       
       // 2.1- Validació Basica
-      usuariEntitatJPA.setUsuariPersonaID(usuariPersonaJPA.getUsuariPersonaID());
-      usuariEntitatJPA.setUsuariEntitatID(usuariEntitatJPA.getEntitatID()
-          + "_" + usuariPersonaJPA.getUsuariPersonaID());
+      usuariEntitatJPA.setUsuariPersonaID(usuariPersonaID);
+      usuariEntitatJPA.setUsuariEntitatID(
+          usuariEntitatJPA.getEntitatID() + "_" + usuariPersonaID);
       
       UsuariEntitatLogicValidator<UsuariEntitatJPA> validadorUE = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
       UsuariEntitatBeanValidator uebv = new UsuariEntitatBeanValidator(validadorUE, entitatEjb, this, this.usuariPersonaLogicaEjb);
@@ -171,15 +190,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // 2.4- Afegim Info de l'Entitat associat a l'Usuari-Entitat
       usuariEntitatJPA.setEntitat(entitatEjb.findByPrimaryKey(usuariEntitatJPA.getEntitatID()));
 
-      // 2.5.- Assignam aquest usuariEntitat a la persona
-      Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
-      usuariEntitats.add(usuariEntitatJPA);
-      usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
 
     }
-
-    usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);
-    
     return usuariEntitatJPA;
   }
   
