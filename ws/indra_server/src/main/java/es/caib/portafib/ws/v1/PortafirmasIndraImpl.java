@@ -303,18 +303,18 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
       Set<Principal> principalsCred = lc.getSubject().getPrincipals();
       if (principalsCred == null ||principalsCred.isEmpty()) {
-        log.info(" getPrincipals() == BUIT");
+        log.warn(" getPrincipals() == BUIT");
       } else {
         for (Principal object : principalsCred) {
-          log.info(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
+          log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
           if ("Roles".equals(object.getName())
               && object instanceof org.jboss.security.SimpleGroup) {
             org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
             //iterable
             Enumeration<Principal> enumPrinc = sg.members();
             while(enumPrinc.hasMoreElements()) {
-              Principal rol = enumPrinc.nextElement(); 
-              log.info("           ROL: " + rol.getName());
+              Principal rol = enumPrinc.nextElement();
+              log.debug("           ROL: " + rol.getName());
               roles.add(rol.getName());
             }
           }
@@ -2323,9 +2323,12 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
     //attributes.getNumberAnnexes()
     Sender sender = attributes.getSender();
-    log.info(" Sender = " + sender);
-    if (sender != null) {
-      log.info(" Sender.getName() = " + sender.getName());
+    final boolean debug = log.isDebugEnabled(); 
+    if (debug) {
+      log.debug(" Sender = " + sender);
+      if (sender != null) {
+        log.debug(" Sender.getName() = " + sender.getName());
+      }
     }
     if (sender == null || sender.getName() == null || "".equals(sender.getName().trim())) {
       peticioDeFirma.setRemitentNom(usuariAplicacio.getUsuariAplicacioID());
@@ -2334,9 +2337,10 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       peticioDeFirma.setRemitentNom(sender.getName());
       peticioDeFirma.setRemitentDescripcio(sender.getEmail());
     }
-    
-    log.info(" peticioDeFirma.getRemitentNom() = " + peticioDeFirma.getRemitentNom());
-    log.info(" peticioDeFirma.getRemitentDescripcio() = " + peticioDeFirma.getRemitentDescripcio());
+    if (debug) {
+      log.info(" peticioDeFirma.getRemitentNom() = " + peticioDeFirma.getRemitentNom());
+      log.info(" peticioDeFirma.getRemitentDescripcio() = " + peticioDeFirma.getRemitentDescripcio());
+    }
 
     // attributes.getSignAnnexes().getValue(); DEPRECATED
 

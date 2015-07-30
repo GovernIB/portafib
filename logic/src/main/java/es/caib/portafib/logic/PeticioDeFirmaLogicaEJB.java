@@ -324,8 +324,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     Long peticioDeFirmaID = pf.getPeticioDeFirmaID();
 
     if (log.isDebugEnabled()) {
-      log.info("PF[" + pf.getPeticioDeFirmaID() + "] = " + pf);
-      log.info("PeticioDeFirma[" + peticioDeFirma.getPeticioDeFirmaID() + "] = "
+      log.debug("PF[" + pf.getPeticioDeFirmaID() + "] = " + pf);
+      log.debug("PeticioDeFirma[" + peticioDeFirma.getPeticioDeFirmaID() + "] = "
         + peticioDeFirma);
     }
 
@@ -450,8 +450,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FluxDeFirmesJPA flux = peticioDeFirma.getFluxDeFirmes();
 
       if (log.isDebugEnabled()) {
-        log.info("Current State = " + currentState);
-        log.info("State NO INICIAT = " + Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
+        log.debug("Current State = " + currentState);
+        log.debug("State NO INICIAT = " + Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
       }
 
       if (Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT == currentState) {
@@ -1116,14 +1116,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     TreeSet<BlocDeFirmesJPA> blocsOrdenats;
     blocsOrdenats = new TreeSet<BlocDeFirmesJPA>(new BlocDeFirmesComparator());
     blocsOrdenats.addAll(blocs);
+    final boolean debug = log.isDebugEnabled();
 
     log.debug(" ========== startNextSign");
     Timestamp now = new Timestamp(System.currentTimeMillis());
 
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocsOrdenats) {
 
-      
-      log.debug("----- Bloc " + blocDeFirmesJPA.getBlocDeFirmesID());
+      if (debug) {
+        log.debug("----- Bloc " + blocDeFirmesJPA.getBlocDeFirmesID());
+      }
 
       // Descartam els blocs tancats
       if (blocDeFirmesJPA.getDataFinalitzacio() != null) {
@@ -1182,13 +1184,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           log.debug("  Bloc amb  firmes pendent: NO FER RES");
           return false;
         } else {
-          
-          log.debug(" Bloc Verge te " + firmes.size() + " firmes ");
+          if (debug) {
+            log.debug(" Bloc Verge te " + firmes.size() + " firmes ");
+          }
           // Es un bloc verge, per la qual cosa cream els estats de firma
           // associades a les firmes
           for (FirmaJPA firmaJPA : firmes) {
-
-            log.debug("  +++ Firma " + firmaJPA.getFirmaID());
+            
+            if (debug) {
+              log.debug("  +++ Firma " + firmaJPA.getFirmaID());
+            }
 
             String destinatariReal;
             String carrec;
@@ -1243,7 +1248,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 .createFull(estatDeFirmaDest);
             events.requerit_per_firmar(peticioDeFirma, estatDeFirmaDest);
 
-            log.debug("   == Nou estat per Destinatari " + firmaJPA.getDestinatariID());
+            if (debug) {
+              log.debug("   == Nou estat per Destinatari " + firmaJPA.getDestinatariID());
+            }
 
             // (a) Seleccionam els tipus de documents per aquesta delegacio,
             // (a.1) El que tenguin el tipus que s'ajusti al tipus de la peticio
@@ -1287,17 +1294,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
             Where w = Where.OR(w1, w2);
 
-            if (log.isDebugEnabled()) {
-              log.info("  Seleccio de COLABORADORS/DELEGATS: " + w.toSQL());
+            if (debug) {
+              log.debug("  Seleccio de COLABORADORS/DELEGATS: " + w.toSQL());
             }
 
             List<ColaboracioDelegacio> llistaColaDele = colaboracioDelegacioEjb.select(w);
 
-            if (log.isDebugEnabled()) {
-              log.info("   == # COLABORADORS/DELEGATS " + llistaColaDele.size());
+            if (debug) {
+              log.debug("   == # COLABORADORS/DELEGATS " + llistaColaDele.size());
 
               for(ColaboracioDelegacio cd : llistaColaDele) {
-                log.info("       + " + (cd.isEsDelegat()?"DELE": "COLA")
+                log.debug("       + " + (cd.isEsDelegat()?"DELE": "COLA")
                    + "[" + cd.getColaboracioDelegacioID() + "] : "
                    + cd.getColaboradorDelegatID() + "  =>  " + cd.getDestinatariID());
               }
@@ -1325,8 +1332,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               } else {
                 events.requerit_per_validar(peticioDeFirma, estatDeFirmaColaDele);
               }
-              if (log.isDebugEnabled()) {
-                log.info("   == Nou estat per COLA/DELE "
+              if (debug) {
+                log.debug("   == Nou estat per COLA/DELE "
                     + colaboracioDelegacio.getColaboradorDelegatID());
               }
             }
@@ -1714,23 +1721,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             numFirma);
 
         // Obtenir informació del certificat
+
+        final boolean isDebug = log.isDebugEnabled();
+        if (isDebug) {
+          log.debug("NumeroSerieCertificat = " + info.getNumeroSerie());
+          log.debug("Emissor = " + info.getEmissorID());
+          log.debug("Subject = " + info.getSubject());
+          log.debug("NIF = " + info.getNifResponsable());
+        }
         firma.setNumeroSerieCertificat(info.getNumeroSerie());
-        log.info("NumeroSerieCertificat = " + info.getNumeroSerie());
-
-        if (info.getEmissorID() != null) {
-          log.info("Emissor LEN = " + info.getEmissorID().length());
-        }
         firma.setEmissorCertificat(info.getEmissorID());
-
-        if (info.getSubject() != null) {
-          log.info("Subject LEN = " + info.getSubject().length());
-        }
         firma.setNomCertificat(info.getSubject());
-
         nifFirmant = info.getNifResponsable();
-        if (info.getNifResponsable() != null) {
-          log.info("NIF LEN = " + info.getNifResponsable().length());
-        }
 
         break;
 

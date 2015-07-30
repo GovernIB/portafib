@@ -27,28 +27,28 @@ public class RolesBasedAttributes2GrantedAuthoritiesMapper implements Attributes
 	public Collection<GrantedAuthority> getGrantedAuthorities(Collection<String> attributes) {
 		List<GrantedAuthority> gaList = new ArrayList<GrantedAuthority>();
 		boolean isDebug = log.isDebugEnabled();
-		if (isDebug) {  log.info("------------  MAPPING -----------------"); };
+		log.debug("------------  MAPPING -----------------");
 		for (String attribute: attributes) {
-		  log.info("  + Attribute: " + attribute);
+		  if (isDebug) {  log.debug("  + Attribute: " + attribute); }
 			Object mapping = baseRoleMapping.get(attribute);
 			if (mapping != null) {
 				if (mapping instanceof Collection) {
 					for (Object obj: (Collection)mapping) {
 						if (obj != null)
-						  if (isDebug) { log.info("      - CAS 1 = " + obj.toString()); };
+						  if (isDebug) { log.debug("      - CAS 1 = " + obj.toString()); };
 							gaList.add(new SimpleGrantedAuthority(obj.toString()));
 					}
 				} else {
 					gaList.add(new SimpleGrantedAuthority(mapping.toString()));
-					if (isDebug) {  log.info("      - CAS 2 = " + mapping.toString()); }
+					if (isDebug) {  log.debug("      - CAS 2 = " + mapping.toString()); }
 				}
 			} else {
 			  
 				gaList.add(new SimpleGrantedAuthority(attribute));
-				if (isDebug) {  log.info("      - CAS 3 = " + attribute); }
+				if (isDebug) {  log.debug("      - CAS 3 = " + attribute); }
 			}
 		}
-		if (isDebug) { log.info("---------------------------------------"); }
+		log.debug("---------------------------------------");
 		return gaList;
 	}
 

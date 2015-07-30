@@ -72,6 +72,8 @@ public class AuthenticationSuccessListener implements
     String name = user.getUsername();
     log.info(" =================================================================");
     log.info(" ============ Login Usuari: " + name);
+    
+    final boolean isDebug = log.isDebugEnabled();
 
     // Cercam si té el ROLE_USER o ROLE_ADMIN
     Collection<GrantedAuthority> seyconAuthorities = user.getAuthorities();
@@ -79,7 +81,9 @@ public class AuthenticationSuccessListener implements
     boolean containsRoleAdmin = false;
     for (GrantedAuthority grantedAuthority : seyconAuthorities) {
       String rol = grantedAuthority.getAuthority();
-      log.info("Rol SEYCON : " + rol);
+      if (isDebug) { 
+        log.debug("Rol SEYCON : " + rol);
+      }
       if (Constants.ROLE_USER.equals(rol)) {
         containsRoleUser = true;
       }
@@ -106,7 +110,9 @@ public class AuthenticationSuccessListener implements
     
     if (usuariPersona == null) {
       // Revisar si és un Administrador que entra per primera vegada 
-      log.info("Configuracio.getDefaultEntity() = ]" + Configuracio.getDefaultEntity() + "[");
+      if (isDebug) { 
+        log.debug("Configuracio.getDefaultEntity() = ]" + Configuracio.getDefaultEntity() + "[");
+      }
       if (containsRoleAdmin || Configuracio.isCAIB() || Configuracio.getDefaultEntity() != null) {
         try {
           IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
@@ -191,7 +197,9 @@ public class AuthenticationSuccessListener implements
 
             usuariPersona = usuariEntitat.getUsuariPersona();
             
-            log.info("necesitaConfigurarUsuari = " + necesitaConfigurar);
+            if (isDebug) { 
+              log.debug("necesitaConfigurarUsuari = " + necesitaConfigurar);
+            }
             
           }
           
@@ -225,7 +233,7 @@ public class AuthenticationSuccessListener implements
     }
 
     if (usuariEntitats != null && log.isDebugEnabled()) {
-      log.info("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
+      log.debug("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
     }
 
     if (usuariEntitats == null) {
@@ -260,16 +268,18 @@ public class AuthenticationSuccessListener implements
       log.info("--------------- Entitat " + entitatID);
       // Check deshabilitada
       if (!entitat.isActiva()) {        
-        log.info("L'entitat " + entitat.getNom() +  " esta deshabilitada.");
+        log.warn("L'entitat " + entitat.getNom() +  " esta deshabilitada.");
         continue;
       }
       if (!usuariEntitat.isActiu()) {
-        log.info("L'entitat " + entitat.getNom() +  " esta deshabilitatda per l'usuari "
+        log.warn("L'entitat " + entitat.getNom() +  " esta deshabilitatda per l'usuari "
             + usuariPersona.getUsuariPersonaID());
         continue;
       }
       if (usuariEntitat.getCarrec() != null) {
-        log.info("L'usuari-entitat " + usuariEntitat.getUsuariEntitatID() +  " és un càrrec. ");
+        if (isDebug) { 
+          log.debug("L'usuari-entitat " + usuariEntitat.getUsuariEntitatID() +  " és un càrrec. ");
+        }
         continue;
       }
 
@@ -303,13 +313,15 @@ public class AuthenticationSuccessListener implements
                 " Eliminar aquest rol de la BBDD !!!!!",
                 new Exception() );
           } else {
-            log.info("Afegint role portafib " + roleName);
+            if (isDebug) { 
+              log.debug("Afegint role portafib " + roleName);
+            }
             rolesPortaFIB.add(new SimpleGrantedAuthority(roleName));
           }
         }
         rolesPerEntitat.put(entitatID, rolesPortaFIB);
       } else {
-        log.info("No te el role seycon PFI_USER");
+        log.debug("No te el role seycon PFI_USER");
         rolesPerEntitat.put(entitatID,new HashSet<GrantedAuthority>());
       }
       // Entitat per defecte
@@ -343,7 +355,9 @@ public class AuthenticationSuccessListener implements
     String entitatIDActual = null;
     if (entitatPredeterminada != null) {
       entitatIDActual = entitatPredeterminada.getEntitatID();
-      log.info(">>>>>> Entitat predeterminada " + entitatIDActual);
+      if (isDebug) { 
+        log.debug(">>>>>> Entitat predeterminada " + entitatIDActual);
+      }
     }
 
     LoginInfo loginInfo;
@@ -354,7 +368,9 @@ public class AuthenticationSuccessListener implements
     // and set the authentication of the current Session context
     SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
     
-    log.info(">>>>>> Final del Process d'autenticació.");
+    if (isDebug) { 
+      log.debug(">>>>>> Final del Process d'autenticació.");
+    }
     log.info(" =================================================================");
 
   }

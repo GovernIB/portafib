@@ -116,7 +116,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     FluxDeFirmes fluxBD = create(flux);
     long fluxID = fluxBD.getFluxDeFirmesID();
     if (log.isDebugEnabled()) {
-      log.info("S'ha creat un fluxDeFirmes amb ID = " + fluxBD.getFluxDeFirmesID());
+      log.debug("S'ha creat un fluxDeFirmes amb ID = " + fluxBD.getFluxDeFirmesID());
     }
     flux.setFluxDeFirmesID(fluxID);
 
@@ -207,10 +207,10 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       if (blocs != null) {
         final boolean isDebug = log.isDebugEnabled();
         for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
-          if (isDebug) { log.info("BLOC = " + blocDeFirmesJPA ); }
+          if (isDebug) { log.debug("BLOC = " + blocDeFirmesJPA ); }
           Hibernate.initialize(blocDeFirmesJPA.getFirmas());
           Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
-          if (isDebug) { log.info("FIRMES = " + firmes ); }
+          if (isDebug) { log.debug("FIRMES = " + firmes ); }
           for (FirmaJPA firmaJPA : firmes) {
             Hibernate.initialize(firmaJPA.getUsuariEntitat());
             UsuariEntitatJPA ue = firmaJPA.getUsuariEntitat();
@@ -225,7 +225,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
             }
             if (ue != null) {
               if (isDebug) {
-                log.info("Inicialitzar l'usuariPersona " + ue.getUsuariPersonaID() 
+                log.debug("Inicialitzar l'usuariPersona " + ue.getUsuariPersonaID() 
                   + "(" + ue.getUsuariEntitatID() + ") de la firma " + firmaJPA.getFirmaID());
               }
               try {

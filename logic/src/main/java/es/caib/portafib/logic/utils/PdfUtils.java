@@ -96,10 +96,10 @@ public class PdfUtils implements Constants {
     String mime = fileToConvertInfo.getMime();
     boolean isDebug = log.isDebugEnabled(); 
     if (isDebug) {
-      log.info("convertToPDF(): Name = " + fileToConvertInfo.getNom());
-      log.info("convertToPDF(): File = " + fileToConvert.getAbsolutePath());
-      log.info("convertToPDF(): File Exists?= " + fileToConvert.exists());
-      log.info("convertToPDF(): MIME = " + mime);
+      log.debug("convertToPDF(): Name = " + fileToConvertInfo.getNom());
+      log.debug("convertToPDF(): File = " + fileToConvert.getAbsolutePath());
+      log.debug("convertToPDF(): File Exists?= " + fileToConvert.exists());
+      log.debug("convertToPDF(): MIME = " + mime);
     }
 
     if (PDF_MIME_TYPE.equals(mime)) {
@@ -141,7 +141,7 @@ public class PdfUtils implements Constants {
               FileInputStream fis = new FileInputStream(fileToConvert);
               try {
                 if (isDebug) {
-                  log.info("convertToPDF(): Convert using extension: " + extensio);
+                  log.debug("convertToPDF(): Convert using extension: " + extensio);
                 }
                 baos = new ByteArrayOutputStream();
                 docPlugin.convertDocumentByExtension(fis, extensio, baos, PDF_FILE_EXTENSION);
@@ -221,7 +221,7 @@ public class PdfUtils implements Constants {
     // TODO fields.getTotalRevisions()
     if (isDebug) {
       long now = System.currentTimeMillis();
-      log.info("checkCertificatePADES - Final init: " + (now - start));
+      log.debug("checkCertificatePADES - Final init: " + (now - start));
       start = now;
     }
     
@@ -261,7 +261,7 @@ public class PdfUtils implements Constants {
         
         if (isDebug) {
           long now = System.currentTimeMillis();
-          log.info("checkCertificatePADES - Primera Firma: " + (now - start));
+          log.debug("checkCertificatePADES - Primera Firma: " + (now - start));
           start = now;
         }
   
@@ -303,7 +303,7 @@ public class PdfUtils implements Constants {
   
           if (isDebug) {
             long now = System.currentTimeMillis();
-            log.info("checkCertificatePADES - Firma N=" + (fitxersByNumFirma.size() + 1) + ": "
+            log.debug("checkCertificatePADES - Firma N=" + (fitxersByNumFirma.size() + 1) + ": "
               + (now - start));
             start = now;
           }
@@ -346,7 +346,7 @@ public class PdfUtils implements Constants {
   
           if (isDebug) {
             long now = System.currentTimeMillis();
-            log.info("checkCertificatePADES - Estructura PDF: " + (now - start));
+            log.debug("checkCertificatePADES - Estructura PDF: " + (now - start));
             start = now;
           }
         }
@@ -376,7 +376,7 @@ public class PdfUtils implements Constants {
 
     if (isDebug) { 
       long now = System.currentTimeMillis();
-      log.info("checkCertificatePADES - Validar Certificat @firma: " + (now - start));
+      log.debug("checkCertificatePADES - Validar Certificat @firma: " + (now - start));
       start = now;
     }
 
@@ -404,11 +404,11 @@ public class PdfUtils implements Constants {
 
     if (log.isDebugEnabled()) {
       long now = System.currentTimeMillis();
-      log.info("checkCertificatePADES - Executed Info Certificat in " + (now - start) + " ms");
-      log.info("Numero Serie: " + info.getNumeroSerie());
-      log.info("Emissor: " + info.getEmissorOrganitzacio());
-      log.info("Subject: " + info.getSubject());
-      log.info("DNI: " + info.getNifResponsable());
+      log.debug("checkCertificatePADES - Executed Info Certificat in " + (now - start) + " ms");
+      log.debug("Numero Serie: " + info.getNumeroSerie());
+      log.debug("Emissor: " + info.getEmissorOrganitzacio());
+      log.debug("Subject: " + info.getSubject());
+      log.debug("DNI: " + info.getNifResponsable());
     }
 
     return info;
@@ -434,10 +434,10 @@ public class PdfUtils implements Constants {
     if (!hashDocOriginalRebut.equals(hashDocOriginalRepositori)) {
       
       if (log.isDebugEnabled()) {
-        log.info(" INDEX OF FIST %%EOF IN APPLET FILE = " + revisionLimit);
-        log.info(" hashDocOriginalRebut == " + hashDocOriginalRebut );
-        log.info(" hashDocOriginalRebut(LEN) == " + docOriginalData.length );
-        log.info(" hashDocOriginalRepositori == " + hashDocOriginalRepositori);
+        log.debug(" INDEX OF FIST %%EOF IN APPLET FILE = " + revisionLimit);
+        log.debug(" hashDocOriginalRebut == " + hashDocOriginalRebut );
+        log.debug(" hashDocOriginalRebut(LEN) == " + docOriginalData.length );
+        log.debug(" hashDocOriginalRepositori == " + hashDocOriginalRepositori);
       }
 
       return false;

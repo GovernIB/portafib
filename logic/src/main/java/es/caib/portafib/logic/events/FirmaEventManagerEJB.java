@@ -108,6 +108,7 @@ public class FirmaEventManagerEJB implements Constants,
     FirmaEventList filteredlist = new FirmaEventList();
 
     // Filtram quins usuaris volen rebre les noficicacions
+    final boolean debug = log.isDebugEnabled();
 
     for (FirmaEvent firmaEvent : list) {
       final int eventID = (int) firmaEvent.getEventID();
@@ -124,8 +125,11 @@ public class FirmaEventManagerEJB implements Constants,
         destinatari = getDestinatariOfPeticioDeFirma(firmaEvent);
         //EstatDeFirma ef = firmaEvent.getEstatDeFirma();
         String actorID = firmaEvent.getEstatDeFirmaUsuariEntitatID();
-        log.info("NOTIFICACIOAVIS_FIRMA_PARCIAL => Destinatari = " + destinatari 
-            + " (" + actorID + ")");
+        if (debug) {
+          log.debug("NOTIFICACIOAVIS_FIRMA_PARCIAL => Destinatari = " + destinatari
+              + " (" + actorID + ")");
+        }
+          
         firmaEvent.setActorUsuariEntitatID(actorID);
         
         if (destinatari != null && !destinatari.getUsuariEntitatID().equals(actorID)) {
@@ -157,7 +161,9 @@ public class FirmaEventManagerEJB implements Constants,
               firmaEvent.setDestinatariUsuariEntitatID(ue.getUsuariEntitatID());
               // @todo això s'haurà de modificar per soli
               firmaEvent.setHref(HREF_SOLI);
-              log.info("      SOLICITANT II: UE -> " +  ue.getUsuariEntitatID());
+              if (debug) {
+                log.debug("      SOLICITANT II: UE -> " +  ue.getUsuariEntitatID());
+              }
               if ( (eventID == NOTIFICACIOAVIS_FIRMA_PARCIAL || eventID == NOTIFICACIOAVIS_FIRMA_PARCIAL)
                   && firmaEvent.getActorUsuariEntitatID() == null){
                 firmaEvent.setActorUsuariEntitatID(firmaEvent.getEstatDeFirmaUsuariEntitatID());
@@ -167,7 +173,9 @@ public class FirmaEventManagerEJB implements Constants,
             } else {
               firmaEvent.setDestinatariUsuariAplicacioID(soli.getUsuariAplicacio().getUsuariAplicacioID());
               filteredlist.add(firmaEvent);
-              log.info("      SOLICITANT II: UA -> " +  soli.getUsuariAplicacio().getUsuariAplicacioID());
+              if (debug) {
+                log.debug("      SOLICITANT II: UA -> " +  soli.getUsuariAplicacio().getUsuariAplicacioID());
+              }
             }
           }
           
@@ -223,7 +231,9 @@ public class FirmaEventManagerEJB implements Constants,
       case (int) NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR:
         // Aquest tipus d'event només van directe a la persona interessada
         UsuariEntitatJPA usuariEntitat = getUsuariEntitat(firmaEvent);
-      log.info("NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR => USUARI ENTITAT = " + usuariEntitat );
+        if (debug) {
+          log.debug("NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR => USUARI ENTITAT = " + usuariEntitat );
+        }
         if (usuariEntitat != null) {
           firmaEvent.setDestinatariUsuariEntitatID(usuariEntitat.getUsuariEntitatID());
           
@@ -284,10 +294,14 @@ public class FirmaEventManagerEJB implements Constants,
                notificacions.add(notificacioLogicaEjb.createFullFromFirmaEvent(firmaEvent));
             } else {
               if (eventID == NOTIFICACIOAVIS_PETICIO_FIRMADA) {
-                log.info("passa per NOTIFICACIOAVIS_FIRMA_TOTAL");
+                if (debug) {
+                  log.debug("passa per NOTIFICACIOAVIS_FIRMA_TOTAL");
+                }
                 avisos.add(crearEmail(firmaEvent, eventCode));
               } else {
-                log.info("passa per NOTIFICACIOAVIS_PETICIO_EN_PROCES");
+                if (debug) {
+                  log.debug("passa per NOTIFICACIOAVIS_PETICIO_EN_PROCES");
+                }
                 avisos.add(crearEmail(firmaEvent,  eventCode));
               }
             }

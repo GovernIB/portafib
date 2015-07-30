@@ -263,7 +263,7 @@ public class NotificacionsQueue implements MessageListener {
 
       long notificacioID = notificacioInfo.getNotificacioID();
 
-      log.info("\n--------====== NOTIFICACIO " + notificacioID + " ======------------");
+      log.debug("\n--------====== NOTIFICACIO " + notificacioID + " ======------------");
 
       notificacioJPA = notificacioLogicaEjb.findByPrimaryKeyForNotificacioQueue(notificacioID);
       if (notificacioJPA == null) {
@@ -309,10 +309,10 @@ public class NotificacionsQueue implements MessageListener {
        
       } else {
         
-        if (usuariAplicacio != null) {
-          log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
-          log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
-          log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
+        if (log.isDebugEnabled() && usuariAplicacio != null) {
+            log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
+            log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
+            log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
         }
 
         switch(usuariAplicacio.getCallbackVersio()) {
@@ -354,6 +354,11 @@ public class NotificacionsQueue implements MessageListener {
         msgError = th.getMessage();
       }
       
+      if (usuariAplicacio != null) {
+        log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
+        log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
+        log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
+      }
 
       log.error("Error en la notificacio amb ID=" + notifID + ": " + msgError); // ,
 
