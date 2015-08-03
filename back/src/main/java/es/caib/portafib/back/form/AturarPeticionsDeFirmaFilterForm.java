@@ -16,7 +16,7 @@ public class AturarPeticionsDeFirmaFilterForm extends PeticioDeFirmaFilterForm {
    * Usuari del que volem revisar les firmes actives de peticions de firmes.
    * El llistat inclou l'usuari entitat i tots els càrrecs.
    */
-  private String nif; 
+  private String nifOrUsername; 
 
   public AturarPeticionsDeFirmaFilterForm() {    
   }
@@ -25,12 +25,12 @@ public class AturarPeticionsDeFirmaFilterForm extends PeticioDeFirmaFilterForm {
     super(ffff);
   }
 
-  public String getNif() {
-    return nif;
+  public String getNifOrUsername() {
+    return nifOrUsername;
   }
 
-  public void setNif(String nif) {
-    this.nif = nif;
+  public void setNifOrUsername(String nifOrUsername) {
+    this.nifOrUsername = nifOrUsername;
   }
 
 }

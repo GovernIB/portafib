@@ -70,7 +70,7 @@ public class AuthenticationSuccessListener implements
     User user = (User) au.getPrincipal();
     
     String name = user.getUsername();
-    log.info(" =================================================================");
+    log.debug(" =================================================================");
     log.info(" ============ Login Usuari: " + name);
     
     final boolean isDebug = log.isDebugEnabled();
@@ -265,7 +265,9 @@ public class AuthenticationSuccessListener implements
       
       EntitatJPA entitat = usuariEntitat.getEntitat();
       String entitatID = entitat.getEntitatID();
-      log.info("--------------- Entitat " + entitatID);
+      if (isDebug) {
+        log.debug("--------------- Entitat " + entitatID);
+      }
       // Check deshabilitada
       if (!entitat.isActiva()) {        
         log.warn("L'entitat " + entitat.getNom() +  " esta deshabilitada.");
@@ -371,7 +373,7 @@ public class AuthenticationSuccessListener implements
     if (isDebug) { 
       log.debug(">>>>>> Final del Process d'autenticació.");
     }
-    log.info(" =================================================================");
+    log.debug(" =================================================================");
 
   }
   

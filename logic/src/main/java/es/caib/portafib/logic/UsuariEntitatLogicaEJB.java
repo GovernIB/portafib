@@ -314,9 +314,14 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
             usuariEntitatID, Arrays.toString(peticionsStr.toArray()) );
       }
 
-      // TODO
+
       // (4) L'usuari té colaboracions o delegacions
       // Si no tenim solicituds de firma llavors les cola/dele es poden esborrar
+      // (4.1) Borrar les  Col·laboracions-Delegacions creades per aquest usuari
+      colaboracioDelegacioEjb.delete(ColaboracioDelegacioFields.COLABORADORDELEGATID.equal(usuariEntitatID));
+      // (4.2) Borrar Destinatari d'una Col·laboracio-Delegacio
+      colaboracioDelegacioEjb.delete(ColaboracioDelegacioFields.DESTINATARIID.equal(usuariEntitatID));
+      
       
       // TODO
       // (5) L'usuari surt a bitacoles???
@@ -325,9 +330,6 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
 
       // Borrar Avisos
       rebreAvisEjb.delete(RebreAvisFields.USUARIENTITATID.equal(usuariEntitatID));
-      
-      // Borrar Colaboracions Delegacions
-      colaboracioDelegacioEjb.delete(ColaboracioDelegacioFields.DESTINATARIID.equal(usuariEntitatID));
       
       // Borrar favorits
       usuariEntitatFavoritEjb.delete(Where.OR(UsuariEntitatFavoritFields.ORIGENID.equal(usuariEntitatID),UsuariEntitatFavoritFields.FAVORITID.equal(usuariEntitatID)));

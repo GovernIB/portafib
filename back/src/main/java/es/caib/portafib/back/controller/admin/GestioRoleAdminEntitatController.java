@@ -108,7 +108,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       throws I18NException {
     
     
-    String nif = seleccioNifForm.getNif();
+    String nifousername = seleccioNifForm.getNif();
     
     // Veure quins usuaris entitat poden fer administrador-entitat
     List<String> candidatosAdminEntitatList = new ArrayList<String>();
@@ -126,7 +126,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       } else {
         // Ja esta donat d'alta (informam a l'usuari)
         // TODO Falta nom de l'entitat
-        String missatge = I18NUtils.tradueix("administradorentitat.jaexisteix", nif, usuariEntitat.getEntitatID());
+        String missatge = I18NUtils.tradueix("administradorentitat.jaexisteix", nifousername, usuariEntitat.getEntitatID());
         HtmlUtils.saveMessageInfo(request, missatge);
         /*
         List<String> usuariEntitatIDList = new ArrayList<String>();
@@ -170,11 +170,11 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       
       if (entitatID == null) {
         if (usuariEntitatList.size() == 0) {
-          result.rejectValue("nif", "administradorentitat.senseentitat", new Object[] { nif }, null);
+          result.rejectValue("nif", "administradorentitat.senseentitat", new Object[] { nifousername }, null);
           
           return null;
         } else {
-          result.rejectValue("nif", "administradorentitat.jaesADENdetotes", new Object[] { nif }, null);
+          result.rejectValue("nif", "administradorentitat.jaesADENdetotes", new Object[] { nifousername }, null);
           return null;
         }
       }

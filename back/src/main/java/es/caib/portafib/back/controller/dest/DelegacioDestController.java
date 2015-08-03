@@ -163,19 +163,19 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       this.personaRefList = new UsuariEntitatRefList(personaRefList);
   
       
-      personaRefList.setSelects(new Select<?>[] { 
-          personaQueryPath.LLINATGES().select , new SelectConstant(","), 
+      this.personaRefList.setSelects(new Select<?>[] { 
+          personaQueryPath.LLINATGES().select , new SelectConstant(", "), 
           personaQueryPath.NOM().select, new SelectConstant(" ("), 
           personaQueryPath.NIF().select, new SelectConstant(")") });
+      
+      this.personaRefList.setSeparator("");
     }
     
     
     {
-
-    this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
-
-    
-    usuariEntitatRefList.setSelects(new Select<?>[] { personaQueryPath.NOM().select,
+      this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
+  
+      this.usuariEntitatRefList.setSelects(new Select<?>[] { personaQueryPath.NOM().select,
         personaQueryPath.LLINATGES().select });
     }    
 

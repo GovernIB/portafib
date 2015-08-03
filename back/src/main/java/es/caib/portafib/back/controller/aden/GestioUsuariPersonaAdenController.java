@@ -25,7 +25,7 @@ public class GestioUsuariPersonaAdenController extends GestioUsuariPersonaContro
 
   @Override
   public String getTileNif() {
-    return "selectUsuariPersonaByNifAden";
+    return "selectUsuariPersonaByNifUsernameAden";
   }
  
   @Override

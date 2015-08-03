@@ -120,15 +120,15 @@
     <definition name="gestioUsuariPersonaListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaList.jsp" />
     </definition>
-
-    <definition name="selectUsuariPersonaByNifAden" extends="role_aden">
+    
+    <definition name="selectUsuariPersonaByNifUsernameAden" extends="role_aden">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
-
-    <definition name="selectUsuariEntitatByNif" extends="role_aden">
+    
+    <definition name="selectUsuariEntitatByNifUsernameAden" extends="role_aden">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
 
     <definition name="seleccionaCarrecForm" extends="role_aden">
@@ -189,7 +189,7 @@
     
     <definition name="selectUsuariPersonaForGestioRoleSolicitantForm" extends="role_aden">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
     
         
@@ -204,7 +204,7 @@
     
     <definition name="selectNifDestinatariPerAturarPeticio" extends="role_aden">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
     
     
@@ -275,15 +275,10 @@
         <put-attribute name="pipella" value="ROLE_ADMIN" />
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_admin.jsp" />
     </definition>
-
-    <definition name="selectUsuariPersonaByNif" extends="role_admin">
+    
+    <definition name="selectUsuariPersonaByNifUsername" extends="role_admin">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
-    </definition>
-
-    <definition name="modifUsuariPersonaByNif" extends="role_admin">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
 
     <definition name="gestioUsuariPersonaForm" extends="role_admin">
@@ -315,7 +310,7 @@
 
     <definition name="selectUsuariPersonaForGestioRoleAdminEntitatForm" extends="role_admin">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
     
     <definition name="gestioTipusDocumentAdminForm" extends="role_admin">

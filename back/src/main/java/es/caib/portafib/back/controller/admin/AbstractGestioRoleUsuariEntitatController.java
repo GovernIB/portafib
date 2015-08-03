@@ -5,7 +5,6 @@ import java.util.List;
 
 import es.caib.portafib.back.form.SeleccioNifForm;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -69,30 +68,34 @@ public abstract class AbstractGestioRoleUsuariEntitatController extends RoleUsua
 
     ModelAndView mav = new ModelAndView(getTileNif());
 
-    String nif = seleccioNifForm.getNif();
+    String nifousername = seleccioNifForm.getNif();
 
     if (result.hasErrors()) {
       return mav;
     }
 
     // Si no han introduit Nif
-    if (nif == null || nif.trim().length() == 0) {
-      result.rejectValue("nif", "genapp.validation.required", new Object[] { "nif" }, null);
+    if (nifousername == null || nifousername.trim().length() == 0) {
+      // TODO Parametre buit potser algun llenguatge no ho suporti
+      result.rejectValue("nif", "genapp.validation.required", new Object[] { "" }, null);
       return mav;
     }
 
-    nif = nif.toUpperCase();
-    seleccioNifForm.setNif(nif);
+
 
     // Comprobar si la persona existeix
     // TODO Select ONE
-    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByAdministrationID(nif);
+    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByUsernameOrAdministrationID(nifousername);
     
     if (up == null) {
-      result.rejectValue("nif", "usuaripersona.noexisteix",
-          new Object[] { I18NUtils.tradueix("nif"), nif }, null);
+      result.rejectValue("nif", "usuaripersona.noexisteix.nifusername",
+          new Object[] { nifousername }, null);
       return mav;
     }
+
+    //seleccioNifForm.setNif(up.getNif());
+    final String nif = up.getNif();
+    
     String usuariPersonaID = up.getUsuariPersonaID();
 
     // Comprobar si la persona té usuaris entitat associats

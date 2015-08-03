@@ -183,30 +183,39 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
   @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
   public String addUserToGroup(
       @ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
-      @RequestParam("userToAdd") String nif, HttpServletRequest request,
+      @RequestParam("userToAdd") String nifOrUsername, HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 
 
     Long grupEntitatID = (Long) grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
 
 
-    if (nif == null || nif.trim().equals("")) {
+    if (nifOrUsername == null || nifOrUsername.trim().equals("")) {
 
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nif));
+      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nifOrUsername));
 
     } else {
 
+      final UsuariPersonaQueryPath upQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
       String usuariEntitatID = usuariEntitatLogicaEjb.executeQueryOne(
-          UsuariEntitatFields.USUARIENTITATID, Where.AND(UsuariEntitatFields.CARREC.isNull(),
+          UsuariEntitatFields.USUARIENTITATID,
+          Where.AND(
+              UsuariEntitatFields.CARREC.isNull(),
               UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-              new UsuariEntitatQueryPath().USUARIPERSONA().NIF().equal(nif.toUpperCase())));
+              Where.OR(
+                upQueryPath.NIF().equal(nifOrUsername.toUpperCase()),
+                upQueryPath.USUARIPERSONAID().equal(nifOrUsername.trim())
+                )
+              ) 
+            );
 
       if (log.isDebugEnabled()) {
         log.debug(" usuariEntitatID = |" + usuariEntitatID + "|");
       }
 
       if (usuariEntitatID == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nif));
+        HtmlUtils.saveMessageError(request,
+            I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nifOrUsername));
       } else {
 
         GrupEntitatUsuariEntitatJPA geu;

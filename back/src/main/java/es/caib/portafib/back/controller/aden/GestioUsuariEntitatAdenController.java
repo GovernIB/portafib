@@ -86,7 +86,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
 
   public String getTileNif() {
-    return "selectUsuariEntitatByNif";
+    return "selectUsuariEntitatByNifUsernameAden";
   }
 
 
@@ -114,7 +114,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
       SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
       seleccioNifForm.setTitol("usuarientitat.gestio");
-      seleccioNifForm.setSubtitol("usuarientitat.introduirnif");
+      seleccioNifForm.setSubtitol("usuarientitat.introduirnifusername");
       seleccioNifForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADEN);
       mav.addObject(seleccioNifForm);
 
@@ -140,24 +140,24 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
     HttpSession session = request.getSession();
 
-    String nif = seleccioNifForm.getNif();
+    String nifOrUsername = seleccioNifForm.getNif();
 
     // Obtenim l'usuari persona amb el nif indicat
-    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByAdministrationID(nif);
+    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByUsernameOrAdministrationID(nifOrUsername);
 
     // Si no hi ha usuariPersona associat al NIF
     if (up == null) {
-      result.rejectValue("nif", "usuaripersona.noexisteix",
-          new Object[] { I18NUtils.tradueix("nif"), nif }, null);
+      result.rejectValue("nif", "usuaripersona.noexisteix.nifusername",
+          new Object[] { nifOrUsername }, null);
       return mav;
     }
 
     // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
 
-    String pkUE = entitatActualID+ "_"+up.getUsuariPersonaID();
-    Where w = USUARIENTITATID.equal(pkUE);
-    List<UsuariEntitat> ues = usuariEntitatEjb.select(w);
-    if(ues.isEmpty()) {
+    UsuariEntitatJPA ue;
+    ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatActualID, up.getUsuariPersonaID());
+    
+    if(ue == null) {
       SeleccioUsuariEntitatForm seleccioUsuariEntitatForm = new SeleccioUsuariEntitatForm();
       seleccioUsuariEntitatForm.setUp(up);
 
@@ -165,8 +165,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       session.setAttribute("transmissioDadesForm", seleccioUsuariEntitatForm);
       mav.setView(new RedirectView(getContextWeb() + "/new", true));
       return mav;
-    } else {
-      UsuariEntitat ue = ues.get(0);
+    } else {      
       mav = new ModelAndView(new RedirectView(getContextWeb() + "/"+ue.getUsuariEntitatID()+"/edit", true));
       return mav;
     }

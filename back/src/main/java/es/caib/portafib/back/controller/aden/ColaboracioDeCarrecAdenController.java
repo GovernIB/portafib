@@ -81,7 +81,7 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
    */
   
   public String getTileNif() {
-    return "selectUsuariPersonaByNifAden";
+    return "selectUsuariEntitatByNifUsernameAden";
   }
   
   @RequestMapping(value = "/nif", method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
 
     ModelAndView mav = new ModelAndView(getTileNif());
 
-    String nif = seleccioNifForm.getNif();
+    String nifOrUsername = seleccioNifForm.getNif();
 
     if (result.hasErrors()) {
       log.debug("entramos aqui result con errores");
@@ -115,19 +115,20 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
     }
 
     // Si no han introduit Nif
-    if (nif == null || nif.trim().length() == 0) {
-      result.rejectValue("nif", "genapp.validation.required", new Object[] { "nif" }, null);
+    if (nifOrUsername == null || nifOrUsername.trim().length() == 0) {
+      // TODO en traduccions es i ca va bé. EN altre sidiomes no ho sé
+      result.rejectValue("nif", "genapp.validation.required", new Object[] { "" }, null);
       return mav;
     }
 
     
     List<String> ups = usuariEntitatEjb.executeQuery(UsuariEntitatFields.USUARIENTITATID,
-        getSelectUsuarisEntitat(nif));
+        getSelectUsuarisEntitatByNifUsername(nifOrUsername));
     if (ups.isEmpty()) { // No existeix
       
       // No existeix usuari-entitat amb aquest nif dins la meva entitat
-      result.rejectValue("nif", "usuarientitat.noexisteix.nif",
-          new Object[]{nif}, null);
+      result.rejectValue("nif", "aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat",
+          new Object[]{nifOrUsername}, null);
       return mav;
 
     } else {
@@ -139,11 +140,14 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
     
   }
   
-  private Where getSelectUsuarisEntitat(String nif) {
-    // TODO Ha d'anar a variable statica
-    UsuariEntitatQueryPath usuariEntitatQueryPath = new UsuariEntitatQueryPath();
+  private Where getSelectUsuarisEntitatByNifUsername(String nif) {
+    // TODO Ha d'anar a variable estatica
+    final UsuariEntitatQueryPath usuariEntitatQueryPath = new UsuariEntitatQueryPath();
     return Where.AND(
-        usuariEntitatQueryPath.USUARIPERSONA().NIF().equal(nif.toUpperCase()),
+        Where.OR(
+          usuariEntitatQueryPath.USUARIPERSONA().NIF().equal(nif.toUpperCase()),
+          usuariEntitatQueryPath.USUARIPERSONA().USUARIPERSONAID().equal(nif.trim())
+        ),
         UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
         UsuariEntitatFields.CARREC.isNull()
         );
@@ -166,6 +170,8 @@ public class ColaboracioDeCarrecAdenController extends DelegacioDestController {
 
     ColaboracioDelegacioForm form;
     form = super.getColaboracioDelegacioForm(_jpa, __isView, request, mav);
+    
+    request.getSession().removeAttribute(USUARI_ENTITAT_ID_DE_CARREC);
     
     return form;
   }

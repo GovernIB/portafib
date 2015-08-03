@@ -73,7 +73,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   }
 
   public String getTileNif() {
-    return "selectUsuariPersonaByNif";
+    return "selectUsuariPersonaByNifUsername";
   }
 
   @PostConstruct
@@ -87,7 +87,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     ModelAndView mav = new ModelAndView(getTileNif());
     SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
     seleccioNifForm.setTitol("usuaripersona.gestio");
-    seleccioNifForm.setSubtitol("usuaripersona.alta.introduirnif");
+    seleccioNifForm.setSubtitol("usuaripersona.alta.introduirnifousername");
     seleccioNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
     mav.addObject(seleccioNifForm);
     return mav;
@@ -99,7 +99,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
 
     ModelAndView mav = new ModelAndView(getTileNif());
 
-    String nif = seleccioNifForm.getNif();
+    String nifOrUsername = seleccioNifForm.getNif();
 
     if (result.hasErrors()) {
       log.debug("entramos aqui result con errores");
@@ -107,40 +107,27 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     }
 
     // Si no han introduit Nif
-    if (nif == null || nif.trim().length() == 0) {
+    if (nifOrUsername == null || nifOrUsername.trim().length() == 0) {
       result.rejectValue("nif", "genapp.validation.required", new Object[] { "nif" }, null);
       return mav;
     }
 
-    // Verificar que no hi ha usuari ja creat amb aquest nif
-    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByAdministrationID(nif);
+    // Verificar que no hi ha usuari ja creat amb aquest nif o username
+    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByUsernameOrAdministrationID(nifOrUsername);
     if (up == null) { // No existeix
       // Obtenim la informació del usuari del sistema d'autenticació.
-      /*
-      ILoginPlugin loginPlugin = PortaFIBPluginsManager.getLoginPluginInstance();
-      UserInfo pfui = loginPlugin.getUserInfoByAdministrationID(nif);
-
-      // No hi ha informació de l'usuari al sistema d'autenticació.
-      if (pfui == null) {
-        result.rejectValue("nif", "usuaripersona.senseinformacio",
-            // TODO extreure nif de les traduccions
-            new Object[] { "nif", nif }, null);
-        return mav;
-      }
-      // El plugin de login no ha tornat la informació correcta.
-      if (pfui.getAdministrationID() == null || pfui.getUsername() == null) {
-        result.rejectValue("nif", "usuaripersona.infoincorrecta");
-        return mav;
-      }
-      */
       UserInfo pfui;
       try {
-        pfui = usuariPersonaLogicaEjb.checkAdministrationIDInUserInformationPlugin(nif);
+        pfui = usuariPersonaLogicaEjb.checkUsernameInUserInformationPlugin(nifOrUsername);
       } catch(I18NException i18ne) {
-        I18NTranslation traduccio = i18ne.getTraduccio();
-        result.rejectValue("nif", traduccio.getCode(),
+        try {
+          pfui = usuariPersonaLogicaEjb.checkAdministrationIDInUserInformationPlugin(nifOrUsername);
+        } catch(I18NException i18ne2) {
+          I18NTranslation traduccio = i18ne.getTraduccio();
+          result.rejectValue("nif", traduccio.getCode(),
             I18NUtils.tradueixArguments(traduccio.getArgs()), null);
-        return mav;
+          return mav;
+        }
       }
       
 

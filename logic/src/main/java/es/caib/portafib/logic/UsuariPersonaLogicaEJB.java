@@ -239,6 +239,25 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
   }
   
   
+  @Override
+  public UsuariPersonaJPA getUsuariPersonaIDByUsernameOrAdministrationID(String usernameOrAdministrationID)
+     throws I18NException {
+      if (usernameOrAdministrationID == null || usernameOrAdministrationID.trim().length() == 0) {
+        return null;
+      }
+      // TODO SELECTONE
+      Where w = Where.OR(
+          UsuariPersonaFields.NIF.equal(usernameOrAdministrationID.toUpperCase()),
+          UsuariPersonaFields.USUARIPERSONAID.equal(usernameOrAdministrationID.trim())
+      );
+      List<UsuariPersona> usuariPersonaList = this.select(w);
+      if (usuariPersonaList.isEmpty()) {
+        return null;
+      } else {
+        return (UsuariPersonaJPA)usuariPersonaList.get(0);
+      }
+  } 
+  
   
   
   @Override
