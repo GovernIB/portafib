@@ -380,7 +380,12 @@ public class AfirmaSigner implements ISigner {
       final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
       
 
-      String ua = CertificateUtils.getUnitatAdministrativa(cert);
+      String ua = null;
+      try {
+        ua = CertificateUtils.getUnitatAdministrativa(cert);
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
       // TODO ESPEFIFIC CAIB !!!!!
       if (ua != null) {
         int pos = ua.lastIndexOf('-');
@@ -390,7 +395,13 @@ public class AfirmaSigner implements ISigner {
       }
       final Long uaLen = new Long((ua== null || ua.trim().length() == 0)? 0 : ua.length());
       
-      final String carrec = CertificateUtils.getCarrec(cert);      
+      String carrec;
+      try {
+        carrec = CertificateUtils.getCarrec(cert);      
+      } catch(Exception e) {
+        carrec = null;
+        e.printStackTrace();
+      }
       final Long carrecLen = new Long((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
 
       final String nom = CertificateUtils.getSubjectCorrectName(cert);
