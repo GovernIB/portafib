@@ -7,7 +7,6 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.SelectCarrecValidator;
-import es.caib.portafib.back.validator.SelectUsuariEntitatValidator;
 import es.caib.portafib.ejb.BlocDeFirmesLocal;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.FirmaLocal;
@@ -83,9 +82,6 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
 
   @EJB(mappedName = FirmaLocal.JNDI_NAME)
   protected FirmaLocal firmaEjb;
-
-  @Autowired
-  protected SelectUsuariEntitatValidator selectUsuariEntitatValidator;
 
   @Autowired
   protected SelectCarrecValidator selectCarrecValidator;

@@ -6,6 +6,9 @@ import java.util.List;
 
 
 
+
+
+
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,24 +29,26 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
 import es.caib.portafib.back.form.SeleccioNifForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
-import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -55,7 +61,8 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class, SeleccioNifForm.class })
 public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
   
-  public static final String NIF_OR_USERNAME_OF_USUARI_ENTITAT = "NIF_OR_USERNAME_OF_USUARI_ENTITAT";
+  public static final String USUARI_ENTITAT_ID_HOLDER =
+        "AturarPeticionsDeFirmaController_USUARI_ENTITAT_ID_HOLDER";
   
   @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
   protected UsuariEntitatLocal usuariEntitatEjb;
@@ -65,12 +72,72 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  
+  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  
+  @Autowired
+  protected SeleccioUsuariValidator seleccioUsuariValidator;
 
-  public String getTileNif() {
-    return "selectNifDestinatariPerAturarPeticio";
+  
+  // ===== GESTIONA FORMULARI PREVI A ALTA-MODIFICACIO D'UN USUARI-ENTITAT
+  
+  public String getTileSeleccioUsuari() {
+    return "seleccioUsuariForm_ADEN";
+  }
+
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.GET)
+  public ModelAndView seleccioUsuariGet()
+      throws Exception {
+
+      ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+
+      seleccioUsuariForm.setTitol("aturarpeticionsdefirma");
+      seleccioUsuariForm.setSubtitol("aturarpeticionsdefirma.nif.subtitol");
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
+      seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+
+      try { 
+        seleccioUsuariForm.setUsuarisFavorits(
+            SearchJSONController.favoritsToUsuariEntitat(
+            usuariEntitatLogicaEjb.selectFavorits(
+          LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+      } catch (I18NException e) {
+        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+      }
+      
+      
+      mav.addObject(seleccioUsuariForm);
+
+      return mav;
+  }
+
+
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.POST)
+  public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
+      BindingResult result, HttpServletRequest request) throws I18NException {
+    
+    ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+    seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+    if (result.hasErrors()) {
+      return mav;
+    }
+    
+    String usuariEntitatID = seleccioUsuariForm.getId();
+
+    // TODO Check si aquest usuari-entitat té el rol DESTINATARI
+
+    request.getSession().setAttribute(USUARI_ENTITAT_ID_HOLDER, usuariEntitatID);
+    mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+    return mav;
+
   }
   
-  
+  // --------------------------------------------------------
+
   @Override
   public String getTileList() {
     return "aturarPeticionsDeFirma";
@@ -110,7 +177,7 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
     filterForm = (AturarPeticionsDeFirmaFilterForm) request.getSession()
           .getAttribute(getSessionAttributeFilterForm());
     
-    String nifOrUsername = filterForm.getNifOrUsername();
+    String usuariEntitatID = filterForm.getUsuariEntitatID();
 
 
     FirmaQueryPath firmaQueryPath = new FirmaQueryPath();
@@ -123,9 +190,7 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
     // NOTA: Una firma que conté un càrrec, en el moment que s'activa,
     // es converteix l'usuari-carrec en usuari-entitat 
     
-    final UsuariPersonaQueryPath upqp;
-    upqp = firmaQueryPath.USUARIENTITAT().USUARIPERSONA();
-    
+   
     Where w = Where.AND(
         // Peticions actives o pausades
         peticio.PETICIODEFIRMAID().isNotNull(),
@@ -133,11 +198,9 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
             Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
             Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT
            }),
-        // Nif associat al requerit
-        Where.OR(
-            upqp.NIF().equal(nifOrUsername.toUpperCase()),
-            upqp.USUARIPERSONAID().equal(nifOrUsername)
-            ),
+        // Associam al usuariEntitatID
+        firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID),
+        
         // D'un bloc no finalitzat
         firmaQueryPath.BLOCDEFIRMES().DATAFINALITZACIO().isNull(),
         // D'una firma no finalitzada
@@ -160,20 +223,23 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
 
       
       // Check: Sempre ha d'haver passat per la pantalla de nif/username
-      String  nifOrUsername;
-      nifOrUsername = (String) request.getSession().getAttribute(NIF_OR_USERNAME_OF_USUARI_ENTITAT);
+      String usuariEntitatID;
+      usuariEntitatID = (String) request.getSession().getAttribute(USUARI_ENTITAT_ID_HOLDER);
 
-      if (nifOrUsername == null || nifOrUsername.trim().length() == 0) {
-        mav.setView(new RedirectView(getContextWeb()+"/nif", true));
+      if (usuariEntitatID == null || usuariEntitatID.trim().length() == 0) {
+        mav.setView(new RedirectView(getContextWeb()+"/selecciousuari", true));
         return peticioDeFirmaFilterForm;
       }
 
       peticioDeFirmaFilterForm = new AturarPeticionsDeFirmaFilterForm(peticioDeFirmaFilterForm);
       
-      ((AturarPeticionsDeFirmaFilterForm)peticioDeFirmaFilterForm).setNifOrUsername(nifOrUsername);
+      ((AturarPeticionsDeFirmaFilterForm)peticioDeFirmaFilterForm).setUsuariEntitatID(usuariEntitatID);
+      
+      UsuariEntitatJPA ue;
+      ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatID);
       
       peticioDeFirmaFilterForm.setSubTitleCode("=" +
-          I18NUtils.tradueix("aturarpeticionsdefirma.subtitol", nifOrUsername));
+          I18NUtils.tradueix("aturarpeticionsdefirma.subtitol", Utils.getNom(ue.getUsuariPersona())));
       
       
       if(peticioDeFirmaFilterForm.isNou()) {
@@ -255,72 +321,9 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
   
   
   
-  @RequestMapping(value = "/nif", method = RequestMethod.GET)
-  public ModelAndView selectUsuaripersonaByNifGet()
-      throws Exception {
-
-
-     ModelAndView mav = new ModelAndView(getTileNif());
-     SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
-     seleccioNifForm.setTitol("aturarpeticionsdefirma");
-     seleccioNifForm.setSubtitol("aturarpeticionsdefirma.nif.subtitol");
-     seleccioNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
-     mav.addObject(seleccioNifForm);
-     return mav;
-  }
   
   
-  @RequestMapping(value = "/nif", method = RequestMethod.POST)
-  public ModelAndView selectUsuaripersonaByNifPost(SeleccioNifForm seleccioNifForm,
-      BindingResult result, HttpServletRequest request)
-      throws I18NException {
-
-    ModelAndView mav = new ModelAndView(getTileNif());
-
-    String nifousername = seleccioNifForm.getNif();
-
-    if(result.hasErrors()) {
-         log.error("Errors en el formulari de NIF");
-         return mav;
-    }
-
-    // Si no han introduit Nif
-    if (nifousername == null || nifousername.trim().length() == 0) {
-      // TODO En altre sidiomes que no siguin ca o es aquest missatge pot fallar
-      result.rejectValue("nif", "genapp.validation.required", new Object[]{""}, null );
-      return mav;
-    }
-
-    // Verificar que hi ha com a mínim un usuari-entitat amb aquest nif
-    List<UsuariEntitat> ups = usuariEntitatEjb.select(getSelectUsuarisEntitat(nifousername));
-    if (ups.isEmpty()) { // No existeix
-      
-      // No té usuaris-entitat associats
-      result.rejectValue("nif", "aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat",
-          new Object[] { nifousername }, null);
-      return mav;
-
-    } else {
-      request.getSession().setAttribute(NIF_OR_USERNAME_OF_USUARI_ENTITAT, nifousername);
-      mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-      return mav;
-    }
-
-  }
   
-  
-  private Where getSelectUsuarisEntitat(String nifusername) {
-    // TODO Ha d'anar a variable statica
-    UsuariEntitatQueryPath usuariEntitatQueryPath = new UsuariEntitatQueryPath();
-    return Where.AND(
-          // NIF o USERNAME
-          Where.OR(
-            usuariEntitatQueryPath.USUARIPERSONA().NIF().equal(nifusername.toUpperCase()),
-            usuariEntitatQueryPath.USUARIPERSONA().USUARIPERSONAID().equal(nifusername)
-          ),
-          // ENTITAT
-          UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID())
-        );
-  }
+
   
 }

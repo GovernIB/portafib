@@ -12,15 +12,12 @@
 final String[] menu = {
     "entitat.modificar", // Modificació de les dades d'una Entitat
     "",
-    "usuaripersona.gestio",    
+    "usuaripersona.alta",    
+    "usuaripersona.modificar",
     "usuarientitat.gestio",
     "",
     "carrec.gestio",
     "colaboradordecarrec.plural",
-    /*
-    "altausuariaplicacio",
-    "modificaciodadesusuariaplicacio", // Modificació de les dades d'un usuari-aplicació"
-    */
     
     "",
     "solicitant.gestio",
@@ -33,18 +30,7 @@ final String[] menu = {
     
     "tipusdocument.gestio", // Gestió Tipus de Documents"
     
-    /*
-    "carrec.alta",                 // Crear usuaris entitat càrrecs
-    "carrec.llistat",                 // LListat usuaris entitat càrrecs
-    */
-   
-    
     "",
-    //"associarrolssoliadendeusuariaplicacio", // Associar els rols Sol·licitant i/o Administrador d'Entitat a un usuari-aplicació d'una entitat 
-    //"eliminarrolssoliadendeusuariaplicacio", // Eliminar rols Sol·licitant i/o Administrador d'Entitat a un usuari-aplicació d'una entitat 
-    //"associarrolssolidestdeusuaripersona", // Associar els rols Sol·licitant i/o Destinatari a un usuari-persona d'una entitat 
-    //"eliminarrolssolidestdeusuaripersona", // Eliminar rols Delegat, Sol·licitant, Destinatari i Col·laborador a un usuari d'una entitat
-    //"",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
     "",    
@@ -53,11 +39,6 @@ final String[] menu = {
     "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio
     "custodiaInfo.custodiaInfo.plural",
     "notificaciows.llistat"
-    //"estatcoesnotificacio", // Estats de les Coes de Notificacions 
-    //"bloquejarnotificacio", // Bloquejar Notificació   
-    //"desbloquejarnotificacio", // Desbloquejar Notificació 
-    //"eliminarnotificacio", // Eliminar Notificació
-
 
 };
 
@@ -70,37 +51,26 @@ static {
   
   mapping.put("entitat.modificar", "/aden/entitat/" + LoginInfo.getInstance().getEntitatID() + "/edit" );
 
-  mapping.put("usuaripersona.gestio", "/aden/usuariPersona/nif");
-  mapping.put("usuarientitat.gestio", "/aden/usuariEntitat/nif");
+  mapping.put("usuaripersona.alta", "/aden/usuariPersona/alta");
+  mapping.put("usuaripersona.modificar", "/aden/usuariPersona/modificar");
+
+  mapping.put("usuarientitat.gestio", "/aden/usuariEntitat/selecciousuari");
+
   mapping.put("carrec.gestio", "/aden/carrec/list");
-  
   mapping.put("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list");
-  
-  
-  
   
   mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
 
   mapping.put("grups.gestio", "/aden/grup/list");
-
-  /*
-  mapping.put("crearplantillafluxfirmes", "/aden/plantilla/new?usuariEntitat=false");
-  mapping.put("modificarplantillafluxfirmes", "/aden/plantilla/list/1?usuariEntitat=true");
-  mapping.put("eliminarplantillafluxfirmes", "/aden/plantilla/list/1?usuariEntitat=true");
-  */
   
-  mapping.put("solicitant.gestio", "/aden/solicitant/nif");
+  mapping.put("solicitant.gestio", "/aden/solicitant/selecciousuari");
   
   
   mapping.put("peticionscaducades.llistat", "/aden/peticionscaducades/list");
-  mapping.put("aturarpeticionsdefirma", "/aden/aturarpeticions/nif");
+  mapping.put("aturarpeticionsdefirma", "/aden/aturarpeticions/selecciousuari");
   
   
   mapping.put("usuariaplicacio.gestio", "/aden/usuariAplicacio/list");
-  /*
-  mapping.put("altausuariaplicacio", "/aden/usuariAplicacio/new");
-  mapping.put("modificaciodadesusuariaplicacio", "/aden/usuariAplicacio/list");
-  */
 
   mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list/1");
 
@@ -120,7 +90,6 @@ session.setAttribute("mapping", mapping);
 
 if (Configuracio.isCAIB()) {
 %>
-
    <li style="list-style-type: disc; list-style-position: inside;">
     <a href="<c:url value="/aden/generarfiltrecaib/new"/>">
       <span style="${(fn:contains(urlActual, '/aden/generarfiltrecaib/new'))? 'font-weight: bold;' : ''} ">Filtre CAIB</span>

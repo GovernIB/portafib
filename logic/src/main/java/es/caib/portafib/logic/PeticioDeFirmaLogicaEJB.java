@@ -100,7 +100,6 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
@@ -110,6 +109,7 @@ import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.query.LongConstantField;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
@@ -2562,19 +2562,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     return nouFitxer;
   }
 
-  /**
-   * TODO Moure a GenApp i fer per altres tipus 
-   * 
-   * @author anadal
-   * 
-   */
-  public static class LongConstantField extends Field<Long> {
 
-    protected LongConstantField(Long value) {
-      super(null, String.valueOf(value), String.valueOf(value), null);
-    }
-
-  }
   
   
   @EJB(mappedName = es.caib.portafib.ejb.PosicioPaginaLocal.JNDI_NAME)

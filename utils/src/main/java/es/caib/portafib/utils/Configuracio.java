@@ -141,4 +141,15 @@ public class Configuracio implements Constants {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "passwordforagentssql");
   }
 
+  
+  public static int getMaxItemsToShowInAutocomplete() {
+    return Integer.parseInt(
+        System.getProperty(PORTAFIB_PROPERTY_BASE + "maxitemstoshowinautocomplete", "10"));
+  }
+  
+  public static int getMinCharsToStartAutocomplete() {
+    return Integer.parseInt(
+        System.getProperty(PORTAFIB_PROPERTY_BASE + "mincharstostartautocomplete", "2"));
+  }
+  
 }

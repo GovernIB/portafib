@@ -118,7 +118,7 @@ public class EstatFirmaServlet extends HttpServlet {
           numFirma);
 
       log.debug("WWWWWWWWW FINAL ");
-      
+
     } catch (Throwable e) {
       log.error(" CLASS = " + e.getClass());
       String msg;

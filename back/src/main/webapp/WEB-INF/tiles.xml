@@ -55,12 +55,7 @@
     <definition name="usuariEntitatFavoritList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
     </definition>
-
-    <definition name="selectUsuariEntitatFavoritByNif" extends="principal">
-        <put-attribute name="titol" value="usuariEntitatFavorit.usuariEntitatFavorit" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNif.jsp" />
-    </definition>
-    
+   
     <definition name="autoFirmaForm" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaForm.jsp" />
     </definition>
@@ -79,6 +74,11 @@
     
     <definition name="senseSuportJava" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/senseSuportJava.jsp" />
+    </definition>
+    
+    <definition name="seleccioUsuariForm_COMMON" extends="principal">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
     
     <!--  ===========  WEBDB ================== -->
@@ -126,11 +126,6 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
     
-    <definition name="selectUsuariEntitatByNifUsernameAden" extends="role_aden">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
-    </definition>
-
     <definition name="seleccionaCarrecForm" extends="role_aden">
         <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuariEntitatCarrec.jsp" />
@@ -185,14 +180,7 @@
     <definition name="gestioTipusDocumentAdenList" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentList.jsp" />
     </definition>
-    
-    
-    <definition name="selectUsuariPersonaForGestioRoleSolicitantForm" extends="role_aden">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
-    </definition>
-    
-        
+       
     <definition name="gestioRoleSolicitantForm" extends="role_aden">
         <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
@@ -200,13 +188,7 @@
     
     <definition name="aturarPeticionsDeFirma" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
-    </definition>
-    
-    <definition name="selectNifDestinatariPerAturarPeticio" extends="role_aden">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
-    </definition>
-    
+    </definition>  
     
     <definition name="peticionsDeFirmaCaducadesList" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
@@ -267,7 +249,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp" />
     </definition>
 
-    
+    <definition name="seleccioUsuariForm_ADEN" extends="role_aden">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
+    </definition>
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
@@ -276,11 +261,6 @@
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_admin.jsp" />
     </definition>
     
-    <definition name="selectUsuariPersonaByNifUsername" extends="role_admin">
-        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
-    </definition>
-
     <definition name="gestioUsuariPersonaForm" extends="role_admin">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariPersonaForm.jsp" />
@@ -333,6 +313,16 @@
     <definition name="fitxersOrfesList" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
     </definition>
+    
+    <definition name="seleccioUsuariForm_ADMIN" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
+    </definition>
+    
+    <definition name="selectUsuariPersonaByNifUsername" extends="role_admin">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
+    </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
     
@@ -344,6 +334,7 @@
     <definition name="estatFirmaList_ROLE_COLA" extends="role_cola">
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
     </definition>
+    
     
     <!--  ===========  DELEGAT ================== -->
     
@@ -393,7 +384,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
     </definition>
    
-    
+    <definition name="seleccioUsuariForm_DEST" extends="role_dest">
+        <put-attribute name="titol" value="usuariPersona.usuariPersona" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
+    </definition>
     
 
     <!--  ===========  SOL·LICITANT ================== -->

@@ -27,7 +27,8 @@ final String[] menu = {
   "baixaadministradorentitat", // Baixa d'un Administrador d'Entitat"}
   */
   "",
-  "usuaripersona.gestio",
+  "usuaripersona.alta",    
+  "usuaripersona.modificar",
   //"altausuariaplicacio", // Alta d'Usuari-Aplicació"}
   //"modificaciodadesusuariaplicacio", // Modificació de les dades d'un usuari-aplicació"}
   //"gestiogeneralconfiguracio", // Gestió general de configuració"}
@@ -48,23 +49,16 @@ public static final Map<String, String> mapping;
 static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
-  mapping.put("usuaripersona.gestio", "/admin/usuariPersona/nif");
+  
+  mapping.put("usuaripersona.alta", "/admin/usuariPersona/alta");
+  mapping.put("usuaripersona.modificar", "/admin/usuariPersona/modificar");
   
   mapping.put("entitat.gestio", "/admin/entitat/list");
-  /*
-  mapping.put("altaentitat", "/admin/entitat/new");
-  mapping.put("modificaciodadesentitat", "/admin/entitat/list");
-  mapping.put("deshabilitarentitat", "/admin/entitat/list");
-  */
   
   mapping.put("administradorentitat.gestio", "/admin/adminentitat/list");
-  
-  
+
   mapping.put("usuariaplicacio.gestio", "/admin/usuariAplicacio/list");
-  /*
-  mapping.put("altaadministradorentitat", "/admin/adminentitat/nif");
-  mapping.put("baixaadministradorentitat", "/admin/adminentitat/list");
-  */
+
   mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
   
   mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");

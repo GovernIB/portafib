@@ -1,18 +1,16 @@
 package es.caib.portafib.back.controller.common;
 
 import es.caib.portafib.back.controller.webdb.UsuariEntitatFavoritController;
-import es.caib.portafib.back.form.SeleccioNifForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatFavoritFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatFavoritForm;
 import es.caib.portafib.back.security.LoginInfo;
-
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.UsuariEntitatFavoritJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
-import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitatFavorit;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -20,6 +18,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +38,17 @@ import java.util.Map;
  * Created 23/05/13 14:37
  * 
  * @author mgonzalez
+ * @author anadal
  */
 @Controller
 @RequestMapping(value = "/common/usuariEntitatFavorit")
-@SessionAttributes(types = { SeleccioNifForm.class, UsuariEntitatFavoritForm.class, UsuariEntitatFavoritFilterForm.class })
+@SessionAttributes(types = {  UsuariEntitatFavoritForm.class,
+    UsuariEntitatFavoritFilterForm.class, SeleccioUsuariForm.class })
 public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritController {
+  
+  
+  public static final String USUARI_ENTITAT_ID_HOLDER = 
+      "GestioUsuariEntitatFavoritController_USUARI_ENTITAT_ID_HOLDER";
 
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
@@ -50,104 +56,95 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  //private CommonBaseForm usuariEntitatFavoritForm;
+  @Autowired
+  protected SeleccioUsuariValidator seleccioUsuariValidator;
+  
+//===== GESTIONA FORMULARI PREVI A ALTA-MODIFICACIO D'UN USUARI-ENTITAT
 
-  @Override
-  public String getTileForm() {
-    return "usuariEntitatFavoritForm";
-  }
 
-  @Override
-  public String getTileList() {
-    return "usuariEntitatFavoritList";
-  }
+ 
+ public String getTileSeleccioUsuari() {
+   return "seleccioUsuariForm_COMMON";
+ }
+ 
 
-  public String getTileNif() {
-    return "selectUsuariEntitatFavoritByNif";
-  }
+ @RequestMapping(value = "/selecciousuari", method = RequestMethod.GET)
+ public ModelAndView seleccioUsuariGet()
+     throws Exception {
 
-  @RequestMapping(value = "/nif", method = RequestMethod.GET)
-  public ModelAndView selectUsuariEntitatByNifGet() throws Exception {
+     ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
 
-    ModelAndView mav = new ModelAndView(getTileNif());
-    SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
-    seleccioNifForm.setTitol("favorit.crear");
-    seleccioNifForm.setSubtitol("favorit.introduirnif");
-    seleccioNifForm.setCancelUrl(getContextWeb() + "/list/1");
-    mav.addObject(seleccioNifForm);
-    return mav;
-  }
+     SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
 
-  @RequestMapping(value = "/nif", method = RequestMethod.POST)
-  public ModelAndView selectUsuariEntitatByNifPost(SeleccioNifForm seleccioNifForm,
-      BindingResult result, HttpServletRequest request) throws I18NException {
+     seleccioUsuariForm.setTitol("favorit.crear");
+     seleccioUsuariForm.setSubtitol("favorit.subtitol");
+     seleccioUsuariForm.setCancelUrl(getContextWeb() + "/list");
+     seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+     
+     seleccioUsuariForm.setUsuarisFavorits(null);
 
-     ModelAndView mav = new ModelAndView(getTileNif());
+     mav.addObject(seleccioUsuariForm);
 
-     String nif = seleccioNifForm.getNif();
+     return mav;
+ }
 
-     if (result.hasErrors()) {
+
+ @RequestMapping(value = "/selecciousuari", method = RequestMethod.POST)
+ public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
+     BindingResult result, HttpServletRequest request) throws I18NException {
+   
+   ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+   seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+   if (result.hasErrors()) {
+     return mav;
+   }
+
+   String usuariEntitaIDFavorit = seleccioUsuariForm.getId();
+
+  
+   // Cercar si ja el tenim com favorit
+   {
+     Where w1 = FAVORITID.equal(usuariEntitaIDFavorit);
+     Where w2 = ORIGENID.equal(LoginInfo.getInstance().getUsuariEntitatID());
+     if(usuariEntitatFavoritEjb.count(Where.AND(w1,w2))!=0){
+      result.rejectValue("id", "favorit.error.existeix");
       return mav;
      }
+   }
 
-      // Si no han introduit Nif
-    if (nif == null || nif.trim().length() == 0) {
-    result.rejectValue("nif", "genapp.validation.required");
-    return mav;
-    }
+   //UsuariEntitat ue;
+   //ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitaIDFavorit)
+   
+   //StringKeyValue skv = new StringKeyValue(usuariEntitaIDFavorit,
+   //  up.getNom() + " " + up.getLlinatges() + " (" + up.getNif() + ")");
+   request.getSession().setAttribute(USUARI_ENTITAT_ID_HOLDER, usuariEntitaIDFavorit);   
+      
+   mav = new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
+   
+   HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("favorit.verificacio"));
 
-    // Obtenim l'usuari persona amb el nif indicat
-    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByAdministrationID(nif);
+   return mav;
 
-    // Si no hi ha usuariPersona associat al NIF
-    if (up == null) {
-      result.rejectValue("nif", "usuaripersona.noexisteix",
-          new Object[] { I18NUtils.tradueix("nif"), nif }, null);
-      return mav;
-    }
+ }
+ 
+ // --------------------------------------------------------
+ 
 
-    // Obtenim la entitat actual
-    LoginInfo loginInfo = LoginInfo.getInstance();
-    String entitatActualID = loginInfo.getEntitatID();
+  
+ 
+ @Override
+ public String getTileForm() {
+   return "usuariEntitatFavoritForm";
+ }
 
-    // Cercam els usuaris entitat que poden ser candidats a favorits
-    // relacionats amb l'usuari persona del NIF indicat.
-    // (No han de ser càrrecs)
-    Where w = Where.AND(UsuariEntitatFields.ENTITATID.equal(entitatActualID),
-               UsuariEntitatFields.USUARIPERSONAID.equal(up.getUsuariPersonaID()),
-               UsuariEntitatFields.CARREC.isNull());
+ @Override
+ public String getTileList() {
+   return "usuariEntitatFavoritList";
+ }
 
-    List<UsuariEntitat> usuariEntitatList = usuariEntitatLogicaEjb.select(w);
-    // Si no hi ha usuaris entitat
-    if (usuariEntitatList.isEmpty()) {
-    result.rejectValue("nif", "usuarientitat.noexisteix.full", new Object[] { "nif", nif,
-        entitatActualID }, null);
-    return mav;
-    }
-    // Identificador d'usuari entitat que volem fer favorit
-    String usuariEntitaIDFavorit =  usuariEntitatList.get(0).getUsuariEntitatID();
-
-    // Cercar si ja el tenim com favorit
-    {
-      Where w1 = FAVORITID.equal(usuariEntitaIDFavorit);
-      Where w2 = ORIGENID.equal(LoginInfo.getInstance().getUsuariEntitatID());
-      if(usuariEntitatFavoritEjb.count(Where.AND(w1,w2))!=0){
-       result.rejectValue("nif", "favorit.error.existeix");
-       return mav;
-      }
-    }
-
-    StringKeyValue skv = new StringKeyValue(usuariEntitaIDFavorit,
-      up.getNom() + " " + up.getLlinatges() + " (" + up.getNif() + ")");
-    request.getSession().setAttribute("usuariEntitatFavorit", skv);
-    mav = new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
-
-    HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("favorit.verificacio"));
-
-    return mav;
-
-
-  }
+  
+  
 
   @Override
   public UsuariEntitatFavoritForm getUsuariEntitatFavoritForm(UsuariEntitatFavoritJPA _jpa,
@@ -163,13 +160,13 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
     }
 
 
-    StringKeyValue skvFavorit;
-    skvFavorit = (StringKeyValue) request.getSession().getAttribute("usuariEntitatFavorit");
-    if (skvFavorit == null) {
-        mav.setView(new RedirectView("/common/usuariEntitatFavorit/nif", true));
+    String usuariEntitatIDFavorit;
+    usuariEntitatIDFavorit = (String) request.getSession().getAttribute(USUARI_ENTITAT_ID_HOLDER);
+    if (usuariEntitatIDFavorit == null) {
+        mav.setView(new RedirectView("/common/usuariEntitatFavorit/selecciousuari", true));
         return usuariEntitatFavoritForm;
     }
-    request.getSession().removeAttribute("usuariEntitatFavorit");
+    request.getSession().removeAttribute(USUARI_ENTITAT_ID_HOLDER);
     
     usuariEntitatFavoritForm.addLabel(FAVORITID, "favorit.persona");
     UsuariEntitatFavorit usuariEntitatFavorit = usuariEntitatFavoritForm.getUsuariEntitatFavorit();
@@ -181,12 +178,17 @@ public class GestioUsuariEntitatFavoritController extends UsuariEntitatFavoritCo
     usuariEntitatFavorit.setOrigenID(origenId);
 
     usuariEntitatFavoritForm.addReadOnlyField(FAVORITID);
-    usuariEntitatFavorit.setFavoritID(skvFavorit.getKey());
+    usuariEntitatFavorit.setFavoritID(usuariEntitatIDFavorit);
 
+    /*
     // Fixam la llista amb l'usuari favorit
+    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKeyFull(usuariEntitatIDFavorit);
+
+    
     List<StringKeyValue> lskvFavorit = new ArrayList<StringKeyValue>(1);
     lskvFavorit.add(skvFavorit);
     usuariEntitatFavoritForm.setListOfUsuariEntitatForFavoritID(lskvFavorit);
+    */
 
     return usuariEntitatFavoritForm;
   }

@@ -110,7 +110,7 @@ public class GestioEntitatController extends EntitatController {
 			
 			AdditionalButton additionalButton = new AdditionalButton("icon-user", 
 			    "administradorentitat.alta",
-			    "/admin/adminentitat/nif?param1={0}",
+			    "/admin/adminentitat/selecciousuari?entitatID={0}",
           null);
 			entitatFilterForm.addAdditionalButtonForEachItem(additionalButton);
 			

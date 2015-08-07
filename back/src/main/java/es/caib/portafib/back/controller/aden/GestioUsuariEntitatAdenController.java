@@ -1,16 +1,15 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
-import es.caib.portafib.back.form.SeleccioNifForm;
-import es.caib.portafib.back.form.SeleccioUsuariEntitatForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.validator.SelectUsuariEntitatValidator;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -18,6 +17,8 @@ import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Constants;
+
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Select;
@@ -43,6 +44,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.util.*;
 
 /**
@@ -53,10 +55,14 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = GestioUsuariEntitatAdenController.CONTEXTWEB)
-@SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class, SeleccioUsuariEntitatForm.class, SeleccioNifForm.class })
+@SessionAttributes(types = { UsuariEntitatForm.class, UsuariEntitatFilterForm.class,
+    SeleccioUsuariForm.class})
 public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
   public static final String CONTEXTWEB = "/aden/usuariEntitat";
+  
+  
+  public static final String USUARI_PERSONA_ID_HOLDER = "USUARI_PERSONA_ID_HOLDER";
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
@@ -70,9 +76,10 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   
   @EJB(mappedName = "portafib/RoleUsuariEntitatLogicaEJB/local")
   protected RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
-
+  
   @Autowired
-  protected SelectUsuariEntitatValidator selectUsuariEntitatValidator;
+  protected SeleccioUsuariValidator seleccioUsuariValidator;
+
 
   @Override
   public String getTileForm() {
@@ -84,10 +91,6 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     return "usuariEntitatListAden";
   }
 
-
-  public String getTileNif() {
-    return "selectUsuariEntitatByNifUsernameAden";
-  }
 
 
   @PostConstruct
@@ -106,72 +109,84 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     usuariPersonaRefList.setSeparator("");
   }
 
-  @RequestMapping(value = "/nif", method = RequestMethod.GET)
-  public ModelAndView selectUsuariEntitatByNifGet()
+  
+ 
+  // ===== GESTIONA FORMULARI PREVI A ALTA-MODIFICACIO D'UN USUARI-ENTITAT
+
+
+  public List<StringKeyValue> getUsuarisFavorits() {
+      try { 
+        return SearchJSONController.favoritsToUsuariPersona(
+            usuariEntitatLogicaEjb.selectFavorits(
+          LoginInfo.getInstance().getUsuariEntitatID(), null, false));
+      } catch (I18NException e) {
+        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+        return null;
+      }
+  }
+  
+
+  public String getUrlDataJsonSearch() {
+    return "/common/json/usuaripersona";
+  }
+  
+  public String getTileSeleccioUsuari() {
+    return "seleccioUsuariForm_ADEN";
+  }
+  
+
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.GET)
+  public ModelAndView seleccioUsuariGet()
       throws Exception {
 
-      ModelAndView mav = new ModelAndView(getTileNif());
+      ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
 
-      SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
-      seleccioNifForm.setTitol("usuarientitat.gestio");
-      seleccioNifForm.setSubtitol("usuarientitat.introduirnifusername");
-      seleccioNifForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADEN);
-      mav.addObject(seleccioNifForm);
+      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+      
+      seleccioUsuariForm.setTitol("usuarientitat.gestio");
+      seleccioUsuariForm.setSubtitol("usuarientitat.seleccionarpersona");
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADMIN);
+      seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
+      
+      seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
+
+      mav.addObject(seleccioUsuariForm);
 
       return mav;
   }
 
 
-  @RequestMapping(value = "/nif", method = RequestMethod.POST)
-  public ModelAndView selectUsuariEntitatByNifPost(SeleccioNifForm seleccioNifForm,
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.POST)
+  public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
       BindingResult result, HttpServletRequest request) throws I18NException {
-
-     ModelAndView mav = new ModelAndView(getTileNif());
-
-    // Obtenim la entitat actual.
-    LoginInfo loginInfo = LoginInfo.getInstance();
-    String entitatActualID = loginInfo.getEntitatID();
-
-    selectUsuariEntitatValidator.validate(seleccioNifForm, result);
-    if (result.hasErrors()) {
-
-        return mav;
-    }
-
-    HttpSession session = request.getSession();
-
-    String nifOrUsername = seleccioNifForm.getNif();
-
-    // Obtenim l'usuari persona amb el nif indicat
-    UsuariPersonaJPA up = usuariPersonaLogicaEjb.getUsuariPersonaIDByUsernameOrAdministrationID(nifOrUsername);
-
-    // Si no hi ha usuariPersona associat al NIF
-    if (up == null) {
-      result.rejectValue("nif", "usuaripersona.noexisteix.nifusername",
-          new Object[] { nifOrUsername }, null);
-      return mav;
-    }
-
-    // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
-
-    UsuariEntitatJPA ue;
-    ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatActualID, up.getUsuariPersonaID());
     
-    if(ue == null) {
-      SeleccioUsuariEntitatForm seleccioUsuariEntitatForm = new SeleccioUsuariEntitatForm();
-      seleccioUsuariEntitatForm.setUp(up);
+    ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
 
-      seleccioUsuariEntitatForm.setEntitatID(entitatActualID);
-      session.setAttribute("transmissioDadesForm", seleccioUsuariEntitatForm);
-      mav.setView(new RedirectView(getContextWeb() + "/new", true));
-      return mav;
-    } else {      
-      mav = new ModelAndView(new RedirectView(getContextWeb() + "/"+ue.getUsuariEntitatID()+"/edit", true));
+    seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+    if (result.hasErrors()) {
       return mav;
     }
 
+    String usuariPersonaID = seleccioUsuariForm.getId();
+
+    // Comprovam si ja existeix un usuarientitat per a aquest usuari persona.
+    String entitatActualID = LoginInfo.getInstance().getEntitatID();
+    
+    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatActualID, usuariPersonaID);
+
+    if(ue == null) {
+      request.getSession().setAttribute(USUARI_PERSONA_ID_HOLDER, usuariPersonaID);
+      mav.setView(new RedirectView(getContextWeb() + "/new", true));
+    } else {
+      mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + ue.getUsuariEntitatID()
+          + "/edit", true));
+    }
+    return mav;
 
   }
+  
+  // --------------------------------------------------------
+  
 
 
   @Override
@@ -186,33 +201,29 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     // Cas d'alta
     if(usuariEntitatForm.isNou()) {
 
-      SeleccioUsuariEntitatForm transmissioDadesForm = (SeleccioUsuariEntitatForm)session.getAttribute("transmissioDadesForm");
-      if( transmissioDadesForm == null){
-          mav.setView(new RedirectView(getContextWeb()+"/nif", true));
+      // Agafam les dades del formulari de selecció
+      String usuariPersonaID = (String)session.getAttribute(USUARI_PERSONA_ID_HOLDER);
+
+      if (usuariPersonaID == null) {
+          mav.setView(new RedirectView(getContextWeb()+"/selecciousuari", true));
           return new UsuariEntitatForm();
       }
 
-      UsuariPersona up;
-      // Agafam les dades del formulari de selecció
-      up = transmissioDadesForm.getUp();
-
-      String usuariPersonaID = up.getUsuariPersonaID();
-      String entitatID = transmissioDadesForm.getEntitatID();
-
-      // Si no han indicat usuaripersona o entitat o tipus tornam a demanar-ho
-      if(usuariPersonaID == null || entitatID == null /*|| tipus == null*/){
-          mav.setView(new RedirectView(getContextWeb()+"/nif", true));
-          return usuariEntitatForm;
+      UsuariPersona up = usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaID);
+      if (up == null) {
+        mav.setView(new RedirectView(getContextWeb()+"/selecciousuari", true));
+        return new UsuariEntitatForm();
       }
+      
       UsuariEntitat ue = usuariEntitatForm.getUsuariEntitat();
-      initUsuariEntitat(ue, usuariPersonaID, entitatID);
+      initUsuariEntitat(ue, usuariPersonaID, LoginInfo.getInstance().getEntitatID());
 
       String nomPersona = up.getNom() + " " + up.getLlinatges();
       HtmlUtils.saveMessageInfo(request,
        I18NUtils.tradueix("usuarientitat.verificacio", nomPersona, up.getNif()));
 
       // LLevam de la sessio el formulari de selecció.
-      session.removeAttribute("transmissioDadesForm");
+      session.removeAttribute(USUARI_PERSONA_ID_HOLDER);
     }
 
     // Camps només de lectura
@@ -252,9 +263,6 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     
     // Ocultam camps del formulari
     usuariEntitatForm.addHiddenField(CARREC);
-   
-
-    
 
     return usuariEntitatForm;
   }
@@ -386,7 +394,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
  
   
   
-  /**
+  /** TODO permetre visualitzar gent
    NO ES PERMET LLISTAT !!!!!!!!
    LLAVORS AQUESTS MÈTODES NO SON NECESSARIS
    
@@ -421,40 +429,6 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     }
   */
 
-  @InitBinder("seleccioUsuariEntitatForm")
-  public void initBinderSeleccio(WebDataBinder binder) {
-    binder.setValidator(this.selectUsuariEntitatValidator);
-  }
-
-
-
-
-  /*
-  @Override
-  public void postValidate(UsuariEntitatForm usuariEntitatForm, BindingResult result)  throws Exception {
-
-     String __entitatid = (java.lang.String)result.getFieldValue(get(ENTITATID));
-     String __carrec = (java.lang.String)result.getFieldValue(get(CARREC));
-     Long __count_ = null;
-     Where w;
-     if(usuariEntitatForm.isNou()){
-         // Check Unique MULTIPLE for (entitatid, carrec)
-        w = org.fundaciobit.genapp.common.query.Where.AND(ENTITATID.equal(__entitatid), CARREC.equal(__carrec));
-     } else {
-        String __usuarientitatid = (java.lang.String)result.getFieldValue(get(USUARIENTITATID));
-        w = org.fundaciobit.genapp.common.query.Where.AND(ENTITATID.equal(__entitatid), CARREC.equal(__carrec), USUARIENTITATID.notEqual(__usuarientitatid));
-     }
-     try { __count_ = usuariEntitatEjb.count(w); } catch(Exception e) {};
-     if (__count_ == null || __count_ != 0) {
-        result.rejectValue(get(CARREC), "genapp.validation.unique",
-                 new String[]{ String.valueOf(__carrec),
-                 I18NUtils.tradueix(get(CARREC))}, null);
-        return;
-    }
-   
-    super.postValidate(usuariEntitatForm,result);
-  }
-  */
 
   @Override
   public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws I18NException,Exception {

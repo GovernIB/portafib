@@ -24,6 +24,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -435,8 +436,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     Where total = Where.OR(favorits, carrecs);
 
     //log.info("SELECT FAVORITS SQL = " + total.toSQL());
-    
-    List<UsuariEntitat> llista = select(total);
+    final OrderBy orderBy = new OrderBy(new UsuariEntitatQueryPath().USUARIPERSONA().LLINATGES());
+    List<UsuariEntitat> llista = select(total, orderBy);
     List<UsuariEntitatJPA> llistaJPA = new ArrayList<UsuariEntitatJPA>(llista.size());
     
     for (UsuariEntitat usuariEntitat : llista) {

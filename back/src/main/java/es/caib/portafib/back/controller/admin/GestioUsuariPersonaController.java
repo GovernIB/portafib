@@ -1,14 +1,17 @@
 package es.caib.portafib.back.controller.admin;
 
 import es.caib.portafib.back.controller.aden.GestioUsuariEntitatAdenController;
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.UsuariPersonaController;
 import es.caib.portafib.back.form.SeleccioNifForm;
-import es.caib.portafib.back.form.SeleccioUsuariEntitatForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -16,6 +19,7 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.plugins.userinformation.UserInfo;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -23,6 +27,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,6 +62,12 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   
   @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
+  
+  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  
+  @Autowired
+  protected SeleccioUsuariValidator seleccioUsuariValidator;
 
   @Override
   public boolean isActiveList() {    
@@ -72,28 +84,33 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     return "gestioUsuariPersonaList";
   }
 
-  public String getTileNif() {
-    return "selectUsuariPersonaByNifUsername";
-  }
+
 
   @PostConstruct
   public void init() {
     this.idiomaRefList = new IdiomaSuportatRefList(this.idiomaRefList);
   }
 
-  @RequestMapping(value = "/nif", method = RequestMethod.GET)
+  
+  // ================= GESTIONA FORMULARI PREVI A ALTA PERSONA
+  
+  public String getTileNif() {
+    return "selectUsuariPersonaByNifUsername";
+  }
+  
+  @RequestMapping(value = "/alta", method = RequestMethod.GET)
   public ModelAndView selectUsuaripersonaByNifGet() throws Exception {
-
     ModelAndView mav = new ModelAndView(getTileNif());
     SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
-    seleccioNifForm.setTitol("usuaripersona.gestio");
+    seleccioNifForm.setTitol("usuaripersona.alta");
     seleccioNifForm.setSubtitol("usuaripersona.alta.introduirnifousername");
     seleccioNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
     mav.addObject(seleccioNifForm);
     return mav;
   }
+  
 
-  @RequestMapping(value = "/nif", method = RequestMethod.POST)
+  @RequestMapping(value = "/alta", method = RequestMethod.POST)
   public ModelAndView selectUsuaripersonaByNifPost(SeleccioNifForm seleccioNifForm,
       BindingResult result, HttpServletRequest request) throws I18NException {
 
@@ -129,7 +146,6 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
           return mav;
         }
       }
-      
 
       request.getSession().setAttribute("pfui", pfui);
       mav = new ModelAndView(new RedirectView(getContextWeb() + "/new", true));
@@ -139,10 +155,91 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
       mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + up.getUsuariPersonaID()
           + "/edit", true));
       return mav;
-
     }
 
   }
+  
+  
+  
+  // ================= GESTIONA FORMULARI PREVI A MODIFICACIO PERSONA
+
+
+  public List<StringKeyValue> getUsuarisFavorits() {
+    
+    if (isAden()) {
+      try { 
+        return SearchJSONController.favoritsToUsuariPersona(
+            usuariEntitatLogicaEjb.selectFavorits(
+          LoginInfo.getInstance().getUsuariEntitatID(), null, false));
+      } catch (I18NException e) {
+        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+      }
+    }
+    return null;
+  }
+  
+
+  public String getUrlDataJsonSearch() {
+    return "/common/json/usuaripersona";
+  }
+  
+  public String getTileSeleccioUsuari() {
+    return "seleccioUsuariForm_" + (isAden()?"ADEN":"ADMIN");
+  }
+  
+
+  @RequestMapping(value = "/modificar", method = RequestMethod.GET)
+  public ModelAndView seleccioUsuariGet()
+      throws Exception {
+
+      ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+      
+      seleccioUsuariForm.setTitol("usuaripersona.modificar");
+      seleccioUsuariForm.setSubtitol("usuaripersona.modificar.selecciousuari");
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADMIN);
+      seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
+      
+      seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
+
+      mav.addObject(seleccioUsuariForm);
+
+      return mav;
+  }
+
+
+  @RequestMapping(value = "/modificar", method = RequestMethod.POST)
+  public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
+      BindingResult result, HttpServletRequest request) throws I18NException {
+    
+    ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+    seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+    if (result.hasErrors()) {
+      return mav;
+    }
+
+    String usuariPersonaID = seleccioUsuariForm.getId();
+
+    // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
+    UsuariPersonaJPA up = usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaID);
+
+    if(up != null) {
+      mav = new ModelAndView(new RedirectView(getContextWeb() + "/" + up.getUsuariPersonaID()
+          + "/edit", true));
+      return mav;
+    } else {
+      log.error("No he trobat un usuari persona amb ID=]" + usuariPersonaID  + "[");
+      return mav;
+    }
+
+  }
+  
+  
+  // ------------------------------------------------------------------------------
+  
+  
 
   @Override
   public UsuariPersonaForm getUsuariPersonaForm(UsuariPersonaJPA _jpa, boolean __isView,
@@ -154,7 +251,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     // Obtenim de la sessió les dades del PortaFIBUserInfo
     if (form.isNou()) {
       if (pfui == null) {
-        mav.setView(new RedirectView(getContextWeb() + "/nif", true));
+        mav.setView(new RedirectView(getContextWeb() + "/alta", true));
         return new UsuariPersonaForm();
       }
 
@@ -234,18 +331,8 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   public String addPersonToThisEntity(HttpServletRequest request, HttpServletResponse response,
       HttpSession session,  @PathVariable String usuariPersonaID) throws Exception {
 
-    UsuariPersona up = this.usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaID);
-    
-    if (up == null) {
-      return getRedirectWhenCancel(usuariPersonaID);
-    }
-
-    SeleccioUsuariEntitatForm transmissioDadesForm = new SeleccioUsuariEntitatForm();
-    transmissioDadesForm.setEntitatID(LoginInfo.getInstance().getEntitatID());
-    transmissioDadesForm.setUp(up);
-    transmissioDadesForm.setNif(up.getNif());
-    
-    session.setAttribute("transmissioDadesForm", transmissioDadesForm);
+  
+    session.setAttribute(GestioUsuariEntitatAdenController.USUARI_PERSONA_ID_HOLDER, usuariPersonaID);
     
     return "redirect:" + GestioUsuariEntitatAdenController.CONTEXTWEB + "/new";
 

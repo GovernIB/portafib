@@ -82,6 +82,17 @@
       # es.caib.portafib.motiudelegacioformat.caib.ca=Firma {0} ({1}) per delegaci&#243; de {2} ({3}). Motiu: {4}
 	  # es.caib.portafib.motiudelegacioformat.caib.es=Firma {0} ({1}) por delegaci&#243;n de {2} ({3}). Motivo: {4}
 
+      <!-- Opcional. Valor per defecte 10. En els formularis de cerques dinàmiques d'usuari,
+           indica el màxim de resultats permesos per mostrar resultats de l'usuari.	   -->
+	  # es.caib.portafib. maxitemstoshowinautocomplete=10
+
+
+      <!-- Opcional. Valor per defecte 2. En els formularis de cerques dinàmiques d'usuari,
+           indica el mínim de caràcters que ha d'escriure l'usuari abans de que li apareguin
+           els resultats de la cerca. En entitats amb molts d'usuaris es recomana incrementar
+		   aquest valora a 3 o 4 amb la finalitat de reduir càrrega de xarxa, servidor i bbdd. -->
+      # es.caib.portafib. mincharstostartautocomplete=2
+
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->
 

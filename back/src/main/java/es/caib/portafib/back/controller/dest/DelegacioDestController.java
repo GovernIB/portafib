@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -45,7 +46,9 @@ import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.dest.ColaboracioDelegacioDestForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioFilterForm;
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
@@ -55,22 +58,22 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AppletConfig;
 import es.caib.portafib.back.utils.AppletSignFile;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
+import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.entity.UsuariEntitatFavorit;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.model.fields.UsuariEntitatFavoritFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
@@ -86,12 +89,12 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/dest/delegat")
 @SessionAttributes(types = { ColaboracioDelegacioDestForm.class,
-    ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })
+    ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class })
 public class DelegacioDestController extends ColaboracioDelegacioController implements
     Constants {
 
-  public static final String USUARI_ENTITAT_ID_DE_CARREC = "USUARI_ENTITAT_ID_DE_CARREC";
   
+  public static final String SELECTION_DELE_COLA_USUARI_ENTITAT = "SELECTION_DELE_COLA_USUARI_ENTITAT_ID";
   
   protected static final List<Field<?>> groupByFields = new ArrayList<Field<?>>();
 
@@ -112,9 +115,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
   public static final ValueComparator valueComparator = new ValueComparator();
 
-  @EJB(mappedName = "portafib/UsuariEntitatFavoritEJB/local")
-  protected UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
-
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
@@ -129,20 +129,25 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
   protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
+  
+  
+  @EJB(mappedName = "portafib/RoleUsuariEntitatLogicaEJB/local")
+  protected RoleUsuariEntitatLogicaLocal roleUsuariEntitatLogicaEjb;
+  
+  @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
+  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
   @Autowired
   protected TipusDocumentRefList tipusDocumentRefList;
 
-
-  
-  
   @Autowired
   protected UsuariEntitatRefList personaRefList;
   
   @Autowired
   protected UsuariEntitatRefList carrecRefList;
   
-
+  @Autowired
+  protected SeleccioUsuariValidator seleccioUsuariValidator;
 
   @PostConstruct
   public void init() {
@@ -181,6 +186,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   }
 
+
   /**
    * @return true indica que gestiona delegacions, false gestiona col·laboracions
    */
@@ -198,6 +204,73 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     return false;
   }
   
+  // ---------------------------------------------------------------
+  
+  public String getTileSeleccioUsuari() {
+    return "seleccioUsuariForm" + (esDeCarrec()? "_ADEN" : "_DEST");
+  }
+  
+  
+  
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.GET)
+  public ModelAndView seleccioUsuariGet()
+      throws Exception {
+
+      ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+      
+      String type = esDelegat()?"delegat":"colaborador";
+      
+      String titol = esDeCarrec()? "colaboradordecarrec" : ( type + ".seleccio.titol");
+      String subtitol = esDeCarrec()? "colaboradordecarrec.subtitol" : (type + ".seleccio.subtitol");
+      seleccioUsuariForm.setTitol(titol);
+      seleccioUsuariForm.setSubtitol(subtitol);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_DEST);
+      seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+      try {
+        seleccioUsuariForm.setUsuarisFavorits(
+            SearchJSONController.favoritsToUsuariEntitat(
+                usuariEntitatLogicaEjb.selectFavorits(
+                  LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+      } catch (I18NException e) {
+        log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+      }
+      
+      mav.addObject(seleccioUsuariForm);
+
+      return mav;
+  }
+
+
+  @RequestMapping(value = "/selecciousuari", method = RequestMethod.POST)
+  public ModelAndView seleccioUsuariPost(SeleccioUsuariForm seleccioUsuariForm,
+      BindingResult result, HttpServletRequest request) throws I18NException {
+    
+    ModelAndView mav = new ModelAndView(getTileSeleccioUsuari());
+
+    seleccioUsuariValidator.validate(seleccioUsuariForm, result);
+    if (result.hasErrors()) {
+      return mav;
+    }
+
+    String usuariEntitatID = seleccioUsuariForm.getId();
+
+    // Comprovam que no existesqui un usuarientitat ja per a aquest usuari persona.
+    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);
+
+    if(ue != null) {
+      request.getSession().setAttribute(SELECTION_DELE_COLA_USUARI_ENTITAT, usuariEntitatID);
+      mav.setView(new RedirectView(getContextWeb() + "/new", true));
+      return mav;
+    } else {      
+      return mav;
+    }
+
+  }
+  
+  
+  // ----------------------------------------------------------------
   
 
   public final String getRole() {
@@ -242,7 +315,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         request);
 
     if (colaboracioDelegacioFilterForm.isNou()) {
-
+     
       // Ocultam columnes
       if (!Configuracio.isDesenvolupament()) {
         colaboracioDelegacioFilterForm.addHiddenField(COLABORACIODELEGACIOID);
@@ -288,6 +361,39 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     colaboracioDelegacioForm = new ColaboracioDelegacioDestForm(
         super.getColaboracioDelegacioForm(_jpa, __isView, request, mav));
 
+    // Valors per defecte
+    ColaboracioDelegacioJPA colaboracioDelegacioJPA;
+    colaboracioDelegacioJPA = colaboracioDelegacioForm.getColaboracioDelegacio();
+    
+    
+    // /El Colaborador-Delegat és l'usuari seleccionat en un formulari extern emprant NIF
+    if (colaboracioDelegacioForm.isNou()) {
+      HttpSession session = request.getSession();
+      String usuEntID = (String)session.getAttribute(SELECTION_DELE_COLA_USUARI_ENTITAT);
+      if( usuEntID == null){
+        mav.setView(new RedirectView(getContextWeb()+"/selecciousuari", true));
+        return new ColaboracioDelegacioForm();
+      }
+      
+      session.removeAttribute(SELECTION_DELE_COLA_USUARI_ENTITAT);
+      colaboracioDelegacioJPA.setColaboradorDelegatID(usuEntID);
+    }
+    
+    
+    
+    if (esDeCarrec()) {
+      // (1.a) Destinatari s'elegirà entre una llista de Càrrecs de l'entitat
+    } else {
+      // (2.a) Destinatari es l'usuari loguejat
+      colaboracioDelegacioJPA.setDestinatariID(LoginInfo.getInstance().getUsuariEntitatID());
+      colaboracioDelegacioForm.addHiddenField(DESTINATARIID);
+    }
+    colaboracioDelegacioJPA.setEsDelegat(esDelegat());
+    
+    // camps read only
+    colaboracioDelegacioForm.addReadOnlyField(ACTIVA);
+    colaboracioDelegacioForm.addReadOnlyField(COLABORADORDELEGATID);
+    
     // Ocultam camps
     colaboracioDelegacioForm.addHiddenField(ESDELEGAT);
 
@@ -299,51 +405,18 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     } else {
       // Mostra ajuda per revisor
       colaboracioDelegacioForm.addHelpToField(REVISOR, I18NUtils.tradueix("colaboracio.revisor.info"));
-    }
 
-    if (!esDelegat()) {
+      // No mostra l'autorització per col·laboradors
       colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
     }
-
-    // Valors per defecte
-    ColaboracioDelegacioJPA colaboracioDelegacioJPA;
-    colaboracioDelegacioJPA = colaboracioDelegacioForm.getColaboracioDelegacio();
-    if (esDeCarrec()) {
-      // (1.a) Colaborador-Delegat és l'usuari seleccionat en un formulari extern emprant NIF
-      
-     
-      if (colaboracioDelegacioForm.isNou()) {
-        String colaDeleID;
-        colaDeleID = (String) request.getSession().getAttribute(USUARI_ENTITAT_ID_DE_CARREC);
-        log.debug("USUARI_ENTITAT_ID_DE_CARREC[NOU]: " + colaDeleID);
-        
-        colaboracioDelegacioJPA.setColaboradorDelegatID(colaDeleID);
-      } else {
-        log.debug("USUARI_ENTITAT_ID_DE_CARREC[EDIT]: " + colaboracioDelegacioJPA.getColaboradorDelegatID());
-      }
-      
-      
-      colaboracioDelegacioForm.addReadOnlyField(COLABORADORDELEGATID);
-      // (1.b) Destinatari s'elegirà entre una llista de Càrrecs de l'entitat
-    } else {
-      // (2.a) Colaborador-Delegat: s'elegeix un de la llista de favorits de l'usuari  
-      
-      // (2.b) Destinatari es l'usuari loguejat
-      colaboracioDelegacioJPA.setDestinatariID(LoginInfo.getInstance().getUsuariEntitatID());
-      colaboracioDelegacioForm.addHiddenField(DESTINATARIID);
-    }
-    colaboracioDelegacioJPA.setEsDelegat(esDelegat());
-    colaboracioDelegacioForm.addReadOnlyField(ACTIVA);
+    
+    
+    colaboracioDelegacioForm.setAttachedAdditionalJspCode(true);
+    
 
     // Canvi d'etiqueta
     if (esDeCarrec()) {
       colaboracioDelegacioForm.addLabel(DESTINATARIID, "carrec");
-      /*if (!colaboracioDelegacioForm.isNou()) 
-      {
-        colaboracioDelegacioForm.addReadOnlyField(DESTINATARIID);
-        //colaboracioDelegacioForm.addReadOnlyField(COLABORADORDELEGATID);
-      }
-      */
     }
     colaboracioDelegacioForm.addLabel(COLABORADORDELEGATID, getRole());
     
@@ -556,7 +629,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         Where.AND(where, UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
            UsuariEntitatFields.CARREC.isNotNull()) );
     } else {
-      ueList = personaRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
+      return super.getReferenceListForDestinatariID(request, mav, where);
     }
     
     java.util.Collections.sort(ueList, valueComparator);
@@ -566,62 +639,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
    
   }
   
-  
-
-  @Override
-  public List<StringKeyValue> getReferenceListForColaboradorDelegatID(
-      HttpServletRequest request, ModelAndView mav,
-      ColaboracioDelegacioForm colaboracioDelegacioForm, Where where) throws I18NException {
-
-    String usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
-    
-    Where w;
-    if (esDeCarrec()) {
-      // Som AdEn i vull tots els usuaris (això no és així ja que el where contindrà un
-      // filtre adicional amb l'usuari concret 
-      w = Where.AND(
-          UsuariEntitatFields.CARREC.isNull(),
-          UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-          UsuariEntitatFields.ACTIU.equal(true)
-          );      
-    } else {
-      SubQuery<UsuariEntitatFavorit, String> subQ;
-      subQ = usuariEntitatFavoritEjb.getSubQuery(UsuariEntitatFavoritFields.FAVORITID,
-          Where.AND(            
-            // Els meus favortis
-            UsuariEntitatFavoritFields.ORIGENID.equal(usuariEntitatID),
-            // Em tenc que excloure a mi mateix
-            UsuariEntitatFavoritFields.FAVORITID.notEqual(usuariEntitatID)
-          )
-        );
-      w = UsuariEntitatFields.USUARIENTITATID.in(subQ);
-    }
-
-    // Afegim el delegat o colaborador per si l'haguessin llevat dels favorits
-    if (!colaboracioDelegacioForm.isNou() && colaboracioDelegacioForm
-        .getColaboracioDelegacio() != null) {
-      w = Where.OR(w, UsuariEntitatFields.USUARIENTITATID.equal(colaboracioDelegacioForm
-          .getColaboracioDelegacio().getColaboradorDelegatID()));
-    }
-
-    Where whereFinal = Where.AND(where, w);
-    List<StringKeyValue> ueList = personaRefList.getReferenceList(
-        UsuariEntitatFields.USUARIENTITATID, whereFinal);
-
-    if (ueList.size() == 0) {
-        HtmlUtils.saveMessageWarning(request,
-          I18NUtils.tradueix(getEntityNameCode() + ".faltafavorit"));
-    }
-   
-    java.util.Collections.sort(ueList, valueComparator);
-
-    return ueList;
-  }
-  
-  
-
-  
-  
+ 
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {

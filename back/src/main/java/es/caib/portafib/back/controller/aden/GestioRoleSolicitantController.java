@@ -6,24 +6,25 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.admin.AbstractGestioRoleUsuariEntitatController;
-import es.caib.portafib.back.form.SeleccioNifForm;
+import es.caib.portafib.back.controller.common.SearchJSONController;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.model.entity.UsuariEntitat;
+import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Constants;
 
 
@@ -34,7 +35,8 @@ import es.caib.portafib.utils.Constants;
  */
 @Controller
 @RequestMapping(value = "/aden/solicitant")
-@SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,   SeleccioNifForm.class })
+@SessionAttributes(types = {RoleUsuariEntitatForm.class, RoleUsuariEntitatFilterForm.class,
+    SeleccioUsuariForm.class })
 public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEntitatController {
 
   @Override
@@ -58,82 +60,90 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
     return false;
   }
   
+    
   @Override
-  public String getTileNif() {
-    return "selectUsuariPersonaForGestioRoleSolicitantForm";
+  protected String getTileSeleccioUsuari() {
+    return "seleccioUsuariForm_ADEN";
   }
   
   @Override
-  protected void initGetNif(SeleccioNifForm seleccionNifForm) {
-    
-    seleccionNifForm.setTitol("solicitant.gestio");
-    seleccionNifForm.setSubtitol("solicitant.gestio.introduirnif");
-    seleccionNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
+  protected SeleccioUsuariForm getSeleccioUsuariForm(HttpServletRequest request) {
+    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+     
+     seleccioUsuariForm.setTitol("solicitant.gestio");
+     seleccioUsuariForm.setSubtitol("solicitant.gestio.subtitol");
+     seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADEN);
+     seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
+     
+     List<StringKeyValue> skvList;
+     try { 
+       skvList = SearchJSONController.favoritsToUsuariPersona(
+           usuariEntitatLogicaEjb.selectFavorits(
+         LoginInfo.getInstance().getUsuariEntitatID(), null, false));
+     } catch (I18NException e) {
+       log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+       skvList = null;
+     }
+     seleccioUsuariForm.setUsuarisFavorits(skvList);
+
+     return seleccioUsuariForm;
   }
+  
+  
+  
+  
 
   @Override
-  protected String checksPostNif(HttpServletRequest request, 
-      String usuariPersonaID, SeleccioNifForm seleccioNifForm,
-      List<UsuariEntitat> usuariEntitatList, BindingResult result)
-      throws I18NException {
-   
-    String nif = seleccioNifForm.getNif();
-
-    // Cercar si té role soli en la nostra entitat
-    UsuariEntitat usuariEntitat = null;
-    String entitatID = LoginInfo.getInstance().getEntitatID();
+  protected String checksPostNif(HttpServletRequest request, UsuariPersona usuariPersona,
+      String param1, String param2) throws I18NException {
     
-    for (UsuariEntitat usr : usuariEntitatList) {
-      if (entitatID.equals(usr.getEntitatID())) {
-        usuariEntitat = usr;
-        break;
-      }
+    // Cercam l'usuari entitat de l'entitat actual associat a usuariPersona
+    
+    String entitatActualID = LoginInfo.getInstance().getEntitatID();
+    String usuariPersonaID = usuariPersona.getUsuariPersonaID();
+    UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(
+        entitatActualID, usuariPersonaID);
+
+    if(ue == null) {
+      throw new I18NException("usuarientitat.error.noexisteix", 
+          new I18NArgumentString(usuariPersonaID));
     }
     
-    if (usuariEntitat == null) {
-      
-      result.rejectValue("nif", "usuarientitat.error.noexisteix", new Object[]{nif}, null);
-      return null;
+    
+    // Esbrinam si aquest ususrientitat ja té el rol de solicitant o no
+    Where w1 = ROLEID.equal(Constants.ROLE_SOLI);
+    Where w2 = USUARIENTITATID.equal(ue.getUsuariEntitatID());
+    List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1,w2));
 
+    // TODO selectOne
+    
+    if (list.size() == 0) {
+      request.getSession().setAttribute("UsuariEntitatSolicitant", ue.getUsuariEntitatID());
+      return getContextWeb() + "/new";
     } else {
-
-      // Cercam el role usuarientitat
-      Where w1 = ROLEID.equal(Constants.ROLE_SOLI);
-      Where w2 = USUARIENTITATID.equal(usuariEntitat.getUsuariEntitatID());
-      List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1,w2));
-      
-      
-      
-
-      if (list.size() == 0) {
-        request.getSession().setAttribute("UsuariEntitatSolicitant", usuariEntitat.getUsuariEntitatID());
-        return getContextWeb() + "/new";
-      } else {
-        HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("solicitant.hasRole"));
-        return getContextWeb() + "/" + list.get(0) + "/edit";
-      }
+      HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("solicitant.hasRole"));
+      return getContextWeb() + "/" + list.get(0) + "/edit";
     }
+    
 
   }
   
   @Override
   public void initNewRoleForm(RoleUsuariEntitatForm roleUsuariEntitatForm,
-      HttpServletRequest request, ModelAndView mav, String nif) throws I18NException {
+      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona) throws I18NException {
     String _usuariEntitatID_ = (String)request.getSession().getAttribute("UsuariEntitatSolicitant");
     roleUsuariEntitatForm.getRoleUsuariEntitat().setUsuariEntitatID(_usuariEntitatID_);
     roleUsuariEntitatForm.addReadOnlyField(USUARIENTITATID);
 
-    UsuariEntitatJPA usuariEntitatJPA = usuariEntitatLogicaEjb
-        .findByPrimaryKeyFull(_usuariEntitatID_);
-
-    String nomPersona = usuariEntitatJPA.getUsuariPersona().getNom() + " " + usuariEntitatJPA.getUsuariPersona().getLlinatges();
-    HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("solicitant.verificacio",nomPersona, nif));
+    String nomPersona = usuariPersona.getNom() + " " + usuariPersona.getLlinatges();
+    HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("solicitant.verificacio",
+        nomPersona, usuariPersona.getNif()));
     
   }
 
   @Override
   public void initEditRoleForm(RoleUsuariEntitatForm roleUsuariEntitatForm,
-      HttpServletRequest request, ModelAndView mav, String nif) throws I18NException {
+      HttpServletRequest request, ModelAndView mav, UsuariPersona usuariPersona) throws I18NException {
     roleUsuariEntitatForm.addReadOnlyField(USUARIENTITATID);
     roleUsuariEntitatForm.setSaveButtonVisible(false);
   }

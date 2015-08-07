@@ -178,14 +178,10 @@
     </build>
 	
 	<distributionManagement>
-        <site>
-            <id>es.caib.portafib</id>
-            <url>sftp://web.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
-        </site>
         <repository>
             <id>es.caib.portafib</id>
             <name>PortaFIB Maven Repository</name>
-            <url>scp://shell.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
+            <url>sftp://web.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
         </repository>
         
         <!--   COM UTILITZAR: AFEGIR AQUEST CODI AL pom.xml    -->
