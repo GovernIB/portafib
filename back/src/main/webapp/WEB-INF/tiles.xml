@@ -244,9 +244,9 @@
     <definition name="grupEntitatList_aden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatList.jsp" />
     </definition>
-    
+
     <definition name="usuarisDeGrupList_aden" extends="role_aden">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatUsuariEntitatList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/grupEntitatUsuariEntitatListWithModal.jsp" />
     </definition>
 
     <definition name="seleccioUsuariForm_ADEN" extends="role_aden">

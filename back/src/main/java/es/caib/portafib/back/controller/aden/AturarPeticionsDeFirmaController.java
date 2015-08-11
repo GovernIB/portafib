@@ -47,8 +47,7 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+
 import es.caib.portafib.utils.Constants;
 
 /**

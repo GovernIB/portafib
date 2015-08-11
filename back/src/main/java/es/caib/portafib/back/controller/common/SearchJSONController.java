@@ -51,7 +51,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/common/json")
 public class SearchJSONController {
 
-  protected final Logger log = Logger.getLogger(getClass());
+  protected static final Logger log = Logger.getLogger(SearchJSONController.class);
   
   
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
@@ -61,12 +61,7 @@ public class SearchJSONController {
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
   
-  @RequestMapping(value = "/usuarientitat", method = RequestMethod.GET)
-  public void usuariEntitatGet(HttpServletRequest request, HttpServletResponse response)
-      throws Exception {
-    usuariEntitat(request, response);
-  }
-  
+ 
   @Autowired
   protected UsuariEntitatRefList usuariEntitatRefList;
   
@@ -102,6 +97,7 @@ public class SearchJSONController {
     }
   }
   
+ 
   
   /**
    * Filtre totes les persones de PortaFIB
@@ -120,8 +116,9 @@ public class SearchJSONController {
   }
   
   
+  
   /**
-   * Filtre per les persones que estan donades d'alta a l'entitat actual
+   * Filtre per les persones que estan donades d'alta a l'entitat actual i a més estan actives
    * @param request
    * @param response
    * @throws Exception
@@ -214,16 +211,22 @@ public class SearchJSONController {
 
 
 
-  protected String genericSearch(String queryFull,
+  public static String genericSearch(String queryFull,
       final UsuariPersonaQueryPath personaQueryPath,
       org.fundaciobit.genapp.common.query.ITableManager<?,?> uem, Where additionalWhere,
       StringField keyField, IRefBaseReferenceList refListBase) throws IOException {
     
       final boolean isDebug = log.isDebugEnabled();
-    
+
       if (isDebug) {
         log.debug("JSON CRIDADA FULL ]" + queryFull  + "[");
       }
+      
+      // Bug en MOZILLA FIREFOX (Fa una segonca cridada buida
+      if (queryFull == null || queryFull.trim().length() == 0) {
+        return "[]";
+      }
+      
 
       final OrderBy orderBy = new OrderBy(personaQueryPath.LLINATGES());
 
@@ -253,7 +256,10 @@ public class SearchJSONController {
       
       List<StringKeyValue> values;
       try {
-        Long count = uem.count(where); 
+        Long count = uem.count(where);
+        if (isDebug) {
+          log.debug("RESULTATS.FOUND = " + count + " (max = " + max + ")");
+        }
         if (count > max) {
           if (isDebug) {
             log.debug("S'han trobat " + count 
@@ -268,10 +274,13 @@ public class SearchJSONController {
         values = new ArrayList<StringKeyValue>();
       }
   
+      
       if (isDebug) {
+        log.debug("RESULTATS.RETURN = " + values.size());
         log.debug(" ========================================== ");
-        log.debug(" RESULTATS.SIZE = " + values.size());
       }
+      
+      
   
       //usuariEntitatLogicaEjb.s
       StringBuffer str = new StringBuffer();
@@ -300,7 +309,7 @@ public class SearchJSONController {
   }
   
   
-  public String escapeJSON(String txt) {
+  public static String escapeJSON(String txt) {
     
     return txt.replace("\\","\\\\").replace("\"", "\\\"");
     // \"  Double quote

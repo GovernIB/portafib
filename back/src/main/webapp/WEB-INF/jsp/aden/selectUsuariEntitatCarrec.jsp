@@ -10,11 +10,16 @@
 <tbody>
   <tr>
       <td>
-        <label><fmt:message key="usuariPersona.nif" /> &nbsp;(*)</label>
+        <label><fmt:message key="formselectionby.label" /> &nbsp;(*)</label>
       </td>
       <td>
-        <form:errors path="nif" cssClass="errorField alert alert-error" />
-        <form:input cssClass="input" path="nif"/>
+       <%--      =========  INICI SELECCIO USUARI FIELD =============  --%>
+       
+       <c:set var="seleccioUsuariForm" value="${seleccioCarrecForm}" />
+        
+        <%@ include file="/WEB-INF/jsp/common/seleccioUsuariField.jsp"%>
+        
+        <%--      =========  INICI SELECCIO USUARI FIELD  =============  --%>
       </td>
   </tr>
   <tr>
@@ -42,10 +47,23 @@
 </tbody>
 </table>  
 
-<button class="btn btn-primary" type="submit" class="btn"><fmt:message key="acceptar"/></button>
-<button class="btn" type="button" onclick="goTo('<c:url value="${contexteWeb}/canviarPipella/ROLE_ADEN"/>')"><fmt:message key="genapp.cancel"/></button>
+<button class="btn btn-primary" type="button" onclick="preSubmit()" class="btn"><fmt:message key="acceptar"/></button>
+<button class="btn" type="button" onclick="goTo('<c:url value="${seleccioCarrecForm.cancelUrl} }"/>')"><fmt:message key="genapp.cancel"/></button>
 
 <script language="JavaScript" type="text/javascript">
+
+        function preSubmit() {
+            var id = $('#id').val();
+            // alert(" PRESUBMIT Valor de ID ]" + id + "[")
+            
+            if (id) {
+              document.getElementById("seleccioCarrecForm").submit();
+            } else {
+              alert("<fmt:message key="formselectionby.error.emptyid"/>");
+            }
+        
+        }
+
 
       function getRadioButtonSelectedValue(ctrl)
       {
@@ -55,13 +73,13 @@
 
       function radioChanged() {
     	  disableAll();
-          document.getElementById("nif").disabled='';
+          document.getElementById("id").disabled='';
           document.getElementById("carrec").disabled='';
           document.getElementById("idCarrec").disabled='';
       }
 
       function disableAll() {
-    	  var elements = ['nif','carrec', 'idCarrec'];
+    	  var elements = ['id','carrec', 'idCarrec'];
 
     	  for (i=0;i<elements.length;i++){
     		document.getElementById(elements[i]).disabled='disabled';

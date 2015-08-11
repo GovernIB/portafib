@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Select;
@@ -14,16 +13,16 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.GrupEntitatUsuariEntitatController;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.GrupEntitatUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.GrupEntitatUsuariEntitatForm;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
@@ -31,14 +30,13 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.GrupEntitatUsuariEntitatJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.GrupEntitat;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 
 @Controller
 @RequestMapping(value = "/aden/usuarisgrup")
 @SessionAttributes(types = { GrupEntitatUsuariEntitatForm.class,
-    GrupEntitatUsuariEntitatFilterForm.class })
+    GrupEntitatUsuariEntitatFilterForm.class, SeleccioUsuariForm.class })
 public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatController {
 
   public static final String _GRUPENTITATID_ = "grupEntitatId";
@@ -82,15 +80,12 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
       grupEntitatUsuariEntitatFilterForm.setEditButtonVisible(false);
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-plus-sign", "afegir", "javascript:openNouUsuariDialog();",
+          "icon-plus-sign", "afegir", "javascript:openSelectUserDialog();",
           "btn"));
 
       grupEntitatUsuariEntitatFilterForm.addAdditionalButton(new AdditionalButton(
           " icon-arrow-left", "tornar", getContextWeb() + "/tornar", "btn"));
       
-      // Afegeix el fitxer /WEB-INF/jsp/webdbmodificable/grupEntitatUsuariEntitatListModificable.jsp
-      grupEntitatUsuariEntitatFilterForm.setAttachedAdditionalJspCode(true);
-
     }
     return grupEntitatUsuariEntitatFilterForm;
   }
@@ -132,9 +127,19 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
   public String getTileList() {
     return "usuarisDeGrupList_aden";
   }
+  
+  
+  
+  
+  @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.POST)
+  public ModelAndView listusuarisPOST(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
+    return listusuarisGET(request, response, grupEntitatID);
+  }
+  
 
   @RequestMapping(value = "/listusuaris/{grupEntitatID}", method = RequestMethod.GET)
-  public ModelAndView listusuaris(HttpServletRequest request, HttpServletResponse response,
+  public ModelAndView listusuarisGET(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("grupEntitatID") long grupEntitatID) throws I18NException {
     
     
@@ -157,11 +162,31 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
 
     filterForm.setAdditionalObject(grupEntitatID);
     
-    
     filterForm.setTitleCode("grups.gestionarpersones");
     filterForm.setTitleParam(grupEntitat.getNom());
     
     llistat(mav, request, filterForm);
+    
+    
+    // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
+    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+    seleccioUsuariForm.setTitol("grups.afegirusuarialgrup");
+    seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+    seleccioUsuariForm.setParam1(String.valueOf(grupEntitatID));
+
+    try {
+      seleccioUsuariForm.setUsuarisFavorits(
+          SearchJSONController.favoritsToUsuariEntitat(
+              usuariEntitatLogicaEjb.selectFavorits(
+                LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+    } catch (I18NException e) {
+      log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+    }
+    
+    mav.addObject(seleccioUsuariForm);
+    
+    
+    
     return mav;
 
   }
@@ -182,54 +207,51 @@ public class GestioUsuarisDeGrupController extends GrupEntitatUsuariEntitatContr
 
   @RequestMapping(value = "/addUserToGroup", method = RequestMethod.POST)
   public String addUserToGroup(
-      @ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
-      @RequestParam("userToAdd") String nifOrUsername, HttpServletRequest request,
+      //@ModelAttribute("grupEntitatUsuariEntitatFilterForm") @Valid GrupEntitatUsuariEntitatFilterForm grupEntitatUsuariEntitatFilterForm,
+      //@RequestParam("userToAdd") String nifOrUsername,
+      SeleccioUsuariForm seleccioUsuariForm,
+      HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
 
 
-    Long grupEntitatID = (Long) grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
+    //Long grupEntitatID = (Long) grupEntitatUsuariEntitatFilterForm.getAdditionalObject();
 
+    String usuariEntitatID = seleccioUsuariForm.getId();
+    Long grupEntitatID = Long.parseLong(seleccioUsuariForm.getParam1());
 
-    if (nifOrUsername == null || nifOrUsername.trim().equals("")) {
+    if (usuariEntitatID == null || usuariEntitatID.trim().equals("")) {
 
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nifOrUsername));
+      // TODO Arreglar missatges
+      HtmlUtils.saveMessageError(request, 
+          I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat",
+              usuariEntitatID));
 
     } else {
-
-      final UsuariPersonaQueryPath upQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
-      String usuariEntitatID = usuariEntitatLogicaEjb.executeQueryOne(
-          UsuariEntitatFields.USUARIENTITATID,
-          Where.AND(
-              UsuariEntitatFields.CARREC.isNull(),
-              UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-              Where.OR(
-                upQueryPath.NIF().equal(nifOrUsername.toUpperCase()),
-                upQueryPath.USUARIPERSONAID().equal(nifOrUsername.trim())
-                )
-              ) 
-            );
 
       if (log.isDebugEnabled()) {
         log.debug(" usuariEntitatID = |" + usuariEntitatID + "|");
       }
-
-      if (usuariEntitatID == null) {
-        HtmlUtils.saveMessageError(request,
-            I18NUtils.tradueix("aturarpeticionsdefirma.nif.error.nifsenseusuarisentitat", nifOrUsername));
-      } else {
+      {
 
         GrupEntitatUsuariEntitatJPA geu;
         geu = new GrupEntitatUsuariEntitatJPA(usuariEntitatID, grupEntitatID);
 
+        // TODO Mirar si ja està duplicat
+        
+        
         try {
           grupEntitatUsuariEntitatEjb.create(geu);
-
           if (log.isDebugEnabled()) {
             log.debug("Creat permis amb ID = " + geu.getGrupEntitatUsuariEntitatID());
           }
-        } catch (Exception e) {
-          // Ja existeix 
-          // TODO Gestionar error
+        } catch (I18NException e) {
+          // Ja existeix.  Gestionar error
+          String msg = I18NUtils.getMessage(e);
+          log.error(msg, e);
+          HtmlUtils.saveMessageError(request, msg);
+        } catch(Exception ex) {
+          
+          log.error(ex.getMessage(), ex);
         }
 
       }
