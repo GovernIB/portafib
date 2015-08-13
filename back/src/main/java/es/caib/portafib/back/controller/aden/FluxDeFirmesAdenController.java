@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 
@@ -16,8 +17,8 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
  */
 @Controller
 @RequestMapping(value = "/aden/fluxdefirmes")
-@SessionAttributes(types = { PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
-    FluxDeFirmesFilterForm.class })
+@SessionAttributes(types = {  SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
+    FluxDeFirmesForm.class,  FluxDeFirmesFilterForm.class })
 public class FluxDeFirmesAdenController extends PlantillaDeFluxDeFirmesAdenController {
 
 
@@ -49,5 +50,11 @@ public class FluxDeFirmesAdenController extends PlantillaDeFluxDeFirmesAdenContr
   @Override
   public String getEntityNameCode() {
     return "fluxDeFirmes.fluxDeFirmes";
+  }
+  
+  
+  @Override
+  public boolean isEditingPlantilla() {
+    return false;
   }
 }

@@ -288,15 +288,15 @@ public class EntitatController
 
     try {
       this.setFilesFormToEntity(afm, entitat, entitatForm); // FILE
-      preValidate(entitatForm, result);
+      preValidate(request, entitatForm, result);
       getWebValidator().validate(entitatForm, result);
-      postValidate(entitatForm, result);
+      postValidate(request,entitatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        entitat = create(entitat);
+        entitat = create(request, entitat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", entitat.getEntitatID());
         entitatForm.setEntitat(entitat);
@@ -335,7 +335,7 @@ public class EntitatController
         return null;
       }
     }
-    EntitatJPA entitat = findByPrimaryKey(entitatID);
+    EntitatJPA entitat = findByPrimaryKey(request, entitatID);
 
     if (entitat == null) {
       createMessageWarning(request, "error.notfound", entitatID);
@@ -387,15 +387,15 @@ public class EntitatController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, entitat, entitatForm); // FILE
-      preValidate(entitatForm, result);
+      preValidate(request, entitatForm, result);
       getWebValidator().validate(entitat, result);
-      postValidate(entitatForm, result);
+      postValidate(request, entitatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        entitat = update(entitat);
+        entitat = update(request, entitat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", entitat.getEntitatID());
         status.setComplete();
@@ -681,10 +681,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(EntitatForm entitatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,EntitatForm entitatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(EntitatForm entitatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,EntitatForm entitatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, EntitatFilterForm filterForm)  throws I18NException {
@@ -739,25 +739,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public EntitatJPA findByPrimaryKey(java.lang.String entitatID) throws I18NException {
+  public EntitatJPA findByPrimaryKey(HttpServletRequest request, java.lang.String entitatID) throws I18NException {
     return (EntitatJPA) entitatEjb.findByPrimaryKey(entitatID);
   }
 
 
-  public EntitatJPA create(EntitatJPA entitat)
+  public EntitatJPA create(HttpServletRequest request, EntitatJPA entitat)
     throws Exception,I18NException, I18NValidationException {
     return (EntitatJPA) entitatEjb.create(entitat);
   }
 
 
-  public void delete(HttpServletRequest request, Entitat entitat) throws Exception,I18NException {
-    entitatEjb.delete(entitat);
+  public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)
+    throws Exception,I18NException, I18NValidationException {
+    return (EntitatJPA) entitatEjb.update(entitat);
   }
 
 
-  public EntitatJPA update(EntitatJPA entitat)
-    throws Exception,I18NException, I18NValidationException {
-    return (EntitatJPA) entitatEjb.update(entitat);
+  public void delete(HttpServletRequest request, Entitat entitat) throws Exception,I18NException {
+    entitatEjb.delete(entitat);
   }
 
 } // Final de Classe

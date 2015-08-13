@@ -301,14 +301,14 @@ public class RebreAvisController
     RebreAvisJPA rebreAvis = rebreAvisForm.getRebreAvis();
 
     try {
-      preValidate(rebreAvisForm, result);
+      preValidate(request, rebreAvisForm, result);
       getWebValidator().validate(rebreAvisForm, result);
-      postValidate(rebreAvisForm, result);
+      postValidate(request,rebreAvisForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        rebreAvis = create(rebreAvis);
+        rebreAvis = create(request, rebreAvis);
         createMessageSuccess(request, "success.creation", rebreAvis.getId());
         rebreAvisForm.setRebreAvis(rebreAvis);
         return getRedirectWhenCreated(rebreAvisForm);
@@ -345,7 +345,7 @@ public class RebreAvisController
         return null;
       }
     }
-    RebreAvisJPA rebreAvis = findByPrimaryKey(id);
+    RebreAvisJPA rebreAvis = findByPrimaryKey(request, id);
 
     if (rebreAvis == null) {
       createMessageWarning(request, "error.notfound", id);
@@ -395,14 +395,14 @@ public class RebreAvisController
     RebreAvisJPA rebreAvis = rebreAvisForm.getRebreAvis();
 
     try {
-      preValidate(rebreAvisForm, result);
+      preValidate(request, rebreAvisForm, result);
       getWebValidator().validate(rebreAvis, result);
-      postValidate(rebreAvisForm, result);
+      postValidate(request, rebreAvisForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        rebreAvis = update(rebreAvis);
+        rebreAvis = update(request, rebreAvis);
         createMessageSuccess(request, "success.modification", rebreAvis.getId());
         status.setComplete();
         return getRedirectWhenModified(rebreAvisForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(RebreAvisForm rebreAvisForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,RebreAvisForm rebreAvisForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(RebreAvisForm rebreAvisForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,RebreAvisForm rebreAvisForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, RebreAvisFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public RebreAvisJPA findByPrimaryKey(java.lang.Long id) throws I18NException {
+  public RebreAvisJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long id) throws I18NException {
     return (RebreAvisJPA) rebreAvisEjb.findByPrimaryKey(id);
   }
 
 
-  public RebreAvisJPA create(RebreAvisJPA rebreAvis)
+  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis)
     throws Exception,I18NException, I18NValidationException {
     return (RebreAvisJPA) rebreAvisEjb.create(rebreAvis);
   }
 
 
-  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception,I18NException {
-    rebreAvisEjb.delete(rebreAvis);
+  public RebreAvisJPA update(HttpServletRequest request, RebreAvisJPA rebreAvis)
+    throws Exception,I18NException, I18NValidationException {
+    return (RebreAvisJPA) rebreAvisEjb.update(rebreAvis);
   }
 
 
-  public RebreAvisJPA update(RebreAvisJPA rebreAvis)
-    throws Exception,I18NException, I18NValidationException {
-    return (RebreAvisJPA) rebreAvisEjb.update(rebreAvis);
+  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception,I18NException {
+    rebreAvisEjb.delete(rebreAvis);
   }
 
 } // Final de Classe

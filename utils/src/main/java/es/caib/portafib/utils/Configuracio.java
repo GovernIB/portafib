@@ -8,7 +8,6 @@ import java.io.File;
  * 
  */
 public class Configuracio implements Constants {
-  
 
 
   public static boolean isCAIB() {

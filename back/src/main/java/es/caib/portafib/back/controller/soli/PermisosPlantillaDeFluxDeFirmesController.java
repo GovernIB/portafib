@@ -183,7 +183,7 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
   }
 
   @Override
-  public PlantillaFluxDeFirmesJPA findByPrimaryKey(java.lang.Long fluxDeFirmesID)
+  public PlantillaFluxDeFirmesJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long fluxDeFirmesID)
       throws I18NException {
     return (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesLogicaEjb
         .findByPrimaryKeyFull(fluxDeFirmesID);

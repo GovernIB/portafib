@@ -301,14 +301,14 @@ public class MetadadaController
     MetadadaJPA metadada = metadadaForm.getMetadada();
 
     try {
-      preValidate(metadadaForm, result);
+      preValidate(request, metadadaForm, result);
       getWebValidator().validate(metadadaForm, result);
-      postValidate(metadadaForm, result);
+      postValidate(request,metadadaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        metadada = create(metadada);
+        metadada = create(request, metadada);
         createMessageSuccess(request, "success.creation", metadada.getMetadadaID());
         metadadaForm.setMetadada(metadada);
         return getRedirectWhenCreated(metadadaForm);
@@ -345,7 +345,7 @@ public class MetadadaController
         return null;
       }
     }
-    MetadadaJPA metadada = findByPrimaryKey(metadadaID);
+    MetadadaJPA metadada = findByPrimaryKey(request, metadadaID);
 
     if (metadada == null) {
       createMessageWarning(request, "error.notfound", metadadaID);
@@ -395,14 +395,14 @@ public class MetadadaController
     MetadadaJPA metadada = metadadaForm.getMetadada();
 
     try {
-      preValidate(metadadaForm, result);
+      preValidate(request, metadadaForm, result);
       getWebValidator().validate(metadada, result);
-      postValidate(metadadaForm, result);
+      postValidate(request, metadadaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        metadada = update(metadada);
+        metadada = update(request, metadada);
         createMessageSuccess(request, "success.modification", metadada.getMetadadaID());
         status.setComplete();
         return getRedirectWhenModified(metadadaForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(MetadadaForm metadadaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,MetadadaForm metadadaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(MetadadaForm metadadaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,MetadadaForm metadadaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, MetadadaFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public MetadadaJPA findByPrimaryKey(java.lang.Long metadadaID) throws I18NException {
+  public MetadadaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long metadadaID) throws I18NException {
     return (MetadadaJPA) metadadaEjb.findByPrimaryKey(metadadaID);
   }
 
 
-  public MetadadaJPA create(MetadadaJPA metadada)
+  public MetadadaJPA create(HttpServletRequest request, MetadadaJPA metadada)
     throws Exception,I18NException, I18NValidationException {
     return (MetadadaJPA) metadadaEjb.create(metadada);
   }
 
 
-  public void delete(HttpServletRequest request, Metadada metadada) throws Exception,I18NException {
-    metadadaEjb.delete(metadada);
+  public MetadadaJPA update(HttpServletRequest request, MetadadaJPA metadada)
+    throws Exception,I18NException, I18NValidationException {
+    return (MetadadaJPA) metadadaEjb.update(metadada);
   }
 
 
-  public MetadadaJPA update(MetadadaJPA metadada)
-    throws Exception,I18NException, I18NValidationException {
-    return (MetadadaJPA) metadadaEjb.update(metadada);
+  public void delete(HttpServletRequest request, Metadada metadada) throws Exception,I18NException {
+    metadadaEjb.delete(metadada);
   }
 
 } // Final de Classe

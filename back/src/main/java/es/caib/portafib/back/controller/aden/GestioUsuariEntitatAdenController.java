@@ -442,7 +442,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   }
 
   @Override
-  public UsuariEntitatJPA create(UsuariEntitatJPA usuariEntitat)
+  public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
     throws Exception,I18NException, I18NValidationException {
 
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);

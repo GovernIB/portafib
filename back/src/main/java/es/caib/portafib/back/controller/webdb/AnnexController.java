@@ -291,15 +291,15 @@ public class AnnexController
 
     try {
       this.setFilesFormToEntity(afm, annex, annexForm); // FILE
-      preValidate(annexForm, result);
+      preValidate(request, annexForm, result);
       getWebValidator().validate(annexForm, result);
-      postValidate(annexForm, result);
+      postValidate(request,annexForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        annex = create(annex);
+        annex = create(request, annex);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", annex.getAnnexID());
         annexForm.setAnnex(annex);
@@ -338,7 +338,7 @@ public class AnnexController
         return null;
       }
     }
-    AnnexJPA annex = findByPrimaryKey(annexID);
+    AnnexJPA annex = findByPrimaryKey(request, annexID);
 
     if (annex == null) {
       createMessageWarning(request, "error.notfound", annexID);
@@ -390,15 +390,15 @@ public class AnnexController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, annex, annexForm); // FILE
-      preValidate(annexForm, result);
+      preValidate(request, annexForm, result);
       getWebValidator().validate(annex, result);
-      postValidate(annexForm, result);
+      postValidate(request, annexForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        annex = update(annex);
+        annex = update(request, annex);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", annex.getAnnexID());
         status.setComplete();
@@ -644,10 +644,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(AnnexForm annexForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,AnnexForm annexForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(AnnexForm annexForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,AnnexForm annexForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, AnnexFilterForm filterForm)  throws I18NException {
@@ -702,25 +702,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public AnnexJPA findByPrimaryKey(java.lang.Long annexID) throws I18NException {
+  public AnnexJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long annexID) throws I18NException {
     return (AnnexJPA) annexEjb.findByPrimaryKey(annexID);
   }
 
 
-  public AnnexJPA create(AnnexJPA annex)
+  public AnnexJPA create(HttpServletRequest request, AnnexJPA annex)
     throws Exception,I18NException, I18NValidationException {
     return (AnnexJPA) annexEjb.create(annex);
   }
 
 
-  public void delete(HttpServletRequest request, Annex annex) throws Exception,I18NException {
-    annexEjb.delete(annex);
+  public AnnexJPA update(HttpServletRequest request, AnnexJPA annex)
+    throws Exception,I18NException, I18NValidationException {
+    return (AnnexJPA) annexEjb.update(annex);
   }
 
 
-  public AnnexJPA update(AnnexJPA annex)
-    throws Exception,I18NException, I18NValidationException {
-    return (AnnexJPA) annexEjb.update(annex);
+  public void delete(HttpServletRequest request, Annex annex) throws Exception,I18NException {
+    annexEjb.delete(annex);
   }
 
 } // Final de Classe

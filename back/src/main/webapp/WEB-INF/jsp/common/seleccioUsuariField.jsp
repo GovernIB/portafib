@@ -4,8 +4,8 @@
 <script src="<c:url value="/js/bootstrap-typeahead.js"/>"></script>
 
 <form:hidden path="id" id="id" />
-<form:hidden path="param1"  />
-<form:hidden path="param2"  />
+<form:hidden path="param1" id="param1"  />
+<form:hidden path="param2" id="param2"  />
 
 <c:set var="placeholder" value="${(empty seleccioUsuariForm.usuarisFavorits)? 'formselectionby.placeholderemptyfavorits' :'formselectionby.placeholder' }" />
 
@@ -16,14 +16,20 @@
   <input id="search" class="input-xxlarge" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
   <div class="btn-group">
-    <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <button id="searchfavorit" class="btn dropdown-toggle" data-toggle="dropdown">
         <i class="icon-star"></i>
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu" style="right: 0; left: auto;">
+
+    <ul class="dropdown-menu" style="right: 0; left: auto; max-height: 540px; overflow-y: auto; ">
+      <c:set var="lastItem" value="" />
       <c:forEach var="favorit" items="${seleccioUsuariForm.usuarisFavorits}" >
-        <c:set var="tmpNom" value="${favorit.value}" />
-        <li><a href="javascript:selectItem('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a></li>
+         <c:set var="tmpNom" value="${favorit.value}" />
+         <c:if  test="${(fn:startsWith(lastItem, '(*)') == true) && fn:startsWith(tmpNom, '(*)') == false}">
+            <li class="divider"></li>
+         </c:if>
+         <c:set var="lastItem" value="${tmpNom}" />
+         <li><a href="javascript:selectItem('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a></li>
       </c:forEach>
     </ul>
   </div>

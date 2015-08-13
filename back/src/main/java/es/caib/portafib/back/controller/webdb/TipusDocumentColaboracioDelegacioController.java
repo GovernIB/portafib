@@ -301,14 +301,14 @@ public class TipusDocumentColaboracioDelegacioController
     TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio = tipusDocumentColaboracioDelegacioForm.getTipusDocumentColaboracioDelegacio();
 
     try {
-      preValidate(tipusDocumentColaboracioDelegacioForm, result);
+      preValidate(request, tipusDocumentColaboracioDelegacioForm, result);
       getWebValidator().validate(tipusDocumentColaboracioDelegacioForm, result);
-      postValidate(tipusDocumentColaboracioDelegacioForm, result);
+      postValidate(request,tipusDocumentColaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusDocumentColaboracioDelegacio = create(tipusDocumentColaboracioDelegacio);
+        tipusDocumentColaboracioDelegacio = create(request, tipusDocumentColaboracioDelegacio);
         createMessageSuccess(request, "success.creation", tipusDocumentColaboracioDelegacio.getId());
         tipusDocumentColaboracioDelegacioForm.setTipusDocumentColaboracioDelegacio(tipusDocumentColaboracioDelegacio);
         return getRedirectWhenCreated(tipusDocumentColaboracioDelegacioForm);
@@ -345,7 +345,7 @@ public class TipusDocumentColaboracioDelegacioController
         return null;
       }
     }
-    TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio = findByPrimaryKey(id);
+    TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio = findByPrimaryKey(request, id);
 
     if (tipusDocumentColaboracioDelegacio == null) {
       createMessageWarning(request, "error.notfound", id);
@@ -395,14 +395,14 @@ public class TipusDocumentColaboracioDelegacioController
     TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio = tipusDocumentColaboracioDelegacioForm.getTipusDocumentColaboracioDelegacio();
 
     try {
-      preValidate(tipusDocumentColaboracioDelegacioForm, result);
+      preValidate(request, tipusDocumentColaboracioDelegacioForm, result);
       getWebValidator().validate(tipusDocumentColaboracioDelegacio, result);
-      postValidate(tipusDocumentColaboracioDelegacioForm, result);
+      postValidate(request, tipusDocumentColaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusDocumentColaboracioDelegacio = update(tipusDocumentColaboracioDelegacio);
+        tipusDocumentColaboracioDelegacio = update(request, tipusDocumentColaboracioDelegacio);
         createMessageSuccess(request, "success.modification", tipusDocumentColaboracioDelegacio.getId());
         status.setComplete();
         return getRedirectWhenModified(tipusDocumentColaboracioDelegacioForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusDocumentColaboracioDelegacioForm tipusDocumentColaboracioDelegacioForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusDocumentColaboracioDelegacioFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public TipusDocumentColaboracioDelegacioJPA findByPrimaryKey(java.lang.Long id) throws I18NException {
+  public TipusDocumentColaboracioDelegacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long id) throws I18NException {
     return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.findByPrimaryKey(id);
   }
 
 
-  public TipusDocumentColaboracioDelegacioJPA create(TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
+  public TipusDocumentColaboracioDelegacioJPA create(HttpServletRequest request, TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
     throws Exception,I18NException, I18NValidationException {
     return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.create(tipusDocumentColaboracioDelegacio);
   }
 
 
-  public void delete(HttpServletRequest request, TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio) throws Exception,I18NException {
-    tipusDocumentColaboracioDelegacioEjb.delete(tipusDocumentColaboracioDelegacio);
+  public TipusDocumentColaboracioDelegacioJPA update(HttpServletRequest request, TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.update(tipusDocumentColaboracioDelegacio);
   }
 
 
-  public TipusDocumentColaboracioDelegacioJPA update(TipusDocumentColaboracioDelegacioJPA tipusDocumentColaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusDocumentColaboracioDelegacioJPA) tipusDocumentColaboracioDelegacioEjb.update(tipusDocumentColaboracioDelegacio);
+  public void delete(HttpServletRequest request, TipusDocumentColaboracioDelegacio tipusDocumentColaboracioDelegacio) throws Exception,I18NException {
+    tipusDocumentColaboracioDelegacioEjb.delete(tipusDocumentColaboracioDelegacio);
   }
 
 } // Final de Classe

@@ -255,14 +255,14 @@ public class TipusFirmaController
     TipusFirmaJPA tipusFirma = tipusFirmaForm.getTipusFirma();
 
     try {
-      preValidate(tipusFirmaForm, result);
+      preValidate(request, tipusFirmaForm, result);
       getWebValidator().validate(tipusFirmaForm, result);
-      postValidate(tipusFirmaForm, result);
+      postValidate(request,tipusFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusFirma = create(tipusFirma);
+        tipusFirma = create(request, tipusFirma);
         createMessageSuccess(request, "success.creation", tipusFirma.getTipusFirmaID());
         tipusFirmaForm.setTipusFirma(tipusFirma);
         return getRedirectWhenCreated(tipusFirmaForm);
@@ -299,7 +299,7 @@ public class TipusFirmaController
         return null;
       }
     }
-    TipusFirmaJPA tipusFirma = findByPrimaryKey(tipusFirmaID);
+    TipusFirmaJPA tipusFirma = findByPrimaryKey(request, tipusFirmaID);
 
     if (tipusFirma == null) {
       createMessageWarning(request, "error.notfound", tipusFirmaID);
@@ -349,14 +349,14 @@ public class TipusFirmaController
     TipusFirmaJPA tipusFirma = tipusFirmaForm.getTipusFirma();
 
     try {
-      preValidate(tipusFirmaForm, result);
+      preValidate(request, tipusFirmaForm, result);
       getWebValidator().validate(tipusFirma, result);
-      postValidate(tipusFirmaForm, result);
+      postValidate(request, tipusFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusFirma = update(tipusFirma);
+        tipusFirma = update(request, tipusFirma);
         createMessageSuccess(request, "success.modification", tipusFirma.getTipusFirmaID());
         status.setComplete();
         return getRedirectWhenModified(tipusFirmaForm, null);
@@ -537,10 +537,10 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusFirmaForm tipusFirmaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusFirmaForm tipusFirmaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusFirmaForm tipusFirmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusFirmaForm tipusFirmaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusFirmaFilterForm filterForm)  throws I18NException {
@@ -595,25 +595,25 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public TipusFirmaJPA findByPrimaryKey(java.lang.Integer tipusFirmaID) throws I18NException {
+  public TipusFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Integer tipusFirmaID) throws I18NException {
     return (TipusFirmaJPA) tipusFirmaEjb.findByPrimaryKey(tipusFirmaID);
   }
 
 
-  public TipusFirmaJPA create(TipusFirmaJPA tipusFirma)
+  public TipusFirmaJPA create(HttpServletRequest request, TipusFirmaJPA tipusFirma)
     throws Exception,I18NException, I18NValidationException {
     return (TipusFirmaJPA) tipusFirmaEjb.create(tipusFirma);
   }
 
 
-  public void delete(HttpServletRequest request, TipusFirma tipusFirma) throws Exception,I18NException {
-    tipusFirmaEjb.delete(tipusFirma);
+  public TipusFirmaJPA update(HttpServletRequest request, TipusFirmaJPA tipusFirma)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusFirmaJPA) tipusFirmaEjb.update(tipusFirma);
   }
 
 
-  public TipusFirmaJPA update(TipusFirmaJPA tipusFirma)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusFirmaJPA) tipusFirmaEjb.update(tipusFirma);
+  public void delete(HttpServletRequest request, TipusFirma tipusFirma) throws Exception,I18NException {
+    tipusFirmaEjb.delete(tipusFirma);
   }
 
 } // Final de Classe

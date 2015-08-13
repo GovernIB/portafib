@@ -42,46 +42,26 @@
 </div>
 </c:if>
 
-<c:if test="${not empty seleccioFluxDeFirmesForm.listOfUsuariFavorit}">
+
 <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
 <tbody>
   <tr>
-    <td>
+    <td style="width:200px">
        <label class="radio">
        <form:radiobutton path="tipus"  value="3" onChange="radioChanged();" />
        <fmt:message key="selectflux.crearnou" />
        </label>
     </td>
-  </tr>
-  <tr>
     <td>
-      <fmt:message key="selectflux.selectusers" />
-      <form:errors path="usuarisFlux" cssClass="errorField alert alert-error" />
-      <table border="0">
-        <tr>
-          <td>
-              <form:select path="usuarisFlux" cssClass="input-xlarge" multiple="true" size="4">
-              </form:select>
-          </td>
-          <td>
-            <button style="btn btn-primary" type="button" id="botoafegir" onclick="afegir()">&lt;&lt; </button>    
-          </td>
-          <td>
-              <select name="allUsuarisFavorits" id="allUsuarisFavorits" class="input-xlarge" multiple size="4">          
-                <c:forEach items="${seleccioFluxDeFirmesForm.listOfUsuariFavorit}" var="usuariEntitat">
-                
-                <option value="${usuariEntitat.key}">${usuariEntitat.value}</option>
-                </c:forEach>
-              </select>
-          </td>
-        </tr>
-      </table>
-
+        <c:set var="seleccioUsuariForm" value="${seleccioFluxDeFirmesForm}" />
+        <%--  usuariEntitatPrimeraFirma --%>
+        <%@ include file="/WEB-INF/jsp/common/seleccioUsuariField.jsp"%>
     </td>
+
   </tr>
 </tbody>
 </table>
-</c:if>
+
 
 <c:if test="${not empty seleccioFluxDeFirmesForm.listOfFluxPlantillaUsuari}">
 <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
@@ -170,7 +150,7 @@
 <c:if test="${seleccioFluxDeFirmesForm.tipus != -1}">
 <button class="btn btn-primary" type="button" onclick="preSubmit()"  class="btn"><fmt:message key="acceptar"/></button>
 </c:if>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 
       function mostrarFlux(selectID) {
     	  var e = document.getElementById(selectID);
@@ -203,29 +183,6 @@
           }
       }
 
-      function afegir(){
-
-        var origen = document.getElementById("allUsuarisFavorits");
-        var desti =    document.getElementById("usuarisFlux");
-
-        if (origen.selectedIndex == -1) {
-            return;
-        }
-
-        var selectValue = origen.options[origen.selectedIndex].value;
-        var selectText = origen.options[origen.selectedIndex].text;
-
-        //alert(selectValue + " " + selectText);
-
-        $("#usuarisFlux").append(new Option(selectText, selectValue));
-      }
-
-      function seleccionarTotsUsuarisFavorits() {
-    	  var desti = document.getElementById("usuarisFlux");
-    	  for (var i = 0; i < desti.options.length; i++) { 
-              desti.options[i].selected = true; 
-          }
-      }
 
       function preSubmit() {
           
@@ -235,33 +192,17 @@
           if (tipus == undefined) {
               return false;
           }
-        
-          //alert(tipus);
-          // check nom
-          /*
-          var nom = document.getElementById("nom").value;
-          if (nom == "") {
-               alert('ha de posar un nom (traduir)');
-               return;
-          }
-          */
-          
 
           switch(tipus) {
 
             case '3':
-
-                var len = document.getElementById("usuarisFlux").length;
-                //alert("Items: " + len);
-/*
-                if (len == 0) {
-                  // TODO traduir)
-                  alert('Ha de seleccionar usuaris al flux de firma (traduir)');
+                var id = $('#id').val();
+                // alert(" PRESUBMIT Valor de ID ]" + id + "[")
+                
+                if (!id) {
+                  alert("<fmt:message key="formselectionby.error.emptyid"/>");
                   return;
                 }
-*/
-                // check com a minim una firma
-                seleccionarTotsUsuarisFavorits();
 
             break;
 
@@ -297,8 +238,7 @@
       function radioChanged() {
     	  disableAll();
     	  var tipus = getRadioButtonSelectedValue("tipus");
-              //document.seleccioFluxDeFirmesForm.tipus);
-    	  //alert("radioChanged() => " + tipus);
+    	  <%-- alert("radioChanged() => " + tipus); --%>
     	  switch(tipus)
     	  {
         	  case '0':
@@ -318,10 +258,9 @@
         	  break;
         	  case '3': // usuaris favorits
         	  default:
-        		enable("botoafegir");
         	    enable("nom");
-        	    enable("allUsuarisFavorits");
-                enable("usuarisFlux");
+                enable("search");
+                enable("searchfavorit");
     	  }
       }
 
@@ -335,25 +274,18 @@
     	  var elements = ['fluxPlantillaUsuari', 'fluxUsuariView',
                       'fluxPlantillaPersonaCompartit','fluxSharedView',
                       'fluxPlantillaAplicacioCompartit', 'fluxAplicacioView',
-                      'allUsuarisFavorits','usuarisFlux', 'botoafegir'];
+                      "search", "searchfavorit"
+                      ];
 
     	  for (i=0;i<elements.length;i++){ 
-            //document.getElementById(elements[i]).disabled=true;
             if (document.getElementById(elements[i])) {
     		  document.getElementById(elements[i]).disabled='disabled';
             }
     	  }
-
-          if (document.getElementById('botoafegir')) {
-    	    document.getElementById('botoafegir').disabled='disabled';
-          }
-
       }
 
       radioChanged();
 
 </script>
-
-
 
 </form:form>

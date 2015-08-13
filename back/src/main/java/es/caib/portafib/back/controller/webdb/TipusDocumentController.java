@@ -314,14 +314,14 @@ public class TipusDocumentController
     TipusDocumentJPA tipusDocument = tipusDocumentForm.getTipusDocument();
 
     try {
-      preValidate(tipusDocumentForm, result);
+      preValidate(request, tipusDocumentForm, result);
       getWebValidator().validate(tipusDocumentForm, result);
-      postValidate(tipusDocumentForm, result);
+      postValidate(request,tipusDocumentForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusDocument = create(tipusDocument);
+        tipusDocument = create(request, tipusDocument);
         createMessageSuccess(request, "success.creation", tipusDocument.getTipusDocumentID());
         tipusDocumentForm.setTipusDocument(tipusDocument);
         return getRedirectWhenCreated(tipusDocumentForm);
@@ -358,7 +358,7 @@ public class TipusDocumentController
         return null;
       }
     }
-    TipusDocumentJPA tipusDocument = findByPrimaryKey(tipusDocumentID);
+    TipusDocumentJPA tipusDocument = findByPrimaryKey(request, tipusDocumentID);
 
     if (tipusDocument == null) {
       createMessageWarning(request, "error.notfound", tipusDocumentID);
@@ -408,14 +408,14 @@ public class TipusDocumentController
     TipusDocumentJPA tipusDocument = tipusDocumentForm.getTipusDocument();
 
     try {
-      preValidate(tipusDocumentForm, result);
+      preValidate(request, tipusDocumentForm, result);
       getWebValidator().validate(tipusDocument, result);
-      postValidate(tipusDocumentForm, result);
+      postValidate(request, tipusDocumentForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusDocument = update(tipusDocument);
+        tipusDocument = update(request, tipusDocument);
         createMessageSuccess(request, "success.modification", tipusDocument.getTipusDocumentID());
         status.setComplete();
         return getRedirectWhenModified(tipusDocumentForm, null);
@@ -662,10 +662,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusDocumentForm tipusDocumentForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusDocumentForm tipusDocumentForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusDocumentForm tipusDocumentForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusDocumentForm tipusDocumentForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusDocumentFilterForm filterForm)  throws I18NException {
@@ -720,25 +720,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public TipusDocumentJPA findByPrimaryKey(java.lang.Long tipusDocumentID) throws I18NException {
+  public TipusDocumentJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long tipusDocumentID) throws I18NException {
     return (TipusDocumentJPA) tipusDocumentEjb.findByPrimaryKey(tipusDocumentID);
   }
 
 
-  public TipusDocumentJPA create(TipusDocumentJPA tipusDocument)
+  public TipusDocumentJPA create(HttpServletRequest request, TipusDocumentJPA tipusDocument)
     throws Exception,I18NException, I18NValidationException {
     return (TipusDocumentJPA) tipusDocumentEjb.create(tipusDocument);
   }
 
 
-  public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws Exception,I18NException {
-    tipusDocumentEjb.delete(tipusDocument);
+  public TipusDocumentJPA update(HttpServletRequest request, TipusDocumentJPA tipusDocument)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusDocumentJPA) tipusDocumentEjb.update(tipusDocument);
   }
 
 
-  public TipusDocumentJPA update(TipusDocumentJPA tipusDocument)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusDocumentJPA) tipusDocumentEjb.update(tipusDocument);
+  public void delete(HttpServletRequest request, TipusDocument tipusDocument) throws Exception,I18NException {
+    tipusDocumentEjb.delete(tipusDocument);
   }
 
 } // Final de Classe

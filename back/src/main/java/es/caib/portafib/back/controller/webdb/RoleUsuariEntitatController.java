@@ -301,14 +301,14 @@ public class RoleUsuariEntitatController
     RoleUsuariEntitatJPA roleUsuariEntitat = roleUsuariEntitatForm.getRoleUsuariEntitat();
 
     try {
-      preValidate(roleUsuariEntitatForm, result);
+      preValidate(request, roleUsuariEntitatForm, result);
       getWebValidator().validate(roleUsuariEntitatForm, result);
-      postValidate(roleUsuariEntitatForm, result);
+      postValidate(request,roleUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        roleUsuariEntitat = create(roleUsuariEntitat);
+        roleUsuariEntitat = create(request, roleUsuariEntitat);
         createMessageSuccess(request, "success.creation", roleUsuariEntitat.getId());
         roleUsuariEntitatForm.setRoleUsuariEntitat(roleUsuariEntitat);
         return getRedirectWhenCreated(roleUsuariEntitatForm);
@@ -345,7 +345,7 @@ public class RoleUsuariEntitatController
         return null;
       }
     }
-    RoleUsuariEntitatJPA roleUsuariEntitat = findByPrimaryKey(id);
+    RoleUsuariEntitatJPA roleUsuariEntitat = findByPrimaryKey(request, id);
 
     if (roleUsuariEntitat == null) {
       createMessageWarning(request, "error.notfound", id);
@@ -395,14 +395,14 @@ public class RoleUsuariEntitatController
     RoleUsuariEntitatJPA roleUsuariEntitat = roleUsuariEntitatForm.getRoleUsuariEntitat();
 
     try {
-      preValidate(roleUsuariEntitatForm, result);
+      preValidate(request, roleUsuariEntitatForm, result);
       getWebValidator().validate(roleUsuariEntitat, result);
-      postValidate(roleUsuariEntitatForm, result);
+      postValidate(request, roleUsuariEntitatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        roleUsuariEntitat = update(roleUsuariEntitat);
+        roleUsuariEntitat = update(request, roleUsuariEntitat);
         createMessageSuccess(request, "success.modification", roleUsuariEntitat.getId());
         status.setComplete();
         return getRedirectWhenModified(roleUsuariEntitatForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(RoleUsuariEntitatForm roleUsuariEntitatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,RoleUsuariEntitatForm roleUsuariEntitatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(RoleUsuariEntitatForm roleUsuariEntitatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,RoleUsuariEntitatForm roleUsuariEntitatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, RoleUsuariEntitatFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public RoleUsuariEntitatJPA findByPrimaryKey(java.lang.Long id) throws I18NException {
+  public RoleUsuariEntitatJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long id) throws I18NException {
     return (RoleUsuariEntitatJPA) roleUsuariEntitatEjb.findByPrimaryKey(id);
   }
 
 
-  public RoleUsuariEntitatJPA create(RoleUsuariEntitatJPA roleUsuariEntitat)
+  public RoleUsuariEntitatJPA create(HttpServletRequest request, RoleUsuariEntitatJPA roleUsuariEntitat)
     throws Exception,I18NException, I18NValidationException {
     return (RoleUsuariEntitatJPA) roleUsuariEntitatEjb.create(roleUsuariEntitat);
   }
 
 
-  public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat) throws Exception,I18NException {
-    roleUsuariEntitatEjb.delete(roleUsuariEntitat);
+  public RoleUsuariEntitatJPA update(HttpServletRequest request, RoleUsuariEntitatJPA roleUsuariEntitat)
+    throws Exception,I18NException, I18NValidationException {
+    return (RoleUsuariEntitatJPA) roleUsuariEntitatEjb.update(roleUsuariEntitat);
   }
 
 
-  public RoleUsuariEntitatJPA update(RoleUsuariEntitatJPA roleUsuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
-    return (RoleUsuariEntitatJPA) roleUsuariEntitatEjb.update(roleUsuariEntitat);
+  public void delete(HttpServletRequest request, RoleUsuariEntitat roleUsuariEntitat) throws Exception,I18NException {
+    roleUsuariEntitatEjb.delete(roleUsuariEntitat);
   }
 
 } // Final de Classe

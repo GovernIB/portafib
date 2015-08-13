@@ -301,14 +301,14 @@ public class PermisGrupPlantillaController
     PermisGrupPlantillaJPA permisGrupPlantilla = permisGrupPlantillaForm.getPermisGrupPlantilla();
 
     try {
-      preValidate(permisGrupPlantillaForm, result);
+      preValidate(request, permisGrupPlantillaForm, result);
       getWebValidator().validate(permisGrupPlantillaForm, result);
-      postValidate(permisGrupPlantillaForm, result);
+      postValidate(request,permisGrupPlantillaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        permisGrupPlantilla = create(permisGrupPlantilla);
+        permisGrupPlantilla = create(request, permisGrupPlantilla);
         createMessageSuccess(request, "success.creation", permisGrupPlantilla.getPermisGrupPlantillaID());
         permisGrupPlantillaForm.setPermisGrupPlantilla(permisGrupPlantilla);
         return getRedirectWhenCreated(permisGrupPlantillaForm);
@@ -345,7 +345,7 @@ public class PermisGrupPlantillaController
         return null;
       }
     }
-    PermisGrupPlantillaJPA permisGrupPlantilla = findByPrimaryKey(permisGrupPlantillaID);
+    PermisGrupPlantillaJPA permisGrupPlantilla = findByPrimaryKey(request, permisGrupPlantillaID);
 
     if (permisGrupPlantilla == null) {
       createMessageWarning(request, "error.notfound", permisGrupPlantillaID);
@@ -395,14 +395,14 @@ public class PermisGrupPlantillaController
     PermisGrupPlantillaJPA permisGrupPlantilla = permisGrupPlantillaForm.getPermisGrupPlantilla();
 
     try {
-      preValidate(permisGrupPlantillaForm, result);
+      preValidate(request, permisGrupPlantillaForm, result);
       getWebValidator().validate(permisGrupPlantilla, result);
-      postValidate(permisGrupPlantillaForm, result);
+      postValidate(request, permisGrupPlantillaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        permisGrupPlantilla = update(permisGrupPlantilla);
+        permisGrupPlantilla = update(request, permisGrupPlantilla);
         createMessageSuccess(request, "success.modification", permisGrupPlantilla.getPermisGrupPlantillaID());
         status.setComplete();
         return getRedirectWhenModified(permisGrupPlantillaForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(PermisGrupPlantillaForm permisGrupPlantillaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PermisGrupPlantillaForm permisGrupPlantillaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PermisGrupPlantillaForm permisGrupPlantillaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PermisGrupPlantillaForm permisGrupPlantillaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PermisGrupPlantillaFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public PermisGrupPlantillaJPA findByPrimaryKey(java.lang.Long permisGrupPlantillaID) throws I18NException {
+  public PermisGrupPlantillaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long permisGrupPlantillaID) throws I18NException {
     return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.findByPrimaryKey(permisGrupPlantillaID);
   }
 
 
-  public PermisGrupPlantillaJPA create(PermisGrupPlantillaJPA permisGrupPlantilla)
+  public PermisGrupPlantillaJPA create(HttpServletRequest request, PermisGrupPlantillaJPA permisGrupPlantilla)
     throws Exception,I18NException, I18NValidationException {
     return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.create(permisGrupPlantilla);
   }
 
 
-  public void delete(HttpServletRequest request, PermisGrupPlantilla permisGrupPlantilla) throws Exception,I18NException {
-    permisGrupPlantillaEjb.delete(permisGrupPlantilla);
+  public PermisGrupPlantillaJPA update(HttpServletRequest request, PermisGrupPlantillaJPA permisGrupPlantilla)
+    throws Exception,I18NException, I18NValidationException {
+    return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.update(permisGrupPlantilla);
   }
 
 
-  public PermisGrupPlantillaJPA update(PermisGrupPlantillaJPA permisGrupPlantilla)
-    throws Exception,I18NException, I18NValidationException {
-    return (PermisGrupPlantillaJPA) permisGrupPlantillaEjb.update(permisGrupPlantilla);
+  public void delete(HttpServletRequest request, PermisGrupPlantilla permisGrupPlantilla) throws Exception,I18NException {
+    permisGrupPlantillaEjb.delete(permisGrupPlantilla);
   }
 
 } // Final de Classe

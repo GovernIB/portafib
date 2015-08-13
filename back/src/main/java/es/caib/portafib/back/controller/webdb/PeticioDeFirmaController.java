@@ -511,15 +511,15 @@ public class PeticioDeFirmaController
 
     try {
       this.setFilesFormToEntity(afm, peticioDeFirma, peticioDeFirmaForm); // FILE
-      preValidate(peticioDeFirmaForm, result);
+      preValidate(request, peticioDeFirmaForm, result);
       getWebValidator().validate(peticioDeFirmaForm, result);
-      postValidate(peticioDeFirmaForm, result);
+      postValidate(request,peticioDeFirmaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        peticioDeFirma = create(peticioDeFirma);
+        peticioDeFirma = create(request, peticioDeFirma);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", peticioDeFirma.getPeticioDeFirmaID());
         peticioDeFirmaForm.setPeticioDeFirma(peticioDeFirma);
@@ -558,7 +558,7 @@ public class PeticioDeFirmaController
         return null;
       }
     }
-    PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(peticioDeFirmaID);
+    PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(request, peticioDeFirmaID);
 
     if (peticioDeFirma == null) {
       createMessageWarning(request, "error.notfound", peticioDeFirmaID);
@@ -610,15 +610,15 @@ public class PeticioDeFirmaController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, peticioDeFirma, peticioDeFirmaForm); // FILE
-      preValidate(peticioDeFirmaForm, result);
+      preValidate(request, peticioDeFirmaForm, result);
       getWebValidator().validate(peticioDeFirma, result);
-      postValidate(peticioDeFirmaForm, result);
+      postValidate(request, peticioDeFirmaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        peticioDeFirma = update(peticioDeFirma);
+        peticioDeFirma = update(request, peticioDeFirma);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", peticioDeFirma.getPeticioDeFirmaID());
         status.setComplete();
@@ -1288,10 +1288,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(PeticioDeFirmaForm peticioDeFirmaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PeticioDeFirmaForm peticioDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm)  throws I18NException {
@@ -1346,25 +1346,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public PeticioDeFirmaJPA findByPrimaryKey(java.lang.Long peticioDeFirmaID) throws I18NException {
+  public PeticioDeFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long peticioDeFirmaID) throws I18NException {
     return (PeticioDeFirmaJPA) peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
   }
 
 
-  public PeticioDeFirmaJPA create(PeticioDeFirmaJPA peticioDeFirma)
+  public PeticioDeFirmaJPA create(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
     throws Exception,I18NException, I18NValidationException {
     return (PeticioDeFirmaJPA) peticioDeFirmaEjb.create(peticioDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, PeticioDeFirma peticioDeFirma) throws Exception,I18NException {
-    peticioDeFirmaEjb.delete(peticioDeFirma);
+  public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
+    throws Exception,I18NException, I18NValidationException {
+    return (PeticioDeFirmaJPA) peticioDeFirmaEjb.update(peticioDeFirma);
   }
 
 
-  public PeticioDeFirmaJPA update(PeticioDeFirmaJPA peticioDeFirma)
-    throws Exception,I18NException, I18NValidationException {
-    return (PeticioDeFirmaJPA) peticioDeFirmaEjb.update(peticioDeFirma);
+  public void delete(HttpServletRequest request, PeticioDeFirma peticioDeFirma) throws Exception,I18NException {
+    peticioDeFirmaEjb.delete(peticioDeFirma);
   }
 
 } // Final de Classe

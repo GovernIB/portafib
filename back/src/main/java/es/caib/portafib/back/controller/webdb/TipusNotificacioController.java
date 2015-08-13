@@ -255,14 +255,14 @@ public class TipusNotificacioController
     TipusNotificacioJPA tipusNotificacio = tipusNotificacioForm.getTipusNotificacio();
 
     try {
-      preValidate(tipusNotificacioForm, result);
+      preValidate(request, tipusNotificacioForm, result);
       getWebValidator().validate(tipusNotificacioForm, result);
-      postValidate(tipusNotificacioForm, result);
+      postValidate(request,tipusNotificacioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusNotificacio = create(tipusNotificacio);
+        tipusNotificacio = create(request, tipusNotificacio);
         createMessageSuccess(request, "success.creation", tipusNotificacio.getTipusNotificacioID());
         tipusNotificacioForm.setTipusNotificacio(tipusNotificacio);
         return getRedirectWhenCreated(tipusNotificacioForm);
@@ -299,7 +299,7 @@ public class TipusNotificacioController
         return null;
       }
     }
-    TipusNotificacioJPA tipusNotificacio = findByPrimaryKey(tipusNotificacioID);
+    TipusNotificacioJPA tipusNotificacio = findByPrimaryKey(request, tipusNotificacioID);
 
     if (tipusNotificacio == null) {
       createMessageWarning(request, "error.notfound", tipusNotificacioID);
@@ -349,14 +349,14 @@ public class TipusNotificacioController
     TipusNotificacioJPA tipusNotificacio = tipusNotificacioForm.getTipusNotificacio();
 
     try {
-      preValidate(tipusNotificacioForm, result);
+      preValidate(request, tipusNotificacioForm, result);
       getWebValidator().validate(tipusNotificacio, result);
-      postValidate(tipusNotificacioForm, result);
+      postValidate(request, tipusNotificacioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusNotificacio = update(tipusNotificacio);
+        tipusNotificacio = update(request, tipusNotificacio);
         createMessageSuccess(request, "success.modification", tipusNotificacio.getTipusNotificacioID());
         status.setComplete();
         return getRedirectWhenModified(tipusNotificacioForm, null);
@@ -537,10 +537,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusNotificacioForm tipusNotificacioForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusNotificacioForm tipusNotificacioForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusNotificacioForm tipusNotificacioForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusNotificacioForm tipusNotificacioForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusNotificacioFilterForm filterForm)  throws I18NException {
@@ -595,25 +595,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public TipusNotificacioJPA findByPrimaryKey(java.lang.Long tipusNotificacioID) throws I18NException {
+  public TipusNotificacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long tipusNotificacioID) throws I18NException {
     return (TipusNotificacioJPA) tipusNotificacioEjb.findByPrimaryKey(tipusNotificacioID);
   }
 
 
-  public TipusNotificacioJPA create(TipusNotificacioJPA tipusNotificacio)
+  public TipusNotificacioJPA create(HttpServletRequest request, TipusNotificacioJPA tipusNotificacio)
     throws Exception,I18NException, I18NValidationException {
     return (TipusNotificacioJPA) tipusNotificacioEjb.create(tipusNotificacio);
   }
 
 
-  public void delete(HttpServletRequest request, TipusNotificacio tipusNotificacio) throws Exception,I18NException {
-    tipusNotificacioEjb.delete(tipusNotificacio);
+  public TipusNotificacioJPA update(HttpServletRequest request, TipusNotificacioJPA tipusNotificacio)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusNotificacioJPA) tipusNotificacioEjb.update(tipusNotificacio);
   }
 
 
-  public TipusNotificacioJPA update(TipusNotificacioJPA tipusNotificacio)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusNotificacioJPA) tipusNotificacioEjb.update(tipusNotificacio);
+  public void delete(HttpServletRequest request, TipusNotificacio tipusNotificacio) throws Exception,I18NException {
+    tipusNotificacioEjb.delete(tipusNotificacio);
   }
 
 } // Final de Classe

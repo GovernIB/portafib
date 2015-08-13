@@ -285,15 +285,15 @@ public class UsuariPersonaController
 
     try {
       this.setFilesFormToEntity(afm, usuariPersona, usuariPersonaForm); // FILE
-      preValidate(usuariPersonaForm, result);
+      preValidate(request, usuariPersonaForm, result);
       getWebValidator().validate(usuariPersonaForm, result);
-      postValidate(usuariPersonaForm, result);
+      postValidate(request,usuariPersonaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariPersona = create(usuariPersona);
+        usuariPersona = create(request, usuariPersona);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", usuariPersona.getUsuariPersonaID());
         usuariPersonaForm.setUsuariPersona(usuariPersona);
@@ -332,7 +332,7 @@ public class UsuariPersonaController
         return null;
       }
     }
-    UsuariPersonaJPA usuariPersona = findByPrimaryKey(usuariPersonaID);
+    UsuariPersonaJPA usuariPersona = findByPrimaryKey(request, usuariPersonaID);
 
     if (usuariPersona == null) {
       createMessageWarning(request, "error.notfound", usuariPersonaID);
@@ -384,15 +384,15 @@ public class UsuariPersonaController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, usuariPersona, usuariPersonaForm); // FILE
-      preValidate(usuariPersonaForm, result);
+      preValidate(request, usuariPersonaForm, result);
       getWebValidator().validate(usuariPersona, result);
-      postValidate(usuariPersonaForm, result);
+      postValidate(request, usuariPersonaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariPersona = update(usuariPersona);
+        usuariPersona = update(request, usuariPersona);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", usuariPersona.getUsuariPersonaID());
         status.setComplete();
@@ -638,10 +638,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(UsuariPersonaForm usuariPersonaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,UsuariPersonaForm usuariPersonaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(UsuariPersonaForm usuariPersonaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,UsuariPersonaForm usuariPersonaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, UsuariPersonaFilterForm filterForm)  throws I18NException {
@@ -696,25 +696,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public UsuariPersonaJPA findByPrimaryKey(java.lang.String usuariPersonaID) throws I18NException {
+  public UsuariPersonaJPA findByPrimaryKey(HttpServletRequest request, java.lang.String usuariPersonaID) throws I18NException {
     return (UsuariPersonaJPA) usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
   }
 
 
-  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersona)
+  public UsuariPersonaJPA create(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariPersonaJPA) usuariPersonaEjb.create(usuariPersona);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariPersona usuariPersona) throws Exception,I18NException {
-    usuariPersonaEjb.delete(usuariPersona);
+  public UsuariPersonaJPA update(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
+    throws Exception,I18NException, I18NValidationException {
+    return (UsuariPersonaJPA) usuariPersonaEjb.update(usuariPersona);
   }
 
 
-  public UsuariPersonaJPA update(UsuariPersonaJPA usuariPersona)
-    throws Exception,I18NException, I18NValidationException {
-    return (UsuariPersonaJPA) usuariPersonaEjb.update(usuariPersona);
+  public void delete(HttpServletRequest request, UsuariPersona usuariPersona) throws Exception,I18NException {
+    usuariPersonaEjb.delete(usuariPersona);
   }
 
 } // Final de Classe

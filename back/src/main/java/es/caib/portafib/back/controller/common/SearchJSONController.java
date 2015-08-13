@@ -16,14 +16,16 @@ import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.controller.RefListBase;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
+import es.caib.portafib.back.reflist.CarrecJSONRefList;
+import es.caib.portafib.back.reflist.UsuariEntitatJSONRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
@@ -52,38 +54,26 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchJSONController {
 
   protected static final Logger log = Logger.getLogger(SearchJSONController.class);
-  
-  
+
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  
+
+  @Autowired
+  protected UsuariEntitatJSONRefList usuariEntitatRefList;
  
   @Autowired
-  protected UsuariEntitatRefList usuariEntitatRefList;
-  
+  protected CarrecJSONRefList carrecRefList;
+
   @Autowired
   protected UsuariPersonaRefList usuariPersonaRefList;
-  
+
   @PostConstruct
   public void init() {
 
-    { 
-      this.usuariEntitatRefList = new UsuariEntitatRefList(usuariEntitatRefList);
-
-      final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
-      this.usuariEntitatRefList.setSelects(new Select<?>[] { 
-          personaQueryPath.LLINATGES().select , new SelectConstant(", "), 
-          personaQueryPath.NOM().select, new SelectConstant(" ("), 
-          personaQueryPath.NIF().select, new SelectConstant(" - "),
-          personaQueryPath.USUARIPERSONAID().select,new SelectConstant(")") });
-      
-      this.usuariEntitatRefList.setSeparator("");
-    }
-    
     {
       this.usuariPersonaRefList = new UsuariPersonaRefList(usuariPersonaRefList);
 
@@ -158,10 +148,10 @@ public class SearchJSONController {
 
     StringField keyField = UsuariPersonaFields.USUARIPERSONAID;
     
-    IRefBaseReferenceList refListBase = new RefBaseReferenceListUsuariPersona(usuariPersonaRefList);
+    //IRefBaseReferenceList refListBase = new RefBaseReferenceListUsuariPersona();
     
     String json = genericSearch(queryFull, personaQueryPath, usuariPersonaLogicaEjb, additionalWhere, keyField,
-        refListBase);
+        usuariPersonaRefList);
     
     
     PrintWriter pw= response.getWriter();
@@ -179,7 +169,7 @@ public class SearchJSONController {
    * @throws Exception
    */
   @RequestMapping(value = "/usuarientitat", method = RequestMethod.POST)
-  public void usuariEntitat(HttpServletRequest request, HttpServletResponse response
+  public void usuarientitat(HttpServletRequest request, HttpServletResponse response
      ) throws Exception {
 
     
@@ -195,10 +185,8 @@ public class SearchJSONController {
     
     StringField keyField = UsuariEntitatFields.USUARIENTITATID;
     
-    IRefBaseReferenceList refListBase = new RefBaseReferenceListUsuariEntitat(usuariEntitatRefList);
-    
     String json = genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb,
-        additionalWhere, keyField, refListBase);
+        additionalWhere, keyField, usuariEntitatRefList);
     
     
     PrintWriter pw= response.getWriter();
@@ -207,14 +195,131 @@ public class SearchJSONController {
     pw.flush();
     
   }
+  
+  
+  /**
+   * Filtre usuaris-entitat de l'entitat actual.
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/usuarientitatcarrec", method = RequestMethod.POST)
+  public void usuarientitatcarrec(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+
+    
+    String queryFull = request.getParameter("query");
+
+ 
+    final List<String> aEliminar = new ArrayList<String>();
+    
+    String json = generaLlistatUsuarisCarrecsJson(queryFull,
+         aEliminar, usuariEntitatLogicaEjb,
+        usuariEntitatRefList, carrecRefList);
+    
+    
+    PrintWriter pw= response.getWriter();
+    
+    pw.write(json);
+    pw.flush();
+    
+  }
+  
 
 
+  
+  public static  String generaLlistatUsuarisCarrecsJson(String queryFull,
+      List<String> aEliminar, UsuariEntitatLogicaLocal usuariEntitatLogicaEjb,
+      RefListBase usuariEntitatRefList, RefListBase carrecRefList)
+      throws IOException {
+    String json;
+    final boolean isDebug = log.isDebugEnabled();
+    if (queryFull == null) {
+      json = "[]";
+    } else {
+    
+      Where whereBase = Where.AND(     
+          UsuariEntitatFields.USUARIENTITATID.notIn(aEliminar),
+          UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+          UsuariEntitatFields.ACTIU.equal(true));
+
+      final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+
+      StringField keyField = UsuariEntitatFields.USUARIENTITATID;
+   
+      Where additionalWhereUsuariEntitat = Where.AND(
+          whereBase,
+          UsuariEntitatFields.CARREC.isNull()
+
+          );
+      Where additionalWhereCarrec = Where.AND(
+          whereBase,
+          UsuariEntitatFields.CARREC.isNotNull()
+          );
+
+      String jsonUsuariEntitat = SearchJSONController.genericSearch(queryFull, 
+          personaQueryPath, usuariEntitatLogicaEjb,
+          additionalWhereUsuariEntitat, keyField, usuariEntitatRefList);
+
+      String jsonCarrec = SearchJSONController.genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb,
+          additionalWhereCarrec, keyField, carrecRefList, UsuariEntitatFields.CARREC);
+      
+      if (isDebug) {
+        log.debug("jsonUsuariEntitat = |" + jsonUsuariEntitat + "|");
+      }
+      
+      
+      if (jsonUsuariEntitat.trim().equals("[]")) {
+        jsonUsuariEntitat = "";
+      } else {
+        // Llevam corchetes
+        jsonUsuariEntitat = jsonUsuariEntitat.substring(1, jsonUsuariEntitat.length() - 1).trim();
+      }
+      
+      if (isDebug) {
+        log.debug("jsonCarrec = |" + jsonCarrec + "|");
+      }
+      if (jsonCarrec.trim().equals("[]")) {
+        jsonCarrec = "";
+      } else {
+        // Llevam corchetes
+        jsonCarrec = jsonCarrec.substring(1, jsonCarrec.length() - 1).trim();
+      }
+  
+      
+      if (jsonCarrec.length() != 0 && jsonUsuariEntitat.length() != 0) {
+        json = "[" + jsonUsuariEntitat + ", " + jsonCarrec + "]";
+      } else if (jsonCarrec.length() == 0) {
+        json = "[" + jsonUsuariEntitat + "]";
+      } else {
+        json = "[" + jsonCarrec + "]";
+      }
+    }
+    if (isDebug) {
+      log.debug("  json = |" + json + "|");
+    }
+    return json;
+  }
+  
+  
 
 
   public static String genericSearch(String queryFull,
       final UsuariPersonaQueryPath personaQueryPath,
       org.fundaciobit.genapp.common.query.ITableManager<?,?> uem, Where additionalWhere,
-      StringField keyField, IRefBaseReferenceList refListBase) throws IOException {
+      StringField keyField, RefListBase refListBase) throws IOException {
+    
+    return genericSearch(queryFull, personaQueryPath, uem,  additionalWhere,
+         keyField,  refListBase,  null);
+      
+}
+  
+  
+  
+  public static String genericSearch(String queryFull,
+      final UsuariPersonaQueryPath personaQueryPath,
+      org.fundaciobit.genapp.common.query.ITableManager<?,?> uem, Where additionalWhere,
+      StringField keyField, RefListBase refListBase, Field<String> fieldOR) throws IOException {
     
       final boolean isDebug = log.isDebugEnabled();
 
@@ -238,9 +343,10 @@ public class SearchJSONController {
             personaQueryPath.NOM().like(like),
             personaQueryPath.LLINATGES().like(like),
             personaQueryPath.NIF().like(like),
-            personaQueryPath.USUARIPERSONAID().like(like)
+            personaQueryPath.USUARIPERSONAID().like(like),
+            (fieldOR == null)? null : fieldOR.like(like)
             );
-        
+
         wheres.add(whereQuery);
       }
       
@@ -307,6 +413,10 @@ public class SearchJSONController {
      return str.toString();
     
   }
+
+
+
+
   
   
   public static String escapeJSON(String txt) {
@@ -317,16 +427,17 @@ public class SearchJSONController {
   }
   
   
-  
-  interface IRefBaseReferenceList {
+  /*
+  public static interface IRefBaseReferenceList {
     public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException;
   }
 
-  class RefBaseReferenceListUsuariEntitat implements IRefBaseReferenceList {
+  
+  public static class RefBaseReferenceListUsuariEntitat implements IRefBaseReferenceList {
     
-    final UsuariEntitatRefList usuariEntitatRefList;
+    final RefListBase usuariEntitatRefList;
 
-    public RefBaseReferenceListUsuariEntitat(UsuariEntitatRefList usuariEntitatRefList) {
+    public RefBaseReferenceListUsuariEntitat(RefListBase usuariEntitatRefList) {
       super();
       this.usuariEntitatRefList = usuariEntitatRefList;
     }
@@ -340,11 +451,11 @@ public class SearchJSONController {
   }
   
   
-  class RefBaseReferenceListUsuariPersona implements IRefBaseReferenceList {
+  public static class RefBaseReferenceListUsuariPersona implements IRefBaseReferenceList {
     
-    final UsuariPersonaRefList usuariPersonaRefList;
+    final RefListBase usuariPersonaRefList;
 
-    public RefBaseReferenceListUsuariPersona(UsuariPersonaRefList usuariPersonaRefList) {
+    public RefBaseReferenceListUsuariPersona(RefListBase usuariPersonaRefList) {
       super();
       this.usuariPersonaRefList = usuariPersonaRefList;
     }
@@ -356,6 +467,7 @@ public class SearchJSONController {
     }
 
   }
+  */
   
   
   public static List<StringKeyValue> favoritsToUsuariPersona(List<UsuariEntitatJPA> list) {
@@ -380,10 +492,9 @@ public class SearchJSONController {
     List<StringKeyValue> listSKV = new ArrayList<StringKeyValue>(list.size());
     
     for (UsuariEntitatJPA favorit : list) {
-      UsuariPersonaJPA up = favorit.getUsuariPersona();
-      String value = usuariPersonaToString(up);
       
-      listSKV.add(new StringKeyValue(favorit.getUsuariEntitatID(), value));
+      StringKeyValue skv = getStringKeyValueFromUsuariEntitat(favorit);
+      listSKV.add(skv);
     }
     
     return listSKV;
@@ -391,12 +502,36 @@ public class SearchJSONController {
 
 
 
+  public static StringKeyValue getStringKeyValueFromUsuariEntitat(UsuariEntitatJPA favorit) {
+    String carrec = favorit.getCarrec();
+    UsuariPersonaJPA up = favorit.getUsuariPersona();
+    String value;
+    if (carrec == null) {
+      value = usuariPersonaToString(up);
+    } else {
+      value = usuariPersonaCarrecToString(carrec,up); 
+    }
+    StringKeyValue skv= new StringKeyValue(favorit.getUsuariEntitatID(), value);
+    return skv;
+  }
+  
+  
+
+
   protected static String usuariPersonaToString(UsuariPersonaJPA up) {
-    String tmp = up.getLlinatges() + ", " + up.getNom() + "(" + up.getNif() 
+    String tmp = up.getLlinatges() + ", " + up.getNom() + " (" + up.getNif() 
         + " - " + up.getUsuariPersonaID() + ")";
     
     return tmp.replace('"', '\'');
   }
   
+  protected static String usuariPersonaCarrecToString(String carrec, UsuariPersonaJPA up) {
+    String tmp = "(*) " + carrec + " (" + up.getNom() + " " + up.getLlinatges() + " - " + up.getNif() 
+        + " - " + up.getUsuariPersonaID() + ")";
+    
+    return tmp.replace('"', '\'');
+  }
+  
+
 
 }

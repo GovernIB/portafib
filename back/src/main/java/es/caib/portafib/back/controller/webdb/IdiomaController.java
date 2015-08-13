@@ -255,14 +255,14 @@ public class IdiomaController
     IdiomaJPA idioma = idiomaForm.getIdioma();
 
     try {
-      preValidate(idiomaForm, result);
+      preValidate(request, idiomaForm, result);
       getWebValidator().validate(idiomaForm, result);
-      postValidate(idiomaForm, result);
+      postValidate(request,idiomaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        idioma = create(idioma);
+        idioma = create(request, idioma);
         createMessageSuccess(request, "success.creation", idioma.getIdiomaID());
         idiomaForm.setIdioma(idioma);
         return getRedirectWhenCreated(idiomaForm);
@@ -299,7 +299,7 @@ public class IdiomaController
         return null;
       }
     }
-    IdiomaJPA idioma = findByPrimaryKey(idiomaID);
+    IdiomaJPA idioma = findByPrimaryKey(request, idiomaID);
 
     if (idioma == null) {
       createMessageWarning(request, "error.notfound", idiomaID);
@@ -349,14 +349,14 @@ public class IdiomaController
     IdiomaJPA idioma = idiomaForm.getIdioma();
 
     try {
-      preValidate(idiomaForm, result);
+      preValidate(request, idiomaForm, result);
       getWebValidator().validate(idioma, result);
-      postValidate(idiomaForm, result);
+      postValidate(request, idiomaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        idioma = update(idioma);
+        idioma = update(request, idioma);
         createMessageSuccess(request, "success.modification", idioma.getIdiomaID());
         status.setComplete();
         return getRedirectWhenModified(idiomaForm, null);
@@ -537,10 +537,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(IdiomaForm idiomaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,IdiomaForm idiomaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(IdiomaForm idiomaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,IdiomaForm idiomaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, IdiomaFilterForm filterForm)  throws I18NException {
@@ -595,25 +595,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public IdiomaJPA findByPrimaryKey(java.lang.String idiomaID) throws I18NException {
+  public IdiomaJPA findByPrimaryKey(HttpServletRequest request, java.lang.String idiomaID) throws I18NException {
     return (IdiomaJPA) idiomaEjb.findByPrimaryKey(idiomaID);
   }
 
 
-  public IdiomaJPA create(IdiomaJPA idioma)
+  public IdiomaJPA create(HttpServletRequest request, IdiomaJPA idioma)
     throws Exception,I18NException, I18NValidationException {
     return (IdiomaJPA) idiomaEjb.create(idioma);
   }
 
 
-  public void delete(HttpServletRequest request, Idioma idioma) throws Exception,I18NException {
-    idiomaEjb.delete(idioma);
+  public IdiomaJPA update(HttpServletRequest request, IdiomaJPA idioma)
+    throws Exception,I18NException, I18NValidationException {
+    return (IdiomaJPA) idiomaEjb.update(idioma);
   }
 
 
-  public IdiomaJPA update(IdiomaJPA idioma)
-    throws Exception,I18NException, I18NValidationException {
-    return (IdiomaJPA) idiomaEjb.update(idioma);
+  public void delete(HttpServletRequest request, Idioma idioma) throws Exception,I18NException {
+    idiomaEjb.delete(idioma);
   }
 
 } // Final de Classe

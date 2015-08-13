@@ -662,7 +662,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public void postValidate(ColaboracioDelegacioForm colaboracioDelegacioForm,
+  public void postValidate(HttpServletRequest request,
+      ColaboracioDelegacioForm colaboracioDelegacioForm,
       BindingResult result) throws I18NException {
 
     ColaboracioDelegacioDestForm form = (ColaboracioDelegacioDestForm) colaboracioDelegacioForm;
@@ -765,7 +766,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public ColaboracioDelegacioJPA findByPrimaryKey(java.lang.Long colaboracioDelegacioID)
+  public ColaboracioDelegacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long colaboracioDelegacioID)
       throws I18NException {
 
     ColaboracioDelegacioJPA colaboracioDelegacio = colaboracioDelegacioLogicaEjb
@@ -792,7 +793,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public ColaboracioDelegacioJPA create(ColaboracioDelegacioJPA colaboracioDelegacio)
+  public ColaboracioDelegacioJPA create(HttpServletRequest request, 
+      ColaboracioDelegacioJPA colaboracioDelegacio)
       throws I18NException {
     return colaboracioDelegacioLogicaEjb.createFull(colaboracioDelegacio);
   }
@@ -819,7 +821,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public ColaboracioDelegacioJPA update(ColaboracioDelegacioJPA colaboracioDelegacio)
+  public ColaboracioDelegacioJPA update(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
       throws I18NException {
     if (log.isDebugEnabled()) {
       try {

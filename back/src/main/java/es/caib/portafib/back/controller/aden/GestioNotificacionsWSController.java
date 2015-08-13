@@ -161,7 +161,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   
   
   @Override
-  public NotificacioWSJPA findByPrimaryKey( java.lang.Long notificacioID) throws I18NException {
+  public NotificacioWSJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long notificacioID) throws I18NException {
     return notificacioLogicaEjb.findByPrimaryKeyForNotificacioQueue(notificacioID);
   }
   

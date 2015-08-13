@@ -183,10 +183,10 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 	}
 
 	@Override
-	public void postValidate(TipusDocumentForm tipusDocumentForm,
+	public void postValidate(HttpServletRequest request, TipusDocumentForm tipusDocumentForm,
 			BindingResult result) throws I18NException {
 
-		super.postValidate(tipusDocumentForm, result);
+		super.postValidate(request, tipusDocumentForm, result);
 
 		if (isAdmin()) {
 			Long __tdid = (Long) result.getFieldValue(get(TIPUSDOCUMENTID));
@@ -268,7 +268,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 	}
 	
 	@Override
-	public TipusDocumentJPA create(TipusDocumentJPA tipusDocument)
+	public TipusDocumentJPA create(HttpServletRequest request, TipusDocumentJPA tipusDocument)
 			throws Exception, I18NException {
 		return tipusDocumentLogicaEjb.create(tipusDocument, !isAdmin());
 	}

@@ -391,14 +391,14 @@ public class CustodiaInfoController
     CustodiaInfoJPA custodiaInfo = custodiaInfoForm.getCustodiaInfo();
 
     try {
-      preValidate(custodiaInfoForm, result);
+      preValidate(request, custodiaInfoForm, result);
       getWebValidator().validate(custodiaInfoForm, result);
-      postValidate(custodiaInfoForm, result);
+      postValidate(request,custodiaInfoForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        custodiaInfo = create(custodiaInfo);
+        custodiaInfo = create(request, custodiaInfo);
         createMessageSuccess(request, "success.creation", custodiaInfo.getCustodiaInfoID());
         custodiaInfoForm.setCustodiaInfo(custodiaInfo);
         return getRedirectWhenCreated(custodiaInfoForm);
@@ -435,7 +435,7 @@ public class CustodiaInfoController
         return null;
       }
     }
-    CustodiaInfoJPA custodiaInfo = findByPrimaryKey(custodiaInfoID);
+    CustodiaInfoJPA custodiaInfo = findByPrimaryKey(request, custodiaInfoID);
 
     if (custodiaInfo == null) {
       createMessageWarning(request, "error.notfound", custodiaInfoID);
@@ -485,14 +485,14 @@ public class CustodiaInfoController
     CustodiaInfoJPA custodiaInfo = custodiaInfoForm.getCustodiaInfo();
 
     try {
-      preValidate(custodiaInfoForm, result);
+      preValidate(request, custodiaInfoForm, result);
       getWebValidator().validate(custodiaInfo, result);
-      postValidate(custodiaInfoForm, result);
+      postValidate(request, custodiaInfoForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        custodiaInfo = update(custodiaInfo);
+        custodiaInfo = update(request, custodiaInfo);
         createMessageSuccess(request, "success.modification", custodiaInfo.getCustodiaInfoID());
         status.setComplete();
         return getRedirectWhenModified(custodiaInfoForm, null);
@@ -917,10 +917,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(CustodiaInfoForm custodiaInfoForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, CustodiaInfoFilterForm filterForm)  throws I18NException {
@@ -975,25 +975,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public CustodiaInfoJPA findByPrimaryKey(java.lang.Long custodiaInfoID) throws I18NException {
+  public CustodiaInfoJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long custodiaInfoID) throws I18NException {
     return (CustodiaInfoJPA) custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
   }
 
 
-  public CustodiaInfoJPA create(CustodiaInfoJPA custodiaInfo)
+  public CustodiaInfoJPA create(HttpServletRequest request, CustodiaInfoJPA custodiaInfo)
     throws Exception,I18NException, I18NValidationException {
     return (CustodiaInfoJPA) custodiaInfoEjb.create(custodiaInfo);
   }
 
 
-  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws Exception,I18NException {
-    custodiaInfoEjb.delete(custodiaInfo);
+  public CustodiaInfoJPA update(HttpServletRequest request, CustodiaInfoJPA custodiaInfo)
+    throws Exception,I18NException, I18NValidationException {
+    return (CustodiaInfoJPA) custodiaInfoEjb.update(custodiaInfo);
   }
 
 
-  public CustodiaInfoJPA update(CustodiaInfoJPA custodiaInfo)
-    throws Exception,I18NException, I18NValidationException {
-    return (CustodiaInfoJPA) custodiaInfoEjb.update(custodiaInfo);
+  public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws Exception,I18NException {
+    custodiaInfoEjb.delete(custodiaInfo);
   }
 
 } // Final de Classe

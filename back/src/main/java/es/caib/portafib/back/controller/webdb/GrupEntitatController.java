@@ -279,14 +279,14 @@ public class GrupEntitatController
     GrupEntitatJPA grupEntitat = grupEntitatForm.getGrupEntitat();
 
     try {
-      preValidate(grupEntitatForm, result);
+      preValidate(request, grupEntitatForm, result);
       getWebValidator().validate(grupEntitatForm, result);
-      postValidate(grupEntitatForm, result);
+      postValidate(request,grupEntitatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        grupEntitat = create(grupEntitat);
+        grupEntitat = create(request, grupEntitat);
         createMessageSuccess(request, "success.creation", grupEntitat.getGrupEntitatID());
         grupEntitatForm.setGrupEntitat(grupEntitat);
         return getRedirectWhenCreated(grupEntitatForm);
@@ -323,7 +323,7 @@ public class GrupEntitatController
         return null;
       }
     }
-    GrupEntitatJPA grupEntitat = findByPrimaryKey(grupEntitatID);
+    GrupEntitatJPA grupEntitat = findByPrimaryKey(request, grupEntitatID);
 
     if (grupEntitat == null) {
       createMessageWarning(request, "error.notfound", grupEntitatID);
@@ -373,14 +373,14 @@ public class GrupEntitatController
     GrupEntitatJPA grupEntitat = grupEntitatForm.getGrupEntitat();
 
     try {
-      preValidate(grupEntitatForm, result);
+      preValidate(request, grupEntitatForm, result);
       getWebValidator().validate(grupEntitat, result);
-      postValidate(grupEntitatForm, result);
+      postValidate(request, grupEntitatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        grupEntitat = update(grupEntitat);
+        grupEntitat = update(request, grupEntitat);
         createMessageSuccess(request, "success.modification", grupEntitat.getGrupEntitatID());
         status.setComplete();
         return getRedirectWhenModified(grupEntitatForm, null);
@@ -602,10 +602,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(GrupEntitatForm grupEntitatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,GrupEntitatForm grupEntitatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(GrupEntitatForm grupEntitatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,GrupEntitatForm grupEntitatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, GrupEntitatFilterForm filterForm)  throws I18NException {
@@ -660,25 +660,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public GrupEntitatJPA findByPrimaryKey(java.lang.Long grupEntitatID) throws I18NException {
+  public GrupEntitatJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long grupEntitatID) throws I18NException {
     return (GrupEntitatJPA) grupEntitatEjb.findByPrimaryKey(grupEntitatID);
   }
 
 
-  public GrupEntitatJPA create(GrupEntitatJPA grupEntitat)
+  public GrupEntitatJPA create(HttpServletRequest request, GrupEntitatJPA grupEntitat)
     throws Exception,I18NException, I18NValidationException {
     return (GrupEntitatJPA) grupEntitatEjb.create(grupEntitat);
   }
 
 
-  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws Exception,I18NException {
-    grupEntitatEjb.delete(grupEntitat);
+  public GrupEntitatJPA update(HttpServletRequest request, GrupEntitatJPA grupEntitat)
+    throws Exception,I18NException, I18NValidationException {
+    return (GrupEntitatJPA) grupEntitatEjb.update(grupEntitat);
   }
 
 
-  public GrupEntitatJPA update(GrupEntitatJPA grupEntitat)
-    throws Exception,I18NException, I18NValidationException {
-    return (GrupEntitatJPA) grupEntitatEjb.update(grupEntitat);
+  public void delete(HttpServletRequest request, GrupEntitat grupEntitat) throws Exception,I18NException {
+    grupEntitatEjb.delete(grupEntitat);
   }
 
 } // Final de Classe

@@ -9,10 +9,10 @@
 
 <c:set var="contexte" value="${fluxDeFirmesForm.contexte}" />
 
+<%--                  VARIABLE 'usuariEntitat'                         --%>
 <%-- Booleà: + True  : indica que és una plantilla de usuari-entitat   --%>
 <%--         + False : indica que és una plantilla de usuari-aplicacio --%>
 <%--         + null  : indica que no és una plantilla                  --%>
-
 <c:if test="${not empty fluxDeFirmesForm.plantillaFluxDeFirmes}">
 
   <c:if test="${empty fluxDeFirmesForm.plantillaFluxDeFirmes.usuariEntitatID}">
@@ -82,14 +82,9 @@
           <td><label><fmt:message key="usuarientitatprimerafirma" />
               &nbsp;(*)</label>
           </td>
-          <td><form:errors path="usuariEntitatPrimeraFirma"
-              cssClass="errorField alert alert-error" /> <form:select
-              cssClass="input-xxlarge" path="usuariEntitatPrimeraFirma">
-              <c:forEach items="${fluxDeFirmesForm.listOfUsuariEntitatFavorit}"
-                var="tmp">
-                <form:option value="${tmp.key}">${tmp.value}</form:option>
-              </c:forEach>
-            </form:select></td>
+          <td>
+              <%--  usuariEntitatPrimeraFirma --%>
+              <%@ include file="/WEB-INF/jsp/common/seleccioUsuariField.jsp"%>
         </tr>
       </c:if>
 
@@ -115,16 +110,16 @@
             <br>
           </c:if>
 
-          <table cellpadding="0" cellspacing="0" style="padding:0px; margin: 0px">
+
+          <%-- IMPORTANT: No eliminar cellpadding ni cellspacing ja que sino apareixen espais entre files. --%>
+          <table cellpadding="0" cellspacing="0" style="padding:0px 0px 0px 0px; margin: 0px 0px 0px 0px; border-collapse: separate; border-spacing: 0px;">
 
             <%-- CASELLA DE INICI  --%>
-            <tr style="padding:0px; margin: 0px">
+            <tr style="padding:0px; margin: 0px;" align="center">
               <td colspan="2" style="padding:0px; margin: 0px">
-                <center>
                   <button class="btn" type="button">
                     <fmt:message key="inici" />
                   </button>
-                </center>
               </td>
             </tr>
             
@@ -139,31 +134,13 @@
             <%--  AFEGIR BLOC DE FIRMES AL PRINCIPI --%>
             <c:if test="${readOnly == false}">
                <c:out value="${blocseparator}" escapeXml="false" />
-               <tr style="text-align: center;">
+               <tr style="padding:0px; margin: 0px; text-align: center;">
                 <td colspan="2" >
-
-                    <div class="btn-group" style="text-align: left">
-                      <button class="btn btn-primary btn-mini dropdown-toggle"
-                        data-toggle="dropdown" title="<fmt:message key="blocdefirmes.nou"/>">
-                        <i class="icon-plus-sign icon-white"></i>&nbsp;
-                        <fmt:message key="blocdefirmes.nou" />
-                        &nbsp;<span class="caret"></span>
-                      </button>
-                      <c:set var="lastItem" value="" />
-                      <ul class="dropdown-menu">
-                        <c:forEach items="${fluxDeFirmesForm.listOfUsuariEntitatFavorit}"
-                          var="tmp">
-                          <c:if
-                            test="${(fn:startsWith(lastItem, '(*)') == true) && fn:startsWith(tmp.value, '(*)') == false}">
-                            <li class="divider"></li>
-                          </c:if>
-                          <c:set var="lastItem" value="${tmp.value}" />
-                          <li><a href="#" onclick="afegirBloc('0','${tmp.key}')">${tmp.value}</a>
-                          </li>
-                        </c:forEach>
-                      </ul>
-                    </div>
-
+                    <button type="button" class="btn btn-primary btn-mini" onclick="javascript:afegirBlocSelectUser('0')" title="<fmt:message key="blocdefirmes.nou"/>">
+                        <i class="icon-plus-sign icon-white"></i>
+                        &nbsp;
+                        <fmt:message key="blocdefirmes.nou" />                        
+                    </button>
                 </td>
               </tr>
             </c:if>
@@ -181,12 +158,11 @@
                       <c:set var="background">background:\#${background};</c:set>
                     </c:if>
 
-                    <div class="radius"
-                      style="${background} max-width:600px; border: 2px solid #0000ff; margin: 0px; padding: 10px; display: inline-block">
+                    <div class="radius" style="${background} max-width:600px; border: 2px solid #0000ff; margin: 0px; padding: 0px; display: inline-block">
                       <c:if test="${pfi:isDesenvolupament()}">
                        ${bloc.blocDeFirmesID}
                       </c:if>
-                      <table width="100%">
+                      <table style="width:100%">
 
                         <tr>
 
@@ -199,34 +175,13 @@
                           <c:if test="${readOnly == false}">
                             <td>
                               <div class="radius"
-                                style="float: right; border: 2px solid #0000ff; margin: 4px; padding: 8px;">
-                                <center>
-                                  <div class="btn-group" style="text-align: left">
-                                    <button
-                                      class="btn btn-success btn-mini dropdown-toggle"
-                                      data-toggle="dropdown"
-                                      title="<fmt:message key="firma.nova"/>">
-                                      <i class=" icon-plus-sign icon-white"></i>&nbsp;
-                                      <fmt:message key="firma.nova" />
-                                      &nbsp;<span class="caret"></span>
-                                    </button>
-                                    <c:set var="lastItem" value="" />
-                                    <ul class="dropdown-menu">
-                                      <c:forEach
-                                        items="${fluxDeFirmesForm.listOfUsuariEntitatFavorit}"
-                                        var="tmp">
-                                        <c:if
-                                          test="${(fn:startsWith(lastItem, '(*)') == true) && fn:startsWith(tmp.value, '(*)') == false}">
-                                          <li class="divider"></li>
-                                        </c:if>
-                                        <c:set var="lastItem" value="${tmp.value}" />
-                                        <li><a href="#"
-                                          onclick="afegirFirma('${bloc.blocDeFirmesID}','${tmp.key}')">${tmp.value}</a>
-                                        </li>
-                                      </c:forEach>
-                                    </ul>
-                                  </div>
-                                  <!-- /btn-group -->
+                                style="float: right; border: 2px solid #0000ff; margin: 4px; padding: 8px;text-align: center;">
+
+                                  <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirFirmaSelectUser('${bloc.blocDeFirmesID}')" title="<fmt:message key="firma.nova"/>">
+                                    <i class="icon-plus-sign icon-white"></i>
+                                    &nbsp;
+                                    <fmt:message key="firma.nova" />                        
+                                  </button>
 
                                   <br />
                                   <%-- Calcul del menor valor admisible per MinimDeFirmes --%>
@@ -278,15 +233,14 @@
                                     </div>
                                   </c:if>
                                   <%-- Final d'accions sobre el bloc --%>
-
-                                </center>
+                                
                               </div>
                              </td>
                           </c:if>
 
                           <%-- LLISTAT DE FIRMES DEL BLOC --%>
                           <td width="100%">
-                            <center>
+                            <span style="text-align: center;">
                               <c:forEach items="${bloc.firmas}" var="firma">
 
                                 <c:set var="background"
@@ -299,8 +253,7 @@
                                   <c:set var="backgroundimage">background-image: url(<c:url value='/img/userdisabled.png'/>);background-repeat: no-repeat;background-position: center; </c:set>                                  
                                 </c:if>
 
-                                <div class="radius"
-                                  style="${background} ${backgroundimage} float:left; border: 2px solid #00ff00; margin: 4px; padding: 8px; text-align: left">
+                                <div class="radius" style="${background} ${backgroundimage} float:left; border: 2px solid #00ff00; margin: 4px; padding: 8px; text-align: left">
                                   <c:if test="${pfi:isDesenvolupament()}">
                                   ${firma.firmaID}
                                   </c:if>
@@ -318,7 +271,7 @@
                                       ${firma.usuariEntitat.usuariPersona.nif}<br/>
                                   </c:if>
 
-                                  <table align="left">
+                                  <table style="text-align: left">
                                     <tr>
 
                                     <c:if test="${(fn:length(bloc.firmas) > 1) && readOnly == false}">
@@ -349,8 +302,9 @@
 
                                 </div>
                               </c:forEach>
+                            </span>
 
-                            </center></td>
+                            </td>
                         </tr>
                       </table>
 
@@ -363,33 +317,15 @@
               <c:if test="${readOnly == false}">
                 <c:out value="${blocseparator}" escapeXml="false" />
                 <tr>
-                  <td colspan="2">
-                    <center>
-                      <div class="btn-group" style="text-align: left">
-                        <button class="btn btn-primary btn-mini dropdown-toggle"
-                          data-toggle="dropdown" title="<fmt:message key="blocdefirmes.nou"/>">
-                          <i class="icon-plus-sign icon-white"></i>&nbsp;
-                          <fmt:message key="blocdefirmes.nou" />
-                          &nbsp;<span class="caret"></span>
-                        </button>
-                        <c:set var="lastItem" value="" />
-                        <ul class="dropdown-menu">
-                          <c:forEach
-                            items="${fluxDeFirmesForm.listOfUsuariEntitatFavorit}"
-                            var="tmp">
-                            <c:if
-                              test="${(fn:startsWith(lastItem, '(*)') == true) && fn:startsWith(tmp.value, '(*)') == false}">
-                              <li class="divider"></li>
-                            </c:if>
-                            <c:set var="lastItem" value="${tmp.value}" />
-                            <li><a href="#"
-                              onclick="afegirBloc('${bloc.ordre + 5}','${tmp.key}')">${tmp.value}</a>
-                            </li>
-                          </c:forEach>
-                        </ul>
-                      </div>
+                  <td colspan="2" align="center">
 
-                    </center></td>
+                   <button type="button" class="btn btn-primary btn-mini" onclick="javascript:afegirBlocSelectUser('${bloc.ordre + 5}')" title="<fmt:message key="blocdefirmes.nou"/>">
+                        <i class="icon-plus-sign icon-white"></i>
+                        &nbsp;
+                        <fmt:message key="blocdefirmes.nou" />                        
+                    </button>
+
+                    </td>
                 </tr>
               </c:if>
             </c:forEach>
@@ -397,12 +333,10 @@
             <%-- CASELLA DE FINAL  --%>
             <c:out value="${blocseparator}" escapeXml="false" />
             <tr>
-              <td colspan="2">
-                <center>
+              <td colspan="2" style="text-align: center;">
                   <button class="btn" type="button">
                     <fmt:message key="final" />
                   </button>
-                </center>
               </td>
             </tr>
 
@@ -415,6 +349,10 @@
 
   </div>
 
+</form:form>
+
+
+<c:if test="${not fluxDeFirmesForm.nou && readOnly == false}">
 
   <div id="avis_true_false" class="modal hide fade">
     <div class="modal-header">
@@ -429,34 +367,35 @@
     </div>
   </div>
 
+  <%-- FORMULARI MODAL DE SELECCIO D'USUARIS  --%>
+  <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
+  <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal"/>
 
+  <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
+
+
+  <script type="text/javascript">
+    
+    
+  function afegirBlocSelectUser(blocOrdre) {
+      
+      document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirBlocDesDeModal"/>';
+      document.getElementById("param1").value = blocOrdre;
+      
+      openSelectUserDialog();
+      
+      return false;
+  }
   
-
-
-
-  <c:if test="${readOnly == false}">
-    <script type="text/javascript">
-
-
-  function afegirFirma(blocID, usuariEntitatID) { 
-
-	document.getElementById('blocID').value = blocID;
-	document.getElementById('usuariEntitatID').value = usuariEntitatID;
-
-    document.fluxDeFirmesForm.action = "<c:url value="${contexte}/afegirFirma" />";
-	document.fluxDeFirmesForm.submit();
+  function afegirFirmaSelectUser(blocID) {
+      
+      document.getElementById("seleccioUsuariForm").action='<c:url value="${contexte}/afegirFirmaDesDeModal"/>';
+      document.getElementById("param1").value = blocID;
+      
+      openSelectUserDialog();
+      
+      return false;
   }
-
-
-  function afegirBloc(blocOrdre, usuariEntitatID) { 
-
-	document.getElementById('blocOrdre').value = blocOrdre;
-	document.getElementById('usuariEntitatID').value = usuariEntitatID;
-
-    document.fluxDeFirmesForm.action = "<c:url value="${contexte}/afegirBloc" />";
-    document.fluxDeFirmesForm.submit();
-  }
-
 
   function changeMinimDeFirmesNum(blocID, minimDeFirmes) {
 	    	    
@@ -491,9 +430,15 @@
     document.fluxDeFirmesForm.action = "<c:url value="${contexte}/eliminarBloc" />";
     document.fluxDeFirmesForm.submit();
   }
+  
+  </script>
 
+  </c:if>
 
-
+  <c:if test="${readOnly == false}">
+  
+  <script type="text/javascript">
+  
   function onChangeCompartir(theComboBox) {
 
     
@@ -539,8 +484,3 @@
 
   </script>
   </c:if>
-
-
-</form:form>
-
-

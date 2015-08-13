@@ -112,8 +112,9 @@ public class Utils {
     return listNovaFirma;
   }
 
-  public static void sortStringKeyValueList(List<StringKeyValue> listNovaFirma) {
+  public static List<StringKeyValue> sortStringKeyValueList(List<StringKeyValue> listNovaFirma) {
     Collections.sort(listNovaFirma, STRINGKEYVALUECOMPARATOR);
+    return listNovaFirma;
   }
 
   public static void addUserToList(List<StringKeyValue> listNovaFirma,

@@ -255,14 +255,14 @@ public class AlgorismeDeFirmaController
     AlgorismeDeFirmaJPA algorismeDeFirma = algorismeDeFirmaForm.getAlgorismeDeFirma();
 
     try {
-      preValidate(algorismeDeFirmaForm, result);
+      preValidate(request, algorismeDeFirmaForm, result);
       getWebValidator().validate(algorismeDeFirmaForm, result);
-      postValidate(algorismeDeFirmaForm, result);
+      postValidate(request,algorismeDeFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        algorismeDeFirma = create(algorismeDeFirma);
+        algorismeDeFirma = create(request, algorismeDeFirma);
         createMessageSuccess(request, "success.creation", algorismeDeFirma.getAlgorismeDeFirmaID());
         algorismeDeFirmaForm.setAlgorismeDeFirma(algorismeDeFirma);
         return getRedirectWhenCreated(algorismeDeFirmaForm);
@@ -299,7 +299,7 @@ public class AlgorismeDeFirmaController
         return null;
       }
     }
-    AlgorismeDeFirmaJPA algorismeDeFirma = findByPrimaryKey(algorismeDeFirmaID);
+    AlgorismeDeFirmaJPA algorismeDeFirma = findByPrimaryKey(request, algorismeDeFirmaID);
 
     if (algorismeDeFirma == null) {
       createMessageWarning(request, "error.notfound", algorismeDeFirmaID);
@@ -349,14 +349,14 @@ public class AlgorismeDeFirmaController
     AlgorismeDeFirmaJPA algorismeDeFirma = algorismeDeFirmaForm.getAlgorismeDeFirma();
 
     try {
-      preValidate(algorismeDeFirmaForm, result);
+      preValidate(request, algorismeDeFirmaForm, result);
       getWebValidator().validate(algorismeDeFirma, result);
-      postValidate(algorismeDeFirmaForm, result);
+      postValidate(request, algorismeDeFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        algorismeDeFirma = update(algorismeDeFirma);
+        algorismeDeFirma = update(request, algorismeDeFirma);
         createMessageSuccess(request, "success.modification", algorismeDeFirma.getAlgorismeDeFirmaID());
         status.setComplete();
         return getRedirectWhenModified(algorismeDeFirmaForm, null);
@@ -537,10 +537,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(AlgorismeDeFirmaForm algorismeDeFirmaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,AlgorismeDeFirmaForm algorismeDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(AlgorismeDeFirmaForm algorismeDeFirmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,AlgorismeDeFirmaForm algorismeDeFirmaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, AlgorismeDeFirmaFilterForm filterForm)  throws I18NException {
@@ -595,25 +595,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public AlgorismeDeFirmaJPA findByPrimaryKey(java.lang.Long algorismeDeFirmaID) throws I18NException {
+  public AlgorismeDeFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long algorismeDeFirmaID) throws I18NException {
     return (AlgorismeDeFirmaJPA) algorismeDeFirmaEjb.findByPrimaryKey(algorismeDeFirmaID);
   }
 
 
-  public AlgorismeDeFirmaJPA create(AlgorismeDeFirmaJPA algorismeDeFirma)
+  public AlgorismeDeFirmaJPA create(HttpServletRequest request, AlgorismeDeFirmaJPA algorismeDeFirma)
     throws Exception,I18NException, I18NValidationException {
     return (AlgorismeDeFirmaJPA) algorismeDeFirmaEjb.create(algorismeDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, AlgorismeDeFirma algorismeDeFirma) throws Exception,I18NException {
-    algorismeDeFirmaEjb.delete(algorismeDeFirma);
+  public AlgorismeDeFirmaJPA update(HttpServletRequest request, AlgorismeDeFirmaJPA algorismeDeFirma)
+    throws Exception,I18NException, I18NValidationException {
+    return (AlgorismeDeFirmaJPA) algorismeDeFirmaEjb.update(algorismeDeFirma);
   }
 
 
-  public AlgorismeDeFirmaJPA update(AlgorismeDeFirmaJPA algorismeDeFirma)
-    throws Exception,I18NException, I18NValidationException {
-    return (AlgorismeDeFirmaJPA) algorismeDeFirmaEjb.update(algorismeDeFirma);
+  public void delete(HttpServletRequest request, AlgorismeDeFirma algorismeDeFirma) throws Exception,I18NException {
+    algorismeDeFirmaEjb.delete(algorismeDeFirma);
   }
 
 } // Final de Classe

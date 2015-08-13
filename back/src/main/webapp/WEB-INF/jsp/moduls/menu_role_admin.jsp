@@ -36,8 +36,8 @@ final String[] menu = {
   "tipusdocument.gestio", // Gestió Tipus de Documents"}
   "",
   Configuracio.isCAIB()? "" : "usuariaplicacio.gestio",
-  "",
-  "fluxos.orfes",
+  //"",
+  //"fluxos.orfes",
   "",
   "fitxers.orfes",
 
@@ -61,7 +61,7 @@ static {
 
   mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
   
-  mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
+  //mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
   
   mapping.put("fitxers.orfes", "/admin/fitxersorfes/list");
   

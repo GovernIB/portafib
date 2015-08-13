@@ -279,14 +279,14 @@ public class BlocDeFirmesController
     BlocDeFirmesJPA blocDeFirmes = blocDeFirmesForm.getBlocDeFirmes();
 
     try {
-      preValidate(blocDeFirmesForm, result);
+      preValidate(request, blocDeFirmesForm, result);
       getWebValidator().validate(blocDeFirmesForm, result);
-      postValidate(blocDeFirmesForm, result);
+      postValidate(request,blocDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        blocDeFirmes = create(blocDeFirmes);
+        blocDeFirmes = create(request, blocDeFirmes);
         createMessageSuccess(request, "success.creation", blocDeFirmes.getBlocDeFirmesID());
         blocDeFirmesForm.setBlocDeFirmes(blocDeFirmes);
         return getRedirectWhenCreated(blocDeFirmesForm);
@@ -323,7 +323,7 @@ public class BlocDeFirmesController
         return null;
       }
     }
-    BlocDeFirmesJPA blocDeFirmes = findByPrimaryKey(blocDeFirmesID);
+    BlocDeFirmesJPA blocDeFirmes = findByPrimaryKey(request, blocDeFirmesID);
 
     if (blocDeFirmes == null) {
       createMessageWarning(request, "error.notfound", blocDeFirmesID);
@@ -373,14 +373,14 @@ public class BlocDeFirmesController
     BlocDeFirmesJPA blocDeFirmes = blocDeFirmesForm.getBlocDeFirmes();
 
     try {
-      preValidate(blocDeFirmesForm, result);
+      preValidate(request, blocDeFirmesForm, result);
       getWebValidator().validate(blocDeFirmes, result);
-      postValidate(blocDeFirmesForm, result);
+      postValidate(request, blocDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        blocDeFirmes = update(blocDeFirmes);
+        blocDeFirmes = update(request, blocDeFirmes);
         createMessageSuccess(request, "success.modification", blocDeFirmes.getBlocDeFirmesID());
         status.setComplete();
         return getRedirectWhenModified(blocDeFirmesForm, null);
@@ -602,10 +602,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(BlocDeFirmesForm blocDeFirmesForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,BlocDeFirmesForm blocDeFirmesForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(BlocDeFirmesForm blocDeFirmesForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,BlocDeFirmesForm blocDeFirmesForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, BlocDeFirmesFilterForm filterForm)  throws I18NException {
@@ -660,25 +660,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public BlocDeFirmesJPA findByPrimaryKey(java.lang.Long blocDeFirmesID) throws I18NException {
+  public BlocDeFirmesJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long blocDeFirmesID) throws I18NException {
     return (BlocDeFirmesJPA) blocDeFirmesEjb.findByPrimaryKey(blocDeFirmesID);
   }
 
 
-  public BlocDeFirmesJPA create(BlocDeFirmesJPA blocDeFirmes)
+  public BlocDeFirmesJPA create(HttpServletRequest request, BlocDeFirmesJPA blocDeFirmes)
     throws Exception,I18NException, I18NValidationException {
     return (BlocDeFirmesJPA) blocDeFirmesEjb.create(blocDeFirmes);
   }
 
 
-  public void delete(HttpServletRequest request, BlocDeFirmes blocDeFirmes) throws Exception,I18NException {
-    blocDeFirmesEjb.delete(blocDeFirmes);
+  public BlocDeFirmesJPA update(HttpServletRequest request, BlocDeFirmesJPA blocDeFirmes)
+    throws Exception,I18NException, I18NValidationException {
+    return (BlocDeFirmesJPA) blocDeFirmesEjb.update(blocDeFirmes);
   }
 
 
-  public BlocDeFirmesJPA update(BlocDeFirmesJPA blocDeFirmes)
-    throws Exception,I18NException, I18NValidationException {
-    return (BlocDeFirmesJPA) blocDeFirmesEjb.update(blocDeFirmes);
+  public void delete(HttpServletRequest request, BlocDeFirmes blocDeFirmes) throws Exception,I18NException {
+    blocDeFirmesEjb.delete(blocDeFirmes);
   }
 
 } // Final de Classe

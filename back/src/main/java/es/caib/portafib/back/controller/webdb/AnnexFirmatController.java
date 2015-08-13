@@ -307,15 +307,15 @@ public class AnnexFirmatController
 
     try {
       this.setFilesFormToEntity(afm, annexFirmat, annexFirmatForm); // FILE
-      preValidate(annexFirmatForm, result);
+      preValidate(request, annexFirmatForm, result);
       getWebValidator().validate(annexFirmatForm, result);
-      postValidate(annexFirmatForm, result);
+      postValidate(request,annexFirmatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        annexFirmat = create(annexFirmat);
+        annexFirmat = create(request, annexFirmat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", annexFirmat.getAnnexfirmatID());
         annexFirmatForm.setAnnexFirmat(annexFirmat);
@@ -354,7 +354,7 @@ public class AnnexFirmatController
         return null;
       }
     }
-    AnnexFirmatJPA annexFirmat = findByPrimaryKey(annexfirmatID);
+    AnnexFirmatJPA annexFirmat = findByPrimaryKey(request, annexfirmatID);
 
     if (annexFirmat == null) {
       createMessageWarning(request, "error.notfound", annexfirmatID);
@@ -406,15 +406,15 @@ public class AnnexFirmatController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, annexFirmat, annexFirmatForm); // FILE
-      preValidate(annexFirmatForm, result);
+      preValidate(request, annexFirmatForm, result);
       getWebValidator().validate(annexFirmat, result);
-      postValidate(annexFirmatForm, result);
+      postValidate(request, annexFirmatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        annexFirmat = update(annexFirmat);
+        annexFirmat = update(request, annexFirmat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", annexFirmat.getAnnexfirmatID());
         status.setComplete();
@@ -700,10 +700,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(AnnexFirmatForm annexFirmatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,AnnexFirmatForm annexFirmatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(AnnexFirmatForm annexFirmatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,AnnexFirmatForm annexFirmatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, AnnexFirmatFilterForm filterForm)  throws I18NException {
@@ -758,25 +758,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public AnnexFirmatJPA findByPrimaryKey(java.lang.Long annexfirmatID) throws I18NException {
+  public AnnexFirmatJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long annexfirmatID) throws I18NException {
     return (AnnexFirmatJPA) annexFirmatEjb.findByPrimaryKey(annexfirmatID);
   }
 
 
-  public AnnexFirmatJPA create(AnnexFirmatJPA annexFirmat)
+  public AnnexFirmatJPA create(HttpServletRequest request, AnnexFirmatJPA annexFirmat)
     throws Exception,I18NException, I18NValidationException {
     return (AnnexFirmatJPA) annexFirmatEjb.create(annexFirmat);
   }
 
 
-  public void delete(HttpServletRequest request, AnnexFirmat annexFirmat) throws Exception,I18NException {
-    annexFirmatEjb.delete(annexFirmat);
+  public AnnexFirmatJPA update(HttpServletRequest request, AnnexFirmatJPA annexFirmat)
+    throws Exception,I18NException, I18NValidationException {
+    return (AnnexFirmatJPA) annexFirmatEjb.update(annexFirmat);
   }
 
 
-  public AnnexFirmatJPA update(AnnexFirmatJPA annexFirmat)
-    throws Exception,I18NException, I18NValidationException {
-    return (AnnexFirmatJPA) annexFirmatEjb.update(annexFirmat);
+  public void delete(HttpServletRequest request, AnnexFirmat annexFirmat) throws Exception,I18NException {
+    annexFirmatEjb.delete(annexFirmat);
   }
 
 } // Final de Classe

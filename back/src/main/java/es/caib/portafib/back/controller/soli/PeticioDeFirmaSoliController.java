@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -40,6 +41,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.PortaFIBFilesFormManager;
 import es.caib.portafib.back.controller.aden.CustodiaInfoAdenController;
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.AnnexController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
@@ -93,6 +95,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 
+import org.springframework.validation.FieldError;
 
 /**
  * Controller per gestionar una PeticioDeFirma
@@ -105,6 +108,10 @@ import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 @SessionAttributes(types = {SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
 public class PeticioDeFirmaSoliController extends PeticioDeFirmaController implements Constants {
+  
+  public static final String SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES = 
+       "SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES";
+  
 
   @EJB(mappedName = "portafib/AnnexLogicaEJB/local")
   protected AnnexLogicaLocal annexLogicaEjb;
@@ -157,8 +164,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   public ModelAndView seleccionarFluxDeFirmaGet(HttpServletRequest request) throws I18NException {
     ModelAndView mav = new ModelAndView(getTileSeleccioFlux());
 
-    
-    
     log.debug("Entra dins seleccionarFluxDeFirmaGet");
 
     LoginInfo loginInfo = LoginInfo.getInstance();
@@ -167,11 +172,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     //log.info("     -entitatActualID = " + entitatActualID);
 
     SeleccioFluxDeFirmesForm seleccioFluxDeFirmesForm = new SeleccioFluxDeFirmesForm();
-    
-    Integer tipusDefault = null; 
-    
-    
-    
+
     // Favorits
     {
       // Si entram en mode UsuariAplicacio´, els usuaris que es veuran
@@ -181,18 +182,11 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       List<UsuariEntitatJPA> usuarisFavorits;
       usuarisFavorits = usuariEntitatLogicaEjb.selectFavorits(usuariEntitatID,
             null, true);
-      
-      if (usuarisFavorits == null || usuarisFavorits.size() == 0 ) {
-        HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("selectflux.avisnofavorits"));
-      }
 
-      seleccioFluxDeFirmesForm.setListOfUsuariFavorit( 
-          Utils.usuariEntitatList2StringKeyValue(usuarisFavorits));
-      
-      // Aquest tipus és el de per defecte
-      if (usuarisFavorits.size() != 0) {
-        tipusDefault = SeleccioFluxDeFirmesForm.TIPUS_LLISTA_USUARIS;
-      }
+      seleccioFluxDeFirmesForm.setUrlData("/common/json/usuarientitatcarrec");
+      seleccioFluxDeFirmesForm.setUsuarisFavorits(
+          Utils.sortStringKeyValueList(
+              SearchJSONController.favoritsToUsuariEntitat( usuarisFavorits)));
       
     }
     
@@ -236,10 +230,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       if (fluxos == null || fluxos.size() == 0) {
         HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("selectflux.avisnoplantilles"));  
-      } else {
-        if (tipusDefault==null) {
-          tipusDefault = SeleccioFluxDeFirmesForm.TIPUS_PLANTILLA_USUARI;
-        }
       }
       
     } 
@@ -254,9 +244,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       Collections.sort(fluxos, FLUXCOMPARATOR);
       seleccioFluxDeFirmesForm.setListOfFluxPlantillaPersonaCompartit(fluxos);
-      if (fluxos.size() != 0 && tipusDefault == null) {
-        tipusDefault = SeleccioFluxDeFirmesForm.TIPUS_PLANTILLA_USUARI_COMPARTIT;
-      }
+
     }
 
     {
@@ -270,45 +258,13 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       Collections.sort(fluxos, FLUXCOMPARATOR);
       seleccioFluxDeFirmesForm.setListOfFluxPlantillaAplicacioCompartit(fluxos);
-      
-      if (tipusDefault == null && fluxos.size() != 0) {
-        tipusDefault = SeleccioFluxDeFirmesForm.TIPUS_PLANTILLA_APLICACIO_COMPARTIT;
-      }
+
     }
 
-
-
-    if (tipusDefault == null) {
-      tipusDefault = -1;
-    }
-    seleccioFluxDeFirmesForm.setTipus(tipusDefault);
+    seleccioFluxDeFirmesForm.setTipus(SeleccioFluxDeFirmesForm.TIPUS_SELECT_PRIMER_USUARI_DEL_FLUX);
 
     seleccioFluxDeFirmesForm.setContexte(getContextWeb());
     
-    // Si totes les llistes estan buides, llavors convertim els Warnings a Errors
-    // ja que l'usuari no podrà crear res
-    
-    if (seleccioFluxDeFirmesForm.getListOfFluxPlantillaUsuari().size() == 0
-        && seleccioFluxDeFirmesForm.getListOfFluxPlantillaPersonaCompartit().size() == 0
-        && seleccioFluxDeFirmesForm.getListOfFluxPlantillaAplicacioCompartit().size() == 0
-        && seleccioFluxDeFirmesForm.getListOfUsuariFavorit().size() == 0) {
-      
-      Map<String, List<String>> missatges;
-      missatges = (Map<String, List<String>>)request.getSession().getAttribute(HtmlUtils.MISSATGES);
-      
-      List<String> warn = missatges.get(HtmlUtils.WARN);
-      if (warn != null) {
-        missatges.put(HtmlUtils.WARN, null);
-      
-        List<String> error = missatges.get(HtmlUtils.ERROR);
-        if (error == null) {
-          missatges.put(HtmlUtils.ERROR, warn);
-        } else {
-          error.addAll(warn);
-        }
-      }
-    }
-
     mav.addObject("seleccioFluxDeFirmesForm", seleccioFluxDeFirmesForm);
 
     return mav;
@@ -352,35 +308,38 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       log.info("POST: Nom és " + nom);
       log.info("POST: Tipus és " + tipus);
     }
-    Long fluxDeFirmesID = null;
+    //Long fluxDeFirmesID = null;
 
+    FluxDeFirmesJPA fluxDeFirmes;
     try {
 
+      
       switch (tipus) {
 
-      case SeleccioFluxDeFirmesForm.TIPUS_LLISTA_USUARIS:
+      case SeleccioFluxDeFirmesForm.TIPUS_SELECT_PRIMER_USUARI_DEL_FLUX:
 
-        List<String> usuarisFavorits = seleccioFluxDeFirmesForm.getUsuarisFlux();
-        if (usuarisFavorits == null || usuarisFavorits.size() == 0) {
+        String usuariEntitatPrimeraFirma = seleccioFluxDeFirmesForm.getId();
+        if (usuariEntitatPrimeraFirma == null || usuariEntitatPrimeraFirma.trim().length() == 0) {
 
           if (isDebug) {
             log.info(" HTTP usuarisFavorits: "
               + Arrays.toString(request.getParameterValues("usuarisFlux")));
           }          
-          ValidationUtils.rejectIfEmpty(result, "usuarisFlux", "selectflux.elegirusuari", null, null);
+          ValidationUtils.rejectIfEmpty(result, "id", "selectflux.elegirusuari", null, null);
           
           return getTileSeleccioFlux(); //"redirect:" + getContextWeb() + "/selectflux";
         }
 
         if (isDebug) {
-          log.info("usuarisFavorits == " + usuarisFavorits.size());
+          log.debug("usuariEntitatPrimeraFirma == " + usuariEntitatPrimeraFirma);
         }
 
+        
         Set<BlocDeFirmesJPA> blocDeFirmes = new HashSet<BlocDeFirmesJPA>();
         int ordre = 0;
-        for (String usuari : usuarisFavorits) {
+        //for (String usuari : usuarisFavorits) {
           FirmaJPA firma = new FirmaJPA();
-          firma.setDestinatariID(usuari);
+          firma.setDestinatariID(usuariEntitatPrimeraFirma);
           firma.setObligatori(true);
           Set<FirmaJPA> firmes = new HashSet<FirmaJPA>();
           firmes.add(firma);
@@ -389,26 +348,16 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           bloc.setFirmas(firmes);
           bloc.setMinimDeFirmes(1);
           bloc.setOrdre(ordre);
-          ordre++;
+          //ordre++;
 
           blocDeFirmes.add(bloc);
-        }
+        //}
 
-        FluxDeFirmesJPA fluxDeFirmes = new FluxDeFirmesJPA();
+        fluxDeFirmes = new FluxDeFirmesJPA();
         fluxDeFirmes.setNom(nom);
         fluxDeFirmes.setBlocDeFirmess(blocDeFirmes);
 
-        try {
-          fluxDeFirmes = (FluxDeFirmesJPA) fluxDeFirmesLogicaEjb.createFull(fluxDeFirmes);
-        } catch (I18NException e) {
-          // TODO HTMLUtils.saveError i redirect to page
-          throw I18NUtils.throwException(e);
-        } catch (I18NValidationException ve) {
-          // TODO HTMLUtils.saveError i redirect to page
-          throw new Exception(I18NUtils.getMessage(ve));
-        }
-        fluxDeFirmesID = fluxDeFirmes.getFluxDeFirmesID();
-
+      
         break;
 
       case SeleccioFluxDeFirmesForm.TIPUS_PLANTILLA_APLICACIO_COMPARTIT: {
@@ -416,7 +365,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         if (isDebug) {
           log.info("TIPUS_PLANTILLA_APLICACIO_COMPARTIT " + idPlantilla);
         }
-        fluxDeFirmesID = clonarFlux(nom,idPlantilla);
+        fluxDeFirmes = clonarFlux(nom,idPlantilla);
       }
         break;
       case SeleccioFluxDeFirmesForm.TIPUS_PLANTILLA_USUARI: {
@@ -424,7 +373,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         if (isDebug) {
           log.info("TIPUS_PLANTILLA_USUARI " + idPlantilla);
         }
-        fluxDeFirmesID = clonarFlux(nom,idPlantilla);
+        fluxDeFirmes = clonarFlux(nom,idPlantilla);
       }
         break;
 
@@ -433,7 +382,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         if (isDebug) {
           log.info("TIPUS_PLANTILLA_USUARI_COMPARTIT " + idPlantilla);
         }
-        fluxDeFirmesID = clonarFlux(nom,idPlantilla);
+        fluxDeFirmes = clonarFlux(nom,idPlantilla);
       }
         break;
 
@@ -445,16 +394,20 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       }
 
     } catch (Exception e) {
-      // TODO traduir
+      // TODO traduir icatch de I18NException
       String msg = "Error creant flux de firmes " + e.getMessage();
       log.error(msg, e);
       HtmlUtils.saveMessageError(request, msg);
       return "redirect:" + getContextWeb() + "/selectflux";
     }
-
-    request.getSession().setAttribute("fluxDeFirmesID", fluxDeFirmesID);
     
-    request.getSession().setAttribute("fluxDeFirmesNom", nom);
+    request.getSession().setAttribute(SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES, fluxDeFirmes);
+
+   
+    
+    //request.getSession().setAttribute(SESSION_FLUX_DE_FIRMES_ID, fluxDeFirmesID);
+    
+    //request.getSession().setAttribute(SESSION_FLUX_DE_FIRMES_NOM, nom);
     
     request.getSession().setAttribute("usuariAplicacioID", usuariAplicacioID);
 
@@ -462,7 +415,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
   }
 
-  protected Long clonarFlux(String nom, Long plantillaFluxID) throws Exception {
+  protected FluxDeFirmesJPA clonarFlux(String nom, Long plantillaFluxID) throws Exception {
 
     FluxDeFirmesJPA fluxPlantilla = fluxDeFirmesLogicaEjb
         .findByPrimaryKeyFull(plantillaFluxID);
@@ -474,27 +427,14 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       throw new Exception(I18NUtils.tradueix("error.notfound", args));
     }
     fluxPlantilla.setFluxDeFirmesID(-1);
+    // TODO check max lenght de NOM
     fluxPlantilla.setNom(nom);
     
     fluxPlantilla.setPlantillaFluxDeFirmes(null);    
     fluxPlantilla.setPeticioDeFirma(null);
-    
 
-    // TODO check max lenght de NOM
+    return fluxPlantilla;
 
-    FluxDeFirmesJPA nouFlux = null;
-    try {
-      nouFlux = fluxDeFirmesLogicaEjb.createFull(fluxPlantilla);
-      return nouFlux.getFluxDeFirmesID();
-    } catch (I18NException e) {
-      // TODO HTMLUtils.saveError i redirect to page
-      throw I18NUtils.throwException(e);
-    } catch (I18NValidationException ve) {
-      // TODO HTMLUtils.saveError i redirect to page
-      throw new Exception(I18NUtils.getMessage(ve));
-    }
-
-    
   }
   
   @PostConstruct
@@ -685,13 +625,30 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
    * 
    */
   @Override
-  public PeticioDeFirmaJPA create(PeticioDeFirmaJPA peticioDeFirma) 
+  public PeticioDeFirmaJPA create(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma) 
     throws Exception, I18NException, I18NValidationException {
-    return peticioDeFirmaLogicaEjb.createFull(peticioDeFirma);
+    
+    HttpSession sessio =  request.getSession();
+    {
+      FluxDeFirmesJPA flux;
+      flux = (FluxDeFirmesJPA) sessio.getAttribute(SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES);
+      if(log.isDebugEnabled()) {
+        log.debug("CREATE fluxDeFirmes=" + flux);
+      }
+      peticioDeFirma.setFluxDeFirmes(flux);
+      peticioDeFirma.setFluxDeFirmesID(0);
+    }
+    
+    PeticioDeFirmaJPA pf = peticioDeFirmaLogicaEjb.createFull(peticioDeFirma);
+    
+    
+    sessio.removeAttribute(SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES);
+    
+    return pf;
   }
   
   @Override
-  public PeticioDeFirmaJPA update(PeticioDeFirmaJPA peticioDeFirma)
+  public PeticioDeFirmaJPA update(HttpServletRequest request, PeticioDeFirmaJPA peticioDeFirma)
     throws Exception,I18NException, I18NValidationException {
     return (PeticioDeFirmaJPA) peticioDeFirmaLogicaEjb.updateFull(peticioDeFirma);
   }
@@ -737,21 +694,17 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       }
       
 
-      Long fluxDeFirmesID = (Long) request.getSession().getAttribute("fluxDeFirmesID");
-      request.getSession().removeAttribute("fluxDeFirmesID");
+      FluxDeFirmesJPA flux = (FluxDeFirmesJPA) request.getSession().getAttribute(
+          SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES);
 
-      log.debug(" fluxDeFirmesID ==  " + fluxDeFirmesID);
-
-      if (fluxDeFirmesID == null) {
+      if (flux == null) {
         // NO Venim de la pàgina de selecccio de Fluxos
         mav.setView(new RedirectView(getContextWeb() + "/selectflux", true));
         return peticioDeFirmaForm;
       }
       // Venim de la pàgina de selecccio de Fluxos
-      peticioDeFirma.setFluxDeFirmesID(fluxDeFirmesID);
-      
-      String nomPeticio = (String)request.getSession().getAttribute("fluxDeFirmesNom");
-      request.getSession().removeAttribute("fluxDeFirmesNom");
+      final String nomPeticio = flux.getNom();
+
       peticioDeFirma.setTitol(nomPeticio);
       peticioDeFirma.setDescripcio(nomPeticio);
 
@@ -769,7 +722,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       LoginInfo li = LoginInfo.getInstance();
       
-      // TODO Mirar si l'usuari-entitat té definit un altra logo
+      // TODO Mirar si l'usuari-entitat té definit un altre logo
       /*
       String urlLogoSegell = Configuracio.getAppUrl() 
            + FileDownloadController.fileUrl(li.getEntitat().getLogoSegell());
@@ -801,7 +754,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
       peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
       
-      peticioDeFirmaForm.addReadOnlyField(FLUXDEFIRMESID);
+      peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
+
 
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
       
@@ -809,8 +763,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     } else {
 
-      
-      
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
       // Carregar llista de Annexes
@@ -1532,7 +1484,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   }
   
   @Override
-  public void preValidate(PeticioDeFirmaForm peticioDeFirmaForm,
+  public void preValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm,
       BindingResult result)  throws I18NException {
     
     // Si s'actualitza però no es canvia el fitxer llavors no feim res.
@@ -1610,12 +1562,38 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         result.rejectValue(get(FITXERAFIRMARID), "formatfitxer.conversio.error", error);
       } 
     }
+
   }
 
 
 
   @Override
-  public void postValidate(PeticioDeFirmaForm peticioDeFirmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm,
+      BindingResult result) throws I18NException {
+
+   
+    if (result.hasErrors()) {
+
+      FieldError fe = result.getFieldError(PeticioDeFirmaFields.FLUXDEFIRMESID.fullName);
+      
+      if (fe != null) {
+
+        java.lang.reflect.Field f;
+        try {
+          f = getField(result.getClass(), "errors", true);
+
+          f.setAccessible(true);
+          List<?> errors22 = (List<?>) f.get(result);
+          errors22.remove(fe);
+          
+        } catch (Throwable e) {
+          // TODO
+          e.printStackTrace();
+        }
+
+      }
+
+    }
 
     /*
     PeticioDeFirmaJPA peticio = peticioDeFirmaForm.getPeticioDeFirma(); 
@@ -1635,6 +1613,55 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     */
 
   }
+  
+  
+  
+  
+  /**
+   * Gets an accessible {@link Field} by name, breaking scope if requested. Superclasses/interfaces will be
+   * considered.
+   * 
+   * @param cls
+   *            the {@link Class} to reflect, must not be {@code null}
+   * @param fieldName
+   *            the field name to obtain
+   * @param forceAccess
+   *            whether to break scope restrictions using the
+   *            {@link java.lang.reflect.AccessibleObject#setAccessible(boolean)} method. {@code false} will only
+   *            match {@code public} fields.
+   * @return the Field object
+   * @throws IllegalArgumentException
+   *             if the class is {@code null}, or the field name is blank or empty or is matched at multiple places
+   *             in the inheritance hierarchy
+   */
+  public static java.lang.reflect.Field getField(final Class<?> cls, final String fieldName, final boolean forceAccess) {
+
+
+      // check up the superclass hierarchy
+      for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
+          try {
+              final java.lang.reflect.Field field = acls.getDeclaredField(fieldName);
+              // getDeclaredField checks for non-public scopes as well
+              // and it returns accurate results
+              if (!java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+                  if (forceAccess) {
+                      field.setAccessible(true);
+                  } else {
+                      continue;
+                  }
+              }
+              return field;
+          } catch (final NoSuchFieldException ex) { // NOPMD
+              // ignore
+          }
+      }
+      
+      return null;
+
+  }
+  
+  
+  
   
   @Override
   public List<StringKeyValue> getReferenceListForIdiomaID(HttpServletRequest request,

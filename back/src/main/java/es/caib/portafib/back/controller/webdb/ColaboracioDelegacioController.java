@@ -312,15 +312,15 @@ public class ColaboracioDelegacioController
 
     try {
       this.setFilesFormToEntity(afm, colaboracioDelegacio, colaboracioDelegacioForm); // FILE
-      preValidate(colaboracioDelegacioForm, result);
+      preValidate(request, colaboracioDelegacioForm, result);
       getWebValidator().validate(colaboracioDelegacioForm, result);
-      postValidate(colaboracioDelegacioForm, result);
+      postValidate(request,colaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        colaboracioDelegacio = create(colaboracioDelegacio);
+        colaboracioDelegacio = create(request, colaboracioDelegacio);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", colaboracioDelegacio.getColaboracioDelegacioID());
         colaboracioDelegacioForm.setColaboracioDelegacio(colaboracioDelegacio);
@@ -359,7 +359,7 @@ public class ColaboracioDelegacioController
         return null;
       }
     }
-    ColaboracioDelegacioJPA colaboracioDelegacio = findByPrimaryKey(colaboracioDelegacioID);
+    ColaboracioDelegacioJPA colaboracioDelegacio = findByPrimaryKey(request, colaboracioDelegacioID);
 
     if (colaboracioDelegacio == null) {
       createMessageWarning(request, "error.notfound", colaboracioDelegacioID);
@@ -411,15 +411,15 @@ public class ColaboracioDelegacioController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, colaboracioDelegacio, colaboracioDelegacioForm); // FILE
-      preValidate(colaboracioDelegacioForm, result);
+      preValidate(request, colaboracioDelegacioForm, result);
       getWebValidator().validate(colaboracioDelegacio, result);
-      postValidate(colaboracioDelegacioForm, result);
+      postValidate(request, colaboracioDelegacioForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        colaboracioDelegacio = update(colaboracioDelegacio);
+        colaboracioDelegacio = update(request, colaboracioDelegacio);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", colaboracioDelegacio.getColaboracioDelegacioID());
         status.setComplete();
@@ -706,10 +706,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(ColaboracioDelegacioForm colaboracioDelegacioForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,ColaboracioDelegacioForm colaboracioDelegacioForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(ColaboracioDelegacioForm colaboracioDelegacioForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,ColaboracioDelegacioForm colaboracioDelegacioForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, ColaboracioDelegacioFilterForm filterForm)  throws I18NException {
@@ -764,25 +764,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public ColaboracioDelegacioJPA findByPrimaryKey(java.lang.Long colaboracioDelegacioID) throws I18NException {
+  public ColaboracioDelegacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long colaboracioDelegacioID) throws I18NException {
     return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID);
   }
 
 
-  public ColaboracioDelegacioJPA create(ColaboracioDelegacioJPA colaboracioDelegacio)
+  public ColaboracioDelegacioJPA create(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
     throws Exception,I18NException, I18NValidationException {
     return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.create(colaboracioDelegacio);
   }
 
 
-  public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio) throws Exception,I18NException {
-    colaboracioDelegacioEjb.delete(colaboracioDelegacio);
+  public ColaboracioDelegacioJPA update(HttpServletRequest request, ColaboracioDelegacioJPA colaboracioDelegacio)
+    throws Exception,I18NException, I18NValidationException {
+    return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.update(colaboracioDelegacio);
   }
 
 
-  public ColaboracioDelegacioJPA update(ColaboracioDelegacioJPA colaboracioDelegacio)
-    throws Exception,I18NException, I18NValidationException {
-    return (ColaboracioDelegacioJPA) colaboracioDelegacioEjb.update(colaboracioDelegacio);
+  public void delete(HttpServletRequest request, ColaboracioDelegacio colaboracioDelegacio) throws Exception,I18NException {
+    colaboracioDelegacioEjb.delete(colaboracioDelegacio);
   }
 
 } // Final de Classe

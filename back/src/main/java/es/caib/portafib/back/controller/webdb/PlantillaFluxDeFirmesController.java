@@ -326,14 +326,14 @@ public class PlantillaFluxDeFirmesController
     PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes = plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes();
 
     try {
-      preValidate(plantillaFluxDeFirmesForm, result);
+      preValidate(request, plantillaFluxDeFirmesForm, result);
       getWebValidator().validate(plantillaFluxDeFirmesForm, result);
-      postValidate(plantillaFluxDeFirmesForm, result);
+      postValidate(request,plantillaFluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        plantillaFluxDeFirmes = create(plantillaFluxDeFirmes);
+        plantillaFluxDeFirmes = create(request, plantillaFluxDeFirmes);
         createMessageSuccess(request, "success.creation", plantillaFluxDeFirmes.getFluxDeFirmesID());
         plantillaFluxDeFirmesForm.setPlantillaFluxDeFirmes(plantillaFluxDeFirmes);
         return getRedirectWhenCreated(plantillaFluxDeFirmesForm);
@@ -370,7 +370,7 @@ public class PlantillaFluxDeFirmesController
         return null;
       }
     }
-    PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes = findByPrimaryKey(fluxDeFirmesID);
+    PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
 
     if (plantillaFluxDeFirmes == null) {
       createMessageWarning(request, "error.notfound", fluxDeFirmesID);
@@ -420,14 +420,14 @@ public class PlantillaFluxDeFirmesController
     PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes = plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes();
 
     try {
-      preValidate(plantillaFluxDeFirmesForm, result);
+      preValidate(request, plantillaFluxDeFirmesForm, result);
       getWebValidator().validate(plantillaFluxDeFirmes, result);
-      postValidate(plantillaFluxDeFirmesForm, result);
+      postValidate(request, plantillaFluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        plantillaFluxDeFirmes = update(plantillaFluxDeFirmes);
+        plantillaFluxDeFirmes = update(request, plantillaFluxDeFirmes);
         createMessageSuccess(request, "success.modification", plantillaFluxDeFirmes.getFluxDeFirmesID());
         status.setComplete();
         return getRedirectWhenModified(plantillaFluxDeFirmesForm, null);
@@ -730,10 +730,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PlantillaFluxDeFirmesFilterForm filterForm)  throws I18NException {
@@ -788,25 +788,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public PlantillaFluxDeFirmesJPA findByPrimaryKey(java.lang.Long fluxDeFirmesID) throws I18NException {
+  public PlantillaFluxDeFirmesJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long fluxDeFirmesID) throws I18NException {
     return (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
   }
 
 
-  public PlantillaFluxDeFirmesJPA create(PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes)
+  public PlantillaFluxDeFirmesJPA create(HttpServletRequest request, PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes)
     throws Exception,I18NException, I18NValidationException {
     return (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesEjb.create(plantillaFluxDeFirmes);
   }
 
 
-  public void delete(HttpServletRequest request, PlantillaFluxDeFirmes plantillaFluxDeFirmes) throws Exception,I18NException {
-    plantillaFluxDeFirmesEjb.delete(plantillaFluxDeFirmes);
+  public PlantillaFluxDeFirmesJPA update(HttpServletRequest request, PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes)
+    throws Exception,I18NException, I18NValidationException {
+    return (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesEjb.update(plantillaFluxDeFirmes);
   }
 
 
-  public PlantillaFluxDeFirmesJPA update(PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes)
-    throws Exception,I18NException, I18NValidationException {
-    return (PlantillaFluxDeFirmesJPA) plantillaFluxDeFirmesEjb.update(plantillaFluxDeFirmes);
+  public void delete(HttpServletRequest request, PlantillaFluxDeFirmes plantillaFluxDeFirmes) throws Exception,I18NException {
+    plantillaFluxDeFirmesEjb.delete(plantillaFluxDeFirmes);
   }
 
 } // Final de Classe

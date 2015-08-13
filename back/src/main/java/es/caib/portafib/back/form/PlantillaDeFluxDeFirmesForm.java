@@ -12,132 +12,101 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 
 /**
- * 
+ *
  * @author anadal
  *
  */
 public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
-  
-  
-  
+
+  public static final String USUARI_ENTITAT_PRIMERA_FIRMA_FIELD = "id";
+
   private PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes;
-  
-  
-  private List<StringKeyValue> listOfUsuariEntitatFavorit;
-  
-  private Set<StringKeyValue>  listOfUsuariEntitatForUsuariEntitatID;
+
+  String id; // id del usuari-entitat de la primera firma =
+             // usuariEntitatPrimeraFirma
+  String param1; // Parametre opcional 1
+  String param2; // Parametre opcional 1
+
+  private Set<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID;
 
   private List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID;
-  
-  private String usuariEntitatPrimeraFirma;
-  
-  private String redirectOnModify = null;
-  
-  private boolean readOnly = false;
-  
-  private Map<Long,String> backgroundColorsOfBloc = new HashMap<Long,String>();
-  
-  private Map<Long,String> backgroundColorsOfFirma = new HashMap<Long,String>();
-  
 
+  private String redirectOnModify = null;
+
+  private boolean readOnly = false;
+
+  private Map<Long, String> backgroundColorsOfBloc = new HashMap<Long, String>();
+
+  private Map<Long, String> backgroundColorsOfFirma = new HashMap<Long, String>();
 
   private List<StringKeyValue> listOfFluxDeFirmesForFluxDeFirmesID = new ArrayList<StringKeyValue>();
 
-
-
-  
-
-
-
-  
   public PlantillaDeFluxDeFirmesForm(FluxDeFirmesForm base) {
     super(base);
   }
-  
+
   public List<StringKeyValue> getListOfFluxDeFirmesForFluxDeFirmesID() {
     return this.listOfFluxDeFirmesForFluxDeFirmesID;
   }
 
-  public void setListOfFluxDeFirmesForFluxDeFirmesID(List<StringKeyValue> listOfFluxDeFirmesForFluxDeFirmesID) {
+  public void setListOfFluxDeFirmesForFluxDeFirmesID(
+      List<StringKeyValue> listOfFluxDeFirmesForFluxDeFirmesID) {
     this.listOfFluxDeFirmesForFluxDeFirmesID = listOfFluxDeFirmesForFluxDeFirmesID;
   }
-  
-
-  public List<StringKeyValue> getListOfUsuariEntitatFavorit() {
-    return listOfUsuariEntitatFavorit;
-  }
-
-  public void setListOfUsuariEntitatFavorit(List<StringKeyValue> listOfUsuariEntitatFavorit) {
-    this.listOfUsuariEntitatFavorit = listOfUsuariEntitatFavorit;
-  }
-
 
   public Set<StringKeyValue> getListOfUsuariEntitatForUsuariEntitatID() {
     return listOfUsuariEntitatForUsuariEntitatID;
   }
-
 
   public void setListOfUsuariEntitatForUsuariEntitatID(
       Set<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
     this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
   }
 
-
   public List<StringKeyValue> getListOfUsuariAplicacioForUsuariAplicacioID() {
     return listOfUsuariAplicacioForUsuariAplicacioID;
   }
-
 
   public void setListOfUsuariAplicacioForUsuariAplicacioID(
       List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID) {
     this.listOfUsuariAplicacioForUsuariAplicacioID = listOfUsuariAplicacioForUsuariAplicacioID;
   }
 
-
   public String getUsuariEntitatPrimeraFirma() {
-    return usuariEntitatPrimeraFirma;
+    return id;
   }
-
 
   public void setUsuariEntitatPrimeraFirma(String usuariEntitatPrimeraFirma) {
-    this.usuariEntitatPrimeraFirma = usuariEntitatPrimeraFirma;
+    this.id = usuariEntitatPrimeraFirma;
   }
-
 
   public String getRedirectOnModify() {
     return redirectOnModify;
   }
 
-
   public void setRedirectOnModify(String redirectOnModify) {
     this.redirectOnModify = redirectOnModify;
   }
-
 
   public boolean isReadOnly() {
     return readOnly;
   }
 
-
   public void setReadOnly(boolean readOnly) {
     this.readOnly = readOnly;
   }
-
 
   public Map<Long, String> getBackgroundColorsOfBloc() {
     return backgroundColorsOfBloc;
   }
 
-
   public void setBackgroundColorsOfBloc(Map<Long, String> backgroundColorsOfBloc) {
     this.backgroundColorsOfBloc = backgroundColorsOfBloc;
   }
 
-
   public Map<Long, String> getBackgroundColorsOfFirma() {
     return backgroundColorsOfFirma;
   }
-
 
   public void setBackgroundColorsOfFirma(Map<Long, String> backgroundColorsOfFirma) {
     this.backgroundColorsOfFirma = backgroundColorsOfFirma;
@@ -151,7 +120,28 @@ public class PlantillaDeFluxDeFirmesForm extends FluxDeFirmesForm {
     this.plantillaFluxDeFirmes = plantillaFluxDeFirmes;
   }
 
+  public String getId() {
+    return id;
+  }
 
+  public void setId(String id) {
+    this.id = id;
+  }
 
+  public String getParam1() {
+    return param1;
+  }
+
+  public void setParam1(String param1) {
+    this.param1 = param1;
+  }
+
+  public String getParam2() {
+    return param2;
+  }
+
+  public void setParam2(String param2) {
+    this.param2 = param2;
+  }
 
 }

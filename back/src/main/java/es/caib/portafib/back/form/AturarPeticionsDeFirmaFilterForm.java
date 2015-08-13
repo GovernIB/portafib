@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 
 /**
- * 
+ *   
  * @author anadal
  *
  */
@@ -16,6 +16,7 @@ public class AturarPeticionsDeFirmaFilterForm extends PeticioDeFirmaFilterForm {
    * Usuari del que volem revisar les firmes actives de peticions de firmes.
    * El llistat inclou l'usuari entitat i tots els càrrecs.
    */
+  // TODO Guardar usuariEntitatID dins la sessió enlloc de fer un nou form !!!
   private String usuariEntitatID; 
 
   public AturarPeticionsDeFirmaFilterForm() {    

@@ -304,14 +304,14 @@ public class NotificacioWSController
     NotificacioWSJPA notificacioWS = notificacioWSForm.getNotificacioWS();
 
     try {
-      preValidate(notificacioWSForm, result);
+      preValidate(request, notificacioWSForm, result);
       getWebValidator().validate(notificacioWSForm, result);
-      postValidate(notificacioWSForm, result);
+      postValidate(request,notificacioWSForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        notificacioWS = create(notificacioWS);
+        notificacioWS = create(request, notificacioWS);
         createMessageSuccess(request, "success.creation", notificacioWS.getNotificacioID());
         notificacioWSForm.setNotificacioWS(notificacioWS);
         return getRedirectWhenCreated(notificacioWSForm);
@@ -348,7 +348,7 @@ public class NotificacioWSController
         return null;
       }
     }
-    NotificacioWSJPA notificacioWS = findByPrimaryKey(notificacioID);
+    NotificacioWSJPA notificacioWS = findByPrimaryKey(request, notificacioID);
 
     if (notificacioWS == null) {
       createMessageWarning(request, "error.notfound", notificacioID);
@@ -398,14 +398,14 @@ public class NotificacioWSController
     NotificacioWSJPA notificacioWS = notificacioWSForm.getNotificacioWS();
 
     try {
-      preValidate(notificacioWSForm, result);
+      preValidate(request, notificacioWSForm, result);
       getWebValidator().validate(notificacioWS, result);
-      postValidate(notificacioWSForm, result);
+      postValidate(request, notificacioWSForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        notificacioWS = update(notificacioWS);
+        notificacioWS = update(request, notificacioWS);
         createMessageSuccess(request, "success.modification", notificacioWS.getNotificacioID());
         status.setComplete();
         return getRedirectWhenModified(notificacioWSForm, null);
@@ -667,10 +667,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(NotificacioWSForm notificacioWSForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,NotificacioWSForm notificacioWSForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(NotificacioWSForm notificacioWSForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,NotificacioWSForm notificacioWSForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, NotificacioWSFilterForm filterForm)  throws I18NException {
@@ -725,25 +725,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public NotificacioWSJPA findByPrimaryKey(java.lang.Long notificacioID) throws I18NException {
+  public NotificacioWSJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long notificacioID) throws I18NException {
     return (NotificacioWSJPA) notificacioWSEjb.findByPrimaryKey(notificacioID);
   }
 
 
-  public NotificacioWSJPA create(NotificacioWSJPA notificacioWS)
+  public NotificacioWSJPA create(HttpServletRequest request, NotificacioWSJPA notificacioWS)
     throws Exception,I18NException, I18NValidationException {
     return (NotificacioWSJPA) notificacioWSEjb.create(notificacioWS);
   }
 
 
-  public void delete(HttpServletRequest request, NotificacioWS notificacioWS) throws Exception,I18NException {
-    notificacioWSEjb.delete(notificacioWS);
+  public NotificacioWSJPA update(HttpServletRequest request, NotificacioWSJPA notificacioWS)
+    throws Exception,I18NException, I18NValidationException {
+    return (NotificacioWSJPA) notificacioWSEjb.update(notificacioWS);
   }
 
 
-  public NotificacioWSJPA update(NotificacioWSJPA notificacioWS)
-    throws Exception,I18NException, I18NValidationException {
-    return (NotificacioWSJPA) notificacioWSEjb.update(notificacioWS);
+  public void delete(HttpServletRequest request, NotificacioWS notificacioWS) throws Exception,I18NException {
+    notificacioWSEjb.delete(notificacioWS);
   }
 
 } // Final de Classe

@@ -301,14 +301,14 @@ public class PermisUsuariPlantillaController
     PermisUsuariPlantillaJPA permisUsuariPlantilla = permisUsuariPlantillaForm.getPermisUsuariPlantilla();
 
     try {
-      preValidate(permisUsuariPlantillaForm, result);
+      preValidate(request, permisUsuariPlantillaForm, result);
       getWebValidator().validate(permisUsuariPlantillaForm, result);
-      postValidate(permisUsuariPlantillaForm, result);
+      postValidate(request,permisUsuariPlantillaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        permisUsuariPlantilla = create(permisUsuariPlantilla);
+        permisUsuariPlantilla = create(request, permisUsuariPlantilla);
         createMessageSuccess(request, "success.creation", permisUsuariPlantilla.getPermisUsuariPlantillaID());
         permisUsuariPlantillaForm.setPermisUsuariPlantilla(permisUsuariPlantilla);
         return getRedirectWhenCreated(permisUsuariPlantillaForm);
@@ -345,7 +345,7 @@ public class PermisUsuariPlantillaController
         return null;
       }
     }
-    PermisUsuariPlantillaJPA permisUsuariPlantilla = findByPrimaryKey(permisUsuariPlantillaID);
+    PermisUsuariPlantillaJPA permisUsuariPlantilla = findByPrimaryKey(request, permisUsuariPlantillaID);
 
     if (permisUsuariPlantilla == null) {
       createMessageWarning(request, "error.notfound", permisUsuariPlantillaID);
@@ -395,14 +395,14 @@ public class PermisUsuariPlantillaController
     PermisUsuariPlantillaJPA permisUsuariPlantilla = permisUsuariPlantillaForm.getPermisUsuariPlantilla();
 
     try {
-      preValidate(permisUsuariPlantillaForm, result);
+      preValidate(request, permisUsuariPlantillaForm, result);
       getWebValidator().validate(permisUsuariPlantilla, result);
-      postValidate(permisUsuariPlantillaForm, result);
+      postValidate(request, permisUsuariPlantillaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        permisUsuariPlantilla = update(permisUsuariPlantilla);
+        permisUsuariPlantilla = update(request, permisUsuariPlantilla);
         createMessageSuccess(request, "success.modification", permisUsuariPlantilla.getPermisUsuariPlantillaID());
         status.setComplete();
         return getRedirectWhenModified(permisUsuariPlantillaForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(PermisUsuariPlantillaForm permisUsuariPlantillaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PermisUsuariPlantillaForm permisUsuariPlantillaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PermisUsuariPlantillaForm permisUsuariPlantillaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PermisUsuariPlantillaForm permisUsuariPlantillaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PermisUsuariPlantillaFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public PermisUsuariPlantillaJPA findByPrimaryKey(java.lang.Long permisUsuariPlantillaID) throws I18NException {
+  public PermisUsuariPlantillaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long permisUsuariPlantillaID) throws I18NException {
     return (PermisUsuariPlantillaJPA) permisUsuariPlantillaEjb.findByPrimaryKey(permisUsuariPlantillaID);
   }
 
 
-  public PermisUsuariPlantillaJPA create(PermisUsuariPlantillaJPA permisUsuariPlantilla)
+  public PermisUsuariPlantillaJPA create(HttpServletRequest request, PermisUsuariPlantillaJPA permisUsuariPlantilla)
     throws Exception,I18NException, I18NValidationException {
     return (PermisUsuariPlantillaJPA) permisUsuariPlantillaEjb.create(permisUsuariPlantilla);
   }
 
 
-  public void delete(HttpServletRequest request, PermisUsuariPlantilla permisUsuariPlantilla) throws Exception,I18NException {
-    permisUsuariPlantillaEjb.delete(permisUsuariPlantilla);
+  public PermisUsuariPlantillaJPA update(HttpServletRequest request, PermisUsuariPlantillaJPA permisUsuariPlantilla)
+    throws Exception,I18NException, I18NValidationException {
+    return (PermisUsuariPlantillaJPA) permisUsuariPlantillaEjb.update(permisUsuariPlantilla);
   }
 
 
-  public PermisUsuariPlantillaJPA update(PermisUsuariPlantillaJPA permisUsuariPlantilla)
-    throws Exception,I18NException, I18NValidationException {
-    return (PermisUsuariPlantillaJPA) permisUsuariPlantillaEjb.update(permisUsuariPlantilla);
+  public void delete(HttpServletRequest request, PermisUsuariPlantilla permisUsuariPlantilla) throws Exception,I18NException {
+    permisUsuariPlantillaEjb.delete(permisUsuariPlantilla);
   }
 
 } // Final de Classe

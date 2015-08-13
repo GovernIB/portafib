@@ -252,14 +252,14 @@ public class TipusMetadadaController
     TipusMetadadaJPA tipusMetadada = tipusMetadadaForm.getTipusMetadada();
 
     try {
-      preValidate(tipusMetadadaForm, result);
+      preValidate(request, tipusMetadadaForm, result);
       getWebValidator().validate(tipusMetadadaForm, result);
-      postValidate(tipusMetadadaForm, result);
+      postValidate(request,tipusMetadadaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusMetadada = create(tipusMetadada);
+        tipusMetadada = create(request, tipusMetadada);
         createMessageSuccess(request, "success.creation", tipusMetadada.getTipusMetadadaID());
         tipusMetadadaForm.setTipusMetadada(tipusMetadada);
         return getRedirectWhenCreated(tipusMetadadaForm);
@@ -296,7 +296,7 @@ public class TipusMetadadaController
         return null;
       }
     }
-    TipusMetadadaJPA tipusMetadada = findByPrimaryKey(tipusMetadadaID);
+    TipusMetadadaJPA tipusMetadada = findByPrimaryKey(request, tipusMetadadaID);
 
     if (tipusMetadada == null) {
       createMessageWarning(request, "error.notfound", tipusMetadadaID);
@@ -346,14 +346,14 @@ public class TipusMetadadaController
     TipusMetadadaJPA tipusMetadada = tipusMetadadaForm.getTipusMetadada();
 
     try {
-      preValidate(tipusMetadadaForm, result);
+      preValidate(request, tipusMetadadaForm, result);
       getWebValidator().validate(tipusMetadada, result);
-      postValidate(tipusMetadadaForm, result);
+      postValidate(request, tipusMetadadaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusMetadada = update(tipusMetadada);
+        tipusMetadada = update(request, tipusMetadada);
         createMessageSuccess(request, "success.modification", tipusMetadada.getTipusMetadadaID());
         status.setComplete();
         return getRedirectWhenModified(tipusMetadadaForm, null);
@@ -534,10 +534,10 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusMetadadaForm tipusMetadadaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusMetadadaForm tipusMetadadaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusMetadadaForm tipusMetadadaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusMetadadaForm tipusMetadadaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusMetadadaFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public TipusMetadadaJPA findByPrimaryKey(java.lang.Integer tipusMetadadaID) throws I18NException {
+  public TipusMetadadaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Integer tipusMetadadaID) throws I18NException {
     return (TipusMetadadaJPA) tipusMetadadaEjb.findByPrimaryKey(tipusMetadadaID);
   }
 
 
-  public TipusMetadadaJPA create(TipusMetadadaJPA tipusMetadada)
+  public TipusMetadadaJPA create(HttpServletRequest request, TipusMetadadaJPA tipusMetadada)
     throws Exception,I18NException, I18NValidationException {
     return (TipusMetadadaJPA) tipusMetadadaEjb.create(tipusMetadada);
   }
 
 
-  public void delete(HttpServletRequest request, TipusMetadada tipusMetadada) throws Exception,I18NException {
-    tipusMetadadaEjb.delete(tipusMetadada);
+  public TipusMetadadaJPA update(HttpServletRequest request, TipusMetadadaJPA tipusMetadada)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusMetadadaJPA) tipusMetadadaEjb.update(tipusMetadada);
   }
 
 
-  public TipusMetadadaJPA update(TipusMetadadaJPA tipusMetadada)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusMetadadaJPA) tipusMetadadaEjb.update(tipusMetadada);
+  public void delete(HttpServletRequest request, TipusMetadada tipusMetadada) throws Exception,I18NException {
+    tipusMetadadaEjb.delete(tipusMetadada);
   }
 
 } // Final de Classe

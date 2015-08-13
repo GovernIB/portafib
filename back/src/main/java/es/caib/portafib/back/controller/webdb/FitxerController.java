@@ -252,14 +252,14 @@ public class FitxerController
     FitxerJPA fitxer = fitxerForm.getFitxer();
 
     try {
-      preValidate(fitxerForm, result);
+      preValidate(request, fitxerForm, result);
       getWebValidator().validate(fitxerForm, result);
-      postValidate(fitxerForm, result);
+      postValidate(request,fitxerForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        fitxer = create(fitxer);
+        fitxer = create(request, fitxer);
         createMessageSuccess(request, "success.creation", fitxer.getFitxerID());
         fitxerForm.setFitxer(fitxer);
         return getRedirectWhenCreated(fitxerForm);
@@ -296,7 +296,7 @@ public class FitxerController
         return null;
       }
     }
-    FitxerJPA fitxer = findByPrimaryKey(fitxerID);
+    FitxerJPA fitxer = findByPrimaryKey(request, fitxerID);
 
     if (fitxer == null) {
       createMessageWarning(request, "error.notfound", fitxerID);
@@ -346,14 +346,14 @@ public class FitxerController
     FitxerJPA fitxer = fitxerForm.getFitxer();
 
     try {
-      preValidate(fitxerForm, result);
+      preValidate(request, fitxerForm, result);
       getWebValidator().validate(fitxer, result);
-      postValidate(fitxerForm, result);
+      postValidate(request, fitxerForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        fitxer = update(fitxer);
+        fitxer = update(request, fitxer);
         createMessageSuccess(request, "success.modification", fitxer.getFitxerID());
         status.setComplete();
         return getRedirectWhenModified(fitxerForm, null);
@@ -535,10 +535,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(FitxerForm fitxerForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,FitxerForm fitxerForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(FitxerForm fitxerForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,FitxerForm fitxerForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, FitxerFilterForm filterForm)  throws I18NException {
@@ -593,25 +593,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public FitxerJPA findByPrimaryKey(java.lang.Long fitxerID) throws I18NException {
+  public FitxerJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long fitxerID) throws I18NException {
     return (FitxerJPA) fitxerEjb.findByPrimaryKey(fitxerID);
   }
 
 
-  public FitxerJPA create(FitxerJPA fitxer)
+  public FitxerJPA create(HttpServletRequest request, FitxerJPA fitxer)
     throws Exception,I18NException, I18NValidationException {
     return (FitxerJPA) fitxerEjb.create(fitxer);
   }
 
 
-  public void delete(HttpServletRequest request, Fitxer fitxer) throws Exception,I18NException {
-    fitxerEjb.delete(fitxer);
+  public FitxerJPA update(HttpServletRequest request, FitxerJPA fitxer)
+    throws Exception,I18NException, I18NValidationException {
+    return (FitxerJPA) fitxerEjb.update(fitxer);
   }
 
 
-  public FitxerJPA update(FitxerJPA fitxer)
-    throws Exception,I18NException, I18NValidationException {
-    return (FitxerJPA) fitxerEjb.update(fitxer);
+  public void delete(HttpServletRequest request, Fitxer fitxer) throws Exception,I18NException {
+    fitxerEjb.delete(fitxer);
   }
 
 } // Final de Classe

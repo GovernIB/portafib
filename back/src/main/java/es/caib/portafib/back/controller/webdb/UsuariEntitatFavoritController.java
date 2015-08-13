@@ -297,14 +297,14 @@ public class UsuariEntitatFavoritController
     UsuariEntitatFavoritJPA usuariEntitatFavorit = usuariEntitatFavoritForm.getUsuariEntitatFavorit();
 
     try {
-      preValidate(usuariEntitatFavoritForm, result);
+      preValidate(request, usuariEntitatFavoritForm, result);
       getWebValidator().validate(usuariEntitatFavoritForm, result);
-      postValidate(usuariEntitatFavoritForm, result);
+      postValidate(request,usuariEntitatFavoritForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        usuariEntitatFavorit = create(usuariEntitatFavorit);
+        usuariEntitatFavorit = create(request, usuariEntitatFavorit);
         createMessageSuccess(request, "success.creation", usuariEntitatFavorit.getID());
         usuariEntitatFavoritForm.setUsuariEntitatFavorit(usuariEntitatFavorit);
         return getRedirectWhenCreated(usuariEntitatFavoritForm);
@@ -341,7 +341,7 @@ public class UsuariEntitatFavoritController
         return null;
       }
     }
-    UsuariEntitatFavoritJPA usuariEntitatFavorit = findByPrimaryKey(iD);
+    UsuariEntitatFavoritJPA usuariEntitatFavorit = findByPrimaryKey(request, iD);
 
     if (usuariEntitatFavorit == null) {
       createMessageWarning(request, "error.notfound", iD);
@@ -391,14 +391,14 @@ public class UsuariEntitatFavoritController
     UsuariEntitatFavoritJPA usuariEntitatFavorit = usuariEntitatFavoritForm.getUsuariEntitatFavorit();
 
     try {
-      preValidate(usuariEntitatFavoritForm, result);
+      preValidate(request, usuariEntitatFavoritForm, result);
       getWebValidator().validate(usuariEntitatFavorit, result);
-      postValidate(usuariEntitatFavoritForm, result);
+      postValidate(request, usuariEntitatFavoritForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        usuariEntitatFavorit = update(usuariEntitatFavorit);
+        usuariEntitatFavorit = update(request, usuariEntitatFavorit);
         createMessageSuccess(request, "success.modification", usuariEntitatFavorit.getID());
         status.setComplete();
         return getRedirectWhenModified(usuariEntitatFavoritForm, null);
@@ -660,10 +660,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(UsuariEntitatFavoritForm usuariEntitatFavoritForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,UsuariEntitatFavoritForm usuariEntitatFavoritForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(UsuariEntitatFavoritForm usuariEntitatFavoritForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,UsuariEntitatFavoritForm usuariEntitatFavoritForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, UsuariEntitatFavoritFilterForm filterForm)  throws I18NException {
@@ -718,25 +718,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public UsuariEntitatFavoritJPA findByPrimaryKey(java.lang.Long iD) throws I18NException {
+  public UsuariEntitatFavoritJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long iD) throws I18NException {
     return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.findByPrimaryKey(iD);
   }
 
 
-  public UsuariEntitatFavoritJPA create(UsuariEntitatFavoritJPA usuariEntitatFavorit)
+  public UsuariEntitatFavoritJPA create(HttpServletRequest request, UsuariEntitatFavoritJPA usuariEntitatFavorit)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.create(usuariEntitatFavorit);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariEntitatFavorit usuariEntitatFavorit) throws Exception,I18NException {
-    usuariEntitatFavoritEjb.delete(usuariEntitatFavorit);
+  public UsuariEntitatFavoritJPA update(HttpServletRequest request, UsuariEntitatFavoritJPA usuariEntitatFavorit)
+    throws Exception,I18NException, I18NValidationException {
+    return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.update(usuariEntitatFavorit);
   }
 
 
-  public UsuariEntitatFavoritJPA update(UsuariEntitatFavoritJPA usuariEntitatFavorit)
-    throws Exception,I18NException, I18NValidationException {
-    return (UsuariEntitatFavoritJPA) usuariEntitatFavoritEjb.update(usuariEntitatFavorit);
+  public void delete(HttpServletRequest request, UsuariEntitatFavorit usuariEntitatFavorit) throws Exception,I18NException {
+    usuariEntitatFavoritEjb.delete(usuariEntitatFavorit);
   }
 
 } // Final de Classe

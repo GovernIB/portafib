@@ -495,7 +495,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     
     
     @Override
-    public UsuariAplicacioJPA create(UsuariAplicacioJPA usuariAplicacio)
+    public UsuariAplicacioJPA create(HttpServletRequest request, UsuariAplicacioJPA usuariAplicacio)
       throws Exception,I18NException, I18NValidationException {
       return usuariAplicacioLogicaEjb.createFull(usuariAplicacio, 
          LoginInfo.getInstance().getEntitatID());

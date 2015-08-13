@@ -1,6 +1,7 @@
 package es.caib.portafib.back.validator;
 
-import es.caib.portafib.back.form.SeleccioUsuariEntitatForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -24,7 +25,7 @@ public class SeleccioUsuariValidator implements Validator {
 
   @Override
   public boolean supports(Class<?> clazz) {
-    return SeleccioUsuariEntitatForm.class.equals(clazz);
+    return SeleccioUsuariForm.class.equals(clazz);
   }
 
   @Override

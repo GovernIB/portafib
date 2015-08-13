@@ -110,7 +110,7 @@ public class PrincipalController {
       }
       if ("ROLE_ADMIN".equals(pipella)) {
         //return new ModelAndView("role_admin");
-        return new ModelAndView(new RedirectView("/admin/fluxosorfes/list/1", true));
+        return new ModelAndView(new RedirectView("/admin/fitxersorfes/list/1", true));
       }
       if ("ROLE_COLA".equals(pipella)) {
         //return new ModelAndView("role_cola");

@@ -32,7 +32,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
-import es.caib.portafib.back.form.SeleccioNifForm;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
@@ -57,7 +56,7 @@ import es.caib.portafib.utils.Constants;
  */
 @Controller
 @RequestMapping(value = "/aden/aturarpeticions")
-@SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class, SeleccioNifForm.class })
+@SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class })
 public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
   
   public static final String USUARI_ENTITAT_ID_HOLDER =

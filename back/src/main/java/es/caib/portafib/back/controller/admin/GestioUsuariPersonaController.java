@@ -373,7 +373,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   }
   
   @Override
-  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersona)
+  public UsuariPersonaJPA create(HttpServletRequest request, UsuariPersonaJPA usuariPersona)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariPersonaJPA) usuariPersonaLogicaEjb.createFull(usuariPersona);
   }

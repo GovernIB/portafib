@@ -252,14 +252,14 @@ public class TraduccioController
     TraduccioJPA traduccio = traduccioForm.getTraduccio();
 
     try {
-      preValidate(traduccioForm, result);
+      preValidate(request, traduccioForm, result);
       getWebValidator().validate(traduccioForm, result);
-      postValidate(traduccioForm, result);
+      postValidate(request,traduccioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        traduccio = create(traduccio);
+        traduccio = create(request, traduccio);
         createMessageSuccess(request, "success.creation", traduccio.getTraduccioID());
         traduccioForm.setTraduccio(traduccio);
         return getRedirectWhenCreated(traduccioForm);
@@ -296,7 +296,7 @@ public class TraduccioController
         return null;
       }
     }
-    TraduccioJPA traduccio = findByPrimaryKey(traduccioID);
+    TraduccioJPA traduccio = findByPrimaryKey(request, traduccioID);
 
     if (traduccio == null) {
       createMessageWarning(request, "error.notfound", traduccioID);
@@ -346,14 +346,14 @@ public class TraduccioController
     TraduccioJPA traduccio = traduccioForm.getTraduccio();
 
     try {
-      preValidate(traduccioForm, result);
+      preValidate(request, traduccioForm, result);
       getWebValidator().validate(traduccio, result);
-      postValidate(traduccioForm, result);
+      postValidate(request, traduccioForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        traduccio = update(traduccio);
+        traduccio = update(request, traduccio);
         createMessageSuccess(request, "success.modification", traduccio.getTraduccioID());
         status.setComplete();
         return getRedirectWhenModified(traduccioForm, null);
@@ -535,10 +535,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(TraduccioForm traduccioForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TraduccioForm traduccioForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TraduccioForm traduccioForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TraduccioForm traduccioForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TraduccioFilterForm filterForm)  throws I18NException {
@@ -593,25 +593,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public TraduccioJPA findByPrimaryKey(java.lang.Long traduccioID) throws I18NException {
+  public TraduccioJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long traduccioID) throws I18NException {
     return (TraduccioJPA) traduccioEjb.findByPrimaryKey(traduccioID);
   }
 
 
-  public TraduccioJPA create(TraduccioJPA traduccio)
+  public TraduccioJPA create(HttpServletRequest request, TraduccioJPA traduccio)
     throws Exception,I18NException, I18NValidationException {
     return (TraduccioJPA) traduccioEjb.create(traduccio);
   }
 
 
-  public void delete(HttpServletRequest request, Traduccio traduccio) throws Exception,I18NException {
-    traduccioEjb.delete(traduccio);
+  public TraduccioJPA update(HttpServletRequest request, TraduccioJPA traduccio)
+    throws Exception,I18NException, I18NValidationException {
+    return (TraduccioJPA) traduccioEjb.update(traduccio);
   }
 
 
-  public TraduccioJPA update(TraduccioJPA traduccio)
-    throws Exception,I18NException, I18NValidationException {
-    return (TraduccioJPA) traduccioEjb.update(traduccio);
+  public void delete(HttpServletRequest request, Traduccio traduccio) throws Exception,I18NException {
+    traduccioEjb.delete(traduccio);
   }
 
 } // Final de Classe

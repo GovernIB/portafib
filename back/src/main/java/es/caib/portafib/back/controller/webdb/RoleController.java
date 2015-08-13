@@ -252,14 +252,14 @@ public class RoleController
     RoleJPA role = roleForm.getRole();
 
     try {
-      preValidate(roleForm, result);
+      preValidate(request, roleForm, result);
       getWebValidator().validate(roleForm, result);
-      postValidate(roleForm, result);
+      postValidate(request,roleForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        role = create(role);
+        role = create(request, role);
         createMessageSuccess(request, "success.creation", role.getRoleID());
         roleForm.setRole(role);
         return getRedirectWhenCreated(roleForm);
@@ -296,7 +296,7 @@ public class RoleController
         return null;
       }
     }
-    RoleJPA role = findByPrimaryKey(roleID);
+    RoleJPA role = findByPrimaryKey(request, roleID);
 
     if (role == null) {
       createMessageWarning(request, "error.notfound", roleID);
@@ -346,14 +346,14 @@ public class RoleController
     RoleJPA role = roleForm.getRole();
 
     try {
-      preValidate(roleForm, result);
+      preValidate(request, roleForm, result);
       getWebValidator().validate(role, result);
-      postValidate(roleForm, result);
+      postValidate(request, roleForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        role = update(role);
+        role = update(request, role);
         createMessageSuccess(request, "success.modification", role.getRoleID());
         status.setComplete();
         return getRedirectWhenModified(roleForm, null);
@@ -534,10 +534,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(RoleForm roleForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,RoleForm roleForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(RoleForm roleForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,RoleForm roleForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, RoleFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public RoleJPA findByPrimaryKey(java.lang.String roleID) throws I18NException {
+  public RoleJPA findByPrimaryKey(HttpServletRequest request, java.lang.String roleID) throws I18NException {
     return (RoleJPA) roleEjb.findByPrimaryKey(roleID);
   }
 
 
-  public RoleJPA create(RoleJPA role)
+  public RoleJPA create(HttpServletRequest request, RoleJPA role)
     throws Exception,I18NException, I18NValidationException {
     return (RoleJPA) roleEjb.create(role);
   }
 
 
-  public void delete(HttpServletRequest request, Role role) throws Exception,I18NException {
-    roleEjb.delete(role);
+  public RoleJPA update(HttpServletRequest request, RoleJPA role)
+    throws Exception,I18NException, I18NValidationException {
+    return (RoleJPA) roleEjb.update(role);
   }
 
 
-  public RoleJPA update(RoleJPA role)
-    throws Exception,I18NException, I18NValidationException {
-    return (RoleJPA) roleEjb.update(role);
+  public void delete(HttpServletRequest request, Role role) throws Exception,I18NException {
+    roleEjb.delete(role);
   }
 
 } // Final de Classe

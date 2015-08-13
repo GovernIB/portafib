@@ -212,7 +212,7 @@ public abstract class AbstractGestioRoleUsuariEntitatController extends RoleUsua
   }
   
   @Override
-  public RoleUsuariEntitatJPA create(RoleUsuariEntitatJPA roleUsuariEntitat)
+  public RoleUsuariEntitatJPA create(HttpServletRequest request, RoleUsuariEntitatJPA roleUsuariEntitat)
     throws Exception,I18NException, I18NValidationException {
     return roleUsuariEntitatLogicaEjb.createFull(roleUsuariEntitat);
   }

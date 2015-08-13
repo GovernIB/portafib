@@ -319,15 +319,15 @@ public class UsuariEntitatController
 
     try {
       this.setFilesFormToEntity(afm, usuariEntitat, usuariEntitatForm); // FILE
-      preValidate(usuariEntitatForm, result);
+      preValidate(request, usuariEntitatForm, result);
       getWebValidator().validate(usuariEntitatForm, result);
-      postValidate(usuariEntitatForm, result);
+      postValidate(request,usuariEntitatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariEntitat = create(usuariEntitat);
+        usuariEntitat = create(request, usuariEntitat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", usuariEntitat.getUsuariEntitatID());
         usuariEntitatForm.setUsuariEntitat(usuariEntitat);
@@ -366,7 +366,7 @@ public class UsuariEntitatController
         return null;
       }
     }
-    UsuariEntitatJPA usuariEntitat = findByPrimaryKey(usuariEntitatID);
+    UsuariEntitatJPA usuariEntitat = findByPrimaryKey(request, usuariEntitatID);
 
     if (usuariEntitat == null) {
       createMessageWarning(request, "error.notfound", usuariEntitatID);
@@ -418,15 +418,15 @@ public class UsuariEntitatController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, usuariEntitat, usuariEntitatForm); // FILE
-      preValidate(usuariEntitatForm, result);
+      preValidate(request, usuariEntitatForm, result);
       getWebValidator().validate(usuariEntitat, result);
-      postValidate(usuariEntitatForm, result);
+      postValidate(request, usuariEntitatForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariEntitat = update(usuariEntitat);
+        usuariEntitat = update(request, usuariEntitat);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", usuariEntitat.getUsuariEntitatID());
         status.setComplete();
@@ -712,10 +712,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(UsuariEntitatForm usuariEntitatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,UsuariEntitatForm usuariEntitatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(UsuariEntitatForm usuariEntitatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,UsuariEntitatForm usuariEntitatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, UsuariEntitatFilterForm filterForm)  throws I18NException {
@@ -770,25 +770,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public UsuariEntitatJPA findByPrimaryKey(java.lang.String usuariEntitatID) throws I18NException {
+  public UsuariEntitatJPA findByPrimaryKey(HttpServletRequest request, java.lang.String usuariEntitatID) throws I18NException {
     return (UsuariEntitatJPA) usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
   }
 
 
-  public UsuariEntitatJPA create(UsuariEntitatJPA usuariEntitat)
+  public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatEjb.create(usuariEntitat);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws Exception,I18NException {
-    usuariEntitatEjb.delete(usuariEntitat);
+  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
+    throws Exception,I18NException, I18NValidationException {
+    return (UsuariEntitatJPA) usuariEntitatEjb.update(usuariEntitat);
   }
 
 
-  public UsuariEntitatJPA update(UsuariEntitatJPA usuariEntitat)
-    throws Exception,I18NException, I18NValidationException {
-    return (UsuariEntitatJPA) usuariEntitatEjb.update(usuariEntitat);
+  public void delete(HttpServletRequest request, UsuariEntitat usuariEntitat) throws Exception,I18NException {
+    usuariEntitatEjb.delete(usuariEntitat);
   }
 
 } // Final de Classe

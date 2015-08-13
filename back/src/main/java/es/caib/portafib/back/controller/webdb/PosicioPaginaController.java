@@ -252,14 +252,14 @@ public class PosicioPaginaController
     PosicioPaginaJPA posicioPagina = posicioPaginaForm.getPosicioPagina();
 
     try {
-      preValidate(posicioPaginaForm, result);
+      preValidate(request, posicioPaginaForm, result);
       getWebValidator().validate(posicioPaginaForm, result);
-      postValidate(posicioPaginaForm, result);
+      postValidate(request,posicioPaginaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        posicioPagina = create(posicioPagina);
+        posicioPagina = create(request, posicioPagina);
         createMessageSuccess(request, "success.creation", posicioPagina.getPosicioPaginaID());
         posicioPaginaForm.setPosicioPagina(posicioPagina);
         return getRedirectWhenCreated(posicioPaginaForm);
@@ -296,7 +296,7 @@ public class PosicioPaginaController
         return null;
       }
     }
-    PosicioPaginaJPA posicioPagina = findByPrimaryKey(posicioPaginaID);
+    PosicioPaginaJPA posicioPagina = findByPrimaryKey(request, posicioPaginaID);
 
     if (posicioPagina == null) {
       createMessageWarning(request, "error.notfound", posicioPaginaID);
@@ -346,14 +346,14 @@ public class PosicioPaginaController
     PosicioPaginaJPA posicioPagina = posicioPaginaForm.getPosicioPagina();
 
     try {
-      preValidate(posicioPaginaForm, result);
+      preValidate(request, posicioPaginaForm, result);
       getWebValidator().validate(posicioPagina, result);
-      postValidate(posicioPaginaForm, result);
+      postValidate(request, posicioPaginaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        posicioPagina = update(posicioPagina);
+        posicioPagina = update(request, posicioPagina);
         createMessageSuccess(request, "success.modification", posicioPagina.getPosicioPaginaID());
         status.setComplete();
         return getRedirectWhenModified(posicioPaginaForm, null);
@@ -534,10 +534,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(PosicioPaginaForm posicioPaginaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PosicioPaginaForm posicioPaginaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PosicioPaginaForm posicioPaginaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PosicioPaginaForm posicioPaginaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PosicioPaginaFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public PosicioPaginaJPA findByPrimaryKey(java.lang.Long posicioPaginaID) throws I18NException {
+  public PosicioPaginaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long posicioPaginaID) throws I18NException {
     return (PosicioPaginaJPA) posicioPaginaEjb.findByPrimaryKey(posicioPaginaID);
   }
 
 
-  public PosicioPaginaJPA create(PosicioPaginaJPA posicioPagina)
+  public PosicioPaginaJPA create(HttpServletRequest request, PosicioPaginaJPA posicioPagina)
     throws Exception,I18NException, I18NValidationException {
     return (PosicioPaginaJPA) posicioPaginaEjb.create(posicioPagina);
   }
 
 
-  public void delete(HttpServletRequest request, PosicioPagina posicioPagina) throws Exception,I18NException {
-    posicioPaginaEjb.delete(posicioPagina);
+  public PosicioPaginaJPA update(HttpServletRequest request, PosicioPaginaJPA posicioPagina)
+    throws Exception,I18NException, I18NValidationException {
+    return (PosicioPaginaJPA) posicioPaginaEjb.update(posicioPagina);
   }
 
 
-  public PosicioPaginaJPA update(PosicioPaginaJPA posicioPagina)
-    throws Exception,I18NException, I18NValidationException {
-    return (PosicioPaginaJPA) posicioPaginaEjb.update(posicioPagina);
+  public void delete(HttpServletRequest request, PosicioPagina posicioPagina) throws Exception,I18NException {
+    posicioPaginaEjb.delete(posicioPagina);
   }
 
 } // Final de Classe

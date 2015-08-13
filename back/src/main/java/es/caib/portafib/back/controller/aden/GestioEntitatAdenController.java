@@ -53,7 +53,7 @@ public class GestioEntitatAdenController extends GestioEntitatController {
    * Ens assegurarem que no puguin accedir a l'edicio d'altres entitats
    */
   @Override
-  public EntitatJPA findByPrimaryKey(java.lang.String entitatID) throws I18NException {
+  public EntitatJPA findByPrimaryKey(HttpServletRequest request, java.lang.String entitatID) throws I18NException {
     return (EntitatJPA) entitatEjb.findByPrimaryKey(LoginInfo.getInstance().getEntitatID());
   }
 

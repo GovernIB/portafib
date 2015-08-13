@@ -335,15 +335,15 @@ public class FirmaController
 
     try {
       this.setFilesFormToEntity(afm, firma, firmaForm); // FILE
-      preValidate(firmaForm, result);
+      preValidate(request, firmaForm, result);
       getWebValidator().validate(firmaForm, result);
-      postValidate(firmaForm, result);
+      postValidate(request,firmaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        firma = create(firma);
+        firma = create(request, firma);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", firma.getFirmaID());
         firmaForm.setFirma(firma);
@@ -382,7 +382,7 @@ public class FirmaController
         return null;
       }
     }
-    FirmaJPA firma = findByPrimaryKey(firmaID);
+    FirmaJPA firma = findByPrimaryKey(request, firmaID);
 
     if (firma == null) {
       createMessageWarning(request, "error.notfound", firmaID);
@@ -434,15 +434,15 @@ public class FirmaController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, firma, firmaForm); // FILE
-      preValidate(firmaForm, result);
+      preValidate(request, firmaForm, result);
       getWebValidator().validate(firma, result);
-      postValidate(firmaForm, result);
+      postValidate(request, firmaForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        firma = update(firma);
+        firma = update(request, firma);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", firma.getFirmaID());
         status.setComplete();
@@ -770,10 +770,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(FirmaForm firmaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,FirmaForm firmaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(FirmaForm firmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,FirmaForm firmaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, FirmaFilterForm filterForm)  throws I18NException {
@@ -828,25 +828,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public FirmaJPA findByPrimaryKey(java.lang.Long firmaID) throws I18NException {
+  public FirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long firmaID) throws I18NException {
     return (FirmaJPA) firmaEjb.findByPrimaryKey(firmaID);
   }
 
 
-  public FirmaJPA create(FirmaJPA firma)
+  public FirmaJPA create(HttpServletRequest request, FirmaJPA firma)
     throws Exception,I18NException, I18NValidationException {
     return (FirmaJPA) firmaEjb.create(firma);
   }
 
 
-  public void delete(HttpServletRequest request, Firma firma) throws Exception,I18NException {
-    firmaEjb.delete(firma);
+  public FirmaJPA update(HttpServletRequest request, FirmaJPA firma)
+    throws Exception,I18NException, I18NValidationException {
+    return (FirmaJPA) firmaEjb.update(firma);
   }
 
 
-  public FirmaJPA update(FirmaJPA firma)
-    throws Exception,I18NException, I18NValidationException {
-    return (FirmaJPA) firmaEjb.update(firma);
+  public void delete(HttpServletRequest request, Firma firma) throws Exception,I18NException {
+    firmaEjb.delete(firma);
   }
 
 } // Final de Classe

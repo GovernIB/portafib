@@ -255,14 +255,14 @@ public class PosicioTaulaFirmesController
     PosicioTaulaFirmesJPA posicioTaulaFirmes = posicioTaulaFirmesForm.getPosicioTaulaFirmes();
 
     try {
-      preValidate(posicioTaulaFirmesForm, result);
+      preValidate(request, posicioTaulaFirmesForm, result);
       getWebValidator().validate(posicioTaulaFirmesForm, result);
-      postValidate(posicioTaulaFirmesForm, result);
+      postValidate(request,posicioTaulaFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        posicioTaulaFirmes = create(posicioTaulaFirmes);
+        posicioTaulaFirmes = create(request, posicioTaulaFirmes);
         createMessageSuccess(request, "success.creation", posicioTaulaFirmes.getPosicioTaulaFirmesID());
         posicioTaulaFirmesForm.setPosicioTaulaFirmes(posicioTaulaFirmes);
         return getRedirectWhenCreated(posicioTaulaFirmesForm);
@@ -299,7 +299,7 @@ public class PosicioTaulaFirmesController
         return null;
       }
     }
-    PosicioTaulaFirmesJPA posicioTaulaFirmes = findByPrimaryKey(posicioTaulaFirmesID);
+    PosicioTaulaFirmesJPA posicioTaulaFirmes = findByPrimaryKey(request, posicioTaulaFirmesID);
 
     if (posicioTaulaFirmes == null) {
       createMessageWarning(request, "error.notfound", posicioTaulaFirmesID);
@@ -349,14 +349,14 @@ public class PosicioTaulaFirmesController
     PosicioTaulaFirmesJPA posicioTaulaFirmes = posicioTaulaFirmesForm.getPosicioTaulaFirmes();
 
     try {
-      preValidate(posicioTaulaFirmesForm, result);
+      preValidate(request, posicioTaulaFirmesForm, result);
       getWebValidator().validate(posicioTaulaFirmes, result);
-      postValidate(posicioTaulaFirmesForm, result);
+      postValidate(request, posicioTaulaFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        posicioTaulaFirmes = update(posicioTaulaFirmes);
+        posicioTaulaFirmes = update(request, posicioTaulaFirmes);
         createMessageSuccess(request, "success.modification", posicioTaulaFirmes.getPosicioTaulaFirmesID());
         status.setComplete();
         return getRedirectWhenModified(posicioTaulaFirmesForm, null);
@@ -537,10 +537,10 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public void preValidate(PosicioTaulaFirmesForm posicioTaulaFirmesForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PosicioTaulaFirmesForm posicioTaulaFirmesForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PosicioTaulaFirmesForm posicioTaulaFirmesForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PosicioTaulaFirmesForm posicioTaulaFirmesForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PosicioTaulaFirmesFilterForm filterForm)  throws I18NException {
@@ -595,25 +595,25 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public PosicioTaulaFirmesJPA findByPrimaryKey(java.lang.Integer posicioTaulaFirmesID) throws I18NException {
+  public PosicioTaulaFirmesJPA findByPrimaryKey(HttpServletRequest request, java.lang.Integer posicioTaulaFirmesID) throws I18NException {
     return (PosicioTaulaFirmesJPA) posicioTaulaFirmesEjb.findByPrimaryKey(posicioTaulaFirmesID);
   }
 
 
-  public PosicioTaulaFirmesJPA create(PosicioTaulaFirmesJPA posicioTaulaFirmes)
+  public PosicioTaulaFirmesJPA create(HttpServletRequest request, PosicioTaulaFirmesJPA posicioTaulaFirmes)
     throws Exception,I18NException, I18NValidationException {
     return (PosicioTaulaFirmesJPA) posicioTaulaFirmesEjb.create(posicioTaulaFirmes);
   }
 
 
-  public void delete(HttpServletRequest request, PosicioTaulaFirmes posicioTaulaFirmes) throws Exception,I18NException {
-    posicioTaulaFirmesEjb.delete(posicioTaulaFirmes);
+  public PosicioTaulaFirmesJPA update(HttpServletRequest request, PosicioTaulaFirmesJPA posicioTaulaFirmes)
+    throws Exception,I18NException, I18NValidationException {
+    return (PosicioTaulaFirmesJPA) posicioTaulaFirmesEjb.update(posicioTaulaFirmes);
   }
 
 
-  public PosicioTaulaFirmesJPA update(PosicioTaulaFirmesJPA posicioTaulaFirmes)
-    throws Exception,I18NException, I18NValidationException {
-    return (PosicioTaulaFirmesJPA) posicioTaulaFirmesEjb.update(posicioTaulaFirmes);
+  public void delete(HttpServletRequest request, PosicioTaulaFirmes posicioTaulaFirmes) throws Exception,I18NException {
+    posicioTaulaFirmesEjb.delete(posicioTaulaFirmes);
   }
 
 } // Final de Classe

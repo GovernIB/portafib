@@ -252,14 +252,14 @@ public class FluxDeFirmesController
     FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
 
     try {
-      preValidate(fluxDeFirmesForm, result);
+      preValidate(request, fluxDeFirmesForm, result);
       getWebValidator().validate(fluxDeFirmesForm, result);
-      postValidate(fluxDeFirmesForm, result);
+      postValidate(request,fluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        fluxDeFirmes = create(fluxDeFirmes);
+        fluxDeFirmes = create(request, fluxDeFirmes);
         createMessageSuccess(request, "success.creation", fluxDeFirmes.getFluxDeFirmesID());
         fluxDeFirmesForm.setFluxDeFirmes(fluxDeFirmes);
         return getRedirectWhenCreated(fluxDeFirmesForm);
@@ -296,7 +296,7 @@ public class FluxDeFirmesController
         return null;
       }
     }
-    FluxDeFirmesJPA fluxDeFirmes = findByPrimaryKey(fluxDeFirmesID);
+    FluxDeFirmesJPA fluxDeFirmes = findByPrimaryKey(request, fluxDeFirmesID);
 
     if (fluxDeFirmes == null) {
       createMessageWarning(request, "error.notfound", fluxDeFirmesID);
@@ -346,14 +346,14 @@ public class FluxDeFirmesController
     FluxDeFirmesJPA fluxDeFirmes = fluxDeFirmesForm.getFluxDeFirmes();
 
     try {
-      preValidate(fluxDeFirmesForm, result);
+      preValidate(request, fluxDeFirmesForm, result);
       getWebValidator().validate(fluxDeFirmes, result);
-      postValidate(fluxDeFirmesForm, result);
+      postValidate(request, fluxDeFirmesForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        fluxDeFirmes = update(fluxDeFirmes);
+        fluxDeFirmes = update(request, fluxDeFirmes);
         createMessageSuccess(request, "success.modification", fluxDeFirmes.getFluxDeFirmesID());
         status.setComplete();
         return getRedirectWhenModified(fluxDeFirmesForm, null);
@@ -535,10 +535,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(FluxDeFirmesForm fluxDeFirmesForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,FluxDeFirmesForm fluxDeFirmesForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, FluxDeFirmesFilterForm filterForm)  throws I18NException {
@@ -593,25 +593,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public FluxDeFirmesJPA findByPrimaryKey(java.lang.Long fluxDeFirmesID) throws I18NException {
+  public FluxDeFirmesJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long fluxDeFirmesID) throws I18NException {
     return (FluxDeFirmesJPA) fluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
   }
 
 
-  public FluxDeFirmesJPA create(FluxDeFirmesJPA fluxDeFirmes)
+  public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
     throws Exception,I18NException, I18NValidationException {
     return (FluxDeFirmesJPA) fluxDeFirmesEjb.create(fluxDeFirmes);
   }
 
 
-  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws Exception,I18NException {
-    fluxDeFirmesEjb.delete(fluxDeFirmes);
+  public FluxDeFirmesJPA update(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes)
+    throws Exception,I18NException, I18NValidationException {
+    return (FluxDeFirmesJPA) fluxDeFirmesEjb.update(fluxDeFirmes);
   }
 
 
-  public FluxDeFirmesJPA update(FluxDeFirmesJPA fluxDeFirmes)
-    throws Exception,I18NException, I18NValidationException {
-    return (FluxDeFirmesJPA) fluxDeFirmesEjb.update(fluxDeFirmes);
+  public void delete(HttpServletRequest request, FluxDeFirmes fluxDeFirmes) throws Exception,I18NException {
+    fluxDeFirmesEjb.delete(fluxDeFirmes);
   }
 
 } // Final de Classe

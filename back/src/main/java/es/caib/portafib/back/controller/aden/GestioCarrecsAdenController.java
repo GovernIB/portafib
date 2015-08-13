@@ -479,13 +479,13 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   }
   
   @Override
-  public UsuariEntitatJPA create(UsuariEntitatJPA usuariEntitat)
+  public UsuariEntitatJPA create(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);
   }
 
   @Override
-  public UsuariEntitatJPA update(UsuariEntitatJPA usuariEntitat)
+  public UsuariEntitatJPA update(HttpServletRequest request, UsuariEntitatJPA usuariEntitat)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.updateFull(usuariEntitat);
   }

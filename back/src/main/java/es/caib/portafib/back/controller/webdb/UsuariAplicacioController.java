@@ -331,15 +331,15 @@ public class UsuariAplicacioController
 
     try {
       this.setFilesFormToEntity(afm, usuariAplicacio, usuariAplicacioForm); // FILE
-      preValidate(usuariAplicacioForm, result);
+      preValidate(request, usuariAplicacioForm, result);
       getWebValidator().validate(usuariAplicacioForm, result);
-      postValidate(usuariAplicacioForm, result);
+      postValidate(request,usuariAplicacioForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariAplicacio = create(usuariAplicacio);
+        usuariAplicacio = create(request, usuariAplicacio);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", usuariAplicacio.getUsuariAplicacioID());
         usuariAplicacioForm.setUsuariAplicacio(usuariAplicacio);
@@ -378,7 +378,7 @@ public class UsuariAplicacioController
         return null;
       }
     }
-    UsuariAplicacioJPA usuariAplicacio = findByPrimaryKey(usuariAplicacioID);
+    UsuariAplicacioJPA usuariAplicacio = findByPrimaryKey(request, usuariAplicacioID);
 
     if (usuariAplicacio == null) {
       createMessageWarning(request, "error.notfound", usuariAplicacioID);
@@ -430,15 +430,15 @@ public class UsuariAplicacioController
     FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
       this.setFilesFormToEntity(afm, usuariAplicacio, usuariAplicacioForm); // FILE
-      preValidate(usuariAplicacioForm, result);
+      preValidate(request, usuariAplicacioForm, result);
       getWebValidator().validate(usuariAplicacio, result);
-      postValidate(usuariAplicacioForm, result);
+      postValidate(request, usuariAplicacioForm, result);
 
       if (result.hasErrors()) {
         afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
-        usuariAplicacio = update(usuariAplicacio);
+        usuariAplicacio = update(request, usuariAplicacio);
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", usuariAplicacio.getUsuariAplicacioID());
         status.setComplete();
@@ -755,10 +755,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(UsuariAplicacioForm usuariAplicacioForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,UsuariAplicacioForm usuariAplicacioForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(UsuariAplicacioForm usuariAplicacioForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,UsuariAplicacioForm usuariAplicacioForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, UsuariAplicacioFilterForm filterForm)  throws I18NException {
@@ -813,25 +813,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public UsuariAplicacioJPA findByPrimaryKey(java.lang.String usuariAplicacioID) throws I18NException {
+  public UsuariAplicacioJPA findByPrimaryKey(HttpServletRequest request, java.lang.String usuariAplicacioID) throws I18NException {
     return (UsuariAplicacioJPA) usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
   }
 
 
-  public UsuariAplicacioJPA create(UsuariAplicacioJPA usuariAplicacio)
+  public UsuariAplicacioJPA create(HttpServletRequest request, UsuariAplicacioJPA usuariAplicacio)
     throws Exception,I18NException, I18NValidationException {
     return (UsuariAplicacioJPA) usuariAplicacioEjb.create(usuariAplicacio);
   }
 
 
-  public void delete(HttpServletRequest request, UsuariAplicacio usuariAplicacio) throws Exception,I18NException {
-    usuariAplicacioEjb.delete(usuariAplicacio);
+  public UsuariAplicacioJPA update(HttpServletRequest request, UsuariAplicacioJPA usuariAplicacio)
+    throws Exception,I18NException, I18NValidationException {
+    return (UsuariAplicacioJPA) usuariAplicacioEjb.update(usuariAplicacio);
   }
 
 
-  public UsuariAplicacioJPA update(UsuariAplicacioJPA usuariAplicacio)
-    throws Exception,I18NException, I18NValidationException {
-    return (UsuariAplicacioJPA) usuariAplicacioEjb.update(usuariAplicacio);
+  public void delete(HttpServletRequest request, UsuariAplicacio usuariAplicacio) throws Exception,I18NException {
+    usuariAplicacioEjb.delete(usuariAplicacio);
   }
 
 } // Final de Classe

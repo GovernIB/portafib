@@ -301,14 +301,14 @@ public class BitacolaController
     BitacolaJPA bitacola = bitacolaForm.getBitacola();
 
     try {
-      preValidate(bitacolaForm, result);
+      preValidate(request, bitacolaForm, result);
       getWebValidator().validate(bitacolaForm, result);
-      postValidate(bitacolaForm, result);
+      postValidate(request,bitacolaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        bitacola = create(bitacola);
+        bitacola = create(request, bitacola);
         createMessageSuccess(request, "success.creation", bitacola.getBitacolaID());
         bitacolaForm.setBitacola(bitacola);
         return getRedirectWhenCreated(bitacolaForm);
@@ -345,7 +345,7 @@ public class BitacolaController
         return null;
       }
     }
-    BitacolaJPA bitacola = findByPrimaryKey(bitacolaID);
+    BitacolaJPA bitacola = findByPrimaryKey(request, bitacolaID);
 
     if (bitacola == null) {
       createMessageWarning(request, "error.notfound", bitacolaID);
@@ -395,14 +395,14 @@ public class BitacolaController
     BitacolaJPA bitacola = bitacolaForm.getBitacola();
 
     try {
-      preValidate(bitacolaForm, result);
+      preValidate(request, bitacolaForm, result);
       getWebValidator().validate(bitacola, result);
-      postValidate(bitacolaForm, result);
+      postValidate(request, bitacolaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        bitacola = update(bitacola);
+        bitacola = update(request, bitacola);
         createMessageSuccess(request, "success.modification", bitacola.getBitacolaID());
         status.setComplete();
         return getRedirectWhenModified(bitacolaForm, null);
@@ -664,10 +664,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(BitacolaForm bitacolaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,BitacolaForm bitacolaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(BitacolaForm bitacolaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,BitacolaForm bitacolaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, BitacolaFilterForm filterForm)  throws I18NException {
@@ -722,25 +722,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public BitacolaJPA findByPrimaryKey(java.lang.Long bitacolaID) throws I18NException {
+  public BitacolaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long bitacolaID) throws I18NException {
     return (BitacolaJPA) bitacolaEjb.findByPrimaryKey(bitacolaID);
   }
 
 
-  public BitacolaJPA create(BitacolaJPA bitacola)
+  public BitacolaJPA create(HttpServletRequest request, BitacolaJPA bitacola)
     throws Exception,I18NException, I18NValidationException {
     return (BitacolaJPA) bitacolaEjb.create(bitacola);
   }
 
 
-  public void delete(HttpServletRequest request, Bitacola bitacola) throws Exception,I18NException {
-    bitacolaEjb.delete(bitacola);
+  public BitacolaJPA update(HttpServletRequest request, BitacolaJPA bitacola)
+    throws Exception,I18NException, I18NValidationException {
+    return (BitacolaJPA) bitacolaEjb.update(bitacola);
   }
 
 
-  public BitacolaJPA update(BitacolaJPA bitacola)
-    throws Exception,I18NException, I18NValidationException {
-    return (BitacolaJPA) bitacolaEjb.update(bitacola);
+  public void delete(HttpServletRequest request, Bitacola bitacola) throws Exception,I18NException {
+    bitacolaEjb.delete(bitacola);
   }
 
 } // Final de Classe

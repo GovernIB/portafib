@@ -252,14 +252,14 @@ public class PrioritatController
     PrioritatJPA prioritat = prioritatForm.getPrioritat();
 
     try {
-      preValidate(prioritatForm, result);
+      preValidate(request, prioritatForm, result);
       getWebValidator().validate(prioritatForm, result);
-      postValidate(prioritatForm, result);
+      postValidate(request,prioritatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        prioritat = create(prioritat);
+        prioritat = create(request, prioritat);
         createMessageSuccess(request, "success.creation", prioritat.getPrioritatID());
         prioritatForm.setPrioritat(prioritat);
         return getRedirectWhenCreated(prioritatForm);
@@ -296,7 +296,7 @@ public class PrioritatController
         return null;
       }
     }
-    PrioritatJPA prioritat = findByPrimaryKey(prioritatID);
+    PrioritatJPA prioritat = findByPrimaryKey(request, prioritatID);
 
     if (prioritat == null) {
       createMessageWarning(request, "error.notfound", prioritatID);
@@ -346,14 +346,14 @@ public class PrioritatController
     PrioritatJPA prioritat = prioritatForm.getPrioritat();
 
     try {
-      preValidate(prioritatForm, result);
+      preValidate(request, prioritatForm, result);
       getWebValidator().validate(prioritat, result);
-      postValidate(prioritatForm, result);
+      postValidate(request, prioritatForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        prioritat = update(prioritat);
+        prioritat = update(request, prioritat);
         createMessageSuccess(request, "success.modification", prioritat.getPrioritatID());
         status.setComplete();
         return getRedirectWhenModified(prioritatForm, null);
@@ -534,10 +534,10 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public void preValidate(PrioritatForm prioritatForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,PrioritatForm prioritatForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(PrioritatForm prioritatForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,PrioritatForm prioritatForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, PrioritatFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.Integer stringToPK(String value) {
   }
 
 
-  public PrioritatJPA findByPrimaryKey(java.lang.Integer prioritatID) throws I18NException {
+  public PrioritatJPA findByPrimaryKey(HttpServletRequest request, java.lang.Integer prioritatID) throws I18NException {
     return (PrioritatJPA) prioritatEjb.findByPrimaryKey(prioritatID);
   }
 
 
-  public PrioritatJPA create(PrioritatJPA prioritat)
+  public PrioritatJPA create(HttpServletRequest request, PrioritatJPA prioritat)
     throws Exception,I18NException, I18NValidationException {
     return (PrioritatJPA) prioritatEjb.create(prioritat);
   }
 
 
-  public void delete(HttpServletRequest request, Prioritat prioritat) throws Exception,I18NException {
-    prioritatEjb.delete(prioritat);
+  public PrioritatJPA update(HttpServletRequest request, PrioritatJPA prioritat)
+    throws Exception,I18NException, I18NValidationException {
+    return (PrioritatJPA) prioritatEjb.update(prioritat);
   }
 
 
-  public PrioritatJPA update(PrioritatJPA prioritat)
-    throws Exception,I18NException, I18NValidationException {
-    return (PrioritatJPA) prioritatEjb.update(prioritat);
+  public void delete(HttpServletRequest request, Prioritat prioritat) throws Exception,I18NException {
+    prioritatEjb.delete(prioritat);
   }
 
 } // Final de Classe

@@ -367,14 +367,14 @@ public class EstatDeFirmaController
     EstatDeFirmaJPA estatDeFirma = estatDeFirmaForm.getEstatDeFirma();
 
     try {
-      preValidate(estatDeFirmaForm, result);
+      preValidate(request, estatDeFirmaForm, result);
       getWebValidator().validate(estatDeFirmaForm, result);
-      postValidate(estatDeFirmaForm, result);
+      postValidate(request,estatDeFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        estatDeFirma = create(estatDeFirma);
+        estatDeFirma = create(request, estatDeFirma);
         createMessageSuccess(request, "success.creation", estatDeFirma.getEstatDeFirmaID());
         estatDeFirmaForm.setEstatDeFirma(estatDeFirma);
         return getRedirectWhenCreated(estatDeFirmaForm);
@@ -411,7 +411,7 @@ public class EstatDeFirmaController
         return null;
       }
     }
-    EstatDeFirmaJPA estatDeFirma = findByPrimaryKey(estatDeFirmaID);
+    EstatDeFirmaJPA estatDeFirma = findByPrimaryKey(request, estatDeFirmaID);
 
     if (estatDeFirma == null) {
       createMessageWarning(request, "error.notfound", estatDeFirmaID);
@@ -461,14 +461,14 @@ public class EstatDeFirmaController
     EstatDeFirmaJPA estatDeFirma = estatDeFirmaForm.getEstatDeFirma();
 
     try {
-      preValidate(estatDeFirmaForm, result);
+      preValidate(request, estatDeFirmaForm, result);
       getWebValidator().validate(estatDeFirma, result);
-      postValidate(estatDeFirmaForm, result);
+      postValidate(request, estatDeFirmaForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        estatDeFirma = update(estatDeFirma);
+        estatDeFirma = update(request, estatDeFirma);
         createMessageSuccess(request, "success.modification", estatDeFirma.getEstatDeFirmaID());
         status.setComplete();
         return getRedirectWhenModified(estatDeFirmaForm, null);
@@ -852,10 +852,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(EstatDeFirmaForm estatDeFirmaForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,EstatDeFirmaForm estatDeFirmaForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(EstatDeFirmaForm estatDeFirmaForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,EstatDeFirmaForm estatDeFirmaForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, EstatDeFirmaFilterForm filterForm)  throws I18NException {
@@ -910,25 +910,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public EstatDeFirmaJPA findByPrimaryKey(java.lang.Long estatDeFirmaID) throws I18NException {
+  public EstatDeFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long estatDeFirmaID) throws I18NException {
     return (EstatDeFirmaJPA) estatDeFirmaEjb.findByPrimaryKey(estatDeFirmaID);
   }
 
 
-  public EstatDeFirmaJPA create(EstatDeFirmaJPA estatDeFirma)
+  public EstatDeFirmaJPA create(HttpServletRequest request, EstatDeFirmaJPA estatDeFirma)
     throws Exception,I18NException, I18NValidationException {
     return (EstatDeFirmaJPA) estatDeFirmaEjb.create(estatDeFirma);
   }
 
 
-  public void delete(HttpServletRequest request, EstatDeFirma estatDeFirma) throws Exception,I18NException {
-    estatDeFirmaEjb.delete(estatDeFirma);
+  public EstatDeFirmaJPA update(HttpServletRequest request, EstatDeFirmaJPA estatDeFirma)
+    throws Exception,I18NException, I18NValidationException {
+    return (EstatDeFirmaJPA) estatDeFirmaEjb.update(estatDeFirma);
   }
 
 
-  public EstatDeFirmaJPA update(EstatDeFirmaJPA estatDeFirma)
-    throws Exception,I18NException, I18NValidationException {
-    return (EstatDeFirmaJPA) estatDeFirmaEjb.update(estatDeFirma);
+  public void delete(HttpServletRequest request, EstatDeFirma estatDeFirma) throws Exception,I18NException {
+    estatDeFirmaEjb.delete(estatDeFirma);
   }
 
 } // Final de Classe

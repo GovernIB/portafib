@@ -252,14 +252,14 @@ public class TipusEstatDeFirmaFinalController
     TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinalForm.getTipusEstatDeFirmaFinal();
 
     try {
-      preValidate(tipusEstatDeFirmaFinalForm, result);
+      preValidate(request, tipusEstatDeFirmaFinalForm, result);
       getWebValidator().validate(tipusEstatDeFirmaFinalForm, result);
-      postValidate(tipusEstatDeFirmaFinalForm, result);
+      postValidate(request,tipusEstatDeFirmaFinalForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusEstatDeFirmaFinal = create(tipusEstatDeFirmaFinal);
+        tipusEstatDeFirmaFinal = create(request, tipusEstatDeFirmaFinal);
         createMessageSuccess(request, "success.creation", tipusEstatDeFirmaFinal.getTipusEstatDeFirmaFinalID());
         tipusEstatDeFirmaFinalForm.setTipusEstatDeFirmaFinal(tipusEstatDeFirmaFinal);
         return getRedirectWhenCreated(tipusEstatDeFirmaFinalForm);
@@ -296,7 +296,7 @@ public class TipusEstatDeFirmaFinalController
         return null;
       }
     }
-    TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal = findByPrimaryKey(tipusEstatDeFirmaFinalID);
+    TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal = findByPrimaryKey(request, tipusEstatDeFirmaFinalID);
 
     if (tipusEstatDeFirmaFinal == null) {
       createMessageWarning(request, "error.notfound", tipusEstatDeFirmaFinalID);
@@ -346,14 +346,14 @@ public class TipusEstatDeFirmaFinalController
     TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinalForm.getTipusEstatDeFirmaFinal();
 
     try {
-      preValidate(tipusEstatDeFirmaFinalForm, result);
+      preValidate(request, tipusEstatDeFirmaFinalForm, result);
       getWebValidator().validate(tipusEstatDeFirmaFinal, result);
-      postValidate(tipusEstatDeFirmaFinalForm, result);
+      postValidate(request, tipusEstatDeFirmaFinalForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        tipusEstatDeFirmaFinal = update(tipusEstatDeFirmaFinal);
+        tipusEstatDeFirmaFinal = update(request, tipusEstatDeFirmaFinal);
         createMessageSuccess(request, "success.modification", tipusEstatDeFirmaFinal.getTipusEstatDeFirmaFinalID());
         status.setComplete();
         return getRedirectWhenModified(tipusEstatDeFirmaFinalForm, null);
@@ -534,10 +534,10 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public void preValidate(TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, TipusEstatDeFirmaFinalFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public TipusEstatDeFirmaFinalJPA findByPrimaryKey(java.lang.Long tipusEstatDeFirmaFinalID) throws I18NException {
+  public TipusEstatDeFirmaFinalJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long tipusEstatDeFirmaFinalID) throws I18NException {
     return (TipusEstatDeFirmaFinalJPA) tipusEstatDeFirmaFinalEjb.findByPrimaryKey(tipusEstatDeFirmaFinalID);
   }
 
 
-  public TipusEstatDeFirmaFinalJPA create(TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal)
+  public TipusEstatDeFirmaFinalJPA create(HttpServletRequest request, TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal)
     throws Exception,I18NException, I18NValidationException {
     return (TipusEstatDeFirmaFinalJPA) tipusEstatDeFirmaFinalEjb.create(tipusEstatDeFirmaFinal);
   }
 
 
-  public void delete(HttpServletRequest request, TipusEstatDeFirmaFinal tipusEstatDeFirmaFinal) throws Exception,I18NException {
-    tipusEstatDeFirmaFinalEjb.delete(tipusEstatDeFirmaFinal);
+  public TipusEstatDeFirmaFinalJPA update(HttpServletRequest request, TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal)
+    throws Exception,I18NException, I18NValidationException {
+    return (TipusEstatDeFirmaFinalJPA) tipusEstatDeFirmaFinalEjb.update(tipusEstatDeFirmaFinal);
   }
 
 
-  public TipusEstatDeFirmaFinalJPA update(TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal)
-    throws Exception,I18NException, I18NValidationException {
-    return (TipusEstatDeFirmaFinalJPA) tipusEstatDeFirmaFinalEjb.update(tipusEstatDeFirmaFinal);
+  public void delete(HttpServletRequest request, TipusEstatDeFirmaFinal tipusEstatDeFirmaFinal) throws Exception,I18NException {
+    tipusEstatDeFirmaFinalEjb.delete(tipusEstatDeFirmaFinal);
   }
 
 } // Final de Classe

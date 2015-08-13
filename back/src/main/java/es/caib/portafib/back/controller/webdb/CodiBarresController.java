@@ -252,14 +252,14 @@ public class CodiBarresController
     CodiBarresJPA codiBarres = codiBarresForm.getCodiBarres();
 
     try {
-      preValidate(codiBarresForm, result);
+      preValidate(request, codiBarresForm, result);
       getWebValidator().validate(codiBarresForm, result);
-      postValidate(codiBarresForm, result);
+      postValidate(request,codiBarresForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        codiBarres = create(codiBarres);
+        codiBarres = create(request, codiBarres);
         createMessageSuccess(request, "success.creation", codiBarres.getCodiBarresID());
         codiBarresForm.setCodiBarres(codiBarres);
         return getRedirectWhenCreated(codiBarresForm);
@@ -296,7 +296,7 @@ public class CodiBarresController
         return null;
       }
     }
-    CodiBarresJPA codiBarres = findByPrimaryKey(codiBarresID);
+    CodiBarresJPA codiBarres = findByPrimaryKey(request, codiBarresID);
 
     if (codiBarres == null) {
       createMessageWarning(request, "error.notfound", codiBarresID);
@@ -346,14 +346,14 @@ public class CodiBarresController
     CodiBarresJPA codiBarres = codiBarresForm.getCodiBarres();
 
     try {
-      preValidate(codiBarresForm, result);
+      preValidate(request, codiBarresForm, result);
       getWebValidator().validate(codiBarres, result);
-      postValidate(codiBarresForm, result);
+      postValidate(request, codiBarresForm, result);
 
       if (result.hasErrors()) {
         return getTileForm();
       } else {
-        codiBarres = update(codiBarres);
+        codiBarres = update(request, codiBarres);
         createMessageSuccess(request, "success.modification", codiBarres.getCodiBarresID());
         status.setComplete();
         return getRedirectWhenModified(codiBarresForm, null);
@@ -534,10 +534,10 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public void preValidate(CodiBarresForm codiBarresForm , BindingResult result)  throws I18NException {
+  public void preValidate(HttpServletRequest request,CodiBarresForm codiBarresForm , BindingResult result)  throws I18NException {
   }
 
-  public void postValidate(CodiBarresForm codiBarresForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request,CodiBarresForm codiBarresForm, BindingResult result)  throws I18NException {
   }
 
   public void preList(HttpServletRequest request, ModelAndView mav, CodiBarresFilterForm filterForm)  throws I18NException {
@@ -592,25 +592,25 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public CodiBarresJPA findByPrimaryKey(java.lang.String codiBarresID) throws I18NException {
+  public CodiBarresJPA findByPrimaryKey(HttpServletRequest request, java.lang.String codiBarresID) throws I18NException {
     return (CodiBarresJPA) codiBarresEjb.findByPrimaryKey(codiBarresID);
   }
 
 
-  public CodiBarresJPA create(CodiBarresJPA codiBarres)
+  public CodiBarresJPA create(HttpServletRequest request, CodiBarresJPA codiBarres)
     throws Exception,I18NException, I18NValidationException {
     return (CodiBarresJPA) codiBarresEjb.create(codiBarres);
   }
 
 
-  public void delete(HttpServletRequest request, CodiBarres codiBarres) throws Exception,I18NException {
-    codiBarresEjb.delete(codiBarres);
+  public CodiBarresJPA update(HttpServletRequest request, CodiBarresJPA codiBarres)
+    throws Exception,I18NException, I18NValidationException {
+    return (CodiBarresJPA) codiBarresEjb.update(codiBarres);
   }
 
 
-  public CodiBarresJPA update(CodiBarresJPA codiBarres)
-    throws Exception,I18NException, I18NValidationException {
-    return (CodiBarresJPA) codiBarresEjb.update(codiBarres);
+  public void delete(HttpServletRequest request, CodiBarres codiBarres) throws Exception,I18NException {
+    codiBarresEjb.delete(codiBarres);
   }
 
 } // Final de Classe

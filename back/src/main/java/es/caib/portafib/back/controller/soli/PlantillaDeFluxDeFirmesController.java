@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.soli;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,7 +33,6 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -46,12 +46,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import org.springframework.web.servlet.ModelAndView;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.FluxDeFirmesController;
 import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.PlantillaDeFluxDeFirmesForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
@@ -94,7 +95,7 @@ import es.caib.portafib.utils.Constants;
 @RequestMapping(value = "/soli/plantilla")
 @SessionAttributes(types = { 
     PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class,
-    FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class })
+    FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
    implements Constants {
   
@@ -141,6 +142,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @Autowired
   protected UsuariAplicacioRefList usuariAplicacioRefList;
 
+  @Autowired
+  protected es.caib.portafib.back.reflist.UsuariEntitatJSONRefList usuariEntitatRefList; 
+  
+  @Autowired
+  protected es.caib.portafib.back.reflist.CarrecJSONRefList carrecRefList;
+  
+
   protected boolean isViewMode = false;
   
   protected boolean tipusPlantillaInViewMode = false; // true = usuariEntitat | false = usuariAplicacio
@@ -176,12 +184,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @PostConstruct
   public void init() {
 
-    usuariAplicacioRefList = new UsuariAplicacioRefList(usuariAplicacioRefList);
+    {
+      usuariAplicacioRefList = new UsuariAplicacioRefList(usuariAplicacioRefList);
+  
+      usuariAplicacioRefList.setSelects(new Select<?>[] {
+          UsuariAplicacioFields.USUARIAPLICACIOID.select        
+      });
+      usuariAplicacioRefList.setSeparator("");
+    }
 
-    usuariAplicacioRefList.setSelects(new Select<?>[] {
-        UsuariAplicacioFields.USUARIAPLICACIOID.select        
-    });
-    usuariAplicacioRefList.setSeparator("");
   }
   
   
@@ -415,7 +426,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   }
 
   
-  
+  public boolean isEditingPlantilla() {
+    return true;
+  }
   
   
 
@@ -486,22 +499,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         form.setDeleteButtonVisible(false);
         form.setSaveButtonVisible(false);
         form.setCancelButtonVisible(false);
+      } else {
+        if (!isEditingPlantilla()) {
+          form.setDeleteButtonVisible(false);
+        }
       }
       
 
       // Colors de les caixes de Bloc i Firmes
-      /*
-      PeticioDeFirmaJPA peticio = ff.getPeticioDeFirma();
-      
-      log.info(" Entra dins readONLY: " + peticio);
-
-      if (peticio != null) {
-          
-        // && peticio.getTipusEstatPeticioDeFirmaID() != TIPUSESTATPETICIODEFIRMA_NOINICIAT
-        */
-        
-        procesaBackgroundColors(ff, form, ff.getPeticioDeFirma() != null );
-      // }
+      procesaBackgroundColors(ff, form, ff.getPeticioDeFirma() != null );
       
       // Carregar plantilla de flux
       PlantillaFluxDeFirmesJPA pff;
@@ -585,12 +591,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
       users = usuariEntitatLogicaEjb.selectFull(w);
     }
-    
-    if (form.isNou() && users.size() == 0) {
-      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("selectflux.avisnofavorits"));
-    }
-    
-    
+   
     // Llevar de la llista d'usuaris els usuaris que ja estan al flux
     //List<UsuariEntitatJPA> usuarisDelFlux = new ArrayList<UsuariEntitatJPA>();
     Set<BlocDeFirmesJPA> blocs = form.getFluxDeFirmes().getBlocDeFirmess();
@@ -618,14 +619,21 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       form.addHiddenField(PlantillaFluxDeFirmesFields.USUARIAPLICACIOID);
     }
 
- 
-    if (users != null) {
-      List<StringKeyValue> listNovaFirma = Utils.usuariEntitatList2StringKeyValue(users);
-      form.setListOfUsuariEntitatFavorit(listNovaFirma);
-    }
-
     mav.addObject("fluxDeFirmesForm", form);
     request.getSession().setAttribute("fluxDeFirmesForm", form);
+
+    // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
+    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+    seleccioUsuariForm.setTitol("selectflux.selectuser");
+    seleccioUsuariForm.setUrlData(getContextWeb() + "/selecciousuarisjsonperflux");
+      
+    seleccioUsuariForm.setUsuarisFavorits(
+          Utils.sortStringKeyValueList(
+          SearchJSONController.favoritsToUsuariEntitat( users)));
+
+    mav.addObject(seleccioUsuariForm);
+    request.getSession().setAttribute("seleccioUsuariForm", seleccioUsuariForm);
+
    
     return form;
   }
@@ -729,13 +737,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   }
 
+  
+  
+  @RequestMapping(value = "/afegirFirmaDesDeModal", method = RequestMethod.POST)
+  public String afegirFirmaDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid  SeleccioUsuariForm seleccioUsuariForm, 
+       HttpServletRequest request) {
 
-
-  @RequestMapping(value = "/afegirFirma", method = RequestMethod.POST)
-  public String afegirFirma(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-      @RequestParam("usuariEntitatID") String usuariEntitatID,
-      @RequestParam("blocID") long blocID, HttpServletRequest request) {
-
+    String usuariEntitatID = seleccioUsuariForm.getId();
+    long blocID = Integer.parseInt(seleccioUsuariForm.getParam1());
     try {
       // TODO Moure tot aquest mètode a EJB
   
@@ -784,7 +794,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       
       
       //long  fluxDeFirmesID = fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID();    
-      afegitUsuariAlFlux(fluxDeFirmesForm, usuariEntitatID);
+      afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
     } catch(I18NException e) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
@@ -792,27 +802,99 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     
     return getTileForm();
   }
+  
 
-  private void afegitUsuariAlFlux(FluxDeFirmesForm fluxDeFirmesForm,
-    String usuariEntitatID) {
 
-    List<StringKeyValue> list = ((PlantillaDeFluxDeFirmesForm)fluxDeFirmesForm).getListOfUsuariEntitatFavorit();
+  private void afegitUsuariAlFlux(SeleccioUsuariForm seleccioUsuariForm,
+      String usuariEntitatID) {
+    List<StringKeyValue> list = seleccioUsuariForm.getUsuarisFavorits();
+    removeUsuariEntitatFromList(usuariEntitatID, list);
+  }
+
+  protected void removeUsuariEntitatFromList(String usuariEntitatID, List<StringKeyValue> list) {
     StringKeyValue toDelete = null;
     for (StringKeyValue stringKeyValue : list) {
       if (stringKeyValue.getKey().equals(usuariEntitatID)) {
         toDelete = stringKeyValue;
         break;
       }
+    }    
+    list.remove(toDelete);
+  }
+
+  
+  /**
+   * Filtre usuaris-entitat de l'entitat actual.
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/selecciousuarisjsonperflux", method = RequestMethod.GET)
+  public void seleccioUsuarisJsonPerFluxGet(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+    seleccioUsuarisJsonPerFlux(request, response);
+  }
+  
+  /**
+   * Filtre usuaris-entitat de l'entitat actual.
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/selecciousuarisjsonperflux", method = RequestMethod.POST)
+  public void seleccioUsuarisJsonPerFlux(HttpServletRequest request,
+      HttpServletResponse response) throws Exception {
+
+    
+    final String queryFull = request.getParameter("query");
+    
+    if (log.isDebugEnabled()) {
+      log.debug("queryFull = |" + queryFull + "|");
     }
     
-    list.remove(toDelete);
+    PlantillaDeFluxDeFirmesForm form;
+    form = (PlantillaDeFluxDeFirmesForm) request.getSession().getAttribute("fluxDeFirmesForm");
+    
+    
+    List<String> aEliminar = new ArrayList<String>();
+    
+    Set<BlocDeFirmesJPA> blocs = form.getFluxDeFirmes().getBlocDeFirmess();
+    for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {      
+      Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
+      for (FirmaJPA firmaJPA : firmes) {
+        aEliminar.add(firmaJPA.getUsuariEntitat().getUsuariEntitatID());
+      }
+    }
+    
+    
+    String json = SearchJSONController.generaLlistatUsuarisCarrecsJson(queryFull, aEliminar,
+        usuariEntitatLogicaEjb, usuariEntitatRefList, carrecRefList);
+    
+    
+
+    PrintWriter pw= response.getWriter();
+    
+    pw.write(json);
+    pw.flush();
     
   }
 
-  @RequestMapping(value = "/afegirBloc", method = RequestMethod.POST)
-  public String afegirBloc(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
-      @RequestParam("usuariEntitatID") String usuariEntitatID,
-      @RequestParam("blocOrdre") int blocOrdre, HttpServletRequest request) throws Exception {
+
+  
+  
+  
+  
+  @RequestMapping(value = "/afegirBlocDesDeModal", method = RequestMethod.POST)
+  public String afegirBlocDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      SeleccioUsuariForm seleccioUsuariForm,
+       HttpServletRequest request) throws Exception {
+    
+    String usuariEntitatID = seleccioUsuariForm.getId();
+    int blocOrdre = Integer.parseInt(seleccioUsuariForm.getParam1());
+    
+    if (log.isDebugEnabled() ) {
+      log.debug("afegirBlocDesDeModal(" + usuariEntitatID + "," +  blocOrdre + ")");
+    }
 
     try {
       FluxDeFirmesJPA flux = fluxDeFirmesForm.getFluxDeFirmes();
@@ -825,7 +907,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   
       fluxDeFirmesLogicaEjb.regeneraOrdres(blocs);
       
-      afegitUsuariAlFlux(fluxDeFirmesForm, usuariEntitatID);
+      afegitUsuariAlFlux(seleccioUsuariForm, usuariEntitatID);
     } catch(I18NException e) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
     }
@@ -833,6 +915,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     return getTileForm();
 
   }
+  
+  
 
   @RequestMapping(value = "/canviMinimDeFirmes", method = RequestMethod.POST)
   public String canviMinimDeFirmes(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
@@ -962,6 +1046,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   @RequestMapping(value = "/eliminarFirma", method = RequestMethod.POST)
   public String eliminarFirma(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
       @RequestParam("blocID") long blocID, @RequestParam("firmaID") long firmaID,
       HttpServletRequest request) throws I18NException {
 
@@ -1026,24 +1111,24 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     
     UsuariEntitatJPA ue = firma.getUsuariEntitat();
     
-    eliminatUsuariDelFlux(fluxDeFirmesForm, ue);
+    eliminatUsuariDelFlux(seleccioUsuariForm, ue);
     
     return getTileForm();
 
     
   }
 
-  private void eliminatUsuariDelFlux(FluxDeFirmesForm fluxDeFirmesForm, UsuariEntitatJPA ue) {
-    PlantillaDeFluxDeFirmesForm pfff = (PlantillaDeFluxDeFirmesForm)fluxDeFirmesForm;
+  private void eliminatUsuariDelFlux(SeleccioUsuariForm seleccioUsuariForm,
+      UsuariEntitatJPA ue) {
     
-    List<StringKeyValue> list = pfff.getListOfUsuariEntitatFavorit();
-    
-    Utils.addUserToList(list, ue);
+    List<StringKeyValue> list = seleccioUsuariForm.getUsuarisFavorits();
+    list.add(SearchJSONController.getStringKeyValueFromUsuariEntitat(ue));
     Utils.sortStringKeyValueList(list);
   }
 
   @RequestMapping(value = "/eliminarBloc", method = RequestMethod.POST)
   public String eliminarBloc(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
       @RequestParam("blocID") long blocID, HttpServletRequest request) throws I18NException {
 
     BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
@@ -1063,7 +1148,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess().remove(bloc);
     
     for (FirmaJPA firma : bloc.getFirmas()) {
-      eliminatUsuariDelFlux(fluxDeFirmesForm, firma.getUsuariEntitat());
+      eliminatUsuariDelFlux(seleccioUsuariForm, firma.getUsuariEntitat());
     }
 
     return getTileForm();
@@ -1081,20 +1166,14 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
     return bloc;
   }
-/*
-  @Override
-  public void postValidate(FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)
-     throws Exception {
 
-  }
-  */
 
   @Override
-  public void preValidate(FluxDeFirmesForm fluxDeFirmesForm2, BindingResult result)
+  public void preValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm2, BindingResult result)
       throws I18NException {
 
     final boolean isDebug = log.isDebugEnabled();
-    if (isDebug) { log.info("Entra a PreVALIDATE()" + result.getClass()); }
+    if (isDebug) { log.debug("Entra a PreVALIDATE()" + result.getClass()); }
     
     PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm) fluxDeFirmesForm2;
 
@@ -1104,25 +1183,19 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       // Utilitzarem el prevalidate per carregar la primera firma dins el
       // fluxDeFirmes
 
-      if (isDebug) { log.info(" PreValidate():: Entra a NOU: " + result.hasErrors()); }
+      if (isDebug) { log.debug(" PreValidate():: Entra a NOU: " + result.hasErrors()); }
 
       String usuariEntitat = form.getUsuariEntitatPrimeraFirma();
       
       if (usuariEntitat == null || usuariEntitat.trim().length() == 0) {
-        final String name = "usuariEntitatPrimeraFirma";
+        final String name = PlantillaDeFluxDeFirmesForm.USUARI_ENTITAT_PRIMERA_FIRMA_FIELD;
         result.addError(new FieldError(name, name, null, false, 
             new String[] {"genapp.validation.required" },
             new Object[] { I18NUtils.tradueix("usuarientitatprimerafirma") }, null));
-        
-        List<StringKeyValue> usersFavorits = form.getListOfUsuariEntitatFavorit(); 
-        if (usersFavorits == null || usersFavorits.size() == 0) {
-          result.addError(new FieldError(name, name, null, false, 
-            new String[] {"selectflux.avisnofavorits"}, null, null));
-        }
       } else {
 
         if (isDebug) {
-          log.info(" PreValidate:: NOU --> usuari Entitat es " + usuariEntitat);
+          log.debug(" PreValidate:: NOU --> usuari Entitat es " + usuariEntitat);
         }
 
         BlocDeFirmesJPA bloc = new BlocDeFirmesJPA();
@@ -1161,13 +1234,15 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       processErrors(result, errors);
     } 
 
-    log.debug("Surt de PreVALIDATE()");
+    if (!isDebug) {
+      log.debug("Surt de PreVALIDATE()");
+    }
     
    
   }
   
   @Override  
-  public void postValidate(FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)  throws I18NException {
+  public void postValidate(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm, BindingResult result)  throws I18NException {
     
     if (result.hasErrors()) {
       
@@ -1251,7 +1326,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   
 
   @Override
-  public FluxDeFirmesJPA create(FluxDeFirmesJPA fluxDeFirmes) throws Exception, I18NException, I18NValidationException {
+  public FluxDeFirmesJPA create(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes) throws Exception, I18NException, I18NValidationException {
     // El create ha de crear:
     // (1) El flux
     // (2) Plantilla de Usuari Entitat o Plantilla de Usuari
@@ -1278,7 +1353,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   }
   
   @Override
-  public FluxDeFirmesJPA update(FluxDeFirmesJPA fluxDeFirmes) throws I18NException, I18NValidationException {
+  public FluxDeFirmesJPA update(HttpServletRequest request, FluxDeFirmesJPA fluxDeFirmes) throws I18NException, I18NValidationException {
     
     PlantillaFluxDeFirmes pff = fluxDeFirmes.getPlantillaFluxDeFirmes();
     if (pff != null && pff.getUsuariAplicacioID() != null && pff.getCompartir() == null) {
@@ -1296,7 +1371,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   }
 
   @Override
-  public FluxDeFirmesJPA findByPrimaryKey(java.lang.Long fluxDeFirmesID) throws I18NException {
+  public FluxDeFirmesJPA findByPrimaryKey(HttpServletRequest request,
+      java.lang.Long fluxDeFirmesID) throws I18NException {
 
     FluxDeFirmesJPA fluxDeFirmes;
     fluxDeFirmes = fluxDeFirmesLogicaEjb.findByPrimaryKeyFullForPlantilla(fluxDeFirmesID);
