@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="custodiaInfo.custodiaPluginParameters"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
            </td>
         </tr>
         </c:if>
@@ -155,7 +155,7 @@
             </td>
             <td>
               <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="custodiaInfo.missatge"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
            </td>
         </tr>
         </c:if>

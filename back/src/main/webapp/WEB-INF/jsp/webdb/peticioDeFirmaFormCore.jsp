@@ -436,7 +436,7 @@
             </td>
             <td>
               <form:errors path="peticioDeFirma.motiuDeRebuig" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="peticioDeFirma.motiuDeRebuig"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'true' : 'false'}" path="peticioDeFirma.motiuDeRebuig"  />
            </td>
         </tr>
         </c:if>
@@ -597,7 +597,7 @@
             </td>
             <td>
               <form:errors path="peticioDeFirma.informacioAdicional" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADICIONAL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADICIONAL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="peticioDeFirma.informacioAdicional"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADICIONAL)? 'true' : 'false'}" path="peticioDeFirma.informacioAdicional"  />
            </td>
         </tr>
         </c:if>

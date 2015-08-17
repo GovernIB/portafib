@@ -306,7 +306,7 @@ import es.caib.portafib.utils.Configuracio;
 
         // NOVA COLUMNA: Prioritat
         AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
-        adfieldPR.setCodeName("exclamacio");
+        adfieldPR.setCodeName("prioritat.icona");
         adfieldPR.setPosition(COLUMN_PRIORITAT);
         adfieldPR.setEscapeXml(false);
         // Els valors s'ompliran al mètode postList()

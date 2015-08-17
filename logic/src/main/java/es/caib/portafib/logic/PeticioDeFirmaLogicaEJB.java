@@ -367,6 +367,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     return peticioDeFirma;
   }
+  
+  
+  @Override
+  public PeticioDeFirmaJPA findByPrimaryKeyWithUserInfo(Long peticioDeFirmaID) {
+    PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(peticioDeFirmaID);
+
+    initializeUsuaris(peticioDeFirma);
+
+    return peticioDeFirma;
+  }
+  
 
   private void initializateFull(PeticioDeFirmaJPA peticioDeFirma)  {
 
@@ -2576,7 +2587,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID) throws I18NException {
 
     // Check peticio de firma
-    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)this.findByPrimaryKey(peticioDeFirmaID);
+    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)this.findByPrimaryKeyWithUserInfo(peticioDeFirmaID);
     if (peticio == null) {
       return null;
     }
@@ -2594,9 +2605,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     */
 
     String usuariEntitatID = peticio.getUsuariEntitatID();
+    String entitatID;
+    if (usuariEntitatID == null) {
+      entitatID = peticio.getUsuariEntitat().getEntitatID();
+    } else {
+      entitatID = peticio.getUsuariAplicacio().getEntitatID();
+    }
     
-    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(constructDefaultCustodiaInfo(peticio.getTitol(),
-        usuariEntitatID, peticio.getUsuariAplicacioID(), peticio.getIdiomaID()));
+    
+    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
+        constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
+         peticio.getUsuariAplicacioID(), peticio.getIdiomaID()));
 
     custodiaInfo = (CustodiaInfoJPA)custodiaInfoEjb.create(custodiaInfo);
     
@@ -2609,7 +2628,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol,
+  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
       String usuariEntitatID, String usuariAplicacioID, String idioma) {
     
     
@@ -2637,15 +2656,25 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     custodiaInfo.setCodiBarresID(Constants.BARCODE_PDF417_PLUGIN);
     
     custodiaInfo.setMissatgePosicioPaginaID(Constants.POSICIO_PAGINA_ESQUERRA);
-    custodiaInfo.setMissatge(
-        I18NLogicUtils.tradueix(
-            new Locale(idioma),"custodiainfo.missatgeperdefecte"));
+    
+    
+    
+    
     
     if (usuariEntitatID != null) {
       custodiaInfo.setUsuariEntitatID(usuariEntitatID);
     } else {
       custodiaInfo.setUsuariAplicacioID(usuariAplicacioID);
     }
+    
+    String msg = Configuracio.getDefaultCustodyMessage(entitatID, idioma);
+    
+    if (msg == null) {
+      msg = I18NLogicUtils.tradueix(new Locale(idioma),"custodiainfo.missatgeperdefecte");
+    }
+    
+    custodiaInfo.setMissatge(msg);
+    
     custodiaInfo.setCustodiar(true);
     
     custodiaInfo.setTitolPeticio(titol);

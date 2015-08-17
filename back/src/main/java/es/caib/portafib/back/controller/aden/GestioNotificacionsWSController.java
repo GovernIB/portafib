@@ -1,5 +1,8 @@
 package es.caib.portafib.back.controller.aden;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +32,7 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
-
+import es.caib.portafib.model.entity.NotificacioWS;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -110,13 +114,125 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
         notificacioFilterForm.setAddButtonVisible(false);
         notificacioFilterForm.setEditButtonVisible(false);
         notificacioFilterForm.setDeleteButtonVisible(false);
-        
+        notificacioFilterForm.setDeleteSelectedButtonVisible(false);
         notificacioFilterForm.setVisibleMultipleSelection(false);
 
       }
 
       return notificacioFilterForm;
   }
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav,
+     NotificacioWSFilterForm filterForm,  List<NotificacioWS> list) throws I18NException {
+    
+    // Valors inicials, pendents del que es digui més endavant
+    filterForm.getAdditionalButtons().clear();
+    filterForm.getAdditionalButtonsByPK().clear();
+    filterForm.setVisibleMultipleSelection(false);
+    
+    
+    if (list.isEmpty()) {
+      return;
+    }
+  
+    int count = 0;
+    int[] counts = new int[4];
+    Arrays.fill(counts, 0);
+    
+    int action = 0;
+    boolean mostrarBotonsGlobals = true;
+    for (NotificacioWS notificacio : list) {
+      count ++;
+
+      action = getStatus(notificacio);
+      
+      
+      switch(action) {
+        
+        case SHOW_ACTION_DESBLOQUEJAR:
+          filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
+              new AdditionalButton("icon-play", "notificaciows.desbloquejar",
+                  getContextWeb() + "/desbloquejar/{0}", "btn-success"));
+          filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
+              new AdditionalButton("icon-stop", "notificaciows.aturar",
+                  getContextWeb() + "/aturar/{0}", "btn-warning"));
+        break;
+        
+        case SHOW_ACTION_BLOQUEJAR:
+          filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
+              new AdditionalButton("icon-pause", "notificaciows.bloquejar",
+                  getContextWeb() + "/bloquejar/{0}", "btn-warning"));
+          filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
+              new AdditionalButton("icon-stop", "notificaciows.aturar",
+                  getContextWeb() + "/aturar/{0}", "btn-warning"));
+        break;
+        
+        case SHOW_ACTION_ESBORRAR:
+          filterForm.addAdditionalButtonByPK(notificacio.getNotificacioID(),
+              new AdditionalButton("icon-trash icon-white", "genapp.delete",
+                  getContextWeb() + "/{0}/delete", "btn-danger"));
+        break;
+        
+        case SHOW_ACTION_NONE:
+          mostrarBotonsGlobals = false;
+          continue;
+        
+    
+      }
+        
+      if (mostrarBotonsGlobals == true) {
+        
+        counts[action]++;
+        
+        if (counts[action] != count) {
+          mostrarBotonsGlobals = false;
+        }
+      }
+      
+    }
+    
+    
+    if (!mostrarBotonsGlobals) {
+      return;
+    }
+    
+    filterForm.setVisibleMultipleSelection(true);
+    
+    String context = request.getContextPath() + getContextWeb();
+      
+    switch(action) {
+    
+        case SHOW_ACTION_DESBLOQUEJAR:
+          filterForm.addAdditionalButton(
+              new AdditionalButton("icon-play", "notificaciows.desbloquejar",
+                  "javascript:submitTo('notificacioWSFilterForm', '"+ context + "/desbloquejarSelected');", "btn-success"));
+          filterForm.addAdditionalButton(
+              new AdditionalButton("icon-stop", "notificaciows.aturar",
+                  "javascript:submitTo('notificacioWSFilterForm', '"+ context + "/aturarSelected');", "btn-warning"));
+        break;
+        
+        case SHOW_ACTION_BLOQUEJAR:
+          filterForm.addAdditionalButton(
+              new AdditionalButton("icon-pause", "notificaciows.bloquejar",
+                  "javascript:submitTo('notificacioWSFilterForm', '"+ context + "/bloquejarSelected", "btn-warning"));
+          filterForm.addAdditionalButton(
+              new AdditionalButton("icon-stop", "notificaciows.aturar",
+                  "javascript:submitTo('notificacioWSFilterForm', '"+ context + "/aturarSelected');", "btn-warning"));
+        break;
+        
+        case SHOW_ACTION_ESBORRAR:
+          filterForm.addAdditionalButton(new AdditionalButton("icon-trash icon-white", "genapp.delete",
+              "javascript:openModalSubmit('"+ context + "/deleteSelected','show', 'notificacioWS')", "btn-danger"));
+        break;
+
+    
+      }
+    
+  }
+  
+  
+  
   
   @Override
   public NotificacioWSForm getNotificacioWSForm(NotificacioWSJPA _jpa,
@@ -127,36 +243,74 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
      NotificacioWSJPA notificacio = notificacioForm.getNotificacioWS();
      
-     // Mostrar boto bloqueja/desbloquejar si dataenviament==null
-     // i com a minim ho ha intentat una vegada
-     if (notificacio.getDataEnviament() == null && notificacio.getReintents() > 0) {
-       if (notificacio.isBloquejada()) {
+     int action = getStatus(notificacio);
+     
+     switch(action) {
+
+       case SHOW_ACTION_DESBLOQUEJAR:
          notificacioForm.addAdditionalButton(
              new AdditionalButton("icon-play", "notificaciows.desbloquejar",
                  getContextWeb() + "/desbloquejar/{0}", "btn-success"));
-       } else {
+         notificacioForm.addAdditionalButton(
+             new AdditionalButton("icon-stop", "notificaciows.aturar",
+                 getContextWeb() + "/aturar/{0}", "btn-warning"));
+       break;
+       
+       case SHOW_ACTION_BLOQUEJAR:
          notificacioForm.addAdditionalButton(
              new AdditionalButton("icon-pause", "notificaciows.bloquejar",
                  getContextWeb() + "/bloquejar/{0}", "btn-warning"));
-       }
-       notificacioForm.addAdditionalButton(
-           new AdditionalButton("icon-stop", "notificaciows.aturar",
-               getContextWeb() + "/aturar/{0}", "btn-warning"));
-     } else {
-       
-       if (notificacio.getDataEnviament() != null && notificacio.isBloquejada()) {
-         // Aturada, llavors l'usuari la pot borrar si ho desitja  
          notificacioForm.addAdditionalButton(
-           new AdditionalButton("icon-trash", "genapp.delete",
-               getContextWeb() + "/{0}/delete", "btn-danger"));
-       }
+             new AdditionalButton("icon-stop", "notificaciows.aturar",
+                 getContextWeb() + "/aturar/{0}", "btn-warning"));
+       break;
+       
+       case SHOW_ACTION_ESBORRAR:
+         notificacioForm.addAdditionalButton(
+             new AdditionalButton("icon-trash icon-white", "genapp.delete",
+                 getContextWeb() + "/{0}/delete", "btn-danger"));
+       break;
+       
+       case SHOW_ACTION_NONE:
+       break;
+
      }
+
    } else {
      // TODO Traduir
       throw new I18NException("error.unknown", "No es poden crear ni editar les notificacions");    
    }
      
    return notificacioForm;  
+  }
+  
+  public static final int SHOW_ACTION_NONE = 0;
+  
+  public static final int SHOW_ACTION_DESBLOQUEJAR = 1;
+  
+  public static final int SHOW_ACTION_BLOQUEJAR = 2;
+  
+  public static final int SHOW_ACTION_ESBORRAR = 3;
+  
+  public static int getStatus(NotificacioWS notificacio) {
+    // Mostrar boto bloqueja/desbloquejar si dataenviament==null
+    // i com a minim ho ha intentat una vegada
+    if (notificacio.getDataEnviament() == null && notificacio.getReintents() > 0) {
+      if (notificacio.isBloquejada()) {
+        return SHOW_ACTION_DESBLOQUEJAR;
+      } else {
+        return SHOW_ACTION_BLOQUEJAR;
+      }
+      
+    } else {
+      
+      if (notificacio.getDataEnviament() != null && notificacio.isBloquejada()) {
+        // Aturada, llavors l'usuari la pot borrar si ho desitja  
+        return SHOW_ACTION_ESBORRAR;
+      }
+    }
+    
+    return SHOW_ACTION_NONE; 
   }
   
   
@@ -199,20 +353,47 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   
   
   @RequestMapping(value = "/aturar/{notificacioID}", method = RequestMethod.GET)
-  public String aturarNotificacio(
-      @PathVariable("notificacioID") java.lang.Long notificacioID, HttpServletRequest request,
-      HttpServletResponse response) throws I18NException {
+  public String aturarNotificacio(@PathVariable("notificacioID") java.lang.Long notificacioID,
+      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    try {
+      NotificacioWSJPA notificacio = notificacioLogicaEjb.aturarNotificacio(notificacioID);
 
-    NotificacioWSJPA notificacio = notificacioLogicaEjb.aturarNotificacio(notificacioID);
+      if (notificacio == null) {
+        createMessageWarning(request, "error.notfound", notificacioID);
+        return "redirect:" + getContextWeb() + "/list/";
+      }
 
-    if (notificacio == null) {
-      createMessageWarning(request, "error.notfound", notificacioID);
+      return "redirect:" + getContextWeb() + "/view/" + notificacioID;
+    } catch (I18NException pe) {
+
+      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(pe));
       return "redirect:" + getContextWeb() + "/list/";
     }
 
-    return "redirect:" + getContextWeb() + "/view/" + notificacioID;
-
   }
+  
+  
+  
+  @RequestMapping(value = "/aturarSelected", method = RequestMethod.POST)
+  public String aturarSelected(HttpServletRequest request,
+      HttpServletResponse response,
+      @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+
+    
+    String[] seleccionats = filterForm.getSelectedItems();
+    
+    if (seleccionats != null && seleccionats.length != 0) {
+      for (int i = 0; i < seleccionats.length; i++) {
+        aturarNotificacio(Long.parseLong(seleccionats[i]),
+            request, response);
+      }
+    }
+    
+
+    return "redirect:" + getContextWeb() + "/list/";
+  }
+  
+  
   
   
   
@@ -220,18 +401,48 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @RequestMapping(value = "/bloquejar/{notificacioID}", method = RequestMethod.GET)
   public String bloquejarNotificacio(
       @PathVariable("notificacioID") java.lang.Long notificacioID, HttpServletRequest request,
-      HttpServletResponse response) throws I18NException {
+      HttpServletResponse response) throws Exception {
 
-    NotificacioWSJPA notificacio = notificacioLogicaEjb.bloquejarNotificacio(notificacioID);
+    try {
+      NotificacioWSJPA notificacio = notificacioLogicaEjb.bloquejarNotificacio(notificacioID);
+  
+      if (notificacio == null) {
+        createMessageWarning(request, "error.notfound", notificacioID);
+        return "redirect:" + getContextWeb() + "/list/";
+      }
+      return "redirect:" + getContextWeb() + "/view/" + notificacioID;
 
-    if (notificacio == null) {
-      createMessageWarning(request, "error.notfound", notificacioID);
+    } catch (I18NException pe) {
+
+      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(pe));
       return "redirect:" + getContextWeb() + "/list/";
     }
-
-    return "redirect:" + getContextWeb() + "/view/" + notificacioID;
+      
+    
 
   }
+  
+  
+  @RequestMapping(value = "/bloquejarSelected", method = RequestMethod.POST)
+  public String bloquejarSelected(HttpServletRequest request,
+      HttpServletResponse response,
+      @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+
+    
+    String[] seleccionats = filterForm.getSelectedItems();
+    
+    if (seleccionats != null && seleccionats.length != 0) {
+      for (int i = 0; i < seleccionats.length; i++) {
+        bloquejarNotificacio(Long.parseLong(seleccionats[i]),
+            request, response);
+      }
+    }
+    
+
+    return "redirect:" + getContextWeb() + "/list/";
+  }
+  
+  
   
   
   @RequestMapping(value = "/desbloquejar/{notificacioID}", method = RequestMethod.GET)
@@ -257,10 +468,29 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     
     return "redirect:" + getContextWeb() + "/view/" + notificacioID;
   }
-
-
-
+  
  
- 
+  
+  
+  
+  @RequestMapping(value = "/desbloquejarSelected", method = RequestMethod.POST)
+  public String desbloquejarSelected(HttpServletRequest request,
+      HttpServletResponse response,
+      @ModelAttribute NotificacioWSFilterForm filterForm) throws Exception {
+
+    
+    String[] seleccionats = filterForm.getSelectedItems();
+    
+    if (seleccionats != null && seleccionats.length != 0) {
+      for (int i = 0; i < seleccionats.length; i++) {
+        desbloquejarNotificacio(Long.parseLong(seleccionats[i]),
+            request, response);
+      }
+    }
+    
+
+    return  "redirect:" + getContextWeb() + "/list/";
+  }
+
   
 }

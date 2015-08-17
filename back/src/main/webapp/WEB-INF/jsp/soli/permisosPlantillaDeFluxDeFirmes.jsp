@@ -12,7 +12,7 @@
   
   <input type="hidden" id="userToDeleteFromPlantilla" name="userToDeleteFromPlantilla" value=""/>
   <input type="hidden" id="groupToDeleteFromPlantilla" name="groupToDeleteFromPlantilla" value=""/>
-    
+
     <table class="tdformlabel table-condensed table table-bordered table-striped marTop10  " > 
     <tbody> 
       <tr>
@@ -86,25 +86,19 @@
        
        <td style="width:16px;border-left:1px solid;">&nbsp;</td>
 
-       <td valign="top">
-         <center><i><fmt:message key="permisosplantilla.adduser"></fmt:message> </i></center>
-         <table>                
-            <tr><td>&nbsp;<fmt:message key="form.titol.nif"></fmt:message>:&nbsp; <input id="userToAdd" name="userToAdd" type="text" value=""></td></tr>
-            <tr>
-             <td align="center">
-             <button type="button" class="btn btn-primary" onclick="addUserToPlantilla()" title="<fmt:message key="afegir"></fmt:message>" >
+       <td align="center" valign="middle">
+         
+         <i><fmt:message key="permisosplantilla.adduser"></fmt:message> </i><br/>
+
+             <button type="button" class="btn btn-primary" onclick="javascript:openSelectUserDialog();" title="<fmt:message key="permisosplantilla.adduser"></fmt:message>" >
                 <i class="icon-plus-sign icon-white"></i>
-                <fmt:message key="afegir"></fmt:message>
+                <fmt:message key="permisosplantilla.adduser"></fmt:message>
              </button>
-             </td>
-            </tr>
-        </table>
+
        </td>
 
       </tr>
-    
-   
-    
+
       <tr>
           <td colspan="4">
               <hr />
@@ -112,11 +106,8 @@
           </td>
       </tr>
     
-    
-    
-    
  
-        <%--     PERMISOS PER  GRUPS  --%>
+      <%--  PERMISOS PER  GRUPS  --%>
 
       <tr>
         <td colspan="4">
@@ -258,6 +249,12 @@
 
 
 </form:form>
+
+
+<c:url var="theURL" value="${plantillaFluxDeFirmesForm.contexte}/allowUserToPlantilla"/>
+
+<%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
+
 
 </c:if>
 </sec:authorize>

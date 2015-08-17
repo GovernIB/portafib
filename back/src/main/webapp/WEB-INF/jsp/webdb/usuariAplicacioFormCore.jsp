@@ -189,7 +189,7 @@
             </td>
             <td>
               <form:errors path="usuariAplicacio.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="usuariAplicacio.descripcio"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.DESCRIPCIO)? 'true' : 'false'}" path="usuariAplicacio.descripcio"  />
            </td>
         </tr>
         </c:if>

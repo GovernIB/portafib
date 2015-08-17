@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="algorismeDeFirma.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.DESCRIPCIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="algorismeDeFirma.descripcio"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,AlgorismeDeFirmaFields.DESCRIPCIO)? 'true' : 'false'}" path="algorismeDeFirma.descripcio"  />
            </td>
         </tr>
         </c:if>

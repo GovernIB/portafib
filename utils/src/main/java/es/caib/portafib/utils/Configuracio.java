@@ -101,6 +101,21 @@ public class Configuracio implements Constants {
     return Long.getLong(PORTAFIB_PROPERTY_BASE + "numberoferrorstopausenotification");
   }
   
+  
+  /**
+   * Temps mínim que s'espera abans de reintentar una notificació fallida en ms.
+   * Valor per defecte 60000ms (1 minut). Ha de ser major de 15000.
+   */
+  public static long getNotificacionsTimeLapse() {
+    Long val = Long.getLong(PORTAFIB_PROPERTY_BASE + "notificationtimelapse");
+    if (val == null || val < 15000L) {
+      return 60000L;
+    } else {
+      return val;
+    }
+  }
+  
+  
   /**
    * Si el valor és true llavors redireccióna segons el contexte:
    *    (a) Si entra amb http dins portafibs llavors redirecciona a portafib
@@ -149,6 +164,15 @@ public class Configuracio implements Constants {
   public static int getMinCharsToStartAutocomplete() {
     return Integer.parseInt(
         System.getProperty(PORTAFIB_PROPERTY_BASE + "mincharstostartautocomplete", "2"));
+  }
+  
+  /**
+   * @param entitatID
+   * @param lang
+   * @return
+   */
+  public static String getDefaultCustodyMessage(String entitatID, String lang) {
+    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultcustodymessage."+ entitatID + "." + lang);
   }
   
 }

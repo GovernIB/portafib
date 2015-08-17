@@ -138,8 +138,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       language = userapp.getIdiomaID();
     }
     final String usuariAplicacioID = userapp.getUsuariAplicacioID();
-    return peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(
-        title, usuariEntitatID, usuariAplicacioID, language);
+    return peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title,
+        userapp.getEntitatID(), usuariEntitatID, usuariAplicacioID, language);
 
   }
 

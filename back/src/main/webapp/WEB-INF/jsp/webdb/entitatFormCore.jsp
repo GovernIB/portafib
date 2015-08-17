@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="entitat.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="entitat.descripcio"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.DESCRIPCIO)? 'true' : 'false'}" path="entitat.descripcio"  />
            </td>
         </tr>
         </c:if>
@@ -276,7 +276,7 @@
             </td>
             <td>
               <form:errors path="entitat.filtreCertificats" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="entitat.filtreCertificats"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FILTRECERTIFICATS)? 'true' : 'false'}" path="entitat.filtreCertificats"  />
            </td>
         </tr>
         </c:if>
@@ -486,7 +486,7 @@
             </td>
             <td>
               <form:errors path="entitat.policyIdentifierHash" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"   path="entitat.policyIdentifierHash"  />
+              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.POLICYIDENTIFIERHASH)? 'true' : 'false'}" path="entitat.policyIdentifierHash"  />
            </td>
         </tr>
         </c:if>

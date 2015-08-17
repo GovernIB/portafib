@@ -34,6 +34,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public PeticioDeFirmaJPA findByPrimaryKeyFull(Long peticioDeFirmaID);
 
   public PeticioDeFirmaJPA findByPrimaryKeyFullWithUserInfo(Long peticioDeFirmaID);
+  
+  public PeticioDeFirmaJPA findByPrimaryKeyWithUserInfo(Long peticioDeFirmaID);
 
   public PeticioDeFirmaJPA createFull(PeticioDeFirmaJPA peticioDeFirma) 
     throws I18NException, I18NValidationException;
@@ -117,7 +119,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
   public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID) throws I18NException;
   
-  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol,
+  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
       String usuariEntitatID, String usuariAplicacioID, String idioma);
 
   public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo) throws I18NException;

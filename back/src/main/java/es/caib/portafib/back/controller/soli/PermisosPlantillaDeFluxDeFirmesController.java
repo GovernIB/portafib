@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.PlantillaFluxDeFirmesController;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesFilterForm;
 import es.caib.portafib.back.form.webdb.PlantillaFluxDeFirmesForm;
 import es.caib.portafib.back.security.LoginInfo;
@@ -41,8 +43,6 @@ import es.caib.portafib.model.entity.PermisGrupPlantilla;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -53,7 +53,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/soli/permisosplantilla")
 @SessionAttributes(types = { PlantillaFluxDeFirmesForm.class,
-    PlantillaFluxDeFirmesFilterForm.class })
+    PlantillaFluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFirmesController {
 
   @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
@@ -111,6 +111,24 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
     
 
     refreshGrupsDisponibles(request, _jpa.getFluxDeFirmesID());
+    
+    
+   // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
+    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+    seleccioUsuariForm.setTitol("permisosplantilla.adduser");
+    seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
+
+    try {
+      seleccioUsuariForm.setUsuarisFavorits(
+          SearchJSONController.favoritsToUsuariEntitat(
+              usuariEntitatLogicaEjb.selectFavorits(
+                LoginInfo.getInstance().getUsuariEntitatID(), null, false)));
+    } catch (I18NException e) {
+      log.error("Error cercant favorits" + I18NUtils.getMessage(e), e);
+    }
+    
+    mav.addObject(seleccioUsuariForm);
+    
 
     return plantillaFluxDeFirmesForm;
   }
@@ -205,35 +223,16 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
   @RequestMapping(value = "/allowUserToPlantilla", method = RequestMethod.POST)
   public String allowUserToPlantilla(
       @ModelAttribute("plantillaFluxDeFirmesForm") @Valid PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm,
-      @RequestParam("userToAdd") String nif, HttpServletRequest request,
-      HttpServletResponse response) throws I18NException {
+      SeleccioUsuariForm seleccioUsuariForm,
+      HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     long plantillafluxDeFirmesID = plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes()
         .getFluxDeFirmesID();
 
-    if (log.isDebugEnabled()) {
-      log.debug(" NIF = |" + nif + "|");
-      log.debug(" PlantillaID = |" + plantillafluxDeFirmesID + "|");
-    }
-
-    if (nif == null || nif.trim().equals("")) {
-
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("usuaripersona.existeix", nif));
-
-    } else {
-
-      String usuariEntitatID = usuariEntitatLogicaEjb.executeQueryOne(
-          UsuariEntitatFields.USUARIENTITATID, Where.AND(UsuariEntitatFields.CARREC.isNull(),
-              UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-              new UsuariEntitatQueryPath().USUARIPERSONA().NIF().equal(nif.toUpperCase())));
-
-      if (log.isDebugEnabled()) {
-        log.debug(" usuariEntitatID = |" + usuariEntitatID + "|");
-      }
-
-      if (usuariEntitatID == null) {
-        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("usuaripersona.existeix", nif));
-      } else {
+    {
+ 
+      String usuariEntitatID = seleccioUsuariForm.getId();
+      {
 
         PermisUsuariPlantillaJPA pup;
         pup = new PermisUsuariPlantillaJPA(usuariEntitatID, plantillafluxDeFirmesID);

@@ -425,7 +425,8 @@ public class NotificacionsQueue implements MessageListener {
       
       if (notificacioInfo != null) {
         try {
-          enviarNotificacions(Arrays.asList(notificacioInfo), 15000);
+          long notificacionTimeLapse = Configuracio.getNotificacionsTimeLapse(); 
+          enviarNotificacions(Arrays.asList(notificacioInfo), notificacionTimeLapse);
         } catch (I18NException e1) {
 
           // No es guardarà
@@ -819,6 +820,7 @@ public class NotificacionsQueue implements MessageListener {
   private static long timeOfLastNotification = -1;
 
   public static void enviarNotificacions(List<NotificacioInfo> notificacions) throws I18NException {
+    // 0 = El volem enviar ara
     enviarNotificacions(notificacions, 0);
   }
 
@@ -861,11 +863,11 @@ public class NotificacionsQueue implements MessageListener {
 
       int counter = 0;
       for (NotificacioInfo notificacioInfo : notificacions) {
-        counter++;
 
         ObjectMessage message = session.createObjectMessage();
 
         timeOfLastNotification = date + sleep * counter;
+        counter++;
 
         // Esperamos x segundos entre cada mensaje
         message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", timeOfLastNotification);

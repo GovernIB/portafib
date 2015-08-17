@@ -864,6 +864,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       for(Field<?> field: PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS) {
         peticioDeFirmaForm.addReadOnlyField(field);
       }
+      peticioDeFirmaForm.setTitleCode("peticiodefirma.veuredetalls");
       peticioDeFirmaForm.setDeleteButtonVisible(false);
       peticioDeFirmaForm.setSaveButtonVisible(false);
     }

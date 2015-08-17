@@ -46,10 +46,16 @@
       <!-- Identificador de la taula pfi_algorismedefirma que representa l'algorisme de firma per defecte. -->
       #es.caib.portafib.defaultsignalgorithmid=0
       <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->      es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
-      <!-- A partir de quants d'errors en una notificació callback s'enviarà un correu al responsable de l'usuari aplicació  -->
-      es.caib.portafib.numberoferrorsinnotificationtosendmail=
-      <!-- A partir de quants d'errors en una notificació callback aquesta automàticament es pausarà  -->
-      es.caib.portafib.numberoferrorstopausenotification=
+      <!-- Opcional. A partir de quants d'errors en una notificació callback s'enviarà 
+	      un correu al responsable de l'usuari aplicació. Per defecte mai s'envia un correu  -->
+      # es.caib.portafib.numberoferrorsinnotificationtosendmail=
+      <!-- Opcional. A partir de quants d'errors en una notificació callback aquesta
+           automàticament es pausarà. Per defecte es reintenten indefinidament.  -->
+      # es.caib.portafib.numberoferrorstopausenotification=
+	  <!-- Opcional. Valor per defecte 60000ms (1 minut). Ha de ser major de 15000.
+	      Temps mínim que s'espera abans de reintentar una notificació fallida en ms. -->
+	  #es.caib.portafib.notificationtimelapse=60000
+	  
 	  <!-- Si el valor és true llavors redirecciona segons el contexte:
             (a) Si entra amb http dins portafibs llavors redirecciona a portafib
             (b) Si entra amb https dins portafib i existeix portafibs llavors redirecciona a portafibs
@@ -92,6 +98,12 @@
            els resultats de la cerca. En entitats amb molts d'usuaris es recomana incrementar
 		   aquest valora a 3 o 4 amb la finalitat de reduir càrrega de xarxa, servidor i bbdd. -->
       # es.caib.portafib. mincharstostartautocomplete=2
+	  
+	  <!-- Opcional. Indica un missatge per defecte de la custòdia de les peticions de Firma. -->
+	  #es.caib.portafib.defaultcustodymessage.fundaciobit.ca=Data:{3} URL de validaci&#243;:{0}
+	  #es.caib.portafib.defaultcustodymessage.fundaciobit.es=Fecha:{3} URL de validaci&#243;n:{0}
+	  
+
 
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->
