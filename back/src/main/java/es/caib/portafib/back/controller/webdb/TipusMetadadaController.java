@@ -262,7 +262,7 @@ public class TipusMetadadaController
         tipusMetadada = create(request, tipusMetadada);
         createMessageSuccess(request, "success.creation", tipusMetadada.getTipusMetadadaID());
         tipusMetadadaForm.setTipusMetadada(tipusMetadada);
-        return getRedirectWhenCreated(tipusMetadadaForm);
+        return getRedirectWhenCreated(request, tipusMetadadaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class TipusMetadadaController
 
     if (tipusMetadada == null) {
       createMessageWarning(request, "error.notfound", tipusMetadadaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(tipusMetadadaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusMetadadaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class TipusMetadadaController
         tipusMetadada = update(request, tipusMetadada);
         createMessageSuccess(request, "success.modification", tipusMetadada.getTipusMetadadaID());
         status.setComplete();
-        return getRedirectWhenModified(tipusMetadadaForm, null);
+        return getRedirectWhenModified(request, tipusMetadadaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class TipusMetadadaController
       String msg = createMessageError(request, "error.modification",
           tipusMetadada.getTipusMetadadaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(tipusMetadadaForm, __e);
+      return getRedirectWhenModified(request, tipusMetadadaForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class TipusMetadadaController
       TipusMetadada tipusMetadada = tipusMetadadaEjb.findByPrimaryKey(tipusMetadadaID);
       if (tipusMetadada == null) {
         String __msg =createMessageError(request, "error.notfound", tipusMetadadaID);
-        return getRedirectWhenDelete(tipusMetadadaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, tipusMetadadaID, new Exception(__msg));
       } else {
         delete(request, tipusMetadada);
         createMessageSuccess(request, "success.deleted", tipusMetadadaID);
-        return getRedirectWhenDelete(tipusMetadadaID,null);
+        return getRedirectWhenDelete(request, tipusMetadadaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", tipusMetadadaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(tipusMetadadaID, e);
+      return getRedirectWhenDelete(request, tipusMetadadaID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.Integer stringToPK(String value) {
   @RequestMapping(value = "/{tipusMetadadaID}/cancel")
   public String cancelTipusMetadada(@PathVariable("tipusMetadadaID") java.lang.Integer tipusMetadadaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(tipusMetadadaID);
+     return getRedirectWhenCancel(request, tipusMetadadaID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.Integer stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TipusMetadadaFilterForm filterForm,  List<TipusMetadada> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TipusMetadadaForm tipusMetadadaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TipusMetadadaForm tipusMetadadaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TipusMetadadaForm tipusMetadadaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TipusMetadadaForm tipusMetadadaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.Integer stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Integer tipusMetadadaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer tipusMetadadaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Integer tipusMetadadaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer tipusMetadadaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

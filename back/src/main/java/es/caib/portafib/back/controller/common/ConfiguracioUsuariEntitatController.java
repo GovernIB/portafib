@@ -112,7 +112,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   }
 
   @Override
-  public String getRedirectWhenModified(UsuariEntitatForm usuariEntitatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, UsuariEntitatForm usuariEntitatForm, Throwable __e) {
     return "redirect:" + getContextWeb() + "/"
         + usuariEntitatForm.getUsuariEntitat().getUsuariEntitatID() + "/edit";
   }

@@ -221,7 +221,7 @@
     <definition name="peticioDeFirmaAplicacioList" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
     </definition>
-    
+
     <definition name="custodiaInfoForm_aden" extends="role_aden">
         <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
@@ -332,7 +332,7 @@
     </definition>
     
     <definition name="estatFirmaList_ROLE_COLA" extends="role_cola">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
     
     
@@ -344,7 +344,7 @@
     </definition>
     
     <definition name="estatFirmaList_ROLE_DELE" extends="role_dele">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
     
     <definition name="firmaApplet_ROLE_DELE" extends="role_dele">
@@ -367,7 +367,7 @@
     </definition>
 
     <definition name="estatFirmaList_ROLE_DEST" extends="role_dest">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
     
     <definition name="estatFirmaFullView_ROLE_DEST" extends="role_dest">
@@ -423,9 +423,12 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaForm.jsp" />
     </definition>
     
+
     <definition name="peticioDeFirmaList" extends="role_soli">
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
     </definition>
+
+    
     
    <definition name="custodiaInfoForm_soli" extends="role_soli">
         <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />

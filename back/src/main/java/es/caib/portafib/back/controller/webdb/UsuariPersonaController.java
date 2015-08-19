@@ -297,7 +297,7 @@ public class UsuariPersonaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", usuariPersona.getUsuariPersonaID());
         usuariPersonaForm.setUsuariPersona(usuariPersona);
-        return getRedirectWhenCreated(usuariPersonaForm);
+        return getRedirectWhenCreated(request, usuariPersonaForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -336,7 +336,7 @@ public class UsuariPersonaController
 
     if (usuariPersona == null) {
       createMessageWarning(request, "error.notfound", usuariPersonaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(usuariPersonaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, usuariPersonaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -396,7 +396,7 @@ public class UsuariPersonaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", usuariPersona.getUsuariPersonaID());
         status.setComplete();
-        return getRedirectWhenModified(usuariPersonaForm, null);
+        return getRedirectWhenModified(request, usuariPersonaForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -407,7 +407,7 @@ public class UsuariPersonaController
       String msg = createMessageError(request, "error.modification",
           usuariPersona.getUsuariPersonaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(usuariPersonaForm, __e);
+      return getRedirectWhenModified(request, usuariPersonaForm, __e);
     }
 
   }
@@ -428,17 +428,17 @@ public class UsuariPersonaController
       UsuariPersona usuariPersona = usuariPersonaEjb.findByPrimaryKey(usuariPersonaID);
       if (usuariPersona == null) {
         String __msg =createMessageError(request, "error.notfound", usuariPersonaID);
-        return getRedirectWhenDelete(usuariPersonaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, usuariPersonaID, new Exception(__msg));
       } else {
         delete(request, usuariPersona);
         createMessageSuccess(request, "success.deleted", usuariPersonaID);
-        return getRedirectWhenDelete(usuariPersonaID,null);
+        return getRedirectWhenDelete(request, usuariPersonaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", usuariPersonaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(usuariPersonaID, e);
+      return getRedirectWhenDelete(request, usuariPersonaID, e);
     }
   }
 
@@ -461,7 +461,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -540,7 +540,7 @@ public java.lang.String stringToPK(String value) {
   @RequestMapping(value = "/{usuariPersonaID}/cancel")
   public String cancelUsuariPersona(@PathVariable("usuariPersonaID") java.lang.String usuariPersonaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(usuariPersonaID);
+     return getRedirectWhenCancel(request, usuariPersonaID);
   }
 
   @Override
@@ -650,11 +650,11 @@ public java.lang.String stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, UsuariPersonaFilterForm filterForm,  List<UsuariPersona> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(UsuariPersonaForm usuariPersonaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(UsuariPersonaForm usuariPersonaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -662,11 +662,11 @@ public java.lang.String stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.String usuariPersonaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String usuariPersonaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.String usuariPersonaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariPersonaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

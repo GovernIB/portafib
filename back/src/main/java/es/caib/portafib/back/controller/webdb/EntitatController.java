@@ -300,7 +300,7 @@ public class EntitatController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", entitat.getEntitatID());
         entitatForm.setEntitat(entitat);
-        return getRedirectWhenCreated(entitatForm);
+        return getRedirectWhenCreated(request, entitatForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -339,7 +339,7 @@ public class EntitatController
 
     if (entitat == null) {
       createMessageWarning(request, "error.notfound", entitatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(entitatID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, entitatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -399,7 +399,7 @@ public class EntitatController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", entitat.getEntitatID());
         status.setComplete();
-        return getRedirectWhenModified(entitatForm, null);
+        return getRedirectWhenModified(request, entitatForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -410,7 +410,7 @@ public class EntitatController
       String msg = createMessageError(request, "error.modification",
           entitat.getEntitatID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(entitatForm, __e);
+      return getRedirectWhenModified(request, entitatForm, __e);
     }
 
   }
@@ -431,17 +431,17 @@ public class EntitatController
       Entitat entitat = entitatEjb.findByPrimaryKey(entitatID);
       if (entitat == null) {
         String __msg =createMessageError(request, "error.notfound", entitatID);
-        return getRedirectWhenDelete(entitatID, new Exception(__msg));
+        return getRedirectWhenDelete(request, entitatID, new Exception(__msg));
       } else {
         delete(request, entitat);
         createMessageSuccess(request, "success.deleted", entitatID);
-        return getRedirectWhenDelete(entitatID,null);
+        return getRedirectWhenDelete(request, entitatID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", entitatID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(entitatID, e);
+      return getRedirectWhenDelete(request, entitatID, e);
     }
   }
 
@@ -464,7 +464,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -543,7 +543,7 @@ public java.lang.String stringToPK(String value) {
   @RequestMapping(value = "/{entitatID}/cancel")
   public String cancelEntitat(@PathVariable("entitatID") java.lang.String entitatID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(entitatID);
+     return getRedirectWhenCancel(request, entitatID);
   }
 
   @Override
@@ -693,11 +693,11 @@ public java.lang.String stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, EntitatFilterForm filterForm,  List<Entitat> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(EntitatForm entitatForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, EntitatForm entitatForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(EntitatForm entitatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, EntitatForm entitatForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -705,11 +705,11 @@ public java.lang.String stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.String entitatID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String entitatID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.String entitatID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String entitatID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

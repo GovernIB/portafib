@@ -66,12 +66,12 @@
             </c:when>
            <c:when test="${__theFilterForm.actionsRenderer == 2}">
                 <div class="btn-group">
-      <a class="btn btn-small ${instanceFilterForm.additionalInfoForActionsRendererByPK[pk]}" href="#" style="${(empty instanceFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'color: white;'}"><i class="icon-list ${(empty instanceFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'icon-white'}"></i> <fmt:message key="genapp.actions" /></a>
-      <a class="btn btn-small ${instanceFilterForm.additionalInfoForActionsRendererByPK[pk]} dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;<span class="caret"> </span></a>
+      <a class="btn btn-small ${__theFilterForm.additionalInfoForActionsRendererByPK[pk]}" href="#" style="${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'color: white;'}"><i class="icon-list ${(empty __theFilterForm.additionalInfoForActionsRendererByPK[pk])? '' : 'icon-white'}"></i> <fmt:message key="genapp.actions" /></a>
+      <a class="btn btn-small ${__theFilterForm.additionalInfoForActionsRendererByPK[pk]} dropdown-toggle" data-toggle="dropdown" href="#">&nbsp;<span class="caret"> </span></a>
       <ul class="dropdown-menu pull-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
             <c:if test="${__theFilterForm.editButtonVisible}">
             <li>
-            <a class="btn  btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+            <a class="btn  btn-small a_item" style="margin-bottom:5px;${(empty )? '' : 'color: white;'}" href="#" 
             onclick="goTo('<c:url value="${contexte}/${algorismeDeFirma.algorismeDeFirmaID}/edit"/>')"> 
             <i class="icon-pencil"></i>
              <fmt:message key="genapp.edit"/>
@@ -80,7 +80,7 @@
             </c:if>
             <c:if test="${__theFilterForm.deleteButtonVisible}">
             <li>
-            <a class="btn btn-danger btn-small a_item" style="margin-bottom:5px;color:white;" href="#myModal" 
+            <a class="btn btn-danger btn-small a_item" style="margin-bottom:5px;${(empty btn-danger)? '' : 'color: white;'}" href="#myModal" 
             onclick="openModal('<c:url value="${contexte}/${algorismeDeFirma.algorismeDeFirmaID}/delete"/>','show');"> 
             <i class="icon-trash icon-white"></i>
              <fmt:message key="genapp.delete"/>
@@ -95,7 +95,7 @@
                   <c:set var="thelink" value="goTo('${thelink}')"/>
                   </c:if>
                   <li>
-                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'}" href="#" 
                   onclick="${thelink}"> 
                   <c:if test="${fn:startsWith(button.icon, '/')}">
                   <img src="<c:url value="${button.icon}"/>"/>
@@ -116,7 +116,7 @@
                   <c:set var="thelink" value="goTo('${thelink}')"/>
                   </c:if>
                   <li>
-                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;color:white;" href="#" 
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'}" href="#" 
                   onclick="${thelink}"> 
                   <c:if test="${fn:startsWith(button.icon, '/')}">
                   <img src="<c:url value="${button.icon}"/>"/>

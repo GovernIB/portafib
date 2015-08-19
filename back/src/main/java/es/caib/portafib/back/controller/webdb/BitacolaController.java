@@ -311,7 +311,7 @@ public class BitacolaController
         bitacola = create(request, bitacola);
         createMessageSuccess(request, "success.creation", bitacola.getBitacolaID());
         bitacolaForm.setBitacola(bitacola);
-        return getRedirectWhenCreated(bitacolaForm);
+        return getRedirectWhenCreated(request, bitacolaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -349,7 +349,7 @@ public class BitacolaController
 
     if (bitacola == null) {
       createMessageWarning(request, "error.notfound", bitacolaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(bitacolaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, bitacolaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -405,7 +405,7 @@ public class BitacolaController
         bitacola = update(request, bitacola);
         createMessageSuccess(request, "success.modification", bitacola.getBitacolaID());
         status.setComplete();
-        return getRedirectWhenModified(bitacolaForm, null);
+        return getRedirectWhenModified(request, bitacolaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class BitacolaController
       String msg = createMessageError(request, "error.modification",
           bitacola.getBitacolaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(bitacolaForm, __e);
+      return getRedirectWhenModified(request, bitacolaForm, __e);
     }
 
   }
@@ -436,17 +436,17 @@ public class BitacolaController
       Bitacola bitacola = bitacolaEjb.findByPrimaryKey(bitacolaID);
       if (bitacola == null) {
         String __msg =createMessageError(request, "error.notfound", bitacolaID);
-        return getRedirectWhenDelete(bitacolaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, bitacolaID, new Exception(__msg));
       } else {
         delete(request, bitacola);
         createMessageSuccess(request, "success.deleted", bitacolaID);
-        return getRedirectWhenDelete(bitacolaID,null);
+        return getRedirectWhenDelete(request, bitacolaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", bitacolaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(bitacolaID, e);
+      return getRedirectWhenDelete(request, bitacolaID, e);
     }
   }
 
@@ -469,7 +469,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -549,7 +549,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{bitacolaID}/cancel")
   public String cancelBitacola(@PathVariable("bitacolaID") java.lang.Long bitacolaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(bitacolaID);
+     return getRedirectWhenCancel(request, bitacolaID);
   }
 
   @Override
@@ -676,11 +676,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, BitacolaFilterForm filterForm,  List<Bitacola> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(BitacolaForm bitacolaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, BitacolaForm bitacolaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(BitacolaForm bitacolaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, BitacolaForm bitacolaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -688,11 +688,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long bitacolaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long bitacolaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long bitacolaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long bitacolaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

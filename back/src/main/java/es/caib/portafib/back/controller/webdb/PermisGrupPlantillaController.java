@@ -311,7 +311,7 @@ public class PermisGrupPlantillaController
         permisGrupPlantilla = create(request, permisGrupPlantilla);
         createMessageSuccess(request, "success.creation", permisGrupPlantilla.getPermisGrupPlantillaID());
         permisGrupPlantillaForm.setPermisGrupPlantilla(permisGrupPlantilla);
-        return getRedirectWhenCreated(permisGrupPlantillaForm);
+        return getRedirectWhenCreated(request, permisGrupPlantillaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -349,7 +349,7 @@ public class PermisGrupPlantillaController
 
     if (permisGrupPlantilla == null) {
       createMessageWarning(request, "error.notfound", permisGrupPlantillaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(permisGrupPlantillaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, permisGrupPlantillaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -405,7 +405,7 @@ public class PermisGrupPlantillaController
         permisGrupPlantilla = update(request, permisGrupPlantilla);
         createMessageSuccess(request, "success.modification", permisGrupPlantilla.getPermisGrupPlantillaID());
         status.setComplete();
-        return getRedirectWhenModified(permisGrupPlantillaForm, null);
+        return getRedirectWhenModified(request, permisGrupPlantillaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class PermisGrupPlantillaController
       String msg = createMessageError(request, "error.modification",
           permisGrupPlantilla.getPermisGrupPlantillaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(permisGrupPlantillaForm, __e);
+      return getRedirectWhenModified(request, permisGrupPlantillaForm, __e);
     }
 
   }
@@ -436,17 +436,17 @@ public class PermisGrupPlantillaController
       PermisGrupPlantilla permisGrupPlantilla = permisGrupPlantillaEjb.findByPrimaryKey(permisGrupPlantillaID);
       if (permisGrupPlantilla == null) {
         String __msg =createMessageError(request, "error.notfound", permisGrupPlantillaID);
-        return getRedirectWhenDelete(permisGrupPlantillaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, permisGrupPlantillaID, new Exception(__msg));
       } else {
         delete(request, permisGrupPlantilla);
         createMessageSuccess(request, "success.deleted", permisGrupPlantillaID);
-        return getRedirectWhenDelete(permisGrupPlantillaID,null);
+        return getRedirectWhenDelete(request, permisGrupPlantillaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", permisGrupPlantillaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(permisGrupPlantillaID, e);
+      return getRedirectWhenDelete(request, permisGrupPlantillaID, e);
     }
   }
 
@@ -469,7 +469,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -549,7 +549,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{permisGrupPlantillaID}/cancel")
   public String cancelPermisGrupPlantilla(@PathVariable("permisGrupPlantillaID") java.lang.Long permisGrupPlantillaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(permisGrupPlantillaID);
+     return getRedirectWhenCancel(request, permisGrupPlantillaID);
   }
 
   @Override
@@ -676,11 +676,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PermisGrupPlantillaFilterForm filterForm,  List<PermisGrupPlantilla> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PermisGrupPlantillaForm permisGrupPlantillaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PermisGrupPlantillaForm permisGrupPlantillaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PermisGrupPlantillaForm permisGrupPlantillaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PermisGrupPlantillaForm permisGrupPlantillaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -688,11 +688,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long permisGrupPlantillaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long permisGrupPlantillaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long permisGrupPlantillaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long permisGrupPlantillaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

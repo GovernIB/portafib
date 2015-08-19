@@ -469,7 +469,6 @@ public class NotificacionsQueue implements MessageListener {
       wsdlLocation = PortaFIBCallBackWsService.class.getResource("/wsdl/PortaFIBCallBack_v1.wsdl");
     }
     PortaFIBCallBackWsService callbackService = new PortaFIBCallBackWsService(wsdlLocation);
-
     PortaFIBCallBackWs callbackApi = callbackService.getPortaFIBCallBackWs();
 
     // Adreça servidor
@@ -866,8 +865,12 @@ public class NotificacionsQueue implements MessageListener {
 
         ObjectMessage message = session.createObjectMessage();
 
-        timeOfLastNotification = date + sleep * counter;
+        // IMPORTANT: HEm de deixar aquest marge de 5 segons ja que pot passar 
+        // que s'executi l'enviament de la notificació però la notificacio encara
+        // no estigui guardada !!!  
         counter++;
+        timeOfLastNotification = date + sleep * counter;
+
 
         // Esperamos x segundos entre cada mensaje
         message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", timeOfLastNotification);

@@ -303,7 +303,7 @@ public class AnnexController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", annex.getAnnexID());
         annexForm.setAnnex(annex);
-        return getRedirectWhenCreated(annexForm);
+        return getRedirectWhenCreated(request, annexForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -342,7 +342,7 @@ public class AnnexController
 
     if (annex == null) {
       createMessageWarning(request, "error.notfound", annexID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(annexID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, annexID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -402,7 +402,7 @@ public class AnnexController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", annex.getAnnexID());
         status.setComplete();
-        return getRedirectWhenModified(annexForm, null);
+        return getRedirectWhenModified(request, annexForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -413,7 +413,7 @@ public class AnnexController
       String msg = createMessageError(request, "error.modification",
           annex.getAnnexID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(annexForm, __e);
+      return getRedirectWhenModified(request, annexForm, __e);
     }
 
   }
@@ -434,17 +434,17 @@ public class AnnexController
       Annex annex = annexEjb.findByPrimaryKey(annexID);
       if (annex == null) {
         String __msg =createMessageError(request, "error.notfound", annexID);
-        return getRedirectWhenDelete(annexID, new Exception(__msg));
+        return getRedirectWhenDelete(request, annexID, new Exception(__msg));
       } else {
         delete(request, annex);
         createMessageSuccess(request, "success.deleted", annexID);
-        return getRedirectWhenDelete(annexID,null);
+        return getRedirectWhenDelete(request, annexID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", annexID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(annexID, e);
+      return getRedirectWhenDelete(request, annexID, e);
     }
   }
 
@@ -467,7 +467,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -547,7 +547,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{annexID}/cancel")
   public String cancelAnnex(@PathVariable("annexID") java.lang.Long annexID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(annexID);
+     return getRedirectWhenCancel(request, annexID);
   }
 
   @Override
@@ -656,11 +656,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, AnnexFilterForm filterForm,  List<Annex> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(AnnexForm annexForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, AnnexForm annexForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(AnnexForm annexForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, AnnexForm annexForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -668,11 +668,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long annexID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long annexID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long annexID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long annexID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

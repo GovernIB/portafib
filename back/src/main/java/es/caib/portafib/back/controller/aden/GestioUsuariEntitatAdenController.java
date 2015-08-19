@@ -285,7 +285,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     UsuariEntitat up = this.usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);
     
     if (up == null) {
-      return getRedirectWhenCancel(usuariEntitatID);
+      return getRedirectWhenCancel(request, usuariEntitatID);
     }
     RoleUsuariEntitatJPA rue = new RoleUsuariEntitatJPA(); 
     rue.setRoleID(Constants.ROLE_SOLI);
@@ -354,28 +354,28 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
    
    @Override
-   public String getRedirectWhenCreated(UsuariEntitatForm usuariEntitatForm) {
-     return  getRedirectWhenModified(usuariEntitatForm, null); 
+   public String getRedirectWhenCreated(HttpServletRequest request, UsuariEntitatForm usuariEntitatForm) {
+     return  getRedirectWhenModified(request, usuariEntitatForm, null); 
    }
 
    @Override
-   public String getRedirectWhenModified(UsuariEntitatForm usuariEntitatForm, Throwable __e) {
+   public String getRedirectWhenModified(HttpServletRequest request, UsuariEntitatForm usuariEntitatForm, Throwable __e) {
      String usuariEntitatID = usuariEntitatForm.getUsuariEntitat().getUsuariEntitatID();
      if (__e == null) {
        return "redirect:" + getContextWeb() + "/" + usuariEntitatID + "/edit";
      } else {
-       return getRedirectWhenCancel(usuariEntitatID);
+       return getRedirectWhenCancel(request, usuariEntitatID);
      }
    }
    
    
    @Override
-   public String getRedirectWhenDelete(java.lang.String usuariEntitatID, Throwable __e) {
-     return getRedirectWhenCancel(usuariEntitatID);
+   public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String usuariEntitatID, Throwable __e) {
+     return getRedirectWhenCancel(request, usuariEntitatID);
    }
 
    @Override
-   public String getRedirectWhenCancel(java.lang.String usuariEntitatID) {
+   public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariEntitatID) {
      return "redirect:/canviarPipella/"+ Constants.ROLE_ADEN;
    }
 

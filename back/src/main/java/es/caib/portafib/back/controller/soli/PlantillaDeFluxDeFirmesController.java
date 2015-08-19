@@ -1301,13 +1301,13 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   }
 
   @Override
-  public String getRedirectWhenCreated(FluxDeFirmesForm fluxDeFirmesForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm) {
     return "redirect:" + getContextWeb() + "/"
         + fluxDeFirmesForm.getFluxDeFirmes().getFluxDeFirmesID() + "/edit";
   }
 
   @Override
-  public String getRedirectWhenModified(FluxDeFirmesForm fluxDeFirmesForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, FluxDeFirmesForm fluxDeFirmesForm, Throwable __e) {
     
     PlantillaDeFluxDeFirmesForm form = (PlantillaDeFluxDeFirmesForm)fluxDeFirmesForm;
     
@@ -1318,7 +1318,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
     
     if (redirectOnModify == null) {
-      return super.getRedirectWhenModified(fluxDeFirmesForm, __e);
+      return super.getRedirectWhenModified(request, fluxDeFirmesForm, __e);
     } else {
       return "redirect:" + redirectOnModify;
     }

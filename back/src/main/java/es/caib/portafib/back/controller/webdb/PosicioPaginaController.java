@@ -262,7 +262,7 @@ public class PosicioPaginaController
         posicioPagina = create(request, posicioPagina);
         createMessageSuccess(request, "success.creation", posicioPagina.getPosicioPaginaID());
         posicioPaginaForm.setPosicioPagina(posicioPagina);
-        return getRedirectWhenCreated(posicioPaginaForm);
+        return getRedirectWhenCreated(request, posicioPaginaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class PosicioPaginaController
 
     if (posicioPagina == null) {
       createMessageWarning(request, "error.notfound", posicioPaginaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(posicioPaginaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, posicioPaginaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class PosicioPaginaController
         posicioPagina = update(request, posicioPagina);
         createMessageSuccess(request, "success.modification", posicioPagina.getPosicioPaginaID());
         status.setComplete();
-        return getRedirectWhenModified(posicioPaginaForm, null);
+        return getRedirectWhenModified(request, posicioPaginaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class PosicioPaginaController
       String msg = createMessageError(request, "error.modification",
           posicioPagina.getPosicioPaginaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(posicioPaginaForm, __e);
+      return getRedirectWhenModified(request, posicioPaginaForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class PosicioPaginaController
       PosicioPagina posicioPagina = posicioPaginaEjb.findByPrimaryKey(posicioPaginaID);
       if (posicioPagina == null) {
         String __msg =createMessageError(request, "error.notfound", posicioPaginaID);
-        return getRedirectWhenDelete(posicioPaginaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, posicioPaginaID, new Exception(__msg));
       } else {
         delete(request, posicioPagina);
         createMessageSuccess(request, "success.deleted", posicioPaginaID);
-        return getRedirectWhenDelete(posicioPaginaID,null);
+        return getRedirectWhenDelete(request, posicioPaginaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", posicioPaginaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(posicioPaginaID, e);
+      return getRedirectWhenDelete(request, posicioPaginaID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{posicioPaginaID}/cancel")
   public String cancelPosicioPagina(@PathVariable("posicioPaginaID") java.lang.Long posicioPaginaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(posicioPaginaID);
+     return getRedirectWhenCancel(request, posicioPaginaID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PosicioPaginaFilterForm filterForm,  List<PosicioPagina> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PosicioPaginaForm posicioPaginaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PosicioPaginaForm posicioPaginaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PosicioPaginaForm posicioPaginaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PosicioPaginaForm posicioPaginaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long posicioPaginaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long posicioPaginaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long posicioPaginaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long posicioPaginaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

@@ -40,12 +40,12 @@ public class GestioEntitatAdenController extends GestioEntitatController {
   }
 
   @Override
-  public String getRedirectWhenModified(EntitatForm entitatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, EntitatForm entitatForm, Throwable __e) {
     return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 
   @Override
-  public String getRedirectWhenCancel(java.lang.String entitatID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String entitatID) {
     return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
 

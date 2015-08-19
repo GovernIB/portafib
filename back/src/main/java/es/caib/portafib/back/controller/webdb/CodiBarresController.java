@@ -262,7 +262,7 @@ public class CodiBarresController
         codiBarres = create(request, codiBarres);
         createMessageSuccess(request, "success.creation", codiBarres.getCodiBarresID());
         codiBarresForm.setCodiBarres(codiBarres);
-        return getRedirectWhenCreated(codiBarresForm);
+        return getRedirectWhenCreated(request, codiBarresForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class CodiBarresController
 
     if (codiBarres == null) {
       createMessageWarning(request, "error.notfound", codiBarresID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(codiBarresID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, codiBarresID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class CodiBarresController
         codiBarres = update(request, codiBarres);
         createMessageSuccess(request, "success.modification", codiBarres.getCodiBarresID());
         status.setComplete();
-        return getRedirectWhenModified(codiBarresForm, null);
+        return getRedirectWhenModified(request, codiBarresForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class CodiBarresController
       String msg = createMessageError(request, "error.modification",
           codiBarres.getCodiBarresID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(codiBarresForm, __e);
+      return getRedirectWhenModified(request, codiBarresForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class CodiBarresController
       CodiBarres codiBarres = codiBarresEjb.findByPrimaryKey(codiBarresID);
       if (codiBarres == null) {
         String __msg =createMessageError(request, "error.notfound", codiBarresID);
-        return getRedirectWhenDelete(codiBarresID, new Exception(__msg));
+        return getRedirectWhenDelete(request, codiBarresID, new Exception(__msg));
       } else {
         delete(request, codiBarres);
         createMessageSuccess(request, "success.deleted", codiBarresID);
-        return getRedirectWhenDelete(codiBarresID,null);
+        return getRedirectWhenDelete(request, codiBarresID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", codiBarresID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(codiBarresID, e);
+      return getRedirectWhenDelete(request, codiBarresID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.String stringToPK(String value) {
   @RequestMapping(value = "/{codiBarresID}/cancel")
   public String cancelCodiBarres(@PathVariable("codiBarresID") java.lang.String codiBarresID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(codiBarresID);
+     return getRedirectWhenCancel(request, codiBarresID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.String stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, CodiBarresFilterForm filterForm,  List<CodiBarres> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(CodiBarresForm codiBarresForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, CodiBarresForm codiBarresForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(CodiBarresForm codiBarresForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, CodiBarresForm codiBarresForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.String stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.String codiBarresID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String codiBarresID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.String codiBarresID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String codiBarresID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

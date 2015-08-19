@@ -377,7 +377,7 @@ public class EstatDeFirmaController
         estatDeFirma = create(request, estatDeFirma);
         createMessageSuccess(request, "success.creation", estatDeFirma.getEstatDeFirmaID());
         estatDeFirmaForm.setEstatDeFirma(estatDeFirma);
-        return getRedirectWhenCreated(estatDeFirmaForm);
+        return getRedirectWhenCreated(request, estatDeFirmaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class EstatDeFirmaController
 
     if (estatDeFirma == null) {
       createMessageWarning(request, "error.notfound", estatDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(estatDeFirmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, estatDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -471,7 +471,7 @@ public class EstatDeFirmaController
         estatDeFirma = update(request, estatDeFirma);
         createMessageSuccess(request, "success.modification", estatDeFirma.getEstatDeFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(estatDeFirmaForm, null);
+        return getRedirectWhenModified(request, estatDeFirmaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -481,7 +481,7 @@ public class EstatDeFirmaController
       String msg = createMessageError(request, "error.modification",
           estatDeFirma.getEstatDeFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(estatDeFirmaForm, __e);
+      return getRedirectWhenModified(request, estatDeFirmaForm, __e);
     }
 
   }
@@ -502,17 +502,17 @@ public class EstatDeFirmaController
       EstatDeFirma estatDeFirma = estatDeFirmaEjb.findByPrimaryKey(estatDeFirmaID);
       if (estatDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", estatDeFirmaID);
-        return getRedirectWhenDelete(estatDeFirmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, estatDeFirmaID, new Exception(__msg));
       } else {
         delete(request, estatDeFirma);
         createMessageSuccess(request, "success.deleted", estatDeFirmaID);
-        return getRedirectWhenDelete(estatDeFirmaID,null);
+        return getRedirectWhenDelete(request, estatDeFirmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", estatDeFirmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(estatDeFirmaID, e);
+      return getRedirectWhenDelete(request, estatDeFirmaID, e);
     }
   }
 
@@ -535,7 +535,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -615,7 +615,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{estatDeFirmaID}/cancel")
   public String cancelEstatDeFirma(@PathVariable("estatDeFirmaID") java.lang.Long estatDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(estatDeFirmaID);
+     return getRedirectWhenCancel(request, estatDeFirmaID);
   }
 
   @Override
@@ -864,11 +864,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, EstatDeFirmaFilterForm filterForm,  List<EstatDeFirma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(EstatDeFirmaForm estatDeFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, EstatDeFirmaForm estatDeFirmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(EstatDeFirmaForm estatDeFirmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, EstatDeFirmaForm estatDeFirmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -876,11 +876,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long estatDeFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long estatDeFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long estatDeFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long estatDeFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

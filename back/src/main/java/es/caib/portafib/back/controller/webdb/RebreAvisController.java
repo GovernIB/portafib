@@ -311,7 +311,7 @@ public class RebreAvisController
         rebreAvis = create(request, rebreAvis);
         createMessageSuccess(request, "success.creation", rebreAvis.getId());
         rebreAvisForm.setRebreAvis(rebreAvis);
-        return getRedirectWhenCreated(rebreAvisForm);
+        return getRedirectWhenCreated(request, rebreAvisForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -349,7 +349,7 @@ public class RebreAvisController
 
     if (rebreAvis == null) {
       createMessageWarning(request, "error.notfound", id);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(id), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, id), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -405,7 +405,7 @@ public class RebreAvisController
         rebreAvis = update(request, rebreAvis);
         createMessageSuccess(request, "success.modification", rebreAvis.getId());
         status.setComplete();
-        return getRedirectWhenModified(rebreAvisForm, null);
+        return getRedirectWhenModified(request, rebreAvisForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class RebreAvisController
       String msg = createMessageError(request, "error.modification",
           rebreAvis.getId(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(rebreAvisForm, __e);
+      return getRedirectWhenModified(request, rebreAvisForm, __e);
     }
 
   }
@@ -436,17 +436,17 @@ public class RebreAvisController
       RebreAvis rebreAvis = rebreAvisEjb.findByPrimaryKey(id);
       if (rebreAvis == null) {
         String __msg =createMessageError(request, "error.notfound", id);
-        return getRedirectWhenDelete(id, new Exception(__msg));
+        return getRedirectWhenDelete(request, id, new Exception(__msg));
       } else {
         delete(request, rebreAvis);
         createMessageSuccess(request, "success.deleted", id);
-        return getRedirectWhenDelete(id,null);
+        return getRedirectWhenDelete(request, id,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", id, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(id, e);
+      return getRedirectWhenDelete(request, id, e);
     }
   }
 
@@ -469,7 +469,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -549,7 +549,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{id}/cancel")
   public String cancelRebreAvis(@PathVariable("id") java.lang.Long id,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(id);
+     return getRedirectWhenCancel(request, id);
   }
 
   @Override
@@ -676,11 +676,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, RebreAvisFilterForm filterForm,  List<RebreAvis> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(RebreAvisForm rebreAvisForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, RebreAvisForm rebreAvisForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(RebreAvisForm rebreAvisForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, RebreAvisForm rebreAvisForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -688,11 +688,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long id, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long id, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long id) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long id) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

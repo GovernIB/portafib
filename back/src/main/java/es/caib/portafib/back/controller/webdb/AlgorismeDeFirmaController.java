@@ -265,7 +265,7 @@ public class AlgorismeDeFirmaController
         algorismeDeFirma = create(request, algorismeDeFirma);
         createMessageSuccess(request, "success.creation", algorismeDeFirma.getAlgorismeDeFirmaID());
         algorismeDeFirmaForm.setAlgorismeDeFirma(algorismeDeFirma);
-        return getRedirectWhenCreated(algorismeDeFirmaForm);
+        return getRedirectWhenCreated(request, algorismeDeFirmaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -303,7 +303,7 @@ public class AlgorismeDeFirmaController
 
     if (algorismeDeFirma == null) {
       createMessageWarning(request, "error.notfound", algorismeDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(algorismeDeFirmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, algorismeDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -359,7 +359,7 @@ public class AlgorismeDeFirmaController
         algorismeDeFirma = update(request, algorismeDeFirma);
         createMessageSuccess(request, "success.modification", algorismeDeFirma.getAlgorismeDeFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(algorismeDeFirmaForm, null);
+        return getRedirectWhenModified(request, algorismeDeFirmaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -369,7 +369,7 @@ public class AlgorismeDeFirmaController
       String msg = createMessageError(request, "error.modification",
           algorismeDeFirma.getAlgorismeDeFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(algorismeDeFirmaForm, __e);
+      return getRedirectWhenModified(request, algorismeDeFirmaForm, __e);
     }
 
   }
@@ -390,17 +390,17 @@ public class AlgorismeDeFirmaController
       AlgorismeDeFirma algorismeDeFirma = algorismeDeFirmaEjb.findByPrimaryKey(algorismeDeFirmaID);
       if (algorismeDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", algorismeDeFirmaID);
-        return getRedirectWhenDelete(algorismeDeFirmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, algorismeDeFirmaID, new Exception(__msg));
       } else {
         delete(request, algorismeDeFirma);
         createMessageSuccess(request, "success.deleted", algorismeDeFirmaID);
-        return getRedirectWhenDelete(algorismeDeFirmaID,null);
+        return getRedirectWhenDelete(request, algorismeDeFirmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", algorismeDeFirmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(algorismeDeFirmaID, e);
+      return getRedirectWhenDelete(request, algorismeDeFirmaID, e);
     }
   }
 
@@ -423,7 +423,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -502,7 +502,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{algorismeDeFirmaID}/cancel")
   public String cancelAlgorismeDeFirma(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(algorismeDeFirmaID);
+     return getRedirectWhenCancel(request, algorismeDeFirmaID);
   }
 
   @Override
@@ -549,11 +549,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, AlgorismeDeFirmaFilterForm filterForm,  List<AlgorismeDeFirma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(AlgorismeDeFirmaForm algorismeDeFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, AlgorismeDeFirmaForm algorismeDeFirmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(AlgorismeDeFirmaForm algorismeDeFirmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, AlgorismeDeFirmaForm algorismeDeFirmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -561,11 +561,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long algorismeDeFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long algorismeDeFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long algorismeDeFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long algorismeDeFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

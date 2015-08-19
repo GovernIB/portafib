@@ -339,27 +339,27 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
   }
 
   @Override
-  public String getRedirectWhenCreated(UsuariPersonaForm usuariPersonaForm) {
-    return  getRedirectWhenModified(usuariPersonaForm, null); 
+  public String getRedirectWhenCreated(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm) {
+    return  getRedirectWhenModified(request, usuariPersonaForm, null); 
   }
 
   @Override
-  public String getRedirectWhenModified(UsuariPersonaForm usuariPersonaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm, Throwable __e) {
     String usuariPersonaID = usuariPersonaForm.getUsuariPersona().getUsuariPersonaID();
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/" + usuariPersonaID + "/edit";
     } else {
-      return getRedirectWhenCancel(usuariPersonaID);
+      return getRedirectWhenCancel(request, usuariPersonaID);
     }
   }
 
   @Override
-  public String getRedirectWhenDelete(java.lang.String usuariPersonaID, Throwable __e) {
-    return getRedirectWhenCancel(usuariPersonaID);
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String usuariPersonaID, Throwable __e) {
+    return getRedirectWhenCancel(request, usuariPersonaID);
   }
 
   @Override
-  public String getRedirectWhenCancel(java.lang.String usuariPersonaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariPersonaID) {
     return "redirect:/canviarPipella/" + (isAden()? Constants.ROLE_ADEN : Constants.ROLE_ADMIN);
   }
 

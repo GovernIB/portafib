@@ -265,7 +265,7 @@ public class PosicioTaulaFirmesController
         posicioTaulaFirmes = create(request, posicioTaulaFirmes);
         createMessageSuccess(request, "success.creation", posicioTaulaFirmes.getPosicioTaulaFirmesID());
         posicioTaulaFirmesForm.setPosicioTaulaFirmes(posicioTaulaFirmes);
-        return getRedirectWhenCreated(posicioTaulaFirmesForm);
+        return getRedirectWhenCreated(request, posicioTaulaFirmesForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -303,7 +303,7 @@ public class PosicioTaulaFirmesController
 
     if (posicioTaulaFirmes == null) {
       createMessageWarning(request, "error.notfound", posicioTaulaFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(posicioTaulaFirmesID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, posicioTaulaFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -359,7 +359,7 @@ public class PosicioTaulaFirmesController
         posicioTaulaFirmes = update(request, posicioTaulaFirmes);
         createMessageSuccess(request, "success.modification", posicioTaulaFirmes.getPosicioTaulaFirmesID());
         status.setComplete();
-        return getRedirectWhenModified(posicioTaulaFirmesForm, null);
+        return getRedirectWhenModified(request, posicioTaulaFirmesForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -369,7 +369,7 @@ public class PosicioTaulaFirmesController
       String msg = createMessageError(request, "error.modification",
           posicioTaulaFirmes.getPosicioTaulaFirmesID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(posicioTaulaFirmesForm, __e);
+      return getRedirectWhenModified(request, posicioTaulaFirmesForm, __e);
     }
 
   }
@@ -390,17 +390,17 @@ public class PosicioTaulaFirmesController
       PosicioTaulaFirmes posicioTaulaFirmes = posicioTaulaFirmesEjb.findByPrimaryKey(posicioTaulaFirmesID);
       if (posicioTaulaFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", posicioTaulaFirmesID);
-        return getRedirectWhenDelete(posicioTaulaFirmesID, new Exception(__msg));
+        return getRedirectWhenDelete(request, posicioTaulaFirmesID, new Exception(__msg));
       } else {
         delete(request, posicioTaulaFirmes);
         createMessageSuccess(request, "success.deleted", posicioTaulaFirmesID);
-        return getRedirectWhenDelete(posicioTaulaFirmesID,null);
+        return getRedirectWhenDelete(request, posicioTaulaFirmesID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", posicioTaulaFirmesID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(posicioTaulaFirmesID, e);
+      return getRedirectWhenDelete(request, posicioTaulaFirmesID, e);
     }
   }
 
@@ -423,7 +423,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -502,7 +502,7 @@ public java.lang.Integer stringToPK(String value) {
   @RequestMapping(value = "/{posicioTaulaFirmesID}/cancel")
   public String cancelPosicioTaulaFirmes(@PathVariable("posicioTaulaFirmesID") java.lang.Integer posicioTaulaFirmesID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(posicioTaulaFirmesID);
+     return getRedirectWhenCancel(request, posicioTaulaFirmesID);
   }
 
   @Override
@@ -549,11 +549,11 @@ public java.lang.Integer stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PosicioTaulaFirmesFilterForm filterForm,  List<PosicioTaulaFirmes> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PosicioTaulaFirmesForm posicioTaulaFirmesForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PosicioTaulaFirmesForm posicioTaulaFirmesForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PosicioTaulaFirmesForm posicioTaulaFirmesForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PosicioTaulaFirmesForm posicioTaulaFirmesForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -561,11 +561,11 @@ public java.lang.Integer stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Integer posicioTaulaFirmesID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer posicioTaulaFirmesID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Integer posicioTaulaFirmesID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer posicioTaulaFirmesID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

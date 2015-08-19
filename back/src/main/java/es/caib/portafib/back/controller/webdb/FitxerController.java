@@ -262,7 +262,7 @@ public class FitxerController
         fitxer = create(request, fitxer);
         createMessageSuccess(request, "success.creation", fitxer.getFitxerID());
         fitxerForm.setFitxer(fitxer);
-        return getRedirectWhenCreated(fitxerForm);
+        return getRedirectWhenCreated(request, fitxerForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class FitxerController
 
     if (fitxer == null) {
       createMessageWarning(request, "error.notfound", fitxerID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(fitxerID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, fitxerID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class FitxerController
         fitxer = update(request, fitxer);
         createMessageSuccess(request, "success.modification", fitxer.getFitxerID());
         status.setComplete();
-        return getRedirectWhenModified(fitxerForm, null);
+        return getRedirectWhenModified(request, fitxerForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class FitxerController
       String msg = createMessageError(request, "error.modification",
           fitxer.getFitxerID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(fitxerForm, __e);
+      return getRedirectWhenModified(request, fitxerForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class FitxerController
       Fitxer fitxer = fitxerEjb.findByPrimaryKey(fitxerID);
       if (fitxer == null) {
         String __msg =createMessageError(request, "error.notfound", fitxerID);
-        return getRedirectWhenDelete(fitxerID, new Exception(__msg));
+        return getRedirectWhenDelete(request, fitxerID, new Exception(__msg));
       } else {
         delete(request, fitxer);
         createMessageSuccess(request, "success.deleted", fitxerID);
-        return getRedirectWhenDelete(fitxerID,null);
+        return getRedirectWhenDelete(request, fitxerID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", fitxerID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(fitxerID, e);
+      return getRedirectWhenDelete(request, fitxerID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -500,7 +500,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{fitxerID}/cancel")
   public String cancelFitxer(@PathVariable("fitxerID") java.lang.Long fitxerID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(fitxerID);
+     return getRedirectWhenCancel(request, fitxerID);
   }
 
   @Override
@@ -547,11 +547,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, FitxerFilterForm filterForm,  List<Fitxer> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(FitxerForm fitxerForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, FitxerForm fitxerForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(FitxerForm fitxerForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, FitxerForm fitxerForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -559,11 +559,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long fitxerID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long fitxerID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long fitxerID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long fitxerID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

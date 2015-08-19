@@ -75,23 +75,37 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
   }
 
   @Override
-  public String getRedirectWhenModified(CustodiaInfoForm custodiaInfoForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, CustodiaInfoForm custodiaInfoForm, Throwable __e) {
     if (__e == null) {
-      return "redirect:" + getPeticioDeFirmaContext() + "/list";
+      return getRedirectWhenCancel(request, custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID());
     } else {
       return getTileForm();
     }
   }
 
   @Override
-  public String getRedirectWhenDelete(java.lang.Long custodiaInfoID, Throwable __e) {
-    return "redirect:" + getPeticioDeFirmaContext() + "/list";
+  public String getRedirectWhenDelete(HttpServletRequest request,java.lang.Long custodiaInfoID, Throwable __e) {
+    return getRedirectWhenCancel(request, custodiaInfoID);
   }
 
   @Override
-  public String getRedirectWhenCancel(java.lang.Long custodiaInfoID) {
-    return "redirect:" + getPeticioDeFirmaContext() + "/list";
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long custodiaInfoID) {
+    String redirectOnCustody = (String)request.getSession().getAttribute("redirectOnCustody");
+    if (redirectOnCustody == null) {
+      log.warn("redirectOnCustody == NULL");
+      return "redirect:" + getPeticioDeFirmaContext() + "/list";
+    } else {
+      request.getSession().removeAttribute("redirectOnCustody");
+      return "redirect:" + redirectOnCustody;
+    }
+    
   }
+  
+  @Override
+  public String getRedirectWhenCreated(HttpServletRequest request, CustodiaInfoForm custodiaInfoForm) {
+    return getRedirectWhenCancel(request, custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID());
+  }
+
 
   protected String getPeticioDeFirmaContext() {
     if (isUsuariEntitat()) {
@@ -105,6 +119,11 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
   @Override
   public CustodiaInfoForm getCustodiaInfoForm(CustodiaInfoJPA _jpa, boolean __isView,
       HttpServletRequest request, ModelAndView mav) throws I18NException {
+    
+    String redirectOnModify = request.getParameter("redirectOnCustody");
+    if (redirectOnModify != null) {
+      request.getSession().setAttribute("redirectOnCustody", redirectOnModify);
+    }
 
     // Sempre serà edit o view
     CustodiaInfoForm custodiaInfoForm = super
@@ -152,8 +171,10 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       if (existeixPeticio == 0) {
         // Segur retornar a llista de custodia
         custodiaInfoForm.setCancelButtonVisible(false);
-        custodiaInfoForm.addAdditionalButton(new AdditionalButton("",
-            "tornar",getContextWeb() +"/list", ""));
+        String r;
+        r = getRedirectWhenCancel(request, custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID());
+        custodiaInfoForm.addAdditionalButton(new AdditionalButton("", "tornar", 
+            r.replace("redirect:","") , ""));
       } else {
         // Retornar a la pàgina de peticions de firma    
       }
@@ -162,6 +183,9 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       custodiaInfoForm.addHiddenField(TITOLPETICIO);
       custodiaInfoForm.addHiddenField(DATACUSTODIA);
     }
+    
+    
+    
 
     return custodiaInfoForm;
   }

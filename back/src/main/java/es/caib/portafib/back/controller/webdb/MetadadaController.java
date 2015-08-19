@@ -311,7 +311,7 @@ public class MetadadaController
         metadada = create(request, metadada);
         createMessageSuccess(request, "success.creation", metadada.getMetadadaID());
         metadadaForm.setMetadada(metadada);
-        return getRedirectWhenCreated(metadadaForm);
+        return getRedirectWhenCreated(request, metadadaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -349,7 +349,7 @@ public class MetadadaController
 
     if (metadada == null) {
       createMessageWarning(request, "error.notfound", metadadaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(metadadaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, metadadaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -405,7 +405,7 @@ public class MetadadaController
         metadada = update(request, metadada);
         createMessageSuccess(request, "success.modification", metadada.getMetadadaID());
         status.setComplete();
-        return getRedirectWhenModified(metadadaForm, null);
+        return getRedirectWhenModified(request, metadadaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class MetadadaController
       String msg = createMessageError(request, "error.modification",
           metadada.getMetadadaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(metadadaForm, __e);
+      return getRedirectWhenModified(request, metadadaForm, __e);
     }
 
   }
@@ -436,17 +436,17 @@ public class MetadadaController
       Metadada metadada = metadadaEjb.findByPrimaryKey(metadadaID);
       if (metadada == null) {
         String __msg =createMessageError(request, "error.notfound", metadadaID);
-        return getRedirectWhenDelete(metadadaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, metadadaID, new Exception(__msg));
       } else {
         delete(request, metadada);
         createMessageSuccess(request, "success.deleted", metadadaID);
-        return getRedirectWhenDelete(metadadaID,null);
+        return getRedirectWhenDelete(request, metadadaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", metadadaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(metadadaID, e);
+      return getRedirectWhenDelete(request, metadadaID, e);
     }
   }
 
@@ -469,7 +469,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -549,7 +549,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{metadadaID}/cancel")
   public String cancelMetadada(@PathVariable("metadadaID") java.lang.Long metadadaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(metadadaID);
+     return getRedirectWhenCancel(request, metadadaID);
   }
 
   @Override
@@ -676,11 +676,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, MetadadaFilterForm filterForm,  List<Metadada> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(MetadadaForm metadadaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, MetadadaForm metadadaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(MetadadaForm metadadaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, MetadadaForm metadadaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -688,11 +688,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long metadadaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long metadadaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long metadadaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long metadadaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

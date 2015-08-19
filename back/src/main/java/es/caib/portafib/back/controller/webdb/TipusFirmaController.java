@@ -265,7 +265,7 @@ public class TipusFirmaController
         tipusFirma = create(request, tipusFirma);
         createMessageSuccess(request, "success.creation", tipusFirma.getTipusFirmaID());
         tipusFirmaForm.setTipusFirma(tipusFirma);
-        return getRedirectWhenCreated(tipusFirmaForm);
+        return getRedirectWhenCreated(request, tipusFirmaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -303,7 +303,7 @@ public class TipusFirmaController
 
     if (tipusFirma == null) {
       createMessageWarning(request, "error.notfound", tipusFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(tipusFirmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -359,7 +359,7 @@ public class TipusFirmaController
         tipusFirma = update(request, tipusFirma);
         createMessageSuccess(request, "success.modification", tipusFirma.getTipusFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(tipusFirmaForm, null);
+        return getRedirectWhenModified(request, tipusFirmaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -369,7 +369,7 @@ public class TipusFirmaController
       String msg = createMessageError(request, "error.modification",
           tipusFirma.getTipusFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(tipusFirmaForm, __e);
+      return getRedirectWhenModified(request, tipusFirmaForm, __e);
     }
 
   }
@@ -390,17 +390,17 @@ public class TipusFirmaController
       TipusFirma tipusFirma = tipusFirmaEjb.findByPrimaryKey(tipusFirmaID);
       if (tipusFirma == null) {
         String __msg =createMessageError(request, "error.notfound", tipusFirmaID);
-        return getRedirectWhenDelete(tipusFirmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, tipusFirmaID, new Exception(__msg));
       } else {
         delete(request, tipusFirma);
         createMessageSuccess(request, "success.deleted", tipusFirmaID);
-        return getRedirectWhenDelete(tipusFirmaID,null);
+        return getRedirectWhenDelete(request, tipusFirmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", tipusFirmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(tipusFirmaID, e);
+      return getRedirectWhenDelete(request, tipusFirmaID, e);
     }
   }
 
@@ -423,7 +423,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -502,7 +502,7 @@ public java.lang.Integer stringToPK(String value) {
   @RequestMapping(value = "/{tipusFirmaID}/cancel")
   public String cancelTipusFirma(@PathVariable("tipusFirmaID") java.lang.Integer tipusFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(tipusFirmaID);
+     return getRedirectWhenCancel(request, tipusFirmaID);
   }
 
   @Override
@@ -549,11 +549,11 @@ public java.lang.Integer stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TipusFirmaFilterForm filterForm,  List<TipusFirma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TipusFirmaForm tipusFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TipusFirmaForm tipusFirmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TipusFirmaForm tipusFirmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TipusFirmaForm tipusFirmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -561,11 +561,11 @@ public java.lang.Integer stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Integer tipusFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer tipusFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Integer tipusFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer tipusFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

@@ -401,7 +401,7 @@ public class CustodiaInfoController
         custodiaInfo = create(request, custodiaInfo);
         createMessageSuccess(request, "success.creation", custodiaInfo.getCustodiaInfoID());
         custodiaInfoForm.setCustodiaInfo(custodiaInfo);
-        return getRedirectWhenCreated(custodiaInfoForm);
+        return getRedirectWhenCreated(request, custodiaInfoForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -439,7 +439,7 @@ public class CustodiaInfoController
 
     if (custodiaInfo == null) {
       createMessageWarning(request, "error.notfound", custodiaInfoID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(custodiaInfoID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, custodiaInfoID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -495,7 +495,7 @@ public class CustodiaInfoController
         custodiaInfo = update(request, custodiaInfo);
         createMessageSuccess(request, "success.modification", custodiaInfo.getCustodiaInfoID());
         status.setComplete();
-        return getRedirectWhenModified(custodiaInfoForm, null);
+        return getRedirectWhenModified(request, custodiaInfoForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -505,7 +505,7 @@ public class CustodiaInfoController
       String msg = createMessageError(request, "error.modification",
           custodiaInfo.getCustodiaInfoID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(custodiaInfoForm, __e);
+      return getRedirectWhenModified(request, custodiaInfoForm, __e);
     }
 
   }
@@ -526,17 +526,17 @@ public class CustodiaInfoController
       CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
       if (custodiaInfo == null) {
         String __msg =createMessageError(request, "error.notfound", custodiaInfoID);
-        return getRedirectWhenDelete(custodiaInfoID, new Exception(__msg));
+        return getRedirectWhenDelete(request, custodiaInfoID, new Exception(__msg));
       } else {
         delete(request, custodiaInfo);
         createMessageSuccess(request, "success.deleted", custodiaInfoID);
-        return getRedirectWhenDelete(custodiaInfoID,null);
+        return getRedirectWhenDelete(request, custodiaInfoID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", custodiaInfoID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(custodiaInfoID, e);
+      return getRedirectWhenDelete(request, custodiaInfoID, e);
     }
   }
 
@@ -559,7 +559,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -639,7 +639,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{custodiaInfoID}/cancel")
   public String cancelCustodiaInfo(@PathVariable("custodiaInfoID") java.lang.Long custodiaInfoID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(custodiaInfoID);
+     return getRedirectWhenCancel(request, custodiaInfoID);
   }
 
   @Override
@@ -929,11 +929,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, CustodiaInfoFilterForm filterForm,  List<CustodiaInfo> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(CustodiaInfoForm custodiaInfoForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, CustodiaInfoForm custodiaInfoForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(CustodiaInfoForm custodiaInfoForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, CustodiaInfoForm custodiaInfoForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -941,11 +941,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long custodiaInfoID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long custodiaInfoID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long custodiaInfoID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long custodiaInfoID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

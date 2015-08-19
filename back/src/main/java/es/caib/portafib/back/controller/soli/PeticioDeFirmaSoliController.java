@@ -189,8 +189,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               SearchJSONController.favoritsToUsuariEntitat( usuarisFavorits)));
       
     }
-    
-    
 
     // Plantilles de l'usuari-persona
     {
@@ -211,8 +209,9 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         
         if (usuariAplicacioID == null) {
           HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.error.usuariaplicacionodefinit"));  
-          return new ModelAndView(getTileList());
+          return new ModelAndView(new RedirectView(getContextWeb() + "/list"));
         }
+       
         fluxosSubQuery = getFluxosDeUsuariAplicacio(usuariAplicacioID);
         
         seleccioFluxDeFirmesForm.setSolicitantUsuariEntitat(false);
@@ -602,7 +601,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         this.createMessageError(request, "error.notfound", peticioDeFirmaID);
         return llistat(request, response);
       }
-      return "redirect:" + getContextWeb() + "/" + peticioDeFirmaID + "/edit";
+      return "redirect:" +  Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
     } catch(Throwable e) {
       log.error(e);
       
@@ -667,15 +666,24 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     if (peticioDeFirmaForm.isNou()) {
       
-      peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
+      FluxDeFirmesJPA flux = (FluxDeFirmesJPA) request.getSession().getAttribute(
+          SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES);
 
-      int defaultSignAlgorithm = Configuracio.getDefaultSignAlgorithmID();
-      peticioDeFirma.setAlgorismeDeFirmaID(defaultSignAlgorithm);
-      peticioDeFirma.setModeDeFirma(Constants.APPLET_SIGN_MODE_IMPLICIT);
+      if (flux == null) {
+        // NO Venim de la pàgina de selecccio de Fluxos
+        mav.setView(new RedirectView(getContextWeb() + "/selectflux", true));
+        return peticioDeFirmaForm;
+      }
+      // Venim de la pàgina de selecccio de Fluxos
+      final String nomPeticio = flux.getNom();
+      
+      
+      
 
       String usuariAplicacioID;
       if (isSolicitantUsuariEntitat()) {
-        // Obtenim l'usuari per defecte a emprar en aquesta entitat per peticions de usuari-entitat
+        // Obtenim l'usuari aplicacio per defecte a emprar en 
+        // aquesta entitat per peticions de usuari-entitat
         usuariAplicacioID = loginInfo.getEntitat().getUsuariAplicacioID();
         peticioDeFirma.setUsuariEntitatID(loginInfo.getUsuariEntitatID());
         peticioDeFirma.setAvisWeb(false);
@@ -693,17 +701,10 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         return peticioDeFirmaForm;
       }
       
-
-      FluxDeFirmesJPA flux = (FluxDeFirmesJPA) request.getSession().getAttribute(
-          SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES);
-
-      if (flux == null) {
-        // NO Venim de la pàgina de selecccio de Fluxos
-        mav.setView(new RedirectView(getContextWeb() + "/selectflux", true));
-        return peticioDeFirmaForm;
-      }
-      // Venim de la pàgina de selecccio de Fluxos
-      final String nomPeticio = flux.getNom();
+      
+      peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
+      peticioDeFirma.setAlgorismeDeFirmaID(Configuracio.getDefaultSignAlgorithmID());
+      peticioDeFirma.setModeDeFirma(Constants.APPLET_SIGN_MODE_IMPLICIT);
 
       peticioDeFirma.setTitol(nomPeticio);
       peticioDeFirma.setDescripcio(nomPeticio);
@@ -994,10 +995,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         hiddenFields.remove(REMITENTNOM);
       }
 
-      // Ocultar columna d'accions
-      peticioDeFirmaFilterForm.setEditButtonVisible(false);
-      peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
-      peticioDeFirmaFilterForm.setAddButtonVisible(false);
+
 
       // Agegir agrupacions
       peticioDeFirmaFilterForm.addGroupByField(TIPUSDOCUMENTID);
@@ -1014,10 +1012,28 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
       peticioDeFirmaFilterForm.setFilterByFields(filtres);
       
-      
-      
       // Ocultar selecció multiple
       peticioDeFirmaFilterForm.setVisibleMultipleSelection(false);
+      
+      // Ocultar columna d'accions
+      peticioDeFirmaFilterForm.setEditButtonVisible(false);
+      peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
+      
+      // Ocultar boto de crear
+      peticioDeFirmaFilterForm.setAddButtonVisible(false);
+      
+      // Crear nou boto de Crear Petició
+      {
+        String action;
+        if (isSolicitantUsuariEntitat()) {
+          action = getContextWeb() + "/selectflux";
+        } else {
+          action = "javascript:openSelectUserAppDialog();";
+        }
+      
+        peticioDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
+          "icon-plus-sign", "peticiodefirma.crear" ,  action, ""));
+      }
 
       // Ordre inicial
       //BooleanField avisWeb = new PeticioDeFirmaQueryPath().PETICIODEFIRMAUSUARIENTITAT().AVISWEB();
@@ -1039,6 +1055,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             });
       
       
+      peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
+
 
     }
     
@@ -1206,10 +1224,12 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   public void postList(HttpServletRequest request, ModelAndView mav,
       PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
     
-    mav.addObject("isSolicitantUsuariEntitat",isSolicitantUsuariEntitat());
+   
+    final boolean isSolicitantUsuariEntitat = isSolicitantUsuariEntitat();
     
     Map<Long, Boolean> potCustodiar = new HashMap<Long, Boolean>();
     
+    List<Long> peticionsIDsAmbAvis = null;
     if (isSolicitantUsuariEntitat()) {
       // Llista amb les peticions finalitzades o rebutjades que l'usuari
       // encara no ha marcat com ja revisada
@@ -1219,9 +1239,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         PeticioDeFirmaFields.AVISWEB.equal(true)
       );
       
-      List<Long> peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
+      peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
       
-      mav.addObject("peticionsIDsAmbAvis", peticionsIDsAmbAvis);
       
       if (PortaFIBPluginsManager.getDocumentCustodyPluginInstance() != null) {
 
@@ -1235,16 +1254,18 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
     } else  {
       // USUARI APLICACIO
-      Where w1 = UsuariAplicacioFields.ACTIU.equal(true);
-      Where w2 = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+      {
       
-      List<String> _listSKV = usuariAplicacioEjb.executeQuery(
-          UsuariAplicacioFields.USUARIAPLICACIOID, Where.AND(w1,w2));
-      
-      java.util.Collections.sort(_listSKV, String.CASE_INSENSITIVE_ORDER);
-            
-      mav.addObject("listOfUsuariAplicacio",_listSKV);
-      
+        Where w1 = UsuariAplicacioFields.ACTIU.equal(true);
+        Where w2 = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+        
+        List<String> _listSKV = usuariAplicacioEjb.executeQuery(
+            UsuariAplicacioFields.USUARIAPLICACIOID, Where.AND(w1,w2));
+        
+        java.util.Collections.sort(_listSKV, String.CASE_INSENSITIVE_ORDER);
+              
+        mav.addObject("listOfUsuariAplicacio",_listSKV);
+      }
       
       if (PortaFIBPluginsManager.getDocumentCustodyPluginInstance() != null) {
         for (PeticioDeFirma peticio : list) {
@@ -1258,7 +1279,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       } 
     }
 
-    mav.addObject("potCustodiar",potCustodiar);
+
     if (log.isDebugEnabled()) {
       if (potCustodiar.isEmpty()) {
         log.debug("PETICIONS A CUSTODIAR = 0 ");
@@ -1268,6 +1289,312 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         }
       }
     }
+    
+    
+    filterForm.getAdditionalButtonsByPK().clear();
+    filterForm.getAdditionalInfoForActionsRendererByPK().clear();
+
+    for(PeticioDeFirma pf: list) {
+    
+      PeticioDeFirmaJPA peticioDeFirma = (PeticioDeFirmaJPA)pf;
+    
+      final Long peticioDeFirmaID = peticioDeFirma.getPeticioDeFirmaID(); 
+      /*
+      Utils.TIPUSESTATPETICIODEFIRMA_NOINICIAT = 0;
+      Utils.TIPUSESTATPETICIODEFIRMA_ENPROCESS = 1;
+      Utils.TIPUSESTATPETICIODEFIRMA_PAUSAT = 2;
+      Utils.TIPUSESTATPETICIODEFIRMA_REBUTJAT = 3;
+      Utils.TIPUSESTATPETICIODEFIRMA_FIRMAT = 4;
+      */
+      boolean avisweb;
+      if (isSolicitantUsuariEntitat) {
+        avisweb =peticionsIDsAmbAvis.contains(peticioDeFirmaID);
+      } else {
+        avisweb = false;
+      }
+      
+      String context_role;
+      if (getContextWeb().startsWith("/aden/")) {
+        context_role = "aden";
+      } else {
+        context_role = "soli";
+      }
+      
+      long estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
+      
+      String botomenu;
+      if (avisweb) {
+        botomenu="btn-warning";
+      } else {
+         
+        switch((int)estat) {
+          case Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
+          case Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT:
+              botomenu = ""; //  BLANC 
+          break;
+          case Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES:
+              botomenu = "btn-primary"; //  BLAU 
+          break;
+           
+          case Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT:
+              botomenu = "btn-danger"; // Vermell
+          break;
+           
+          case Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT:
+               botomenu = "btn-success";  // Verd
+          break;
+       
+          default:
+              botomenu = "btn-inverse"; // Negre CAS DESCONEGUT
+        }
+      }
+    
+      filterForm.addAdditionalInfoForActionsRendererByPK(peticioDeFirmaID, botomenu);
+
+      
+
+       if (avisweb) {
+         /* TODO Borrar
+         <li>
+           <a class="btn btn-warning btn-small a_item" style="color:white;" 
+           href="<c:url value="${contexte}/revisat/${peticioDeFirma.peticioDeFirmaID}"/>" >
+            <i class="icon-check icon-white"></i> <fmt:message key="revisat"/>
+           </a>
+         </li>
+         */
+         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+             "icon-check icon-white", "revisat",  getContextWeb() + "/revisat/" + peticioDeFirmaID,
+             "btn-warning") );
+         
+       }
+        
+       /*TODO Borrar
+       <li>
+         <a class="btn btn-info btn-small a_item" style="color:white;" href="<c:url value="${contexte}/docfirmat/${peticioDeFirma.peticioDeFirmaID}"/>" 
+          target="_blank" >
+          <i class="icon-file icon-white"></i> <fmt:message key="veuredoc"/>
+         </a>
+       </li>
+       */
+       filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+           "icon-file icon-white", "veuredoc", 
+            // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
+           "javascript:var win = window.open('" + request.getContextPath() + "/" + getContextWeb() + "/docfirmat/" + peticioDeFirmaID +"', '_blank'); win.focus();",
+           "btn-info") );
+
+        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          /*TODO Borrar
+          <li>
+          <a class="btn btn-warning btn-small a_item" href="#" style="color:white;"
+            onclick="goTo('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/edit"/>')">
+              <i class="icon-pencil icon-white"></i>
+              <fmt:message key="peticiodefirma.editar"/>
+          </a>
+          </li>
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-pencil icon-white", "peticiodefirma.editar",  
+              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
+              "btn-warning") );
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="/${context_role}/fluxdefirmes/${peticioDeFirma.fluxDeFirmesID}/edit?redirectOnModify=${contexte}/list"/>')">
+            <img src="<c:url value="/img/fluxicon.png"/>"/>
+             <fmt:message key="fluxDeFirmes.editar"/>
+          </a>
+          </li> 
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "/img/fluxicon.png", "fluxDeFirmes.editar",  
+              "javascript:goTo('" + request.getContextPath() +"/" + context_role + "/fluxdefirmes/" + peticioDeFirma.getFluxDeFirmesID() + "/edit?redirectOnModify=" + getContextWeb() + "/list')",
+              "btn-warning"));
+        }
+
+
+      // <%-- CUSTODIA --%>
+       
+      if(potCustodiar.containsKey(peticioDeFirmaID)) {            
+            
+        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          if (peticioDeFirma.getCustodiaInfoID() != null) {
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-info btn-small a_item" href="#" style="color:white;"
+            onclick="goTo('<c:url value="/${context_role}/peticio/custodiainfo/view/${peticioDeFirma.custodiaInfoID}"/>')">                                   
+              <img src="<c:url value="/img/custodia.png"/>"/>
+              <fmt:message key="genapp.viewtitle">
+                <fmt:param><fmt:message key="custodia"/></fmt:param>
+              </fmt:message>
+          </a>
+          </li>
+          */
+
+            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+                "/img/custodia.png", "custodia.view",  
+                "javascript:goTo('" + request.getContextPath() +"/"  + context_role + "/peticio/custodiainfo/view/" + peticioDeFirma.getCustodiaInfoID() + "?redirectOnCustody=" + getContextWeb() + "/list')",
+                "btn-info"));
+            
+          }
+        }
+          
+        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          if (peticioDeFirma.getCustodiaInfoID() == null) {
+             /* TODO Borrar
+            <li>
+              <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
+                onclick="goTo('<c:url value="/${contexte}/afegircustodiainfo/${peticioDeFirma.peticioDeFirmaID}"/>')">
+                <img src="<c:url value="/img/custodia.png"/>"/>
+                <fmt:message key="genapp.createtitle">
+                  <fmt:param><fmt:message key="custodia"/></fmt:param>
+                </fmt:message>
+              </a>
+              </li>
+              */
+            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+                "/img/custodia.png", "custodia.crear",  
+                "javascript:goTo('" + request.getContextPath()  +"/" + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
+                "btn-warning"));
+          } else {
+
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="/${context_role}/peticio/custodiainfo/${peticioDeFirma.custodiaInfoID}/edit"/>')">
+            <img src="<c:url value="/img/custodia.png"/>"/>
+              <fmt:message key="genapp.edittitle">
+                <fmt:param><fmt:message key="custodia"/></fmt:param>
+              </fmt:message>
+          </a>
+          </li>
+          */
+            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+                "/img/custodia.png", "custodia.modificar",  
+                "javascript:goTo('" + request.getContextPath() +"/"  + context_role + "/peticio/custodiainfo/" + peticioDeFirma.getCustodiaInfoID() + "/edit?redirectOnCustody=" + getContextWeb() + "/list')",
+                "btn-warning"));
+            
+            
+          }
+        }
+      }
+              
+        
+        //  <%-- FINAL CUSTODIA --%>
+
+
+        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-info btn-small a_item" href="#" style="color:white;"
+            onclick="goTo('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/edit"/>')">                                    
+              <i class="icon-eye-open icon-white"></i>
+              <fmt:message key="peticiodefirma.veuredetalls"/>
+          </a>
+          </li> 
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-eye-open icon-white", "peticiodefirma.veuredetalls",  
+              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
+              "btn-info"));
+          
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-info btn-small a_item" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="/${context_role}/fluxdefirmes/view/${peticioDeFirma.fluxDeFirmesID}?redirectOnModify=${contexte}/list&readOnly=true"/>')">
+             <img src="<c:url value="/img/fluxicon.png"/>"/> <fmt:message key="fluxDeFirmes.fluxDeFirmes"/>
+          </a> 
+          </li>
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes",  
+              "javascript:goTo('" + request.getContextPath() + "/" + context_role + "/fluxdefirmes/view/" + peticioDeFirma.getFluxDeFirmesID() + "?redirectOnModify=" + getContextWeb() + "/list&readOnly=true')",
+              "btn-info"));
+        }
+
+        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT 
+            || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-success btn-small a_item" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="${contexte}/iniciar/${peticioDeFirma.peticioDeFirmaID}"/>')">
+            <i class="icon-play icon-white"></i> <fmt:message key="iniciar"/>
+          </a>
+          </li> 
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-play icon-white", "iniciar",  
+              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
+              "btn-success"));
+          
+        }
+
+        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+          /* TODO Borrar
+           <li>
+           <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="${contexte}/pausar/${peticioDeFirma.peticioDeFirmaID}"/>')">
+            <i class="icon-pause icon-white"></i> <fmt:message key="pausar"/>
+          </a> 
+          </li>
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-pause icon-white", "pausar",  
+              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')",
+              "btn-warning"));
+        }
+
+        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+          /* TODO Borrar
+          <li>
+          <a class="btn btn-danger btn-small a_item" style="color:white;" href="#myModal"
+             onclick="openModal('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/delete"/>','show');">
+             <i class="icon-trash icon-white"></i> <fmt:message key="genapp.delete"/>
+          </a>
+          </li>
+          */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-trash icon-white", "genapp.delete",  
+              //"javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete')",
+              "javascript:openModal('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete','show');",
+              "btn-danger"));
+          
+        }
+
+        /* TODO Borrar
+        <li>
+          <a class="btn btn-small a_item" href="#" 
+            onclick="goTo('<c:url value="${contexte}/clonar/${peticioDeFirma.peticioDeFirmaID}"/>')">
+            <i class="icon-random"></i> <fmt:message key="clonar"/>
+          </a> 
+        </li>
+        */
+        filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+            "icon-random", "clonar",  
+            "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
+            ""));
+
+        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT 
+            || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
+            || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+          
+        /* TODO Borrar
+        <li>
+          <a class="btn btn-small a_item btn-danger" style="color:white;" href="#" 
+            onclick="goTo('<c:url value="${contexte}/reinicialitzar/${peticioDeFirma.peticioDeFirmaID}"/>')">
+            <i class=" icon-repeat icon-white"></i> <fmt:message key="reinicialitzar"/>
+          </a> 
+        </li>
+        */
+          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+              "icon-repeat icon-white", "reinicialitzar",  
+              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
+              "btn-danger"));
+          
+        }
+    
+    }; // Final For de totes les peticions
+    
+    
     
   }
 
@@ -1674,11 +2001,11 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   }
   
   @Override
-  public String getRedirectWhenCreated(PeticioDeFirmaForm peticioDeFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm) {
     if (getContextWeb().equals(Constants.CONTEXT_SOLI_PETICIOFIRMA)) {
       return "redirect:/soli/firma/peticioActiva/list/1";
     } else {
-      return super.getRedirectWhenCreated(peticioDeFirmaForm);
+      return super.getRedirectWhenCreated(request, peticioDeFirmaForm);
     }
   }
   

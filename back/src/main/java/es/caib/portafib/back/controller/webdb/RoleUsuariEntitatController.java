@@ -311,7 +311,7 @@ public class RoleUsuariEntitatController
         roleUsuariEntitat = create(request, roleUsuariEntitat);
         createMessageSuccess(request, "success.creation", roleUsuariEntitat.getId());
         roleUsuariEntitatForm.setRoleUsuariEntitat(roleUsuariEntitat);
-        return getRedirectWhenCreated(roleUsuariEntitatForm);
+        return getRedirectWhenCreated(request, roleUsuariEntitatForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -349,7 +349,7 @@ public class RoleUsuariEntitatController
 
     if (roleUsuariEntitat == null) {
       createMessageWarning(request, "error.notfound", id);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(id), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, id), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -405,7 +405,7 @@ public class RoleUsuariEntitatController
         roleUsuariEntitat = update(request, roleUsuariEntitat);
         createMessageSuccess(request, "success.modification", roleUsuariEntitat.getId());
         status.setComplete();
-        return getRedirectWhenModified(roleUsuariEntitatForm, null);
+        return getRedirectWhenModified(request, roleUsuariEntitatForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -415,7 +415,7 @@ public class RoleUsuariEntitatController
       String msg = createMessageError(request, "error.modification",
           roleUsuariEntitat.getId(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(roleUsuariEntitatForm, __e);
+      return getRedirectWhenModified(request, roleUsuariEntitatForm, __e);
     }
 
   }
@@ -436,17 +436,17 @@ public class RoleUsuariEntitatController
       RoleUsuariEntitat roleUsuariEntitat = roleUsuariEntitatEjb.findByPrimaryKey(id);
       if (roleUsuariEntitat == null) {
         String __msg =createMessageError(request, "error.notfound", id);
-        return getRedirectWhenDelete(id, new Exception(__msg));
+        return getRedirectWhenDelete(request, id, new Exception(__msg));
       } else {
         delete(request, roleUsuariEntitat);
         createMessageSuccess(request, "success.deleted", id);
-        return getRedirectWhenDelete(id,null);
+        return getRedirectWhenDelete(request, id,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", id, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(id, e);
+      return getRedirectWhenDelete(request, id, e);
     }
   }
 
@@ -469,7 +469,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -549,7 +549,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{id}/cancel")
   public String cancelRoleUsuariEntitat(@PathVariable("id") java.lang.Long id,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(id);
+     return getRedirectWhenCancel(request, id);
   }
 
   @Override
@@ -676,11 +676,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, RoleUsuariEntitatFilterForm filterForm,  List<RoleUsuariEntitat> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(RoleUsuariEntitatForm roleUsuariEntitatForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, RoleUsuariEntitatForm roleUsuariEntitatForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(RoleUsuariEntitatForm roleUsuariEntitatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, RoleUsuariEntitatForm roleUsuariEntitatForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -688,11 +688,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long id, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long id, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long id) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long id) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

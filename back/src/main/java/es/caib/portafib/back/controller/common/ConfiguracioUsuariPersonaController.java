@@ -86,7 +86,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
   }
 
   @Override
-  public String getRedirectWhenModified(UsuariPersonaForm usuariPersonaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, UsuariPersonaForm usuariPersonaForm, Throwable __e) {
     return "redirect:" + getContextWeb() +"/"+usuariPersonaForm.getUsuariPersona().getUsuariPersonaID()+"/edit";
   }
   

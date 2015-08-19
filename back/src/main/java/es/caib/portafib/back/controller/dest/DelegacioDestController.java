@@ -810,7 +810,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public String getRedirectWhenCreated(ColaboracioDelegacioForm colaboracioDelegacioForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
 
     //if (esDelegat()) {
       return "redirect:" + getContextWeb() + "/"

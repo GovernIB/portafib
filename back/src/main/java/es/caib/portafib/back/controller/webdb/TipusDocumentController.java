@@ -324,7 +324,7 @@ public class TipusDocumentController
         tipusDocument = create(request, tipusDocument);
         createMessageSuccess(request, "success.creation", tipusDocument.getTipusDocumentID());
         tipusDocumentForm.setTipusDocument(tipusDocument);
-        return getRedirectWhenCreated(tipusDocumentForm);
+        return getRedirectWhenCreated(request, tipusDocumentForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -362,7 +362,7 @@ public class TipusDocumentController
 
     if (tipusDocument == null) {
       createMessageWarning(request, "error.notfound", tipusDocumentID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(tipusDocumentID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusDocumentID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -418,7 +418,7 @@ public class TipusDocumentController
         tipusDocument = update(request, tipusDocument);
         createMessageSuccess(request, "success.modification", tipusDocument.getTipusDocumentID());
         status.setComplete();
-        return getRedirectWhenModified(tipusDocumentForm, null);
+        return getRedirectWhenModified(request, tipusDocumentForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -428,7 +428,7 @@ public class TipusDocumentController
       String msg = createMessageError(request, "error.modification",
           tipusDocument.getTipusDocumentID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(tipusDocumentForm, __e);
+      return getRedirectWhenModified(request, tipusDocumentForm, __e);
     }
 
   }
@@ -449,17 +449,17 @@ public class TipusDocumentController
       TipusDocument tipusDocument = tipusDocumentEjb.findByPrimaryKey(tipusDocumentID);
       if (tipusDocument == null) {
         String __msg =createMessageError(request, "error.notfound", tipusDocumentID);
-        return getRedirectWhenDelete(tipusDocumentID, new Exception(__msg));
+        return getRedirectWhenDelete(request, tipusDocumentID, new Exception(__msg));
       } else {
         delete(request, tipusDocument);
         createMessageSuccess(request, "success.deleted", tipusDocumentID);
-        return getRedirectWhenDelete(tipusDocumentID,null);
+        return getRedirectWhenDelete(request, tipusDocumentID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", tipusDocumentID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(tipusDocumentID, e);
+      return getRedirectWhenDelete(request, tipusDocumentID, e);
     }
   }
 
@@ -482,7 +482,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -561,7 +561,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{tipusDocumentID}/cancel")
   public String cancelTipusDocument(@PathVariable("tipusDocumentID") java.lang.Long tipusDocumentID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(tipusDocumentID);
+     return getRedirectWhenCancel(request, tipusDocumentID);
   }
 
   @Override
@@ -674,11 +674,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TipusDocumentFilterForm filterForm,  List<TipusDocument> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TipusDocumentForm tipusDocumentForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TipusDocumentForm tipusDocumentForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TipusDocumentForm tipusDocumentForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TipusDocumentForm tipusDocumentForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -686,11 +686,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long tipusDocumentID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long tipusDocumentID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long tipusDocumentID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long tipusDocumentID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

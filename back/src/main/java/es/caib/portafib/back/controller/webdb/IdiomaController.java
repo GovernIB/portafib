@@ -265,7 +265,7 @@ public class IdiomaController
         idioma = create(request, idioma);
         createMessageSuccess(request, "success.creation", idioma.getIdiomaID());
         idiomaForm.setIdioma(idioma);
-        return getRedirectWhenCreated(idiomaForm);
+        return getRedirectWhenCreated(request, idiomaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -303,7 +303,7 @@ public class IdiomaController
 
     if (idioma == null) {
       createMessageWarning(request, "error.notfound", idiomaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(idiomaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, idiomaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -359,7 +359,7 @@ public class IdiomaController
         idioma = update(request, idioma);
         createMessageSuccess(request, "success.modification", idioma.getIdiomaID());
         status.setComplete();
-        return getRedirectWhenModified(idiomaForm, null);
+        return getRedirectWhenModified(request, idiomaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -369,7 +369,7 @@ public class IdiomaController
       String msg = createMessageError(request, "error.modification",
           idioma.getIdiomaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(idiomaForm, __e);
+      return getRedirectWhenModified(request, idiomaForm, __e);
     }
 
   }
@@ -390,17 +390,17 @@ public class IdiomaController
       Idioma idioma = idiomaEjb.findByPrimaryKey(idiomaID);
       if (idioma == null) {
         String __msg =createMessageError(request, "error.notfound", idiomaID);
-        return getRedirectWhenDelete(idiomaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, idiomaID, new Exception(__msg));
       } else {
         delete(request, idioma);
         createMessageSuccess(request, "success.deleted", idiomaID);
-        return getRedirectWhenDelete(idiomaID,null);
+        return getRedirectWhenDelete(request, idiomaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", idiomaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(idiomaID, e);
+      return getRedirectWhenDelete(request, idiomaID, e);
     }
   }
 
@@ -423,7 +423,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -502,7 +502,7 @@ public java.lang.String stringToPK(String value) {
   @RequestMapping(value = "/{idiomaID}/cancel")
   public String cancelIdioma(@PathVariable("idiomaID") java.lang.String idiomaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(idiomaID);
+     return getRedirectWhenCancel(request, idiomaID);
   }
 
   @Override
@@ -549,11 +549,11 @@ public java.lang.String stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, IdiomaFilterForm filterForm,  List<Idioma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(IdiomaForm idiomaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, IdiomaForm idiomaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(IdiomaForm idiomaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, IdiomaForm idiomaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -561,11 +561,11 @@ public java.lang.String stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.String idiomaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String idiomaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.String idiomaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String idiomaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

@@ -262,7 +262,7 @@ public class TraduccioController
         traduccio = create(request, traduccio);
         createMessageSuccess(request, "success.creation", traduccio.getTraduccioID());
         traduccioForm.setTraduccio(traduccio);
-        return getRedirectWhenCreated(traduccioForm);
+        return getRedirectWhenCreated(request, traduccioForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class TraduccioController
 
     if (traduccio == null) {
       createMessageWarning(request, "error.notfound", traduccioID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(traduccioID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, traduccioID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class TraduccioController
         traduccio = update(request, traduccio);
         createMessageSuccess(request, "success.modification", traduccio.getTraduccioID());
         status.setComplete();
-        return getRedirectWhenModified(traduccioForm, null);
+        return getRedirectWhenModified(request, traduccioForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class TraduccioController
       String msg = createMessageError(request, "error.modification",
           traduccio.getTraduccioID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(traduccioForm, __e);
+      return getRedirectWhenModified(request, traduccioForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class TraduccioController
       Traduccio traduccio = traduccioEjb.findByPrimaryKey(traduccioID);
       if (traduccio == null) {
         String __msg =createMessageError(request, "error.notfound", traduccioID);
-        return getRedirectWhenDelete(traduccioID, new Exception(__msg));
+        return getRedirectWhenDelete(request, traduccioID, new Exception(__msg));
       } else {
         delete(request, traduccio);
         createMessageSuccess(request, "success.deleted", traduccioID);
-        return getRedirectWhenDelete(traduccioID,null);
+        return getRedirectWhenDelete(request, traduccioID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", traduccioID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(traduccioID, e);
+      return getRedirectWhenDelete(request, traduccioID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -500,7 +500,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{traduccioID}/cancel")
   public String cancelTraduccio(@PathVariable("traduccioID") java.lang.Long traduccioID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(traduccioID);
+     return getRedirectWhenCancel(request, traduccioID);
   }
 
   @Override
@@ -547,11 +547,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TraduccioFilterForm filterForm,  List<Traduccio> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TraduccioForm traduccioForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TraduccioForm traduccioForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TraduccioForm traduccioForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TraduccioForm traduccioForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -559,11 +559,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long traduccioID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long traduccioID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long traduccioID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long traduccioID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

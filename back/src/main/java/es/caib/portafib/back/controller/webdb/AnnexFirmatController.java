@@ -319,7 +319,7 @@ public class AnnexFirmatController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", annexFirmat.getAnnexfirmatID());
         annexFirmatForm.setAnnexFirmat(annexFirmat);
-        return getRedirectWhenCreated(annexFirmatForm);
+        return getRedirectWhenCreated(request, annexFirmatForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -358,7 +358,7 @@ public class AnnexFirmatController
 
     if (annexFirmat == null) {
       createMessageWarning(request, "error.notfound", annexfirmatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(annexfirmatID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, annexfirmatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -418,7 +418,7 @@ public class AnnexFirmatController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", annexFirmat.getAnnexfirmatID());
         status.setComplete();
-        return getRedirectWhenModified(annexFirmatForm, null);
+        return getRedirectWhenModified(request, annexFirmatForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -429,7 +429,7 @@ public class AnnexFirmatController
       String msg = createMessageError(request, "error.modification",
           annexFirmat.getAnnexfirmatID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(annexFirmatForm, __e);
+      return getRedirectWhenModified(request, annexFirmatForm, __e);
     }
 
   }
@@ -450,17 +450,17 @@ public class AnnexFirmatController
       AnnexFirmat annexFirmat = annexFirmatEjb.findByPrimaryKey(annexfirmatID);
       if (annexFirmat == null) {
         String __msg =createMessageError(request, "error.notfound", annexfirmatID);
-        return getRedirectWhenDelete(annexfirmatID, new Exception(__msg));
+        return getRedirectWhenDelete(request, annexfirmatID, new Exception(__msg));
       } else {
         delete(request, annexFirmat);
         createMessageSuccess(request, "success.deleted", annexfirmatID);
-        return getRedirectWhenDelete(annexfirmatID,null);
+        return getRedirectWhenDelete(request, annexfirmatID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", annexfirmatID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(annexfirmatID, e);
+      return getRedirectWhenDelete(request, annexfirmatID, e);
     }
   }
 
@@ -483,7 +483,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -563,7 +563,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{annexfirmatID}/cancel")
   public String cancelAnnexFirmat(@PathVariable("annexfirmatID") java.lang.Long annexfirmatID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(annexfirmatID);
+     return getRedirectWhenCancel(request, annexfirmatID);
   }
 
   @Override
@@ -712,11 +712,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, AnnexFirmatFilterForm filterForm,  List<AnnexFirmat> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(AnnexFirmatForm annexFirmatForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, AnnexFirmatForm annexFirmatForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(AnnexFirmatForm annexFirmatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, AnnexFirmatForm annexFirmatForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -724,11 +724,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long annexfirmatID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long annexfirmatID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long annexfirmatID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long annexfirmatID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

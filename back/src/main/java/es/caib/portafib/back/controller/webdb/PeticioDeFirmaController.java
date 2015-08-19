@@ -523,7 +523,7 @@ public class PeticioDeFirmaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", peticioDeFirma.getPeticioDeFirmaID());
         peticioDeFirmaForm.setPeticioDeFirma(peticioDeFirma);
-        return getRedirectWhenCreated(peticioDeFirmaForm);
+        return getRedirectWhenCreated(request, peticioDeFirmaForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -562,7 +562,7 @@ public class PeticioDeFirmaController
 
     if (peticioDeFirma == null) {
       createMessageWarning(request, "error.notfound", peticioDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(peticioDeFirmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, peticioDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -622,7 +622,7 @@ public class PeticioDeFirmaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", peticioDeFirma.getPeticioDeFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(peticioDeFirmaForm, null);
+        return getRedirectWhenModified(request, peticioDeFirmaForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -633,7 +633,7 @@ public class PeticioDeFirmaController
       String msg = createMessageError(request, "error.modification",
           peticioDeFirma.getPeticioDeFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(peticioDeFirmaForm, __e);
+      return getRedirectWhenModified(request, peticioDeFirmaForm, __e);
     }
 
   }
@@ -654,17 +654,17 @@ public class PeticioDeFirmaController
       PeticioDeFirma peticioDeFirma = peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
       if (peticioDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", peticioDeFirmaID);
-        return getRedirectWhenDelete(peticioDeFirmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, peticioDeFirmaID, new Exception(__msg));
       } else {
         delete(request, peticioDeFirma);
         createMessageSuccess(request, "success.deleted", peticioDeFirmaID);
-        return getRedirectWhenDelete(peticioDeFirmaID,null);
+        return getRedirectWhenDelete(request, peticioDeFirmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", peticioDeFirmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(peticioDeFirmaID, e);
+      return getRedirectWhenDelete(request, peticioDeFirmaID, e);
     }
   }
 
@@ -687,7 +687,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -767,7 +767,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{peticioDeFirmaID}/cancel")
   public String cancelPeticioDeFirma(@PathVariable("peticioDeFirmaID") java.lang.Long peticioDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(peticioDeFirmaID);
+     return getRedirectWhenCancel(request, peticioDeFirmaID);
   }
 
   @Override
@@ -1300,11 +1300,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PeticioDeFirmaFilterForm filterForm,  List<PeticioDeFirma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PeticioDeFirmaForm peticioDeFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PeticioDeFirmaForm peticioDeFirmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -1312,11 +1312,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long peticioDeFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long peticioDeFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long peticioDeFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long peticioDeFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

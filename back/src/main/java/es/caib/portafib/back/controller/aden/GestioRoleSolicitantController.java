@@ -174,18 +174,18 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
   }
 
   @Override
-  public String getRedirectWhenCancel(java.lang.Long id) {
+  public String getRedirectWhenCancel(HttpServletRequest request,java.lang.Long id) {
     return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
   }
   
   @Override
-  public String getRedirectWhenDelete(java.lang.Long id, Throwable __e) {
-    return getRedirectWhenCancel(id);
+  public String getRedirectWhenDelete(HttpServletRequest request,java.lang.Long id, Throwable __e) {
+    return getRedirectWhenCancel(request, id);
   }
 
   @Override
-  public String getRedirectWhenCreated(RoleUsuariEntitatForm roleUsuariEntitatForm) {
-    return getRedirectWhenCancel(roleUsuariEntitatForm.getRoleUsuariEntitat().getId());
+  public String getRedirectWhenCreated(HttpServletRequest request,RoleUsuariEntitatForm roleUsuariEntitatForm) {
+    return getRedirectWhenCancel(request, roleUsuariEntitatForm.getRoleUsuariEntitat().getId());
   }
 
 }

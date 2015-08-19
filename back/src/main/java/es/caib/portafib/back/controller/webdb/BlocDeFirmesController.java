@@ -289,7 +289,7 @@ public class BlocDeFirmesController
         blocDeFirmes = create(request, blocDeFirmes);
         createMessageSuccess(request, "success.creation", blocDeFirmes.getBlocDeFirmesID());
         blocDeFirmesForm.setBlocDeFirmes(blocDeFirmes);
-        return getRedirectWhenCreated(blocDeFirmesForm);
+        return getRedirectWhenCreated(request, blocDeFirmesForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -327,7 +327,7 @@ public class BlocDeFirmesController
 
     if (blocDeFirmes == null) {
       createMessageWarning(request, "error.notfound", blocDeFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(blocDeFirmesID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, blocDeFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -383,7 +383,7 @@ public class BlocDeFirmesController
         blocDeFirmes = update(request, blocDeFirmes);
         createMessageSuccess(request, "success.modification", blocDeFirmes.getBlocDeFirmesID());
         status.setComplete();
-        return getRedirectWhenModified(blocDeFirmesForm, null);
+        return getRedirectWhenModified(request, blocDeFirmesForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -393,7 +393,7 @@ public class BlocDeFirmesController
       String msg = createMessageError(request, "error.modification",
           blocDeFirmes.getBlocDeFirmesID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(blocDeFirmesForm, __e);
+      return getRedirectWhenModified(request, blocDeFirmesForm, __e);
     }
 
   }
@@ -414,17 +414,17 @@ public class BlocDeFirmesController
       BlocDeFirmes blocDeFirmes = blocDeFirmesEjb.findByPrimaryKey(blocDeFirmesID);
       if (blocDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", blocDeFirmesID);
-        return getRedirectWhenDelete(blocDeFirmesID, new Exception(__msg));
+        return getRedirectWhenDelete(request, blocDeFirmesID, new Exception(__msg));
       } else {
         delete(request, blocDeFirmes);
         createMessageSuccess(request, "success.deleted", blocDeFirmesID);
-        return getRedirectWhenDelete(blocDeFirmesID,null);
+        return getRedirectWhenDelete(request, blocDeFirmesID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", blocDeFirmesID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(blocDeFirmesID, e);
+      return getRedirectWhenDelete(request, blocDeFirmesID, e);
     }
   }
 
@@ -447,7 +447,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -527,7 +527,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{blocDeFirmesID}/cancel")
   public String cancelBlocDeFirmes(@PathVariable("blocDeFirmesID") java.lang.Long blocDeFirmesID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(blocDeFirmesID);
+     return getRedirectWhenCancel(request, blocDeFirmesID);
   }
 
   @Override
@@ -614,11 +614,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, BlocDeFirmesFilterForm filterForm,  List<BlocDeFirmes> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(BlocDeFirmesForm blocDeFirmesForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, BlocDeFirmesForm blocDeFirmesForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(BlocDeFirmesForm blocDeFirmesForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, BlocDeFirmesForm blocDeFirmesForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -626,11 +626,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long blocDeFirmesID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long blocDeFirmesID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long blocDeFirmesID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long blocDeFirmesID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

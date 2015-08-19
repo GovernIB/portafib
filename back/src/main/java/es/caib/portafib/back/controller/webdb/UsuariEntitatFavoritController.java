@@ -307,7 +307,7 @@ public class UsuariEntitatFavoritController
         usuariEntitatFavorit = create(request, usuariEntitatFavorit);
         createMessageSuccess(request, "success.creation", usuariEntitatFavorit.getID());
         usuariEntitatFavoritForm.setUsuariEntitatFavorit(usuariEntitatFavorit);
-        return getRedirectWhenCreated(usuariEntitatFavoritForm);
+        return getRedirectWhenCreated(request, usuariEntitatFavoritForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -345,7 +345,7 @@ public class UsuariEntitatFavoritController
 
     if (usuariEntitatFavorit == null) {
       createMessageWarning(request, "error.notfound", iD);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(iD), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, iD), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -401,7 +401,7 @@ public class UsuariEntitatFavoritController
         usuariEntitatFavorit = update(request, usuariEntitatFavorit);
         createMessageSuccess(request, "success.modification", usuariEntitatFavorit.getID());
         status.setComplete();
-        return getRedirectWhenModified(usuariEntitatFavoritForm, null);
+        return getRedirectWhenModified(request, usuariEntitatFavoritForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -411,7 +411,7 @@ public class UsuariEntitatFavoritController
       String msg = createMessageError(request, "error.modification",
           usuariEntitatFavorit.getID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(usuariEntitatFavoritForm, __e);
+      return getRedirectWhenModified(request, usuariEntitatFavoritForm, __e);
     }
 
   }
@@ -432,17 +432,17 @@ public class UsuariEntitatFavoritController
       UsuariEntitatFavorit usuariEntitatFavorit = usuariEntitatFavoritEjb.findByPrimaryKey(iD);
       if (usuariEntitatFavorit == null) {
         String __msg =createMessageError(request, "error.notfound", iD);
-        return getRedirectWhenDelete(iD, new Exception(__msg));
+        return getRedirectWhenDelete(request, iD, new Exception(__msg));
       } else {
         delete(request, usuariEntitatFavorit);
         createMessageSuccess(request, "success.deleted", iD);
-        return getRedirectWhenDelete(iD,null);
+        return getRedirectWhenDelete(request, iD,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", iD, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(iD, e);
+      return getRedirectWhenDelete(request, iD, e);
     }
   }
 
@@ -465,7 +465,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -545,7 +545,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{iD}/cancel")
   public String cancelUsuariEntitatFavorit(@PathVariable("iD") java.lang.Long iD,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(iD);
+     return getRedirectWhenCancel(request, iD);
   }
 
   @Override
@@ -672,11 +672,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, UsuariEntitatFavoritFilterForm filterForm,  List<UsuariEntitatFavorit> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(UsuariEntitatFavoritForm usuariEntitatFavoritForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, UsuariEntitatFavoritForm usuariEntitatFavoritForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(UsuariEntitatFavoritForm usuariEntitatFavoritForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, UsuariEntitatFavoritForm usuariEntitatFavoritForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -684,11 +684,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long iD, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long iD, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long iD) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long iD) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

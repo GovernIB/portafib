@@ -262,7 +262,7 @@ public class PrioritatController
         prioritat = create(request, prioritat);
         createMessageSuccess(request, "success.creation", prioritat.getPrioritatID());
         prioritatForm.setPrioritat(prioritat);
-        return getRedirectWhenCreated(prioritatForm);
+        return getRedirectWhenCreated(request, prioritatForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class PrioritatController
 
     if (prioritat == null) {
       createMessageWarning(request, "error.notfound", prioritatID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(prioritatID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, prioritatID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class PrioritatController
         prioritat = update(request, prioritat);
         createMessageSuccess(request, "success.modification", prioritat.getPrioritatID());
         status.setComplete();
-        return getRedirectWhenModified(prioritatForm, null);
+        return getRedirectWhenModified(request, prioritatForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class PrioritatController
       String msg = createMessageError(request, "error.modification",
           prioritat.getPrioritatID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(prioritatForm, __e);
+      return getRedirectWhenModified(request, prioritatForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class PrioritatController
       Prioritat prioritat = prioritatEjb.findByPrimaryKey(prioritatID);
       if (prioritat == null) {
         String __msg =createMessageError(request, "error.notfound", prioritatID);
-        return getRedirectWhenDelete(prioritatID, new Exception(__msg));
+        return getRedirectWhenDelete(request, prioritatID, new Exception(__msg));
       } else {
         delete(request, prioritat);
         createMessageSuccess(request, "success.deleted", prioritatID);
-        return getRedirectWhenDelete(prioritatID,null);
+        return getRedirectWhenDelete(request, prioritatID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", prioritatID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(prioritatID, e);
+      return getRedirectWhenDelete(request, prioritatID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.Integer stringToPK(String value) {
   @RequestMapping(value = "/{prioritatID}/cancel")
   public String cancelPrioritat(@PathVariable("prioritatID") java.lang.Integer prioritatID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(prioritatID);
+     return getRedirectWhenCancel(request, prioritatID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.Integer stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PrioritatFilterForm filterForm,  List<Prioritat> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PrioritatForm prioritatForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PrioritatForm prioritatForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PrioritatForm prioritatForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PrioritatForm prioritatForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.Integer stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Integer prioritatID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer prioritatID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Integer prioritatID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer prioritatID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

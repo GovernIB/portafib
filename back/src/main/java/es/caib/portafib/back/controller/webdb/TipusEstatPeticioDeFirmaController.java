@@ -262,7 +262,7 @@ public class TipusEstatPeticioDeFirmaController
         tipusEstatPeticioDeFirma = create(request, tipusEstatPeticioDeFirma);
         createMessageSuccess(request, "success.creation", tipusEstatPeticioDeFirma.getTipusEstatPeticioDeFirmaID());
         tipusEstatPeticioDeFirmaForm.setTipusEstatPeticioDeFirma(tipusEstatPeticioDeFirma);
-        return getRedirectWhenCreated(tipusEstatPeticioDeFirmaForm);
+        return getRedirectWhenCreated(request, tipusEstatPeticioDeFirmaForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class TipusEstatPeticioDeFirmaController
 
     if (tipusEstatPeticioDeFirma == null) {
       createMessageWarning(request, "error.notfound", tipusEstatPeticioDeFirmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(tipusEstatPeticioDeFirmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusEstatPeticioDeFirmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class TipusEstatPeticioDeFirmaController
         tipusEstatPeticioDeFirma = update(request, tipusEstatPeticioDeFirma);
         createMessageSuccess(request, "success.modification", tipusEstatPeticioDeFirma.getTipusEstatPeticioDeFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(tipusEstatPeticioDeFirmaForm, null);
+        return getRedirectWhenModified(request, tipusEstatPeticioDeFirmaForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class TipusEstatPeticioDeFirmaController
       String msg = createMessageError(request, "error.modification",
           tipusEstatPeticioDeFirma.getTipusEstatPeticioDeFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(tipusEstatPeticioDeFirmaForm, __e);
+      return getRedirectWhenModified(request, tipusEstatPeticioDeFirmaForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class TipusEstatPeticioDeFirmaController
       TipusEstatPeticioDeFirma tipusEstatPeticioDeFirma = tipusEstatPeticioDeFirmaEjb.findByPrimaryKey(tipusEstatPeticioDeFirmaID);
       if (tipusEstatPeticioDeFirma == null) {
         String __msg =createMessageError(request, "error.notfound", tipusEstatPeticioDeFirmaID);
-        return getRedirectWhenDelete(tipusEstatPeticioDeFirmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, tipusEstatPeticioDeFirmaID, new Exception(__msg));
       } else {
         delete(request, tipusEstatPeticioDeFirma);
         createMessageSuccess(request, "success.deleted", tipusEstatPeticioDeFirmaID);
-        return getRedirectWhenDelete(tipusEstatPeticioDeFirmaID,null);
+        return getRedirectWhenDelete(request, tipusEstatPeticioDeFirmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", tipusEstatPeticioDeFirmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(tipusEstatPeticioDeFirmaID, e);
+      return getRedirectWhenDelete(request, tipusEstatPeticioDeFirmaID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.Integer stringToPK(String value) {
   @RequestMapping(value = "/{tipusEstatPeticioDeFirmaID}/cancel")
   public String cancelTipusEstatPeticioDeFirma(@PathVariable("tipusEstatPeticioDeFirmaID") java.lang.Integer tipusEstatPeticioDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(tipusEstatPeticioDeFirmaID);
+     return getRedirectWhenCancel(request, tipusEstatPeticioDeFirmaID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.Integer stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TipusEstatPeticioDeFirmaFilterForm filterForm,  List<TipusEstatPeticioDeFirma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TipusEstatPeticioDeFirmaForm tipusEstatPeticioDeFirmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TipusEstatPeticioDeFirmaForm tipusEstatPeticioDeFirmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TipusEstatPeticioDeFirmaForm tipusEstatPeticioDeFirmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TipusEstatPeticioDeFirmaForm tipusEstatPeticioDeFirmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.Integer stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Integer tipusEstatPeticioDeFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer tipusEstatPeticioDeFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Integer tipusEstatPeticioDeFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer tipusEstatPeticioDeFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

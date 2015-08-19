@@ -262,7 +262,7 @@ public class RoleController
         role = create(request, role);
         createMessageSuccess(request, "success.creation", role.getRoleID());
         roleForm.setRole(role);
-        return getRedirectWhenCreated(roleForm);
+        return getRedirectWhenCreated(request, roleForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class RoleController
 
     if (role == null) {
       createMessageWarning(request, "error.notfound", roleID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(roleID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, roleID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class RoleController
         role = update(request, role);
         createMessageSuccess(request, "success.modification", role.getRoleID());
         status.setComplete();
-        return getRedirectWhenModified(roleForm, null);
+        return getRedirectWhenModified(request, roleForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class RoleController
       String msg = createMessageError(request, "error.modification",
           role.getRoleID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(roleForm, __e);
+      return getRedirectWhenModified(request, roleForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class RoleController
       Role role = roleEjb.findByPrimaryKey(roleID);
       if (role == null) {
         String __msg =createMessageError(request, "error.notfound", roleID);
-        return getRedirectWhenDelete(roleID, new Exception(__msg));
+        return getRedirectWhenDelete(request, roleID, new Exception(__msg));
       } else {
         delete(request, role);
         createMessageSuccess(request, "success.deleted", roleID);
-        return getRedirectWhenDelete(roleID,null);
+        return getRedirectWhenDelete(request, roleID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", roleID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(roleID, e);
+      return getRedirectWhenDelete(request, roleID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.String stringToPK(String value) {
   @RequestMapping(value = "/{roleID}/cancel")
   public String cancelRole(@PathVariable("roleID") java.lang.String roleID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(roleID);
+     return getRedirectWhenCancel(request, roleID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.String stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, RoleFilterForm filterForm,  List<Role> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(RoleForm roleForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, RoleForm roleForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(RoleForm roleForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, RoleForm roleForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.String stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.String roleID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.String roleID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.String roleID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String roleID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

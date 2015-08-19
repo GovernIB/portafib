@@ -324,7 +324,7 @@ public class ColaboracioDelegacioController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", colaboracioDelegacio.getColaboracioDelegacioID());
         colaboracioDelegacioForm.setColaboracioDelegacio(colaboracioDelegacio);
-        return getRedirectWhenCreated(colaboracioDelegacioForm);
+        return getRedirectWhenCreated(request, colaboracioDelegacioForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -363,7 +363,7 @@ public class ColaboracioDelegacioController
 
     if (colaboracioDelegacio == null) {
       createMessageWarning(request, "error.notfound", colaboracioDelegacioID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(colaboracioDelegacioID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, colaboracioDelegacioID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -423,7 +423,7 @@ public class ColaboracioDelegacioController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", colaboracioDelegacio.getColaboracioDelegacioID());
         status.setComplete();
-        return getRedirectWhenModified(colaboracioDelegacioForm, null);
+        return getRedirectWhenModified(request, colaboracioDelegacioForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -434,7 +434,7 @@ public class ColaboracioDelegacioController
       String msg = createMessageError(request, "error.modification",
           colaboracioDelegacio.getColaboracioDelegacioID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(colaboracioDelegacioForm, __e);
+      return getRedirectWhenModified(request, colaboracioDelegacioForm, __e);
     }
 
   }
@@ -455,17 +455,17 @@ public class ColaboracioDelegacioController
       ColaboracioDelegacio colaboracioDelegacio = colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID);
       if (colaboracioDelegacio == null) {
         String __msg =createMessageError(request, "error.notfound", colaboracioDelegacioID);
-        return getRedirectWhenDelete(colaboracioDelegacioID, new Exception(__msg));
+        return getRedirectWhenDelete(request, colaboracioDelegacioID, new Exception(__msg));
       } else {
         delete(request, colaboracioDelegacio);
         createMessageSuccess(request, "success.deleted", colaboracioDelegacioID);
-        return getRedirectWhenDelete(colaboracioDelegacioID,null);
+        return getRedirectWhenDelete(request, colaboracioDelegacioID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", colaboracioDelegacioID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(colaboracioDelegacioID, e);
+      return getRedirectWhenDelete(request, colaboracioDelegacioID, e);
     }
   }
 
@@ -488,7 +488,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -568,7 +568,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{colaboracioDelegacioID}/cancel")
   public String cancelColaboracioDelegacio(@PathVariable("colaboracioDelegacioID") java.lang.Long colaboracioDelegacioID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(colaboracioDelegacioID);
+     return getRedirectWhenCancel(request, colaboracioDelegacioID);
   }
 
   @Override
@@ -718,11 +718,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, ColaboracioDelegacioFilterForm filterForm,  List<ColaboracioDelegacio> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(ColaboracioDelegacioForm colaboracioDelegacioForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(ColaboracioDelegacioForm colaboracioDelegacioForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -730,11 +730,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long colaboracioDelegacioID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long colaboracioDelegacioID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long colaboracioDelegacioID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long colaboracioDelegacioID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

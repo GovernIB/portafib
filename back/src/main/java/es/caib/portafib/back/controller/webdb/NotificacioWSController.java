@@ -314,7 +314,7 @@ public class NotificacioWSController
         notificacioWS = create(request, notificacioWS);
         createMessageSuccess(request, "success.creation", notificacioWS.getNotificacioID());
         notificacioWSForm.setNotificacioWS(notificacioWS);
-        return getRedirectWhenCreated(notificacioWSForm);
+        return getRedirectWhenCreated(request, notificacioWSForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -352,7 +352,7 @@ public class NotificacioWSController
 
     if (notificacioWS == null) {
       createMessageWarning(request, "error.notfound", notificacioID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(notificacioID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, notificacioID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -408,7 +408,7 @@ public class NotificacioWSController
         notificacioWS = update(request, notificacioWS);
         createMessageSuccess(request, "success.modification", notificacioWS.getNotificacioID());
         status.setComplete();
-        return getRedirectWhenModified(notificacioWSForm, null);
+        return getRedirectWhenModified(request, notificacioWSForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -418,7 +418,7 @@ public class NotificacioWSController
       String msg = createMessageError(request, "error.modification",
           notificacioWS.getNotificacioID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(notificacioWSForm, __e);
+      return getRedirectWhenModified(request, notificacioWSForm, __e);
     }
 
   }
@@ -439,17 +439,17 @@ public class NotificacioWSController
       NotificacioWS notificacioWS = notificacioWSEjb.findByPrimaryKey(notificacioID);
       if (notificacioWS == null) {
         String __msg =createMessageError(request, "error.notfound", notificacioID);
-        return getRedirectWhenDelete(notificacioID, new Exception(__msg));
+        return getRedirectWhenDelete(request, notificacioID, new Exception(__msg));
       } else {
         delete(request, notificacioWS);
         createMessageSuccess(request, "success.deleted", notificacioID);
-        return getRedirectWhenDelete(notificacioID,null);
+        return getRedirectWhenDelete(request, notificacioID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", notificacioID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(notificacioID, e);
+      return getRedirectWhenDelete(request, notificacioID, e);
     }
   }
 
@@ -472,7 +472,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -552,7 +552,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{notificacioID}/cancel")
   public String cancelNotificacioWS(@PathVariable("notificacioID") java.lang.Long notificacioID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(notificacioID);
+     return getRedirectWhenCancel(request, notificacioID);
   }
 
   @Override
@@ -679,11 +679,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, NotificacioWSFilterForm filterForm,  List<NotificacioWS> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(NotificacioWSForm notificacioWSForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, NotificacioWSForm notificacioWSForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(NotificacioWSForm notificacioWSForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, NotificacioWSForm notificacioWSForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -691,11 +691,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long notificacioID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long notificacioID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long notificacioID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long notificacioID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

@@ -262,7 +262,7 @@ public class TipusEstatDeFirmaFinalController
         tipusEstatDeFirmaFinal = create(request, tipusEstatDeFirmaFinal);
         createMessageSuccess(request, "success.creation", tipusEstatDeFirmaFinal.getTipusEstatDeFirmaFinalID());
         tipusEstatDeFirmaFinalForm.setTipusEstatDeFirmaFinal(tipusEstatDeFirmaFinal);
-        return getRedirectWhenCreated(tipusEstatDeFirmaFinalForm);
+        return getRedirectWhenCreated(request, tipusEstatDeFirmaFinalForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -300,7 +300,7 @@ public class TipusEstatDeFirmaFinalController
 
     if (tipusEstatDeFirmaFinal == null) {
       createMessageWarning(request, "error.notfound", tipusEstatDeFirmaFinalID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(tipusEstatDeFirmaFinalID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, tipusEstatDeFirmaFinalID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -356,7 +356,7 @@ public class TipusEstatDeFirmaFinalController
         tipusEstatDeFirmaFinal = update(request, tipusEstatDeFirmaFinal);
         createMessageSuccess(request, "success.modification", tipusEstatDeFirmaFinal.getTipusEstatDeFirmaFinalID());
         status.setComplete();
-        return getRedirectWhenModified(tipusEstatDeFirmaFinalForm, null);
+        return getRedirectWhenModified(request, tipusEstatDeFirmaFinalForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -366,7 +366,7 @@ public class TipusEstatDeFirmaFinalController
       String msg = createMessageError(request, "error.modification",
           tipusEstatDeFirmaFinal.getTipusEstatDeFirmaFinalID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(tipusEstatDeFirmaFinalForm, __e);
+      return getRedirectWhenModified(request, tipusEstatDeFirmaFinalForm, __e);
     }
 
   }
@@ -387,17 +387,17 @@ public class TipusEstatDeFirmaFinalController
       TipusEstatDeFirmaFinal tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinalEjb.findByPrimaryKey(tipusEstatDeFirmaFinalID);
       if (tipusEstatDeFirmaFinal == null) {
         String __msg =createMessageError(request, "error.notfound", tipusEstatDeFirmaFinalID);
-        return getRedirectWhenDelete(tipusEstatDeFirmaFinalID, new Exception(__msg));
+        return getRedirectWhenDelete(request, tipusEstatDeFirmaFinalID, new Exception(__msg));
       } else {
         delete(request, tipusEstatDeFirmaFinal);
         createMessageSuccess(request, "success.deleted", tipusEstatDeFirmaFinalID);
-        return getRedirectWhenDelete(tipusEstatDeFirmaFinalID,null);
+        return getRedirectWhenDelete(request, tipusEstatDeFirmaFinalID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", tipusEstatDeFirmaFinalID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(tipusEstatDeFirmaFinalID, e);
+      return getRedirectWhenDelete(request, tipusEstatDeFirmaFinalID, e);
     }
   }
 
@@ -420,7 +420,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -499,7 +499,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{tipusEstatDeFirmaFinalID}/cancel")
   public String cancelTipusEstatDeFirmaFinal(@PathVariable("tipusEstatDeFirmaFinalID") java.lang.Long tipusEstatDeFirmaFinalID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(tipusEstatDeFirmaFinalID);
+     return getRedirectWhenCancel(request, tipusEstatDeFirmaFinalID);
   }
 
   @Override
@@ -546,11 +546,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, TipusEstatDeFirmaFinalFilterForm filterForm,  List<TipusEstatDeFirmaFinal> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, TipusEstatDeFirmaFinalForm tipusEstatDeFirmaFinalForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -558,11 +558,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long tipusEstatDeFirmaFinalID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long tipusEstatDeFirmaFinalID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long tipusEstatDeFirmaFinalID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long tipusEstatDeFirmaFinalID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

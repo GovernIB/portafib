@@ -189,7 +189,7 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
   }
 
   @Override
-  public String getRedirectWhenCancel(java.lang.Long fluxDeFirmesID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long fluxDeFirmesID) {
 
     // TODO ha de retornar a la pàgina de llistat de plantilles
     return "redirect:" + getContextWeb() + "/list";

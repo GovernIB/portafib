@@ -336,7 +336,7 @@ public class PlantillaFluxDeFirmesController
         plantillaFluxDeFirmes = create(request, plantillaFluxDeFirmes);
         createMessageSuccess(request, "success.creation", plantillaFluxDeFirmes.getFluxDeFirmesID());
         plantillaFluxDeFirmesForm.setPlantillaFluxDeFirmes(plantillaFluxDeFirmes);
-        return getRedirectWhenCreated(plantillaFluxDeFirmesForm);
+        return getRedirectWhenCreated(request, plantillaFluxDeFirmesForm);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -374,7 +374,7 @@ public class PlantillaFluxDeFirmesController
 
     if (plantillaFluxDeFirmes == null) {
       createMessageWarning(request, "error.notfound", fluxDeFirmesID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(fluxDeFirmesID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, fluxDeFirmesID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -430,7 +430,7 @@ public class PlantillaFluxDeFirmesController
         plantillaFluxDeFirmes = update(request, plantillaFluxDeFirmes);
         createMessageSuccess(request, "success.modification", plantillaFluxDeFirmes.getFluxDeFirmesID());
         status.setComplete();
-        return getRedirectWhenModified(plantillaFluxDeFirmesForm, null);
+        return getRedirectWhenModified(request, plantillaFluxDeFirmesForm, null);
       }
     } catch (Throwable __e) {
       if (__e instanceof I18NValidationException) {
@@ -440,7 +440,7 @@ public class PlantillaFluxDeFirmesController
       String msg = createMessageError(request, "error.modification",
           plantillaFluxDeFirmes.getFluxDeFirmesID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(plantillaFluxDeFirmesForm, __e);
+      return getRedirectWhenModified(request, plantillaFluxDeFirmesForm, __e);
     }
 
   }
@@ -461,17 +461,17 @@ public class PlantillaFluxDeFirmesController
       PlantillaFluxDeFirmes plantillaFluxDeFirmes = plantillaFluxDeFirmesEjb.findByPrimaryKey(fluxDeFirmesID);
       if (plantillaFluxDeFirmes == null) {
         String __msg =createMessageError(request, "error.notfound", fluxDeFirmesID);
-        return getRedirectWhenDelete(fluxDeFirmesID, new Exception(__msg));
+        return getRedirectWhenDelete(request, fluxDeFirmesID, new Exception(__msg));
       } else {
         delete(request, plantillaFluxDeFirmes);
         createMessageSuccess(request, "success.deleted", fluxDeFirmesID);
-        return getRedirectWhenDelete(fluxDeFirmesID,null);
+        return getRedirectWhenDelete(request, fluxDeFirmesID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", fluxDeFirmesID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(fluxDeFirmesID, e);
+      return getRedirectWhenDelete(request, fluxDeFirmesID, e);
     }
   }
 
@@ -494,7 +494,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -573,7 +573,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{fluxDeFirmesID}/cancel")
   public String cancelPlantillaFluxDeFirmes(@PathVariable("fluxDeFirmesID") java.lang.Long fluxDeFirmesID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(fluxDeFirmesID);
+     return getRedirectWhenCancel(request, fluxDeFirmesID);
   }
 
   @Override
@@ -742,11 +742,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, PlantillaFluxDeFirmesFilterForm filterForm,  List<PlantillaFluxDeFirmes> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, PlantillaFluxDeFirmesForm plantillaFluxDeFirmesForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -754,11 +754,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long fluxDeFirmesID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long fluxDeFirmesID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long fluxDeFirmesID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long fluxDeFirmesID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

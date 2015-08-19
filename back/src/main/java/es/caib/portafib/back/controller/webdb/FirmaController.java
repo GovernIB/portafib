@@ -347,7 +347,7 @@ public class FirmaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", firma.getFirmaID());
         firmaForm.setFirma(firma);
-        return getRedirectWhenCreated(firmaForm);
+        return getRedirectWhenCreated(request, firmaForm);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -386,7 +386,7 @@ public class FirmaController
 
     if (firma == null) {
       createMessageWarning(request, "error.notfound", firmaID);
-      new ModelAndView(new RedirectView(getRedirectWhenCancel(firmaID), true));
+      new ModelAndView(new RedirectView(getRedirectWhenCancel(request, firmaID), true));
       return llistatPaginat(request, response, 1);
     } else {
       ModelAndView mav = new ModelAndView(getTileForm());
@@ -446,7 +446,7 @@ public class FirmaController
         afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", firma.getFirmaID());
         status.setComplete();
-        return getRedirectWhenModified(firmaForm, null);
+        return getRedirectWhenModified(request, firmaForm, null);
       }
     } catch (Throwable __e) {
       afm.processErrorFilesWithoutThrowException(); // FILE
@@ -457,7 +457,7 @@ public class FirmaController
       String msg = createMessageError(request, "error.modification",
           firma.getFirmaID(), __e);
       log.error(msg, __e);
-      return getRedirectWhenModified(firmaForm, __e);
+      return getRedirectWhenModified(request, firmaForm, __e);
     }
 
   }
@@ -478,17 +478,17 @@ public class FirmaController
       Firma firma = firmaEjb.findByPrimaryKey(firmaID);
       if (firma == null) {
         String __msg =createMessageError(request, "error.notfound", firmaID);
-        return getRedirectWhenDelete(firmaID, new Exception(__msg));
+        return getRedirectWhenDelete(request, firmaID, new Exception(__msg));
       } else {
         delete(request, firma);
         createMessageSuccess(request, "success.deleted", firmaID);
-        return getRedirectWhenDelete(firmaID,null);
+        return getRedirectWhenDelete(request, firmaID,null);
       }
 
     } catch (Throwable e) {
       String msg = createMessageError(request, "error.deleting", firmaID, e);
       log.error(msg, e);
-      return getRedirectWhenDelete(firmaID, e);
+      return getRedirectWhenDelete(request, firmaID, e);
     }
   }
 
@@ -511,7 +511,7 @@ public String deleteSelected(HttpServletRequest request,
     }
   }
   if (redirect == null) {
-    redirect = getRedirectWhenDelete(null,null);
+    redirect = getRedirectWhenDelete(request, null,null);
   }
 
   return redirect;
@@ -591,7 +591,7 @@ public java.lang.Long stringToPK(String value) {
   @RequestMapping(value = "/{firmaID}/cancel")
   public String cancelFirma(@PathVariable("firmaID") java.lang.Long firmaID,
       HttpServletRequest request,HttpServletResponse response) {
-     return getRedirectWhenCancel(firmaID);
+     return getRedirectWhenCancel(request, firmaID);
   }
 
   @Override
@@ -782,11 +782,11 @@ public java.lang.Long stringToPK(String value) {
   public void postList(HttpServletRequest request, ModelAndView mav, FirmaFilterForm filterForm,  List<Firma> list) throws I18NException {
   }
 
-  public String getRedirectWhenCreated(FirmaForm firmaForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, FirmaForm firmaForm) {
     return "redirect:" + getContextWeb() + "/list/1";
   }
 
-  public String getRedirectWhenModified(FirmaForm firmaForm, Throwable __e) {
+  public String getRedirectWhenModified(HttpServletRequest request, FirmaForm firmaForm, Throwable __e) {
     if (__e == null) {
       return "redirect:" + getContextWeb() + "/list";
     } else {
@@ -794,11 +794,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(java.lang.Long firmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long firmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(java.lang.Long firmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long firmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 

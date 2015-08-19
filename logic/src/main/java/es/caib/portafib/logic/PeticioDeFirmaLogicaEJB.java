@@ -2607,9 +2607,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String usuariEntitatID = peticio.getUsuariEntitatID();
     String entitatID;
     if (usuariEntitatID == null) {
-      entitatID = peticio.getUsuariEntitat().getEntitatID();
+      entitatID = peticio.getUsuariAplicacio().getEntitatID();      
     } else {
-      entitatID = peticio.getUsuariAplicacio().getEntitatID();
+      entitatID = peticio.getUsuariEntitat().getEntitatID();
     }
     
     
