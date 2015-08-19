@@ -364,10 +364,12 @@ public class NotificacionsQueue implements MessageListener {
 
       if (notificacioLogicaEjb != null && notificacioJPA != null) {
 
-        String fullError =   msgError + "\n" + errors.toString();
-        if (fullError.length() > 2000) {
-          fullError = fullError.substring(0, 2000);
-        }
+        String fullError = msgError 
+            + "\n--------------------------------------------\n"
+            + errors.toString();
+        // if (fullError.length() > 2000) {
+        //  fullError = fullError.substring(0, 2000);
+        // }
         notificacioJPA.setError(fullError);
         notificacioJPA.setDataError(new Timestamp(new Date().getTime()));
         notificacioJPA.setReintents(notificacioJPA.getReintents() + 1);

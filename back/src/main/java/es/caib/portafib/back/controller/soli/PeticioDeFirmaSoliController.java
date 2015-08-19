@@ -601,7 +601,11 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         this.createMessageError(request, "error.notfound", peticioDeFirmaID);
         return llistat(request, response);
       }
-      return "redirect:" +  Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
+      if (isSolicitantUsuariEntitat()) {
+        return "redirect:" +  Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
+      } else {
+        return "redirect:" +  CONTEXT_ADEN_PETICIOFIRMA + "/" + peticioDeFirmaID + "/edit";
+      }
     } catch(Throwable e) {
       log.error(e);
       
