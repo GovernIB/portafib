@@ -160,9 +160,11 @@ public class AnnexFirmatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<AnnexFirmat> annexFirmat = (List<AnnexFirmat>) processarLlistat(annexFirmatEjb,
+    List<AnnexFirmat> annexFirmat = processarLlistat(annexFirmatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("annexFirmatItems", annexFirmat);

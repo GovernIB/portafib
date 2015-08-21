@@ -196,9 +196,11 @@ public class PeticioDeFirmaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PeticioDeFirma> peticioDeFirma = (List<PeticioDeFirma>) processarLlistat(peticioDeFirmaEjb,
+    List<PeticioDeFirma> peticioDeFirma = processarLlistat(peticioDeFirmaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("peticioDeFirmaItems", peticioDeFirma);

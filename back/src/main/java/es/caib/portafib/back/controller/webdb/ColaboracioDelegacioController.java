@@ -156,9 +156,11 @@ public class ColaboracioDelegacioController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<ColaboracioDelegacio> colaboracioDelegacio = (List<ColaboracioDelegacio>) processarLlistat(colaboracioDelegacioEjb,
+    List<ColaboracioDelegacio> colaboracioDelegacio = processarLlistat(colaboracioDelegacioEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("colaboracioDelegacioItems", colaboracioDelegacio);

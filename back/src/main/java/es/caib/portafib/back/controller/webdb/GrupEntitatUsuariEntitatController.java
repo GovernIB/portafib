@@ -157,9 +157,11 @@ public class GrupEntitatUsuariEntitatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<GrupEntitatUsuariEntitat> grupEntitatUsuariEntitat = (List<GrupEntitatUsuariEntitat>) processarLlistat(grupEntitatUsuariEntitatEjb,
+    List<GrupEntitatUsuariEntitat> grupEntitatUsuariEntitat = processarLlistat(grupEntitatUsuariEntitatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("grupEntitatUsuariEntitatItems", grupEntitatUsuariEntitat);

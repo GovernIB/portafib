@@ -147,9 +147,11 @@ public class TipusMetadadaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<TipusMetadada> tipusMetadada = (List<TipusMetadada>) processarLlistat(tipusMetadadaEjb,
+    List<TipusMetadada> tipusMetadada = processarLlistat(tipusMetadadaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("tipusMetadadaItems", tipusMetadada);

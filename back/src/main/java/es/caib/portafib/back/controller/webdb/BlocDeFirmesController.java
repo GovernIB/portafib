@@ -153,9 +153,11 @@ public class BlocDeFirmesController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<BlocDeFirmes> blocDeFirmes = (List<BlocDeFirmes>) processarLlistat(blocDeFirmesEjb,
+    List<BlocDeFirmes> blocDeFirmes = processarLlistat(blocDeFirmesEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("blocDeFirmesItems", blocDeFirmes);

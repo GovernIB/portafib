@@ -147,9 +147,11 @@ public class PosicioPaginaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PosicioPagina> posicioPagina = (List<PosicioPagina>) processarLlistat(posicioPaginaEjb,
+    List<PosicioPagina> posicioPagina = processarLlistat(posicioPaginaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("posicioPaginaItems", posicioPagina);

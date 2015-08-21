@@ -157,9 +157,11 @@ public class NotificacioWSController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<NotificacioWS> notificacioWS = (List<NotificacioWS>) processarLlistat(notificacioWSEjb,
+    List<NotificacioWS> notificacioWS = processarLlistat(notificacioWSEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("notificacioWSItems", notificacioWS);

@@ -147,9 +147,11 @@ public class PosicioTaulaFirmesController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PosicioTaulaFirmes> posicioTaulaFirmes = (List<PosicioTaulaFirmes>) processarLlistat(posicioTaulaFirmesEjb,
+    List<PosicioTaulaFirmes> posicioTaulaFirmes = processarLlistat(posicioTaulaFirmesEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("posicioTaulaFirmesItems", posicioTaulaFirmes);

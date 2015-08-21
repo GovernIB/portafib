@@ -147,9 +147,11 @@ public class CodiBarresController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<CodiBarres> codiBarres = (List<CodiBarres>) processarLlistat(codiBarresEjb,
+    List<CodiBarres> codiBarres = processarLlistat(codiBarresEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("codiBarresItems", codiBarres);

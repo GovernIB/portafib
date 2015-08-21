@@ -147,9 +147,11 @@ public class FitxerController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Fitxer> fitxer = (List<Fitxer>) processarLlistat(fitxerEjb,
+    List<Fitxer> fitxer = processarLlistat(fitxerEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("fitxerItems", fitxer);

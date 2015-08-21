@@ -156,9 +156,11 @@ public class EntitatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Entitat> entitat = (List<Entitat>) processarLlistat(entitatEjb,
+    List<Entitat> entitat = processarLlistat(entitatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("entitatItems", entitat);

@@ -156,9 +156,11 @@ public class AnnexController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Annex> annex = (List<Annex>) processarLlistat(annexEjb,
+    List<Annex> annex = processarLlistat(annexEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("annexItems", annex);

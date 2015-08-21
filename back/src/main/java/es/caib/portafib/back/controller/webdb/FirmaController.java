@@ -164,9 +164,11 @@ public class FirmaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Firma> firma = (List<Firma>) processarLlistat(firmaEjb,
+    List<Firma> firma = processarLlistat(firmaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("firmaItems", firma);

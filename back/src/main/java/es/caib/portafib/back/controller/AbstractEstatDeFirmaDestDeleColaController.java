@@ -250,6 +250,8 @@ import es.caib.portafib.utils.Configuracio;
         // Els valors s'ompliran al mètode postList()
         addfieldPF.setValueMap(new HashMap<String, String>());
         addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_FIELD);
+        
+        addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_FIELD);
 
         ff.addAdditionalField(addfieldPF);
 
@@ -274,6 +276,7 @@ import es.caib.portafib.utils.Configuracio;
         // Els valors s'ompliran al mètode postList()
         adfieldDI.setValueMap(new HashMap<String, String>());
         adfieldDI.setOrderBy(DATAINICI);
+
         
         ff.addAdditionalField(adfieldDI);
         }
@@ -290,6 +293,7 @@ import es.caib.portafib.utils.Configuracio;
           // Els valors s'ompliran al mètode postList()
           adfieldRN.setValueMap(new HashMap<String, String>());
           adfieldRN.setOrderBy(COLUMN_REMITENT_FIELD);
+          adfieldRN.setSearchBy(COLUMN_REMITENT_FIELD);
 
           ff.addAdditionalField(adfieldRN);
 
@@ -1104,6 +1108,8 @@ import es.caib.portafib.utils.Configuracio;
     @Override
     public void postList(HttpServletRequest request, ModelAndView mav,
         EstatDeFirmaFilterForm filterForm, List<EstatDeFirma> estatDeFirmaList) throws I18NException {
+      
+      this.preList(request, mav, filterForm);
       
       final String role = getRole();
       

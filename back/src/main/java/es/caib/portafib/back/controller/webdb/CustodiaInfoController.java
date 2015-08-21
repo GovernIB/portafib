@@ -169,9 +169,11 @@ public class CustodiaInfoController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<CustodiaInfo> custodiaInfo = (List<CustodiaInfo>) processarLlistat(custodiaInfoEjb,
+    List<CustodiaInfo> custodiaInfo = processarLlistat(custodiaInfoEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("custodiaInfoItems", custodiaInfo);

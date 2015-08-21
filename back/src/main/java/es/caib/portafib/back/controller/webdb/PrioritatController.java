@@ -147,9 +147,11 @@ public class PrioritatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Prioritat> prioritat = (List<Prioritat>) processarLlistat(prioritatEjb,
+    List<Prioritat> prioritat = processarLlistat(prioritatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("prioritatItems", prioritat);

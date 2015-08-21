@@ -157,9 +157,11 @@ public class PermisUsuariPlantillaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PermisUsuariPlantilla> permisUsuariPlantilla = (List<PermisUsuariPlantilla>) processarLlistat(permisUsuariPlantillaEjb,
+    List<PermisUsuariPlantilla> permisUsuariPlantilla = processarLlistat(permisUsuariPlantillaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("permisUsuariPlantillaItems", permisUsuariPlantilla);

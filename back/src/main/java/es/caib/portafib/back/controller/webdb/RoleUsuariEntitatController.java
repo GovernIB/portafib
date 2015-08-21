@@ -157,9 +157,11 @@ public class RoleUsuariEntitatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<RoleUsuariEntitat> roleUsuariEntitat = (List<RoleUsuariEntitat>) processarLlistat(roleUsuariEntitatEjb,
+    List<RoleUsuariEntitat> roleUsuariEntitat = processarLlistat(roleUsuariEntitatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("roleUsuariEntitatItems", roleUsuariEntitat);

@@ -157,9 +157,11 @@ public class MetadadaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Metadada> metadada = (List<Metadada>) processarLlistat(metadadaEjb,
+    List<Metadada> metadada = processarLlistat(metadadaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("metadadaItems", metadada);

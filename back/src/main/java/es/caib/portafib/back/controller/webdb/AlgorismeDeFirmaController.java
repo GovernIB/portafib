@@ -147,9 +147,11 @@ public class AlgorismeDeFirmaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<AlgorismeDeFirma> algorismeDeFirma = (List<AlgorismeDeFirma>) processarLlistat(algorismeDeFirmaEjb,
+    List<AlgorismeDeFirma> algorismeDeFirma = processarLlistat(algorismeDeFirmaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("algorismeDeFirmaItems", algorismeDeFirma);

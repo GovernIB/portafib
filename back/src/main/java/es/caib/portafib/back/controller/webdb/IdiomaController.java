@@ -147,9 +147,11 @@ public class IdiomaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Idioma> idioma = (List<Idioma>) processarLlistat(idiomaEjb,
+    List<Idioma> idioma = processarLlistat(idiomaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("idiomaItems", idioma);

@@ -160,9 +160,11 @@ public class UsuariAplicacioController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<UsuariAplicacio> usuariAplicacio = (List<UsuariAplicacio>) processarLlistat(usuariAplicacioEjb,
+    List<UsuariAplicacio> usuariAplicacio = processarLlistat(usuariAplicacioEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("usuariAplicacioItems", usuariAplicacio);

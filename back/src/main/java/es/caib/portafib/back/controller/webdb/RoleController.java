@@ -147,9 +147,11 @@ public class RoleController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Role> role = (List<Role>) processarLlistat(roleEjb,
+    List<Role> role = processarLlistat(roleEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("roleItems", role);

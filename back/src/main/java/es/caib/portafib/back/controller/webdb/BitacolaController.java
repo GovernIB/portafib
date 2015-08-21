@@ -157,9 +157,11 @@ public class BitacolaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Bitacola> bitacola = (List<Bitacola>) processarLlistat(bitacolaEjb,
+    List<Bitacola> bitacola = processarLlistat(bitacolaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("bitacolaItems", bitacola);

@@ -153,9 +153,11 @@ public class UsuariEntitatFavoritController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<UsuariEntitatFavorit> usuariEntitatFavorit = (List<UsuariEntitatFavorit>) processarLlistat(usuariEntitatFavoritEjb,
+    List<UsuariEntitatFavorit> usuariEntitatFavorit = processarLlistat(usuariEntitatFavoritEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("usuariEntitatFavoritItems", usuariEntitatFavorit);

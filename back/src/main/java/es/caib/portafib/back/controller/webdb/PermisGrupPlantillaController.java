@@ -157,9 +157,11 @@ public class PermisGrupPlantillaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PermisGrupPlantilla> permisGrupPlantilla = (List<PermisGrupPlantilla>) processarLlistat(permisGrupPlantillaEjb,
+    List<PermisGrupPlantilla> permisGrupPlantilla = processarLlistat(permisGrupPlantillaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("permisGrupPlantillaItems", permisGrupPlantilla);

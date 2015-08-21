@@ -147,9 +147,11 @@ public class FluxDeFirmesController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<FluxDeFirmes> fluxDeFirmes = (List<FluxDeFirmes>) processarLlistat(fluxDeFirmesEjb,
+    List<FluxDeFirmes> fluxDeFirmes = processarLlistat(fluxDeFirmesEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("fluxDeFirmesItems", fluxDeFirmes);

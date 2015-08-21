@@ -160,9 +160,11 @@ public class TipusDocumentController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<TipusDocument> tipusDocument = (List<TipusDocument>) processarLlistat(tipusDocumentEjb,
+    List<TipusDocument> tipusDocument = processarLlistat(tipusDocumentEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("tipusDocumentItems", tipusDocument);

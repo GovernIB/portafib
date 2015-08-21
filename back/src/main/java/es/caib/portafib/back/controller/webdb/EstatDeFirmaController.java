@@ -169,9 +169,11 @@ public class EstatDeFirmaController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<EstatDeFirma> estatDeFirma = (List<EstatDeFirma>) processarLlistat(estatDeFirmaEjb,
+    List<EstatDeFirma> estatDeFirma = processarLlistat(estatDeFirmaEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("estatDeFirmaItems", estatDeFirma);

@@ -161,9 +161,11 @@ public class PlantillaFluxDeFirmesController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<PlantillaFluxDeFirmes> plantillaFluxDeFirmes = (List<PlantillaFluxDeFirmes>) processarLlistat(plantillaFluxDeFirmesEjb,
+    List<PlantillaFluxDeFirmes> plantillaFluxDeFirmes = processarLlistat(plantillaFluxDeFirmesEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("plantillaFluxDeFirmesItems", plantillaFluxDeFirmes);

@@ -157,9 +157,11 @@ public class RebreAvisController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<RebreAvis> rebreAvis = (List<RebreAvis>) processarLlistat(rebreAvisEjb,
+    List<RebreAvis> rebreAvis = processarLlistat(rebreAvisEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("rebreAvisItems", rebreAvis);

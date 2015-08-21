@@ -147,9 +147,11 @@ public class TipusNotificacioController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<TipusNotificacio> tipusNotificacio = (List<TipusNotificacio>) processarLlistat(tipusNotificacioEjb,
+    List<TipusNotificacio> tipusNotificacio = processarLlistat(tipusNotificacioEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("tipusNotificacioItems", tipusNotificacio);

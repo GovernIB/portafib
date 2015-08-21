@@ -157,9 +157,11 @@ public class TipusDocumentColaboracioDelegacioController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<TipusDocumentColaboracioDelegacio> tipusDocumentColaboracioDelegacio = (List<TipusDocumentColaboracioDelegacio>) processarLlistat(tipusDocumentColaboracioDelegacioEjb,
+    List<TipusDocumentColaboracioDelegacio> tipusDocumentColaboracioDelegacio = processarLlistat(tipusDocumentColaboracioDelegacioEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("tipusDocumentColaboracioDelegacioItems", tipusDocumentColaboracioDelegacio);

@@ -153,9 +153,11 @@ public class GrupEntitatController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<GrupEntitat> grupEntitat = (List<GrupEntitat>) processarLlistat(grupEntitatEjb,
+    List<GrupEntitat> grupEntitat = processarLlistat(grupEntitatEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("grupEntitatItems", grupEntitat);

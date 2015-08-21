@@ -147,9 +147,11 @@ public class TraduccioController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<Traduccio> traduccio = (List<Traduccio>) processarLlistat(traduccioEjb,
+    List<Traduccio> traduccio = processarLlistat(traduccioEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("traduccioItems", traduccio);

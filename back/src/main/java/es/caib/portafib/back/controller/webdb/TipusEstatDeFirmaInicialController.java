@@ -147,9 +147,11 @@ public class TipusEstatDeFirmaInicialController
     int pagina = filterForm.getPage();
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
 
+    captureSearchByValueOfAdditionalFields(request, filterForm);
+
     preList(request, mav, filterForm);
 
-    List<TipusEstatDeFirmaInicial> tipusEstatDeFirmaInicial = (List<TipusEstatDeFirmaInicial>) processarLlistat(tipusEstatDeFirmaInicialEjb,
+    List<TipusEstatDeFirmaInicial> tipusEstatDeFirmaInicial = processarLlistat(tipusEstatDeFirmaInicialEjb,
         filterForm, pagina, getAdditionalCondition(request), mav);
 
     mav.addObject("tipusEstatDeFirmaInicialItems", tipusEstatDeFirmaInicial);
