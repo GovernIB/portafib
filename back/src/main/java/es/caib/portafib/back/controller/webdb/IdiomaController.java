@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/idioma")
 @SessionAttributes(types = { IdiomaForm.class, IdiomaFilterForm.class })
 public class IdiomaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements IdiomaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<Idioma, java.lang.String> implements IdiomaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;

@@ -2666,7 +2666,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     } else {
       custodiaInfo.setUsuariAplicacioID(usuariAplicacioID);
     }
-    
+
     String msg = Configuracio.getDefaultCustodyMessage(entitatID, idioma);
     
     if (msg == null) {

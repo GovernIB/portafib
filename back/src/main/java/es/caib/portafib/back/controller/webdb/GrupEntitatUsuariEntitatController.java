@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/grupEntitatUsuariEntitat")
 @SessionAttributes(types = { GrupEntitatUsuariEntitatForm.class, GrupEntitatUsuariEntitatFilterForm.class })
 public class GrupEntitatUsuariEntitatController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements GrupEntitatUsuariEntitatFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<GrupEntitatUsuariEntitat, java.lang.Long> implements GrupEntitatUsuariEntitatFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.GrupEntitatUsuariEntitatLocal grupEntitatUsuariEntitatEjb;

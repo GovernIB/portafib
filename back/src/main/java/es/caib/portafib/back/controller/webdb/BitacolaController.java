@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/bitacola")
 @SessionAttributes(types = { BitacolaForm.class, BitacolaFilterForm.class })
 public class BitacolaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements BitacolaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<Bitacola, java.lang.Long> implements BitacolaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.BitacolaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.BitacolaLocal bitacolaEjb;

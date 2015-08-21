@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -184,9 +186,6 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       custodiaInfoForm.addHiddenField(DATACUSTODIA);
     }
     
-    
-    
-
     return custodiaInfoForm;
   }
 
@@ -235,8 +234,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
         hiddenFields.remove(USUARIAPLICACIOID);
       }
       
-      filterForm.setOrderBy(DATACUSTODIA.fullName);
-      filterForm.setOrderAsc(false);
+      filterForm.setDefaultOrderBy(
+          new OrderBy[] {new OrderBy(DATACUSTODIA, OrderType.DESC)});
 
       hiddenFields.remove(TITOLPETICIO);
       hiddenFields.remove(DATACUSTODIA);
@@ -249,7 +248,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       
       filterForm.setEditButtonVisible(false);
       
-      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-eye-open",
+      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-eye-open icon-white",
           "vistacompleta", getContextWeb() + "/view/{0}" ,"btn-info" ));
       
       // TODO AGRUPAR i LLISTAT
@@ -321,9 +320,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       String url = cust.getUrlFitxerCustodiat();
       if (url != null && url.trim().length() != 0 )
        filterForm.addAdditionalButtonByPK(cust.getCustodiaInfoID(),
-           new AdditionalButton("icon-download-alt",
-           "descarregar",
-           url, "btn-success"));
+           new AdditionalButton("icon-download-alt  icon-white",
+           "descarregar", url, "btn-success"));
     }
 
   }

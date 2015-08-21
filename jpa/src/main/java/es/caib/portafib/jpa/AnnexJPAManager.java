@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class AnnexJPAManager
-		 extends AbstractPortaFIBJPAManager<Annex, Long >
+		 extends AbstractPortaFIBJPAManager<Annex, Long>
 		 implements IAnnexManager, AnnexFields {
 
 

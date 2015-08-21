@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/tipusDocumentColaboracioDelegacio")
 @SessionAttributes(types = { TipusDocumentColaboracioDelegacioForm.class, TipusDocumentColaboracioDelegacioFilterForm.class })
 public class TipusDocumentColaboracioDelegacioController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TipusDocumentColaboracioDelegacioFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusDocumentColaboracioDelegacio, java.lang.Long> implements TipusDocumentColaboracioDelegacioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;

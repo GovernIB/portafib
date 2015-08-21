@@ -1059,6 +1059,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             });
       
       
+      
       peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
 
 

@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/tipusMetadada")
 @SessionAttributes(types = { TipusMetadadaForm.class, TipusMetadadaFilterForm.class })
 public class TipusMetadadaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TipusMetadadaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusMetadada, java.lang.Integer> implements TipusMetadadaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusMetadadaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusMetadadaLocal tipusMetadadaEjb;

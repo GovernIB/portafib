@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class EstatDeFirmaJPAManager
-		 extends AbstractPortaFIBJPAManager<EstatDeFirma, Long >
+		 extends AbstractPortaFIBJPAManager<EstatDeFirma, Long>
 		 implements IEstatDeFirmaManager, EstatDeFirmaFields {
 
 

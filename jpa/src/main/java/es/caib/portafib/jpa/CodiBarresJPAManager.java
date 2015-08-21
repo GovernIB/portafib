@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class CodiBarresJPAManager
-		 extends AbstractPortaFIBJPAManager<CodiBarres, String >
+		 extends AbstractPortaFIBJPAManager<CodiBarres, String>
 		 implements ICodiBarresManager, CodiBarresFields {
 
 

@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/tipusNotificacio")
 @SessionAttributes(types = { TipusNotificacioForm.class, TipusNotificacioFilterForm.class })
 public class TipusNotificacioController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TipusNotificacioFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusNotificacio, java.lang.Long> implements TipusNotificacioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusNotificacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusNotificacioLocal tipusNotificacioEjb;

@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/peticioDeFirma")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
 public class PeticioDeFirmaController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PeticioDeFirmaJPA, PeticioDeFirmaForm> implements PeticioDeFirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PeticioDeFirma, java.lang.Long, PeticioDeFirmaForm> implements PeticioDeFirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PeticioDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
@@ -777,13 +777,13 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, PeticioDeFirmaJPA peticioDeFirma,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, PeticioDeFirma peticioDeFirma,
       PeticioDeFirmaForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerAFirmarID(), form.isFitxerAFirmarIDDelete(),
         form.isNou()? null : peticioDeFirma.getFitxerAFirmar());
-    peticioDeFirma.setFitxerAFirmar(f);
+    ((PeticioDeFirmaJPA)peticioDeFirma).setFitxerAFirmar(f);
     if (f != null) { 
       peticioDeFirma.setFitxerAFirmarID(f.getFitxerID());
     } else {
@@ -792,7 +792,7 @@ public java.lang.Long stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerAdaptatID(), form.isFitxerAdaptatIDDelete(),
         form.isNou()? null : peticioDeFirma.getFitxerAdaptat());
-    peticioDeFirma.setFitxerAdaptat(f);
+    ((PeticioDeFirmaJPA)peticioDeFirma).setFitxerAdaptat(f);
     if (f != null) { 
       peticioDeFirma.setFitxerAdaptatID(f.getFitxerID());
     } else {
@@ -802,7 +802,7 @@ public java.lang.Long stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getLogoSegellID(), form.isLogoSegellIDDelete(),
         form.isNou()? null : peticioDeFirma.getLogoSegell());
-    peticioDeFirma.setLogoSegell(f);
+    ((PeticioDeFirmaJPA)peticioDeFirma).setLogoSegell(f);
     if (f != null) { 
       peticioDeFirma.setLogoSegellID(f.getFitxerID());
     } else {
@@ -814,7 +814,7 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(PeticioDeFirmaJPA peticioDeFirma) {
+  public void deleteFiles(PeticioDeFirma peticioDeFirma) {
     deleteFile(peticioDeFirma.getFitxerAFirmarID());
     deleteFile(peticioDeFirma.getFitxerAdaptatID());
     deleteFile(peticioDeFirma.getLogoSegellID());

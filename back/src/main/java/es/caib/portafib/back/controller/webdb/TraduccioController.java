@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/traduccio")
 @SessionAttributes(types = { TraduccioForm.class, TraduccioFilterForm.class })
 public class TraduccioController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TraduccioFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<Traduccio, java.lang.Long> implements TraduccioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.TraduccioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;

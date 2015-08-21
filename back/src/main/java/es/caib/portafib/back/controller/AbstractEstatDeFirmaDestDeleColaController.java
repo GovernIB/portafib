@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-  import javax.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.text.MessageFormat;
-  import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-  import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.back.form.webdb.*;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AppletConfig;
 import es.caib.portafib.back.utils.AppletSignFile;
@@ -110,11 +110,17 @@ import es.caib.portafib.utils.Configuracio;
     
     private static final int COLUMN_PETICIODEFIRMA = -3;
     
+    private static final StringField COLUMN_PETICIODEFIRMA_FIELD;
+
     private static final int COLUMN_TIPUS_DOC = -2;
     
-    private static final int COLUMN_DATA_INICI = -1;
+    private static final LongField COLUMN_TIPUS_DOC_FIELD;
+    
+    private static final int COLUMN_DATA_INICI_SHORT = -1;
 
     private static final int COLUMN_REMITENT = 1;
+    
+    private static final StringField COLUMN_REMITENT_FIELD;
     
     private static final int COLUMN_DELEGAT_DE_COLABORADOR = 2;
     
@@ -124,31 +130,31 @@ import es.caib.portafib.utils.Configuracio;
     
     private static final int COLUMN_PRIORITAT = 5;
     
+    private static final IntegerField COLUMN_PRIORITAT_FIELD;
     
-
-    // Propietat de Peticio de firma
-    private final static IntegerField PRIORITATID;
-
-    // Propietat de Peticio de firma
-    private final static LongField TIPUSDOCUMENTID;
-
-    // Propietat de Peticio de firma
-    private final static StringField REMITENTNOM;
-
+    
     // Propietat de Col.laboracio-Delegacio
     private final static StringField DESTINATARIID;
-
+    
     static {
-      PeticioDeFirmaQueryPath peticioQueryPath = new EstatDeFirmaQueryPath().FIRMA()
-          .BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
-      PRIORITATID = peticioQueryPath.PRIORITATID();
-      TIPUSDOCUMENTID = peticioQueryPath.TIPUSDOCUMENTID();
-      REMITENTNOM = peticioQueryPath.REMITENTNOM();
+      
+      PeticioDeFirmaQueryPath pfqp;
+      pfqp = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
+      
+      COLUMN_PETICIODEFIRMA_FIELD = pfqp.TITOL();
 
+      COLUMN_TIPUS_DOC_FIELD = pfqp.TIPUSDOCUMENTID();
+
+      COLUMN_REMITENT_FIELD = pfqp.REMITENTNOM();
+          
+      COLUMN_PRIORITAT_FIELD = pfqp.PRIORITATID();
+      
       UsuariPersonaQueryPath personaQueryPath = new EstatDeFirmaQueryPath()
           .COLABORACIODELEGACIO().DESTINATARI().USUARIPERSONA();
       DESTINATARIID = personaQueryPath.USUARIPERSONAID();
+
     }
+
 
     @PostConstruct
     public void init() {
@@ -187,12 +193,12 @@ import es.caib.portafib.utils.Configuracio;
             // DataFi és null  si no han fet res
             new OrderBy(DATAFI, OrderType.DESC), 
             // Propietat de Peticio de firma
-            new OrderBy(PRIORITATID, OrderType.DESC), 
+            new OrderBy(COLUMN_PRIORITAT_FIELD, OrderType.DESC), 
             new OrderBy(DATAINICI, OrderType.DESC),
 
         });
 
-        ff.addGroupByField(TIPUSDOCUMENTID); // Propietat de Peticio De Firma
+        ff.addGroupByField(COLUMN_TIPUS_DOC_FIELD); // Propietat de Peticio De Firma
         if (getRole().equals(Constants.ROLE_COLA)) {
           // Propietat de Col.laboracio-Delegacio
           ff.addGroupByField(DESTINATARIID);
@@ -236,16 +242,17 @@ import es.caib.portafib.utils.Configuracio;
         }
 
         //  NOVES COLUMNES
-        
+
         // ===================  Nom de petició de firma
         AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
         addfieldPF.setCodeName("document");
         addfieldPF.setPosition(COLUMN_PETICIODEFIRMA);
         // Els valors s'ompliran al mètode postList()
         addfieldPF.setValueMap(new HashMap<String, String>());
+        addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_FIELD);
 
         ff.addAdditionalField(addfieldPF);
-      
+
         
         // ===================  tipus de document 
         {
@@ -254,6 +261,7 @@ import es.caib.portafib.utils.Configuracio;
         adfieldTD.setPosition(COLUMN_TIPUS_DOC);
         // Els valors s'ompliran al mètode postList()
         adfieldTD.setValueMap(new HashMap<String, String>());
+        adfieldTD.setOrderBy(COLUMN_TIPUS_DOC_FIELD);
         
         ff.addAdditionalField(adfieldTD);
         }
@@ -262,9 +270,10 @@ import es.caib.portafib.utils.Configuracio;
         {
         AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
         adfieldDI.setCodeName("datainici.short");
-        adfieldDI.setPosition(COLUMN_DATA_INICI);
+        adfieldDI.setPosition(COLUMN_DATA_INICI_SHORT);
         // Els valors s'ompliran al mètode postList()
         adfieldDI.setValueMap(new HashMap<String, String>());
+        adfieldDI.setOrderBy(DATAINICI);
         
         ff.addAdditionalField(adfieldDI);
         }
@@ -280,10 +289,12 @@ import es.caib.portafib.utils.Configuracio;
           adfieldRN.setEscapeXml(false);
           // Els valors s'ompliran al mètode postList()
           adfieldRN.setValueMap(new HashMap<String, String>());
+          adfieldRN.setOrderBy(COLUMN_REMITENT_FIELD);
+
           ff.addAdditionalField(adfieldRN);
-          
+
           // NOVA AGRUPACIO
-          ff.addGroupByField(REMITENTNOM);
+          ff.addGroupByField(COLUMN_REMITENT_FIELD);
         }
 
         
@@ -311,6 +322,8 @@ import es.caib.portafib.utils.Configuracio;
         adfieldPR.setEscapeXml(false);
         // Els valors s'ompliran al mètode postList()
         adfieldPR.setValueMap(new HashMap<String, String>());
+        adfieldPR.setOrderBy(COLUMN_PRIORITAT_FIELD);
+        
         ff.addAdditionalField(adfieldPR);
         
         // ===================== BOTONS =================
@@ -357,7 +370,7 @@ import es.caib.portafib.utils.Configuracio;
         _listSKV = this.tipusDocumentRefList.getReferenceList(
             TipusDocumentFields.TIPUSDOCUMENTID, null);
         _tmp = Utils.listToMap(_listSKV);
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSDOCUMENTID, false);
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_TIPUS_DOC_FIELD, false);
       }
 
       return groupByItemsMap;
@@ -1119,7 +1132,10 @@ import es.caib.portafib.utils.Configuracio;
 
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
+           
+           
            mapPF.put(estatDeFirmaId, pf.getTitol());
+           
            mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
            
            
@@ -1137,7 +1153,7 @@ import es.caib.portafib.utils.Configuracio;
         dateFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateFormat();
         
         Map<Long, String> mapDI;
-        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA_INICI).getValueMap();
+        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA_INICI_SHORT).getValueMap();
         mapDI.clear();
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
           mapDI.put(estatDeFirma.getEstatDeFirmaID(), dateFormat.format(estatDeFirma.getDataInici()));

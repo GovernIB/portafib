@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class PosicioPaginaJPAManager
-		 extends AbstractPortaFIBJPAManager<PosicioPagina, Long >
+		 extends AbstractPortaFIBJPAManager<PosicioPagina, Long>
 		 implements IPosicioPaginaManager, PosicioPaginaFields {
 
 

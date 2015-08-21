@@ -7,7 +7,7 @@
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
         <c:if test="${ __entry.key < 0 }">
         <th>
-        <fmt:message key="${__entry.value.codeName}" />
+        ${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}
         </th>
         </c:if>
         </c:forEach>
@@ -26,7 +26,7 @@
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
         <c:if test="${ __entry.key >=0 }">
         <th>
-        <fmt:message key="${__entry.value.codeName}" />
+        ${pfi:getSortIconsAdditionalField(__theFilterForm,__entry.value)}
         </th>
         </c:if>
         </c:forEach>

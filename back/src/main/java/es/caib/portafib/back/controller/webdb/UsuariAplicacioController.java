@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/usuariAplicacio")
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
 public class UsuariAplicacioController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariAplicacioJPA, UsuariAplicacioForm> implements UsuariAplicacioFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariAplicacio, java.lang.String, UsuariAplicacioForm> implements UsuariAplicacioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -596,13 +596,13 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, UsuariAplicacioJPA usuariAplicacio,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, UsuariAplicacio usuariAplicacio,
       UsuariAplicacioForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getLogoSegellID(), form.isLogoSegellIDDelete(),
         form.isNou()? null : usuariAplicacio.getLogoSegell());
-    usuariAplicacio.setLogoSegell(f);
+    ((UsuariAplicacioJPA)usuariAplicacio).setLogoSegell(f);
     if (f != null) { 
       usuariAplicacio.setLogoSegellID(f.getFitxerID());
     } else {
@@ -614,7 +614,7 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(UsuariAplicacioJPA usuariAplicacio) {
+  public void deleteFiles(UsuariAplicacio usuariAplicacio) {
     deleteFile(usuariAplicacio.getLogoSegellID());
   }
   // Mètodes a sobreescriure 

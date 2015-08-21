@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class TipusDocumentColaboracioDelegacioJPAManager
-		 extends AbstractPortaFIBJPAManager<TipusDocumentColaboracioDelegacio, Long >
+		 extends AbstractPortaFIBJPAManager<TipusDocumentColaboracioDelegacio, Long>
 		 implements ITipusDocumentColaboracioDelegacioManager, TipusDocumentColaboracioDelegacioFields {
 
 

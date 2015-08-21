@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class TraduccioJPAManager
-		 extends AbstractPortaFIBJPAManager<Traduccio, Long >
+		 extends AbstractPortaFIBJPAManager<Traduccio, Long>
 		 implements ITraduccioManager, TraduccioFields {
 
 

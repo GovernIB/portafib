@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class TipusMetadadaJPAManager
-		 extends AbstractPortaFIBJPAManager<TipusMetadada, Integer >
+		 extends AbstractPortaFIBJPAManager<TipusMetadada, Integer>
 		 implements ITipusMetadadaManager, TipusMetadadaFields {
 
 

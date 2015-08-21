@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class UsuariEntitatFavoritJPAManager
-		 extends AbstractPortaFIBJPAManager<UsuariEntitatFavorit, Long >
+		 extends AbstractPortaFIBJPAManager<UsuariEntitatFavorit, Long>
 		 implements IUsuariEntitatFavoritManager, UsuariEntitatFavoritFields {
 
 

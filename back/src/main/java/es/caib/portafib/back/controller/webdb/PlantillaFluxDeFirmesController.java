@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/plantillaFluxDeFirmes")
 @SessionAttributes(types = { PlantillaFluxDeFirmesForm.class, PlantillaFluxDeFirmesFilterForm.class })
 public class PlantillaFluxDeFirmesController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements PlantillaFluxDeFirmesFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<PlantillaFluxDeFirmes, java.lang.Long> implements PlantillaFluxDeFirmesFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;

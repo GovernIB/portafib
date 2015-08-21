@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class AlgorismeDeFirmaJPAManager
-		 extends AbstractPortaFIBJPAManager<AlgorismeDeFirma, Long >
+		 extends AbstractPortaFIBJPAManager<AlgorismeDeFirma, Long>
 		 implements IAlgorismeDeFirmaManager, AlgorismeDeFirmaFields {
 
 

@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class IdiomaJPAManager
-		 extends AbstractPortaFIBJPAManager<Idioma, String >
+		 extends AbstractPortaFIBJPAManager<Idioma, String>
 		 implements IIdiomaManager, IdiomaFields {
 
 

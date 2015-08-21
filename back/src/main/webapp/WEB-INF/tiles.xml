@@ -283,9 +283,9 @@
         <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
     </definition>
-    
+
     <definition name="gestioRoleAdminEntitatList" extends="role_admin">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/admin/administradorEntitatList.jsp" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatList.jsp" />
     </definition>
 
     <definition name="selectUsuariPersonaForGestioRoleAdminEntitatForm" extends="role_admin">

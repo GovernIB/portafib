@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class UsuariAplicacioJPAManager
-		 extends AbstractPortaFIBJPAManager<UsuariAplicacio, String >
+		 extends AbstractPortaFIBJPAManager<UsuariAplicacio, String>
 		 implements IUsuariAplicacioManager, UsuariAplicacioFields {
 
 

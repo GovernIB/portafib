@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/algorismeDeFirma")
 @SessionAttributes(types = { AlgorismeDeFirmaForm.class, AlgorismeDeFirmaFilterForm.class })
 public class AlgorismeDeFirmaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements AlgorismeDeFirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<AlgorismeDeFirma, java.lang.Long> implements AlgorismeDeFirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.AlgorismeDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;

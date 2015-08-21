@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class RebreAvisJPAManager
-		 extends AbstractPortaFIBJPAManager<RebreAvis, Long >
+		 extends AbstractPortaFIBJPAManager<RebreAvis, Long>
 		 implements IRebreAvisManager, RebreAvisFields {
 
 

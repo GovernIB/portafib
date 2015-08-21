@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/roleUsuariAplicacio")
 @SessionAttributes(types = { RoleUsuariAplicacioForm.class, RoleUsuariAplicacioFilterForm.class })
 public class RoleUsuariAplicacioController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements RoleUsuariAplicacioFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<RoleUsuariAplicacio, java.lang.Long> implements RoleUsuariAplicacioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;

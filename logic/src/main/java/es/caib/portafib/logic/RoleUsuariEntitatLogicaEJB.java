@@ -9,8 +9,10 @@ import javax.ejb.Stateless;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
+import org.hibernate.Hibernate;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
@@ -144,5 +146,26 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		
 		super.delete(instance);
 	}
+  
+  @Override
+  public List<RoleUsuariEntitat> selectFullWithEntitat(Where where,
+     final OrderBy[] orderBy, final Integer itemsPerPage, final int inici) throws I18NException {
+    
+    List<RoleUsuariEntitat> list;
+    if (itemsPerPage == null) {
+      list = this.select(where, orderBy);
+    } else {
+      list = this.select(where, inici, itemsPerPage, orderBy);
+    }
+    
+    for(RoleUsuariEntitat rue : list) {
+      RoleUsuariEntitatJPA rueJPA = (RoleUsuariEntitatJPA)rue;
+      Hibernate.initialize(rueJPA.getUsuariEntitat());
+      Hibernate.initialize(rueJPA.getUsuariEntitat().getEntitat());
+    }
+
+    return list;
+  }
+  
 
 }

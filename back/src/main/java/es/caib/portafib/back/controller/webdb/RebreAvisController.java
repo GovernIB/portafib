@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/rebreAvis")
 @SessionAttributes(types = { RebreAvisForm.class, RebreAvisFilterForm.class })
 public class RebreAvisController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements RebreAvisFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<RebreAvis, java.lang.Long> implements RebreAvisFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.RebreAvisLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RebreAvisLocal rebreAvisEjb;

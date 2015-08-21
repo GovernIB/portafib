@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class GrupEntitatJPAManager
-		 extends AbstractPortaFIBJPAManager<GrupEntitat, Long >
+		 extends AbstractPortaFIBJPAManager<GrupEntitat, Long>
 		 implements IGrupEntitatManager, GrupEntitatFields {
 
 

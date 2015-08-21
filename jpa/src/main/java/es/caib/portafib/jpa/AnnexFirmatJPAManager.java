@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class AnnexFirmatJPAManager
-		 extends AbstractPortaFIBJPAManager<AnnexFirmat, Long >
+		 extends AbstractPortaFIBJPAManager<AnnexFirmat, Long>
 		 implements IAnnexFirmatManager, AnnexFirmatFields {
 
 

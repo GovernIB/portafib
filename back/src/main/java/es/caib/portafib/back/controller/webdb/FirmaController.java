@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/firma")
 @SessionAttributes(types = { FirmaForm.class, FirmaFilterForm.class })
 public class FirmaController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<FirmaJPA, FirmaForm> implements FirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Firma, java.lang.Long, FirmaForm> implements FirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.FirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
@@ -601,13 +601,13 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, FirmaJPA firma,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, Firma firma,
       FirmaForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerFirmatID(), form.isFitxerFirmatIDDelete(),
         form.isNou()? null : firma.getFitxerFirmat());
-    firma.setFitxerFirmat(f);
+    ((FirmaJPA)firma).setFitxerFirmat(f);
     if (f != null) { 
       firma.setFitxerFirmatID(f.getFitxerID());
     } else {
@@ -619,7 +619,7 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(FirmaJPA firma) {
+  public void deleteFiles(Firma firma) {
     deleteFile(firma.getFitxerFirmatID());
   }
   // Mètodes a sobreescriure 

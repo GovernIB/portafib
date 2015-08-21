@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class ColaboracioDelegacioJPAManager
-		 extends AbstractPortaFIBJPAManager<ColaboracioDelegacio, Long >
+		 extends AbstractPortaFIBJPAManager<ColaboracioDelegacio, Long>
 		 implements IColaboracioDelegacioManager, ColaboracioDelegacioFields {
 
 

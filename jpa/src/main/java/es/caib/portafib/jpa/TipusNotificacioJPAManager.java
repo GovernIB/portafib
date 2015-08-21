@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class TipusNotificacioJPAManager
-		 extends AbstractPortaFIBJPAManager<TipusNotificacio, Long >
+		 extends AbstractPortaFIBJPAManager<TipusNotificacio, Long>
 		 implements ITipusNotificacioManager, TipusNotificacioFields {
 
 

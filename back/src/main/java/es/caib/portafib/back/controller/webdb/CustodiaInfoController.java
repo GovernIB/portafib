@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/custodiaInfo")
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
 public class CustodiaInfoController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements CustodiaInfoFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<CustodiaInfo, java.lang.Long> implements CustodiaInfoFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;

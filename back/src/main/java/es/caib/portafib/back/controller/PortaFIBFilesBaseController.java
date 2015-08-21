@@ -2,10 +2,13 @@ package es.caib.portafib.back.controller;
 
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.model.entity.Fitxer;
+
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.IGenAppEntity;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.web.controller.CommonFilesBaseController;
 import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
+import org.fundaciobit.genapp.common.web.form.BaseForm;
 import org.springframework.stereotype.Controller;
 
 import javax.ejb.EJB;
@@ -16,7 +19,8 @@ import javax.ejb.EJB;
  * 
  */
 @Controller
-public abstract class PortaFIBFilesBaseController<P, F> extends CommonFilesBaseController<P,F, Fitxer> {
+public abstract class PortaFIBFilesBaseController<I extends IGenAppEntity, PK extends Object, F extends BaseForm>
+   extends CommonFilesBaseController<I, PK, F, Fitxer> {
 
   @EJB(mappedName = "portafib/FitxerEJB/local")
   protected FitxerLocal fitxerEjb;

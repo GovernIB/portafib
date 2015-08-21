@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/fitxer")
 @SessionAttributes(types = { FitxerForm.class, FitxerFilterForm.class })
 public class FitxerController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements FitxerFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<Fitxer, java.lang.Long> implements FitxerFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.FitxerLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.FitxerLocal fitxerEjb;

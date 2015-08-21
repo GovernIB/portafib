@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/tipusEstatPeticioDeFirma")
 @SessionAttributes(types = { TipusEstatPeticioDeFirmaForm.class, TipusEstatPeticioDeFirmaFilterForm.class })
 public class TipusEstatPeticioDeFirmaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TipusEstatPeticioDeFirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusEstatPeticioDeFirma, java.lang.Integer> implements TipusEstatPeticioDeFirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal tipusEstatPeticioDeFirmaEjb;

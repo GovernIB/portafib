@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/usuariEntitatFavorit")
 @SessionAttributes(types = { UsuariEntitatFavoritForm.class, UsuariEntitatFavoritFilterForm.class })
 public class UsuariEntitatFavoritController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements UsuariEntitatFavoritFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<UsuariEntitatFavorit, java.lang.Long> implements UsuariEntitatFavoritFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.UsuariEntitatFavoritLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;

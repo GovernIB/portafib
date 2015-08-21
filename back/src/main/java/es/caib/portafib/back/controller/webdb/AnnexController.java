@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/annex")
 @SessionAttributes(types = { AnnexForm.class, AnnexFilterForm.class })
 public class AnnexController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<AnnexJPA, AnnexForm> implements AnnexFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Annex, java.lang.Long, AnnexForm> implements AnnexFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AnnexLocal annexEjb;
@@ -557,13 +557,13 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, AnnexJPA annex,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, Annex annex,
       AnnexForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerID(), form.isFitxerIDDelete(),
         form.isNou()? null : annex.getFitxer());
-    annex.setFitxer(f);
+    ((AnnexJPA)annex).setFitxer(f);
     if (f != null) { 
       annex.setFitxerID(f.getFitxerID());
     } else {
@@ -574,7 +574,7 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(AnnexJPA annex) {
+  public void deleteFiles(Annex annex) {
     deleteFile(annex.getFitxerID());
   }
   // Mètodes a sobreescriure 

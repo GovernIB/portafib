@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class PrioritatJPAManager
-		 extends AbstractPortaFIBJPAManager<Prioritat, Integer >
+		 extends AbstractPortaFIBJPAManager<Prioritat, Integer>
 		 implements IPrioritatManager, PrioritatFields {
 
 

@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class EntitatJPAManager
-		 extends AbstractPortaFIBJPAManager<Entitat, String >
+		 extends AbstractPortaFIBJPAManager<Entitat, String>
 		 implements IEntitatManager, EntitatFields {
 
 

@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class MetadadaJPAManager
-		 extends AbstractPortaFIBJPAManager<Metadada, Long >
+		 extends AbstractPortaFIBJPAManager<Metadada, Long>
 		 implements IMetadadaManager, MetadadaFields {
 
 

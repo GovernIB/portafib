@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class TipusDocumentJPAManager
-		 extends AbstractPortaFIBJPAManager<TipusDocument, Long >
+		 extends AbstractPortaFIBJPAManager<TipusDocument, Long>
 		 implements ITipusDocumentManager, TipusDocumentFields {
 
 

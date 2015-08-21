@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class FirmaJPAManager
-		 extends AbstractPortaFIBJPAManager<Firma, Long >
+		 extends AbstractPortaFIBJPAManager<Firma, Long>
 		 implements IFirmaManager, FirmaFields {
 
 

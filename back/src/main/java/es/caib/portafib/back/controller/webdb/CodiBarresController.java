@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/codiBarres")
 @SessionAttributes(types = { CodiBarresForm.class, CodiBarresFilterForm.class })
 public class CodiBarresController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements CodiBarresFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<CodiBarres, java.lang.String> implements CodiBarresFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;

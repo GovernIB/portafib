@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/blocDeFirmes")
 @SessionAttributes(types = { BlocDeFirmesForm.class, BlocDeFirmesFilterForm.class })
 public class BlocDeFirmesController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements BlocDeFirmesFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<BlocDeFirmes, java.lang.Long> implements BlocDeFirmesFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.BlocDeFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.BlocDeFirmesLocal blocDeFirmesEjb;

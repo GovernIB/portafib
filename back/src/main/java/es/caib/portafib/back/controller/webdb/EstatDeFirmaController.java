@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/estatDeFirma")
 @SessionAttributes(types = { EstatDeFirmaForm.class, EstatDeFirmaFilterForm.class })
 public class EstatDeFirmaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements EstatDeFirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<EstatDeFirma, java.lang.Long> implements EstatDeFirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.EstatDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;

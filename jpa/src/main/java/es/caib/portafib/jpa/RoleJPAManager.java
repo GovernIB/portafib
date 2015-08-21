@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class RoleJPAManager
-		 extends AbstractPortaFIBJPAManager<Role, String >
+		 extends AbstractPortaFIBJPAManager<Role, String>
 		 implements IRoleManager, RoleFields {
 
 

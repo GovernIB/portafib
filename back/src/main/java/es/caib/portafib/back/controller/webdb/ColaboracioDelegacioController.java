@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/colaboracioDelegacio")
 @SessionAttributes(types = { ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class })
 public class ColaboracioDelegacioController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<ColaboracioDelegacioJPA, ColaboracioDelegacioForm> implements ColaboracioDelegacioFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<ColaboracioDelegacio, java.lang.Long, ColaboracioDelegacioForm> implements ColaboracioDelegacioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.ColaboracioDelegacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.ColaboracioDelegacioLocal colaboracioDelegacioEjb;
@@ -578,13 +578,13 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, ColaboracioDelegacioJPA colaboracioDelegacio,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, ColaboracioDelegacio colaboracioDelegacio,
       ColaboracioDelegacioForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerAutoritzacioID(), form.isFitxerAutoritzacioIDDelete(),
         form.isNou()? null : colaboracioDelegacio.getFitxerAutoritzacio());
-    colaboracioDelegacio.setFitxerAutoritzacio(f);
+    ((ColaboracioDelegacioJPA)colaboracioDelegacio).setFitxerAutoritzacio(f);
     if (f != null) { 
       colaboracioDelegacio.setFitxerAutoritzacioID(f.getFitxerID());
     } else {
@@ -596,7 +596,7 @@ public java.lang.Long stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(ColaboracioDelegacioJPA colaboracioDelegacio) {
+  public void deleteFiles(ColaboracioDelegacio colaboracioDelegacio) {
     deleteFile(colaboracioDelegacio.getFitxerAutoritzacioID());
   }
   // Mètodes a sobreescriure 

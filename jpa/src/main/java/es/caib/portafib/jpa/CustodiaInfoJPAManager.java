@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class CustodiaInfoJPAManager
-		 extends AbstractPortaFIBJPAManager<CustodiaInfo, Long >
+		 extends AbstractPortaFIBJPAManager<CustodiaInfo, Long>
 		 implements ICustodiaInfoManager, CustodiaInfoFields {
 
 

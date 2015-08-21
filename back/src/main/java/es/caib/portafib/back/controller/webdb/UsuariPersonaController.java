@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/usuariPersona")
 @SessionAttributes(types = { UsuariPersonaForm.class, UsuariPersonaFilterForm.class })
 public class UsuariPersonaController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariPersonaJPA, UsuariPersonaForm> implements UsuariPersonaFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariPersona, java.lang.String, UsuariPersonaForm> implements UsuariPersonaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariPersonaLocal usuariPersonaEjb;
@@ -550,13 +550,13 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, UsuariPersonaJPA usuariPersona,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, UsuariPersona usuariPersona,
       UsuariPersonaForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getRubricaID(), form.isRubricaIDDelete(),
         form.isNou()? null : usuariPersona.getRubrica());
-    usuariPersona.setRubrica(f);
+    ((UsuariPersonaJPA)usuariPersona).setRubrica(f);
     if (f != null) { 
       usuariPersona.setRubricaID(f.getFitxerID());
     } else {
@@ -568,7 +568,7 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(UsuariPersonaJPA usuariPersona) {
+  public void deleteFiles(UsuariPersona usuariPersona) {
     deleteFile(usuariPersona.getRubricaID());
   }
   // Mètodes a sobreescriure 

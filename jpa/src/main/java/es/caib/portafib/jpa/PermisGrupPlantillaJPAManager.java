@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class PermisGrupPlantillaJPAManager
-		 extends AbstractPortaFIBJPAManager<PermisGrupPlantilla, Long >
+		 extends AbstractPortaFIBJPAManager<PermisGrupPlantilla, Long>
 		 implements IPermisGrupPlantillaManager, PermisGrupPlantillaFields {
 
 

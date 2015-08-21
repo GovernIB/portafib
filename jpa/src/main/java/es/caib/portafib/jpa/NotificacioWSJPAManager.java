@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class NotificacioWSJPAManager
-		 extends AbstractPortaFIBJPAManager<NotificacioWS, Long >
+		 extends AbstractPortaFIBJPAManager<NotificacioWS, Long>
 		 implements INotificacioWSManager, NotificacioWSFields {
 
 

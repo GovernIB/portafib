@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class BlocDeFirmesJPAManager
-		 extends AbstractPortaFIBJPAManager<BlocDeFirmes, Long >
+		 extends AbstractPortaFIBJPAManager<BlocDeFirmes, Long>
 		 implements IBlocDeFirmesManager, BlocDeFirmesFields {
 
 

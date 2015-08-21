@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/posicioTaulaFirmes")
 @SessionAttributes(types = { PosicioTaulaFirmesForm.class, PosicioTaulaFirmesFilterForm.class })
 public class PosicioTaulaFirmesController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements PosicioTaulaFirmesFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<PosicioTaulaFirmes, java.lang.Integer> implements PosicioTaulaFirmesFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PosicioTaulaFirmesLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PosicioTaulaFirmesLocal posicioTaulaFirmesEjb;

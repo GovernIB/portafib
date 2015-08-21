@@ -350,7 +350,7 @@
 		 <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.6</version>
                 <configuration>
                     <webResources>
                         <!-- Documents pdf que es troben dins /doc/pdf i han d'anar a WEBAPP/Documentacio -->

@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class PlantillaFluxDeFirmesJPAManager
-		 extends AbstractPortaFIBJPAManager<PlantillaFluxDeFirmes, Long >
+		 extends AbstractPortaFIBJPAManager<PlantillaFluxDeFirmes, Long>
 		 implements IPlantillaFluxDeFirmesManager, PlantillaFluxDeFirmesFields {
 
 

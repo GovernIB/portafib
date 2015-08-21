@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/prioritat")
 @SessionAttributes(types = { PrioritatForm.class, PrioritatFilterForm.class })
 public class PrioritatController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements PrioritatFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<Prioritat, java.lang.Integer> implements PrioritatFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PrioritatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PrioritatLocal prioritatEjb;

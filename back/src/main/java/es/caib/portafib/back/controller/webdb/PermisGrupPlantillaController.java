@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/permisGrupPlantilla")
 @SessionAttributes(types = { PermisGrupPlantillaForm.class, PermisGrupPlantillaFilterForm.class })
 public class PermisGrupPlantillaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements PermisGrupPlantillaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<PermisGrupPlantilla, java.lang.Long> implements PermisGrupPlantillaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;

@@ -38,6 +38,14 @@
 </function>
 
 <function>
+        <name>getSortIconsAdditionalField</name>
+        <description>Genera Icones per ordenar les columnes addicionals</description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String getSortIconsAdditionalField(org.fundaciobit.genapp.common.web.form.BaseFilterForm, org.fundaciobit.genapp.common.web.form.AdditionalField) throws Exception
+        </function-signature>
+</function>
+
+<function>
         <name>intArrayToString</name>
         <description>Retorna un array en format string separat per comes sense espais</description>
         <function-class>es.caib.portafib.back.utils.Utils</function-class>

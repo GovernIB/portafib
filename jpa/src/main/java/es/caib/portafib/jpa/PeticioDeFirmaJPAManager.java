@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class PeticioDeFirmaJPAManager
-		 extends AbstractPortaFIBJPAManager<PeticioDeFirma, Long >
+		 extends AbstractPortaFIBJPAManager<PeticioDeFirma, Long>
 		 implements IPeticioDeFirmaManager, PeticioDeFirmaFields {
 
 

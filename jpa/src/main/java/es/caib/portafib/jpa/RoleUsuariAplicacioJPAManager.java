@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class RoleUsuariAplicacioJPAManager
-		 extends AbstractPortaFIBJPAManager<RoleUsuariAplicacio, Long >
+		 extends AbstractPortaFIBJPAManager<RoleUsuariAplicacio, Long>
 		 implements IRoleUsuariAplicacioManager, RoleUsuariAplicacioFields {
 
 

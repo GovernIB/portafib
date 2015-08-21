@@ -2,7 +2,6 @@ package es.caib.portafib.back.controller.admin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,20 +15,22 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.ITableManager;
 import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.aden.GestioUsuariEntitatAdenController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
@@ -37,11 +38,11 @@ import es.caib.portafib.back.form.SeleccioUsuariForm;
 import es.caib.portafib.back.form.webdb.EntitatRefList;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatFilterForm;
 import es.caib.portafib.back.form.webdb.RoleUsuariEntitatForm;
+import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -50,7 +51,9 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
+import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 /**
@@ -74,8 +77,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
     USUARIPERSONA_NOM = new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONAID();
   }
   
-  @Autowired
-  protected EntitatRefList entitatRefList;
+
   
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
@@ -85,6 +87,9 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
   
   @Autowired
   protected UsuariPersonaRefList personaRefList;
+  
+  @Autowired
+  protected EntitatRefList entitatRefList;
   
 
   @PostConstruct
@@ -100,7 +105,16 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
         UsuariPersonaFields.NOM.select });
     
     this.personaRefList.setSeparator("");
-
+    
+    
+    UsuariPersonaQueryPath upqp = new UsuariEntitatQueryPath().USUARIPERSONA();
+    this.usuariEntitatRefList = new UsuariEntitatRefList(this.usuariEntitatRefList);
+    this.usuariEntitatRefList.setSelects(new Select<?>[] {
+        upqp.LLINATGES().select , new SelectConstant(", "), 
+        upqp.NOM().select, new SelectConstant(" ("),
+        upqp.NIF().select, new SelectConstant(")")
+    });
+    
   }
 
   
@@ -119,28 +133,6 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
   public String getTileList() {
     return "gestioRoleAdminEntitatList";
   }
-  
-  
-  
-  
-  /*
-  @Override
-  public String getTileNif() {
-    return "selectUsuariPersonaForGestioRoleAdminEntitatForm";
-  }
-  
-  @Override
-  protected void initGetNif(SeleccioNifForm seleccionNifForm) {
-    seleccionNifForm.setTitol("administradorentitat.alta");
-    seleccionNifForm.setSubtitol("administradorentitat.alta.introduirnif");
-    seleccionNifForm.setCancelUrl(getContextWeb() + "/list/1");
-  }
-  
-  @Override
-  public boolean checkIfHasUsuariEntitat() {
-    return false;
-  }
-  */
   
   @Override
   protected String getTileSeleccioUsuari() {
@@ -284,74 +276,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       
     }
     
-    
-    
-    
-    
-    
-    
-    /*
-    // Veure quins usuaris-entitat podem fer administrador-entitat
-    List<String> candidatosAdminEntitatList = new ArrayList<String>();
-    
-    for (UsuariEntitat usuariEntitat : usuariEntitatList) {
-      Where w1 = RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitat
-          .getUsuariEntitatID());
-      final Where w2 = RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN);
-      //List<RoleUsuariEntitat> listCandidatos = roleUsuariEntitatLogicaEjb.selectWithEntitat(Where.AND(w1, w2));
-      Long count = roleUsuariEntitatLogicaEjb.count(Where.AND(w1, w2));
 
-      if (count == 0) {
-        // Posible candidat
-        candidatosAdminEntitatList.add(usuariEntitat.getUsuariEntitatID());
-      } else {
-        // Ja esta donat d'alta (informam a l'usuari)
-        // TODO Falta nom de l'entitat
-
-        
-        String missatge = I18NUtils.tradueix("administradorentitat.jaexisteix", 
-            Utils.getNom(usuariPersona), usuariEntitat.getEntitatID());
-        HtmlUtils.saveMessageInfo(request, missatge);
-        
-      }
-    }
-
-    if (candidatosAdminEntitatList.size() == 0) {
-      // Miram si s'ha de forçar la creació de l'usuari entitat
-      String entitatID = param1;
-      if (entitatID != null && entitatID.trim().length() != 0) {
-        
-        // Existeix l'entitat
-        EntitatJPA entitat = entitatEjb.findByPrimaryKey(entitatID);
-        
-        if (entitat == null) {
-          log.error("L'entitat [" + entitatID + "] no existeix");
-          entitatID = null;
-        } else {
-          // Mirar si era AdEn
-          if (usuariEntitatList.contains(entitat)) {
-            log.error("Ja és ADEN de l'entitat [" + entitatID + "]");
-            entitatID = null;
-          } else {
-            UsuariEntitat ue = new UsuariEntitatJPA();
-            GestioUsuariEntitatAdenController.initUsuariEntitat(ue, usuariPersonaID, entitatID);
-            
-            ue = usuariEntitatLogicaEjb.create(ue);
-            
-            candidatosAdminEntitatList.add(ue.getUsuariEntitatID());
-          }
-        }        
-      }
-      
-      if (entitatID == null) {
-        if (usuariEntitatList.size() == 0) {
-          throw new I18NException("administradorentitat.senseentitat", Utils.getNom(usuariPersona));
-        } else {
-          throw new I18NException("administradorentitat.jaesADENdetotes", Utils.getNom(usuariPersona));
-        }
-      }
-    } 
-    */
     request.getSession().setAttribute("candidatosADEN", candidatosAdminEntitatList);
     
     return getContextWeb() + "/new";
@@ -389,33 +314,12 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
   }
   
   
+  
   @Override
   public boolean isActiveFormEdit() {
     return false;
   }
   
-  @Override
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(
-      HttpServletRequest request, ModelAndView mav,
-    RoleUsuariEntitatForm roleUsuariEntitatForm, Where _w) throws I18NException {
-    
-    List<String> listUsuariEntidadID = (List<String>) request.getSession().getAttribute("candidatosADEN");
-    request.getSession().removeAttribute("candidatosADEN");
-    List<StringKeyValue> nueva = new ArrayList<StringKeyValue>();
-    if (listUsuariEntidadID == null) {
-      mav.setView(new RedirectView(getContextWeb() + "/selecciousuari", true));
-      return nueva;
-    }
-    List<UsuariEntitatJPA> listUsuariEntitatJPA = usuariEntitatLogicaEjb
-        .findByPrimaryKeyFullWithEntitat(listUsuariEntidadID);
-
-    for (UsuariEntitatJPA usuariEntitatJPA : listUsuariEntitatJPA) {
-      nueva.add(new StringKeyValue(usuariEntitatJPA.getUsuariEntitatID(),
-          Utils.getNom(usuariEntitatJPA.getUsuariPersona()) + " "
-              + usuariEntitatJPA.getEntitat().getNom()));
-    }
-    return nueva;
-  }
   
   
   @Override
@@ -448,8 +352,25 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
       
       roleUsuariEntitatFilterForm.setTitleCode("administradorentitat.llistat");
       
+      // Afegim la columna ENTITAT
+      AdditionalField<String,String> adfield = new AdditionalField<String,String>(); 
+      adfield.setCodeName(EntitatFields._TABLE_TRANSLATION);
+      adfield.setPosition(1);
+      final Field<String> ENTITAT_NOM = new RoleUsuariEntitatQueryPath().USUARIENTITAT().ENTITAT().NOM(); 
+      adfield.setValueField(ENTITAT_NOM);
+      adfield.setValueMap(null);
+      adfield.setOrderBy(ENTITAT_NOM);
+      
+      roleUsuariEntitatFilterForm.addAdditionalField(adfield);
+      
       roleUsuariEntitatFilterForm.addGroupByField(ENTITAT_NOM);
       roleUsuariEntitatFilterForm.addGroupByField(USUARIPERSONA_NOM);
+      
+      
+      roleUsuariEntitatFilterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(
+          new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONA().LLINATGES(), OrderType.ASC)
+      });
+      
       
       roleUsuariEntitatFilterForm.setVisibleMultipleSelection(true);
       
@@ -457,40 +378,72 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
         roleUsuariEntitatFilterForm.setAddButtonVisible(false);
       }
     }
-    
-    
+
     return roleUsuariEntitatFilterForm;
   }
   
-  
-
+  /**
+   * Necessitam accedir al nom de l'entitat, per la uqal cosa quan carrequi 
+   * s'ha d'inicialitzar via hibernate l'usuari-entitat i després
+   * l'entitat d'aquest últim.
+   *  
+   * @param ejb
+   * @param where
+   * @param orderBy
+   * @param itemsPerPage
+   * @param inici
+   * @return
+   * @throws I18NException
+   */
   @Override
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
-      ModelAndView mav, RoleUsuariEntitatFilterForm roleUsuariEntitatFilterForm,
-      List<RoleUsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where _w)
+  public List<RoleUsuariEntitat> executeSelect(ITableManager<RoleUsuariEntitat, Long> ejb, Where where,
+      final OrderBy[] orderBy, final Integer itemsPerPage, final int inici)
       throws I18NException {
 
-    // Key == usuariEntitatID | value = RoleUsuariEntitat
-    Map<String, RoleUsuariEntitatJPA> map = new HashMap<String, RoleUsuariEntitatJPA>();
+    
+    
+    return roleUsuariEntitatLogicaEjb.selectFullWithEntitat(where, orderBy, itemsPerPage, inici);
 
-    List<String> listUsuariEntidadID = new ArrayList<String>();
-    for (RoleUsuariEntitat roleUsuariEntitat : list) {
-      listUsuariEntidadID.add(roleUsuariEntitat.getUsuariEntitatID());
-      map.put(roleUsuariEntitat.getUsuariEntitatID(), (RoleUsuariEntitatJPA) roleUsuariEntitat);
-    }
-    List<UsuariEntitatJPA> listUsuariEntitatJPA = usuariEntitatLogicaEjb
-        .findByPrimaryKeyFullWithEntitat(listUsuariEntidadID);
-
-    List<StringKeyValue> nueva = new ArrayList<StringKeyValue>();
-    for (UsuariEntitatJPA usuariEntitatJPA : listUsuariEntitatJPA) {
-      nueva.add(new StringKeyValue(usuariEntitatJPA.getUsuariEntitatID(), Utils
-          .getNom(usuariEntitatJPA.getUsuariPersona())));
-      map.get(usuariEntitatJPA.getUsuariEntitatID()).setUsuariEntitat(usuariEntitatJPA);
-    }
-
-    return nueva;
   }
   
+  
+  @Override
+  public void preList(HttpServletRequest request, ModelAndView mav, 
+      RoleUsuariEntitatFilterForm filterForm)  throws I18NException {
+    
+    super.preList(request, mav, filterForm);
+
+    
+    String orderBy = filterForm.getOrderBy(); 
+    if (orderBy != null && orderBy.equals(USUARIENTITATID.javaName)) {
+      
+      filterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy(
+          new RoleUsuariEntitatQueryPath().USUARIENTITAT().USUARIPERSONA().LLINATGES(), 
+          filterForm.isOrderAsc()? OrderType.ASC : OrderType.DESC)
+      });
+      
+      request.getSession().setAttribute("ORDER_BY_HOLDER", orderBy);
+      filterForm.setOrderBy(null);
+      
+    }
+
+  }
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav, RoleUsuariEntitatFilterForm filterForm,  List<RoleUsuariEntitat> list) throws I18NException {
+    
+    super.postList(request, mav, filterForm, list);
+    
+    String orderBy = (String) request.getSession().getAttribute("ORDER_BY_HOLDER");
+    if (filterForm.getOrderBy() == null && orderBy != null) {
+      filterForm.setOrderBy(orderBy);
+      request.getSession().removeAttribute("ORDER_BY_HOLDER");
+    }
+    
+  }
+  
+  
+
 
   @Override
   public Map<Field<?>, GroupByItem> fillReferencesForList(RoleUsuariEntitatFilterForm filterForm,
@@ -512,7 +465,7 @@ public class GestioRoleAdminEntitatController extends AbstractGestioRoleUsuariEn
        // Field USUARI PERSONA_NOM
       _listSKV = this.personaRefList.getReferenceList(UsuariPersonaFields.USUARIPERSONAID, null, new OrderBy(UsuariPersonaFields.LLINATGES));
       _tmp = org.fundaciobit.genapp.common.utils.Utils.listToMap(_listSKV);
-      groupByItemsMap.get(USUARIPERSONA_NOM).setCodeLabel(UsuariPersonaFields._TABLE_MODEL + "." + UsuariPersonaFields._TABLE_MODEL);
+      groupByItemsMap.get(USUARIPERSONA_NOM).setCodeLabel(Constants.ROLE_ADEN);
       fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIPERSONA_NOM, false);
 
 

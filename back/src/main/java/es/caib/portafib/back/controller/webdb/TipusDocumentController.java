@@ -48,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/tipusDocument")
 @SessionAttributes(types = { TipusDocumentForm.class, TipusDocumentFilterForm.class })
 public class TipusDocumentController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController implements TipusDocumentFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<TipusDocument, java.lang.Long> implements TipusDocumentFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;

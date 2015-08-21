@@ -51,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/entitat")
 @SessionAttributes(types = { EntitatForm.class, EntitatFilterForm.class })
 public class EntitatController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<EntitatJPA, EntitatForm> implements EntitatFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Entitat, java.lang.String, EntitatForm> implements EntitatFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
@@ -553,13 +553,13 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, EntitatJPA entitat,
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, Entitat entitat,
       EntitatForm form) throws I18NException {
 
     FitxerJPA f;
     f = (FitxerJPA)afm.preProcessFile(form.getFaviconID(), form.isFaviconIDDelete(),
         form.isNou()? null : entitat.getFavicon());
-    entitat.setFavicon(f);
+    ((EntitatJPA)entitat).setFavicon(f);
     if (f != null) { 
       entitat.setFaviconID(f.getFitxerID());
     } else {
@@ -568,7 +568,7 @@ public java.lang.String stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getLogoWebID(), form.isLogoWebIDDelete(),
         form.isNou()? null : entitat.getLogoWeb());
-    entitat.setLogoWeb(f);
+    ((EntitatJPA)entitat).setLogoWeb(f);
     if (f != null) { 
       entitat.setLogoWebID(f.getFitxerID());
     } else {
@@ -577,7 +577,7 @@ public java.lang.String stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getLogoWebPeuID(), form.isLogoWebPeuIDDelete(),
         form.isNou()? null : entitat.getLogoWebPeu());
-    entitat.setLogoWebPeu(f);
+    ((EntitatJPA)entitat).setLogoWebPeu(f);
     if (f != null) { 
       entitat.setLogoWebPeuID(f.getFitxerID());
     } else {
@@ -586,7 +586,7 @@ public java.lang.String stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getLogoSegellID(), form.isLogoSegellIDDelete(),
         form.isNou()? null : entitat.getLogoSegell());
-    entitat.setLogoSegell(f);
+    ((EntitatJPA)entitat).setLogoSegell(f);
     if (f != null) { 
       entitat.setLogoSegellID(f.getFitxerID());
     } else {
@@ -595,7 +595,7 @@ public java.lang.String stringToPK(String value) {
 
     f = (FitxerJPA)afm.preProcessFile(form.getPdfAutoritzacioDelegacioID(), form.isPdfAutoritzacioDelegacioIDDelete(),
         form.isNou()? null : entitat.getPdfAutoritzacioDelegacio());
-    entitat.setPdfAutoritzacioDelegacio(f);
+    ((EntitatJPA)entitat).setPdfAutoritzacioDelegacio(f);
     if (f != null) { 
       entitat.setPdfAutoritzacioDelegacioID(f.getFitxerID());
     } else {
@@ -606,7 +606,7 @@ public java.lang.String stringToPK(String value) {
 
   // FILE
   @Override
-  public void deleteFiles(EntitatJPA entitat) {
+  public void deleteFiles(Entitat entitat) {
     deleteFile(entitat.getFaviconID());
     deleteFile(entitat.getLogoWebID());
     deleteFile(entitat.getLogoWebPeuID());

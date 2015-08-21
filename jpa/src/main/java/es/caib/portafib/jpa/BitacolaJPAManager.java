@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class BitacolaJPAManager
-		 extends AbstractPortaFIBJPAManager<Bitacola, Long >
+		 extends AbstractPortaFIBJPAManager<Bitacola, Long>
 		 implements IBitacolaManager, BitacolaFields {
 
 
