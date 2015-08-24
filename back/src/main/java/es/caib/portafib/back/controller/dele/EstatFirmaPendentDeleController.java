@@ -16,12 +16,6 @@ import es.caib.portafib.utils.Constants;
 @RequestMapping(value = Constants.CONTEXT_DELE_ESTATFIRMA_PENDENT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaPendentDeleController extends  EstatFirmaAbstractDeleController {
-
- 
-  @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddefirma.llistat.pendent";
-  }
   
   
   @Override

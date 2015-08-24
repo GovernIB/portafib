@@ -107,11 +107,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   public static final int ESTAT_EDITABLE = 0;
 
-  // public static final int ESTAT_FITXER_FIRMAT = 1;
+  public static final int ESTAT_ACTIVADA = 1;
 
-  public static final int ESTAT_ACTIVADA = 2;
-
-  public static final int ESTAT_DESACTIVADA = 3;
+  public static final int ESTAT_DESACTIVADA = 2;
   
   public static final ValueComparator valueComparator = new ValueComparator();
 
@@ -156,23 +154,18 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     {
-      
       this.carrecRefList = new UsuariEntitatRefList(carrecRefList);
       this.carrecRefList.setSelects(new Select<?>[] { UsuariEntitatFields.CARREC.select});
-      
     }
     
     
     final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
     {
       this.personaRefList = new UsuariEntitatRefList(personaRefList);
-  
-      
       this.personaRefList.setSelects(new Select<?>[] { 
           personaQueryPath.LLINATGES().select , new SelectConstant(", "), 
           personaQueryPath.NOM().select, new SelectConstant(" ("), 
           personaQueryPath.NIF().select, new SelectConstant(")") });
-      
       this.personaRefList.setSeparator("");
     }
     
@@ -289,7 +282,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   @Override
   public String getSessionAttributeFilterForm() {
-    return getEntityNameCode() + "_Dest_FilterForm";
+    return getEntityNameCode() + "_" + getRole() +"_" + esDeCarrec() + "_FilterForm";
   }
 
   @Override
@@ -392,6 +385,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     // camps read only
     colaboracioDelegacioForm.addReadOnlyField(ACTIVA);
+    
     colaboracioDelegacioForm.addReadOnlyField(COLABORADORDELEGATID);
     
     // Ocultam camps
@@ -474,6 +468,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
       colaboracioDelegacioJPA.setDataInici(new Timestamp(
           System.currentTimeMillis() + 30 * 60 * 1000));
+      
+      if (!esDelegat()) {
+        colaboracioDelegacioForm.getReadOnlyFields().remove(ACTIVA);
+        colaboracioDelegacioForm.getColaboracioDelegacio().setActiva(true);
+      }
 
     } else {
 
@@ -812,11 +811,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @Override
   public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
 
-    //if (esDelegat()) {
+    
+    
+    if (esDelegat()) {
+      // Anam a la pàgina de Firma
+      return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
+          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
+    } else {
       return "redirect:" + getContextWeb() + "/"
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
           + "/edit";
-    //}
+    }
     //return "redirect:" + getContextWeb() + "/list";
   }
 
@@ -830,9 +835,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
         if (log.isDebugEnabled()) {
           if (tipus == null || tipus.size() == 0) {
-            log.info(" +++++ UPDATE TIPUS esta BUIT: " + tipus);
+            log.debug(" +++++ UPDATE TIPUS esta BUIT: " + tipus);
           } else {
-            log.info(" +++++ UPDATE TIPUS conté: " + +tipus.size());
+            log.debug(" +++++ UPDATE TIPUS conté: " + +tipus.size());
           }
         }
 
@@ -1097,6 +1102,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     return "redirect:" + getContextWeb() + "/" + id + "/edit/";
   }
+  
+
   
   
   /**

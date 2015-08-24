@@ -18,11 +18,6 @@ import es.caib.portafib.utils.Constants;
 public class EstatFirmaPendentDestController extends EstatFirmaAbstractDestController {
 
   @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddefirma.llistat.pendent";
-  }
-
-  @Override
   public int getFilterType() {
     return FILTRAR_PER_PENDENT;
   }

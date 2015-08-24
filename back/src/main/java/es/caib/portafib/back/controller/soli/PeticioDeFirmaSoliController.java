@@ -1384,7 +1384,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
        filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
            "icon-file icon-white", "veuredoc", 
             // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
-           "javascript:var win = window.open('" + request.getContextPath() + "/" + getContextWeb() + "/docfirmat/" + peticioDeFirmaID +"', '_blank'); win.focus();",
+           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioDeFirmaID +"', '_blank'); win.focus();",
            "btn-info") );
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
@@ -1399,7 +1399,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pencil icon-white", "peticiodefirma.editar",  
-              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
+              "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
               "btn-warning") );
           /* TODO Borrar
           <li>
@@ -1458,7 +1458,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
                 "/img/custodia.png", "custodia.crear",  
-                "javascript:goTo('" + request.getContextPath()  +"/" + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
+                "javascript:goTo('" + request.getContextPath()  + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
                 "btn-warning"));
           } else {
 
@@ -1499,7 +1499,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-eye-open icon-white", "peticiodefirma.veuredetalls",  
-              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
+              "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
               "btn-info"));
           
           /* TODO Borrar
@@ -1528,7 +1528,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-play icon-white", "iniciar",  
-              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
+              "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
               "btn-success"));
           
         }
@@ -1544,7 +1544,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pause icon-white", "pausar",  
-              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')",
+              "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')",
               "btn-warning"));
         }
 
@@ -1560,7 +1560,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-trash icon-white", "genapp.delete",  
               //"javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete')",
-              "javascript:openModal('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete','show');",
+              "javascript:openModal('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/delete','show');",
               "btn-danger"));
           
         }
@@ -1575,7 +1575,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         */
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
             "icon-random", "clonar",  
-            "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
+            "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
             ""));
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT 
@@ -1592,7 +1592,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-repeat icon-white", "reinicialitzar",  
-              "javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
+              "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
               "btn-danger"));
           
         }

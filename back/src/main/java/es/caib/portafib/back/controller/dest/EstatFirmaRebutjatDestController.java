@@ -18,11 +18,6 @@ import es.caib.portafib.utils.Constants;
 public class EstatFirmaRebutjatDestController extends  EstatFirmaAbstractDestController {
   
   @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddefirma.llistat.rebutjat";
-  }
-  
-  @Override
   public final int getFilterType() {   
     return FILTRAR_PER_NOACCEPTAT; // == REBUTJAT
   }

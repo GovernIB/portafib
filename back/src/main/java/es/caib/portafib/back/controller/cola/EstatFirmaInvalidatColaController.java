@@ -18,43 +18,6 @@ import es.caib.portafib.utils.Constants;
 public class EstatFirmaInvalidatColaController extends EstatFirmaAbstractColaController {
 
   @Override
-  public String getBaseEntityNameCode() {
-    return "solicitudinvalidada";
-  }
-  
-  /*
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    Where pare = super.getAdditionalCondition(request);
-    
-    Where fill = TIPUSESTATDEFIRMAFINALID.equal(Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
-    
-    return Where.AND(pare, fill);
-    
-  }
-  */
-  
-  /*
-  @Override  
-  public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
-      HttpServletRequest request) throws I18NException {
-
-    EstatDeFirmaFilterForm ff = super.getEstatDeFirmaFilterForm(pagina, mav, request);
-
-    if (ff.isNou()) {
-      ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
-      
-      if (ff.getGroupByFields() != null) {
-        ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
-      }
-    }
-    
-    return ff;
-  }
- */
-
-
-  @Override
   public int getFilterType() {
     return FILTRAR_PER_NOACCEPTAT; // == Invalidat
   }

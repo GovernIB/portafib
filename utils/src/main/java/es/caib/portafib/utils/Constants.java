@@ -126,14 +126,11 @@ public interface Constants {
   public static final String CONTEXT_DEST_ESTATFIRMA_PENDENT = CONTEXT_DEST_ESTATFIRMA + "Pendent";
   public static final String CONTEXT_DEST_ESTATFIRMA_FIRMAT = CONTEXT_DEST_ESTATFIRMA + "Firmada";
   public static final String CONTEXT_DEST_ESTATFIRMA_REBUTJAT = CONTEXT_DEST_ESTATFIRMA + "Rebutjada";
-  public static final String CONTEXT_DEST_ESTATFIRMA_DESCARTAT = CONTEXT_DEST_ESTATFIRMA + "Descartat";
-  
   
   public static final String CONTEXT_DELE_ESTATFIRMA = "/dele/estatDeFirma";
   public static final String CONTEXT_DELE_ESTATFIRMA_PENDENT = CONTEXT_DELE_ESTATFIRMA + "Pendent";
   public static final String CONTEXT_DELE_ESTATFIRMA_FIRMAT = CONTEXT_DELE_ESTATFIRMA + "Firmada";
   public static final String CONTEXT_DELE_ESTATFIRMA_REBUTJAT = CONTEXT_DELE_ESTATFIRMA + "Rebutjada";
-  public static final String CONTEXT_DELE_ESTATFIRMA_DESCARTAT = CONTEXT_DELE_ESTATFIRMA + "Descartat";
 
   public static final String CONTEXT_COLA_ESTATFIRMA = "/cola/estatDeFirma";
   public static final String CONTEXT_COLA_ESTATFIRMA_PENDENT = CONTEXT_COLA_ESTATFIRMA + "Pendent";

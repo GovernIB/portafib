@@ -17,10 +17,6 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaDestController extends EstatFirmaAbstractDestController {
 
-  @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddefirma";
-  }
 
   @Override
   public int getFilterType() {

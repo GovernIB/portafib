@@ -1,6 +1,4 @@
 
-<%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
-
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
 <style type="text/css">

@@ -15,12 +15,6 @@ import es.caib.portafib.utils.Constants;
 @RequestMapping(value = Constants.CONTEXT_DELE_ESTATFIRMA_REBUTJAT)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaRebutjatDeleController extends EstatFirmaAbstractDeleController {
-
-  
-  @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddefirma.llistat.rebutjat";
-  }
   
   @Override
   public final int getFilterType() {   

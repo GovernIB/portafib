@@ -502,8 +502,8 @@ import es.caib.portafib.utils.Configuracio;
     // ALL          -1    tots_estats    tots_estats 
     // PENDENT       1    pendent        pendent
     // ACCEPTAT      2    firmat         validat
-    // NOACCEPTAT    3    rebutjat       invalidat
-    // NODEFINIT     4    descartat(*)   descartat
+    // NOACCEPTAT    4    rebutjat       invalidat
+    // NODEFINIT     8    descartat(*)   descartat
     // TODO (*) En un futur el valor descartat per dest i dele no tindran sentit i les 
     //          delegacions firmades per un dest o les destinacions firmades per un delegat 
     //          serna tractades com l'estat final del la sol3licitud: firmada o rebutjada
@@ -514,9 +514,9 @@ import es.caib.portafib.utils.Configuracio;
     
     public static final int FILTRAR_PER_ACCEPTAT = 2;
     
-    public static final int FILTRAR_PER_NOACCEPTAT = 3;
+    public static final int FILTRAR_PER_NOACCEPTAT = 4;
 
-    public static final int FILTRAR_PER_NODEFINIT = 4;
+    public static final int FILTRAR_PER_NODEFINIT = 8;
     
     
     public abstract int getFilterType();
@@ -529,26 +529,38 @@ import es.caib.portafib.utils.Configuracio;
      
       long firmaId = ef.getFirmaID();
       
-      log.info(" ---------- " + peticioDeFirmaID + " -----------");
+      final boolean isDebug = log.isDebugEnabled();
+      
+      if (isDebug) {
+        log.debug(" ---------- " + peticioDeFirmaID + " -----------");
+      }
       
       // Cercar colaboradors-revisors que no han donat el vist i plau a la firma
       Where w1 = FIRMAID.equal(firmaId);
-      log.info("C1 = " + estatDeFirmaEjb.count(w1));
+      if (isDebug) {
+        log.debug("C1 = " + estatDeFirmaEjb.count(w1));
+      }
       
       Where w2 = Where.OR(
           TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
           TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
         );
-      log.info("C2 = " + estatDeFirmaEjb.count(Where.AND(w1,w2)));
+      if (isDebug) {
+        log.debug("C2 = " + estatDeFirmaEjb.count(Where.AND(w1,w2)));
+      }
       
       Where w3 = Where.OR(
           TIPUSESTATDEFIRMAFINALID.isNull(),
           TIPUSESTATDEFIRMAFINALID.notEqual(Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT)
           );
-      log.info("C3 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3)));
+      if (isDebug) {
+        log.debug("C3 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3)));
+      }
       
       Where w4 = COLABORACIODELEGACIOID.isNotNull();
-      log.info("C4 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4)));
+      if (isDebug) {
+        log.debug("C4 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4)));
+      }
       
       ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
       Where w5 = Where.AND(
@@ -556,8 +568,9 @@ import es.caib.portafib.utils.Configuracio;
           cdqp.ACTIVA().equal(true),
           cdqp.ESDELEGAT().equal(false) // Es col·laborador
         );
-      
-      log.info("C5 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4,w5)));
+      if (isDebug) {
+        log.debug("C5 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4,w5)));
+      }
       
 
       final Select<?>[] nomcomplet = new Select<?>[] {
@@ -1395,7 +1408,9 @@ import es.caib.portafib.utils.Configuracio;
       
         // TODO falta obri-ho en una nova pipella
         filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton("icon-file",
-          "veuredoc", getContextWeb() + "/docfirmat/" + peticioID , "btn-info"));
+          "veuredoc",
+          "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
+           , "btn-info"));
       }
       
        // Full view
@@ -1747,6 +1762,9 @@ import es.caib.portafib.utils.Configuracio;
               EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()));
     }
 
+    
+
+
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
@@ -1966,15 +1984,35 @@ import es.caib.portafib.utils.Configuracio;
 
     @Override
     public final String getEntityNameCode() {
-      return getBaseEntityNameCode();
+      return getBaseEntityNameCode() + getEntityNameByFilterType();
     }
 
     @Override
     public final String getEntityNameCodePlural() {
-      return getBaseEntityNameCode() + ".plural";
+      return getEntityNameCode() + ".plural";
     }
 
     
+    public String getEntityNameByFilterType() {
+
+      switch(getFilterType()) {
+        case FILTRAR_PER_PENDENT: // Pendent de firma o de de validacio
+          return ".pendent";
+
+        case FILTRAR_PER_ACCEPTAT: // Firmat o validat
+          return ".acceptada";
+ 
+        case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
+           return ".noacceptada";
+
+        case FILTRAR_PER_NODEFINIT: // Colllaboracions ignorades
+           return ".ignorada";
+
+        default:
+          return ".totes";
+      }
+      
+    }
    
 
     /*

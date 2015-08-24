@@ -17,10 +17,6 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaDescartatColaController extends EstatFirmaAbstractColaController {
 
-  @Override
-  public String getBaseEntityNameCode() {
-    return "solicituddescartada";
-  }
   
 
   @Override

@@ -18,11 +18,6 @@ import es.caib.portafib.utils.Constants;
 public class EstatFirmaPendentColaController extends EstatFirmaAbstractColaController {
 
   @Override
-  public String getBaseEntityNameCode() {
-    return "solicitudpendent";
-  }
-
-  @Override
   public int getFilterType() {
     return FILTRAR_PER_PENDENT;
   }
