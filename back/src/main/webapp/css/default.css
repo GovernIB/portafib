@@ -249,6 +249,7 @@ small {
 	}
 	.custom-submenu.nav > li > a:hover {
 	  	background-color: #fff;
+	  	color: #000;
 	  	border-left:1px solid #ccc;
 		border-right:1px solid #ccc;
 		border-top:1px solid #ccc;

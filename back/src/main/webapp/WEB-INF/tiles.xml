@@ -7,14 +7,24 @@
     <definition name="base.cap" template="/WEB-INF/jsp/moduls/cap.jsp" preparer="capPreparer"/>
     <definition name="base.menu_i_contingut" template="/WEB-INF/jsp/moduls/menu_i_contingut.jsp"/>
     <definition name="base.menu" template="/WEB-INF/jsp/moduls/blanc.jsp" preparer="menuPreparer"/>
-    <definition name="base.contingut" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
+    <definition name="base.contingutbuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
+    <definition name="base.menubuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
+    <definition name="base.contingut" template="/WEB-INF/jsp/moduls/contingut.jsp"/>
 	<definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
 
     <definition name="base.definition" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
         <put-attribute name="cap" value="base.cap" />
         <put-attribute name="menu_i_contingut" value="base.menu_i_contingut" />
         <put-attribute name="menu" value="base.menu"  />
-        <put-attribute name="contingut" value="base.contingut"  />       
+        <put-attribute name="contingut" value="base.contingutbuit"  />       
+        <put-attribute name="peu" value="base.peu" />
+    </definition>
+    
+    <definition name="base.definition.contingut" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
+        <put-attribute name="cap" value="base.cap" />
+        <put-attribute name="menu_i_contingut" value="base.contingut" />
+        <put-attribute name="menu" value="base.menubuit"  />
+        <put-attribute name="contingut" value="base.contingutbuit"  />       
         <put-attribute name="peu" value="base.peu" />
     </definition>
 
@@ -325,6 +335,10 @@
     </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
+    
+    <!-- MMMENU
+    <definition name="role_cola" extends="base.definition.contingut">
+     -->
     
     <definition name="role_cola" extends="base.definition">
         <put-attribute name="pipella" value="ROLE_COLA" />
