@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.back.controller.soli.PeticioFirmaMassivaController"%>
 <%@page import="es.caib.portafib.utils.Constants"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
@@ -11,7 +12,9 @@
 <%!
 
 public static final String[] menu = {
+    
     "peticiodefirma.crear", // Realitzar petició de firma via Web o WebServices
+    "peticioFirmaMassiva.titol",
     "",
     //"peticioDeFirma.peticioDeFirma.plural", // Peticions de Firma
     //"",
@@ -47,25 +50,16 @@ static {
   mapping = new HashMap<String, String>();
   mapping.put("peticiodefirma.crear", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/selectflux");
   
-  //mapping.put("peticioDeFirma.peticioDeFirma.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
+  mapping.put("peticioFirmaMassiva.titol", PeticioFirmaMassivaController.CONTEXTWEB);
 
   
   mapping.put("peticiodefirma.activa.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list");
   mapping.put("peticiodefirma.firmada.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA + "/list");
   mapping.put("peticiodefirma.rebutjada.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/list");
-  
-  /*
-  mapping.put("cancelarpeticiofirma", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
-  mapping.put("eliminarpeticiofirma", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
-  mapping.put("descarregardocumentfirmat", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/list");
-  */
+
   
   mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/soli/plantilla/list");
-  /*
-  mapping.put("crearplantillafluxfirmes", "/soli/plantilla/new");
-  mapping.put("modificarplantillafluxfirmes", "/soli/plantilla/list");
-  mapping.put("eliminarplantillafluxfirmes", "/soli/plantilla/list");
-  */
+
 
   mapping.put("custodiaInfo.custodiaInfo.plural", "/soli/peticio/custodiainfo/list");
   

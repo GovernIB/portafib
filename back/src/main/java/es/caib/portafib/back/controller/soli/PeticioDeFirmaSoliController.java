@@ -1026,18 +1026,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       // Ocultar boto de crear
       peticioDeFirmaFilterForm.setAddButtonVisible(false);
       
-      // Crear nou boto de Crear Petició
-      {
-        String action;
-        if (isSolicitantUsuariEntitat()) {
-          action = getContextWeb() + "/selectflux";
-        } else {
-          action = "javascript:openSelectUserAppDialog();";
-        }
-      
-        peticioDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-          "icon-plus-sign", "peticiodefirma.crear" ,  action, ""));
-      }
+
 
       // Ordre inicial
       //BooleanField avisWeb = new PeticioDeFirmaQueryPath().PETICIODEFIRMAUSUARIENTITAT().AVISWEB();
@@ -1254,7 +1243,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
           }
         }
-      } 
+      }
 
       
     } else  {
@@ -1298,6 +1287,9 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     
     filterForm.getAdditionalButtonsByPK().clear();
     filterForm.getAdditionalInfoForActionsRendererByPK().clear();
+    
+    int deleteCount = 0;
+    int pausarCount = 0;
 
     for(PeticioDeFirma pf: list) {
     
@@ -1530,7 +1522,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               "icon-play icon-white", "iniciar",  
               "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
               "btn-success"));
-          
+
         }
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -1546,6 +1538,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               "icon-pause icon-white", "pausar",  
               "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')",
               "btn-warning"));
+          
+          pausarCount++;
         }
 
         if (estat != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -1562,6 +1556,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               //"javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete')",
               "javascript:openModal('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/delete','show');",
               "btn-danger"));
+          
+          deleteCount++;
           
         }
 
@@ -1600,8 +1596,94 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     }; // Final For de totes les peticions
     
     
+    filterForm.getAdditionalButtons().clear();
+    
+
+    
+   
+    filterForm.setVisibleMultipleSelection(false);
+    
+    final int size = list.size();
+    
+    final boolean deleteMultiple = (size == deleteCount && size != 0);
+    
+    final boolean pausarMultiple = (size == pausarCount  && size != 0);
+    
+    if (deleteMultiple || pausarMultiple) {
+      filterForm.setVisibleMultipleSelection(true);
+    
+    
+      if (deleteMultiple) {
+        filterForm.setDeleteSelectedButtonVisible(true);
+      } else {
+        filterForm.setDeleteSelectedButtonVisible(false);
+      }
+      
+      if (pausarMultiple)
+        filterForm.addAdditionalButton(new  AdditionalButton("icon-pause icon-white",
+          "pausar", "javascript:submitTo('peticioDeFirmaFilterForm',"
+              + " '" + request.getContextPath() + getContextWeb() + "/pausarseleccionats');" , "btn-warning"));
+      
+    }
+    
+    // Crear nou boto de Crear Petició
+    {
+      String action;
+      if (isSolicitantUsuariEntitat()) {
+        action = getContextWeb() + "/selectflux";
+      } else {
+        action = "javascript:openSelectUserAppDialog();";
+      }
+    
+      filterForm.addAdditionalButton(new AdditionalButton(
+        "icon-plus-sign", "peticiodefirma.crear" ,  action, ""));
+    }
+    
     
   }
+  
+  
+  
+  @RequestMapping(value = "/pausarseleccionats", method = RequestMethod.POST)
+  public ModelAndView pausarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws I18NException {
+
+    // seleccionats conté els estatIDs
+    String[] seleccionatsStr = filterForm.getSelectedItems();
+    // String role = filterForm.getRole();
+
+
+    if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.pausar.capseleccionat"));
+      
+      return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+    } else {
+      
+
+      for(int i = 0; i< seleccionatsStr.length; i++) {
+         try {
+          Long peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
+          
+          // TODO Ha de llanaçar un error no un booleà
+          if (this.peticioDeFirmaLogicaEjb.pause(peticioDeFirmaID)) {
+            // TODO OK
+          } else {
+            // TODO EEROR
+          }
+        } catch(Throwable e) {
+          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+        }
+      }
+      
+      
+    }
+    
+    
+    return llistatPaginat(request, response, null);
+  }
+  
+  
 
 
   @Override

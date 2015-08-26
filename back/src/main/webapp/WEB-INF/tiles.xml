@@ -452,12 +452,18 @@
     <definition name="custodiaInfoList_soli" extends="role_soli">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
     </definition>
-    
 
     <definition name="permisosPlantillaDeFluxDeFirmes" extends="role_soli">
         <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/permisosPlantillaDeFluxDeFirmes.jsp" />
     </definition>
+
+    <definition name="peticioFirmaMassivaForm" extends="role_soli">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioFirmaMassivaForm.jsp" />
+    </definition>
+    
+    
 
 
 <!-- ==== GENAPP MARK START -->

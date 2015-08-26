@@ -5,14 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
-
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -25,6 +23,9 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
 public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliController {
+  
+  public static final String FILTER_BY_TITOL_KEY = "filterbytitol";
+  
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -76,9 +77,17 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
         peticioDeFirmaFilterForm.getGroupByFields().remove(TIPUSESTATPETICIODEFIRMAID);
       }
     }
+
+    String filterByTitol = (String)request.getSession().getAttribute(FILTER_BY_TITOL_KEY);
+    if (filterByTitol != null) {
+      peticioDeFirmaFilterForm.setTitol(filterByTitol);
+      request.getSession().removeAttribute(FILTER_BY_TITOL_KEY);
+    }
+
     return peticioDeFirmaFilterForm;
   }
   
   
+
 
 }

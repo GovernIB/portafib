@@ -2348,13 +2348,35 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     return peticio;
 
   }
-
+ 
   /**
    * 
+   * @param peticioDeFirmaID
+   * @param newMessageFormaPatternForName
+   * @return
+   * @throws I18NException
    */
   @Override
   public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
       String newMessageFormaPatternForName) throws I18NException {
+    
+    return  clonePeticioDeFirma(peticioDeFirmaID,
+            newMessageFormaPatternForName, null);
+    
+  }
+  
+
+  /**
+   * 
+   * @param peticioDeFirmaID
+   * @param newMessageFormaPatternForName
+   * @param fitxerJPA
+   * @return
+   * @throws I18NException
+   */
+  @Override
+  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
+      String newMessageFormaPatternForName, FitxerJPA fitxerJPA) throws I18NException {
 
     PeticioDeFirmaJPA peticioOrig = this.findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
@@ -2374,6 +2396,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     // Borrarem els ID's i clonam els fitxers
     Set<Fitxer> fitxers = new HashSet<Fitxer>();
+    
+    File file = null;
     try {
 
       peticio.setPeticioDeFirmaID(0);
@@ -2381,10 +2405,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       Calendar cal = Calendar.getInstance();
       peticio.setDataSolicitud(new Timestamp(cal.getTimeInMillis()));
-      {
+      if (fitxerJPA == null) {
         FitxerJPA fitxerClonat = cloneFitxer(fitxers, peticioOrig.getFitxerAFirmar());
         peticio.setFitxerAFirmar(fitxerClonat);
         peticio.setFitxerAFirmarID(fitxerClonat.getFitxerID());
+      } else {
+        fitxerJPA = (FitxerJPA)fitxerLogicaEjb.create(fitxerJPA);
+        fitxers.add(fitxerJPA);
+        file = FileSystemManager.crearFitxer(fitxerJPA.getData().getInputStream(),
+            fitxerJPA.getFitxerID());
+
+        peticio.setFitxerAFirmar(fitxerJPA);
+        peticio.setFitxerAFirmarID(fitxerJPA.getFitxerID());
+        
       }
       cal.add(Calendar.DATE, 15);
       peticio.setDataCaducitat(new Timestamp(cal.getTimeInMillis()));
@@ -2516,6 +2549,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       for (Fitxer fitxer : fitxers) {
         FileSystemManager.eliminarArxiu(fitxer.getFitxerID());
       }
+      
+      if (file != null && file.exists()) {
+        if (!file.delete()) {
+          // TODO WARN
+          file.deleteOnExit();
+        }
+      }
+      
       if (e instanceof I18NException) {
         throw (I18NException) e;
       } if (e instanceof I18NValidationException) {
