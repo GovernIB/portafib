@@ -8,14 +8,17 @@ import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,12 +41,6 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     return "configuracioUsuariEntitatForm";
   }
 
-  // No permetem que es crei un de nou, estam a configuració
-  @Override
-  public boolean isActiveFormNew() {
-    return true;
-  }
-  
   
   @Override
   public UsuariEntitatForm getUsuariEntitatForm(UsuariEntitatJPA _jpa, boolean __isView,
@@ -87,6 +84,11 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
 
     // Posar titol
     usuariEntitatForm.setTitleCode("configuracio_usuari_entitat");
+    usuariEntitatForm.setSubTitleCode("=" + I18NUtils.tradueix(
+        "configuracio_usuari_entitat.subtitol", LoginInfo.getInstance().getEntitat().getNom()));
+    
+    usuariEntitatForm.addHelpToField(EMAIL,
+        I18NUtils.tradueix("configuracio_usuari_entitat.help.email"));
 
     // Fixam la llista de usuaripersona amb l'usuari persona indicat
     StringKeyValue skvUP = new StringKeyValue(up.getUsuariPersonaID(), up.getNom() + " "
@@ -105,6 +107,13 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     return usuariEntitatForm;
 
   }
+  
+  // No permetem que es crei un de nou, estam a configuració
+  @Override
+  public boolean isActiveFormNew() {
+    return false;
+  }
+  
 
   @Override
   public boolean isActiveList() {

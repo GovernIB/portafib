@@ -49,18 +49,9 @@
     <c:if test="${ estatDeFirmaFilterForm.visibleMultipleSelection}">
 
      <%--  Boto de FIRMA MULTIPLE --%>
-     
      var botoFirmaMultiple = '<button type="button" class="btn btn-small btn-success" onclick="firmarseleccionats()">'
          + '<i class="icon-edit"></i><fmt:message key="firmarseleccionats" />'
          + '</button>';
-
-     <%--
-     var botoFirmaMultiple = '<a class="btn btn-small btn-succes"  role="button" data-toggle="modal"' 
-         + ' href="#" onclick="firmarseleccionats()"> <i class="icon-edit"></i>'
-         + '<span style="style="color: white;""><fmt:message key="firmarseleccionats" /></span>'
-         + '</a>';
-      --%>
-    
 
      function firmarseleccionats() {
        document.estatDeFirma.action = '<c:url value="${contexte}/firmarseleccionats"/>';
@@ -70,12 +61,6 @@
      
 
      <%--  Boto de REBUIG MULTIPLE --%>
-     <%--
-     var botoRebuigMultiple = '<a class="btn  btn-small btn-danger"  role="button" data-toggle="modal"' 
-         + ' href="#" onclick="rebutjarseleccionats()"> <i class="icon-remove"></i>'
-         + '<fmt:message key="rebutjarseleccionats" />'
-         + '</a>';
-     --%>
      var botoRebuigMultiple = '<button type="button" class="btn btn-small btn-danger" onclick="rebutjarseleccionats()">'
      + '<i class="icon-remove"></i><fmt:message key="rebutjarseleccionats" />'
      + '</button>'

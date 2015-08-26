@@ -21,6 +21,14 @@
   </c:if>
   
   <c:if test="${not empty annexFirmatForm.subTitleCode}">
-      <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;"><fmt:message key="${annexFirmatForm.subTitleCode}" /></h5>
+  <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
+<c:set var="subtitleTranslated" value="${fn:startsWith(annexFirmatForm.subTitleCode,'=')}" />
+<c:if test="${subtitleTranslated}">
+   <c:out value="${fn:substringAfter(annexFirmatForm.subTitleCode, '=')}"/>
+</c:if>
+<c:if test="${not subtitleTranslated}">
+  <fmt:message key="${annexFirmatForm.subTitleCode}" />
+</c:if>
+</h5>
   </c:if>
 </div>

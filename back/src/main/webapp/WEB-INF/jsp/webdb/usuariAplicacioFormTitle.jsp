@@ -21,6 +21,14 @@
   </c:if>
   
   <c:if test="${not empty usuariAplicacioForm.subTitleCode}">
-      <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;"><fmt:message key="${usuariAplicacioForm.subTitleCode}" /></h5>
+  <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
+<c:set var="subtitleTranslated" value="${fn:startsWith(usuariAplicacioForm.subTitleCode,'=')}" />
+<c:if test="${subtitleTranslated}">
+   <c:out value="${fn:substringAfter(usuariAplicacioForm.subTitleCode, '=')}"/>
+</c:if>
+<c:if test="${not subtitleTranslated}">
+  <fmt:message key="${usuariAplicacioForm.subTitleCode}" />
+</c:if>
+</h5>
   </c:if>
 </div>
