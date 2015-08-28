@@ -33,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -147,20 +148,26 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
 
         FitxerJPA arxiuActual = new FitxerJPA();
         // Valors temporals
-        arxiuActual.setNom(arxiuPujat.getOriginalFilename());
+        String fileName = arxiuPujat.getOriginalFilename();
+        arxiuActual.setNom(fileName);
         arxiuActual.setMime("application/octet-stream");
         arxiuActual.setMime(Utils.getMimeType(arxiuPujat.getOriginalFilename()));
         arxiuActual.setTamany(arxiuPujat.getSize());
 
         arxiuActual.setData(new DataHandler(new MultipartFileDataSource(arxiuPujat)));
 
-        String titol = titolPeticio + " (" + (total - count) + "/" + total + ")";
+        String counter = (total - count) + "/" + total;
+        
+        String t = MessageFormat.format(titolPeticio, counter, fileName);
+        String d = MessageFormat.format(descripcio, counter, fileName);
+        String m = MessageFormat.format(motiu, counter, fileName);
+        
         count++;
-        peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, titol,
+        peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, t,
             arxiuActual);
 
-        peticio.setDescripcio(descripcio);
-        peticio.setMotiu(motiu);
+        peticio.setDescripcio(d);
+        peticio.setMotiu(m);
         peticioDeFirmaLogicaEjb.update(peticio);
 
         peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID());
@@ -195,7 +202,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     }
 
     request.getSession().setAttribute(PeticioDeFirmaActivaSoliController.FILTER_BY_TITOL_KEY,
-        titolPeticio);
+        MessageFormat.format(titolPeticio, "%", "%"));
 
     return "redirect:" + Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list/1";
 

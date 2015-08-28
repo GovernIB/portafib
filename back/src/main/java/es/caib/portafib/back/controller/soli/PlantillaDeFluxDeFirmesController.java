@@ -79,6 +79,7 @@ import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.FluxDeFirmesQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -194,6 +195,23 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
 
   }
+  
+  
+  @RequestMapping(value = "/viewfluxpeticioid/{peticiodeFirmaID}", method = RequestMethod.GET)
+  public ModelAndView viewFluxDeFirmesPeticioIDGet(
+      @PathVariable("peticiodeFirmaID") java.lang.Long peticiodeFirmaID,
+      HttpServletRequest request, HttpServletResponse response) throws I18NException {
+        
+    Where w = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticiodeFirmaID);
+    // TODO canvia per onlyone result
+    List<Long> fluxIDList = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.FLUXDEFIRMESID, w);
+    
+    // TODO Gestionar errors
+    Long fluxDeFirmesID = fluxIDList.get(0);
+    return viewFluxDeFirmesGet(fluxDeFirmesID, request,  response);
+
+  }
+  
   
   
   @RequestMapping(value = "/viewflux/{fluxDeFirmesID}", method = RequestMethod.GET)
