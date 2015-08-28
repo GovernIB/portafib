@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_colaboraciodelegacio" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class ColaboracioDelegacioJPA implements ColaboracioDelegacio {
 
 
@@ -131,26 +132,6 @@ private static final long serialVersionUID = -637711502L;
     this.setFitxerAutoritzacioID(__bean.getFitxerAutoritzacioID());
     // Fitxer
     this.setFitxerAutoritzacio(FitxerJPA.toJPA(__bean.getFitxerAutoritzacio()));
-	}
-
-  public static ColaboracioDelegacioJPA toJPA(ColaboracioDelegacio __bean) {
-    if (__bean == null) { return null;}
-    ColaboracioDelegacioJPA __tmp = new ColaboracioDelegacioJPA();
-    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
-    __tmp.setDestinatariID(__bean.getDestinatariID());
-    __tmp.setColaboradorDelegatID(__bean.getColaboradorDelegatID());
-    __tmp.setEsDelegat(__bean.isEsDelegat());
-    __tmp.setMotiu(__bean.getMotiu());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setDataInici(__bean.getDataInici());
-    __tmp.setDataFi(__bean.getDataFi());
-    __tmp.setActiva(__bean.isActiva());
-    __tmp.setRevisor(__bean.isRevisor());
-    __tmp.setMotiuDeshabilitada(__bean.getMotiuDeshabilitada());
-    __tmp.setFitxerAutoritzacioID(__bean.getFitxerAutoritzacioID());
-    // Fitxer
-    __tmp.setFitxerAutoritzacio(FitxerJPA.toJPA(__bean.getFitxerAutoritzacio()));
-		return __tmp;
 	}
 
 	public long getColaboracioDelegacioID() {
@@ -322,6 +303,76 @@ private static final long serialVersionUID = -637711502L;
 	public  void setFitxerAutoritzacio(FitxerJPA fitxerAutoritzacio) {
     this.fitxerAutoritzacio = fitxerAutoritzacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static ColaboracioDelegacioJPA toJPA(ColaboracioDelegacio __bean) {
+    if (__bean == null) { return null;}
+    ColaboracioDelegacioJPA __tmp = new ColaboracioDelegacioJPA();
+    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
+    __tmp.setDestinatariID(__bean.getDestinatariID());
+    __tmp.setColaboradorDelegatID(__bean.getColaboradorDelegatID());
+    __tmp.setEsDelegat(__bean.isEsDelegat());
+    __tmp.setMotiu(__bean.getMotiu());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setDataInici(__bean.getDataInici());
+    __tmp.setDataFi(__bean.getDataFi());
+    __tmp.setActiva(__bean.isActiva());
+    __tmp.setRevisor(__bean.isRevisor());
+    __tmp.setMotiuDeshabilitada(__bean.getMotiuDeshabilitada());
+    __tmp.setFitxerAutoritzacioID(__bean.getFitxerAutoritzacioID());
+    // Fitxer
+    __tmp.setFitxerAutoritzacio(FitxerJPA.toJPA(__bean.getFitxerAutoritzacio()));
+		return __tmp;
+	}
+
+
+  public static ColaboracioDelegacioJPA copyJPA(ColaboracioDelegacioJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<ColaboracioDelegacioJPA> copyJPA(java.util.Set<ColaboracioDelegacioJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<ColaboracioDelegacioJPA> __tmpSet = (java.util.Set<ColaboracioDelegacioJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<ColaboracioDelegacioJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (ColaboracioDelegacioJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static ColaboracioDelegacioJPA copyJPA(ColaboracioDelegacioJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    ColaboracioDelegacioJPA __tmp = (ColaboracioDelegacioJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"TipusDocumentColaboracioDelegacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocumentColaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocumentColaboracioDelegacios())) ) {
+      __tmp.setTipusDocumentColaboracioDelegacios(TipusDocumentColaboracioDelegacioJPA.copyJPA(__jpa.getTipusDocumentColaboracioDelegacios(), __alreadyCopied,"ColaboracioDelegacioJPA"));
+    }
+    if(!"EstatDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
+      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"ColaboracioDelegacioJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.destinatari) || org.hibernate.Hibernate.isInitialized(__jpa.getDestinatari()) ) ) {
+      __tmp.setDestinatari(UsuariEntitatJPA.copyJPA(__jpa.getDestinatari(), __alreadyCopied,"ColaboracioDelegacioJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboradorDelegat) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboradorDelegat()) ) ) {
+      __tmp.setColaboradorDelegat(UsuariEntitatJPA.copyJPA(__jpa.getColaboradorDelegat(), __alreadyCopied,"ColaboracioDelegacioJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

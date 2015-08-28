@@ -19,6 +19,7 @@ import org.hibernate.annotations.ForeignKey;
 @Entity
 @Table(name = "pfi_usuariaplicacio" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class UsuariAplicacioJPA implements UsuariAplicacio {
 
 
@@ -115,25 +116,6 @@ private static final long serialVersionUID = -360699331L;
     this.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
-	}
-
-  public static UsuariAplicacioJPA toJPA(UsuariAplicacio __bean) {
-    if (__bean == null) { return null;}
-    UsuariAplicacioJPA __tmp = new UsuariAplicacioJPA();
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setContrasenya(__bean.getContrasenya());
-    __tmp.setEntitatID(__bean.getEntitatID());
-    __tmp.setEmailAdmin(__bean.getEmailAdmin());
-    __tmp.setCallbackVersio(__bean.getCallbackVersio());
-    __tmp.setCallbackURL(__bean.getCallbackURL());
-    __tmp.setActiu(__bean.isActiu());
-    __tmp.setIdiomaID(__bean.getIdiomaID());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setLogoSegellID(__bean.getLogoSegellID());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
-    // Fitxer
-    __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
-		return __tmp;
 	}
 
 	public java.lang.String getUsuariAplicacioID() {
@@ -355,6 +337,91 @@ private static final long serialVersionUID = -360699331L;
 	public  void setLogoSegell(FitxerJPA logoSegell) {
     this.logoSegell = logoSegell;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static UsuariAplicacioJPA toJPA(UsuariAplicacio __bean) {
+    if (__bean == null) { return null;}
+    UsuariAplicacioJPA __tmp = new UsuariAplicacioJPA();
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setContrasenya(__bean.getContrasenya());
+    __tmp.setEntitatID(__bean.getEntitatID());
+    __tmp.setEmailAdmin(__bean.getEmailAdmin());
+    __tmp.setCallbackVersio(__bean.getCallbackVersio());
+    __tmp.setCallbackURL(__bean.getCallbackURL());
+    __tmp.setActiu(__bean.isActiu());
+    __tmp.setIdiomaID(__bean.getIdiomaID());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setLogoSegellID(__bean.getLogoSegellID());
+    __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    // Fitxer
+    __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
+		return __tmp;
+	}
+
+
+  public static UsuariAplicacioJPA copyJPA(UsuariAplicacioJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<UsuariAplicacioJPA> copyJPA(java.util.Set<UsuariAplicacioJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<UsuariAplicacioJPA> __tmpSet = (java.util.Set<UsuariAplicacioJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<UsuariAplicacioJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (UsuariAplicacioJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static UsuariAplicacioJPA copyJPA(UsuariAplicacioJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    UsuariAplicacioJPA __tmp = (UsuariAplicacioJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmess())) ) {
+      __tmp.setPlantillaFluxDeFirmess(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmess(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
+      __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"TipusDocumentJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
+      __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
+      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"RoleUsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariAplicacios())) ) {
+      __tmp.setRoleUsuariAplicacios(RoleUsuariAplicacioJPA.copyJPA(__jpa.getRoleUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"EntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
+      __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"IdiomaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
+      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

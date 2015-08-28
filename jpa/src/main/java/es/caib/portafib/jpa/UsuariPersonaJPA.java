@@ -19,6 +19,7 @@ import org.hibernate.annotations.ForeignKey;
 @Entity
 @Table(name = "pfi_usuaripersona" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class UsuariPersonaJPA implements UsuariPersona {
 
 
@@ -88,21 +89,6 @@ private static final long serialVersionUID = -80349968L;
     this.setRubricaID(__bean.getRubricaID());
     // Fitxer
     this.setRubrica(FitxerJPA.toJPA(__bean.getRubrica()));
-	}
-
-  public static UsuariPersonaJPA toJPA(UsuariPersona __bean) {
-    if (__bean == null) { return null;}
-    UsuariPersonaJPA __tmp = new UsuariPersonaJPA();
-    __tmp.setUsuariPersonaID(__bean.getUsuariPersonaID());
-    __tmp.setNom(__bean.getNom());
-    __tmp.setLlinatges(__bean.getLlinatges());
-    __tmp.setEmail(__bean.getEmail());
-    __tmp.setNif(__bean.getNif());
-    __tmp.setIdiomaID(__bean.getIdiomaID());
-    __tmp.setRubricaID(__bean.getRubricaID());
-    // Fitxer
-    __tmp.setRubrica(FitxerJPA.toJPA(__bean.getRubrica()));
-		return __tmp;
 	}
 
 	public java.lang.String getUsuariPersonaID() {
@@ -216,6 +202,63 @@ private static final long serialVersionUID = -80349968L;
 	public  void setRubrica(FitxerJPA rubrica) {
     this.rubrica = rubrica;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static UsuariPersonaJPA toJPA(UsuariPersona __bean) {
+    if (__bean == null) { return null;}
+    UsuariPersonaJPA __tmp = new UsuariPersonaJPA();
+    __tmp.setUsuariPersonaID(__bean.getUsuariPersonaID());
+    __tmp.setNom(__bean.getNom());
+    __tmp.setLlinatges(__bean.getLlinatges());
+    __tmp.setEmail(__bean.getEmail());
+    __tmp.setNif(__bean.getNif());
+    __tmp.setIdiomaID(__bean.getIdiomaID());
+    __tmp.setRubricaID(__bean.getRubricaID());
+    // Fitxer
+    __tmp.setRubrica(FitxerJPA.toJPA(__bean.getRubrica()));
+		return __tmp;
+	}
+
+
+  public static UsuariPersonaJPA copyJPA(UsuariPersonaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<UsuariPersonaJPA> copyJPA(java.util.Set<UsuariPersonaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<UsuariPersonaJPA> __tmpSet = (java.util.Set<UsuariPersonaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<UsuariPersonaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (UsuariPersonaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static UsuariPersonaJPA copyJPA(UsuariPersonaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    UsuariPersonaJPA __tmp = (UsuariPersonaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
+      __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"UsuariPersonaJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"IdiomaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
+      __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"UsuariPersonaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

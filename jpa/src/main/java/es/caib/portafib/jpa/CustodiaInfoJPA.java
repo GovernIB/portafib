@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_custodiainfo" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class CustodiaInfoJPA implements CustodiaInfo {
 
 
@@ -206,31 +207,6 @@ private static final long serialVersionUID = 1603204493L;
     this.setTitolPeticio(__bean.getTitolPeticio());
     this.setDataCustodia(__bean.getDataCustodia());
     this.setEditable(__bean.isEditable());
-	}
-
-  public static CustodiaInfoJPA toJPA(CustodiaInfo __bean) {
-    if (__bean == null) { return null;}
-    CustodiaInfoJPA __tmp = new CustodiaInfoJPA();
-    __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setCustodiaPluginID(__bean.getCustodiaPluginID());
-    __tmp.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
-    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
-    __tmp.setNomPlantilla(__bean.getNomPlantilla());
-    __tmp.setCustodiar(__bean.isCustodiar());
-    __tmp.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
-    __tmp.setPagines(__bean.getPagines());
-    __tmp.setMissatge(__bean.getMissatge());
-    __tmp.setMissatgePosicioPaginaID(__bean.getMissatgePosicioPaginaID());
-    __tmp.setCodiBarresID(__bean.getCodiBarresID());
-    __tmp.setCodiBarresPosicioPaginaID(__bean.getCodiBarresPosicioPaginaID());
-    __tmp.setCodiBarresText(__bean.getCodiBarresText());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setEntitatID(__bean.getEntitatID());
-    __tmp.setTitolPeticio(__bean.getTitolPeticio());
-    __tmp.setDataCustodia(__bean.getDataCustodia());
-    __tmp.setEditable(__bean.isEditable());
-		return __tmp;
 	}
 
 	public long getCustodiaInfoID() {
@@ -483,6 +459,93 @@ private static final long serialVersionUID = 1603204493L;
 	public  void setEntitat(EntitatJPA entitat) {
     this.entitat = entitat;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static CustodiaInfoJPA toJPA(CustodiaInfo __bean) {
+    if (__bean == null) { return null;}
+    CustodiaInfoJPA __tmp = new CustodiaInfoJPA();
+    __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
+    __tmp.setCustodiaPluginID(__bean.getCustodiaPluginID());
+    __tmp.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
+    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
+    __tmp.setNomPlantilla(__bean.getNomPlantilla());
+    __tmp.setCustodiar(__bean.isCustodiar());
+    __tmp.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
+    __tmp.setPagines(__bean.getPagines());
+    __tmp.setMissatge(__bean.getMissatge());
+    __tmp.setMissatgePosicioPaginaID(__bean.getMissatgePosicioPaginaID());
+    __tmp.setCodiBarresID(__bean.getCodiBarresID());
+    __tmp.setCodiBarresPosicioPaginaID(__bean.getCodiBarresPosicioPaginaID());
+    __tmp.setCodiBarresText(__bean.getCodiBarresText());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setEntitatID(__bean.getEntitatID());
+    __tmp.setTitolPeticio(__bean.getTitolPeticio());
+    __tmp.setDataCustodia(__bean.getDataCustodia());
+    __tmp.setEditable(__bean.isEditable());
+		return __tmp;
+	}
+
+
+  public static CustodiaInfoJPA copyJPA(CustodiaInfoJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<CustodiaInfoJPA> copyJPA(java.util.Set<CustodiaInfoJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<CustodiaInfoJPA> __tmpSet = (java.util.Set<CustodiaInfoJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<CustodiaInfoJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (CustodiaInfoJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static CustodiaInfoJPA copyJPA(CustodiaInfoJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    CustodiaInfoJPA __tmp = (CustodiaInfoJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
+      __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"PosicioPaginaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarresPosicioPagina) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarresPosicioPagina()) ) ) {
+      __tmp.setCodiBarresPosicioPagina(PosicioPaginaJPA.copyJPA(__jpa.getCodiBarresPosicioPagina(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"PosicioPaginaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.missatgePosicioPagina) || org.hibernate.Hibernate.isInitialized(__jpa.getMissatgePosicioPagina()) ) ) {
+      __tmp.setMissatgePosicioPagina(PosicioPaginaJPA.copyJPA(__jpa.getMissatgePosicioPagina(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"CodiBarresJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {
+      __tmp.setCodiBarres(CodiBarresJPA.copyJPA(__jpa.getCodiBarres(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

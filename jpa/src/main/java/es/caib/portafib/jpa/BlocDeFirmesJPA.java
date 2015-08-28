@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_blocdefirmes" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class BlocDeFirmesJPA implements BlocDeFirmes {
 
 
@@ -74,17 +75,6 @@ private static final long serialVersionUID = 985359024L;
     this.setDataFinalitzacio(__bean.getDataFinalitzacio());
     this.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
     this.setMinimDeFirmes(__bean.getMinimDeFirmes());
-	}
-
-  public static BlocDeFirmesJPA toJPA(BlocDeFirmes __bean) {
-    if (__bean == null) { return null;}
-    BlocDeFirmesJPA __tmp = new BlocDeFirmesJPA();
-    __tmp.setBlocDeFirmesID(__bean.getBlocDeFirmesID());
-    __tmp.setOrdre(__bean.getOrdre());
-    __tmp.setDataFinalitzacio(__bean.getDataFinalitzacio());
-    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    __tmp.setMinimDeFirmes(__bean.getMinimDeFirmes());
-		return __tmp;
 	}
 
 	public long getBlocDeFirmesID() {
@@ -164,6 +154,59 @@ private static final long serialVersionUID = 985359024L;
 	public  void setFluxDeFirmes(FluxDeFirmesJPA fluxDeFirmes) {
     this.fluxDeFirmes = fluxDeFirmes;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static BlocDeFirmesJPA toJPA(BlocDeFirmes __bean) {
+    if (__bean == null) { return null;}
+    BlocDeFirmesJPA __tmp = new BlocDeFirmesJPA();
+    __tmp.setBlocDeFirmesID(__bean.getBlocDeFirmesID());
+    __tmp.setOrdre(__bean.getOrdre());
+    __tmp.setDataFinalitzacio(__bean.getDataFinalitzacio());
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setMinimDeFirmes(__bean.getMinimDeFirmes());
+		return __tmp;
+	}
+
+
+  public static BlocDeFirmesJPA copyJPA(BlocDeFirmesJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<BlocDeFirmesJPA> copyJPA(java.util.Set<BlocDeFirmesJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<BlocDeFirmesJPA> __tmpSet = (java.util.Set<BlocDeFirmesJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<BlocDeFirmesJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (BlocDeFirmesJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static BlocDeFirmesJPA copyJPA(BlocDeFirmesJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    BlocDeFirmesJPA __tmp = (BlocDeFirmesJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"FirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmas) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmas())) ) {
+      __tmp.setFirmas(FirmaJPA.copyJPA(__jpa.getFirmas(), __alreadyCopied,"BlocDeFirmesJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"FluxDeFirmesJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {
+      __tmp.setFluxDeFirmes(FluxDeFirmesJPA.copyJPA(__jpa.getFluxDeFirmes(), __alreadyCopied,"BlocDeFirmesJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

@@ -19,6 +19,7 @@ import org.hibernate.annotations.ForeignKey;
 @Entity
 @Table(name = "pfi_tipusdocument" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class TipusDocumentJPA implements TipusDocument {
 
 
@@ -65,16 +66,6 @@ private static final long serialVersionUID = -1473284441L;
     this.setNomID(__bean.getNomID());
     this.setDescripcio(__bean.getDescripcio());
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-	}
-
-  public static TipusDocumentJPA toJPA(TipusDocument __bean) {
-    if (__bean == null) { return null;}
-    TipusDocumentJPA __tmp = new TipusDocumentJPA();
-    __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
-    __tmp.setNomID(__bean.getNomID());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-		return __tmp;
 	}
 
 	public long getTipusDocumentID() {
@@ -161,6 +152,7 @@ private static final long serialVersionUID = -1473284441L;
     this.nom = nom;
   }
 
+  @javax.xml.bind.annotation.XmlTransient
   public java.util.Map<String, es.caib.portafib.jpa.TraduccioMapJPA> getNomTraduccions() {
     return this.nom.getTraduccions();
   }
@@ -184,6 +176,66 @@ private static final long serialVersionUID = -1473284441L;
 	public  void setUsuariAplicacio(UsuariAplicacioJPA usuariAplicacio) {
     this.usuariAplicacio = usuariAplicacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static TipusDocumentJPA toJPA(TipusDocument __bean) {
+    if (__bean == null) { return null;}
+    TipusDocumentJPA __tmp = new TipusDocumentJPA();
+    __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
+    __tmp.setNomID(__bean.getNomID());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+		return __tmp;
+	}
+
+
+  public static TipusDocumentJPA copyJPA(TipusDocumentJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<TipusDocumentJPA> copyJPA(java.util.Set<TipusDocumentJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<TipusDocumentJPA> __tmpSet = (java.util.Set<TipusDocumentJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<TipusDocumentJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (TipusDocumentJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static TipusDocumentJPA copyJPA(TipusDocumentJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    TipusDocumentJPA __tmp = (TipusDocumentJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"TipusDocumentJPA"));
+    }
+    if(!"TipusDocumentColaboracioDelegacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocumentColaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocumentColaboracioDelegacios())) ) {
+      __tmp.setTipusDocumentColaboracioDelegacios(TipusDocumentColaboracioDelegacioJPA.copyJPA(__jpa.getTipusDocumentColaboracioDelegacios(), __alreadyCopied,"TipusDocumentJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"TraduccioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.nom) || org.hibernate.Hibernate.isInitialized(__jpa.getNom()) ) ) {
+      __tmp.setNom(TraduccioJPA.copyJPA(__jpa.getNom(), __alreadyCopied,"TipusDocumentJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"TipusDocumentJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

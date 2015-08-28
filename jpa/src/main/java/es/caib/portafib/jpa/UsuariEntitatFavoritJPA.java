@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_usuarientitatfavorit"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"origenid","favoritid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class UsuariEntitatFavoritJPA implements UsuariEntitatFavorit {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -607428966L;
     this.setID(__bean.getID());
     this.setOrigenID(__bean.getOrigenID());
     this.setFavoritID(__bean.getFavoritID());
-	}
-
-  public static UsuariEntitatFavoritJPA toJPA(UsuariEntitatFavorit __bean) {
-    if (__bean == null) { return null;}
-    UsuariEntitatFavoritJPA __tmp = new UsuariEntitatFavoritJPA();
-    __tmp.setID(__bean.getID());
-    __tmp.setOrigenID(__bean.getOrigenID());
-    __tmp.setFavoritID(__bean.getFavoritID());
-		return __tmp;
 	}
 
 	public long getID() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -607428966L;
 	public  void setFavorit(UsuariEntitatJPA favorit) {
     this.favorit = favorit;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static UsuariEntitatFavoritJPA toJPA(UsuariEntitatFavorit __bean) {
+    if (__bean == null) { return null;}
+    UsuariEntitatFavoritJPA __tmp = new UsuariEntitatFavoritJPA();
+    __tmp.setID(__bean.getID());
+    __tmp.setOrigenID(__bean.getOrigenID());
+    __tmp.setFavoritID(__bean.getFavoritID());
+		return __tmp;
+	}
+
+
+  public static UsuariEntitatFavoritJPA copyJPA(UsuariEntitatFavoritJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<UsuariEntitatFavoritJPA> copyJPA(java.util.Set<UsuariEntitatFavoritJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<UsuariEntitatFavoritJPA> __tmpSet = (java.util.Set<UsuariEntitatFavoritJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<UsuariEntitatFavoritJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (UsuariEntitatFavoritJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static UsuariEntitatFavoritJPA copyJPA(UsuariEntitatFavoritJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    UsuariEntitatFavoritJPA __tmp = (UsuariEntitatFavoritJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.favorit) || org.hibernate.Hibernate.isInitialized(__jpa.getFavorit()) ) ) {
+      __tmp.setFavorit(UsuariEntitatJPA.copyJPA(__jpa.getFavorit(), __alreadyCopied,"UsuariEntitatFavoritJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.origen) || org.hibernate.Hibernate.isInitialized(__jpa.getOrigen()) ) ) {
+      __tmp.setOrigen(UsuariEntitatJPA.copyJPA(__jpa.getOrigen(), __alreadyCopied,"UsuariEntitatFavoritJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

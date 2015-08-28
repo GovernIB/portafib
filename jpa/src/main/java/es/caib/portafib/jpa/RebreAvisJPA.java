@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_rebreavis"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"tipusnotificacioid","usuarientitatid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class RebreAvisJPA implements RebreAvis {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -111354374L;
     this.setId(__bean.getId());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setTipusNotificacioID(__bean.getTipusNotificacioID());
-	}
-
-  public static RebreAvisJPA toJPA(RebreAvis __bean) {
-    if (__bean == null) { return null;}
-    RebreAvisJPA __tmp = new RebreAvisJPA();
-    __tmp.setId(__bean.getId());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
-		return __tmp;
 	}
 
 	public long getId() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -111354374L;
 	public  void setTipusNotificacio(TipusNotificacioJPA tipusNotificacio) {
     this.tipusNotificacio = tipusNotificacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static RebreAvisJPA toJPA(RebreAvis __bean) {
+    if (__bean == null) { return null;}
+    RebreAvisJPA __tmp = new RebreAvisJPA();
+    __tmp.setId(__bean.getId());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
+		return __tmp;
+	}
+
+
+  public static RebreAvisJPA copyJPA(RebreAvisJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<RebreAvisJPA> copyJPA(java.util.Set<RebreAvisJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<RebreAvisJPA> __tmpSet = (java.util.Set<RebreAvisJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<RebreAvisJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (RebreAvisJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static RebreAvisJPA copyJPA(RebreAvisJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    RebreAvisJPA __tmp = (RebreAvisJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"RebreAvisJPA"));
+    }
+    if(!"TipusNotificacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusNotificacio) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusNotificacio()) ) ) {
+      __tmp.setTipusNotificacio(TipusNotificacioJPA.copyJPA(__jpa.getTipusNotificacio(), __alreadyCopied,"RebreAvisJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

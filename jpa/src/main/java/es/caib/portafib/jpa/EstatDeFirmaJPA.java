@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_estatdefirma" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class EstatDeFirmaJPA implements EstatDeFirma {
 
 
@@ -106,21 +107,6 @@ private static final long serialVersionUID = 1766648722L;
     this.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
     this.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
     this.setDescripcio(__bean.getDescripcio());
-	}
-
-  public static EstatDeFirmaJPA toJPA(EstatDeFirma __bean) {
-    if (__bean == null) { return null;}
-    EstatDeFirmaJPA __tmp = new EstatDeFirmaJPA();
-    __tmp.setEstatDeFirmaID(__bean.getEstatDeFirmaID());
-    __tmp.setFirmaID(__bean.getFirmaID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setDataInici(__bean.getDataInici());
-    __tmp.setDataFi(__bean.getDataFi());
-    __tmp.setTipusEstatDeFirmaInicialID(__bean.getTipusEstatDeFirmaInicialID());
-    __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
-    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
-    __tmp.setDescripcio(__bean.getDescripcio());
-		return __tmp;
 	}
 
 	public long getEstatDeFirmaID() {
@@ -275,6 +261,75 @@ private static final long serialVersionUID = 1766648722L;
 	public  void setColaboracioDelegacio(ColaboracioDelegacioJPA colaboracioDelegacio) {
     this.colaboracioDelegacio = colaboracioDelegacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static EstatDeFirmaJPA toJPA(EstatDeFirma __bean) {
+    if (__bean == null) { return null;}
+    EstatDeFirmaJPA __tmp = new EstatDeFirmaJPA();
+    __tmp.setEstatDeFirmaID(__bean.getEstatDeFirmaID());
+    __tmp.setFirmaID(__bean.getFirmaID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setDataInici(__bean.getDataInici());
+    __tmp.setDataFi(__bean.getDataFi());
+    __tmp.setTipusEstatDeFirmaInicialID(__bean.getTipusEstatDeFirmaInicialID());
+    __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
+    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
+    __tmp.setDescripcio(__bean.getDescripcio());
+		return __tmp;
+	}
+
+
+  public static EstatDeFirmaJPA copyJPA(EstatDeFirmaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<EstatDeFirmaJPA> copyJPA(java.util.Set<EstatDeFirmaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<EstatDeFirmaJPA> __tmpSet = (java.util.Set<EstatDeFirmaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<EstatDeFirmaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (EstatDeFirmaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static EstatDeFirmaJPA copyJPA(EstatDeFirmaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    EstatDeFirmaJPA __tmp = (EstatDeFirmaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"TipusEstatDeFirmaFinalJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaFinal) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaFinal()) ) ) {
+      __tmp.setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA.copyJPA(__jpa.getTipusEstatDeFirmaFinal(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
+    if(!"ColaboracioDelegacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio()) ) ) {
+      __tmp.setColaboracioDelegacio(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacio(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
+    if(!"TipusEstatDeFirmaInicialJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaInicial) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaInicial()) ) ) {
+      __tmp.setTipusEstatDeFirmaInicial(TipusEstatDeFirmaInicialJPA.copyJPA(__jpa.getTipusEstatDeFirmaInicial(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
+    if(!"FirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {
+      __tmp.setFirma(FirmaJPA.copyJPA(__jpa.getFirma(), __alreadyCopied,"EstatDeFirmaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

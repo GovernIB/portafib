@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 @Entity
 @Table(name = "pfi_posiciopagina" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class PosicioPaginaJPA implements PosicioPagina {
 
 
@@ -45,14 +46,6 @@ private static final long serialVersionUID = 1764665569L;
   public PosicioPaginaJPA(PosicioPagina __bean) {
     this.setPosicioPaginaID(__bean.getPosicioPaginaID());
     this.setNom(__bean.getNom());
-	}
-
-  public static PosicioPaginaJPA toJPA(PosicioPagina __bean) {
-    if (__bean == null) { return null;}
-    PosicioPaginaJPA __tmp = new PosicioPaginaJPA();
-    __tmp.setPosicioPaginaID(__bean.getPosicioPaginaID());
-    __tmp.setNom(__bean.getNom());
-		return __tmp;
 	}
 
 	public long getPosicioPaginaID() {
@@ -108,6 +101,56 @@ private static final long serialVersionUID = 1764665569L;
 	public void setCustodiaInfo_missatgeposiciopaginaids(Set<CustodiaInfoJPA> custodiaInfo_missatgeposiciopaginaids) {
 	  this.custodiaInfo_missatgeposiciopaginaids = custodiaInfo_missatgeposiciopaginaids;
 	}
+
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static PosicioPaginaJPA toJPA(PosicioPagina __bean) {
+    if (__bean == null) { return null;}
+    PosicioPaginaJPA __tmp = new PosicioPaginaJPA();
+    __tmp.setPosicioPaginaID(__bean.getPosicioPaginaID());
+    __tmp.setNom(__bean.getNom());
+		return __tmp;
+	}
+
+
+  public static PosicioPaginaJPA copyJPA(PosicioPaginaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<PosicioPaginaJPA> copyJPA(java.util.Set<PosicioPaginaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<PosicioPaginaJPA> __tmpSet = (java.util.Set<PosicioPaginaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<PosicioPaginaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (PosicioPaginaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static PosicioPaginaJPA copyJPA(PosicioPaginaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    PosicioPaginaJPA __tmp = (PosicioPaginaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo_missatgeposiciopaginaids) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo_missatgeposiciopaginaids())) ) {
+      __tmp.setCustodiaInfo_missatgeposiciopaginaids(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo_missatgeposiciopaginaids(), __alreadyCopied,"PosicioPaginaJPA"));
+    }
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo_codibarresposiciopaginaids) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo_codibarresposiciopaginaids())) ) {
+      __tmp.setCustodiaInfo_codibarresposiciopaginaids(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo_codibarresposiciopaginaids(), __alreadyCopied,"PosicioPaginaJPA"));
+    }
+    // Copia de beans complexes (IMP)
+
+    return __tmp;
+  }
 
 
 

@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 @Entity
 @Table(name = "pfi_posiciotaulafirmes" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class PosicioTaulaFirmesJPA implements PosicioTaulaFirmes {
 
 
@@ -60,16 +61,6 @@ private static final long serialVersionUID = -464992442L;
     this.setNom(__bean.getNom());
     this.setDescripcio(__bean.getDescripcio());
     this.setSuportada(__bean.isSuportada());
-	}
-
-  public static PosicioTaulaFirmesJPA toJPA(PosicioTaulaFirmes __bean) {
-    if (__bean == null) { return null;}
-    PosicioTaulaFirmesJPA __tmp = new PosicioTaulaFirmesJPA();
-    __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
-    __tmp.setNom(__bean.getNom());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setSuportada(__bean.isSuportada());
-		return __tmp;
 	}
 
 	public int getPosicioTaulaFirmesID() {
@@ -126,6 +117,54 @@ private static final long serialVersionUID = -464992442L;
 	public void setPeticioDeFirmas(Set<PeticioDeFirmaJPA> peticioDeFirmas) {
 	  this.peticioDeFirmas = peticioDeFirmas;
 	}
+
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static PosicioTaulaFirmesJPA toJPA(PosicioTaulaFirmes __bean) {
+    if (__bean == null) { return null;}
+    PosicioTaulaFirmesJPA __tmp = new PosicioTaulaFirmesJPA();
+    __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
+    __tmp.setNom(__bean.getNom());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setSuportada(__bean.isSuportada());
+		return __tmp;
+	}
+
+
+  public static PosicioTaulaFirmesJPA copyJPA(PosicioTaulaFirmesJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<PosicioTaulaFirmesJPA> copyJPA(java.util.Set<PosicioTaulaFirmesJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<PosicioTaulaFirmesJPA> __tmpSet = (java.util.Set<PosicioTaulaFirmesJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<PosicioTaulaFirmesJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (PosicioTaulaFirmesJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static PosicioTaulaFirmesJPA copyJPA(PosicioTaulaFirmesJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    PosicioTaulaFirmesJPA __tmp = (PosicioTaulaFirmesJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"PosicioTaulaFirmesJPA"));
+    }
+    // Copia de beans complexes (IMP)
+
+    return __tmp;
+  }
 
 
 

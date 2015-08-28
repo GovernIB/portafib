@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_annexfirmat" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class AnnexFirmatJPA implements AnnexFirmat {
 
 
@@ -68,18 +69,6 @@ private static final long serialVersionUID = -658588842L;
     this.setFirmaID(__bean.getFirmaID());
     // Fitxer
     this.setFitxer(FitxerJPA.toJPA(__bean.getFitxer()));
-	}
-
-  public static AnnexFirmatJPA toJPA(AnnexFirmat __bean) {
-    if (__bean == null) { return null;}
-    AnnexFirmatJPA __tmp = new AnnexFirmatJPA();
-    __tmp.setAnnexfirmatID(__bean.getAnnexfirmatID());
-    __tmp.setFitxerID(__bean.getFitxerID());
-    __tmp.setAnnexID(__bean.getAnnexID());
-    __tmp.setFirmaID(__bean.getFirmaID());
-    // Fitxer
-    __tmp.setFitxer(FitxerJPA.toJPA(__bean.getFitxer()));
-		return __tmp;
 	}
 
 	public long getAnnexfirmatID() {
@@ -169,6 +158,60 @@ private static final long serialVersionUID = -658588842L;
 	public  void setFirma(FirmaJPA firma) {
     this.firma = firma;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static AnnexFirmatJPA toJPA(AnnexFirmat __bean) {
+    if (__bean == null) { return null;}
+    AnnexFirmatJPA __tmp = new AnnexFirmatJPA();
+    __tmp.setAnnexfirmatID(__bean.getAnnexfirmatID());
+    __tmp.setFitxerID(__bean.getFitxerID());
+    __tmp.setAnnexID(__bean.getAnnexID());
+    __tmp.setFirmaID(__bean.getFirmaID());
+    // Fitxer
+    __tmp.setFitxer(FitxerJPA.toJPA(__bean.getFitxer()));
+		return __tmp;
+	}
+
+
+  public static AnnexFirmatJPA copyJPA(AnnexFirmatJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<AnnexFirmatJPA> copyJPA(java.util.Set<AnnexFirmatJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<AnnexFirmatJPA> __tmpSet = (java.util.Set<AnnexFirmatJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<AnnexFirmatJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (AnnexFirmatJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static AnnexFirmatJPA copyJPA(AnnexFirmatJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    AnnexFirmatJPA __tmp = (AnnexFirmatJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"AnnexJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annex) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnex()) ) ) {
+      __tmp.setAnnex(AnnexJPA.copyJPA(__jpa.getAnnex(), __alreadyCopied,"AnnexFirmatJPA"));
+    }
+    if(!"FirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {
+      __tmp.setFirma(FirmaJPA.copyJPA(__jpa.getFirma(), __alreadyCopied,"AnnexFirmatJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

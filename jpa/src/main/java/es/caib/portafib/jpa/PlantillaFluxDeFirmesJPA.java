@@ -20,6 +20,7 @@ import org.hibernate.annotations.ForeignKey;
 @Entity
 @Table(name = "pfi_plantillafluxdefirmes" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class PlantillaFluxDeFirmesJPA implements PlantillaFluxDeFirmes {
 
 
@@ -71,17 +72,6 @@ private static final long serialVersionUID = 139304578L;
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     this.setCompartir(__bean.getCompartir());
-	}
-
-  public static PlantillaFluxDeFirmesJPA toJPA(PlantillaFluxDeFirmes __bean) {
-    if (__bean == null) { return null;}
-    PlantillaFluxDeFirmesJPA __tmp = new PlantillaFluxDeFirmesJPA();
-    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setCompartir(__bean.getCompartir());
-		return __tmp;
 	}
 
 	public long getFluxDeFirmesID() {
@@ -204,6 +194,71 @@ private static final long serialVersionUID = 139304578L;
 	public  void setUsuariAplicacio(UsuariAplicacioJPA usuariAplicacio) {
     this.usuariAplicacio = usuariAplicacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static PlantillaFluxDeFirmesJPA toJPA(PlantillaFluxDeFirmes __bean) {
+    if (__bean == null) { return null;}
+    PlantillaFluxDeFirmesJPA __tmp = new PlantillaFluxDeFirmesJPA();
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setCompartir(__bean.getCompartir());
+		return __tmp;
+	}
+
+
+  public static PlantillaFluxDeFirmesJPA copyJPA(PlantillaFluxDeFirmesJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<PlantillaFluxDeFirmesJPA> copyJPA(java.util.Set<PlantillaFluxDeFirmesJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<PlantillaFluxDeFirmesJPA> __tmpSet = (java.util.Set<PlantillaFluxDeFirmesJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<PlantillaFluxDeFirmesJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (PlantillaFluxDeFirmesJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static PlantillaFluxDeFirmesJPA copyJPA(PlantillaFluxDeFirmesJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    PlantillaFluxDeFirmesJPA __tmp = (PlantillaFluxDeFirmesJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PermisGrupPlantillaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.permisGrupPlantillas) || org.hibernate.Hibernate.isInitialized(__jpa.getPermisGrupPlantillas())) ) {
+      __tmp.setPermisGrupPlantillas(PermisGrupPlantillaJPA.copyJPA(__jpa.getPermisGrupPlantillas(), __alreadyCopied,"PlantillaFluxDeFirmesJPA"));
+    }
+    if(!"PermisUsuariPlantillaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.permisUsuariPlantillas) || org.hibernate.Hibernate.isInitialized(__jpa.getPermisUsuariPlantillas())) ) {
+      __tmp.setPermisUsuariPlantillas(PermisUsuariPlantillaJPA.copyJPA(__jpa.getPermisUsuariPlantillas(), __alreadyCopied,"PlantillaFluxDeFirmesJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"PlantillaFluxDeFirmesJPA"));
+    }
+    if(!"FluxDeFirmesJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {
+      __tmp.setFluxDeFirmes(FluxDeFirmesJPA.copyJPA(__jpa.getFluxDeFirmes(), __alreadyCopied,"PlantillaFluxDeFirmesJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"PlantillaFluxDeFirmesJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

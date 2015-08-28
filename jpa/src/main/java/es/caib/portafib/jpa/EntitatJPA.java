@@ -20,6 +20,7 @@ import org.hibernate.annotations.ForeignKey;
 @Entity
 @Table(name = "pfi_entitat" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class EntitatJPA implements Entitat {
 
 
@@ -198,45 +199,6 @@ opcional incluso cuando se genera una firma EPES. */
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
     // Fitxer
     this.setPdfAutoritzacioDelegacio(FitxerJPA.toJPA(__bean.getPdfAutoritzacioDelegacio()));
-	}
-
-  public static EntitatJPA toJPA(Entitat __bean) {
-    if (__bean == null) { return null;}
-    EntitatJPA __tmp = new EntitatJPA();
-    __tmp.setEntitatID(__bean.getEntitatID());
-    __tmp.setNom(__bean.getNom());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setActiva(__bean.isActiva());
-    __tmp.setWeb(__bean.getWeb());
-    __tmp.setFaviconID(__bean.getFaviconID());
-    __tmp.setLogoWebID(__bean.getLogoWebID());
-    __tmp.setLogoWebPeuID(__bean.getLogoWebPeuID());
-    __tmp.setLogoSegellID(__bean.getLogoSegellID());
-    __tmp.setAdrezaHtml(__bean.getAdrezaHtml());
-    __tmp.setFiltreCertificats(__bean.getFiltreCertificats());
-    __tmp.setPdfAutoritzacioDelegacioID(__bean.getPdfAutoritzacioDelegacioID());
-    __tmp.setSuportTelefon(__bean.getSuportTelefon());
-    __tmp.setSuportWeb(__bean.getSuportWeb());
-    __tmp.setSuportEmail(__bean.getSuportEmail());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
-    __tmp.setMaxUploadSize(__bean.getMaxUploadSize());
-    __tmp.setMaxSizeFitxerAdaptat(__bean.getMaxSizeFitxerAdaptat());
-    __tmp.setMaxFilesToSignAtSameTime(__bean.getMaxFilesToSignAtSameTime());
-    __tmp.setPolicyIdentifier(__bean.getPolicyIdentifier());
-    __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
-    __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
-    __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
-    // Fitxer
-    __tmp.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
-    // Fitxer
-    __tmp.setLogoWeb(FitxerJPA.toJPA(__bean.getLogoWeb()));
-    // Fitxer
-    __tmp.setLogoWebPeu(FitxerJPA.toJPA(__bean.getLogoWebPeu()));
-    // Fitxer
-    __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
-    // Fitxer
-    __tmp.setPdfAutoritzacioDelegacio(FitxerJPA.toJPA(__bean.getPdfAutoritzacioDelegacio()));
-		return __tmp;
 	}
 
 	public java.lang.String getEntitatID() {
@@ -561,6 +523,99 @@ opcional incluso cuando se genera una firma EPES. */
 	public  void setUsuariAplicacio(UsuariAplicacioJPA usuariAplicacio) {
     this.usuariAplicacio = usuariAplicacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static EntitatJPA toJPA(Entitat __bean) {
+    if (__bean == null) { return null;}
+    EntitatJPA __tmp = new EntitatJPA();
+    __tmp.setEntitatID(__bean.getEntitatID());
+    __tmp.setNom(__bean.getNom());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setActiva(__bean.isActiva());
+    __tmp.setWeb(__bean.getWeb());
+    __tmp.setFaviconID(__bean.getFaviconID());
+    __tmp.setLogoWebID(__bean.getLogoWebID());
+    __tmp.setLogoWebPeuID(__bean.getLogoWebPeuID());
+    __tmp.setLogoSegellID(__bean.getLogoSegellID());
+    __tmp.setAdrezaHtml(__bean.getAdrezaHtml());
+    __tmp.setFiltreCertificats(__bean.getFiltreCertificats());
+    __tmp.setPdfAutoritzacioDelegacioID(__bean.getPdfAutoritzacioDelegacioID());
+    __tmp.setSuportTelefon(__bean.getSuportTelefon());
+    __tmp.setSuportWeb(__bean.getSuportWeb());
+    __tmp.setSuportEmail(__bean.getSuportEmail());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setMaxUploadSize(__bean.getMaxUploadSize());
+    __tmp.setMaxSizeFitxerAdaptat(__bean.getMaxSizeFitxerAdaptat());
+    __tmp.setMaxFilesToSignAtSameTime(__bean.getMaxFilesToSignAtSameTime());
+    __tmp.setPolicyIdentifier(__bean.getPolicyIdentifier());
+    __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
+    __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
+    __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
+    // Fitxer
+    __tmp.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
+    // Fitxer
+    __tmp.setLogoWeb(FitxerJPA.toJPA(__bean.getLogoWeb()));
+    // Fitxer
+    __tmp.setLogoWebPeu(FitxerJPA.toJPA(__bean.getLogoWebPeu()));
+    // Fitxer
+    __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
+    // Fitxer
+    __tmp.setPdfAutoritzacioDelegacio(FitxerJPA.toJPA(__bean.getPdfAutoritzacioDelegacio()));
+		return __tmp;
+	}
+
+
+  public static EntitatJPA copyJPA(EntitatJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<EntitatJPA> copyJPA(java.util.Set<EntitatJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<EntitatJPA> __tmpSet = (java.util.Set<EntitatJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<EntitatJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (EntitatJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static EntitatJPA copyJPA(EntitatJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    EntitatJPA __tmp = (EntitatJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"GrupEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitats())) ) {
+      __tmp.setGrupEntitats(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitats(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
+      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
+      __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
+      __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"EntitatJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"UsuariAplicacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
+      __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"EntitatJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

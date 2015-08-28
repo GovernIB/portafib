@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_grupentitatusuarientitat"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"usuarientitatid","grupentitatid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class GrupEntitatUsuariEntitatJPA implements GrupEntitatUsuariEntitat {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -1726984778L;
     this.setGrupEntitatUsuariEntitatID(__bean.getGrupEntitatUsuariEntitatID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setGrupEntitatID(__bean.getGrupEntitatID());
-	}
-
-  public static GrupEntitatUsuariEntitatJPA toJPA(GrupEntitatUsuariEntitat __bean) {
-    if (__bean == null) { return null;}
-    GrupEntitatUsuariEntitatJPA __tmp = new GrupEntitatUsuariEntitatJPA();
-    __tmp.setGrupEntitatUsuariEntitatID(__bean.getGrupEntitatUsuariEntitatID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setGrupEntitatID(__bean.getGrupEntitatID());
-		return __tmp;
 	}
 
 	public long getGrupEntitatUsuariEntitatID() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -1726984778L;
 	public  void setGrupEntitat(GrupEntitatJPA grupEntitat) {
     this.grupEntitat = grupEntitat;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static GrupEntitatUsuariEntitatJPA toJPA(GrupEntitatUsuariEntitat __bean) {
+    if (__bean == null) { return null;}
+    GrupEntitatUsuariEntitatJPA __tmp = new GrupEntitatUsuariEntitatJPA();
+    __tmp.setGrupEntitatUsuariEntitatID(__bean.getGrupEntitatUsuariEntitatID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setGrupEntitatID(__bean.getGrupEntitatID());
+		return __tmp;
+	}
+
+
+  public static GrupEntitatUsuariEntitatJPA copyJPA(GrupEntitatUsuariEntitatJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<GrupEntitatUsuariEntitatJPA> copyJPA(java.util.Set<GrupEntitatUsuariEntitatJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<GrupEntitatUsuariEntitatJPA> __tmpSet = (java.util.Set<GrupEntitatUsuariEntitatJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<GrupEntitatUsuariEntitatJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (GrupEntitatUsuariEntitatJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static GrupEntitatUsuariEntitatJPA copyJPA(GrupEntitatUsuariEntitatJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    GrupEntitatUsuariEntitatJPA __tmp = (GrupEntitatUsuariEntitatJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"GrupEntitatUsuariEntitatJPA"));
+    }
+    if(!"GrupEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitat()) ) ) {
+      __tmp.setGrupEntitat(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitat(), __alreadyCopied,"GrupEntitatUsuariEntitatJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

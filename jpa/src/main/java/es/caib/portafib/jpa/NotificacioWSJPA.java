@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_notificacio" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class NotificacioWSJPA implements NotificacioWS {
 
 
@@ -112,22 +113,6 @@ private static final long serialVersionUID = 1184441005L;
     this.setError(__bean.getError());
     this.setDataError(__bean.getDataError());
     this.setReintents(__bean.getReintents());
-	}
-
-  public static NotificacioWSJPA toJPA(NotificacioWS __bean) {
-    if (__bean == null) { return null;}
-    NotificacioWSJPA __tmp = new NotificacioWSJPA();
-    __tmp.setNotificacioID(__bean.getNotificacioID());
-    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
-    __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
-    __tmp.setDataCreacio(__bean.getDataCreacio());
-    __tmp.setDataEnviament(__bean.getDataEnviament());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setBloquejada(__bean.isBloquejada());
-    __tmp.setError(__bean.getError());
-    __tmp.setDataError(__bean.getDataError());
-    __tmp.setReintents(__bean.getReintents());
-		return __tmp;
 	}
 
 	public long getNotificacioID() {
@@ -244,6 +229,64 @@ private static final long serialVersionUID = 1184441005L;
 	public  void setTipusNotificacio(TipusNotificacioJPA tipusNotificacio) {
     this.tipusNotificacio = tipusNotificacio;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static NotificacioWSJPA toJPA(NotificacioWS __bean) {
+    if (__bean == null) { return null;}
+    NotificacioWSJPA __tmp = new NotificacioWSJPA();
+    __tmp.setNotificacioID(__bean.getNotificacioID());
+    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
+    __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
+    __tmp.setDataCreacio(__bean.getDataCreacio());
+    __tmp.setDataEnviament(__bean.getDataEnviament());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setBloquejada(__bean.isBloquejada());
+    __tmp.setError(__bean.getError());
+    __tmp.setDataError(__bean.getDataError());
+    __tmp.setReintents(__bean.getReintents());
+		return __tmp;
+	}
+
+
+  public static NotificacioWSJPA copyJPA(NotificacioWSJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<NotificacioWSJPA> copyJPA(java.util.Set<NotificacioWSJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<NotificacioWSJPA> __tmpSet = (java.util.Set<NotificacioWSJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<NotificacioWSJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (NotificacioWSJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static NotificacioWSJPA copyJPA(NotificacioWSJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    NotificacioWSJPA __tmp = (NotificacioWSJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
+      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"NotificacioWSJPA"));
+    }
+    if(!"TipusNotificacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusNotificacio) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusNotificacio()) ) ) {
+      __tmp.setTipusNotificacio(TipusNotificacioJPA.copyJPA(__jpa.getTipusNotificacio(), __alreadyCopied,"NotificacioWSJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

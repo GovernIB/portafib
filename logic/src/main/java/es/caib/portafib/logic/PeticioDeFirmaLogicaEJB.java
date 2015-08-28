@@ -78,6 +78,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.io.ByteArrayOutputStream;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -111,6 +112,9 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.query.LongConstantField;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 /**
  *
@@ -473,8 +477,49 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           custodiaInfo = custodiaInfoEjb.findByPrimaryKey(peticioDeFirma.getCustodiaInfoID());
           if (custodiaInfo.isCustodiar()) {
             plugin = PortaFIBPluginsManager.getDocumentCustodyPluginInstance();
-            // Afegir Hora de Solicitud evita duplicats si reiniciam la petició
-            custodyID = plugin.reserveCustodyID(custodiaInfo.getCustodiaPluginParameters());
+            
+            
+            log.info(" BLOC FIRMES ORIGINAL = " + peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess().size());
+            
+
+            String custodyParameter;
+            /*
+            {
+              ByteArrayOutputStream baos = new ByteArrayOutputStream();
+              java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(baos);
+              encoder.writeObject(PeticioDeFirmaJPA.copyJPA(peticioDeFirma));
+              encoder.close();
+              custodyParameter = new String(baos.toByteArray());
+              log.info(custodyParameter);
+            }
+            */
+            
+            
+            // CustodyParameter conté la peticio de Firma en Format XML
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            
+            JAXBContext jc = JAXBContext.newInstance(PeticioDeFirmaJPA.class);
+
+            Marshaller m = jc.createMarshaller();
+                        
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            // la còpia es fa per evitar problemes amb HIbernate i per evitar recursió
+            PeticioDeFirmaJPA clone = PeticioDeFirmaJPA.copyJPA(peticioDeFirma);
+//          javax.xml.bind.JAXBElement<PeticioDeFirmaJPA> jaxbElement = new javax.xml.bind.JAXBElement<PeticioDeFirmaJPA>(
+//          new javax.xml.namespace.QName("peticioDeFirma"), PeticioDeFirmaJPA.class, clone);
+//          m.marshal(jaxbElement, baos);
+            m.marshal(clone, baos);
+
+            custodyParameter = baos.toString();
+            
+            if (log.isDebugEnabled()) {
+              log.debug(custodyParameter);
+            }
+            
+            
+            
+            custodyID = plugin.reserveCustodyID(custodyParameter);
             // TODO Check custodyID != null
             String url = plugin.getValidationUrl(custodyID);
             custodiaInfo.setCustodiaPluginID(custodyID);
@@ -2383,6 +2428,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (peticioOrig == null) {
       return null;
     }
+
 
     PeticioDeFirmaJPA peticio = PeticioDeFirmaJPA.toJPA(peticioOrig);
     String titol;

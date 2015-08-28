@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_metadada" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class MetadadaJPA implements Metadada {
 
 
@@ -79,18 +80,6 @@ private static final long serialVersionUID = 171659772L;
     this.setDescripcio(__bean.getDescripcio());
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     this.setTipusMetadadaID(__bean.getTipusMetadadaID());
-	}
-
-  public static MetadadaJPA toJPA(Metadada __bean) {
-    if (__bean == null) { return null;}
-    MetadadaJPA __tmp = new MetadadaJPA();
-    __tmp.setMetadadaID(__bean.getMetadadaID());
-    __tmp.setNom(__bean.getNom());
-    __tmp.setValor(__bean.getValor());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
-    __tmp.setTipusMetadadaID(__bean.getTipusMetadadaID());
-		return __tmp;
 	}
 
 	public long getMetadadaID() {
@@ -179,6 +168,60 @@ private static final long serialVersionUID = 171659772L;
 	public  void setTipusMetadada(TipusMetadadaJPA tipusMetadada) {
     this.tipusMetadada = tipusMetadada;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static MetadadaJPA toJPA(Metadada __bean) {
+    if (__bean == null) { return null;}
+    MetadadaJPA __tmp = new MetadadaJPA();
+    __tmp.setMetadadaID(__bean.getMetadadaID());
+    __tmp.setNom(__bean.getNom());
+    __tmp.setValor(__bean.getValor());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
+    __tmp.setTipusMetadadaID(__bean.getTipusMetadadaID());
+		return __tmp;
+	}
+
+
+  public static MetadadaJPA copyJPA(MetadadaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<MetadadaJPA> copyJPA(java.util.Set<MetadadaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<MetadadaJPA> __tmpSet = (java.util.Set<MetadadaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<MetadadaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (MetadadaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static MetadadaJPA copyJPA(MetadadaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    MetadadaJPA __tmp = (MetadadaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
+      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"MetadadaJPA"));
+    }
+    if(!"TipusMetadadaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusMetadada) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusMetadada()) ) ) {
+      __tmp.setTipusMetadada(TipusMetadadaJPA.copyJPA(__jpa.getTipusMetadada(), __alreadyCopied,"MetadadaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

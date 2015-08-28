@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_firma" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class FirmaJPA implements Firma {
 
 
@@ -157,30 +158,6 @@ private static final long serialVersionUID = -491371752L;
     this.setMostrarRubrica(__bean.isMostrarRubrica());
     // Fitxer
     this.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
-	}
-
-  public static FirmaJPA toJPA(Firma __bean) {
-    if (__bean == null) { return null;}
-    FirmaJPA __tmp = new FirmaJPA();
-    __tmp.setFirmaID(__bean.getFirmaID());
-    __tmp.setDestinatariID(__bean.getDestinatariID());
-    __tmp.setBlocDeFirmaID(__bean.getBlocDeFirmaID());
-    __tmp.setObligatori(__bean.isObligatori());
-    __tmp.setFitxerFirmatID(__bean.getFitxerFirmatID());
-    __tmp.setNumFirmaDocument(__bean.getNumFirmaDocument());
-    __tmp.setCaixaPagina(__bean.getCaixaPagina());
-    __tmp.setCaixaX(__bean.getCaixaX());
-    __tmp.setCaixaY(__bean.getCaixaY());
-    __tmp.setCaixaAmple(__bean.getCaixaAmple());
-    __tmp.setCaixaAlt(__bean.getCaixaAlt());
-    __tmp.setNumeroSerieCertificat(__bean.getNumeroSerieCertificat());
-    __tmp.setEmissorCertificat(__bean.getEmissorCertificat());
-    __tmp.setNomCertificat(__bean.getNomCertificat());
-    __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
-    __tmp.setMostrarRubrica(__bean.isMostrarRubrica());
-    // Fitxer
-    __tmp.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
-		return __tmp;
 	}
 
 	public long getFirmaID() {
@@ -395,6 +372,84 @@ private static final long serialVersionUID = -491371752L;
 	public  void setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal) {
     this.tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinal;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static FirmaJPA toJPA(Firma __bean) {
+    if (__bean == null) { return null;}
+    FirmaJPA __tmp = new FirmaJPA();
+    __tmp.setFirmaID(__bean.getFirmaID());
+    __tmp.setDestinatariID(__bean.getDestinatariID());
+    __tmp.setBlocDeFirmaID(__bean.getBlocDeFirmaID());
+    __tmp.setObligatori(__bean.isObligatori());
+    __tmp.setFitxerFirmatID(__bean.getFitxerFirmatID());
+    __tmp.setNumFirmaDocument(__bean.getNumFirmaDocument());
+    __tmp.setCaixaPagina(__bean.getCaixaPagina());
+    __tmp.setCaixaX(__bean.getCaixaX());
+    __tmp.setCaixaY(__bean.getCaixaY());
+    __tmp.setCaixaAmple(__bean.getCaixaAmple());
+    __tmp.setCaixaAlt(__bean.getCaixaAlt());
+    __tmp.setNumeroSerieCertificat(__bean.getNumeroSerieCertificat());
+    __tmp.setEmissorCertificat(__bean.getEmissorCertificat());
+    __tmp.setNomCertificat(__bean.getNomCertificat());
+    __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
+    __tmp.setMostrarRubrica(__bean.isMostrarRubrica());
+    // Fitxer
+    __tmp.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
+		return __tmp;
+	}
+
+
+  public static FirmaJPA copyJPA(FirmaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<FirmaJPA> copyJPA(java.util.Set<FirmaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<FirmaJPA> __tmpSet = (java.util.Set<FirmaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<FirmaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (FirmaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static FirmaJPA copyJPA(FirmaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    FirmaJPA __tmp = (FirmaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"AnnexFirmatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexFirmats) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexFirmats())) ) {
+      __tmp.setAnnexFirmats(AnnexFirmatJPA.copyJPA(__jpa.getAnnexFirmats(), __alreadyCopied,"FirmaJPA"));
+    }
+    if(!"EstatDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
+      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"FirmaJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    if(!"TipusEstatDeFirmaFinalJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaFinal) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaFinal()) ) ) {
+      __tmp.setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA.copyJPA(__jpa.getTipusEstatDeFirmaFinal(), __alreadyCopied,"FirmaJPA"));
+    }
+    if(!"BlocDeFirmesJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.blocDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getBlocDeFirmes()) ) ) {
+      __tmp.setBlocDeFirmes(BlocDeFirmesJPA.copyJPA(__jpa.getBlocDeFirmes(), __alreadyCopied,"FirmaJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"FirmaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

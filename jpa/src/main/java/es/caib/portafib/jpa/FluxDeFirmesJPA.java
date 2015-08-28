@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_fluxdefirmes" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class FluxDeFirmesJPA implements FluxDeFirmes {
 
 
@@ -52,14 +53,6 @@ private static final long serialVersionUID = -624049275L;
   public FluxDeFirmesJPA(FluxDeFirmes __bean) {
     this.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
     this.setNom(__bean.getNom());
-	}
-
-  public static FluxDeFirmesJPA toJPA(FluxDeFirmes __bean) {
-    if (__bean == null) { return null;}
-    FluxDeFirmesJPA __tmp = new FluxDeFirmesJPA();
-    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    __tmp.setNom(__bean.getNom());
-		return __tmp;
 	}
 
 	public long getFluxDeFirmesID() {
@@ -128,6 +121,60 @@ private static final long serialVersionUID = -624049275L;
 	public  void setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes) {
 	  this.plantillaFluxDeFirmes = plantillaFluxDeFirmes;
 	}
+
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static FluxDeFirmesJPA toJPA(FluxDeFirmes __bean) {
+    if (__bean == null) { return null;}
+    FluxDeFirmesJPA __tmp = new FluxDeFirmesJPA();
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setNom(__bean.getNom());
+		return __tmp;
+	}
+
+
+  public static FluxDeFirmesJPA copyJPA(FluxDeFirmesJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<FluxDeFirmesJPA> copyJPA(java.util.Set<FluxDeFirmesJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<FluxDeFirmesJPA> __tmpSet = (java.util.Set<FluxDeFirmesJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<FluxDeFirmesJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (FluxDeFirmesJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static FluxDeFirmesJPA copyJPA(FluxDeFirmesJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    FluxDeFirmesJPA __tmp = (FluxDeFirmesJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma())) ) {
+      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"FluxDeFirmesJPA"));
+    }
+    if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmes())) ) {
+      __tmp.setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmes(), __alreadyCopied,"FluxDeFirmesJPA"));
+    }
+    if(!"BlocDeFirmesJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.blocDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getBlocDeFirmess())) ) {
+      __tmp.setBlocDeFirmess(BlocDeFirmesJPA.copyJPA(__jpa.getBlocDeFirmess(), __alreadyCopied,"FluxDeFirmesJPA"));
+    }
+    // Copia de beans complexes (IMP)
+
+    return __tmp;
+  }
 
 
 

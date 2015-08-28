@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_permisusuariplantilla"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"usuarientitatid","fluxdefirmesid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class PermisUsuariPlantillaJPA implements PermisUsuariPlantilla {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -1127198733L;
     this.setPermisUsuariPlantillaID(__bean.getPermisUsuariPlantillaID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setPlantillaFluxDeFirmesID(__bean.getPlantillaFluxDeFirmesID());
-	}
-
-  public static PermisUsuariPlantillaJPA toJPA(PermisUsuariPlantilla __bean) {
-    if (__bean == null) { return null;}
-    PermisUsuariPlantillaJPA __tmp = new PermisUsuariPlantillaJPA();
-    __tmp.setPermisUsuariPlantillaID(__bean.getPermisUsuariPlantillaID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-    __tmp.setPlantillaFluxDeFirmesID(__bean.getPlantillaFluxDeFirmesID());
-		return __tmp;
 	}
 
 	public long getPermisUsuariPlantillaID() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -1127198733L;
 	public  void setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA plantillaFluxDeFirmes) {
     this.plantillaFluxDeFirmes = plantillaFluxDeFirmes;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static PermisUsuariPlantillaJPA toJPA(PermisUsuariPlantilla __bean) {
+    if (__bean == null) { return null;}
+    PermisUsuariPlantillaJPA __tmp = new PermisUsuariPlantillaJPA();
+    __tmp.setPermisUsuariPlantillaID(__bean.getPermisUsuariPlantillaID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setPlantillaFluxDeFirmesID(__bean.getPlantillaFluxDeFirmesID());
+		return __tmp;
+	}
+
+
+  public static PermisUsuariPlantillaJPA copyJPA(PermisUsuariPlantillaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<PermisUsuariPlantillaJPA> copyJPA(java.util.Set<PermisUsuariPlantillaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<PermisUsuariPlantillaJPA> __tmpSet = (java.util.Set<PermisUsuariPlantillaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<PermisUsuariPlantillaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (PermisUsuariPlantillaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static PermisUsuariPlantillaJPA copyJPA(PermisUsuariPlantillaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    PermisUsuariPlantillaJPA __tmp = (PermisUsuariPlantillaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"PermisUsuariPlantillaJPA"));
+    }
+    if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmes()) ) ) {
+      __tmp.setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmes(), __alreadyCopied,"PermisUsuariPlantillaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

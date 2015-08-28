@@ -7,6 +7,7 @@ import javax.persistence.Column;
 
 @javax.persistence.Embeddable
 @Table(name = "pfi_traducciomap" )
+@javax.xml.bind.annotation.XmlRootElement
 public class TraduccioMapJPA implements TraduccioMap {
 
 

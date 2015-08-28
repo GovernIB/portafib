@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_fitxer" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class FitxerJPA implements Fitxer {
 
 
@@ -73,21 +74,6 @@ private static final long serialVersionUID = -252813913L;
     this.setData(__bean.getData());
     // EncryptedFileID
     this.setEncryptedFileID(__bean.getEncryptedFileID());
-	}
-
-  public static FitxerJPA toJPA(Fitxer __bean) {
-    if (__bean == null) { return null;}
-    FitxerJPA __tmp = new FitxerJPA();
-    __tmp.setFitxerID(__bean.getFitxerID());
-    __tmp.setNom(__bean.getNom());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setTamany(__bean.getTamany());
-    __tmp.setMime(__bean.getMime());
-    // DataHandler
-    __tmp.setData(__bean.getData());
-    // EncryptedFileID
-    __tmp.setEncryptedFileID(__bean.getEncryptedFileID());
-		return __tmp;
 	}
 
 	public long getFitxerID() {
@@ -376,6 +362,115 @@ private static final long serialVersionUID = -252813913L;
       this.encryptedFileID = es.caib.portafib.hibernate.HibernateFileUtil.encryptFileID(fitxerID);
     }
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static FitxerJPA toJPA(Fitxer __bean) {
+    if (__bean == null) { return null;}
+    FitxerJPA __tmp = new FitxerJPA();
+    __tmp.setFitxerID(__bean.getFitxerID());
+    __tmp.setNom(__bean.getNom());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setTamany(__bean.getTamany());
+    __tmp.setMime(__bean.getMime());
+    // DataHandler
+    __tmp.setData(__bean.getData());
+    // EncryptedFileID
+    __tmp.setEncryptedFileID(__bean.getEncryptedFileID());
+		return __tmp;
+	}
+
+
+  public static FitxerJPA copyJPA(FitxerJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<FitxerJPA> copyJPA(java.util.Set<FitxerJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<FitxerJPA> __tmpSet = (java.util.Set<FitxerJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<FitxerJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (FitxerJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static FitxerJPA copyJPA(FitxerJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    FitxerJPA __tmp = (FitxerJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"ColaboracioDelegacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacios())) ) {
+      __tmp.setColaboracioDelegacios(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacios(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pdfautoritzaciodelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pdfautoritzaciodelegacioids())) ) {
+      __tmp.setEntitat_pdfautoritzaciodelegacioids(EntitatJPA.copyJPA(__jpa.getEntitat_pdfautoritzaciodelegacioids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"UsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
+      __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_logosegellids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_logosegellids())) ) {
+      __tmp.setEntitat_logosegellids(EntitatJPA.copyJPA(__jpa.getEntitat_logosegellids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_fitxeradaptatids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_fitxeradaptatids())) ) {
+      __tmp.setPeticioDeFirma_fitxeradaptatids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_fitxeradaptatids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"FirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmas) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmas())) ) {
+      __tmp.setFirmas(FirmaJPA.copyJPA(__jpa.getFirmas(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_fitxerafirmarids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_fitxerafirmarids())) ) {
+      __tmp.setPeticioDeFirma_fitxerafirmarids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_fitxerafirmarids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"AnnexJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexs) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexs())) ) {
+      __tmp.setAnnexs(AnnexJPA.copyJPA(__jpa.getAnnexs(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_logowebids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_logowebids())) ) {
+      __tmp.setEntitat_logowebids(EntitatJPA.copyJPA(__jpa.getEntitat_logowebids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"UsuariPersonaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariPersonas) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariPersonas())) ) {
+      __tmp.setUsuariPersonas(UsuariPersonaJPA.copyJPA(__jpa.getUsuariPersonas(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"AnnexFirmatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexFirmats) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexFirmats())) ) {
+      __tmp.setAnnexFirmats(AnnexFirmatJPA.copyJPA(__jpa.getAnnexFirmats(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_logowebpeuids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_logowebpeuids())) ) {
+      __tmp.setEntitat_logowebpeuids(EntitatJPA.copyJPA(__jpa.getEntitat_logowebpeuids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_logosegellids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_logosegellids())) ) {
+      __tmp.setPeticioDeFirma_logosegellids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_logosegellids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_faviconids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_faviconids())) ) {
+      __tmp.setEntitat_faviconids(EntitatJPA.copyJPA(__jpa.getEntitat_faviconids(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
+      __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"FitxerJPA"));
+    }
+    // Copia de beans complexes (IMP)
+
+    return __tmp;
+  }
+
 
 
 

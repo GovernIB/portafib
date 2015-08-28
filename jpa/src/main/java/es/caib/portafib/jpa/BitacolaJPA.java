@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_bitacola" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class BitacolaJPA implements Bitacola {
 
 
@@ -71,17 +72,6 @@ private static final long serialVersionUID = 1492894118L;
     this.setDescripcio(__bean.getDescripcio());
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
-	}
-
-  public static BitacolaJPA toJPA(Bitacola __bean) {
-    if (__bean == null) { return null;}
-    BitacolaJPA __tmp = new BitacolaJPA();
-    __tmp.setBitacolaID(__bean.getBitacolaID());
-    __tmp.setData(__bean.getData());
-    __tmp.setDescripcio(__bean.getDescripcio());
-    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-		return __tmp;
 	}
 
 	public long getBitacolaID() {
@@ -163,6 +153,59 @@ private static final long serialVersionUID = 1492894118L;
 	public  void setUsuariEntitat(UsuariEntitatJPA usuariEntitat) {
     this.usuariEntitat = usuariEntitat;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static BitacolaJPA toJPA(Bitacola __bean) {
+    if (__bean == null) { return null;}
+    BitacolaJPA __tmp = new BitacolaJPA();
+    __tmp.setBitacolaID(__bean.getBitacolaID());
+    __tmp.setData(__bean.getData());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+		return __tmp;
+	}
+
+
+  public static BitacolaJPA copyJPA(BitacolaJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<BitacolaJPA> copyJPA(java.util.Set<BitacolaJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<BitacolaJPA> __tmpSet = (java.util.Set<BitacolaJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<BitacolaJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (BitacolaJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static BitacolaJPA copyJPA(BitacolaJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    BitacolaJPA __tmp = (BitacolaJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"BitacolaJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
+      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"BitacolaJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

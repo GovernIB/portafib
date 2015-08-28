@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_roleusuarientitat"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"roleid","usuarientitatid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class RoleUsuariEntitatJPA implements RoleUsuariEntitat {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -1738883575L;
     this.setId(__bean.getId());
     this.setRoleID(__bean.getRoleID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
-	}
-
-  public static RoleUsuariEntitatJPA toJPA(RoleUsuariEntitat __bean) {
-    if (__bean == null) { return null;}
-    RoleUsuariEntitatJPA __tmp = new RoleUsuariEntitatJPA();
-    __tmp.setId(__bean.getId());
-    __tmp.setRoleID(__bean.getRoleID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
-		return __tmp;
 	}
 
 	public long getId() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -1738883575L;
 	public  void setUsuariEntitat(UsuariEntitatJPA usuariEntitat) {
     this.usuariEntitat = usuariEntitat;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static RoleUsuariEntitatJPA toJPA(RoleUsuariEntitat __bean) {
+    if (__bean == null) { return null;}
+    RoleUsuariEntitatJPA __tmp = new RoleUsuariEntitatJPA();
+    __tmp.setId(__bean.getId());
+    __tmp.setRoleID(__bean.getRoleID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+		return __tmp;
+	}
+
+
+  public static RoleUsuariEntitatJPA copyJPA(RoleUsuariEntitatJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<RoleUsuariEntitatJPA> copyJPA(java.util.Set<RoleUsuariEntitatJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<RoleUsuariEntitatJPA> __tmpSet = (java.util.Set<RoleUsuariEntitatJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<RoleUsuariEntitatJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (RoleUsuariEntitatJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static RoleUsuariEntitatJPA copyJPA(RoleUsuariEntitatJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    RoleUsuariEntitatJPA __tmp = (RoleUsuariEntitatJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"RoleUsuariEntitatJPA"));
+    }
+    if(!"RoleJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.role) || org.hibernate.Hibernate.isInitialized(__jpa.getRole()) ) ) {
+      __tmp.setRole(RoleJPA.copyJPA(__jpa.getRole(), __alreadyCopied,"RoleUsuariEntitatJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

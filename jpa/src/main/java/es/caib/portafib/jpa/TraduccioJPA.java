@@ -27,6 +27,7 @@ import javax.persistence.GeneratedValue;
 @Entity
 @Table(name = "pfi_traduccio" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class TraduccioJPA implements Traduccio {
 
 
@@ -51,13 +52,6 @@ private static final long serialVersionUID = -326205279L;
 }
   public TraduccioJPA(Traduccio __bean) {
     this.setTraduccioID(__bean.getTraduccioID());
-	}
-
-  public static TraduccioJPA toJPA(Traduccio __bean) {
-    if (__bean == null) { return null;}
-    TraduccioJPA __tmp = new TraduccioJPA();
-    __tmp.setTraduccioID(__bean.getTraduccioID());
-		return __tmp;
 	}
 
 	public long getTraduccioID() {
@@ -126,6 +120,53 @@ private static final long serialVersionUID = -326205279L;
       traduccions.put(idioma, traduccio);
     }
   }
+
+ // ---------------  STATIC METHODS ------------------
+  public static TraduccioJPA toJPA(Traduccio __bean) {
+    if (__bean == null) { return null;}
+    TraduccioJPA __tmp = new TraduccioJPA();
+    __tmp.setTraduccioID(__bean.getTraduccioID());
+		return __tmp;
+	}
+
+
+  public static TraduccioJPA copyJPA(TraduccioJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<TraduccioJPA> copyJPA(java.util.Set<TraduccioJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<TraduccioJPA> __tmpSet = (java.util.Set<TraduccioJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<TraduccioJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (TraduccioJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static TraduccioJPA copyJPA(TraduccioJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    TraduccioJPA __tmp = (TraduccioJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"TipusDocumentJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
+      __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"TraduccioJPA"));
+    }
+    // Copia de beans complexes (IMP)
+    // Aquesta linia s'afeix de forma manual
+    __tmp.setTraduccions(new HashMap<String, TraduccioMapJPA>(__jpa.getTraduccions()));
+
+    return __tmp;
+  }
+
+
 
 
 }

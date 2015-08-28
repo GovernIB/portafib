@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 @Table(name = "pfi_tipusdocumentcoladele"  , uniqueConstraints = {
             @UniqueConstraint( columnNames={"colaboraciodelegacioid","tipusdocumentid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class TipusDocumentColaboracioDelegacioJPA implements TipusDocumentColaboracioDelegacio {
 
 
@@ -61,15 +62,6 @@ private static final long serialVersionUID = -1633225634L;
     this.setId(__bean.getId());
     this.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
-	}
-
-  public static TipusDocumentColaboracioDelegacioJPA toJPA(TipusDocumentColaboracioDelegacio __bean) {
-    if (__bean == null) { return null;}
-    TipusDocumentColaboracioDelegacioJPA __tmp = new TipusDocumentColaboracioDelegacioJPA();
-    __tmp.setId(__bean.getId());
-    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
-    __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
-		return __tmp;
 	}
 
 	public long getId() {
@@ -137,6 +129,57 @@ private static final long serialVersionUID = -1633225634L;
 	public  void setTipusDocument(TipusDocumentJPA tipusDocument) {
     this.tipusDocument = tipusDocument;
   }
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static TipusDocumentColaboracioDelegacioJPA toJPA(TipusDocumentColaboracioDelegacio __bean) {
+    if (__bean == null) { return null;}
+    TipusDocumentColaboracioDelegacioJPA __tmp = new TipusDocumentColaboracioDelegacioJPA();
+    __tmp.setId(__bean.getId());
+    __tmp.setColaboracioDelegacioID(__bean.getColaboracioDelegacioID());
+    __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
+		return __tmp;
+	}
+
+
+  public static TipusDocumentColaboracioDelegacioJPA copyJPA(TipusDocumentColaboracioDelegacioJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<TipusDocumentColaboracioDelegacioJPA> copyJPA(java.util.Set<TipusDocumentColaboracioDelegacioJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<TipusDocumentColaboracioDelegacioJPA> __tmpSet = (java.util.Set<TipusDocumentColaboracioDelegacioJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<TipusDocumentColaboracioDelegacioJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (TipusDocumentColaboracioDelegacioJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static TipusDocumentColaboracioDelegacioJPA copyJPA(TipusDocumentColaboracioDelegacioJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    TipusDocumentColaboracioDelegacioJPA __tmp = (TipusDocumentColaboracioDelegacioJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    // Copia de beans complexes (IMP)
+    if(!"TipusDocumentJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocument) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocument()) ) ) {
+      __tmp.setTipusDocument(TipusDocumentJPA.copyJPA(__jpa.getTipusDocument(), __alreadyCopied,"TipusDocumentColaboracioDelegacioJPA"));
+    }
+    if(!"ColaboracioDelegacioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio()) ) ) {
+      __tmp.setColaboracioDelegacio(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacio(), __alreadyCopied,"TipusDocumentColaboracioDelegacioJPA"));
+    }
+
+    return __tmp;
+  }
+
 
 
 

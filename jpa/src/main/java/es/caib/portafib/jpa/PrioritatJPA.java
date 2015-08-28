@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 @Entity
 @Table(name = "pfi_prioritat" )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
+@javax.xml.bind.annotation.XmlRootElement
 public class PrioritatJPA implements Prioritat {
 
 
@@ -44,14 +45,6 @@ private static final long serialVersionUID = -245759373L;
   public PrioritatJPA(Prioritat __bean) {
     this.setPrioritatID(__bean.getPrioritatID());
     this.setNom(__bean.getNom());
-	}
-
-  public static PrioritatJPA toJPA(Prioritat __bean) {
-    if (__bean == null) { return null;}
-    PrioritatJPA __tmp = new PrioritatJPA();
-    __tmp.setPrioritatID(__bean.getPrioritatID());
-    __tmp.setNom(__bean.getNom());
-		return __tmp;
 	}
 
 	public int getPrioritatID() {
@@ -94,6 +87,52 @@ private static final long serialVersionUID = -245759373L;
 	public void setPeticioDeFirmas(Set<PeticioDeFirmaJPA> peticioDeFirmas) {
 	  this.peticioDeFirmas = peticioDeFirmas;
 	}
+
+
+
+ // ---------------  STATIC METHODS ------------------
+  public static PrioritatJPA toJPA(Prioritat __bean) {
+    if (__bean == null) { return null;}
+    PrioritatJPA __tmp = new PrioritatJPA();
+    __tmp.setPrioritatID(__bean.getPrioritatID());
+    __tmp.setNom(__bean.getNom());
+		return __tmp;
+	}
+
+
+  public static PrioritatJPA copyJPA(PrioritatJPA __jpa) {
+    return copyJPA(__jpa,new java.util.HashMap<Object,Object>(), null);
+  }
+
+  static java.util.Set<PrioritatJPA> copyJPA(java.util.Set<PrioritatJPA> __jpaSet,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpaSet == null) { return null; }
+    java.util.Set<PrioritatJPA> __tmpSet = (java.util.Set<PrioritatJPA>) __alreadyCopied.get(__jpaSet);
+    if (__tmpSet != null) { return __tmpSet; };
+    __tmpSet = new java.util.HashSet<PrioritatJPA>(__jpaSet.size());
+    __alreadyCopied.put(__jpaSet, __tmpSet);
+    for (PrioritatJPA __jpa : __jpaSet) {
+      __tmpSet.add(copyJPA(__jpa, __alreadyCopied, origenJPA));
+    }
+    return __tmpSet;
+  }
+
+  static PrioritatJPA copyJPA(PrioritatJPA __jpa,
+    java.util.Map<Object,Object> __alreadyCopied, String origenJPA) {
+    if (__jpa == null) { return null; }
+    PrioritatJPA __tmp = (PrioritatJPA) __alreadyCopied.get(__jpa);
+    if (__tmp != null) { return __tmp; };
+    __tmp = toJPA(__jpa);
+    __alreadyCopied.put(__jpa, __tmp);
+    // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"PrioritatJPA"));
+    }
+    // Copia de beans complexes (IMP)
+
+    return __tmp;
+  }
 
 
 
