@@ -277,6 +277,8 @@ public interface Constants {
   public static final String APPLET_CERTIFICATE_FILTER = "certificate_filter";
 
   public static final String APPLET_REDIRECT = "redirect";
+  
+  public static final String APPLET_ISJNLP = "isjnlp";
 
   public static final String APPLET_SIGNERCLASS = "signerClass";
   public static final String APPLET_SIGNERCLASS_IBKEY="applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner";
@@ -290,7 +292,9 @@ public interface Constants {
   public static final String APPLET_POLICYURLDOCUMENT = "policyUrlDocument";
 
   public static final int APPLET_LOGO_SIDE = (int)(1.25f  * 72f);
-  public static final int APPLET_HEIGHTSIGNBOX = (int)(0.75f * 72f); // =57.6     ANTIC 0.5inch = = 36
+  // Abans l'altura era 0,75 * 72 = 54 per 4 linies per casella
+  // Ara volem un màxim de 5 linies per casella que significa una altura de 67,5 (= 54*5/4) 
+  public static final int APPLET_HEIGHTSIGNBOX = (int)(67.5); // =57.6     ANTIC 0.5inch = = 36
   public static final int APPLET_STARTSIGNTABLE = (int)(1.25f  * 72f); // =90
 
   public static final int APPLET_LOWER_MARGIN_PAGE = (int)(1.1f  * 72f); // = 72
@@ -300,7 +304,7 @@ public interface Constants {
 
   // Hauria de ser calculat
   public static final int APPLET_MAX_FIRMES_PER_TAULA 
-      = (A4_ALT - APPLET_LOWER_MARGIN_PAGE - APPLET_STARTSIGNTABLE)/APPLET_HEIGHTSIGNBOX; // ~12;  
+      = (A4_ALT - APPLET_LOWER_MARGIN_PAGE - APPLET_STARTSIGNTABLE)/APPLET_HEIGHTSIGNBOX; // ~10;  
   
 
 }

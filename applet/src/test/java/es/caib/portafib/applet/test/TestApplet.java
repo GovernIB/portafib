@@ -4,12 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JFileChooser;
@@ -20,6 +17,7 @@ import javax.swing.JRootPane;
 import es.caib.portafib.applet.SignApplet;
 import es.caib.portafib.applet.SignerContext;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.SignBoxRectangle;
 
 
 /**
@@ -29,23 +27,6 @@ import es.caib.portafib.utils.Constants;
  */
 public class TestApplet {
   
-  public static Map<Integer, String> signBoxRectangle = new HashMap<Integer, String>();
-  
-  static {
-    signBoxRectangle.put(1, "106,664,555,713");
-    signBoxRectangle.put(2, "106,610,555,659");
-    signBoxRectangle.put(3, "106,556,555,605");
-    signBoxRectangle.put(4, "106,502,555,551");
-    signBoxRectangle.put(5, "106,448,555,497");
-    signBoxRectangle.put(6, "106,394,555,443");
-    signBoxRectangle.put(7, "106,340,555,389");
-    signBoxRectangle.put(8, "106,286,555,335");
-    signBoxRectangle.put(9, "106,232,555,281");
-    signBoxRectangle.put(10, "106,178,555,227");
-    signBoxRectangle.put(11, "106,124,555,173");
-    signBoxRectangle.put(12, "106,70,555,119");
-  }
-
   
 @SuppressWarnings("deprecation")
 public static void main(String[] args) {
@@ -88,7 +69,8 @@ public static void main(String[] args) {
           extension = "";
         }
   
-        int signNumber = 12;
+        int signNumber = Constants.APPLET_MAX_FIRMES_PER_TAULA;
+        System.out.println("Firma Numero (& MAXIM FIRMES) = " + signNumber);
         int signType = Constants.TIPUSFIRMA_PADES;
         int locationSignTable = Constants.TAULADEFIRMES_PRIMERAPAGINA;
         
@@ -96,7 +78,7 @@ public static void main(String[] args) {
         if (signType == Constants.TIPUSFIRMA_PADES &&
             ( locationSignTable == Constants.TAULADEFIRMES_PRIMERAPAGINA 
                 || locationSignTable == Constants.TAULADEFIRMES_DARRERAPAGINA) ) {
-          prop.put(Constants.APPLET_SIGN_BOX_RECTANGLE + "_" + x , signBoxRectangle.get(signNumber));
+          prop.put(Constants.APPLET_SIGN_BOX_RECTANGLE + "_" + x , SignBoxRectangle.getPositionOfVisibleSignature(signNumber).toString());
         }
         
        
@@ -111,8 +93,8 @@ public static void main(String[] args) {
         prop.put(Constants.APPLET_SIGN_NUMBER + "_" + x, String.valueOf(signNumber));
 
         prop.put(Constants.APPLET_REASON + "_" + x , "Firma Antoni Nadal Bennasar "
-            + "(43096845C) per delegació de Antoni Nadal Bennasar (43096845C). Motiu: "
-            + "123456789 123456789 123456789 123456789 123456789 123456789A"); // 60 chars
+            + "(43096845C) per delegació de Antoni Nadal A B C D E F G H I JKLMNO P Q (43096845C). Motiu: "
+            + "123456789 123456789 123456789 123456789"); // 60 chars
         /** Codi que conté el missatge pre formatejat pel camp de "Firmat Per:" de la
          *  taula de firmes. Els camps a substituir són:
          * {0} = NOM
@@ -125,7 +107,7 @@ public static void main(String[] args) {
          * {7} = UNITAT_ADMINISTRATIVA
          */
         prop.put(Constants.APPLET_FIRMATPERFORMAT + "_" + x, 
-            "NOM={0} {1,choice,0#NO_NIF|1< - NIF {2}} {4,choice,0#NOCARREC|1< - Carrec {5}} (EMISSOR={3})");
+           "NOM={0}{1,choice,0#NO_NIF|1< - NIF {2}} {4,choice,0#NOCARREC|1< - Carrec {5}} (EMISSOR={3})");
 
         prop.put(Constants.APPLET_LANGUAGE_SIGN + "_" + x, "ca");
 
@@ -157,13 +139,16 @@ public static void main(String[] args) {
 
       prop.put(Constants.APPLET_SIGNERCLASS, signerClass.getName() );
 
+      /*
       if (signerClass.getName().endsWith("IBKeySigner")) {
         prop.put(Constants.APPLET_CERTIFICATE_FILTER, 
           URLEncoder.encode(new File("./web/signatura_api.properties").toURL()
           .toExternalForm()));
       }
+      */
 
-      if (signerClass.getName().endsWith("AfirmaSigner")) {
+      // if (signerClass.getName().endsWith("AfirmaSigner"))
+      {
 
 
          StringBuffer filter = new StringBuffer();

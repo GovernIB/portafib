@@ -359,6 +359,7 @@
                              <targetPath>doc</targetPath>
                              <includes>
                                 <include>Manual_de_Usuari_de_PortaFIB.pdf</include>
+                                <include>MCFv1.3_manual-integrador_ES_Filtros.pdf</include>
                              </includes>
                              <filtering>false</filtering>
                         </resource>

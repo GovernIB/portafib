@@ -19,7 +19,7 @@ public interface ISigner {
    * 
    */
   public void init(PropertyResourceBundle bundleUI,  
-      SignerContext signerContext) throws Exception, ActualitzarLlibreriaException;
+      SignerContext signerContext) throws Exception;
   
   
   

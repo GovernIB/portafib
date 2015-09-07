@@ -90,7 +90,7 @@
         </dependency>
     </dependencies>
 
-<properties>
+    <properties>
         <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
         <version_txt_file>./versio.txt</version_txt_file>
         <spring.version>3.1.2.RELEASE</spring.version>
@@ -98,7 +98,7 @@
         <cxf.version>2.2.12</cxf.version>  <!-- 2.2.12 -->
         <ibkey.version>3.3.2</ibkey.version>
         <global.version>${project.version}</global.version>
-        <miniapplet.version>1.2</miniapplet.version>
+        <miniapplet.version>1.3</miniapplet.version>
         <hibernate.version>3.3.2.GA</hibernate.version>
         <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
 		<plugins.version>1.0.0</plugins.version>

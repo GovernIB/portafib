@@ -1,7 +1,6 @@
 package es.caib.portafib.back.controller.dest;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +22,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.WebServicesMethodsLocal;
 
 /**
  * 
@@ -34,8 +33,9 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 @RunAs("PFI_USER")
 public class EstatFirmaServlet extends HttpServlet {
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  //JNLP
+  @EJB(mappedName = "portafib/WebServicesMethodsEJB/local")
+  protected WebServicesMethodsLocal peticioDeFirmaLogicaEjb;
 
   protected final Logger log = Logger.getLogger(getClass());
   

@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -143,17 +142,34 @@ public class PanelSign extends BasePanel implements Runnable {
 
     if (errors == 0) {
       String jump = parentPanel.signerContext.getContextParameter(Constants.APPLET_REDIRECT);
-      jump = parentPanel.signerContext.checkURL(jump);
+      if (jump == null || (jump != null && jump.trim().length() == 0)) {
+        jump = null; 
+      } else {
+        jump = parentPanel.signerContext.checkURL(jump);
+      }
       if (jump != null) {
         try {
           parentPanel.signerContext.showURL(new URL(jump));
+
+          if (isJNLP()) {
+            try {
+              Thread.sleep(2000);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            System.exit(0);            
+          }
 
         } catch (MalformedURLException e) {
           e.printStackTrace();
         }
       } else {
-        JOptionPane.showMessageDialog(null, tradueix("firmes.ok"), tradueix("informacio"),
+        if (isJNLP()) {
+          System.exit(0);
+        } else {
+          JOptionPane.showMessageDialog(null, tradueix("firmes.ok"), tradueix("informacio"),
             JOptionPane.INFORMATION_MESSAGE);
+        }
       }
     } else {
       JOptionPane.showMessageDialog(null, tradueix("firmes.error"),
@@ -162,6 +178,12 @@ public class PanelSign extends BasePanel implements Runnable {
     
 
 
+  }
+  
+  
+  public boolean isJNLP() {
+    String str = parentPanel.signerContext.getContextParameter(Constants.APPLET_ISJNLP);
+    return "true".equals(str);
   }
   
   public enum IconEstat {

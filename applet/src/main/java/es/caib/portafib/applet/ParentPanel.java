@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import es.caib.portafib.applet.signers.AfirmaSigner;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -67,9 +68,14 @@ public class ParentPanel extends JPanel {
       //System.out.println(" SIGNER IBKEY CLASS =      ]" + IBKeySigner.class.getName()+"[");
       
       String signerClassTxt = this.signerContext.getContextParameter(Constants.APPLET_SIGNERCLASS);
-      System.out.println(" SIGNER CLASS FROM PARAM = ]" + signerClassTxt + "[");
-      Class<?> signerClass = Class.forName(signerClassTxt);
-      signer = (ISigner)signerClass.getConstructor().newInstance();
+      if (signerClassTxt == null) {
+        System.out.println(" USING DEFAULT SIGNER = ]" + AfirmaSigner.class.getName() + "[");
+        signer = new AfirmaSigner();
+      } else {
+        System.out.println(" SIGNER CLASS FROM PARAM = ]" + signerClassTxt + "[");
+        Class<?> signerClass = Class.forName(signerClassTxt);
+        signer = (ISigner)signerClass.getConstructor().newInstance();
+      }
       
       //signer = new es.caib.portafib.applet.signers.AfirmaSigner();
       signer.init(bundleUI, signerContext);

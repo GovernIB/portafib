@@ -17,6 +17,10 @@ public class AutoFirmaForm extends AutoFirmaBean {
   CommonsMultipartFile adjunt2;
   CommonsMultipartFile adjunt3;
   CommonsMultipartFile adjunt4;
+  
+  boolean jnlp;
+  
+  long id;
 
 
   public AutoFirmaForm() {
@@ -63,5 +67,23 @@ public class AutoFirmaForm extends AutoFirmaBean {
   public void setAdjunt4(CommonsMultipartFile adjunt4) {
     this.adjunt4 = adjunt4;
   }
+
+  public boolean isJnlp() {
+    return jnlp;
+  }
+
+  public void setJnlp(boolean jnlp) {
+    this.jnlp = jnlp;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+  
+  
 
 }

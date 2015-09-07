@@ -1,12 +1,12 @@
-<%@page import="org.apache.commons.io.FileUtils"%>
-<%@page import="java.io.InputStream"
+<%@page import="org.apache.commons.io.FileUtils"
+%><%@page import="java.io.InputStream"
 %><%@page import="java.io.ByteArrayOutputStream"
 %><%@page import="java.net.URL"
 %><%@page import="java.io.File"
 %><%@page import="org.apache.log4j.Logger"
 %><%@page import="java.net.HttpURLConnection"
-%><%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-  pageEncoding="ISO-8859-1"%><%!
+%><%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"
+%><%!
   
   protected final Logger log = Logger.getLogger(this.getClass());
   
@@ -17,9 +17,7 @@
   
   
   private static final boolean CACHE = false;
-  
-  
-  
+
   public static Boolean quefer = null; 
 
   public static String contentDeployJava = null;

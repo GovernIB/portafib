@@ -43,4 +43,30 @@ public class SignBoxRectangle {
     return this.llx + "," + this.lly + "," +this.urx + "," +this.ury;
   }
   
+  
+  public static SignBoxRectangle getPositionOfVisibleSignature(int num_firma) {
+    final float width = 482 - 30;
+    final int marge = (int)(0.51f * 72f);
+    int alt = marge + Constants.APPLET_STARTSIGNTABLE + Constants.APPLET_HEIGHTSIGNBOX * (num_firma -1);
+    final float top = -1.0f * alt;
+    final float left = 76 + 30;
+
+    final float height = Constants.APPLET_HEIGHTSIGNBOX;
+    
+    float llx = left;  // llx - the lower left x corner
+    float lly = /*rect.getHeight()*/ Constants.A4_ALT + top  - Constants.APPLET_HEIGHTSIGNBOX;  // lly - the lower left y corner
+
+    float urx = llx + width - 3;  // urx - the upper right x corner
+    float ury = lly + height - 3;  // ury - the upper right y corner
+    
+    lly = lly + 2.5f;
+    
+    
+    return new SignBoxRectangle((int)llx, (int)lly, (int)urx, (int)ury);
+    
+    
+  }
+  
+  
+  
 }

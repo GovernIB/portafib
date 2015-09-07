@@ -94,7 +94,7 @@ public class TestPDFUtils implements Constants {
     StringBuffer properties = new StringBuffer();
     for (int i = 0; i < 6; i++) {
       
-      SignBoxRectangle sbr = PdfUtils.getPositionOfVisibleSignature(i +1);
+      SignBoxRectangle sbr = SignBoxRectangle.getPositionOfVisibleSignature(i +1);
       
       properties.append("-- " + (i+1) + "\n");
       properties.append("signaturePositionOnPageLowerLeftX=" + (int)sbr.llx + "\n");
@@ -333,7 +333,7 @@ public class TestPDFUtils implements Constants {
   
   
   
-  public static void main(String[] args) {
+  public static void mainTestHorizontal(String[] args) {
     
     try {
       //new TestPDFUtils().testAttachingFilesToPDFwithAttachs(); 
@@ -426,11 +426,21 @@ public class TestPDFUtils implements Constants {
     return custodiaInfo;
   }
 
-  public static void main2(String[] args) {
+  public static void main(String[] args) {
+    new TestPDFUtils().generaPDFPerProvesApplet();
+  }
+    
 
-    File parent = new File("C:\\Documents and Settings\\anadal\\Escritorio\\PortaSIB\\proves");
+  //@Test
+  public void generaPDFPerProvesApplet() {
 
-    File srcPDF = new File(parent, "hola.pdf");
+    //File parent = new File("C:\\Documents and Settings\\anadal\\Escritorio\\PortaSIB\\proves");
+    //File srcPDF = new File(parent, "hola.pdf");
+    try {
+      log.info(" Constants.MAX FIRMES = " + Constants.APPLET_MAX_FIRMES_PER_TAULA);
+      
+    File srcPDF = getFileFromResource("test.pdf");
+    
     File dstPDF = new File("..\\applet\\web\\hola_amb_taula.pdf");
 
     log.info("TIPUS MIME = " + Utils.getMimeType("hola.pdf"));
@@ -452,14 +462,11 @@ public class TestPDFUtils implements Constants {
     String titol = "Ammmmmmmmm Bmmmmmmmmm Cmmmmmmmmm Dmmmmmm";
     log.info(titol.length());
     // File logoFile = new File("logotaulafirmesfundaciobit.jpg");
-    File logoFile = new File("logotaulafirmescaib.jpg");
+    File logoFile = getFileFromResource("logotaulafirmescaib.jpg");
     // File logoFile = new File("logotaulafirmesfundaciobit2.jpg");
-
-    List<AttachedFile> attachments = new ArrayList<AttachedFile>(); 
-        
-    attachments.add( new AttachedFile( "hola.txt", new File(parent, "hola.txt")));
-
-    try {
+    
+      List<AttachedFile> attachments = new ArrayList<AttachedFile>(); 
+      attachments.add( new AttachedFile( "hola.txt", getFileFromResource("annex_1.txt")));
 
       log.info(" INICI XX " + dstPDF.getAbsolutePath());
       // File logoFile = null;

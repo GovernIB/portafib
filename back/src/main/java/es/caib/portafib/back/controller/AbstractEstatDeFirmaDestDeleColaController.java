@@ -32,6 +32,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -388,11 +389,70 @@ import es.caib.portafib.utils.Configuracio;
       return llistatPaginat(request, response, null);
 
     }
+    
+    
+    
+    
+    @RequestMapping(value = "/estatdelesfirmes/{firmesid}", method = RequestMethod.GET)
+    public void estatdelesfirmes(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable String firmesid) throws I18NException {
+
+      final boolean isDebug = log.isDebugEnabled();
+      
+      if (isDebug) {
+        log.debug("========= Estat de les firmes = ]" +firmesid + "[");
+      }
+      
+      String[] firmaIdArray = firmesid.split(",");
+      
+      
+      Long count;
+      for(int x = 0; x < firmaIdArray.length; x++) {
+        if (isDebug) {
+          log.debug("Check firma amb id =]" +firmaIdArray[x] + "[");
+        }
+        count = estatDeFirmaEjb.count(Where.AND(
+             ESTATDEFIRMAID.equal(Long.parseLong(firmaIdArray[x])),
+             TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT)
+             ));
+        
+        if (count == 0) {
+          response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+          return;
+        }
+      }
+      
+      // Si totes les firmes estan firmades OK
+      try {
+        response.getOutputStream().write("OK".getBytes());
+      } catch (IOException e) {
+      }
+      response.setStatus(HttpServletResponse.SC_OK);
+    }
+    
+    
+    @RequestMapping(value = "/firmarseleccionats/Firmar.jnlp", method = RequestMethod.POST)
+    public ModelAndView firmarSeleccionatsJNLP(HttpServletRequest request,
+        @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
+
+      return firmarseleccionatscommon(request, filterForm, true);
+
+    }
+    
+    
 
     @RequestMapping(value = "/firmarseleccionats", method = RequestMethod.POST)
     public ModelAndView firmarSeleccionats(HttpServletRequest request,
         @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
 
+      return firmarseleccionatscommon(request, filterForm,false);
+
+    }
+    
+   
+
+    private ModelAndView firmarseleccionatscommon(HttpServletRequest request,
+        EstatDeFirmaFilterForm filterForm, boolean  isJnlp) throws I18NException {
       // seleccionats conté els estatIDs
       String[] seleccionatsStr = filterForm.getSelectedItems();
       // String role = filterForm.getRole();
@@ -403,9 +463,8 @@ import es.caib.portafib.utils.Configuracio;
         HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("firmarseleccionats.cap"));
         
         return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-      } else {
-        
-       
+      } 
+
         
         ArrayList<Long> seleccionats = new ArrayList<Long>();
         for(int i = 0; i< seleccionatsStr.length; i++) {
@@ -477,20 +536,21 @@ import es.caib.portafib.utils.Configuracio;
 
         EntitatJPA entitat = loginInfo.getEntitat(); 
         AppletConfig config = es.caib.portafib.back.utils.Utils.getAppletConfig(
-            entitat, langUI, getContextWeb() + "/final");
+            entitat, langUI, isJnlp ? "" : ( getContextWeb() + "/final"));
           /*
            new AppletConfig(langUI, getContextWeb() + "/final", loginInfo
             .getEntitat().getFiltreCertificats(), Configuracio.getAppletSignerClass());
             */
-
-        ModelAndView mav = new ModelAndView("firmaApplet_" + getRole());
+        String view = isJnlp? ("firmaJNLP_" + getRole()) : ( "firmaApplet_" + getRole());
+        ModelAndView mav = new ModelAndView(view);
         mav.addObject("fitxers", fitxers);
         mav.addObject("config", config);
         return mav;
-
-      }
-
     }
+    
+    
+    
+    
 
     public abstract String getRole();
     
@@ -606,7 +666,27 @@ import es.caib.portafib.utils.Configuracio;
     public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
+      ModelAndView mav;
+      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID, false);
+      return mav;
+    }
+    
+   
+    
+    @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}/Firmar.jnlp",   method = RequestMethod.GET)
+    public ModelAndView firmarJNLP(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID)
+            throws I18NException {
+
+      ModelAndView mav;
+      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID, true);
+      return mav;
       
+    }
+    
+
+    private ModelAndView commonFirma(HttpServletRequest request, HttpServletResponse response,
+        Long estatDeFirmaID, Long peticioDeFirmaID,boolean isJnlp) throws I18NException {
       log.info("Entra a firmar Peticio = " + peticioDeFirmaID + " | EstatDeFirma = " + estatDeFirmaID);
       
       try {
@@ -616,7 +696,7 @@ import es.caib.portafib.utils.Configuracio;
         return llistatPaginat(request, response, null);
       }
 
-      String role = getRole();
+      
 
       AppletSignFile appletSignFile;
       appletSignFile = prepareAppletFirma(request, estatDeFirmaID, peticioDeFirmaID, LoginInfo
@@ -637,7 +717,7 @@ import es.caib.portafib.utils.Configuracio;
       
       AppletConfig config = es.caib.portafib.back.utils.Utils.getAppletConfig(
           entitat, loginInfo.getUsuariPersona().getIdiomaID(),
-          getContextWeb() + "/final");
+          isJnlp?"" : (getContextWeb() + "/final"));
       
       /*
       if (entitat.getPolicyIdentifier() != null) {
@@ -652,14 +732,19 @@ import es.caib.portafib.utils.Configuracio;
             Configuracio.getAppletSignerClass());
       }
       */
+      String role = getRole();
+      String view =  isJnlp?  ("firmaJNLP_" + role): ("firmaApplet_" + role);
+      ModelAndView mav = new ModelAndView(view);
       
-
-      ModelAndView mav = new ModelAndView("firmaApplet_" + role);
       mav.addObject("fitxers", fitxers);
       mav.addObject("config", config);
+      
       return mav;
-
     }
+    
+    
+
+   
 
     protected AppletSignFile prepareAppletFirma(HttpServletRequest request, Long estatDeFirmaID,
         Long peticioDeFirmaID, String langUI) throws I18NException {
@@ -1437,13 +1522,13 @@ import es.caib.portafib.utils.Configuracio;
              
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-edit", "firmar",
-                  getContextWeb() + "/firmar/" + estatId + "/" + peticioID ,
+                  "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmar/" + estatId + "/" + peticioID + "', {0})" ,
                   "btn-success"));
              
           
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-remove", "rebutjar",
-                 "javascript:rebutjar('" + request.getContextPath() + "" + getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")" ,
+                 "javascript:rebutjar('" + request.getContextPath() +  getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")" ,
                   "btn-danger"));
 
 

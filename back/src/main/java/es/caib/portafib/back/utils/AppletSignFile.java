@@ -1,6 +1,5 @@
 package es.caib.portafib.back.utils;
 
-import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -69,7 +68,7 @@ public class AppletSignFile {
     if (this.signType == Constants.TIPUSFIRMA_PADES &&
         (this.locationSignTable == Constants.TAULADEFIRMES_PRIMERAPAGINA
        || this.locationSignTable == Constants.TAULADEFIRMES_DARRERAPAGINA)) {
-      this.signBoxRectangle = PdfUtils.getPositionOfVisibleSignature(sign_number);
+      this.signBoxRectangle = SignBoxRectangle.getPositionOfVisibleSignature(sign_number);
     }
   }
 

@@ -14,7 +14,13 @@ public class TestUtils {
 
   @Test
   public void printVersion() {
-    log.info("ADEN CONTEXT" + Constants.CONTEXT_ADEN_NOTIFICACIONSWS);
+    log.info("ADEN CONTEXT=" + Constants.CONTEXT_ADEN_NOTIFICACIONSWS);
+  }
+  
+  
+  @Test
+  public void maxNumberSignaturesInTable() {
+    log.info(" maxNumberSignaturesInTable = " + Constants.APPLET_MAX_FIRMES_PER_TAULA );
   }
 
 }

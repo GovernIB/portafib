@@ -1,4 +1,6 @@
+<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
+<input id="jnlp" name="jnlp" type="hidden" value=""  />
 
  <h5><fmt:message key="tipusDocument.tipusDocument" /> </h5>
  
@@ -88,8 +90,63 @@
   </c:if>
 </tbody>
 </table>
+
+
+<div id="ajaxloader" style="position:absolute; left:0px; top:0px; visibility:hidden; border:none;z-index:100;width:100%;height:100%;background:#CCC;filter: alpha(opacity=80);-moz-opacity:.8; opacity:.8;">
+  <table style="width:100%;height:100%;">
+  <tr valign="middle"><td align="center">
+  <h3 style="color:#FFF;"><fmt:message key="autofirma.jnlp"/></h3><br/>
+  <img src="<c:url value="/img/ajax-loader2.gif"/>" /><br/>
+  <br/>
+  <input type="button" class="btn btn-primary" onclick="javascript:goTo('<c:url value="/dest/delegat/list" />');" value="<fmt:message key="tornar"/>" />
+  </td></tr></table>
+</div>
+ 
+ <script src="<c:url value="/js/deployJava.jsp"/>"></script>
+ 
+<script type="text/javascript">
   
-  <script language="JavaScript" type="text/javascript">
+  var jnlp;
+  jnlp = document.getElementById("jnlp");
+  if (deployJava.isPluginInstalled()) {
+    jnlp.value = 'false';
+  } else {
+    jnlp.value = 'true';
+  }
+ 
+  
+  <c:if test="${! colaboracioDelegacioForm.nou}">
+
+    function firmarAutoritzacio(url) {
+        if (deployJava.isPluginInstalled()) {
+            goTo(url + "/false");
+        } else {
+            document.getElementById("ajaxloader").style.visibility = "visible";
+            myTimer = setInterval(function () {closeWhenSign()}, 20000);
+            goTo(url + '/true');
+        }
+    }
+    
+    function closeWhenSign() {
+        var request;
+        if(window.XMLHttpRequest) {
+            request = new XMLHttpRequest();
+        } else {
+            request = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        request.open('GET', '<c:url value="/dest/delegat/existsautoritzacio/${colaboracioDelegacioForm.colaboracioDelegacio.colaboracioDelegacioID}" />', false);
+        request.send(); 
+        <%--  there will be a 'pause' here until the response to come.
+        // the object request will be actually modified --%>
+        if ((request.status + '') == '200') {
+            clearTimeout(myTimer);
+            window.location.href = '<c:url value="/dest/delegat/${colaboracioDelegacioForm.colaboracioDelegacio.colaboracioDelegacioID}/edit/" />';
+        }
+        clearTimeout(myTimer);
+        myTimer = setInterval(function () {closeWhenSign()}, 4000);
+    }
+
+    </c:if>
 
     function preSubmit() {
     	var desti = document.getElementById("currentTipusDocument");

@@ -17,7 +17,7 @@
  
  
 %><HTML>
-<TITLE>Applet de firma electrónica</TITLE>
+<TITLE>Applet de firma electrï¿½nica</TITLE>
 <BODY>
 
 
@@ -64,7 +64,6 @@ if (signerClass == null) {
 	  
 		    languageUI:'ca',
 		    redirect:'<%=home%>/signat.jsp',
-		    signatura_api_properties:'<%=home%>/signatura_api.properties',
 		    signerClass:'<%=signerClass%>'
 	      };
   var version = '1.6';
@@ -96,7 +95,6 @@ if (signerClass == null) {
 	<param name="sign_number_0" value="0" />
 	<param name="language" value="ca" />
 	<param name="redirect" value="<%=home%>/signat.jsp" />
-	<param name="signatura_api_properties" value="<%=home%>/signatura_api.properties" />
     <comment>
         <embed  width="400" height="250" align="baseline" 
     	   code="es.caib.portafib.applet.SignApplet"
@@ -109,7 +107,6 @@ if (signerClass == null) {
 		   sign_number_0="0"
            redirect="<%=home%>/signat.jsp"
 		   language="ca"
-           signatura_api_properties="<%=home%>/signatura_api.properties"
            type="application/x-java-applet;version=1.5"
            pluginspage="http://java.sun.com/j2se/1.5_0/download.html"
            cache_option="No" />

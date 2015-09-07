@@ -16,6 +16,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
@@ -74,6 +75,17 @@ public class GestioEntitatController extends EntitatController {
          // TODO S'ha d'ocultar només si te usuarisEntitat o usuarisAplicacio associats (veure mètode delete)         
          entitatForm.addHiddenField(ENTITATID);           
        }
+
+       entitatForm.addHelpToField(FILTRECERTIFICATS, I18NUtils.tradueix("manualfiltrescertificats.ajuda"));
+       
+       /*
+       entitatForm.addAdditionalButton(new AdditionalButton(
+           "icon-info-sign icon-white", "manualfiltrescertificats", 
+            // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
+           "javascript:var win = window.open('" + request.getContextPath() + "/doc/MCFv1.3_manual-integrador_ES_Filtros.pdf', '_blank'); win.focus();",
+           "btn-info") );
+       */
+       
        return entitatForm;
    }
 

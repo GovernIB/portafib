@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -111,6 +112,16 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     form.setListOfPosicioTaulaFirmes(posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID,w));
 
     form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+    
+    long id;
+    synchronized (CONTEXTWEB) {
+      id = System.nanoTime();
+      try {
+        Thread.sleep(1);
+      } catch (InterruptedException e) {
+      }
+    }
+    form.setId(id);
 
     mav.addObject(form);
 
@@ -131,8 +142,8 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
       mav.addObject(autoFirmaForm);
       return mav;
     } else {
-      long id = System.currentTimeMillis(); 
-      
+      final long id = autoFirmaForm.getId();
+
       // Guardar Fitxer a firma i convertir si és necessari
       I18NFieldError fieldError = checkFileToSignInPAdES(id, autoFirmaForm);
       
@@ -188,11 +199,13 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
       EntitatJPA entitat = loginInfo.getEntitat();
       AppletConfig config = Utils.getAppletConfig(entitat, 
-          langUI, CONTEXTWEB + "/final/" + id);
+          langUI, autoFirmaForm.isJnlp()? "" : (CONTEXTWEB + "/final/" + id)); // redirect == null
       
       autofirmaEjb.put(id, autoFirmaForm);
+      
+      final String view =  autoFirmaForm.isJnlp()?"firmaJNLP_Autofirma":"firmaApplet_AutoFirma";
 
-      ModelAndView mav = new ModelAndView("firmaApplet_AutoFirma");
+      ModelAndView mav = new ModelAndView(view);
       mav.addObject("fitxers", fitxers);
       mav.addObject("config", config);
       return mav;
@@ -366,18 +379,22 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
     File dstPDF = form.signedFile;
 
+    if (dstPDF != null) {
 
-    response.setContentType(Constants.PDF_MIME_TYPE);
-    response.setHeader("Content-Disposition", "inline; filename=\"" + form.fileName + "\"");
-    response.setContentLength((int) dstPDF.length());
-
-    java.io.OutputStream output = response.getOutputStream();
-    InputStream input = new FileInputStream(dstPDF);
-    
-    FileSystemManager.copy(input, output);
-
-    input.close();
-    output.close();
+      response.setContentType(Constants.PDF_MIME_TYPE);
+      response.setHeader("Content-Disposition", "inline; filename=\"" + form.fileName + "\"");
+      response.setContentLength((int) dstPDF.length());
+  
+      java.io.OutputStream output = response.getOutputStream();
+      InputStream input = new FileInputStream(dstPDF);
+      
+      FileSystemManager.copy(input, output);
+  
+      input.close();
+      output.close();
+    } else {
+      response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
   }
   
 

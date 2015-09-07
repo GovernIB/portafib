@@ -1,7 +1,6 @@
 package es.caib.portafib.back.controller.dest;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +20,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
+import es.caib.portafib.logic.ColaboracioDelegacioUnauthorizedLogicaLocal;
 
 /**
  * 
@@ -31,9 +30,14 @@ import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 @Controller
 public class AutoritzacioDelegacioServlet extends HttpServlet {
 
-  @EJB(mappedName = "portafib/ColaboracioDelegacioLogicaEJB/local")
-  protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
+  //@EJB(mappedName = "portafib/ColaboracioDelegacioLogicaEJB/local")
+  //protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
 
+  @EJB(mappedName = "portafib/ColaboracioDelegacioUnauthorizedLogicaEJB/local")
+  protected ColaboracioDelegacioUnauthorizedLogicaLocal colaboracioDelegacioLogicaEjb;
+  
+  
+  
   protected final Logger log = Logger.getLogger(getClass());
 
   /**

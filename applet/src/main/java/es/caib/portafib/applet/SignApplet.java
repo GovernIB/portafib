@@ -13,15 +13,14 @@ import java.net.URL;
 public class SignApplet extends Applet implements SignerContext {
 
   private SignerContext signerContext;
-  
-  
+
   private ParentPanel parentPanel;
 
   /**
    * @throws java.awt.HeadlessException
    */
   public SignApplet() throws HeadlessException {
-    signerContext = this;
+    signerContext = new AppletSignerContext(this);
   }
 
   /**
@@ -43,34 +42,67 @@ public class SignApplet extends Applet implements SignerContext {
 
   public void init() {
     setLayout(new BorderLayout());
-    this.parentPanel = new ParentPanel(signerContext); 
+    this.parentPanel = new ParentPanel(signerContext);
     add(this.parentPanel, BorderLayout.CENTER);
   }
 
+  @Override
   public String getContextParameter(String key) {
-    return super.getParameter(key);
+    return this.signerContext.getContextParameter(key);
   }
 
+  @Override
   public void showURL(URL url) {
-    getAppletContext().showDocument(url);
+    this.signerContext.showURL(url);
   }
 
+  @Override
   public String checkURL(String url) {
+    return this.signerContext.checkURL(url);
+  }
 
-    if(url == null || url.trim().length() == 0 || url.startsWith("http")) {
-      return url;
+  
+  public static class AppletSignerContext implements SignerContext {
+
+    final Applet applet;
+
+    /**
+     * @param applet
+     */
+    public AppletSignerContext(Applet applet) {
+      super();
+      this.applet = applet;
     }
-    
-    // És una ruta relativa     
-    URL cbase = getCodeBase();
-    
-    String newUrl = cbase.getProtocol() + "://" + cbase.getHost()
-        + ( cbase.getPort() == -1? "" : (":" + cbase.getPort())) + url;
-    
-    System.out.println(" Canviada " + url + " per " + newUrl);
-    
-    return newUrl;
-    
+
+    @Override
+    public String getContextParameter(String key) {
+      return this.applet.getParameter(key);
+    }
+
+    @Override
+    public void showURL(URL url) {
+      this.applet.getAppletContext().showDocument(url);
+    }
+
+    @Override
+    public String checkURL(String url) {
+
+      if (url == null || url.trim().length() == 0 || url.startsWith("http")) {
+        return url;
+      }
+
+      // És una ruta relativa
+      URL cbase = this.applet.getCodeBase();
+
+      String newUrl = cbase.getProtocol() + "://" + cbase.getHost()
+          + (cbase.getPort() == -1 ? "" : (":" + cbase.getPort())) + url;
+
+      System.out.println(" Canviada " + url + " per " + newUrl);
+
+      return newUrl;
+
+    }
+
   }
 
 }

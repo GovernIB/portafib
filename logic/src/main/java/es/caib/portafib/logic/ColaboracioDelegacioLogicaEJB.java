@@ -201,6 +201,11 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 	  // Cercar colaboracio delegacio
 	  ColaboracioDelegacioJPA jpa = findByPrimaryKey(delegacioID);
 	  
+	  if (jpa.getFitxerAutoritzacioID() != null) {
+	    log.warn("Algu està intentant sobreescriure l'autorització d'una delagació !!!!!");
+	    return;
+	  }
+	  
     // Revisar la data d'inici
     long now = System.currentTimeMillis();
     if (jpa.getDataInici().getTime() < now) {

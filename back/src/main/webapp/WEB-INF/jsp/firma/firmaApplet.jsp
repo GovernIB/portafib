@@ -65,7 +65,9 @@
       ${Constants.APPLET_POLICYURLDOCUMENT}:'${pfi:escapeJavaScript(config.policyUrlDocument)}',
       </c:if>
       </c:if>
+      <c:if test="${not empty config.signerClass}">
       ${Constants.APPLET_SIGNERCLASS}:'${config.signerClass}'
+      </c:if>
 	};
   var version = '1.6';
 

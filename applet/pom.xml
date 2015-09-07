@@ -36,12 +36,14 @@
 		  <scope>compile</scope>
 		</dependency>
 
+        <!--
 		<dependency>
 			<groupId>signaturacaib</groupId>
 			<artifactId>signaturacaib.core</artifactId>
 			<version>${ibkey.version}</version>
 			<classifier>api-unsigned</classifier>
 		</dependency>
+        -->
 
         <dependency>
 		  <groupId>es.gob.afirma</groupId>

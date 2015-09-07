@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.dest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -527,7 +528,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
           colaboracioDelegacioForm.addHiddenField(FITXERAUTORITZACIOID);
           // Afegim boto per firmar
           colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("icon-pencil",
-              "firmar", getContextWeb() + "/firmarautoritzacio/{0}", "btn-warning"));
+              "firmar", 
+              "javascript:firmarAutoritzacio('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/{0}')", "btn-warning"));
           // Missatge informatiu
           HtmlUtils.saveMessageInfo(request,
               I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
@@ -811,12 +813,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @Override
   public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
 
+    String jnlp = request.getParameter("jnlp");
+    if (log.isDebugEnabled()) {
+      log.debug("getRedirectWhenCreated():: jnlp = " + jnlp);
+    }
     
     
-    if (esDelegat()) {
+    if (esDelegat() && !"true".equals(jnlp)) {
       // Anam a la pàgina de Firma
       return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
-          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
+          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
+          + "/" + request.getParameter("jnlp");
     } else {
       return "redirect:" + getContextWeb() + "/"
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
@@ -914,13 +921,43 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     return mav;
 
   }
+  
+  
+  
+  
+  
+  @RequestMapping(value = "/existsautoritzacio/{delegacioID}", method = RequestMethod.GET)
+  public void checkAutoritzacio(
+      @PathVariable("delegacioID") Long delegacioID,
+      HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    
+    
+    Long count = colaboracioDelegacioLogicaEjb.count(
+        Where.AND(
+            COLABORACIODELEGACIOID.equal(delegacioID),
+            FITXERAUTORITZACIOID.isNotNull()
+            ));
+    
+    if (count == 0) {
+      response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    } else {
+      try {
+        response.getOutputStream().write("OK".getBytes());
+      } catch (IOException e) {
+      }
+      response.setStatus(HttpServletResponse.SC_OK);
+    }
+        
+  
+  }
 
   public static final String FITXER_AUTORITZACIO_PREFIX = "FitxerAutoritzacioDelegacio_";
 
-  @RequestMapping(value = "/firmarautoritzacio/{delegacioID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/firmarautoritzacio/{delegacioID}/{isJnlp}", method = RequestMethod.GET)
   public ModelAndView firmarAutoritzacioDelegacio(
-      @PathVariable("delegacioID") Long delegacioID, HttpServletRequest request,
-      HttpServletResponse response) throws I18NException {
+      @PathVariable("delegacioID") Long delegacioID,
+      @PathVariable("isJnlp") boolean isJnlp,
+      HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     ColaboracioDelegacioJPA delegacio;
     delegacio = colaboracioDelegacioLogicaEjb.findByPrimaryKeyFull(delegacioID);
@@ -1063,9 +1100,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     
     AppletConfig config = Utils.getAppletConfig(entitat, 
-        langUI, CONTEXTWEB + "/final/" + delegacioID);
+        langUI, isJnlp? "" : CONTEXTWEB + "/final/" + delegacioID);
 
-    ModelAndView mav = new ModelAndView("firmaApplet_ROLE_DEST");
+
+    ModelAndView mav = new ModelAndView(isJnlp? "firmaJNLP_ROLE_DEST" : "firmaApplet_ROLE_DEST");
     mav.addObject("fitxers", fitxers);
     mav.addObject("config", config);
     return mav;

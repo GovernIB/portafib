@@ -2,22 +2,16 @@ package es.caib.portafib.applet;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import es.caib.signatura.api.UpgradeNeededException;
 
 /**
  * 
@@ -39,6 +33,7 @@ public class PanelError extends JPanel {
 
     setLayout(new BorderLayout());
 
+    /*
     if (e.getCause() != null && e.getCause() instanceof ActualitzarLlibreriaException) {
 
       ActualitzarLlibreriaException ale = (ActualitzarLlibreriaException) e.getCause();
@@ -61,7 +56,9 @@ public class PanelError extends JPanel {
         ta.setEditable(false);
         add(ta, BorderLayout.CENTER);
       }
-    } else {
+    } else 
+    */
+    {
 
       JTextField title = new JTextField(e.getTitle());
       title.setEditable(false);
@@ -101,15 +98,14 @@ public class PanelError extends JPanel {
     return stack;
   }
 
+  /*
   public static class OnClick implements ActionListener {
 
     public UpgradeNeededException une;
 
     public SignerContext signerContext;
 
-    /**
-     * @param une
-     */
+
     public OnClick(UpgradeNeededException une, SignerContext signerContext) {
       super();
       this.une = une;
@@ -132,5 +128,5 @@ public class PanelError extends JPanel {
 
     }
   }
-
+*/
 }

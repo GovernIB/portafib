@@ -77,6 +77,9 @@
     <definition name="firmaApplet_AutoFirma" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
     </definition>
+    
+    <definition  name="firmaJNLP_Autofirma" template="/WEB-INF/jsp/firma/firmaJNLP.jsp">
+    </definition>
 
     <definition name="carrecsList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
@@ -365,6 +368,9 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
     </definition>
     
+    <definition  name="firmaJNLP_ROLE_DELE" template="/WEB-INF/jsp/firma/firmaJNLP.jsp">
+    </definition>
+    
     <definition name="estatFirmaFullView_ROLE_DELE" extends="role_dele">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
     </definition>
@@ -375,9 +381,12 @@
         <put-attribute name="pipella" value="ROLE_DEST" />
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" />
     </definition>
-    
+
     <definition name="firmaApplet_ROLE_DEST" extends="role_dest">
         <put-attribute name="contingut" value="/WEB-INF/jsp/firma/firmaApplet.jsp" />
+    </definition>
+
+    <definition  name="firmaJNLP_ROLE_DEST" template="/WEB-INF/jsp/firma/firmaJNLP.jsp">
     </definition>
 
     <definition name="estatFirmaList_ROLE_DEST" extends="role_dest">

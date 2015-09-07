@@ -24,7 +24,6 @@ import javax.swing.DefaultBoundedRangeModel;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 import es.caib.portafib.utils.XTrustProvider;
-import es.caib.signatura.api.SignatureException;
 
 /**
  * 
@@ -470,7 +469,7 @@ public class ProcessDeFirma extends Thread {
       String reason, int location_page, int num_firma,
       int signType, int signAlgorithm, boolean signMode,
       SignBoxRectangle signBoxRectangle, String firmatPerFormat) throws 
-      IOException, SignatureException, Exception {
+      IOException, Exception {
 
     //PdfReader reader = new PdfReader(new ByteArrayInputStream(input));
     //AcroFields acroFields = reader.getAcroFields();
