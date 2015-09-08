@@ -220,6 +220,9 @@ public static void main(String[] args) {
       SignApplet applet = new SignApplet(new StandaloneSignerContext(prop));
       applet.init();
 
+     
+      // TODO Emprar  applet.setStub(stub); enloc de SignerContext
+
       JFrame frame = new JFrame("Applet de Firma 1.0");
 
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -280,11 +283,9 @@ public static void main(String[] args) {
     }
 
     public void showURL(URL url) {
-      // TODO Auto-generated method stub
       try {
         obreNavegador(url.toString());
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }

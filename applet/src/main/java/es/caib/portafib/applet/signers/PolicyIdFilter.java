@@ -6,6 +6,8 @@ import java.util.List;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 
 import es.gob.afirma.keystores.filters.CertificateFilter;
+import es.gob.afirma.signers.pades.PAdESTriPhaseSigner;
+import es.gob.afirma.signers.pades.PdfPreProcessor;
 
 
 /**

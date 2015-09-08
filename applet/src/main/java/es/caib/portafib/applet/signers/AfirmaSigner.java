@@ -1495,7 +1495,11 @@ public class AfirmaSigner implements ISigner {
   }
   
   
-  
+  /* Copia de MINIAPPLET: * es.gob.afirma.miniapplet.PolicyPropertiesManager: 
+   * 
+   * IMPORTANT: Si fan publica ExtraParamsProcessor i no la ofusquen llavors 
+   * aquesta classe no es neceesaria
+   */
 static final class PolicyPropertiesManager {
 
   /** Identificador de la pol&iacute;tica de firma de la AGE. */
