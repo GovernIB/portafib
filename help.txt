@@ -12,7 +12,7 @@ clean             Neteja els projectes abans de compilar.
                   s'ha d'executar install_portafib_applet_signed_jar.sh/bat
 
 -Pclientcert      Genera un segon context web amb autenticacio
-                  CLIENT-CERT (context a /portafibs)
+                  CLIENT-CERT (context a /portafib/s)
 
 -Pws-portafib     Crea WS per atacar a PortaFIB. Els WS definits son 
                        /portafib/ws/v1/PortaFIBPeticioDeFirma

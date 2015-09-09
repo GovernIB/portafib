@@ -118,8 +118,8 @@ public class Configuracio implements Constants {
   
   /**
    * Si el valor és true llavors redireccióna segons el contexte:
-   *    (a) Si entra amb http dins portafibs llavors redirecciona a portafib
-   *    (b) Si entra amb https dins portafib i existeix portafibs llavors redirecciona a portafibs
+   *    (a) Si entra amb http dins portafib/s llavors redirecciona a portafib
+   *    (b) Si entra amb https dins portafib i existeix portafib/s llavors redirecciona a portafib/s
    * Si el valor es false, llavors no fa res.
    * @return
    */

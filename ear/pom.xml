@@ -301,7 +301,7 @@
 								<webModule>
 								  <groupId>es.caib.portafib</groupId>
 								  <artifactId>portafib-back-clientcert</artifactId>
-								  <contextRoot>portafibs</contextRoot>
+								  <contextRoot>portafib/s</contextRoot>
 								</webModule>
 							</modules>
 						</configuration>

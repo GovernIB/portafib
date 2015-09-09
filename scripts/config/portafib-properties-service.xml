@@ -58,7 +58,7 @@
 	  
 	  <!-- Si el valor és true llavors redirecciona segons el contexte:
             (a) Si entra amb http dins portafibs llavors redirecciona a portafib
-            (b) Si entra amb https dins portafib i existeix portafibs llavors redirecciona a portafibs
+            (b) Si entra amb https dins portafib i existeix portafib/s llavors redirecciona a portafib/s
            Si el valor es false, llavors no fa res.   -->
 	  es.caib.portafib.automaticredirect=true
 	  <!-- Format del camp "Firmat Per" de la taula de firmes definit per entitat i per idioma.

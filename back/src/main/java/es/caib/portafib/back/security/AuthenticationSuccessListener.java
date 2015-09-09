@@ -93,7 +93,6 @@ public class AuthenticationSuccessListener implements
     }
 
     // Info Usuari
-
     if (usuariPersonaEjb == null) {
       try {
         usuariPersonaEjb = (UsuariPersonaLogicaLocal) new InitialContext()

@@ -30,16 +30,22 @@ public boolean existsSecureContext() {
 
 %><%
     String context = request.getContextPath();
+
+    System.out.println(" XYZ   XXXXXXXXXXX request.getContextPath() ==> " + context);
   
     if (Configuracio.isAutomaticRedirect()) {
         //TODO ficar dins una variable estatica
         boolean existsSecureContext = existsSecureContext(); 
         
+        System.out.println(" XYZ   XXXXXXXXXXX existsSecureContext ==> " + existsSecureContext);
+        
         if (existsSecureContext) {
           
           final String scheme = request.getScheme();
+          
+          System.out.println(" XYZ   XXXXXXXXXXX scheme ==> " + scheme);
         
-          final boolean thisContextIsClientCert = "/portafibs".equals(context);
+          final boolean thisContextIsClientCert = "/portafib/s".equals(context);
           
           if (thisContextIsClientCert && "http".equals(scheme)) {
             // Hem de passar a portafib
@@ -47,7 +53,7 @@ public boolean existsSecureContext() {
           } else {
             // Hem de passar a portafibs
             if (!thisContextIsClientCert && "https".equals(scheme)) {
-              context ="/portafibs";
+              context ="/portafib/s";
             }
           }
         }
