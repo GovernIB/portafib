@@ -458,6 +458,7 @@ import es.caib.portafib.utils.Configuracio;
       // String role = filterForm.getRole();
 
 
+
       if (seleccionatsStr == null || seleccionatsStr.length == 0) {
 
         HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("firmarseleccionats.cap"));
@@ -465,9 +466,20 @@ import es.caib.portafib.utils.Configuracio;
         return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
       } 
 
+      LoginInfo loginInfo = LoginInfo.getInstance();
+      Integer maxFileToSignAtSameTime = loginInfo.getEntitat().getMaxFilesToSignAtSameTime();
+      
+      if (maxFileToSignAtSameTime == null || maxFileToSignAtSameTime < 1) {
+        maxFileToSignAtSameTime = Integer.MAX_VALUE;
+      } else {
+        if (log.isDebugEnabled()) {
+          log.debug("maxFileToSignAtSameTime = " + maxFileToSignAtSameTime);
+        }
+      }
         
         ArrayList<Long> seleccionats = new ArrayList<Long>();
-        for(int i = 0; i< seleccionatsStr.length; i++) {
+        int min = Math.min(maxFileToSignAtSameTime, seleccionatsStr.length);
+        for(int i = 0; i< min ; i++) {
            try {
             seleccionats.add(Long.parseLong(seleccionatsStr[i]));
           } catch(Throwable e) {
@@ -490,7 +502,7 @@ import es.caib.portafib.utils.Configuracio;
         
 
         List<AppletSignFile> fitxers = new ArrayList<AppletSignFile>();
-        LoginInfo loginInfo = LoginInfo.getInstance();
+        
         String langUI = loginInfo.getUsuariPersona().getIdiomaID();
 
 

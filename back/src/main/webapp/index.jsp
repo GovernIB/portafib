@@ -1,9 +1,12 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" 
+<%@page import="org.apache.log4j.Logger"
+%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@ page contentType="text/html;charset=UTF-8" language="java" 
 %><%@page import="java.io.InputStream"
 %><%@page import="java.util.Properties"
 %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" 
 %><%!
+
+protected final Logger log = Logger.getLogger(getClass());
 
 public static Boolean existsSecureContextStatic = null;
 
@@ -31,20 +34,28 @@ public boolean existsSecureContext() {
 %><%
     String context = request.getContextPath();
 
-    System.out.println(" XYZ   XXXXXXXXXXX request.getContextPath() ==> " + context);
   
     if (Configuracio.isAutomaticRedirect()) {
+         
+       boolean isDebug = log.isDebugEnabled();
+       if (isDebug) {
+         log.debug("request.getContextPath() ==> " + context);
+       }
+      
         //TODO ficar dins una variable estatica
         boolean existsSecureContext = existsSecureContext(); 
         
-        System.out.println(" XYZ   XXXXXXXXXXX existsSecureContext ==> " + existsSecureContext);
+        if (isDebug) {
+          log.debug("existsSecureContext ==> " + existsSecureContext);
+        }
         
         if (existsSecureContext) {
           
           final String scheme = request.getScheme();
           
-          System.out.println(" XYZ   XXXXXXXXXXX scheme ==> " + scheme);
-        
+          if (isDebug) {
+            log.debug("scheme ==> " + scheme);
+          }
           final boolean thisContextIsClientCert = "/portafib/s".equals(context);
           
           if (thisContextIsClientCert && "http".equals(scheme)) {

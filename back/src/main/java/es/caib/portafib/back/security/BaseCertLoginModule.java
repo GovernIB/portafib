@@ -79,7 +79,7 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
       log.error(t.getMessage(), t);
     } finally {
 
-      log.info("Ha passat per initialize()");
+      log.debug("Ha passat per initialize()");
     }
   }
 
@@ -103,8 +103,7 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
    */
   @SuppressWarnings("unchecked")
   public boolean login() throws LoginException {
-    log.info("Entra dins login()");
-
+    
     super.loginOk = false;
 
     try {
@@ -204,10 +203,10 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
         }
 
         super.loginOk = true;
-        log.info("Surt de login: true");
+        log.debug("Surt de login: true");
         return true;
       } else {
-        log.info("Surt de login: false");
+        log.debug("Surt de login: false");
         return false;
       }
 
@@ -228,7 +227,7 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
    * @throws LoginException
    */
   public boolean commit() throws LoginException {
-    log.info("ENTRA EN COMMIT");
+    log.debug("ENTRA EN COMMIT");
 
     boolean ok = super.commit();
     if (ok == true) {
