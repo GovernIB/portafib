@@ -65,6 +65,11 @@
     <definition name="usuariEntitatFavoritList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
     </definition>
+    
+    
+    <definition name="autoFirmaList" extends="principal">
+       <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
+    </definition>
    
     <definition name="autoFirmaForm" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaForm.jsp" />

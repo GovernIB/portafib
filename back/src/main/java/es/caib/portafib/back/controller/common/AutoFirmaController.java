@@ -3,27 +3,36 @@ package es.caib.portafib.back.controller.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-
+import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.ITableManager;
+import org.fundaciobit.genapp.common.query.LongConstantField;
+import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +47,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.AutoFirmaForm;
+import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.PosicioTaulaFirmesRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AppletConfig;
@@ -46,6 +57,7 @@ import es.caib.portafib.back.utils.AppletSignFile;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.logic.misc.AutoFirmaBean;
 import es.caib.portafib.logic.misc.AutofirmaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
@@ -53,6 +65,7 @@ import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.utils.Configuracio;
@@ -62,17 +75,20 @@ import es.caib.portafib.utils.Constants;
  * 
  * @author anadal
  * 
+ * IMPORTANT: Aquesta classe es deriva de FitxerController però no s'ataca per res la BBDD.
+ * 
+ * 
  */
 @Controller
 @RequestMapping(value = AutoFirmaController.CONTEXTWEB)
-@SessionAttributes(types = { AutoFirmaForm.class})
-public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFields {
+@SessionAttributes(types = { AutoFirmaForm.class, FitxerFilterForm.class })
+public class AutoFirmaController extends FitxerController  implements PeticioDeFirmaFields {
 
   public static final String CONTEXTWEB = "/common/autofirma";
 
   public static final String AUTOFIRMA = "AUTOFIRMA";
 
-  protected static Logger log = Logger.getLogger(AutoFirmaController.class);
+  protected Logger log = Logger.getLogger(AutoFirmaController.class);
 
   @EJB(mappedName = "portafib/AutofirmaEJB/local")
   protected AutofirmaLocal autofirmaEjb;
@@ -94,9 +110,9 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
   @RequestMapping(value = "", method = RequestMethod.GET)
   public ModelAndView autofirmaGet() throws I18NException {
-    
+
     autofirmaEjb.cleanAutoFirmes();
-    
+
     ModelAndView mav = new ModelAndView("autoFirmaForm");
     
     LoginInfo loginInfo = LoginInfo.getInstance(); 
@@ -115,13 +131,14 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     
     long id;
     synchronized (CONTEXTWEB) {
-      id = System.nanoTime();
+      id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
       try {
-        Thread.sleep(1);
+        Thread.sleep(10);
       } catch (InterruptedException e) {
       }
     }
     form.setId(id);
+    form.setUsuariEntitatID(loginInfo.getUsuariEntitatID());
 
     mav.addObject(form);
 
@@ -137,93 +154,94 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     
     autoFirmaValidator.validate(autoFirmaForm, result);
 
+    
+    
     if (result.hasErrors()) {
       ModelAndView mav = new ModelAndView("autoFirmaForm");
       mav.addObject(autoFirmaForm);
       return mav;
-    } else {
-      final long id = autoFirmaForm.getId();
+    }
+    
+    LoginInfo loginInfo = LoginInfo.getInstance(); 
+    
+    final long id = autoFirmaForm.getId();
 
-      // Guardar Fitxer a firma i convertir si és necessari
-      I18NFieldError fieldError = checkFileToSignInPAdES(id, autoFirmaForm);
+    // Guardar Fitxer a firma i convertir si és necessari
+    I18NFieldError fieldError = checkFileToSignInPAdES(loginInfo.getUsuariEntitatID(), id, autoFirmaForm);
+    
+    if (fieldError != null) {
+      result.rejectValue(fieldError.getField().javaName, fieldError.getTranslation().getCode(),
+          I18NUtils.tradueixArguments(fieldError.getTranslation().getArgs()),
+          null);
       
-      if (fieldError != null) {
-        result.rejectValue(fieldError.getField().javaName, fieldError.getTranslation().getCode(),
-            I18NUtils.tradueixArguments(fieldError.getTranslation().getArgs()),
-            null);
-        
-        ModelAndView mav = new ModelAndView("autoFirmaForm");
-        mav.addObject(autoFirmaForm);
-        return mav;
-      }
-      
-      // Llegir i Guardar Annexes
-      CommonsMultipartFile[] files = new CommonsMultipartFile[] {         
-          autoFirmaForm.getAdjunt1(), autoFirmaForm.getAdjunt2(),
-          autoFirmaForm.getAdjunt3(), autoFirmaForm.getAdjunt4()
-      };
-      //Map<File, String> attachments = new HashMap<File, String>();
-      List<AttachedFile> attachments = new ArrayList<AttachedFile>(files.length);
-      for (int i = 0; i < files.length; i++) {
-        if (files[i] != null && !files[i].isEmpty()) {
-          File tmp = File.createTempFile(id + "_AutoFirma_Adjunt_" + i + "_", ".pdf", getAutofitmaPath());
-          files[i].transferTo(tmp);
-          attachments.add(new AttachedFile(files[i].getOriginalFilename(), tmp));
-          tmp.deleteOnExit();
-        }
-      }
-      
-      
-      autoFirmaForm.attachments = attachments;
-      
-      // Preparar pàgina Applet
-      String source = CONTEXTWEB + "/source/" + id; // /firma/source/
-      String destination = CONTEXTWEB + "/destination/" + id;
-      final String idname = autoFirmaForm.getFitxerAFirmarID().getOriginalFilename();
-      
-      
-      final int location_sign_table = (int)autoFirmaForm.getPosicioTaulaFirmesID();
-      final String reason = autoFirmaForm.getMotiu();
-      final int sign_number = 1;
-
-      List<AppletSignFile> fitxers = new ArrayList<AppletSignFile>();
-      
-      LoginInfo loginInfo = LoginInfo.getInstance(); 
-      String langUI = loginInfo.getUsuariPersona().getIdiomaID();
-
-      fitxers.add(new AppletSignFile(source, destination, idname, location_sign_table, reason,
-          sign_number, langUI, Constants.TIPUSFIRMA_PADES, 
-          Configuracio.getDefaultSignAlgorithmID(),
-          Constants.APPLET_SIGN_MODE_IMPLICIT,
-          Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI)));
-
-      EntitatJPA entitat = loginInfo.getEntitat();
-      AppletConfig config = Utils.getAppletConfig(entitat, 
-          langUI, autoFirmaForm.isJnlp()? "" : (CONTEXTWEB + "/final/" + id)); // redirect == null
-      
-      autofirmaEjb.put(id, autoFirmaForm);
-      
-      final String view =  autoFirmaForm.isJnlp()?"firmaJNLP_Autofirma":"firmaApplet_AutoFirma";
-
-      ModelAndView mav = new ModelAndView(view);
-      mav.addObject("fitxers", fitxers);
-      mav.addObject("config", config);
+      ModelAndView mav = new ModelAndView("autoFirmaForm");
+      mav.addObject(autoFirmaForm);
       return mav;
     }
+    
+    // Llegir i Guardar Annexes
+    CommonsMultipartFile[] files = new CommonsMultipartFile[] {         
+        autoFirmaForm.getAdjunt1(), autoFirmaForm.getAdjunt2(),
+        autoFirmaForm.getAdjunt3(), autoFirmaForm.getAdjunt4()
+    };
+    //Map<File, String> attachments = new HashMap<File, String>();
+    List<AttachedFile> attachments = new ArrayList<AttachedFile>(files.length);
+    for (int i = 0; i < files.length; i++) {
+      if (files[i] != null && !files[i].isEmpty()) {
+        File tmp = getFitxerAdjuntPath(loginInfo.getUsuariEntitatID(),
+            id, files[i].getOriginalFilename(), i); // File.createTempFile(id + "_AutoFirma_Adjunt_" + i + "_", ".pdf", getAutofirmaPath());
+        files[i].transferTo(tmp);
+        attachments.add(new AttachedFile(files[i].getOriginalFilename(), tmp));
+      }
+    }
+    
+    
+    autoFirmaForm.setAttachments(attachments);
+    
+    // Preparar pàgina Applet
+    String source = CONTEXTWEB + "/source/" + id; 
+    String destination = CONTEXTWEB + "/destination/" + id;
+    final String idname = autoFirmaForm.getFitxerAFirmarID().getOriginalFilename();
+    
+    
+    final int location_sign_table = (int)autoFirmaForm.getPosicioTaulaFirmesID();
+    final String reason = autoFirmaForm.getMotiu();
+    final int sign_number = 1;
+
+    List<AppletSignFile> fitxers = new ArrayList<AppletSignFile>();
+    
+    
+    String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+
+    fitxers.add(new AppletSignFile(source, destination, idname, location_sign_table, reason,
+        sign_number, langUI, Constants.TIPUSFIRMA_PADES, 
+        Configuracio.getDefaultSignAlgorithmID(),
+        Constants.APPLET_SIGN_MODE_IMPLICIT,
+        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI)));
+
+    EntitatJPA entitat = loginInfo.getEntitat();
+    AppletConfig config = Utils.getAppletConfig(entitat, 
+        langUI, autoFirmaForm.isJnlp()? "" : (CONTEXTWEB + "/final/" + id)); // redirect == null
+    
+    autofirmaEjb.put(id, autoFirmaForm);
+    
+    final String view =  autoFirmaForm.isJnlp()?"firmaJNLP_Autofirma":"firmaApplet_AutoFirma";
+
+    ModelAndView mav = new ModelAndView(view);
+    mav.addObject("fitxers", fitxers);
+    mav.addObject("config", config);
+    return mav;
+    
   }
-  
-  
 
-
-  
-  
-  public I18NFieldError checkFileToSignInPAdES(long id, AutoFirmaForm autoFirmaForm) {
+  public I18NFieldError checkFileToSignInPAdES(String usuariEntitat, long id, AutoFirmaForm autoFirmaForm) {
 
     CommonsMultipartFile multiPartFitxerAFirmar = autoFirmaForm.getFitxerAFirmarID();
 
-    try {
-      final File base = getAutofitmaPath();
-      File fileToConvert = File.createTempFile(id + "_AutoFirma_FitxerAFirmar_", ".pdf", base);
+    try {     
+      // final File base = getAutofirmaPath();
+      File fileToConvert = getFitxerAFirmarPath(usuariEntitat, 
+          id, multiPartFitxerAFirmar.getOriginalFilename());  //File.createTempFile(id + "_AutoFirma_FitxerAFirmar_", ".pdf", base);
       autoFirmaForm.getFitxerAFirmarID().transferTo(fileToConvert);
       
       
@@ -236,9 +254,8 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
       if (fitxerConvertit == fileToConvertInfo) {
         // Es un PDF.
-        autoFirmaForm.fitxerAFirmarIDFile = fileToConvert;
-        autoFirmaForm.mimeType = fileToConvertInfo.getMime();
-        autoFirmaForm.fileName = fileToConvertInfo.getNom();
+        autoFirmaForm.setFitxerAFirmarIDFile(fileToConvert);
+        autoFirmaForm.setMimeType(fileToConvertInfo.getMime());
       } else {
         // No és un PDF, ho substituim pel fitxer convertit
 
@@ -249,11 +266,9 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
         fos.flush();
         fos.close();
         
-        autoFirmaForm.fitxerAFirmarIDFile = fileToConvert;
-        autoFirmaForm.mimeType = fitxerConvertit.getMime();
-        autoFirmaForm.fileName = fitxerConvertit.getNom();
+        autoFirmaForm.setFitxerAFirmarIDFile(fileToConvert);
+        autoFirmaForm.setMimeType(fitxerConvertit.getMime());
       }
-      fileToConvert.deleteOnExit();
       // OK
       return null;
     } catch (I18NException e) {
@@ -270,17 +285,128 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     
   }
 
-  public File getAutofitmaPath() {
-    final File base = new File(FileSystemManager.getFilesPath(), AUTOFIRMA);
+  
+  
+  public static File getFitxerAFirmarPath(String usuariEntitat,long id, String name) {
+    final String subDir = "source";
+    
+    File parent = new File(autofirmaBasePath 
+        + File.separatorChar + usuariEntitat
+        + File.separatorChar + id 
+        + File.separatorChar + subDir);
+    
+    if (name == null) {
+      {
+        File[] all = parent.listFiles();
+        if (all == null || all.length != 1) {
+          return null;
+        }
+        return all[0];
+      }
+    } else {
+      File f = new  File(parent, name );
+      f.getParentFile().mkdirs();
+      return f;
+    }
+    
+  }
+
+  public static File getFitxerAdaptatPath(String usuariEntitat,long id) {
+    File f = new  File(autofirmaBasePath 
+        + File.separatorChar + usuariEntitat
+        + File.separatorChar + id 
+        + File.separatorChar + "adaptat", String.valueOf(id));
+    f.getParentFile().mkdirs();
+    return f;
+  }
+
+  public static File getFitxerFirmatPath(String usuariEntitat, long id) {
+    File f = new  File(autofirmaBasePath 
+        + File.separatorChar + usuariEntitat
+        + File.separatorChar + id 
+        + File.separatorChar + "signed", String.valueOf(id) );
+    f.getParentFile().mkdirs();
+    return f;
+  }
+  
+  
+  public static File getAutofirmaBasePath(String usuariEntitat, long id) {
+    File f = new  File(autofirmaBasePath 
+        + File.separatorChar + usuariEntitat
+        + File.separatorChar + id);    
+    return f;
+  }
+  
+  /**
+   * 
+   * @param usuariEntitat
+   * @param id
+   * @param name Si nom es null, llavors es de consulta
+   * @param number
+   * @return
+   */
+  public static File getFitxerAdjuntPath(String usuariEntitat,long id, String name, int number) {
+    
+    
+    File f = new  File(autofirmaBasePath 
+        + File.separatorChar + usuariEntitat
+        + File.separatorChar + id 
+        + File.separatorChar + "attach" + number, name );
+    f.getParentFile().mkdirs();
+    return f;
+  }
+
+  
+  public static final String autofirmaBasePath;
+
+  static {
+    final File base = new File(FileSystemManager.getFilesPath(),
+        AUTOFIRMA);
     base.mkdirs();
-    return base;
+    autofirmaBasePath = base.getAbsolutePath();
+  }
+  
+  @RequestMapping(value = "/original/{id}", method = RequestMethod.GET)
+  public void original(@PathVariable("id") Long id,
+      HttpServletResponse response) throws Exception {
+
+    String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+    
+    File fafirmar = getFitxerAFirmarPath(usuariEntitat, id, null);
+    
+    if (!fafirmar.exists()) {
+      response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+      return;
+    }
+    
+    
+    String filename = fafirmar.getName();
+
+    {
+
+      response.setContentType(Constants.PDF_MIME_TYPE);
+
+      response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
+      response.setContentLength((int)fafirmar.length());
+  
+      java.io.OutputStream output = response.getOutputStream();
+      InputStream input = new FileInputStream(fafirmar);
+      
+      FileSystemManager.copy(input, output);
+  
+      input.close();
+      output.close();
+    }
   }
   
   
   
-
+  /**
+   * Mètode NO-AUTENTICAT. No fer ús de LoginInfo
+   * Retorna el PDF amb taula de firmes i Fitxers annexes adjuntats.
+   */
   @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
-  public void source(@PathVariable("id") Long id,
+  public void fitxerAdaptat(@PathVariable("id") Long id,
       HttpServletResponse response) throws Exception {
 
     AutoFirmaBean form = autofirmaEjb.get(id);
@@ -292,14 +418,9 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
     }
     
     // S'ha de convertir el document?
-    File fitxerPDF = form.fitxerAFirmarIDFile;
-    
+    File fitxerPDF = form.getFitxerAFirmarIDFile();
 
-    final File base = getAutofitmaPath();
-    File dstPDF = File.createTempFile(id + "_AutoFirma_TaulaDeFirmes_", ".pdf", base);
-    dstPDF.deleteOnExit();
-
-    
+    File dstPDF = getFitxerAdaptatPath(form.getUsuariEntitatID() ,id);
 
     Locale locale = new Locale(form.getIdioma());
     
@@ -321,7 +442,7 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
       
      
       PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, dstPDF,
-          form.attachments, maxSizeFitxerAdaptat,
+          form.getAttachments(), maxSizeFitxerAdaptat,
           // numFirmes, posicioTaulaDeFirmes, signantLabel, resumLabel,
           // descLabel, desc, titolLabel, titol, logoFile)
           new StampTaulaDeFirmes(
@@ -335,11 +456,6 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
       response.setStatus(404);
       return;
     }
-    
-    
-    
-
-    form.taulaDeFirmesFile = dstPDF;
 
     response.setContentType(Constants.PDF_MIME_TYPE);
     response.setHeader("Content-Disposition", "inline; filename=\"" + dstPDF.getName() + "\"");
@@ -360,97 +476,63 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
     ModelAndView mav = new ModelAndView("autoFirmaFinal");
     mav.addObject("id", id);
-    AutoFirmaBean form = autofirmaEjb.get(id);
-    mav.addObject("filename", form.fileName);
     return mav;
   }
   
  
+  /**
+   * Descàrrega del document firmat
+   * @param id
+   * @param response
+   * @throws Exception
+   */
   @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
   public void download(@PathVariable("id") Long id, 
       HttpServletResponse response) throws Exception {
     
-    AutoFirmaBean form = autofirmaEjb.get(id);
     
-    if (form == null) {
-      response.setStatus(404);
+    String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+    
+    File ffirmat = getFitxerFirmatPath(usuariEntitat, id);
+    
+    //AutoFirmaBean form = autofirmaEjb.get(id);
+    
+    if (!ffirmat.exists()) {
+      response.setStatus(HttpServletResponse.SC_NO_CONTENT);
       return;
     }
-
-    File dstPDF = form.signedFile;
-
-    if (dstPDF != null) {
-
+    
+    File foriginal = getFitxerAFirmarPath(usuariEntitat, id, null);
+    String filename = foriginal.getName();
+    
+    int pos = filename.lastIndexOf('.');
+    if (pos == -1) {
+      filename = filename + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma.firmat");
+    } else {
+      
+      filename = filename.substring(0, pos)
+          + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma.firmat")
+          + filename.substring(pos);
+    }
+    
+    
+    {
       response.setContentType(Constants.PDF_MIME_TYPE);
-      response.setHeader("Content-Disposition", "inline; filename=\"" + form.fileName + "\"");
-      response.setContentLength((int) dstPDF.length());
+      response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
+      response.setContentLength((int)ffirmat.length());
   
       java.io.OutputStream output = response.getOutputStream();
-      InputStream input = new FileInputStream(dstPDF);
+      InputStream input = new FileInputStream(ffirmat);
       
       FileSystemManager.copy(input, output);
   
       input.close();
       output.close();
-    } else {
-      response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
   }
   
-
-  /**
-   * IMPORTANT: Aquest mètode és controlat per Servlet no pel Controller Spring
-   * !!!!! Revisar web.xml. *
-   * @RequestMapping(value = "/destination/{id}")
-   * és a dir /common/destination/{id}
-   */
-  public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-
-    try {
-      
-      String uri = request.getRequestURI();
-      String id = uri.substring(uri.lastIndexOf('/') + 1, uri.length());      
-      if (log.isDebugEnabled()) {
-        log.debug("UUUUUUUUUUUUU1 " + request.getQueryString());
-        log.debug("UUUUUUUUUUUUU1 " + request.getRequestURI());
-        log.debug("UUUUUUUUUUUUU1 ID=" + id);
-      }
-
-      Long idLong = new Long(id);
-
-      AutoFirmaBean form = autofirmaEjb.get(idLong);
-
-      if (form == null) {
-        response.setStatus(404);
-        return;
-      }
-
-      // Llegir certificat com un Stream
-      InputStream is = request.getInputStream();
-
-      File firmat = File.createTempFile(id + "_AutoFirma_Firmat_", ".pdf", getAutofitmaPath());
-      firmat.deleteOnExit();
-      
-      FileOutputStream fos = new FileOutputStream(firmat);
-      
-      
-      FileSystemManager.copy(is, fos);
-
-      fos.close();
-
-      form.signedFile = firmat;
-
-      if (log.isDebugEnabled()) {
-        log.info("Autofirma[" + id + "]:: Fitxer guardat a " + firmat.getAbsolutePath());
-      }
-
-
-    } catch (Throwable e) {
-      log.error("Error al pujar el fitxer des de l'applet: " + e.getMessage(), e);
-      response.setStatus(200);
-    }
-  }
+  
+  
 
   
   @InitBinder("autoFirmaForm")
@@ -458,6 +540,237 @@ public class AutoFirmaController extends HttpServlet implements PeticioDeFirmaFi
 
     binder.setValidator(this.autoFirmaValidator);
 
+    
+  }
+  
+  
+  //-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
+  //---------------------------------==  L I S T  ==-----------------------------
+  //-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
+  
+  public static final int COLUMN_DATA= -1;
+  
+  
+  @Override
+  public FitxerFilterForm getFitxerFilterForm(Integer pagina, ModelAndView mav,
+      HttpServletRequest request) throws I18NException {
+      
+      FitxerFilterForm fitxerFilterForm;
+      fitxerFilterForm = (FitxerFilterForm) super.getFitxerFilterForm(pagina, mav, request);
+      if(fitxerFilterForm.isNou()) {
+        
+        List<Field<?>> hiddens = Arrays.asList(FitxerFields.ALL_FITXER_FIELDS);
+        
+        fitxerFilterForm.getHiddenFields().addAll(hiddens);
+        
+        fitxerFilterForm.getHiddenFields().remove(FitxerFields.NOM);
+        fitxerFilterForm.getHiddenFields().remove(FitxerFields.TAMANY);
+
+        fitxerFilterForm.setOrderBy(null);
+        fitxerFilterForm.setGroupByFields(null);
+        fitxerFilterForm.setFilterByFields(null);
+        fitxerFilterForm.setDefaultOrderBy(null);
+        fitxerFilterForm.setVisibleOrderBy(false);
+
+        fitxerFilterForm.setTitleCode("autofirma.title");
+        fitxerFilterForm.setSubTitleCode("autofirma.subtitle");
+                
+        fitxerFilterForm.addAdditionalButton(new AdditionalButton(
+            "icon-plus-sign icon-white", "autofirma.nova", "/common/autofirma",
+            "btn btn-primary"));
+        fitxerFilterForm.setAddButtonVisible(false);
+        fitxerFilterForm.setEditButtonVisible(false);
+        
+        
+        {
+          String url = request.getContextPath() + getContextWeb() + "/original/{0}";
+          String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
+          fitxerFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
+            "icon-download-alt", "autofirma.fitxeroriginal", js,
+            "btn btn-info"));
+        }
+        
+        {
+          String url = request.getContextPath() + getContextWeb() + "/download/{0}";
+          String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
+          fitxerFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
+            "icon-edit icon-white", "autofirma.fitxerfirmat", js,
+            "btn btn-info"));
+        }
+
+        
+        AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
+        adfieldTD.setCodeName("data");
+        adfieldTD.setPosition(COLUMN_DATA);
+        // Els valors s'ompliran al mètode postList()
+        adfieldTD.setValueMap(new HashMap<String, String>());
+        
+        fitxerFilterForm.addAdditionalField(adfieldTD);
+        
+        fitxerFilterForm.setAttachedAdditionalJspCode(true);
+        
+      } 
+      
+      return fitxerFilterForm;
+    }
+  
+
+  @Override
+  public String getTileList() {
+    return "autoFirmaList";
+  }
+  
+  
+  @Override
+  public List<Fitxer> executeSelect(ITableManager<Fitxer, Long> fitxerEJB, Where where,
+      OrderBy[] orderBy, Integer itemsPerPage, int inici) {
+    
+    List<Fitxer> list = new ArrayList<Fitxer>();
+
+   
+    // TODO Falta Filtrar OrdeBY
+    String ueID =  LoginInfo.getInstance().getUsuariEntitatID();
+    File parent = new File(autofirmaBasePath,ueID);
+    String[] data = parent.list();
+    
+    for (int i = 0; i < data.length; i++) {
+      
+      File fileName = getFitxerAFirmarPath(ueID, Long.parseLong(data[i]), null);
+
+      Fitxer f = new FitxerJPA();
+      
+      f.setFitxerID(Long.parseLong(data[i]));
+      f.setNom(fileName.getName());
+      f.setTamany(fileName.length());
+      
+      list.add(f);
+    }
+
+    
+    Collections.sort(list, new Comparator<Fitxer>() {
+
+      @Override
+      public int compare(Fitxer o1, Fitxer o2) {
+        
+        return (int)(Math.signum(o2.getFitxerID() - o1.getFitxerID()));
+      }
+    });
+
+    return list;
+  }
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  @Override
+  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+    return new LongConstantField(-3L).equal(FitxerFields.FITXERID);
   }
 
+  
+  
+
+  
+  
+  
+  @Override
+  @RequestMapping(value = "/{fitxerID}/delete")
+  public String eliminarFitxer(@PathVariable("fitxerID") java.lang.Long fitxerID,
+      HttpServletRequest request,HttpServletResponse response) {
+
+    if(!isActiveDelete()) {
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      return null;
+    }
+    try {
+      File f = getAutofirmaBasePath(LoginInfo.getInstance().getUsuariEntitatID(), fitxerID);
+      
+      if (!f.exists()) {
+        String __msg =createMessageError(request, "error.notfound", fitxerID);
+        return getRedirectWhenDelete(request, fitxerID, new Exception(__msg));
+      } else {        
+        FileUtils.deleteDirectory(f);
+        createMessageSuccess(request, "success.deleted", fitxerID);
+        return getRedirectWhenDelete(request, fitxerID,null);
+      }
+
+    } catch (Throwable e) {
+      String msg = createMessageError(request, "error.deleting", fitxerID, e);
+      log.error(msg, e);
+      return getRedirectWhenDelete(request, fitxerID, e);
+    }
+  }
+  
+  
+  
+  @Override
+  public void delete(HttpServletRequest request, Fitxer fitxer) throws Exception,I18NException {
+    File f = getAutofirmaBasePath(LoginInfo.getInstance().getUsuariEntitatID(), fitxer.getFitxerID());
+    
+    if (!f.exists()) {
+      FileUtils.deleteDirectory(f);
+    }
+  }
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav,
+      FitxerFilterForm filterForm,  List<Fitxer> list) throws I18NException {
+     
+   
+    Map<Long, String> mapPF;
+    mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA).getValueMap();
+    mapPF.clear();
+    
+    
+    for(Fitxer f : list) {
+      long id = f.getFitxerID();
+      long millis = id / 1000000L; 
+
+      I18NDateTimeFormat formatter = new I18NDateTimeFormat();
+      String date = formatter.format(new Date(millis));
+
+      mapPF.put(id, date);
+    }
+  
+  
+  }
+  
+  
+  @Override
+  public String getSessionAttributeFilterForm() {
+    return "AUTOFIRMA_LIST";
+  }
+  
+  @Override
+  public String getEntityNameCode() {
+    return "autofirma";
+  }
+
+  @Override
+  public String getEntityNameCodePlural() {
+    return "autofirma.plural";
+  }
+  
+  
+  @Override
+  public boolean isActiveFormNew() {
+    return false;
+  }
+
+  @Override
+  public boolean isActiveFormEdit() {
+    return false;
+  }
+  
+  
+  
 }

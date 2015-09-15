@@ -32,15 +32,20 @@ public class AutoFirmaBean {
   protected long posicioTaulaFirmesID;
 
   protected List<StringKeyValue> listOfPosicioTaulaFirmes;
+  
+  protected String usuariEntitatID;
 
-  public transient File fitxerAFirmarIDFile = null;
   
-  public transient String mimeType = null;
-  public transient String fileName = null;
+  // TODO A veure se s'emprent !!!!
+  protected transient File fitxerAFirmarIDFile = null;
   
-  public transient List<AttachedFile> attachments = null;
-  public transient File taulaDeFirmesFile = null;
-  public transient File signedFile = null;
+  
+  protected transient String mimeType = null;
+  //protected transient String fileName = null;
+  
+//TODO A veure se s'emprent !!!!
+  protected transient List<AttachedFile> attachments = null;
+  
 
   public AutoFirmaBean() {
   }
@@ -102,22 +107,58 @@ public class AutoFirmaBean {
     this.idioma = idioma;
   }
 
+  
+  
+
+  public File getFitxerAFirmarIDFile() {
+    return fitxerAFirmarIDFile;
+  }
+
+
+  public void setFitxerAFirmarIDFile(File fitxerAFirmarIDFile) {
+    this.fitxerAFirmarIDFile = fitxerAFirmarIDFile;
+  }
+
+
+  public String getMimeType() {
+    return mimeType;
+  }
+
+
+  public void setMimeType(String mimeType) {
+    this.mimeType = mimeType;
+  }
+
+
+  public List<AttachedFile> getAttachments() {
+    return attachments;
+  }
+
+
+  public void setAttachments(List<AttachedFile> attachments) {
+    this.attachments = attachments;
+  }
+
+
+
+
+
+
+  public String getUsuariEntitatID() {
+    return usuariEntitatID;
+  }
+
+
+  public void setUsuariEntitatID(String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
+  }
+
 
   @Override
   protected void finalize() throws Throwable {
     try {
 
-      List<File> llistat = new ArrayList<File>();
-
-      if (fitxerAFirmarIDFile != null) {
-        llistat.add(fitxerAFirmarIDFile);
-      }
-      if (taulaDeFirmesFile != null) {
-        llistat.add(taulaDeFirmesFile);
-      }
-      if (signedFile != null) {
-        llistat.add(signedFile);
-      }
+      List<File> llistat = new ArrayList<File>();   
       
       if (attachments != null) {
         for (AttachedFile af : attachments) {

@@ -25,16 +25,16 @@
 
 
 	<!--  UPLOAD SERVLETS -->
-	
 	<servlet>
 	  <servlet-name>AutoFirmaUploadServlet</servlet-name>
-	  <servlet-class>es.caib.portafib.back.controller.common.AutoFirmaController</servlet-class>
+	  <servlet-class>es.caib.portafib.back.controller.common.AutoFirmaServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
 	  <servlet-name>AutoFirmaUploadServlet</servlet-name>
 	  <url-pattern>/common/autofirma/destination/*</url-pattern>
 	</servlet-mapping>
+    
 	
 	<servlet>
 	  <servlet-name>FirmaUploadServlet</servlet-name>

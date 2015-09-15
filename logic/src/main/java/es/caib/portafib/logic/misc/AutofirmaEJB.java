@@ -1,10 +1,7 @@
 package es.caib.portafib.logic.misc;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,8 +9,6 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
-
-import es.caib.portafib.logic.utils.AttachedFile;
 
 /**
  * 
@@ -29,58 +24,33 @@ public class AutofirmaEJB implements AutofirmaLocal {
   private static Map<Long,AutoFirmaBean> autofirmes = new HashMap<Long, AutoFirmaBean>();
   
   
+  @Override
+  public void remove(Long id) {
+    autofirmes.remove(id);
+  }
   
+  
+  @Override
   public AutoFirmaBean get(Long id) {
     return autofirmes.get(id);
   }
   
-  
+  @Override
   public void put(Long id, AutoFirmaBean autoFirmaForm) {
     autofirmes.put(id, autoFirmaForm);
   }
 
-
+  @Override
   public void cleanAutoFirmes() {
     
-    log.info("Entra a cleanAutoFirmes");
+    log.debug("Entra a cleanAutoFirmes");
     
     Set<Long> time = autofirmes.keySet();
-    
-    long border = System.currentTimeMillis() - 24*60*60*1000;
+    // 30 minuts per firmar i descarregar
+    long border = System.currentTimeMillis() - 30*60*1000;
     Set<Long> itemsToDelete = new HashSet<Long>();
     for (Long t : time) {
       if (t < border) {
-        log.info("cleanAutoFirmes: borrant " + t);
-        AutoFirmaBean form = autofirmes.get(t);
-        // TODO Clean autofirmes
-        
-        List<File> files = new ArrayList<File>();
-        if (form.fitxerAFirmarIDFile != null) {
-          files.add(form.fitxerAFirmarIDFile);
-        }
-        if (form.taulaDeFirmesFile != null) {
-          files.add(form.taulaDeFirmesFile);
-        }
-        if (form.signedFile != null) {
-          files.add(form.signedFile);
-        }
-        
-        
-        if (form.attachments != null) {
-          for (AttachedFile af : form.attachments) {
-            files.add(af.getContent());  
-          } 
-        }
-
-        for (File file : files) {
-          try {            
-           if (!file.delete()) {
-             file.deleteOnExit();
-           }            
-          } catch(Exception e) {
-            log.error("Error borrant fitxers de autofirmes: " + e.getMessage(), e);
-          }
-        }
         
         itemsToDelete.add(t);
 

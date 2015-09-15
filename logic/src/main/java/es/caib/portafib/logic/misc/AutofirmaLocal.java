@@ -15,5 +15,7 @@ public interface AutofirmaLocal {
   public void put(Long id, AutoFirmaBean autoFirmaForm);
   
   public void cleanAutoFirmes();
+  
+  public void remove(Long id);
 
 }

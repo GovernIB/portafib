@@ -15,8 +15,8 @@
     <c:if test="${not empty loginInfo.entitatID}" >
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     <li style="list-style-type: disc; list-style-position: inside;">
-      <a href="<c:url value="/common/autofirma"/>">
-        <span style="${(fn:contains(url, 'autofirma'))? "font-weight: bold;" : ""} }"><fmt:message key="autofirma" /></span>
+      <a href="<c:url value="/common/autofirma/list"/>">
+        <span style="${(fn:contains(url, 'autofirma'))? "font-weight: bold;" : ""} }"><fmt:message key="autofirma.gestio" /></span>
       </a>
     </li>
     </c:if>
