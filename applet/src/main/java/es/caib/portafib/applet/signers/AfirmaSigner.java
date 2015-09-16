@@ -80,6 +80,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.logging.Logger;
 
 
@@ -254,14 +255,41 @@ public class AfirmaSigner implements ISigner {
         SimpleDateFormat sdf = new SimpleDateFormat(bundleSign.getString("data.format"));
         data = sdf.format(cal.getTime());
       }
-      byte[] rubrica = getImage((urx - llx),(ury - lly),
+      
+      
+      // Rubrica
+      float ample = (urx - llx);
+      float altura = (ury - lly);
+
+      byte[] rubrica = getImage(ample,altura,
           bundleSign.getString("firmatper") + ": ",firmatPer,
           bundleSign.getString("data") + ": ", data,
           bundleSign.getString("motiu") + ": ", reason);
-
-      // Rubrica
       String rubrica64 = Base64.encode(rubrica);
       properties.append("signatureRubricImage=" + rubrica64 + "\n");
+      
+      // TODO  CODI PER CERCAR IMATGE A TRAVES DE URL 
+       // TODO Susbtituir data per millis
+       // TODO enviar locale
+       // TODO LABELS ELIMINAR-LOS
+      /*
+      String urlParams = "ample:" + (int)ample 
+           +"\naltura:" + (int)altura
+           +"\nfirmatPerLabel:" + bundleSign.getString("firmatper") + ": "
+           +"\nfirmatPer:" + firmatPer
+           +"\ndataLabel:" + bundleSign.getString("data") + ": "
+           +"\ndata:" + data
+           +"\nmotiuLabel:" + bundleSign.getString("motiu") + ": "
+           +"\nmotiu:" + reason;
+      
+      System.out.println("URLPARAMS = " + urlParams);
+      
+      urlParams = urlParams.replace('/', '|');
+      
+      System.out.println("URLPARAMS2 = " + urlParams);
+      
+      properties.append("signatureRubricImage=http://localhost:8080/portafib/common/rubrica/" + URLEncoder.encode(urlParams, "UTF-8") + "\n");
+      */ 
 
       String signaturePage;
       if (location_page == Constants.TAULADEFIRMES_DARRERAPAGINA) {

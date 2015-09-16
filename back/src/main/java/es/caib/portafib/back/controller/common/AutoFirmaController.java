@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -87,8 +86,6 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
   public static final String CONTEXTWEB = "/common/autofirma";
 
   public static final String AUTOFIRMA = "AUTOFIRMA";
-
-  protected Logger log = Logger.getLogger(AutoFirmaController.class);
 
   @EJB(mappedName = "portafib/AutofirmaEJB/local")
   protected AutofirmaLocal autofirmaEjb;

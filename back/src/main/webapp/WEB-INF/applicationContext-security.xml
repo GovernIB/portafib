@@ -9,7 +9,7 @@
 				http://www.springframework.org/schema/security
 				http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
- 	<sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
+ 	    <sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
         
         <sec:logout logout-success-url="/index.jsp" />
 
@@ -21,7 +21,8 @@
 		<sec:intercept-url pattern="/css/**" access="permitAll"/>
 		<sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
 		<sec:intercept-url pattern="/index.jsp" access="permitAll"/>
-        <!--  Accés JNLP  -->
+        <!--  Oberts per JNLP & Applet ClientCert  -->
+        <sec:intercept-url pattern="/common/rubrica/**" access="permitAll"/>
         <sec:intercept-url pattern="/common/arxiu/**" access="permitAll"/>
         <sec:intercept-url pattern="/estatDeFirma/destination/**" access="permitAll"/>
         <sec:intercept-url pattern="/common/autofirma/source/**" access="permitAll"/>

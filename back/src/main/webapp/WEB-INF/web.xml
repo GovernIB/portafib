@@ -182,7 +182,8 @@
             <url-pattern>/doc/*</url-pattern>
             <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
-            <!--  Oberts per JNLP  -->
+            <!--  Oberts per JNLP & Applet ClientCert  -->
+            <url-pattern>/common/rubrica/*</url-pattern>
             <url-pattern>/common/arxiu/*</url-pattern>
             <url-pattern>/estatDeFirma/destination/*</url-pattern>
             <url-pattern>/common/autofirma/source/*</url-pattern>
