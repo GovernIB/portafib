@@ -175,4 +175,21 @@ public class Configuracio implements Constants {
     return  System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultcustodymessage."+ entitatID + "." + lang);
   }
   
+  
+  /**
+   * Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes
+     en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir
+     bloquejat un document mentre es realitza el procés de firma. Valor per defecte 3*60*1000,
+     o sigui 3 minuts. Quan la firma es única en el bloc i no hi ha delegats definits
+     llavors no hi ha bloqueig de temps.
+   */
+  public static long getMaxTimeLockedSignInMs() {
+    Long val = Long.getLong(PORTAFIB_PROPERTY_BASE + "maxtimelockedsigninms");
+    if (val == null  || val < 60*1000L) {
+      return 3L * 60L * 1000L; // Per defecte
+    } else {
+      return val;
+    }
+  }
+  
 }

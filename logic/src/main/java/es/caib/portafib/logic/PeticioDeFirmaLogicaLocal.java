@@ -66,7 +66,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
   public FirmaJPA getLastSignOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
 
-  public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID);
+  public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID, 
+      long timeAliveToken);
 
   //public boolean unlockPeticioDeFirma(long peticioDeFirmaID, String token);
 

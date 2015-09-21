@@ -61,6 +61,7 @@ import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -773,12 +774,47 @@ import es.caib.portafib.utils.Configuracio;
         EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
         FirmaJPA firma = check.firma;
         PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
+        
+        // Extreim número de firmes del bloc, si aquesta valor és 1 i no té delegats 
+        // llavors el token té temps il·limitat per firmar.
+        long timeAliveToken = -1;
+        {
+          Long countFirmesPerBloc = firmaEjb.count(
+              FirmaFields.BLOCDEFIRMAID.equal(firma.getBlocDeFirmaID()));
+          
+          boolean isDebug=log.isDebugEnabled();
+          if (isDebug) {
+            log.debug("countFirmesPerBloc = " + countFirmesPerBloc);
+          }
+          if (countFirmesPerBloc == 1) {
+            // Calcular delegats
+            Long countFirmants = estatDeFirmaEjb.count(Where.AND(
+                EstatDeFirmaFields.FIRMAID.equal(firma.getFirmaID()),
+                EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(
+                    Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
+                ));
+            if (isDebug) {
+              log.debug(" countFirmants = " + countFirmants);
+            }
+            if (countFirmants == 1) { // No te delegats
+              // Temps il·limitat (realment un dia sencer)
+              timeAliveToken = Token.ONE_DAY_TIME_LOCKED_IN_MS;
+              if (isDebug) {
+                log.debug("TE TEMPS INFINIT ( UN DIA ) !!!!!");
+              }
+            }
+          }
+  
+          if (timeAliveToken == -1) {
+            timeAliveToken = Configuracio.getMaxTimeLockedSignInMs();
+          }
+        }
 
         LoginInfo loginInfo = LoginInfo.getInstance();
 
         // Crear un token i revisar si aquesta peticio esta bloquejada !!!
         String token = peticioDeFirmaLogicaEjb.lockPeticioDeFirma(peticioDeFirmaID,
-            loginInfo.getUsuariEntitatID());
+            loginInfo.getUsuariEntitatID(), timeAliveToken);
         if (token == null) {
           new PeticioDeFirmaController().createMessageError(request, "error.peticiobloquejada",
               peticioDeFirmaID);

@@ -102,6 +102,13 @@
 	  <!-- Opcional. Indica un missatge per defecte de la custòdia de les peticions de Firma. -->
 	  #es.caib.portafib.defaultcustodymessage.fundaciobit.ca=Data:{3} URL de validaci\u00F3: {0}
 	  #es.caib.portafib.defaultcustodymessage.fundaciobit.es=Fecha:{3} URL de validaci\u00F3n: {0}
+      
+      <!-- Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes
+           en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir
+           bloquejat un document mentre es realitza el procés de firma. Valor per defecte 3*60*1000,
+           o sigui 3 minuts. Quan la firma es única en el bloc i no hi ha delegats definits
+           llavors no hi ha bloqueig de temps. -->
+      #es.caib.portafib.maxtimelockedsigninms=180000
 
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->

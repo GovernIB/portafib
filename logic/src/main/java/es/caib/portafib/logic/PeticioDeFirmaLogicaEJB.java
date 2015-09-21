@@ -893,52 +893,52 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   public static final Map<Long, Token> locks = new ConcurrentHashMap<Long, Token>();
 
   /**
-   * 
+   *
    * @author anadal
-   * 
+   *
    */
   public static class Token {
-    
-    /**
-     * Com a molt pot estar bloquejat 3 minuts 
-     * TODO Cercar temps apropiat !!!!
-     */
-    public static final long MAX_TIME_LOCKED_IN_NANO = 3L * 60L * 1000L * 1000000L;
 
-    private long timeInNano;
+    /**
+     * Temps de vida del token quan la firma no importa que es bloquegi.
+     * Posam un dia de temps que n'hi ha suficient. 
+     */
+    public static final long ONE_DAY_TIME_LOCKED_IN_MS = 24L * 60L * 60L * 1000L;
+
+    /** Temps en ms en que el Token serà vàlid */
+    private final long timeTokenAlive;
+    
+    private long timeInMs;
 
     private final String usuariEntitatID;
+    
+    private final String tokenString;
 
     /**
      * @param time
      * @param usuariEntitatID
      */
-    public Token(String usuariEntitatID) {
+    public Token(String usuariEntitatID, long timeTokenAlive) {
       super();
       this.usuariEntitatID = usuariEntitatID;
-      updateTime();
+      this.timeInMs = System.currentTimeMillis();
+      this.timeTokenAlive = timeTokenAlive;
+      tokenString = timeInMs + "_" + usuariEntitatID;
     }
 
     public void updateTime() {
-      this.timeInNano = System.nanoTime();
+      this.timeInMs = System.currentTimeMillis();
     }
 
-    /*
-     * public static Token getFromTokenString(String token) { int index =
-     * token.indexOf('_'); long time = new Long(token.substring(0, index));
-     * String usuariEntitatID = token.substring(index + 1); return new
-     * Token(time, usuariEntitatID); }
-     */
-
     public String getTokenString() {
-      return timeInNano + "_" + usuariEntitatID;
+      return tokenString;
     }
 
     @Override
     public boolean equals(Object obj) {
       if (obj instanceof Token) {
         Token tok = (Token) obj;
-        if (tok.timeInNano == this.timeInNano && this.usuariEntitatID.equals(tok.usuariEntitatID)) {
+        if (tok.timeInMs == this.timeInMs && this.usuariEntitatID.equals(tok.usuariEntitatID)) {
           return true;
         }
       }
@@ -947,9 +947,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     
     public boolean isInvalid() {
-      long now = System.nanoTime();
+      long now = System.currentTimeMillis();
       
-      if ((this.timeInNano + MAX_TIME_LOCKED_IN_NANO) < now) {
+      if ((this.timeInMs + this.timeTokenAlive) < now) {
         return true;
       } else {
         return false;
@@ -961,8 +961,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       return usuariEntitatID;
     }
 
-    public long getTimeInNano() {
-      return timeInNano;
+    public long getTimeInMs() {
+      return timeInMs;
     }
 
   }
@@ -971,7 +971,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
 
   private void cleanLocks() {
-    // new hashSet per evitar ConcurrentModificationException
+
     Set<Long> ids = new HashSet<Long>(locks.keySet());
     
     for (Long id : ids) {
@@ -990,6 +990,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         locks.remove(id);
       }
     }
+
   }
 
   /**
@@ -999,9 +1000,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @return null si esta bloquejat per un altra usuari, sino retorna un token (nou o actualitzat)
    */
   @Override
-  public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID) {
-
-    // Poden passar tres coses:
+  public String lockPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID,
+      long timeAliveToken) {
+    
+    // Si countFirmesPerBloc, o sigui el número de firmes del bloc, és 1 llavors el token 
+    // té temps il·limitat per firmar. En cas contrari poden passar tres coses:
     // CAS 1: No estigui bloquejada
     // CAS 2: estigui bloquejat per un usuari IGUAL a "usuariEntitatID"
     // CAS 3: estigui bloquejat per un usuari DIFERENT a "usuariEntitatID"
@@ -1012,14 +1015,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     if (tokenStored == null) {
       // CAS 1: Crear un nou TOKEN
-      Token token = new Token(usuariEntitatID);
+      Token token = new Token(usuariEntitatID, timeAliveToken);
       locks.put(peticioDeFirmaID, token);
       return token.getTokenString();
     } else {
       // Existeix bloqueig
       if (tokenStored.usuariEntitatID.equals(usuariEntitatID)) {
         // CAS 2: Si es el mateix usuari llavors no existeix bloqueig
-        // Actualitzam la data i retornam el token
+        // Actualitzam la data (si és necessari) i retornam el token
         tokenStored.updateTime();
         return tokenStored.getTokenString();
       } else {
@@ -1987,7 +1990,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               + " amb token " + token);
           for (Long peticioID : this.locks.keySet()) {
             Token tok = this.locks.get(peticioID);
-            log.error("LOCKS: " + peticioID + " --> T: " + tok.getTimeInNano() + " | U: "
+            log.error("LOCKS: " + peticioID + " --> T(ms): " + tok.getTimeInMs() + " | U: "
                 + tok.usuariEntitatID);
           }
           log.error("Forcing to unlock peticioDeFirmaID = " + peticioDeFirmaID);
