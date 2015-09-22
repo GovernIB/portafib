@@ -2638,16 +2638,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (titolflux == null) {
       return titolflux;
     }
-    System.out.println("XYZ  LEN STRING = " + titolflux.length());
-    System.out.println("XYZ  LEN  BYTES = " + titolflux.getBytes().length);
+
     if (titolflux.length() >= maxSize) {
       String hash = String.valueOf(titolflux.hashCode());
       int pos =  maxSize-hash.length() - 2;
       titolflux = titolflux.substring(0, pos) + "_" + hash;  
     }
-    
-    System.out.println("XYZ  LEN STRING FINAL = " + titolflux.length());
-    System.out.println("XYZ  LEN  BYTES FINAL = " + titolflux.getBytes().length);
     
     return titolflux;
   }

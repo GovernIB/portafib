@@ -40,11 +40,6 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
     Where fill;
     if (isSolicitantUsuariEntitat()) {
       // Seleccionar les peticions actives més les que tenen avis web a true
-      // XYS
-      /*
-      fill = Where.OR(enprogres_pausades_noiniciades,
-          new PeticioDeFirmaQueryPath().PETICIODEFIRMAUSUARIENTITAT().AVISWEB().equal(true));
-          */
       fill = Where.OR(enprogres_pausades_noiniciades,
           AVISWEB.equal(true));
       

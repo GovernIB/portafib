@@ -382,24 +382,11 @@ import es.caib.portafib.utils.Configuracio;
       return groupByItemsMap;
     }
 
-    /* XYZ
-    @RequestMapping(value = "/final", method = RequestMethod.GET)
-    public ModelAndView finalRequest(HttpServletRequest request, HttpServletResponse response)
-        throws I18NException {
-      // TODO traduir
-      // checkRole(request, "final");
-      return llistatPaginat(request, response, null);
 
-    }
-    */
     @RequestMapping(value = "/final", method = RequestMethod.GET)
     public String finalRequest(HttpServletRequest request, HttpServletResponse response)
         throws I18NException {
-      // TODO traduir
-      // checkRole(request, "final");
-      //return llistatPaginat(request, response, null);
       return "redirect:" + getContextWeb() + "/list";
-
     }
     
     
