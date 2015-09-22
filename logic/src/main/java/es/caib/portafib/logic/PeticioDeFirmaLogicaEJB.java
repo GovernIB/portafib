@@ -2409,7 +2409,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       String newMessageFormaPatternForName) throws I18NException {
     
     return  clonePeticioDeFirma(peticioDeFirmaID,
-            newMessageFormaPatternForName, null);
+            newMessageFormaPatternForName, null, null, null);
     
   }
   
@@ -2424,7 +2424,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    */
   @Override
   public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
-      String newMessageFormaPatternForName, FitxerJPA fitxerJPA) throws I18NException {
+      String newMessageFormaPatternForName, String descripcio, String motiu,
+      FitxerJPA fitxerJPA) throws I18NException {
+
 
     PeticioDeFirmaJPA peticioOrig = this.findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
@@ -2442,8 +2444,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       titol = MessageFormat.format(newMessageFormaPatternForName, peticio.getTitol());
     }
     peticio.setTitol(adjustSize(titol, 255));
-    peticio.setDescripcio(adjustSize(peticio.getDescripcio(), 255));
-    peticio.setMotiu(adjustSize(peticio.getMotiu(), 255));
+    if (descripcio != null) {
+      peticio.setDescripcio(adjustSize(descripcio, 255));
+    }
+    if (motiu != null) {
+      peticio.setMotiu(adjustSize(motiu, 255));
+    }
 
     // Borrarem els ID's i clonam els fitxers
     Set<Fitxer> fitxers = new HashSet<Fitxer>();
@@ -2632,11 +2638,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     if (titolflux == null) {
       return titolflux;
     }
+    System.out.println("XYZ  LEN STRING = " + titolflux.length());
+    System.out.println("XYZ  LEN  BYTES = " + titolflux.getBytes().length);
     if (titolflux.length() >= maxSize) {
       String hash = String.valueOf(titolflux.hashCode());
       int pos =  maxSize-hash.length() - 2;
       titolflux = titolflux.substring(0, pos) + "_" + hash;  
     }
+    
+    System.out.println("XYZ  LEN STRING FINAL = " + titolflux.length());
+    System.out.println("XYZ  LEN  BYTES FINAL = " + titolflux.getBytes().length);
+    
     return titolflux;
   }
 

@@ -119,7 +119,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
     String newMessageFormaPatternForName) throws I18NException;
   
   public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
-      String newMessageFormaPatternForName, FitxerJPA fitxerJPA) throws I18NException;
+      String newMessageFormaPatternForName,String descripcio, String motiu,
+      FitxerJPA fitxerJPA) throws I18NException;
 
   public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID) throws I18NException;
   

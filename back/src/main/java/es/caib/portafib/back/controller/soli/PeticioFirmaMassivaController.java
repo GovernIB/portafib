@@ -163,12 +163,9 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
         String m = MessageFormat.format(motiu, counter, fileName);
         
         count++;
-        peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, t,
-            arxiuActual);
-
-        peticio.setDescripcio(d);
-        peticio.setMotiu(m);
-        peticioDeFirmaLogicaEjb.update(peticio);
+        // TODO Moure a lògica en un sol mètode cloneAndStart
+        peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID,
+            t, d, m, arxiuActual);
 
         peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID());
 
