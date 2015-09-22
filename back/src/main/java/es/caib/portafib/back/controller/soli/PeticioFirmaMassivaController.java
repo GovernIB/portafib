@@ -198,7 +198,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     if (countError != 0) {
       // No s´han pogut crear de forma massiva {0} peticions.
       HtmlUtils.saveMessageError(request,
-          I18NUtils.tradueix("peticioFirmaMassiva.error", String.valueOf(countOK)));
+          I18NUtils.tradueix("peticioFirmaMassiva.error", String.valueOf(countError)));
     }
 
     request.getSession().setAttribute(PeticioDeFirmaActivaSoliController.FILTER_BY_TITOL_KEY,

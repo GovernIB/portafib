@@ -2441,7 +2441,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     } else {
       titol = MessageFormat.format(newMessageFormaPatternForName, peticio.getTitol());
     }
-    peticio.setTitol(titol);
+    peticio.setTitol(adjustSize(titol, 255));
+    peticio.setDescripcio(adjustSize(peticio.getDescripcio(), 255));
+    peticio.setMotiu(adjustSize(peticio.getMotiu(), 255));
 
     // Borrarem els ID's i clonam els fitxers
     Set<Fitxer> fitxers = new HashSet<Fitxer>();
@@ -2502,7 +2504,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       FluxDeFirmesJPA flux = FluxDeFirmesJPA.toJPA(fluxOrig);
       flux.setFluxDeFirmesID(0);
-      flux.setNom(titol);
+      
+
+      
+      flux.setNom(adjustSize(titol, 255));
 
       Set<BlocDeFirmesJPA> blocsOrig = fluxOrig.getBlocDeFirmess();
 
@@ -2620,6 +2625,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
       }
     }
+  }
+
+
+  private String adjustSize(String titolflux, int maxSize) {
+    if (titolflux == null) {
+      return titolflux;
+    }
+    if (titolflux.length() >= maxSize) {
+      String hash = String.valueOf(titolflux.hashCode());
+      int pos =  maxSize-hash.length() - 2;
+      titolflux = titolflux.substring(0, pos) + "_" + hash;  
+    }
+    return titolflux;
   }
 
   private void cloneCustodiaInfo(PeticioDeFirmaJPA peticio,
