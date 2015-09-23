@@ -40,8 +40,10 @@
 
       <c:forEach  var="fitxer"  items="${fitxers}" varStatus="status">
       <param name="${Constants.APPLET_IDNAME}_${status.index}" value="${fn:escapeXml(fitxer.idname)}"/>
-      <param name="${Constants.APPLET_SOURCE}_${status.index}" value="<c:url value="${AppUrl}${fitxer.source}" />"/>
-      <param name="${Constants.APPLET_DESTINATION}_${status.index}" value="<c:url value="${AppUrl}${fitxer.destination}" />"/> 
+      <c:set var="sourceurl" value="${AppUrl}${fitxer.source}"/>
+      <param name="${Constants.APPLET_SOURCE}_${status.index}" value="<c:url value="${fn:escapeXml(sourceurl)}" />"/>
+      <c:set var="desturl" value="${AppUrl}${fitxer.destination}"/>
+      <param name="${Constants.APPLET_DESTINATION}_${status.index}" value="<c:url value="${fn:escapeXml(desturl)}" />"/> 
       <param name="${Constants.APPLET_LOCATION_SIGN_TABLE}_${status.index}" value="${fitxer.locationSignTable}"/>
       <param name="${Constants.APPLET_REASON}_${status.index}" value="${fn:escapeXml(fitxer.reason)}"/>
       <param name="${Constants.APPLET_FIRMATPERFORMAT}_${status.index}" value="${fn:escapeXml(fitxer.firmatPerFormat)}"/>
@@ -52,7 +54,7 @@
       <param name="${Constants.APPLET_SIGN_MODE}_${status.index}" value="${fitxer.signMode}"/>
       <c:if test="${not empty fitxer.signBoxRectangle}">
       <param name="${Constants.APPLET_SIGN_BOX_RECTANGLE}_${status.index}" value="${fitxer.signBoxRectangle}"/>
-      </c:if>      
+      </c:if>
       </c:forEach>
       <c:if test="${not empty config.parametersToRead}">
       <param name="${Constants.APPLET_PARAMETERS_TO_READ}_${status.index}" value="${config.parametersToRead}"/>
