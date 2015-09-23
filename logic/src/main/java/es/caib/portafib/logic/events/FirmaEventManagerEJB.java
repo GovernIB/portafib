@@ -153,7 +153,9 @@ public class FirmaEventManagerEJB implements Constants,
       case (int) NOTIFICACIOAVIS_PETICIO_PAUSADA:
         {
           Solicitant soli = getSolicitant(firmaEvent, eventID);
-          log.info(" NOTIFICACIOAVIS_FIRMA_TOTAL => SOLICITANT: " + soli + ")");
+          if (debug) {
+            log.debug(" NOTIFICACIOAVIS_FIRMA_TOTAL => SOLICITANT: " + soli + ")");
+          }
           UsuariEntitatJPA ue = null;
           if (soli!= null) {
             ue = soli.getUsuariEntitat(); 
@@ -277,8 +279,9 @@ public class FirmaEventManagerEJB implements Constants,
     }
     
     
-    
+    // Persones
     List<EmailInfo> avisos = new ArrayList<EmailInfo>();
+    // Aplicacions
     List<NotificacioInfo> notificacions = new ArrayList<NotificacioInfo>(); 
 
     for (FirmaEvent firmaEvent : filteredlist.getList()) {
@@ -558,7 +561,7 @@ public class FirmaEventManagerEJB implements Constants,
     avisos = rebreAvisEjb.getSubQuery(RebreAvisFields.USUARIENTITATID, 
         RebreAvisFields.TIPUSNOTIFICACIOID.equal(tipusEvent));
 
-   return Where.OR(UsuariEntitatFields.REBRETOTSELSAVISOS.equal(true),
+    return Where.OR(UsuariEntitatFields.REBRETOTSELSAVISOS.equal(true),
        UsuariEntitatFields.USUARIENTITATID.in(avisos));
   }
   

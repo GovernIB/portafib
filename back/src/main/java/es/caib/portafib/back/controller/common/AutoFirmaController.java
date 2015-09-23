@@ -630,6 +630,9 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
     // TODO Falta Filtrar OrdeBY
     String ueID =  LoginInfo.getInstance().getUsuariEntitatID();
     File parent = new File(autofirmaBasePath,ueID);
+    if (!parent.exists()) {
+      return list;
+    }
     String[] data = parent.list();
     
     for (int i = 0; i < data.length; i++) {
@@ -645,7 +648,7 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
       list.add(f);
     }
 
-    
+    // TODO Falta ordenar segons criteris !!!
     Collections.sort(list, new Comparator<Fitxer>() {
 
       @Override
