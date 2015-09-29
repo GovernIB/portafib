@@ -1,13 +1,8 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.util.ArrayList;
-import java.util.List;
 
-
-
-
-
-
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +41,6 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -257,7 +251,7 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
           peticioDeFirmaFilterForm.addHiddenField(f);
         }
         // Mostram els següents ...
-        List<Field<?>> list = peticioDeFirmaFilterForm.getHiddenFields();
+        Set<Field<?>> list = peticioDeFirmaFilterForm.getHiddenFields();
         list.remove(PeticioDeFirmaFields.PETICIODEFIRMAID);
         list.remove(PeticioDeFirmaFields.TITOL);
         list.remove(PeticioDeFirmaFields.DESCRIPCIO);

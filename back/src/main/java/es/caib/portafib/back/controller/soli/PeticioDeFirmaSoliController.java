@@ -978,12 +978,11 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     if(peticioDeFirmaFilterForm.isNou()) {
 
       // Ocultar columnes
-      List<Field<?>> hiddenFields = peticioDeFirmaFilterForm.getHiddenFields();
+      Set<Field<?>> hiddenFields = peticioDeFirmaFilterForm.getHiddenFields();
       hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
 
       // Mostrar camps següents
       hiddenFields.remove(TITOL);
-      hiddenFields.remove(DESCRIPCIO);
       hiddenFields.remove(DATASOLICITUD);
       hiddenFields.remove(DATAFINAL);
       hiddenFields.remove(TIPUSESTATPETICIODEFIRMAID);
@@ -1217,8 +1216,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   @Override
   public void postList(HttpServletRequest request, ModelAndView mav,
       PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
-    
-   
+
     final boolean isSolicitantUsuariEntitat = isSolicitantUsuariEntitat();
     
     Map<Long, Boolean> potCustodiar = new HashMap<Long, Boolean>();

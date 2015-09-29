@@ -1,5 +1,7 @@
 package es.caib.portafib.back.controller.soli;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -83,6 +86,21 @@ public class PeticioDeFirmaActivaSoliController extends PeticioDeFirmaSoliContro
   }
   
   
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav,
+      PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
+     super.postList(request, mav, filterForm, list);
 
+     for(PeticioDeFirma pf : list) {
+       if (pf.getDataFinal() != null) {
+         filterForm.getHiddenFields().remove(DATAFINAL);
+         return;
+       }
+       
+     }
+     
+     filterForm.addHiddenField(DATAFINAL);
+     
+  }
 
 }

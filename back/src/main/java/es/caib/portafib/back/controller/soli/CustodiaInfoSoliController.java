@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.soli;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -224,7 +225,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     CustodiaInfoFilterForm filterForm = super.getCustodiaInfoFilterForm(pagina, mav, request);
 
     if (filterForm.isNou()) {
-      List<Field<?>> hiddenFields = filterForm.getHiddenFields();
+      Set<Field<?>> hiddenFields = filterForm.getHiddenFields();
       hiddenFields.addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
 
       //hiddenFields.remove(CUSTODIAINFOID);

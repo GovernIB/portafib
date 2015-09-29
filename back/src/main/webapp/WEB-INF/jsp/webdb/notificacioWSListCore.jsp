@@ -5,6 +5,7 @@
   
   <c:if test="${not empty notificacioWSItems}">
 
+  <div class="row" style="margin-left: 0px;">
   <table class="table table-condensed table-bordered table-striped" style="width:auto;"> 
     <thead>
       <tr>
@@ -40,5 +41,6 @@
 
     </tbody>
   </table>
+  </div>
   </c:if>
   

@@ -3,6 +3,7 @@ package es.caib.portafib.back.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
@@ -263,7 +264,7 @@ public class DataExporterPortaFIB implements IDataExporter {
   public static  Field<?>[] getVisibleFields(BaseFilterForm filterForm, Field<?>[] allFields) {
     Field<?>[] visibleFields;
     {
-      List<Field<?>> hiddenFields = filterForm.getHiddenFields();
+      Set<Field<?>> hiddenFields = filterForm.getHiddenFields();
       List<Field<?>> visibleFieldsL = new ArrayList<Field<?>>();
       for (Field<?> field : allFields) {
         if (!hiddenFields.contains(field)) {

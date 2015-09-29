@@ -1,13 +1,14 @@
-<%@page import="es.caib.portafib.logic.utils.LogicUtils"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
- %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@page import="es.caib.portafib.utils.Build"
+%><%@page import="es.caib.portafib.logic.utils.LogicUtils"
+%><%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
  
 <table border=0 cellpadding="0" cellspacing="0" width="100%">
 
  <tr>
  <td width="40%" valign="top">
    <div class="pull-left colophon">
-     <b><fmt:message key="app.nom" /> v<%=LogicUtils.getVersio()%></b><br/>
+     <b title="Build: <%=Build.BUILD%>"><fmt:message key="app.nom" /> v<%=LogicUtils.getVersio()%></b><br/>
      <i><a href="http://otaeweb.ibit.org/" target="_blank"><fmt:message key="desenvolupatper" /></a></i><br/>
      <!-- Button to trigger modal -->
      <c:if test="${not empty loginInfo.entitatID}" > 

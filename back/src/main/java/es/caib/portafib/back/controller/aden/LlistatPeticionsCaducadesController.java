@@ -3,7 +3,7 @@ package es.caib.portafib.back.controller.aden;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -106,7 +106,7 @@ public class LlistatPeticionsCaducadesController extends PeticioDeFirmaControlle
         peticioDeFirmaFilterForm.setVisibleMultipleSelection(false);
         
         // Ocultam tots els camps
-        List<Field<?>> hiddenFields =  peticioDeFirmaFilterForm.getHiddenFields();
+        Set<Field<?>> hiddenFields =  peticioDeFirmaFilterForm.getHiddenFields();
         hiddenFields.addAll(Arrays.asList(ALL_PETICIODEFIRMA_FIELDS));
 
         // Mostram els següents camps...

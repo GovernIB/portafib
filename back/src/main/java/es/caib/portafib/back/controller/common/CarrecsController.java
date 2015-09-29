@@ -2,7 +2,7 @@ package es.caib.portafib.back.controller.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +53,7 @@ public class CarrecsController extends UsuariEntitatController {
 				.getUsuariEntitatFilterForm(pagina, mav, request);
 		if (usuariEntitatFilterForm.isNou()) {
 			// ocultam columnes
-		  List<Field<?>> hiddenFields = usuariEntitatFilterForm.getHiddenFields();
+		  Set<Field<?>> hiddenFields = usuariEntitatFilterForm.getHiddenFields();
 		  hiddenFields.addAll(Arrays.asList(ALL_USUARIENTITAT_FIELDS));
 		  hiddenFields.remove(CARREC);
 

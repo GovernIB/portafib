@@ -121,8 +121,9 @@ public class FirmaEventManagerEJB implements Constants,
       case (int) NOTIFICACIOAVIS_FIRMA_PARCIAL:
       {        
         // Avisam al destinatari (si ho vol i si no és qui ha firmat)
-        UsuariEntitatJPA destinatari;
-        destinatari = getDestinatariOfPeticioDeFirma(firmaEvent);
+        DestinatariOfPeticioDeFirma destpeticio =  getDestinatariOfPeticioDeFirma(firmaEvent);
+        UsuariEntitatJPA destinatari = destpeticio.usuariEntitat;
+        
         //EstatDeFirma ef = firmaEvent.getEstatDeFirma();
         String actorID = firmaEvent.getEstatDeFirmaUsuariEntitatID();
         if (debug) {
@@ -511,23 +512,43 @@ public class FirmaEventManagerEJB implements Constants,
     
   }
   
-  
+  public class DestinatariOfPeticioDeFirma {
+    
+    // TODO en la versió 2 llegir de BBDD
+    public final boolean agruparCorreus;
+    
+    public final UsuariEntitatJPA usuariEntitat;
 
-  protected UsuariEntitatJPA getDestinatariOfPeticioDeFirma(FirmaEvent firmaEvent) throws I18NException {
+    /**
+     * @param usuariEntitat
+     * @param agruparCorreus
+     */
+    public DestinatariOfPeticioDeFirma(UsuariEntitatJPA usuariEntitat, boolean agruparCorreus) {
+      super();
+      this.usuariEntitat = usuariEntitat;
+      this.agruparCorreus = agruparCorreus;
+    }
+    
+            
+    
+  }
+
+  protected DestinatariOfPeticioDeFirma getDestinatariOfPeticioDeFirma(FirmaEvent firmaEvent) throws I18NException {
     //EstatDeFirma estatDeFirma = firmaEvent.getEstatDeFirma();
+    final long eventID = firmaEvent.getEventID();
     Where where;
     if (firmaEvent.getEstatDeFirmaColaboracioDelegacioID() == null) {
       // L'usuari entitat és el destinatari
       where = Where.AND(
           USUARIENTITATID.equal(firmaEvent.getEstatDeFirmaUsuariEntitatID()),
-          getWhereDeRebreAvis(firmaEvent.getEventID())
+          getWhereDeRebreAvis(eventID)
           );
       
     } else {
       // Hem de cercar el destinatari d'aquesta firma
       
       where = Where.AND(
-        getWhereDeRebreAvis(firmaEvent.getEventID()),
+        getWhereDeRebreAvis(eventID),
         USUARIENTITATID.in(estatDeFirmaEjb.getSubQuery(EstatDeFirmaFields.USUARIENTITATID,
             Where.AND(
                 EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull(),
@@ -536,7 +557,15 @@ public class FirmaEventManagerEJB implements Constants,
     }
     // TODO Emprar executeQueryOne
     UsuariEntitatJPA destinatari = selectOneFull(where);
-    return destinatari;
+
+    boolean agruparCorreus = false;
+    if (destinatari != null  ) {
+      // TODO Cercar aquí si és agrupat o no a la taula RebreAvis
+      // Al nou paràmetre 
+    }
+    
+    return new DestinatariOfPeticioDeFirma(destinatari, agruparCorreus);
+    
   }
   
 

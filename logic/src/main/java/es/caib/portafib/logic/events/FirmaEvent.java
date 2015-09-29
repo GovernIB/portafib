@@ -29,6 +29,8 @@ public class FirmaEvent implements Cloneable, Serializable {
   
   public static final int PRIORITAT_BAIXA = 1;
   
+  public static final String BASE_PATH_REBREAVIS = "REBREAVIS";
+  
 
   protected transient final Logger log = Logger.getLogger(getClass());
   

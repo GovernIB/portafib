@@ -98,20 +98,34 @@ public class Utils {
             + " title=\""
             + I18NUtils
                 .tradueix(!isOrderedAsc ? "genapp.form.sort.asc" : "genapp.form.sort.desc")
-            + "\" >" + I18NUtils.tradueix(code) + "<i class=\""
+            + "\" >" + getText(code) + "<i class=\""
             + (isOrderedAsc ? "icon-chevron-up" : "icon-chevron-down")
             + "\"></i></span>";
       } else {
         html = "<span style=\"cursor:row-resize\" onclick=\"javascript:executeOrderBy('" + field + "', true);\" "
             + " title=\"" + I18NUtils.tradueix("genapp.form.sort.asc") + "\">"
-            + I18NUtils.tradueix(code) + "<i class=\"icon-resize-vertical\"></i></span>";
+            + getText(code) + "<i class=\"icon-resize-vertical\"></i></span>";
       }
       return html;
     } else {
-      return I18NUtils.tradueix(code);
+      return getText(code);
     }
 
   }
+  
+
+  private static String getText(String code) {
+    if (code == null) {
+      return null;
+    }
+    if (code.startsWith("=")) {
+      return code.substring(1);
+    } else {
+      return I18NUtils.tradueix(code);
+    }
+    
+  }
+  
 
   public static String intArrayToString(int[] itemsPerPagines) {
     String str = Arrays.toString(itemsPerPagines);

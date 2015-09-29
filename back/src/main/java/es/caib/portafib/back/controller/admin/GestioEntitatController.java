@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.admin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
@@ -105,7 +106,7 @@ public class GestioEntitatController extends EntitatController {
 		 */
 		if (entitatFilterForm.isNou()) {
 			// Ocultam totes les columnes
-		  List<Field<?>> hiddenFields = entitatFilterForm.getHiddenFields(); 
+		  Set<Field<?>> hiddenFields = entitatFilterForm.getHiddenFields(); 
 		  hiddenFields.addAll(java.util.Arrays.asList(EntitatFields.ALL_ENTITAT_FIELDS));
 		  
 		  // Mostram només les següents ...

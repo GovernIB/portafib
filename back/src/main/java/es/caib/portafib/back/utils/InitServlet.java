@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
@@ -123,9 +124,9 @@ public class InitServlet extends HttpServlet {
     // Mostrar Versió
     String ver = LogicUtils.getVersio();
     try {
-      log.info("PortaFIB Version: " + ver);
+      log.info("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
     } catch (Throwable e) {
-      System.out.println("PortaFIB Version: " + ver);
+      System.out.println("PortaFIB Version: " + ver + " Build:" + Build.BUILD);
     }
 
   }

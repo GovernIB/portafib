@@ -3,7 +3,9 @@ Per compilar en mode desenvolupament: deploydev.sh/bat [OPCIONS]
 Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 
 -------------------------------- OPCIONS ---------------------------------
-clean             Neteja els projectes abans de compilar.
+
+-Pbuild           Nomes emprar en desenvolupament. Sistema manual de 
+                  revisions. Marca una nova data de revisió.
 
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
@@ -37,6 +39,7 @@ clean             Neteja els projectes abans de compilar.
                   http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
+clean             Neteja els projectes abans de compilar.
 
 --------------------------------------------------------------------------
 

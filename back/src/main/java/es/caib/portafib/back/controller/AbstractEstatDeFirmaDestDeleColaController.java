@@ -323,7 +323,8 @@ import es.caib.portafib.utils.Configuracio;
 
         // NOVA COLUMNA: Prioritat
         AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
-        adfieldPR.setCodeName("prioritat.icona");
+        adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\"" 
+            + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
         adfieldPR.setPosition(COLUMN_PRIORITAT);
         adfieldPR.setEscapeXml(false);
         // Els valors s'ompliran al mètode postList()

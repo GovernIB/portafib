@@ -121,6 +121,12 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.addHiddenField(DESCRIPCIO);
       notificacioFilterForm.addHiddenField(DATAERROR);
       notificacioFilterForm.addHiddenField(ERROR);
+      
+      // Noves etiquetes
+      notificacioFilterForm.addLabel(BLOQUEJADA, "=<i class=\"icon-lock\" title=\"" 
+          + I18NUtils.tradueix(BLOQUEJADA.fullName) + "\"></i>");
+      notificacioFilterForm.addLabel(REINTENTS, "=<i class=\"icon-repeat\" title=\"" 
+          + I18NUtils.tradueix(REINTENTS.fullName) + "\"></i>");
 
       notificacioFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
           "icon-eye-open", "veuredetalls", getContextWeb() + "/view/{0}", null));
