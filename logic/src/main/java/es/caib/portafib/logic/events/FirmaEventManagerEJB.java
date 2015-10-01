@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -23,20 +22,19 @@ import es.caib.portafib.ejb.RebreAvisLocal;
 import es.caib.portafib.ejb.TipusNotificacioLocal;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
-
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaEJB;
 import es.caib.portafib.logic.UsuariEntitatLogicaEJB;
+import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.NotificacionsQueue;
 import es.caib.portafib.model.entity.EstatDeFirma;
-
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.entity.TipusNotificacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
@@ -430,6 +428,8 @@ public class FirmaEventManagerEJB implements Constants,
     info.setHtml(true);
     info.setSubject(subject);    
     info.setMessage(msg);
+    info.setUsuariEntitatID(ue.getUsuariEntitatID());
+    info.setEventID(event.getEventID());
 
     return info;
   }
@@ -528,12 +528,15 @@ public class FirmaEventManagerEJB implements Constants,
       this.usuariEntitat = usuariEntitat;
       this.agruparCorreus = agruparCorreus;
     }
-    
-            
-    
-  }
 
-  protected DestinatariOfPeticioDeFirma getDestinatariOfPeticioDeFirma(FirmaEvent firmaEvent) throws I18NException {
+  }
+  
+  
+  
+
+
+  protected DestinatariOfPeticioDeFirma getDestinatariOfPeticioDeFirma(
+      FirmaEvent firmaEvent) throws I18NException {
     //EstatDeFirma estatDeFirma = firmaEvent.getEstatDeFirma();
     final long eventID = firmaEvent.getEventID();
     Where where;
@@ -558,17 +561,18 @@ public class FirmaEventManagerEJB implements Constants,
     // TODO Emprar executeQueryOne
     UsuariEntitatJPA destinatari = selectOneFull(where);
 
+    // TODO Cercar aquí si és agrupat o no a la taula RebreAvis
     boolean agruparCorreus = false;
-    if (destinatari != null  ) {
-      // TODO Cercar aquí si és agrupat o no a la taula RebreAvis
-      // Al nou paràmetre 
+    if (destinatari != null) {
+      if (destinatari.getCarrec() != null ) {
+        agruparCorreus = EnviarCorreusAgrupatsUtils.isAgruparCorreus(destinatari.getUsuariEntitatID(), eventID);
+      }
     }
     
     return new DestinatariOfPeticioDeFirma(destinatari, agruparCorreus);
     
   }
   
-
 
   protected UsuariEntitatJPA selectOneFull(Where w) throws I18NException {
     

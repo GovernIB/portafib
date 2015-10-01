@@ -192,4 +192,15 @@ public class Configuracio implements Constants {
     }
   }
   
+  /**
+   * Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus
+   * quan s'han definit enviament d'avisos agrupats.
+   * Per defecte s'executa cada dia a les 6:00 (0 0 6 1/1 * ? *) -->
+   * @return
+   */
+  public static String getEmailsGroupedSenderCronExpression() {
+    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "emailsgroupedsendercronexpression");
+  }
+  
+  
 }

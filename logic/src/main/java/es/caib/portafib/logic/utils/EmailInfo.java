@@ -2,12 +2,14 @@ package es.caib.portafib.logic.utils;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by Fundacio Bit
  * 
  * @author anadal
  */
-
+@XmlRootElement
 public class EmailInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -18,6 +20,8 @@ public class EmailInfo implements Serializable {
   private String subject;
   private String message;
   private boolean html;
+  private String usuariEntitatID;
+  private long eventID = -1;
 
   /**
    * 
@@ -25,8 +29,6 @@ public class EmailInfo implements Serializable {
   public EmailInfo() {
     super();
   }
-
-
 
   /**
    * @param idObjectSent
@@ -36,15 +38,16 @@ public class EmailInfo implements Serializable {
    * @param html
    */
   public EmailInfo(Long idObjectSent, String email, String subject, String message,
-      boolean html) {
+      boolean html, String usuariEntitatID, long eventID) {
     super();
     this.idObjectSent = idObjectSent;
     this.email = email;
     this.subject = subject;
     this.message = message;
     this.html = html;
+    this.usuariEntitatID = usuariEntitatID;
+    this.eventID = eventID;
   }
-
 
   public Long getIdObjectSent() {
     return idObjectSent;
@@ -53,7 +56,6 @@ public class EmailInfo implements Serializable {
   public void setIdObjectSent(Long idObjectSent) {
     this.idObjectSent = idObjectSent;
   }
-
 
   public String getEmail() {
     return email;
@@ -85,6 +87,22 @@ public class EmailInfo implements Serializable {
 
   public void setHtml(boolean html) {
     this.html = html;
+  }
+
+  public String getUsuariEntitatID() {
+    return usuariEntitatID;
+  }
+
+  public void setUsuariEntitatID(String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
+  }
+
+  public long getEventID() {
+    return eventID;
+  }
+
+  public void setEventID(long eventID) {
+    this.eventID = eventID;
   }
 
 }

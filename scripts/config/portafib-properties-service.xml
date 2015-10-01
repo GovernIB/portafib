@@ -109,6 +109,11 @@
            o sigui 3 minuts. Quan la firma es única en el bloc i no hi ha delegats definits
            llavors no hi ha bloqueig de temps. -->
       #es.caib.portafib.maxtimelockedsigninms=180000
+      
+      <!-- Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus
+           quan s'han definit enviament d'avisos agrupats.
+           Per defecte s'executa cada dia a les 6:00 (0 0 6 1/1 * ? *) -->
+      #es.caib.portafib.emailsgroupedsendercronexpression=0 0 6 1/1 * ? *
 
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->

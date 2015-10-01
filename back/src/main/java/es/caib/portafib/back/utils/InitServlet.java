@@ -2,6 +2,7 @@ package es.caib.portafib.back.utils;
 
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,9 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
+
 import es.caib.portafib.hibernate.HibernateFileUtil;
+import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.utils.Build;
@@ -120,6 +123,22 @@ public class InitServlet extends HttpServlet {
     } catch(Throwable e) {
       log.error("Error inicialitzant els DataExporters: " + e.getMessage(), e);
     }
+    
+    
+    
+    // Enviar Correus Agrupats
+    try {
+      EnviarCorreusAgrupatsTimerLocal sinc;
+      sinc = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
+          .lookup(EnviarCorreusAgrupatsTimerLocal.JNDI_NAME);
+      
+      sinc.startScheduler();
+    } catch (Throwable th) {
+      log.error("Error desconegut inicialitzant sincronitzador amb DIR3: " + th.getMessage(), th);
+    }
+
+    
+    
 
     // Mostrar Versió
     String ver = LogicUtils.getVersio();

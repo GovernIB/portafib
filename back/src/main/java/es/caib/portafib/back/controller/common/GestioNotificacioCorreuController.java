@@ -6,17 +6,20 @@ import es.caib.portafib.back.form.webdb.RebreAvisForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.RebreAvisJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.model.fields.TipusNotificacioFields;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +36,7 @@ import java.util.Map;
  * Created 17/06/13 10:27
  * 
  * @author mgonzalez
+ * @author anadal (correus agrupats)
  */
 @Controller
 @RequestMapping(value = "/common/rebreAvis")
@@ -65,16 +70,45 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
       rebreAvisForm.getRebreAvis().setUsuariEntitatID(ueID);
       rebreAvisForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");
       rebreAvisForm.addHiddenField(USUARIENTITATID);
-    } else {
-     
+      rebreAvisForm.setAttachedAdditionalJspCode(true);
+    } else {     
       throw new I18NException("error.unknown","No està permès editar");
     }
-    
-
 
     return rebreAvisForm;
   }
+  
+  
+  @Override
+  public RebreAvisJPA create(HttpServletRequest request, RebreAvisJPA rebreAvis)
+      throws Exception,I18NException, I18NValidationException {
+    
+    String agruparCorreuStr = request.getParameter("agruparcorreu");
+    
+    RebreAvisJPA rebreAvisJPA = super.create(request, rebreAvis);
+    
+    // TODO Ho ha de fer la BBDD
+    if (agruparCorreuStr != null) {
+      EnviarCorreusAgrupatsUtils.setAgruparCorreus(rebreAvis.getUsuariEntitatID(),
+        rebreAvis.getTipusNotificacioID(), true);
+    }
 
+    return rebreAvisJPA;
+  }
+  
+  @Override
+  public void delete(HttpServletRequest request, RebreAvis rebreAvis) throws Exception,I18NException {
+    super.delete(request, rebreAvis);
+    
+    // TODO Ho ha de fer la BBDD
+    EnviarCorreusAgrupatsUtils.setAgruparCorreus(rebreAvis.getUsuariEntitatID(),
+        rebreAvis.getTipusNotificacioID(), false);
+    
+  }
+  
+
+  private static final int AGRUPARCORREUS = 1;
+  
   @Override
   public RebreAvisFilterForm getRebreAvisFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
@@ -91,8 +125,46 @@ public class GestioNotificacioCorreuController extends RebreAvisController {
       
       filterForm.addLabel(TIPUSNOTIFICACIOID, "notificaciocorreu");    
 
+      // TODO Això s'hauria de fer via BBDD
+      AdditionalField<String,String> adfield4 = new AdditionalField<String,String>(); 
+      adfield4.setCodeName("agruparcorreus");
+      adfield4.setPosition(AGRUPARCORREUS);
+      // Els valors s'ompliran al mètode postList()
+      adfield4.setValueMap(new HashMap<String, String>());
+      adfield4.setEscapeXml(false);
+      
+      filterForm.addAdditionalField(adfield4);
+      
+      
     }
     return filterForm;
+  }
+  
+  @Override
+  public void postList(HttpServletRequest request, ModelAndView mav, RebreAvisFilterForm filterForm,  List<RebreAvis> list) throws I18NException {
+
+    super.postList(request, mav, filterForm, list);
+
+    // TODO Això s'hauria de fer via BBDD
+    Map<Long, String> map;
+    map = (Map<Long, String>)filterForm.getAdditionalField(AGRUPARCORREUS).getValueMap(); 
+    map.clear();
+
+    for (RebreAvis rebreAvis : list) {
+      boolean res = EnviarCorreusAgrupatsUtils.isAgruparCorreus(
+          rebreAvis.getUsuariEntitatID(), rebreAvis.getTipusNotificacioID());
+      String img;
+      if (res) {
+        img = "icn_alert_success.png";
+      } else {
+        img = "icn_alert_error.png";
+      }
+
+      map.put(rebreAvis.getId(), "<img height=\"18\" width=\"18\" src=\"" + request.getContextPath()
+          + "/img/" + img + "\">");
+    }
+    
+  
   }
 
 

@@ -11,6 +11,7 @@ import javax.jms.ObjectMessage;
 
 import org.apache.log4j.Logger;
 
+import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
@@ -33,21 +34,34 @@ public class EnvioMailsQueue implements MessageListener {
 
     try {
       EmailInfo emailInfo = (EmailInfo) objectMessage.getObject();
-      boolean isDebug = log.isDebugEnabled();
-      if (isDebug) {
-        log.info("Enviant avis amb id "
-          + emailInfo.getIdObjectSent() + " al correu " + emailInfo.getEmail() 
-          + " amb subject ] " + emailInfo.getSubject() + "[");
-      }
+      final boolean isDebug = log.isDebugEnabled();
       
-
-      EmailUtil.postMail(emailInfo.getSubject(), emailInfo.getMessage(),
-          emailInfo.isHtml(), Configuracio.getAppEmail(), emailInfo.getEmail());
-
-      if (isDebug) {
-        log.info("Enviat avis amb id "
-          + emailInfo.getIdObjectSent() + " al correu " + emailInfo.getEmail() 
-          + " amb subject ] " + emailInfo.getSubject() + "[");
+      String usuariEntitatId = emailInfo.getUsuariEntitatID();
+      long eventID = emailInfo.getEventID();
+      
+      if (usuariEntitatId != null 
+          && EnviarCorreusAgrupatsUtils.isAgruparCorreus(usuariEntitatId, eventID)) {
+        // Guardar per enviar més endavant
+        EnviarCorreusAgrupatsUtils.saveAvisAgrupat(usuariEntitatId, eventID, emailInfo);
+        
+      } else {
+      
+        // Enviar a l'instant
+        if (isDebug) {
+          log.info("Enviant avis amb id "
+            + emailInfo.getIdObjectSent() + " al correu " + emailInfo.getEmail() 
+            + " amb subject ] " + emailInfo.getSubject() + "[");
+        }
+        
+  
+        EmailUtil.postMail(emailInfo.getSubject(), emailInfo.getMessage(),
+            emailInfo.isHtml(), Configuracio.getAppEmail(), emailInfo.getEmail());
+  
+        if (isDebug) {
+          log.info("Enviat avis amb id "
+            + emailInfo.getIdObjectSent() + " al correu " + emailInfo.getEmail() 
+            + " amb subject ] " + emailInfo.getSubject() + "[");
+        }
       }
 
     } catch (JMSException jme) {

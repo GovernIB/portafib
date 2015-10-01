@@ -28,12 +28,8 @@ public class FirmaEvent implements Cloneable, Serializable {
   public static final int PRIORITAT_NORMAL = 4;
   
   public static final int PRIORITAT_BAIXA = 1;
-  
-  public static final String BASE_PATH_REBREAVIS = "REBREAVIS";
-  
 
   protected transient final Logger log = Logger.getLogger(getClass());
-  
 
   private transient static final long serialVersionUID = 12344545645L;
 
@@ -43,9 +39,6 @@ public class FirmaEvent implements Cloneable, Serializable {
   
   private Date dateEvent;
 
-  //private EstatDeFirma estatDeFirma;
-  
-
   // És la persona que ha realitzat l'acció (firmat, rebutjat, validat, ...)
   private String actorUsuariEntitatID; 
 
@@ -53,8 +46,7 @@ public class FirmaEvent implements Cloneable, Serializable {
   private String destinatariUsuariEntitatID;
 
   private String destinatariUsuariAplicacioID;
-  
-  
+
   private String href;
 
 
@@ -93,7 +85,6 @@ public class FirmaEvent implements Cloneable, Serializable {
   private String custodyURL;
   
   public FirmaEvent() {
-    
   }
   
 
@@ -103,7 +94,8 @@ public class FirmaEvent implements Cloneable, Serializable {
    * @param peticioDeFirma
    * @throws Exception 
    */
-  public FirmaEvent(long eventID, int prioritat, PeticioDeFirmaJPA peticioDeFirma) throws I18NException  {
+  public FirmaEvent(long eventID, int prioritat, PeticioDeFirmaJPA peticioDeFirma)
+      throws I18NException  {
     this(eventID, prioritat, peticioDeFirma , null);
   }
 
