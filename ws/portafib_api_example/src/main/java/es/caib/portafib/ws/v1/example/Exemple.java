@@ -61,6 +61,9 @@ public class Exemple {
       final String usr_app = getTestAppUserName(); // username application
       final String pwd_app = getTestAppPassword(); // password application
       
+      System.out.println(" Connectant amb " + testProperties.getProperty("test_host")
+          + " emprant l'usuari " + usr_app);
+      
       String[] nifsDestinataris = getNifsDestinataris();
       
       if (nifsDestinataris == null) {
@@ -224,6 +227,7 @@ public class Exemple {
       System.err.println(WsClientUtils.toString(ve));
     } catch (Exception e) {
       System.err.println("Error desconegut: " + e.getMessage());
+      e.printStackTrace();
     }
 
   }
