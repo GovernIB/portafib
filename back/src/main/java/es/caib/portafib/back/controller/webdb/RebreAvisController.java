@@ -718,6 +718,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     return null;
   }

@@ -24,7 +24,7 @@
   <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
 <c:set var="subtitleTranslated" value="${fn:startsWith(fitxerForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
-   <c:out value="${fn:substringAfter(fitxerForm.subTitleCode, '=')}"/>
+   <c:out value="${fn:substringAfter(fitxerForm.subTitleCode, '=')}" escapeXml="false"/>
 </c:if>
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${fitxerForm.subTitleCode}" />

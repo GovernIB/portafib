@@ -203,4 +203,14 @@ public class Configuracio implements Constants {
   }
   
   
+  /**
+   * Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate quan 
+   * l'autenticació es realitza emprant ClientCert 
+   * @return
+   */
+  public static boolean checkCertificateInClientCert() {
+    return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert");
+  }
+  
+  
 }

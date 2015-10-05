@@ -24,6 +24,7 @@ import org.jboss.security.auth.certs.X509CertificateVerifier;
 
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
@@ -185,6 +186,11 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
               + e1.getMessage();
           log.error(msg, e1);
           throw new LoginException(msg);
+        }
+        
+        // Verificar Certificat si està revocat
+        if (Configuracio.checkCertificateInClientCert()) {
+          PdfUtils.validateCertificat(cert);
         }
 
         super.loginOk = true;

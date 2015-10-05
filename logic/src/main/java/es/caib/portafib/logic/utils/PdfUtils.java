@@ -362,20 +362,11 @@ public class PdfUtils implements Constants {
 
     X509Certificate cert = pk.getSigningCertificate();
 
-    ICertificatePlugin certPlugin = PortaFIBPluginsManager.getCertificatePluginInstance();
-    
-    ResultatValidacio validacio = certPlugin.getInfoCertificate(cert);
-
-    if (validacio.getResultatValidacioCodi() != ResultatValidacio.RESULTAT_VALIDACIO_OK) {
-      if (!Configuracio.isDesenvolupament()) {
-        throw new Exception("No s'ha validat el certificat: "
-            + validacio.getResultatValidacioDescripcio());
-      }
-    }
+    ResultatValidacio validacio = validateCertificat(cert);
 
     if (isDebug) { 
       long now = System.currentTimeMillis();
-      log.debug("checkCertificatePADES - Validar Certificat @firma: " + (now - start));
+      log.debug("checkCertificatePADES - Validar Certificat remotament: " + (now - start));
       start = now;
     }
 
@@ -412,6 +403,21 @@ public class PdfUtils implements Constants {
 
     return info;
 
+  }
+
+  public static ResultatValidacio validateCertificat(X509Certificate cert)
+      throws I18NException, Exception {
+    ICertificatePlugin certPlugin = PortaFIBPluginsManager.getCertificatePluginInstance();
+    
+    ResultatValidacio validacio = certPlugin.getInfoCertificate(cert);
+
+    if (validacio.getResultatValidacioCodi() != ResultatValidacio.RESULTAT_VALIDACIO_OK) {
+      if (!Configuracio.isDesenvolupament()) {
+        throw new Exception("No s'ha validat el certificat: "
+            + validacio.getResultatValidacioDescripcio());
+      }
+    }
+    return validacio;
   }
 
   public static boolean checkDocumentWhenFirstSign(InputStream fitxerOriginalData, byte[] pdfData)

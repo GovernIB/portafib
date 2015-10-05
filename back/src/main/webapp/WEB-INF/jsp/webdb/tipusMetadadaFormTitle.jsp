@@ -24,7 +24,7 @@
   <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
 <c:set var="subtitleTranslated" value="${fn:startsWith(tipusMetadadaForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
-   <c:out value="${fn:substringAfter(tipusMetadadaForm.subTitleCode, '=')}"/>
+   <c:out value="${fn:substringAfter(tipusMetadadaForm.subTitleCode, '=')}" escapeXml="false"/>
 </c:if>
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${tipusMetadadaForm.subTitleCode}" />

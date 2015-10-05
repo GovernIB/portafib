@@ -24,7 +24,7 @@
   <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">
 <c:set var="subtitleTranslated" value="${fn:startsWith(estatDeFirmaForm.subTitleCode,'=')}" />
 <c:if test="${subtitleTranslated}">
-   <c:out value="${fn:substringAfter(estatDeFirmaForm.subTitleCode, '=')}"/>
+   <c:out value="${fn:substringAfter(estatDeFirmaForm.subTitleCode, '=')}" escapeXml="false"/>
 </c:if>
 <c:if test="${not subtitleTranslated}">
   <fmt:message key="${estatDeFirmaForm.subTitleCode}" />

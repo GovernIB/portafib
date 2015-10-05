@@ -114,6 +114,10 @@
            quan s'han definit enviament d'avisos agrupats.
            Per defecte s'executa cada dia a les 6:00 (0 0 6 1/1 * ? *) -->
       #es.caib.portafib.emailsgroupedsendercronexpression=0 0 6 1/1 * ? *
+      
+      <!--  Opcional. Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate
+             quan l'autenticació es realitza emprant ClientCert. Valor per defecte false. -->
+      #es.caib.portafib.checkcertificateinclientcert=true 
 
 
       <!-- =========== MODUL APPLET DE FIRMA ======== -->

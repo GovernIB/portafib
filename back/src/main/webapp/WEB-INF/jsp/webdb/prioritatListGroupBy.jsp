@@ -58,9 +58,14 @@
                   <a href="#" role="branch" class="tree-toggle ${groupby_item.selected? "" : "closed"}" data-toggle="branch" data-value="${groupby_item.value}">
                     <span style="${groupby_item.selected? "font-weight: bold;" : ""}">
                     <c:set var="code" value="${(empty __theFilterForm.labels[groupby_item.field])? groupby_item.codeLabel:__theFilterForm.labels[groupby_item.field]}" />
+                        <c:if test="${!fn:startsWith(code,'=')}" >
                         <fmt:message key="${code}">
                               <fmt:param><fmt:message key="${groupby_item.codeParamLabel}"/></fmt:param>
                         </fmt:message>
+                        </c:if>
+                        <c:if test="${fn:startsWith(code,'=')}" >
+                        <c:out value="${fn:substringAfter(code, '=')}" escapeXml="false" />
+                        </c:if>
                     </span>
                   </a>
                   <%-- AQUI VANS ELS VALUES --%>
