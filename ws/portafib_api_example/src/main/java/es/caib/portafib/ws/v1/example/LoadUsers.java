@@ -2,7 +2,6 @@ package es.caib.portafib.ws.v1.example;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
