@@ -1307,21 +1307,21 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       } else {
         avisweb = false;
       }
-      
+
       String context_role;
       if (getContextWeb().startsWith("/aden/")) {
         context_role = "aden";
       } else {
         context_role = "soli";
       }
-      
+
       long estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
-      
+
       String botomenu;
       if (avisweb) {
         botomenu="btn-warning";
       } else {
-         
+
         switch((int)estat) {
           case Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
           case Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT:
@@ -1349,28 +1349,14 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
 
        if (avisweb) {
-         /* TODO Borrar
-         <li>
-           <a class="btn btn-warning btn-small a_item" style="color:white;" 
-           href="<c:url value="${contexte}/revisat/${peticioDeFirma.peticioDeFirmaID}"/>" >
-            <i class="icon-check icon-white"></i> <fmt:message key="revisat"/>
-           </a>
-         </li>
-         */
+         /* MARCAR REVISAT */
          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
              "icon-check icon-white", "revisat",  getContextWeb() + "/revisat/" + peticioDeFirmaID,
              "btn-warning") );
          
        }
         
-       /*TODO Borrar
-       <li>
-         <a class="btn btn-info btn-small a_item" style="color:white;" href="<c:url value="${contexte}/docfirmat/${peticioDeFirma.peticioDeFirmaID}"/>" 
-          target="_blank" >
-          <i class="icon-file icon-white"></i> <fmt:message key="veuredoc"/>
-         </a>
-       </li>
-       */
+       /* VEURE DOC */
        filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
            "icon-file icon-white", "veuredoc", 
             // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
@@ -1378,28 +1364,12 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
            "btn-info") );
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
-          /*TODO Borrar
-          <li>
-          <a class="btn btn-warning btn-small a_item" href="#" style="color:white;"
-            onclick="goTo('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/edit"/>')">
-              <i class="icon-pencil icon-white"></i>
-              <fmt:message key="peticiodefirma.editar"/>
-          </a>
-          </li>
-          */
+          /* PETICIO EDITAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pencil icon-white", "peticiodefirma.editar",  
               "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
               "btn-warning") );
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="/${context_role}/fluxdefirmes/${peticioDeFirma.fluxDeFirmesID}/edit?redirectOnModify=${contexte}/list"/>')">
-            <img src="<c:url value="/img/fluxicon.png"/>"/>
-             <fmt:message key="fluxDeFirmes.editar"/>
-          </a>
-          </li> 
-          */
+          /* FLUX EDITAR  */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "/img/fluxicon.png", "fluxDeFirmes.editar",  
               "javascript:goTo('" + request.getContextPath() +"/" + context_role + "/fluxdefirmes/" + peticioDeFirma.getFluxDeFirmesID() + "/edit?redirectOnModify=" + getContextWeb() + "/list')",
@@ -1413,18 +1383,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             
         if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() != null) {
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-info btn-small a_item" href="#" style="color:white;"
-            onclick="goTo('<c:url value="/${context_role}/peticio/custodiainfo/view/${peticioDeFirma.custodiaInfoID}"/>')">                                   
-              <img src="<c:url value="/img/custodia.png"/>"/>
-              <fmt:message key="genapp.viewtitle">
-                <fmt:param><fmt:message key="custodia"/></fmt:param>
-              </fmt:message>
-          </a>
-          </li>
-          */
-
+            /* VEURE CUSTODIA */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
                 "/img/custodia.png", "custodia.view",  
                 "javascript:goTo('" + request.getContextPath() +"/"  + context_role + "/peticio/custodiainfo/view/" + peticioDeFirma.getCustodiaInfoID() + "?redirectOnCustody=" + getContextWeb() + "/list')",
@@ -1435,34 +1394,14 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() == null) {
-             /* TODO Borrar
-            <li>
-              <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
-                onclick="goTo('<c:url value="/${contexte}/afegircustodiainfo/${peticioDeFirma.peticioDeFirmaID}"/>')">
-                <img src="<c:url value="/img/custodia.png"/>"/>
-                <fmt:message key="genapp.createtitle">
-                  <fmt:param><fmt:message key="custodia"/></fmt:param>
-                </fmt:message>
-              </a>
-              </li>
-              */
+             /* CREAR CUSTODIA */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
                 "/img/custodia.png", "custodia.crear",  
                 "javascript:goTo('" + request.getContextPath()  + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
                 "btn-warning"));
           } else {
 
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="/${context_role}/peticio/custodiainfo/${peticioDeFirma.custodiaInfoID}/edit"/>')">
-            <img src="<c:url value="/img/custodia.png"/>"/>
-              <fmt:message key="genapp.edittitle">
-                <fmt:param><fmt:message key="custodia"/></fmt:param>
-              </fmt:message>
-          </a>
-          </li>
-          */
+            /*  MODIFICAR CUSTODIA  */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
                 "/img/custodia.png", "custodia.modificar",  
                 "javascript:goTo('" + request.getContextPath() +"/"  + context_role + "/peticio/custodiainfo/" + peticioDeFirma.getCustodiaInfoID() + "/edit?redirectOnCustody=" + getContextWeb() + "/list')",
@@ -1478,44 +1417,21 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
 
         if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-info btn-small a_item" href="#" style="color:white;"
-            onclick="goTo('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/edit"/>')">                                    
-              <i class="icon-eye-open icon-white"></i>
-              <fmt:message key="peticiodefirma.veuredetalls"/>
-          </a>
-          </li> 
-          */
+          /* FLUXDEFIRMES */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "icon-eye-open icon-white", "peticiodefirma.veuredetalls",  
-              "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/" + peticioDeFirmaID + "/edit')",
+              "icon-eye-open icon-white", "peticiodefirma.veuredetalls",
+              getContextWeb() + "/" + peticioDeFirmaID + "/edit",
               "btn-info"));
           
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-info btn-small a_item" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="/${context_role}/fluxdefirmes/view/${peticioDeFirma.fluxDeFirmesID}?redirectOnModify=${contexte}/list&readOnly=true"/>')">
-             <img src="<c:url value="/img/fluxicon.png"/>"/> <fmt:message key="fluxDeFirmes.fluxDeFirmes"/>
-          </a> 
-          </li>
-          */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes",  
-              "javascript:goTo('" + request.getContextPath() + "/" + context_role + "/fluxdefirmes/view/" + peticioDeFirma.getFluxDeFirmesID() + "?redirectOnModify=" + getContextWeb() + "/list&readOnly=true')",
+              "/img/fluxicon.png", "fluxDeFirmes.fluxDeFirmes", 
+              "/" + context_role + "/fluxdefirmes/view/" + peticioDeFirma.getFluxDeFirmesID() + "?redirectOnModify=" + getContextWeb() + "/list&readOnly=true",
               "btn-info"));
         }
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT 
             || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-success btn-small a_item" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="${contexte}/iniciar/${peticioDeFirma.peticioDeFirmaID}"/>')">
-            <i class="icon-play icon-white"></i> <fmt:message key="iniciar"/>
-          </a>
-          </li> 
-          */
+          /* INICIAR  */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-play icon-white", "iniciar",  
               "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
@@ -1524,14 +1440,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         }
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
-          /* TODO Borrar
-           <li>
-           <a class="btn btn-warning btn-small a_item" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="${contexte}/pausar/${peticioDeFirma.peticioDeFirmaID}"/>')">
-            <i class="icon-pause icon-white"></i> <fmt:message key="pausar"/>
-          </a> 
-          </li>
-          */
+          /* PAUSAR   */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pause icon-white", "pausar",  
               "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/pausar/" + peticioDeFirmaID + "')",
@@ -1541,14 +1450,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         }
 
         if (estat != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
-          /* TODO Borrar
-          <li>
-          <a class="btn btn-danger btn-small a_item" style="color:white;" href="#myModal"
-             onclick="openModal('<c:url value="${contexte}/${peticioDeFirma.peticioDeFirmaID}/delete"/>','show');">
-             <i class="icon-trash icon-white"></i> <fmt:message key="genapp.delete"/>
-          </a>
-          </li>
-          */
+          /* Borrar */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-trash icon-white", "genapp.delete",  
               //"javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete')",
@@ -1559,14 +1461,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           
         }
 
-        /* TODO Borrar
-        <li>
-          <a class="btn btn-small a_item" href="#" 
-            onclick="goTo('<c:url value="${contexte}/clonar/${peticioDeFirma.peticioDeFirmaID}"/>')">
-            <i class="icon-random"></i> <fmt:message key="clonar"/>
-          </a> 
-        </li>
-        */
+        /** CLONAR */
         filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
             "icon-random", "clonar",  
             "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
@@ -1576,13 +1471,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
             || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
           
-        /* TODO Borrar
-        <li>
-          <a class="btn btn-small a_item btn-danger" style="color:white;" href="#" 
-            onclick="goTo('<c:url value="${contexte}/reinicialitzar/${peticioDeFirma.peticioDeFirmaID}"/>')">
-            <i class=" icon-repeat icon-white"></i> <fmt:message key="reinicialitzar"/>
-          </a> 
-        </li>
+        /* REINICIALITZAR
         */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-repeat icon-white", "reinicialitzar",  

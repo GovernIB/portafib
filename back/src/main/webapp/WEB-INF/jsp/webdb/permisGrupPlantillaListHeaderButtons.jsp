@@ -48,13 +48,15 @@
     </c:if>
     <c:forEach var="button" items="${__theFilterForm.additionalButtons}">
       <c:set var="thelink" value="${button.link}" />
+     <c:set var="thehref" value="#"/>
       <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+        <c:url var="thehref" value="${thelink}"/>
         <c:url var="thelink" value="${thelink}"/>
         <c:set var="thelink" value="goTo('${thelink}')"/>
       </c:if>
-       <button type="button" class="btn btn-small ${button.type} pull-right" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+      <button type="button" class="btn btn-small ${button.type} pull-right"href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
          <i class="${button.icon}"></i>
          <fmt:message key="${button.codeText}"/>
-       </button>
+      </button>
     </c:forEach>
   

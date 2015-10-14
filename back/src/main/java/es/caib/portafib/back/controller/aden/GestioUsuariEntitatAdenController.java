@@ -276,7 +276,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/addsolicitantrole/{usuariEntitatID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/addsolicitantrole/{usuariEntitatID:.+}", method = RequestMethod.GET)
   public String addSolicitantRole(HttpServletRequest request, HttpServletResponse response,
       HttpSession session,  @PathVariable String usuariEntitatID) throws Exception {
 
@@ -304,7 +304,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   }
 
   
-  @RequestMapping(value = "/desactivar/{usuariEntitatID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/desactivar/{usuariEntitatID:.+}", method = RequestMethod.GET)
   public ModelAndView desactivarUsuariEntitat(
       @PathVariable("usuariEntitatID") String usuariEntitatID, 
       HttpServletRequest request,  HttpServletResponse response) throws Exception {
@@ -312,7 +312,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     return activatDesactivarUsuariEntitat(usuariEntitatID, request, false);
   }
   
-  @RequestMapping(value = "/activar/{usuariEntitatID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/activar/{usuariEntitatID:.+}", method = RequestMethod.GET)
   public ModelAndView activarUsuariEntitat(
       @PathVariable("usuariEntitatID") String usuariEntitatID, 
       HttpServletRequest request,  HttpServletResponse response) throws Exception {

@@ -80,7 +80,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.logging.Logger;
 
 
@@ -311,6 +310,21 @@ public class AfirmaSigner implements ISigner {
       
     }
     
+    
+    // XYZ 
+    /*
+    final String CATCERT_POLICY = "0.4.0.2023.1.1"; 
+    final String CATCERT_TSP = "http://localhost:8888/psis/catcert/tsp"; //"http://psis.catcert.net/psis/catcert/tsp";
+    final Boolean CATCERT_REQUIRECERT = Boolean.TRUE;
+    
+    properties.append("tsaURL=" + CATCERT_TSP+ "\n"); //$NON-NLS-1$
+    properties.append("tsaPolicy=" +  CATCERT_POLICY+ "\n"); //$NON-NLS-1$
+    properties.append("tsaRequireCert=" + CATCERT_REQUIRECERT+ "\n"); //$NON-NLS-1$
+    properties.append("tsaHashAlgorithm=SHA-512" + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+    properties.append("tsType=" + TsaParams.TS_SIGN + "\n"); //$NON-NLS-1$
+    */
+
+
     System.out.println("---------------- All Properties: ---------------- ");
     System.out.println(properties.toString());
     System.out.println("------------------------------------------------- ");

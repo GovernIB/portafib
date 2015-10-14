@@ -502,7 +502,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   }
   
 
-  @RequestMapping(value = "/activar/{usuariEntitatID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/activar/{usuariEntitatID:.+}", method = RequestMethod.GET)
   public ModelAndView activarCarrec(
       @PathVariable("usuariEntitatID") String usuariEntitatID, 
       HttpServletRequest request,  HttpServletResponse response) throws Exception {
@@ -512,7 +512,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
   
   
 
-  @RequestMapping(value = "/desactivar/{usuariEntitatID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/desactivar/{usuariEntitatID:.+}", method = RequestMethod.GET)
   public ModelAndView desactivarCarrec(
       @PathVariable("usuariEntitatID") String usuariEntitatID, 
       HttpServletRequest request,  HttpServletResponse response) throws Exception {

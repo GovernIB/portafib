@@ -327,7 +327,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "/addpersontothisentity/{usuariPersonaID}", method = RequestMethod.GET)
+  @RequestMapping(value = "/addpersontothisentity/{usuariPersonaID:.+}", method = RequestMethod.GET)
   public String addPersonToThisEntity(HttpServletRequest request, HttpServletResponse response,
       HttpSession session,  @PathVariable String usuariPersonaID) throws Exception {
 

@@ -16,12 +16,14 @@
     <c:if test="${!__theForm.nou || (-1 == fn:indexOf(button.link,bracket))}">
     <c:set var="pk" value="${__theForm.roleUsuariEntitat.id}"/>
     <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
+    <c:set var="thehref" value="#"/>
     <c:if test="${!fn:startsWith(thelink,'javascript:')}">
+     <c:url var="thehref" value="${thelink}"/>
      <c:url var="thelink" value="${thelink}"/>
      <c:set var="thelink" value="goTo('${thelink}')"/>
     </c:if>
     <button type="button" class="btn ${button.type}" 
-       onclick="${thelink}">
+       href="${thehref}" onclick="${thelink}">
        <i class="${button.icon}"></i><fmt:message key="${button.codeText}"/>
     </button>
     </c:if>
