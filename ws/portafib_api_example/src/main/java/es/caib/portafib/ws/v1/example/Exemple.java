@@ -4,11 +4,14 @@ package es.caib.portafib.ws.v1.example;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.FileNameMap;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.xml.ws.BindingProvider;
 
 import org.apache.log4j.Logger;
@@ -140,8 +143,9 @@ public class Exemple {
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromResource(
              "test.pdf", Constants.PDF_MIME_TYPE);
       } else {
-        fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(
-            new File(getFitxerAFirmar()), Constants.PDF_MIME_TYPE);
+        File f = new File(getFitxerAFirmar());
+        String mime =  "application/octet-stream";
+        fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(f, mime);
       }
 
 

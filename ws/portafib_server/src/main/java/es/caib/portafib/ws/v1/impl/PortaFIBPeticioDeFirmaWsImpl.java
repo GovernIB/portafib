@@ -1,5 +1,8 @@
 package es.caib.portafib.ws.v1.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,10 +40,12 @@ import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FirmaBean;
 import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -99,11 +104,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
   // --------------------------| Custodia |---------------------------
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
-  
-  
-  
-  
-  
+
   
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })
   @WebMethod
@@ -355,6 +356,41 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
     try {
       PeticioDeFirmaJPA peticioDeFirmaJPA = PeticioDeFirmaWs.toJPA(peticioDeFirmaWs,
           fitxerLogicaEjb, fitxersCreats);
+      
+      // Convertir Fitxers
+      long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
+      Fitxer fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
+      
+      if (fitxerAFirmarID != 0 && fileToConvertInfo != null) {
+  
+
+          File fileToConvert =  FileSystemManager.getFile(fitxerAFirmarID);
+          Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fileToConvertInfo);
+  
+          if (fitxerConvertit == fileToConvertInfo) {
+            // Es un PDF.
+            // No feim res
+          } else {
+            // No és un PDF, ho substituim pel fitxer convertit
+  
+            // Actualitzam el Fitxer a firmar
+            InputStream is = fitxerConvertit.getData().getInputStream();            
+            FileOutputStream fos = new FileOutputStream(fileToConvert);
+            FileSystemManager.copy(is,fos);
+            fos.flush();
+            fos.close();
+            // Canviar BBDD
+            Fitxer f = fitxerLogicaEjb.findByPrimaryKey(fitxerAFirmarID);
+            f.setNom(f.getNom()+ ".pdf");
+            f.setMime(Constants.PDF_MIME_TYPE);
+            f.setTamany(fitxerConvertit.getTamany());
+            
+            fitxerLogicaEjb.update(f);
+          }
+        
+      }
+      // Final Convertir Fitxer
+      
 
       String userapp = wsContext.getUserPrincipal().getName();
       peticioDeFirmaJPA.setUsuariAplicacioID(userapp);

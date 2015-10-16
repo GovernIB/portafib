@@ -311,7 +311,7 @@ public class AfirmaSigner implements ISigner {
     }
     
     
-    // XYZ 
+    // Segell de Temps (Segellat de temps)
     /*
     final String CATCERT_POLICY = "0.4.0.2023.1.1"; 
     final String CATCERT_TSP = "http://localhost:8888/psis/catcert/tsp"; //"http://psis.catcert.net/psis/catcert/tsp";
