@@ -85,9 +85,7 @@ public class DesenvolupamentController {
   @RequestMapping(value = "/servletexception")
   public ModelAndView servletexception(HttpServletRequest request,
       HttpServletResponse response) throws Exception {
-
     return new ModelAndView("redirect:/WEB-INF/jsp/webdb/menu_desenvolupament.jsp");
-    
   }
   
   

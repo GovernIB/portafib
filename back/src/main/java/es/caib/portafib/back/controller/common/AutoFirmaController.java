@@ -589,13 +589,7 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
             "btn btn-info"));
         }
         
-        {
-          String url = request.getContextPath() + getContextWeb() + "/download/{0}";
-          String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
-          fitxerFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
-            "icon-edit icon-white", "autofirma.fitxerfirmat", js,
-            "btn btn-info"));
-        }
+        
 
         
         AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
@@ -660,28 +654,14 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
 
     return list;
   }
-  
-  
-  
-  
-  
-  
 
-  
-  
-  
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     return new LongConstantField(-3L).equal(FitxerFields.FITXERID);
   }
 
-  
-  
 
-  
-  
-  
   @Override
   @RequestMapping(value = "/{fitxerID}/delete")
   public String eliminarFitxer(@PathVariable("fitxerID") java.lang.Long fitxerID,
@@ -724,13 +704,14 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
   @Override
   public void postList(HttpServletRequest request, ModelAndView mav,
       FitxerFilterForm filterForm,  List<Fitxer> list) throws I18NException {
-     
-   
+
     Map<Long, String> mapPF;
     mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA).getValueMap();
     mapPF.clear();
-    
-    
+
+    String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+    filterForm.getAdditionalButtonsByPK().clear();
+
     for(Fitxer f : list) {
       long id = f.getFitxerID();
       long millis = id / 1000000L; 
@@ -739,6 +720,17 @@ public class AutoFirmaController extends FitxerController  implements PeticioDeF
       String date = formatter.format(new Date(millis));
 
       mapPF.put(id, date);
+      
+      File ffirmat = getFitxerFirmatPath(usuariEntitat, id);
+
+      if (ffirmat.exists()) {      
+        String url = request.getContextPath() + getContextWeb() + "/download/{0}";
+        String js = "javascript:var win = window.open('" + url +  "', '_blank'); win.focus();";
+        filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
+          "icon-edit icon-white", "autofirma.fitxerfirmat", js,
+          "btn btn-info"));
+      }
+
     }
   
   

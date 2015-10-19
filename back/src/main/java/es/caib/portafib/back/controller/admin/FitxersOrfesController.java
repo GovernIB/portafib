@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.admin;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,7 +136,15 @@ public class FitxersOrfesController extends FitxerController {
       List<Fitxer> list) throws I18NException {
     
     File path = FileSystemManager.getFilesPath();
-    List<String> fitxersFisics = new ArrayList<String>(Arrays.asList(path.list()));
+    List<String> fitxersFisics = new ArrayList<String>(Arrays.asList(path.list(new FilenameFilter() {
+      /**
+       * No volem directoris
+       */
+      @Override
+      public boolean accept(File dir, String name) {
+        return new File(dir, name).isFile();
+      }
+    })));
     
     fitxersFisics.remove(AutoFirmaController.AUTOFIRMA);
     
