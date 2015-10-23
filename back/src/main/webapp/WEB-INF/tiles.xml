@@ -357,6 +357,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
     
+    <definition name="viewDocumentsFullView_ROLE_COLA" extends="role_cola">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
+    </definition>
+    
     
     <!--  ===========  DELEGAT ================== -->
     
@@ -375,7 +379,11 @@
     
     <definition  name="firmaJNLP_ROLE_DELE" template="/WEB-INF/jsp/firma/firmaJNLP.jsp">
     </definition>
-    
+
+    <definition name="viewDocumentsFullView_ROLE_DELE" extends="role_dele">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
+    </definition>
+
     <definition name="estatFirmaFullView_ROLE_DELE" extends="role_dele">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
     </definition>
@@ -396,6 +404,10 @@
 
     <definition name="estatFirmaList_ROLE_DEST" extends="role_dest">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="viewDocumentsFullView_ROLE_DEST" extends="role_dest">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
     </definition>
     
     <definition name="estatFirmaFullView_ROLE_DEST" extends="role_dest">

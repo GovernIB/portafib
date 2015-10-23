@@ -95,6 +95,9 @@ import es.caib.portafib.utils.Configuracio;
 
     @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
+    protected es.caib.portafib.ejb.AnnexLocal annexEjb;
 
     final Long[] ESTATS_INICIALS_COLA = new Long[] {
         Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
@@ -1261,7 +1264,9 @@ import es.caib.portafib.utils.Configuracio;
           .getPeticioDeFirmaFromEstatDeFirmaID(estatDeFirmaList);
       mav.addObject("peticionsByEstat", peticionsByEstat);
       
-      // Peticio de Firma, Tipus Document , Remitent i DataInici
+      Map<Long, Long> annexesByPeticio = new HashMap<Long,Long>();
+
+      // Annexes, Peticio de Firma, Tipus Document , Remitent i DataInici
       {
 
         Map<Long, String> mapPF;
@@ -1293,20 +1298,29 @@ import es.caib.portafib.utils.Configuracio;
              mapCR.put(estatDeFirmaId, "<small title=\"" + pf.getRemitentDescripcio() + "\" >"
                  + pf.getRemitentNom() + "</small>");
            }
+           
+           
+           annexesByPeticio.put(pf.getPeticioDeFirmaID(),
+             annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
+           
         }
         
       }
       
+      
+      
+      
       {
         org.fundaciobit.genapp.common.web.i18n.I18NDateFormat dateFormat;
         dateFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateFormat();
-        
+
         Map<Long, String> mapDI;
         mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA_INICI_SHORT).getValueMap();
         mapDI.clear();
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
           mapDI.put(estatDeFirma.getEstatDeFirmaID(), dateFormat.format(estatDeFirma.getDataInici()));
         }
+        
       }
       
      
@@ -1534,13 +1548,24 @@ import es.caib.portafib.utils.Configuracio;
       
       // Document PDF
       for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
-        long peticioID = peticionsByEstat.get(estatDeFirmaId).getPeticioDeFirmaID();
+        PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId); 
+        long peticioID = peticio.getPeticioDeFirmaID();
       
         // TODO falta obri-ho en una nova pipella
         filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton("icon-file",
           "veuredoc",
           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
            , "btn-info"));
+        
+        
+        // Comprovar si hi ha anexes
+        if (annexesByPeticio.get(peticioID) != 0) {
+          filterForm.addAdditionalButtonByPK(estatDeFirmaId,
+              new AdditionalButton("icon-folder-open", "annex.annex.plural",
+              getContextWeb() + "/viewDocuments/" + estatDeFirmaId + "/" + peticioID , "btn-info"));
+
+        }
+        
       }
       
        // Full view
@@ -1550,11 +1575,9 @@ import es.caib.portafib.utils.Configuracio;
               filterForm.addAdditionalButtonByPK(ef.getEstatDeFirmaID(),
                   new AdditionalButton("icon-eye-open",     "vistacompleta",
                   getContextWeb() + "/fullView/" + ef.getEstatDeFirmaID() + "/" + peticioID , "btn-info"));
-              
             }
        }
-       
-       
+
        for (EstatDeFirma ef : estatDeFirmaList) {
        
          final long estatId = ef.getEstatDeFirmaID();
@@ -1893,12 +1916,13 @@ import es.caib.portafib.utils.Configuracio;
     }
 
     
-
-
-    @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
-    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
+    @RequestMapping(value = "/viewDocuments/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public ModelAndView viewDocumentsFullView(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
-
+      
+      // p.e. viewDocuments_ROLE_DEST
+      String view = "viewDocumentsFullView_" + getRole();
+      
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
           Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
       if (check == null) {
@@ -1910,7 +1934,48 @@ import es.caib.portafib.utils.Configuracio;
       FirmaJPA firma = check.firma;
       PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
 
-      ModelAndView mav = new ModelAndView(getFullViewTile());
+      ModelAndView mav = new ModelAndView(view);
+      
+
+      mav.addObject("peticioDeFirma", peticioDeFirma);
+
+      mav.addObject("estatDeFirma", estatDeFirma);
+
+      mav.addObject("firma", firma);
+
+      String contexte = getContextWeb();
+
+      mav.addObject("contexte", contexte);
+
+      mav.addObject("rolecontext", contexte.substring(1, contexte.indexOf('/', 2)));
+      
+      // 1.- Fitxers a visualitzar
+      procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
+      
+      return mav;
+      
+    }
+
+
+
+    @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+
+      String view = getFullViewTile();
+      
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
+          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+      if (check == null) {
+        // S'ha produit un error i retornam el control al llistat
+        return llistatPaginat(request, response, null);
+      }
+
+      EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
+      FirmaJPA firma = check.firma;
+      PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
+
+      ModelAndView mav = new ModelAndView(view);
 
       mav.addObject("peticioDeFirma", peticioDeFirma);
 
@@ -1952,86 +2017,9 @@ import es.caib.portafib.utils.Configuracio;
         mav.addObject("delegats", estatsDeDelegats);
       }
 
-      {
-        // 1.- Fitxers a visualitzar
+      // 1.- Fitxers a visualitzar
+      procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
 
-        List<KeyValue<FitxerJPA>> fitxers = new ArrayList<KeyValue<FitxerJPA>>();
-        // 1.1.- Fitxer principal
-        int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
-        if (tipusFirmaID == Constants.TIPUSFIRMA_PADES) {
-          FitxerJPA f;
-          f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
-
-          fitxers.add(new KeyValue<FitxerJPA>(f, String.valueOf(Constants.DOC_PDF)));
-        } else {
-          FitxerJPA f;
-          if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
-            f = peticioDeFirma.getFitxerAFirmar();
-          } else {
-            f = peticioDeFirma.getFitxerAdaptat();
-          }
-          fitxers.add(new KeyValue<FitxerJPA>(f, processFileType(f)));
-        }
-
-        // 1.2.- Annexes
-        Set<AnnexJPA> annexes = peticioDeFirma.getAnnexs();
-        for (AnnexJPA annex : annexes) {
-          // TODO si es un PDF, podriem cercar el darrer firmat i passar-ho
-          FitxerJPA f = annex.getFitxer();
-          fitxers.add(new KeyValue<FitxerJPA>(f, processFileType(f)));
-        }
-
-        mav.addObject("fitxers", fitxers);
-      }
-
-      /*
-       * 
-       * final String usuariEntitatID =
-       * LoginInfo.getInstance().getUsuariEntitatID();
-       * 
-       * // Llegir destinatari si som delegat Long colaboracioDelegacioID =
-       * estatDeFirma.getColaboracioDelegacioID() ; {
-       * 
-       * UsuariEntitatJPA dest; if (colaboracioDelegacioID == null) { // (a)
-       * Llegir el destinatari de col.laboracio-delegacio ColaboracioDelegacioJPA
-       * cd; cd =
-       * colaboracioDelegacioEjb.findByPrimaryKey(colaboracioDelegacioID); dest
-       * =usuariEntitatLogicaEjb.findByPrimaryKeyFull(cd.getDestinatariID()); }
-       * else { dest = LoginInfo.getInstance().getUsuariEntitat(); }
-       * mav.addObject("destinatari", dest); }
-       * 
-       * if (colaboracioDelegacioID == null) { // SOM DESTINATARI // Obtenir la
-       * llista de Delegats
-       * 
-       * Where w = Where.AND(
-       * EstatDeFirmaFields.USUARIENTITATID.notEqual(usuariEntitatID),
-       * EstatDeFirmaFields.FIRMAID.equal(estatDeFirma.getFirmaID()),
-       * EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.in(ESTATS_INICIALS_DELE) );
-       * 
-       * List<EstatDeFirma> estatsDeDelegats; estatsDeDelegats =
-       * estatDeFirmaEjb.select(w);
-       * 
-       * List<EstatDeFirmaJPA> list =
-       * usuariEntitatLogicaEjb.fillUsuariEntitatFull(estatsDeDelegats);
-       * 
-       * mav.addObject("delegats", list);
-       * 
-       * }
-       * 
-       * 
-       * // Obtenir la llista de Col.laboradors { Where w = Where.AND(
-       * EstatDeFirmaFields.USUARIENTITATID.notEqual(usuariEntitatID),
-       * EstatDeFirmaFields.FIRMAID.equal(estatDeFirma.getFirmaID()),
-       * EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.in(ESTATS_INICIALS_COLA) );
-       * 
-       * List<EstatDeFirma> estatsColaboradors; estatsColaboradors =
-       * estatDeFirmaEjb.select(w);
-       * 
-       * List<EstatDeFirmaJPA> list =
-       * usuariEntitatLogicaEjb.fillUsuariEntitatFull(estatsColaboradors);
-       * 
-       * mav.addObject("colaboradors", list); }
-       */
 
       // Traduccions
       // Estats Finals d'un EstatDeFirma
@@ -2047,6 +2035,45 @@ import es.caib.portafib.utils.Configuracio;
       mav.addObject("traduccions", traduccions);
 
       return mav;
+    }
+
+    private void procesFitxersAVeure(ModelAndView mav, Long peticioDeFirmaID,
+        PeticioDeFirmaJPA peticioDeFirma) throws I18NException {
+
+      {
+        
+
+        List<KeyValue<FitxerJPA>> fitxers = new ArrayList<KeyValue<FitxerJPA>>();
+        // 1.1.- Fitxer principal
+        int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
+        if (tipusFirmaID == Constants.TIPUSFIRMA_PADES) {
+          FitxerJPA f;
+          f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+
+          f.setNom(peticioDeFirma.getFitxerAFirmar().getNom());
+          
+          fitxers.add(new KeyValue<FitxerJPA>(f, String.valueOf(Constants.DOC_PDF)));
+        } else {
+          FitxerJPA f;
+          if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+            f = peticioDeFirma.getFitxerAFirmar();
+          } else {
+            f = peticioDeFirma.getFitxerAdaptat();
+            f.setNom(peticioDeFirma.getFitxerAFirmar().getNom());
+          }
+          fitxers.add(new KeyValue<FitxerJPA>(f, processFileType(f)));
+        }
+
+        // 1.2.- Annexes
+        Set<AnnexJPA> annexes = peticioDeFirma.getAnnexs();
+        for (AnnexJPA annex : annexes) {
+          // TODO si es un PDF, podriem cercar el darrer firmat i passar-ho
+          FitxerJPA f = annex.getFitxer();
+          fitxers.add(new KeyValue<FitxerJPA>(f, processFileType(f)));
+        }
+
+        mav.addObject("fitxers", fitxers);
+      }
     }
 
     public String processFileType(FitxerJPA f) {
