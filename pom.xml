@@ -9,17 +9,17 @@
     <modules>
         <module>plugins-signatureweb</module>
         <module>utils</module> 
-        <!-- XYZ
+        <!-- XYZ -->
         <module>persistence</module>
         <module>model</module> 
         <module>jpa</module>
         <module>ejb</module> 
-        -->
+        
         <module>logic</module>
         <module>back</module>
-		<!--  XYZ
+		<!--  XYZ -->
         <module>ws</module>
-        -->
+        
         <module>scripts</module>
         <module>ear</module>
     </modules>
