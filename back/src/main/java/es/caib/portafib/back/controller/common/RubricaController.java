@@ -12,7 +12,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URLDecoder;
 import java.security.cert.X509Certificate;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.imageio.IIOImage;
@@ -24,12 +28,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
+
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 
 /**
  * 
@@ -39,7 +46,7 @@ import org.springframework.web.servlet.HandlerMapping;
 @Controller
 public class RubricaController {
   
-  protected Logger log = Logger.getLogger(RubricaController.class);
+  protected static Logger log = Logger.getLogger(RubricaController.class);
 
   
   //@RequestMapping(value = "/common/rubrica/{params:.+}")
@@ -114,9 +121,136 @@ public class RubricaController {
     
   }
   
+  // TODO XYZ Moure a logic
+  public static  byte[] getImage(X509Certificate cert, Locale locale, float ample, float altura,
+      String firmatPerFormat, Date data, String motiu) throws Exception {
+    
+    
+    String firmatPer = getFirmatPer(firmatPerFormat, cert);
+    
+    I18NDateTimeFormat t = new I18NDateTimeFormat();
+    SimpleDateFormat sdf = t.getSimpleDateFormat(locale);
+    
+    return getImage(ample,altura,
+        I18NLogicUtils.tradueix(locale, "rubric.firmatper") + ": ",firmatPer,
+        I18NLogicUtils.tradueix(locale, "rubric.data") + ": ", sdf.format(data),
+        I18NLogicUtils.tradueix(locale, "rubric.motiu") + ": ", motiu);
+    
+    
+  }
   
+  
+//TODO XYZ Moure a logic  
+  /**
+   * 
+   * {0} = NOM
+   * {1} = LONGITUD NIF
+   * {2} = NIF
+   * {3} = EMISSOR
+   * {4} = LONGITUD CARREC_CERTIFICAT
+   * {5} = CARREC_CERTIFICAT
+   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
+   * {7} = UNITAT_ADMINISTRATIVA
+   * @param bundleSign
+   * @param cert
+   * @param certName
+   * @return
+   */
+  protected static String getFirmatPer(String firmatPerFormat, X509Certificate cert) {
+    
+      String certName = CertificateUtils.getCN(cert);
+    
+    
+      // Parche pels certificats FNMT que contenen la paraula NOMBRE al principi i el NIF del Firmant
+      if (certName.startsWith("NOMBRE ")) {
+        certName = certName.substring("NOMBRE ".length());
+      }
+      final int posNIF = certName.indexOf(" - NIF ");
+      if (posNIF != -1) {
+        certName = certName.substring(0, posNIF);
+      }
+      // Parche pels certificat DNIe (eliminar FIRMA i AUTENTICACION)
+      final String[] dnie = { " (FIRMA)", " (AUTENTICACIÓN)" };
+      for (String tipusDNIe : dnie) {
+        int pos = certName.indexOf(tipusDNIe);
+        if (pos != -1) {
+          // Eliminar tipus
+          certName = certName.replace(tipusDNIe, "");
+          // Posar Nom davant
+          pos = certName.lastIndexOf(',');
+          if (pos != -1) {
+            String nom = certName.substring(pos + 1).trim();
+            String llinatges = certName.substring(0, pos).trim();
+            certName = nom + " " + llinatges;
+          }
+        }
+      }
+    
+    
+    
+      log.info("XYZ CertName final = " + certName);
+      
+      final String emissor = CertificateUtils.getCN(cert.getIssuerDN().toString());
+      
+      final  String nif = CertificateUtils.getDNI(cert);
+      
+      final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
+      
 
-  public byte[] getImage(float ample, float altura, String firmatPerLabel,
+      String ua = null;
+      try {
+        ua = CertificateUtils.getUnitatAdministrativa(cert);
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+      // TODO ESPEFIFIC CAIB !!!!!
+      if (ua != null) {
+        int pos = ua.lastIndexOf('-');
+        if (pos != -1) {
+          ua = ua.substring(pos + 1);
+        }
+      }
+      final Long uaLen = new Long((ua== null || ua.trim().length() == 0)? 0 : ua.length());
+      
+      String carrec;
+      try {
+        carrec = CertificateUtils.getCarrec(cert);      
+      } catch(Exception e) {
+        carrec = null;
+        e.printStackTrace();
+      }
+      final Long carrecLen = new Long((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
+
+      final String nom = CertificateUtils.getSubjectCorrectName(cert);
+      
+      log.info("XYZ Firmat Per FORMAT = ]" + firmatPerFormat + "[");
+      
+      MessageFormat form = new MessageFormat(firmatPerFormat);
+      
+      Object[] args = { 
+          nom,      // {0} = NOM
+          nifLen,   // {1} = LONGITUD NIF
+          nif,      // {2} = NIF
+          emissor,  // {3} = EMISSOR
+          carrecLen,// {4} = LONGITUD CARREC_CERTIFICAT
+          carrec,   // {5} = CARREC_CERTIFICAT
+          uaLen,    // {6} = LONGITUD UNITAT_ADMINISTRATIVA
+          ua        // {7} = UNITAT_ADMINISTRATIVA
+      };
+      
+      String firmatPer = form.format(args);
+      
+      //String firmatPer = certName + "  (" + bundleSign.getString("emissor") +": " + emisor+ ")";
+      
+      log.info("XYZ Firmat Per SUBSTITUIT = ]" + firmatPer + "[");
+   
+      return firmatPer;
+  }
+  
+  
+  
+//TOD XYZ Moure a logic
+  public static byte[] getImage(float ample, float altura, String firmatPerLabel,
          String firmatPer, String dataLabel, String data,
          String motiuLabel, String motiu) throws Exception {
     
@@ -132,8 +266,8 @@ public class RubricaController {
     int width=(int)(6 * ample * factorPdfUnitToPixel);
     int height=(int)(6 * altura * factorPdfUnitToPixel);
     
-    System.out.println("Ample Imatge Firma: " + width);
-    System.out.println("Alt Imatge Firma: "+ height);
+    log.info("XYZ Ample Imatge Firma: " + width);
+    log.info("XYZ Alt Imatge Firma: "+ height);
     
     BufferedImage bufferedImage = new BufferedImage(width, height,   
                  BufferedImage.TYPE_INT_RGB);  
@@ -236,7 +370,7 @@ public class RubricaController {
     
   }
 
-  protected int drawStringMultipleLine(String textLabel, String text, int width, Graphics g,
+  protected static int drawStringMultipleLine(String textLabel, String text, int width, Graphics g,
       Font font, Font fontBolt, FontMetrics metrics, FontMetrics metricsBold,
       final int factorSeparacioReduit, int alt, int y) {
     String label;
@@ -250,7 +384,7 @@ public class RubricaController {
     g.setFont(font);
     int textLen = metrics.stringWidth(text);
     
-    System.out.println("textLen(" + textLen + ") + labelLen(" + labelLen + ") + " + (5 * factorSeparacioReduit) + " > width (" + width + ")");
+    log.info("XYZ  textLen(" + textLen + ") + labelLen(" + labelLen + ") + " + (5 * factorSeparacioReduit) + " > width (" + width + ")");
     
     if ( (textLen + labelLen + factorSeparacioReduit) > width ) {
       

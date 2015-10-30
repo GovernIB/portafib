@@ -99,6 +99,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
     
+    <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_seleccio.jsp" />
+    </definition>
+    
     <!--  ===========  WEBDB ================== -->
     
     <definition name="webdb" extends="base.definition">
@@ -113,6 +117,13 @@
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_desenvolupament.jsp" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/desenvolupament.jsp" />
     </definition>
+    
+    <!-- XYZ -->
+    <definition name="PluginDeFirmaContenidor_AutoFirma2" extends="desenvolupament">
+        <put-attribute name="titol" value="SignatureWebContainer" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
+    </definition>
+    
     
     <!--  ===========  ADMINISTRADOR ENTITAT ================== -->
     

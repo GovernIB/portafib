@@ -1,17 +1,23 @@
 package es.caib.portafib.back.utils;
 
+import java.io.File;
+
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
 /**
- * 
+ * XYZ S'ha d'esborrar
  * @author anadal
  *
  */
 public class AppletSignFile {
 
+  // XYZ TODO  ELIMINAR NO TE SENTIT !!!!
   public String source;
   
+  public File sourceFile;
+  
+//XYZ TODO  ELIMINAR NO TE SENTIT !!!!
   public String destination;
   
   public String idname;
@@ -166,6 +172,14 @@ public class AppletSignFile {
 
   public void setFirmatPerFormat(String firmatPerFormat) {
     this.firmatPerFormat = firmatPerFormat;
+  }
+
+  public File getSourceFile() {
+    return sourceFile;
+  }
+
+  public void setSourceFile(File sourceFile) {
+    this.sourceFile = sourceFile;
   }
 
 }

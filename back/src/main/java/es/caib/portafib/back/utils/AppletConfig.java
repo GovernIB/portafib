@@ -1,7 +1,7 @@
 package es.caib.portafib.back.utils;
 
 /**
- * 
+ * XYZ S'ha d'esborrar 
  * @author anadal
  * 
  */

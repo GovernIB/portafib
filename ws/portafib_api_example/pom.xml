@@ -5,14 +5,14 @@
     <artifactId>portafib-ws-api-example</artifactId>
 	<groupId>es.caib.portafib</groupId>
     <packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	
     <name>PortaFIB WS - API - Example</name>
 
 	<parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib-ws</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 
     <properties>
@@ -49,7 +49,7 @@
 	<dependency>  
 	    <groupId>es.caib.portafib</groupId>
         <artifactId>portafib-ws-api</artifactId>
-        <version>1.0.0</version>
+        <version>${project.version}</version>
 	</dependency> 
 	 
 	<dependency>
@@ -65,35 +65,6 @@
 		<version>1.2.14</version>
 	</dependency>
 	
-	<!--
-		<dependency>  
-			<groupId>org.jboss.ws.cxf</groupId>  
-			<artifactId>jbossws-cxf-client</artifactId>  
-			<version>4.1.1.Final</version>  
-			<scope>provided</scope>  
-        </dependency> 
- 
-		<dependency>
-		  <groupId>es.caib.portafib</groupId>
-		  <artifactId>portafib-utils</artifactId>
-		  <version>${project.version}</version>
-		  <scope>compile</scope>
-		</dependency>
-
-        <dependency>
-          <groupId>org.fundaciobit.genapp</groupId>
-          <artifactId>genapp-core</artifactId>
-          <version>1.0</version>
-		  <scope>compile</scope>
-		</dependency>
-
-		<dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.2</version>
-			<scope>test</scope>
-        </dependency>
-	-->	
     </dependencies>
 
 </project>

@@ -10,7 +10,7 @@
     <parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 
 	<properties>
@@ -273,7 +273,26 @@
 				  <artifactId>plugin-userinformation-ldap</artifactId>				  
 				  <version>${plugins.version}</version>
 				</dependency>
+                
+                				
 				
+				<!-- ====================================== -->
+		        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
+		        <!-- ====================================== -->
+
+                <dependency>
+                    <groupId>org.fundaciobit.plugins</groupId>                    
+                    <artifactId>plugin-signatureweb-api</artifactId>
+                    <version>${plugins.version}</version>
+                </dependency>
+                
+                <dependency>
+                    <groupId>org.fundaciobit.plugins</groupId>
+                    <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+                    <version>${plugins.version}</version>
+                </dependency>
+
+
 			</dependencies>
 		</profile>
 

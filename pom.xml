@@ -1,21 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.caib.portafib</groupId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <artifactId>portafib</artifactId>
     <packaging>pom</packaging>
     <name>PortaFIB</name>
 
     <modules>
+        <module>plugins-signatureweb</module>
+        <module>utils</module> 
+        <!-- XYZ
+        <module>persistence</module>
         <module>model</module> 
         <module>jpa</module>
         <module>ejb</module> 
-        <module>utils</module> 
-        <module>scripts</module>
-        <module>persistence</module>
+        -->
         <module>logic</module>
         <module>back</module>
-		<module>ws</module>
+		<!--  XYZ
+        <module>ws</module>
+        -->
+        <module>scripts</module>
         <module>ear</module>
     </modules>
 

@@ -20,6 +20,8 @@ import es.caib.portafib.logic.misc.AutoFirmaBean;
 import es.caib.portafib.logic.misc.AutofirmaLocal;
 
 /**
+ * XYZ Eliminar ja que l'APPLET pujarà els fitxers firmats directament al plugin
+ * 
  * Aquest mètode és controlat per Servlet no pel Controller Spring
  * !!!!! Revisar web.xml. *
  * @RequestMapping(value = "/destination/{id}") és a dir /common/destination/{id}
@@ -28,7 +30,6 @@ import es.caib.portafib.logic.misc.AutofirmaLocal;
  */
 @Component
 public class AutoFirmaServlet extends HttpServlet {
-
 
   protected Logger log = Logger.getLogger(AutoFirmaServlet.class);
   

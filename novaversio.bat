@@ -1,5 +1,5 @@
 
-cmd /C mvn versions:set -DnewVersion=%* -Psqlgen -Papplet -Pclientcert -Pws-portafib -Pws-indra  -Pws-indra-callback-test  -Pdesenvolupament -Pproduccio
+cmd /C mvn versions:set -DnewVersion=%* -Psqlgen -Papplet -Pclientcert -Pws-portafib -Pws-portafib-callback-server -Pws-portafirmas  -Pws-portafirmas-callback-server  -Pdesenvolupament -Pproduccio
 
 
 @echo.

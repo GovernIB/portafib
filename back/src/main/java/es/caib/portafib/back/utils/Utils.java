@@ -197,6 +197,7 @@ public class Utils {
     return up.getNom() + " " + up.getLlinatges();
   }
   
+  // XYZ Eliminar
   public static AppletConfig getAppletConfig(EntitatJPA entitat, 
       String languageUI, String contextWeb) {
     AppletConfig config;

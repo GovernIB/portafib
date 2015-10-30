@@ -6,12 +6,12 @@
     <groupId>es.caib.portafib</groupId>
     <packaging>jar</packaging>
 	<name>PortaFIB Applet</name>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	
 	<parent>
         <groupId>es.caib.portafib</groupId>
         <artifactId>portafib</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 	
 	<properties>
@@ -25,7 +25,7 @@
 	    <dependency>
 		  <groupId>es.caib.portafib</groupId>
 		  <artifactId>portafib-utils</artifactId>
-		  <version>1.0.0</version>
+		  <version>1.1.0</version>
 		  <scope>compile</scope>
 		</dependency>
 		

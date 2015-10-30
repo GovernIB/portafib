@@ -10,7 +10,7 @@
      <string>portafib</string> 
     </void> 
     <void property="url"> 
-     <string>jdbc:postgresql://10.215.216.175:5432/portafib</string> 
+     <string>jdbc:postgresql://10.215.216.175:5432/portafib11</string> 
     </void> 
     <void property="usr"> 
      <string>portafib</string> 
