@@ -27,8 +27,18 @@ public class FileInfoSignature {
   public static final String SIGN_ALGORITHM_SHA384="SHA-384";
   public static final String SIGN_ALGORITHM_SHA512="SHA-512";
 
-  public static final boolean SIGN_MODE_IMPLICIT = false;
-  public static final boolean SIGN_MODE_EXPLICIT = true;
+  /*
+  implicit
+  La firma resultante incluirá internamente una copia de los datos firmados.
+  El uso de este valor podría generar firmas de gran tamaño.
+  */
+  public static final int SIGN_MODE_IMPLICIT = 0;
+  /*
+  explicit
+  La firma resultante no incluirá los datos firmados. Si no se indica el parámetro
+  mode se configura automáticamente este comportamiento.
+  */
+  public static final int SIGN_MODE_EXPLICIT = 1;
 
 
   File source;
@@ -47,7 +57,7 @@ public class FileInfoSignature {
 
   String signAlgorithm;
 
-  boolean signMode;
+  int signMode;
 
   PdfInfoSignature pdfInfoSignature;
 
@@ -72,7 +82,7 @@ public class FileInfoSignature {
    */
   public FileInfoSignature(File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
-      boolean signMode, PdfInfoSignature pdfInfoSignature) {
+      int signMode, PdfInfoSignature pdfInfoSignature) {
     super();
     setValues(source, name, reason, firmatPerFormat, signNumber, languageSign, signType,
         signAlgorithm, signMode, pdfInfoSignature);
@@ -93,7 +103,7 @@ public class FileInfoSignature {
    */
   public void setValues(File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
-      boolean signMode, PdfInfoSignature pdfInfoSignature) {
+      int signMode, PdfInfoSignature pdfInfoSignature) {
 
     this.source = source;
     this.name = name;
@@ -171,11 +181,11 @@ public class FileInfoSignature {
     this.signAlgorithm = signAlgorithm;
   }
 
-  public boolean isSignMode() {
+  public int getSignMode() {
     return signMode;
   }
 
-  public void setSignMode(boolean signMode) {
+  public void setSignMode(int signMode) {
     this.signMode = signMode;
   }
 

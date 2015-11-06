@@ -25,7 +25,7 @@ public class MiniAppletInServerSigner extends AbstractTriFaseSigner {
   }
 
   @Override
-  public byte[] signHash(final String algorithm, final byte[] hash) {
+  public byte[] signHash(final String algorithm, final byte[] hash) throws Exception {
 
     final Properties extraParams = null;
     final java.security.cert.Certificate[] certificateChain = null;

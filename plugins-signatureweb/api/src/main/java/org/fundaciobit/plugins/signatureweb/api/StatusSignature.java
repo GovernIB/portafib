@@ -20,7 +20,7 @@ public class StatusSignature {
 
   String errorMsg;
 
-  Throwable error;
+  Throwable errorException;
   
   // document firmat
   byte[] signedData = null;
@@ -43,12 +43,14 @@ public class StatusSignature {
     this.errorMsg = errorMsg;
   }
 
-  public Throwable getError() {
-    return error;
+
+
+  public Throwable getErrorException() {
+    return errorException;
   }
 
-  public void setError(Throwable error) {
-    this.error = error;
+  public void setErrorException(Throwable errorException) {
+    this.errorException = errorException;
   }
 
   public byte[] getSignedData() {

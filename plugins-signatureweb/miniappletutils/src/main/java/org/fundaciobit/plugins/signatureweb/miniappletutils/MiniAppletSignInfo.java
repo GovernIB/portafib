@@ -10,9 +10,11 @@ import java.util.Properties;
 public class MiniAppletSignInfo {
 
   byte[] dataToSign;
+  
+  String signType;
 
-  String algorithm;
-
+  String signAlgorithm;
+  
   Certificate certificate;
 
   Properties properties;
@@ -24,20 +26,28 @@ public class MiniAppletSignInfo {
     super();
   }
 
+
+
+
+
   /**
-   * @param pdf
-   * @param algorithm
+   * @param dataToSign
+   * @param signType
+   * @param signAlgorithm
    * @param certificate
    * @param properties
    */
-  public MiniAppletSignInfo(byte[] dataToSign, String algorithm, Certificate certificate,
-      Properties properties) {
+  public MiniAppletSignInfo(byte[] dataToSign, String signType, String signAlgorithm,
+      Certificate certificate, Properties properties) {
     super();
     this.dataToSign = dataToSign;
-    this.algorithm = algorithm;
+    this.signType = signType;
+    this.signAlgorithm = signAlgorithm;
     this.certificate = certificate;
     this.properties = properties;
   }
+
+
 
 
 
@@ -49,13 +59,30 @@ public class MiniAppletSignInfo {
     this.dataToSign = dataToSign;
   }
 
-  public String getAlgorithm() {
-    return algorithm;
+  public String getSignType() {
+    return signType;
   }
 
-  public void setAlgorithm(String algorithm) {
-    this.algorithm = algorithm;
+  public void setSignType(String signType) {
+    this.signType = signType;
   }
+
+
+  public String getSignAlgorithm() {
+    return signAlgorithm;
+  }
+
+
+
+
+
+  public void setSignAlgorithm(String signAlgorithm) {
+    this.signAlgorithm = signAlgorithm;
+  }
+
+
+
+
 
   public Certificate getCertificate() {
     return certificate;

@@ -38,13 +38,20 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+        	<artifactId>plugin-signatureweb-miniappletui</artifactId>
+            <groupId>es.caib.portafib</groupId>
+            <version>1.0.0</version>
+        </dependency>
 
+    <!--
         <dependency>
             <artifactId>afirma-miniapplet-full</artifactId>
             <groupId>es.gob.afirma</groupId>
             <version>${miniapplet.version}</version>
         </dependency>
-        
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
