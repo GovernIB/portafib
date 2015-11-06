@@ -13,6 +13,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509TrustManager;
 
+// XYZ Mirar si es pot eliminar i emprar el de Plugins-api
+// XYZ No se si s'utilitza en Ws
 
 //Source: http://devcentral.f5.com/weblogs/joe/archive/2005/07/06/1345.aspx
 

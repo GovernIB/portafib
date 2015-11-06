@@ -20,9 +20,9 @@ import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 @Stateless(name = "ModulDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
@@ -40,18 +40,42 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
   static  {
     
     // TODO XYZ Llegir de BBDD
+    {
+      Properties prop = new Properties();
+      prop.setProperty(Constants.PORTAFIB_PROPERTY_BASE + "plugins.signatureweb.miniappletinserver.base_dir",
+          FileSystemManager.getFilesPath().getAbsolutePath()); 
+      
+      
+      
+      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin");
+      
+      // TODO XYZ Llegir de BBDD
+      pluginsDB.put(555L, prop);
+    }
     
-    Properties prop = new Properties();
-    prop.setProperty(Constants.PORTAFIB_PROPERTY_BASE + "plugins.signatureweb.miniappletinserver.base_dir",
-        FileSystemManager.getFilesPath().getAbsolutePath()); 
+    
+    {
+      Properties prop = new Properties();
+      
+      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletasapplet.MiniAppletAsAppletSignatureWebPlugin");
+      
+      // TODO XYZ Llegir de BBDD
+      pluginsDB.put(666L, prop);
+    }
+    
+    
+    {
+      Properties prop = new Properties();
+      
+      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletasapplet.MiniAppletAsJavaWebStartSignatureWebPlugin");
+      
+      // TODO XYZ Llegir de BBDD
+      pluginsDB.put(999L, prop);
+    }
     
     
     
-    prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin");
-    
-    
-    // TODO XYZ Llegir de BBDD
-    pluginsDB.put(666L, prop);
+
     
   }
   

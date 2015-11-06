@@ -291,6 +291,12 @@
                     <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
                     <version>${plugins.version}</version>
                 </dependency>
+                
+                <dependency>
+                    <groupId>org.fundaciobit.plugins</groupId>
+                    <artifactId>plugin-signatureweb-miniappletasapplet</artifactId>
+                    <version>${plugins.version}</version>
+                </dependency>
 
 
 			</dependencies>

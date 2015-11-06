@@ -8,10 +8,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,7 +27,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
-import es.caib.portafib.utils.Constants;
 
 /**
  * 
@@ -117,12 +119,54 @@ public class PanelSign extends BasePanel implements Runnable {
 
         case FINAL:
           finalitzats++;
-          pp.setImageEstat(IconEstat.FINAL);
+          if (!pdf.isProcessat()) {
+            pp.setImageEstat(IconEstat.FINAL);
+            pdf.setProcessat(true);
+          }
           break;
 
         case ERROR:
-          pp.setErrorButton();          
           errors++;
+          if (!pdf.isProcessat()) {
+            pp.setErrorButton();
+            // Enviar Error
+            String url = pdf.getErrorPage();
+            if (url == null) {
+              pdf.getError().printStackTrace();              
+            } else {
+              try {
+                HttpConnection connection = new HttpConnection(url);
+
+                MiniAppletException mae = pdf.getError();
+
+                Properties prop = new Properties();
+                prop.setProperty("title", mae.getTitle());
+                prop.setProperty("message", mae.getMessage());
+                if (mae.getCause() != null) {
+                  StringWriter sw = new StringWriter();
+                  mae.getCause().printStackTrace(new PrintWriter(sw));
+                  prop.setProperty("stacktrace", sw.toString());
+                }
+
+                StringWriter writer = new StringWriter();
+
+                prop.store(writer, "");
+
+                String propertiesStr = writer.getBuffer().toString();
+
+                connection.addBinaryFile("error", "error.properties", "plain/text",
+                    propertiesStr.getBytes());
+
+                connection.startConnection();
+            
+              } catch (Exception e) {                
+                e.printStackTrace();
+              }
+              
+              
+            }
+          }
+          
           break;
 
         case NO_INICIAT:
@@ -141,7 +185,7 @@ public class PanelSign extends BasePanel implements Runnable {
     } while ((finalitzats + errors) != this.progressPanels.size());
 
     if (errors == 0) {
-      String jump = parentPanel.signerContext.getContextParameter(Constants.APPLET_REDIRECT);
+      String jump = parentPanel.signerContext.getContextParameter(MiniAppletConstants.APPLET_REDIRECT);
       if (jump == null || (jump != null && jump.trim().length() == 0)) {
         jump = null; 
       } else {
@@ -182,7 +226,7 @@ public class PanelSign extends BasePanel implements Runnable {
   
   
   public boolean isJNLP() {
-    String str = parentPanel.signerContext.getContextParameter(Constants.APPLET_ISJNLP);
+    String str = parentPanel.signerContext.getContextParameter(MiniAppletConstants.APPLET_ISJNLP);
     return "true".equals(str);
   }
   
@@ -204,7 +248,7 @@ public class PanelSign extends BasePanel implements Runnable {
 
     final ProcessDeFirma processFirma;
 
-    PortaFIBAppletException error = null;
+    MiniAppletException error = null;
 
     JButton botoFinal = null;
 
@@ -268,7 +312,7 @@ public class PanelSign extends BasePanel implements Runnable {
 
     public void setErrorButton() {
       if (this.error == null) {
-        PortaFIBAppletException excepcio = this.processFirma.getError();
+        MiniAppletException excepcio = this.processFirma.getError();
 
         JButton botoError = new JButton(new ImageIcon(this.getClass().getResource(IconEstat.ERROR.file)));
 

@@ -10,20 +10,21 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Locale;
+import java.util.Properties;
 import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.swing.DefaultBoundedRangeModel;
 
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.SignBoxRectangle;
-import es.caib.portafib.utils.XTrustProvider;
+import org.fundaciobit.plugins.utils.XTrustProvider;
+
 
 /**
  * 
@@ -36,7 +37,7 @@ public class ProcessDeFirma extends Thread {
 
   private EstatProcesDeFirma estat = EstatProcesDeFirma.NO_INICIAT;
 
-  private PortaFIBAppletException error = null;
+  private MiniAppletException error = null;
 
   private InputStream inputPDF = null;
   
@@ -46,19 +47,20 @@ public class ProcessDeFirma extends Thread {
 
   private final String destination;
   
+  private final String errorPage;
+  
   private final String idName;
 
-  private final String motiu;
-
   private final ParentPanel parentPanel;
+  
+  private final String signType;
+  private final String signAlgorithm;
+  
+  private final Properties properties;
+  
+  
+  private boolean processat = false;
 
-  private final int posicio;
-  
-  private final int sign_number;
-  
-  private final int signType;
-  private final int signAlgorithm;
-  private final boolean signMode;
 
   private final DefaultBoundedRangeModel lecturaProgress = new DefaultBoundedRangeModel(0, 0,
       0, 100);
@@ -67,10 +69,8 @@ public class ProcessDeFirma extends Thread {
       0, 0, 100);
   
   private PropertyResourceBundle bundleSign;
-  
-  private SignBoxRectangle signBoxRectangle;
-  
-  private final String firmatPerFormat;
+
+  private static String SYNC ="SYNC";
 
   /**
    * @param parentpanel
@@ -78,32 +78,33 @@ public class ProcessDeFirma extends Thread {
    * @param destination
    */
   public ProcessDeFirma(ParentPanel parentpanel, String source, String destination,
-      String idName, String motiu, int posicio, int sign_number, String langSign,
-      int signType, int signAlgorithm, boolean signMode,
-      SignBoxRectangle signBoxRectangle, String firmatPerFormat) {
+      String errorPage, String idName, String signType, String signAlgorithm,  Properties properties) {
     super();
     this.parentPanel = parentpanel;
     this.source = source;
     this.destination = destination;
-    this.motiu = motiu;
-    this.posicio = posicio;
+    this.errorPage = errorPage;
+    this.properties = properties;
     this.idName = idName;
-    this.sign_number = sign_number;
+    
+    synchronized (SYNC) {
+       System.out.println(" --------------- " + idName + " --------------");
+       StringWriter writer = new StringWriter();
+       properties.list(new PrintWriter(writer));
+
+       System.out.println("this.source = " + source);
+       System.out.println("this.destination = " + destination);
+       System.out.println("this.errorPage = " + errorPage);
+       System.out.println("MiniApplet Properties:");
+       System.out.println(writer.getBuffer().toString());
+    }
+    
 
     this.signType = signType;
     this.signAlgorithm = signAlgorithm;
-    this.signMode = signMode;
 
-    this.signBoxRectangle = signBoxRectangle;
+    bundleSign = this.parentPanel.getBundleUI();
 
-    if (langSign == null) {
-      bundleSign = this.parentPanel.getBundleUI();
-    } else {
-      bundleSign = (PropertyResourceBundle) ResourceBundle.getBundle("signatura", new Locale(
-          langSign));
-    }
-
-    this.firmatPerFormat = firmatPerFormat;
   }
   
 
@@ -156,7 +157,7 @@ public class ProcessDeFirma extends Thread {
     // CHECK contentType == PDF
     String contentType = sourceConnection.getContentType();
     // TODO Només fer aquest check si la firma es PADES
-    if (contentType == null || !contentType.startsWith(Constants.PDF_MIME_TYPE)) {
+    if (contentType == null || !contentType.startsWith(MiniAppletConstants.PDF_MIME_TYPE)) {
       // Si és text/html llavors imprimir el contingut per veure l'error
       if (contentType != null && contentType.startsWith("text/html")) {
         try {
@@ -288,7 +289,7 @@ public class ProcessDeFirma extends Thread {
 
     } catch (Exception e) {
       e.printStackTrace();
-      this.error = new PortaFIBAppletException(tradueix("error_firmant", ""), e.getMessage() , e);
+      this.error = new MiniAppletException(tradueix("error_firmant", ""), e.getMessage() , e);
       this.estat = EstatProcesDeFirma.ERROR;
     }
 
@@ -308,8 +309,11 @@ public class ProcessDeFirma extends Thread {
 
     OutputStream os;
     URLConnection uc;
+    String boundary = null;
     try {
       uc = url.openConnection();
+      
+      
 
       if (uc instanceof HttpURLConnection) {
         HttpURLConnection c = (HttpURLConnection) uc;
@@ -318,7 +322,14 @@ public class ProcessDeFirma extends Thread {
         c.setDoOutput(true);
 
         //c.setRequestMethod("POST");
-        c.connect();
+        
+        
+        // XYZ Veur si es mes eficient
+        //c.connect();
+        
+        boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+        
+        c.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
         os = c.getOutputStream();
 
@@ -335,15 +346,47 @@ public class ProcessDeFirma extends Thread {
     FilterOutput fio = new FilterOutput(os, this.inputPDF.available());
 
     try {
-      firmarPDF(this.bundleSign,parentPanel.getSigner(), this.inputPDF, fio,
-          motiu, posicio, this.sign_number, signType,
-          signAlgorithm, signMode, this.signBoxRectangle, this.firmatPerFormat);
+      //firmarPDF(this.bundleSign,parentPanel.getSigner(), this.inputPDF, fio, this.idName,
+      //    signType, signAlgorithm, properties);
+      byte[] signed;
+
+      signed = parentPanel.getSigner().sign(bundleSign, this.inputPDF, signType, signAlgorithm, properties);
+
+      if (uc instanceof HttpURLConnection) {
+        final String formName = "destination";
+        final String fileName = "destination.file";
+        final String mime = "application/octet-stream";
+        // Send binary file.
+        final  String CRLF = "\r\n";
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, "UTF-8"), true);
+        writer.append("--" + boundary).append(CRLF);
+        writer.append("Content-Disposition: form-data; name=\"" + formName + "\"; filename=\"" + fileName+ "\"").append(CRLF);
+        writer.append("Content-Type: ").append(mime).append(CRLF);
+        writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+        writer.append(CRLF).flush();
+        os.write(signed);
+        os.flush(); // Important before continuing with writer!
+        writer.append(CRLF); // CRLF is important! It indicates end of boundary.
+        // End of multipart/form-data.
+        writer.append("--" + boundary + "--").append(CRLF).flush();
+        writer.close();
+        
+      } else {
+        
+        os.write(signed);
+        
+      }
+      
+      
+      
+      
     } catch (Throwable e) {
       throw new Exception(tradueix("error_firma", e.getMessage()),e);
     } finally {
       try {
         fio.flush();
         os.close();
+        fio.close();
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -354,6 +397,11 @@ public class ProcessDeFirma extends Thread {
     if (uc != null && uc instanceof HttpURLConnection) {
       
       System.out.println("Esperant a final de comunicacio: " + System.currentTimeMillis());
+      
+      int code = ((HttpURLConnection)uc).getResponseCode();
+      
+      System.out.println("Codi HTTP: "  + code);
+
       try {
         InputStream is = uc.getInputStream();
         int cc;
@@ -395,19 +443,34 @@ public class ProcessDeFirma extends Thread {
     return source;
   }
 
-  public PortaFIBAppletException getError() {
+  public MiniAppletException getError() {
     return error;
   }
 
   public EstatProcesDeFirma getEstat() {
     return estat;
   }
-  
-  
-  
+
+
+  public boolean isProcessat() {
+    return processat;
+  }
+
+
+  public void setProcessat(boolean jaProcessat) {
+    this.processat = jaProcessat;
+  }
+
 
   public String getIdName() {
     return idName;
+  }
+
+
+
+
+  public String getErrorPage() {
+    return errorPage;
   }
 
 
@@ -463,12 +526,10 @@ public class ProcessDeFirma extends Thread {
     }
   }
   
-  
+  /*
   public synchronized static void firmarPDF(PropertyResourceBundle bundleSign,
-      ISigner signer,InputStream input, OutputStream outStream, 
-      String reason, int location_page, int num_firma,
-      int signType, int signAlgorithm, boolean signMode,
-      SignBoxRectangle signBoxRectangle, String firmatPerFormat) throws 
+      ISigner signer,InputStream input, OutputStream outStream, String idname,
+      String signType, String signAlgorithm, Properties properties) throws 
       IOException, Exception {
 
     //PdfReader reader = new PdfReader(new ByteArrayInputStream(input));
@@ -477,29 +538,28 @@ public class ProcessDeFirma extends Thread {
     //int num_firmes = signatureNames.size();
 
 
-    System.out.println(" NUMERO DE FIRMA: " + num_firma);
+    System.out.println(" FIRMA: " + idname);
 
     // A4 210 x 297
     // AMPLADA 595 - ALT 842
-/*
-    final float width = 482 - 30;
-    final int marge = (int)(0.51f * 72f);
-    int alt = marge + Constants.APPLET_STARTSIGNTABLE + Constants.APPLET_HEIGHTSIGNBOX * (num_firma -1);
-    //System.out.println("Inches: " + inches);
-    final float top = -1.0f * alt;
-    //System.out.println("PDF: " + t);
-    final float left = 76 + 30;
 
-    final float height = Constants.APPLET_HEIGHTSIGNBOX;
-    */
+//    final float width = 482 - 30;
+//    final int marge = (int)(0.51f * 72f);
+//    int alt = marge + Constants.APPLET_STARTSIGNTABLE + Constants.APPLET_HEIGHTSIGNBOX * (num_firma -1);
+//    //System.out.println("Inches: " + inches);
+//    final float top = -1.0f * alt;
+//    //System.out.println("PDF: " + t);
+//    final float left = 76 + 30;
+//
+//    final float height = Constants.APPLET_HEIGHTSIGNBOX;
     
-    signer.sign(bundleSign, input, outStream, reason,
-        signType, signAlgorithm, signMode,
-        location_page, signBoxRectangle, firmatPerFormat);
+    
+    signer.sign(bundleSign, input, outStream, signType, signAlgorithm, properties);
         //top, left, height, width);
     
     
   }
+  */
   
   public static boolean sslInitialized = false;
 

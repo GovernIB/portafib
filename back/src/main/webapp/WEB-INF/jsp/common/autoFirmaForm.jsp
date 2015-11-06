@@ -112,10 +112,14 @@
   
 </form:form>
 
+<!--  XYZ AIXO S?HA DE BORRRAR MIRAR ALTRES -->
 <div id="ajaxloader" style="position:absolute; left:0px; top:0px; visibility:hidden; border:none;z-index:100;width:100%;height:100%;background:#CCC;filter: alpha(opacity=80);-moz-opacity:.8; opacity:.8;">
   <table style="width:100%;height:100%;">
   <tr valign="middle"><td align="center">
   <h3 style="color:#FFF;"><fmt:message key="autofirma.jnlp"/></h3><br/>
+  
+  <%-- ELIMINAR FITXER  ajax-loader2.gif--%>
+  
   <img src="<c:url value="/img/ajax-loader2.gif"/>" /><br/>
   <br/>
   <input type="button" class="btn btn-primary" onclick="gotoHome()" value="<fmt:message key="tornar"/>">
@@ -123,6 +127,7 @@
 </div>
 
 <script src="<c:url value="/js/deployJava.jsp"/>"></script>
+
 
 <script type="text/javascript">
 
@@ -134,6 +139,8 @@
       jnlp.value = 'true';
     }
     
+    // XYZ S'ha de borrar !!!
+    //   XYZ AIXO S?HA DE BORRRAR MIRAR ALTRES 
     var myTimer;
     
     function firmar() {

@@ -292,8 +292,7 @@ public class Autofirma2Controller extends FitxerController
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(pdfAdaptat, idname,
         (int)form.getPosicioTaulaFirmesID(), reason, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
-        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI),
-        SignatureModuleController.getPortaFIBBase(request));
+        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI));
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -378,6 +377,8 @@ public class Autofirma2Controller extends FitxerController
     fos.close();
     
     status.setProcessed(true);
+    
+    signaturePlugin.closeSignaturesSet(signaturesSetID);
    
     ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     return mav;
@@ -404,6 +405,7 @@ public class Autofirma2Controller extends FitxerController
     
     status.setProcessed(true);
     
+    signaturePlugin.closeSignaturesSet(signaturesSetID);
     
     ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     return mav;

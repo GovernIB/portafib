@@ -25,9 +25,6 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
   
   protected static Logger log = Logger.getLogger(PortaFIBRubricGenerator.class);
 
-
-  final String portafibBase;
-
   final String languageSign;
 
   final String firmatPerFormat;
@@ -43,24 +40,18 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
    * @param motiu
    * @param pdfRubricrectangle
    */
-  public PortaFIBRubricGenerator(String portafibBase, String languageSign,
+  public PortaFIBRubricGenerator(String languageSign,
       String firmatPerFormat, String motiu, PdfRubricRectangle pdfRubricRectangle) {
     super();
-    this.portafibBase = portafibBase;
     this.languageSign = languageSign;
     this.firmatPerFormat = firmatPerFormat;
     this.motiu = motiu;
     this.pdfRubricRectangle = pdfRubricRectangle;
   }
 
-  @Override
-  public String getRemoteURLRubricGeneration() {
-    // TODO Falten els parametres i portafibbase no es correcte XYZ
-    return portafibBase + "/common/rubrica/";
-  }
 
   @Override
-  public byte[] genLocalRubricGeneration(X509Certificate cert, java.util.Date data)
+  public byte[] genenerateRubricImage(X509Certificate cert, java.util.Date data)
       throws Exception {
 
     Locale locale = new Locale(languageSign);

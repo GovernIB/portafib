@@ -116,7 +116,7 @@ public class AutoFirmaServlet extends HttpServlet {
 
     } catch (Throwable e) {
       log.error("Error al pujar el fitxer des de l'applet: " + e.getMessage(), e);
-      response.setStatus(200);
+      response.setStatus(404);
     }
   }
 

@@ -245,10 +245,11 @@ public class AuthenticationSuccessListener implements
       I18NTranslation translation = new I18NTranslation("error.sensepfiuser", name);
       log.error("");
       log.error(I18NUtils.tradueix(translation));
+      log.error("Authenntication Info:\n" + au);
       log.error("");
 
       // Com enviar-ho a la PAGINA WEB
-      BasePreparer.loginErrorMessage.set(translation);
+      BasePreparer.loginErrorMessage.put(name, translation);
 
       usuariEntitats = new HashSet<UsuariEntitatJPA>();
     }

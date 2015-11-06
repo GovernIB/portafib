@@ -5,9 +5,13 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -16,8 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import es.caib.portafib.applet.signers.AfirmaSigner;
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.SignBoxRectangle;
 
 
 /**
@@ -53,7 +55,7 @@ public class ParentPanel extends JPanel {
 
     try {
 
-      String langUI = signerContext.getContextParameter(Constants.APPLET_LANGUAGE_UI);
+      String langUI = signerContext.getContextParameter(MiniAppletConstants.APPLET_LANGUAGE_UI);
       if (langUI == null) {
         bundleUI = (PropertyResourceBundle) ResourceBundle.getBundle("signatura");
       } else {
@@ -64,18 +66,10 @@ public class ParentPanel extends JPanel {
       this.firmes = llegirFirmes(signerContext);
 
 
-      // TODO EN PARALEL
-      //System.out.println(" SIGNER IBKEY CLASS =      ]" + IBKeySigner.class.getName()+"[");
       
-      String signerClassTxt = this.signerContext.getContextParameter(Constants.APPLET_SIGNERCLASS);
-      if (signerClassTxt == null) {
-        System.out.println(" USING DEFAULT SIGNER = ]" + AfirmaSigner.class.getName() + "[");
-        signer = new AfirmaSigner();
-      } else {
-        System.out.println(" SIGNER CLASS FROM PARAM = ]" + signerClassTxt + "[");
-        Class<?> signerClass = Class.forName(signerClassTxt);
-        signer = (ISigner)signerClass.getConstructor().newInstance();
-      }
+      System.out.println(" USING DEFAULT SIGNER = ]" + AfirmaSigner.class.getName() + "[");
+      signer = new AfirmaSigner();
+      
       
       //signer = new es.caib.portafib.applet.signers.AfirmaSigner();
       signer.init(bundleUI, signerContext);
@@ -100,7 +94,7 @@ public class ParentPanel extends JPanel {
     } catch (Exception e) {
       e.printStackTrace();
       // TODO Traduir
-      PortaFIBAppletException pae = new PortaFIBAppletException(
+      MiniAppletException pae = new MiniAppletException(
           "Error inicialitzant l'applet de firma", e.getMessage(), e); 
       showErrorPanel(pae);
     }
@@ -119,127 +113,69 @@ public class ParentPanel extends JPanel {
     List<ProcessDeFirma> firmes = new ArrayList<ProcessDeFirma>();
     int x = 0;
     do {
-      String source = signerContext.getContextParameter(Constants.APPLET_SOURCE + sep + x);
+      String source = signerContext.getContextParameter(MiniAppletConstants.APPLET_SOURCE + sep + x);
       if (source == null || source.trim().length() == 0) {
         break;
       }
       source = signerContext.checkURL(source);
       
       String destination = signerContext
-          .getContextParameter(Constants.APPLET_DESTINATION + sep + x);
+          .getContextParameter(MiniAppletConstants.APPLET_DESTINATION + sep + x);
       if (destination == null || destination.trim().length() == 0) {
         System.out.println(" Break destination ");
         break;
       }
       destination = signerContext.checkURL(destination);
+      
+      String errorPage = signerContext
+          .getContextParameter(MiniAppletConstants.APPLET_ERRORPAGE + sep + x);
 
-      String idname = signerContext.getContextParameter(Constants.APPLET_IDNAME + sep + x);
+      String idname = signerContext.getContextParameter(MiniAppletConstants.APPLET_IDNAME + sep + x);
       if (idname == null || idname.trim().length() == 0) {
         System.out.println(" Break idname ");
         break;
       }
 
-      String motiu = signerContext.getContextParameter(Constants.APPLET_REASON + sep + x);
-      if (motiu == null || motiu.trim().length() == 0) {
-        System.out.println(" Break reason ");
-        break;
-      }
       
-      String firmatPerFormat = signerContext.getContextParameter(Constants.APPLET_FIRMATPERFORMAT + sep + x);
-      if (firmatPerFormat == null || firmatPerFormat.trim().length() == 0) {
-        System.out.println(" Break firmatPer ");
-        break;
-      }
-      
-      
-      String numFirmesTxt = signerContext.getContextParameter(Constants.APPLET_SIGN_NUMBER
+      String signType = signerContext.getContextParameter(MiniAppletConstants.APPLET_SIGN_TYPE
           + sep + x);
-      if (numFirmesTxt == null || numFirmesTxt.trim().length() == 0) {
-        System.out.println(" Break signnumber ");
+      if (signType == null || signType.trim().length() == 0) {
+        System.out.println(" Break signType ");
         break;
       }
-      int numFirmes;
+      
+      
+      
+      String signAlgorithm = signerContext.getContextParameter(MiniAppletConstants.APPLET_SIGN_ALGORITHM
+          + sep + x);
+      if (signAlgorithm == null || signAlgorithm.trim().length() == 0) {
+        System.out.println(" Break signAlgorithm ");
+        break;
+      }
+
+
+      String propertiesStr64 = signerContext.getContextParameter(MiniAppletConstants.APPLET_MINIAPPLET_PROPERTIES + sep + x);
+      if (propertiesStr64 == null || propertiesStr64.trim().length() == 0) {
+        System.out.println(" Break properties ");
+        break;
+      }
+      
+      String propertiesStr = URLDecoder.decode(propertiesStr64);
+      
+      Properties properties = new Properties();
       try {
-        numFirmes = Integer.parseInt(numFirmesTxt);
-      } catch (NumberFormatException e) {
-        e.printStackTrace();
-        System.out.println(" Break signnumber format");
-        break;
-      }
-      
+        properties.load(new StringReader(propertiesStr));
+      } catch (IOException e) {
 
-      String posicioTxt = signerContext.getContextParameter(Constants.APPLET_LOCATION_SIGN_TABLE
-          + sep + x);
-      if (posicioTxt == null || posicioTxt.trim().length() == 0) {
-        System.out.println(" Break location");
-        break;
-      }
-      int posicio;
-      try {
-        posicio = Integer.parseInt(posicioTxt);
+        System.out.println("Error llegint properties amb index " + x);
 
-        if ((posicio != Constants.TAULADEFIRMES_PRIMERAPAGINA)
-            && (posicio != Constants.TAULADEFIRMES_DARRERAPAGINA)
-            && (posicio != Constants.TAULADEFIRMES_SENSETAULA)) {
-          throw new Exception("posicio." + x + " esta fora de rang (" + posicio + ")");
-        }
+        System.out.println(propertiesStr64);
 
-      } catch (Exception e) {
-        e.printStackTrace();
-        break;
-      }
-      
-      String langSign = signerContext.getContextParameter(Constants.APPLET_LANGUAGE_SIGN + sep + x);
-      if (langSign == null || langSign.trim().length() == 0) {
-        System.out.println(" Break langSign");
-        break;
-      }
-      
-      int signType;
-      String signTypeStr = signerContext.getContextParameter(Constants.APPLET_SIGN_TYPE
-          + sep + x);
-      try {
-        signType = Integer.parseInt(signTypeStr);
-      } catch (Exception e) {
-        e.printStackTrace();
-        break;
-      }
-      
-      
-      int signAlgorithm;
-      String signAlgorithmStr = signerContext.getContextParameter(Constants.APPLET_SIGN_ALGORITHM
-          + sep + x);
-      try {
-        signAlgorithm = Integer.parseInt(signAlgorithmStr);
-      } catch (Exception e) {
-        e.printStackTrace();
         break;
       }
 
-      boolean signMode;
-      String signModeStr = signerContext.getContextParameter(Constants.APPLET_SIGN_MODE
-          + sep + x);
-      if (signModeStr != null && signModeStr.trim().equals("true")) {
-        signMode = true; // EXPLICIT
-      } else {
-        signMode = false; // IMPLICIT
-      }
-      
-      
-      SignBoxRectangle signBoxRectangle = null;
-
-      String signBoxRectangleStr = signerContext.getContextParameter(Constants.APPLET_SIGN_BOX_RECTANGLE
-          + sep + x);
-      
-      System.out.println("SignBoxrectangle = " + signBoxRectangleStr );
-      
-      if (signBoxRectangleStr != null) {
-        signBoxRectangle = new SignBoxRectangle(signBoxRectangleStr);
-      }
-      
-      firmes.add(new ProcessDeFirma(this, source, destination, idname, motiu,
-          posicio, numFirmes, langSign, signType, signAlgorithm, signMode,
-          signBoxRectangle, firmatPerFormat));
+      firmes.add(new ProcessDeFirma(this, source, destination, errorPage, idname, 
+          signType, signAlgorithm, properties));
       x++;
     } while (true);
 
@@ -305,7 +241,7 @@ public class ParentPanel extends JPanel {
       e.printStackTrace();
       
       // TODO Traduir
-      PortaFIBAppletException pae = new PortaFIBAppletException(
+      MiniAppletException pae = new MiniAppletException(
           "Error passant al següent panell", e.getMessage(), e); 
       showErrorPanel(pae);
 
@@ -353,7 +289,7 @@ public class ParentPanel extends JPanel {
     System.out.println("Show Panel " + index);
   }
 
-  public void showErrorPanel(PortaFIBAppletException e) {
+  public void showErrorPanel(MiniAppletException e) {
 
     panelError.init(e, signerContext);
 

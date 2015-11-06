@@ -3,7 +3,7 @@ package es.caib.portafib.applet;
 /**
  * @author anadal
  */
-public class PortaFIBAppletException extends Exception {
+public class MiniAppletException extends Exception {
 
   protected final String title;
   
@@ -13,7 +13,7 @@ public class PortaFIBAppletException extends Exception {
    * @param message
    * @param cause
    */
-  public PortaFIBAppletException(String title, String error, Throwable cause) {
+  public MiniAppletException(String title, String error, Throwable cause) {
     super(title + ":" + error, cause);
     this.error = error;
     this.title = title;
@@ -22,7 +22,7 @@ public class PortaFIBAppletException extends Exception {
   /**
    * @param message
    */
-  public PortaFIBAppletException(String title, String error) {
+  public MiniAppletException(String title, String error) {
     super(title + ":" + error);
     this.error = error;
     this.title = title;

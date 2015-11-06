@@ -2,16 +2,16 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>portafib-applet</artifactId>
+	<artifactId>plugin-signatureweb-miniappletui</artifactId>
     <groupId>es.caib.portafib</groupId>
     <packaging>jar</packaging>
-	<name>PortaFIB Applet</name>
-	<version>1.1.0</version>
+	<name>FundacioBit Plugins - SignatureWeb - MiniAppletUI</name>
+	<version>1.0.0</version>
 	
-	<parent>
-        <groupId>es.caib.portafib</groupId>
-        <artifactId>portafib</artifactId>
-        <version>1.1.0</version>
+    <parent>
+        <groupId>org.fundaciobit.plugins</groupId>
+        <version>1.0.0</version>
+        <artifactId>plugins-signatureweb</artifactId>
     </parent>
 	
 	<properties>
@@ -22,33 +22,26 @@
 
 	<dependencies>
 
-	    <dependency>
-		  <groupId>es.caib.portafib</groupId>
-		  <artifactId>portafib-utils</artifactId>
-		  <version>1.1.0</version>
-		  <scope>compile</scope>
-		</dependency>
-		
 		<dependency>
 		  <groupId>org.fundaciobit.plugins</groupId>
 		  <artifactId>plugins-api</artifactId>
 		  <version>1.0.0</version>
 		  <scope>compile</scope>
 		</dependency>
-
-        <!--
-		<dependency>
-			<groupId>signaturacaib</groupId>
-			<artifactId>signaturacaib.core</artifactId>
-			<version>${ibkey.version}</version>
-			<classifier>api-unsigned</classifier>
-		</dependency>
+        
+        <!-- XYZ
+        <dependency>
+            <groupId>org.fundaciobit.plugins</groupId>
+            <artifactId>plugin-signatureweb-miniappletutils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
         -->
 
         <dependency>
 		  <groupId>es.gob.afirma</groupId>
 		  <artifactId>afirma-miniapplet-full</artifactId>
-		  <version>${miniapplet.version}</version>
+		  <version>1.3</version>
         </dependency>
 
 	</dependencies>
@@ -86,34 +79,20 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-			<artifactSet>
+			  <artifactSet>
                 <excludes>
 				  <exclude>log4j:log4j</exclude>
                   <exclude>es.gob.afirma:afirma-miniapplet-full</exclude>
                 </excludes>
               </artifactSet>
               <filters>
-                <filter>
-                  <artifact>es.caib.portafib:portafib-utils</artifact>
-                  <includes>
-				    <include>es/caib/portafib/utils/Constants*.*</include>
-					<include>es/caib/portafib/utils/SignBoxRectangle*.*</include>
-					<include>es/caib/portafib/utils/XTrustProvider*.*</include>
-                  </includes>
-                </filter>
 				<filter>
 				  <artifact>org.fundaciobit.plugins:plugins-api</artifact>
                   <includes>
-					<include>org/fundaciobit/plugins/utils/Base64*.*</include>
 					<include>org/fundaciobit/plugins/utils/CertificateUtils*.*</include>
+                    <include>org/fundaciobit/plugins/utils/XTrustProvider*.*</include>
                   </includes>
                 </filter>
-				<filter>
-				   <artifact>signaturacaib:signaturacaib.core</artifact>
-                   <excludes>
-                    <exclude>META-INF/TEST.*</exclude>
-                  </excludes>
-				</filter>
 				<filter>				   
                   <artifact>*:*</artifact>
                   <excludes>
@@ -127,6 +106,7 @@
           </execution>
         </executions>
       </plugin>
+      
 
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -154,13 +134,13 @@
 					  <Implementation-Title>es.caib.portafib.applet</Implementation-Title>
 					  <Implementation-Version>${project.version}</Implementation-Version>
 					  <Specification-Vendor>FundacioBit</Specification-Vendor>
-					  <Application-Name>PortaFIB Applet</Application-Name>
+					  <Application-Name>MiniAppletUI</Application-Name>
 					  <Caller-Allowable-Codebase>*</Caller-Allowable-Codebase>
 					  <Implementation-Vendor>FundacioBit</Implementation-Vendor>
 					  <Application-Library-Allowable-Codebase>*</Application-Library-Allowable-Codebase>
 					  <Name>es.caib.portafib.applet</Name>
 					  <Permissions>all-permissions</Permissions>
-					  <Specification-Title>PortaFIB Applet</Specification-Title>
+					  <Specification-Title>MiniAppletUI</Specification-Title>
 					  <Specification-Version>${project.version}</Specification-Version>
 					  <Main-Class>es.caib.portafib.applet.SignApplet</Main-Class>
 					  <Codebase>*</Codebase>					  

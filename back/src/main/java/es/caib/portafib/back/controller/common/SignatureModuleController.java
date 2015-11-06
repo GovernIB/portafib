@@ -25,9 +25,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -165,8 +165,10 @@ public class SignatureModuleController {
   }
   
   
+  
+  
 
-  // XYZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
+  // XYZ ZZZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
   /**
    * S'ha de redireccionar la petició al Plugin
    * @param request
@@ -176,6 +178,7 @@ public class SignatureModuleController {
    * @return
    * @throws Exception
    */
+  /* ZZZ
   @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}/**",
         method = RequestMethod.GET)
   public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
@@ -186,7 +189,18 @@ public class SignatureModuleController {
     
     
       String relativePath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-      log.info("XYZ relativePath = " + relativePath);
+      */
+  
+  // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
+    @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
+        method = RequestMethod.GET)
+  public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
+      @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
+          throws Exception, I18NException {
+  
+
+    
     
       final boolean isPost = false;
     
@@ -205,6 +219,7 @@ public class SignatureModuleController {
    * @return
    * @throws Exception
    */
+  /* ZZZ
   @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}/**",
        method = RequestMethod.POST)
   public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
@@ -215,7 +230,18 @@ public class SignatureModuleController {
     
     
     String relativePath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-    log.info("XYZ relativePath = " +  relativePath);
+    */
+  
+    // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
+    @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
+        method = RequestMethod.POST)
+  public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
+      @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
+          throws Exception, I18NException {
+  
+ 
+    
 
     final boolean isPost = true;
   
@@ -246,6 +272,9 @@ public class SignatureModuleController {
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
     
+    relativePath = relativePath.replace(',', '/');
+    log.info("XYZ Method = " + request.getMethod());
+    log.info("XYZ relativePath = " +  relativePath);
     // XYZ
     //printRequestInfo(request);
     
@@ -295,13 +324,12 @@ public class SignatureModuleController {
   
   public static FileInfoSignature getFileInfoSignature(File source, String idname,
       long locationSignTableID, String reason, int signNumber, String languageSign,
-      long signTypeID, long signAlgorithmID, String firmatPerFormat,
-       String portaFIBBase) throws Exception {
+      long signTypeID, long signAlgorithmID, String firmatPerFormat) throws Exception {
 
     PdfInfoSignature pdfInfoSignature = null;
 
     String signType;
-    boolean signMode; 
+    int signMode; 
     switch((int)signTypeID) {
       case Constants.TIPUSFIRMA_PADES:
         signType = FileInfoSignature.SIGN_TYPE_PADES;
@@ -340,7 +368,7 @@ public class SignatureModuleController {
           prr.setUpperRightY(signBoxRectangle.ury);
 
           // TODO XYZ Ha de ser correcte
-          IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(portaFIBBase,
+          IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(
               languageSign, firmatPerFormat, reason, prr);
 
           pdfInfoSignature.setRubricGenerator(rubricGenerator);

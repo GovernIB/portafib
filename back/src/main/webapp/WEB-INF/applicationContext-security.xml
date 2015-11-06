@@ -13,7 +13,6 @@
         
         <sec:logout logout-success-url="/index.jsp" />
 
-        <sec:intercept-url pattern="/applet/**" access="permitAll"/>
         <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
 		<sec:intercept-url pattern="/js/**" access="permitAll"/>
 		<sec:intercept-url pattern="/doc/**" access="permitAll"/>
@@ -21,7 +20,11 @@
 		<sec:intercept-url pattern="/css/**" access="permitAll"/>
 		<sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
 		<sec:intercept-url pattern="/index.jsp" access="permitAll"/>
+        <!-- Plugins de Firma -->
+        <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
+        <!--  XYZ Tots aquests s'han d'esborrar -->
         <!--  Oberts per JNLP & Applet ClientCert  -->
+        <sec:intercept-url pattern="/applet/**" access="permitAll"/>
         <sec:intercept-url pattern="/common/rubrica/**" access="permitAll"/>
         <sec:intercept-url pattern="/common/arxiu/**" access="permitAll"/>
         <sec:intercept-url pattern="/estatDeFirma/destination/**" access="permitAll"/>

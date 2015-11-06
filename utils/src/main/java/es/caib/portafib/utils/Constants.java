@@ -199,6 +199,8 @@ public interface Constants {
   // ========================================================
   // ----- APPLET CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================
+  
+  // XYZ ELIMINAR
 
   public static final String APPLET_SOURCE = "source";
   

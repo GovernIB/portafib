@@ -24,7 +24,7 @@
     </servlet>
 
 
-	<!--  UPLOAD SERVLETS -->
+	<!--  UPLOAD SERVLETS XYZ S?HAN D'ELIMINAR -->
 	<servlet>
 	  <servlet-name>AutoFirmaUploadServlet</servlet-name>
 	  <servlet-class>es.caib.portafib.back.controller.common.AutoFirmaServlet</servlet-class>
@@ -45,9 +45,7 @@
 	  <servlet-name>FirmaUploadServlet</servlet-name>
 	  <url-pattern>/estatDeFirma/destination/*</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
 	<servlet>
       <servlet-name>AutoritzacioDelegacioServlet</servlet-name>
       <servlet-class>es.caib.portafib.back.controller.dest.AutoritzacioDelegacioServlet</servlet-class>
@@ -57,7 +55,19 @@
       <servlet-name>AutoritzacioDelegacioServlet</servlet-name>
       <url-pattern>/dest/delegat/destination/*</url-pattern>
     </servlet-mapping>
-
+    
+    <!--  XYZ ZZZ   -->
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+ 
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
@@ -174,7 +184,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>portafib_back-public</web-resource-name>   
-            <url-pattern>/applet/*</url-pattern>
+
             <url-pattern>/carrecscaib/*</url-pattern>
             <url-pattern>/css/*</url-pattern>
             <url-pattern>/img/*</url-pattern>
@@ -182,7 +192,11 @@
             <url-pattern>/doc/*</url-pattern>
             <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
-            <!--  Oberts per JNLP & Applet ClientCert  -->
+            <!-- Plugins de Firma -->
+            <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+            <!--  XYZ Tots aquests s'han d'esborrar -->
+            <!--  Oberts per JNLP & Applet ClientCert -->
+            <url-pattern>/applet/*</url-pattern>
             <url-pattern>/common/rubrica/*</url-pattern>
             <url-pattern>/common/arxiu/*</url-pattern>
             <url-pattern>/estatDeFirma/destination/*</url-pattern>

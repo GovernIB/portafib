@@ -146,6 +146,7 @@ import es.gob.afirma.keystores.filters.CertificateFilter;
      * @return <code>true</code> si el nombre LDAP es nulo o se adec&uacute;a al
      *         filtro o este &uacute;ltimo es nulo, <code>false</code> en caso
      *         contrario */
+  @SuppressWarnings("restriction")
   private static boolean filterRFC2254(final String f, final LdapName name) {
         if (f == null || name == null) {
             return true;

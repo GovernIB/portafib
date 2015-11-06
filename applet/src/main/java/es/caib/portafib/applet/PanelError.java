@@ -29,7 +29,7 @@ public class PanelError extends JPanel {
     this.showStackTrace = showStackTrace;
   }
 
-  public void init(PortaFIBAppletException e, SignerContext signerContext) {
+  public void init(MiniAppletException e, SignerContext signerContext) {
 
     setLayout(new BorderLayout());
 

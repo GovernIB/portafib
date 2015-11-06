@@ -1,23 +1,18 @@
 package es.caib.portafib.applet.signers;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.security.PrivilegedActionException;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
@@ -25,19 +20,10 @@ import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.security.cert.X509Certificate;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import org.fundaciobit.plugins.utils.Base64;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-
 import java.awt.Component;
-import java.awt.image.BufferedImage;
 import java.security.AccessController;
 import java.security.KeyException;
 import java.security.KeyStoreException;
@@ -51,7 +37,6 @@ import es.gob.afirma.core.AOCancelledOperationException;
 import es.gob.afirma.core.AOException;
 import es.gob.afirma.core.AOFormatFileException;
 
-
 import es.gob.afirma.keystores.AOCertificatesNotFoundException;
 import es.gob.afirma.keystores.AOKeyStore;
 import es.gob.afirma.keystores.AOKeyStoreDialog;
@@ -59,12 +44,11 @@ import es.gob.afirma.keystores.AOKeyStoreManager;
 import es.gob.afirma.keystores.AOKeyStoreManagerFactory;
 import es.gob.afirma.keystores.filters.CertificateFilter;
 import es.gob.afirma.keystores.filters.rfc.KeyUsageFilter;
+import es.caib.portafib.applet.MiniAppletConstants;
 import es.caib.portafib.applet.BasePanel;
 import es.caib.portafib.applet.ISigner;
 import es.caib.portafib.applet.ParentPanel;
 import es.caib.portafib.applet.SignerContext;
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.SignBoxRectangle;
 import es.gob.afirma.core.keystores.KeyStoreManager;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.signers.AOSignConstants;
@@ -77,8 +61,10 @@ import es.gob.afirma.keystores.filters.SignatureDNIeFilter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.logging.Logger;
 
@@ -96,70 +82,19 @@ public class AfirmaSigner implements ISigner {
 
   PropertyResourceBundle bundleUI;
 
-  SignerContext signerContext;
-  
   boolean nohihacertificats = false;
 
   @Override
   public void init(PropertyResourceBundle bundleUI, SignerContext signerContext)
       throws Exception {    
     this.bundleUI = bundleUI;
-    this.signerContext = signerContext;
   }
 
   @Override
-  public void sign(PropertyResourceBundle bundleSign, 
-      InputStream input, OutputStream outStream, String reason,
-      int signType, int signAlgorithm, boolean signMode,
-      int location_page, SignBoxRectangle signBoxRectangle, /*float top, float left, float height, float width*/
-      String firmatPerFormat)
+  public byte[] sign(PropertyResourceBundle bundleSign, 
+      InputStream input, 
+      String signType, String signAlgorithm, Properties properties)
         throws IOException, Exception {
-
-    // =============================
-    // NOTA: Això no és PADES, es firma Adobe PDF !!!
-    String tipusFirma;
-    switch(signType) {
-      case Constants.TIPUSFIRMA_PADES:
-        tipusFirma = AOSignConstants.SIGN_FORMAT_PDF;
-      break;
-      
-      case Constants.TIPUSFIRMA_CADES:
-        tipusFirma = AOSignConstants.SIGN_FORMAT_CADES;
-      break;
-        
-      case Constants.TIPUSFIRMA_XADES:
-        tipusFirma = AOSignConstants.SIGN_FORMAT_XADES;
-      break;
-      
-      default:
-        // TODO Traduir
-        throw new Exception("Tipus de firma no suportada: " + signType);
-      
-    }
-    
-    String algorisme;
-    switch(signAlgorithm) {
-      case Constants.APPLET_SIGN_ALGORITHM_SHA1WITHRSA:
-        algorisme = AOSignConstants.SIGN_ALGORITHM_SHA1WITHRSA;
-      break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA256WITHRSA:
-        algorisme = AOSignConstants.SIGN_ALGORITHM_SHA256WITHRSA;
-        break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA384WITHRSA:
-        algorisme = AOSignConstants.SIGN_ALGORITHM_SHA384WITHRSA;
-        break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA512WITHRSA:
-        algorisme = AOSignConstants.SIGN_ALGORITHM_SHA512WITHRSA;
-        break;
-        
-      default:
-        // TODO Traduir
-        throw new Exception("Tipus d'algorisme no suportat " + signAlgorithm);
-    }
-    
-    
-    String mode = signMode? AOSignConstants.SIGN_MODE_EXPLICIT : AOSignConstants.SIGN_MODE_IMPLICIT;
-    
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     {   
@@ -170,438 +105,117 @@ public class AfirmaSigner implements ISigner {
       }
       baos.flush();
     }
-     
 
-    StringBuffer properties = new StringBuffer();
-    properties.append("mode=" +  mode + "\n");
-    // Crea revisió per la primera firma i això fa que el servidor
-    // pugui verifcar si el contingut del document ha sigut modificat
-    // abans de la firma 
-    properties.append("alwaysCreateRevision=true\n");
+    String signatureRubricImage = properties.getProperty(MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE);
     
-    // POLITICA DE FIRMA
-    String oid = signerContext.getContextParameter(Constants.APPLET_POLICYIDENTIFIER);
-    if (oid == null || oid.trim().length() == 0) {
-      properties.append("signatureSubFilter=" + AOSignConstants.PADES_SUBFILTER_BASIC + "\n");
-    } else {
-      
-      properties.append("signatureSubFilter=" + AOSignConstants.PADES_SUBFILTER_BES + "\n");
-      
-      
-      System.out.println(" -- Aplicant politica de firma " + oid);
-      
-      properties.append(PolicyPropertiesManager.PROPERTY_POLICY_IDENTIFIER
-          + "=" + oid + "\n");
-      String val;
-      
-      val = signerContext.getContextParameter(Constants.APPLET_POLICYIDENTIFIERHASH);
-      System.out.println(" -- Aplicant POLICYIDENTIFIERHASH " + val);
-      properties.append(PolicyPropertiesManager.PROPERTY_POLICY_HASH
-          + "=" + val + "\n");
-
-      val = signerContext.getContextParameter(Constants.APPLET_POLICYIDENTIFIERHASHALGORITHM);
-      System.out.println(" -- Aplicant POLICYIDENTIFIERHASHALGORITHM " + val);
-      properties.append(PolicyPropertiesManager.PROPERTY_POLICY_HASH_ALGORITHM
-          + "=" + val + "\n");
-
-      val = signerContext.getContextParameter(Constants.APPLET_POLICYURLDOCUMENT);
-      if (val != null) {
-        System.out.println(" -- Aplicant PROPERTY_POLICY_QUALIFIER " + val);
-        properties.append(PolicyPropertiesManager.PROPERTY_POLICY_QUALIFIER
-          + "=" + val + "\n");
-      }
-    }
-
-    // Llistat de claus de propietats que s'han de llegir i assignar diractament a @firma
-    String paramsToRead = signerContext.getContextParameter(Constants.APPLET_PARAMETERS_TO_READ);
+    System.out.println("signatureRubricImage ORIGINAL = " + signatureRubricImage);
     
-    if (paramsToRead != null) {
-      String[] params = paramsToRead.split(",");
-      for (int i = 0; i < params.length; i++) {
-        String propName = params[i];
-        String propValue = signerContext.getContextParameter(params[i]);
-        properties.append(propName + "=" + propValue + "\n");
-      }
-    }
 
-    if (location_page != Constants.TAULADEFIRMES_SENSETAULA) {
-
-      float llx = signBoxRectangle.llx;  // llx - the lower left x corner
-      float lly = signBoxRectangle.lly;  // lly - the lower left y corner
-
-      float urx = signBoxRectangle.urx;  // urx - the upper right x corner
-      float ury = signBoxRectangle.ury;  // ury - the upper right y corner
-
-      lly = lly + 2.5f;
-
-      X509Certificate cert = (X509Certificate)privateKeyEntry.getCertificate();
-
-      System.out.println("OID = " + CertificateUtils.getCertificatePolicyId(cert));
-
-      
-      String certName = AOUtil.getCN(cert);
-      
-      
-      System.out.println("CertName original = " + certName);
-      
-      String firmatPer = getFirmatPer(firmatPerFormat, cert, certName);
+      if (signatureRubricImage != null 
+          && (signatureRubricImage.startsWith("http:") || signatureRubricImage.startsWith("https:"))) {
+        final String url = signatureRubricImage;
+        
+        System.out.println("signatureRubricImage DESCARREGANT DE " + signatureRubricImage);
+        
+        try {
+          byte[] image;
+          image = downloadImage(url, this.privateKeyEntry.getCertificate().getEncoded());
           
-      
-      
-      String data;
-      {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(bundleSign.getString("data.format"));
-        data = sdf.format(cal.getTime());
+          properties.setProperty(MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE,
+            es.gob.afirma.core.misc.Base64.encode(image));
+          
+          
+        } catch (final Exception e) {
+          // XYZ
+           System.err.println("Se ha producido un error durante la descarga de la imagen de rubrica"
+              + " desde la URL " + url + ": " + e.getMessage()); //$NON-NLS-1$
+           
+           e.printStackTrace(System.err);
+          // TODO Aqui hay que lanzar una excepción !!!!1
+          // No podemos firmar con una rubrica incorrecta !!!!!
+          throw e;
+        }
+        
       }
       
-      
-      // Rubrica
-      float ample = (urx - llx);
-      float altura = (ury - lly);
 
-      byte[] rubrica = getImage(ample,altura,
-          bundleSign.getString("firmatper") + ": ",firmatPer,
-          bundleSign.getString("data") + ": ", data,
-          bundleSign.getString("motiu") + ": ", reason);
-      String rubrica64 = Base64.encode(rubrica);
-      properties.append("signatureRubricImage=" + rubrica64 + "\n");
-      
-      // TODO  CODI PER CERCAR IMATGE A TRAVES DE URL 
-       // TODO Susbtituir data per millis
-       // TODO enviar locale
-       // TODO LABELS ELIMINAR-LOS
-      /*
-      String urlParams = "ample:" + (int)ample 
-           +"\naltura:" + (int)altura
-           +"\nfirmatPerLabel:" + bundleSign.getString("firmatper") + ": "
-           +"\nfirmatPer:" + firmatPer
-           +"\ndataLabel:" + bundleSign.getString("data") + ": "
-           +"\ndata:" + data
-           +"\nmotiuLabel:" + bundleSign.getString("motiu") + ": "
-           +"\nmotiu:" + reason;
-      
-      System.out.println("URLPARAMS = " + urlParams);
-      
-      urlParams = urlParams.replace('/', '|');
-      
-      System.out.println("URLPARAMS2 = " + urlParams);
-      
-      properties.append("signatureRubricImage=http://localhost:8080/portafib/common/rubrica/" + URLEncoder.encode(urlParams, "UTF-8") + "\n");
-      */ 
 
-      String signaturePage;
-      if (location_page == Constants.TAULADEFIRMES_DARRERAPAGINA) {
-        signaturePage = "-1"; // Indica a MiniApplet la darrera pàgina
-      } else if (location_page == Constants.TAULADEFIRMES_PRIMERAPAGINA) {
-        signaturePage = String.valueOf("1");
-      } else {
-        signaturePage = null;
-      }
+    String propertiesStr;
+    {
+      System.out.println("---------------- All Properties: ---------------- ");
+      StringWriter writer = new StringWriter();
+      properties.store(writer, "");
 
-      if (signaturePage != null) {
-        properties.append("signaturePage=" + signaturePage + "\n");
-      }
-
-      properties.append("signaturePositionOnPageLowerLeftX=" + (int)llx + "\n");
-      properties.append("signaturePositionOnPageLowerLeftY=" + (int)lly + "\n");
-      properties.append("signaturePositionOnPageUpperRightX=" + (int)urx + "\n");
-      properties.append("signaturePositionOnPageUpperRightY=" + (int)ury + "\n");
-      
+      propertiesStr = writer.getBuffer().toString();
+      System.out.println(propertiesStr);
+      System.out.println("------------------------------------------------- ");
     }
     
     
-    // Segell de Temps (Segellat de temps)
-    /*
-    final String CATCERT_POLICY = "0.4.0.2023.1.1"; 
-    final String CATCERT_TSP = "http://localhost:8888/psis/catcert/tsp"; //"http://psis.catcert.net/psis/catcert/tsp";
-    final Boolean CATCERT_REQUIRECERT = Boolean.TRUE;
-    
-    properties.append("tsaURL=" + CATCERT_TSP+ "\n"); //$NON-NLS-1$
-    properties.append("tsaPolicy=" +  CATCERT_POLICY+ "\n"); //$NON-NLS-1$
-    properties.append("tsaRequireCert=" + CATCERT_REQUIRECERT+ "\n"); //$NON-NLS-1$
-    properties.append("tsaHashAlgorithm=SHA-512" + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-    properties.append("tsType=" + TsaParams.TS_SIGN + "\n"); //$NON-NLS-1$
-    */
-
-
-    System.out.println("---------------- All Properties: ---------------- ");
-    System.out.println(properties.toString());
-    System.out.println("------------------------------------------------- ");
+    Thread.sleep(4000);
     
     byte[] result =  sign(baos.toByteArray(),
         this.privateKeyEntry,
-        algorisme, 
-        tipusFirma, //$NON-NLS-1$
-        properties.toString()
+        signAlgorithm, 
+        signType, //$NON-NLS-1$
+        propertiesStr
     );
     
     // ===============================
    
-    outStream.write(result);
+    return result;
     
   }
 
-  /**
-   * 
-   * {0} = NOM
-   * {1} = LONGITUD NIF
-   * {2} = NIF
-   * {3} = EMISSOR
-   * {4} = LONGITUD CARREC_CERTIFICAT
-   * {5} = CARREC_CERTIFICAT
-   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
-   * {7} = UNITAT_ADMINISTRATIVA
-   * @param bundleSign
-   * @param cert
-   * @param certName
-   * @return
-   */
-  protected String getFirmatPer(String firmatPerFormat, X509Certificate cert,
-      String certName) {
-    
-    
-      // Parche pels certificats FNMT que contenen la paraula NOMBRE al principi i el NIF del Firmant
-      if (certName.startsWith("NOMBRE ")) {
-        certName = certName.substring("NOMBRE ".length());
-      }
-      final int posNIF = certName.indexOf(" - NIF ");
-      if (posNIF != -1) {
-        certName = certName.substring(0, posNIF);
-      }
-      // Parche pels certificat DNIe (eliminar FIRMA i AUTENTICACION)
-      final String[] dnie = { " (FIRMA)", " (AUTENTICACIÓN)" };
-      for (String tipusDNIe : dnie) {
-        int pos = certName.indexOf(tipusDNIe);
-        if (pos != -1) {
-          // Eliminar tipus
-          certName = certName.replace(tipusDNIe, "");
-          // Posar Nom davant
-          pos = certName.lastIndexOf(',');
-          if (pos != -1) {
-            String nom = certName.substring(pos + 1).trim();
-            String llinatges = certName.substring(0, pos).trim();
-            certName = nom + " " + llinatges;
-          }
-        }
-      }
-    
-    
-    
-      System.out.println("CertName final = " + certName);
-      
-      final String emissor = AOUtil.getCN(cert.getIssuerDN().toString());
-      
-      final  String nif = CertificateUtils.getDNI(cert);
-      
-      final Long nifLen = new Long((nif== null || nif.trim().length() == 0)? 0 : nif.length());
-      
-
-      String ua = null;
-      try {
-        ua = CertificateUtils.getUnitatAdministrativa(cert);
-      } catch(Exception e) {
-        e.printStackTrace();
-      }
-      // TODO ESPEFIFIC CAIB !!!!!
-      if (ua != null) {
-        int pos = ua.lastIndexOf('-');
-        if (pos != -1) {
-          ua = ua.substring(pos + 1);
-        }
-      }
-      final Long uaLen = new Long((ua== null || ua.trim().length() == 0)? 0 : ua.length());
-      
-      String carrec;
-      try {
-        carrec = CertificateUtils.getCarrec(cert);      
-      } catch(Exception e) {
-        carrec = null;
-        e.printStackTrace();
-      }
-      final Long carrecLen = new Long((carrec== null || carrec.trim().length() == 0)? 0 : carrec.length());
-
-      final String nom = CertificateUtils.getSubjectCorrectName(cert);
-      
-      System.out.println("Firmat Per FORMAT = ]" + firmatPerFormat + "[");
-      
-      MessageFormat form = new MessageFormat(firmatPerFormat);
-      
-      Object[] args = { 
-          nom,      // {0} = NOM
-          nifLen,   // {1} = LONGITUD NIF
-          nif,      // {2} = NIF
-          emissor,  // {3} = EMISSOR
-          carrecLen,// {4} = LONGITUD CARREC_CERTIFICAT
-          carrec,   // {5} = CARREC_CERTIFICAT
-          uaLen,    // {6} = LONGITUD UNITAT_ADMINISTRATIVA
-          ua        // {7} = UNITAT_ADMINISTRATIVA
-      };
-      
-      String firmatPer = form.format(args);
-      
-      //String firmatPer = certName + "  (" + bundleSign.getString("emissor") +": " + emisor+ ")";
-      
-      System.out.println("Firmat Per SUBSTITUIT = ]" + firmatPer + "[");
+ 
    
-      return firmatPer;
-  }
+  private byte[] downloadImage(String url, byte[] certificate) throws Exception  {
+    
+    
+    String charset = "UTF-8";
+
+    String CRLF = "\r\n"; // Line separator required by multipart/form-data.
+    String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+    URLConnection connection = new URL(url).openConnection();
+  
+    connection.setDoOutput(true);
+    connection.setDoInput(true);
+    connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
   
   
-  public byte[] getImage(float ample, float altura, String firmatPerLabel,
-         String firmatPer, String dataLabel, String data,
-         String motiuLabel, String motiu) throws Exception {
+    OutputStream output = connection.getOutputStream();
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
+  
+  
+    // Send binary file.
     
-    ByteArrayOutputStream baos =  new ByteArrayOutputStream();
+    writer.append("--" + boundary).append(CRLF);
+    writer.append("Content-Disposition: form-data; name=\"certificateFile\"; filename=\"certificate.cer\"").append(CRLF);
+    writer.append("Content-Type: application/x-509-user-cert").append(CRLF);
+    writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+    writer.append(CRLF).flush();
+    output.write(certificate);
+    output.flush(); // Important before continuing with writer!
+    writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
+  
+    // End of multipart/form-data.
+    writer.append("--" + boundary + "--").append(CRLF).flush();
+  
+  
+    // Request is lazily fired whenever you need to obtain information about response.
+      
+    int responseCode = ((HttpURLConnection) connection).getResponseCode();
     
-    
-    /*
-    int width=900;
-    int height=60;
-    */
-    
-    float factorPdfUnitToPixel = 1f; // + (1f/3f);
-    int width=(int)(6 * ample * factorPdfUnitToPixel);
-    int height=(int)(6 * altura * factorPdfUnitToPixel);
-    
-    System.out.println("Ample Imatge Firma: " + width);
-    System.out.println("Alt Imatge Firma: "+ height);
-    
-    BufferedImage bufferedImage = new BufferedImage(width, height,   
-                 BufferedImage.TYPE_INT_RGB);  
-
-    final int lines = 5;
-    
-    int fontSize = (int)(((((13.0f * height)/60.0f)*4.0f)/lines))       - 2; 
-    
-    //System.out.println("TAMANY DE FONT ANTIC = " + (int)(( (13.0 * height)/60.0) -2 ) );
-    //System.out.println("TAMANY DE FONT NOU = " + fontSize );
-    
-    
-    
-    //Draw an oval  
-    Graphics g = bufferedImage.getGraphics();
-    
-    g.setColor(Color.WHITE);
-    g.fillRect(0, 0, width, height);
-    
-    // DEBUG
-    /*
-    g.setColor(Color.RED);
-    g.drawRect(0,0, width - 1, height -1);
-    
-    {
-      int costat = height - 8;
-      g.setColor(Color.BLUE);
-      g.drawRect(width /2,4, costat, costat);
+    if (responseCode != 200) {
+      throw new Exception("Retornado codigo de error " + responseCode 
+          + " durante la descarga de la imagen.");
     }
-    */
-
-    g.setColor(Color.BLACK);
-    // Dialog  Serif    SansSerif
-    Font font = new Font("SansSerif" , java.awt.Font.PLAIN, fontSize);
-           
-    Font fontBolt = new Font("SansSerif" , Font.BOLD, fontSize);
+    
+    InputStream is = connection.getInputStream();
+    
+    return AOUtil.getDataFromInputStream(is);
     
     
-     // get metrics from the graphics
-    FontMetrics metrics = g.getFontMetrics(font);
-    FontMetrics metricsBold = g.getFontMetrics(fontBolt);
-
-    // get the advance of my text in this font
-    // and render context
-    final int factorSeparacioReduit = (fontSize * 3)/13;
-    int alt = metrics.getHeight() - factorSeparacioReduit/2;
-    
-    // Escriu Dades del Certificat del Firmant
-    int y = - factorSeparacioReduit;
-    /*
-    
-    String label = firmatPerLabel;
-    int labelW = metricsBold.stringWidth(label);
-    g.setFont(fontBolt);
-    g.drawString(label, 4, y);
-    g.setFont(font);
-    g.drawString(firmatPer, 4 + labelW , y);
-    */
-    y = drawStringMultipleLine(firmatPerLabel, firmatPer, width, g, font, fontBolt,
-        metrics, metricsBold, factorSeparacioReduit, alt, y);
-        
-        
-    y = y + alt;
-    String label = dataLabel;
-    g.setFont(fontBolt);
-    g.drawString(label, 4, y);
-    int labelW = metricsBold.stringWidth(label);
-    g.setFont(font);
-    g.drawString(data, 4 + labelW, y);
-
-    // Escriu Motiu
-    y = drawStringMultipleLine(motiuLabel, motiu, width, g, font, fontBolt, metrics, metricsBold,
-        factorSeparacioReduit, alt, y);
-    
-    
-
-    g.dispose();  
-
-    //Write the image as a jpg  
-    //ImageIO.write(bufferedImage, "jpg", baos);
-
-    Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpeg");
-    ImageWriter writer = (ImageWriter)iter.next();
-
-    ImageWriteParam iwp = writer.getDefaultWriteParam();
-   // Now, we can set the compression quality:
-    iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-    iwp.setCompressionQuality(0.05f);   // an integer between 0 and 1
-    // 1 specifies minimum compression and maximum quality
-    
-    writer.setOutput(new MemoryCacheImageOutputStream(baos));
-    IIOImage image = new IIOImage(bufferedImage, null, null);
-    writer.write(null, image, iwp);
-    writer.dispose();
-
-    baos.flush();
-    baos.close();
-    
-    return baos.toByteArray();
-    
-  }
-
-  protected int drawStringMultipleLine(String textLabel, String text, int width, Graphics g,
-      Font font, Font fontBolt, FontMetrics metrics, FontMetrics metricsBold,
-      final int factorSeparacioReduit, int alt, int y) {
-    String label;
-    
-    y = y + alt;
-    label = textLabel;
-    g.setFont(fontBolt);
-    g.drawString(label, 4, y);
-    int labelLen = metricsBold.stringWidth(label);
-    //String motiu = "Per que si 0 sdf sdfg sdfg sdfg dherty tjy rtuyjty uj rtuyrty utyu 12345 12345 12345 12345 12345 12345 12345 12345 12345 12345 12345 12345 AAAAA BBBB CCCCC DDDDD EEEEEE FFFFFFF";
-    g.setFont(font);
-    int textLen = metrics.stringWidth(text);
-    
-    System.out.println("textLen(" + textLen + ") + labelLen(" + labelLen + ") + " + (5 * factorSeparacioReduit) + " > width (" + width + ")");
-    
-    if ( (textLen + labelLen + factorSeparacioReduit) > width ) {
-      
-      int index = text.lastIndexOf(' ');
-      while((metrics.stringWidth(text.substring(0,index)) + labelLen + factorSeparacioReduit) > width) {
-        index = text.lastIndexOf(' ', index - 1);
-      }
-      
-      g.drawString(text.substring(0, index), 4 + labelLen, y);
-      
-      y = y + alt;
-      g.drawString(text.substring(index + 1), 4, y);
-      
-      
-    } else {
-
-      g.drawString(text, 4 + labelLen, y);
-    }
-    return y;
   }
   
   
@@ -783,7 +397,7 @@ public class AfirmaSigner implements ISigner {
 
       Properties params = new Properties();
 
-      String filterURLEncoded = parentPanel.signerContext.getContextParameter(Constants.APPLET_CERTIFICATE_FILTER);
+      String filterURLEncoded = parentPanel.signerContext.getContextParameter(MiniAppletConstants.APPLET_CERTIFICATE_FILTER);
       StringBuffer filterLog = new StringBuffer("\n========== FILTER ==========\n");
       if (filterURLEncoded != null) {
         @SuppressWarnings("deprecation")

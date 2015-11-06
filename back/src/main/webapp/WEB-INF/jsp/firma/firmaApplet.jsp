@@ -1,3 +1,4 @@
+<%-- XYZ S'ha de borrar --%> 
 <%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants"/>

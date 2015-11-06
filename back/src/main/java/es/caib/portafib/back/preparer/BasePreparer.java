@@ -42,9 +42,8 @@ import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 @RunAs("PFI_USER")
 @Component
 public class BasePreparer extends ViewPreparerSupport implements Constants {
-  
-  
-  public static ThreadLocal<I18NTranslation> loginErrorMessage = new ThreadLocal<I18NTranslation>();
+
+  public static Map<String,I18NTranslation> loginErrorMessage = new HashMap<String,I18NTranslation>();
 
   protected final Logger log = Logger.getLogger(getClass());
   
@@ -65,6 +64,9 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
 	    AttributeContext attributeContext) throws PreparerException {
 
 	  Map<String, Object> request = tilesContext.getRequestScope();
+	  
+	   // Informació de Login
+    LoginInfo loginInfo = LoginInfo.getInstance();
 
    	// URL 
 	  // TODO ficarho dins cache (veure Capperpare.java)
@@ -73,18 +75,21 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
 	    HttpServletRequest httpRequest = (HttpServletRequest) requestObjects[0];
 
 	    // Error de Login
-	    I18NTranslation trans = loginErrorMessage.get();
+	    final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+	    
+	    I18NTranslation trans = loginErrorMessage.get(username);
 	    if (trans == null) {
 	      String msg = (String)httpRequest.getSession().getAttribute("loginerror");
 	      if (msg != null) {
 	        HtmlUtils.saveMessageError(httpRequest, msg);
 	      }
 	    } else {
+	      loginErrorMessage.remove(username);
 	      String msg = I18NUtils.tradueix(trans);
 	      HtmlUtils.saveMessageError(httpRequest, msg);
 	      httpRequest.getSession().setAttribute("loginerror", msg);
 	    }
-	    
+
 	    request.put("urlActual", httpRequest.getServletPath());
 
       // Compatibilitat IE8
@@ -108,9 +113,6 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
     Locale loc = LocaleContextHolder.getLocale();
     request.put("lang", loc.toString()); // LANG i si es necessari el country
     request.put("onlylang", loc.getLanguage()); // només el LANG
-
-	  // Informació de Login
-    LoginInfo loginInfo = LoginInfo.getInstance();
 
     // Posa dins la sessió la informació de Login    
     request.put("loginInfo", loginInfo);
