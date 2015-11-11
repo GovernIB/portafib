@@ -80,7 +80,7 @@
            <string>algorismeDeFirmaID</string> 
           </void> 
           <void property="javaType"> 
-           <class>long</class> 
+           <class>int</class> 
           </void> 
           <void property="labels"> 
            <void method="put"> 
@@ -10501,7 +10501,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <string>algorismeDeFirmaID</string> 
           </void> 
           <void property="javaType"> 
-           <class>long</class> 
+           <class>int</class> 
           </void> 
           <void property="labels"> 
            <void method="put"> 

@@ -17,6 +17,7 @@
 
     <properties>
        <miniapplet.version>1.3</miniapplet.version>
+       <miniapplet.artifactid>afirma-ui-miniapplet_1_3</miniapplet.artifactid>
     </properties>
     
     <parent>
@@ -29,15 +30,14 @@
        <module>api</module>
        <module>miniappletutils</module>
        <module>miniappletinserver</module>
-       <module>miniappletasapplet</module>
+       <module>miniappletinclient</module>
     </modules>
-    
-    <!-- XYZ Falta MINIAPPLETUI  -->
+
     <profiles>
         <profile>
-            <id>applet</id>
+            <id>miniappletui</id>
             <modules>
-                <!-- XYZ miniappletui -->
+                <module>miniappletui</module>
             </modules>
         </profile>
     </profiles>

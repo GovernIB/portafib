@@ -12,12 +12,32 @@ public class PdfInfoSignature {
   public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
   public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
   
-
   protected int signaturesTableLocation = 0;
   
   protected PdfRubricRectangle pdfRubricRectangle = null;
   
   protected IRubricGenerator rubricGenerator = null;
+
+
+  /**
+   * @param signaturesTableLocation
+   * @param pdfRubricRectangle
+   * @param rubricGenerator
+   */
+  public PdfInfoSignature(int signaturesTableLocation, PdfRubricRectangle pdfRubricRectangle,
+      IRubricGenerator rubricGenerator) {
+    super();
+    this.signaturesTableLocation = signaturesTableLocation;
+    this.pdfRubricRectangle = pdfRubricRectangle;
+    this.rubricGenerator = rubricGenerator;
+  }
+
+  /**
+   * 
+   */
+  public PdfInfoSignature() {
+    super();
+  }
 
   public int getSignaturesTableLocation() {
     return signaturesTableLocation;

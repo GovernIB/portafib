@@ -40,6 +40,7 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
   static  {
     
     // TODO XYZ Llegir de BBDD
+    
     {
       Properties prop = new Properties();
       prop.setProperty(Constants.PORTAFIB_PROPERTY_BASE + "plugins.signatureweb.miniappletinserver.base_dir",
@@ -57,7 +58,7 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
     {
       Properties prop = new Properties();
       
-      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletasapplet.MiniAppletAsAppletSignatureWebPlugin");
+      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletAsAppletSignatureWebPlugin");
       
       // TODO XYZ Llegir de BBDD
       pluginsDB.put(666L, prop);
@@ -67,7 +68,7 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
     {
       Properties prop = new Properties();
       
-      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletasapplet.MiniAppletAsJavaWebStartSignatureWebPlugin");
+      prop.setProperty("class", "org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletAsJavaWebStartSignatureWebPlugin");
       
       // TODO XYZ Llegir de BBDD
       pluginsDB.put(999L, prop);

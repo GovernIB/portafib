@@ -10,5 +10,5 @@ import es.caib.portafib.model.dao.IAlgorismeDeFirmaManager;
 public interface AlgorismeDeFirmaLocal extends IAlgorismeDeFirmaManager {
 
  public static final String JNDI_NAME = "portafib/AlgorismeDeFirmaEJB/local";
-  public AlgorismeDeFirmaJPA findByPrimaryKey(Long _ID_);
+  public AlgorismeDeFirmaJPA findByPrimaryKey(Integer _ID_);
 }

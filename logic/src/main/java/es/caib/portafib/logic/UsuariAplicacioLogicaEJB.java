@@ -25,7 +25,7 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.Constants.RoleUsuariAplicacioEnum;
+import es.caib.portafib.utils.RoleUsuariAplicacioEnum;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;

@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -197,23 +199,7 @@ public class Utils {
     return up.getNom() + " " + up.getLlinatges();
   }
   
-  // XYZ Eliminar
-  public static AppletConfig getAppletConfig(EntitatJPA entitat, 
-      String languageUI, String contextWeb) {
-    AppletConfig config;
-    if (entitat.getPolicyIdentifier() != null) {
-      config = new AppletConfig(languageUI,
-          contextWeb, entitat.getFiltreCertificats(),
-          Configuracio.getAppletSignerClass(), null,
-        entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
-        entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
-    } else {
-      config = new AppletConfig(languageUI,
-          contextWeb, entitat.getFiltreCertificats(),
-          Configuracio.getAppletSignerClass(), null);
-    }
-    return config;
-  }
+
   
   
   public static String getFirmatPerFormat(EntitatJPA entitat, String lang) {
@@ -245,6 +231,24 @@ public class Utils {
     
     return firmatPerFormat;
 
+  }
+  
+  public static void printRequestInfo(HttpServletRequest request) {
+    log.info(" +++++++++++++++++ PRINT REQUEST INFO ++++++++++++++++++++++");
+    log.info(" ++++ Scheme: " + request.getScheme());
+    
+    log.info(" ++++ ServerName: " + request.getServerName());
+    log.info(" ++++ ServerPort: " + request.getServerPort());
+
+    log.info(" ++++ PathInfo: " + request.getPathInfo());
+    log.info(" ++++ PathTrans: " + request.getPathTranslated());
+    log.info(" ++++ ContextPath: " + request.getContextPath());
+    log.info(" ++++ ServletPath: " + request.getServletPath());
+    
+    log.info(" ++++ getRequestURI: " + request.getRequestURI());
+    log.info(" ++++ getRequestURL: " + request.getRequestURL());
+    log.info(" ++++ getQueryString: " + request.getQueryString());
+    log.info(" ===============================================================");
   }
 
 }

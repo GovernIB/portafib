@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.events.ModificationManager;
 
 
 public class AlgorismeDeFirmaJPAManager
-		 extends AbstractPortaFIBJPAManager<AlgorismeDeFirma, Long>
+		 extends AbstractPortaFIBJPAManager<AlgorismeDeFirma, Integer>
 		 implements IAlgorismeDeFirmaManager, AlgorismeDeFirmaFields {
 
 
@@ -66,21 +66,21 @@ public class AlgorismeDeFirmaJPAManager
 		return list.toArray(new AlgorismeDeFirma[list.size()]);
 	};
 
-	public synchronized AlgorismeDeFirma create( long _algorismeDeFirmaID_, java.lang.String _nom_, java.lang.String _descripcio_, boolean _suportat_) throws I18NException {
+	public synchronized AlgorismeDeFirma create( int _algorismeDeFirmaID_, java.lang.String _nom_, java.lang.String _descripcio_, boolean _suportat_) throws I18NException {
 		AlgorismeDeFirmaJPA __bean =  new AlgorismeDeFirmaJPA(_algorismeDeFirmaID_,_nom_,_descripcio_,_suportat_);
 		return create(__bean);
 	}
 
 
 
- public void delete(long _algorismeDeFirmaID_) {
+ public void delete(int _algorismeDeFirmaID_) {
    delete(findByPrimaryKey(_algorismeDeFirmaID_));
  }
 
 
 
 
-	public AlgorismeDeFirma findByPrimaryKey(long _algorismeDeFirmaID_) {
+	public AlgorismeDeFirma findByPrimaryKey(int _algorismeDeFirmaID_) {
 	  return __em.find(AlgorismeDeFirmaJPA.class, _algorismeDeFirmaID_);  
 	}
 	@Override

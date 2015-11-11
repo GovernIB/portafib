@@ -66,24 +66,7 @@ public interface Constants {
   // Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
   public static final String PFI_USER = "PFI_USER"; 
   
-  public enum RoleUsuariAplicacioEnum {
 
-    PFI_ADMIN(Constants.PFI_ADMIN),
-
-    PFI_USER(Constants.PFI_USER);
-
-    String value;
-
-    RoleUsuariAplicacioEnum(String value) {
-      this.value = value;
-    }
-    
-    @Override
-    public String toString() {
-      return value;
-    }
-
-  }
   
 
   // ------------------ ROLES VIRTUALS

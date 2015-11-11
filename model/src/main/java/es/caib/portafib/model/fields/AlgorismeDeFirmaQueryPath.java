@@ -11,8 +11,8 @@ public class AlgorismeDeFirmaQueryPath extends org.fundaciobit.genapp.common.que
     super(parentQueryPath);
   }
 
-  public LongField ALGORISMEDEFIRMAID() {
-    return new LongField(getQueryPath(), AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID);
+  public IntegerField ALGORISMEDEFIRMAID() {
+    return new IntegerField(getQueryPath(), AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID);
   }
 
   public StringField NOM() {

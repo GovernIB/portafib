@@ -283,7 +283,7 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     }
 
     if (__vr.getFieldErrorCount(ALGORISMEDEFIRMAID) == 0) {
-      java.lang.Long __algorismedefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
+      java.lang.Integer __algorismedefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
       Long __count_ = null;
       try { __count_ = __algorismeDeFirmaManager.count(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(__algorismedefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
       if (__count_ == null || __count_ == 0) {        

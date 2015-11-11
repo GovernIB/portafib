@@ -8,10 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLConnection;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -23,24 +20,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.utils.AbstractPluginProperties;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.EncrypterDecrypter;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -51,8 +44,7 @@ import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
  * @author anadal
  *
  */
-public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperties implements
-    ISignatureWebPlugin {
+public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   private static final String FIELD_P12PASSWORD = "p12password";
   
@@ -90,25 +82,15 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
 
       miniappletInServerBasePath = base;
 
-      // XYZ
-      log.info("XYZ MiniAppletInServerSignatureWebPlugin = "
+      log.info("MiniAppletInServerSignatureWebPlugin = "
           + miniappletInServerBasePath.getAbsolutePath());
 
     }
     return miniappletInServerBasePath;
   }
 
-  // ------------------------------------
-
-  protected Logger log = Logger.getLogger(MiniAppletInServerSignatureWebPlugin.class);
-
-  public Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
-
-  public Map<String, StatusSignature[]> statusSignatures = new HashMap<String, StatusSignature[]>();
-
+  
   public Map<String, Map<String, List<String>>> missatges = new HashMap<String, Map<String, List<String>>>();
-
-    
   
   /**
    * 
@@ -137,60 +119,31 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
     return getTraduccio("pluginname", locale);
   }
 
-  @Override
-  public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes, Xades, ...
-    return new String[] { FileInfoSignature.SIGN_TYPE_PADES };
-  }
-
-  @Override
-  public String[] getSupportedSignatureAlgorithms(String signType) {
-    
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-
-      return new String[] {
-        FileInfoSignature.SIGN_ALGORITHM_SHA1,
-        FileInfoSignature.SIGN_ALGORITHM_SHA256,
-        FileInfoSignature.SIGN_ALGORITHM_SHA384,
-        FileInfoSignature.SIGN_ALGORITHM_SHA512
-      };
-    }
-    return null;
-  }
-
+  
   @Override
   public boolean filter(String username, String filter, boolean supportJava) {
-    // TODO XYZ que feim aqui 
+    // Per ara esta un poc complicat, ja que sempre s'gha de mostrar
+    // ja que l'usuari sempre te l'opció d'afegir Certificats
     return true;
   }
 
   @Override
   public void closeSignaturesSet(String id) {
-    infoSign.remove(id);
-    statusSignatures.remove(id);
     missatges.remove(id);
-    System.gc();
+    super.closeSignaturesSet(id);
   }
 
   @Override
   public String signSet(String pluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 
-    String signatureSetID = signaturesSet.getSignaturesSetID();
-    infoSign.put(signatureSetID, signaturesSet);
+    addSignaturesSet(signaturesSet);
+    final String signatureSetID = signaturesSet.getSignaturesSetID();
 
-    StatusSignature[] status = new StatusSignature[signaturesSet.getFileInfoSignatureArray().length];
-    for (int i = 0; i < status.length; i++) {
-      status[i] = new StatusSignature();
-    }
-    statusSignatures.put(signatureSetID, status);
 
     CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
     String username = commonInfoSignature.getUsername();
-
-    // XYZ TODO Check si existeix algun proces de firma no finalitzat, si es
-    // així borrar-lo
 
     Map<File, Properties> certificates = getCertificatesOfUser(username); 
 
@@ -207,32 +160,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
 
   }
 
-  @Override
-  public StatusSignature[] getStatusSignatureSet(String signaturesSetID) {
-    StatusSignature[] statusSignatureArray = statusSignatures.get(signaturesSetID);
-    if (statusSignatureArray == null) {
-      log.warn("No s'ha obtingut l'estat de SignaturesSet amb ID = " + signaturesSetID);
-      return null;
-    }
-    return statusSignatureArray;
-  }
-
-  @Override
-  public StatusSignature getStatusSignature(String signaturesSetID, int signatureIndex) {
-    StatusSignature[] statusSignatureArray =  getStatusSignatureSet(signaturesSetID);
-    if (statusSignatureArray == null) {
-      return null;
-    }
-
-    try {
-      return statusSignatureArray[signatureIndex];
-    } catch (ArrayIndexOutOfBoundsException aiob) {
-      log.warn("Error accedint a l'index " + signatureIndex + " del conjunt de firmes "
-          + signaturesSetID);
-      return null;
-    }
-
-  }
 
   @Override
   public void requestGET(String pluginRequestPath, String relativePath, String signaturesSetID,
@@ -249,7 +176,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
       }
     }
 
-    SignaturesSet signaturesSet = infoSign.get(signaturesSetID);
+    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
     Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
 
     if (relativePath.startsWith(SELECT_CERTIFICATE_PAGE)) {
@@ -287,20 +214,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
       String signaturesSetID, int signatureIndex, HttpServletRequest request,
       Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception {
 
-    // XYZ
-    /*
-    log.info("======== REQUEST POST =========== ");
-    log.info("pluginRequestPath: " + pluginRequestPath);
-    log.info("relativePath: " + relativePath);
-    log.info("signatureID: " + signaturesSetID);
-    */
 
-    SignaturesSet signaturesSet = infoSign.get(signaturesSetID);
-    
-    
+    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
+
     Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
 
-    
 
     if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
       PrintWriter out = response.getWriter();
@@ -354,9 +272,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
     String pin = request.getParameter(FIELD_PIN);
     String cert = request.getParameter("cert");
 
-    log.info(" XYZ FIRMA PAGE [ PIN] = " + pin);
-    log.info(" XYZ FIRMA PAGE [ CERT] = " + cert);
-
     File certPath = new File(getUserNamePath(commonInfoSignature.getUsername()), cert);
 
     if (!certPath.exists()) {      
@@ -380,8 +295,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
       response.sendRedirect(pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
       return;
     }
-    log.info("XYZ P12PASSWORD: " + p12Password);
-    
+        
     FileInputStream fis = new FileInputStream(new File(certPath, FILENAME_P12));
     PublicCertificatePrivateKeyPair pair = CertificateUtils.readPKCS12(fis, p12Password);
     fis.close();
@@ -402,7 +316,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
         info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo, certificate);
 
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
-        
+
               // FIRMA PADES
               AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(pair.getPrivateKey());
       
@@ -414,7 +328,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
               ss.setStatus(StatusSignature.STATUS_SIGNED);
       
               ss.setSignedData(signedData);
-            
+
         } else {
           // TODO Falta CADes, Xades, ...
           
@@ -434,7 +348,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
 
 
       } catch (Throwable th) {
-        // TODO XYZ Mirar certs tipus d'excepció
+        // TODO Mirar certs tipus d'excepció
 
         log.error("Error Firmant: " + th.getMessage(), th);
 
@@ -482,17 +396,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
 
     out.println("<h3>" +  getTraduccio("selectcertificat.titol", locale) + "</h3><br/>");
 
-    /*
-    out.println("XYZ basePath: " + pluginRequestPath + "<br/>");
-    out.println("XYZ relativePath: " + relativePath + "<br/>");
-    out.println("XYZ signaturesSetID: " + signaturesSetID + "<br/>");
-    */
-
     Map<File, Properties> certificates = getCertificatesOfUser(signaturesSet.getCommonInfoSignature().getUsername());
-
-
-    
-    
 
     out.println("<form action=\"" + pluginRequestPath + "/" + FIRMAR_PAGE
         + "\" method=\"post\" enctype=\"multipart/form-data\">");
@@ -538,8 +442,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
       out.println("</table>");
       count++;
     }
-    
-    // XYZ PIN PASSWORD ENCRIPT
 
     out.println("</td>");
     out.println("</tr>");
@@ -582,14 +484,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
       SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
     out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     
-
-    /*
-    out.println("XYZ basePath: " + pluginRequestPath + "<br/>");
-    out.println("XYZ relativePath: " + relativePath + "<br/>");
-    out.println("XYZ signatureID: " + signatureID + "<br/>");
-    */
-
-
     out.println("<form action=\"" + pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE
         + "\" method=\"post\" enctype=\"multipart/form-data\">");
     out.println("<table border=0>");
@@ -602,7 +496,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
     out.println("<td><input type=\"password\" style=\"display: none;\" /><input type=\"password\" name=\"" + FIELD_P12PASSWORD + "\" value=\"\" /></td>");
     out.println("</tr>");
     out.println("<tr>");
-    out.println("<td>XYZ<span title=\"XYZ Aixo es una desc de pin\">" + getTraduccio("pin", locale) + ":</span></td>");
+    out.println("<td>" + getTraduccio("pin", locale) + "&nbsp; <span title=\"" + getTraduccio("pin.desc", locale) + "\">[ &iopf; ]</span>:</td>");
     out.println("<td><input type=\"password\"  name=\"" + FIELD_PIN + "\" value=\"\" /></td>");
     out.println("</tr>");
     out.println("</table>");
@@ -626,8 +520,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     String p12password = request.getParameter(FIELD_P12PASSWORD);
     String pin = request.getParameter(FIELD_PIN);
-    log.info(" XYZ p12password = " + p12password);
-    log.info(" XYZ PIN = " + pin);
+    
 
     // CAMPS buits
     if (pin == null || p12password == null) {
@@ -731,19 +624,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  /*
-  private void errorPathDesconegut(String titol, String pluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, PrintWriter out) {
-    
-    // XYZ ERROR
-    
-    out.println("<h3>" + titol + "   !!!!!!!! </h3><br/>");
-
-    out.println("pluginRequestPath: " + pluginRequestPath + "<br/>");
-    out.println("relativePath: " + relativePath + "<br/>");
-    out.println("signatureID: " + signaturesSet.getSignaturesSetID() + "<br/>");
-  }
-  */
 
   private void generateHeader(HttpServletRequest request, String pluginRequestPath,
       PrintWriter out, SignaturesSet signaturesSet) {
@@ -831,7 +711,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
 
         } catch (Exception e) {
           FileUtils.deleteRecursive(dir);
-          // XYZ
+          // TODO 
           e.printStackTrace();
           continue;
         }
@@ -906,13 +786,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
   }
   
   
-  protected final UTF8Control utf8Control = new UTF8Control(); 
-  
   public String getTraduccio(String key, Locale locale) {
   
     try {
-       // XYZ Instanciar  UTF8Control
-       ResourceBundle rb = ResourceBundle.getBundle("miniappletinserver", locale /*, utf8Control*/);
+       ResourceBundle rb = ResourceBundle.getBundle("miniappletinserver", locale);
        
        return rb.getString(key);
 
@@ -923,41 +800,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractPluginProperti
   
   }
   
-
-  public class UTF8Control extends Control {
-    public ResourceBundle newBundle
-        (String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
-            throws IllegalAccessException, InstantiationException, IOException
-    {
-        // The below is a copy of the default implementation.
-        String bundleName = toBundleName(baseName, locale);
-        String resourceName = toResourceName(bundleName, "properties");
-        ResourceBundle bundle = null;
-        InputStream stream = null;
-        if (reload) {
-            URL url = loader.getResource(resourceName);
-            if (url != null) {
-                URLConnection connection = url.openConnection();
-                if (connection != null) {
-                    connection.setUseCaches(false);
-                    stream = connection.getInputStream();
-                }
-            }
-        } else {
-            stream = loader.getResourceAsStream(resourceName);
-        }
-        if (stream != null) {
-            try {
-                // Only this line is changed to make it to read properties files as UTF-8.
-                bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-            } finally {
-                stream.close();
-            }
-        }
-        return bundle;
-    }
-  }
- 
 
   public static String fillPwd(String pwd, int size) {
     final int len = pwd.length();  

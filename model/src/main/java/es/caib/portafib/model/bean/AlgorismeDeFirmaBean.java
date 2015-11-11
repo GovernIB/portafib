@@ -10,7 +10,7 @@ public class AlgorismeDeFirmaBean implements AlgorismeDeFirma {
 
 private static final long serialVersionUID = 1636748497L;
 
-	long algorismeDeFirmaID;// PK
+	int algorismeDeFirmaID;// PK
 	java.lang.String nom;
 	java.lang.String descripcio;
 	boolean suportat;
@@ -21,14 +21,14 @@ private static final long serialVersionUID = 1636748497L;
   }
 
   /** Constructor amb tots els camps  */
-  public AlgorismeDeFirmaBean(long algorismeDeFirmaID , java.lang.String nom , java.lang.String descripcio , boolean suportat) {
+  public AlgorismeDeFirmaBean(int algorismeDeFirmaID , java.lang.String nom , java.lang.String descripcio , boolean suportat) {
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.nom=nom;
     this.descripcio=descripcio;
     this.suportat=suportat;
 }
   /** Constructor dels valors Not Null */
-  public AlgorismeDeFirmaBean(long algorismeDeFirmaID , java.lang.String nom) {
+  public AlgorismeDeFirmaBean(int algorismeDeFirmaID , java.lang.String nom) {
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.nom=nom;
 }
@@ -39,10 +39,10 @@ private static final long serialVersionUID = 1636748497L;
     this.setSuportat(__bean.isSuportat());
 	}
 
-	public long getAlgorismeDeFirmaID() {
+	public int getAlgorismeDeFirmaID() {
 		return(algorismeDeFirmaID);
 	};
-	public void setAlgorismeDeFirmaID(long _algorismeDeFirmaID_) {
+	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_) {
 		this.algorismeDeFirmaID = _algorismeDeFirmaID_;
 	};
 

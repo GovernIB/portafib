@@ -2,8 +2,8 @@ package es.caib.portafib.model.entity;
 
 public interface AlgorismeDeFirma extends org.fundaciobit.genapp.common.IGenAppEntity {
 
-	public long getAlgorismeDeFirmaID();
-	public void setAlgorismeDeFirmaID(long _algorismeDeFirmaID_);
+	public int getAlgorismeDeFirmaID();
+	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_);
 
 	public java.lang.String getNom();
 	public void setNom(java.lang.String _nom_);

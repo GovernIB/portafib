@@ -15,20 +15,17 @@ import org.fundaciobit.plugins.utils.FileUtils;
 
 
 
-
-import es.caib.portafib.applet.MiniAppletConstants;
-// XYZ ELiminar això
-import es.gob.afirma.core.signers.AOSignConstants;
-
 /**
  * 
  * @author anadal
  *
  */
 public class MiniAppletUtils  {
+  
 
   
-  private final static Logger log = Logger.getLogger(MiniAppletUtils.class.getName());
+  
+  protected final static Logger log = Logger.getLogger(MiniAppletUtils.class.getName());
   
   
   public static MiniAppletSignInfo convertRemoteSignature(CommonInfoSignature commonInfoSignature,
@@ -67,9 +64,9 @@ public class MiniAppletUtils  {
     El uso de este valor podría generar firmas de gran tamaño.
     */
     if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE, AOSignConstants.SIGN_MODE_IMPLICIT);
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE, MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
     } else {
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,  AOSignConstants.SIGN_MODE_EXPLICIT);
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,  MiniAppletConstants.VALUE_SIGN_MODE_EXPLICIT);
     }
 
     // POLITICA DE FIRMA
@@ -79,7 +76,6 @@ public class MiniAppletUtils  {
         && policy.getPolicyIdentifier().trim().length() != 0) {
      
       String oid = policy.getPolicyIdentifier();
-      log.info("XYZ -- Aplicant politica de firma " + oid);
       
       miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER, oid);
 
@@ -101,14 +97,14 @@ public class MiniAppletUtils  {
       
         miniAppletProperties.setProperty("alwaysCreateRevision", "true");
       
-        tipusFirma = AOSignConstants.SIGN_FORMAT_PDF;
+        tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
         
         // POLITICA DE FIRMA PADES
         if (policy == null || policy.getPolicyIdentifier() == null
             || policy.getPolicyIdentifier().trim().length() == 0) {
-          miniAppletProperties.setProperty("signatureSubFilter", AOSignConstants.PADES_SUBFILTER_BASIC);
+          miniAppletProperties.setProperty("signatureSubFilter", MiniAppletConstants.PADES_SUBFILTER_BASIC);
         } else {
-          miniAppletProperties.setProperty("signatureSubFilter", AOSignConstants.PADES_SUBFILTER_BES);
+          miniAppletProperties.setProperty("signatureSubFilter", MiniAppletConstants.PADES_SUBFILTER_BES);
         }
         
 
@@ -143,15 +139,14 @@ public class MiniAppletUtils  {
         
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
       // TODO Alguna cosa mes ???
-      tipusFirma = AOSignConstants.SIGN_FORMAT_CADES;
+      tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_CADES;
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
       // TODO Alguna cosa mes ???
-      tipusFirma = AOSignConstants.SIGN_FORMAT_XADES;
+      tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_XADES;
     } else {
       // TODO Traduir
       throw new Exception("Tipus de firma no suportada: " + fileInfo.getSignType());
-    }
-    // XYZ Es necessari????
+    }    
     miniAppletProperties.setProperty(MiniAppletConstants.APPLET_SIGN_TYPE, tipusFirma);
     
 
@@ -167,8 +162,7 @@ public class MiniAppletUtils  {
         algorisme = MiniAppletConstants.VALUE_SIGN_ALGORITHM_SHA512;
     } else  {
         throw new Exception("Tipus d'algorisme no suportat " + fileInfo.getSignAlgorithm());
-    }
-    // XYZ Es necessari
+    }    
     miniAppletProperties.setProperty(MiniAppletConstants.APPLET_SIGN_ALGORITHM, algorisme);
     
     

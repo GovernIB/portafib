@@ -3,20 +3,6 @@
 
 <input type="hidden" id="motiu" name="motiu" value=""/>
 
-<c:if test="${pipella ne 'ROLE_COLA'}">
-  
-<div id="ajaxloader" style="position:absolute; left:0px; top:0px; visibility:hidden; border:none;z-index:100;width:100%;height:100%;background:#CCC;filter: alpha(opacity=80);-moz-opacity:.8; opacity:.8;">
-  <table style="width:100%;height:100%;">
-  <tr valign="middle"><td align="center">
-  <h3 style="color:#FFF;"><fmt:message key="autofirma.jnlp"/></h3><br/>
-  <img src="<c:url value="/img/ajax-loader2.gif"/>" /><br/>
-  <br/>
-  <input type="button" class="btn btn-primary" onclick="javascript:goTo('<c:url value="${contexte}/list" />');" value="<fmt:message key="tornar"/>" />
-  </td></tr></table>
-</div>
-
-</c:if>
-
 
 <script src="<c:url value="/js/deployJava.jsp"/>"></script>
 
@@ -52,33 +38,6 @@
           goTo(url + '/Firmar.jnlp');
       }
       
-  }
-  
-  function closeWhenSign(firmes) {
-      
-      if (!firmes || $.trim(firmes) == '') {
-          return;
-      }
-      
-      var request;
-      if(window.XMLHttpRequest) {
-          request = new XMLHttpRequest();
-      } else {
-          request = new ActiveXObject("Microsoft.XMLHTTP");
-      }
-
-
-
-      request.open('GET', '<c:url value="${contexte}/estatdelesfirmes/" />' + firmes, false);
-      request.send(); 
-      <%--  there will be a 'pause' here until the response to come.
-      // the object request will be actually modified --%>
-      if ((request.status + '') == '200') {
-          clearTimeout(myTimer);
-          window.location.href = '<c:url value="${contexte}/list" />';
-      }
-      clearTimeout(myTimer);
-      myTimer = setInterval(function () {closeWhenSign(firmes)}, 4000);
   }
   
   function getCheckboxValues() {
@@ -145,9 +104,8 @@
        if (deployJava.isPluginInstalled()) {
              url = '<c:url value="${contexte}/firmarseleccionats"/>';
        } else {
-             url = '<c:url value="${contexte}/firmarseleccionats"/>/Firmar.jnlp';
-             document.getElementById("ajaxloader").style.visibility = "visible";
-             myTimer = setInterval(function() {closeWhenSign(getCheckboxValues())}, 15000);        
+           <%-- NOTA: AIXó ES CORRECTE. FYI. --%>
+             url = '<c:url value="${contexte}/firmarseleccionats"/>/Firmar.jnlp';    
        }
          
        document.estatDeFirma.action = url;

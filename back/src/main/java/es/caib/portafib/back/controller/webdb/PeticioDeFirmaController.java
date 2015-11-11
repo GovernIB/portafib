@@ -992,7 +992,7 @@ public java.lang.Long stringToPK(String value) {
     Where _w = null;
     if (!_groupByItemsMap.containsKey(ALGORISMEDEFIRMAID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
       for (PeticioDeFirma _item : list) {
         _pkList.add(_item.getAlgorismeDeFirmaID());
         }

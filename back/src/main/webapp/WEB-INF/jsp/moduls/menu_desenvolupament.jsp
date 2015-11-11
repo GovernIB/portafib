@@ -76,23 +76,6 @@
               <span>Error en la vista (jsp)</span>
             </a>
           </li>
-          
-          <%-- XYZ  --%>
-          <li style="list-style-type: disc; list-style-position: inside;">
-            <a href="<c:url value="/firmanuvol"/>">
-              <span>FirmaNuvol</span>
-            </a>
-          </li>
-
-          
-          <%-- XYZ --%>
-          <li style="list-style-type: disc; list-style-position: inside;">
-            <a href="<c:url value="/develop/signmodule"/>">
-              <span>AutoFirmaNuvol</span>
-            </a>
-          </li>
-          
-          
 
       </ul>
     </li>

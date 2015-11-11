@@ -121,32 +121,10 @@
         if (deployJava.isPluginInstalled()) {
             goTo(url + "/false");
         } else {
-            document.getElementById("ajaxloader").style.visibility = "visible";
-            myTimer = setInterval(function () {closeWhenSign()}, 20000);
             goTo(url + '/true');
         }
     }
-    
-    function closeWhenSign() {
-        var request;
-        if(window.XMLHttpRequest) {
-            request = new XMLHttpRequest();
-        } else {
-            request = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        request.open('GET', '<c:url value="/dest/delegat/existsautoritzacio/${colaboracioDelegacioForm.colaboracioDelegacio.colaboracioDelegacioID}" />', false);
-        request.send(); 
-        <%--  there will be a 'pause' here until the response to come.
-        // the object request will be actually modified --%>
-        if ((request.status + '') == '200') {
-            clearTimeout(myTimer);
-            window.location.href = '<c:url value="/dest/delegat/${colaboracioDelegacioForm.colaboracioDelegacio.colaboracioDelegacioID}/edit/" />';
-        }
-        clearTimeout(myTimer);
-        myTimer = setInterval(function () {closeWhenSign()}, 4000);
-    }
-
-    </c:if>
+   </c:if>
 
     function preSubmit() {
     	var desti = document.getElementById("currentTipusDocument");

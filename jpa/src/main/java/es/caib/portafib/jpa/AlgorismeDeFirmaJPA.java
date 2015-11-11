@@ -26,7 +26,7 @@ private static final long serialVersionUID = 2131015322L;
 	@Id
 	@Index(name="pfi_algorismedefirma_pk_i")
 	@Column(name="algorismedefirmaid",nullable = false,length = 19)
-	long algorismeDeFirmaID;
+	int algorismeDeFirmaID;
 
 	@Column(name="nom",nullable = false,unique = true,length = 100)
 	java.lang.String nom;
@@ -44,14 +44,14 @@ private static final long serialVersionUID = 2131015322L;
   }
 
   /** Constructor amb tots els camps  */
-  public AlgorismeDeFirmaJPA(long algorismeDeFirmaID , java.lang.String nom , java.lang.String descripcio , boolean suportat) {
+  public AlgorismeDeFirmaJPA(int algorismeDeFirmaID , java.lang.String nom , java.lang.String descripcio , boolean suportat) {
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.nom=nom;
     this.descripcio=descripcio;
     this.suportat=suportat;
 }
   /** Constructor dels valors Not Null */
-  public AlgorismeDeFirmaJPA(long algorismeDeFirmaID , java.lang.String nom) {
+  public AlgorismeDeFirmaJPA(int algorismeDeFirmaID , java.lang.String nom) {
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.nom=nom;
 }
@@ -62,10 +62,10 @@ private static final long serialVersionUID = 2131015322L;
     this.setSuportat(__bean.isSuportat());
 	}
 
-	public long getAlgorismeDeFirmaID() {
+	public int getAlgorismeDeFirmaID() {
 		return(algorismeDeFirmaID);
 	};
-	public void setAlgorismeDeFirmaID(long _algorismeDeFirmaID_) {
+	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_) {
 		this.algorismeDeFirmaID = _algorismeDeFirmaID_;
 	};
 

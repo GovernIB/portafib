@@ -46,7 +46,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/algorismeDeFirma")
 @SessionAttributes(types = { AlgorismeDeFirmaForm.class, AlgorismeDeFirmaFilterForm.class })
 public class AlgorismeDeFirmaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController<AlgorismeDeFirma, java.lang.Long> implements AlgorismeDeFirmaFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<AlgorismeDeFirma, java.lang.Integer> implements AlgorismeDeFirmaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.AlgorismeDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
@@ -281,7 +281,7 @@ public class AlgorismeDeFirmaController
   }
 
   @RequestMapping(value = "/view/{algorismeDeFirmaID}", method = RequestMethod.GET)
-  public ModelAndView veureAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
+  public ModelAndView veureAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Integer algorismeDeFirmaID,
       HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
       return editAndViewAlgorismeDeFirmaGet(algorismeDeFirmaID,
@@ -289,7 +289,7 @@ public class AlgorismeDeFirmaController
   }
 
 
-  protected ModelAndView editAndViewAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
+  protected ModelAndView editAndViewAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Integer algorismeDeFirmaID,
       HttpServletRequest request,
       HttpServletResponse response, boolean __isView) throws I18NException {
     if((!__isView) && !isActiveFormEdit()) {
@@ -327,7 +327,7 @@ public class AlgorismeDeFirmaController
    * Carregar el formulari per modificar un AlgorismeDeFirma existent
    */
   @RequestMapping(value = "/{algorismeDeFirmaID}/edit", method = RequestMethod.GET)
-  public ModelAndView editarAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
+  public ModelAndView editarAlgorismeDeFirmaGet(@PathVariable("algorismeDeFirmaID") java.lang.Integer algorismeDeFirmaID,
       HttpServletRequest request,
       HttpServletResponse response) throws I18NException {
       return editAndViewAlgorismeDeFirmaGet(algorismeDeFirmaID,
@@ -381,7 +381,7 @@ public class AlgorismeDeFirmaController
    * Eliminar un AlgorismeDeFirma existent
    */
   @RequestMapping(value = "/{algorismeDeFirmaID}/delete")
-  public String eliminarAlgorismeDeFirma(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
+  public String eliminarAlgorismeDeFirma(@PathVariable("algorismeDeFirmaID") java.lang.Integer algorismeDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
 
     if(!isActiveDelete()) {
@@ -433,13 +433,13 @@ public String deleteSelected(HttpServletRequest request,
 
 
 
-public java.lang.Long stringToPK(String value) {
-  return new java.lang.Long(value);
+public java.lang.Integer stringToPK(String value) {
+  return new java.lang.Integer(value);
 }
 
   @Override
   public String[] getArgumentsMissatge(Object __algorismeDeFirmaID, Throwable e) {
-    java.lang.Long algorismeDeFirmaID = (java.lang.Long)__algorismeDeFirmaID;
+    java.lang.Integer algorismeDeFirmaID = (java.lang.Integer)__algorismeDeFirmaID;
     String exceptionMsg = "";
     if (e != null) {
       if (e instanceof I18NException) {
@@ -502,7 +502,7 @@ public java.lang.Long stringToPK(String value) {
    * Entra aqui al pitjar el boto cancel en el llistat de AlgorismeDeFirma
    */
   @RequestMapping(value = "/{algorismeDeFirmaID}/cancel")
-  public String cancelAlgorismeDeFirma(@PathVariable("algorismeDeFirmaID") java.lang.Long algorismeDeFirmaID,
+  public String cancelAlgorismeDeFirma(@PathVariable("algorismeDeFirmaID") java.lang.Integer algorismeDeFirmaID,
       HttpServletRequest request,HttpServletResponse response) {
      return getRedirectWhenCancel(request, algorismeDeFirmaID);
   }
@@ -563,11 +563,11 @@ public java.lang.Long stringToPK(String value) {
     }
   }
 
-  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Long algorismeDeFirmaID, Throwable __e) {
+  public String getRedirectWhenDelete(HttpServletRequest request, java.lang.Integer algorismeDeFirmaID, Throwable __e) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
-  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Long algorismeDeFirmaID) {
+  public String getRedirectWhenCancel(HttpServletRequest request, java.lang.Integer algorismeDeFirmaID) {
     return "redirect:" + getContextWeb() + "/list";
   }
 
@@ -597,7 +597,7 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public AlgorismeDeFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Long algorismeDeFirmaID) throws I18NException {
+  public AlgorismeDeFirmaJPA findByPrimaryKey(HttpServletRequest request, java.lang.Integer algorismeDeFirmaID) throws I18NException {
     return (AlgorismeDeFirmaJPA) algorismeDeFirmaEjb.findByPrimaryKey(algorismeDeFirmaID);
   }
 

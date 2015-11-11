@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.common;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
@@ -82,10 +85,7 @@ public class SignatureModuleController {
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
     
-    
-    // TODO XYZ Si només hi ha un mòdul de firma llavors llaçar la firma directament
-    //i saltar la selecció de mòdul de firma 
-    
+   
     final String urlToSelectPluginPagePage = getAbsoluteControllerBase(request, CONTEXTWEB)
         + "/selectsignmodule/" + signaturesSetID;
 
@@ -104,20 +104,43 @@ public class SignatureModuleController {
     
     
     
-    // TODO Si només hi ha un mòdul de firma llavors llaçar la firma directament
-    //i saltar la selecció de mòdul de firma 
-    
+    SignaturesSet signaturesSet = portaFIBSignaturesSets.get(signaturesSetID);
+
     List<ModulDeFirmaJPA> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
 
+    List<ModulDeFirmaJPA> modulsFiltered = new ArrayList<ModulDeFirmaJPA>();
+    ISignatureWebPlugin signaturePlugin;
+    String filtreCerts = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
+    String username = signaturesSet.getCommonInfoSignature().getUsername();
+    boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
+    for (ModulDeFirmaJPA modulDeFirmaJPA : moduls) {
+      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(modulDeFirmaJPA.getModulDeFirmaID());
+      if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
+        modulsFiltered.add(modulDeFirmaJPA);
+      };
+    }
+
     
-    // XYZ Filter 
-    // signaturePlugin.filter(config.filtreCertificats, form.isJnlp());
     
+    
+    // Si només hi ha un mòdul de firma llavors anar a firmar directament
+    if (modulsFiltered.size() == 1) {  
+      ModulDeFirmaJPA modul = modulsFiltered.get(0);
+      long pluginID = modul.getModulDeFirmaID();
+      String url = CONTEXTWEB + "/showsignaturemodule/" +pluginID + "/" + signaturesSetID;
+      return new ModelAndView(new RedirectView(url, true));
+    }
+    
+    // Si cap modul compleix llavors mostrar missatge
+    if (modulsFiltered.size() == 0) {
+      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("signaturemodule.notfound"));
+    }
+        
     
     ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
 
     mav.addObject("signaturesSetID", signaturesSetID);
-    mav.addObject("moduls", moduls);
+    mav.addObject("moduls", modulsFiltered);
 
     return mav;
         
@@ -130,7 +153,6 @@ public class SignatureModuleController {
       @PathVariable("pluginID") Long pluginID,
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception,I18NException {
 
- 
     
     // El plugin existeix?
     ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
@@ -169,39 +191,14 @@ public class SignatureModuleController {
   
 
   // XYZ ZZZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
-  /**
-   * S'ha de redireccionar la petició al Plugin
-   * @param request
-   * @param response
-   * @param pluginID
-   * @param signatureID
-   * @return
-   * @throws Exception
-   */
-  /* ZZZ
-  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}/**",
-        method = RequestMethod.GET)
-  public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
-      @PathVariable int signatureIndex) throws Exception, I18NException {
-
-       log.info("XYZ  =======   SIGN MODULE GET ========" );
-    
-    
-      String relativePath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-      */
-  
   // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
-    @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
+  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
         method = RequestMethod.GET)
   public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
       @PathVariable Long pluginID, @PathVariable String signaturesSetID,
       @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
           throws Exception, I18NException {
-  
 
-    
-    
       final boolean isPost = false;
     
       requestPlugin(request, response, pluginID, signaturesSetID, signatureIndex, relativePath, isPost);
@@ -209,7 +206,7 @@ public class SignatureModuleController {
   }
   
   
-  // XYZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
+
   /**
    * S'ha de redireccionar la petició al Plugin
    * @param request
@@ -219,32 +216,15 @@ public class SignatureModuleController {
    * @return
    * @throws Exception
    */
-  /* ZZZ
-  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}/**",
+  // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
+  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
        method = RequestMethod.POST)
-  public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
-      @PathVariable int signatureIndex) throws Exception, I18NException {
-    
-    log.info("XYZ  =======   SIGN MODULE POST ========" );
-    
-    
-    String relativePath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-    */
-  
-    // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
-    @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
-        method = RequestMethod.POST)
   public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
       @PathVariable Long pluginID, @PathVariable String signaturesSetID,
       @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
           throws Exception, I18NException {
-  
- 
-    
 
     final boolean isPost = true;
-  
     requestPlugin(request, response, pluginID, signaturesSetID, signatureIndex, relativePath, isPost);
 
   }
@@ -266,17 +246,25 @@ public class SignatureModuleController {
    */
   protected void requestPlugin(HttpServletRequest request, HttpServletResponse response,
       long pluginID, String signatureID, int signatureIndex, 
-      String relativePath, boolean isPost) throws Exception, I18NException {
+      String origrelativePath, boolean isPost) throws Exception, I18NException {
 
     ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
     
-    relativePath = relativePath.replace(',', '/');
-    log.info("XYZ Method = " + request.getMethod());
-    log.info("XYZ relativePath = " +  relativePath);
-    // XYZ
-    //printRequestInfo(request);
+    // S'esta emprant tuckey per obtenir la resta de la URL 
+    // http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
+    // TODO BUG Les bares invertides es substitueixen per comes. Intentar mirar si 
+    // existeix algun tipus d'encoder per obtenir la resta de la URL tal i com és.  
+    
+    
+    String relativePath = origrelativePath.replace(',', '/');
+    if (log.isDebugEnabled()) {
+      log.debug("original relativePath = " +  origrelativePath);
+      log.debug("Method = " + request.getMethod());
+      log.debug("relativePath = " +  relativePath);
+    }
+
     
     String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(request, 
         CONTEXTWEB ,pluginID, signatureID, signatureIndex);
@@ -288,9 +276,7 @@ public class SignatureModuleController {
       signaturePlugin.requestGET(absoluteRequestPluginBasePath, relativePath,
           signatureID, signatureIndex, request, uploadedFiles, response);
     }
-    
-    
-    
+
   }
   
   
@@ -322,18 +308,22 @@ public class SignatureModuleController {
 
   
   
-  public static FileInfoSignature getFileInfoSignature(File source, String idname,
+  public static FileInfoSignature getFileInfoSignature(String signatureID, File source, String idname,
       long locationSignTableID, String reason, int signNumber, String languageSign,
-      long signTypeID, long signAlgorithmID, String firmatPerFormat) throws Exception {
+      long signTypeID, long signAlgorithmID, boolean signModeBool,  String firmatPerFormat)
+          throws I18NException {
 
     PdfInfoSignature pdfInfoSignature = null;
 
+    final int signMode = ((signModeBool == Constants.APPLET_SIGN_MODE_IMPLICIT) ? 
+           FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
+    
     String signType;
-    int signMode; 
+    
     switch((int)signTypeID) {
       case Constants.TIPUSFIRMA_PADES:
         signType = FileInfoSignature.SIGN_TYPE_PADES;
-        signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+
         
         // PDF Visible
         pdfInfoSignature = new PdfInfoSignature();
@@ -352,7 +342,7 @@ public class SignatureModuleController {
            break;
            default:
               // TODO Traduir
-              throw new Exception("Posicio de taula de firmes desconeguda: " + locationSignTableID);
+              throw new I18NException("error.unknown", "Posicio de taula de firmes desconeguda: " + locationSignTableID);
         }
 
         pdfInfoSignature.setSignaturesTableLocation(locationSignTable);
@@ -367,7 +357,6 @@ public class SignatureModuleController {
           prr.setUpperRightX(signBoxRectangle.urx);
           prr.setUpperRightY(signBoxRectangle.ury);
 
-          // TODO XYZ Ha de ser correcte
           IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(
               languageSign, firmatPerFormat, reason, prr);
 
@@ -381,19 +370,15 @@ public class SignatureModuleController {
       
       case Constants.TIPUSFIRMA_CADES:
         signType = FileInfoSignature.SIGN_TYPE_CADES;
-        // TODO revisar SignMode
-        signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
       break;
         
       case Constants.TIPUSFIRMA_XADES:
         signType = FileInfoSignature.SIGN_TYPE_XADES;
-        // TODO revisar SignMode
-        signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
       break;
       
       default:
         // TODO Traduir
-        throw new Exception("Tipus de firma no suportada: " + signTypeID);
+        throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
     }
 
     
@@ -414,12 +399,11 @@ public class SignatureModuleController {
         
       default:
         // TODO Traduir
-        throw new Exception("Tipus d'algorisme no suportat " + signAlgorithmID);
+        throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithmID);
     }
-    
 
-    FileInfoSignature fis = new FileInfoSignature(source, idname,  reason, firmatPerFormat,
-        signNumber, languageSign, signType, signAlgorithm,
+    FileInfoSignature fis = new FileInfoSignature(signatureID, source, idname,  reason,
+        firmatPerFormat, signNumber, languageSign, signType, signAlgorithm,
         signMode, pdfInfoSignature);
     
     return fis;
@@ -471,13 +455,17 @@ public class SignatureModuleController {
 
         Map<String, MultipartFile> files = multipartRequest.getFileMap();
 
-        log.info("XYZ multipartRequest.getFileMap() = " + files);
-        log.info("XYZ multipartRequest.getFileMap().size() = " + files.size());
+        if (log.isDebugEnabled()) {
+          log.debug("getMultipartFiles::multipartRequest.getFileMap() = " + files);
+          log.debug("getMultipartFiles::multipartRequest.getFileMap().size() = " + files.size());
+        }
 
         for (String name : files.keySet()) {
 
           MultipartFile mpf = files.get(name);
-          log.info("XYZ  KEY[" + name + "] = len:" + mpf.getSize());
+          if (log.isDebugEnabled()) {
+            log.debug("getMultipartFiles::KEY[" + name + "] = len:" + mpf.getSize());
+          }
 
           if (mpf.isEmpty() || mpf.getSize() == 0) {
             continue;
@@ -491,13 +479,24 @@ public class SignatureModuleController {
         }
 
       } catch (Throwable e) {
-        // TODO XYZ
-        e.printStackTrace();
+        log.error("Error processant fitxers pujats en la petició web: " + e.getMessage(), e);
       }
     }
 
     return uploadedFiles;
   }
   
+  
+  public static long generateUniqueSignaturesSetID() {
+    long id;
+    synchronized (CONTEXTWEB) {
+      id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+      }
+    }
+    return id;
+  }
 
 }

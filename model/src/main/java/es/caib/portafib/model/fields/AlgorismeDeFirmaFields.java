@@ -12,7 +12,7 @@ public interface AlgorismeDeFirmaFields extends java.io.Serializable {
   public static final String _TABLE_TRANSLATION = _TABLE_MODEL + "." + _TABLE_MODEL;
 
 
-	 public static final LongField ALGORISMEDEFIRMAID = new LongField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");  // PK
+	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");  // PK
 	 public static final StringField NOM = new StringField(_TABLE_MODEL, "nom", "nom");
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
 	 public static final BooleanField SUPORTAT = new BooleanField(_TABLE_MODEL, "suportat", "suportat");

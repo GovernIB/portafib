@@ -60,6 +60,9 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+        
+   
+        
 
 		<!-- Externes -->
 
@@ -210,7 +213,7 @@
                     <artifactId>plugin-documentcustody-filesystem</artifactId>
 				    <version>${plugins.version}</version>
 				</dependency>
-				
+
 				<!--
 				<dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
@@ -294,7 +297,7 @@
                 
                 <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletasapplet</artifactId>
+                    <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
                     <version>${plugins.version}</version>
                 </dependency>
 

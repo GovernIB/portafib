@@ -22,41 +22,8 @@
       <servlet-class>es.caib.portafib.back.utils.InitServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
     </servlet>
-
-
-	<!--  UPLOAD SERVLETS XYZ S?HAN D'ELIMINAR -->
-	<servlet>
-	  <servlet-name>AutoFirmaUploadServlet</servlet-name>
-	  <servlet-class>es.caib.portafib.back.controller.common.AutoFirmaServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-	  <servlet-name>AutoFirmaUploadServlet</servlet-name>
-	  <url-pattern>/common/autofirma/destination/*</url-pattern>
-	</servlet-mapping>
-    
-	
-	<servlet>
-	  <servlet-name>FirmaUploadServlet</servlet-name>
-	  <servlet-class>es.caib.portafib.back.controller.dest.EstatFirmaServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-	  <servlet-name>FirmaUploadServlet</servlet-name>
-	  <url-pattern>/estatDeFirma/destination/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-      <servlet-name>AutoritzacioDelegacioServlet</servlet-name>
-      <servlet-class>es.caib.portafib.back.controller.dest.AutoritzacioDelegacioServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-      <servlet-name>AutoritzacioDelegacioServlet</servlet-name>
-      <url-pattern>/dest/delegat/destination/*</url-pattern>
-    </servlet-mapping>
-    
-    <!--  XYZ ZZZ   -->
+  
+    <!--  XYZ ZZZ Mirar d'afegir algun encorer amb la finalitat que les '/' no es converteixin a ','  -->
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -67,7 +34,6 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
- 
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
@@ -194,16 +160,6 @@
             <url-pattern>/index.jsp</url-pattern>
             <!-- Plugins de Firma -->
             <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
-            <!--  XYZ Tots aquests s'han d'esborrar -->
-            <!--  Oberts per JNLP & Applet ClientCert -->
-            <url-pattern>/applet/*</url-pattern>
-            <url-pattern>/common/rubrica/*</url-pattern>
-            <url-pattern>/common/arxiu/*</url-pattern>
-            <url-pattern>/estatDeFirma/destination/*</url-pattern>
-            <url-pattern>/common/autofirma/source/*</url-pattern>
-            <url-pattern>/common/autofirma/destination/*</url-pattern>
-            <url-pattern>/dest/delegat/source/*</url-pattern>
-            <url-pattern>/dest/delegat/destination/*</url-pattern>
         </web-resource-collection>
         <!-- No auth-constraint means everybody has access! -->
     </security-constraint>

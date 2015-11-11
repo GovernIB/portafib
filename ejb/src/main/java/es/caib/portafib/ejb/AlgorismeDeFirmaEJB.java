@@ -33,7 +33,7 @@ public class AlgorismeDeFirmaEJB extends AlgorismeDeFirmaJPAManager implements A
 
   @Override
 	@RolesAllowed({"PFI_ADMIN","PFI_USER"})
-  public AlgorismeDeFirmaJPA findByPrimaryKey(Long _ID_) {
+  public AlgorismeDeFirmaJPA findByPrimaryKey(Integer _ID_) {
     return (AlgorismeDeFirmaJPA)super.findByPrimaryKey(_ID_);
   }
 

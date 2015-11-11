@@ -42,6 +42,8 @@ public class FileInfoSignature {
 
 
   File source;
+  
+  String signID;
 
   String name;
 
@@ -80,11 +82,11 @@ public class FileInfoSignature {
    * @param signMode
    * @param pdfInfoSignature
    */
-  public FileInfoSignature(File source, String name, String reason, String firmatPerFormat,
+  public FileInfoSignature(String signID, File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
       int signMode, PdfInfoSignature pdfInfoSignature) {
     super();
-    setValues(source, name, reason, firmatPerFormat, signNumber, languageSign, signType,
+    setValues(signID, source, name, reason, firmatPerFormat, signNumber, languageSign, signType,
         signAlgorithm, signMode, pdfInfoSignature);
   }
   
@@ -101,10 +103,10 @@ public class FileInfoSignature {
    * @param signMode
    * @param pdfInfoSignature
    */
-  public void setValues(File source, String name, String reason, String firmatPerFormat,
+  public void setValues(String signID, File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
       int signMode, PdfInfoSignature pdfInfoSignature) {
-
+    this.signID = signID;
     this.source = source;
     this.name = name;
     this.reason = reason;
@@ -115,6 +117,14 @@ public class FileInfoSignature {
     this.signAlgorithm = signAlgorithm;
     this.signMode = signMode;
     this.pdfInfoSignature = pdfInfoSignature;
+  }
+
+  public String getSignID() {
+    return signID;
+  }
+
+  public void setSignID(String signID) {
+    this.signID = signID;
   }
 
   public File getSource() {

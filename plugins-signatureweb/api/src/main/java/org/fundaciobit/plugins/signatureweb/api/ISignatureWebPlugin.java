@@ -46,5 +46,7 @@ public interface ISignatureWebPlugin extends IPlugin {
   public StatusSignature[] getStatusSignatureSet(String signatureSetID);
 
   public StatusSignature getStatusSignature(String signatureSetID, int signatureIndex);
+  
+  public SignaturesSet getSignaturesSet(String signaturesSetID);
 
 }

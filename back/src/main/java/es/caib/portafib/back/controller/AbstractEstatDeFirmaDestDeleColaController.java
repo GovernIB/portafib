@@ -7,6 +7,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
@@ -21,9 +22,18 @@ import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -32,9 +42,12 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,13 +55,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import es.caib.portafib.back.form.webdb.*;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.AppletConfig;
-import es.caib.portafib.back.utils.AppletSignFile;
 import es.caib.portafib.back.controller.FileDownloadController;
+import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
+import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
+import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -59,6 +73,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
@@ -68,7 +83,17 @@ import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.model.fields.*;
+import es.caib.portafib.model.fields.AnnexFields;
+import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
+import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.TipusDocumentFields;
+import es.caib.portafib.model.fields.UsuariPersonaFields;
+import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 
   /**
@@ -95,6 +120,9 @@ import es.caib.portafib.utils.Configuracio;
 
     @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
+
+    @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
     protected es.caib.portafib.ejb.AnnexLocal annexEjb;
@@ -502,7 +530,7 @@ import es.caib.portafib.utils.Configuracio;
         List<StringKeyValue> listIds = estatDeFirmaEjb.executeQuery(smskv, ESTATDEFIRMAID.in(seleccionats));
         
 
-        List<AppletSignFile> fitxers = new ArrayList<AppletSignFile>();
+        List<FileInfoSignature> fileInfoSignatureArray = new ArrayList<FileInfoSignature>();
         
         String langUI = loginInfo.getUsuariPersona().getIdiomaID();
 
@@ -530,11 +558,11 @@ import es.caib.portafib.utils.Configuracio;
               continue;
             }
 
-            AppletSignFile appletSignFile;
-            appletSignFile = prepareAppletFirma(request, estatDeFirmaID, peticioDeFirmaID,
+            FileInfoSignature fileInfoSignature;
+            fileInfoSignature = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
                 langUI);
-            if (appletSignFile != null) {
-              fitxers.add(appletSignFile);
+            if (fileInfoSignature != null) {
+              fileInfoSignatureArray.add(fileInfoSignature);
             }
 
             peticionsDeFirmaID.add(peticioDeFirmaID);
@@ -542,23 +570,48 @@ import es.caib.portafib.utils.Configuracio;
           }
         }
 
-        if (fitxers.isEmpty()) {
+        if (fileInfoSignatureArray.isEmpty()) {
           // TODO avis
           return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
+        
+        final String signaturesSetID = String.valueOf(SignatureModuleController.generateUniqueSignaturesSetID());
 
-        EntitatJPA entitat = loginInfo.getEntitat(); 
-        AppletConfig config = es.caib.portafib.back.utils.Utils.getAppletConfig(
-            entitat, langUI, isJnlp ? "" : ( getContextWeb() + "/final"));
-          /*
-           new AppletConfig(langUI, getContextWeb() + "/final", loginInfo
-            .getEntitat().getFiltreCertificats(), Configuracio.getAppletSignerClass());
-            */
-        String view = isJnlp? ("firmaJNLP_" + getRole()) : ( "firmaApplet_" + getRole());
-        ModelAndView mav = new ModelAndView(view);
-        mav.addObject("fitxers", fitxers);
-        mav.addObject("config", config);
+        CommonInfoSignature commonInfoSignature;
+        {
+          // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
+          String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
+
+          // XYZ S'ha de simplificar en una sola URL
+          final String urlOK = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
+          final String urlError = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
+
+          final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+          commonInfoSignature = SignatureModuleController.getCommonInfoSignature(
+              loginInfo.getEntitat(), langUI, username, urlOK, urlError, !isJnlp);
+        }
+        
+        // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
+        // finalitzat el proces de firma
+        Calendar caducitat = Calendar.getInstance();
+        caducitat.add(Calendar.MINUTE, 9 + fileInfoSignatureArray.size());
+        
+
+
+        SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, caducitat.getTime(),
+            commonInfoSignature, fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]));
+
+
+        final String view = "PluginDeFirmaContenidor_" + getRole();
+        ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+        
+        
+        // XYZ 
+        // Posar en marxa un thread que vagi mirant les entrades i les processi 
+        // En el mapping finalOK o finalError descartar les entrades ja processades
+
         return mav;
+        
     }
     
     
@@ -708,61 +761,203 @@ import es.caib.portafib.utils.Configuracio;
         HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
         return llistatPaginat(request, response, null);
       }
-
       
-
-      AppletSignFile appletSignFile;
-      appletSignFile = prepareAppletFirma(request, estatDeFirmaID, peticioDeFirmaID, LoginInfo
-          .getInstance().getUsuariPersona().getIdiomaID());
-
-      if (appletSignFile == null) {
-        return llistatPaginat(request, response, null);
-      }
-
-      List<AppletSignFile> fitxers = new ArrayList<AppletSignFile>();
-      fitxers.add(appletSignFile);
-
       LoginInfo loginInfo = LoginInfo.getInstance();
+      
+      final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+      
+      
+      FileInfoSignature fis = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID, langUI);
 
-      
-      
+      FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
+
+
       EntitatJPA entitat = loginInfo.getEntitat();
+
+      final String signaturesSetID= String.valueOf(peticioDeFirmaID + "_" + estatDeFirmaID);
       
-      AppletConfig config = es.caib.portafib.back.utils.Utils.getAppletConfig(
-          entitat, loginInfo.getUsuariPersona().getIdiomaID(),
-          isJnlp?"" : (getContextWeb() + "/final"));
-      
-      /*
-      if (entitat.getPolicyIdentifier() != null) {
-        config = new AppletConfig(loginInfo.getUsuariPersona().getIdiomaID(),
-            getContextWeb() + "/final", entitat.getFiltreCertificats(),
-            Configuracio.getAppletSignerClass(),
-          entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
-          entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
-      } else {
-        config = new AppletConfig(loginInfo.getUsuariPersona().getIdiomaID(),
-            getContextWeb() + "/final", loginInfo.getEntitat().getFiltreCertificats(),
-            Configuracio.getAppletSignerClass());
+      CommonInfoSignature commonInfoSignature;
+      {
+        // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
+        String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
+        
+        // XYZ SIMPLIFICAR EN UNA SOLA URL FINAL
+        final String urlOK = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
+        final String urlError = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
+
+        final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+        commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
+            langUI, username, urlOK, urlError, !isJnlp);
       }
-      */
-      String role = getRole();
-      String view =  isJnlp?  ("firmaJNLP_" + role): ("firmaApplet_" + role);
-      ModelAndView mav = new ModelAndView(view);
       
-      mav.addObject("fitxers", fitxers);
-      mav.addObject("config", config);
+      // Vuls suposar que abans de 10 minuts haurà firmat
+      Calendar caducitat = Calendar.getInstance();
+      caducitat.add(Calendar.MINUTE, 10);
       
+
+      SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, caducitat.getTime(),
+          commonInfoSignature, fileInfoSignatureArray);
+
+
+      final String view = "PluginDeFirmaContenidor_AutoFirma";
+      ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+
       return mav;
     }
     
     
+    
+    /**
+     * Quan acaba el mòdul de firma
+     * @param request
+     * @param response
+     * @param pluginID
+     * @param signaturesSetID
+     * @return
+     * @throws Exception
+     * @throws I18NException
+     */
+    @RequestMapping(value = "/finalFirma/{pluginID}/{signaturesSetID}")
+    public ModelAndView finalFirma(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable("pluginID") Long pluginID,
+        @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
+    
+    
 
+      ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+
+      // TODO check null
+      SignaturesSet signatureSet = signaturePlugin.getSignaturesSet(signaturesSetID);
+      
+      FileInfoSignature[] signedFiles = signatureSet.getFileInfoSignatureArray();
+      
+      for (int i = 0; i < signedFiles.length; i++) {
+      
+        
+        final FileInfoSignature signedFile = signedFiles[i];
+        
+        SignatureID signID = decodeSignatureID(signedFile.getSignID());
+        
+        final long estatDeFirmaID = signID.getEstatDeFirmaID();
+        final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
+        final String token = signID.getToken();
+        
+        StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, i);
+      
+        switch(status.getStatus()) {
+        
+            case StatusSignature.STATUS_SIGNED:
+              
+              try {
+
+  
+                File firmat = File.createTempFile(peticioDeFirmaID + "_" + estatDeFirmaID + "_Firma_Firmat_", ".pdf",
+                    FileSystemManager.getFilesPath());
+                firmat.deleteOnExit();
+  
+                FileOutputStream fos = new FileOutputStream(firmat);
+                fos.write(status.getSignedData());
+                fos.close();
+  
+                if (log.isDebugEnabled()) {
+                  log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
+                }
+  
+                peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
+                    signedFile.getSignNumber());
+  
+                log.debug("WWWWWWWWW FINAL ");
+                
+                status.setProcessed(true);
+  
+              } catch (Throwable e) {
+                log.error(" CLASS = " + e.getClass());
+                String msg;
+                if (e instanceof I18NException) {
+                  I18NException i18ne = (I18NException)e;
+                  msg = I18NUtils.getMessage(i18ne);
+                  log.error("Error processant fitxer firmat (I18NException): " + msg, e);
+                } else {
+                  msg = e.getMessage();
+                  log.error("Error processant fitxer firmat (Throwable): " + msg , e);
+                }
+
+                //  TODO Traduir
+                String fullMsg = "S´ha produit un error processant el fitxer firmat ´" + 
+                    signedFile.getName() + "´: " + msg;
+                
+                HtmlUtils.saveMessageError(request, fullMsg);
+
+              }
+              
+            break; // FINAL DE CAS FIRMAT
+        
+            
+            case StatusSignature.STATUS_ERROR:
+            {
+              // Mostrar excepció per log
+              // TODO traduir
+              String msg = "S´ha produit un error durant la firma del fitxer  ´" + 
+                  signedFile.getName() + "´: " + status.getErrorMsg(); 
+              
+              if (status.getErrorException() == null) {
+                log.error(msg);
+              } else {
+                log.error(msg, status.getErrorException());
+              }
+              
+              
+              HtmlUtils.saveMessageError(request, msg);
+              
+              status.setProcessed(true);
+            }
+            break;
+            
+            default:
+            {
+              // TODO traduir
+              String msg = "Ha finalitzat el process de firma amb ID " + signaturesSetID 
+              + " però la firma del fitxer ´" +  signedFile.getName()
+              + "´ no està ni firmat ni té errors.";
+               
+              log.error(msg, new Exception());
+              
+              HtmlUtils.saveMessageWarning(request, msg);
+            }
+        
+        }
+      }
+      
+      signaturePlugin.closeSignaturesSet(signaturesSetID);
+      
+      ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+      return mav;
+      
+    }
+    
+    
+    protected String encodeSignatureID(Long peticioDeFirmaID, Long estatDeFirmaID, String token) {
+      return peticioDeFirmaID + "|" + estatDeFirmaID + "|" + token;
+      
+    }
+
+    /**
+     * [0] conte peticioDeFirmaID, [1] conte estatDeFirmaID i [2] conté token
+     * @param encoded
+     * @return
+     */
+    protected SignatureID decodeSignatureID(String encoded) {
+      
+      String[] parts = encoded.split("\\|");
+
+      return new SignatureID(Long.parseLong(parts[0]),Long.parseLong(parts[1]),parts[2]);
+    }
    
 
-    protected AppletSignFile prepareAppletFirma(HttpServletRequest request, Long estatDeFirmaID,
+    protected FileInfoSignature prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
         Long peticioDeFirmaID, String langUI) throws I18NException {
-      AppletSignFile appletSignFile;
-      {
+      
+      
 
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
             Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
@@ -824,24 +1019,21 @@ import es.caib.portafib.utils.Configuracio;
         // Preparar pàgina Applet
         FirmaJPA lastFirma = peticioDeFirmaLogicaEjb
             .getLastSignOfPeticioDeFirma(peticioDeFirmaID);
-        final String source;
+        final File source;
         if (lastFirma == null) {
           log.debug("No hi ha firmes. La font del document és el document original");
-          source = FileDownloadController.fileUrl(peticioDeFirma.getFitxerAdaptat());
+          source = FileSystemManager.getFile(peticioDeFirma.getFitxerAdaptatID());
         } else {
           if (log.isDebugEnabled()) {
             log.debug("La darrera firma és " + firma.getFirmaID() + " (#"
                 + firma.getNumFirmaDocument() + ")");
           }
-          source = FileDownloadController.fileUrl(lastFirma.getFitxerFirmat());
+          source =  FileSystemManager.getFile(lastFirma.getFitxerFirmatID());
         }
 
         final int sign_number = lastFirma == null ? 1 : (lastFirma.getNumFirmaDocument() + 1);
 
-        final String destination = "/estatDeFirma/destination/" + estatDeFirmaID + "/"
-            + peticioDeFirmaID + "/" + token + "/" + sign_number;
-
-        final int location_sign_table = (int) peticioDeFirma.getPosicioTaulaFirmesID();
+        final long location_sign_table = peticioDeFirma.getPosicioTaulaFirmesID();
         
         String langSign = peticioDeFirma.getIdiomaID();
         if (langSign == null) {
@@ -887,22 +1079,23 @@ import es.caib.portafib.utils.Configuracio;
 
         final String firmatPerFormat = es.caib.portafib.back.utils.Utils.getFirmatPerFormat(entitat, langSign);
 
-        appletSignFile = new AppletSignFile(source, destination, idname, location_sign_table,
-            reason, sign_number, langSign, peticioDeFirma.getTipusFirmaID(),
-            peticioDeFirma.getAlgorismeDeFirmaID(), peticioDeFirma.getModeDeFirma(),
-            firmatPerFormat);
-
-      }
-      return appletSignFile;
+       final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
+       return SignatureModuleController.getFileInfoSignature(signatureID, source, idname,
+            location_sign_table, reason, sign_number, 
+            langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
+            peticioDeFirma.getModeDeFirma(), firmatPerFormat);
+      
+       
+       
     }
+    
+
 
 
     @RequestMapping(value = "/rebutjar/{estatDeFirmaID}/{peticioDeFirmaID}")
     public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
-      // TODO traduir
-      // checkRole(request, "rebutjar");
 
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
           Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
@@ -915,22 +1108,7 @@ import es.caib.portafib.utils.Configuracio;
       FirmaJPA firma = check.firma;
       PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
 
-      /*
-       * EstatDeFirmaJPA estatDeFirma; estatDeFirma =
-       * checkEstatDeFirma(estatDeFirmaID, request, loginInfo,
-       * LogicUtils.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR); if
-       * (estatDeFirma == null) { // S'ha produit un error i retornam el control
-       * al llistat return llistatPaginat(request, null); }
-       * 
-       * FirmaJPA firma = checkFirma(estatDeFirma, request ); if (firma == null) {
-       * // S'ha produit un error i retornam el control al llistat return
-       * llistatPaginat(request, null); }
-       * 
-       * PeticioDeFirmaJPA peticioDeFirma = checkPeticioDeFirma(peticioDeFirmaID,
-       * request); if (peticioDeFirma == null) { // S'ha produit un error i
-       * retornam el control al llistat return llistatPaginat(request, null); }
-       */
-
+     
       // Mirar si aquesta peticio esta bloquejada. Sino la bloquejam per rebutjar
       // !!!
       // TODO AIXO HA d'ANAR a LOGICA
@@ -968,7 +1146,6 @@ import es.caib.portafib.utils.Configuracio;
 
       // seleccionats conté els estatIDs
       String[] seleccionatsStr = filterForm.getSelectedItems();
-      // String role = filterForm.getRole();
 
 
       if (seleccionatsStr == null || seleccionatsStr.length == 0) {
@@ -1092,8 +1269,7 @@ import es.caib.portafib.utils.Configuracio;
     public ModelAndView marcarrevisant(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
-      // TODO traduir
-      // checkRole(request, "revisant per validar");
+
       try {
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
             Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
@@ -1355,7 +1531,6 @@ import es.caib.portafib.utils.Configuracio;
           infoDestByEstat.put(keyValue.getKey(), "<small>" + keyValue.getValue() + "</small>");
         }
 
-        //mav.addObject("infoDestByEstat", infoDestByEstat);
       }
       
       //  Delegats
@@ -1426,14 +1601,12 @@ import es.caib.portafib.utils.Configuracio;
       
       // Col·laboradors
       boolean ocultarColumnaColaboradors = filterForm.getHiddenFields().contains(ColaboracioDelegacioFields.DESTINATARIID); 
-      // TODO <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
+
       if ((role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) 
           // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
           && !ocultarColumnaColaboradors) {
         
         Map<Long, String> mapCC = new HashMap<Long, String>();
-        //mapCC = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_COLABORADORS).getValueMap();
-        //mapCC.clear();
 
         boolean existeixenColaboracions = false;
         
@@ -1599,19 +1772,6 @@ import es.caib.portafib.utils.Configuracio;
                  "javascript:rebutjar('" + request.getContextPath() +  getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")" ,
                   "btn-danger"));
 
-
-             
-           /*
-          <c:url var="_tmpUrl" value="${contexte}/rebutjar/${estatID}/${peticioID}"/>
-          
-          <c:set var="_senseEscapar" value="rebutjar('${pfi:escapeJavaScript(_tmpUrl)}', ${estatID})" />
-          
-          <a class="btn btn-danger" href="#"
-            onclick="${_senseEscapar}"
-            title="<fmt:message key="rebutjar"/>">
-            <i class="icon-remove"></i>
-          </a>
-          */
            }
         
            
@@ -1621,15 +1781,6 @@ import es.caib.portafib.utils.Configuracio;
                  new AdditionalButton("icon-flag", "marcarrevisant",
                  getContextWeb() + "/marcarrevisant/" + estatId + "/" + peticioID ,
                   "btn-warning"));
-             
-                  /*
-        
-          <a class="btn btn-success" href="#" 
-            onclick="goTo('<c:url value="${contexte}/marcarrevisant/${estatID}/${peticioID}"/>')"
-            title="<fmt:message key="marcarrevisant"/>">
-            <i class="icon-flag"></i>
-          </a>
-          */
            }
         
            if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR 
@@ -1640,26 +1791,12 @@ import es.caib.portafib.utils.Configuracio;
                  new AdditionalButton("icon-check", "validar",
                   getContextWeb() + "/validar/" + estatId + "/" + peticioID,
                   "btn-success"));
-             /*
-          <a class="btn btn-success" href="#" 
-            onclick="goTo('<c:url value="${contexte}/validar/${estatID}/${peticioID}"/>')"
-            title="<fmt:message key="validar"/>">
-            <i class="icon-check"></i>
-          </a>
-          */
              
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-remove", "invalidar",
                  "javascript:invalidar('" + request.getContextPath() + "" + getContextWeb() + "/invalidar/" + estatId + "/" + peticioID + "')" ,
                   "btn-danger"));
-             
-             /*
-          <a class="btn btn-danger" href="#" 
-            onclick="invalidar('<c:url value="${contexte}/invalidar/${estatID}/${peticioID}"/>')"
-            title="<fmt:message key="invalidar"/>">
-            <i class="icon-remove"></i>
-          </a>
-          */
+
           }
         
         
@@ -1743,19 +1880,6 @@ import es.caib.portafib.utils.Configuracio;
 
     }
 
-    /*
-     * 
-     * public void fillMapReferences(ModelAndView mav) throws Exception {
-     * List<StringKeyValue> listInicial =
-     * tipusEstatDeFirmaInicialRefList.getReferenceList(
-     * TipusEstatDeFirmaInicialFields.TIPUSESTATDEFIRMAINICIALID, null);
-     * mav.addObject("estatsInicials", Utils.listToMap(listInicial));
-     * 
-     * List<StringKeyValue> listFinal =
-     * tipusEstatDeFirmaFinalRefList.getReferenceList(
-     * TipusEstatDeFirmaFinalFields.TIPUSESTATDEFIRMAFINALID, null);
-     * mav.addObject("estatsFinals", Utils.listToMap(listFinal)); }
-     */
 
     // TODO Estats inicials eliminar list
 
@@ -1787,8 +1911,6 @@ import es.caib.portafib.utils.Configuracio;
           }
 
           int index = Long.valueOf(valStr).intValue();
-          // log.info("MMMMMM " + item.getCodeLabel() + "  " + val + "  " +
-          // item.getCount());
 
           try {
             valors[index + 2] = count;
@@ -1797,13 +1919,7 @@ import es.caib.portafib.utils.Configuracio;
           } catch (IndexOutOfBoundsException iobe) {
             log.error("Valor desconegut " + valStr + " o index fora de rang " + index, iobe);
           }
-          /*
-           * if ("1".equals(val)) { valors[2] = count; total = total + count;
-           * continue; }
-           * 
-           * if ("4".equals(val)) { valors[3] = count; total = total + count;
-           * continue; }
-           */
+
 
         }
 
@@ -2171,6 +2287,42 @@ import es.caib.portafib.utils.Configuracio;
       
     }
    
+    
+    /**
+     * 
+     * @author anadal
+     *
+     */
+    public static class SignatureID {
+      
+      
+      final Long estatDeFirmaID;
+      final Long peticioDeFirmaID;
+      final String token;
+      /**
+       * @param peticioDeFirmaID
+       * @param estatDeFirmaID
+       * @param token
+       */
+      public SignatureID(Long peticioDeFirmaID, Long estatDeFirmaID, String token) {
+        super();
+        this.peticioDeFirmaID = peticioDeFirmaID;
+        this.estatDeFirmaID = estatDeFirmaID;
+        this.token = token;
+      }
+      public Long getEstatDeFirmaID() {
+        return estatDeFirmaID;
+      }
+      public Long getPeticioDeFirmaID() {
+        return peticioDeFirmaID;
+      }
+      public String getToken() {
+        return token;
+      }
+      
+      
+    }
+    
 
     /*
      * @Override public String[] getArgumentsMissatge(Object __estatDeFirmaID,

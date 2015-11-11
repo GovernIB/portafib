@@ -20,24 +20,24 @@ import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 @Component
 public class AlgorismeDeFirmaFilterForm extends PortaFIBBaseFilterForm implements AlgorismeDeFirmaFields {
 
-  private java.lang.Long algorismeDeFirmaIDDesde;
+  private java.lang.Integer algorismeDeFirmaIDDesde;
 
-  public java.lang.Long getAlgorismeDeFirmaIDDesde() {
+  public java.lang.Integer getAlgorismeDeFirmaIDDesde() {
     return this.algorismeDeFirmaIDDesde;
   }
 
-  public void setAlgorismeDeFirmaIDDesde(java.lang.Long algorismeDeFirmaIDDesde) {
+  public void setAlgorismeDeFirmaIDDesde(java.lang.Integer algorismeDeFirmaIDDesde) {
     this.algorismeDeFirmaIDDesde = algorismeDeFirmaIDDesde;
   }
 
 
-  private java.lang.Long algorismeDeFirmaIDFins;
+  private java.lang.Integer algorismeDeFirmaIDFins;
 
-  public java.lang.Long getAlgorismeDeFirmaIDFins() {
+  public java.lang.Integer getAlgorismeDeFirmaIDFins() {
     return this.algorismeDeFirmaIDFins;
   }
 
-  public void setAlgorismeDeFirmaIDFins(java.lang.Long algorismeDeFirmaIDFins) {
+  public void setAlgorismeDeFirmaIDFins(java.lang.Integer algorismeDeFirmaIDFins) {
     this.algorismeDeFirmaIDFins = algorismeDeFirmaIDFins;
   }
 
