@@ -59,9 +59,9 @@ public class FitxerValidator<T> implements FitxerFields {
     
     if (__vr.getFieldErrorCount(MIME) == 0) {
       java.lang.String __mime = (java.lang.String)__vr.getFieldValue(__target__,MIME);
-      if (__mime!= null && __mime.length() > 45) {
+      if (__mime!= null && __mime.length() > 255) {
         __vr.rejectValue(MIME, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MIME)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(45)));
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MIME)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     

@@ -23,6 +23,10 @@ public class RebreAvisQueryPath extends org.fundaciobit.genapp.common.query.Quer
     return new LongField(getQueryPath(), RebreAvisFields.TIPUSNOTIFICACIOID);
   }
 
+  public BooleanField REBREAGRUPAT() {
+    return new BooleanField(getQueryPath(), RebreAvisFields.REBREAGRUPAT);
+  }
+
 
 
   @Override

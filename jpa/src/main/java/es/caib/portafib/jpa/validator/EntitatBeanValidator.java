@@ -17,7 +17,11 @@ public class EntitatBeanValidator
 
 
   // EJB's
+  protected final es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager;
+
   protected final es.caib.portafib.model.dao.IEntitatManager __entitatManager;
+
+  protected final es.caib.portafib.model.dao.ITraduccioManager __traduccioManager;
 
   protected final es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager;
 
@@ -25,17 +29,25 @@ public class EntitatBeanValidator
   public final EntitatValidator<EntitatJPA> _validator;
 
 
-  public EntitatBeanValidator(es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+  public EntitatBeanValidator(es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
+     es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+     es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) { 
+    this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__entitatManager = __entitatManager;
+    this.__traduccioManager = __traduccioManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
     _validator = new EntitatValidator<EntitatJPA>();
   }
 
   public EntitatBeanValidator(EntitatValidator<EntitatJPA> _validator,
+     es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+     es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
+    this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__entitatManager = __entitatManager;
+    this.__traduccioManager = __traduccioManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
     this._validator = _validator;
   }
@@ -43,7 +55,7 @@ public class EntitatBeanValidator
   @Override
   public List<I18NFieldError> validate(EntitatJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<EntitatJPA> _bvr_ = new BeanValidatorResult<EntitatJPA>();
-    _validator.validate(_bvr_, target, isNou, __entitatManager, __usuariAplicacioManager);
+    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __entitatManager, __traduccioManager, __usuariAplicacioManager);
     return _bvr_.getErrors();
   }
 }

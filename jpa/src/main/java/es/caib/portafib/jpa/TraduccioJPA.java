@@ -77,6 +77,32 @@ private static final long serialVersionUID = -326205279L;
     return __result;
   }
 
+// EXP  Field:firmatperformatid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmatPerFormatID")
+	private Set<EntitatJPA> entitat_firmatperformatids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_firmatperformatids() {
+    return this.entitat_firmatperformatids;
+  }
+
+	public void setEntitat_firmatperformatids(Set<EntitatJPA> entitat_firmatperformatids) {
+	  this.entitat_firmatperformatids = entitat_firmatperformatids;
+	}
+
+
+// EXP  Field:motiudelegacioid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "motiuDelegacioID")
+	private Set<EntitatJPA> entitat_motiudelegacioids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_motiudelegacioids() {
+    return this.entitat_motiudelegacioids;
+  }
+
+	public void setEntitat_motiudelegacioids(Set<EntitatJPA> entitat_motiudelegacioids) {
+	  this.entitat_motiudelegacioids = entitat_motiudelegacioids;
+	}
+
+
 // EXP  Field:nomid | Table: pfi_moduldefirma | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
@@ -193,6 +219,14 @@ private static final long serialVersionUID = -326205279L;
     if(!"TipusDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
       __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_motiudelegacioids())) ) {
+      __tmp.setEntitat_motiudelegacioids(EntitatJPA.copyJPA(__jpa.getEntitat_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_firmatperformatids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_firmatperformatids())) ) {
+      __tmp.setEntitat_firmatperformatids(EntitatJPA.copyJPA(__jpa.getEntitat_firmatperformatids(), __alreadyCopied,"TraduccioJPA"));
     }
     // Copia de beans complexes (IMP)
     // Aquesta linia s'afeix de forma manual

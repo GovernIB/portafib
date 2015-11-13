@@ -84,15 +84,20 @@
         entitatid varchar2(50 char) not null,
         activa number(1,0) not null,
         adrezahtml varchar2(2000 char) not null,
+        algorismedefirmaid number(10,0) not null,
+        comprovarcertificatclientcert number(1,0) not null,
+        comprovarniffirma number(1,0) not null,
         descripcio varchar2(255 char),
         faviconid number(19,0) not null,
         filtrecertificats clob not null,
+        firmatperformatid number(19,0),
         logosegellid number(19,0) not null,
         logowebid number(19,0) not null,
         logowebpeuid number(19,0) not null,
         maxfilestosignatsametime number(10,0),
         maxsizefitxeradaptat number(19,0),
         maxuploadsize number(19,0),
+        motiudelegacioid number(19,0),
         nom varchar2(50 char) not null,
         pdfautoritzaciodelegacioid number(19,0) not null,
         policyidentifier varchar2(100 char),
@@ -140,7 +145,7 @@
     create table pfi_fitxer (
         fitxerid number(19,0) not null,
         descripcio varchar2(1000 char),
-        mime varchar2(45 char) not null,
+        mime varchar2(255 char) not null,
         nom varchar2(255 char) not null,
         tamany number(19,0) not null
     );
@@ -280,6 +285,7 @@
 
     create table pfi_rebreavis (
         id number(19,0) not null,
+        rebreagrupat number(1,0) not null,
         tipusnotificacioid number(19,0) not null,
         usuarientitatid varchar2(101 char) not null
     );
@@ -435,12 +441,15 @@
     create index pfi_custodia_msgpospagid_fk_i on pfi_custodiainfo (missatgeposiciopaginaid);
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
+    create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
     create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
     create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
     create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
+    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
     create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
     create index pfi_estatdefirma_pk_i on pfi_estatdefirma (estatdefirmaid);
@@ -722,6 +731,16 @@
         references pfi_usuariaplicacio;
 
     alter table pfi_entitat 
+        add constraint pfi_entitat_traduccio_moti_fk 
+        foreign key (motiudelegacioid) 
+        references pfi_traduccio;
+
+    alter table pfi_entitat 
+        add constraint pfi_entitat_traduccio_firm_fk 
+        foreign key (firmatperformatid) 
+        references pfi_traduccio;
+
+    alter table pfi_entitat 
         add constraint pfi_entitat_fitxer_lope_fk 
         foreign key (logowebpeuid) 
         references pfi_fitxer;
@@ -735,6 +754,11 @@
         add constraint pfi_entitat_fitxer_lose_fk 
         foreign key (logosegellid) 
         references pfi_fitxer;
+
+    alter table pfi_entitat 
+        add constraint pfi_entitat_algofirma_fk 
+        foreign key (algorismedefirmaid) 
+        references pfi_algorismedefirma;
 
     alter table pfi_entitat 
         add constraint pfi_entitat_fitxer_loca_fk 

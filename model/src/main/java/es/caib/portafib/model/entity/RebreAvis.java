@@ -11,6 +11,9 @@ public interface RebreAvis extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public long getTipusNotificacioID();
 	public void setTipusNotificacioID(long _tipusNotificacioID_);
 
+	public boolean isRebreAgrupat();
+	public void setRebreAgrupat(boolean _rebreAgrupat_);
+
 
 
   // ======================================

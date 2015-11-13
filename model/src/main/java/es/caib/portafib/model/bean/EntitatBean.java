@@ -33,6 +33,11 @@ private static final long serialVersionUID = -2014602951L;
 	java.lang.String policyIdentifierHash;
 	java.lang.String policyIdentifierHashAlgorithm;
 	java.lang.String policyUrlDocument;
+	java.lang.Long motiuDelegacioID;
+	java.lang.Long firmatPerFormatID;
+	int algorismeDeFirmaID;
+	boolean comprovarCertificatClientCert;
+	boolean comprovarNifFirma;
 
 
   /** Constructor Buit */
@@ -40,7 +45,7 @@ private static final long serialVersionUID = -2014602951L;
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatBean(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument) {
+  public EntitatBean(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -64,9 +69,14 @@ private static final long serialVersionUID = -2014602951L;
     this.policyIdentifierHash=policyIdentifierHash;
     this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
     this.policyUrlDocument=policyUrlDocument;
+    this.motiuDelegacioID=motiuDelegacioID;
+    this.firmatPerFormatID=firmatPerFormatID;
+    this.algorismeDeFirmaID=algorismeDeFirmaID;
+    this.comprovarCertificatClientCert=comprovarCertificatClientCert;
+    this.comprovarNifFirma=comprovarNifFirma;
 }
   /** Constructor dels valors Not Null */
-  public EntitatBean(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID) {
+  public EntitatBean(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.activa=activa;
@@ -78,6 +88,9 @@ private static final long serialVersionUID = -2014602951L;
     this.adrezaHtml=adrezaHtml;
     this.filtreCertificats=filtreCertificats;
     this.pdfAutoritzacioDelegacioID=pdfAutoritzacioDelegacioID;
+    this.algorismeDeFirmaID=algorismeDeFirmaID;
+    this.comprovarCertificatClientCert=comprovarCertificatClientCert;
+    this.comprovarNifFirma=comprovarNifFirma;
 }
   public EntitatBean(Entitat __bean) {
     this.setEntitatID(__bean.getEntitatID());
@@ -103,6 +116,11 @@ private static final long serialVersionUID = -2014602951L;
     this.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     this.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
     this.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
+    this.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
+    this.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
+    this.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
+    this.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
+    this.setComprovarNifFirma(__bean.isComprovarNifFirma());
     // Fitxer
     this.setFavicon(FitxerBean.toBean(__bean.getFavicon()));
     // Fitxer
@@ -276,6 +294,41 @@ private static final long serialVersionUID = -2014602951L;
 		this.policyUrlDocument = _policyUrlDocument_;
 	};
 
+	public java.lang.Long getMotiuDelegacioID() {
+		return(motiuDelegacioID);
+	};
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_) {
+		this.motiuDelegacioID = _motiuDelegacioID_;
+	};
+
+	public java.lang.Long getFirmatPerFormatID() {
+		return(firmatPerFormatID);
+	};
+	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_) {
+		this.firmatPerFormatID = _firmatPerFormatID_;
+	};
+
+	public int getAlgorismeDeFirmaID() {
+		return(algorismeDeFirmaID);
+	};
+	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_) {
+		this.algorismeDeFirmaID = _algorismeDeFirmaID_;
+	};
+
+	public boolean isComprovarCertificatClientCert() {
+		return(comprovarCertificatClientCert);
+	};
+	public void setComprovarCertificatClientCert(boolean _comprovarCertificatClientCert_) {
+		this.comprovarCertificatClientCert = _comprovarCertificatClientCert_;
+	};
+
+	public boolean isComprovarNifFirma() {
+		return(comprovarNifFirma);
+	};
+	public void setComprovarNifFirma(boolean _comprovarNifFirma_) {
+		this.comprovarNifFirma = _comprovarNifFirma_;
+	};
+
 
 
   // ======================================
@@ -306,6 +359,11 @@ private static final long serialVersionUID = -2014602951L;
     __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
     __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
+    __tmp.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
+    __tmp.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
+    __tmp.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
+    __tmp.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
+    __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
     // Fitxer
     __tmp.setFavicon(FitxerBean.toBean(__bean.getFavicon()));
     // Fitxer

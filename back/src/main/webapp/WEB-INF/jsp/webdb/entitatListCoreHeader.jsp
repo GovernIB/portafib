@@ -81,6 +81,21 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYURLDOCUMENT)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLICYURLDOCUMENT)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.MOTIUDELEGACIOID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.FIRMATPERFORMATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.FIRMATPERFORMATID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.ALGORISMEDEFIRMAID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARNIFFIRMA)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

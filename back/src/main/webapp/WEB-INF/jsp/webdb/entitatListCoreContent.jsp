@@ -152,6 +152,40 @@
           ${entitat.policyUrlDocument}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">
+          <td>
+          <c:set var="tmp">${entitat.motiuDelegacioID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${entitat.motiuDelegacio.traduccions[lang].valor}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.FIRMATPERFORMATID)}">
+          <td>
+          <c:set var="tmp">${entitat.firmatPerFormatID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${entitat.firmatPerFormat.traduccions[lang].valor}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
+          <td>
+          <c:set var="tmp">${entitat.algorismeDeFirmaID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.comprovarCertificatClientCert?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.comprovarNifFirma?'success':'error'}.png"/>">
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

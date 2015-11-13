@@ -99,7 +99,7 @@ public class RebreAvisFilterForm extends PortaFIBBaseFilterForm implements Rebre
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] {  }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { REBREAGRUPAT }));
   }
 
 

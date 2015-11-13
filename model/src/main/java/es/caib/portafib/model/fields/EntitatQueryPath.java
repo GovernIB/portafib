@@ -103,6 +103,26 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new StringField(getQueryPath(), EntitatFields.POLICYURLDOCUMENT);
   }
 
+  public LongField MOTIUDELEGACIOID() {
+    return new LongField(getQueryPath(), EntitatFields.MOTIUDELEGACIOID);
+  }
+
+  public LongField FIRMATPERFORMATID() {
+    return new LongField(getQueryPath(), EntitatFields.FIRMATPERFORMATID);
+  }
+
+  public IntegerField ALGORISMEDEFIRMAID() {
+    return new IntegerField(getQueryPath(), EntitatFields.ALGORISMEDEFIRMAID);
+  }
+
+  public BooleanField COMPROVARCERTIFICATCLIENTCERT() {
+    return new BooleanField(getQueryPath(), EntitatFields.COMPROVARCERTIFICATCLIENTCERT);
+  }
+
+  public BooleanField COMPROVARNIFFIRMA() {
+    return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
+  }
+
 
 
   @Override
@@ -226,6 +246,30 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new UsuariAplicacioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return EntitatQueryPath.this.getQueryPath() + "usuariAplicacio" + ".";
+      }
+    });
+  }
+
+  public TraduccioQueryPath MOTIUDELEGACIO() {
+    return new TraduccioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "motiuDelegacio" + ".";
+      }
+    });
+  }
+
+  public TraduccioQueryPath FIRMATPERFORMAT() {
+    return new TraduccioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "firmatPerFormat" + ".";
+      }
+    });
+  }
+
+  public AlgorismeDeFirmaQueryPath ALGORISMEDEFIRMA() {
+    return new AlgorismeDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "algorismeDeFirma" + ".";
       }
     });
   }

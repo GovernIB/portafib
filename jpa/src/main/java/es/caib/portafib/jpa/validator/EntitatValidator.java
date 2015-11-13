@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.EntitatFields;
+import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
+import es.caib.portafib.model.fields.TraduccioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -26,7 +28,9 @@ public class EntitatValidator<T> implements EntitatFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
+    ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
+    ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
 
     // Valors Not Null
@@ -53,6 +57,18 @@ public class EntitatValidator<T> implements EntitatFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,FILTRECERTIFICATS, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(FILTRECERTIFICATS)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,ALGORISMEDEFIRMAID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ALGORISMEDEFIRMAID)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARCERTIFICATCLIENTCERT, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARCERTIFICATCLIENTCERT)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
 
     // Check size
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
@@ -267,6 +283,46 @@ public class EntitatValidator<T> implements EntitatFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacio.usuariAplicacioID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariaplicacioid)));
         }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(MOTIUDELEGACIOID) == 0) {
+      java.lang.Long __motiudelegacioid = (java.lang.Long)__vr.getFieldValue(__target__,MOTIUDELEGACIOID);
+      if (__motiudelegacioid != null ) {
+        Long __count_ = null;
+        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__motiudelegacioid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(MOTIUDELEGACIOID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__motiudelegacioid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(FIRMATPERFORMATID) == 0) {
+      java.lang.Long __firmatperformatid = (java.lang.Long)__vr.getFieldValue(__target__,FIRMATPERFORMATID);
+      if (__firmatperformatid != null ) {
+        Long __count_ = null;
+        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__firmatperformatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(FIRMATPERFORMATID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__firmatperformatid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(ALGORISMEDEFIRMAID) == 0) {
+      java.lang.Integer __algorismedefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
+      Long __count_ = null;
+      try { __count_ = __algorismeDeFirmaManager.count(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(__algorismedefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+      if (__count_ == null || __count_ == 0) {        
+        __vr.rejectValue(ALGORISMEDEFIRMAID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirma"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirmaID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__algorismedefirmaid)));
       }
     }
 

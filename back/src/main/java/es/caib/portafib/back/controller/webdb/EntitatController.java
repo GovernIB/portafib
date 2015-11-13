@@ -53,6 +53,9 @@ import es.caib.portafib.model.fields.*;
 public class EntitatController
     extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<Entitat, java.lang.String, EntitatForm> implements EntitatFields {
 
+  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+
   @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
@@ -65,6 +68,14 @@ public class EntitatController
   // References 
   @Autowired
   protected UsuariAplicacioRefList usuariAplicacioRefList;
+
+  // References 
+  @Autowired
+  protected TraduccioRefList traduccioRefList;
+
+  // References 
+  @Autowired
+  protected AlgorismeDeFirmaRefList algorismeDeFirmaRefList;
 
   /**
    * Llistat de totes Entitat
@@ -199,6 +210,42 @@ public class EntitatController
       };
     }
 
+    // Field motiuDelegacioID
+    {
+      _listSKV = getReferenceListForMotiuDelegacioID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfTraduccioForMotiuDelegacioID(_tmp);
+      if (filterForm.getGroupByFields().contains(MOTIUDELEGACIOID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, MOTIUDELEGACIOID, false);
+      };
+    }
+
+    // Field firmatPerFormatID
+    {
+      _listSKV = getReferenceListForFirmatPerFormatID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfTraduccioForFirmatPerFormatID(_tmp);
+      if (filterForm.getGroupByFields().contains(FIRMATPERFORMATID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, FIRMATPERFORMATID, false);
+      };
+    }
+
+    // Field algorismeDeFirmaID
+    {
+      _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_tmp);
+      if (filterForm.getGroupByFields().contains(ALGORISMEDEFIRMAID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, ALGORISMEDEFIRMAID, false);
+      };
+    }
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARCERTIFICATCLIENTCERT);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
+
 
     return groupByItemsMap;
   }
@@ -215,6 +262,9 @@ public class EntitatController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
+    __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
+    __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
+    __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -234,6 +284,24 @@ public class EntitatController
     }
     ModelAndView mav = new ModelAndView(getTileForm());
     EntitatForm entitatForm = getEntitatForm(null, false, request, mav);
+    
+    if (entitatForm.getEntitat().getMotiuDelegacio() == null){
+      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      for (es.caib.portafib.model.entity.Idioma idioma : entitatForm.getIdiomesTraduccio()) {
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+      }
+      entitatForm.getEntitat().setMotiuDelegacio(trad);
+    }
+
+    
+    if (entitatForm.getEntitat().getFirmatPerFormat() == null){
+      es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
+      for (es.caib.portafib.model.entity.Idioma idioma : entitatForm.getIdiomesTraduccio()) {
+        trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());
+      }
+      entitatForm.getEntitat().setFirmatPerFormat(trad);
+    }
+
     mav.addObject("entitatForm" ,entitatForm);
     fillReferencesForForm(entitatForm, request, mav);
   
@@ -257,6 +325,7 @@ public class EntitatController
     entitatForm.setContexte(getContextWeb());
     entitatForm.setEntityNameCode(getEntityNameCode());
     entitatForm.setEntityNameCodePlural(getEntityNameCodePlural());
+    entitatForm.setIdiomesTraduccio(getIdiomesSuportats());
     return entitatForm;
   }
 
@@ -269,8 +338,22 @@ public class EntitatController
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       entitatForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
     }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_listSKV);
+    }
     
   }
+
+
+  public List<es.caib.portafib.model.entity.Idioma> getIdiomesSuportats() throws I18NException {
+    List<es.caib.portafib.model.entity.Idioma> idiomes = idiomaEjb.select(es.caib.portafib.model.fields.IdiomaFields.SUPORTAT.equal(true));
+    return idiomes;
+  }
+
 
   /**
    * Guardar un nou Entitat
@@ -680,6 +763,98 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return usuariAplicacioRefList.getReferenceList(UsuariAplicacioFields.USUARIAPLICACIOID, where );
+  }
+
+  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(MOTIUDELEGACIOID)
+      && !entitatFilterForm.isGroupByField(MOTIUDELEGACIOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(MOTIUDELEGACIOID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getMotiuDelegacioID() == null) { continue; };
+        _pkList.add(_item.getMotiuDelegacioID());
+        }
+        _w = TraduccioFields.TRADUCCIOID.in(_pkList);
+      }
+    return getReferenceListForMotiuDelegacioID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForMotiuDelegacioID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
+  }
+
+  public List<StringKeyValue> getReferenceListForFirmatPerFormatID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(FIRMATPERFORMATID)
+      && !entitatFilterForm.isGroupByField(FIRMATPERFORMATID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(FIRMATPERFORMATID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getFirmatPerFormatID() == null) { continue; };
+        _pkList.add(_item.getFirmatPerFormatID());
+        }
+        _w = TraduccioFields.TRADUCCIOID.in(_pkList);
+      }
+    return getReferenceListForFirmatPerFormatID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForFirmatPerFormatID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(ALGORISMEDEFIRMAID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    final String _fieldName =  entitatForm.getStringOfField(ALGORISMEDEFIRMAID);
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(_fieldName)) {
+      _where = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(entitatForm.getEntitat().getAlgorismeDeFirmaID());
+    }
+    return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(ALGORISMEDEFIRMAID)
+      && !entitatFilterForm.isGroupByField(ALGORISMEDEFIRMAID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(ALGORISMEDEFIRMAID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
+      for (Entitat _item : list) {
+        _pkList.add(_item.getAlgorismeDeFirmaID());
+        }
+        _w = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.in(_pkList);
+      }
+    return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return algorismeDeFirmaRefList.getReferenceList(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID, where );
   }
 
 

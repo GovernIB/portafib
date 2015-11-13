@@ -56,3 +56,25 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,RebreAvisFields.REBREAGRUPAT)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[RebreAvisFields.REBREAGRUPAT])?'rebreAvis.rebreAgrupat':__theForm.labels[RebreAvisFields.REBREAGRUPAT]}" />
+              <c:if test="${not empty __theForm.help[RebreAvisFields.REBREAGRUPAT]}">
+              <i class="icon-info-sign" title="${__theForm.help[RebreAvisFields.REBREAGRUPAT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,RebreAvisFields.REBREAGRUPAT)}" >
+              <form:errors path="rebreAvis.rebreAgrupat" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,RebreAvisFields.REBREAGRUPAT)? 'false' : 'true'}" path="rebreAvis.rebreAgrupat" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,RebreAvisFields.REBREAGRUPAT)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.rebreAvis.rebreAgrupat}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

@@ -1,5 +1,4 @@
 
-
 -- =============================================================
 --  11/11/2015 Modul de Firma i relació amb Tipus de Documents
 -- =============================================================
@@ -64,5 +63,42 @@
     -- XYZ
     grant select,insert,delete,update on pfi_moduldefirma to www_portafib;
     grant select,insert,delete,update on pfi_modulfirmapertipusdoc to www_portafib;
+
+-- =============================================================
+--  2015/11/13 Incrementar tamany camp mime de pfi_fitxer
+-- =============================================================
     
+ALTER TABLE pfi_fitxer MODIFY (  mime varchar2(255 char) );
+
+
+-- =============================================================
+--  2015/11/13 Afegir camp rebreagrupat a la taula pfi_rebreavis
+-- =============================================================
+
+ALTER TABLE pfi_rebreavis ADD rebreagrupat number(1,0)  DEFAULT 0 NOT NULL;
+
+
+-- =================================================================================
+--  2015/11/13 Afegir camps d'entitat que estaven fins ara dins de les propietats
+-- =================================================================================
+
+ALTER TABLE pfi_entitat ADD algorismedefirmaid number(10,0) DEFAULT 0 not null;
+ALTER TABLE pfi_entitat ADD comprovarcertificatclientcert number(1,0) DEFAULT 1 not null;
+ALTER TABLE pfi_entitat ADD comprovarniffirma number(1,0) DEFAULT 1 not null;
+ALTER TABLE pfi_entitat ADD motiudelegacioid number(19,0);
+ALTER TABLE pfi_entitat ADD firmatperformatid number(19,0);
+
+create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
+create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
+create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
+
+alter table pfi_entitat add constraint pfi_entitat_algofirma_fk foreign key (algorismedefirmaid) references pfi_algorismedefirma;
+alter table pfi_entitat add constraint pfi_entitat_traduccio_moti_fk foreign key (motiudelegacioid) references pfi_traduccio;
+alter table pfi_entitat add constraint pfi_entitat_traduccio_firm_fk foreign key (firmatperformatid) references pfi_traduccio;
+
+
+
+
+
+
 

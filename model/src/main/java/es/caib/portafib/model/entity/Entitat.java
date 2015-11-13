@@ -71,6 +71,21 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.String getPolicyUrlDocument();
 	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_);
 
+	public java.lang.Long getMotiuDelegacioID();
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
+
+	public java.lang.Long getFirmatPerFormatID();
+	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
+
+	public int getAlgorismeDeFirmaID();
+	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_);
+
+	public boolean isComprovarCertificatClientCert();
+	public void setComprovarCertificatClientCert(boolean _comprovarCertificatClientCert_);
+
+	public boolean isComprovarNifFirma();
+	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
+
   // Fitxer
   public <F extends Fitxer> F getFavicon();
   // Fitxer

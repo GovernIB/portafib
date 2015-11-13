@@ -15,12 +15,14 @@ public interface RebreAvisFields extends java.io.Serializable {
 	 public static final LongField ID = new LongField(_TABLE_MODEL, "id", "id");  // PK
 	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
 	 public static final LongField TIPUSNOTIFICACIOID = new LongField(_TABLE_MODEL, "tipusNotificacioID", "tipusnotificacioid");
+	 public static final BooleanField REBREAGRUPAT = new BooleanField(_TABLE_MODEL, "rebreAgrupat", "rebreagrupat");
 
 
   public static final Field<?>[] ALL_REBREAVIS_FIELDS = {
     ID,
     USUARIENTITATID,
-    TIPUSNOTIFICACIOID
+    TIPUSNOTIFICACIOID,
+    REBREAGRUPAT
   };
 
 

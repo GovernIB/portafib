@@ -27,8 +27,14 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
   protected EntitatValidator<Object> validator = new EntitatValidator<Object>();
 
   // EJB's
+  @javax.ejb.EJB(mappedName = "portafib/AlgorismeDeFirmaEJB/local")
+  protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+
+  @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
+  protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -47,8 +53,11 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
   @Override
   public void validate(Object target, Errors errors) {
 
+java.util.List<Field<?>> _ignoreFields = new java.util.ArrayList<Field<?>>();
+_ignoreFields.add(MOTIUDELEGACIOID);
+_ignoreFields.add(FIRMATPERFORMATID);
     WebValidationResult<Object> wvr;
-    wvr = new WebValidationResult<Object>(errors);
+    wvr = new WebValidationResult<Object>(errors, _ignoreFields);
 
     Boolean nou = (Boolean)errors.getFieldValue("nou");
     boolean isNou =  nou != null && nou.booleanValue();
@@ -60,6 +69,51 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
   public void validate(Object target, Errors errors,
     WebValidationResult<Object> wvr, boolean isNou) {
 
+  {
+    es.caib.portafib.jpa.EntitatJPA entitat;
+    if (target instanceof EntitatForm) {
+      entitat = ((EntitatForm)target).getEntitat();
+    } else {
+      entitat = (es.caib.portafib.jpa.EntitatJPA)target;
+    }
+    {
+    // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+    es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getMotiuDelegacio();
+    if (tradJPA == null) {
+      // TODO ERROR
+      errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+    } else {
+      java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+      for (String _idioma : _trad.keySet()) {
+        es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+        if (_map == null || _map.getValor() == null) {
+          errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+          errors.rejectValue("entitat.motiuDelegacio.traduccions["+ _idioma +"].valor",
+              "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+        }
+      }
+    }
+    }
+    {
+    // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+    es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getFirmatPerFormat();
+    if (tradJPA == null) {
+      // TODO ERROR
+      errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+    } else {
+      java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+      for (String _idioma : _trad.keySet()) {
+        es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+        if (_map == null || _map.getValor() == null) {
+          errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+          errors.rejectValue("entitat.firmatPerFormat.traduccions["+ _idioma +"].valor",
+              "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+        }
+      }
+    }
+    }
+
+  }
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
@@ -100,7 +154,7 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
 
     }
     validator.validate(wvr, target,
-      isNou, entitatEjb, usuariAplicacioEjb);
+      isNou, algorismeDeFirmaEjb, entitatEjb, traduccioEjb, usuariAplicacioEjb);
 
   } // Final de metode
 

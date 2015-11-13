@@ -41,6 +41,9 @@ private static final long serialVersionUID = -111354374L;
 	@Column(name="tipusnotificacioid",nullable = false,length = 19)
 	long tipusNotificacioID;
 
+	@Column(name="rebreagrupat",nullable = false,length = 1)
+	boolean rebreAgrupat;
+
 
 
   /** Constructor Buit */
@@ -48,20 +51,23 @@ private static final long serialVersionUID = -111354374L;
   }
 
   /** Constructor amb tots els camps  */
-  public RebreAvisJPA(long id , java.lang.String usuariEntitatID , long tipusNotificacioID) {
+  public RebreAvisJPA(long id , java.lang.String usuariEntitatID , long tipusNotificacioID , boolean rebreAgrupat) {
     this.id=id;
     this.usuariEntitatID=usuariEntitatID;
     this.tipusNotificacioID=tipusNotificacioID;
+    this.rebreAgrupat=rebreAgrupat;
 }
   /** Constructor sense valors autoincrementals */
-  public RebreAvisJPA(java.lang.String usuariEntitatID , long tipusNotificacioID) {
+  public RebreAvisJPA(java.lang.String usuariEntitatID , long tipusNotificacioID , boolean rebreAgrupat) {
     this.usuariEntitatID=usuariEntitatID;
     this.tipusNotificacioID=tipusNotificacioID;
+    this.rebreAgrupat=rebreAgrupat;
 }
   public RebreAvisJPA(RebreAvis __bean) {
     this.setId(__bean.getId());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setTipusNotificacioID(__bean.getTipusNotificacioID());
+    this.setRebreAgrupat(__bean.isRebreAgrupat());
 	}
 
 	public long getId() {
@@ -83,6 +89,13 @@ private static final long serialVersionUID = -111354374L;
 	};
 	public void setTipusNotificacioID(long _tipusNotificacioID_) {
 		this.tipusNotificacioID = _tipusNotificacioID_;
+	};
+
+	public boolean isRebreAgrupat() {
+		return(rebreAgrupat);
+	};
+	public void setRebreAgrupat(boolean _rebreAgrupat_) {
+		this.rebreAgrupat = _rebreAgrupat_;
 	};
 
 
@@ -138,6 +151,7 @@ private static final long serialVersionUID = -111354374L;
     __tmp.setId(__bean.getId());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
+    __tmp.setRebreAgrupat(__bean.isRebreAgrupat());
 		return __tmp;
 	}
 

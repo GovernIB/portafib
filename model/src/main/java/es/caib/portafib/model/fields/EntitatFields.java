@@ -35,6 +35,11 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final StringField POLICYIDENTIFIERHASH = new StringField(_TABLE_MODEL, "policyIdentifierHash", "policyidentifierhash");
 	 public static final StringField POLICYIDENTIFIERHASHALGORITHM = new StringField(_TABLE_MODEL, "policyIdentifierHashAlgorithm", "policyidentifierhashalgorithm");
 	 public static final StringField POLICYURLDOCUMENT = new StringField(_TABLE_MODEL, "policyUrlDocument", "policyurldocument");
+	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
+	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
+	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
+	 public static final BooleanField COMPROVARCERTIFICATCLIENTCERT = new BooleanField(_TABLE_MODEL, "comprovarCertificatClientCert", "comprovarcertificatclientcert");
+	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 
 
   public static final Field<?>[] ALL_ENTITAT_FIELDS = {
@@ -60,7 +65,12 @@ public interface EntitatFields extends java.io.Serializable {
     POLICYIDENTIFIER,
     POLICYIDENTIFIERHASH,
     POLICYIDENTIFIERHASHALGORITHM,
-    POLICYURLDOCUMENT
+    POLICYURLDOCUMENT,
+    MOTIUDELEGACIOID,
+    FIRMATPERFORMATID,
+    ALGORISMEDEFIRMAID,
+    COMPROVARCERTIFICATCLIENTCERT,
+    COMPROVARNIFFIRMA
   };
 
 

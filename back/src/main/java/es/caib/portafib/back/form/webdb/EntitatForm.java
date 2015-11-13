@@ -41,6 +41,9 @@ public class EntitatForm extends PortaFIBBaseForm {
     super(__toClone);
       this.entitat = __toClone.entitat;
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
+    this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
+    this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
+    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
   }
   
   public EntitatForm(EntitatJPA entitat, boolean nou) {
@@ -55,6 +58,15 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.entitat = entitat;
   }
   
+  java.util.List<es.caib.portafib.model.entity.Idioma> idiomesTraduccio = null;
+
+  public java.util.List<es.caib.portafib.model.entity.Idioma> getIdiomesTraduccio() {
+    return idiomesTraduccio;
+  }
+
+  public void setIdiomesTraduccio(java.util.List<es.caib.portafib.model.entity.Idioma> idiomesTraduccio) {
+    this.idiomesTraduccio = idiomesTraduccio;
+  }
   
   public CommonsMultipartFile getFaviconID() {
     return faviconID;
@@ -134,6 +146,42 @@ public class EntitatForm extends PortaFIBBaseForm {
 
   public void setListOfUsuariAplicacioForUsuariAplicacioID(List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID) {
     this.listOfUsuariAplicacioForUsuariAplicacioID = listOfUsuariAplicacioForUsuariAplicacioID;
+  }
+
+
+
+  private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
+
+  public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
+    return this.listOfTraduccioForMotiuDelegacioID;
+  }
+
+  public void setListOfTraduccioForMotiuDelegacioID(List<StringKeyValue> listOfTraduccioForMotiuDelegacioID) {
+    this.listOfTraduccioForMotiuDelegacioID = listOfTraduccioForMotiuDelegacioID;
+  }
+
+
+
+  private List<StringKeyValue> listOfTraduccioForFirmatPerFormatID;
+
+  public List<StringKeyValue> getListOfTraduccioForFirmatPerFormatID() {
+    return this.listOfTraduccioForFirmatPerFormatID;
+  }
+
+  public void setListOfTraduccioForFirmatPerFormatID(List<StringKeyValue> listOfTraduccioForFirmatPerFormatID) {
+    this.listOfTraduccioForFirmatPerFormatID = listOfTraduccioForFirmatPerFormatID;
+  }
+
+
+
+  private List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+
+  public List<StringKeyValue> getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
+    return this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  }
+
+  public void setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
+    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
   }
 
 

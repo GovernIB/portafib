@@ -539,3 +539,140 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.MOTIUDELEGACIOID])?'entitat.motiuDelegacioID':__theForm.labels[EntitatFields.MOTIUDELEGACIOID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.MOTIUDELEGACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.MOTIUDELEGACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+       <form:errors path="entitat.motiuDelegacio" cssClass="errorField alert alert-error" />
+       <div class="tabbable">
+         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
+           </c:forEach>
+           
+         </ul>
+         <div class="tab-content">
+           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}">
+               <form:errors path="entitat.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
+               <form:input path="entitat.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EntitatFields.MOTIUDELEGACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+           </div>
+           </c:forEach>
+         </div>
+       </div>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FIRMATPERFORMATID)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.FIRMATPERFORMATID])?'entitat.firmatPerFormatID':__theForm.labels[EntitatFields.FIRMATPERFORMATID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.FIRMATPERFORMATID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.FIRMATPERFORMATID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+       <form:errors path="entitat.firmatPerFormat" cssClass="errorField alert alert-error" />
+       <div class="tabbable">
+         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
+           </c:forEach>
+           
+         </ul>
+         <div class="tab-content">
+           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}">
+               <form:errors path="entitat.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
+               <form:input path="entitat.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EntitatFields.FIRMATPERFORMATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+           </div>
+           </c:forEach>
+         </div>
+       </div>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.ALGORISMEDEFIRMAID])?'entitat.algorismeDeFirmaID':__theForm.labels[EntitatFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.ALGORISMEDEFIRMAID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.ALGORISMEDEFIRMAID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.algorismeDeFirmaID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
+          <form:hidden path="entitat.algorismeDeFirmaID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.algorismeDeFirmaID,__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
+          <form:select id="entitat_algorismeDeFirmaID"  onchange="if(typeof onChangeAlgorismeDeFirmaID == 'function') {  onChangeAlgorismeDeFirmaID(this); };"  cssClass="input-xxlarge" path="entitat.algorismeDeFirmaID">
+            <c:forEach items="${__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARCERTIFICATCLIENTCERT])?'entitat.comprovarCertificatClientCert':__theForm.labels[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}" >
+              <form:errors path="entitat.comprovarCertificatClientCert" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)? 'false' : 'true'}" path="entitat.comprovarCertificatClientCert" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarCertificatClientCert}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARNIFFIRMA])?'entitat.comprovarNifFirma':__theForm.labels[EntitatFields.COMPROVARNIFFIRMA]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.COMPROVARNIFFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.COMPROVARNIFFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
+              <form:errors path="entitat.comprovarNifFirma" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarNifFirma}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

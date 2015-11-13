@@ -66,8 +66,8 @@ public class EntitatJPAManager
 		return list.toArray(new Entitat[list.size()]);
 	};
 
-	public synchronized Entitat create( java.lang.String _entitatID_, java.lang.String _nom_, java.lang.String _descripcio_, boolean _activa_, java.lang.String _web_, java.lang.Long _faviconID_, java.lang.Long _logoWebID_, java.lang.Long _logoWebPeuID_, java.lang.Long _logoSegellID_, java.lang.String _adrezaHtml_, java.lang.String _filtreCertificats_, java.lang.Long _pdfAutoritzacioDelegacioID_, java.lang.String _suportTelefon_, java.lang.String _suportWeb_, java.lang.String _suportEmail_, java.lang.String _usuariAplicacioID_, java.lang.Long _maxUploadSize_, java.lang.Long _maxSizeFitxerAdaptat_, java.lang.Integer _maxFilesToSignAtSameTime_, java.lang.String _policyIdentifier_, java.lang.String _policyIdentifierHash_, java.lang.String _policyIdentifierHashAlgorithm_, java.lang.String _policyUrlDocument_) throws I18NException {
-		EntitatJPA __bean =  new EntitatJPA(_entitatID_,_nom_,_descripcio_,_activa_,_web_,_faviconID_,_logoWebID_,_logoWebPeuID_,_logoSegellID_,_adrezaHtml_,_filtreCertificats_,_pdfAutoritzacioDelegacioID_,_suportTelefon_,_suportWeb_,_suportEmail_,_usuariAplicacioID_,_maxUploadSize_,_maxSizeFitxerAdaptat_,_maxFilesToSignAtSameTime_,_policyIdentifier_,_policyIdentifierHash_,_policyIdentifierHashAlgorithm_,_policyUrlDocument_);
+	public synchronized Entitat create( java.lang.String _entitatID_, java.lang.String _nom_, java.lang.String _descripcio_, boolean _activa_, java.lang.String _web_, java.lang.Long _faviconID_, java.lang.Long _logoWebID_, java.lang.Long _logoWebPeuID_, java.lang.Long _logoSegellID_, java.lang.String _adrezaHtml_, java.lang.String _filtreCertificats_, java.lang.Long _pdfAutoritzacioDelegacioID_, java.lang.String _suportTelefon_, java.lang.String _suportWeb_, java.lang.String _suportEmail_, java.lang.String _usuariAplicacioID_, java.lang.Long _maxUploadSize_, java.lang.Long _maxSizeFitxerAdaptat_, java.lang.Integer _maxFilesToSignAtSameTime_, java.lang.String _policyIdentifier_, java.lang.String _policyIdentifierHash_, java.lang.String _policyIdentifierHashAlgorithm_, java.lang.String _policyUrlDocument_, java.lang.Long _motiuDelegacioID_, java.lang.Long _firmatPerFormatID_, int _algorismeDeFirmaID_, boolean _comprovarCertificatClientCert_, boolean _comprovarNifFirma_) throws I18NException {
+		EntitatJPA __bean =  new EntitatJPA(_entitatID_,_nom_,_descripcio_,_activa_,_web_,_faviconID_,_logoWebID_,_logoWebPeuID_,_logoSegellID_,_adrezaHtml_,_filtreCertificats_,_pdfAutoritzacioDelegacioID_,_suportTelefon_,_suportWeb_,_suportEmail_,_usuariAplicacioID_,_maxUploadSize_,_maxSizeFitxerAdaptat_,_maxFilesToSignAtSameTime_,_policyIdentifier_,_policyIdentifierHash_,_policyIdentifierHashAlgorithm_,_policyUrlDocument_,_motiuDelegacioID_,_firmatPerFormatID_,_algorismeDeFirmaID_,_comprovarCertificatClientCert_,_comprovarNifFirma_);
 		return create(__bean);
 	}
 
@@ -99,6 +99,37 @@ public class EntitatJPAManager
 	  
 	  return EntitatJPA.toJPA(__bean);
 	}
+
+  @Override
+  public Entitat create(Entitat transientInstance) throws I18NException {
+    if (transientInstance != null) {
+      if (transientInstance.getMotiuDelegacioID() == null) {
+        if (transientInstance instanceof EntitatJPA) {
+          EntitatJPA _jpa = (EntitatJPA)transientInstance;
+          TraduccioJPA _trad = _jpa.getMotiuDelegacio();
+           if (_trad != null) {
+            if (_trad.getTraduccioID() == 0) {
+              getEntityManager().persist(_trad);
+            } 
+            transientInstance.setMotiuDelegacioID(_trad.getTraduccioID());
+          }
+        }
+      }
+      if (transientInstance.getFirmatPerFormatID() == null) {
+        if (transientInstance instanceof EntitatJPA) {
+          EntitatJPA _jpa = (EntitatJPA)transientInstance;
+          TraduccioJPA _trad = _jpa.getFirmatPerFormat();
+           if (_trad != null) {
+            if (_trad.getTraduccioID() == 0) {
+              getEntityManager().persist(_trad);
+            } 
+            transientInstance.setFirmatPerFormatID(_trad.getTraduccioID());
+          }
+        }
+      }
+    }
+    return super.create(transientInstance);
+  }
 
 
 }

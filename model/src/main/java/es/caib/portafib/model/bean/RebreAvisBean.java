@@ -13,6 +13,7 @@ private static final long serialVersionUID = 842764657L;
 	long id;// PK
 	java.lang.String usuariEntitatID;
 	long tipusNotificacioID;
+	boolean rebreAgrupat;
 
 
   /** Constructor Buit */
@@ -20,20 +21,23 @@ private static final long serialVersionUID = 842764657L;
   }
 
   /** Constructor amb tots els camps  */
-  public RebreAvisBean(long id , java.lang.String usuariEntitatID , long tipusNotificacioID) {
+  public RebreAvisBean(long id , java.lang.String usuariEntitatID , long tipusNotificacioID , boolean rebreAgrupat) {
     this.id=id;
     this.usuariEntitatID=usuariEntitatID;
     this.tipusNotificacioID=tipusNotificacioID;
+    this.rebreAgrupat=rebreAgrupat;
 }
   /** Constructor sense valors autoincrementals */
-  public RebreAvisBean(java.lang.String usuariEntitatID , long tipusNotificacioID) {
+  public RebreAvisBean(java.lang.String usuariEntitatID , long tipusNotificacioID , boolean rebreAgrupat) {
     this.usuariEntitatID=usuariEntitatID;
     this.tipusNotificacioID=tipusNotificacioID;
+    this.rebreAgrupat=rebreAgrupat;
 }
   public RebreAvisBean(RebreAvis __bean) {
     this.setId(__bean.getId());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setTipusNotificacioID(__bean.getTipusNotificacioID());
+    this.setRebreAgrupat(__bean.isRebreAgrupat());
 	}
 
 	public long getId() {
@@ -57,6 +61,13 @@ private static final long serialVersionUID = 842764657L;
 		this.tipusNotificacioID = _tipusNotificacioID_;
 	};
 
+	public boolean isRebreAgrupat() {
+		return(rebreAgrupat);
+	};
+	public void setRebreAgrupat(boolean _rebreAgrupat_) {
+		this.rebreAgrupat = _rebreAgrupat_;
+	};
+
 
 
   // ======================================
@@ -67,6 +78,7 @@ private static final long serialVersionUID = 842764657L;
     __tmp.setId(__bean.getId());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setTipusNotificacioID(__bean.getTipusNotificacioID());
+    __tmp.setRebreAgrupat(__bean.isRebreAgrupat());
 		return __tmp;
 	}
 

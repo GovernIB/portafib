@@ -208,6 +208,9 @@ public class RebreAvisController
     }
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, REBREAGRUPAT);
+
+
     return groupByItemsMap;
   }
 

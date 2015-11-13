@@ -241,6 +241,72 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.Long motiuDelegacioIDDesde;
+
+  public java.lang.Long getMotiuDelegacioIDDesde() {
+    return this.motiuDelegacioIDDesde;
+  }
+
+  public void setMotiuDelegacioIDDesde(java.lang.Long motiuDelegacioIDDesde) {
+    this.motiuDelegacioIDDesde = motiuDelegacioIDDesde;
+  }
+
+
+  private java.lang.Long motiuDelegacioIDFins;
+
+  public java.lang.Long getMotiuDelegacioIDFins() {
+    return this.motiuDelegacioIDFins;
+  }
+
+  public void setMotiuDelegacioIDFins(java.lang.Long motiuDelegacioIDFins) {
+    this.motiuDelegacioIDFins = motiuDelegacioIDFins;
+  }
+
+
+  private java.lang.Long firmatPerFormatIDDesde;
+
+  public java.lang.Long getFirmatPerFormatIDDesde() {
+    return this.firmatPerFormatIDDesde;
+  }
+
+  public void setFirmatPerFormatIDDesde(java.lang.Long firmatPerFormatIDDesde) {
+    this.firmatPerFormatIDDesde = firmatPerFormatIDDesde;
+  }
+
+
+  private java.lang.Long firmatPerFormatIDFins;
+
+  public java.lang.Long getFirmatPerFormatIDFins() {
+    return this.firmatPerFormatIDFins;
+  }
+
+  public void setFirmatPerFormatIDFins(java.lang.Long firmatPerFormatIDFins) {
+    this.firmatPerFormatIDFins = firmatPerFormatIDFins;
+  }
+
+
+  private java.lang.Integer algorismeDeFirmaIDDesde;
+
+  public java.lang.Integer getAlgorismeDeFirmaIDDesde() {
+    return this.algorismeDeFirmaIDDesde;
+  }
+
+  public void setAlgorismeDeFirmaIDDesde(java.lang.Integer algorismeDeFirmaIDDesde) {
+    this.algorismeDeFirmaIDDesde = algorismeDeFirmaIDDesde;
+  }
+
+
+  private java.lang.Integer algorismeDeFirmaIDFins;
+
+  public java.lang.Integer getAlgorismeDeFirmaIDFins() {
+    return this.algorismeDeFirmaIDFins;
+  }
+
+  public void setAlgorismeDeFirmaIDFins(java.lang.Integer algorismeDeFirmaIDFins) {
+    this.algorismeDeFirmaIDFins = algorismeDeFirmaIDFins;
+  }
+
+
   public EntitatFilterForm() {
   }
   
@@ -266,7 +332,16 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.policyIdentifierHash = __toClone.policyIdentifierHash;
     this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
     this.policyUrlDocument = __toClone.policyUrlDocument;
+    this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
+    this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
+    this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
+    this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
+    this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
+    this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
+    this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
+    this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
+    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
   }
   
   /* ========= UTILS ========== */
@@ -309,6 +384,42 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setMapOfUsuariAplicacioForUsuariAplicacioID(Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID) {
     this.mapOfUsuariAplicacioForUsuariAplicacioID = mapOfUsuariAplicacioForUsuariAplicacioID;
+  }
+
+
+
+  private Map<String, String> mapOfTraduccioForMotiuDelegacioID;
+
+  public Map<String, String> getMapOfTraduccioForMotiuDelegacioID() {
+    return this.mapOfTraduccioForMotiuDelegacioID;
+  }
+
+  public void setMapOfTraduccioForMotiuDelegacioID(Map<String, String> mapOfTraduccioForMotiuDelegacioID) {
+    this.mapOfTraduccioForMotiuDelegacioID = mapOfTraduccioForMotiuDelegacioID;
+  }
+
+
+
+  private Map<String, String> mapOfTraduccioForFirmatPerFormatID;
+
+  public Map<String, String> getMapOfTraduccioForFirmatPerFormatID() {
+    return this.mapOfTraduccioForFirmatPerFormatID;
+  }
+
+  public void setMapOfTraduccioForFirmatPerFormatID(Map<String, String> mapOfTraduccioForFirmatPerFormatID) {
+    this.mapOfTraduccioForFirmatPerFormatID = mapOfTraduccioForFirmatPerFormatID;
+  }
+
+
+
+  private Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+
+  public Map<String, String> getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
+    return this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  }
+
+  public void setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
+    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
   }
 
 
