@@ -44,6 +44,7 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
   }
   
   public EntitatForm(EntitatJPA entitat, boolean nou) {
@@ -182,6 +183,18 @@ public class EntitatForm extends PortaFIBBaseForm {
 
   public void setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID;
+
+  public List<StringKeyValue> getListOfCustodiaInfoForCustodiaInfoID() {
+    return this.listOfCustodiaInfoForCustodiaInfoID;
+  }
+
+  public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
+    this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
   }
 
 

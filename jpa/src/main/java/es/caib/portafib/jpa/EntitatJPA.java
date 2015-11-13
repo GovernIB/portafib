@@ -137,6 +137,10 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="comprovarniffirma",nullable = false,length = 1)
 	boolean comprovarNifFirma;
 
+	@Index(name="pfi_entitat_custodiadef_fk_i")
+	@Column(name="custodiainfoid",length = 19)
+	java.lang.Long custodiaInfoID;
+
 
 
   /** Constructor Buit */
@@ -144,7 +148,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma , java.lang.Long custodiaInfoID) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -173,6 +177,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.comprovarCertificatClientCert=comprovarCertificatClientCert;
     this.comprovarNifFirma=comprovarNifFirma;
+    this.custodiaInfoID=custodiaInfoID;
 }
   /** Constructor dels valors Not Null */
   public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma) {
@@ -220,6 +225,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     this.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
     this.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     // Fitxer
     this.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -426,6 +432,13 @@ opcional incluso cuando se genera una firma EPES. */
 	};
 	public void setComprovarNifFirma(boolean _comprovarNifFirma_) {
 		this.comprovarNifFirma = _comprovarNifFirma_;
+	};
+
+	public java.lang.Long getCustodiaInfoID() {
+		return(custodiaInfoID);
+	};
+	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_) {
+		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
 
@@ -668,6 +681,21 @@ opcional incluso cuando se genera una firma EPES. */
     this.algorismeDeFirma = algorismeDeFirma;
   }
 
+// IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_entitat_custodia_fk")
+	@JoinColumn(name = "custodiainfoid", referencedColumnName ="custodiaInfoID", nullable = true, insertable=false, updatable=false)
+	private CustodiaInfoJPA custodiaInfo;
+
+	public CustodiaInfoJPA getCustodiaInfo() {
+    return this.custodiaInfo;
+  }
+
+	public  void setCustodiaInfo(CustodiaInfoJPA custodiaInfo) {
+    this.custodiaInfo = custodiaInfo;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static EntitatJPA toJPA(Entitat __bean) {
@@ -701,6 +729,7 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     __tmp.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
     __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     // Fitxer
     __tmp.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -768,6 +797,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"TraduccioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmatPerFormat) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmatPerFormat()) ) ) {
       __tmp.setFirmatPerFormat(TraduccioJPA.copyJPA(__jpa.getFirmatPerFormat(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"CustodiaInfoJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
+      __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {

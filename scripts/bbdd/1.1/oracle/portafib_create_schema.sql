@@ -87,6 +87,7 @@
         algorismedefirmaid number(10,0) not null,
         comprovarcertificatclientcert number(1,0) not null,
         comprovarniffirma number(1,0) not null,
+        custodiainfoid number(19,0),
         descripcio varchar2(255 char),
         faviconid number(19,0) not null,
         filtrecertificats clob not null,
@@ -444,6 +445,7 @@
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
     create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
+    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
     create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
@@ -774,6 +776,11 @@
         add constraint pfi_entitat_usrapp_fk 
         foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
+
+    alter table pfi_entitat 
+        add constraint pfi_entitat_custodia_fk 
+        foreign key (custodiainfoid) 
+        references pfi_custodiainfo;
 
     alter table pfi_estatdefirma 
         add constraint pfi_estatfirma_usrentitat_fk 

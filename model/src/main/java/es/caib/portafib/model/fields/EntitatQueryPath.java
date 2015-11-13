@@ -123,6 +123,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
   }
 
+  public LongField CUSTODIAINFOID() {
+    return new LongField(getQueryPath(), EntitatFields.CUSTODIAINFOID);
+  }
+
 
 
   @Override
@@ -270,6 +274,14 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new AlgorismeDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
           return EntitatQueryPath.this.getQueryPath() + "algorismeDeFirma" + ".";
+      }
+    });
+  }
+
+  public CustodiaInfoQueryPath CUSTODIAINFO() {
+    return new CustodiaInfoQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
       }
     });
   }

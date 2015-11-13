@@ -77,6 +77,10 @@ public class EntitatController
   @Autowired
   protected AlgorismeDeFirmaRefList algorismeDeFirmaRefList;
 
+  // References 
+  @Autowired
+  protected CustodiaInfoRefList custodiaInfoRefList;
+
   /**
    * Llistat de totes Entitat
    */
@@ -246,6 +250,16 @@ public class EntitatController
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
 
+    // Field custodiaInfoID
+    {
+      _listSKV = getReferenceListForCustodiaInfoID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfCustodiaInfoForCustodiaInfoID(_tmp);
+      if (filterForm.getGroupByFields().contains(CUSTODIAINFOID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, CUSTODIAINFOID, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -265,6 +279,7 @@ public class EntitatController
     __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
+    __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -344,6 +359,13 @@ public class EntitatController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       entitatForm.setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     
   }
@@ -855,6 +877,47 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return algorismeDeFirmaRefList.getReferenceList(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(CUSTODIAINFOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    final String _fieldName =  entitatForm.getStringOfField(CUSTODIAINFOID);
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(_fieldName)) {
+      _where = CustodiaInfoFields.CUSTODIAINFOID.equal(entitatForm.getEntitat().getCustodiaInfoID());
+    }
+    return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(CUSTODIAINFOID)
+      && !entitatFilterForm.isGroupByField(CUSTODIAINFOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(CUSTODIAINFOID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getCustodiaInfoID() == null) { continue; };
+        _pkList.add(_item.getCustodiaInfoID());
+        }
+        _w = CustodiaInfoFields.CUSTODIAINFOID.in(_pkList);
+      }
+    return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return custodiaInfoRefList.getReferenceList(CustodiaInfoFields.CUSTODIAINFOID, where );
   }
 
 

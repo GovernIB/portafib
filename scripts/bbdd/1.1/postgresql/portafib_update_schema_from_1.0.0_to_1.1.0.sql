@@ -84,5 +84,18 @@ create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
 create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
 
 
+-- ======================================================
+--  2015/11/13 Custòdia per defecte dins Entitat
+-- ======================================================
+
+ALTER TABLE pfi_entitat ADD custodiainfoid bigint;
+
+ALTER TABLE pfi_entitat ADD CONSTRAINT pfi_entitat_custodia_fk FOREIGN KEY (custodiainfoid) REFERENCES pfi_custodiainfo (custodiainfoid);
+
+create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+
+
+
+
 
     

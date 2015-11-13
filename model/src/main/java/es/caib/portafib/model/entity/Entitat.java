@@ -86,6 +86,9 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public boolean isComprovarNifFirma();
 	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
 
+	public java.lang.Long getCustodiaInfoID();
+	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
+
   // Fitxer
   public <F extends Fitxer> F getFavicon();
   // Fitxer

@@ -186,6 +186,14 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.comprovarNifFirma?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
+          <td>
+          <c:set var="tmp">${entitat.custodiaInfoID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

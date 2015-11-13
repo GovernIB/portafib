@@ -30,6 +30,9 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
   @javax.ejb.EJB(mappedName = "portafib/AlgorismeDeFirmaEJB/local")
   protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
 
+  @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
+  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
@@ -154,7 +157,7 @@ _ignoreFields.add(FIRMATPERFORMATID);
 
     }
     validator.validate(wvr, target,
-      isNou, algorismeDeFirmaEjb, entitatEjb, traduccioEjb, usuariAplicacioEjb);
+      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, entitatEjb, traduccioEjb, usuariAplicacioEjb);
 
   } // Final de metode
 

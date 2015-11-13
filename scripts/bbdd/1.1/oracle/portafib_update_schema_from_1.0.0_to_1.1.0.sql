@@ -97,6 +97,17 @@ alter table pfi_entitat add constraint pfi_entitat_traduccio_moti_fk foreign key
 alter table pfi_entitat add constraint pfi_entitat_traduccio_firm_fk foreign key (firmatperformatid) references pfi_traduccio;
 
 
+-- ======================================================
+--  2015/11/13 Custòdia per defecte dins Entitat
+-- ======================================================
+
+ALTER TABLE pfi_entitat ADD custodiainfoid number(19,0);
+
+create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+
+alter table pfi_entitat add constraint pfi_entitat_custodia_fk foreign key (custodiainfoid) references pfi_custodiainfo;
+
+
 
 
 

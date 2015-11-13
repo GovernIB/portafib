@@ -40,6 +40,7 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
 	 public static final BooleanField COMPROVARCERTIFICATCLIENTCERT = new BooleanField(_TABLE_MODEL, "comprovarCertificatClientCert", "comprovarcertificatclientcert");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
+	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 
 
   public static final Field<?>[] ALL_ENTITAT_FIELDS = {
@@ -70,7 +71,8 @@ public interface EntitatFields extends java.io.Serializable {
     FIRMATPERFORMATID,
     ALGORISMEDEFIRMAID,
     COMPROVARCERTIFICATCLIENTCERT,
-    COMPROVARNIFFIRMA
+    COMPROVARNIFFIRMA,
+    CUSTODIAINFOID
   };
 
 

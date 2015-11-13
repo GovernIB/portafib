@@ -307,6 +307,28 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.Long custodiaInfoIDDesde;
+
+  public java.lang.Long getCustodiaInfoIDDesde() {
+    return this.custodiaInfoIDDesde;
+  }
+
+  public void setCustodiaInfoIDDesde(java.lang.Long custodiaInfoIDDesde) {
+    this.custodiaInfoIDDesde = custodiaInfoIDDesde;
+  }
+
+
+  private java.lang.Long custodiaInfoIDFins;
+
+  public java.lang.Long getCustodiaInfoIDFins() {
+    return this.custodiaInfoIDFins;
+  }
+
+  public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
+    this.custodiaInfoIDFins = custodiaInfoIDFins;
+  }
+
+
   public EntitatFilterForm() {
   }
   
@@ -338,10 +360,13 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
     this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
     this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
+    this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
+    this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
   }
   
   /* ========= UTILS ========== */
@@ -420,6 +445,18 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  }
+
+
+
+  private Map<String, String> mapOfCustodiaInfoForCustodiaInfoID;
+
+  public Map<String, String> getMapOfCustodiaInfoForCustodiaInfoID() {
+    return this.mapOfCustodiaInfoForCustodiaInfoID;
+  }
+
+  public void setMapOfCustodiaInfoForCustodiaInfoID(Map<String, String> mapOfCustodiaInfoForCustodiaInfoID) {
+    this.mapOfCustodiaInfoForCustodiaInfoID = mapOfCustodiaInfoForCustodiaInfoID;
   }
 
 
