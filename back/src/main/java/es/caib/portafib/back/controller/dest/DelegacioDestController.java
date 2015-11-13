@@ -1138,7 +1138,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
   
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
 
     // TODO check null
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
@@ -1203,7 +1203,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
   
     // TODO Check null Misstage
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
     
     
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);

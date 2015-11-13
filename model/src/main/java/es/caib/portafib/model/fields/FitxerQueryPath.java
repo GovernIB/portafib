@@ -87,6 +87,20 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public EntitatQueryPath ENTITAT_LOGOWEBPEUIDS() {
+    return new EntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return FitxerQueryPath.this.getQueryPath() + "entitat_logowebpeuids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public EntitatQueryPath ENTITAT_LOGOSEGELLIDS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -129,20 +143,6 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public EntitatQueryPath ENTITAT_LOGOWEBPEUIDS() {
-    return new EntitatQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return FitxerQueryPath.this.getQueryPath() + "entitat_logowebpeuids" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
   public EntitatQueryPath ENTITAT_LOGOWEBIDS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -171,10 +171,10 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PeticioDeFirmaQueryPath PETICIODEFIRMA_FITXERAFIRMARIDS() {
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_FITXERADAPTATIDS() {
     return new PeticioDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return FitxerQueryPath.this.getQueryPath() + "peticioDeFirma_fitxerafirmarids" + ".";
+          return FitxerQueryPath.this.getQueryPath() + "peticioDeFirma_fitxeradaptatids" + ".";
       }
     });
   }
@@ -185,10 +185,10 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PeticioDeFirmaQueryPath PETICIODEFIRMA_FITXERADAPTATIDS() {
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_FITXERAFIRMARIDS() {
     return new PeticioDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return FitxerQueryPath.this.getQueryPath() + "peticioDeFirma_fitxeradaptatids" + ".";
+          return FitxerQueryPath.this.getQueryPath() + "peticioDeFirma_fitxerafirmarids" + ".";
       }
     });
   }

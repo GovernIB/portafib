@@ -331,6 +331,44 @@
       </ul>
     </li>
 
+    <%-- ModulDeFirma --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'modulDeFirma/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'modulDeFirma/')? "font-weight: bold;" : ""}"><fmt:message key="modulDeFirma.modulDeFirma"/></span></a>
+      <ul class="${fn:contains(url, 'modulDeFirma/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/modulDeFirma/new"/>" ><span style="${(fn:contains(url, 'modulDeFirma/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="modulDeFirma.modulDeFirma"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/modulDeFirma/list/1"/>" ><span style="${(fn:contains(url, 'modulDeFirma/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
+    <%-- ModulDeFirmaPerTipusDeDocument --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'modulDeFirmaPerTipusDeDocument/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'modulDeFirmaPerTipusDeDocument/')? "font-weight: bold;" : ""}"><fmt:message key="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument"/></span></a>
+      <ul class="${fn:contains(url, 'modulDeFirmaPerTipusDeDocument/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/modulDeFirmaPerTipusDeDocument/new"/>" ><span style="${(fn:contains(url, 'modulDeFirmaPerTipusDeDocument/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/modulDeFirmaPerTipusDeDocument/list/1"/>" ><span style="${(fn:contains(url, 'modulDeFirmaPerTipusDeDocument/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
     <%-- NotificacioWS --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'notificacioWS/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'notificacioWS/')? "font-weight: bold;" : ""}"><fmt:message key="notificacioWS.notificacioWS"/></span></a>

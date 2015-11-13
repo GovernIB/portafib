@@ -35,6 +35,8 @@ final String[] menu = {
   "",
   "tipusdocument.gestio", // Gestió Tipus de Documents"}
   "",
+  "moduldefirma.plantilla.plural", // /admin/modulDeFirma
+  "",
   Configuracio.isCAIB()? "" : "usuariaplicacio.gestio",
   //"",
   //"fluxos.orfes",
@@ -60,6 +62,8 @@ static {
   mapping.put("usuariaplicacio.gestio", "/admin/usuariAplicacio/list");
 
   mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
+  
+  mapping.put("moduldefirma.plantilla.plural", "/admin/modulDeFirma/list");
   
   //mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
   

@@ -14,6 +14,7 @@ public class TraduccioMapJPA implements TraduccioMap {
 
 private static final long serialVersionUID = 1632585305L;
 
+  /**  */
 	@Column(name="valor",length = 4000)
 	java.lang.String valor;
 

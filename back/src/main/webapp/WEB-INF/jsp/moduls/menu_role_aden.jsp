@@ -18,18 +18,14 @@ final String[] menu = {
     "",
     "carrec.gestio",
     "colaboradordecarrec.plural",
-    
     "",
     "solicitant.gestio",
-    
     "",
-    
     "grups.gestio",
-    
     "",
-    
     "tipusdocument.gestio", // Gestió Tipus de Documents"
-    
+    "",
+    "moduldefirma.gestio",
     "",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
@@ -60,6 +56,8 @@ static {
   mapping.put("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list");
   
   mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
+  
+  mapping.put("moduldefirma.gestio", "/aden/modulDeFirma/list");
 
   mapping.put("grups.gestio", "/aden/grup/list");
   

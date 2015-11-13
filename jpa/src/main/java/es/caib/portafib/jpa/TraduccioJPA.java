@@ -34,6 +34,7 @@ public class TraduccioJPA implements Traduccio {
 
 private static final long serialVersionUID = -326205279L;
 
+  /**  */
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PORTAFIB_SEQ")
 	@Index(name="pfi_traduccio_pk_i")
@@ -75,6 +76,32 @@ private static final long serialVersionUID = -326205279L;
     }
     return __result;
   }
+
+// EXP  Field:nomid | Table: pfi_moduldefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
+	private Set<ModulDeFirmaJPA> modulDeFirma_nomids = new HashSet<ModulDeFirmaJPA>(0);
+	public  Set<ModulDeFirmaJPA> getModulDeFirma_nomids() {
+    return this.modulDeFirma_nomids;
+  }
+
+	public void setModulDeFirma_nomids(Set<ModulDeFirmaJPA> modulDeFirma_nomids) {
+	  this.modulDeFirma_nomids = modulDeFirma_nomids;
+	}
+
+
+// EXP  Field:descripciocurtaid | Table: pfi_moduldefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "descripcioCurtaID")
+	private Set<ModulDeFirmaJPA> modulDeFirma_descripciocurtaids = new HashSet<ModulDeFirmaJPA>(0);
+	public  Set<ModulDeFirmaJPA> getModulDeFirma_descripciocurtaids() {
+    return this.modulDeFirma_descripciocurtaids;
+  }
+
+	public void setModulDeFirma_descripciocurtaids(Set<ModulDeFirmaJPA> modulDeFirma_descripciocurtaids) {
+	  this.modulDeFirma_descripciocurtaids = modulDeFirma_descripciocurtaids;
+	}
+
 
 // EXP  Field:nom | Table: pfi_tipusdocument | Type: 0  
 
@@ -155,6 +182,14 @@ private static final long serialVersionUID = -326205279L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"ModulDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirma_descripciocurtaids) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirma_descripciocurtaids())) ) {
+      __tmp.setModulDeFirma_descripciocurtaids(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirma_descripciocurtaids(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"ModulDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirma_nomids) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirma_nomids())) ) {
+      __tmp.setModulDeFirma_nomids(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirma_nomids(), __alreadyCopied,"TraduccioJPA"));
+    }
     if(!"TipusDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
       __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"TraduccioJPA"));

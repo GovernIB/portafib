@@ -26,6 +26,8 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.GrupEntitatUsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.IdiomaJPA</class>
 		<class>es.caib.portafib.jpa.MetadadaJPA</class>
+		<class>es.caib.portafib.jpa.ModulDeFirmaJPA</class>
+		<class>es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPA</class>
 		<class>es.caib.portafib.jpa.NotificacioWSJPA</class>
 		<class>es.caib.portafib.jpa.PermisGrupPlantillaJPA</class>
 		<class>es.caib.portafib.jpa.PermisUsuariPlantillaJPA</class>

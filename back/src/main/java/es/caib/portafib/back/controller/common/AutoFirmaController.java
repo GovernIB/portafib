@@ -271,7 +271,7 @@ public class AutoFirmaController extends FitxerController
   
   
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
 
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
     // TODO check null
@@ -306,7 +306,7 @@ public class AutoFirmaController extends FitxerController
   
   
     // TODO Check null Misstage
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
     
     
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);

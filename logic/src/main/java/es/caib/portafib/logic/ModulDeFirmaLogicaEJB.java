@@ -1,20 +1,21 @@
 package es.caib.portafib.logic;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import es.caib.portafib.logic.utils.ModulDeFirmaJPA;
+import es.caib.portafib.ejb.ModulDeFirmaEJB;
+import es.caib.portafib.jpa.ModulDeFirmaJPA;
+import es.caib.portafib.model.entity.ModulDeFirma;
 import es.caib.portafib.utils.Constants;
 
 import javax.ejb.Stateless;
 
-import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -26,17 +27,16 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "ModulDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
-public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */  
-  implements ModulDeFirmaLogicaLocal {
+public class ModulDeFirmaLogicaEJB  extends ModulDeFirmaEJB implements ModulDeFirmaLogicaLocal {
 
-  // XYZ
-  protected static Logger log = Logger.getLogger(ModulDeFirmaLogicaEJB.class);
-  
-  public static Map<Long, Properties> pluginsDB = new HashMap<Long, Properties>();
+ 
   
   public static Map<Long, ISignatureWebPlugin> pluginsCache = new HashMap<Long, ISignatureWebPlugin>();
   
+  /*
+ // XYZ
   
+  public static Map<Long, Properties> pluginsDB = new HashMap<Long, Properties>();
   static  {
     
     // TODO XYZ Llegir de BBDD
@@ -79,9 +79,30 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
 
     
   }
+  */
   
   
-  public List<ModulDeFirmaJPA> getAllModulDeFirma(String entitat) throws I18NException {
+  
+  
+  
+  
+  public List<ModulDeFirma> getAllModulDeFirma(String entitatID) throws I18NException {
+    
+    Where where = Where.AND(
+        ACTIU.equal(true),
+        ENTITATID.equal(entitatID)
+    );
+    
+//    ModulDeFirmaJPA modul;
+//    modul.getModulDeFirmaID();
+//    modul.getNom().getTraduccions()
+    
+    
+    // TODO Controlar que no hi hagi cap modul de firma.
+    return select(where);
+    
+    
+    /*
     // TODO XYZ Llegir de BBDD
     List<ModulDeFirmaJPA> plugins = new ArrayList<ModulDeFirmaJPA>();
     
@@ -101,47 +122,88 @@ public class ModulDeFirmaLogicaEJB /* XYZ extends MetadadaEJB */
     
     return plugins;
     
-    
+    */
   }
   
   
-  public ISignatureWebPlugin getSignatureWebPluginByID(long signatureWebPluginID) throws I18NException {
+  public ISignatureWebPlugin getSignatureWebPluginByModulDeFirmaID(long modulDeFirmaID) throws I18NException {
   
-    ISignatureWebPlugin plugin = pluginsCache.get(signatureWebPluginID);
+    ISignatureWebPlugin plugin = pluginsCache.get(modulDeFirmaID);
     
     if (plugin == null) {
 
-        Properties prop = pluginsDB.get(signatureWebPluginID);
-
-        if (prop == null) {
-          throw new I18NException("plugin.signatureweb.noexist", String.valueOf(signatureWebPluginID));
+        ModulDeFirmaJPA modulDeFirma = (ModulDeFirmaJPA)findByPrimaryKey(modulDeFirmaID);
+        
+       
+        // TODO 
+      
+        if (modulDeFirma == null) {
+          throw new I18NException("plugin.signatureweb.noexist", String.valueOf(modulDeFirmaID));
+        }
+        
+        Properties prop = new Properties();
+        
+        try {
+          if (modulDeFirma.getPropertiesAdmin() != null && modulDeFirma.getPropertiesAdmin().trim().length() != 0) {
+            prop.load(new StringReader(modulDeFirma.getPropertiesAdmin()));
+          }
+        } catch (Exception e) {
+          // TODO: handle exception
+        }
+        
+        try {
+          if (modulDeFirma.getPropertiesEntitat() != null && modulDeFirma.getPropertiesEntitat().trim().length() != 0) {
+            prop.load(new StringReader(modulDeFirma.getPropertiesEntitat()));
+          }          
+        } catch (Exception e) {
+          // TODO: handle exception
         }
 
-        String classe = prop.getProperty("class");
+        plugin = instantiatePlugin(prop, modulDeFirma.getClasse());
         
-        log.info("XYZ Classe = " + classe);
-
-        Object pluginInstance = PluginsManager.instancePluginByClassName(
-            classe, Constants.PORTAFIB_PROPERTY_BASE, prop);
-        plugin = (ISignatureWebPlugin) pluginInstance;
-        
-        log.info("XYZ pluginInstance = " + pluginInstance);
-        
-        pluginsCache.put(signatureWebPluginID, plugin);
+        pluginsCache.put(modulDeFirmaID, plugin);
       
     }
     return plugin;
 
   }
+
+
+  private ISignatureWebPlugin instantiatePlugin(Properties prop, String classe) {
+    ISignatureWebPlugin plugin;
+    log.info("XYZ Classe = " + classe);
+
+    Object pluginInstance = PluginsManager.instancePluginByClassName(
+        classe, Constants.PORTAFIB_PROPERTY_BASE, prop);
+    plugin = (ISignatureWebPlugin) pluginInstance;
+    
+    log.info("XYZ pluginInstance = " + pluginInstance);
+    return plugin;
+  }
   
   
   @Override
-  public List<ISignatureWebPlugin> getSignatureWebPluginsByEntity(String entity) throws I18NException {
+  public List<ISignatureWebPlugin> getSignatureWebPluginsByEntitatID(String entitatID) throws I18NException {
+    
     
     List<ISignatureWebPlugin> plugins = new ArrayList<ISignatureWebPlugin>();
     
-    for (Long id : pluginsDB.keySet()) {
-      plugins.add(getSignatureWebPluginByID(id));
+    Where where = Where.AND(
+        ACTIU.equal(true),
+        ENTITATID.equal(entitatID)
+    );
+    
+//    ModulDeFirmaJPA modul;
+//    modul.getModulDeFirmaID();
+//    modul.getNom().getTraduccions()
+    
+    
+    // TODO Controlar que no hi hagi cap modul de firma.
+    List<ModulDeFirma> modulsdefirma = select(where);
+    
+    
+    for (ModulDeFirma mf : modulsdefirma) {
+      plugins.add(getSignatureWebPluginByModulDeFirmaID(mf.getModulDeFirmaID()));
     } 
     
     return plugins;

@@ -408,6 +408,19 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
+// EXP  Field:entitatid | Table: pfi_moduldefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
+	private Set<ModulDeFirmaJPA> modulDeFirmas = new HashSet<ModulDeFirmaJPA>(0);
+	public  Set<ModulDeFirmaJPA> getModulDeFirmas() {
+    return this.modulDeFirmas;
+  }
+
+	public void setModulDeFirmas(Set<ModulDeFirmaJPA> modulDeFirmas) {
+	  this.modulDeFirmas = modulDeFirmas;
+	}
+
+
 // EXP  Field:entitatid | Table: pfi_usuariaplicacio | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
@@ -602,6 +615,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"UsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
       __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"ModulDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmas())) ) {
+      __tmp.setModulDeFirmas(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirmas(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {

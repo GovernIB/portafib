@@ -20,6 +20,8 @@ public interface IPortaFIBDaoManagers {
 	public IGrupEntitatUsuariEntitatManager getGrupEntitatUsuariEntitatManager();
 	public IIdiomaManager getIdiomaManager();
 	public IMetadadaManager getMetadadaManager();
+	public IModulDeFirmaManager getModulDeFirmaManager();
+	public IModulDeFirmaPerTipusDeDocumentManager getModulDeFirmaPerTipusDeDocumentManager();
 	public INotificacioWSManager getNotificacioWSManager();
 	public IPermisGrupPlantillaManager getPermisGrupPlantillaManager();
 	public IPermisUsuariPlantillaManager getPermisUsuariPlantillaManager();

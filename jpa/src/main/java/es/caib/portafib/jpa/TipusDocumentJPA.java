@@ -111,6 +111,19 @@ private static final long serialVersionUID = -1473284441L;
     return __result;
   }
 
+// EXP  Field:tipusdocumentid | Table: pfi_modulfirmapertipusdoc | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipusDocument")
+	private Set<ModulDeFirmaPerTipusDeDocumentJPA> modulDeFirmaPerTipusDeDocuments = new HashSet<ModulDeFirmaPerTipusDeDocumentJPA>(0);
+	public  Set<ModulDeFirmaPerTipusDeDocumentJPA> getModulDeFirmaPerTipusDeDocuments() {
+    return this.modulDeFirmaPerTipusDeDocuments;
+  }
+
+	public void setModulDeFirmaPerTipusDeDocuments(Set<ModulDeFirmaPerTipusDeDocumentJPA> modulDeFirmaPerTipusDeDocuments) {
+	  this.modulDeFirmaPerTipusDeDocuments = modulDeFirmaPerTipusDeDocuments;
+	}
+
+
 // EXP  Field:tipusdocumentid | Table: pfi_peticiodefirma | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipusDocument")
@@ -215,6 +228,10 @@ private static final long serialVersionUID = -1473284441L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"ModulDeFirmaPerTipusDeDocumentJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmaPerTipusDeDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmaPerTipusDeDocuments())) ) {
+      __tmp.setModulDeFirmaPerTipusDeDocuments(ModulDeFirmaPerTipusDeDocumentJPA.copyJPA(__jpa.getModulDeFirmaPerTipusDeDocuments(), __alreadyCopied,"TipusDocumentJPA"));
+    }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
       __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"TipusDocumentJPA"));

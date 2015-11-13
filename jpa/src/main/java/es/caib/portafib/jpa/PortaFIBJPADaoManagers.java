@@ -23,6 +23,8 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final GrupEntitatUsuariEntitatJPAManager pfi_grupentitatusuarientitat;
    private final IdiomaJPAManager pfi_idioma;
    private final MetadadaJPAManager pfi_metadada;
+   private final ModulDeFirmaJPAManager pfi_moduldefirma;
+   private final ModulDeFirmaPerTipusDeDocumentJPAManager pfi_modulfirmapertipusdoc;
    private final NotificacioWSJPAManager pfi_notificacio;
    private final PermisGrupPlantillaJPAManager pfi_permisgrupplantilla;
    private final PermisUsuariPlantillaJPAManager pfi_permisusuariplantilla;
@@ -67,6 +69,8 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_grupentitatusuarientitat = new GrupEntitatUsuariEntitatJPAManager(__em);
     this.pfi_idioma = new IdiomaJPAManager(__em);
     this.pfi_metadada = new MetadadaJPAManager(__em);
+    this.pfi_moduldefirma = new ModulDeFirmaJPAManager(__em);
+    this.pfi_modulfirmapertipusdoc = new ModulDeFirmaPerTipusDeDocumentJPAManager(__em);
     this.pfi_notificacio = new NotificacioWSJPAManager(__em);
     this.pfi_permisgrupplantilla = new PermisGrupPlantillaJPAManager(__em);
     this.pfi_permisusuariplantilla = new PermisUsuariPlantillaJPAManager(__em);
@@ -160,6 +164,14 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IMetadadaManager getMetadadaManager() {
 	  return this.pfi_metadada;
+	};
+
+	public IModulDeFirmaManager getModulDeFirmaManager() {
+	  return this.pfi_moduldefirma;
+	};
+
+	public IModulDeFirmaPerTipusDeDocumentManager getModulDeFirmaPerTipusDeDocumentManager() {
+	  return this.pfi_modulfirmapertipusdoc;
 	};
 
 	public INotificacioWSManager getNotificacioWSManager() {

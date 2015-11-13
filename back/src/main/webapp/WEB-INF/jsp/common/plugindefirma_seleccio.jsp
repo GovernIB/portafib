@@ -16,9 +16,9 @@
   <div class="well" style="max-width: 400px; margin: 0 auto 10px;">
   <c:forEach items="${moduls}" var="modul">
      <button type="button" class="btn btn-large btn-block btn-primary" onclick="location.href='<c:url value="/common/signmodule/showsignaturemodule/${modul.modulDeFirmaID}/${signaturesSetID}"/>'">
-     <b>${modul.nom}</b><br>
+     <b>${modul.nom.traduccions[lang].valor}</b><br>
      <small>
-     <i>${modul.descripcio}</i>
+     <i>${modul.descripcioCurta.traduccions[lang].valor}</i>
      </small>
      </button>
   </c:forEach>

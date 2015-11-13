@@ -275,6 +275,15 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />
     </definition>
+    
+    <definition name="modulDeFirmaFormAden" extends="role_aden">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="modulDeFirmaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaList.jsp" />
+    </definition>
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
@@ -345,6 +354,16 @@
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/aden/selectUsuaripersonaByNifUsername.jsp" />
     </definition>
+    
+    <definition name="modulDeFirmaFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="modulDeFirmaListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaList.jsp" />
+    </definition>
+    
 
     <!--  ===========  COL·LABORADOR ================== -->
     
@@ -662,6 +681,26 @@
     
     <definition name="metadadaListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/metadadaList.jsp" />
+    </definition>
+
+
+    <definition name="modulDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="modulDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="modulDeFirmaPerTipusDeDocumentFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentForm.jsp" />
+    </definition>
+    
+    <definition name="modulDeFirmaPerTipusDeDocumentListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp" />
     </definition>
 
 

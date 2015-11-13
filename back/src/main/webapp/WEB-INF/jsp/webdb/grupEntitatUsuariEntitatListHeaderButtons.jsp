@@ -54,7 +54,7 @@
         <c:url var="thelink" value="${thelink}"/>
         <c:set var="thelink" value="goTo('${thelink}')"/>
       </c:if>
-      <button type="button" class="btn btn-small ${button.type} pull-right"href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
+      <button type="button" class="btn btn-small ${button.type} pull-right" href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
          <i class="${button.icon}"></i>
          <fmt:message key="${button.codeText}"/>
       </button>

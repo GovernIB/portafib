@@ -824,7 +824,7 @@ import es.caib.portafib.utils.Configuracio;
     
     
 
-      ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+      ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
 
       // TODO check null
       SignaturesSet signatureSet = signaturePlugin.getSignaturesSet(signaturesSetID);
@@ -848,10 +848,11 @@ import es.caib.portafib.utils.Configuracio;
         
             case StatusSignature.STATUS_SIGNED:
               
+              File firmat = null;
               try {
 
   
-                File firmat = File.createTempFile(peticioDeFirmaID + "_" + estatDeFirmaID + "_Firma_Firmat_", ".pdf",
+                firmat = File.createTempFile(peticioDeFirmaID + "_" + estatDeFirmaID + "_Firma_Firmat_", ".pdf",
                     FileSystemManager.getFilesPath());
                 firmat.deleteOnExit();
   
@@ -871,6 +872,14 @@ import es.caib.portafib.utils.Configuracio;
                 status.setProcessed(true);
   
               } catch (Throwable e) {
+                
+                if (firmat != null && firmat.exists()) {
+                  if (!firmat.delete()) {
+                    // TODO missatge d'error
+                    firmat.deleteOnExit();
+                  };
+                }
+                
                 log.error(" CLASS = " + e.getClass());
                 String msg;
                 if (e instanceof I18NException) {

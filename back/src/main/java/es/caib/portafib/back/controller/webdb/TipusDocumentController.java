@@ -247,7 +247,7 @@ public class TipusDocumentController
     ModelAndView mav = new ModelAndView(getTileForm());
     TipusDocumentForm tipusDocumentForm = getTipusDocumentForm(null, false, request, mav);
     
-    {
+    if (tipusDocumentForm.getTipusDocument().getNom() == null){
       es.caib.portafib.jpa.TraduccioJPA trad = new es.caib.portafib.jpa.TraduccioJPA();
       for (es.caib.portafib.model.entity.Idioma idioma : tipusDocumentForm.getIdiomesTraduccio()) {
         trad.addTraduccio(idioma.getIdiomaID(), new es.caib.portafib.jpa.TraduccioMapJPA());

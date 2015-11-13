@@ -165,6 +165,19 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
+// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
+	private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_logowebpeuids() {
+    return this.entitat_logowebpeuids;
+  }
+
+	public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
+	  this.entitat_logowebpeuids = entitat_logowebpeuids;
+	}
+
+
 // EXP  Field:logosegellid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
@@ -204,19 +217,6 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
-	private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
-	public  Set<EntitatJPA> getEntitat_logowebpeuids() {
-    return this.entitat_logowebpeuids;
-  }
-
-	public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
-	  this.entitat_logowebpeuids = entitat_logowebpeuids;
-	}
-
-
 // EXP  Field:logowebid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebID")
@@ -243,19 +243,6 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:fitxerafirmarid | Table: pfi_peticiodefirma | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fitxerAFirmarID")
-	private Set<PeticioDeFirmaJPA> peticioDeFirma_fitxerafirmarids = new HashSet<PeticioDeFirmaJPA>(0);
-	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_fitxerafirmarids() {
-    return this.peticioDeFirma_fitxerafirmarids;
-  }
-
-	public void setPeticioDeFirma_fitxerafirmarids(Set<PeticioDeFirmaJPA> peticioDeFirma_fitxerafirmarids) {
-	  this.peticioDeFirma_fitxerafirmarids = peticioDeFirma_fitxerafirmarids;
-	}
-
-
 // EXP  Field:fitxeradaptatid | Table: pfi_peticiodefirma | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fitxerAdaptatID")
@@ -266,6 +253,19 @@ private static final long serialVersionUID = -252813913L;
 
 	public void setPeticioDeFirma_fitxeradaptatids(Set<PeticioDeFirmaJPA> peticioDeFirma_fitxeradaptatids) {
 	  this.peticioDeFirma_fitxeradaptatids = peticioDeFirma_fitxeradaptatids;
+	}
+
+
+// EXP  Field:fitxerafirmarid | Table: pfi_peticiodefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fitxerAFirmarID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_fitxerafirmarids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_fitxerafirmarids() {
+    return this.peticioDeFirma_fitxerafirmarids;
+  }
+
+	public void setPeticioDeFirma_fitxerafirmarids(Set<PeticioDeFirmaJPA> peticioDeFirma_fitxerafirmarids) {
+	  this.peticioDeFirma_fitxerafirmarids = peticioDeFirma_fitxerafirmarids;
 	}
 
 

@@ -37,8 +37,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.ModulDeFirmaJPA;
 import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
-import es.caib.portafib.logic.utils.ModulDeFirmaJPA;
+import es.caib.portafib.model.entity.ModulDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -106,22 +107,20 @@ public class SignatureModuleController {
     
     SignaturesSet signaturesSet = portaFIBSignaturesSets.get(signaturesSetID);
 
-    List<ModulDeFirmaJPA> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
+    List<ModulDeFirma> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
 
     List<ModulDeFirmaJPA> modulsFiltered = new ArrayList<ModulDeFirmaJPA>();
     ISignatureWebPlugin signaturePlugin;
     String filtreCerts = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
-    for (ModulDeFirmaJPA modulDeFirmaJPA : moduls) {
-      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(modulDeFirmaJPA.getModulDeFirmaID());
+    for (ModulDeFirma modulDeFirmaJPA : moduls) {
+      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(modulDeFirmaJPA.getModulDeFirmaID());
       if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
-        modulsFiltered.add(modulDeFirmaJPA);
+        modulsFiltered.add((ModulDeFirmaJPA)modulDeFirmaJPA);
       };
     }
 
-    
-    
     
     // Si només hi ha un mòdul de firma llavors anar a firmar directament
     if (modulsFiltered.size() == 1) {  
@@ -141,6 +140,7 @@ public class SignatureModuleController {
 
     mav.addObject("signaturesSetID", signaturesSetID);
     mav.addObject("moduls", modulsFiltered);
+    // XYZ mav.addObject("lang", modulsFiltered);
 
     return mav;
         
@@ -153,9 +153,9 @@ public class SignatureModuleController {
       @PathVariable("pluginID") Long pluginID,
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception,I18NException {
 
-    
+
     // El plugin existeix?
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
     
     // EL portaFIBSignaturesSet existe?
     SignaturesSet signaturesSet;
@@ -248,7 +248,7 @@ public class SignatureModuleController {
       long pluginID, String signatureID, int signatureIndex, 
       String origrelativePath, boolean isPost) throws Exception, I18NException {
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
     
