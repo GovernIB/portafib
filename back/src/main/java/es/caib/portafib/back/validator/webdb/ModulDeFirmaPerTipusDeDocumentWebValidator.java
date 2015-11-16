@@ -26,11 +26,11 @@ public class ModulDeFirmaPerTipusDeDocumentWebValidator  implements Validator, M
   protected ModulDeFirmaPerTipusDeDocumentValidator<Object> validator = new ModulDeFirmaPerTipusDeDocumentValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/ModulDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.ModulDeFirmaLocal modulDeFirmaEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/ModulDeFirmaPerTipusDeDocumentEJB/local")
   protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+
+  @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
+  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/TipusDocumentEJB/local")
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
@@ -63,7 +63,7 @@ public class ModulDeFirmaPerTipusDeDocumentWebValidator  implements Validator, M
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, modulDeFirmaEjb, modulDeFirmaPerTipusDeDocumentEjb, tipusDocumentEjb);
+      isNou, modulDeFirmaPerTipusDeDocumentEjb, pluginEjb, tipusDocumentEjb);
 
   } // Final de metode
 

@@ -20,13 +20,13 @@ public interface IPortaFIBDaoManagers {
 	public IGrupEntitatUsuariEntitatManager getGrupEntitatUsuariEntitatManager();
 	public IIdiomaManager getIdiomaManager();
 	public IMetadadaManager getMetadadaManager();
-	public IModulDeFirmaManager getModulDeFirmaManager();
 	public IModulDeFirmaPerTipusDeDocumentManager getModulDeFirmaPerTipusDeDocumentManager();
 	public INotificacioWSManager getNotificacioWSManager();
 	public IPermisGrupPlantillaManager getPermisGrupPlantillaManager();
 	public IPermisUsuariPlantillaManager getPermisUsuariPlantillaManager();
 	public IPeticioDeFirmaManager getPeticioDeFirmaManager();
 	public IPlantillaFluxDeFirmesManager getPlantillaFluxDeFirmesManager();
+	public IPluginManager getPluginManager();
 	public IPosicioPaginaManager getPosicioPaginaManager();
 	public IPosicioTaulaFirmesManager getPosicioTaulaFirmesManager();
 	public IPrioritatManager getPrioritatManager();

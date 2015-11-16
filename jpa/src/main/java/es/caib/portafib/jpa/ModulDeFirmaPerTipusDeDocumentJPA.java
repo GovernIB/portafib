@@ -18,7 +18,7 @@ import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "pfi_modulfirmapertipusdoc"  , uniqueConstraints = {
-            @UniqueConstraint( columnNames={"tipusdocumentid","moduldefirmaid"}) } )
+            @UniqueConstraint( columnNames={"tipusdocumentid","pluginid"}) } )
 @SequenceGenerator(name="PORTAFIB_SEQ", sequenceName="pfi_portafib_seq", allocationSize=1)
 @javax.xml.bind.annotation.XmlRootElement
 public class ModulDeFirmaPerTipusDeDocumentJPA implements ModulDeFirmaPerTipusDeDocument {
@@ -38,8 +38,8 @@ private static final long serialVersionUID = 2145428058L;
 	long tipusDocumentID;
 
 	@Index(name="pfi_mofitido_modfirma_fk_i")
-	@Column(name="moduldefirmaid",nullable = false,length = 19)
-	long modulDeFirmaID;
+	@Column(name="pluginid",nullable = false,length = 19)
+	long pluginID;
 
 	@Column(name="nom",nullable = false,length = 100)
 	java.lang.String nom;
@@ -51,22 +51,22 @@ private static final long serialVersionUID = 2145428058L;
   }
 
   /** Constructor amb tots els camps  */
-  public ModulDeFirmaPerTipusDeDocumentJPA(long ID , long tipusDocumentID , long modulDeFirmaID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentJPA(long ID , long tipusDocumentID , long pluginID , java.lang.String nom) {
     this.ID=ID;
     this.tipusDocumentID=tipusDocumentID;
-    this.modulDeFirmaID=modulDeFirmaID;
+    this.pluginID=pluginID;
     this.nom=nom;
 }
   /** Constructor sense valors autoincrementals */
-  public ModulDeFirmaPerTipusDeDocumentJPA(long tipusDocumentID , long modulDeFirmaID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentJPA(long tipusDocumentID , long pluginID , java.lang.String nom) {
     this.tipusDocumentID=tipusDocumentID;
-    this.modulDeFirmaID=modulDeFirmaID;
+    this.pluginID=pluginID;
     this.nom=nom;
 }
   public ModulDeFirmaPerTipusDeDocumentJPA(ModulDeFirmaPerTipusDeDocument __bean) {
     this.setID(__bean.getID());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
-    this.setModulDeFirmaID(__bean.getModulDeFirmaID());
+    this.setPluginID(__bean.getPluginID());
     this.setNom(__bean.getNom());
 	}
 
@@ -84,11 +84,11 @@ private static final long serialVersionUID = 2145428058L;
 		this.tipusDocumentID = _tipusDocumentID_;
 	};
 
-	public long getModulDeFirmaID() {
-		return(modulDeFirmaID);
+	public long getPluginID() {
+		return(pluginID);
 	};
-	public void setModulDeFirmaID(long _modulDeFirmaID_) {
-		this.modulDeFirmaID = _modulDeFirmaID_;
+	public void setPluginID(long _pluginID_) {
+		this.pluginID = _pluginID_;
 	};
 
 	public java.lang.String getNom() {
@@ -128,19 +128,19 @@ private static final long serialVersionUID = 2145428058L;
     this.tipusDocument = tipusDocument;
   }
 
-// IMP Field:moduldefirmaid | Table: pfi_moduldefirma | Type: 1  
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_mofitido_modfirm_fk")
-	@JoinColumn(name = "moduldefirmaid", referencedColumnName ="modulDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private ModulDeFirmaJPA modulDeFirma;
+	@ForeignKey(name="pfi_mofitido_plugin_fk")
+	@JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+	private PluginJPA plugin;
 
-	public ModulDeFirmaJPA getModulDeFirma() {
-    return this.modulDeFirma;
+	public PluginJPA getPlugin() {
+    return this.plugin;
   }
 
-	public  void setModulDeFirma(ModulDeFirmaJPA modulDeFirma) {
-    this.modulDeFirma = modulDeFirma;
+	public  void setPlugin(PluginJPA plugin) {
+    this.plugin = plugin;
   }
 
 
@@ -150,7 +150,7 @@ private static final long serialVersionUID = 2145428058L;
     ModulDeFirmaPerTipusDeDocumentJPA __tmp = new ModulDeFirmaPerTipusDeDocumentJPA();
     __tmp.setID(__bean.getID());
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
-    __tmp.setModulDeFirmaID(__bean.getModulDeFirmaID());
+    __tmp.setPluginID(__bean.getPluginID());
     __tmp.setNom(__bean.getNom());
 		return __tmp;
 	}
@@ -186,9 +186,9 @@ private static final long serialVersionUID = 2145428058L;
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocument) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocument()) ) ) {
       __tmp.setTipusDocument(TipusDocumentJPA.copyJPA(__jpa.getTipusDocument(), __alreadyCopied,"ModulDeFirmaPerTipusDeDocumentJPA"));
     }
-    if(!"ModulDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirma()) ) ) {
-      __tmp.setModulDeFirma(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirma(), __alreadyCopied,"ModulDeFirmaPerTipusDeDocumentJPA"));
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
+      __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"ModulDeFirmaPerTipusDeDocumentJPA"));
     }
 
     return __tmp;

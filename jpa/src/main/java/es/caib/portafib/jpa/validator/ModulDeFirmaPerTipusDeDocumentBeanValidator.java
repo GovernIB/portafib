@@ -17,9 +17,9 @@ public class ModulDeFirmaPerTipusDeDocumentBeanValidator
 
 
   // EJB's
-  protected final es.caib.portafib.model.dao.IModulDeFirmaManager __modulDeFirmaManager;
-
   protected final es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager;
+
+  protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
 
   protected final es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager;
 
@@ -27,21 +27,21 @@ public class ModulDeFirmaPerTipusDeDocumentBeanValidator
   public final ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA> _validator;
 
 
-  public ModulDeFirmaPerTipusDeDocumentBeanValidator(es.caib.portafib.model.dao.IModulDeFirmaManager __modulDeFirmaManager,
-     es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager,
+  public ModulDeFirmaPerTipusDeDocumentBeanValidator(es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) { 
-    this.__modulDeFirmaManager = __modulDeFirmaManager;
     this.__modulDeFirmaPerTipusDeDocumentManager = __modulDeFirmaPerTipusDeDocumentManager;
+    this.__pluginManager = __pluginManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     _validator = new ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA>();
   }
 
   public ModulDeFirmaPerTipusDeDocumentBeanValidator(ModulDeFirmaPerTipusDeDocumentValidator<ModulDeFirmaPerTipusDeDocumentJPA> _validator,
-     es.caib.portafib.model.dao.IModulDeFirmaManager __modulDeFirmaManager,
      es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) {
-    this.__modulDeFirmaManager = __modulDeFirmaManager;
     this.__modulDeFirmaPerTipusDeDocumentManager = __modulDeFirmaPerTipusDeDocumentManager;
+    this.__pluginManager = __pluginManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     this._validator = _validator;
   }
@@ -49,7 +49,7 @@ public class ModulDeFirmaPerTipusDeDocumentBeanValidator
   @Override
   public List<I18NFieldError> validate(ModulDeFirmaPerTipusDeDocumentJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<ModulDeFirmaPerTipusDeDocumentJPA> _bvr_ = new BeanValidatorResult<ModulDeFirmaPerTipusDeDocumentJPA>();
-    _validator.validate(_bvr_, target, isNou, __modulDeFirmaManager, __modulDeFirmaPerTipusDeDocumentManager, __tipusDocumentManager);
+    _validator.validate(_bvr_, target, isNou, __modulDeFirmaPerTipusDeDocumentManager, __pluginManager, __tipusDocumentManager);
     return _bvr_.getErrors();
   }
 }

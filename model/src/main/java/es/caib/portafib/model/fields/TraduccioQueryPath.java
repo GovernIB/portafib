@@ -57,10 +57,10 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public ModulDeFirmaQueryPath MODULDEFIRMA_NOMIDS() {
-    return new ModulDeFirmaQueryPath(new QueryPath() {
+  public PluginQueryPath PLUGIN_NOMIDS() {
+    return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return TraduccioQueryPath.this.getQueryPath() + "modulDeFirma_nomids" + ".";
+          return TraduccioQueryPath.this.getQueryPath() + "plugin_nomids" + ".";
       }
     });
   }
@@ -71,10 +71,10 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public ModulDeFirmaQueryPath MODULDEFIRMA_DESCRIPCIOCURTAIDS() {
-    return new ModulDeFirmaQueryPath(new QueryPath() {
+  public PluginQueryPath PLUGIN_DESCRIPCIOCURTAIDS() {
+    return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return TraduccioQueryPath.this.getQueryPath() + "modulDeFirma_descripciocurtaids" + ".";
+          return TraduccioQueryPath.this.getQueryPath() + "plugin_descripciocurtaids" + ".";
       }
     });
   }

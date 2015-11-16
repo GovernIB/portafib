@@ -98,6 +98,14 @@ public interface Constants {
   public static final long NOTIFICACIOAVIS_PETICIO_FIRMADA = 60;
   public static final long NOTIFICACIOAVIS_PETICIO_REBUTJADA = 70;
   public static final long NOTIFICACIOAVIS_PETICIO_PAUSADA = 80;
+  
+  
+  // TIPUS PLUGINS
+  
+  public static final int TIPUS_PLUGIN_MODULDEFIRMA = 0;
+  
+  public static final int TIPUS_PLUGIN_SEGELLDETEMPS = 1;
+  
 
   // Contextes WEB per enllaços dels mails.
   public static final String CONTEXT_SOLI_PETICIOFIRMA = "/soli/firma/peticio";

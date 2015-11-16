@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
-import es.caib.portafib.model.fields.ModulDeFirmaFields;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -27,8 +27,8 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.IModulDeFirmaManager __modulDeFirmaManager
     ,es.caib.portafib.model.dao.IModulDeFirmaPerTipusDeDocumentManager __modulDeFirmaPerTipusDeDocumentManager
+    ,es.caib.portafib.model.dao.IPluginManager __pluginManager
     ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) {
 
     // Valors Not Null
@@ -36,9 +36,9 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSDOCUMENTID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,MODULDEFIRMAID, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,PLUGINID, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODULDEFIRMAID)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PLUGINID)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,NOM, 
         "genapp.validation.required",
@@ -58,19 +58,19 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
       // Fitxers 
       // ====== Check Unique MULTIPLES - NOU =======
 
-      // Check Unique MULTIPLE for (tipusdocumentid, moduldefirmaid)
-      if (__vr.getFieldErrorCount(TIPUSDOCUMENTID) == 0 && __vr.getFieldErrorCount(MODULDEFIRMAID) == 0) {
+      // Check Unique MULTIPLE for (tipusdocumentid, pluginid)
+      if (__vr.getFieldErrorCount(TIPUSDOCUMENTID) == 0 && __vr.getFieldErrorCount(PLUGINID) == 0) {
         java.lang.Long __tipusdocumentid = (java.lang.Long)__vr.getFieldValue(__target__,TIPUSDOCUMENTID);
-        java.lang.Long __moduldefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,MODULDEFIRMAID);
+        java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
         Long __count_ = null;
-        try { __count_ = __modulDeFirmaPerTipusDeDocumentManager.count(org.fundaciobit.genapp.common.query.Where.AND(TIPUSDOCUMENTID.equal(__tipusdocumentid), MODULDEFIRMAID.equal(__moduldefirmaid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __modulDeFirmaPerTipusDeDocumentManager.count(org.fundaciobit.genapp.common.query.Where.AND(TIPUSDOCUMENTID.equal(__tipusdocumentid), PLUGINID.equal(__pluginid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ != 0) {        
             __vr.rejectValue(TIPUSDOCUMENTID, "genapp.validation.unique",
                 new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusdocumentid)),
                      new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSDOCUMENTID)));
-            __vr.rejectValue(MODULDEFIRMAID, "genapp.validation.unique",
-                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__moduldefirmaid)),
-                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODULDEFIRMAID)));
+            __vr.rejectValue(PLUGINID, "genapp.validation.unique",
+                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)),
+                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PLUGINID)));
         }
       }
 
@@ -81,20 +81,20 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
 
       // ====== Check Unique MULTIPLES - EDIT  =======
 
-      // Check Unique MULTIPLE for (tipusdocumentid, moduldefirmaid)
-      if (__vr.getFieldErrorCount(TIPUSDOCUMENTID) == 0 && __vr.getFieldErrorCount(MODULDEFIRMAID) == 0 && __vr.getFieldErrorCount(ID) == 0) {
+      // Check Unique MULTIPLE for (tipusdocumentid, pluginid)
+      if (__vr.getFieldErrorCount(TIPUSDOCUMENTID) == 0 && __vr.getFieldErrorCount(PLUGINID) == 0 && __vr.getFieldErrorCount(ID) == 0) {
         java.lang.Long __tipusdocumentid = (java.lang.Long)__vr.getFieldValue(__target__,TIPUSDOCUMENTID);
-        java.lang.Long __moduldefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,MODULDEFIRMAID);
+        java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
         java.lang.Long __id = (java.lang.Long)__vr.getFieldValue(__target__,ID);
         Long __count_ = null;
-        try { __count_ = __modulDeFirmaPerTipusDeDocumentManager.count(org.fundaciobit.genapp.common.query.Where.AND(TIPUSDOCUMENTID.equal(__tipusdocumentid), MODULDEFIRMAID.equal(__moduldefirmaid), ID.notEqual(__id))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __modulDeFirmaPerTipusDeDocumentManager.count(org.fundaciobit.genapp.common.query.Where.AND(TIPUSDOCUMENTID.equal(__tipusdocumentid), PLUGINID.equal(__pluginid), ID.notEqual(__id))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ != 0) {        
             __vr.rejectValue(TIPUSDOCUMENTID, "genapp.validation.unique",
                 new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusdocumentid)),
                      new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSDOCUMENTID)));
-            __vr.rejectValue(MODULDEFIRMAID, "genapp.validation.unique",
-                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__moduldefirmaid)),
-                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODULDEFIRMAID)));
+            __vr.rejectValue(PLUGINID, "genapp.validation.unique",
+                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)),
+                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PLUGINID)));
         }
       }
 
@@ -114,15 +114,15 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
       }
     }
 
-    if (__vr.getFieldErrorCount(MODULDEFIRMAID) == 0) {
-      java.lang.Long __moduldefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,MODULDEFIRMAID);
+    if (__vr.getFieldErrorCount(PLUGINID) == 0) {
+      java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
       Long __count_ = null;
-      try { __count_ = __modulDeFirmaManager.count(ModulDeFirmaFields.MODULDEFIRMAID.equal(__moduldefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+      try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
       if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(MODULDEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("modulDeFirma.modulDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("modulDeFirma.modulDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__moduldefirmaid)));
+        __vr.rejectValue(PLUGINID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)));
       }
     }
 

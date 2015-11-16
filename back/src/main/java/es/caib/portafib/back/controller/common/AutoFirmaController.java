@@ -64,7 +64,7 @@ import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
@@ -94,8 +94,8 @@ public class AutoFirmaController extends FitxerController
 
   public static final String AUTOFIRMA = "AUTOFIRMA";
 
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
+  protected PluginLogicaLocal modulDeFirmaEjb;
 
   @Autowired
   protected AutoFirmaValidator autoFirmaValidator;

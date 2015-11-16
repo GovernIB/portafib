@@ -103,29 +103,29 @@ private static final long serialVersionUID = -326205279L;
 	}
 
 
-// EXP  Field:nomid | Table: pfi_moduldefirma | Type: 0  
+// EXP  Field:nomid | Table: pfi_plugin | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
-	private Set<ModulDeFirmaJPA> modulDeFirma_nomids = new HashSet<ModulDeFirmaJPA>(0);
-	public  Set<ModulDeFirmaJPA> getModulDeFirma_nomids() {
-    return this.modulDeFirma_nomids;
+	private Set<PluginJPA> plugin_nomids = new HashSet<PluginJPA>(0);
+	public  Set<PluginJPA> getPlugin_nomids() {
+    return this.plugin_nomids;
   }
 
-	public void setModulDeFirma_nomids(Set<ModulDeFirmaJPA> modulDeFirma_nomids) {
-	  this.modulDeFirma_nomids = modulDeFirma_nomids;
+	public void setPlugin_nomids(Set<PluginJPA> plugin_nomids) {
+	  this.plugin_nomids = plugin_nomids;
 	}
 
 
-// EXP  Field:descripciocurtaid | Table: pfi_moduldefirma | Type: 0  
+// EXP  Field:descripciocurtaid | Table: pfi_plugin | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "descripcioCurtaID")
-	private Set<ModulDeFirmaJPA> modulDeFirma_descripciocurtaids = new HashSet<ModulDeFirmaJPA>(0);
-	public  Set<ModulDeFirmaJPA> getModulDeFirma_descripciocurtaids() {
-    return this.modulDeFirma_descripciocurtaids;
+	private Set<PluginJPA> plugin_descripciocurtaids = new HashSet<PluginJPA>(0);
+	public  Set<PluginJPA> getPlugin_descripciocurtaids() {
+    return this.plugin_descripciocurtaids;
   }
 
-	public void setModulDeFirma_descripciocurtaids(Set<ModulDeFirmaJPA> modulDeFirma_descripciocurtaids) {
-	  this.modulDeFirma_descripciocurtaids = modulDeFirma_descripciocurtaids;
+	public void setPlugin_descripciocurtaids(Set<PluginJPA> plugin_descripciocurtaids) {
+	  this.plugin_descripciocurtaids = plugin_descripciocurtaids;
 	}
 
 
@@ -208,17 +208,17 @@ private static final long serialVersionUID = -326205279L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"ModulDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirma_descripciocurtaids) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirma_descripciocurtaids())) ) {
-      __tmp.setModulDeFirma_descripciocurtaids(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirma_descripciocurtaids(), __alreadyCopied,"TraduccioJPA"));
-    }
-    if(!"ModulDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirma_nomids) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirma_nomids())) ) {
-      __tmp.setModulDeFirma_nomids(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirma_nomids(), __alreadyCopied,"TraduccioJPA"));
+    if(!"PluginJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin_descripciocurtaids) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin_descripciocurtaids())) ) {
+      __tmp.setPlugin_descripciocurtaids(PluginJPA.copyJPA(__jpa.getPlugin_descripciocurtaids(), __alreadyCopied,"TraduccioJPA"));
     }
     if(!"TipusDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {
       __tmp.setTipusDocuments(TipusDocumentJPA.copyJPA(__jpa.getTipusDocuments(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin_nomids) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin_nomids())) ) {
+      __tmp.setPlugin_nomids(PluginJPA.copyJPA(__jpa.getPlugin_nomids(), __alreadyCopied,"TraduccioJPA"));
     }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_motiudelegacioids())) ) {

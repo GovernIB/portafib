@@ -65,7 +65,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
 
   // References 
   @Autowired
-  protected ModulDeFirmaRefList modulDeFirmaRefList;
+  protected PluginRefList pluginRefList;
 
   /**
    * Llistat de totes ModulDeFirmaPerTipusDeDocument
@@ -197,13 +197,13 @@ public class ModulDeFirmaPerTipusDeDocumentController
       };
     }
 
-    // Field modulDeFirmaID
+    // Field pluginID
     {
-      _listSKV = getReferenceListForModulDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForPluginID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfModulDeFirmaForModulDeFirmaID(_tmp);
-      if (filterForm.getGroupByFields().contains(MODULDEFIRMAID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, MODULDEFIRMAID, false);
+      filterForm.setMapOfPluginForPluginID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINID, false);
       };
     }
 
@@ -223,7 +223,7 @@ public class ModulDeFirmaPerTipusDeDocumentController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(TIPUSDOCUMENTID, filterForm.getMapOfTipusDocumentForTipusDocumentID());
-    __mapping.put(MODULDEFIRMAID, filterForm.getMapOfModulDeFirmaForModulDeFirmaID());
+    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -279,11 +279,11 @@ public class ModulDeFirmaPerTipusDeDocumentController
       modulDeFirmaPerTipusDeDocumentForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (modulDeFirmaPerTipusDeDocumentForm.getListOfModulDeFirmaForModulDeFirmaID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForModulDeFirmaID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
+    if (modulDeFirmaPerTipusDeDocumentForm.getListOfPluginForPluginID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, modulDeFirmaPerTipusDeDocumentForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      modulDeFirmaPerTipusDeDocumentForm.setListOfModulDeFirmaForModulDeFirmaID(_listSKV);
+      modulDeFirmaPerTipusDeDocumentForm.setListOfPluginForPluginID(_listSKV);
     }
     
   }
@@ -626,43 +626,43 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForModulDeFirmaID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentForm modulDeFirmaPerTipusDeDocumentForm, Where where)  throws I18NException {
-    if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(MODULDEFIRMAID)) {
+    if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  modulDeFirmaPerTipusDeDocumentForm.getStringOfField(MODULDEFIRMAID);
+    final String _fieldName =  modulDeFirmaPerTipusDeDocumentForm.getStringOfField(PLUGINID);
     Where _where = null;
     if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(_fieldName)) {
-      _where = ModulDeFirmaFields.MODULDEFIRMAID.equal(modulDeFirmaPerTipusDeDocumentForm.getModulDeFirmaPerTipusDeDocument().getModulDeFirmaID());
+      _where = PluginFields.PLUGINID.equal(modulDeFirmaPerTipusDeDocumentForm.getModulDeFirmaPerTipusDeDocument().getPluginID());
     }
-    return getReferenceListForModulDeFirmaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForModulDeFirmaID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, ModulDeFirmaPerTipusDeDocumentFilterForm modulDeFirmaPerTipusDeDocumentFilterForm,
        List<ModulDeFirmaPerTipusDeDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(MODULDEFIRMAID)
-      && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(MODULDEFIRMAID)) {
+    if (modulDeFirmaPerTipusDeDocumentFilterForm.isHiddenField(PLUGINID)
+      && !modulDeFirmaPerTipusDeDocumentFilterForm.isGroupByField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(MODULDEFIRMAID)) {
+    if (!_groupByItemsMap.containsKey(PLUGINID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
       for (ModulDeFirmaPerTipusDeDocument _item : list) {
-        _pkList.add(_item.getModulDeFirmaID());
+        _pkList.add(_item.getPluginID());
         }
-        _w = ModulDeFirmaFields.MODULDEFIRMAID.in(_pkList);
+        _w = PluginFields.PLUGINID.in(_pkList);
       }
-    return getReferenceListForModulDeFirmaID(request, mav, Where.AND(where,_w));
+    return getReferenceListForPluginID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForModulDeFirmaID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return modulDeFirmaRefList.getReferenceList(ModulDeFirmaFields.MODULDEFIRMAID, where );
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
   }
 
 

@@ -8,8 +8,8 @@ public interface ModulDeFirmaPerTipusDeDocument extends org.fundaciobit.genapp.c
 	public long getTipusDocumentID();
 	public void setTipusDocumentID(long _tipusDocumentID_);
 
-	public long getModulDeFirmaID();
-	public void setModulDeFirmaID(long _modulDeFirmaID_);
+	public long getPluginID();
+	public void setPluginID(long _pluginID_);
 
 	public java.lang.String getNom();
 	public void setNom(java.lang.String _nom_);

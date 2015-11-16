@@ -37,9 +37,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.ModulDeFirmaJPA;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
-import es.caib.portafib.model.entity.ModulDeFirma;
+import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -56,8 +56,8 @@ public class SignatureModuleController {
   protected static Logger log = Logger.getLogger(SignatureModuleController.class);
 
   
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
+  protected PluginLogicaLocal modulDeFirmaEjb;
 
 
   public static final String CONTEXTWEB = "/common/signmodule";
@@ -107,25 +107,26 @@ public class SignatureModuleController {
     
     SignaturesSet signaturesSet = portaFIBSignaturesSets.get(signaturesSetID);
 
-    List<ModulDeFirma> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
+    List<Plugin> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
 
-    List<ModulDeFirmaJPA> modulsFiltered = new ArrayList<ModulDeFirmaJPA>();
+    List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
     String filtreCerts = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
-    for (ModulDeFirma modulDeFirmaJPA : moduls) {
-      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(modulDeFirmaJPA.getModulDeFirmaID());
+    for (Plugin modulDeFirmaJPA : moduls) {
+      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(
+          modulDeFirmaJPA.getPluginID());
       if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
-        modulsFiltered.add((ModulDeFirmaJPA)modulDeFirmaJPA);
+        modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
     }
 
     
     // Si només hi ha un mòdul de firma llavors anar a firmar directament
     if (modulsFiltered.size() == 1) {  
-      ModulDeFirmaJPA modul = modulsFiltered.get(0);
-      long pluginID = modul.getModulDeFirmaID();
+      PluginJPA modul = modulsFiltered.get(0);
+      long pluginID = modul.getPluginID();
       String url = CONTEXTWEB + "/showsignaturemodule/" +pluginID + "/" + signaturesSetID;
       return new ModelAndView(new RedirectView(url, true));
     }

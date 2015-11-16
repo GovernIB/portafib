@@ -19,8 +19,8 @@ public class ModulDeFirmaPerTipusDeDocumentQueryPath extends org.fundaciobit.gen
     return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID);
   }
 
-  public LongField MODULDEFIRMAID() {
-    return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID);
+  public LongField PLUGINID() {
+    return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.PLUGINID);
   }
 
   public StringField NOM() {
@@ -44,10 +44,10 @@ public class ModulDeFirmaPerTipusDeDocumentQueryPath extends org.fundaciobit.gen
     });
   }
 
-  public ModulDeFirmaQueryPath MODULDEFIRMA() {
-    return new ModulDeFirmaQueryPath(new QueryPath() {
+  public PluginQueryPath PLUGIN() {
+    return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return ModulDeFirmaPerTipusDeDocumentQueryPath.this.getQueryPath() + "modulDeFirma" + ".";
+          return ModulDeFirmaPerTipusDeDocumentQueryPath.this.getQueryPath() + "plugin" + ".";
       }
     });
   }

@@ -23,13 +23,13 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final GrupEntitatUsuariEntitatJPAManager pfi_grupentitatusuarientitat;
    private final IdiomaJPAManager pfi_idioma;
    private final MetadadaJPAManager pfi_metadada;
-   private final ModulDeFirmaJPAManager pfi_moduldefirma;
    private final ModulDeFirmaPerTipusDeDocumentJPAManager pfi_modulfirmapertipusdoc;
    private final NotificacioWSJPAManager pfi_notificacio;
    private final PermisGrupPlantillaJPAManager pfi_permisgrupplantilla;
    private final PermisUsuariPlantillaJPAManager pfi_permisusuariplantilla;
    private final PeticioDeFirmaJPAManager pfi_peticiodefirma;
    private final PlantillaFluxDeFirmesJPAManager pfi_plantillafluxdefirmes;
+   private final PluginJPAManager pfi_plugin;
    private final PosicioPaginaJPAManager pfi_posiciopagina;
    private final PosicioTaulaFirmesJPAManager pfi_posiciotaulafirmes;
    private final PrioritatJPAManager pfi_prioritat;
@@ -69,13 +69,13 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_grupentitatusuarientitat = new GrupEntitatUsuariEntitatJPAManager(__em);
     this.pfi_idioma = new IdiomaJPAManager(__em);
     this.pfi_metadada = new MetadadaJPAManager(__em);
-    this.pfi_moduldefirma = new ModulDeFirmaJPAManager(__em);
     this.pfi_modulfirmapertipusdoc = new ModulDeFirmaPerTipusDeDocumentJPAManager(__em);
     this.pfi_notificacio = new NotificacioWSJPAManager(__em);
     this.pfi_permisgrupplantilla = new PermisGrupPlantillaJPAManager(__em);
     this.pfi_permisusuariplantilla = new PermisUsuariPlantillaJPAManager(__em);
     this.pfi_peticiodefirma = new PeticioDeFirmaJPAManager(__em);
     this.pfi_plantillafluxdefirmes = new PlantillaFluxDeFirmesJPAManager(__em);
+    this.pfi_plugin = new PluginJPAManager(__em);
     this.pfi_posiciopagina = new PosicioPaginaJPAManager(__em);
     this.pfi_posiciotaulafirmes = new PosicioTaulaFirmesJPAManager(__em);
     this.pfi_prioritat = new PrioritatJPAManager(__em);
@@ -166,10 +166,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 	  return this.pfi_metadada;
 	};
 
-	public IModulDeFirmaManager getModulDeFirmaManager() {
-	  return this.pfi_moduldefirma;
-	};
-
 	public IModulDeFirmaPerTipusDeDocumentManager getModulDeFirmaPerTipusDeDocumentManager() {
 	  return this.pfi_modulfirmapertipusdoc;
 	};
@@ -192,6 +188,10 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IPlantillaFluxDeFirmesManager getPlantillaFluxDeFirmesManager() {
 	  return this.pfi_plantillafluxdefirmes;
+	};
+
+	public IPluginManager getPluginManager() {
+	  return this.pfi_plugin;
 	};
 
 	public IPosicioPaginaManager getPosicioPaginaManager() {

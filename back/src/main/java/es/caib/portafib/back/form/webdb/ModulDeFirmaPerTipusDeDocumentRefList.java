@@ -33,7 +33,7 @@ public class ModulDeFirmaPerTipusDeDocumentRefList extends RefListBase
     this.modulDeFirmaPerTipusDeDocumentEjb = __clone.modulDeFirmaPerTipusDeDocumentEjb;
   }
   public ModulDeFirmaPerTipusDeDocumentRefList() {
-    setSelects(new Select<?>[] { TIPUSDOCUMENTID.select, MODULDEFIRMAID.select });
+    setSelects(new Select<?>[] { TIPUSDOCUMENTID.select, PLUGINID.select });
   }
   public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
     Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());

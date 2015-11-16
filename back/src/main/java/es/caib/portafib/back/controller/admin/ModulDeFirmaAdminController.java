@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.webdb.ModulDeFirmaController;
-import es.caib.portafib.back.form.webdb.ModulDeFirmaFilterForm;
-import es.caib.portafib.back.form.webdb.ModulDeFirmaForm;
-import es.caib.portafib.jpa.ModulDeFirmaJPA;
-import es.caib.portafib.model.fields.ModulDeFirmaFields;
+import es.caib.portafib.back.controller.webdb.PluginController;
+import es.caib.portafib.back.form.webdb.PluginFilterForm;
+import es.caib.portafib.back.form.webdb.PluginForm;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.utils.Constants;
+
 
 /**
  * 
@@ -26,8 +28,8 @@ import es.caib.portafib.model.fields.ModulDeFirmaFields;
  */
 @Controller
 @RequestMapping(value = "/admin/modulDeFirma")
-@SessionAttributes(types = { ModulDeFirmaForm.class, ModulDeFirmaFilterForm.class })
-public class ModulDeFirmaAdminController extends ModulDeFirmaController {
+@SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
+public class ModulDeFirmaAdminController extends PluginController {
   
   
   
@@ -49,17 +51,19 @@ public class ModulDeFirmaAdminController extends ModulDeFirmaController {
   
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return ModulDeFirmaFields.ENTITATID.isNull();
+    return Where.AND(
+        ENTITATID.isNull(),
+        TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA));
   }
 
   @Override
-  public ModulDeFirmaFilterForm getModulDeFirmaFilterForm(Integer pagina, ModelAndView mav,
+  public PluginFilterForm getPluginFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
-      ModulDeFirmaFilterForm modulDeFirmaFilterForm;
-      modulDeFirmaFilterForm = super.getModulDeFirmaFilterForm(pagina, mav, request);
+      PluginFilterForm modulDeFirmaFilterForm;
+      modulDeFirmaFilterForm = super.getPluginFilterForm(pagina, mav, request);
       if(modulDeFirmaFilterForm.isNou()) {
         
-         Field<?>[] fields = ALL_MODULDEFIRMA_FIELDS;
+         Field<?>[] fields = ALL_PLUGIN_FIELDS;
          
          HashSet<Field<?>>  campsOcults = new HashSet<Field<?>>(Arrays.asList(fields));
         
@@ -78,14 +82,16 @@ public class ModulDeFirmaAdminController extends ModulDeFirmaController {
   
   
   @Override
-  public ModulDeFirmaForm getModulDeFirmaForm(ModulDeFirmaJPA _jpa,
+  public PluginForm getPluginForm(PluginJPA _jpa,
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
-     ModulDeFirmaForm modulDeFirmaForm = super.getModulDeFirmaForm(_jpa, __isView, request, mav);
+     PluginForm modulDeFirmaForm = super.getPluginForm(_jpa, __isView, request, mav);
      if(modulDeFirmaForm.isNou()) {
-       modulDeFirmaForm.getModulDeFirma().setActiu(true);
+       modulDeFirmaForm.getPlugin().setActiu(true);
+       modulDeFirmaForm.getPlugin().setTipus(Constants.TIPUS_PLUGIN_MODULDEFIRMA);
      }
      
      modulDeFirmaForm.addHiddenField(ENTITATID);
+     modulDeFirmaForm.addHiddenField(TIPUS);
    
      return modulDeFirmaForm;
    }

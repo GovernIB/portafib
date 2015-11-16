@@ -331,25 +331,6 @@
       </ul>
     </li>
 
-    <%-- ModulDeFirma --%>
-    <li>
-      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'modulDeFirma/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'modulDeFirma/')? "font-weight: bold;" : ""}"><fmt:message key="modulDeFirma.modulDeFirma"/></span></a>
-      <ul class="${fn:contains(url, 'modulDeFirma/')? "branch in" : "branch"}">
-        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/modulDeFirma/new"/>" ><span style="${(fn:contains(url, 'modulDeFirma/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
-       <fmt:message var="entityname" key="modulDeFirma.modulDeFirma"/>
-       <fmt:message key="genapp.createtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-       </span></a></li>
-        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/modulDeFirma/list/1"/>" ><span style="${(fn:contains(url, 'modulDeFirma/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
-        <fmt:message key="genapp.listtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-        </span></a>
-        </li>
-      </ul>
-    </li>
-
     <%-- ModulDeFirmaPerTipusDeDocument --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'modulDeFirmaPerTipusDeDocument/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'modulDeFirmaPerTipusDeDocument/')? "font-weight: bold;" : ""}"><fmt:message key="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument"/></span></a>
@@ -456,6 +437,25 @@
        </fmt:message>
        </span></a></li>
         <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/plantillaFluxDeFirmes/list/1"/>" ><span style="${(fn:contains(url, 'plantillaFluxDeFirmes/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
+    <%-- Plugin --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'plugin/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'plugin/')? "font-weight: bold;" : ""}"><fmt:message key="plugin.plugin"/></span></a>
+      <ul class="${fn:contains(url, 'plugin/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/plugin/new"/>" ><span style="${(fn:contains(url, 'plugin/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="plugin.plugin"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/plugin/list/1"/>" ><span style="${(fn:contains(url, 'plugin/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
         <fmt:message key="genapp.listtitle" >
          <fmt:param value="${entityname}"/>
        </fmt:message>

@@ -71,7 +71,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
@@ -142,8 +142,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
+  protected PluginLogicaLocal modulDeFirmaEjb;
 
   @Autowired
   protected TipusDocumentRefList tipusDocumentRefList;

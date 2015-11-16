@@ -487,16 +487,16 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
-// EXP  Field:entitatid | Table: pfi_moduldefirma | Type: 0  
+// EXP  Field:entitatid | Table: pfi_plugin | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
-	private Set<ModulDeFirmaJPA> modulDeFirmas = new HashSet<ModulDeFirmaJPA>(0);
-	public  Set<ModulDeFirmaJPA> getModulDeFirmas() {
-    return this.modulDeFirmas;
+	private Set<PluginJPA> plugins = new HashSet<PluginJPA>(0);
+	public  Set<PluginJPA> getPlugins() {
+    return this.plugins;
   }
 
-	public void setModulDeFirmas(Set<ModulDeFirmaJPA> modulDeFirmas) {
-	  this.modulDeFirmas = modulDeFirmas;
+	public void setPlugins(Set<PluginJPA> plugins) {
+	  this.plugins = plugins;
 	}
 
 
@@ -769,6 +769,10 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"PluginJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugins) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugins())) ) {
+      __tmp.setPlugins(PluginJPA.copyJPA(__jpa.getPlugins(), __alreadyCopied,"EntitatJPA"));
+    }
     if(!"GrupEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitats())) ) {
       __tmp.setGrupEntitats(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitats(), __alreadyCopied,"EntitatJPA"));
@@ -780,10 +784,6 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"UsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
       __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"ModulDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmas())) ) {
-      __tmp.setModulDeFirmas(ModulDeFirmaJPA.copyJPA(__jpa.getModulDeFirmas(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {

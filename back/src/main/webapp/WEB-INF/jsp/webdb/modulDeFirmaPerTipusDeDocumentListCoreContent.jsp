@@ -37,11 +37,11 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
           <td>
-          <c:set var="tmp">${modulDeFirmaPerTipusDeDocument.modulDeFirmaID}</c:set>
+          <c:set var="tmp">${modulDeFirmaPerTipusDeDocument.pluginID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfModulDeFirmaForModulDeFirmaID[tmp]}
+          ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
           </td>
         </c:if>

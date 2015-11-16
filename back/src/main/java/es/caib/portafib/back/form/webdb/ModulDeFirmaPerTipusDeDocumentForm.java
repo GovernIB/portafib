@@ -20,7 +20,7 @@ public class ModulDeFirmaPerTipusDeDocumentForm extends PortaFIBBaseForm {
     super(__toClone);
       this.modulDeFirmaPerTipusDeDocument = __toClone.modulDeFirmaPerTipusDeDocument;
     this.listOfTipusDocumentForTipusDocumentID = __toClone.listOfTipusDocumentForTipusDocumentID;
-    this.listOfModulDeFirmaForModulDeFirmaID = __toClone.listOfModulDeFirmaForModulDeFirmaID;
+    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
   }
   
   public ModulDeFirmaPerTipusDeDocumentForm(ModulDeFirmaPerTipusDeDocumentJPA modulDeFirmaPerTipusDeDocument, boolean nou) {
@@ -48,14 +48,14 @@ public class ModulDeFirmaPerTipusDeDocumentForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfModulDeFirmaForModulDeFirmaID;
+  private List<StringKeyValue> listOfPluginForPluginID;
 
-  public List<StringKeyValue> getListOfModulDeFirmaForModulDeFirmaID() {
-    return this.listOfModulDeFirmaForModulDeFirmaID;
+  public List<StringKeyValue> getListOfPluginForPluginID() {
+    return this.listOfPluginForPluginID;
   }
 
-  public void setListOfModulDeFirmaForModulDeFirmaID(List<StringKeyValue> listOfModulDeFirmaForModulDeFirmaID) {
-    this.listOfModulDeFirmaForModulDeFirmaID = listOfModulDeFirmaForModulDeFirmaID;
+  public void setListOfPluginForPluginID(List<StringKeyValue> listOfPluginForPluginID) {
+    this.listOfPluginForPluginID = listOfPluginForPluginID;
   }
 
 

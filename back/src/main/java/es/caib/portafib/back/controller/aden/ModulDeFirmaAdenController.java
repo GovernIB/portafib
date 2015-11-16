@@ -22,15 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.admin.ModulDeFirmaAdminController;
-import es.caib.portafib.back.form.webdb.ModulDeFirmaFilterForm;
-import es.caib.portafib.back.form.webdb.ModulDeFirmaForm;
+import es.caib.portafib.back.form.webdb.PluginFilterForm;
+import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.ModulDeFirmaJPA;
+import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.jpa.TraduccioJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
-import es.caib.portafib.model.entity.ModulDeFirma;
-import es.caib.portafib.model.fields.ModulDeFirmaFields;
+import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.utils.Constants;
 
 /**
  * 
@@ -39,11 +39,11 @@ import es.caib.portafib.model.fields.ModulDeFirmaFields;
  */
 @Controller
 @RequestMapping(value = "/aden/modulDeFirma")
-@SessionAttributes(types = { ModulDeFirmaForm.class, ModulDeFirmaFilterForm.class })
+@SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
   
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
+  protected PluginLogicaLocal modulDeFirmaEjb;
   
   
   @Override
@@ -64,61 +64,63 @@ public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
   
   @Override
   public String getEntityNameCode() {
-    return "modulDeFirma.modulDeFirma";
+    return "moduldefirma";
   }
 
   @Override
   public String getEntityNameCodePlural() {
-    return "modulDeFirma.modulDeFirma.plural";
-  }
-  
-  
-  @Override
-  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return ModulDeFirmaFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+    return "moduldefirma.plural";
   }
 
   @Override
-  public ModulDeFirmaFilterForm getModulDeFirmaFilterForm(Integer pagina, ModelAndView mav,
+  public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
+    return Where.AND(
+        ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA));
+  }
+
+  @Override
+  public PluginFilterForm getPluginFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
-      ModulDeFirmaFilterForm modulDeFirmaFilterForm;
-      modulDeFirmaFilterForm = super.getModulDeFirmaFilterForm(pagina, mav, request);
+      PluginFilterForm modulDeFirmaFilterForm;
+      modulDeFirmaFilterForm = super.getPluginFilterForm(pagina, mav, request);
       if(modulDeFirmaFilterForm.isNou()) {
         
-         Field<?>[] fields = ALL_MODULDEFIRMA_FIELDS;
-         
+         Field<?>[] fields = ALL_PLUGIN_FIELDS;
+
          HashSet<Field<?>>  campsOcults = new HashSet<Field<?>>(Arrays.asList(fields));
-        
+
          campsOcults.remove(NOMID);         
          //campsOcults.remove(CLASSE);
          campsOcults.remove(ACTIU);
-         
+
          modulDeFirmaFilterForm.getHiddenFields().addAll(campsOcults);
-         
+
          modulDeFirmaFilterForm.setAttachedAdditionalJspCode(true);
-         
+
          // Ocultar boto de crear
          modulDeFirmaFilterForm.setAddButtonVisible(false);
-         
-         
+
+
          // Afegir boto addiconal per se
          modulDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-             "icon-plus-sign", "moduldefirma.crear" ,  "javascript:openSelectModulDeFirmaDialog();", ""));
+             "icon-plus-sign", "moduldefirma.crear" ,  "javascript:openSelectPluginDialog();", ""));
 
       }
       
 
       
       Where where = Where.AND(
+          TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA),
           ACTIU.equal(true),
           ENTITATID.isNull()
       );
       
-//      ModulDeFirmaJPA modul;
-//      modul.getModulDeFirmaID();
+//      PluginJPA modul;
+//      modul.getPluginID();
 //      modul.getNom().getTraduccions()
       
-      List<ModulDeFirma> plantilles =  modulDeFirmaEjb.select(where);
+      List<Plugin> plantilles =  modulDeFirmaEjb.select(where);
       
       log.info("XYZ XXXXXXXXXXXXXXXXXXXX  PLANTILLES SIZE = " + plantilles.size());
       
@@ -133,9 +135,9 @@ public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
   
   
   @Override
-  public ModulDeFirmaForm getModulDeFirmaForm(ModulDeFirmaJPA _jpa,
+  public PluginForm getPluginForm(PluginJPA _jpa,
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
-     ModulDeFirmaForm modulDeFirmaForm = super.getModulDeFirmaForm(_jpa, __isView, request, mav);
+     PluginForm modulDeFirmaForm = super.getPluginForm(_jpa, __isView, request, mav);
      if(modulDeFirmaForm.isNou()) {
        
        Long plantillamoduldefirmaid = (Long)request.getSession().getAttribute(PLANTILLAID);
@@ -150,14 +152,14 @@ public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
        request.getSession().removeAttribute(PLANTILLAID);
        
        // TODO chack null
-       ModulDeFirmaJPA moduldefirma = modulDeFirmaEjb.findByPrimaryKey(plantillamoduldefirmaid);
+       PluginJPA moduldefirma = modulDeFirmaEjb.findByPrimaryKey(plantillamoduldefirmaid);
        
        
-       log.info(" XYZ  getNOM MMMMMMMMMMMMMMMMMM =  " + modulDeFirmaForm.getModulDeFirma().getNom());
+       log.info(" XYZ  getNOM MMMMMMMMMMMMMMMMMM =  " + modulDeFirmaForm.getPlugin().getNom());
        
        
-       ModulDeFirmaJPA clone = moduldefirma.toJPA(moduldefirma);
-       clone.setModulDeFirmaID(0);
+       PluginJPA clone = moduldefirma.toJPA(moduldefirma);
+       clone.setPluginID(0);
        
        clone.setNomID(0);
        clone.setNom(copyTranslations(moduldefirma.getNom()));
@@ -167,7 +169,7 @@ public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
        
        clone.setEntitatID(LoginInfo.getInstance().getEntitatID());
 
-       modulDeFirmaForm.setModulDeFirma(clone);
+       modulDeFirmaForm.setPlugin(clone);
      }
 
      modulDeFirmaForm.addReadOnlyField(PROPERTIESADMIN);

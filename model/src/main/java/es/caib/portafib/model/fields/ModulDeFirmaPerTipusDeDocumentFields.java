@@ -14,14 +14,14 @@ public interface ModulDeFirmaPerTipusDeDocumentFields extends java.io.Serializab
 
 	 public static final LongField ID = new LongField(_TABLE_MODEL, "ID", "id");  // PK
 	 public static final LongField TIPUSDOCUMENTID = new LongField(_TABLE_MODEL, "tipusDocumentID", "tipusdocumentid");
-	 public static final LongField MODULDEFIRMAID = new LongField(_TABLE_MODEL, "modulDeFirmaID", "moduldefirmaid");
+	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
 	 public static final StringField NOM = new StringField(_TABLE_MODEL, "nom", "nom");
 
 
   public static final Field<?>[] ALL_MODULDEFIRMAPERTIPUSDEDOCUMENT_FIELDS = {
     ID,
     TIPUSDOCUMENTID,
-    MODULDEFIRMAID,
+    PLUGINID,
     NOM
   };
 

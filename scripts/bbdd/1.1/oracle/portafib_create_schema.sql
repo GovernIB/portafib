@@ -185,21 +185,10 @@
         valor clob not null
     );
 
-    create table pfi_moduldefirma (
-        moduldefirmaid number(19,0) not null,
-        actiu number(1,0) not null,
-        classe varchar2(255 char) not null,
-        descripciocurtaid number(19,0) not null,
-        entitatid varchar2(50 char),
-        nomid number(19,0) not null,
-        propertiesadmin clob,
-        propertiesentitat clob
-    );
-
     create table pfi_modulfirmapertipusdoc (
         id number(19,0) not null,
-        moduldefirmaid number(19,0) not null,
         nom varchar2(100 char) not null,
+        pluginid number(19,0) not null,
         tipusdocumentid number(19,0) not null
     );
 
@@ -265,6 +254,18 @@
         descripcio varchar2(1000 char) not null,
         usuariaplicacioid varchar2(101 char),
         usuarientitatid varchar2(101 char)
+    );
+
+    create table pfi_plugin (
+        pluginid number(19,0) not null,
+        actiu number(1,0) not null,
+        classe varchar2(255 char) not null,
+        descripciocurtaid number(19,0) not null,
+        entitatid varchar2(50 char),
+        nomid number(19,0) not null,
+        propertiesadmin clob,
+        propertiesentitat clob,
+        tipus number(10,0) not null
     );
 
     create table pfi_posiciopagina (
@@ -475,11 +476,7 @@
     create index pfi_metadada_tipusmetaid_fk_i on pfi_metadada (tipusmetadadaid);
     create index pfi_metadada_peticioid_fk_i on pfi_metadada (peticiodefirmaid);
     create index pfi_metadada_pk_i on pfi_metadada (metadadaid);
-    create index pfi_modfirm_desccurtaid_fk_i on pfi_moduldefirma (descripciocurtaid);
-    create index pfi_moduldefirma_pk_i on pfi_moduldefirma (moduldefirmaid);
-    create index pfi_moduldefirma_nomid_fk_i on pfi_moduldefirma (nomid);
-    create index pfi_modfirm_entitatid_fk_i on pfi_moduldefirma (entitatid);
-    create index pfi_mofitido_modfirma_fk_i on pfi_modulfirmapertipusdoc (moduldefirmaid);
+    create index pfi_mofitido_modfirma_fk_i on pfi_modulfirmapertipusdoc (pluginid);
     create index pfi_modulfirmapertipusdoc_pk_i on pfi_modulfirmapertipusdoc (id);
     create index pfi_mofitido_tipusdoc_fk_i on pfi_modulfirmapertipusdoc (tipusdocumentid);
     create index pfi_notifica_peticioid_fk_i on pfi_notificacio (peticiodefirmaid);
@@ -509,6 +506,10 @@
     create index pfi_plantiflfi_usrappid_fk_i on pfi_plantillafluxdefirmes (usuariaplicacioid);
     create index pfi_plantiflfi_usrentiid_fk_i on pfi_plantillafluxdefirmes (usuarientitatid);
     create index pfi_plantillafluxdefirmes_pk_i on pfi_plantillafluxdefirmes (fluxdefirmesid);
+    create index pfi_plugin_nomid_fk_i on pfi_plugin (nomid);
+    create index pfi_plugin_pk_i on pfi_plugin (pluginid);
+    create index pfi_plugin_desccurtaid_fk_i on pfi_plugin (descripciocurtaid);
+    create index pfi_plugin_entitatid_fk_i on pfi_plugin (entitatid);
     create index pfi_posiciopagina_pk_i on pfi_posiciopagina (posiciopaginaid);
     create index pfi_posiciotaulafirmes_pk_i on pfi_posiciotaulafirmes (posiciotaulafirmesid);
     create index pfi_prioritat_pk_i on pfi_prioritat (prioritatid);
@@ -587,8 +588,6 @@
 
     alter table pfi_metadada add constraint pfi_metadada_pk primary key (metadadaid);
 
-    alter table pfi_moduldefirma add constraint pfi_moduldefirma_pk primary key (moduldefirmaid);
-
     alter table pfi_modulfirmapertipusdoc add constraint pfi_modulfirmapertipusdoc_pk primary key (id);
 
     alter table pfi_notificacio add constraint pfi_notificacio_pk primary key (notificacioid);
@@ -600,6 +599,8 @@
     alter table pfi_peticiodefirma add constraint pfi_peticiodefirma_pk primary key (peticiodefirmaid);
 
     alter table pfi_plantillafluxdefirmes add constraint pfi_plantillafluxdefirmes_pk primary key (fluxdefirmesid);
+
+    alter table pfi_plugin add constraint pfi_plugin_pk primary key (pluginid);
 
     alter table pfi_posiciopagina add constraint pfi_posiciopagina_pk primary key (posiciopaginaid);
 
@@ -852,30 +853,15 @@
         foreign key (tipusmetadadaid) 
         references pfi_tipusmetadada;
 
-    alter table pfi_moduldefirma 
-        add constraint pfi_modfirm_entitat_fk 
-        foreign key (entitatid) 
-        references pfi_entitat;
-
-    alter table pfi_moduldefirma 
-        add constraint pfi_modfirm_traduccio_nom_fk 
-        foreign key (nomid) 
-        references pfi_traduccio;
-
-    alter table pfi_moduldefirma 
-        add constraint pfi_modfirm_traduccio_desc_fk 
-        foreign key (descripciocurtaid) 
-        references pfi_traduccio;
-
-    alter table pfi_modulfirmapertipusdoc 
-        add constraint pfi_mofitido_modfirm_fk 
-        foreign key (moduldefirmaid) 
-        references pfi_moduldefirma;
-
     alter table pfi_modulfirmapertipusdoc 
         add constraint pfi_mofitido_tipusdoc_fk 
         foreign key (tipusdocumentid) 
         references pfi_tipusdocument;
+
+    alter table pfi_modulfirmapertipusdoc 
+        add constraint pfi_mofitido_plugin_fk 
+        foreign key (pluginid) 
+        references pfi_plugin;
 
     alter table pfi_notificacio 
         add constraint pfi_notifica_petifirma_fk 
@@ -987,6 +973,21 @@
         foreign key (usuariaplicacioid) 
         references pfi_usuariaplicacio;
 
+    alter table pfi_plugin 
+        add constraint pfi_plugin_entitat_fk 
+        foreign key (entitatid) 
+        references pfi_entitat;
+
+    alter table pfi_plugin 
+        add constraint pfi_plugin_traduccio_nom_fk 
+        foreign key (nomid) 
+        references pfi_traduccio;
+
+    alter table pfi_plugin 
+        add constraint pfi_plugin_traduccio_desc_fk 
+        foreign key (descripciocurtaid) 
+        references pfi_traduccio;
+
     alter table pfi_rebreavis 
         add constraint pfi_rebreavis_usrentitat_fk 
         foreign key (usuarientitatid) 
@@ -1097,7 +1098,7 @@
     alter table pfi_algorismedefirma add constraint pfi_algofirma_nom_uk unique (nom);
     alter table pfi_grupentitat add constraint pfi_grupentita_nomentitat_uk unique (nom, entitatid);
     alter table pfi_grupentitatusuarientitat add constraint pfi_grupusrent_usrgrup_uk unique (usuarientitatid, grupentitatid);
-    alter table pfi_modulfirmapertipusdoc add constraint pfi_mofitido_modfirm_tipdoc_uk unique (tipusdocumentid, moduldefirmaid);
+    alter table pfi_modulfirmapertipusdoc add constraint pfi_mofitido_modfirm_tipdoc_uk unique (tipusdocumentid, pluginid);
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrpl_grupflux_uk unique (grupentitatid, fluxdefirmesid);
     alter table pfi_permisusuariplantilla add constraint pfi_permisuspl_usrflux_uk unique (usuarientitatid, fluxdefirmesid);
     alter table pfi_peticiodefirma add constraint pfi_petifirma_fluxfirmesid_uk unique (fluxdefirmesid);

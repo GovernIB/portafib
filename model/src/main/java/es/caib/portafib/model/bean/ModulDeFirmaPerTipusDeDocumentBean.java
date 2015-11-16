@@ -12,7 +12,7 @@ private static final long serialVersionUID = 2083543313L;
 
 	long ID;// PK
 	long tipusDocumentID;
-	long modulDeFirmaID;
+	long pluginID;
 	java.lang.String nom;
 
 
@@ -21,22 +21,22 @@ private static final long serialVersionUID = 2083543313L;
   }
 
   /** Constructor amb tots els camps  */
-  public ModulDeFirmaPerTipusDeDocumentBean(long ID , long tipusDocumentID , long modulDeFirmaID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentBean(long ID , long tipusDocumentID , long pluginID , java.lang.String nom) {
     this.ID=ID;
     this.tipusDocumentID=tipusDocumentID;
-    this.modulDeFirmaID=modulDeFirmaID;
+    this.pluginID=pluginID;
     this.nom=nom;
 }
   /** Constructor sense valors autoincrementals */
-  public ModulDeFirmaPerTipusDeDocumentBean(long tipusDocumentID , long modulDeFirmaID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentBean(long tipusDocumentID , long pluginID , java.lang.String nom) {
     this.tipusDocumentID=tipusDocumentID;
-    this.modulDeFirmaID=modulDeFirmaID;
+    this.pluginID=pluginID;
     this.nom=nom;
 }
   public ModulDeFirmaPerTipusDeDocumentBean(ModulDeFirmaPerTipusDeDocument __bean) {
     this.setID(__bean.getID());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
-    this.setModulDeFirmaID(__bean.getModulDeFirmaID());
+    this.setPluginID(__bean.getPluginID());
     this.setNom(__bean.getNom());
 	}
 
@@ -54,11 +54,11 @@ private static final long serialVersionUID = 2083543313L;
 		this.tipusDocumentID = _tipusDocumentID_;
 	};
 
-	public long getModulDeFirmaID() {
-		return(modulDeFirmaID);
+	public long getPluginID() {
+		return(pluginID);
 	};
-	public void setModulDeFirmaID(long _modulDeFirmaID_) {
-		this.modulDeFirmaID = _modulDeFirmaID_;
+	public void setPluginID(long _pluginID_) {
+		this.pluginID = _pluginID_;
 	};
 
 	public java.lang.String getNom() {
@@ -77,7 +77,7 @@ private static final long serialVersionUID = 2083543313L;
     ModulDeFirmaPerTipusDeDocumentBean __tmp = new ModulDeFirmaPerTipusDeDocumentBean();
     __tmp.setID(__bean.getID());
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
-    __tmp.setModulDeFirmaID(__bean.getModulDeFirmaID());
+    __tmp.setPluginID(__bean.getPluginID());
     __tmp.setNom(__bean.getNom());
 		return __tmp;
 	}

@@ -169,10 +169,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public ModulDeFirmaQueryPath MODULDEFIRMAS() {
-    return new ModulDeFirmaQueryPath(new QueryPath() {
+  public PluginQueryPath PLUGINS() {
+    return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return EntitatQueryPath.this.getQueryPath() + "modulDeFirmas" + ".";
+          return EntitatQueryPath.this.getQueryPath() + "plugins" + ".";
       }
     });
   }

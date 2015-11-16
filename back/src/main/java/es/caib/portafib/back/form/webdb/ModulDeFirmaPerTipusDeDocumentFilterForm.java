@@ -65,25 +65,25 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
   }
 
 
-  private java.lang.Long modulDeFirmaIDDesde;
+  private java.lang.Long pluginIDDesde;
 
-  public java.lang.Long getModulDeFirmaIDDesde() {
-    return this.modulDeFirmaIDDesde;
+  public java.lang.Long getPluginIDDesde() {
+    return this.pluginIDDesde;
   }
 
-  public void setModulDeFirmaIDDesde(java.lang.Long modulDeFirmaIDDesde) {
-    this.modulDeFirmaIDDesde = modulDeFirmaIDDesde;
+  public void setPluginIDDesde(java.lang.Long pluginIDDesde) {
+    this.pluginIDDesde = pluginIDDesde;
   }
 
 
-  private java.lang.Long modulDeFirmaIDFins;
+  private java.lang.Long pluginIDFins;
 
-  public java.lang.Long getModulDeFirmaIDFins() {
-    return this.modulDeFirmaIDFins;
+  public java.lang.Long getPluginIDFins() {
+    return this.pluginIDFins;
   }
 
-  public void setModulDeFirmaIDFins(java.lang.Long modulDeFirmaIDFins) {
-    this.modulDeFirmaIDFins = modulDeFirmaIDFins;
+  public void setPluginIDFins(java.lang.Long pluginIDFins) {
+    this.pluginIDFins = pluginIDFins;
   }
 
 
@@ -107,11 +107,11 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
     this.IDFins = __toClone.IDFins;
     this.tipusDocumentIDDesde = __toClone.tipusDocumentIDDesde;
     this.tipusDocumentIDFins = __toClone.tipusDocumentIDFins;
-    this.modulDeFirmaIDDesde = __toClone.modulDeFirmaIDDesde;
-    this.modulDeFirmaIDFins = __toClone.modulDeFirmaIDFins;
+    this.pluginIDDesde = __toClone.pluginIDDesde;
+    this.pluginIDFins = __toClone.pluginIDFins;
     this.nom = __toClone.nom;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
-    this.mapOfModulDeFirmaForModulDeFirmaID = __toClone.mapOfModulDeFirmaForModulDeFirmaID;
+    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
   }
   
   /* ========= UTILS ========== */
@@ -123,7 +123,7 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,MODULDEFIRMAID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,PLUGINID }));
   }
 
 
@@ -158,14 +158,14 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
 
 
 
-  private Map<String, String> mapOfModulDeFirmaForModulDeFirmaID;
+  private Map<String, String> mapOfPluginForPluginID;
 
-  public Map<String, String> getMapOfModulDeFirmaForModulDeFirmaID() {
-    return this.mapOfModulDeFirmaForModulDeFirmaID;
+  public Map<String, String> getMapOfPluginForPluginID() {
+    return this.mapOfPluginForPluginID;
   }
 
-  public void setMapOfModulDeFirmaForModulDeFirmaID(Map<String, String> mapOfModulDeFirmaForModulDeFirmaID) {
-    this.mapOfModulDeFirmaForModulDeFirmaID = mapOfModulDeFirmaForModulDeFirmaID;
+  public void setMapOfPluginForPluginID(Map<String, String> mapOfPluginForPluginID) {
+    this.mapOfPluginForPluginID = mapOfPluginForPluginID;
   }
 
 

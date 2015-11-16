@@ -29,25 +29,25 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID)}">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
         <tr>
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID])?'modulDeFirmaPerTipusDeDocument.modulDeFirmaID':__theForm.labels[ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID]}">
-              <i class="icon-info-sign" title="${__theForm.help[ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[ModulDeFirmaPerTipusDeDocumentFields.PLUGINID])?'modulDeFirmaPerTipusDeDocument.pluginID':__theForm.labels[ModulDeFirmaPerTipusDeDocumentFields.PLUGINID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[ModulDeFirmaPerTipusDeDocumentFields.PLUGINID]}">
+              <i class="icon-info-sign" title="${__theForm.help[ModulDeFirmaPerTipusDeDocumentFields.PLUGINID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="modulDeFirmaPerTipusDeDocument.modulDeFirmaID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID)}" >
-          <form:hidden path="modulDeFirmaPerTipusDeDocument.modulDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.modulDeFirmaPerTipusDeDocument.modulDeFirmaID,__theForm.listOfModulDeFirmaForModulDeFirmaID)}"  />
+          <form:errors path="modulDeFirmaPerTipusDeDocument.pluginID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}" >
+          <form:hidden path="modulDeFirmaPerTipusDeDocument.pluginID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.modulDeFirmaPerTipusDeDocument.pluginID,__theForm.listOfPluginForPluginID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.MODULDEFIRMAID)}" >
-          <form:select id="modulDeFirmaPerTipusDeDocument_modulDeFirmaID"  onchange="if(typeof onChangeModulDeFirmaID == 'function') {  onChangeModulDeFirmaID(this); };"  cssClass="input-xxlarge" path="modulDeFirmaPerTipusDeDocument.modulDeFirmaID">
-            <c:forEach items="${__theForm.listOfModulDeFirmaForModulDeFirmaID}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}" >
+          <form:select id="modulDeFirmaPerTipusDeDocument_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="input-xxlarge" path="modulDeFirmaPerTipusDeDocument.pluginID">
+            <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

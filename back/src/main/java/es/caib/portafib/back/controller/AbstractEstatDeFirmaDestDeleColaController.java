@@ -73,7 +73,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
@@ -121,8 +121,8 @@ import es.caib.portafib.utils.Configuracio;
     @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-    @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-    protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+    @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
+    protected PluginLogicaLocal modulDeFirmaEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
     protected es.caib.portafib.ejb.AnnexLocal annexEjb;
