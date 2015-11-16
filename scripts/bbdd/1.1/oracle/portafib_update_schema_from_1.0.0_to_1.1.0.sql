@@ -60,10 +60,6 @@
     
     
     alter table pfi_modulfirmapertipusdoc add constraint pfi_mofitido_plugin_tipdoc_uk unique (tipusdocumentid, pluginid);
-    
-    -- XYZ
-    grant select,insert,delete,update on pfi_plugin to www_portafib;
-    grant select,insert,delete,update on pfi_modulfirmapertipusdoc to www_portafib;
 
 -- =============================================================
 --  2015/11/13 Incrementar tamany camp mime de pfi_fitxer
