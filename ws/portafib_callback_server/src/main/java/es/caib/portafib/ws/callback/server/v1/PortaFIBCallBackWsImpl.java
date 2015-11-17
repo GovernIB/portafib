@@ -7,8 +7,10 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+
 import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
+
 import es.caib.portafib.ws.utils.VersionsWs;
 
 /**
@@ -36,6 +38,11 @@ public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
 
   @WebMethod
   public void event(@WebParam(name = "event") PortaFIBEvent event) throws Exception {
+    
+//    if (true) {
+//      throw new SOAPException("ERROR XXXX ERROR HOLA CARACOLA");
+//    }
+    
     PortaFIBEventStore.llistat.add(event);
   }
 
