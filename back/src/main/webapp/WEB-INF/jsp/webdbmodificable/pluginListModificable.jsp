@@ -19,7 +19,7 @@
        
        <select  class="input-xxlarge" id="plantillamoduldefirmaid" name="plantillamoduldefirmaid">
           <c:forEach items="${llistatDePlantillaDeModuls}" var="tmp">
-            <option value="${tmp.modulDeFirmaID}">${tmp.nom.traduccions[lang].valor}</option>
+            <option value="${tmp.pluginID}">${tmp.nom.traduccions[lang].valor}</option>
           </c:forEach>
         </select>
        <br/>
