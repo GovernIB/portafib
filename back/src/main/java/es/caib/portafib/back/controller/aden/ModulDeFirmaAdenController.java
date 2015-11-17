@@ -104,7 +104,7 @@ public class ModulDeFirmaAdenController extends ModulDeFirmaAdminController {
 
          // Afegir boto addiconal per se
          modulDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
-             "icon-plus-sign", "moduldefirma.crear" ,  "javascript:openSelectPluginDialog();", ""));
+             "icon-plus-sign", "moduldefirma.crear" ,  "javascript:openSelectModulDeFirmaDialog();", ""));
 
       }
       
