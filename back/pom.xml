@@ -23,24 +23,7 @@
     
 	</repositories>
 	
-	<!-- XYZ
-	<profiles>
-		<profile>
-        -->
-		    <!-- Només serveix per indicar a maven que s'ha de compilar 
-			<id>applet</id>
-			<dependencies>
-	          <dependency>
-			    <artifactId>portafib-applet</artifactId>
-				<groupId>es.caib.portafib</groupId>
-				<version>${project.version}</version>
-                <scope>provided</scope>
-			  </dependency>
-			</dependencies>
-		</profile>
-	</profiles>
-    -->
-	
+
 
     <dependencies>
 
@@ -79,11 +62,18 @@
         
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
-            <version>${plugins.version}</version>
             <artifactId>plugin-signatureweb-api</artifactId>
+            <version>${plugins.version}</version>
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+           <groupId>org.fundaciobit.plugins</groupId>
+           <artifactId>plugin-timestamp-api</artifactId>
+           <version>${plugins.version}</version>
+           <scope>provided</scope>
+         </dependency>
+
         <!-- XYZ ZZZ -->
         <dependency>
             <groupId>org.tuckey</groupId>
@@ -435,57 +425,7 @@
 			  </execution>
 			</executions>
 		</plugin>
-		 
-
-         <!-- XYZ
-		<plugin>
-		  <artifactId>maven-dependency-plugin</artifactId>
-		  <version>2.0</version>
-		  <executions>
-			<execution>
-			  <id>copy1</id>
-			  <phase>prepare-package</phase>
-			  <goals>
-				<goal>copy</goal>
-			  </goals>
-			  <configuration>
-				<artifactItems>
-				  <artifactItem>
-					<artifactId>portafib-applet-signed</artifactId>
-                    <groupId>es.caib.portafib</groupId>
-					<version>${project.version}</version>
-					<type>jar</type>
-					<overWrite>true</overWrite>
-		          </artifactItem>
-				</artifactItems>
-				<outputDirectory>${project.build.directory}/${project.build.finalName}/applet</outputDirectory>
-			  </configuration>
-			</execution>
-
-			<execution>
-			  <id>copy2</id>
-			  <phase>prepare-package</phase>
-			  <goals>
-				<goal>copy</goal>
-			  </goals>
-			  <configuration>
-				<artifactItems>
-				  <artifactItem>
-					<artifactId>afirma-miniapplet-full</artifactId>
-                    <groupId>es.gob.afirma</groupId>
-					<version>${miniapplet.version}</version>
-					<type>jar</type>
-					<overWrite>true</overWrite>
-					<destFileName>miniapplet-full.jar</destFileName>
-		          </artifactItem>
-				</artifactItems>
-				<outputDirectory>${project.build.directory}/${project.build.finalName}/applet</outputDirectory>
-			  </configuration>
-			</execution>
-		  </executions>
-		</plugin>
-		-->
-		 
+	 
       </plugins>
    </build>
 </project>

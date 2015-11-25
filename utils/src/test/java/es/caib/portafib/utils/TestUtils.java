@@ -20,7 +20,7 @@ public class TestUtils {
   
   @Test
   public void maxNumberSignaturesInTable() {
-    log.info(" maxNumberSignaturesInTable = " + Constants.APPLET_MAX_FIRMES_PER_TAULA );
+    log.info(" maxNumberSignaturesInTable = " + Constants.MAX_FIRMES_PER_TAULA );
   }
 
 }

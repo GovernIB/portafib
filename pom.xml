@@ -7,18 +7,18 @@
     <name>PortaFIB</name>
 
     <modules>
+ 
         <module>plugins-signatureweb</module>
+               <!-- XYZ   -->
         <module>utils</module> 
-        <!-- XYZ         -->
         <module>persistence</module>
         <module>model</module> 
         <module>jpa</module>
         <module>ejb</module> 
         <module>logic</module>
+      
         <module>back</module>
-		<!--  XYZ          -->
         <module>ws</module>
-
         <module>scripts</module>
         <module>ear</module>
     </modules>

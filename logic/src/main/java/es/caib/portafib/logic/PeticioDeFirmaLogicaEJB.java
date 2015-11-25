@@ -540,10 +540,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           numFirmes = numFirmes + blocDeFirmesJPA.getMinimDeFirmes();
         }
 
-        if (numFirmes > Constants.APPLET_MAX_FIRMES_PER_TAULA) {
+        if (numFirmes > Constants.MAX_FIRMES_PER_TAULA) {
           // TODO TRADUIR per quan es passin els missatges a Logica
           throw new Exception("Una peticio de firma pot tenir com a màxim "
-              + Constants.APPLET_MAX_FIRMES_PER_TAULA + " firmes obligatories.");
+              + Constants.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
         }
 
         // Posar ROLE DEST als firmants del flux de firmes

@@ -127,6 +127,14 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new LongField(getQueryPath(), EntitatFields.CUSTODIAINFOID);
   }
 
+  public LongField PLUGINID() {
+    return new LongField(getQueryPath(), EntitatFields.PLUGINID);
+  }
+
+  public IntegerField SEGELLDETEMPSVIAWEB() {
+    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
+  }
+
 
 
   @Override
@@ -282,6 +290,14 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new CustodiaInfoQueryPath(new QueryPath() {
       public String getQueryPath() {
           return EntitatQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
+      }
+    });
+  }
+
+  public PluginQueryPath PLUGIN() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "plugin" + ".";
       }
     });
   }

@@ -22,6 +22,7 @@ public class MiniAppletInServerSigner extends AbstractTriFaseSigner {
     super();
     this.privateKey = privatekey;
   }
+  
 
   @Override
   public byte[] signHash(final String algorithm, final byte[] hash) throws Exception {

@@ -197,6 +197,11 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${peticioDeFirma.avisWeb?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${peticioDeFirma.segellatDeTemps?'success':'error'}.png"/>">
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

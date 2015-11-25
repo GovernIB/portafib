@@ -101,10 +101,12 @@
         motiudelegacioid number(19,0),
         nom varchar2(50 char) not null,
         pdfautoritzaciodelegacioid number(19,0) not null,
+        pluginid number(19,0),
         policyidentifier varchar2(100 char),
         policyidentifierhash clob,
         policyidentifierhashalgorithm varchar2(50 char),
         policyurldocument varchar2(255 char),
+        segelldetempsviaweb number(10,0) not null,
         suportemail varchar2(100 char),
         suporttelefon varchar2(50 char),
         suportweb varchar2(250 char),
@@ -240,6 +242,7 @@
         prioritatid number(10,0) not null,
         remitentdescripcio varchar2(500 char),
         remitentnom varchar2(100 char) not null,
+        segellatdetemps number(1,0) not null,
         tipusdocumentid number(19,0) not null,
         tipusestatpeticiodefirmaid number(10,0) not null,
         tipusfirmaid number(10,0) not null,
@@ -447,6 +450,7 @@
     create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
     create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
     create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
@@ -752,6 +756,11 @@
         add constraint pfi_entitat_fitxer_pdfd_fk 
         foreign key (pdfautoritzaciodelegacioid) 
         references pfi_fitxer;
+
+    alter table pfi_entitat 
+        add constraint pfi_entitat_plugin_fk 
+        foreign key (pluginid) 
+        references pfi_plugin;
 
     alter table pfi_entitat 
         add constraint pfi_entitat_fitxer_lose_fk 

@@ -705,3 +705,59 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINID)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINID])?'entitat.pluginID':__theForm.labels[EntitatFields.PLUGINID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.pluginID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINID)}" >
+          <form:hidden path="entitat.pluginID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginID,__theForm.listOfPluginForPluginID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINID)}" >
+          <form:select id="entitat_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="input-xxlarge" path="entitat.pluginID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:hidden path="entitat.segellDeTempsViaWeb"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
+            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

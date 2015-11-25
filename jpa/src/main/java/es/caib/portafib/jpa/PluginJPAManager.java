@@ -102,6 +102,19 @@ public class PluginJPAManager
 
   @Override
   public Plugin create(Plugin transientInstance) throws I18NException {
+    processTranslations(transientInstance);
+    return super.create(transientInstance);
+  }
+
+
+  @Override
+  public Plugin update(Plugin transientInstance) throws I18NException {
+    processTranslations(transientInstance);
+    return super.update(transientInstance);
+  }
+
+
+  private void processTranslations(Plugin transientInstance) {
     if (transientInstance != null) {
       if (transientInstance.getNomID() == 0) {
         if (transientInstance instanceof PluginJPA) {
@@ -128,7 +141,6 @@ public class PluginJPAManager
         }
       }
     }
-    return super.create(transientInstance);
   }
 
 

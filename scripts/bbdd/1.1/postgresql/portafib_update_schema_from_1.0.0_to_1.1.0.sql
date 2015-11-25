@@ -96,6 +96,28 @@ ALTER TABLE pfi_entitat ADD CONSTRAINT pfi_entitat_custodia_fk FOREIGN KEY (cust
 create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
 
 
+-- =============================================================
+--  2015/11/25 Segellat de Temps
+-- =============================================================
+
+ALTER TABLE pfi_entitat ADD pluginid bigint;
+ALTER TABLE pfi_entitat ADD segelldetempsviaweb integer DEFAULT 0 NOT NULL;
+
+COMMENT ON COLUMN pfi_entitat.pluginid IS 'Plugin de segellat de temps';
+
+ALTER TABLE pfi_peticiodefirma ADD segellatdetemps boolean DEFAULT false NOT NULL;
+
+CREATE INDEX pfi_entitat_segelltemps_fk_i ON pfi_entitat;
+
+ALTER TABLE pfi_entitat ADD CONSTRAINT pfi_entitat_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin(pluginid);
+
+
+
+
+
+
+
+
 
 
 

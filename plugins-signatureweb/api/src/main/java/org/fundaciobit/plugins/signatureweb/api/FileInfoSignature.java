@@ -62,6 +62,10 @@ public class FileInfoSignature {
   int signMode;
 
   PdfInfoSignature pdfInfoSignature;
+  
+  
+  ITimeStampGenerator timeStampGenerator = null; 
+
 
   /**
    * 
@@ -84,10 +88,10 @@ public class FileInfoSignature {
    */
   public FileInfoSignature(String signID, File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
-      int signMode, PdfInfoSignature pdfInfoSignature) {
+      int signMode, PdfInfoSignature pdfInfoSignature, ITimeStampGenerator timeStampGenerator) {
     super();
     setValues(signID, source, name, reason, firmatPerFormat, signNumber, languageSign, signType,
-        signAlgorithm, signMode, pdfInfoSignature);
+        signAlgorithm, signMode, pdfInfoSignature, timeStampGenerator);
   }
   
   
@@ -105,7 +109,7 @@ public class FileInfoSignature {
    */
   public void setValues(String signID, File source, String name, String reason, String firmatPerFormat,
       int signNumber, String languageSign, String signType, String signAlgorithm,
-      int signMode, PdfInfoSignature pdfInfoSignature) {
+      int signMode, PdfInfoSignature pdfInfoSignature, ITimeStampGenerator timeStampGenerator) {
     this.signID = signID;
     this.source = source;
     this.name = name;
@@ -117,6 +121,7 @@ public class FileInfoSignature {
     this.signAlgorithm = signAlgorithm;
     this.signMode = signMode;
     this.pdfInfoSignature = pdfInfoSignature;
+    this.timeStampGenerator = timeStampGenerator;
   }
 
   public String getSignID() {
@@ -205,6 +210,14 @@ public class FileInfoSignature {
 
   public void setPdfInfoSignature(PdfInfoSignature pdfInfoSignature) {
     this.pdfInfoSignature = pdfInfoSignature;
+  }
+  
+  public ITimeStampGenerator getTimeStampGenerator() {
+    return timeStampGenerator;
+  }
+
+  public void setTimeStampGenerator(ITimeStampGenerator timeStampGenerator) {
+    this.timeStampGenerator = timeStampGenerator;
   }
 
 }

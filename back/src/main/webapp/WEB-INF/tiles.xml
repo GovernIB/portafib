@@ -284,6 +284,17 @@
     <definition name="modulDeFirmaListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
+    
+    
+     <definition name="segellDeTempsFormAden" extends="role_aden">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
+    </definition>
+    
+    <definition name="segellDeTempsListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
+    </definition>
+    
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
@@ -364,6 +375,14 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
     
+    <definition name="segellDeTempsFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
+    </definition>
+    
+    <definition name="segellDeTempsListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
+    </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
     

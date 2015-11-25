@@ -276,9 +276,8 @@
 				  <artifactId>plugin-userinformation-ldap</artifactId>				  
 				  <version>${plugins.version}</version>
 				</dependency>
-                
-                				
-				
+
+
 				<!-- ====================================== -->
 		        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
 		        <!-- ====================================== -->
@@ -301,6 +300,40 @@
                     <version>${plugins.version}</version>
                 </dependency>
 
+   				<!-- ====================================== -->
+		        <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
+		        <!-- ====================================== -->
+
+                
+                <dependency>
+                  <groupId>org.fundaciobit.plugins</groupId>
+                  <artifactId>plugin-timestamp-api</artifactId>
+                  <version>${plugins.version}</version>
+                  <!-- XYZ SSSSS
+                  <exclusions>
+						<exclusion>
+						  <groupId>org.bouncycastle</groupId>
+			              <artifactId>bcprov-jdk15</artifactId>
+						</exclusion>
+                        <exclusion>
+						  <groupId>org.bouncycastle</groupId>
+			              <artifactId>bcmail-jdk15</artifactId>
+						</exclusion>
+				  </exclusions> 
+                  -->
+                </dependency>
+
+                <dependency>
+                  <groupId>org.fundaciobit.plugins</groupId>
+                  <artifactId>plugin-timestamp-catcertrfc</artifactId>
+                  <version>${plugins.version}</version>
+                </dependency>
+                
+                <dependency>
+                  <groupId>org.fundaciobit.plugins</groupId>
+                  <artifactId>plugin-timestamp-afirmarfc</artifactId>
+                  <version>${plugins.version}</version>
+                </dependency>
 
 			</dependencies>
 		</profile>

@@ -29,15 +29,11 @@
 
   
   function firmar(url, firmaid) {
-      
-      if (deployJava.isPluginInstalled()) {
+      if (deployJava && deployJava.isPluginInstalled()) {
           goTo(url);
       } else {
-          document.getElementById("ajaxloader").style.visibility = "visible";
-          myTimer = setInterval(function () {closeWhenSign(firmaid)}, 20000);
           goTo(url + '/Firmar.jnlp');
       }
-      
   }
   
   function getCheckboxValues() {

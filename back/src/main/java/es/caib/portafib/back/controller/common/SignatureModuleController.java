@@ -19,6 +19,7 @@ import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.PdfInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
@@ -38,7 +39,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
-import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
@@ -56,9 +57,8 @@ public class SignatureModuleController {
   protected static Logger log = Logger.getLogger(SignatureModuleController.class);
 
   
-  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
-  protected PluginLogicaLocal modulDeFirmaEjb;
-
+  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
 
   public static final String CONTEXTWEB = "/common/signmodule";
   
@@ -107,7 +107,7 @@ public class SignatureModuleController {
     
     SignaturesSet signaturesSet = portaFIBSignaturesSets.get(signaturesSetID);
 
-    List<Plugin> moduls = modulDeFirmaEjb.getAllModulDeFirma(LoginInfo.getInstance().getEntitatID());
+    List<Plugin> moduls = modulDeFirmaEjb.getAllPlugins(LoginInfo.getInstance().getEntitatID());
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
@@ -115,8 +115,13 @@ public class SignatureModuleController {
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
     for (Plugin modulDeFirmaJPA : moduls) {
-      signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(
+      signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(
           modulDeFirmaJPA.getPluginID());
+      if (signaturePlugin == null) {
+        throw new I18NException("plugin.signatureweb.noexist", String.valueOf( modulDeFirmaJPA.getPluginID()));
+      }
+
+      
       if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
         modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
@@ -141,7 +146,6 @@ public class SignatureModuleController {
 
     mav.addObject("signaturesSetID", signaturesSetID);
     mav.addObject("moduls", modulsFiltered);
-    // XYZ mav.addObject("lang", modulsFiltered);
 
     return mav;
         
@@ -156,7 +160,11 @@ public class SignatureModuleController {
 
 
     // El plugin existeix?
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
     
     // EL portaFIBSignaturesSet existe?
     SignaturesSet signaturesSet;
@@ -249,7 +257,10 @@ public class SignatureModuleController {
       long pluginID, String signatureID, int signatureIndex, 
       String origrelativePath, boolean isPost) throws Exception, I18NException {
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
     
@@ -290,8 +301,8 @@ public class SignatureModuleController {
 
   
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
-      String languageUI, String username,
-      String urlOK, String urlError, boolean browserSupportsJava) {
+      String languageUI, String username,   String urlOK, String urlError,
+      boolean browserSupportsJava) {
       
       PolicyInfoSignature policyInfoSignature = null;
       if (entitat.getPolicyIdentifier() != null) {
@@ -300,8 +311,9 @@ public class SignatureModuleController {
           entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
           entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
       }
+      
       return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(), username,
-          policyInfoSignature, urlOK, urlError, browserSupportsJava); 
+          policyInfoSignature,  urlOK, urlError, browserSupportsJava); 
       
     }
   
@@ -309,14 +321,15 @@ public class SignatureModuleController {
 
   
   
-  public static FileInfoSignature getFileInfoSignature(String signatureID, File source, String idname,
-      long locationSignTableID, String reason, int signNumber, String languageSign,
-      long signTypeID, long signAlgorithmID, boolean signModeBool,  String firmatPerFormat)
+  public static FileInfoSignature getFileInfoSignature(String signatureID, File source,
+      String idname, long locationSignTableID, String reason, int signNumber,
+      String languageSign, long signTypeID, long signAlgorithmID, boolean signModeBool,
+      String firmatPerFormat, ITimeStampGenerator timeStampGenerator)
           throws I18NException {
 
     PdfInfoSignature pdfInfoSignature = null;
 
-    final int signMode = ((signModeBool == Constants.APPLET_SIGN_MODE_IMPLICIT) ? 
+    final int signMode = ((signModeBool == Constants.SIGN_MODE_IMPLICIT) ? 
            FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
     
     String signType;
@@ -385,16 +398,16 @@ public class SignatureModuleController {
     
     String signAlgorithm;
     switch((int)signAlgorithmID) {
-      case Constants.APPLET_SIGN_ALGORITHM_SHA1WITHRSA:
+      case Constants.SIGN_ALGORITHM_SHA1WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
       break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA256WITHRSA:
+      case Constants.SIGN_ALGORITHM_SHA256WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA256;
         break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA384WITHRSA:
+      case Constants.SIGN_ALGORITHM_SHA384WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA384;
         break;
-      case Constants.APPLET_SIGN_ALGORITHM_SHA512WITHRSA:
+      case Constants.SIGN_ALGORITHM_SHA512WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA512;
         break;
         
@@ -402,10 +415,10 @@ public class SignatureModuleController {
         // TODO Traduir
         throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithmID);
     }
-
+    
     FileInfoSignature fis = new FileInfoSignature(signatureID, source, idname,  reason,
         firmatPerFormat, signNumber, languageSign, signType, signAlgorithm,
-        signMode, pdfInfoSignature);
+        signMode, pdfInfoSignature, timeStampGenerator);
     
     return fis;
   };

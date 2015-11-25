@@ -6,6 +6,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TraduccioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
@@ -32,6 +33,7 @@ public class EntitatValidator<T> implements EntitatFields {
     ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
+    ,es.caib.portafib.model.dao.IPluginManager __pluginManager
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
 
@@ -71,6 +73,10 @@ public class EntitatValidator<T> implements EntitatFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLDETEMPSVIAWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLDETEMPSVIAWEB)));
 
     // Check size
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
@@ -338,6 +344,20 @@ public class EntitatValidator<T> implements EntitatFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(PLUGINID) == 0) {
+      java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
+      if (__pluginid != null ) {
+        Long __count_ = null;
+        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(PLUGINID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)));
         }
       }
     }

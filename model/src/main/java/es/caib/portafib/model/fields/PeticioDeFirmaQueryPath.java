@@ -123,6 +123,10 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.AVISWEB);
   }
 
+  public BooleanField SEGELLATDETEMPS() {
+    return new BooleanField(getQueryPath(), PeticioDeFirmaFields.SEGELLATDETEMPS);
+  }
+
 
 
   @Override

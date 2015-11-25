@@ -185,119 +185,47 @@ public interface Constants {
    * Neither code bars nor signer information will be added to the PDF document.
    */
   public static final int POSICIO_PAGINA_CAP = 0;
+  
+  
+  public static final int SEGELLDETEMPSVIAWEB_NOUSAR=0;
+  public static final int SEGELLDETEMPSVIAWEB_SEMPREUSAR=1;
+  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX=2;
+  
 
   
   // ========================================================
   // ----- APPLET CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================
-  
-  // XYZ ELIMINAR
-
-  public static final String APPLET_SOURCE = "source";
-  
-  public static final String APPLET_DESTINATION = "destination";
-
-  /** Nom per mostrar durant el proces de firma */
-  public static final String APPLET_IDNAME = "idname";
-
-  /**
-   * Clau d'indicar on es troba la taula de firmes: 
-   *     LOCATION_NONE(0) = no n'hi ha
-   *     LOCATION_FIRST_PAGE(1) = en la primera pàgina
-   *     LOCATION_LAST_PAGE(-1) = en la ultima pàgina
-   */
-  public static final String APPLET_LOCATION_SIGN_TABLE = "sign_location_table";
-  
-  public static final String APPLET_REASON = "sign_reason";
-  
-  
-  /** Codi que conté el missatge pre formatejat pel camp de "Firmat Per:" de la
-   *  taula de firmes. Els camps a substituir són:
-   * {0} = NOM
-   * {1} = LONGITUD NIF
-   * {2} = NIF
-   * {3} = EMISSOR
-   * {4} = LONGITUD CARREC_CERTIFICAT
-   * {5} = CARREC_CERTIFICAT
-   * {6} = LONGITUD UNITAT_ADMINISTRATIVA
-   * {7} = UNITAT_ADMINISTRATIVA
-   */
-  public static final String APPLET_FIRMATPERFORMAT = "sign_firmatperformat";
-  
-
-  /**
-   * Numero de firma. S'utilitza per saber on colocar el recuadre de firmes.
-   * Correspon a les firmes que conte el document abans de firmar.
-   */
-  public static final String APPLET_SIGN_NUMBER = "sign_number";
-
-  public static final String APPLET_LANGUAGE_SIGN = "sign_language";
-  
-  /**
-   * Refereix a si és PADES, XADES o CADES
-   * @see TIPUSFIRMA_PADES
-   * @see TIPUSFIRMA_XADES
-   * @see TIPUSFIRMA_CADES
-   */
-  public static final String APPLET_SIGN_TYPE = "sign_type";
-  
-  public static final String APPLET_SIGN_ALGORITHM = "sign_algorithm";
 
 
-  public static final int APPLET_SIGN_ALGORITHM_SHA1WITHRSA=0;
-  public static final int APPLET_SIGN_ALGORITHM_SHA256WITHRSA=1;
-  public static final int APPLET_SIGN_ALGORITHM_SHA384WITHRSA=2;
-  public static final int APPLET_SIGN_ALGORITHM_SHA512WITHRSA=3;
+  public static final int SIGN_ALGORITHM_SHA1WITHRSA=0;
+  public static final int SIGN_ALGORITHM_SHA256WITHRSA=1;
+  public static final int SIGN_ALGORITHM_SHA384WITHRSA=2;
+  public static final int SIGN_ALGORITHM_SHA512WITHRSA=3;
 
- 
-  public static final String APPLET_SIGN_MODE = "sign_mode";
+  public static final boolean SIGN_MODE_IMPLICIT = false;
 
-  
-  public static final boolean APPLET_SIGN_MODE_IMPLICIT = false;
-  
-  public static final boolean APPLET_SIGN_MODE_EXPLICIT = true;
-  
-  
-  public static final String APPLET_SIGN_BOX_RECTANGLE = "signboxrectangle";
-  
-  
+  public static final boolean SIGN_MODE_EXPLICIT = true;
+
   // ========================================================
-  // -------------  APPLET CONSTANTS GLOBALS ----------------
+  // -------------  TAULA DE FIRMES I LOGOS- ----------------
   // ========================================================
 
-  public static final String APPLET_LANGUAGE_UI = "languageUI";
-
-  public static final String APPLET_CERTIFICATE_FILTER = "certificate_filter";
-
-  public static final String APPLET_REDIRECT = "redirect";
   
-  public static final String APPLET_ISJNLP = "isjnlp";
-
-  public static final String APPLET_SIGNERCLASS = "signerClass";
-  public static final String APPLET_SIGNERCLASS_IBKEY="applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner";
-  public static final String APPLET_SIGNERCLASS_AFIRMA="applet.signerClass=es.caib.portafib.applet.signers.AfirmaSigner";
-
-  public static final String APPLET_PARAMETERS_TO_READ="parametersToRead";
-
-  public static final String APPLET_POLICYIDENTIFIER = "policyIdentifier";
-  public static final String APPLET_POLICYIDENTIFIERHASH = "policyIdentifierHash";
-  public static final String APPLET_POLICYIDENTIFIERHASHALGORITHM = "policyIdentifierHashAlgorithm";
-  public static final String APPLET_POLICYURLDOCUMENT = "policyUrlDocument";
-
-  public static final int APPLET_LOGO_SIDE = (int)(1.25f  * 72f);
+  public static final int LOGO_SIDE = (int)(1.25f  * 72f);
   // Abans l'altura era 0,75 * 72 = 54 per 4 linies per casella
   // Ara volem un màxim de 5 linies per casella que significa una altura de 67,5 (= 54*5/4) 
-  public static final int APPLET_HEIGHTSIGNBOX = (int)(67.5); // =57.6     ANTIC 0.5inch = = 36
-  public static final int APPLET_STARTSIGNTABLE = (int)(1.25f  * 72f); // =90
+  public static final int SIGNBOX_HEIGHT = (int)(67.5); // =57.6     ANTIC 0.5inch = = 36
+  public static final int SIGNBOX_START = (int)(1.25f  * 72f); // =90
 
-  public static final int APPLET_LOWER_MARGIN_PAGE = (int)(1.1f  * 72f); // = 72
+  public static final int LOWER_MARGIN_PAGE = (int)(1.1f  * 72f); // = 72
 
   public static final int A4_AMPLE = 595;
   public static final int A4_ALT = 842;
 
   // Hauria de ser calculat
-  public static final int APPLET_MAX_FIRMES_PER_TAULA 
-      = (A4_ALT - APPLET_LOWER_MARGIN_PAGE - APPLET_STARTSIGNTABLE)/APPLET_HEIGHTSIGNBOX; // ~10;  
+  public static final int MAX_FIRMES_PER_TAULA 
+      = (A4_ALT - LOWER_MARGIN_PAGE - SIGNBOX_START)/SIGNBOX_HEIGHT; // ~10;  
   
 
 }

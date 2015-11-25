@@ -71,8 +71,8 @@ public class PeticioDeFirmaUtils {
     peticioDeFirmaWs.setTipusDocumentID(1);
     
     peticioDeFirmaWs.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
-    peticioDeFirmaWs.setAlgorismeDeFirmaID(Constants.APPLET_SIGN_ALGORITHM_SHA1WITHRSA);
-    peticioDeFirmaWs.setModeDeFirma(Constants.APPLET_SIGN_MODE_IMPLICIT);
+    peticioDeFirmaWs.setAlgorismeDeFirmaID(Constants.SIGN_ALGORITHM_SHA1WITHRSA);
+    peticioDeFirmaWs.setModeDeFirma(Constants.SIGN_MODE_IMPLICIT);
 
     peticioDeFirmaWs.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
     

@@ -329,6 +329,50 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.Long pluginIDDesde;
+
+  public java.lang.Long getPluginIDDesde() {
+    return this.pluginIDDesde;
+  }
+
+  public void setPluginIDDesde(java.lang.Long pluginIDDesde) {
+    this.pluginIDDesde = pluginIDDesde;
+  }
+
+
+  private java.lang.Long pluginIDFins;
+
+  public java.lang.Long getPluginIDFins() {
+    return this.pluginIDFins;
+  }
+
+  public void setPluginIDFins(java.lang.Long pluginIDFins) {
+    this.pluginIDFins = pluginIDFins;
+  }
+
+
+  private java.lang.Integer segellDeTempsViaWebDesde;
+
+  public java.lang.Integer getSegellDeTempsViaWebDesde() {
+    return this.segellDeTempsViaWebDesde;
+  }
+
+  public void setSegellDeTempsViaWebDesde(java.lang.Integer segellDeTempsViaWebDesde) {
+    this.segellDeTempsViaWebDesde = segellDeTempsViaWebDesde;
+  }
+
+
+  private java.lang.Integer segellDeTempsViaWebFins;
+
+  public java.lang.Integer getSegellDeTempsViaWebFins() {
+    return this.segellDeTempsViaWebFins;
+  }
+
+  public void setSegellDeTempsViaWebFins(java.lang.Integer segellDeTempsViaWebFins) {
+    this.segellDeTempsViaWebFins = segellDeTempsViaWebFins;
+  }
+
+
   public EntitatFilterForm() {
   }
   
@@ -362,11 +406,17 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
+    this.pluginIDDesde = __toClone.pluginIDDesde;
+    this.pluginIDFins = __toClone.pluginIDFins;
+    this.segellDeTempsViaWebDesde = __toClone.segellDeTempsViaWebDesde;
+    this.segellDeTempsViaWebFins = __toClone.segellDeTempsViaWebFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
+    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
+    this.mapOfValuesForSegellDeTempsViaWeb = __toClone.mapOfValuesForSegellDeTempsViaWeb;
   }
   
   /* ========= UTILS ========== */
@@ -457,6 +507,30 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setMapOfCustodiaInfoForCustodiaInfoID(Map<String, String> mapOfCustodiaInfoForCustodiaInfoID) {
     this.mapOfCustodiaInfoForCustodiaInfoID = mapOfCustodiaInfoForCustodiaInfoID;
+  }
+
+
+
+  private Map<String, String> mapOfPluginForPluginID;
+
+  public Map<String, String> getMapOfPluginForPluginID() {
+    return this.mapOfPluginForPluginID;
+  }
+
+  public void setMapOfPluginForPluginID(Map<String, String> mapOfPluginForPluginID) {
+    this.mapOfPluginForPluginID = mapOfPluginForPluginID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForSegellDeTempsViaWeb;
+
+  public Map<String, String> getMapOfValuesForSegellDeTempsViaWeb() {
+    return this.mapOfValuesForSegellDeTempsViaWeb;
+  }
+
+  public void setMapOfValuesForSegellDeTempsViaWeb(Map<String, String> mapOfValuesForSegellDeTempsViaWeb) {
+    this.mapOfValuesForSegellDeTempsViaWeb = mapOfValuesForSegellDeTempsViaWeb;
   }
 
 

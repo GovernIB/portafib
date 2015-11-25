@@ -26,6 +26,7 @@ final String[] menu = {
     "tipusdocument.gestio", // Gestió Tipus de Documents"
     "",
     "moduldefirma.gestio",
+    "segelldetemps.gestio",
     "",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
@@ -58,6 +59,8 @@ static {
   mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
   
   mapping.put("moduldefirma.gestio", "/aden/modulDeFirma/list");
+  mapping.put("segelldetemps.gestio", "/aden/segelldetemps/list");
+
 
   mapping.put("grups.gestio", "/aden/grup/list");
   

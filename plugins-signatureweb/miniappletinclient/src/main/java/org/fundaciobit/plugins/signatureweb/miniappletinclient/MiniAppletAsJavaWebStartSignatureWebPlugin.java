@@ -180,9 +180,14 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
       FileInfoSignature fileInfo = signs[i];
 
       String rubricURL = baseSignaturesSet + "/" + i + "/rubric";
+      
+      String timeStampUrl = null;
+      if (fileInfo.getTimeStampGenerator() != null) {
+        timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+      }
 
       MiniAppletSignInfo signInfo = MiniAppletUtils.convertRemoteSignature(
-          commonInfoSignature, fileInfo, rubricURL);
+          commonInfoSignature, fileInfo, timeStampUrl, rubricURL);
 
       out.println("       <param name=\"" + MiniAppletConstants.APPLET_SOURCE + "_" + i + "\""
           + " value=\"" + StringEscapeUtils.escapeXml(baseSignaturesSet + "/" + i + "/source") + "\"/>");
@@ -308,10 +313,10 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
      log.debug(" baseSource = ]" + baseSignaturesSet + "[ " );
    }
    
-   out.println("<div id=\"ajaxloader\" style=\"position:absolute; left:0px; top:0px; border:none;z-index:100;width:100%;height:100%;background:#CCC;filter: alpha(opacity=80);-moz-opacity:.8; opacity:.8;\">");
-   out.println("  <table style=\"width:100%;height:100%;\">");
+   out.println("<div id=\"ajaxloader\" style=\"position:absolute; left:0px; top:0px; border:none;z-index:100;width:100%;height:100%;\">");
+   out.println("  <table style=\"min-height:300px;width:100%;height:100%;\">");
    out.println("  <tr valign=\"middle\"><td align=\"center\">");
-   out.println("  <h3 style=\"color:#FFF;\">" + getTraduccio("autofirma.jnlp", locale) + "</h3><br/>");
+   out.println("  <h2>" + getTraduccio("autofirma.jnlp", locale) + "</h2><br/>");
    out.println("  <img src=\"" + pluginRequestPath + "/img/ajax-loader2.gif" + "\" /><br/>");
    out.println("  <br/>");
    out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoHome()\" value=\"" + getTraduccio("tornar", locale) + "\">");

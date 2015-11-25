@@ -72,22 +72,35 @@ _ignoreFields.add(NOMID);
       tipusDocument = (es.caib.portafib.jpa.TipusDocumentJPA)target;
     }
     {
-    // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-    es.caib.portafib.jpa.TraduccioJPA tradJPA = tipusDocument.getNom();
-    if (tradJPA == null) {
-      // TODO ERROR
-      errors.rejectValue("tipusDocument.nom", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
-    } else {
-      java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
-      for (String _idioma : _trad.keySet()) {
-        es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
-        if (_map == null || _map.getValor() == null) {
-          errors.rejectValue("tipusDocument.nom", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
-          errors.rejectValue("tipusDocument.nom.traduccions["+ _idioma +"].valor",
-              "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
+      // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+      es.caib.portafib.jpa.TraduccioJPA tradJPA = tipusDocument.getNom();
+      if (tradJPA != null) {
+        // TODO ERROR
+        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        int countNotNull = 0;
+        for (String _idioma : _trad.keySet()) {
+          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+          } else {
+            countNotNull++;
+          }
         }
+
+          if (countNotNull  == _trad.size()) {
+            // OK Tot esta ple
+          } else {
+            for (String _idioma : _trad.keySet()) {
+              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+                errors.rejectValue("tipusDocument.nom", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
+                errors.rejectValue("tipusDocument.nom.traduccions["+ _idioma +"].valor",
+                  "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
+              }
+            }
+          }
+      } else {
+        errors.rejectValue("tipusDocument.nom", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(NOMID.fullName)}, null);
       }
-    }
     }
 
   }

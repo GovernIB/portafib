@@ -3,15 +3,21 @@
 PortaFIB 1.1.0
 ==============
 
-2015-11-13 Noves entrades de taules i camps de BBDD per preparar futures millores: 
+2015-11-25 Gestió de Plugins de Segellat de Temps i Segellat de Temps en els Mòduls de Firma
+
+2015-11-19 Gestió de Moduls de Firma
+
+2015-11-13 Noves entrades de taules i camps de BBDD per preparar futures millores: (Requereix actualització de BBDD)
                  (1) Relació entre Modul de Firma i Tipus de Document
                  (2) Incrementar tamany de camp mime de Fitxer
                  (3) Nous camps a la Taula d'Entitat:
                       (3.1) Format del camp ´Motiu Delegació´
                       (3.2) Format del camp ´Firmat per´
-	                  (3.3) Algorisme de firma  (*)
+	                  (3.3) Algorisme de firma
 	                  (3.4) Comprovar certificat en ClientCert
 	                  (3.5) Comprovar NIF després de firmar
-                 
-2015-11-12 Gestió web dels Mòdul de Firma (Requereix actualització de BBDD)
+                      (3.6) Plantilla de Custòdia per defecte
+                 (4) Taula de Plugins
+                 (5) Taula rebreavis afegir boolea per agrupar                
+2015-11-12 Gestió web dels Mòdul de Firma 
 2015-11-10 Moduls de Firma com a Sistema de Firma

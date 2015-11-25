@@ -135,6 +135,9 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	@Column(name="avisweb",nullable = false,length = 1)
 	boolean avisWeb;
 
+	@Column(name="segellatdetemps",nullable = false,length = 1)
+	boolean segellatDeTemps;
+
 
 
   /** Constructor Buit */
@@ -142,7 +145,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -171,9 +174,10 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb) {
+  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -201,9 +205,10 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long fitxerAFirmarID , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long fitxerAFirmarID , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
@@ -221,6 +226,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.usuariAplicacioID=usuariAplicacioID;
     this.remitentNom=remitentNom;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   public PeticioDeFirmaJPA(PeticioDeFirma __bean) {
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
@@ -251,6 +257,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setAvisWeb(__bean.isAvisWeb());
+    this.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer
     this.setFitxerAFirmar(FitxerJPA.toJPA(__bean.getFitxerAFirmar()));
     // Fitxer
@@ -453,6 +460,13 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	};
 	public void setAvisWeb(boolean _avisWeb_) {
 		this.avisWeb = _avisWeb_;
+	};
+
+	public boolean isSegellatDeTemps() {
+		return(segellatDeTemps);
+	};
+	public void setSegellatDeTemps(boolean _segellatDeTemps_) {
+		this.segellatDeTemps = _segellatDeTemps_;
 	};
 
 
@@ -765,6 +779,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setAvisWeb(__bean.isAvisWeb());
+    __tmp.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer
     __tmp.setFitxerAFirmar(FitxerJPA.toJPA(__bean.getFitxerAFirmar()));
     // Fitxer

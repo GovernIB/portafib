@@ -38,6 +38,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,13 @@ import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.PosicioTaulaFirmesRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
@@ -94,8 +97,11 @@ public class AutoFirmaController extends FitxerController
 
   public static final String AUTOFIRMA = "AUTOFIRMA";
 
-  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
-  protected PluginLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  
+  @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
+  protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
   @Autowired
   protected AutoFirmaValidator autoFirmaValidator;
@@ -219,11 +225,24 @@ public class AutoFirmaController extends FitxerController
     // Posam el mateix id ja que només es firma un sol fitxer
     final String signatureID = signaturesSetID;
     
+
+    // Ve d'un camp d'Autofirma que indica si l'usuari vol Segellat de Temps
+    boolean userRequiresTimeStamp = form.isSegellDeTemps();
+
+    
+    ITimeStampGenerator timeStampGenerator = null;
+    timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, 
+        LoginInfo.getInstance().getEntitat(), userRequiresTimeStamp );
+    
+    
+    
+    
+    
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         pdfAdaptat, idname, (int)form.getPosicioTaulaFirmesID(), reason, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
-        Constants.APPLET_SIGN_MODE_IMPLICIT,
-        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI));
+        Constants.SIGN_MODE_IMPLICIT,
+        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -240,6 +259,7 @@ public class AutoFirmaController extends FitxerController
       // XYZ NOMES HI HAURIA D'HAVER UN FINAL
       final String urlOK = absoluteControllerBase + "/finalOK/{0}/" + signaturesSetID;
       final String urlError = absoluteControllerBase + "/finalError/{0}/" + signaturesSetID;
+
 
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
@@ -271,7 +291,10 @@ public class AutoFirmaController extends FitxerController
   
   
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
 
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
     // TODO check null
@@ -305,9 +328,11 @@ public class AutoFirmaController extends FitxerController
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
   
   
-    // TODO Check null Misstage
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
-    
+
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
     
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
     // TODO check null

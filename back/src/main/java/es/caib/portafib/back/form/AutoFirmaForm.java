@@ -55,6 +55,8 @@ public class AutoFirmaForm {
   boolean jnlp;
 
   long id;
+  
+  boolean segellDeTemps;
 
   public AutoFirmaForm() {
   }
@@ -202,6 +204,17 @@ public class AutoFirmaForm {
   public void setUsuariEntitatID(String usuariEntitatID) {
     this.usuariEntitatID = usuariEntitatID;
   }
+  
+  
+  
+
+  public boolean isSegellDeTemps() {
+    return segellDeTemps;
+  }
+
+  public void setSegellDeTemps(boolean segellDeTemps) {
+    this.segellDeTemps = segellDeTemps;
+  }
 
   @Override
   protected void finalize() throws Throwable {
@@ -233,4 +246,6 @@ public class AutoFirmaForm {
 
   }
 
+  
+  
 }

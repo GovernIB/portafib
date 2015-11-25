@@ -96,6 +96,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.AVISWEB)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.AVISWEB)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SEGELLATDETEMPS)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

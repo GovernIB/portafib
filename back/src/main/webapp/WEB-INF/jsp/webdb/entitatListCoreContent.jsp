@@ -194,6 +194,22 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
+          <td>
+          <c:set var="tmp">${entitat.pluginID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfPluginForPluginID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+          <td>
+          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

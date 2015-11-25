@@ -28,8 +28,3 @@
   
 </div>
 
-<script>
-  $( document ).ready(function() {
-    parent.alertsize(document.body.scrollHeight);
-  });
-</script>

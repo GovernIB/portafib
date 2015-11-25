@@ -104,6 +104,8 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       deployJava(request, response);
       return;
     }
+    
+   
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
     
@@ -170,11 +172,24 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       printRequestInfo("POST " + getSimpleName(),
          pluginRequestPath, relativePath, signaturesSetID, signatureIndex);
     }
+    
+
+    
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
     
     if (signaturesSet == null) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
+      return;
+    }
+    
+    
+    if (relativePath.endsWith(TIMESTAMP_PAGE)) {
+      
+      log.debug(" TIMESTAMP ---------- POST");
+      
+      requestTimeStamp(pluginRequestPath, relativePath, signaturesSetID, signatureIndex,
+           request, uploadedFiles, response);
       return;
     }
 
@@ -631,7 +646,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
     //  Javascript i CSS externs
 
     out.println("</head>");
-    out.println("<body onload=\"parent.alertsize(document.body.scrollHeight);\">");
+    out.println("<body>");
 
   }
 

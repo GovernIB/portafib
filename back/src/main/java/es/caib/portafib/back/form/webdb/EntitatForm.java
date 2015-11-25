@@ -45,6 +45,8 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
+    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
+    this.listOfValuesForSegellDeTempsViaWeb = __toClone.listOfValuesForSegellDeTempsViaWeb;
   }
   
   public EntitatForm(EntitatJPA entitat, boolean nou) {
@@ -195,6 +197,30 @@ public class EntitatForm extends PortaFIBBaseForm {
 
   public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
     this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
+  }
+
+
+
+  private List<StringKeyValue> listOfPluginForPluginID;
+
+  public List<StringKeyValue> getListOfPluginForPluginID() {
+    return this.listOfPluginForPluginID;
+  }
+
+  public void setListOfPluginForPluginID(List<StringKeyValue> listOfPluginForPluginID) {
+    this.listOfPluginForPluginID = listOfPluginForPluginID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
+
+  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
+    return this.listOfValuesForSegellDeTempsViaWeb;
+  }
+
+  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
+    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
   }
 
 

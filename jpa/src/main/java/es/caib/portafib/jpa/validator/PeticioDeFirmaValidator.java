@@ -110,6 +110,10 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(AVISWEB)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLATDETEMPS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLATDETEMPS)));
+
     // Check size
     if (__vr.getFieldErrorCount(TITOL) == 0) {
       java.lang.String __titol = (java.lang.String)__vr.getFieldValue(__target__,TITOL);

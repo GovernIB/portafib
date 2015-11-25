@@ -25,6 +25,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
@@ -73,8 +75,9 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.utils.Constants;
@@ -121,8 +124,11 @@ import es.caib.portafib.utils.Configuracio;
     @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-    @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
-    protected PluginLogicaLocal modulDeFirmaEjb;
+    @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+    
+    @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
+    protected SegellDeTempsLogicaLocal segellDeTempsEjb;
     
     @EJB(mappedName = es.caib.portafib.ejb.AnnexLocal.JNDI_NAME)
     protected es.caib.portafib.ejb.AnnexLocal annexEjb;
@@ -586,6 +592,7 @@ import es.caib.portafib.utils.Configuracio;
           final String urlOK = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
           final String urlError = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
 
+
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           commonInfoSignature = SignatureModuleController.getCommonInfoSignature(
               loginInfo.getEntitat(), langUI, username, urlOK, urlError, !isJnlp);
@@ -784,6 +791,8 @@ import es.caib.portafib.utils.Configuracio;
         // XYZ SIMPLIFICAR EN UNA SOLA URL FINAL
         final String urlOK = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
         final String urlError = absoluteControllerBase + "/finalFirma/{0}/" + signaturesSetID;
+        
+
 
         final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
         commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
@@ -824,7 +833,10 @@ import es.caib.portafib.utils.Configuracio;
     
     
 
-      ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+      ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+      if (signaturePlugin == null) {
+        throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      }
 
       // TODO check null
       SignaturesSet signatureSet = signaturePlugin.getSignaturesSet(signaturesSetID);
@@ -1089,13 +1101,17 @@ import es.caib.portafib.utils.Configuracio;
         final String firmatPerFormat = es.caib.portafib.back.utils.Utils.getFirmatPerFormat(entitat, langSign);
 
        final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
+
+       // S'ha d'obtenir de la PeticioDeFirma
+       boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
+       ITimeStampGenerator timeStampGenerator;
+       timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, entitat, userRequiresTimeStamp);
+       
        return SignatureModuleController.getFileInfoSignature(signatureID, source, idname,
             location_sign_table, reason, sign_number, 
             langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
-            peticioDeFirma.getModeDeFirma(), firmatPerFormat);
-      
-       
-       
+            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator);
+
     }
     
 

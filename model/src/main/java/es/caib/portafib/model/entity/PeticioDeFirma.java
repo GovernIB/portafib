@@ -86,6 +86,9 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public boolean isAvisWeb();
 	public void setAvisWeb(boolean _avisWeb_);
 
+	public boolean isSegellatDeTemps();
+	public void setSegellatDeTemps(boolean _segellatDeTemps_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerAFirmar();
   // Fitxer

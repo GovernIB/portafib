@@ -86,7 +86,7 @@ public class PdfUtils implements Constants {
     EOF_PDF = tmp;
 
     log.info("Numero màxim de firmants per taula de firmes: "
-        + Constants.APPLET_MAX_FIRMES_PER_TAULA);
+        + Constants.MAX_FIRMES_PER_TAULA);
   }
 
 
@@ -608,9 +608,9 @@ public class PdfUtils implements Constants {
   public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper,
       StampTaulaDeFirmes taulaDeFirmes) throws Exception {
     if (taulaDeFirmes.posicioTaulaDeFirmes != TAULADEFIRMES_SENSETAULA) {
-      float heightSignBoxInch = APPLET_HEIGHTSIGNBOX / 72f; // 0.5f;
-      float boxLogoSide = APPLET_LOGO_SIDE / 72f; // 1.1f;
-      float startSignTableInch = APPLET_STARTSIGNTABLE / 72f; // 1.25f;
+      float heightSignBoxInch = SIGNBOX_HEIGHT / 72f; // 0.5f;
+      float boxLogoSide = LOGO_SIDE / 72f; // 1.1f;
+      float startSignTableInch = SIGNBOX_START / 72f; // 1.25f;
 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       {
@@ -686,8 +686,8 @@ public class PdfUtils implements Constants {
         img.setAbsolutePosition(x, y);
 
         // img.scaleAbsolute(100, 100); // Code 2
-        final float rectAlt = APPLET_LOGO_SIDE - 10; // 1.25f * 72;
-        final float rectAmple = APPLET_LOGO_SIDE - 10; // 1.25f *
+        final float rectAlt = LOGO_SIDE - 10; // 1.25f * 72;
+        final float rectAmple = LOGO_SIDE - 10; // 1.25f *
                                                        // 72;
         Rectangle rectangle = new Rectangle(x, y, x + rectAmple, y + rectAlt);
 

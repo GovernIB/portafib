@@ -175,6 +175,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         return;
       }
     }
+    
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
     Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
@@ -216,6 +217,14 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
+    // TOOD null signatures set
+    
+    
+    if (relativePath.endsWith(TIMESTAMP_PAGE)) {
+      requestTimeStamp(pluginRequestPath, relativePath, signaturesSetID, signatureIndex,
+           request, uploadedFiles, response);
+      return;
+    }
 
     Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
 
@@ -302,6 +311,13 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
 
+    int pos = pluginRequestPath.lastIndexOf("-1");
+
+    String baseSignaturesSet = pluginRequestPath.substring(0, pos - 1);
+    
+    
+    log.info(" XYZ  MiniAppletInServerSignatureWebPlugin::baseSignaturesSet " + baseSignaturesSet);
+    
     
     int errors = 0;
 
@@ -311,9 +327,16 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
       try {
         
+        String timeStampUrl = null;
+        if (fileInfo.getTimeStampGenerator() != null) {
+          timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+        }
+          
+        
         X509Certificate certificate = pair.getPublicCertificate();
         MiniAppletSignInfo info;
-        info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo, certificate);
+        info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
+            timeStampUrl, certificate);
 
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
@@ -599,7 +622,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
       // Passar a la pàgina de ficar PIN
       String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
-      log.info("XYZ REDIRECT(uploadCertificate - POST ) = " + redirect);
+      log.debug("REDIRECT(uploadCertificate - POST ) = " + redirect);
       response.sendRedirect(redirect);
 
     } catch (Exception ex) {
@@ -643,7 +666,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("<link href=\"" + pluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
 
     out.println("</head>");
-    out.println("<body onload=\"parent.alertsize(document.body.scrollHeight);\">");
+    out.println("<body>"); // onload=\"parent.alertsize(document.body.scrollHeight);\">");
 
     // Missatges
     Map<String, List<String>> missatgesBySignID = missatges.get(signaturesSet.getSignaturesSetID());

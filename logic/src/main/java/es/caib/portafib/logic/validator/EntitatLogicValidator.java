@@ -7,6 +7,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 import es.caib.portafib.jpa.validator.EntitatValidator;
+import es.caib.portafib.utils.Constants;
 
 /**
  * 
@@ -20,14 +21,28 @@ public class EntitatLogicValidator<T> extends EntitatValidator<T>{
       ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
       ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
       ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
+      ,es.caib.portafib.model.dao.IPluginManager __pluginManager
       ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
       ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
     
     super.validate(__vr, __target__, __isNou__,__algorismeDeFirmaManager,
-        __custodiaInfoManager, __entitatManager, __traduccioManager, __usuariAplicacioManager);
+        __custodiaInfoManager, __entitatManager, __pluginManager,
+        __traduccioManager, __usuariAplicacioManager);
+    
+    
+    Integer segellatWeb = (Integer)__vr.getFieldValue(__target__, SEGELLDETEMPSVIAWEB);
+    if (segellatWeb != Constants.SEGELLDETEMPSVIAWEB_NOUSAR) {
+      // Requerim un plugin de segellat definit
+      Long pluginSegellatID = (Long)__vr.getFieldValue(__target__, PLUGINID);
+      if (pluginSegellatID == null) {
+        __vr.rejectValue(PLUGINID, 
+            "genapp.validation.required",
+            new I18NArgumentCode(get(PLUGINID)));
+      }
+    }
     
     String oid = (String)__vr.getFieldValue(__target__, POLICYIDENTIFIER);
-    
+        
     if (oid == null || oid.trim().length() == 0) {
       // Error si policyIdentifierHash, policyIdentifierHashAlgorithm o 
       // policyUrlDocument es diferent de buit

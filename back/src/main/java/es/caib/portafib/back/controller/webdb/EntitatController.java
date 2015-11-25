@@ -81,6 +81,10 @@ public class EntitatController
   @Autowired
   protected CustodiaInfoRefList custodiaInfoRefList;
 
+  // References 
+  @Autowired
+  protected PluginRefList pluginRefList;
+
   /**
    * Llistat de totes Entitat
    */
@@ -260,6 +264,26 @@ public class EntitatController
       };
     }
 
+    // Field pluginID
+    {
+      _listSKV = getReferenceListForPluginID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfPluginForPluginID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINID, false);
+      };
+    }
+
+    // Field segellDeTempsViaWeb
+    {
+      _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForSegellDeTempsViaWeb(_tmp);
+      if (filterForm.getGroupByFields().contains(SEGELLDETEMPSVIAWEB)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SEGELLDETEMPSVIAWEB, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -280,6 +304,8 @@ public class EntitatController
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
+    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
+    __mapping.put(SEGELLDETEMPSVIAWEB, filterForm.getMapOfValuesForSegellDeTempsViaWeb());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -366,6 +392,20 @@ public class EntitatController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       entitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfPluginForPluginID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfPluginForPluginID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForSegellDeTempsViaWeb() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForSegellDeTempsViaWeb(_listSKV);
     }
     
   }
@@ -918,6 +958,78 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return custodiaInfoRefList.getReferenceList(CustodiaInfoFields.CUSTODIAINFOID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(PLUGINID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    final String _fieldName =  entitatForm.getStringOfField(PLUGINID);
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(_fieldName)) {
+      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginID());
+    }
+    return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(PLUGINID)
+      && !entitatFilterForm.isGroupByField(PLUGINID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(PLUGINID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getPluginID() == null) { continue; };
+        _pkList.add(_item.getPluginID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(SEGELLDETEMPSVIAWEB)
+      && !entitatFilterForm.isGroupByField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
   }
 
 

@@ -1,23 +1,13 @@
 package es.caib.portafib.back.controller.admin;
 
-import java.util.Arrays;
-import java.util.HashSet;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.webdb.PluginController;
+import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.utils.Constants;
 
 
@@ -29,7 +19,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/admin/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
-public class ModulDeFirmaAdminController extends PluginController {
+public class ModulDeFirmaAdminController extends AbstractPluginAdminController {
   
   
   
@@ -43,10 +33,21 @@ public class ModulDeFirmaAdminController extends PluginController {
     return "modulDeFirmaListAdmin";
   }
 
+  @Override
+  public int getTipusDePlugin() {
+    return Constants.TIPUS_PLUGIN_MODULDEFIRMA;
+  }
 
   @Override
+  public String getCodeName() {
+    return "moduldefirma.plantilla";
+  }
+
+
+/*
+  @Override
   public String getSessionAttributeFilterForm() {
-    return "ModulDeFirmaAdmin_FilterForm";
+    return getClass().getName() + "_FilterForm";
   }
   
   @Override
@@ -68,7 +69,6 @@ public class ModulDeFirmaAdminController extends PluginController {
          HashSet<Field<?>>  campsOcults = new HashSet<Field<?>>(Arrays.asList(fields));
         
          campsOcults.remove(NOMID);         
-         //campsOcults.remove(CLASSE);
          campsOcults.remove(ACTIU);
          
          modulDeFirmaFilterForm.getHiddenFields().addAll(campsOcults);
@@ -108,5 +108,6 @@ public class ModulDeFirmaAdminController extends PluginController {
   public String getEntityNameCodePlural() {
     return "moduldefirma.plantilla.plural";
   }
+  */
   
 }

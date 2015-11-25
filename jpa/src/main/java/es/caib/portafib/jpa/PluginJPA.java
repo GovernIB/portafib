@@ -193,6 +193,19 @@ private static final long serialVersionUID = 190357384L;
     return __result;
   }
 
+// EXP  Field:pluginid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
+	private Set<EntitatJPA> entitats = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitats() {
+    return this.entitats;
+  }
+
+	public void setEntitats(Set<EntitatJPA> entitats) {
+	  this.entitats = entitats;
+	}
+
+
 // EXP  Field:pluginid | Table: pfi_modulfirmapertipusdoc | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
@@ -317,6 +330,10 @@ private static final long serialVersionUID = 190357384L;
     if(!"ModulDeFirmaPerTipusDeDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.modulDeFirmaPerTipusDeDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getModulDeFirmaPerTipusDeDocuments())) ) {
       __tmp.setModulDeFirmaPerTipusDeDocuments(ModulDeFirmaPerTipusDeDocumentJPA.copyJPA(__jpa.getModulDeFirmaPerTipusDeDocuments(), __alreadyCopied,"PluginJPA"));
+    }
+    if(!"EntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
+      __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"PluginJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 

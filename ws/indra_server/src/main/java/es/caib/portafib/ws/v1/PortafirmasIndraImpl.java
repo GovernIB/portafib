@@ -182,6 +182,7 @@ import org.apache.log4j.Logger;
  * 
  */
 
+@SuppressWarnings("restriction")
 @DeclareRoles({ "PFI_USER" })
 @RunAs("PFI_USER")
 @Stateless(name="Cws")
@@ -2383,9 +2384,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     }
     peticioDeFirma.setTipusFirmaID(nouTipus);
     
-    peticioDeFirma.setAlgorismeDeFirmaID(APPLET_SIGN_ALGORITHM_SHA1WITHRSA);
+    peticioDeFirma.setAlgorismeDeFirmaID(SIGN_ALGORITHM_SHA1WITHRSA);
     
-    peticioDeFirma.setModeDeFirma(APPLET_SIGN_MODE_IMPLICIT);
+    peticioDeFirma.setModeDeFirma(SIGN_MODE_IMPLICIT);
 
     peticioDeFirma.setFitxerAFirmarID(0); // Index 0 conté el fitxer a firmar
     

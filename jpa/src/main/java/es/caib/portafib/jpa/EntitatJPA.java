@@ -141,6 +141,14 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="custodiainfoid",length = 19)
 	java.lang.Long custodiaInfoID;
 
+  /** Plugin de segellat de temps */
+	@Index(name="pfi_entitat_segelltemps_fk_i")
+	@Column(name="pluginid",length = 19)
+	java.lang.Long pluginID;
+
+	@Column(name="segelldetempsviaweb",nullable = false,length = 10)
+	int segellDeTempsViaWeb;
+
 
 
   /** Constructor Buit */
@@ -148,7 +156,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma , java.lang.Long custodiaInfoID) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma , java.lang.Long custodiaInfoID , java.lang.Long pluginID , int segellDeTempsViaWeb) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -178,9 +186,11 @@ opcional incluso cuando se genera una firma EPES. */
     this.comprovarCertificatClientCert=comprovarCertificatClientCert;
     this.comprovarNifFirma=comprovarNifFirma;
     this.custodiaInfoID=custodiaInfoID;
+    this.pluginID=pluginID;
+    this.segellDeTempsViaWeb=segellDeTempsViaWeb;
 }
   /** Constructor dels valors Not Null */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , boolean comprovarCertificatClientCert , boolean comprovarNifFirma , int segellDeTempsViaWeb) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.activa=activa;
@@ -195,6 +205,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.comprovarCertificatClientCert=comprovarCertificatClientCert;
     this.comprovarNifFirma=comprovarNifFirma;
+    this.segellDeTempsViaWeb=segellDeTempsViaWeb;
 }
   public EntitatJPA(Entitat __bean) {
     this.setEntitatID(__bean.getEntitatID());
@@ -226,6 +237,8 @@ opcional incluso cuando se genera una firma EPES. */
     this.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
     this.setComprovarNifFirma(__bean.isComprovarNifFirma());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
+    this.setPluginID(__bean.getPluginID());
+    this.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
     // Fitxer
     this.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -439,6 +452,20 @@ opcional incluso cuando se genera una firma EPES. */
 	};
 	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_) {
 		this.custodiaInfoID = _custodiaInfoID_;
+	};
+
+	public java.lang.Long getPluginID() {
+		return(pluginID);
+	};
+	public void setPluginID(java.lang.Long _pluginID_) {
+		this.pluginID = _pluginID_;
+	};
+
+	public int getSegellDeTempsViaWeb() {
+		return(segellDeTempsViaWeb);
+	};
+	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_) {
+		this.segellDeTempsViaWeb = _segellDeTempsViaWeb_;
 	};
 
 
@@ -696,6 +723,21 @@ opcional incluso cuando se genera una firma EPES. */
     this.custodiaInfo = custodiaInfo;
   }
 
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_entitat_plugin_fk")
+	@JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+	private PluginJPA plugin;
+
+	public PluginJPA getPlugin() {
+    return this.plugin;
+  }
+
+	public  void setPlugin(PluginJPA plugin) {
+    this.plugin = plugin;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static EntitatJPA toJPA(Entitat __bean) {
@@ -730,6 +772,8 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setComprovarCertificatClientCert(__bean.isComprovarCertificatClientCert());
     __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
+    __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
     // Fitxer
     __tmp.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -805,6 +849,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
       __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
+      __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"AlgorismeDeFirmaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.algorismeDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getAlgorismeDeFirma()) ) ) {

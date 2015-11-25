@@ -40,15 +40,25 @@
             <groupId>org.fundaciobit.plugins</groupId>
             <artifactId>plugins-api</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
             <version>1.0.0</version>
             <artifactId>plugin-signatureweb-api</artifactId>
-            <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.51</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.51</version>
+		</dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

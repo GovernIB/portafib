@@ -343,6 +343,9 @@ public class PeticioDeFirmaController
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, AVISWEB);
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, SEGELLATDETEMPS);
+
+
     return groupByItemsMap;
   }
 

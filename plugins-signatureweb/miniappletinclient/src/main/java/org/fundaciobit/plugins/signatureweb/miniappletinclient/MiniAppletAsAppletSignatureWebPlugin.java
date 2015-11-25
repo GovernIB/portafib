@@ -117,9 +117,15 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
       FileInfoSignature fileInfo = signs[i];
 
       String rubricURL = baseSignaturesSet + "/" + i + "/rubric";
+      
+      String timeStampUrl = null;
+      if (fileInfo.getTimeStampGenerator() != null) {
+        timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+      }
+        
 
       MiniAppletSignInfo signInfo = MiniAppletUtils.convertRemoteSignature(
-          commonInfoSignature, fileInfo, rubricURL);
+          commonInfoSignature, fileInfo, timeStampUrl, rubricURL);
 
       out.println("       " + MiniAppletConstants.APPLET_SOURCE + "_" + i + ":'"
           + baseSignaturesSet + "/" + i + "/source',");

@@ -36,6 +36,9 @@ public class EntitatWebValidator  implements Validator, EntitatFields {
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
+  @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
+  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
 
@@ -80,40 +83,82 @@ _ignoreFields.add(FIRMATPERFORMATID);
       entitat = (es.caib.portafib.jpa.EntitatJPA)target;
     }
     {
-    // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-    es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getMotiuDelegacio();
-    if (tradJPA == null) {
-      // TODO ERROR
-      errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
-    } else {
-      java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
-      for (String _idioma : _trad.keySet()) {
-        es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
-        if (_map == null || _map.getValor() == null) {
-          errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
-          errors.rejectValue("entitat.motiuDelegacio.traduccions["+ _idioma +"].valor",
-              "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+      // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+      es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getMotiuDelegacio();
+      if (tradJPA != null) {
+        // TODO ERROR
+        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        int countNull= 0;
+        int countNotNull = 0;
+        for (String _idioma : _trad.keySet()) {
+          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+            countNull++;
+          } else {
+            countNotNull++;
+          }
         }
+
+        if (countNull == _trad.size()) {
+          // OK Tot esta buit ==> passam el camp a NULL
+          entitat.setMotiuDelegacioID(null);
+          entitat.setMotiuDelegacio(null);
+        } else {
+          if (countNotNull  == _trad.size()) {
+            // OK Tot esta ple
+          } else {
+            for (String _idioma : _trad.keySet()) {
+              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+                errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+                errors.rejectValue("entitat.motiuDelegacio.traduccions["+ _idioma +"].valor",
+                  "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
+              }
+            }
+          }
+        }
+      } else {
+        errors.rejectValue("entitat.motiuDelegacio", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(MOTIUDELEGACIOID.fullName)}, null);
       }
-    }
     }
     {
-    // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
-    es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getFirmatPerFormat();
-    if (tradJPA == null) {
-      // TODO ERROR
-      errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
-    } else {
-      java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
-      for (String _idioma : _trad.keySet()) {
-        es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
-        if (_map == null || _map.getValor() == null) {
-          errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
-          errors.rejectValue("entitat.firmatPerFormat.traduccions["+ _idioma +"].valor",
-              "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+      // IF CAMP ES NOT NULL verificar que totes les traduccions son not null
+      es.caib.portafib.jpa.TraduccioJPA tradJPA = entitat.getFirmatPerFormat();
+      if (tradJPA != null) {
+        // TODO ERROR
+        java.util.Map<String,es.caib.portafib.jpa.TraduccioMapJPA> _trad = tradJPA.getTraduccions();
+        int countNull= 0;
+        int countNotNull = 0;
+        for (String _idioma : _trad.keySet()) {
+          es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+          if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+            countNull++;
+          } else {
+            countNotNull++;
+          }
         }
+
+        if (countNull == _trad.size()) {
+          // OK Tot esta buit ==> passam el camp a NULL
+          entitat.setFirmatPerFormatID(null);
+          entitat.setFirmatPerFormat(null);
+        } else {
+          if (countNotNull  == _trad.size()) {
+            // OK Tot esta ple
+          } else {
+            for (String _idioma : _trad.keySet()) {
+              es.caib.portafib.jpa.TraduccioMapJPA _map = _trad.get(_idioma);
+              if (_map == null || (_map.getValor() == null || _map.getValor().length() == 0 )) {
+                errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+                errors.rejectValue("entitat.firmatPerFormat.traduccions["+ _idioma +"].valor",
+                  "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
+              }
+            }
+          }
+        }
+      } else {
+        errors.rejectValue("entitat.firmatPerFormat", "genapp.validation.required", new String[] {org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(FIRMATPERFORMATID.fullName)}, null);
       }
-    }
     }
 
   }
@@ -157,7 +202,7 @@ _ignoreFields.add(FIRMATPERFORMATID);
 
     }
     validator.validate(wvr, target,
-      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, entitatEjb, traduccioEjb, usuariAplicacioEjb);
+      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioEjb);
 
   } // Final de metode
 

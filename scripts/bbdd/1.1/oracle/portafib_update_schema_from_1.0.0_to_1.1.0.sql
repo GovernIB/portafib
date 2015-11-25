@@ -104,9 +104,18 @@ create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
 
 alter table pfi_entitat add constraint pfi_entitat_custodia_fk foreign key (custodiainfoid) references pfi_custodiainfo;
 
+-- =============================================================
+--  19/11/2015 Segellat de Temps
+-- =============================================================
 
+ALTER TABLE pfi_entitat ADD pluginid number(19,0);
 
+ALTER TABLE pfi_entitat ADD segelldetempsviaweb number(10,0) DEFAULT 0 not null,
 
+-- booleà
+ALTER TABLE pfi_peticiodefirma ADD segellatdetemps number(1,0) DEFAULT 0 not null;
 
+create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
 
+alter table pfi_entitat add constraint pfi_entitat_plugin_fk foreign key (pluginid) references pfi_plugin;
 

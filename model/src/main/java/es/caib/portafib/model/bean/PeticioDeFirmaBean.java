@@ -38,6 +38,7 @@ private static final long serialVersionUID = 906207731L;
 	java.lang.Long custodiaInfoID;
 	java.lang.String usuariEntitatID;
 	boolean avisWeb;
+	boolean segellatDeTemps;
 
 
   /** Constructor Buit */
@@ -45,7 +46,7 @@ private static final long serialVersionUID = 906207731L;
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -74,9 +75,10 @@ private static final long serialVersionUID = 906207731L;
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb) {
+  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -104,9 +106,10 @@ private static final long serialVersionUID = 906207731L;
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long fitxerAFirmarID , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long fitxerAFirmarID , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
@@ -124,6 +127,7 @@ private static final long serialVersionUID = 906207731L;
     this.usuariAplicacioID=usuariAplicacioID;
     this.remitentNom=remitentNom;
     this.avisWeb=avisWeb;
+    this.segellatDeTemps=segellatDeTemps;
 }
   public PeticioDeFirmaBean(PeticioDeFirma __bean) {
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
@@ -154,6 +158,7 @@ private static final long serialVersionUID = 906207731L;
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setAvisWeb(__bean.isAvisWeb());
+    this.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer
     this.setFitxerAFirmar(FitxerBean.toBean(__bean.getFitxerAFirmar()));
     // Fitxer
@@ -358,6 +363,13 @@ private static final long serialVersionUID = 906207731L;
 		this.avisWeb = _avisWeb_;
 	};
 
+	public boolean isSegellatDeTemps() {
+		return(segellatDeTemps);
+	};
+	public void setSegellatDeTemps(boolean _segellatDeTemps_) {
+		this.segellatDeTemps = _segellatDeTemps_;
+	};
+
 
 
   // ======================================
@@ -393,6 +405,7 @@ private static final long serialVersionUID = 906207731L;
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setAvisWeb(__bean.isAvisWeb());
+    __tmp.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer
     __tmp.setFitxerAFirmar(FitxerBean.toBean(__bean.getFitxerAFirmar()));
     // Fitxer

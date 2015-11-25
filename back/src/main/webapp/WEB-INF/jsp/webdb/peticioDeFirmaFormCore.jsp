@@ -727,3 +727,25 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS])?'peticioDeFirma.segellatDeTemps':__theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SEGELLATDETEMPS]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.SEGELLATDETEMPS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}" >
+              <form:errors path="peticioDeFirma.segellatDeTemps" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)? 'false' : 'true'}" path="peticioDeFirma.segellatDeTemps" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.peticioDeFirma.segellatDeTemps}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        

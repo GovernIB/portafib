@@ -12,8 +12,11 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
 import es.caib.portafib.logic.validator.EntitatLogicValidator;
 import es.caib.portafib.model.entity.Entitat;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -39,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/admin/entitat")
-public class GestioEntitatController extends EntitatController {
+public class GestioEntitatController extends EntitatController implements Constants {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -71,7 +74,11 @@ public class GestioEntitatController extends EntitatController {
        EntitatForm entitatForm = super.getEntitatForm(_jpa, __isView, request, mav);
 
        if(entitatForm.isNou()) {
-         entitatForm.addHiddenField(USUARIAPLICACIOID);         
+         entitatForm.addHiddenField(USUARIAPLICACIOID);
+         entitatForm.addHiddenField(CUSTODIAINFOID); // Plantilla de custòdia
+         entitatForm.addHiddenField(PLUGINID); // Segell de temps
+         entitatForm.addHiddenField(SEGELLDETEMPSVIAWEB);
+         entitatForm.getEntitat().setSegellDeTempsViaWeb(SEGELLDETEMPSVIAWEB_NOUSAR);
        } else {
          // TODO S'ha d'ocultar només si te usuarisEntitat o usuarisAplicacio associats (veure mètode delete)         
          entitatForm.addHiddenField(ENTITATID);           
@@ -193,5 +200,72 @@ public class GestioEntitatController extends EntitatController {
     getWebValidator().setValidator(entitatLogicValidator);
     super.initBinder(binder);
   }
+  
+  
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+      ModelAndView mav, EntitatForm entitatForm, Where where) throws I18NException {
+
+    Where where2;
+    if (entitatForm.isNou()) {
+      where2 = where;
+    } else {
+      where2 = Where.AND(where,
+          CustodiaInfoFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()),
+          CustodiaInfoFields.NOMPLANTILLA.isNotNull()
+          );
+    }
+
+    return super.getReferenceListForCustodiaInfoID(request, mav, entitatForm, where2);
+  }
+
+  /**
+   * Plugin de Segellat de Temps
+   * @param request
+   * @param mav
+   * @param entitatFilterForm
+   * @param list
+   * @param _groupByItemsMap
+   * @param where
+   * @return
+   * @throws I18NException
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+      ModelAndView mav, EntitatForm entitatForm, Where where) throws I18NException {
+
+    log.info(" PPPPPPPPPPPPPPP getReferenceListForPluginID :: Passa per plugin");
+    
+    Where where2;
+    log.info(" PPPPPPPPPPPPPPP getReferenceListForPluginID :: entitatFilterForm.isNou() = " + entitatForm.isNou());
+    if (entitatForm.isNou()) {
+      where2 = where;
+    } else {
+
+      where2 = Where.AND(
+          where,
+          PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()),
+          PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_SEGELLDETEMPS)
+          );
+    }
+
+    return super.getReferenceListForPluginID(request, mav, entitatForm, where2);
+  }
+  
+
+  
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_NOUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_NOUSAR)));
+   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_SEMPREUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_SEMPREUSAR)));
+   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX)));
+   return __tmp;
+ }
+  
+  
 
 }

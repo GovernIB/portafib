@@ -3779,7 +3779,7 @@
     <void index="8"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="29"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="31"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -5460,6 +5460,135 @@ opcional incluso cuando se genera una firma EPES.</string>
             </void> 
             <void property="webtype"> 
              <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="29"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>Plugin de segellat de temps</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>pluginid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_entitat_plugin_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_plugin</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_entitat_segelltemps_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>pluginID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Plugin de Segellat de Temps</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Plugin de Sellado de Tiempo</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>pluginid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>pluginid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_entitat_plugin_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_plugin</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="30"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>0</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>segellDeTempsViaWeb</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>int</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Segell de temps via web</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Sello de tiempo via web</string> 
+           </void> 
+          </void> 
+          <void property="minAllowedValue"> 
+           <string>0,1,2</string> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>10</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>segelldetempsviaweb</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>4</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>16</int> 
             </void> 
            </object> 
           </void> 
@@ -10420,7 +10549,7 @@ opcional incluso cuando se genera una firma EPES.</string>
     <void index="21"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="28"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="29"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -12228,6 +12357,51 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
+        <void index="28"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>false</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>segellatDeTemps</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>boolean</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Incloure Segell de Temps</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Incluir Sello de Tiempo</string> 
+           </void> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>1</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>segellatdetemps</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-7</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>4</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
        </array> 
       </void> 
       <void property="generate"> 
@@ -12688,8 +12862,21 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="2"> 
             <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>pluginid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_entitat_plugin_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_entitat</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void index="1"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>pluginid</string> 
@@ -12988,7 +13175,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <string>Tipo de plugin</string> 
            </void> 
           </void> 
-          <void property="minAllowedValue">
+          <void property="minAllowedValue"> 
            <string>0,1</string> 
           </void> 
           <void property="notNullable"> 

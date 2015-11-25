@@ -1,5 +1,6 @@
 
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+ <un:useConstants var="Constants" className="es.caib.portafib.utils.Constants" />
  
 <form:form modelAttribute="autoFirmaForm" method="${method}"
   enctype="multipart/form-data">
@@ -71,6 +72,25 @@
               </div>
            </td>
          </tr>
+         <tr>
+            <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
+            <td> 
+
+                <c:set var="segell" value="${loginInfo.entitat.segellDeTempsViaWeb }"/>
+                <c:choose>
+                    <c:when test="${segell ==  Constants.SEGELLDETEMPSVIAWEB_NOUSAR}">
+                       <fmt:message key="genapp.checkbox.false" />
+                    </c:when>
+                    <c:when test="${segell ==  SEGELLDETEMPSVIAWEB_SEMPREUSAR}">
+                       <fmt:message key="genapp.checkbox.true" />
+                    </c:when>
+                    <c:otherwise>
+                        <form:checkbox path="segellDeTemps"  /> 
+                    </c:otherwise>
+                </c:choose>
+            </td>
+         </tr>
+
 
         <c:forEach var="i" begin="1" end="4" step="1" >
         <tr>
@@ -93,7 +113,6 @@
               </div>
            </td>
          </tr>
-
          </c:forEach>
      </tbody>
     </table>

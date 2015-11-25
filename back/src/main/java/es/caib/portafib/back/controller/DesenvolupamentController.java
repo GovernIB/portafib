@@ -92,15 +92,10 @@ public class DesenvolupamentController {
   @RequestMapping(value = "/jspexception")
   public ModelAndView jspexception(HttpServletRequest request,
       HttpServletResponse response) throws Exception {
-
     ModelAndView mv = new ModelAndView("desenvolupament"); 
-    
     mv.addObject("accio", "excepcio");
-    
     return mv;
-    
   }
-  
  
   
 }

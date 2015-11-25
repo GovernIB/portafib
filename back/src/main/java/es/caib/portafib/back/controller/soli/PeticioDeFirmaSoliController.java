@@ -71,6 +71,7 @@ import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.CustodiaInfo;
+import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.GrupEntitat;
 import es.caib.portafib.model.entity.GrupEntitatUsuariEntitat;
@@ -663,6 +664,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     log.debug(" Entra dins crearPeticioDeFirmaForm ");
     LoginInfo loginInfo = LoginInfo.getInstance();
+    Entitat entitat = loginInfo.getEntitat();
 
     PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
 
@@ -688,7 +690,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       if (isSolicitantUsuariEntitat()) {
         // Obtenim l'usuari aplicacio per defecte a emprar en 
         // aquesta entitat per peticions de usuari-entitat
-        usuariAplicacioID = loginInfo.getEntitat().getUsuariAplicacioID();
+        usuariAplicacioID = entitat.getUsuariAplicacioID();
         peticioDeFirma.setUsuariEntitatID(loginInfo.getUsuariEntitatID());
         peticioDeFirma.setAvisWeb(false);
       } else {
@@ -708,7 +710,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
       peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
       peticioDeFirma.setAlgorismeDeFirmaID(Configuracio.getDefaultSignAlgorithmID());
-      peticioDeFirma.setModeDeFirma(Constants.APPLET_SIGN_MODE_IMPLICIT);
+      peticioDeFirma.setModeDeFirma(Constants.SIGN_MODE_IMPLICIT);
 
       peticioDeFirma.setTitol(nomPeticio);
       peticioDeFirma.setDescripcio(nomPeticio);
@@ -725,7 +727,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES); // PADES
       
 
-      LoginInfo li = LoginInfo.getInstance();
+      //LoginInfo li = LoginInfo.getInstance();
       
       // TODO Mirar si l'usuari-entitat té definit un altre logo
       /*
@@ -739,17 +741,18 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
       if (isSolicitantUsuariEntitat()) {
         // Si estam des d'una compte de Solicitant
-        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(li.getUsuariPersona()));
+        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()));
         
-        String mail = li.getUsuariEntitat().getEmail();
+        String mail = loginInfo.getUsuariEntitat().getEmail();
         if (mail == null) {
-          mail = li.getUsuariPersona().getEmail();
+          mail = loginInfo.getUsuariPersona().getEmail();
         }
         peticioDeFirma.setRemitentDescripcio(mail);
         
+        
       } else {
         // Si estam des d'una compte d'Administrador d'Entitat provant un usuari aplicacio
-        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(li.getUsuariPersona()) 
+        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()) 
             + " (" + usuariAplicacioID + ")");
         UsuariAplicacioJPA ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
         peticioDeFirma.setRemitentDescripcio(ua.getEmailAdmin());
@@ -847,6 +850,26 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       }
 
     }
+    
+    
+
+    switch (entitat.getSegellDeTempsViaWeb()) {
+      case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
+        peticioDeFirmaForm.addReadOnlyField(SEGELLATDETEMPS);
+        peticioDeFirma.setSegellatDeTemps(false);
+      break;
+      
+      case Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR:
+        peticioDeFirmaForm.addReadOnlyField(SEGELLATDETEMPS);
+        peticioDeFirma.setSegellatDeTemps(true);
+      break;
+      
+      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX:
+        peticioDeFirma.setSegellatDeTemps(true);
+      break;          
+      
+   }
+    
 
     
     // TODO quan hi hagi més tipus disponibles llavors això s'ha de llevar

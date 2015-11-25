@@ -60,7 +60,7 @@ public class Configuracio implements Constants {
     return Integer.getInteger(PORTAFIB_PROPERTY_BASE + "defaultsignalgorithmid",
         // TODO La documentació de miniapplet  diu que aquest algoritme 
         // esta obsolet però és l'únic que suporta Custòdia-CAIB
-        Constants.APPLET_SIGN_ALGORITHM_SHA1WITHRSA);
+        Constants.SIGN_ALGORITHM_SHA1WITHRSA);
   }
 
   public static boolean isCheckNifCertificate() {

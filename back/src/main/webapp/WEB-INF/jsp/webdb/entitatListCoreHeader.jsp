@@ -99,6 +99,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.CUSTODIAINFOID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

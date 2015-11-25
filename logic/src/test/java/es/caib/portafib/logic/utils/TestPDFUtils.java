@@ -437,7 +437,7 @@ public class TestPDFUtils implements Constants {
     //File parent = new File("C:\\Documents and Settings\\anadal\\Escritorio\\PortaSIB\\proves");
     //File srcPDF = new File(parent, "hola.pdf");
     try {
-      log.info(" Constants.MAX FIRMES = " + Constants.APPLET_MAX_FIRMES_PER_TAULA);
+      log.info(" Constants.MAX FIRMES = " + Constants.MAX_FIRMES_PER_TAULA);
       
     File srcPDF = getFileFromResource("test.pdf");
     
@@ -446,7 +446,7 @@ public class TestPDFUtils implements Constants {
     log.info("TIPUS MIME = " + Utils.getMimeType("hola.pdf"));
 
     int numFirmes = 18;
-    numFirmes = (numFirmes > APPLET_MAX_FIRMES_PER_TAULA) ? APPLET_MAX_FIRMES_PER_TAULA
+    numFirmes = (numFirmes > MAX_FIRMES_PER_TAULA) ? MAX_FIRMES_PER_TAULA
         : numFirmes;
     log.info("Numero firmes a imprimir = " + numFirmes);
     int posicio = (int) TAULADEFIRMES_PRIMERAPAGINA;
@@ -561,7 +561,7 @@ public class TestPDFUtils implements Constants {
   public static StampTaulaDeFirmes getTaulaDeFirmesInfo() throws Exception {
     StampTaulaDeFirmes stamp;
     int numFirmes = 18;
-    numFirmes = (numFirmes > APPLET_MAX_FIRMES_PER_TAULA) ? APPLET_MAX_FIRMES_PER_TAULA
+    numFirmes = (numFirmes > MAX_FIRMES_PER_TAULA) ? MAX_FIRMES_PER_TAULA
         : numFirmes;
     log.info("Numero firmes a imprimir = " + numFirmes);
     int posicio = (int) TAULADEFIRMES_PRIMERAPAGINA;

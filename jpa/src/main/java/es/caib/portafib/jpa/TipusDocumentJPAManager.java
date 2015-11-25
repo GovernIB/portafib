@@ -102,6 +102,19 @@ public class TipusDocumentJPAManager
 
   @Override
   public TipusDocument create(TipusDocument transientInstance) throws I18NException {
+    processTranslations(transientInstance);
+    return super.create(transientInstance);
+  }
+
+
+  @Override
+  public TipusDocument update(TipusDocument transientInstance) throws I18NException {
+    processTranslations(transientInstance);
+    return super.update(transientInstance);
+  }
+
+
+  private void processTranslations(TipusDocument transientInstance) {
     if (transientInstance != null) {
       if (transientInstance.getNomID() == 0) {
         if (transientInstance instanceof TipusDocumentJPA) {
@@ -116,7 +129,6 @@ public class TipusDocumentJPAManager
         }
       }
     }
-    return super.create(transientInstance);
   }
 
 

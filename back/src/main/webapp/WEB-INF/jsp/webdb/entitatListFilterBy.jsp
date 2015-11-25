@@ -402,6 +402,42 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINID)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="entitat.pluginID" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+                                       
+              
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="entitat.segellDeTempsViaWeb" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="segellDeTempsViaWebDesde" />
+                                       
+              
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              
+              <form:input cssClass="input-append input-small search-query" path="segellDeTempsViaWebFins" />
+              
+            </div>
+
+
+        </c:if>
 
 <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
 <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">

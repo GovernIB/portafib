@@ -93,5 +93,10 @@ public interface MiniAppletConstants {
   public static final String PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTX = "signaturePositionOnPageUpperRightX";
   public static final String PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTY = "signaturePositionOnPageLowerLeftY";
   public static final String PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTY = "signaturePositionOnPageUpperRightY";
-  
+
+  /** Sello de tiempo a nivel de firma. */
+  public static final String TS_SIGN = "1";  //$NON-NLS-1$
+
+  /** Sello de tiempo a nivel de documento. */
+  public static final String TS_DOC = "2";  //$NON-NLS-1$
 }

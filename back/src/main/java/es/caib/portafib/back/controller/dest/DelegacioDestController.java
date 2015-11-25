@@ -37,6 +37,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
@@ -71,8 +73,9 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-import es.caib.portafib.logic.PluginLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
+import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
@@ -142,8 +145,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = PluginLogicaLocal.JNDI_NAME)
-  protected PluginLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  
+  @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
+  protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
   @Autowired
   protected TipusDocumentRefList tipusDocumentRefList;
@@ -1085,18 +1091,23 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     // Posam l'ID de la delegacio
     final String signatureID = String.valueOf(delegacioID);
     
+    
+    
+    // Per les delegacions si es posible empram TimeStamp
+    final boolean userRequiresTimeStamp = true;
+    EntitatJPA entitat = loginInfo.getEntitat();
+    ITimeStampGenerator timeStampGenerator;
+    timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, entitat,userRequiresTimeStamp);
+
+    
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         dstPDF, idname, (int)location_sign_table, reason, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
-        Constants.APPLET_SIGN_MODE_IMPLICIT,
-        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI));
+        Constants.SIGN_MODE_IMPLICIT,
+        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
-
-    EntitatJPA entitat = loginInfo.getEntitat();
-
-    
     
     CommonInfoSignature commonInfoSignature;
     {
@@ -1107,6 +1118,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       final String urlOK = absoluteControllerBase + "/finalOK/{0}/" + signaturesSetID;
       final String urlError = absoluteControllerBase + "/finalError/{0}/" + signaturesSetID;
 
+
+
+      
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
           langUI, username, urlOK, urlError, !isJnlp);
@@ -1138,7 +1152,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
   
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
 
     // TODO check null
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
@@ -1203,8 +1220,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
   
     // TODO Check null Misstage
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getSignatureWebPluginByModulDeFirmaID(pluginID);
+    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
     
+    if (signaturePlugin == null) {
+      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    }
     
     StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
     // TODO check null
