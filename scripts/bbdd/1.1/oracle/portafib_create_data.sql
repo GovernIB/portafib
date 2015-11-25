@@ -311,5 +311,8 @@ es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.path=D:/dades/
 es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=123456789', NULL, NULL, 1, 1);
 
 
-
+--  Actualitzam la Sequencia per a que no sobreescriqui valors posats a pinyo fix
+ALTER SEQUENCE pfi_portafib_seq INCREMENT BY 1000;
+SELECT pfi_portafib_seq.NEXTVAL FROM dual;
+ALTER SEQUENCE pfi_portafib_seq INCREMENT BY 1;
 
