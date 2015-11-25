@@ -80,9 +80,6 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getAlgorismeDeFirmaID();
 	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_);
 
-	public boolean isComprovarCertificatClientCert();
-	public void setComprovarCertificatClientCert(boolean _comprovarCertificatClientCert_);
-
 	public boolean isComprovarNifFirma();
 	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
 

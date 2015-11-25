@@ -80,7 +80,6 @@ ALTER TABLE pfi_rebreavis ADD rebreagrupat number(1,0)  DEFAULT 0 NOT NULL;
 -- =================================================================================
 
 ALTER TABLE pfi_entitat ADD algorismedefirmaid number(10,0) DEFAULT 0 not null;
-ALTER TABLE pfi_entitat ADD comprovarcertificatclientcert number(1,0) DEFAULT 1 not null;
 ALTER TABLE pfi_entitat ADD comprovarniffirma number(1,0) DEFAULT 1 not null;
 ALTER TABLE pfi_entitat ADD motiudelegacioid number(19,0);
 ALTER TABLE pfi_entitat ADD firmatperformatid number(19,0);

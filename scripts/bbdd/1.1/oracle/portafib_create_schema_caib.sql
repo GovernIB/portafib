@@ -85,7 +85,6 @@
         activa number(1,0) not null,
         adrezahtml varchar2(2000 char) not null,
         algorismedefirmaid number(10,0) not null,
-        comprovarcertificatclientcert number(1,0) not null,
         comprovarniffirma number(1,0) not null,
         custodiainfoid number(19,0),
         descripcio varchar2(255 char),

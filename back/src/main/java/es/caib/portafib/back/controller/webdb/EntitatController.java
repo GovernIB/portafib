@@ -249,9 +249,6 @@ public class EntitatController
     }
 
 
-      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARCERTIFICATCLIENTCERT);
-
-
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
 
     // Field custodiaInfoID

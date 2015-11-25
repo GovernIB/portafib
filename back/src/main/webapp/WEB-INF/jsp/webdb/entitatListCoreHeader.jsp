@@ -90,9 +90,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.ALGORISMEDEFIRMAID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARNIFFIRMA)}</th>
         </c:if>

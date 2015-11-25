@@ -3779,7 +3779,7 @@
     <void index="8"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="31"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="30"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -5306,51 +5306,6 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>comprovarCertificatClientCert</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>boolean</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Comprovar certificat en ClientCert</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Comprovar certificat en ClientCert</string> 
-           </void> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="size"> 
-           <int>1</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>comprovarcertificatclientcert</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-7</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>4</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="27"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="defaultValue"> 
-           <string>true</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
            <string>comprovarNifFirma</string> 
           </void> 
           <void property="javaType"> 
@@ -5387,7 +5342,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="28"> 
+        <void index="27"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -5465,7 +5420,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="29"> 
+        <void index="28"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Plugin de segellat de temps</string> 
@@ -5546,7 +5501,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="30"> 
+        <void index="29"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 

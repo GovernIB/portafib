@@ -230,7 +230,6 @@ CREATE TABLE pfi_entitat (
     motiudelegacioid bigint,
     firmatperformatid bigint,
     algorismedefirmaid bigint DEFAULT 0 NOT NULL,
-    comprovarcertificatclientcert boolean DEFAULT true NOT NULL,
     comprovarniffirma boolean DEFAULT true NOT NULL,
     custodiainfoid bigint,
     pluginid bigint,

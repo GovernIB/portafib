@@ -115,10 +115,6 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.ALGORISMEDEFIRMAID);
   }
 
-  public BooleanField COMPROVARCERTIFICATCLIENTCERT() {
-    return new BooleanField(getQueryPath(), EntitatFields.COMPROVARCERTIFICATCLIENTCERT);
-  }
-
   public BooleanField COMPROVARNIFFIRMA() {
     return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
   }

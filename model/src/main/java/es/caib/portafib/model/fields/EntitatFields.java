@@ -38,7 +38,6 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
 	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
-	 public static final BooleanField COMPROVARCERTIFICATCLIENTCERT = new BooleanField(_TABLE_MODEL, "comprovarCertificatClientCert", "comprovarcertificatclientcert");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
@@ -72,7 +71,6 @@ public interface EntitatFields extends java.io.Serializable {
     MOTIUDELEGACIOID,
     FIRMATPERFORMATID,
     ALGORISMEDEFIRMAID,
-    COMPROVARCERTIFICATCLIENTCERT,
     COMPROVARNIFFIRMA,
     CUSTODIAINFOID,
     PLUGINID,

@@ -73,7 +73,6 @@ ALTER TABLE pfi_rebreavis ADD COLUMN rebreagrupat boolean NOT NULL DEFAULT false
 ALTER TABLE pfi_entitat ADD COLUMN motiudelegacioid bigint;
 ALTER TABLE pfi_entitat ADD COLUMN firmatperformatid bigint;
 ALTER TABLE pfi_entitat ADD COLUMN algorismedefirmaid bigint NOT NULL DEFAULT 0;
-ALTER TABLE pfi_entitat ADD COLUMN comprovarcertificatclientcert boolean NOT NULL DEFAULT true;
 ALTER TABLE pfi_entitat ADD COLUMN comprovarniffirma boolean NOT NULL DEFAULT true;
 
 ALTER TABLE pfi_entitat ADD CONSTRAINT pfi_entitat_algofirma_fk FOREIGN KEY (algorismedefirmaid)  REFERENCES pfi_algorismedefirma (algorismedefirmaid);

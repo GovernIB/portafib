@@ -632,28 +632,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}">
-        <tr>
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARCERTIFICATCLIENTCERT])?'entitat.comprovarCertificatClientCert':__theForm.labels[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}" />
-              <c:if test="${not empty __theForm.help[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.COMPROVARCERTIFICATCLIENTCERT]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}" >
-              <form:errors path="entitat.comprovarCertificatClientCert" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)? 'false' : 'true'}" path="entitat.comprovarCertificatClientCert" />
-          </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARCERTIFICATCLIENTCERT)}" >
-                <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarCertificatClientCert}" />
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
         <tr>
           <td>

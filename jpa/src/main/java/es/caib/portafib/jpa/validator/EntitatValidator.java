@@ -66,10 +66,6 @@ public class EntitatValidator<T> implements EntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ALGORISMEDEFIRMAID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARCERTIFICATCLIENTCERT, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARCERTIFICATCLIENTCERT)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
