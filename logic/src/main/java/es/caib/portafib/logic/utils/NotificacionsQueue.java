@@ -35,6 +35,7 @@ import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.XMLGregorianCalendarConverter;
 import es.caib.portafib.utils.XTrustProvider;
 import es.caib.portafib.ws.callback.api.v1.Actor;
+import es.caib.portafib.ws.callback.api.v1.CallBackException;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBCallBackWs;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBCallBackWsService;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBEvent;
@@ -535,7 +536,12 @@ public class NotificacionsQueue implements MessageListener {
       }
     }
 
-    callbackApi.event(event);
+    try {
+      callbackApi.event(event);
+    } catch (CallBackException e) {
+      log.error("CallBackException: " + e.getMessage(), e);
+      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
+    }
   }
 
   /**
