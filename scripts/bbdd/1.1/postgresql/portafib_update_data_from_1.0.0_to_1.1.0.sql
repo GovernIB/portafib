@@ -1,8 +1,6 @@
 -- ===================================
--- 2015/11/11 Plugin de Firma
+-- 2015/11/11 Plantilla Plugin de Firma
 -- ===================================
-
-
 
 INSERT INTO pfi_traduccio(traduccioid) VALUES (101);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (111);
@@ -42,7 +40,7 @@ INSERT INTO pfi_plugin(
 
             
 -- =======================================
--- 2015/11/25 Plugin de Segellat de Temps
+-- 2015/11/25 Plantilla  Plugin de Segellat de Temps
 -- =======================================
 
 INSERT INTO pfi_traduccio(traduccioid) VALUES (104);
@@ -100,3 +98,4 @@ es.caib.portafib.plugins.timestamp.afirmarfc.auth.cert.p12.password=x7E7f9vU8QH8
 #Este certificado debe ser el certificado SSL de servidor la TSA (parte publica)
 es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.path=D:/dades/dades/CarpetesPersonals/Programacio/pluginsib-1.0/plugins-timestamp/afirmarfc/trustkeystore/truststore.jks
 es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=123456789', NULL, NULL, true, 1);
+
