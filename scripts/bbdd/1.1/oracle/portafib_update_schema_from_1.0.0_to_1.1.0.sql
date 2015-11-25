@@ -105,7 +105,7 @@ create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
 alter table pfi_entitat add constraint pfi_entitat_custodia_fk foreign key (custodiainfoid) references pfi_custodiainfo;
 
 -- =============================================================
---  19/11/2015 Segellat de Temps
+--  2015/11/19 Segellat de Temps
 -- =============================================================
 
 ALTER TABLE pfi_entitat ADD pluginid number(19,0);
