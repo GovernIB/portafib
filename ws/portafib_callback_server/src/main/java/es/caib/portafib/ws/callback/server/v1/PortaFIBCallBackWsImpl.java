@@ -35,7 +35,7 @@ public class PortaFIBCallBackWsImpl implements PortaFIBCallBackWs {
   }
 
   @WebMethod
-  public void event(@WebParam(name = "event") PortaFIBEvent event) throws Exception {
+  public void event(@WebParam(name = "event") PortaFIBEvent event) throws CallBackException {
     PortaFIBEventStore.llistat.add(event);
   }
 

@@ -11,11 +11,11 @@ import javax.jws.WebService;
  */
 @WebService
 public interface PortaFIBCallBackWs {
-  
-  
+
   @WebMethod
   public int getVersionWs();
 
   @WebMethod
-  public void event(@WebParam(name = "event") PortaFIBEvent event) throws Exception;
+  public void event(@WebParam(name = "event") PortaFIBEvent event) throws CallBackException;
+  
 }

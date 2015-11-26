@@ -182,7 +182,8 @@ public class AfirmaSigner implements ISigner {
     // POLITICA DE FIRMA
     String oid = signerContext.getContextParameter(Constants.APPLET_POLICYIDENTIFIER);
     if (oid == null || oid.trim().length() == 0) {
-      properties.append("signatureSubFilter=" + AOSignConstants.PADES_SUBFILTER_BASIC + "\n");
+        // Demanat explicitament per Atrobat el 25/11/2015 (Valor antic AOSignConstants.PADES_SUBFILTER_BASIC)
+      properties.append("signatureSubFilter=" + AOSignConstants.PADES_SUBFILTER_BES + "\n");
     } else {
       
       properties.append("signatureSubFilter=" + AOSignConstants.PADES_SUBFILTER_BES + "\n");

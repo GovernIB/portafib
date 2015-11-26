@@ -28,6 +28,7 @@ public class ObjectFactory {
     private final static QName _EventResponse_QNAME = new QName("http://v1.server.callback.ws.portafib.caib.es/", "eventResponse");
     private final static QName _Event_QNAME = new QName("http://v1.server.callback.ws.portafib.caib.es/", "event");
     private final static QName _GetVersionWsResponse_QNAME = new QName("http://v1.server.callback.ws.portafib.caib.es/", "getVersionWsResponse");
+    private final static QName _CallBackFault_QNAME = new QName("http://v1.server.callback.ws.portafib.caib.es/", "CallBackFault");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: es.caib.portafib.ws.callback.api.v1
@@ -42,6 +43,38 @@ public class ObjectFactory {
      */
     public Sign createSign() {
         return new Sign();
+    }
+
+    /**
+     * Create an instance of {@link SigningRequest }
+     * 
+     */
+    public SigningRequest createSigningRequest() {
+        return new SigningRequest();
+    }
+
+    /**
+     * Create an instance of {@link CallBackFault }
+     * 
+     */
+    public CallBackFault createCallBackFault() {
+        return new CallBackFault();
+    }
+
+    /**
+     * Create an instance of {@link GetVersionWsResponse }
+     * 
+     */
+    public GetVersionWsResponse createGetVersionWsResponse() {
+        return new GetVersionWsResponse();
+    }
+
+    /**
+     * Create an instance of {@link EventResponse }
+     * 
+     */
+    public EventResponse createEventResponse() {
+        return new EventResponse();
     }
 
     /**
@@ -61,14 +94,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetVersionWsResponse }
-     * 
-     */
-    public GetVersionWsResponse createGetVersionWsResponse() {
-        return new GetVersionWsResponse();
-    }
-
-    /**
      * Create an instance of {@link GetVersionWs }
      * 
      */
@@ -82,22 +107,6 @@ public class ObjectFactory {
      */
     public PortaFIBEvent createPortaFIBEvent() {
         return new PortaFIBEvent();
-    }
-
-    /**
-     * Create an instance of {@link EventResponse }
-     * 
-     */
-    public EventResponse createEventResponse() {
-        return new EventResponse();
-    }
-
-    /**
-     * Create an instance of {@link SigningRequest }
-     * 
-     */
-    public SigningRequest createSigningRequest() {
-        return new SigningRequest();
     }
 
     /**
@@ -134,6 +143,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://v1.server.callback.ws.portafib.caib.es/", name = "getVersionWsResponse")
     public JAXBElement<GetVersionWsResponse> createGetVersionWsResponse(GetVersionWsResponse value) {
         return new JAXBElement<GetVersionWsResponse>(_GetVersionWsResponse_QNAME, GetVersionWsResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CallBackFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://v1.server.callback.ws.portafib.caib.es/", name = "CallBackFault")
+    public JAXBElement<CallBackFault> createCallBackFault(CallBackFault value) {
+        return new JAXBElement<CallBackFault>(_CallBackFault_QNAME, CallBackFault.class, null, value);
     }
 
 }
