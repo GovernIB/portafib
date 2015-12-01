@@ -33,6 +33,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final PosicioPaginaJPAManager pfi_posiciopagina;
    private final PosicioTaulaFirmesJPAManager pfi_posiciotaulafirmes;
    private final PrioritatJPAManager pfi_prioritat;
+   private final PropietatGlobalJPAManager pfi_propietatglobal;
    private final RebreAvisJPAManager pfi_rebreavis;
    private final RoleJPAManager pfi_role;
    private final RoleUsuariAplicacioJPAManager pfi_roleusuariaplicacio;
@@ -79,6 +80,7 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_posiciopagina = new PosicioPaginaJPAManager(__em);
     this.pfi_posiciotaulafirmes = new PosicioTaulaFirmesJPAManager(__em);
     this.pfi_prioritat = new PrioritatJPAManager(__em);
+    this.pfi_propietatglobal = new PropietatGlobalJPAManager(__em);
     this.pfi_rebreavis = new RebreAvisJPAManager(__em);
     this.pfi_role = new RoleJPAManager(__em);
     this.pfi_roleusuariaplicacio = new RoleUsuariAplicacioJPAManager(__em);
@@ -204,6 +206,10 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IPrioritatManager getPrioritatManager() {
 	  return this.pfi_prioritat;
+	};
+
+	public IPropietatGlobalManager getPropietatGlobalManager() {
+	  return this.pfi_propietatglobal;
 	};
 
 	public IRebreAvisManager getRebreAvisManager() {

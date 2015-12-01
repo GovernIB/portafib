@@ -30,6 +30,7 @@ public interface IPortaFIBDaoManagers {
 	public IPosicioPaginaManager getPosicioPaginaManager();
 	public IPosicioTaulaFirmesManager getPosicioTaulaFirmesManager();
 	public IPrioritatManager getPrioritatManager();
+	public IPropietatGlobalManager getPropietatGlobalManager();
 	public IRebreAvisManager getRebreAvisManager();
 	public IRoleManager getRoleManager();
 	public IRoleUsuariAplicacioManager getRoleUsuariAplicacioManager();

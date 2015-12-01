@@ -521,6 +521,25 @@
       </ul>
     </li>
 
+    <%-- PropietatGlobal --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'propietatGlobal/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'propietatGlobal/')? "font-weight: bold;" : ""}"><fmt:message key="propietatGlobal.propietatGlobal"/></span></a>
+      <ul class="${fn:contains(url, 'propietatGlobal/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/propietatGlobal/new"/>" ><span style="${(fn:contains(url, 'propietatGlobal/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="propietatGlobal.propietatGlobal"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/propietatGlobal/list/1"/>" ><span style="${(fn:contains(url, 'propietatGlobal/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
     <%-- RebreAvis --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'rebreAvis/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'rebreAvis/')? "font-weight: bold;" : ""}"><fmt:message key="rebreAvis.rebreAvis"/></span></a>

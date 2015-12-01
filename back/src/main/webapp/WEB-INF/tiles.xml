@@ -816,6 +816,16 @@
     </definition>
 
 
+    <definition name="propietatGlobalFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
+    </definition>
+    
+    <definition name="propietatGlobalListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
+
+
     <definition name="rebreAvisFormWebDB" extends="webdb">
         <put-attribute name="titol" value="rebreAvis.rebreAvis" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisForm.jsp" />

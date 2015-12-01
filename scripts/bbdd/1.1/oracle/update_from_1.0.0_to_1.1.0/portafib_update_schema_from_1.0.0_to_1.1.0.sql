@@ -118,3 +118,25 @@ create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
 
 alter table pfi_entitat add constraint pfi_entitat_plugin_fk foreign key (pluginid) references pfi_plugin;
 
+
+-- =============================================================
+--  2015/12/01 Taula de Propietats Globals
+-- =============================================================
+
+create table pfi_propietatglobal (
+    propietatglobalid number(19,0) not null,
+    clau varchar2(255 char) not null,
+    descripcio varchar2(255 char),
+    entitatid varchar2(50 char),
+    valor varchar2(255 char)
+);
+
+alter table pfi_propietatglobal add constraint pfi_propietatglobal_pk primary key (propietatglobalid);
+
+create index pfi_propietat_entitatid_fk_i on pfi_propietatglobal (entitatid);
+create index pfi_propietatglobal_pk_i on pfi_propietatglobal (propietatglobalid);
+
+alter table pfi_propietatglobal add constraint pfi_propietat_entitat_fk foreign key (entitatid) references pfi_entitat;
+    
+alter table pfi_propietatglobal add constraint pfi_propietat_clau_entitat_uk unique (clau, entitatid);
+

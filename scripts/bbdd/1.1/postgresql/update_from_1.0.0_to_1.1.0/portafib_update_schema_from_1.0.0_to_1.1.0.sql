@@ -111,6 +111,32 @@ CREATE INDEX pfi_entitat_segelltemps_fk_i ON pfi_entitat (pluginid);
 ALTER TABLE pfi_entitat ADD CONSTRAINT pfi_entitat_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin(pluginid);
 
 
+-- =============================================================
+--  2015/12/01 Taula de Propietats Globals
+-- =============================================================
+
+CREATE TABLE pfi_propietatglobal (
+    clau character varying(255) NOT NULL,
+    valor character varying(255),
+    descripcio character varying(255),
+    entitatid character varying(50),
+    propietatglobalid bigint DEFAULT nextval('pfi_portafib_seq') NOT NULL
+);
+
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietat_clau_entitat_uk UNIQUE (clau, entitatid);
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietatglobal_pk PRIMARY KEY (propietatglobalid);
+
+CREATE INDEX pfi_propietat_entitatid_fk_i ON pfi_propietatglobal USING btree (entitatid);
+CREATE INDEX pfi_propietatglobal_pk_i ON pfi_propietatglobal USING btree (propietatglobalid);
+
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietat_entitat_fk FOREIGN KEY (entitatid) REFERENCES pfi_entitat(entitatid);
+
+
+
+
 
 
 

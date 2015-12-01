@@ -287,6 +287,14 @@
         nom varchar2(50 char) not null
     );
 
+    create table pfi_propietatglobal (
+        propietatglobalid number(19,0) not null,
+        clau varchar2(255 char) not null,
+        descripcio varchar2(255 char),
+        entitatid varchar2(50 char),
+        valor varchar2(255 char)
+    );
+
     create table pfi_rebreavis (
         id number(19,0) not null,
         rebreagrupat number(1,0) not null,
@@ -517,6 +525,8 @@
     create index pfi_posiciopagina_pk_i on pfi_posiciopagina (posiciopaginaid);
     create index pfi_posiciotaulafirmes_pk_i on pfi_posiciotaulafirmes (posiciotaulafirmesid);
     create index pfi_prioritat_pk_i on pfi_prioritat (prioritatid);
+    create index pfi_propietat_entitatid_fk_i on pfi_propietatglobal (entitatid);
+    create index pfi_propietatglobal_pk_i on pfi_propietatglobal (propietatglobalid);
     create index pfi_rebreavis_usrentid_fk_i on pfi_rebreavis (usuarientitatid);
     create index pfi_rebreavis_tiponotiid_fk_i on pfi_rebreavis (tipusnotificacioid);
     create index pfi_rebreavis_pk_i on pfi_rebreavis (id);
@@ -611,6 +621,8 @@
     alter table pfi_posiciotaulafirmes add constraint pfi_posiciotaulafirmes_pk primary key (posiciotaulafirmesid);
 
     alter table pfi_prioritat add constraint pfi_prioritat_pk primary key (prioritatid);
+
+    alter table pfi_propietatglobal add constraint pfi_propietatglobal_pk primary key (propietatglobalid);
 
     alter table pfi_rebreavis add constraint pfi_rebreavis_pk primary key (id);
 
@@ -1002,6 +1014,11 @@
         foreign key (descripciocurtaid) 
         references pfi_traduccio;
 
+    alter table pfi_propietatglobal 
+        add constraint pfi_propietat_entitat_fk 
+        foreign key (entitatid) 
+        references pfi_entitat;
+
     alter table pfi_rebreavis 
         add constraint pfi_rebreavis_usrentitat_fk 
         foreign key (usuarientitatid) 
@@ -1116,6 +1133,7 @@
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrpl_grupflux_uk unique (grupentitatid, fluxdefirmesid);
     alter table pfi_permisusuariplantilla add constraint pfi_permisuspl_usrflux_uk unique (usuarientitatid, fluxdefirmesid);
     alter table pfi_peticiodefirma add constraint pfi_petifirma_fluxfirmesid_uk unique (fluxdefirmesid);
+    alter table pfi_propietatglobal add constraint pfi_propietat_clau_entitat_uk unique (clau, entitatid);
     alter table pfi_rebreavis add constraint pfi_rebreavis_tnotiusr_uk unique (tipusnotificacioid, usuarientitatid);
     alter table pfi_roleusuariaplicacio add constraint pfi_roleusrapp_approle_uk unique (usuariaplicacioid, roleid);
     alter table pfi_roleusuarientitat add constraint pfi_roleusrent_roleusrent_uk unique (roleid, usuarientitatid);
@@ -1154,6 +1172,7 @@
     grant select,insert,delete,update on pfi_posiciopagina to www_portafib;
     grant select,insert,delete,update on pfi_posiciotaulafirmes to www_portafib;
     grant select,insert,delete,update on pfi_prioritat to www_portafib;
+    grant select,insert,delete,update on pfi_propietatglobal to www_portafib;
     grant select,insert,delete,update on pfi_rebreavis to www_portafib;
     grant select,insert,delete,update on pfi_role to www_portafib;
     grant select,insert,delete,update on pfi_roleusuariaplicacio to www_portafib;

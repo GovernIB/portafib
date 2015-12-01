@@ -514,6 +514,19 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
+// EXP  Field:entitatid | Table: pfi_propietatglobal | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
+	private Set<PropietatGlobalJPA> propietatGlobals = new HashSet<PropietatGlobalJPA>(0);
+	public  Set<PropietatGlobalJPA> getPropietatGlobals() {
+    return this.propietatGlobals;
+  }
+
+	public void setPropietatGlobals(Set<PropietatGlobalJPA> propietatGlobals) {
+	  this.propietatGlobals = propietatGlobals;
+	}
+
+
 // EXP  Field:entitatid | Table: pfi_usuariaplicacio | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
@@ -814,6 +827,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"UsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
       __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"PropietatGlobalJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.propietatGlobals) || org.hibernate.Hibernate.isInitialized(__jpa.getPropietatGlobals())) ) {
+      __tmp.setPropietatGlobals(PropietatGlobalJPA.copyJPA(__jpa.getPropietatGlobals(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {

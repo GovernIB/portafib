@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.5
--- Started on 2015-12-01 09:50:00
+-- Started on 2015-12-01 13:30:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -574,6 +574,21 @@ CREATE TABLE pfi_prioritat (
 
 
 ALTER TABLE portafib.pfi_prioritat OWNER TO portafib;
+
+--
+-- Name: pfi_propietatglobal; Type: TABLE; Schema: portafib; Owner: portafib; Tablespace: 
+--
+
+CREATE TABLE pfi_propietatglobal (
+    clau character varying(255) NOT NULL,
+    valor character varying(255),
+    descripcio character varying(255),
+    entitatid character varying(50),
+    propietatglobalid bigint DEFAULT nextval('pfi_portafib_seq'::regclass) NOT NULL
+);
+
+
+ALTER TABLE portafib.pfi_propietatglobal OWNER TO portafib;
 
 --
 -- Name: pfi_rebreavis; Type: TABLE; Schema: portafib; Owner: portafib; Tablespace: 
@@ -1183,6 +1198,22 @@ ALTER TABLE ONLY pfi_posiciotaulafirmes
 
 ALTER TABLE ONLY pfi_prioritat
     ADD CONSTRAINT pfi_prioritat_pk PRIMARY KEY (prioritatid);
+
+
+--
+-- Name: pfi_propietat_clau_entitat_uk; Type: CONSTRAINT; Schema: portafib; Owner: portafib; Tablespace: 
+--
+
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietat_clau_entitat_uk UNIQUE (clau, entitatid);
+
+
+--
+-- Name: pfi_propietatglobal_pk; Type: CONSTRAINT; Schema: portafib; Owner: portafib; Tablespace: 
+--
+
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietatglobal_pk PRIMARY KEY (propietatglobalid);
 
 
 --
@@ -2090,6 +2121,20 @@ CREATE INDEX pfi_prioritat_pk_i ON pfi_prioritat USING btree (prioritatid);
 
 
 --
+-- Name: pfi_propietat_entitatid_fk_i; Type: INDEX; Schema: portafib; Owner: portafib; Tablespace: 
+--
+
+CREATE INDEX pfi_propietat_entitatid_fk_i ON pfi_propietatglobal USING btree (entitatid);
+
+
+--
+-- Name: pfi_propietatglobal_pk_i; Type: INDEX; Schema: portafib; Owner: portafib; Tablespace: 
+--
+
+CREATE INDEX pfi_propietatglobal_pk_i ON pfi_propietatglobal USING btree (propietatglobalid);
+
+
+--
 -- Name: pfi_rebreavis_pk_i; Type: INDEX; Schema: portafib; Owner: portafib; Tablespace: 
 --
 
@@ -2921,6 +2966,14 @@ ALTER TABLE ONLY pfi_plugin
 
 
 --
+-- Name: pfi_propietat_entitat_fk; Type: FK CONSTRAINT; Schema: portafib; Owner: portafib
+--
+
+ALTER TABLE ONLY pfi_propietatglobal
+    ADD CONSTRAINT pfi_propietat_entitat_fk FOREIGN KEY (entitatid) REFERENCES pfi_entitat(entitatid);
+
+
+--
 -- Name: pfi_rebreavis_tipnotific_fk; Type: FK CONSTRAINT; Schema: portafib; Owner: portafib
 --
 
@@ -3077,7 +3130,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-12-01 09:50:01
+-- Completed on 2015-12-01 13:30:49
 
 --
 -- PostgreSQL database dump complete
