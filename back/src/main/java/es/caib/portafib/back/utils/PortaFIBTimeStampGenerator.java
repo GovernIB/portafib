@@ -37,7 +37,8 @@ public class PortaFIBTimeStampGenerator implements ITimeStampGenerator {
     case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
       return null;
 
-    case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX:
+    case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
+    case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
       if (!userRequiresTimeStamp) {
         return null;
       }
@@ -72,7 +73,7 @@ public class PortaFIBTimeStampGenerator implements ITimeStampGenerator {
   @Override
   public byte[] getTimeStamp(byte[] data, Calendar cal) throws Exception {
 
-    log.info(" XYZ  ============  PortaFIBTimeStampGenerator::getTimeStamp ");
+    log.debug(" ============  PortaFIBTimeStampGenerator::getTimeStamp ");
     return timeStampPlugin.getTimeStampDirect(data, cal);
 
   }

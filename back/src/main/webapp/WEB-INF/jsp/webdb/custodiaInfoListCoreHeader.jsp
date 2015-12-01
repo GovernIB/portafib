@@ -15,17 +15,17 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAINFOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAINFOID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAPLUGINID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.NOMPLANTILLA)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIADOCUMENTID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.PLUGINID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.NOMPLANTILLA)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAR)}</th>

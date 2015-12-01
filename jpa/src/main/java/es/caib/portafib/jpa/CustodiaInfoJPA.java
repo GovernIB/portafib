@@ -34,20 +34,20 @@ private static final long serialVersionUID = 1603204493L;
 	@Column(name="custodiainfoid",nullable = false,length = 19)
 	long custodiaInfoID;
 
-  /** Identificador retornat pel sistema de custodia */
-	@Column(name="custodiapluginid",length = 255)
-	java.lang.String custodiaPluginID;
-
-  /** Classe del plugin que gestiona la custòdia, es per si en algun moment canviam el sistema de custòdia. */
-	@Column(name="custodiapluginclassid",nullable = false,length = 255)
-	java.lang.String custodiaPluginClassID;
-
-	@Column(name="custodiapluginparametres",length = 3000)
-	java.lang.String custodiaPluginParameters;
-
   /** Si val diferent de null indica que és una plantilla d'entitat o d'usuari-aplicacio o usuari-entitat */
 	@Column(name="nomplantilla",length = 255)
 	java.lang.String nomPlantilla;
+
+  /** Identificador retornat pel sistema de custodia */
+	@Column(name="custodiapluginid",length = 255)
+	java.lang.String custodiaDocumentID;
+
+	@Index(name="pfi_custodiainfo_pluginid_fk_i")
+	@Column(name="pluginid",nullable = false,length = 19)
+	long pluginID;
+
+	@Column(name="custodiapluginparametres",length = 3000)
+	java.lang.String custodiaPluginParameters;
 
   /** Permet de forma ràpida actiav o desactivar la custòdia mantenint la configuració intacta */
 	@Column(name="custodiar",nullable = false,length = 1)
@@ -66,12 +66,13 @@ private static final long serialVersionUID = 1603204493L;
 	@Column(name="pagines",nullable = false,length = 255)
 	java.lang.String pagines;
 
-  /** Missatge de custòdia a mostrar en el document: 
-   {0} = URL validacio
-   {1} = custodiaID
-   {2} = custodiaPluginClassID
-   {3} = data  amb hora
-   {4} = valor retornat pel Plugin de Custodia */
+  /** Properties amb <idioma>=<missatge>
+El missatge de custòdia a mostrar en el document pot contenir els següents elements variables: 
+   {0} = URL validació
+   {1} = Identificador del document en el Sistema de Custodia
+   {2} = Identificador del Plugin de Custodia
+   {3} = Data  amb hora
+   {4} = Valor retornat pel Plugin de Custodia */
 	@Column(name="missatge",nullable = false,length = 3000)
 	java.lang.String missatge;
 
@@ -132,12 +133,12 @@ private static final long serialVersionUID = 1603204493L;
   }
 
   /** Constructor amb tots els camps  */
-  public CustodiaInfoJPA(long custodiaInfoID , java.lang.String custodiaPluginID , java.lang.String custodiaPluginClassID , java.lang.String custodiaPluginParameters , java.lang.String nomPlantilla , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
+  public CustodiaInfoJPA(long custodiaInfoID , java.lang.String nomPlantilla , java.lang.String custodiaDocumentID , long pluginID , java.lang.String custodiaPluginParameters , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
     this.custodiaInfoID=custodiaInfoID;
-    this.custodiaPluginID=custodiaPluginID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
-    this.custodiaPluginParameters=custodiaPluginParameters;
     this.nomPlantilla=nomPlantilla;
+    this.custodiaDocumentID=custodiaDocumentID;
+    this.pluginID=pluginID;
+    this.custodiaPluginParameters=custodiaPluginParameters;
     this.custodiar=custodiar;
     this.urlFitxerCustodiat=urlFitxerCustodiat;
     this.pagines=pagines;
@@ -154,11 +155,11 @@ private static final long serialVersionUID = 1603204493L;
     this.editable=editable;
 }
   /** Constructor sense valors autoincrementals */
-  public CustodiaInfoJPA(java.lang.String custodiaPluginID , java.lang.String custodiaPluginClassID , java.lang.String custodiaPluginParameters , java.lang.String nomPlantilla , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
-    this.custodiaPluginID=custodiaPluginID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
-    this.custodiaPluginParameters=custodiaPluginParameters;
+  public CustodiaInfoJPA(java.lang.String nomPlantilla , java.lang.String custodiaDocumentID , long pluginID , java.lang.String custodiaPluginParameters , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
     this.nomPlantilla=nomPlantilla;
+    this.custodiaDocumentID=custodiaDocumentID;
+    this.pluginID=pluginID;
+    this.custodiaPluginParameters=custodiaPluginParameters;
     this.custodiar=custodiar;
     this.urlFitxerCustodiat=urlFitxerCustodiat;
     this.pagines=pagines;
@@ -175,9 +176,9 @@ private static final long serialVersionUID = 1603204493L;
     this.editable=editable;
 }
   /** Constructor dels valors Not Null */
-  public CustodiaInfoJPA(long custodiaInfoID , java.lang.String custodiaPluginClassID , boolean custodiar , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , boolean editable) {
+  public CustodiaInfoJPA(long custodiaInfoID , long pluginID , boolean custodiar , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , boolean editable) {
     this.custodiaInfoID=custodiaInfoID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
+    this.pluginID=pluginID;
     this.custodiar=custodiar;
     this.pagines=pagines;
     this.missatge=missatge;
@@ -189,10 +190,10 @@ private static final long serialVersionUID = 1603204493L;
 }
   public CustodiaInfoJPA(CustodiaInfo __bean) {
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    this.setCustodiaPluginID(__bean.getCustodiaPluginID());
-    this.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
-    this.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     this.setNomPlantilla(__bean.getNomPlantilla());
+    this.setCustodiaDocumentID(__bean.getCustodiaDocumentID());
+    this.setPluginID(__bean.getPluginID());
+    this.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     this.setCustodiar(__bean.isCustodiar());
     this.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
     this.setPagines(__bean.getPagines());
@@ -216,18 +217,25 @@ private static final long serialVersionUID = 1603204493L;
 		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
-	public java.lang.String getCustodiaPluginID() {
-		return(custodiaPluginID);
+	public java.lang.String getNomPlantilla() {
+		return(nomPlantilla);
 	};
-	public void setCustodiaPluginID(java.lang.String _custodiaPluginID_) {
-		this.custodiaPluginID = _custodiaPluginID_;
+	public void setNomPlantilla(java.lang.String _nomPlantilla_) {
+		this.nomPlantilla = _nomPlantilla_;
 	};
 
-	public java.lang.String getCustodiaPluginClassID() {
-		return(custodiaPluginClassID);
+	public java.lang.String getCustodiaDocumentID() {
+		return(custodiaDocumentID);
 	};
-	public void setCustodiaPluginClassID(java.lang.String _custodiaPluginClassID_) {
-		this.custodiaPluginClassID = _custodiaPluginClassID_;
+	public void setCustodiaDocumentID(java.lang.String _custodiaDocumentID_) {
+		this.custodiaDocumentID = _custodiaDocumentID_;
+	};
+
+	public long getPluginID() {
+		return(pluginID);
+	};
+	public void setPluginID(long _pluginID_) {
+		this.pluginID = _pluginID_;
 	};
 
 	public java.lang.String getCustodiaPluginParameters() {
@@ -235,13 +243,6 @@ private static final long serialVersionUID = 1603204493L;
 	};
 	public void setCustodiaPluginParameters(java.lang.String _custodiaPluginParameters_) {
 		this.custodiaPluginParameters = _custodiaPluginParameters_;
-	};
-
-	public java.lang.String getNomPlantilla() {
-		return(nomPlantilla);
-	};
-	public void setNomPlantilla(java.lang.String _nomPlantilla_) {
-		this.nomPlantilla = _nomPlantilla_;
 	};
 
 	public boolean isCustodiar() {
@@ -383,6 +384,21 @@ private static final long serialVersionUID = 1603204493L;
 	}
 
 
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_custodia_plugin_fk")
+	@JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+	private PluginJPA plugin;
+
+	public PluginJPA getPlugin() {
+    return this.plugin;
+  }
+
+	public  void setPlugin(PluginJPA plugin) {
+    this.plugin = plugin;
+  }
+
 // IMP Field:posiciopaginaid | Table: pfi_posiciopagina | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -479,10 +495,10 @@ private static final long serialVersionUID = 1603204493L;
     if (__bean == null) { return null;}
     CustodiaInfoJPA __tmp = new CustodiaInfoJPA();
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setCustodiaPluginID(__bean.getCustodiaPluginID());
-    __tmp.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
-    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     __tmp.setNomPlantilla(__bean.getNomPlantilla());
+    __tmp.setCustodiaDocumentID(__bean.getCustodiaDocumentID());
+    __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     __tmp.setCustodiar(__bean.isCustodiar());
     __tmp.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
     __tmp.setPagines(__bean.getPagines());
@@ -550,6 +566,10 @@ private static final long serialVersionUID = 1603204493L;
     if(!"PosicioPaginaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.missatgePosicioPagina) || org.hibernate.Hibernate.isInitialized(__jpa.getMissatgePosicioPagina()) ) ) {
       __tmp.setMissatgePosicioPagina(PosicioPaginaJPA.copyJPA(__jpa.getMissatgePosicioPagina(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
+      __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"CustodiaInfoJPA"));
     }
     if(!"CodiBarresJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {

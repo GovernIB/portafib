@@ -1,8 +1,11 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.utils.AbstractPluginProperties;
@@ -23,6 +26,8 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   private Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
 
   private Map<String, StatusSignature[]> statusSignatures = new HashMap<String, StatusSignature[]>();
+  
+  private long lastCheckFirmesCaducades = 0;
 
   /**
    * 
@@ -49,14 +54,19 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   
   @Override
   public void closeSignaturesSet(String id) {
-    infoSign.remove(id);
-    statusSignatures.remove(id);
+    synchronized (infoSign) {
+      infoSign.remove(id);
+    }
+    statusSignatures.remove(id);  
     System.gc();
   }
   
   @Override
   public StatusSignature[] getStatusSignatureSet(String signaturesSetID) {
-    StatusSignature[] statusSignatureArray = statusSignatures.get(signaturesSetID);
+    StatusSignature[] statusSignatureArray;
+    
+    statusSignatureArray = statusSignatures.get(signaturesSetID);
+    
     if (statusSignatureArray == null) {
       log.warn("No s'ha obtingut l'estat de SignaturesSet amb ID = " + signaturesSetID);
       return null;
@@ -86,7 +96,42 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
     
     // XYZ TODO Check si existeix algun proces de firma caducat s'ha d'esborrar
     
-    SignaturesSet ss = infoSign.get(signaturesSetID);
+    // Com a mínim cada minut es revisa si hi ha caducats
+    /*
+    Long now = System.currentTimeMillis();
+    
+    final long un_minut_en_ms =  60 * 60 * 1000;
+    
+    if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
+      lastCheckFirmesCaducades = now;
+      List<String> keysToDelete = new ArrayList<String>();
+      
+      Set<String> ids = infoSign.keySet();
+      for (String id : ids) {
+        SignaturesSet ss = infoSign.get(id);
+        if (now > ss.getExpiryDate().getTime()) {
+          keysToDelete.add(id);
+        }
+      }
+      
+      if (keysToDelete.size() == 0)
+      synchronized (infoSign) {
+        for (String idss : keysToDelete) {
+          log.error("Tancant Signature SET amb ID = " + idss + " a causa de que està caducat.");          
+          closeSignaturesSet(idss);
+          
+        }
+      }
+      
+      
+    }
+    */
+
+    
+    SignaturesSet ss;
+    synchronized (infoSign) {
+      ss = infoSign.get(signaturesSetID);
+    }
     if (ss == null) {
       log.warn("No existeix cap SignaturesSet amb ID = " + signaturesSetID);
     }
@@ -107,13 +152,18 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
     
     final String signatureSetID =   signaturesSet.getSignaturesSetID();
     
-    infoSign.put(signatureSetID, signaturesSet);
+    synchronized (infoSign) {
+      infoSign.put(signatureSetID, signaturesSet);
+    }
 
     StatusSignature[] status = new StatusSignature[signaturesSet.getFileInfoSignatureArray().length];
     for (int i = 0; i < status.length; i++) {
       status[i] = new StatusSignature();
     }
-    statusSignatures.put(signatureSetID, status);
+    
+    statusSignatures.put(signatureSetID, status);  
+    
+    
   }
 
 }

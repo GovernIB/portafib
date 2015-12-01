@@ -43,25 +43,47 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
   }
 
 
-  private java.lang.String custodiaPluginID;
+  private java.lang.String nomPlantilla;
 
-  public java.lang.String getCustodiaPluginID() {
-    return this.custodiaPluginID;
+  public java.lang.String getNomPlantilla() {
+    return this.nomPlantilla;
   }
 
-  public void setCustodiaPluginID(java.lang.String custodiaPluginID) {
-    this.custodiaPluginID = custodiaPluginID;
+  public void setNomPlantilla(java.lang.String nomPlantilla) {
+    this.nomPlantilla = nomPlantilla;
   }
 
 
-  private java.lang.String custodiaPluginClassID;
+  private java.lang.String custodiaDocumentID;
 
-  public java.lang.String getCustodiaPluginClassID() {
-    return this.custodiaPluginClassID;
+  public java.lang.String getCustodiaDocumentID() {
+    return this.custodiaDocumentID;
   }
 
-  public void setCustodiaPluginClassID(java.lang.String custodiaPluginClassID) {
-    this.custodiaPluginClassID = custodiaPluginClassID;
+  public void setCustodiaDocumentID(java.lang.String custodiaDocumentID) {
+    this.custodiaDocumentID = custodiaDocumentID;
+  }
+
+
+  private java.lang.Long pluginIDDesde;
+
+  public java.lang.Long getPluginIDDesde() {
+    return this.pluginIDDesde;
+  }
+
+  public void setPluginIDDesde(java.lang.Long pluginIDDesde) {
+    this.pluginIDDesde = pluginIDDesde;
+  }
+
+
+  private java.lang.Long pluginIDFins;
+
+  public java.lang.Long getPluginIDFins() {
+    return this.pluginIDFins;
+  }
+
+  public void setPluginIDFins(java.lang.Long pluginIDFins) {
+    this.pluginIDFins = pluginIDFins;
   }
 
 
@@ -73,17 +95,6 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
 
   public void setCustodiaPluginParameters(java.lang.String custodiaPluginParameters) {
     this.custodiaPluginParameters = custodiaPluginParameters;
-  }
-
-
-  private java.lang.String nomPlantilla;
-
-  public java.lang.String getNomPlantilla() {
-    return this.nomPlantilla;
-  }
-
-  public void setNomPlantilla(java.lang.String nomPlantilla) {
-    this.nomPlantilla = nomPlantilla;
   }
 
 
@@ -259,10 +270,11 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     super(__toClone);
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
-    this.custodiaPluginID = __toClone.custodiaPluginID;
-    this.custodiaPluginClassID = __toClone.custodiaPluginClassID;
-    this.custodiaPluginParameters = __toClone.custodiaPluginParameters;
     this.nomPlantilla = __toClone.nomPlantilla;
+    this.custodiaDocumentID = __toClone.custodiaDocumentID;
+    this.pluginIDDesde = __toClone.pluginIDDesde;
+    this.pluginIDFins = __toClone.pluginIDFins;
+    this.custodiaPluginParameters = __toClone.custodiaPluginParameters;
     this.urlFitxerCustodiat = __toClone.urlFitxerCustodiat;
     this.pagines = __toClone.pagines;
     this.missatge = __toClone.missatge;
@@ -278,6 +290,7 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     this.titolPeticio = __toClone.titolPeticio;
     this.dataCustodiaDesde = __toClone.dataCustodiaDesde;
     this.dataCustodiaFins = __toClone.dataCustodiaFins;
+    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
     this.mapOfPosicioPaginaForMissatgePosicioPaginaID = __toClone.mapOfPosicioPaginaForMissatgePosicioPaginaID;
     this.mapOfCodiBarresForCodiBarresID = __toClone.mapOfCodiBarresForCodiBarresID;
     this.mapOfPosicioPaginaForCodiBarresPosicioPaginaID = __toClone.mapOfPosicioPaginaForCodiBarresPosicioPaginaID;
@@ -290,12 +303,12 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { NOMPLANTILLA ,TITOLPETICIO ,DATACUSTODIA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { NOMPLANTILLA ,CUSTODIADOCUMENTID ,TITOLPETICIO ,DATACUSTODIA }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { CUSTODIAPLUGINCLASSID ,CUSTODIAR ,MISSATGEPOSICIOPAGINAID ,CODIBARRESID ,CODIBARRESPOSICIOPAGINAID ,USUARIENTITATID ,USUARIAPLICACIOID ,ENTITATID ,DATACUSTODIA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { PLUGINID ,CUSTODIAR ,MISSATGEPOSICIOPAGINAID ,CODIBARRESID ,CODIBARRESPOSICIOPAGINAID ,USUARIENTITATID ,USUARIAPLICACIOID ,ENTITATID ,DATACUSTODIA }));
   }
 
 
@@ -318,6 +331,18 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
    // -----------------------
    // Maps de referencies.
    // -----------------------
+  private Map<String, String> mapOfPluginForPluginID;
+
+  public Map<String, String> getMapOfPluginForPluginID() {
+    return this.mapOfPluginForPluginID;
+  }
+
+  public void setMapOfPluginForPluginID(Map<String, String> mapOfPluginForPluginID) {
+    this.mapOfPluginForPluginID = mapOfPluginForPluginID;
+  }
+
+
+
   private Map<String, String> mapOfPosicioPaginaForMissatgePosicioPaginaID;
 
   public Map<String, String> getMapOfPosicioPaginaForMissatgePosicioPaginaID() {

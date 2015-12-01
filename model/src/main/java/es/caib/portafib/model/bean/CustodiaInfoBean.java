@@ -11,10 +11,10 @@ public class CustodiaInfoBean implements CustodiaInfo {
 private static final long serialVersionUID = -1840485314L;
 
 	long custodiaInfoID;// PK
-	java.lang.String custodiaPluginID;
-	java.lang.String custodiaPluginClassID;
-	java.lang.String custodiaPluginParameters;
 	java.lang.String nomPlantilla;
+	java.lang.String custodiaDocumentID;
+	long pluginID;
+	java.lang.String custodiaPluginParameters;
 	boolean custodiar;
 	java.lang.String urlFitxerCustodiat;
 	java.lang.String pagines;
@@ -36,12 +36,12 @@ private static final long serialVersionUID = -1840485314L;
   }
 
   /** Constructor amb tots els camps  */
-  public CustodiaInfoBean(long custodiaInfoID , java.lang.String custodiaPluginID , java.lang.String custodiaPluginClassID , java.lang.String custodiaPluginParameters , java.lang.String nomPlantilla , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
+  public CustodiaInfoBean(long custodiaInfoID , java.lang.String nomPlantilla , java.lang.String custodiaDocumentID , long pluginID , java.lang.String custodiaPluginParameters , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
     this.custodiaInfoID=custodiaInfoID;
-    this.custodiaPluginID=custodiaPluginID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
-    this.custodiaPluginParameters=custodiaPluginParameters;
     this.nomPlantilla=nomPlantilla;
+    this.custodiaDocumentID=custodiaDocumentID;
+    this.pluginID=pluginID;
+    this.custodiaPluginParameters=custodiaPluginParameters;
     this.custodiar=custodiar;
     this.urlFitxerCustodiat=urlFitxerCustodiat;
     this.pagines=pagines;
@@ -58,11 +58,11 @@ private static final long serialVersionUID = -1840485314L;
     this.editable=editable;
 }
   /** Constructor sense valors autoincrementals */
-  public CustodiaInfoBean(java.lang.String custodiaPluginID , java.lang.String custodiaPluginClassID , java.lang.String custodiaPluginParameters , java.lang.String nomPlantilla , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
-    this.custodiaPluginID=custodiaPluginID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
-    this.custodiaPluginParameters=custodiaPluginParameters;
+  public CustodiaInfoBean(java.lang.String nomPlantilla , java.lang.String custodiaDocumentID , long pluginID , java.lang.String custodiaPluginParameters , boolean custodiar , java.lang.String urlFitxerCustodiat , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String titolPeticio , java.sql.Timestamp dataCustodia , boolean editable) {
     this.nomPlantilla=nomPlantilla;
+    this.custodiaDocumentID=custodiaDocumentID;
+    this.pluginID=pluginID;
+    this.custodiaPluginParameters=custodiaPluginParameters;
     this.custodiar=custodiar;
     this.urlFitxerCustodiat=urlFitxerCustodiat;
     this.pagines=pagines;
@@ -79,9 +79,9 @@ private static final long serialVersionUID = -1840485314L;
     this.editable=editable;
 }
   /** Constructor dels valors Not Null */
-  public CustodiaInfoBean(long custodiaInfoID , java.lang.String custodiaPluginClassID , boolean custodiar , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , boolean editable) {
+  public CustodiaInfoBean(long custodiaInfoID , long pluginID , boolean custodiar , java.lang.String pagines , java.lang.String missatge , long missatgePosicioPaginaID , java.lang.String codiBarresID , long codiBarresPosicioPaginaID , java.lang.String codiBarresText , boolean editable) {
     this.custodiaInfoID=custodiaInfoID;
-    this.custodiaPluginClassID=custodiaPluginClassID;
+    this.pluginID=pluginID;
     this.custodiar=custodiar;
     this.pagines=pagines;
     this.missatge=missatge;
@@ -93,10 +93,10 @@ private static final long serialVersionUID = -1840485314L;
 }
   public CustodiaInfoBean(CustodiaInfo __bean) {
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    this.setCustodiaPluginID(__bean.getCustodiaPluginID());
-    this.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
-    this.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     this.setNomPlantilla(__bean.getNomPlantilla());
+    this.setCustodiaDocumentID(__bean.getCustodiaDocumentID());
+    this.setPluginID(__bean.getPluginID());
+    this.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     this.setCustodiar(__bean.isCustodiar());
     this.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
     this.setPagines(__bean.getPagines());
@@ -120,18 +120,25 @@ private static final long serialVersionUID = -1840485314L;
 		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
-	public java.lang.String getCustodiaPluginID() {
-		return(custodiaPluginID);
+	public java.lang.String getNomPlantilla() {
+		return(nomPlantilla);
 	};
-	public void setCustodiaPluginID(java.lang.String _custodiaPluginID_) {
-		this.custodiaPluginID = _custodiaPluginID_;
+	public void setNomPlantilla(java.lang.String _nomPlantilla_) {
+		this.nomPlantilla = _nomPlantilla_;
 	};
 
-	public java.lang.String getCustodiaPluginClassID() {
-		return(custodiaPluginClassID);
+	public java.lang.String getCustodiaDocumentID() {
+		return(custodiaDocumentID);
 	};
-	public void setCustodiaPluginClassID(java.lang.String _custodiaPluginClassID_) {
-		this.custodiaPluginClassID = _custodiaPluginClassID_;
+	public void setCustodiaDocumentID(java.lang.String _custodiaDocumentID_) {
+		this.custodiaDocumentID = _custodiaDocumentID_;
+	};
+
+	public long getPluginID() {
+		return(pluginID);
+	};
+	public void setPluginID(long _pluginID_) {
+		this.pluginID = _pluginID_;
 	};
 
 	public java.lang.String getCustodiaPluginParameters() {
@@ -139,13 +146,6 @@ private static final long serialVersionUID = -1840485314L;
 	};
 	public void setCustodiaPluginParameters(java.lang.String _custodiaPluginParameters_) {
 		this.custodiaPluginParameters = _custodiaPluginParameters_;
-	};
-
-	public java.lang.String getNomPlantilla() {
-		return(nomPlantilla);
-	};
-	public void setNomPlantilla(java.lang.String _nomPlantilla_) {
-		this.nomPlantilla = _nomPlantilla_;
 	};
 
 	public boolean isCustodiar() {
@@ -254,10 +254,10 @@ private static final long serialVersionUID = -1840485314L;
     if (__bean == null) { return null;}
     CustodiaInfoBean __tmp = new CustodiaInfoBean();
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setCustodiaPluginID(__bean.getCustodiaPluginID());
-    __tmp.setCustodiaPluginClassID(__bean.getCustodiaPluginClassID());
-    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     __tmp.setNomPlantilla(__bean.getNomPlantilla());
+    __tmp.setCustodiaDocumentID(__bean.getCustodiaDocumentID());
+    __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setCustodiaPluginParameters(__bean.getCustodiaPluginParameters());
     __tmp.setCustodiar(__bean.isCustodiar());
     __tmp.setUrlFitxerCustodiat(__bean.getUrlFitxerCustodiat());
     __tmp.setPagines(__bean.getPagines());

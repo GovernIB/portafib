@@ -6,6 +6,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.PosicioPaginaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -33,14 +34,15 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
     ,es.caib.portafib.model.dao.ICodiBarresManager __codiBarresManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
+    ,es.caib.portafib.model.dao.IPluginManager __pluginManager
     ,es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
     // Valors Not Null
-    __vr.rejectIfEmptyOrWhitespace(__target__,CUSTODIAPLUGINCLASSID, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,PLUGINID, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CUSTODIAPLUGINCLASSID)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PLUGINID)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,CUSTODIAR, 
         "genapp.validation.required",
@@ -75,19 +77,19 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(EDITABLE)));
 
     // Check size
-    if (__vr.getFieldErrorCount(CUSTODIAPLUGINID) == 0) {
-      java.lang.String __custodiapluginid = (java.lang.String)__vr.getFieldValue(__target__,CUSTODIAPLUGINID);
-      if (__custodiapluginid!= null && __custodiapluginid.length() > 255) {
-        __vr.rejectValue(CUSTODIAPLUGINID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CUSTODIAPLUGINID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+    if (__vr.getFieldErrorCount(NOMPLANTILLA) == 0) {
+      java.lang.String __nomplantilla = (java.lang.String)__vr.getFieldValue(__target__,NOMPLANTILLA);
+      if (__nomplantilla!= null && __nomplantilla.length() > 255) {
+        __vr.rejectValue(NOMPLANTILLA, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOMPLANTILLA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     
-    if (__vr.getFieldErrorCount(CUSTODIAPLUGINCLASSID) == 0) {
-      java.lang.String __custodiapluginclassid = (java.lang.String)__vr.getFieldValue(__target__,CUSTODIAPLUGINCLASSID);
-      if (__custodiapluginclassid!= null && __custodiapluginclassid.length() > 255) {
-        __vr.rejectValue(CUSTODIAPLUGINCLASSID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CUSTODIAPLUGINCLASSID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+    if (__vr.getFieldErrorCount(CUSTODIADOCUMENTID) == 0) {
+      java.lang.String __custodiadocumentid = (java.lang.String)__vr.getFieldValue(__target__,CUSTODIADOCUMENTID);
+      if (__custodiadocumentid!= null && __custodiadocumentid.length() > 255) {
+        __vr.rejectValue(CUSTODIADOCUMENTID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CUSTODIADOCUMENTID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     
@@ -96,14 +98,6 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
       if (__custodiapluginparameters!= null && __custodiapluginparameters.length() > 3000) {
         __vr.rejectValue(CUSTODIAPLUGINPARAMETERS, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CUSTODIAPLUGINPARAMETERS)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(3000)));
-      }
-    }
-    
-    if (__vr.getFieldErrorCount(NOMPLANTILLA) == 0) {
-      java.lang.String __nomplantilla = (java.lang.String)__vr.getFieldValue(__target__,NOMPLANTILLA);
-      if (__nomplantilla!= null && __nomplantilla.length() > 255) {
-        __vr.rejectValue(NOMPLANTILLA, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOMPLANTILLA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     
@@ -195,6 +189,18 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
     }
 
     // Fields with References to Other tables 
+    if (__vr.getFieldErrorCount(PLUGINID) == 0) {
+      java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
+      Long __count_ = null;
+      try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+      if (__count_ == null || __count_ == 0) {        
+        __vr.rejectValue(PLUGINID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)));
+      }
+    }
+
     if (__vr.getFieldErrorCount(MISSATGEPOSICIOPAGINAID) == 0) {
       java.lang.Long __missatgeposiciopaginaid = (java.lang.Long)__vr.getFieldValue(__target__,MISSATGEPOSICIOPAGINAID);
       Long __count_ = null;

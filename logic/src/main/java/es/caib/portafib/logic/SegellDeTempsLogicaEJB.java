@@ -22,4 +22,9 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
     return Constants.TIPUS_PLUGIN_SEGELLDETEMPS;
   }
 
+  @Override
+  protected String getName() {
+    return "Segell de Temps";
+  }
+
 }

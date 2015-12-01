@@ -61,6 +61,10 @@ public class CustodiaInfoController
 
   // References 
   @Autowired
+  protected PluginRefList pluginRefList;
+
+  // References 
+  @Autowired
   protected PosicioPaginaRefList posicioPaginaRefList;
 
   // References 
@@ -199,6 +203,16 @@ public class CustodiaInfoController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
+    // Field pluginID
+    {
+      _listSKV = getReferenceListForPluginID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfPluginForPluginID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINID, false);
+      };
+    }
+
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CUSTODIAR);
 
@@ -280,6 +294,7 @@ public class CustodiaInfoController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
+    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
     __mapping.put(MISSATGEPOSICIOPAGINAID, filterForm.getMapOfPosicioPaginaForMissatgePosicioPaginaID());
     __mapping.put(CODIBARRESID, filterForm.getMapOfCodiBarresForCodiBarresID());
     __mapping.put(CODIBARRESPOSICIOPAGINAID, filterForm.getMapOfPosicioPaginaForCodiBarresPosicioPaginaID());
@@ -333,6 +348,13 @@ public class CustodiaInfoController
 
   public void fillReferencesForForm(CustodiaInfoForm custodiaInfoForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
+    // Comprovam si ja esta definida la llista
+    if (custodiaInfoForm.getListOfPluginForPluginID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, custodiaInfoForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      custodiaInfoForm.setListOfPluginForPluginID(_listSKV);
+    }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfPosicioPaginaForMissatgePosicioPaginaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForMissatgePosicioPaginaID(request, mav, custodiaInfoForm, null);
@@ -673,6 +695,46 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, CustodiaInfoForm custodiaInfoForm, Where where)  throws I18NException {
+    if (custodiaInfoForm.isHiddenField(PLUGINID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    final String _fieldName =  custodiaInfoForm.getStringOfField(PLUGINID);
+    Where _where = null;
+    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+      _where = PluginFields.PLUGINID.equal(custodiaInfoForm.getCustodiaInfo().getPluginID());
+    }
+    return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, CustodiaInfoFilterForm custodiaInfoFilterForm,
+       List<CustodiaInfo> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (custodiaInfoFilterForm.isHiddenField(PLUGINID)
+      && !custodiaInfoFilterForm.isGroupByField(PLUGINID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(PLUGINID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (CustodiaInfo _item : list) {
+        _pkList.add(_item.getPluginID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
   }
 
 

@@ -39,10 +39,6 @@ public class Configuracio implements Constants {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "name", "PortaFIB");
   }
 
-  public static String getAppletSignerClass() {
-    return System.getProperty(PORTAFIB_PROPERTY_BASE +  "applet.signerClass");
-  }
-
   public static String getDefaultLanguage() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultlanguage", "ca");
   }
@@ -166,14 +162,6 @@ public class Configuracio implements Constants {
         System.getProperty(PORTAFIB_PROPERTY_BASE + "mincharstostartautocomplete", "2"));
   }
   
-  /**
-   * @param entitatID
-   * @param lang
-   * @return
-   */
-  public static String getDefaultCustodyMessage(String entitatID, String lang) {
-    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultcustodymessage."+ entitatID + "." + lang);
-  }
   
   
   /**

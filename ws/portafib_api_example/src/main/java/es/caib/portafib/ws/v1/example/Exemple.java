@@ -110,17 +110,19 @@ public class Exemple {
          + ((System.currentTimeMillis() / 1000 ) % 100000);
       final String remitent = "Helium";
 
-      // Existeix sistema de custodia
+      // Existeix sistema de custodia ??
       CustodiaInfoBean custodiaInfoBean = null;
-      String pluginClassID = api.getCurrentCustodiaPluginClass();
-      if (pluginClassID == null) {
+      // Si language és un string buit s'assigna l'idioma del usuariApp
+      final String lang = "";
+      custodiaInfoBean = api.getDefaultCustodiaInfo(titol, lang);
+      
+      if (custodiaInfoBean == null) {
         log.info("Avis: No hi ha sistema de custodia definit"
             + " o l´usuari aplicació " + usr_app + " no pot custodiar");
       } else {
-        // Obtenir sistema de custodia
-        // Si language és un string buit s'assigna l'idioma del usuariApp
-        final String lang = "";
-        custodiaInfoBean = api.getDefaultCustodiaInfo(titol, lang);
+        if (!custodiaInfoBean.isEditable()) {
+          log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
+        }
       }
 
       // Annexes

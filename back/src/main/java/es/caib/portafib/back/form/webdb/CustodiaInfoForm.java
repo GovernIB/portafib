@@ -19,6 +19,7 @@ public class CustodiaInfoForm extends PortaFIBBaseForm {
   public CustodiaInfoForm(CustodiaInfoForm __toClone) {
     super(__toClone);
       this.custodiaInfo = __toClone.custodiaInfo;
+    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
     this.listOfPosicioPaginaForMissatgePosicioPaginaID = __toClone.listOfPosicioPaginaForMissatgePosicioPaginaID;
     this.listOfCodiBarresForCodiBarresID = __toClone.listOfCodiBarresForCodiBarresID;
     this.listOfPosicioPaginaForCodiBarresPosicioPaginaID = __toClone.listOfPosicioPaginaForCodiBarresPosicioPaginaID;
@@ -40,6 +41,18 @@ public class CustodiaInfoForm extends PortaFIBBaseForm {
   }
   
   
+  private List<StringKeyValue> listOfPluginForPluginID;
+
+  public List<StringKeyValue> getListOfPluginForPluginID() {
+    return this.listOfPluginForPluginID;
+  }
+
+  public void setListOfPluginForPluginID(List<StringKeyValue> listOfPluginForPluginID) {
+    this.listOfPluginForPluginID = listOfPluginForPluginID;
+  }
+
+
+
   private List<StringKeyValue> listOfPosicioPaginaForMissatgePosicioPaginaID;
 
   public List<StringKeyValue> getListOfPosicioPaginaForMissatgePosicioPaginaID() {

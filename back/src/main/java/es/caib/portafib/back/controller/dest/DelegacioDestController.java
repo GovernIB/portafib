@@ -1094,12 +1094,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     
     // Per les delegacions si es posible empram TimeStamp
-    final boolean userRequiresTimeStamp = true;
     EntitatJPA entitat = loginInfo.getEntitat();
-    ITimeStampGenerator timeStampGenerator;
-    timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, entitat,userRequiresTimeStamp);
+    boolean userRequiresTimeStamp;
+    if (entitat.getSegellDeTempsViaWeb() == Constants.SEGELLDETEMPSVIAWEB_NOUSAR) {
+      userRequiresTimeStamp = false;
+    } else {
+      userRequiresTimeStamp = true;
+    }
 
-    
+    ITimeStampGenerator timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(
+        segellDeTempsEjb, entitat,userRequiresTimeStamp);
+
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         dstPDF, idname, (int)location_sign_table, reason, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
@@ -1117,9 +1122,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       // XYZ S'ha de simplificar en una sola URL
       final String urlOK = absoluteControllerBase + "/finalOK/{0}/" + signaturesSetID;
       final String urlError = absoluteControllerBase + "/finalError/{0}/" + signaturesSetID;
-
-
-
       
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 

@@ -3,6 +3,8 @@
 PortaFIB 1.1.0
 ==============
 
+2015-12-01 Gestió de Plugins de Custòdia(ADMIN) i Plantilles de Custòdia(ADEN)
+
 2015-11-25 Gestió de Plugins de Segellat de Temps i Segellat de Temps en els Mòduls de Firma
 
 2015-11-19 Gestió de Moduls de Firma
@@ -18,6 +20,8 @@ PortaFIB 1.1.0
 	                  (3.5) Comprovar NIF després de firmar
                       (3.6) Plantilla de Custòdia per defecte
                  (4) Taula de Plugins
-                 (5) Taula rebreavis afegir boolea per agrupar                
+                 (5) Taula rebreavis afegir boolea per agrupar
+
 2015-11-12 Gestió web dels Mòdul de Firma 
+
 2015-11-10 Moduls de Firma com a Sistema de Firma

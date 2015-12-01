@@ -21,7 +21,6 @@ import javax.xml.ws.WebServiceContext;
 
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
-import org.fundaciobit.plugins.documentcustody.IDocumentCustodyPlugin;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -41,7 +40,6 @@ import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FirmaBean;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -105,21 +103,34 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
 
-  
+  /** XYZ 
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })
   @WebMethod
-  public String getCurrentCustodiaPluginClass() throws WsI18NException, Throwable {
-    if (!LogicUtils.checkPotCustodiar(UsuariAplicacioCache.get())) {
+  @Override
+  public String getCurrentCustodiaPluginID() throws WsI18NException, Throwable {
+    
+    UsuariAplicacioJPA app =  UsuariAplicacioCache.get();
+    
+    if (!LogicUtils.checkPotCustodiar(app)) {
       return null;
     }
+    
+    EntitatJPA entitat = app.getEntitat();
+    return entitat.getPluginID(); // Pot valer null si hem definit el plugin de Custòdia
+    
+    ***
+    
     IDocumentCustodyPlugin plugin = PortaFIBPluginsManager.getDocumentCustodyPluginInstance();
     if (plugin == null) {
       return null;
     } else {
       return plugin.getClass().getName();
     }
-    
+   
+    return null;
   }
+  */
+  
   
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })
   @WebMethod
@@ -396,7 +407,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       peticioDeFirmaJPA.setUsuariAplicacioID(userapp);
 
       peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
-      
+
       System.gc();
 
       return PeticioDeFirmaWs.toWs(peticioDeFirmaJPA);

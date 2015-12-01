@@ -5,17 +5,17 @@ public interface CustodiaInfo extends org.fundaciobit.genapp.common.IGenAppEntit
 	public long getCustodiaInfoID();
 	public void setCustodiaInfoID(long _custodiaInfoID_);
 
-	public java.lang.String getCustodiaPluginID();
-	public void setCustodiaPluginID(java.lang.String _custodiaPluginID_);
+	public java.lang.String getNomPlantilla();
+	public void setNomPlantilla(java.lang.String _nomPlantilla_);
 
-	public java.lang.String getCustodiaPluginClassID();
-	public void setCustodiaPluginClassID(java.lang.String _custodiaPluginClassID_);
+	public java.lang.String getCustodiaDocumentID();
+	public void setCustodiaDocumentID(java.lang.String _custodiaDocumentID_);
+
+	public long getPluginID();
+	public void setPluginID(long _pluginID_);
 
 	public java.lang.String getCustodiaPluginParameters();
 	public void setCustodiaPluginParameters(java.lang.String _custodiaPluginParameters_);
-
-	public java.lang.String getNomPlantilla();
-	public void setNomPlantilla(java.lang.String _nomPlantilla_);
 
 	public boolean isCustodiar();
 	public void setCustodiar(boolean _custodiar_);

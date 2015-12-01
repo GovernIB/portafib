@@ -101,6 +101,62 @@ es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.path=D:/dades/
 es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=123456789', NULL, NULL, 1, 1);
 
 
+-- ========================================
+-- 2015/12/01 Plugin de Custòdia Documental
+-- ========================================
+
+
+INSERT INTO pfi_traduccio(traduccioid) VALUES (106);
+INSERT INTO pfi_traduccio(traduccioid) VALUES (166);
+INSERT INTO pfi_traduccio(traduccioid) VALUES (107);
+INSERT INTO pfi_traduccio(traduccioid) VALUES (177);
+
+
+INSERT INTO pfi_traducciomap VALUES (106, 'ca', 'Plugin de Custòdia de FileSystem');
+INSERT INTO pfi_traducciomap VALUES (106, 'es', 'Plugin de Custodia de FileSystem');
+INSERT INTO pfi_traducciomap VALUES (166, 'ca', 'Plugin de Custòdia de FileSystem');
+INSERT INTO pfi_traducciomap VALUES (166, 'es', 'Plugin de Custodia de FileSystem');
+
+
+INSERT INTO pfi_traducciomap VALUES (107, 'ca', 'Plugin de Custòdia per Alfresco');
+INSERT INTO pfi_traducciomap VALUES (107, 'es', 'Plugin de Custodia para Alfresco');
+INSERT INTO pfi_traducciomap VALUES (177, 'ca', 'Plugin de Custòdia per Alfresco');
+INSERT INTO pfi_traducciomap VALUES (177, 'es', 'Plugin de Custodia para Alfresco');
+
+
+INSERT INTO pfi_plugin VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
+es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
+# {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
+#es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
+es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?hash={2}
+
+es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
+
+#  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
+es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5', NULL, NULL, 1, 2);
+INSERT INTO pfi_plugin VALUES (7, 107, 177, 'org.fundaciobit.plugins.documentcustody.alfresco.base.AlfrescoBaseDocumentCustodyPlugin', '# WS or ATOM
+es.caib.portafib.plugins.documentcustody.alfresco.access.method=ATOM
+ 
+# Depends of Method and Alfresco version (alfresco 5)
+es.caib.portafib.plugins.documentcustody.alfresco.url=http://localhost:9080/alfresco/api/-default-/public/cmis/versions/1.0/atom
+
+es.caib.portafib.plugins.documentcustody.alfresco.access.user=anadal
+es.caib.portafib.plugins.documentcustody.alfresco.access.pass=anadal
+      
+es.caib.portafib.plugins.documentcustody.alfresco.basepath=/test
+ 
+# Only for WS
+# es.caib.portafib.plugins.documentcustody.alfresco.repository=b886bad2-998d-4674-a120-1fcc2f1f533c
+
+# Only for ATOM: Elegir una de les dues
+es.caib.portafib.plugins.documentcustody.alfresco.site=ODES
+#es.caib.portafib.plugins.documentcustody.alfresco.fullsitepath=/Sites/ODES/documentLibrary', NULL, NULL, 0, 2);
+
+
+ALTER TABLE pfi_custodiainfo ADD COLUMN pluginid bigint NOT NULL DEFAULT 6;
+create index pfi_custodiainfo_pluginid_fk_i on pfi_custodiainfo (pluginid);
+ALTER TABLE pfi_custodiainfo ADD CONSTRAINT pfi_custodia_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin (pluginid);
+ALTER TABLE pfi_custodiainfo DROP COLUMN custodiapluginclassid;
 
 
 

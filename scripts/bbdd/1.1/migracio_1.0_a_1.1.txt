@@ -1,0 +1,16 @@
+
+(1) S'han de donar d'alta Mòduls de Firma en l'Administrador d'Entitat (El modul de firma de servidor es de proves però totalment funcional)
+       
+(2) Custòdia
+   (2.a) No hi ha d'haver cap peticio en marxa amb custòdia
+   (2.b) S'ha de crear un plugin de custòdia (copiar dades de portafib-properties-service.xml)(ADMIN)
+   (2.c) S'ha de crear una plantilla de custòdia a gust de l'entitat (ADEN)
+   (2.d) Modificar l'entitat per assignar-li la plantilla de custòdia corresponent.
+   (2.e) Eliminar les propietats "es.caib.portafib.defaultcustodymessage.{entitat_id}.{idioma}" del fitxer portafib-properties-service.xml
+   (2.f) Eliminar les propietats de plugin de custòdia del fitxer portafib-properties-service.xml (entrades es.caib.portafib.documentcustodyplugin.* i es.caib.portafib.plugins.documentcustody.*)
+
+(3) 
+
+
+(????) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuracio
+

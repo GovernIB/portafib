@@ -213,7 +213,28 @@
                     <artifactId>plugin-documentcustody-filesystem</artifactId>
 				    <version>${plugins.version}</version>
 				</dependency>
-
+                <!-- XYZ Moure a un ear de plugins
+                <dependency>
+                    <groupId>org.fundaciobit.plugins</groupId>
+                    <artifactId>plugin-documentcustody-alfresco</artifactId>
+                    <version>${plugins.version}</version>
+                    <exclusions>
+						<exclusion>
+						  <groupId>org.slf4j</groupId>
+			              <artifactId>slf4j-api</artifactId>
+						</exclusion>
+                        <exclusion>
+						  <groupId>javax.xml.stream</groupId>
+			              <artifactId>stax-api</artifactId>
+						</exclusion>
+                        <exclusion>
+						  <groupId>xpp3</groupId>
+			              <artifactId>xpp3</artifactId>
+						</exclusion>
+					 </exclusions> 
+                </dependency>
+                -->
+                
 				<!--
 				<dependency>
                     <groupId>org.fundaciobit.plugins</groupId>

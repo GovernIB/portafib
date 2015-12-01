@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.back.controller.webdb.EntitatController;
+import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -19,11 +20,15 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,6 +55,7 @@ public class GestioEntitatController extends EntitatController implements Consta
 
   @EJB(mappedName = "portafib/EntitatLogicaEJB/local")
   protected EntitatLogicaLocal entitatLogicaEjb;
+  
 
   @Override
   public String getTileForm() {
@@ -64,7 +71,18 @@ public class GestioEntitatController extends EntitatController implements Consta
   public String getSessionAttributeFilterForm() {
     return "EntitatWebDB_FilterForm_Admin";
   }
+ 
+  
+  @PostConstruct
+  public void init() {
 
+    CustodiaInfoRefList custRefList = new CustodiaInfoRefList(this.custodiaInfoRefList);
+
+    custRefList.setSelects(new Select<?>[] { CustodiaInfoFields.NOMPLANTILLA.select });
+    custRefList.setOrderBy(new OrderBy[] { new OrderBy(CustodiaInfoFields.NOMPLANTILLA)} );
+
+    this.custodiaInfoRefList = custRefList;    
+  }
   
 
   @Override
@@ -262,10 +280,19 @@ public class GestioEntitatController extends EntitatController implements Consta
    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
    __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_NOUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_NOUSAR)));
    __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_SEMPREUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_SEMPREUSAR)));
-   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX)));
+   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI)));
+   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO)));
    return __tmp;
  }
   
+  @Override
+  public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)
+      throws Exception,I18NException, I18NValidationException {
+    EntitatJPA e = (EntitatJPA) super.update(request, entitat);
+    // TODO Traduir XYZ
+    HtmlUtils.saveMessageError(request, "Requereix que tanqui el navegador per a que els canvis tinguin efecte");
+      return e;
+    }
   
 
 }

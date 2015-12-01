@@ -2,10 +2,12 @@ package es.caib.portafib.back.controller;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -19,6 +21,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.utils.Constants;
 
 /**
  * 
@@ -59,9 +62,9 @@ public abstract class AbstractPluginAdminController extends PluginController {
   @Override
   public PluginFilterForm getPluginFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
-      PluginFilterForm modulDeFirmaFilterForm;
-      modulDeFirmaFilterForm = super.getPluginFilterForm(pagina, mav, request);
-      if(modulDeFirmaFilterForm.isNou()) {
+      PluginFilterForm pluginFilterForm;
+      pluginFilterForm = super.getPluginFilterForm(pagina, mav, request);
+      if(pluginFilterForm.isNou()) {
         
          Field<?>[] fields = ALL_PLUGIN_FIELDS;
          
@@ -74,28 +77,28 @@ public abstract class AbstractPluginAdminController extends PluginController {
            campsOcults.remove(ENTITATID);
          }
          
-         modulDeFirmaFilterForm.getHiddenFields().addAll(campsOcults);
+         pluginFilterForm.getHiddenFields().addAll(campsOcults);
       }
-      return modulDeFirmaFilterForm;
+      return pluginFilterForm;
   }
   
   
   @Override
   public PluginForm getPluginForm(PluginJPA _jpa,
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
-     PluginForm modulDeFirmaForm = super.getPluginForm(_jpa, __isView, request, mav);
-     if(modulDeFirmaForm.isNou()) {
-       modulDeFirmaForm.getPlugin().setActiu(true);
-       modulDeFirmaForm.getPlugin().setTipus(getTipusDePlugin());
+     PluginForm pluginForm = super.getPluginForm(_jpa, __isView, request, mav);
+     if(pluginForm.isNou()) {
+       pluginForm.getPlugin().setActiu(true);
+       pluginForm.getPlugin().setTipus(getTipusDePlugin());
      }
      
      if (!isAdmin()) {
-       modulDeFirmaForm.addHiddenField(ENTITATID);
+       pluginForm.addHiddenField(ENTITATID);
      }
      
-     modulDeFirmaForm.addHiddenField(TIPUS);
+     pluginForm.addHiddenField(TIPUS);
    
-     return modulDeFirmaForm;
+     return pluginForm;
    }
 
 
@@ -122,6 +125,16 @@ public abstract class AbstractPluginAdminController extends PluginController {
   public void delete(HttpServletRequest request, Plugin plugin) throws Exception,I18NException {
     pluginLogicaEjb.delete(plugin);
   }
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA , "PLUGIN MODUL DE FIRMA"));
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
+   return __tmp;
+ }
 
   
 }

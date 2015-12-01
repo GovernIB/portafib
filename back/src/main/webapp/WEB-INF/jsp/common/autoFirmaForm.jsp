@@ -75,18 +75,14 @@
          <tr>
             <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
             <td> 
-
-                <c:set var="segell" value="${loginInfo.entitat.segellDeTempsViaWeb }"/>
                 <c:choose>
-                    <c:when test="${segell ==  Constants.SEGELLDETEMPSVIAWEB_NOUSAR}">
-                       <fmt:message key="genapp.checkbox.false" />
+                    <c:when test="${autoFirmaForm.segellDeTempsReadOnly}">
+                       <fmt:message key="genapp.checkbox.${autoFirmaForm.segellDeTemps}" />
+                       <form:hidden path="segellDeTemps" />
                     </c:when>
-                    <c:when test="${segell ==  SEGELLDETEMPSVIAWEB_SEMPREUSAR}">
-                       <fmt:message key="genapp.checkbox.true" />
+                    <c:when test="${not autoFirmaForm.segellDeTempsReadOnly}">
+                       <form:checkbox path="segellDeTemps"   />
                     </c:when>
-                    <c:otherwise>
-                        <form:checkbox path="segellDeTemps"  /> 
-                    </c:otherwise>
                 </c:choose>
             </td>
          </tr>

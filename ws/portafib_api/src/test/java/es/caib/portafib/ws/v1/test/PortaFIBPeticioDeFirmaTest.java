@@ -250,22 +250,15 @@ public class PortaFIBPeticioDeFirmaTest extends PortaFIBTestUtils {
     final String titol = "Peticio de Test amb Custodia";
     final String remitent = "Helium";
 
-    // Existeix sistems de custodia
-    String pluginClassID = peticioDeFirmaAPI.getCurrentCustodiaPluginClass();
-    if (pluginClassID == null) {
-      Assert.assertNotNull("No hi ha sistema de custodia definit o l´usuari aplicació "
-          + getTestAppUserName() + " no pot custodiar", pluginClassID);
-    }
-
+    // Existeix sistema de custodia
     // Obtenir sistema de custodia
     // Si language és un string buit s'ha d'assignar l'idioma del usuariApp
     final String language = "";
     CustodiaInfoBean custodiaInfoBean = peticioDeFirmaAPI.getDefaultCustodiaInfo(titol,
         language);
-
-    Assert.assertNotNull(custodiaInfoBean);
-    Assert.assertEquals(custodiaInfoBean.getCustodiaPluginClassID(), pluginClassID);
-
+    Assert.assertNotNull("No hi ha sistema de custodia definit o l´usuari aplicació "
+          + getTestAppUserName() + " no pot custodiar", custodiaInfoBean);
+    
     // Crear Peticio
     FitxerBean fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromResource("test.pdf",
         Constants.PDF_MIME_TYPE);

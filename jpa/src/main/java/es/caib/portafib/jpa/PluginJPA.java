@@ -193,6 +193,19 @@ private static final long serialVersionUID = 190357384L;
     return __result;
   }
 
+// EXP  Field:pluginid | Table: pfi_custodiainfo | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
+	private Set<CustodiaInfoJPA> custodiaInfos = new HashSet<CustodiaInfoJPA>(0);
+	public  Set<CustodiaInfoJPA> getCustodiaInfos() {
+    return this.custodiaInfos;
+  }
+
+	public void setCustodiaInfos(Set<CustodiaInfoJPA> custodiaInfos) {
+	  this.custodiaInfos = custodiaInfos;
+	}
+
+
 // EXP  Field:pluginid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
@@ -334,6 +347,10 @@ private static final long serialVersionUID = 190357384L;
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
       __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"PluginJPA"));
+    }
+    if(!"CustodiaInfoJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
+      __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"PluginJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 

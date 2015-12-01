@@ -37,6 +37,7 @@ final String[] menu = {
   "",
   "moduldefirma.plantilla.plural", // /admin/modulDeFirma
   "segelldetemps.plantilla.plural", // /admin/segelldetemps
+  "plugincustodia.gestio", // admin/plugincustodia
   "",
   Configuracio.isCAIB()? "" : "usuariaplicacio.gestio",
   //"",
@@ -52,27 +53,28 @@ public static final Map<String, String> mapping;
 static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
-  
+
   mapping.put("usuaripersona.alta", "/admin/usuariPersona/alta");
   mapping.put("usuaripersona.modificar", "/admin/usuariPersona/modificar");
-  
+
   mapping.put("entitat.gestio", "/admin/entitat/list");
-  
+
   mapping.put("administradorentitat.gestio", "/admin/adminentitat/list");
 
   mapping.put("usuariaplicacio.gestio", "/admin/usuariAplicacio/list");
 
   mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
-  
+
   mapping.put("moduldefirma.plantilla.plural", "/admin/modulDeFirma/list");
-  
+
   mapping.put("segelldetemps.plantilla.plural", "/admin/segelldetemps/list");
-  
+
+  mapping.put("plugincustodia.gestio", "/admin/plugincustodia/list");
+
   //mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
-  
+
   mapping.put("fitxers.orfes", "/admin/fitxersorfes/list");
-  
-  
+
 }
 
 %><%

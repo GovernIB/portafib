@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="algorismeDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="algorismeDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="avisWeb" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *         &lt;element name="dataCaducitat" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="prioritatID" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="remitentDescripcio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="remitentNom" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="segellatDeTemps" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="tipusDocumentID" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="tipusEstatPeticioDeFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="tipusFirmaID" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -87,6 +88,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "prioritatID",
     "remitentDescripcio",
     "remitentNom",
+    "segellatDeTemps",
     "tipusDocumentID",
     "tipusEstatPeticioDeFirmaID",
     "tipusFirmaID",
@@ -99,7 +101,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 public class PeticioDeFirmaBean {
 
-    protected long algorismeDeFirmaID;
+    protected int algorismeDeFirmaID;
     protected boolean avisWeb;
     protected Long custodiaInfoID;
     @XmlElement(type = String.class)
@@ -133,6 +135,7 @@ public class PeticioDeFirmaBean {
     protected int prioritatID;
     protected String remitentDescripcio;
     protected String remitentNom;
+    protected boolean segellatDeTemps;
     protected long tipusDocumentID;
     protected int tipusEstatPeticioDeFirmaID;
     protected int tipusFirmaID;
@@ -144,7 +147,7 @@ public class PeticioDeFirmaBean {
      * Gets the value of the algorismeDeFirmaID property.
      * 
      */
-    public long getAlgorismeDeFirmaID() {
+    public int getAlgorismeDeFirmaID() {
         return algorismeDeFirmaID;
     }
 
@@ -152,7 +155,7 @@ public class PeticioDeFirmaBean {
      * Sets the value of the algorismeDeFirmaID property.
      * 
      */
-    public void setAlgorismeDeFirmaID(long value) {
+    public void setAlgorismeDeFirmaID(int value) {
         this.algorismeDeFirmaID = value;
     }
 
@@ -682,6 +685,22 @@ public class PeticioDeFirmaBean {
      */
     public void setRemitentNom(String value) {
         this.remitentNom = value;
+    }
+
+    /**
+     * Gets the value of the segellatDeTemps property.
+     * 
+     */
+    public boolean isSegellatDeTemps() {
+        return segellatDeTemps;
+    }
+
+    /**
+     * Sets the value of the segellatDeTemps property.
+     * 
+     */
+    public void setSegellatDeTemps(boolean value) {
+        this.segellatDeTemps = value;
     }
 
     /**

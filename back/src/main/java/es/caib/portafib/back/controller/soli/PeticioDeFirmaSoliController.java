@@ -65,7 +65,6 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -765,6 +764,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
 
+
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
       
       // TODO Afegir boto per crear i iniciar flux de firmes
@@ -864,9 +864,13 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         peticioDeFirma.setSegellatDeTemps(true);
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX:
+      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
+        peticioDeFirma.setSegellatDeTemps(false);
+      break;
+      
+      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
         peticioDeFirma.setSegellatDeTemps(true);
-      break;          
+      break; 
       
    }
     
@@ -1256,15 +1260,23 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
       peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
       
+      final boolean usuariPotCustodiar = (loginInfo.getEntitat().getCustodiaInfoID() != null)
+          &&  (LogicUtils.checkPotCustodiar(LoginInfo.getInstance().getUsuariEntitat()));
       
-      if (PortaFIBPluginsManager.getDocumentCustodyPluginInstance() != null) {
-
-        if (LogicUtils.checkPotCustodiar(LoginInfo.getInstance().getUsuariEntitat())) {
-          for (PeticioDeFirma peticio : list) {
-            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
+      for (PeticioDeFirma peticio : list) {
+        
+        if (peticio.getCustodiaInfoID() != null) {
+          potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
+        } else {
+          if (usuariPotCustodiar) {
+            potCustodiar.put(peticio.getPeticioDeFirmaID(), usuariPotCustodiar);
           }
         }
+        
+        
       }
+      
+      
 
       
     } else  {
@@ -1282,7 +1294,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         mav.addObject("listOfUsuariAplicacio",_listSKV);
       }
       
-      if (PortaFIBPluginsManager.getDocumentCustodyPluginInstance() != null) {
+      if (LoginInfo.getInstance().getEntitat().getCustodiaInfoID() != null) {
         for (PeticioDeFirma peticio : list) {
           // TODO Optimitzar amb una sola consulta SelectMultiple
           String usuariAplicacioID = peticio.getUsuariAplicacioID();

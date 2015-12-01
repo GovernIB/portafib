@@ -14,8 +14,6 @@
   <xs:element name="deletePlantillaFluxDeFirmesResponse" type="tns:deletePlantillaFluxDeFirmesResponse"/>
   <xs:element name="downloadFileUsingEncryptedFileID" type="tns:downloadFileUsingEncryptedFileID"/>
   <xs:element name="downloadFileUsingEncryptedFileIDResponse" type="tns:downloadFileUsingEncryptedFileIDResponse"/>
-  <xs:element name="getCurrentCustodiaPluginClass" type="tns:getCurrentCustodiaPluginClass"/>
-  <xs:element name="getCurrentCustodiaPluginClassResponse" type="tns:getCurrentCustodiaPluginClassResponse"/>
   <xs:element name="getDefaultCustodiaInfo" type="tns:getDefaultCustodiaInfo"/>
   <xs:element name="getDefaultCustodiaInfoResponse" type="tns:getDefaultCustodiaInfoResponse"/>
   <xs:element name="getEntitatID" type="tns:getEntitatID"/>
@@ -189,7 +187,7 @@
   </xs:complexType>
   <xs:complexType name="peticioDeFirmaBean">
     <xs:sequence>
-      <xs:element name="algorismeDeFirmaID" type="xs:long"/>
+      <xs:element name="algorismeDeFirmaID" type="xs:int"/>
       <xs:element name="avisWeb" type="xs:boolean"/>
       <xs:element minOccurs="0" name="custodiaInfoID" type="xs:long"/>
       <xs:element minOccurs="0" name="dataCaducitat" type="xs:dateTime"/>
@@ -214,6 +212,7 @@
       <xs:element name="prioritatID" type="xs:int"/>
       <xs:element minOccurs="0" name="remitentDescripcio" type="xs:string"/>
       <xs:element minOccurs="0" name="remitentNom" type="xs:string"/>
+      <xs:element name="segellatDeTemps" type="xs:boolean"/>
       <xs:element name="tipusDocumentID" type="xs:long"/>
       <xs:element name="tipusEstatPeticioDeFirmaID" type="xs:int"/>
       <xs:element name="tipusFirmaID" type="xs:int"/>
@@ -237,9 +236,8 @@
       <xs:element minOccurs="0" name="codiBarresID" type="xs:string"/>
       <xs:element name="codiBarresPosicioPaginaID" type="xs:long"/>
       <xs:element minOccurs="0" name="codiBarresText" type="xs:string"/>
+      <xs:element minOccurs="0" name="custodiaDocumentID" type="xs:string"/>
       <xs:element name="custodiaInfoID" type="xs:long"/>
-      <xs:element minOccurs="0" name="custodiaPluginClassID" type="xs:string"/>
-      <xs:element minOccurs="0" name="custodiaPluginID" type="xs:string"/>
       <xs:element minOccurs="0" name="custodiaPluginParameters" type="xs:string"/>
       <xs:element name="custodiar" type="xs:boolean"/>
       <xs:element minOccurs="0" name="dataCustodia" type="xs:dateTime"/>
@@ -249,6 +247,7 @@
       <xs:element name="missatgePosicioPaginaID" type="xs:long"/>
       <xs:element minOccurs="0" name="nomPlantilla" type="xs:string"/>
       <xs:element minOccurs="0" name="pagines" type="xs:string"/>
+      <xs:element name="pluginID" type="xs:long"/>
       <xs:element minOccurs="0" name="titolPeticio" type="xs:string"/>
       <xs:element minOccurs="0" name="urlFitxerCustodiat" type="xs:string"/>
       <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
@@ -365,22 +364,6 @@
       <xs:element minOccurs="0" name="return" type="tns:fluxDeFirmesWs"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getSupportedLanguages">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getSupportedLanguagesResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getCurrentCustodiaPluginClass">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getCurrentCustodiaPluginClassResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="getTipusDeDocuments">
     <xs:sequence>
       <xs:element minOccurs="0" name="idioma" type="xs:string"/>
@@ -395,6 +378,14 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="nom" type="xs:string"/>
       <xs:element name="tipusDocumentID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguages">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguagesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="downloadFileUsingEncryptedFileID">
@@ -423,10 +414,6 @@
   </wsdl:types>
   <wsdl:message name="getTipusDeDocuments">
     <wsdl:part name="parameters" element="tns:getTipusDeDocuments">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCurrentCustodiaPluginClass">
-    <wsdl:part name="parameters" element="tns:getCurrentCustodiaPluginClass">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deletePlantillaFluxDeFirmes">
@@ -567,10 +554,6 @@
   </wsdl:message>
   <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
     <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCurrentCustodiaPluginClassResponse">
-    <wsdl:part name="parameters" element="tns:getCurrentCustodiaPluginClassResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getTipusDeDocumentsResponse">
@@ -718,26 +701,18 @@
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getSupportedLanguages">
-      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
-    </wsdl:input>
-      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCurrentCustodiaPluginClass">
-      <wsdl:input name="getCurrentCustodiaPluginClass" message="tns:getCurrentCustodiaPluginClass">
-    </wsdl:input>
-      <wsdl:output name="getCurrentCustodiaPluginClassResponse" message="tns:getCurrentCustodiaPluginClassResponse">
-    </wsdl:output>
-      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getTipusDeDocuments">
       <wsdl:input name="getTipusDeDocuments" message="tns:getTipusDeDocuments">
     </wsdl:input>
       <wsdl:output name="getTipusDeDocumentsResponse" message="tns:getTipusDeDocumentsResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
@@ -951,18 +926,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getSupportedLanguagesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="WsI18NException">
-        <soap:fault name="WsI18NException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getCurrentCustodiaPluginClass">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getCurrentCustodiaPluginClass">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCurrentCustodiaPluginClassResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">

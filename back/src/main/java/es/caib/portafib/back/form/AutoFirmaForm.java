@@ -57,6 +57,8 @@ public class AutoFirmaForm {
   long id;
   
   boolean segellDeTemps;
+  
+  boolean segellDeTempsReadOnly;
 
   public AutoFirmaForm() {
   }
@@ -204,9 +206,7 @@ public class AutoFirmaForm {
   public void setUsuariEntitatID(String usuariEntitatID) {
     this.usuariEntitatID = usuariEntitatID;
   }
-  
-  
-  
+
 
   public boolean isSegellDeTemps() {
     return segellDeTemps;
@@ -214,6 +214,14 @@ public class AutoFirmaForm {
 
   public void setSegellDeTemps(boolean segellDeTemps) {
     this.segellDeTemps = segellDeTemps;
+  }
+  
+  public boolean isSegellDeTempsReadOnly() {
+    return segellDeTempsReadOnly;
+  }
+
+  public void setSegellDeTempsReadOnly(boolean segellDeTempsReadOnly) {
+    this.segellDeTempsReadOnly = segellDeTempsReadOnly;
   }
 
   @Override

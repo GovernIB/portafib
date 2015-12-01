@@ -2,38 +2,65 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="CustodiaInfoFields" className="es.caib.portafib.model.fields.CustodiaInfoFields"/>
   
-        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINID)}">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
         <tr>
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINID])?'custodiaInfo.custodiaPluginID':__theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINID]}" />
-              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAPLUGINID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIAPLUGINID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.NOMPLANTILLA])?'custodiaInfo.nomPlantilla':__theForm.labels[CustodiaInfoFields.NOMPLANTILLA]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.NOMPLANTILLA]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.NOMPLANTILLA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.custodiaPluginID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginID"   />
+            <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.nomPlantilla"   />
 
            </td>
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)}">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
         <tr>
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINCLASSID])?'custodiaInfo.custodiaPluginClassID':__theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINCLASSID]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIAPLUGINCLASSID]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIAPLUGINCLASSID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID])?'custodiaInfo.custodiaDocumentID':__theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CUSTODIADOCUMENTID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-            <form:errors path="custodiaInfo.custodiaPluginClassID" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaPluginClassID"   />
+            <form:errors path="custodiaInfo.custodiaDocumentID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.custodiaDocumentID"   />
 
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
+        <tr>
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PLUGINID])?'custodiaInfo.pluginID':__theForm.labels[CustodiaInfoFields.PLUGINID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.PLUGINID]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.PLUGINID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="custodiaInfo.pluginID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
+          <form:hidden path="custodiaInfo.pluginID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.pluginID,__theForm.listOfPluginForPluginID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PLUGINID)}" >
+          <form:select id="custodiaInfo_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.pluginID">
+            <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
            </td>
         </tr>
         </c:if>
@@ -51,24 +78,6 @@
             <td>
               <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
-        <tr>
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.NOMPLANTILLA])?'custodiaInfo.nomPlantilla':__theForm.labels[CustodiaInfoFields.NOMPLANTILLA]}" />
-              <c:if test="${not empty __theForm.help[CustodiaInfoFields.NOMPLANTILLA]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.NOMPLANTILLA]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-            <form:errors path="custodiaInfo.nomPlantilla" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.NOMPLANTILLA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="custodiaInfo.nomPlantilla"   />
-
            </td>
         </tr>
         </c:if>

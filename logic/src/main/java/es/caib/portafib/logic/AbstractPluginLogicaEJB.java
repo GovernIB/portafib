@@ -25,6 +25,8 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
 
   protected abstract int getTipusDePlugin();
   
+  protected abstract String getName();
+  
   
   @Override
   public List<Plugin> getAllPlugins(String entitatID) throws I18NException {
@@ -77,6 +79,13 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
       } 
         pluginInstance = (IPlugin) PluginsManager.instancePluginByClassName(
             plugin.getClasse(), Constants.PORTAFIB_PROPERTY_BASE, prop);
+        
+        
+        if (pluginInstance == null) {
+          throw new I18NException("plugin.donotinstantiate",
+              getName() + " (" + plugin.getClasse() + ")");
+        }
+        
         
         pluginsCache.put(pluginID, pluginInstance);
       

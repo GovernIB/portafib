@@ -27,6 +27,7 @@ final String[] menu = {
     "",
     "moduldefirma.gestio",
     "segelldetemps.gestio",
+    "plantillacustodia.gestio", // "/aden/plantillacustodia"
     "",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
@@ -60,7 +61,7 @@ static {
   
   mapping.put("moduldefirma.gestio", "/aden/modulDeFirma/list");
   mapping.put("segelldetemps.gestio", "/aden/segelldetemps/list");
-
+  mapping.put("plantillacustodia.gestio", "/aden/plantillacustodia/list");
 
   mapping.put("grups.gestio", "/aden/grup/list");
   

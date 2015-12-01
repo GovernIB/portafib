@@ -22,4 +22,9 @@ public class ModulDeFirmaLogicaEJB extends AbstractPluginLogicaEJB<ISignatureWeb
     return Constants.TIPUS_PLUGIN_MODULDEFIRMA;
   }
 
+  @Override
+  protected String getName() {
+    return "Modul de Firma";
+  }
+
 }

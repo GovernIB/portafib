@@ -9,14 +9,14 @@ import java.util.Date;
  */
 public class SignaturesSet {
 
-  String signaturesSetID;
+  protected String signaturesSetID;
 
   /** Data en que les sol·lictuds de firma caduquen */
-  Date expiryDate;
+  protected Date expiryDate;
 
-  CommonInfoSignature commonInfoSignature;
+  protected CommonInfoSignature commonInfoSignature;
 
-  FileInfoSignature[] fileInfoSignatureArray = null;
+  protected FileInfoSignature[] fileInfoSignatureArray = null;
 
   /**
    * 

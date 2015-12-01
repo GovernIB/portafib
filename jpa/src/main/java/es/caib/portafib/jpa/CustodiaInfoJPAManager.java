@@ -66,8 +66,8 @@ public class CustodiaInfoJPAManager
 		return list.toArray(new CustodiaInfo[list.size()]);
 	};
 
-	public synchronized CustodiaInfo create( java.lang.String _custodiaPluginID_, java.lang.String _custodiaPluginClassID_, java.lang.String _custodiaPluginParameters_, java.lang.String _nomPlantilla_, boolean _custodiar_, java.lang.String _urlFitxerCustodiat_, java.lang.String _pagines_, java.lang.String _missatge_, long _missatgePosicioPaginaID_, java.lang.String _codiBarresID_, long _codiBarresPosicioPaginaID_, java.lang.String _codiBarresText_, java.lang.String _usuariEntitatID_, java.lang.String _usuariAplicacioID_, java.lang.String _entitatID_, java.lang.String _titolPeticio_, java.sql.Timestamp _dataCustodia_, boolean _editable_) throws I18NException {
-		CustodiaInfoJPA __bean =  new CustodiaInfoJPA(_custodiaPluginID_,_custodiaPluginClassID_,_custodiaPluginParameters_,_nomPlantilla_,_custodiar_,_urlFitxerCustodiat_,_pagines_,_missatge_,_missatgePosicioPaginaID_,_codiBarresID_,_codiBarresPosicioPaginaID_,_codiBarresText_,_usuariEntitatID_,_usuariAplicacioID_,_entitatID_,_titolPeticio_,_dataCustodia_,_editable_);
+	public synchronized CustodiaInfo create( java.lang.String _nomPlantilla_, java.lang.String _custodiaDocumentID_, long _pluginID_, java.lang.String _custodiaPluginParameters_, boolean _custodiar_, java.lang.String _urlFitxerCustodiat_, java.lang.String _pagines_, java.lang.String _missatge_, long _missatgePosicioPaginaID_, java.lang.String _codiBarresID_, long _codiBarresPosicioPaginaID_, java.lang.String _codiBarresText_, java.lang.String _usuariEntitatID_, java.lang.String _usuariAplicacioID_, java.lang.String _entitatID_, java.lang.String _titolPeticio_, java.sql.Timestamp _dataCustodia_, boolean _editable_) throws I18NException {
+		CustodiaInfoJPA __bean =  new CustodiaInfoJPA(_nomPlantilla_,_custodiaDocumentID_,_pluginID_,_custodiaPluginParameters_,_custodiar_,_urlFitxerCustodiat_,_pagines_,_missatge_,_missatgePosicioPaginaID_,_codiBarresID_,_codiBarresPosicioPaginaID_,_codiBarresText_,_usuariEntitatID_,_usuariAplicacioID_,_entitatID_,_titolPeticio_,_dataCustodia_,_editable_);
 		return create(__bean);
 	}
 

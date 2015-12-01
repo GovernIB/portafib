@@ -116,7 +116,6 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     } else {
       return Constants.CONTEXT_ADEN_PETICIOFIRMA;
     }
-
   }
 
   @Override
@@ -134,8 +133,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
 
     CustodiaInfoJPA custodia = custodiaInfoForm.getCustodiaInfo();
 
-    if (custodia.getCustodiaPluginID() == null) {
-      custodiaInfoForm.addHiddenField(CUSTODIAPLUGINID);
+    if (custodia.getCustodiaDocumentID() == null) {
+      custodiaInfoForm.addHiddenField(CUSTODIADOCUMENTID);
     }
     if (custodia.getUrlFitxerCustodiat() == null) {
       custodiaInfoForm.addHiddenField(URLFITXERCUSTODIAT);
@@ -159,9 +158,10 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     custodiaInfoForm.addHiddenField(CODIBARRESPOSICIOPAGINAID);
 
     if (custodiaInfoForm.getCustodiaInfo().isEditable()) {
-      custodiaInfoForm.addReadOnlyField(CUSTODIAPLUGINCLASSID);
+      custodiaInfoForm.addReadOnlyField(PLUGINID);
     } else {
       custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
+      custodiaInfoForm.setDeleteButtonVisible(false);
     }
 
     if (__isView) {
@@ -229,7 +229,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       hiddenFields.addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
 
       //hiddenFields.remove(CUSTODIAINFOID);
-      hiddenFields.remove(CUSTODIAPLUGINID);
+      hiddenFields.remove(CUSTODIADOCUMENTID);
 
       if (!isUsuariEntitat()) {
         hiddenFields.remove(USUARIAPLICACIOID);
@@ -241,7 +241,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       hiddenFields.remove(TITOLPETICIO);
       hiddenFields.remove(DATACUSTODIA);
 
-      filterForm.addLabel(CUSTODIAPLUGINID, "custodiaInfo.custodiaInfo");
+      filterForm.addLabel(CUSTODIADOCUMENTID, "custodiaInfo.custodiaInfo");
       
       filterForm.setAddButtonVisible(false);
       
@@ -292,8 +292,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     Where wCommon = Where.AND(
         ENTITATID.isNull(),
         NOMPLANTILLA.isNull(),
-        CUSTODIAPLUGINID.isNotNull(),
-        CUSTODIAPLUGINCLASSID.isNotNull()
+        CUSTODIADOCUMENTID.isNotNull(),
+        PLUGINID.isNotNull()   // XYZ SEMPRE ES NOT NUL !!!!!
         );
     
     return Where.AND(wUser, wCommon, wFinished);

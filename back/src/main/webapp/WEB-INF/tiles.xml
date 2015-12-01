@@ -19,7 +19,7 @@
         <put-attribute name="contingut" value="base.contingutbuit"  />       
         <put-attribute name="peu" value="base.peu" />
     </definition>
-    
+
     <definition name="base.definition.contingut" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
         <put-attribute name="cap" value="base.cap" />
         <put-attribute name="menu_i_contingut" value="base.contingut" />
@@ -65,8 +65,7 @@
     <definition name="usuariEntitatFavoritList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
     </definition>
-    
-    
+
     <definition name="autoFirmaList" extends="principal">
        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
     </definition>
@@ -74,8 +73,7 @@
     <definition name="autoFirmaForm" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaForm.jsp" />
     </definition>
-    
-    
+
     <definition name="PluginDeFirmaContenidor_AutoFirma" extends="principal">
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
@@ -90,7 +88,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
     
-    <!--  XYZ ElimiNAR aquesta entrada i jsp   -->
+    <!--  TODO ElimiNAR aquesta entrada i jsp   -->
     <definition name="senseSuportJava" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/senseSuportJava.jsp" />
     </definition>
@@ -101,7 +99,6 @@
     </definition>
     
 
-    
     <!--  ===========  WEBDB ================== -->
     
     <definition name="webdb" extends="base.definition">
@@ -295,6 +292,16 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
     
+    
+    <definition name="plantillaCustodiaInfoFormAden" extends="role_aden">
+        <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
+    </definition>
+    
+    <definition name="plantillaCustodiaInfoListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
+    </definition>
+    
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
@@ -379,16 +386,22 @@
         <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
     </definition>
-    
+
     <definition name="segellDeTempsListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
+    </definition>
+
+    <definition name="pluginCustodiaFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
+    </definition>
+
+    <definition name="pluginCustodiaListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
 
     <!--  ===========  COL·LABORADOR ================== -->
     
-    <!-- MMMENU
-    <definition name="role_cola" extends="base.definition.contingut">
-     -->
     
     <definition name="role_cola" extends="base.definition">
         <put-attribute name="pipella" value="ROLE_COLA" />

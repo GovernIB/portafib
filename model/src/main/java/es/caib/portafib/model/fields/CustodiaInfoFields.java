@@ -13,10 +13,10 @@ public interface CustodiaInfoFields extends java.io.Serializable {
 
 
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");  // PK
-	 public static final StringField CUSTODIAPLUGINID = new StringField(_TABLE_MODEL, "custodiaPluginID", "custodiapluginid");
-	 public static final StringField CUSTODIAPLUGINCLASSID = new StringField(_TABLE_MODEL, "custodiaPluginClassID", "custodiapluginclassid");
-	 public static final StringField CUSTODIAPLUGINPARAMETERS = new StringField(_TABLE_MODEL, "custodiaPluginParameters", "custodiapluginparametres");
 	 public static final StringField NOMPLANTILLA = new StringField(_TABLE_MODEL, "nomPlantilla", "nomplantilla");
+	 public static final StringField CUSTODIADOCUMENTID = new StringField(_TABLE_MODEL, "custodiaDocumentID", "custodiapluginid");
+	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
+	 public static final StringField CUSTODIAPLUGINPARAMETERS = new StringField(_TABLE_MODEL, "custodiaPluginParameters", "custodiapluginparametres");
 	 public static final BooleanField CUSTODIAR = new BooleanField(_TABLE_MODEL, "custodiar", "custodiar");
 	 public static final StringField URLFITXERCUSTODIAT = new StringField(_TABLE_MODEL, "urlFitxerCustodiat", "urlfitxercustodiat");
 	 public static final StringField PAGINES = new StringField(_TABLE_MODEL, "pagines", "pagines");
@@ -35,10 +35,10 @@ public interface CustodiaInfoFields extends java.io.Serializable {
 
   public static final Field<?>[] ALL_CUSTODIAINFO_FIELDS = {
     CUSTODIAINFOID,
-    CUSTODIAPLUGINID,
-    CUSTODIAPLUGINCLASSID,
-    CUSTODIAPLUGINPARAMETERS,
     NOMPLANTILLA,
+    CUSTODIADOCUMENTID,
+    PLUGINID,
+    CUSTODIAPLUGINPARAMETERS,
     CUSTODIAR,
     URLFITXERCUSTODIAT,
     PAGINES,

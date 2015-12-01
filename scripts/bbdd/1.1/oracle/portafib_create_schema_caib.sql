@@ -63,7 +63,6 @@
         codibarresid varchar2(255 char) not null,
         codibarresposiciopaginaid number(19,0) not null,
         codibarrestext varchar2(255 char) not null,
-        custodiapluginclassid varchar2(255 char) not null,
         custodiapluginid varchar2(255 char),
         custodiapluginparametres varchar2(3000 char),
         custodiar number(1,0) not null,
@@ -74,6 +73,7 @@
         missatgeposiciopaginaid number(19,0) not null,
         nomplantilla varchar2(255 char),
         pagines varchar2(255 char) not null,
+        pluginid number(19,0) not null,
         titolpeticio varchar2(255 char),
         urlfitxercustodiat varchar2(500 char),
         usuariaplicacioid varchar2(101 char),
@@ -441,6 +441,7 @@
     create index pfi_custodia_codbarrpos_fk_i on pfi_custodiainfo (codibarresposiciopaginaid);
     create index pfi_custodia_usrentid_fk_i on pfi_custodiainfo (usuarientitatid);
     create index pfi_custodiainfo_pk_i on pfi_custodiainfo (custodiainfoid);
+    create index pfi_custodiainfo_pluginid_fk_i on pfi_custodiainfo (pluginid);
     create index pfi_custodia_usrappid_fk_i on pfi_custodiainfo (usuariaplicacioid);
     create index pfi_custodia_msgpospagid_fk_i on pfi_custodiainfo (missatgeposiciopaginaid);
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
@@ -725,6 +726,11 @@
         add constraint pfi_custodia_pospagina_msg_fk 
         foreign key (missatgeposiciopaginaid) 
         references pfi_posiciopagina;
+
+    alter table pfi_custodiainfo 
+        add constraint pfi_custodia_plugin_fk 
+        foreign key (pluginid) 
+        references pfi_plugin;
 
     alter table pfi_custodiainfo 
         add constraint pfi_custodia_codibarres_fk 

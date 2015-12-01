@@ -58,28 +58,46 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAPLUGINID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.NOMPLANTILLA)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="custodiaInfo.custodiaPluginID" var="custodiaPluginID" />
-              <fmt:message key="genapp.form.searchby" var="cercapercustodiaPluginID" >                
-                 <fmt:param value="${custodiaPluginID}"/>
+              <fmt:message key="custodiaInfo.nomPlantilla" var="nomPlantilla" />
+              <fmt:message key="genapp.form.searchby" var="cercapernomPlantilla" >                
+                 <fmt:param value="${nomPlantilla}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${custodiaPluginID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercapercustodiaPluginID}" path="custodiaPluginID" />
+              <span class="add-on"><c:out value="${nomPlantilla}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapernomPlantilla}" path="nomPlantilla" />
             </div>
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="custodiaInfo.custodiaPluginClassID" var="custodiaPluginClassID" />
-              <fmt:message key="genapp.form.searchby" var="cercapercustodiaPluginClassID" >                
-                 <fmt:param value="${custodiaPluginClassID}"/>
+              <fmt:message key="custodiaInfo.custodiaDocumentID" var="custodiaDocumentID" />
+              <fmt:message key="genapp.form.searchby" var="cercapercustodiaDocumentID" >                
+                 <fmt:param value="${custodiaDocumentID}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${custodiaPluginClassID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercapercustodiaPluginClassID}" path="custodiaPluginClassID" />
+              <span class="add-on"><c:out value="${custodiaDocumentID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapercustodiaDocumentID}" path="custodiaDocumentID" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.PLUGINID)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="custodiaInfo.pluginID" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+                                       
+              
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+              
+              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              
             </div>
 
 
@@ -93,19 +111,6 @@
               </fmt:message>
               <span class="add-on"><c:out value="${custodiaPluginParameters}" />:</span>
               <form:input cssClass="search-query input-medium" placeholder="${cercapercustodiaPluginParameters}" path="custodiaPluginParameters" />
-            </div>
-
-
-        </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.NOMPLANTILLA)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="custodiaInfo.nomPlantilla" var="nomPlantilla" />
-              <fmt:message key="genapp.form.searchby" var="cercapernomPlantilla" >                
-                 <fmt:param value="${nomPlantilla}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${nomPlantilla}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercapernomPlantilla}" path="nomPlantilla" />
             </div>
 
 

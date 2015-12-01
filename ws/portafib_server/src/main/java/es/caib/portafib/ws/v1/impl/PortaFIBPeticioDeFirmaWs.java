@@ -32,9 +32,11 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
 
-  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
-  @WebMethod
-  public String getCurrentCustodiaPluginClass() throws WsI18NException, Throwable;
+// XYZ
+//  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+//  @WebMethod
+//  public String getCurrentCustodiaPluginID() throws WsI18NException, Throwable;
+
   
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod

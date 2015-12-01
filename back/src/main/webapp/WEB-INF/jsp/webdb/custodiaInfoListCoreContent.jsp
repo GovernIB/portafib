@@ -29,24 +29,27 @@
           ${custodiaInfo.custodiaInfoID}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
           <td>
-          ${custodiaInfo.custodiaPluginID}
+          ${custodiaInfo.nomPlantilla}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINCLASSID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
           <td>
-          ${custodiaInfo.custodiaPluginClassID}
+          ${custodiaInfo.custodiaDocumentID}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
+          <td>
+          <c:set var="tmp">${custodiaInfo.pluginID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfPluginForPluginID[tmp]}
+          </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}">
           <td>
           ${custodiaInfo.custodiaPluginParameters}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
-          <td>
-          ${custodiaInfo.nomPlantilla}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">

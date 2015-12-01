@@ -5,7 +5,7 @@
       <!-- Propietat que indica als projectes que activin les caracteristiques
            especials requerides en l'entorn de la CAIB (Govern Balear) si val true -->
       es.caib.portafib.iscaib=false
-    
+
       # Dialecte de Hibernate
       es.caib.portafib.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
       # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
@@ -21,7 +21,7 @@
       es.caib.portafib.url=http://localhost:8080/portafib
       es.caib.portafib.email.from=portafib@portafib.org
       es.caib.portafib.defaultlanguage=ca
-      <!-- Si val null incica que l'alta de persone si usuaris l'ha de realitzar l'AdEn.
+      <!-- Si val null incica que l'alta de persones i usuaris l'ha de realitzar l'AdEn.
            En cas contrari s'utilitzarà aquest valor com a entitat on donar d'alta
 		   automaticament persona i usuari. En entorns CAIB aquesta propietat es ignorada -->
       #es.caib.portafib.defaultentity=fundaciobit
@@ -45,22 +45,24 @@
       es.caib.portafib.editableuser=true
       <!-- Identificador de la taula pfi_algorismedefirma que representa l'algorisme de firma per defecte. -->
       #es.caib.portafib.defaultsignalgorithmid=0
-      <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->      es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
-      <!-- Opcional. A partir de quants d'errors en una notificació callback s'enviarà 
-	      un correu al responsable de l'usuari aplicació. Per defecte mai s'envia un correu  -->
-      # es.caib.portafib.numberoferrorsinnotificationtosendmail=
+      <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->
+      es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
+      <!-- Opcional. A partir de quants d'errors en una notificació callback s'enviarà
+           un correu al responsable de l'usuari aplicació. Per defecte mai s'envia un correu  -->
+      # es.caib.portafib.numberoferrorsinnotificationtosendmail=3
       <!-- Opcional. A partir de quants d'errors en una notificació callback aquesta
            automàticament es pausarà. Per defecte es reintenten indefinidament.  -->
-      # es.caib.portafib.numberoferrorstopausenotification=
+      # es.caib.portafib.numberoferrorstopausenotification=6
 	  <!-- Opcional. Valor per defecte 60000ms (1 minut). Ha de ser major de 15000.
-	      Temps mínim que s'espera abans de reintentar una notificació fallida en ms. -->
+	       Temps mínim que s'espera abans de reintentar una notificació fallida en ms. -->
 	  #es.caib.portafib.notificationtimelapse=60000
-	  
-	  <!-- Si el valor és true llavors redirecciona segons el contexte:
+
+      <!-- Si el valor és true llavors redirecciona segons el contexte:
             (a) Si entra amb http dins portafibs llavors redirecciona a portafib
             (b) Si entra amb https dins portafib i existeix portafib/s llavors redirecciona a portafib/s
            Si el valor es false, llavors no fa res.   -->
 	  es.caib.portafib.automaticredirect=true
+
 	  <!-- Format del camp "Firmat Per" de la taula de firmes definit per entitat i per idioma.
            És opcional. Els camps disponibles són:
 		       * {0} = NOM
@@ -99,55 +101,23 @@
 		   aquest valora a 3 o 4 amb la finalitat de reduir càrrega de xarxa, servidor i bbdd. -->
       # es.caib.portafib.mincharstostartautocomplete=2
 	  
-	  <!-- Opcional. Indica un missatge per defecte de la custòdia de les peticions de Firma. -->
-	  #es.caib.portafib.defaultcustodymessage.fundaciobit.ca=Data:{3} URL de validaci\u00F3: {0}
-	  #es.caib.portafib.defaultcustodymessage.fundaciobit.es=Fecha:{3} URL de validaci\u00F3n: {0}
-      
+
       <!-- Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes
            en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir
            bloquejat un document mentre es realitza el procés de firma. Valor per defecte 3*60*1000,
            o sigui 3 minuts. Quan la firma es única en el bloc i no hi ha delegats definits
            llavors no hi ha bloqueig de temps. -->
       #es.caib.portafib.maxtimelockedsigninms=180000
-      
+
       <!-- Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus
            quan s'han definit enviament d'avisos agrupats.
            Per defecte s'executa cada dia a les 6:00 (0 0 6 1/1 * ? *) -->
       #es.caib.portafib.emailsgroupedsendercronexpression=0 0 6 1/1 * ? *
-      
+
       <!--  Opcional. Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate
              quan l'autenticació es realitza emprant ClientCert. Valor per defecte false. -->
       #es.caib.portafib.checkcertificateinclientcert=true 
 
-
-      <!-- =========== MODUL APPLET DE FIRMA ======== -->
-
-      <!-- Firma emprant @firma -->
-      es.caib.portafib.applet.signerClass=es.caib.portafib.applet.signers.AfirmaSigner
-      <!-- Firma emprant IB-KEY -->
-      <!-- applet.signerClass=es.caib.portafib.applet.signers.IBKeySigner -->
-
-      <!-- ======== PLUGIN DE CUSTODIA - FILESYSTEM ============== -->
-      es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin
-      es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
-      es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
-      # {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
-      #es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
-      es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?hash={2}
-      es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
-      #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
-      es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5
-      
-      
-      <!-- ======== PLUGIN DE CUSTODIA - CUSTODIA CAIB ============== -->
-      # es.caib.portafib.documentcustodyplugin=org.fundaciobit.plugins.documentcustody.custodiacaibaxis.CustodiaCaibAxisPlugin
-      # {0}=HASH | {1}=CodiExtern | {2}=Codi Especial
-      es.caib.portafib.plugins.documentcustody.custodiacaib.urlvalidation=http://192.168.31.143:8080/signatura/sigpub/viewdoc?hash={0}
-      es.caib.portafib.plugins.documentcustody.custodiacaib.server=http://192.168.31.143:8080/signatura/services/CustodiaDocumentos
-      es.caib.portafib.plugins.documentcustody.custodiacaib.username=valcust
-      es.caib.portafib.plugins.documentcustody.custodiacaib.password=valcust
-      es.caib.portafib.plugins.documentcustody.custodiacaib.defaultdocumenttype=PDF
-      es.caib.portafib.plugins.documentcustody.custodiacaib.defaultreserveprefix=PORTAFIB
 
       <!-- ======== PLUGIN DE CONVERSIO DE DOCUMENTS - OPENOFFICE ======= -->
       es.caib.portafib.documentconverterplugin=org.fundaciobit.plugins.documentconverter.openoffice.OpenOfficeDocumentConverterPlugin
@@ -196,7 +166,7 @@
       #es.caib.portafib.plugins.userinformation.database.surname_2_column      
       #es.caib.portafib.plugins.userinformation.database.language_column
       #es.caib.portafib.plugins.userinformation.database.telephone_column
-      #es.caib.portafib.plugins.userinformation.database.email_column
+      #es.caib.portafib.plugins.userinformation.database.email_column=CONCAT(USU_CODI,'@fundaciobit.org')
       #es.caib.portafib.plugins.userinformation.database.gender_column
       #es.caib.portafib.plugins.userinformation.database.password_column
       es.caib.portafib.plugins.userinformation.database.userroles_table=SC_WL_USUGRU

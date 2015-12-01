@@ -130,13 +130,42 @@ public class AutoFirmaController extends FitxerController
     form.setTitol(txt);
     form.setDescripcio(txt);
     form.setMotiu(txt);
-    form.setLogoSegell(loginInfo.getEntitat().getLogoSegell());
+    EntitatJPA entitat = loginInfo.getEntitat();
+    form.setLogoSegell(entitat.getLogoSegell());
     form.setIdioma(loginInfo.getUsuariPersona().getIdiomaID());
     
     Where w = PosicioTaulaFirmesFields.SUPORTADA.equal(true); 
     form.setListOfPosicioTaulaFirmes(posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID,w));
 
     form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+
+    
+    switch (entitat.getSegellDeTempsViaWeb()) {
+      case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
+        form.setSegellDeTempsReadOnly(true);
+        form.setSegellDeTemps(false);
+      break;
+      
+      case Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR:
+        form.setSegellDeTempsReadOnly(true);
+        form.setSegellDeTemps(true);
+      break;
+      
+      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
+        form.setSegellDeTempsReadOnly(false);
+        form.setSegellDeTemps(true);
+      break; 
+      
+      default:
+      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
+        form.setSegellDeTempsReadOnly(false);
+        form.setSegellDeTemps(false);
+      break;
+
+ }
+    
+    
+    
     
     long id;
     id = SignatureModuleController.generateUniqueSignaturesSetID();

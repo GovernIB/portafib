@@ -76,17 +76,20 @@ public class Exemple {
       final String titol = "Peticio de Test amb Custodia";
       final String remitent = "Helium";
 
-      // Existeix sistema de custodia
-      CustodiaInfoBean custodiaInfoBean = null;
-      String pluginClassID = api.getCurrentCustodiaPluginClass();
-      if (pluginClassID == null) {
+      // Existeix sistema de custodia ???
+      // Obtenir sistema de custodia
+      // Si language és un string buit s'assigna l'idioma del usuariApp
+      final String lang = "";
+      CustodiaInfoBean custodiaInfoBean;
+      custodiaInfoBean = api.getDefaultCustodiaInfo(titol, lang);
+      
+      if (custodiaInfoBean == null) {
         log.info("Avis: No hi ha sistema de custodia definit"
             + " o l´usuari aplicació " + usr_app + " no pot custodiar");
       } else {
-        // Obtenir sistema de custodia
-        // Si language és un string buit s'assigna l'idioma del usuariApp
-        final String lang = "";
-        custodiaInfoBean = api.getDefaultCustodiaInfo(titol, lang);
+        if (!custodiaInfoBean.isEditable()) {
+          log.info("Avis: La custòdia per defecte NO ES MODIFICABLE");
+        }
       }
 
       // Annexes
@@ -109,7 +112,9 @@ public class Exemple {
       peticioDeFirmaWs.getAnnexs().add(annex);
 
       // Assignar custodia a la Peticio
-      peticioDeFirmaWs.setCustodiaInfo(custodiaInfoBean);
+      if (custodiaInfoBean != null) {
+        peticioDeFirmaWs.setCustodiaInfo(custodiaInfoBean);
+      }
 
       Long peticioDeFirmaID = null;
       try {

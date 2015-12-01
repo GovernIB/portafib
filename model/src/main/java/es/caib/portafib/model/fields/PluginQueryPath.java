@@ -61,6 +61,20 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public CustodiaInfoQueryPath CUSTODIAINFOS() {
+    return new CustodiaInfoQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "custodiaInfos" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public EntitatQueryPath ENTITATS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {

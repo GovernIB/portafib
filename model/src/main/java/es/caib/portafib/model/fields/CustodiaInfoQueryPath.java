@@ -15,20 +15,20 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
     return new LongField(getQueryPath(), CustodiaInfoFields.CUSTODIAINFOID);
   }
 
-  public StringField CUSTODIAPLUGINID() {
-    return new StringField(getQueryPath(), CustodiaInfoFields.CUSTODIAPLUGINID);
+  public StringField NOMPLANTILLA() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.NOMPLANTILLA);
   }
 
-  public StringField CUSTODIAPLUGINCLASSID() {
-    return new StringField(getQueryPath(), CustodiaInfoFields.CUSTODIAPLUGINCLASSID);
+  public StringField CUSTODIADOCUMENTID() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.CUSTODIADOCUMENTID);
+  }
+
+  public LongField PLUGINID() {
+    return new LongField(getQueryPath(), CustodiaInfoFields.PLUGINID);
   }
 
   public StringField CUSTODIAPLUGINPARAMETERS() {
     return new StringField(getQueryPath(), CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS);
-  }
-
-  public StringField NOMPLANTILLA() {
-    return new StringField(getQueryPath(), CustodiaInfoFields.NOMPLANTILLA);
   }
 
   public BooleanField CUSTODIAR() {
@@ -123,6 +123,14 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
     });
   }
 */
+
+  public PluginQueryPath PLUGIN() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return CustodiaInfoQueryPath.this.getQueryPath() + "plugin" + ".";
+      }
+    });
+  }
 
   public PosicioPaginaQueryPath MISSATGEPOSICIOPAGINA() {
     return new PosicioPaginaQueryPath(new QueryPath() {

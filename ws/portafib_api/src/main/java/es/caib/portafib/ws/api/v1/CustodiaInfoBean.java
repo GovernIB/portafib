@@ -23,9 +23,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="codiBarresID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="codiBarresPosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="codiBarresText" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="custodiaDocumentID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="custodiaInfoID" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="custodiaPluginClassID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="custodiaPluginID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="custodiaPluginParameters" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="custodiar" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="dataCustodia" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
@@ -35,6 +34,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="missatgePosicioPaginaID" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="nomPlantilla" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="pagines" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="pluginID" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="titolPeticio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="urlFitxerCustodiat" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="usuariAplicacioID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -52,9 +52,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "codiBarresID",
     "codiBarresPosicioPaginaID",
     "codiBarresText",
+    "custodiaDocumentID",
     "custodiaInfoID",
-    "custodiaPluginClassID",
-    "custodiaPluginID",
     "custodiaPluginParameters",
     "custodiar",
     "dataCustodia",
@@ -64,6 +63,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "missatgePosicioPaginaID",
     "nomPlantilla",
     "pagines",
+    "pluginID",
     "titolPeticio",
     "urlFitxerCustodiat",
     "usuariAplicacioID",
@@ -74,9 +74,8 @@ public class CustodiaInfoBean {
     protected String codiBarresID;
     protected long codiBarresPosicioPaginaID;
     protected String codiBarresText;
+    protected String custodiaDocumentID;
     protected long custodiaInfoID;
-    protected String custodiaPluginClassID;
-    protected String custodiaPluginID;
     protected String custodiaPluginParameters;
     protected boolean custodiar;
     @XmlElement(type = String.class)
@@ -89,6 +88,7 @@ public class CustodiaInfoBean {
     protected long missatgePosicioPaginaID;
     protected String nomPlantilla;
     protected String pagines;
+    protected long pluginID;
     protected String titolPeticio;
     protected String urlFitxerCustodiat;
     protected String usuariAplicacioID;
@@ -159,6 +159,30 @@ public class CustodiaInfoBean {
     }
 
     /**
+     * Gets the value of the custodiaDocumentID property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCustodiaDocumentID() {
+        return custodiaDocumentID;
+    }
+
+    /**
+     * Sets the value of the custodiaDocumentID property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCustodiaDocumentID(String value) {
+        this.custodiaDocumentID = value;
+    }
+
+    /**
      * Gets the value of the custodiaInfoID property.
      * 
      */
@@ -172,54 +196,6 @@ public class CustodiaInfoBean {
      */
     public void setCustodiaInfoID(long value) {
         this.custodiaInfoID = value;
-    }
-
-    /**
-     * Gets the value of the custodiaPluginClassID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCustodiaPluginClassID() {
-        return custodiaPluginClassID;
-    }
-
-    /**
-     * Sets the value of the custodiaPluginClassID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCustodiaPluginClassID(String value) {
-        this.custodiaPluginClassID = value;
-    }
-
-    /**
-     * Gets the value of the custodiaPluginID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCustodiaPluginID() {
-        return custodiaPluginID;
-    }
-
-    /**
-     * Sets the value of the custodiaPluginID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCustodiaPluginID(String value) {
-        this.custodiaPluginID = value;
     }
 
     /**
@@ -412,6 +388,22 @@ public class CustodiaInfoBean {
      */
     public void setPagines(String value) {
         this.pagines = value;
+    }
+
+    /**
+     * Gets the value of the pluginID property.
+     * 
+     */
+    public long getPluginID() {
+        return pluginID;
+    }
+
+    /**
+     * Sets the value of the pluginID property.
+     * 
+     */
+    public void setPluginID(long value) {
+        this.pluginID = value;
     }
 
     /**

@@ -33,7 +33,7 @@ public class CustodiaInfoRefList extends RefListBase
     this.custodiaInfoEjb = __clone.custodiaInfoEjb;
   }
   public CustodiaInfoRefList() {
-    setSelects(new Select<?>[] { CUSTODIAINFOID.select, CUSTODIAPLUGINID.select });
+    setSelects(new Select<?>[] { CUSTODIAINFOID.select, NOMPLANTILLA.select, CUSTODIADOCUMENTID.select });
   }
   public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
     Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());

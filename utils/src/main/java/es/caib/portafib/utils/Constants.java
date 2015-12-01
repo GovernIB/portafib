@@ -103,8 +103,8 @@ public interface Constants {
   // TIPUS PLUGINS
   
   public static final int TIPUS_PLUGIN_MODULDEFIRMA = 0;
-  
   public static final int TIPUS_PLUGIN_SEGELLDETEMPS = 1;
+  public static final int TIPUS_PLUGIN_CUSTODIA = 2;
   
 
   // Contextes WEB per enllaços dels mails.
@@ -189,7 +189,8 @@ public interface Constants {
   
   public static final int SEGELLDETEMPSVIAWEB_NOUSAR=0;
   public static final int SEGELLDETEMPSVIAWEB_SEMPREUSAR=1;
-  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX=2;
+  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI=2;
+  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO=3;
   
 
   
