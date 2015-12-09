@@ -79,12 +79,12 @@ public class SignatureInServerTest extends TestCase {
       String filtreCertificats = "";
       String username = "anadal";
       PolicyInfoSignature policyInfoSignature = null;
-      String urlOK = "none";
-      String urlError = "none";
+      String urlFinal = "none";
+      
       boolean browserSupportsJava = false;
 
       CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-          filtreCertificats, username, policyInfoSignature, urlOK, urlError,
+          filtreCertificats, username, policyInfoSignature, urlFinal,
           browserSupportsJava);
 
       String signID = "999";

@@ -83,7 +83,11 @@
     <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_seleccio.jsp" />
     </definition>
-   
+    
+    <definition name="PluginFirmaFinal" template="/WEB-INF/jsp/layout/htmlpagelayout.jsp" preparer="basePreparer">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_final.jsp" />
+    </definition>
+    
     <definition name="carrecsList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
@@ -291,8 +295,7 @@
     <definition name="segellDeTempsListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
-    
-    
+
     <definition name="plantillaCustodiaInfoFormAden" extends="role_aden">
         <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />
@@ -300,6 +303,16 @@
     
     <definition name="plantillaCustodiaInfoListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
+    </definition>
+    
+    
+    <definition name="modulDeFirmaPerTipusDeDocumentFormAden" extends="role_aden">
+        <put-attribute name="titol" value="modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentForm.jsp" />
+    </definition>
+    
+    <definition name="modulDeFirmaPerTipusDeDocumentListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp" />
     </definition>
     
 
@@ -519,8 +532,7 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/soli/peticioDeFirmaList.jsp" />
     </definition>
 
-    
-    
+
    <definition name="custodiaInfoForm_soli" extends="role_soli">
         <put-attribute name="titol" value="custodiaInfo.custodiaInfo" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoForm.jsp" />

@@ -102,34 +102,6 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
   // --------------------------| Custodia |---------------------------
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
-
-  /** XYZ 
-  @RolesAllowed({ PFI_ADMIN ,PFI_USER })
-  @WebMethod
-  @Override
-  public String getCurrentCustodiaPluginID() throws WsI18NException, Throwable {
-    
-    UsuariAplicacioJPA app =  UsuariAplicacioCache.get();
-    
-    if (!LogicUtils.checkPotCustodiar(app)) {
-      return null;
-    }
-    
-    EntitatJPA entitat = app.getEntitat();
-    return entitat.getPluginID(); // Pot valer null si hem definit el plugin de Custòdia
-    
-    ***
-    
-    IDocumentCustodyPlugin plugin = PortaFIBPluginsManager.getDocumentCustodyPluginInstance();
-    if (plugin == null) {
-      return null;
-    } else {
-      return plugin.getClass().getName();
-    }
-   
-    return null;
-  }
-  */
   
   
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })

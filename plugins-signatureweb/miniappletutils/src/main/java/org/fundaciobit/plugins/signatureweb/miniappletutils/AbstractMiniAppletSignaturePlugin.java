@@ -1,8 +1,10 @@
 package org.fundaciobit.plugins.signatureweb.miniappletutils;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -14,6 +16,7 @@ import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.fundaciobit.plugins.utils.FileUtils;
 
@@ -140,6 +143,48 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     
   }
   
+  
+  
+
+  protected void generateRedirectPage(final String url, PrintWriter out) {
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<meta http-equiv=\"refresh\" content=\"0; url=" + url + "\" />");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<script>");
+    out.println("  window.location.href='" + url + "';");
+    out.println("</script>");
+    out.println("</body>");
+    out.println("</html>");
+  }
+  
+  
+  
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+//------------------- CANCEL BUTTON   ----------------------
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+
+protected static final String CANCEL_PAGE = "cancel"; 
+
+protected void cancel(String pluginRequestPath, String relativePath,
+    SignaturesSet signaturesSet, int signatureIndex,
+    HttpServletResponse response, Locale locale) throws Exception {
+
+  
+  final String url;
+  url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+  
+  signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_CANCELLED);
+  
+  
+  generateRedirectPage(url, response.getWriter());
+  
+}
+
   
 
 }

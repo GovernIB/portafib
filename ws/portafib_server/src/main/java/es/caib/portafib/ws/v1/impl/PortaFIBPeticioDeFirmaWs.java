@@ -31,13 +31,7 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
   // --------------------------| Custodia |---------------------------
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
-
-// XYZ
-//  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
-//  @WebMethod
-//  public String getCurrentCustodiaPluginID() throws WsI18NException, Throwable;
-
-  
+ 
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
   public CustodiaInfoBean getDefaultCustodiaInfo(

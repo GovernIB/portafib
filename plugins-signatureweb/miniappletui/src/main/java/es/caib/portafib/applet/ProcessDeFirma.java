@@ -312,8 +312,6 @@ public class ProcessDeFirma extends Thread {
     String boundary = null;
     try {
       uc = url.openConnection();
-      
-      
 
       if (uc instanceof HttpURLConnection) {
         HttpURLConnection c = (HttpURLConnection) uc;
@@ -322,8 +320,7 @@ public class ProcessDeFirma extends Thread {
         c.setDoOutput(true);
 
         //c.setRequestMethod("POST");
-        
-        
+
         // XYZ Veure si es mes eficient
         //c.connect();
         

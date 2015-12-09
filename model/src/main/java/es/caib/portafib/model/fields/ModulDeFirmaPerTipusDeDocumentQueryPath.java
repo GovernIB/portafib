@@ -15,16 +15,16 @@ public class ModulDeFirmaPerTipusDeDocumentQueryPath extends org.fundaciobit.gen
     return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.ID);
   }
 
+  public StringField NOM() {
+    return new StringField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.NOM);
+  }
+
   public LongField TIPUSDOCUMENTID() {
     return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID);
   }
 
   public LongField PLUGINID() {
     return new LongField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.PLUGINID);
-  }
-
-  public StringField NOM() {
-    return new StringField(getQueryPath(), ModulDeFirmaPerTipusDeDocumentFields.NOM);
   }
 
 

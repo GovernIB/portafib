@@ -17,6 +17,7 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
@@ -27,7 +28,6 @@ import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
  * 
- * TODO XYZ Afegir un boto web per cancelar la/les firmes que estigui devora el boto de tornar
  * 
  * @author anadal
  *
@@ -93,7 +93,7 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
       return;
     }
     
-    
+  
     if (relativePath.startsWith("img/")) {
       InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
       if (fis != null) {
@@ -114,6 +114,7 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
     
   }
   
+
   
   
   // ----------------------------------------------------------------------------
@@ -241,6 +242,8 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
     out.println("</jnlp>");
     out.flush();
     
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
+    
   }
 
 
@@ -259,15 +262,17 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
       HttpServletResponse response) throws Exception {
     
     if (signatureIndex == -1) {
+
+      SignaturesSet ss = getSignaturesSet(signaturesSetID);
       
-      StatusSignature[] allStatus = getStatusSignatureSet(signaturesSetID);
-      
-      if (allStatus == null) {
+      if (ss == null) {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       } else {
-        for (StatusSignature status : allStatus) {
+        
+        for(FileInfoSignature fis  : ss.getFileInfoSignatureArray()) {
+          StatusSignature status = fis.getStatusSignature();
           int code = status.getStatus();
-          if (code != StatusSignature.STATUS_SIGNED && code != StatusSignature.STATUS_ERROR) {
+          if (code != StatusSignature.STATUS_FINAL_OK && code != StatusSignature.STATUS_FINAL_ERROR) {
             response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
             return;
           }
@@ -281,7 +286,7 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       } else {
         int code = status.getStatus();
-        if (code == StatusSignature.STATUS_SIGNED || code == StatusSignature.STATUS_ERROR) {
+        if (code == StatusSignature.STATUS_FINAL_OK || code == StatusSignature.STATUS_FINAL_ERROR) {
           response.setStatus(HttpServletResponse.SC_OK);
         } else {
           response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
@@ -319,7 +324,7 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
    out.println("  <h2>" + getTraduccio("autofirma.jnlp", locale) + "</h2><br/>");
    out.println("  <img src=\"" + pluginRequestPath + "/img/ajax-loader2.gif" + "\" /><br/>");
    out.println("  <br/>");
-   out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoHome()\" value=\"" + getTraduccio("tornar", locale) + "\">");
+   out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\"" + getTraduccio("cancel", locale) + "\">");
    out.println("  </td></tr></table>");
    out.println("</div>");
 
@@ -348,8 +353,8 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
    out.println("    }");
    out.println("  }");
    out.println();
-   out.println("  function gotoHome() {");
-   out.println("    window.location.href='" +  pluginRequestPath + "/" + FINAL_PAGE+ "';");
+   out.println("  function gotoCancel() {");
+   out.println("    window.location.href='" +  pluginRequestPath + "/" + CANCEL_PAGE+ "';");
    out.println("  }");
    out.println();
 

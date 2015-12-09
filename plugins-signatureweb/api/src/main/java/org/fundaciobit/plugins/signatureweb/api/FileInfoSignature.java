@@ -62,10 +62,10 @@ public class FileInfoSignature {
   int signMode;
 
   PdfInfoSignature pdfInfoSignature;
-  
-  
+
   ITimeStampGenerator timeStampGenerator = null; 
 
+  StatusSignature statusSignature = new StatusSignature();
 
   /**
    * 
@@ -218,6 +218,14 @@ public class FileInfoSignature {
 
   public void setTimeStampGenerator(ITimeStampGenerator timeStampGenerator) {
     this.timeStampGenerator = timeStampGenerator;
+  }
+
+  public StatusSignature getStatusSignature() {
+    return statusSignature;
+  }
+
+  public void setStatusSignature(StatusSignature statusSignature) {
+    this.statusSignature = statusSignature;
   }
 
 }

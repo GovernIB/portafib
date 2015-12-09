@@ -18,6 +18,8 @@ public class SignaturesSet {
 
   protected FileInfoSignature[] fileInfoSignatureArray = null;
 
+  protected StatusSignaturesSet statusSignaturesSet = new StatusSignaturesSet();
+
   /**
    * 
    */
@@ -33,6 +35,7 @@ public class SignaturesSet {
       CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray) {
     super();
     this.signaturesSetID = signaturesSetID;
+    this.expiryDate = expiryDate;
     this.commonInfoSignature = commonInfoSignature;
     this.fileInfoSignatureArray = fileInfoSignatureArray;
   }
@@ -67,6 +70,14 @@ public class SignaturesSet {
 
   public void setExpiryDate(Date expiryDate) {
     this.expiryDate = expiryDate;
+  }
+
+  public StatusSignaturesSet getStatusSignaturesSet() {
+    return statusSignaturesSet;
+  }
+
+  public void setStatusSignaturesSet(StatusSignaturesSet statusSignaturesSet) {
+    this.statusSignaturesSet = statusSignaturesSet;
   }
 
 }

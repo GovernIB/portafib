@@ -15,9 +15,7 @@ public class CommonInfoSignature {
 
   PolicyInfoSignature policyInfoSignature = null;
 
-  String urlOK;
-
-  String urlError;
+  String urlFinal;
 
   boolean browserSupportsJava;
 
@@ -37,15 +35,14 @@ public class CommonInfoSignature {
    * @param browserSupportsJava
    */
   public CommonInfoSignature(String languageUI, String filtreCertificats, String username,
-      PolicyInfoSignature policyInfoSignature, String urlOK, String urlError,
+      PolicyInfoSignature policyInfoSignature, String urlFinal,
       boolean browserSupportsJava) {
     super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
     this.username = username;
     this.policyInfoSignature = policyInfoSignature;
-    this.urlOK = urlOK;
-    this.urlError = urlError;
+    this.urlFinal = urlFinal;
     this.browserSupportsJava = browserSupportsJava;
   }
 
@@ -81,20 +78,12 @@ public class CommonInfoSignature {
     this.policyInfoSignature = policyInfoSignature;
   }
 
-  public String getUrlOK() {
-    return urlOK;
+  public String getUrlFinal() {
+    return urlFinal;
   }
 
-  public void setUrlOK(String urlOK) {
-    this.urlOK = urlOK;
-  }
-
-  public String getUrlError() {
-    return urlError;
-  }
-
-  public void setUrlError(String urlError) {
-    this.urlError = urlError;
+  public void setUrlFinal(String urlFinal) {
+    this.urlFinal = urlFinal;
   }
 
   public boolean isBrowserSupportsJava() {

@@ -29,6 +29,11 @@
           ${modulDeFirmaPerTipusDeDocument.ID}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
+          <td>
+          ${modulDeFirmaPerTipusDeDocument.nom}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
           <td>
           <c:set var="tmp">${modulDeFirmaPerTipusDeDocument.tipusDocumentID}</c:set>
@@ -43,11 +48,6 @@
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
-          <td>
-          ${modulDeFirmaPerTipusDeDocument.nom}
           </td>
         </c:if>
 

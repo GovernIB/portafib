@@ -4,8 +4,8 @@
     "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
 <urlrewrite>
   <rule>
-    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)/(.*)$</from>
-    <to last="true">/common/signmodule/requestPlugin/$1/$2/$3?restOfTheUrl=$4</to>
+    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)$</from>
+    <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3</to>
   </rule>
 </urlrewrite>
 <!-- XYZ ZZZ -->

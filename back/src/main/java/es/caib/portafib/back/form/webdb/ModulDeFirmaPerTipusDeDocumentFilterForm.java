@@ -43,6 +43,17 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
   }
 
 
+  private java.lang.String nom;
+
+  public java.lang.String getNom() {
+    return this.nom;
+  }
+
+  public void setNom(java.lang.String nom) {
+    this.nom = nom;
+  }
+
+
   private java.lang.Long tipusDocumentIDDesde;
 
   public java.lang.Long getTipusDocumentIDDesde() {
@@ -87,17 +98,6 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
   }
 
 
-  private java.lang.String nom;
-
-  public java.lang.String getNom() {
-    return this.nom;
-  }
-
-  public void setNom(java.lang.String nom) {
-    this.nom = nom;
-  }
-
-
   public ModulDeFirmaPerTipusDeDocumentFilterForm() {
   }
   
@@ -105,11 +105,11 @@ public class ModulDeFirmaPerTipusDeDocumentFilterForm extends PortaFIBBaseFilter
     super(__toClone);
     this.IDDesde = __toClone.IDDesde;
     this.IDFins = __toClone.IDFins;
+    this.nom = __toClone.nom;
     this.tipusDocumentIDDesde = __toClone.tipusDocumentIDDesde;
     this.tipusDocumentIDFins = __toClone.tipusDocumentIDFins;
     this.pluginIDDesde = __toClone.pluginIDDesde;
     this.pluginIDFins = __toClone.pluginIDFins;
-    this.nom = __toClone.nom;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
     this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
   }

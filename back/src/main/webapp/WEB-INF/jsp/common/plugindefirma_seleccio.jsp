@@ -1,6 +1,4 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
 <div class="lead" style="margin-bottom:10px">
   

@@ -10,6 +10,7 @@ import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
@@ -186,8 +187,13 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
     out.println();
     out.println("   deployJava.runApplet(attributes, parameters, version);");
     out.println(" </script> ");
+    out.println("<br/>");
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
+        + getTraduccio("cancel", locale) + "</button>");
     out.println();
     out.println("</center>");
+    
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
   }
   

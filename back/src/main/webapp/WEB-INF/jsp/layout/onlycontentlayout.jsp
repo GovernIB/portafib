@@ -11,16 +11,13 @@
 <%@ include file="/WEB-INF/jsp/moduls/imports.jsp"%>
 </head>
 <body>
-
     <!--  CONTINGUT  -->
     <div style="padding: 10px">
-
       <!--  Missatges  -->
-      <%-- <tiles:insertAttribute name="missatges" />  --%>
       <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
 
       <!-- Contingut de la pagina -->
-      <tiles:insertAttribute name="contingut" >           
+      <tiles:insertAttribute name="contingut" >
       </tiles:insertAttribute>
 
       <!-- FINAL DIV CONTINGUT -->

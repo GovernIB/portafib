@@ -2,9 +2,9 @@ package es.caib.portafib.ws.test.v1;
 
 import junit.framework.Assert;
 
+import org.fundaciobit.plugins.utils.XTrustProvider;
 import org.junit.Test;
 
-import es.caib.portafib.utils.XTrustProvider;
 import es.caib.portafib.ws.v1.HelloWorldIndraProxy;
 
 

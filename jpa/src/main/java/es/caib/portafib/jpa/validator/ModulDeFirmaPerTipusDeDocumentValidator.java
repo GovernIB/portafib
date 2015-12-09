@@ -32,6 +32,10 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
     ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager) {
 
     // Valors Not Null
+    __vr.rejectIfEmptyOrWhitespace(__target__,NOM, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOM)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSDOCUMENTID, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSDOCUMENTID)));
@@ -39,10 +43,6 @@ public class ModulDeFirmaPerTipusDeDocumentValidator<T> implements ModulDeFirmaP
     __vr.rejectIfEmptyOrWhitespace(__target__,PLUGINID, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PLUGINID)));
-
-    __vr.rejectIfEmptyOrWhitespace(__target__,NOM, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOM)));
 
     // Check size
     if (__vr.getFieldErrorCount(NOM) == 0) {

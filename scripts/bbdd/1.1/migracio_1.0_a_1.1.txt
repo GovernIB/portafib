@@ -9,7 +9,10 @@
    (2.e) Eliminar les propietats "es.caib.portafib.defaultcustodymessage.{entitat_id}.{idioma}" del fitxer portafib-properties-service.xml
    (2.f) Eliminar les propietats de plugin de custòdia del fitxer portafib-properties-service.xml (entrades es.caib.portafib.documentcustodyplugin.* i es.caib.portafib.plugins.documentcustody.*)
 
-(3) 
+(3) Gestio de Segell de Temps
+   PortaFIB 1.1 suporta Segellat de Temps, per la qual cosa si es desitja aquesta caracteristica l'Administrador l'haurà de configurar.
+   
+(4) 
 
 
 (????) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuracio

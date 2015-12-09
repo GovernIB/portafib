@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -29,6 +30,7 @@ import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
@@ -39,8 +41,9 @@ import org.fundaciobit.plugins.utils.EncrypterDecrypter;
 import org.fundaciobit.plugins.utils.FileUtils;
 import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
 
+// TODO XYZ Falta eliminar certificats
 /**
- * 
+ *
  * @author anadal
  *
  */
@@ -196,7 +199,13 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       uploadCertificateGET(pluginRequestPath, relativePath, signaturesSet, out, locale);
 
       generateFooter(out);
+    } else if (relativePath.startsWith(CANCEL_PAGE)) {
+      cancel(pluginRequestPath, relativePath, signaturesSet, signatureIndex, response, locale);
+    } else if (relativePath.startsWith(DELETE_PAGE)) {
+      
+      deleteCertificateGET(pluginRequestPath, relativePath, response, signaturesSet, locale);
     } else {
+    
         
         log.error("======== REQUEST GET DESCONEGUT IN MINIAPPLETINSERVER  =========== ");
         log.error("pluginRequestPath: " + pluginRequestPath);
@@ -210,6 +219,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   }
 
+  
+  // XYZ Eliminar Exception !!!!
   @Override
   public void requestPOST(String pluginRequestPath, String relativePath,
       String signaturesSetID, int signatureIndex, HttpServletRequest request,
@@ -217,7 +228,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
-    // TOOD null signatures set
+    // TODO null signatures set
     
     
     if (relativePath.endsWith(TIMESTAMP_PAGE)) {
@@ -239,12 +250,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     } else if (relativePath.startsWith(FIRMAR_PAGE)) {
 
-      PrintWriter out = response.getWriter();      
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
+      //PrintWriter out = response.getWriter();      
+      //generateHeader(request, pluginRequestPath, out, signaturesSet);
       
-      firmarPOST(pluginRequestPath, request, response, out, signaturesSet, locale);
+      firmarPOST(pluginRequestPath, request, response, signaturesSet, locale);
       
-      generateFooter(out);
+      //generateFooter(out);
 
     } else {
       
@@ -273,8 +284,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private void firmarPOST(String pluginRequestPath, HttpServletRequest request,
       HttpServletResponse response,
-      PrintWriter out, SignaturesSet signaturesSet, Locale locale) throws Exception {
+      SignaturesSet signaturesSet, Locale locale) throws Exception {
 
+    
+    // XYZ Falta gestionar Errors Generals
+    
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
@@ -308,6 +322,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     FileInputStream fis = new FileInputStream(new File(certPath, FILENAME_P12));
     PublicCertificatePrivateKeyPair pair = CertificateUtils.readPKCS12(fis, p12Password);
     fis.close();
+    
+    // XYZ Check PAIR
 
     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
 
@@ -315,11 +331,15 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     String baseSignaturesSet = pluginRequestPath.substring(0, pos - 1);
     
+    if (log.isDebugEnabled()) {
+      log.debug("MiniAppletInServerSignatureWebPlugin::baseSignaturesSet " + baseSignaturesSet);
+    }
+
+    //int errors = 0;
+    X509Certificate certificate = pair.getPublicCertificate();
+    PrivateKey privateKey = pair.getPrivateKey();
     
-    log.info(" XYZ  MiniAppletInServerSignatureWebPlugin::baseSignaturesSet " + baseSignaturesSet);
-    
-    
-    int errors = 0;
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
     for (int i = 0; i < fileInfoArray.length; i++) {
 
@@ -331,9 +351,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         if (fileInfo.getTimeStampGenerator() != null) {
           timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
         }
-          
-        
-        X509Certificate certificate = pair.getPublicCertificate();
+
         MiniAppletSignInfo info;
         info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
             timeStampUrl, certificate);
@@ -341,14 +359,14 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
               // FIRMA PADES
-              AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(pair.getPrivateKey());
+              AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
       
               byte[] signedData = cloudSign.sign(info.getDataToSign(), info.getSignAlgorithm(),
                   new Certificate[] { info.getCertificate() }, info.getProperties());
       
               StatusSignature ss = getStatusSignature(signaturesSetID, i);
       
-              ss.setStatus(StatusSignature.STATUS_SIGNED);
+              ss.setStatus(StatusSignature.STATUS_FINAL_OK);
       
               ss.setSignedData(signedData);
 
@@ -361,7 +379,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
           
           StatusSignature ss = getStatusSignature(signaturesSetID, i);
           
-          ss.setStatus(StatusSignature.STATUS_ERROR);
+          ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
           
           ss.setErrorMsg(msg);
           
@@ -377,37 +395,37 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
         StatusSignature ss = getStatusSignature(signaturesSetID, i);
 
-        ss.setStatus(StatusSignature.STATUS_ERROR);
+        ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
 
         ss.setErrorException(th);
 
         ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) + fileInfo.getName() + " (" + i + ")["
             + th.getClass().getName() + "]:" + th.getMessage());
 
-        errors++;
+        //errors++;
       }
     }
 
     
-    final String url;
-    if (errors == 0) {
-      url = signaturesSet.getCommonInfoSignature().getUrlOK();
-    } else {
-      url = signaturesSet.getCommonInfoSignature().getUrlError();
-    }
     
-    out.println("<script>");
-    out.println("  $( document ).ready(function() {");
-    out.println("    top.window.location.href='" + url + "';");
-    out.println("  });");
-    out.println("</script>");
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
+    
+    
+    final String url;
+    url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    
+    PrintWriter out = response.getWriter();
+    
+    generateRedirectPage(url, out);
+    
+    out.flush();
 
   }
 
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------ S E L E C T C E R T I F I C A T E -------------------
+  // ------------------ S E L E C T     C E R T I F I C A T E -------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -439,7 +457,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
           + "\" value=\"" + path.getName() + "\" " + ((count == 0)?"checked":"" ) + " >");
           
       out.println("</td>");
-      out.println("<td style=\"border: 2px solid gray;\">");
+      out.println("<td style=\"border: 1px solid gray; padding-top:1px;\">");
       
       out.println("<label class=\"radio\">");
 
@@ -461,6 +479,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
       out.println("</label>");
       out.println("</td>");
+      out.println("<td>");
+      out.println("<button class=\"btn btn-danger\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + DELETE_PAGE + "/" + path.getName() + "'\" >" 
+          + "<i class=\"icon-trash icon-white\"></i></button>");
+      out.println("&nbsp;&nbsp;");
+      out.println("</td>");      
       out.println("</tr>");
       out.println("</table>");
       count++;
@@ -486,6 +509,9 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     
     out.println("<br/><br/>");
     
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
+        + getTraduccio("cancel", locale) + "</button>");
+    out.println("&nbsp;&nbsp;");
     out.println("<button class=\"btn btn-success\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE + "/canreturn'\" >" 
         + getTraduccio("afegircertificat.enllaz", locale) + "</button>");
     out.println("&nbsp;&nbsp;");
@@ -494,10 +520,47 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       + getTraduccio("firmardocument" + (numFitxers == 0?"":".plural"), locale) + "</button>");
     out.println("</form>");
   }
+  
+  
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ------------------ D E L E T E     C E R T I F I C A T E -------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  
+  
+  private static final String  DELETE_PAGE = "deleteCertificate";
+  
+  
+  private void deleteCertificateGET(String pluginRequestPath, String relativePath,
+      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) throws Exception {
+    
+    //out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
+    
+    log.info(" XYZ  deleteCertificateGET::relativePath " + relativePath);
+    
+    int pos = relativePath.lastIndexOf('/');
+    String dirName = relativePath.substring(pos + 1);
+    
+    log.info(" XYZ  deleteCertificateGET::dirName " + dirName);
+    
+    final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+    File userPath = getUserNamePath(commonInfoSignature.getUsername());
+    
+    FileUtils.deleteRecursive(new File(userPath, dirName));
+    
+    saveMessageError(signaturesSet.getSignaturesSetID(), "Eliminat correctament el certificat");
+    
+    String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
+    // log.debug("REDIRECT(uploadCertificate - POST ) = " + redirect);
+    response.sendRedirect(redirect);
+  }
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------ U P L O A D C E R T I F I C A T E -------------------
+  // ------------------ U P L O A D     C E R T I F I C A T E -------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -524,7 +587,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("</tr>");
     out.println("</table>");
     out.println("<br />");
-    out.println("&nbsp;&nbsp;<button class=\"btn btn-primary\" type=\"submit\">" + getTraduccio("afegircertificat.button", locale) + "</button>");
+    
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
+        + getTraduccio("cancel", locale) + "</button>");
+    out.println("&nbsp;&nbsp;");
+    out.println("<button class=\"btn btn-primary\" type=\"submit\">" + getTraduccio("afegircertificat.button", locale) + "</button>");
     
     if (relativePath.endsWith("canreturn")) {
       String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
@@ -588,7 +655,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       p12passwordEncrypedB64 = EncrypterDecrypter.encrypt(ALGORITHM,
           fillPwd(pin, 16).getBytes(), p12password);
 
-      // XYZ Check p12 i password
+      // Check p12 i password
       Properties prop = new Properties();
 
       prop.setProperty(PROPERTY_P12PASSWORD_ENCRIPTED, p12passwordEncrypedB64);

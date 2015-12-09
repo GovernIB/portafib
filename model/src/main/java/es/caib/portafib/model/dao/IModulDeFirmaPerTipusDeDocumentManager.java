@@ -7,7 +7,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 public interface IModulDeFirmaPerTipusDeDocumentManager extends org.fundaciobit.genapp.common.query.ITableManager<ModulDeFirmaPerTipusDeDocument, Long> {
 
 
-	public ModulDeFirmaPerTipusDeDocument create( long _tipusDocumentID_, long _pluginID_, java.lang.String _nom_) throws I18NException;
+	public ModulDeFirmaPerTipusDeDocument create( java.lang.String _nom_, long _tipusDocumentID_, long _pluginID_) throws I18NException;
 
 	public ModulDeFirmaPerTipusDeDocument findByPrimaryKey(long _ID_);
 

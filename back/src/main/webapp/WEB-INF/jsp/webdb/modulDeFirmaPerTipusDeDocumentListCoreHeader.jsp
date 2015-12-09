@@ -15,14 +15,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.ID)}">
         <th>${pfi:getSortIcons(__theFilterForm,ModulDeFirmaPerTipusDeDocumentFields.ID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,ModulDeFirmaPerTipusDeDocumentFields.NOM)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
         <th>${pfi:getSortIcons(__theFilterForm,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}">
         <th>${pfi:getSortIcons(__theFilterForm,ModulDeFirmaPerTipusDeDocumentFields.PLUGINID)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
-        <th>${pfi:getSortIcons(__theFilterForm,ModulDeFirmaPerTipusDeDocumentFields.NOM)}</th>
         </c:if>
 
 

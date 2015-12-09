@@ -58,6 +58,19 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="modulDeFirmaPerTipusDeDocument.nom" var="nom" />
+              <fmt:message key="genapp.form.searchby" var="cercapernom" >                
+                 <fmt:param value="${nom}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${nom}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapernom}" path="nom" />
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
@@ -90,19 +103,6 @@
               
               <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
               
-            </div>
-
-
-        </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,ModulDeFirmaPerTipusDeDocumentFields.NOM)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="modulDeFirmaPerTipusDeDocument.nom" var="nom" />
-              <fmt:message key="genapp.form.searchby" var="cercapernom" >                
-                 <fmt:param value="${nom}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${nom}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercapernom}" path="nom" />
             </div>
 
 

@@ -36,10 +36,10 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -64,6 +64,7 @@ import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
@@ -1119,13 +1120,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
       String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
       
-      // XYZ S'ha de simplificar en una sola URL
-      final String urlOK = absoluteControllerBase + "/finalOK/{0}/" + signaturesSetID;
-      final String urlError = absoluteControllerBase + "/finalError/{0}/" + signaturesSetID;
-      
+      final String urlFirmaFinal = absoluteControllerBase + "/finalFirma/" + signaturesSetID;
+            
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, urlOK, urlError, !isJnlp);
+          langUI, username, urlFirmaFinal, !isJnlp);
     }
     
     // Vuls suposar que abans de 10 minuts haurà firmat
@@ -1133,9 +1132,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     caducitat.add(Calendar.MINUTE, 10);
     
 
-    SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, caducitat.getTime(),
-        commonInfoSignature, fileInfoSignatureArray);
+    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
+        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray);
 
+    signaturesSet.setTipusDocBySignatureID(null);
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";
     ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
@@ -1144,9 +1144,120 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   }
 
+  
+  
+  @RequestMapping(value = "/finalFirma/{signaturesSetID}")
+  public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
+  
+  
+  SignaturesSet ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID);
+
+  StatusSignaturesSet sss = ss.getStatusSignaturesSet();
+  
+  StatusSignaturesSet statusError = null;
+  
+  switch(sss.getStatus()) {
+  
+    case StatusSignaturesSet.STATUS_FINAL_OK:
+      {
+        // Revisam la primera i unica firma
+        StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
+        // TODO check null
+        
+        if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+          
+          FileInfoSignature signFileInfo = ss.getFileInfoSignatureArray()[0];
+          
+          Long delegacioID = new Long(signFileInfo.getSignID());
+
+          try {
+            File firmat = null;
+
+            firmat = File.createTempFile(DelegacioDestController.FITXER_AUTORITZACIO_PREFIX
+                + "_Firmat_" + delegacioID, ".pdf", FileSystemManager.getFilesPath());
+            firmat.deleteOnExit();
+
+            FileOutputStream fos = new FileOutputStream(firmat);
+            fos.write(status.getSignedData());
+            fos.close();
+
+            log.debug("WWWWWWWWW " + firmat.getAbsolutePath());
+
+            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, firmat,
+                DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
+
+          } catch (Throwable e) {
+            log.error(" CLASS = " + e.getClass());
+            String msg;
+            if (e instanceof I18NException) {
+              I18NException i18ne = (I18NException)e;
+              msg = I18NUtils.getMessage(i18ne);
+              log.error("Error processant fitxer firmat (I18NException): " + msg, e);
+            } else {
+              msg = e.getMessage();
+              log.error("Error processant fitxer firmat (Throwable): " + msg , e);
+            }
+
+            //  TODO Traduir
+            String fullMsg = "S´ha produit un error processant el fitxer firmat ´" + 
+                signFileInfo.getName() + "´: " + msg;
+            
+            HtmlUtils.saveMessageError(request, fullMsg);
+
+          }
+          
+          status.setProcessed(true);
+        } else {
+          statusError = status;
+        }
+      }
+      
+    
+    break;
+    
+    case StatusSignaturesSet.STATUS_FINAL_ERROR:
+      
+      statusError = sss;
+    break;
+    
+    
+    case StatusSignaturesSet.STATUS_CANCELLED:
+      if (sss.getErrorMsg() == null) {
+        sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
+      }
+      statusError = sss;
+    break;
+      
+    default:
+      String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
+          + "(no ha establit l'estat final del procés de firma)";
+      sss.setErrorMsg(inconsistentState);
+      statusError = sss;
+      log.error(inconsistentState, new Exception());
+  
+  }
+  
+   
+  
+  if ( statusError != null) {      
+    // TODO Mostrar excepció per log
+    if (statusError.getErrorMsg() == null) {
+      statusError.setErrorMsg("Error desconegut ja que no s'ha definit el missatge de l'error !!!!!");
+    }
+    HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
+  }
+ 
+  
+  SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+ 
+  ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+  return mav;
+  
+}
 
   
-  
+  /*
   @RequestMapping(value = "/finalOK/{pluginID}/{signaturesSetID}")
   public ModelAndView finalOK(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("pluginID") Long pluginID,
@@ -1214,7 +1325,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
   }
   
-  
+  /*
   @RequestMapping(value = "/finalError/{pluginID}/{signaturesSetID}")
   public ModelAndView finalError(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("pluginID") Long pluginID,
@@ -1260,7 +1371,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
     
   }
-  
+  */
   
   
   
@@ -1289,20 +1400,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     input.close();
   }
 
-  @RequestMapping(value = "/final/{id}", method = RequestMethod.GET)
-  public String firmaFinal(@PathVariable("id") Long id) {
-
-    log.info("Ha finalitzat amb la firma de l'autoritzacio de delegació amb ID " + id);
-
-    final File base = FileSystemManager.getFilesPath();
-    File dstPDF = new File(base, FITXER_AUTORITZACIO_PREFIX + id + ".pdf");
-    dstPDF.delete();
-
-    return "redirect:" + getContextWeb() + "/" + id + "/edit/";
-  }
   
 
-  
   
   /**
    * 

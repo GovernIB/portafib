@@ -15,9 +15,9 @@ import java.util.List;
 import javax.activation.DataHandler;
 
 import org.apache.axis.attachments.AttachmentPart;
+import org.fundaciobit.plugins.utils.XTrustProvider;
 import org.junit.Test;
 
-import es.caib.portafib.utils.XTrustProvider;
 import es.caib.portafib.ws.test.v1.enterprise.DownloadDocumentPortafirmasHandler;
 import es.caib.portafib.ws.test.v1.enterprise.EnvioPortafirmasHandler;
 import es.caib.portafib.ws.test.v1.helium.DocumentPortasignatures;

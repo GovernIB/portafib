@@ -11,9 +11,9 @@ public class ModulDeFirmaPerTipusDeDocumentBean implements ModulDeFirmaPerTipusD
 private static final long serialVersionUID = 2083543313L;
 
 	long ID;// PK
+	java.lang.String nom;
 	long tipusDocumentID;
 	long pluginID;
-	java.lang.String nom;
 
 
   /** Constructor Buit */
@@ -21,23 +21,23 @@ private static final long serialVersionUID = 2083543313L;
   }
 
   /** Constructor amb tots els camps  */
-  public ModulDeFirmaPerTipusDeDocumentBean(long ID , long tipusDocumentID , long pluginID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentBean(long ID , java.lang.String nom , long tipusDocumentID , long pluginID) {
     this.ID=ID;
+    this.nom=nom;
     this.tipusDocumentID=tipusDocumentID;
     this.pluginID=pluginID;
-    this.nom=nom;
 }
   /** Constructor sense valors autoincrementals */
-  public ModulDeFirmaPerTipusDeDocumentBean(long tipusDocumentID , long pluginID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentBean(java.lang.String nom , long tipusDocumentID , long pluginID) {
+    this.nom=nom;
     this.tipusDocumentID=tipusDocumentID;
     this.pluginID=pluginID;
-    this.nom=nom;
 }
   public ModulDeFirmaPerTipusDeDocumentBean(ModulDeFirmaPerTipusDeDocument __bean) {
     this.setID(__bean.getID());
+    this.setNom(__bean.getNom());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
     this.setPluginID(__bean.getPluginID());
-    this.setNom(__bean.getNom());
 	}
 
 	public long getID() {
@@ -45,6 +45,13 @@ private static final long serialVersionUID = 2083543313L;
 	};
 	public void setID(long _ID_) {
 		this.ID = _ID_;
+	};
+
+	public java.lang.String getNom() {
+		return(nom);
+	};
+	public void setNom(java.lang.String _nom_) {
+		this.nom = _nom_;
 	};
 
 	public long getTipusDocumentID() {
@@ -61,13 +68,6 @@ private static final long serialVersionUID = 2083543313L;
 		this.pluginID = _pluginID_;
 	};
 
-	public java.lang.String getNom() {
-		return(nom);
-	};
-	public void setNom(java.lang.String _nom_) {
-		this.nom = _nom_;
-	};
-
 
 
   // ======================================
@@ -76,9 +76,9 @@ private static final long serialVersionUID = 2083543313L;
     if (__bean == null) { return null;}
     ModulDeFirmaPerTipusDeDocumentBean __tmp = new ModulDeFirmaPerTipusDeDocumentBean();
     __tmp.setID(__bean.getID());
+    __tmp.setNom(__bean.getNom());
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
     __tmp.setPluginID(__bean.getPluginID());
-    __tmp.setNom(__bean.getNom());
 		return __tmp;
 	}
 

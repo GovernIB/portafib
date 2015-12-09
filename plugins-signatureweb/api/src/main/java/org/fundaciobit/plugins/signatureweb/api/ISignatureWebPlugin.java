@@ -24,7 +24,6 @@ public interface ISignatureWebPlugin extends IPlugin {
 
   public String[] getSupportedSignatureAlgorithms(String signType);
 
-  
   public boolean filter(String username, String filter, boolean supportJava);
 
 
@@ -43,7 +42,6 @@ public interface ISignatureWebPlugin extends IPlugin {
       String signaturesSetID, int signatureIndex, HttpServletRequest request,
       Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception;
 
-  public StatusSignature[] getStatusSignatureSet(String signatureSetID);
 
   public StatusSignature getStatusSignature(String signatureSetID, int signatureIndex);
   

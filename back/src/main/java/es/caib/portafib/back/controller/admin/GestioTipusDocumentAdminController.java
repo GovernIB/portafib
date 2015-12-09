@@ -120,6 +120,8 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 			tipusDocumentFilterForm.setVisibleExportList(true);
 			
 			// Sempre filtram per nom i descripcio
+			tipusDocumentFilterForm.addFilterByField(TIPUSDOCUMENTID);
+			// XYZ Poder filtrar per traduccions
 			// tipusDocumentFilterForm.addFilterByField(NOM);
 			tipusDocumentFilterForm.addFilterByField(DESCRIPCIO);
 			

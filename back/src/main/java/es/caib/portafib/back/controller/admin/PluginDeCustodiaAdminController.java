@@ -50,16 +50,11 @@ public class PluginDeCustodiaAdminController extends AbstractPluginAdminControll
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
      PluginForm pluginForm = super.getPluginForm(_jpa, __isView, request, mav);
      if(!pluginForm.isNou()) {
-       // TODO XYZ Només fer editable la classe en cas de que no hi hagi peticions o les peticions
-       // no estiguin actives 
+       // TODO XYZ Només fer editable la classe en cas de que no hi hagi peticions
+       // o les peticions no estiguin actives 
        pluginForm.addReadOnlyField(CLASSE);
      }
 
      return pluginForm;
    }
-
-  
-
-  // TODO exportar plantilles SQL
-
 }

@@ -1,8 +1,11 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.utils.AbstractPluginProperties;
@@ -22,8 +25,6 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
 
   private Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
 
-  private Map<String, StatusSignature[]> statusSignatures = new HashMap<String, StatusSignature[]>();
-  
   private long lastCheckFirmesCaducades = 0;
 
   /**
@@ -54,32 +55,21 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
     synchronized (infoSign) {
       infoSign.remove(id);
     }
-    statusSignatures.remove(id);  
     System.gc();
   }
   
-  @Override
-  public StatusSignature[] getStatusSignatureSet(String signaturesSetID) {
-    StatusSignature[] statusSignatureArray;
-    
-    statusSignatureArray = statusSignatures.get(signaturesSetID);
-    
-    if (statusSignatureArray == null) {
-      log.warn("No s'ha obtingut l'estat de SignaturesSet amb ID = " + signaturesSetID);
-      return null;
-    }
-    return statusSignatureArray;
-  }
 
   @Override
   public StatusSignature getStatusSignature(String signaturesSetID, int signatureIndex) {
-    StatusSignature[] statusSignatureArray =  getStatusSignatureSet(signaturesSetID);
-    if (statusSignatureArray == null) {
+    
+    SignaturesSet ss = getSignaturesSet(signaturesSetID);
+
+    if (ss == null) {
       return null;
     }
 
     try {
-      return statusSignatureArray[signatureIndex];
+      return ss.getFileInfoSignatureArray()[signatureIndex].getStatusSignature();
     } catch (ArrayIndexOutOfBoundsException aiob) {
       log.warn("Error accedint a l'index " + signatureIndex + " del conjunt de firmes "
           + signaturesSetID);
@@ -91,10 +81,8 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   @Override
   public SignaturesSet getSignaturesSet(String signaturesSetID) {
     
-    // XYZ TODO Check si existeix algun proces de firma caducat s'ha d'esborrar
-    
+    // Check si existeix algun proces de firma caducat s'ha d'esborrar
     // Com a mínim cada minut es revisa si hi ha caducats
-    /*
     Long now = System.currentTimeMillis();
     
     final long un_minut_en_ms =  60 * 60 * 1000;
@@ -108,23 +96,20 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
         SignaturesSet ss = infoSign.get(id);
         if (now > ss.getExpiryDate().getTime()) {
           keysToDelete.add(id);
+          log.info("Tancant Signature SET amb ID = " + id + " a causa de que està caducat "
+              + "( ARA: " + now + " | CADUCITAT: " + ss.getExpiryDate().getTime() + ")");
         }
       }
       
-      if (keysToDelete.size() == 0)
-      synchronized (infoSign) {
-        for (String idss : keysToDelete) {
-          log.error("Tancant Signature SET amb ID = " + idss + " a causa de que està caducat.");          
-          closeSignaturesSet(idss);
-          
+      if (keysToDelete.size() != 0) {
+        synchronized (infoSign) {
+          for (String idss : keysToDelete) {
+            closeSignaturesSet(idss);
+          }
         }
       }
-      
-      
     }
-    */
 
-    
     SignaturesSet ss;
     synchronized (infoSign) {
       ss = infoSign.get(signaturesSetID);
@@ -144,22 +129,12 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
     if (signaturesSet == null) {
       return;
     }
-    
-    // XYZ TODO Check si existeix algun proces de firma caducat s'ha d'esborrar
-    
-    final String signatureSetID =   signaturesSet.getSignaturesSetID();
+   
+    final String signatureSetID = signaturesSet.getSignaturesSetID();
     
     synchronized (infoSign) {
       infoSign.put(signatureSetID, signaturesSet);
     }
-
-    StatusSignature[] status = new StatusSignature[signaturesSet.getFileInfoSignatureArray().length];
-    for (int i = 0; i < status.length; i++) {
-      status[i] = new StatusSignature();
-    }
-    
-    statusSignatures.put(signatureSetID, status);  
-    
     
   }
 

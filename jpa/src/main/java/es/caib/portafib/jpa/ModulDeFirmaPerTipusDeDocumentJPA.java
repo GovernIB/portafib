@@ -33,6 +33,9 @@ private static final long serialVersionUID = 2145428058L;
 	@Column(name="id",nullable = false,length = 19)
 	long ID;
 
+	@Column(name="nom",nullable = false,length = 100)
+	java.lang.String nom;
+
 	@Index(name="pfi_mofitido_tipusdoc_fk_i")
 	@Column(name="tipusdocumentid",nullable = false,length = 19)
 	long tipusDocumentID;
@@ -41,9 +44,6 @@ private static final long serialVersionUID = 2145428058L;
 	@Column(name="pluginid",nullable = false,length = 19)
 	long pluginID;
 
-	@Column(name="nom",nullable = false,length = 100)
-	java.lang.String nom;
-
 
 
   /** Constructor Buit */
@@ -51,23 +51,23 @@ private static final long serialVersionUID = 2145428058L;
   }
 
   /** Constructor amb tots els camps  */
-  public ModulDeFirmaPerTipusDeDocumentJPA(long ID , long tipusDocumentID , long pluginID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentJPA(long ID , java.lang.String nom , long tipusDocumentID , long pluginID) {
     this.ID=ID;
+    this.nom=nom;
     this.tipusDocumentID=tipusDocumentID;
     this.pluginID=pluginID;
-    this.nom=nom;
 }
   /** Constructor sense valors autoincrementals */
-  public ModulDeFirmaPerTipusDeDocumentJPA(long tipusDocumentID , long pluginID , java.lang.String nom) {
+  public ModulDeFirmaPerTipusDeDocumentJPA(java.lang.String nom , long tipusDocumentID , long pluginID) {
+    this.nom=nom;
     this.tipusDocumentID=tipusDocumentID;
     this.pluginID=pluginID;
-    this.nom=nom;
 }
   public ModulDeFirmaPerTipusDeDocumentJPA(ModulDeFirmaPerTipusDeDocument __bean) {
     this.setID(__bean.getID());
+    this.setNom(__bean.getNom());
     this.setTipusDocumentID(__bean.getTipusDocumentID());
     this.setPluginID(__bean.getPluginID());
-    this.setNom(__bean.getNom());
 	}
 
 	public long getID() {
@@ -75,6 +75,13 @@ private static final long serialVersionUID = 2145428058L;
 	};
 	public void setID(long _ID_) {
 		this.ID = _ID_;
+	};
+
+	public java.lang.String getNom() {
+		return(nom);
+	};
+	public void setNom(java.lang.String _nom_) {
+		this.nom = _nom_;
 	};
 
 	public long getTipusDocumentID() {
@@ -89,13 +96,6 @@ private static final long serialVersionUID = 2145428058L;
 	};
 	public void setPluginID(long _pluginID_) {
 		this.pluginID = _pluginID_;
-	};
-
-	public java.lang.String getNom() {
-		return(nom);
-	};
-	public void setNom(java.lang.String _nom_) {
-		this.nom = _nom_;
 	};
 
 
@@ -149,9 +149,9 @@ private static final long serialVersionUID = 2145428058L;
     if (__bean == null) { return null;}
     ModulDeFirmaPerTipusDeDocumentJPA __tmp = new ModulDeFirmaPerTipusDeDocumentJPA();
     __tmp.setID(__bean.getID());
+    __tmp.setNom(__bean.getNom());
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
     __tmp.setPluginID(__bean.getPluginID());
-    __tmp.setNom(__bean.getNom());
 		return __tmp;
 	}
 

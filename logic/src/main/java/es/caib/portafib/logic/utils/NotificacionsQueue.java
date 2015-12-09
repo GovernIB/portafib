@@ -17,6 +17,7 @@ import javax.annotation.security.RunAs;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.utils.XTrustProvider;
 
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -33,7 +34,6 @@ import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.XMLGregorianCalendarConverter;
-import es.caib.portafib.utils.XTrustProvider;
 import es.caib.portafib.ws.callback.api.v1.Actor;
 import es.caib.portafib.ws.callback.api.v1.CallBackException;
 import es.caib.portafib.ws.callback.api.v1.PortaFIBCallBackWs;

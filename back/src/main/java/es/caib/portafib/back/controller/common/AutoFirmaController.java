@@ -37,10 +37,10 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -61,6 +61,7 @@ import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.PosicioTaulaFirmesRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
@@ -80,12 +81,12 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  * IMPORTANT: Aquesta classe es deriva de FitxerController però no s'ataca per res la BBDD.
- * 
- * 
+ *
+ *
  */
 @Controller
 @RequestMapping(value = AutoFirmaController.CONTEXTWEB)
@@ -282,17 +283,13 @@ public class AutoFirmaController extends FitxerController
     
     CommonInfoSignature commonInfoSignature;
     {
-      // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-      String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, CONTEXTWEB);
       
-      // XYZ NOMES HI HAURIA D'HAVER UN FINAL
-      final String urlOK = absoluteControllerBase + "/finalOK/{0}/" + signaturesSetID;
-      final String urlError = absoluteControllerBase + "/finalError/{0}/" + signaturesSetID;
-
+      String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, CONTEXTWEB);
+      final String urlFinal = absoluteControllerBase + "/final/" + signaturesSetID;
 
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, urlOK, urlError, !form.isJnlp());
+          langUI, username, urlFinal, !form.isJnlp());
     }
     
     // Vuls suposar que abans de 10 minuts haurà firmat
@@ -300,8 +297,10 @@ public class AutoFirmaController extends FitxerController
     caducitat.add(Calendar.MINUTE, 10);
     
 
-    SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, caducitat.getTime(),
+    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
         commonInfoSignature, fileInfoSignatureArray);
+    
+    signaturesSet.setTipusDocBySignatureID(null);
 
 
     final String view = "PluginDeFirmaContenidor_AutoFirma";
@@ -313,75 +312,95 @@ public class AutoFirmaController extends FitxerController
 
 
 
-  @RequestMapping(value = "/finalOK/{pluginID}/{signaturesSetID}")
-  public ModelAndView finalOK(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("pluginID") Long pluginID,
-      @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
+  @RequestMapping(value = "/final/{signaturesSetID}")
+  public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
   
   
+    SignaturesSet ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID);
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
-    if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+    StatusSignaturesSet sss = ss.getStatusSignaturesSet();
+    
+    StatusSignaturesSet statusError = null;
+    
+    switch(sss.getStatus()) {
+    
+      case StatusSignaturesSet.STATUS_FINAL_OK:
+        {
+          // Revisam la primera i unica firma
+          StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
+          // TODO check null
+          
+          if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+  
+            String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
+            
+            File firmat = getFitxerFirmatPath(usuariEntitat, Long.parseLong(signaturesSetID));
+            
+            FileOutputStream fos = new FileOutputStream(firmat);
+            
+            fos.write(status.getSignedData());
+            fos.flush();
+            fos.close();
+            
+            status.setProcessed(true);
+          } else {
+            statusError = status;
+          }
+        }
+        
+      
+      break;
+      
+      case StatusSignaturesSet.STATUS_FINAL_ERROR:
+        
+        statusError = sss;
+      break;
+      
+      
+      case StatusSignaturesSet.STATUS_CANCELLED:
+        if (sss.getErrorMsg() == null) {
+          sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
+        }
+        statusError = sss;
+      break;
+        
+      default:
+        String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
+            + "(no ha establit l'estat final del procés de firma)";
+        sss.setErrorMsg(inconsistentState);
+        statusError = sss;
+        log.error(inconsistentState, new Exception());
+    
     }
-
-    StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
-    // TODO check null
-
-    String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
-
-    File firmat = getFitxerFirmatPath(usuariEntitat,
-        Long.parseLong(signaturesSetID));
     
-    FileOutputStream fos = new FileOutputStream(firmat);
+     
     
-    fos.write(status.getSignedData());
+    if ( statusError != null) {      
+      // TODO Mostrar excepció per log
+      if (statusError.getErrorMsg() == null) {
+        statusError.setErrorMsg("Error desconegut ja que no s'ha definit el missatge de l'error !!!!!");
+      }
+      HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
+    }
+   
     
-    fos.flush();
-    
-    fos.close();
-    
-    status.setProcessed(true);
-    
-    signaturePlugin.closeSignaturesSet(signaturesSetID);
+    SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
    
     ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     return mav;
     
   }
   
-  
-  @RequestMapping(value = "/finalError/{pluginID}/{signaturesSetID}")
-  public ModelAndView finalError(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("pluginID") Long pluginID,
-      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
-  
-  
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
-    if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
-    }
-    
-    StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
-    // TODO check null
-    
-    // Mostrar excepció per log
-    
-    HtmlUtils.saveMessageError(request, status.getErrorMsg());
-    
-    status.setProcessed(true);
-    
-    signaturePlugin.closeSignaturesSet(signaturesSetID);
-    
-    ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-    return mav;
   
-    
-  }
-  
-  
-  
+  /**
+   * 
+   * @param usuariEntitat
+   * @param id
+   * @param autoFirmaForm
+   * @return
+   */
   public I18NFieldError checkFileToSignInPAdES(String usuariEntitat, long id, AutoFirmaForm autoFirmaForm) {
 
     CommonsMultipartFile multiPartFitxerAFirmar = autoFirmaForm.getFitxerAFirmarID();

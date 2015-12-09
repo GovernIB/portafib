@@ -66,8 +66,8 @@ public class ModulDeFirmaPerTipusDeDocumentJPAManager
 		return list.toArray(new ModulDeFirmaPerTipusDeDocument[list.size()]);
 	};
 
-	public synchronized ModulDeFirmaPerTipusDeDocument create( long _tipusDocumentID_, long _pluginID_, java.lang.String _nom_) throws I18NException {
-		ModulDeFirmaPerTipusDeDocumentJPA __bean =  new ModulDeFirmaPerTipusDeDocumentJPA(_tipusDocumentID_,_pluginID_,_nom_);
+	public synchronized ModulDeFirmaPerTipusDeDocument create( java.lang.String _nom_, long _tipusDocumentID_, long _pluginID_) throws I18NException {
+		ModulDeFirmaPerTipusDeDocumentJPA __bean =  new ModulDeFirmaPerTipusDeDocumentJPA(_nom_,_tipusDocumentID_,_pluginID_);
 		return create(__bean);
 	}
 

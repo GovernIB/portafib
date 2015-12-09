@@ -96,7 +96,7 @@ public class MiniAppletUtils {
       if (policy == null || policy.getPolicyIdentifier() == null
           || policy.getPolicyIdentifier().trim().length() == 0) {
         miniAppletProperties.setProperty("signatureSubFilter",
-            MiniAppletConstants.PADES_SUBFILTER_BASIC);
+            MiniAppletConstants.PADES_SUBFILTER_BES); // XYZ Aquest s'ha de poder elegir !!!!!!
       } else {
         miniAppletProperties.setProperty("signatureSubFilter",
             MiniAppletConstants.PADES_SUBFILTER_BES);

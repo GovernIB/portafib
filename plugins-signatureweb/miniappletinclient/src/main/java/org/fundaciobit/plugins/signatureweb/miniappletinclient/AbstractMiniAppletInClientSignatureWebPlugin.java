@@ -18,12 +18,15 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
@@ -65,10 +68,6 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
   }
 
 
-
-
-
-
  
   @Override
   public String signSet(String pluginRequestPath, SignaturesSet signaturesSet)
@@ -105,16 +104,20 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       return;
     }
     
-   
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
-    
+
     if (signaturesSet == null) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-
     
+    if (relativePath.startsWith(CANCEL_PAGE)) {
+      Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
+      cancel(pluginRequestPath, relativePath, signaturesSet, signatureIndex, response, locale);
+      return;
+    }
+
     Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
     
     if (relativePath.endsWith(SOURCE_DOC_PAGE)) { 
@@ -134,14 +137,14 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       generateFooter(out);
       out.flush();
     } else if(relativePath.endsWith(FINAL_PAGE))  {
-      PrintWriter out =  response.getWriter();
-      response.setCharacterEncoding("utf-8");
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
+      //PrintWriter out =  response.getWriter();
+      //response.setCharacterEncoding("utf-8");
+      //generateHeader(request, pluginRequestPath, out, signaturesSet);
       
       finalPage(pluginRequestPath, relativePath, signaturesSet, signatureIndex, request, response);
       
-      generateFooter(out);
-      out.flush();
+      //generateFooter(out);
+      
     } else { 
       
 
@@ -306,7 +309,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
 
        StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
 
-       status.setStatus(StatusSignature.STATUS_SIGNED);
+       status.setStatus(StatusSignature.STATUS_FINAL_OK);
 
        status.setSignedData(uploadedFile.getBytes());
 
@@ -317,6 +320,9 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
     
   } catch (Exception e) {
     // TODO: handle exception
+    
+    log.error("Error rebent fitxer firmat " + e.getMessage(), e);
+    
     response.setStatus(404);
   }
    
@@ -394,7 +400,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
        // TODO Traduir emprant langUI
        status.setErrorMsg("S'ha rebut un error però aquest no conté detalls del tipus"
            + " d'error que s'ha produït");
-       status.setStatus(StatusSignature.STATUS_ERROR);
+       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
        return;
      }
     
@@ -416,7 +422,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
          status.setErrorException(new StackTraceException(errorMsg, stacktrace));
        }
        
-       status.setStatus(StatusSignature.STATUS_ERROR);
+       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
        break;
       
      }
@@ -480,8 +486,8 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
      int signatureIndex, HttpServletRequest request, 
      HttpServletResponse response) throws Exception {
 
-
-    StatusSignature[] statusList = getStatusSignatureSet(signaturesSet.getSignaturesSetID());
+/*
+    StatusSignature[] statusList = getAllStatusBySignaturesSetID(signaturesSet.getSignaturesSetID());
     boolean errors = false;
     for (int i = 0; i < statusList.length; i++) {
       if (statusList[i].getStatus() != StatusSignature.STATUS_SIGNED) {
@@ -490,24 +496,22 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       }
     }
    
-
+*/
     
     final String url;
-    if (errors) {
-      url = signaturesSet.getCommonInfoSignature().getUrlError();
-    } else {
-      url = signaturesSet.getCommonInfoSignature().getUrlOK();
-    }
+    url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
     
     PrintWriter out = response.getWriter();
-    out.println("<script>");
-    //out.println("  $( document ).ready(function() {");
-    out.println("    top.window.location.href='" + url + "';");
-    //out.println("  });");
-    out.println("</script>");
+    generateRedirectPage(url, out);
+    
+    out.flush();
 
   }
-  
+
+ 
+
 
 
   // ----------------------------------------------------------------------------

@@ -1,9 +1,12 @@
 package es.caib.portafib.back.controller.common;
 
 import java.io.File;
-import java.text.MessageFormat;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -24,6 +26,7 @@ import org.fundaciobit.plugins.signatureweb.api.PdfInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +40,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
@@ -61,53 +65,43 @@ public class SignatureModuleController {
   protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
 
   public static final String CONTEXTWEB = "/common/signmodule";
-  
-  // TODO MOURE A LOGIC ????
-  public static final Map<String, SignaturesSet> portaFIBSignaturesSets = new HashMap<String, SignaturesSet>(); 
-  
-  /**
-   * Fa neteja
-   * @param signaturesSetID
-   * @return
-   */
-  public SignaturesSet getPortaFIBSignaturesSet(String signaturesSetID) {
-    
-    // TODO XYZ  falta fer net peticions  caducades SignaturesSet.getExpiryDate()
-    return portaFIBSignaturesSets.get(signaturesSetID);
 
-  }
-  
-  
-  
-  
-  public static ModelAndView startSignatureProcess(HttpServletRequest request,
-       String view, SignaturesSet signaturesSet) throws I18NException {
-    
-    final String signaturesSetID = signaturesSet.getSignaturesSetID();
-    portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
-    
-   
-    final String urlToSelectPluginPagePage = getAbsoluteControllerBase(request, CONTEXTWEB)
-        + "/selectsignmodule/" + signaturesSetID;
-
-    ModelAndView mav = new ModelAndView(view);
-    mav.addObject("signaturesSetID", signaturesSetID);
-    mav.addObject("urlToSelectPluginPage", urlToSelectPluginPagePage);
-    
-    return mav;
-
-  }
-  
-  
   @RequestMapping(value = "/selectsignmodule/{signaturesSetID}")
   public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
-     @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
-    
-    
-    
-    SignaturesSet signaturesSet = portaFIBSignaturesSets.get(signaturesSetID);
+     @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
 
-    List<Plugin> moduls = modulDeFirmaEjb.getAllPlugins(LoginInfo.getInstance().getEntitatID());
+    PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(signaturesSetID);
+    
+    // TODO CHECK signature Set
+    
+    
+    
+    Map<String, Long> signIDPerTipusDoc = signaturesSet.getTipusDocBySignatureID();
+    
+    List<Plugin> moduls;
+    if (signIDPerTipusDoc == null || signIDPerTipusDoc.size() == 0) {
+      try {
+        moduls = modulDeFirmaEjb.getAllPlugins(LoginInfo.getInstance().getEntitatID());
+      } catch (I18NException e) {
+        String msg = I18NUtils.tradueix("plugindefirma.error.getallmodulsdefirma", I18NUtils.getMessage(e));
+        return generateErrorMAV(request, signaturesSetID, msg, e);
+      }
+    } else {
+     
+      // El HashSet és per eliminat duplicats
+      List<Long> pluginsID = new ArrayList<Long>(new HashSet<Long>(signIDPerTipusDoc.values()));
+      
+      if (pluginsID.size() != 1) {
+        log.warn("Numero de plugins especifics = " + pluginsID.size() );
+        String msg = I18NUtils.tradueix("plugindefirma.error.multiplemodules");
+        return generateErrorMAV(request, signaturesSetID,  msg, null);
+      }
+     
+      Plugin plugin = modulDeFirmaEjb.findByPrimaryKey(pluginsID.get(0));
+      moduls = new ArrayList<Plugin>();
+      moduls.add(plugin);
+      
+    }
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
@@ -115,19 +109,29 @@ public class SignatureModuleController {
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
     for (Plugin modulDeFirmaJPA : moduls) {
-      signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(
-          modulDeFirmaJPA.getPluginID());
-      if (signaturePlugin == null) {
-        throw new I18NException("plugin.signatureweb.noexist", String.valueOf( modulDeFirmaJPA.getPluginID()));
-      }
 
       
+      
+      
+      try {
+        signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(
+            modulDeFirmaJPA.getPluginID());
+      } catch (I18NException e) {
+        String msg = I18NUtils.getMessage(e);
+        return generateErrorMAV(request, signaturesSetID, msg, e);
+      }
+      
+      if (signaturePlugin == null) {
+        String msg = I18NUtils.tradueix("plugin.signatureweb.noexist",
+            String.valueOf( modulDeFirmaJPA.getPluginID()));
+        return generateErrorMAV(request, signaturesSetID, msg, null);
+      }
+
       if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
         modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
     }
 
-    
     // Si només hi ha un mòdul de firma llavors anar a firmar directament
     if (modulsFiltered.size() == 1) {  
       PluginJPA modul = modulsFiltered.get(0);
@@ -138,17 +142,53 @@ public class SignatureModuleController {
     
     // Si cap modul compleix llavors mostrar missatge
     if (modulsFiltered.size() == 0) {
-      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("signaturemodule.notfound"));
+      String msg = I18NUtils.tradueix("signaturemodule.notfound");
+      return generateErrorMAV(request, signaturesSetID, msg, null);
     }
-        
-    
-    ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
 
+    ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
     mav.addObject("signaturesSetID", signaturesSetID);
     mav.addObject("moduls", modulsFiltered);
 
     return mav;
         
+  }
+
+
+  @RequestMapping(value = "/final/{signaturesSetID}")
+  public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
+      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
+    
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    
+    // TODO Check pss is null 
+    // XYZ S'ha de fer una pa`gina d'error MOLT GREU !!!!!
+    
+    StatusSignaturesSet sss = pss.getStatusSignaturesSet();
+    if (sss.getStatus() == StatusSignaturesSet.STATUS_INITIALIZING 
+        || sss.getStatus() ==  StatusSignaturesSet.STATUS_IN_PROGRESS) {
+      // Vull presuposar que si i que el mòdul de firma s'ha oblidat d'indicar aquest fet ???
+      sss.setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
+    }
+      
+
+    String urlFinal = pss.getUrlFinalOriginal();
+    
+    ModelAndView mav = new ModelAndView("PluginFirmaFinal");
+    mav.addObject("URL_FINAL", urlFinal);
+
+    return mav;
+    
+  }
+
+  @RequestMapping(value = "/error")
+  public ModelAndView errorProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
+      @RequestParam("URL_FINAL") String urlFinal) throws Exception {
+    
+    ModelAndView mav = new ModelAndView("PluginFirmaFinal");
+    mav.addObject("URL_FINAL", urlFinal);
+
+    return mav;
   }
   
   
@@ -156,36 +196,39 @@ public class SignatureModuleController {
   public ModelAndView showSignatureModule(
       HttpServletRequest request, HttpServletResponse response,
       @PathVariable("pluginID") Long pluginID,
-      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception,I18NException {
+      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
 
 
     // El plugin existeix?
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    ISignatureWebPlugin signaturePlugin;
+    try {
+      signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    } catch (I18NException e) {
+      String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      return generateErrorMAV(request, signaturesSetID,  msg, e);
+    }
     
     if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      return generateErrorMAV(request, signaturesSetID,  msg, null);
     }
     
     // EL portaFIBSignaturesSet existe?
-    SignaturesSet signaturesSet;
+    PortaFIBSignaturesSet signaturesSet;
     signaturesSet = getPortaFIBSignaturesSet(signaturesSetID);
 
+    signaturesSet.setPluginID(pluginID);
 
     String absoluteControllerBase = getAbsoluteControllerBase(request, CONTEXTWEB);
 
     String absoluteRequestPluginBasePath = getAbsoluteRequestPluginBasePath(
-        absoluteControllerBase, pluginID, signaturesSetID, -1);
+        absoluteControllerBase, signaturesSetID, -1);
 
-
-
-    // Substituim {0} per pluginID
-    CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
     
-    String urlOK = MessageFormat.format(commonInfoSignature.getUrlOK(), String.valueOf(pluginID));
-    String urlError = MessageFormat.format(commonInfoSignature.getUrlError(), String.valueOf(pluginID));
-    
-    commonInfoSignature.setUrlOK(urlOK);
-    commonInfoSignature.setUrlError(urlError);
+    String newFinalUrl = absoluteControllerBase + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8");
+
+    // Substituim l'altre final URL pel NOU
+    signaturesSet.getCommonInfoSignature().setUrlFinal(newFinalUrl);
 
     String urlToPluginWebPage;
     urlToPluginWebPage = signaturePlugin.signSet(absoluteRequestPluginBasePath, signaturesSet);
@@ -201,16 +244,16 @@ public class SignatureModuleController {
 
   // XYZ ZZZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
   // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
-  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
+  @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}",
         method = RequestMethod.GET)
   public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
+      @PathVariable String signaturesSetID,
       @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
           throws Exception, I18NException {
 
       final boolean isPost = false;
     
-      requestPlugin(request, response, pluginID, signaturesSetID, signatureIndex, relativePath, isPost);
+      requestPlugin(request, response, signaturesSetID, signatureIndex, relativePath, isPost);
 
   }
   
@@ -226,15 +269,15 @@ public class SignatureModuleController {
    * @throws Exception
    */
   // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
-  @RequestMapping(value = "/requestPlugin/{pluginID}/{signaturesSetID}/{signatureIndex}",
+  @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}",
        method = RequestMethod.POST)
   public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable Long pluginID, @PathVariable String signaturesSetID,
+      @PathVariable String signaturesSetID,
       @PathVariable int signatureIndex, @RequestParam("restOfTheUrl") String relativePath)
           throws Exception, I18NException {
 
     final boolean isPost = true;
-    requestPlugin(request, response, pluginID, signaturesSetID, signatureIndex, relativePath, isPost);
+    requestPlugin(request, response,  signaturesSetID, signatureIndex, relativePath, isPost);
 
   }
 
@@ -254,12 +297,27 @@ public class SignatureModuleController {
    * @throws I18NException
    */
   protected void requestPlugin(HttpServletRequest request, HttpServletResponse response,
-      long pluginID, String signatureID, int signatureIndex, 
-      String origrelativePath, boolean isPost) throws Exception, I18NException {
+      String signaturesSetID, int signatureIndex, 
+      String origrelativePath, boolean isPost) throws Exception {
 
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    
+    PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(signaturesSetID); 
+    long pluginID = ss.getPluginID();
+
+    // XYZ TODO PAGINA D?ERROR GLOBAL GREU si sss o pluginID 
+    
+    ISignatureWebPlugin signaturePlugin;
+    try {
+      signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+    } catch (I18NException e) {
+      String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      generateErrorAndredirect(request, response, ss, msg, e);
+      return;
+    }
     if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
+      generateErrorAndredirect(request, response, ss, msg, null);
+      return;
     }
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
@@ -277,31 +335,180 @@ public class SignatureModuleController {
       log.debug("relativePath = " +  relativePath);
     }
 
-    
+
     String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(request, 
-        CONTEXTWEB ,pluginID, signatureID, signatureIndex);
+        CONTEXTWEB , signaturesSetID, signatureIndex);
     
+    // XYZ Eliminar Excepcions de requestPOST i requestGET
     if (isPost) {
       signaturePlugin.requestPOST(absoluteRequestPluginBasePath, relativePath, 
-          signatureID, signatureIndex, request, uploadedFiles, response);
+          signaturesSetID, signatureIndex, request, uploadedFiles, response);
     } else {
       signaturePlugin.requestGET(absoluteRequestPluginBasePath, relativePath,
-          signatureID, signatureIndex, request, uploadedFiles, response);
+          signaturesSetID, signatureIndex, request, uploadedFiles, response);
     }
+    
+    
 
   }
   
   
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
-  // ----------------------------- U T I L  I T A T  S  ----------------------
+  // ----------------------------- U T I L I T A T  S  ----------------------
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
+  
+  
+  
+  
+  public static void closeSignaturesSet(String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+    
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    
+    if (pss == null) {
+      log.warn("NO Existeix signaturesSetID igual a " + signaturesSetID);
+      return;
+    }
+    
+    
+    Long pluginID = pss.getPluginID();
+    if (pluginID == null) {
+      //log.warn("Encara no s'ha asignat plugin al signatureset " + signaturesSetID);
+      return;
+    } else {
+    
+      ISignatureWebPlugin signaturePlugin = null;
+      try {
+        signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
+      } catch (I18NException e) {
+        log.error(I18NUtils.getMessage(e), e);
+        return;
+      }
+      if (signaturePlugin == null) {
+        log.error(I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID)));
+      }
+      
+      try {
+        signaturePlugin.closeSignaturesSet(signaturesSetID);
+      } catch (Exception e) {
+        log.error("Error borrant dades d'un SignaturesSet " + signaturesSetID 
+            + ": " + e.getMessage(), e);
+      }
+    }
+    
+    portaFIBSignaturesSets2.remove(signaturesSetID);
+    
+  }
+  
 
+  //TODO MOURE A LOGIC ????
+  private static final Map<String, PortaFIBSignaturesSet> portaFIBSignaturesSets2 = new HashMap<String, PortaFIBSignaturesSet>();
+
+  
+  protected static ModelAndView generateErrorMAV(HttpServletRequest request,
+      String signaturesSetID,  String msg, Throwable th) {
+    
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    return generateErrorMAV(request, pss, msg, th);
+  }
+  
+  
+  
+  protected static ModelAndView generateErrorMAV(HttpServletRequest request,
+      PortaFIBSignaturesSet pss,  String msg, Throwable th) {
+
+    String urlFinal = processError(pss, msg, th);
+    
+    ModelAndView mav = new ModelAndView("PluginFirmaFinal");
+    //request.getSession().setAttribute("URL_FINAL", urlError);
+    mav.addObject("URL_FINAL", urlFinal);
+    
+    return mav;
+  }
+
+  
+  protected static void generateErrorAndredirect(HttpServletRequest request,
+      HttpServletResponse response, PortaFIBSignaturesSet pss,  String msg, Throwable th) {
+
+    String urlFinal = processError(pss, msg, th);
+    
+    try {
+      
+      String r = request.getContextPath() + CONTEXTWEB + "/error?URL_FINAL="
+         + URLEncoder.encode(urlFinal, "UTF8");
+      
+      response.sendRedirect(r);
+    } catch (UnsupportedEncodingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+  }
+  
+  
+  
+
+  protected static String processError(PortaFIBSignaturesSet pss, String msg, Throwable th) {
+    // TODO Check pss is null 
+    // XYZ S'ha de fer una pa`gina d'error MOLT GREU !!!!!
+    
+    StatusSignaturesSet sss = pss.getStatusSignaturesSet();
+    sss.setErrorMsg(msg);
+    sss.setErrorException(th);
+    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+    if (th == null) {
+      log.warn(msg);
+    } else {
+      log.warn(msg, th);
+    }
+
+    String urlFinal = pss.getUrlFinalOriginal();
+
+    return urlFinal;
+  }
+  
+  
+  
+  
+  public static SignaturesSet getSignaturesSetByID(String signaturesSetID) {
+    return getPortaFIBSignaturesSet(signaturesSetID);
+  }
+  
+  /**
+   * Fa neteja
+   * 
+   * @param signaturesSetID
+   * @return
+   */
+  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(String signaturesSetID) {
+    // TODO XYZ falta fer net peticions caducades SignaturesSet.getExpiryDate()
+    // TODO XYZ Tenir en compte portaFIBSignaturesSetsTipusDoc
+    return portaFIBSignaturesSets2.get(signaturesSetID);
+  }
+
+  public static ModelAndView startSignatureProcess(HttpServletRequest request,
+       String view, PortaFIBSignaturesSet signaturesSet) throws I18NException {
+
+    final String signaturesSetID = signaturesSet.getSignaturesSetID();
+    portaFIBSignaturesSets2.put(signaturesSetID, signaturesSet);
+
+    final String urlToSelectPluginPagePage = getAbsoluteControllerBase(request, CONTEXTWEB)
+        + "/selectsignmodule/" + signaturesSetID;
+
+    ModelAndView mav = new ModelAndView(view);
+    mav.addObject("signaturesSetID", signaturesSetID);
+    mav.addObject("urlToSelectPluginPage", urlToSelectPluginPagePage);
+
+    return mav;
+  }
 
   
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
-      String languageUI, String username,   String urlOK, String urlError,
+      String languageUI, String username,   String urlFinal,
       boolean browserSupportsJava) {
       
       PolicyInfoSignature policyInfoSignature = null;
@@ -313,7 +520,7 @@ public class SignatureModuleController {
       }
       
       return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(), username,
-          policyInfoSignature,  urlOK, urlError, browserSupportsJava); 
+          policyInfoSignature,  urlFinal, browserSupportsJava); 
       
     }
   
@@ -437,17 +644,17 @@ public class SignatureModuleController {
   
 
   public static String getAbsoluteRequestPluginBasePath(HttpServletRequest request, 
-      String webContext, long pluginID, String signaturesSetID, int signatureIndex) {
+      String webContext, String signaturesSetID, int signatureIndex) {
     
     String base = getAbsoluteControllerBase(request, webContext);
-    return getAbsoluteRequestPluginBasePath(base, pluginID, signaturesSetID, signatureIndex);
+    return getAbsoluteRequestPluginBasePath(base, signaturesSetID, signatureIndex);
   }
 
 
   public static String getAbsoluteRequestPluginBasePath(String absoluteControllerBase, 
-      long pluginID, String signaturesSetID, int signatureIndex) {
+       String signaturesSetID, int signatureIndex) {
     String absoluteRequestPluginBasePath = absoluteControllerBase + "/requestPlugin/"
-      + pluginID + "/" + signaturesSetID + "/" + signatureIndex;
+      + signaturesSetID + "/" + signatureIndex;
 
     return absoluteRequestPluginBasePath;
   }
