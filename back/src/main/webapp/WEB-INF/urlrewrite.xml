@@ -4,8 +4,29 @@
     "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
 <urlrewrite>
   <rule>
+    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$</from>
+    <set type="session" name="restOfTheUrlVar">P7P $3/$4/$5 P7P</set>
+    <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3/$4/$5/$6/$7</to>
+  </rule>
+  <rule>
+    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)$</from>
+    <set type="session" name="restOfTheUrlVar">P6P $3/$4/$5 P6P</set>
+    <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3/$4/$5/$6</to>
+  </rule>
+  <rule>
+    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)/(.*)/(.*)$</from>
+    <set type="session" name="restOfTheUrlVar">P5P $3/$4/$5 P5P</set>
+    <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3/$4/$5</to>
+  </rule>
+  <rule>
+    <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)/(.*)$</from>
+    <set type="session" name="restOfTheUrlVar">P4P $3/$4 P4P</set>
+    <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3/$4</to>
+  </rule>
+  <rule>
     <from>/common/signmodule/requestPlugin/(.*)/(.*)/(.*)$</from>
+    <set type="session" name="restOfTheUrlVar">P3P $3 P3P</set>
     <to last="true">/common/signmodule/requestPlugin/$1/$2?restOfTheUrl=$3</to>
   </rule>
+
 </urlrewrite>
-<!-- XYZ ZZZ -->

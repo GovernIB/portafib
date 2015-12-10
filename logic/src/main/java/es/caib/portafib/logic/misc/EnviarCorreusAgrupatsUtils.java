@@ -34,39 +34,11 @@ import es.caib.portafib.logic.utils.EmailUtil;
  *
  */
 public class EnviarCorreusAgrupatsUtils {
+
   
   protected static final Logger log = Logger.getLogger(EnviarCorreusAgrupatsUtils.class);
-
-  // TODO Això ho ha de llegir de BBDD
-  /**
-   * Conte fitxers del tipus [usuari-entitat-id]_[eventid]. Si existeix aquest
-   * fitxer llavors indica que el mails dirigits a [usuari-entitat-id] que
-   * contenguin un avis del tipus [eventid] s'han d'agrupar.
-   */
-  public static final String BASE_PATH_REBREAVIS = "REBREAVIS";
-
+  
   public static final String BASE_PATH_AGRUPAR_CORREUS = "CORREUSAGRUPATS";
-
-  public static boolean isAgruparCorreus(final String usuariEntitatId, final long eventID) {
-    File rebreAvisGrupatFile = getFile(usuariEntitatId, eventID, BASE_PATH_REBREAVIS);
-    return rebreAvisGrupatFile.exists();
-  }
-
-  public static void setAgruparCorreus(final String usuariEntitatId, final long eventID,
-      boolean agruparCorreus) {
-    File rebreAvisGrupatFile = getFile(usuariEntitatId, eventID, BASE_PATH_REBREAVIS);
-
-    if (agruparCorreus) {
-      try {
-        new java.io.FileOutputStream(rebreAvisGrupatFile).close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    } else {
-      rebreAvisGrupatFile.delete();
-    }
-
-  }
 
   public static File getFile(final String usuariEntitatId, final long eventID,
       final String basePath) {
@@ -111,6 +83,7 @@ public class EnviarCorreusAgrupatsUtils {
     }
 
   }
+  
 
   public static void enviarAvisosAgrupats() throws Exception {
     
@@ -302,5 +275,5 @@ public class EnviarCorreusAgrupatsUtils {
     }
 
   }
-
+ 
 }

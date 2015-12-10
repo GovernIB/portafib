@@ -50,8 +50,6 @@ public class EmailUtil {
    */
   public static void postMail(String subject, String message, boolean isHtml,
       String from, String ... recipients) throws Exception {
-    
-    
 
     Context ctx = new InitialContext();
     Session session = (javax.mail.Session) ctx.lookup(Constants.MAIL_SERVICE);

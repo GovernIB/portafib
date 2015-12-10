@@ -237,13 +237,8 @@ public class SignatureModuleController {
     return new ModelAndView(new RedirectView(urlToPluginWebPage, true));
 
   }
-  
-  
-  
-  
 
-  // XYZ ZZZ TODO Emprar http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
-  // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
+
   @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}",
         method = RequestMethod.GET)
   public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
@@ -268,7 +263,6 @@ public class SignatureModuleController {
    * @return
    * @throws Exception
    */
-  // NOTA IMPORTANT: relativePath no ha de contenir comes !!!!!
   @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}",
        method = RequestMethod.POST)
   public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
@@ -321,21 +315,14 @@ public class SignatureModuleController {
     }
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
-    
-    // S'esta emprant tuckey per obtenir la resta de la URL 
-    // http://www.tuckey.org/ (http://stackoverflow.com/questions/3686808/spring-3-requestmapping-get-path-value)
-    // TODO BUG Les bares invertides es substitueixen per comes. Intentar mirar si 
-    // existeix algun tipus d'encoder per obtenir la resta de la URL tal i com és.  
-    
-    
-    String relativePath = origrelativePath.replace(',', '/');
+   
+    String relativePath = origrelativePath; //.replace(',', '/');
     if (log.isDebugEnabled()) {
+      log.debug(" restOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
       log.debug("original relativePath = " +  origrelativePath);
       log.debug("Method = " + request.getMethod());
-      log.debug("relativePath = " +  relativePath);
     }
-
-
+    
     String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(request, 
         CONTEXTWEB , signaturesSetID, signatureIndex);
     
@@ -347,8 +334,6 @@ public class SignatureModuleController {
       signaturePlugin.requestGET(absoluteRequestPluginBasePath, relativePath,
           signaturesSetID, signatureIndex, request, uploadedFiles, response);
     }
-    
-    
 
   }
   
@@ -358,10 +343,8 @@ public class SignatureModuleController {
   // ----------------------------- U T I L I T A T  S  ----------------------
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
-  
-  
-  
-  
+
+
   public static void closeSignaturesSet(String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
     
     PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);

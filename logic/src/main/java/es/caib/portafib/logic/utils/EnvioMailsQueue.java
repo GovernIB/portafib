@@ -8,9 +8,11 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
-
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
+import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
@@ -26,6 +28,10 @@ public class EnvioMailsQueue implements MessageListener {
 
   protected final Logger log = Logger.getLogger(getClass());
 
+  protected UsuariPersonaLogicaLocal usuariPersonaEjb = null;
+  
+  protected RebreAvisLogicaLocal rebreAvisLogicaEjb;
+
   @Resource
   private MessageDrivenContext context;
 
@@ -39,11 +45,25 @@ public class EnvioMailsQueue implements MessageListener {
       String usuariEntitatId = emailInfo.getUsuariEntitatID();
       long eventID = emailInfo.getEventID();
       
-      if (usuariEntitatId != null 
-          && EnviarCorreusAgrupatsUtils.isAgruparCorreus(usuariEntitatId, eventID)) {
+      
+      try {
+        rebreAvisLogicaEjb = (RebreAvisLogicaLocal) new InitialContext()
+            .lookup("portafib/RebreAvisLogicaEJB/local");
+      } catch (Exception e) {
+        // TODO traduccio
+        throw new RuntimeException("No puc accedir al gestor de RebreAvis: " +  e.getMessage(), e);
+      }
+      
+      
+     
+      
+      boolean rebreAgrupat = rebreAvisLogicaEjb.isAgruparCorreus(usuariEntitatId, eventID);
+      
+      
+      if (usuariEntitatId != null && rebreAgrupat) {
         // Guardar per enviar més endavant
         EnviarCorreusAgrupatsUtils.saveAvisAgrupat(usuariEntitatId, eventID, emailInfo);
-        
+
       } else {
       
         // Enviar a l'instant

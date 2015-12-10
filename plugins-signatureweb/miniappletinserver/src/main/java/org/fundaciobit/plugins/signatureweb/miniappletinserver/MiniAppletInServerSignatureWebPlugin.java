@@ -41,7 +41,6 @@ import org.fundaciobit.plugins.utils.EncrypterDecrypter;
 import org.fundaciobit.plugins.utils.FileUtils;
 import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
 
-// TODO XYZ Falta eliminar certificats
 /**
  *
  * @author anadal
@@ -538,12 +537,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     
     //out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     
-    log.info(" XYZ  deleteCertificateGET::relativePath " + relativePath);
+    log.debug("deleteCertificateGET::relativePath " + relativePath);
     
     int pos = relativePath.lastIndexOf('/');
     String dirName = relativePath.substring(pos + 1);
     
-    log.info(" XYZ  deleteCertificateGET::dirName " + dirName);
+    log.debug("deleteCertificateGET::dirName " + dirName);
     
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
     File userPath = getUserNamePath(commonInfoSignature.getUsername());
@@ -665,8 +664,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       prop.setProperty(PROPERTY_ISSUER, CertificateUtils.getCN(certificate.getIssuerDN().toString()));
       prop.setProperty(PROPERTY_VALID_FROM, String.valueOf(certificate.getNotBefore().getTime()));
       prop.setProperty(PROPERTY_VALID_TO, String.valueOf(certificate.getNotAfter().getTime()));
-      
-      // XYZ Eliminar??
+
+      // TODO S'ha de mostrar en la pantalla de certificats)
       prop.setProperty("p12filename", uf.getOriginalFilename());
 
       uploadFolder.mkdirs();

@@ -846,26 +846,7 @@ import es.caib.portafib.utils.Configuracio;
       
         case StatusSignaturesSet.STATUS_FINAL_OK:
           {
-            
-            
-            
-            /* XYZ
-            // Revisam la primera i unica firma
-            StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
-            // TODO check null
-            
-            if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-    
-              ***
-              
-              status.setProcessed(true);
-            } else {
-              statusError = status;
-            }
-            */
-            
-            //SignaturesSet signatureSet = signaturePlugin.getSignaturesSet(signaturesSetID);
-            
+
             FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
             
             for (int i = 0; i < signedFiles.length; i++) {
@@ -1018,152 +999,6 @@ import es.caib.portafib.utils.Configuracio;
       return mav;
     }
 
-    
-    /**  XYZ
-     * Quan acaba el mòdul de firma
-     * @param request
-     * @param response
-     * @param pluginID
-     * @param signaturesSetID
-     * @return
-     * @throws Exception
-     * @throws I18NException
-     */
-    /**
-    @RequestMapping(value = "/finalFirma/{pluginID}/{signaturesSetID}")
-    public ModelAndView finalFirma(HttpServletRequest request, HttpServletResponse response,
-        @PathVariable("pluginID") Long pluginID,
-        @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
-    
-  
-      // pluginID == -1 significa que hi ha hagut un error abans d'assignar-ho a un modul de firma 
-      if (pluginID != -1) {
-  
-        ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
-        if (signaturePlugin == null) {
-          throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
-        }
-  
-        // TODO check null
-        SignaturesSet signatureSet = signaturePlugin.getSignaturesSet(signaturesSetID);
-        
-        FileInfoSignature[] signedFiles = signatureSet.getFileInfoSignatureArray();
-        
-        for (int i = 0; i < signedFiles.length; i++) {
-        
-          
-          final FileInfoSignature signedFile = signedFiles[i];
-          
-          SignatureID signID = decodeSignatureID(signedFile.getSignID());
-          
-          final long estatDeFirmaID = signID.getEstatDeFirmaID();
-          final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
-          final String token = signID.getToken();
-          
-          StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, i);
-        
-          switch(status.getStatus()) {
-          
-              case StatusSignature.STATUS_FINAL_OK:
-                
-                File firmat = null;
-                try {
-  
-    
-                  firmat = File.createTempFile(peticioDeFirmaID + "_" + estatDeFirmaID + "_Firma_Firmat_", ".pdf",
-                      FileSystemManager.getFilesPath());
-                  firmat.deleteOnExit();
-    
-                  FileOutputStream fos = new FileOutputStream(firmat);
-                  fos.write(status.getSignedData());
-                  fos.close();
-    
-                  if (log.isDebugEnabled()) {
-                    log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
-                  }
-    
-                  peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
-                      signedFile.getSignNumber());
-    
-                  log.debug("WWWWWWWWW FINAL ");
-                  
-                  status.setProcessed(true);
-    
-                } catch (Throwable e) {
-                  
-                  if (firmat != null && firmat.exists()) {
-                    if (!firmat.delete()) {
-                      // TODO missatge d'error
-                      firmat.deleteOnExit();
-                    };
-                  }
-                  
-                  log.error(" CLASS = " + e.getClass());
-                  String msg;
-                  if (e instanceof I18NException) {
-                    I18NException i18ne = (I18NException)e;
-                    msg = I18NUtils.getMessage(i18ne);
-                    log.error("Error processant fitxer firmat (I18NException): " + msg, e);
-                  } else {
-                    msg = e.getMessage();
-                    log.error("Error processant fitxer firmat (Throwable): " + msg , e);
-                  }
-  
-                  //  TODO Traduir
-                  String fullMsg = "S´ha produit un error processant el fitxer firmat ´" + 
-                      signedFile.getName() + "´: " + msg;
-                  
-                  HtmlUtils.saveMessageError(request, fullMsg);
-  
-                }
-                
-              break; // FINAL DE CAS FIRMAT
-          
-              
-              case StatusSignature.STATUS_FINAL_ERROR:
-              {
-                // Mostrar excepció per log
-                // TODO traduir
-                String msg = "S´ha produit un error durant la firma del fitxer  ´" + 
-                    signedFile.getName() + "´: " + status.getErrorMsg(); 
-                
-                if (status.getErrorException() == null) {
-                  log.error(msg);
-                } else {
-                  log.error(msg, status.getErrorException());
-                }
-                
-                
-                HtmlUtils.saveMessageError(request, msg);
-                
-                status.setProcessed(true);
-              }
-              break;
-              
-              default:
-              {
-                // TODO traduir
-                String msg = "Ha finalitzat el process de firma amb ID " + signaturesSetID 
-                + " però la firma del fitxer ´" +  signedFile.getName()
-                + "´ no està ni firmat ni té errors.";
-                 
-                log.error(msg, new Exception());
-                
-                HtmlUtils.saveMessageWarning(request, msg);
-              }
-          
-          }
-        }
-        
-        
-        signaturePlugin.closeSignaturesSet(signaturesSetID);
-      }
-      
-      ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-      return mav;
-      
-    }
-    */
     
     protected String encodeSignatureID(Long peticioDeFirmaID, Long estatDeFirmaID, String token) {
       return peticioDeFirmaID + "|" + estatDeFirmaID + "|" + token;
@@ -1335,9 +1170,9 @@ import es.caib.portafib.utils.Configuracio;
        Long pluginID = modulDeFirmaPerTipusDeDocumentEjb.executeQueryOne(
            ModulDeFirmaPerTipusDeDocumentFields.PLUGINID.select, where);
        if (pluginID != null) {
-         log.info(" XYZ Pel tipus de document " + tipusDoc + " i l'entitat " 
+         log.info("Pel tipus de document " + tipusDoc + " i l'entitat " 
            + LoginInfo.getInstance().getEntitatID() + " hi ha assignat el plugin " + pluginID);
-          tipusDocBySignatureID.put(signatureID, pluginID);
+         tipusDocBySignatureID.put(signatureID, pluginID);
        }
 
        return SignatureModuleController.getFileInfoSignature(signatureID, source, idname,

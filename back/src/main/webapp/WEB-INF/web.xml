@@ -22,8 +22,7 @@
       <servlet-class>es.caib.portafib.back.utils.InitServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
     </servlet>
-  
-    <!--  XYZ ZZZ Mirar d'afegir algun encorer amb la finalitat que les '/' no es converteixin a ','  -->
+
     <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>

@@ -18,7 +18,6 @@ import org.fundaciobit.genapp.common.query.Where;
 
 import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.ejb.RebreAvisLocal;
 import es.caib.portafib.ejb.TipusNotificacioLocal;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
@@ -26,9 +25,9 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaEJB;
 import es.caib.portafib.logic.UsuariEntitatLogicaEJB;
-import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -67,8 +66,8 @@ public class FirmaEventManagerEJB implements Constants,
   @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
   private EstatDeFirmaLocal estatDeFirmaEjb;
 
-  @EJB(mappedName = "portafib/RebreAvisEJB/local")
-  private RebreAvisLocal rebreAvisEjb;
+  @EJB(mappedName = "portafib/RebreAvisLogicaEJB/local")
+  private RebreAvisLogicaLocal rebreAvisLogicaEjb;
   
   @EJB(mappedName = "portafib/TipusNotificacioEJB/local")
   private TipusNotificacioLocal tipusNotificacioEjb;
@@ -565,7 +564,7 @@ public class FirmaEventManagerEJB implements Constants,
     boolean agruparCorreus = false;
     if (destinatari != null) {
       if (destinatari.getCarrec() != null ) {
-        agruparCorreus = EnviarCorreusAgrupatsUtils.isAgruparCorreus(destinatari.getUsuariEntitatID(), eventID);
+        agruparCorreus = rebreAvisLogicaEjb.isAgruparCorreus(destinatari.getUsuariEntitatID(), eventID);
       }
     }
     
@@ -591,7 +590,7 @@ public class FirmaEventManagerEJB implements Constants,
   protected Where getWhereDeRebreAvis(long tipusEvent) throws I18NException {
     
     SubQuery<RebreAvis, String> avisos;
-    avisos = rebreAvisEjb.getSubQuery(RebreAvisFields.USUARIENTITATID, 
+    avisos = rebreAvisLogicaEjb.getSubQuery(RebreAvisFields.USUARIENTITATID, 
         RebreAvisFields.TIPUSNOTIFICACIOID.equal(tipusEvent));
 
     return Where.OR(UsuariEntitatFields.REBRETOTSELSAVISOS.equal(true),
