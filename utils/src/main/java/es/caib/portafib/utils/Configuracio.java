@@ -52,13 +52,6 @@ public class Configuracio implements Constants {
   }
   
 
-  public static Integer getDefaultSignAlgorithmID() {
-    return Integer.getInteger(PORTAFIB_PROPERTY_BASE + "defaultsignalgorithmid",
-        // TODO La documentació de miniapplet  diu que aquest algoritme 
-        // esta obsolet però és l'únic que suporta Custòdia-CAIB
-        Constants.SIGN_ALGORITHM_SHA1WITHRSA);
-  }
-
   public static boolean isCheckNifCertificate() {
     return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "checknifcertificate");
   }
@@ -123,25 +116,6 @@ public class Configuracio implements Constants {
     return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "automaticredirect");
   }
 
-  /**
-   * @param entitatID
-   * @param lang
-   * @return
-   */
-  public static String getFirmatPerFormat(String entitatID, String lang) {
-    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "firmatperformat."+ entitatID + "." + lang);
-  }
-  
-  
-  /**
-   * @param entitatID
-   * @param lang
-   * @return
-   */
-  public static String getMotiuDeFirmaFormat(String entitatID, String lang) {
-    return  System.getProperty(PORTAFIB_PROPERTY_BASE + "motiudelegacioformat."+ entitatID + "." + lang);
-  }
-  
   
   public static String getEntitatIDForAgentsSQL() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "entitatidforagentssql", "caib");

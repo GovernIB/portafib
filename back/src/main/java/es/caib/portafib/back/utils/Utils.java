@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.TraduccioJPA;
+import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
@@ -204,12 +207,19 @@ public class Utils {
   
   public static String getFirmatPerFormat(EntitatJPA entitat, String lang) {
     
-    // TODO en un futur el format estir� dins l'entitat
+    String firmatPerFormat = null;
     
-    String firmatPerFormat = Configuracio.getFirmatPerFormat(entitat.getEntitatID(), lang); 
+    TraduccioJPA traduccio = entitat.getFirmatPerFormat();
     
+    if (traduccio != null) {
+      TraduccioMapJPA tm = traduccio.getTraduccio(lang);
+      if (tm != null) {
+        firmatPerFormat = tm.getValor();
+      }
+    }
+
     if (firmatPerFormat == null) {
-      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - C�rrec {5}} (Emissor {3})
+      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - Càrrec {5}} (Emissor {3})
       firmatPerFormat = I18NUtils.tradueix("firmatperformat");
     }
     
@@ -220,16 +230,26 @@ public class Utils {
   
   public static String getMotiuDeFirmaFormat(EntitatJPA entitat, String lang) {
     
-    // TODO en un futur el format estir� dins l'entitat
     
-    String firmatPerFormat = Configuracio.getMotiuDeFirmaFormat(entitat.getEntitatID(), lang); 
+    String motiuDeFirma = null;
     
-    if (firmatPerFormat == null) {
-      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - C�rrec {5}} (Emissor {3})
-      firmatPerFormat = I18NUtils.tradueix("motiudelegacio");
+    
+    TraduccioJPA traduccio = entitat.getMotiuDelegacio();
+    
+    if (traduccio != null) {
+      TraduccioMapJPA tm = traduccio.getTraduccio(lang);
+      if (tm != null) {
+        motiuDeFirma = tm.getValor();
+      }
+    }
+
+    
+    if (motiuDeFirma == null) {
+      // Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
+      motiuDeFirma = I18NUtils.tradueix("motiudelegacio");
     }
     
-    return firmatPerFormat;
+    return motiuDeFirma;
 
   }
   

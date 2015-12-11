@@ -1108,7 +1108,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         dstPDF, idname, (int)location_sign_table, reason, sign_number, 
-        langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
+        langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 

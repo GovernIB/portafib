@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.caib.portafib.back.controller.aden.PlantillaCustodiaAdenController;
 import es.caib.portafib.back.controller.webdb.CustodiaInfoController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
@@ -146,10 +147,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       custodiaInfoForm.setSaveButtonVisible(false);
     }
 
-    custodiaInfoForm.addHelpToField(MISSATGE,
-        I18NUtils.tradueix("custodiainfo.missatge.ajuda"));
-    custodiaInfoForm.addHelpToField(PAGINES, I18NUtils.tradueix("custodiainfo.pagines.ajuda"));
-    custodiaInfoForm.addHelpToField(CODIBARRESTEXT, I18NUtils.tradueix("custodiainfo.codibarrestext.ajuda"));
+    PlantillaCustodiaAdenController.addHelp(custodiaInfoForm);
 
     custodiaInfoForm.addHiddenField(ENTITATID);
     custodiaInfoForm.addHiddenField(NOMPLANTILLA);

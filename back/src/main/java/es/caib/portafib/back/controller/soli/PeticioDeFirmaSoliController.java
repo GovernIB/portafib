@@ -526,8 +526,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     Fitxer f;
     f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
     
-    log.info(" ++++++++++++++++++++++ ENCRIPTED ID = " +  f.getEncryptedFileID());
-    
     FileDownloadController.fullDownload(f.getFitxerID(),
         f.getNom(), f.getMime(), response); 
     
@@ -708,7 +706,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
       
       peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
-      peticioDeFirma.setAlgorismeDeFirmaID(Configuracio.getDefaultSignAlgorithmID());
+      peticioDeFirma.setAlgorismeDeFirmaID(entitat.getAlgorismeDeFirmaID());
       peticioDeFirma.setModeDeFirma(Constants.SIGN_MODE_IMPLICIT);
 
       peticioDeFirma.setTitol(nomPeticio);

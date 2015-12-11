@@ -1,4 +1,9 @@
 
+(a) Actualitzar BBDD amb script d'esquema
+
+(b) Actualitzar BBDD amb script de dades
+
+
 (1) S'han de donar d'alta Mòduls de Firma en l'Administrador d'Entitat (El modul de firma de servidor es de proves però totalment funcional)
        
 (2) Custòdia
@@ -9,11 +14,9 @@
    (2.e) Eliminar les propietats "es.caib.portafib.defaultcustodymessage.{entitat_id}.{idioma}" del fitxer portafib-properties-service.xml
    (2.f) Eliminar les propietats de plugin de custòdia del fitxer portafib-properties-service.xml (entrades es.caib.portafib.documentcustodyplugin.* i es.caib.portafib.plugins.documentcustody.*)
 
-(3) Gestio de Segell de Temps
-   PortaFIB 1.1 suporta Segellat de Temps, per la qual cosa si es desitja aquesta caracteristica l'Administrador l'haurà de configurar.
+(3) Gestio de Segell de Temps. PortaFIB 1.1 suporta Segellat de Temps, per la qual cosa si es desitja aquesta caracteristica l'Administrador l'haurà de configurar.
    
-(4) 
+(4) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuració
 
-
-(????) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuracio
+(5) Els camps es.caib.portafib.firmatperformat.{entitat}.{idioma} i es.caib.portafib.motiudelegacioformat.{entitat}.{idioma} seran moguts al camps [Format del camp ´Firmat per´]  i [Format del camp ´Motiu Delegació´] de l'entitat i l'idioma corresponent. S'hauran de decodificar el caràcters codificats en URLEncoder.
 

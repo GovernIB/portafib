@@ -261,25 +261,19 @@ public class AutoFirmaController extends FitxerController
 
     
     ITimeStampGenerator timeStampGenerator = null;
+    EntitatJPA entitat = loginInfo.getEntitat();
     timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, 
-        LoginInfo.getInstance().getEntitat(), userRequiresTimeStamp );
-    
-    
-    
-    
+        entitat, userRequiresTimeStamp );
+
     
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         pdfAdaptat, idname, (int)form.getPosicioTaulaFirmesID(), reason, sign_number, 
-        langUI, Constants.TIPUSFIRMA_PADES, Configuracio.getDefaultSignAlgorithmID(),
+        langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
-
-    EntitatJPA entitat = loginInfo.getEntitat();
-
-    
     
     CommonInfoSignature commonInfoSignature;
     {

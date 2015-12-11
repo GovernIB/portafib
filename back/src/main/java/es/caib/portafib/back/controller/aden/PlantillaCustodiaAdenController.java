@@ -111,14 +111,6 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
     if (custodiaInfoForm.isNou()) {
 
       CustodiaInfoJPA custodiaInfo = custodiaInfoForm.getCustodiaInfo();
-
-      custodiaInfoForm.addHelpToField(MISSATGE,
-          I18NUtils.tradueix("custodiainfo.missatge.ajuda"));
-      custodiaInfoForm.addHelpToField(PAGINES,
-          I18NUtils.tradueix("custodiainfo.pagines.ajuda"));
-      custodiaInfoForm.addHelpToField(CODIBARRESTEXT,
-          I18NUtils.tradueix("custodiainfo.codibarrestext.ajuda"));
-
       // Valors per defecte
 
       custodiaInfo.setEntitatID(LoginInfo.getInstance().getEntitatID());
@@ -151,6 +143,8 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
       //custodiaInfo.setCustodiaPluginClassID(custodiaPluginClass);
 
     }
+    
+    addHelp(custodiaInfoForm);
 
     custodiaInfoForm.addHiddenField(USUARIAPLICACIOID);
     custodiaInfoForm.addHiddenField(USUARIENTITATID);
@@ -166,6 +160,15 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
 
     return custodiaInfoForm;
 
+  }
+
+  public static void addHelp(CustodiaInfoForm custodiaInfoForm) {
+    custodiaInfoForm.addHelpToField(MISSATGE,
+        I18NUtils.tradueix("custodiainfo.missatge.ajuda"));
+    custodiaInfoForm.addHelpToField(PAGINES,
+        I18NUtils.tradueix("custodiainfo.pagines.ajuda"));
+    custodiaInfoForm.addHelpToField(CODIBARRESTEXT,
+        I18NUtils.tradueix("custodiainfo.codibarrestext.ajuda"));
   }
 
   @Override

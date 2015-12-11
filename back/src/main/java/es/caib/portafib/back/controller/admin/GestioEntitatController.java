@@ -102,7 +102,10 @@ public class GestioEntitatController extends EntitatController implements Consta
          entitatForm.addHiddenField(ENTITATID);           
        }
 
+       // HELP
        entitatForm.addHelpToField(FILTRECERTIFICATS, I18NUtils.tradueix("manualfiltrescertificats.ajuda"));
+       entitatForm.addHelpToField(MOTIUDELEGACIOID, I18NUtils.tradueix("motiudelegacio.help"));
+       entitatForm.addHelpToField(FIRMATPERFORMATID, I18NUtils.tradueix("firmatperformat.help"));
        
        /*
        entitatForm.addAdditionalButton(new AdditionalButton(
@@ -253,10 +256,7 @@ public class GestioEntitatController extends EntitatController implements Consta
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
       ModelAndView mav, EntitatForm entitatForm, Where where) throws I18NException {
 
-    log.info(" PPPPPPPPPPPPPPP getReferenceListForPluginID :: Passa per plugin");
-    
     Where where2;
-    log.info(" PPPPPPPPPPPPPPP getReferenceListForPluginID :: entitatFilterForm.isNou() = " + entitatForm.isNou());
     if (entitatForm.isNou()) {
       where2 = where;
     } else {
