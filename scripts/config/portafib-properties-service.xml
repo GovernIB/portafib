@@ -32,8 +32,6 @@
            ROLE_DELE (Delegat) i ROLE_COLA (Col·laborador). En entorns CAIB aquesta propietat es ignorada -->
       #es.caib.portafib.defaultrolesincreation=ROLE_SOLI,ROLE_DEST
       es.caib.portafib.development=false
-      <!-- Comprova que el nif del certificat amb el que s'ha firmat és igual al de la persona requerida -->
-      es.caib.portafib.checknifcertificate=true
       <!-- Tamany màxim de pujada de fitxers en bytes. No definit significa sense límit -->
       es.caib.portafib.maxuploadsizeinbytes=
       <!-- Tamany màxim del fitxer PDF una vegada se li han afegit els annexes i taula de firmes. No definit significa sense límit -->

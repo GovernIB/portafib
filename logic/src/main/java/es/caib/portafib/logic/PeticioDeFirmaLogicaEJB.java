@@ -1874,7 +1874,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // (b) Verificar que el NIF del certificat correspon amb qui tenia que
       // firmar
-      if (Configuracio.isCheckNifCertificate()) {
+      
+      Boolean comprovarFirma = usuariEntitatEjb.executeQueryOne(
+          new UsuariEntitatQueryPath().ENTITAT().COMPROVARNIFFIRMA(),
+          UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
+      
+      log.info(" XYZ +++++++++++++++ COMPROBAR FIRMA = " + comprovarFirma);
+
+      // Obtenir informació del certificat
+      if (comprovarFirma != null && comprovarFirma == true) {
         StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
         Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
             .getUsuariEntitatID());

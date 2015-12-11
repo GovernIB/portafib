@@ -87,6 +87,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
 
   protected UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
+  
   @Override
   public UsuariEntitatJPA findByPrimaryKeyFull(String usuariEntitatID) {
     return findByPrimaryKeyFull(this, usuariEntitatID); 

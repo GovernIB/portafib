@@ -52,10 +52,6 @@ public class Configuracio implements Constants {
   }
   
 
-  public static boolean isCheckNifCertificate() {
-    return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "checknifcertificate");
-  }
-
   public static byte[] getEncryptKey() {
     return System.getProperty(PORTAFIB_PROPERTY_BASE + "encryptkey", "portafibportafib").getBytes();
   }

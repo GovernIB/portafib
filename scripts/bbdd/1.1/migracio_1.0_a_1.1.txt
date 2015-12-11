@@ -18,5 +18,6 @@
    
 (4) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuració
 
-(5) Els camps es.caib.portafib.firmatperformat.{entitat}.{idioma} i es.caib.portafib.motiudelegacioformat.{entitat}.{idioma} seran moguts al camps [Format del camp ´Firmat per´]  i [Format del camp ´Motiu Delegació´] de l'entitat i l'idioma corresponent. S'hauran de decodificar el caràcters codificats en URLEncoder.
+(5) Les propietats es.caib.portafib.firmatperformat.{entitat}.{idioma} i es.caib.portafib.motiudelegacioformat.{entitat}.{idioma} seran moguts al camps [Format del camp ´Firmat per´]  i [Format del camp ´Motiu Delegació´] de l'entitat i l'idioma corresponent. S'hauran de decodificar el caràcters codificats en URLEncoder.
 
+(6) La propietat "es.caib.portafib.checknifcertificate"  s'ha de moure a informació de l'entitat.

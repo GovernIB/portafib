@@ -20,10 +20,10 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
-
 import es.caib.portafib.ejb.ColaboracioDelegacioEJB;
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
+import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -34,7 +34,6 @@ import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -53,7 +52,6 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 	
 	@EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
 	protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
-	
 
   @EJB(mappedName = "portafib/TipusDocumentColaboracioDelegacioEJB/local")
   protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
@@ -63,6 +61,9 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
   
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  
+  @EJB(mappedName = "portafib/EntitatEJB/local")
+  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
   
   
   
@@ -230,9 +231,13 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     // null == Indica que no s'ha de revisar si el document ha sigut modificat
     info = PdfUtils.checkCertificatePADES(null, fitxersByNumFirma,
         firmat, numFirma);
+    
+    
+    EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());
+    
 
     // Obtenir informació del certificat
-    if (Configuracio.isCheckNifCertificate()) {
+    if (entitat != null && entitat.isComprovarNifFirma()) {
       // check expected nif
       String nifFirmant = info.getNifResponsable();
       String expectedNif = destinatari.getUsuariPersona().getNif();
