@@ -3,6 +3,15 @@
 PortaFIB 1.1.0
 ==============
 
+
+
+2015-12-15 Optimitzacions:
+         + Optimitzar tamany de la rubrica en PDF (Reducció a un 17% del tamany original)
+         + Optimitzar gestió de Mòdls de Firma emprant fitxers enlloc de byte[]
+         + Optimitzar firmes multiples emprant un thread per processar docs firmats a mesura que arriben.
+
+2015-12-11 Migració de propietats de l'entitat del Fitxer de properties a camps de l'Entitat a BBDD
+
 2015-12-04 Gestió de ús de Mòduls de Firma específics segons el Tipus de Documents d'una petició de Firma.
 
 2015-12-01 Afegir Taula de BBDD de Propietats Globals

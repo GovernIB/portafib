@@ -73,11 +73,11 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
     if (__vr.getFieldErrorCount(DATACADUCITAT) == 0) {
 
       Date dataCaducitat = (Date)__vr.getFieldValue(__target__,DATACADUCITAT);
-  
+
       Calendar avui = Calendar.getInstance();
       final int diesAfegits = 3;
       avui.add(Calendar.DATE, diesAfegits);
-      avui.set(Calendar.HOUR,  23);
+      avui.set(Calendar.HOUR_OF_DAY,  23);
       avui.set(Calendar.MINUTE,59);
       avui.set(Calendar.SECOND, 59);
       if(!dataCaducitat.after(avui.getTime())){

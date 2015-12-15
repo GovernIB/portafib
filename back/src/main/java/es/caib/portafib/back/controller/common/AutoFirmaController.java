@@ -77,7 +77,6 @@ import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -311,7 +310,8 @@ public class AutoFirmaController extends FitxerController
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
   
   
-    SignaturesSet ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID);
+    SignaturesSet ss;
+    ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
     
@@ -330,12 +330,25 @@ public class AutoFirmaController extends FitxerController
             String usuariEntitat = LoginInfo.getInstance().getUsuariEntitatID();
             
             File firmat = getFitxerFirmatPath(usuariEntitat, Long.parseLong(signaturesSetID));
+           
+            // TODO Check que status.getSignedData() != null
+            if (status.getSignedData() == null || !status.getSignedData().exists()) {
+              status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+              // TODO traduir
+              String msg = "L'estat indica que ha finalitzat correctament però " +
+                  " el fitxer firmat o no s'ha definit o no existeix";
+              status.setErrorMsg(msg);
+              statusError = status;
+            } else {
+              FileUtils.moveFile(status.getSignedData(), firmat);
+            }
             
+            /*
             FileOutputStream fos = new FileOutputStream(firmat);
-            
             fos.write(status.getSignedData());
             fos.flush();
             fos.close();
+            */
             
             status.setProcessed(true);
           } else {

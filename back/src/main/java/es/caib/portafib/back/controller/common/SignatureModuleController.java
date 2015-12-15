@@ -2,13 +2,17 @@ package es.caib.portafib.back.controller.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -50,7 +55,7 @@ import es.caib.portafib.utils.SignBoxRectangle;
 
 
 /**
- * 
+ *
  * @author anadal
  *
  */
@@ -70,12 +75,10 @@ public class SignatureModuleController {
   public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
      @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
 
-    PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(signaturesSetID);
+    PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
     
     // TODO CHECK signature Set
-    
-    
-    
+
     Map<String, Long> signIDPerTipusDoc = signaturesSet.getTipusDocBySignatureID();
     
     List<Plugin> moduls;
@@ -87,20 +90,19 @@ public class SignatureModuleController {
         return generateErrorMAV(request, signaturesSetID, msg, e);
       }
     } else {
-     
-      // El HashSet és per eliminat duplicats
+
+      // El HashSet és per eliminar duplicats
       List<Long> pluginsID = new ArrayList<Long>(new HashSet<Long>(signIDPerTipusDoc.values()));
-      
+
       if (pluginsID.size() != 1) {
         log.warn("Numero de plugins especifics = " + pluginsID.size() );
         String msg = I18NUtils.tradueix("plugindefirma.error.multiplemodules");
         return generateErrorMAV(request, signaturesSetID,  msg, null);
       }
-     
+
       Plugin plugin = modulDeFirmaEjb.findByPrimaryKey(pluginsID.get(0));
       moduls = new ArrayList<Plugin>();
       moduls.add(plugin);
-      
     }
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
@@ -110,9 +112,6 @@ public class SignatureModuleController {
     boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
     for (Plugin modulDeFirmaJPA : moduls) {
 
-      
-      
-      
       try {
         signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(
             modulDeFirmaJPA.getPluginID());
@@ -159,10 +158,13 @@ public class SignatureModuleController {
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
     
-    // TODO Check pss is null 
-    // XYZ S'ha de fer una pa`gina d'error MOLT GREU !!!!!
+    // Check pss is null
+    if (pss == null) {
+      String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
+      generateErrorMAV(request, pss, msg, null);
+    }
     
     StatusSignaturesSet sss = pss.getStatusSignaturesSet();
     if (sss.getStatus() == StatusSignaturesSet.STATUS_INITIALIZING 
@@ -215,7 +217,7 @@ public class SignatureModuleController {
     
     // EL portaFIBSignaturesSet existe?
     PortaFIBSignaturesSet signaturesSet;
-    signaturesSet = getPortaFIBSignaturesSet(signaturesSetID);
+    signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
 
     signaturesSet.setPluginID(pluginID);
 
@@ -294,23 +296,31 @@ public class SignatureModuleController {
       String signaturesSetID, int signatureIndex, 
       String origrelativePath, boolean isPost) throws Exception {
 
+    PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    if (ss == null) {
+      String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
+      generateErrorAndRedirect(request, response, ss, msg, null);
+      return;
+    }
     
-    PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(signaturesSetID); 
-    long pluginID = ss.getPluginID();
-
-    // XYZ TODO PAGINA D?ERROR GLOBAL GREU si sss o pluginID 
+    Long pluginID = ss.getPluginID();
+    if (pluginID == null) {
+      String msg = I18NUtils.tradueix("moduldefirma.senseplugin", signaturesSetID);
+      generateErrorAndRedirect(request, response, ss, msg, null);
+      return;
+    }
     
     ISignatureWebPlugin signaturePlugin;
     try {
       signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
     } catch (I18NException e) {
       String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
-      generateErrorAndredirect(request, response, ss, msg, e);
+      generateErrorAndRedirect(request, response, ss, msg, e);
       return;
     }
     if (signaturePlugin == null) {
       String msg = I18NUtils.tradueix("plugin.signatureweb.noexist", String.valueOf(pluginID));
-      generateErrorAndredirect(request, response, ss, msg, null);
+      generateErrorAndRedirect(request, response, ss, msg, null);
       return;
     }
     
@@ -347,20 +357,26 @@ public class SignatureModuleController {
 
   public static void closeSignaturesSet(String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
     
     if (pss == null) {
       log.warn("NO Existeix signaturesSetID igual a " + signaturesSetID);
       return;
     }
     
+    closeSignaturesSet(pss, modulDeFirmaEjb);
+  }
     
+    
+ private static void closeSignaturesSet(PortaFIBSignaturesSet pss, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+   
+  
     Long pluginID = pss.getPluginID();
+    final String signaturesSetID = pss.getSignaturesSetID();
     if (pluginID == null) {
-      //log.warn("Encara no s'ha asignat plugin al signatureset " + signaturesSetID);
-      return;
+      // Encara no s'ha asignat plugin al signatureset
     } else {
-    
+
       ISignatureWebPlugin signaturePlugin = null;
       try {
         signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
@@ -379,20 +395,20 @@ public class SignatureModuleController {
             + ": " + e.getMessage(), e);
       }
     }
-    
     portaFIBSignaturesSets2.remove(signaturesSetID);
-    
   }
   
 
   //TODO MOURE A LOGIC ????
   private static final Map<String, PortaFIBSignaturesSet> portaFIBSignaturesSets2 = new HashMap<String, PortaFIBSignaturesSet>();
 
+
+  private static long lastCheckFirmesCaducades = 0;
   
-  protected static ModelAndView generateErrorMAV(HttpServletRequest request,
+  protected ModelAndView generateErrorMAV(HttpServletRequest request,
       String signaturesSetID,  String msg, Throwable th) {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
     return generateErrorMAV(request, pss, msg, th);
   }
   
@@ -401,7 +417,7 @@ public class SignatureModuleController {
   protected static ModelAndView generateErrorMAV(HttpServletRequest request,
       PortaFIBSignaturesSet pss,  String msg, Throwable th) {
 
-    String urlFinal = processError(pss, msg, th);
+    String urlFinal = processError(request, pss, msg, th);
     
     ModelAndView mav = new ModelAndView("PluginFirmaFinal");
     //request.getSession().setAttribute("URL_FINAL", urlError);
@@ -411,10 +427,10 @@ public class SignatureModuleController {
   }
 
   
-  protected static void generateErrorAndredirect(HttpServletRequest request,
+  protected static void generateErrorAndRedirect(HttpServletRequest request,
       HttpServletResponse response, PortaFIBSignaturesSet pss,  String msg, Throwable th) {
 
-    String urlFinal = processError(pss, msg, th);
+    String urlFinal = processError(request, pss, msg, th);
     
     try {
       
@@ -435,21 +451,29 @@ public class SignatureModuleController {
   
   
 
-  protected static String processError(PortaFIBSignaturesSet pss, String msg, Throwable th) {
-    // TODO Check pss is null 
-    // XYZ S'ha de fer una pa`gina d'error MOLT GREU !!!!!
-    
-    StatusSignaturesSet sss = pss.getStatusSignaturesSet();
-    sss.setErrorMsg(msg);
-    sss.setErrorException(th);
-    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-    if (th == null) {
-      log.warn(msg);
-    } else {
-      log.warn(msg, th);
-    }
+  protected static String processError(HttpServletRequest request,
+      PortaFIBSignaturesSet pss, String msg, Throwable th) {
 
-    String urlFinal = pss.getUrlFinalOriginal();
+    String urlFinal;
+    if (pss == null) {
+      HtmlUtils.saveMessageError(request, msg);
+      urlFinal = getPortaFIBBase(request);
+    } else {
+    
+      StatusSignaturesSet sss = pss.getStatusSignaturesSet();
+      sss.setErrorMsg(msg);
+      sss.setErrorException(th);
+      sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+      if (th == null) {
+        log.warn(msg);
+      } else {
+        log.warn(msg, th);
+      }
+
+      urlFinal = pss.getUrlFinalOriginal();
+    
+      
+    }
 
     return urlFinal;
   }
@@ -457,8 +481,9 @@ public class SignatureModuleController {
   
   
   
-  public static SignaturesSet getSignaturesSetByID(String signaturesSetID) {
-    return getPortaFIBSignaturesSet(signaturesSetID);
+  public static SignaturesSet getSignaturesSetByID(String signaturesSetID, 
+      ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+    return getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
   }
   
   /**
@@ -467,12 +492,51 @@ public class SignatureModuleController {
    * @param signaturesSetID
    * @return
    */
-  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(String signaturesSetID) {
-    // TODO XYZ falta fer net peticions caducades SignaturesSet.getExpiryDate()
-    // TODO XYZ Tenir en compte portaFIBSignaturesSetsTipusDoc
+  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(String signaturesSetID,
+      ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+    // Fer net peticions caducades SignaturesSet.getExpiryDate()
+    // Check si existeix algun proces de firma caducat s'ha d'esborrar
+    // Com a mínim cada minut es revisa si hi ha caducats
+    Long now = System.currentTimeMillis();
+    
+    final long un_minut_en_ms =  60 * 60 * 1000;
+    
+    if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
+      lastCheckFirmesCaducades = now;
+      List<PortaFIBSignaturesSet> keysToDelete = new ArrayList<PortaFIBSignaturesSet>();
+      
+      Set<String> ids = portaFIBSignaturesSets2.keySet();
+      for (String id : ids) {
+        PortaFIBSignaturesSet ss = portaFIBSignaturesSets2.get(id);
+        if (now > ss.getExpiryDate().getTime()) {
+          keysToDelete.add(ss);
+          SimpleDateFormat sdf = new SimpleDateFormat();
+          log.info("Tancant Signature SET amb ID = " + id + " a causa de que està caducat "
+              + "( ARA: " + sdf.format(new Date(now)) + " | CADUCITAT: " + sdf.format(ss.getExpiryDate()) + ")");
+        }
+      }
+      
+      if (keysToDelete.size() != 0) {
+        synchronized (portaFIBSignaturesSets2) {
+
+          for (PortaFIBSignaturesSet pss : keysToDelete) {
+            closeSignaturesSet(pss, modulDeFirmaEjb);
+          }
+        }
+      }
+    }
+
     return portaFIBSignaturesSets2.get(signaturesSetID);
   }
 
+  /**
+   * 
+   * @param request
+   * @param view
+   * @param signaturesSet
+   * @return
+   * @throws I18NException
+   */
   public static ModelAndView startSignatureProcess(HttpServletRequest request,
        String view, PortaFIBSignaturesSet signaturesSet) throws I18NException {
 
@@ -489,7 +553,15 @@ public class SignatureModuleController {
     return mav;
   }
 
-  
+  /**
+   * 
+   * @param entitat
+   * @param languageUI
+   * @param username
+   * @param urlFinal
+   * @param browserSupportsJava
+   * @return
+   */
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
       String languageUI, String username,   String urlFinal,
       boolean browserSupportsJava) {
@@ -510,7 +582,23 @@ public class SignatureModuleController {
   
 
   
-  
+  /**
+   * 
+   * @param signatureID
+   * @param source
+   * @param idname
+   * @param locationSignTableID
+   * @param reason
+   * @param signNumber
+   * @param languageSign
+   * @param signTypeID
+   * @param signAlgorithmID
+   * @param signModeBool
+   * @param firmatPerFormat
+   * @param timeStampGenerator
+   * @return
+   * @throws I18NException
+   */
   public static FileInfoSignature getFileInfoSignature(String signatureID, File source,
       String idname, long locationSignTableID, String reason, int signNumber,
       String languageSign, long signTypeID, long signAlgorithmID, boolean signModeBool,
@@ -521,9 +609,9 @@ public class SignatureModuleController {
 
     final int signMode = ((signModeBool == Constants.SIGN_MODE_IMPLICIT) ? 
            FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
-    
+
     String signType;
-    
+
     switch((int)signTypeID) {
       case Constants.TIPUSFIRMA_PADES:
         signType = FileInfoSignature.SIGN_TYPE_PADES;
@@ -546,7 +634,8 @@ public class SignatureModuleController {
            break;
            default:
               // TODO Traduir
-              throw new I18NException("error.unknown", "Posicio de taula de firmes desconeguda: " + locationSignTableID);
+              throw new I18NException("error.unknown", 
+                  "Posicio de taula de firmes desconeguda: " + locationSignTableID);
         }
 
         pdfInfoSignature.setSignaturesTableLocation(locationSignTable);
@@ -590,7 +679,7 @@ public class SignatureModuleController {
     switch((int)signAlgorithmID) {
       case Constants.SIGN_ALGORITHM_SHA1WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
-      break;
+        break;
       case Constants.SIGN_ALGORITHM_SHA256WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA256;
         break;
@@ -600,7 +689,7 @@ public class SignatureModuleController {
       case Constants.SIGN_ALGORITHM_SHA512WITHRSA:
         signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA512;
         break;
-        
+
       default:
         // TODO Traduir
         throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithmID);
@@ -642,7 +731,21 @@ public class SignatureModuleController {
     return absoluteRequestPluginBasePath;
   }
   
-  
+  /**
+   * 
+   * @return
+   */
+  public static long generateUniqueSignaturesSetID() {
+    long id;
+    synchronized (CONTEXTWEB) {
+      id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+      }
+    }
+    return id;
+  }
 
   /**
    *  
@@ -675,10 +778,7 @@ public class SignatureModuleController {
             continue;
           }
 
-          UploadedFile uploadedFile = new UploadedFile(name, mpf.getOriginalFilename(),
-              mpf.getContentType(), mpf.getSize(), mpf.getBytes());
-
-          uploadedFiles.put(name, uploadedFile);
+          uploadedFiles.put(name, new PortaFIBUploadedFile(mpf));
 
         }
 
@@ -690,17 +790,64 @@ public class SignatureModuleController {
     return uploadedFiles;
   }
   
-  
-  public static long generateUniqueSignaturesSetID() {
-    long id;
-    synchronized (CONTEXTWEB) {
-      id = (System.currentTimeMillis() * 1000000L) + System.nanoTime() % 1000000L;
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-      }
+  /**
+   * 
+   * @author anadal
+   *
+   */
+  public static class PortaFIBUploadedFile implements UploadedFile {
+    
+    protected final MultipartFile mpf;
+
+    /**
+     * @param mpf
+     */
+    public PortaFIBUploadedFile(MultipartFile mpf) {
+      super();
+      this.mpf = mpf;
     }
-    return id;
+
+    @Override
+    public String getFormFieldName() {      
+      return mpf.getName();
+    }
+
+    @Override
+    public String getOriginalFilename() {      
+      return mpf.getOriginalFilename();
+    }
+
+    @Override
+    public String getContentType() {
+      return mpf.getContentType();
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return mpf.isEmpty();
+    }
+
+    @Override
+    public long getSize() {
+      return mpf.getSize();
+    }
+
+    @Override
+    public byte[] getBytes() throws IOException {
+      return mpf.getBytes();
+    }
+
+    @Override
+    public InputStream getInputStream() throws IOException {
+      return mpf.getInputStream();
+    }
+
+    @Override
+    public void transferTo(File dest) throws IOException, IllegalStateException {
+      mpf.transferTo(dest);
+    }
+    
   }
+
 
 }

@@ -1,6 +1,5 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinclient;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
 
 
 
@@ -44,6 +43,9 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
 
   
   private static final String APPLET_WEBRESOURCE= "applet";
+
+  public static final Map<String,Long[]> elapsedTimes = new HashMap<String,Long[]>();
+  
   
   /**
    * 
@@ -51,6 +53,17 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
   public AbstractMiniAppletInClientSignatureWebPlugin() {
     super();
   }
+
+  
+  
+  
+  public void closeSignaturesSet(String id) {
+    super.closeSignaturesSet(id);
+    elapsedTimes.remove(id);
+  };
+  
+  
+  
 
   /**
    * @param propertyKeyBase
@@ -242,16 +255,30 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
         response.sendError(404, msg);
         return;
       }
+      
+      // Només es per estadistiques de temps de durada de firma
+      FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
+      Long[] times;
+      synchronized (elapsedTimes) {
+        times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+        if (times == null) {
+          times = new Long[fileInfoArray.length];
+          elapsedTimes.put(signaturesSet.getSignaturesSetID(), times);
+        }
+      }
+      times[signatureIndex]=System.currentTimeMillis(); 
+      
+      
      
       // TODO  Controlar errors
-      FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
+      FileInfoSignature fileInfo = fileInfoArray[signatureIndex];
       
       for (String name : uploadedFiles.keySet()) {
 
         UploadedFile uploadedFile = uploadedFiles.get(name);
 
         X509Certificate cert;
-        cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(uploadedFile.getBytes()));
+        cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
 
         byte[] rubric;
@@ -308,11 +335,31 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
        UploadedFile uploadedFile = uploadedFiles.get(name);
 
        StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
+     
+       
+       File firmat = null;
+       firmat = File.createTempFile("MAICSigWebPlugin", "signedfile");
 
+       uploadedFile.transferTo(firmat);
+       
+
+       status.setSignedData(firmat);
+       
        status.setStatus(StatusSignature.STATUS_FINAL_OK);
 
-       status.setSignedData(uploadedFile.getBytes());
+       Long[]  times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+       if (times != null) {
+         Long startTime = times[signatureIndex];
+         if (startTime != null) {
+           long elapsed = System.currentTimeMillis() - startTime;
+           if (log.isDebugEnabled()) {
+             log.info("La firma amb ID " + signaturesSet.getFileInfoSignatureArray()[signatureIndex].getSignID() 
+               + " s'ha realitzat en " + elapsed + " ms" );
+           }
+         }
+       }
 
+       // Només processam el primer fitxer
        break;
       
      }
@@ -411,7 +458,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
        
        Properties prop = new Properties();
        
-       prop.load(new ByteArrayInputStream(uploadedFile.getBytes()));
+       prop.load(uploadedFile.getInputStream());
        
        String errorMsg = prop.getProperty("title") + ": " + prop.getProperty("message"); 
 

@@ -1,5 +1,7 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+import java.io.File;
+
 /**
  * 
  * @author anadal
@@ -8,15 +10,15 @@ package org.fundaciobit.plugins.signatureweb.api;
 public class StatusSignature extends StatusSignaturesSet {
 
   // document firmat
-  byte[] signedData = null;
+  File signedData = null;
 
   boolean processed = false;
 
-  public byte[] getSignedData() {
+  public File getSignedData() {
     return signedData;
   }
 
-  public void setSignedData(byte[] signedData) {
+  public void setSignedData(File signedData) {
     this.signedData = signedData;
   }
 

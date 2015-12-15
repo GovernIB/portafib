@@ -1151,7 +1151,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
   
   
-  SignaturesSet ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID);
+  SignaturesSet ss;
+  ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
 
   StatusSignaturesSet sss = ss.getStatusSignaturesSet();
   
@@ -1172,15 +1173,19 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
           Long delegacioID = new Long(signFileInfo.getSignID());
 
           try {
+            /*
             File firmat = null;
 
             firmat = File.createTempFile(DelegacioDestController.FITXER_AUTORITZACIO_PREFIX
                 + "_Firmat_" + delegacioID, ".pdf", FileSystemManager.getFilesPath());
             firmat.deleteOnExit();
 
+            
             FileOutputStream fos = new FileOutputStream(firmat);
             fos.write(status.getSignedData());
             fos.close();
+            */
+            File firmat = status.getSignedData();
 
             log.debug("WWWWWWWWW " + firmat.getAbsolutePath());
 

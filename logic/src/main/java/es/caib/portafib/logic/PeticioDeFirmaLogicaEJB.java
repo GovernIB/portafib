@@ -1878,8 +1878,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Boolean comprovarFirma = usuariEntitatEjb.executeQueryOne(
           new UsuariEntitatQueryPath().ENTITAT().COMPROVARNIFFIRMA(),
           UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
-      
-      log.info(" XYZ +++++++++++++++ COMPROBAR FIRMA = " + comprovarFirma);
 
       // Obtenir informació del certificat
       if (comprovarFirma != null && comprovarFirma == true) {

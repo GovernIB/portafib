@@ -289,8 +289,8 @@ public class GestioEntitatController extends EntitatController implements Consta
   public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)
       throws Exception,I18NException, I18NValidationException {
     EntitatJPA e = (EntitatJPA) super.update(request, entitat);
-    // TODO Traduir XYZ
-    HtmlUtils.saveMessageError(request, "Requereix que tanqui el navegador per a que els canvis tinguin efecte");
+    // Es requereix que tanqui el navegador per a que els canvis tinguin efecte
+    HtmlUtils.saveMessageError(request, I18NUtils.tradueix("entitat.postmodificacio"));
       return e;
     }
   

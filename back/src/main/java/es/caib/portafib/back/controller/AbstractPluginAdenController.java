@@ -105,9 +105,8 @@ public abstract class AbstractPluginAdenController<I> extends AbstractPluginAdmi
        
        Long plantillamoduldefirmaid = (Long)request.getSession().getAttribute(PLANTILLAID);
        if (plantillamoduldefirmaid == null) {
-         
-         // TODO XYZ tradueix
-         HtmlUtils.saveMessageError(request, "Abans ha de seleccionar una Plantilla");
+
+         HtmlUtils.saveMessageError(request, "plugin.error.requereixplantilla");
                   
          mav.setView(new RedirectView(getContextWeb() + "/list/1" , true));
          return pluginForm;

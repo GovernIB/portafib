@@ -1,6 +1,5 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinserver;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -340,8 +339,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
+    long start;
+    
     for (int i = 0; i < fileInfoArray.length; i++) {
 
+      start = System.currentTimeMillis();
       FileInfoSignature fileInfo = fileInfoArray[i];
 
       try {
@@ -364,10 +366,20 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
                   new Certificate[] { info.getCertificate() }, info.getProperties());
       
               StatusSignature ss = getStatusSignature(signaturesSetID, i);
-      
+
+              File firmat = null;
+
+              firmat = File.createTempFile("MAISSigWebPlugin", "signedfile");
+              
+              FileOutputStream fos = new FileOutputStream(firmat);
+              fos.write(signedData);
+              fos.flush();
+              fos.close();
+              // Buidar memòria
+              signedData = null;
+
+              ss.setSignedData(firmat);
               ss.setStatus(StatusSignature.STATUS_FINAL_OK);
-      
-              ss.setSignedData(signedData);
 
         } else {
           // TODO Falta CADes, Xades, ...
@@ -376,15 +388,19 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
           String msg = "Tipus de Firma amb ID " + fileInfo.getSignType() 
               + " no esta suportat pel plugin `" + this.getName(locale) + "`"; 
           
-          StatusSignature ss = getStatusSignature(signaturesSetID, i);
-          
-          ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-          
+          StatusSignature ss = fileInfo.getStatusSignature();
+
           ss.setErrorMsg(msg);
           
           ss.setErrorException(new Exception(msg));
+          
+          ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
         }
-            
+
+        if (log.isDebugEnabled()) {
+          log.debug("XYZ   Firma amb ID " + fileInfo.getSignID() + " finalitzada en "
+            + (System.currentTimeMillis() - start) + "ms ");
+        }
 
 
       } catch (Throwable th) {
@@ -536,23 +552,26 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) throws Exception {
     
     //out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
-    
-    log.debug("deleteCertificateGET::relativePath " + relativePath);
+    final boolean isDebug = log.isDebugEnabled();
+    if (isDebug) {
+      log.debug("deleteCertificateGET::relativePath " + relativePath);
+    }
     
     int pos = relativePath.lastIndexOf('/');
     String dirName = relativePath.substring(pos + 1);
-    
-    log.debug("deleteCertificateGET::dirName " + dirName);
+    if (isDebug) {
+      log.debug("deleteCertificateGET::dirName " + dirName);
+    }
     
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
     File userPath = getUserNamePath(commonInfoSignature.getUsername());
     
     FileUtils.deleteRecursive(new File(userPath, dirName));
     
-    saveMessageError(signaturesSet.getSignaturesSetID(), "Eliminat correctament el certificat");
+    // TODO traduir
+    saveMessageInfo(signaturesSet.getSignaturesSetID(), "El certificat s'ha eliminat correctament.");
     
     String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
-    // log.debug("REDIRECT(uploadCertificate - POST ) = " + redirect);
     response.sendRedirect(redirect);
   }
   
@@ -637,8 +656,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     // CHECK CERTIFICATE
     PublicCertificatePrivateKeyPair pcpk;
     try {
-      pcpk = CertificateUtils.readPKCS12(
-          new ByteArrayInputStream(uf.getBytes()), p12password);
+      pcpk = CertificateUtils.readPKCS12(uf.getInputStream(), p12password);
     } catch (Exception e) {
       String msg = getTraduccio("error.contrasenyaincorrecta", locale) + ": " + e.getMessage();
       log.error(msg,e);
@@ -681,10 +699,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       certFile.flush();
       certFile.close();
 
-      FileOutputStream p12 = new FileOutputStream(new File(uploadFolder, FILENAME_P12));
-      p12.write(uf.getBytes());
-      p12.flush();
-      p12.close();
+      File p12 = new File(uploadFolder, FILENAME_P12);
+      uf.transferTo(p12);
 
       // Passar a la pàgina de ficar PIN
       String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;

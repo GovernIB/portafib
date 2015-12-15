@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,6 @@ import es.caib.portafib.jpa.TraduccioJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.Configuracio;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;

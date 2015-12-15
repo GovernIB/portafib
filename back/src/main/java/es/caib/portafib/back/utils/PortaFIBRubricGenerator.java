@@ -78,16 +78,17 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
     float alturaPDF = pdfRubricRectangle.getUpperRightY() - pdfRubricRectangle.getLowerLeftY();
 
     float factorPdfUnitToPixel = 1f; // + (1f/3f);
-    int width = (int) (6 * amplePDF * factorPdfUnitToPixel);
-    int height = (int) (6 * alturaPDF * factorPdfUnitToPixel);
+    int width = (int) (1 * amplePDF * factorPdfUnitToPixel);
+    int height = (int) (1 * alturaPDF * factorPdfUnitToPixel);
 
     if (log.isDebugEnabled()) {
       log.debug(" Ample Imatge Firma: " + width);
       log.debug(" Alt Imatge Firma: " + height);
     }
 
-    return getImage(cert, locale, width, height, firmatPerFormat, data, motiu);
+    byte[] img = getImage(cert, locale, width, height, firmatPerFormat, data, motiu);
 
+    return img;
   }
   
   
@@ -323,8 +324,7 @@ public class PortaFIBRubricGenerator implements IRubricGenerator {
     // Escriu Motiu
     y = drawStringMultipleLine(motiuLabel, motiu, width, g, font, fontBolt, metrics, metricsBold,
         factorSeparacioReduit, alt, y);
-    
-    
+
 
     g.dispose();  
 

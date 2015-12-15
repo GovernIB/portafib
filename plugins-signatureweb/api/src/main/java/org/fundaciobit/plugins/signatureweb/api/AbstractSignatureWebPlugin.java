@@ -1,11 +1,8 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.utils.AbstractPluginProperties;
@@ -17,7 +14,6 @@ import org.fundaciobit.plugins.utils.AbstractPluginProperties;
  */
 public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperties 
    implements  ISignatureWebPlugin {
-  
 
   // ------------------------------------
 
@@ -25,7 +21,6 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
 
   private Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
 
-  private long lastCheckFirmesCaducades = 0;
 
   /**
    * 
@@ -81,34 +76,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   @Override
   public SignaturesSet getSignaturesSet(String signaturesSetID) {
     
-    // Check si existeix algun proces de firma caducat s'ha d'esborrar
-    // Com a mínim cada minut es revisa si hi ha caducats
-    Long now = System.currentTimeMillis();
-    
-    final long un_minut_en_ms =  60 * 60 * 1000;
-    
-    if (now + un_minut_en_ms > lastCheckFirmesCaducades) {
-      lastCheckFirmesCaducades = now;
-      List<String> keysToDelete = new ArrayList<String>();
-      
-      Set<String> ids = infoSign.keySet();
-      for (String id : ids) {
-        SignaturesSet ss = infoSign.get(id);
-        if (now > ss.getExpiryDate().getTime()) {
-          keysToDelete.add(id);
-          log.info("Tancant Signature SET amb ID = " + id + " a causa de que està caducat "
-              + "( ARA: " + now + " | CADUCITAT: " + ss.getExpiryDate().getTime() + ")");
-        }
-      }
-      
-      if (keysToDelete.size() != 0) {
-        synchronized (infoSign) {
-          for (String idss : keysToDelete) {
-            closeSignaturesSet(idss);
-          }
-        }
-      }
-    }
+
 
     SignaturesSet ss;
     synchronized (infoSign) {

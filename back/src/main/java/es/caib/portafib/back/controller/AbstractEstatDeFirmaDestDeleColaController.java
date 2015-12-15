@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller;
 
-  import org.fundaciobit.genapp.common.KeyValue;
+  import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -44,11 +45,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -622,16 +623,17 @@ import es.caib.portafib.utils.Configuracio;
         ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
         
         
-        // XYZ 
+        // Només quan #peticions > 3 activar thread
         // Posar en marxa un thread que vagi mirant les entrades i les processi 
         // En el mapping finalOK o finalError descartar les entrades ja processades
-
+        if (seleccionats.size() > 3) {
+           ParallelSignedFilesProcessing pThread = new ParallelSignedFilesProcessing(
+               signaturesSetID, peticioDeFirmaLogicaEjb, modulDeFirmaEjb);
+           pThread.start();
+        }
         return mav;
         
     }
-    
-    
-    
     
 
     public abstract String getRole();
@@ -836,7 +838,8 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
     
     
-      SignaturesSet ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID);
+      SignaturesSet ss;
+      ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
 
       StatusSignaturesSet sss = ss.getStatusSignaturesSet();
       
@@ -845,129 +848,13 @@ import es.caib.portafib.utils.Configuracio;
       switch(sss.getStatus()) {
       
         case StatusSignaturesSet.STATUS_FINAL_OK:
-          {
-
-            FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
-            
-            for (int i = 0; i < signedFiles.length; i++) {
-            
-              
-              final FileInfoSignature signedFile = signedFiles[i];
-              
-              SignatureID signID = decodeSignatureID(signedFile.getSignID());
-              
-              final long estatDeFirmaID = signID.getEstatDeFirmaID();
-              final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
-              final String token = signID.getToken();
-              
-              StatusSignature status = signedFile.getStatusSignature();
-            
-              switch(status.getStatus()) {
-              
-                  case StatusSignature.STATUS_FINAL_OK:
-                    
-                    File firmat = null;
-                    try {
-      
-        
-                      firmat = File.createTempFile(peticioDeFirmaID + "_" + estatDeFirmaID + "_Firma_Firmat_", ".pdf",
-                          FileSystemManager.getFilesPath());
-                      firmat.deleteOnExit();
-        
-                      FileOutputStream fos = new FileOutputStream(firmat);
-                      fos.write(status.getSignedData());
-                      fos.close();
-        
-                      if (log.isDebugEnabled()) {
-                        log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
-                      }
-        
-                      peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID, token,
-                          signedFile.getSignNumber());
-        
-                      log.debug("WWWWWWWWW FINAL ");
-                      
-                      status.setProcessed(true);
-        
-                    } catch (Throwable e) {
-                      
-                      if (firmat != null && firmat.exists()) {
-                        if (!firmat.delete()) {
-                          // TODO missatge d'error
-                          firmat.deleteOnExit();
-                        };
-                      }
-                      
-                      log.error(" CLASS = " + e.getClass());
-                      String msg;
-                      if (e instanceof I18NException) {
-                        I18NException i18ne = (I18NException)e;
-                        msg = I18NUtils.getMessage(i18ne);
-                        log.error("Error processant fitxer firmat (I18NException): " + msg, e);
-                      } else {
-                        msg = e.getMessage();
-                        log.error("Error processant fitxer firmat (Throwable): " + msg , e);
-                      }
-      
-                      //  TODO Traduir
-                      String fullMsg = "S´ha produit un error processant el fitxer firmat ´" + 
-                          signedFile.getName() + "´: " + msg;
-                      
-                      HtmlUtils.saveMessageError(request, fullMsg);
-                      
-                      status.setProcessed(true);
-      
-                    }
-                    
-                  break; // FINAL DE CAS FIRMAT
-              
-                  
-                  case StatusSignature.STATUS_FINAL_ERROR:
-                  {
-                    // Mostrar excepció per log
-                    // TODO traduir
-                    String msg = "S´ha produit un error durant la firma del fitxer  ´" + 
-                        signedFile.getName() + "´: " + status.getErrorMsg(); 
-                    
-                    if (status.getErrorException() == null) {
-                      log.error(msg);
-                    } else {
-                      log.error(msg, status.getErrorException());
-                    }
-                    
-                    
-                    HtmlUtils.saveMessageError(request, msg);
-                    
-                    status.setProcessed(true);
-                  }
-                  break;
-                  
-                  default:
-                  {
-                    // TODO traduir
-                    String msg = "Ha finalitzat el process de firma amb ID " + signaturesSetID 
-                    + " però la firma del fitxer ´" +  signedFile.getName()
-                    + "´ no està ni firmat ni té errors.";
-                     
-                    log.error(msg, new Exception());
-                    
-                    HtmlUtils.saveMessageWarning(request, msg);
-                  }
-              
-              }
-            }
-
-          }
-          
-        
+            signPostProcessOfSignaturesSet(request, ss);
         break;
         
         case StatusSignaturesSet.STATUS_FINAL_ERROR:
-          
           statusError = sss;
         break;
-        
-        
+
         case StatusSignaturesSet.STATUS_CANCELLED:
           if (sss.getErrorMsg() == null) {
             sss.setErrorMsg(I18NUtils.tradueix("plugindefirma.cancelat"));
@@ -1000,6 +887,274 @@ import es.caib.portafib.utils.Configuracio;
     }
 
     
+  /**
+   * 
+   * @param request
+   * @param ss
+   * @param peticioDeFirmaLogicaEjb
+   * @param endOfProcess
+   */
+  public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSet ss) {
+
+    FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
+    
+    final boolean isDebug = log.isDebugEnabled();
+
+    for (int i = 0; i < signedFiles.length; i++) {
+
+      final FileInfoSignature signedFile = signedFiles[i];
+
+      StatusSignature status = signedFile.getStatusSignature();
+
+      // Per a que no es trepitji Thread ParallelSignedFilesProcessing i finalProcesDeFirma()
+      synchronized (status) {
+
+        // Potser ja s'han processat en el Thread   ParallelSignedFilesProcessing
+        if (status.isProcessed()) {
+          continue;
+        }
+
+        SignatureID signID = decodeSignatureID(signedFile.getSignID());
+
+        final long estatDeFirmaID = signID.getEstatDeFirmaID();
+        final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
+        final String token = signID.getToken();
+
+        switch (status.getStatus()) {
+
+        case StatusSignature.STATUS_FINAL_OK:
+
+          File firmat = null;
+          try {
+
+            firmat = status.getSignedData();
+
+            if (isDebug) {
+              log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
+            }
+
+            peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
+                token, signedFile.getSignNumber());
+
+            status.setProcessed(true);
+            
+            if (isDebug) {
+              log.debug("(FINAL)Processada Signature " + signedFile.getSignID() + " ...");
+            }
+
+          } catch (Throwable e) {
+
+            if (firmat != null && firmat.exists()) {
+              if (!firmat.delete()) {
+                // TODO missatge d'error
+                firmat.deleteOnExit();
+              }
+            }
+
+            log.error(" CLASS = " + e.getClass());
+            String msg;
+            if (e instanceof I18NException) {
+              I18NException i18ne = (I18NException) e;
+              msg = I18NUtils.getMessage(i18ne);
+              log.error("Error processant fitxer firmat (I18NException): " + msg, e);
+            } else {
+              msg = e.getMessage();
+              log.error("Error processant fitxer firmat (Throwable): " + msg, e);
+            }
+
+            // TODO Traduir
+            String fullMsg = "S´ha produit un error processant el fitxer firmat ´"
+                + signedFile.getName() + "´: " + msg;
+
+            HtmlUtils.saveMessageError(request, fullMsg);
+
+            status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            status.setProcessed(true);
+
+          }
+
+          break; // FINAL DE CAS FIRMAT
+
+        case StatusSignature.STATUS_FINAL_ERROR: {
+          // Mostrar excepció per log
+          // TODO traduir
+          String msg = "S´ha produit un error durant la firma del fitxer  ´"
+              + signedFile.getName() + "´: " + status.getErrorMsg();
+
+          if (status.getErrorException() == null) {
+            log.error(msg);
+          } else {
+            log.error(msg, status.getErrorException());
+          }
+
+          HtmlUtils.saveMessageError(request, msg);
+
+          status.setProcessed(true);
+        }
+          break;
+
+        default: {
+          // TODO traduir
+          String msg = "Ha finalitzat el process de firma amb ID " + ss.getSignaturesSetID()
+              + " però la firma del fitxer ´" + signedFile.getName()
+              + "´ no està ni firmat ni té errors.";
+
+          log.error(msg, new Exception());
+
+          HtmlUtils.saveMessageWarning(request, msg);
+          status.setProcessed(true);
+        }
+
+        }
+      }
+    }
+  }
+    
+  /**
+   * Serveix per anar processant les firmes finalitzades en cas de fer un firma
+   * multiple.
+   * 
+   * @author anadal
+   *
+   */
+  public class ParallelSignedFilesProcessing extends Thread {
+
+    protected final Logger log = Logger.getLogger(ParallelSignedFilesProcessing.class);
+
+    protected final PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+
+    protected final ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+
+    protected final String signaturesSetID;
+
+    /**
+     * @param signaturesSetID
+     * @param peticioDeFirmaLogicaEjb
+     * @param modulDeFirmaEjb
+     */
+    public ParallelSignedFilesProcessing(String signaturesSetID,
+        PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb,
+        ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+      super();
+      this.signaturesSetID = signaturesSetID;
+      this.peticioDeFirmaLogicaEjb = peticioDeFirmaLogicaEjb;
+      this.modulDeFirmaEjb = modulDeFirmaEjb;
+    }
+
+    @Override
+    public void run() {
+      
+      final boolean isDebug = log.isDebugEnabled();
+      
+      if (isDebug) {
+        log.debug("(Thread) Iniciat thread ...");
+      }
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e1) {
+      }
+      
+      
+
+      Date caducitat = null;
+      do {
+
+
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
+
+        SignaturesSet ss;
+        ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
+
+        if (ss == null) {
+          return;
+        }
+        
+        if (caducitat == null) {
+          caducitat = ss.getExpiryDate();
+          if (caducitat == null) {
+            // Valor per defecte
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, 10);
+            caducitat = new Date(System.currentTimeMillis() + 10 * 60 * 1000);
+          }
+          
+        }
+
+        StatusSignaturesSet sss = ss.getStatusSignaturesSet();
+        
+        if (sss.getStatus() == StatusSignaturesSet.STATUS_INITIALIZING) {
+          if (isDebug) {
+            log.debug("(Thread) STATUS_INITIALIZING  Esperam ....");
+          }
+          continue;
+        } else if (sss.getStatus() != StatusSignaturesSet.STATUS_IN_PROGRESS) {
+          return;
+        }
+
+        
+        FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
+
+        for (int i = signedFiles.length -1; i >= 0 ; i--) {
+
+          final FileInfoSignature signedFile = signedFiles[i];
+
+          StatusSignature status = signedFile.getStatusSignature();
+          
+          // Per a que no es trepitji Thread i finalProcesDeFirma()
+          synchronized (status) {
+
+            // Només Processarem els OK
+            if (status.isProcessed() || status.getStatus() != StatusSignature.STATUS_FINAL_OK) {
+              continue;
+            }
+
+            SignatureID signID = decodeSignatureID(signedFile.getSignID());
+
+            final long estatDeFirmaID = signID.getEstatDeFirmaID();
+            final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
+            final String token = signID.getToken();
+
+            File firmat = null;
+            try {
+
+              firmat = status.getSignedData();
+
+              if (isDebug) {
+                log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
+              }
+  
+              peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
+                  token, signedFile.getSignNumber());
+  
+              status.setProcessed(true);
+              
+              if (isDebug) {
+                log.debug("(Thread)    [" + i + "]  Processat Signature " + signedFile.getSignID() + " ...");
+              }
+  
+            } catch (Throwable e) {
+              // Do Nothing
+              
+              if (isDebug) {
+                log.debug("(Thread)   [" + i + "]   Thread Error Cridant a nouFitxerFirmat"
+                    + " (No gestionam l'error): " + e.getMessage(), e);
+              }
+              
+            }
+          } // Final synchronized
+        }
+
+      } while(caducitat.getTime() > System.currentTimeMillis()); // Sortida en cas de bloqueig
+
+    }
+
+  }
+
+    
     protected String encodeSignatureID(Long peticioDeFirmaID, Long estatDeFirmaID, String token) {
       return peticioDeFirmaID + "|" + estatDeFirmaID + "|" + token;
       
@@ -1010,7 +1165,7 @@ import es.caib.portafib.utils.Configuracio;
      * @param encoded
      * @return
      */
-    protected SignatureID decodeSignatureID(String encoded) {
+    protected static SignatureID decodeSignatureID(String encoded) {
       
       String[] parts = encoded.split("\\|");
 
@@ -1402,8 +1557,8 @@ import es.caib.portafib.utils.Configuracio;
       }
 
     }
-    
-    
+
+
     /**
      * 
      * @author anadal
@@ -1423,9 +1578,7 @@ import es.caib.portafib.utils.Configuracio;
         this.checkInfo = checkInfo;
         this.fileInfosignature = fileInfosignature;
       }
-      
-      
-      
+
     }
 
     // TODO Moure a capa de logica (així com els altres metodes de check)
