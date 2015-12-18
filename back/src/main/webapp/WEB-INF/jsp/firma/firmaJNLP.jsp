@@ -5,8 +5,11 @@
   String appUrl = "";
   String appletUrl = "";
   {
-    appUrl = pageContext.getRequest().getScheme() + "://" + pageContext.getRequest().getServerName() + ":" 
-        + pageContext.getRequest().getServerPort() +  request.getContextPath();
+    //appUrl = pageContext.getRequest().getScheme() + "://" + pageContext.getRequest().getServerName() + ":" 
+    //    + pageContext.getRequest().getServerPort() +  request.getContextPath();
+    appUrl = Configuracio.getAppUrl();
+    //int pos = appUrl.indexOf(':');
+    //appUrl = pageContext.getRequest().getScheme() + appUrl.substring(pos);
   }
   appletUrl = appUrl + "/applet/";
   request.getSession().setAttribute("AppUrl", appUrl);
