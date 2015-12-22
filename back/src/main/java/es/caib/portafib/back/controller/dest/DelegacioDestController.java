@@ -1118,19 +1118,19 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     CommonInfoSignature commonInfoSignature;
     {
       // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-      String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
+      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
       
-      final String urlFirmaFinal = absoluteControllerBase + "/finalFirma/" + signaturesSetID;
+      final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
             
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+      final String administrationID = loginInfo.getUsuariPersona().getNif();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, urlFirmaFinal, !isJnlp);
+          langUI, username, administrationID ,urlFirmaFinal, !isJnlp);
     }
-    
+
     // Vuls suposar que abans de 10 minuts haurà firmat
     Calendar caducitat = Calendar.getInstance();
     caducitat.add(Calendar.MINUTE, 10);
-    
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray);
@@ -1144,13 +1144,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   }
 
-  
-  
+
   @RequestMapping(value = "/finalFirma/{signaturesSetID}")
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
-  
-  
+
   SignaturesSet ss;
   ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
 
@@ -1262,128 +1260,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 }
 
   
-  /*
-  @RequestMapping(value = "/finalOK/{pluginID}/{signaturesSetID}")
-  public ModelAndView finalOK(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("pluginID") Long pluginID,
-      @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
-  
-  
-
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
-    if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
-    }
-
-    // TODO check null
-    StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
-    
-
-    FileInfoSignature signFileInfo = 
-        signaturePlugin.getSignaturesSet(signaturesSetID).getFileInfoSignatureArray()[0];
-    
-    Long delegacioID = new Long(signFileInfo.getSignID());
-
-    try {
-      File firmat = null;
-
-      firmat = File.createTempFile(DelegacioDestController.FITXER_AUTORITZACIO_PREFIX
-          + "_Firmat_" + delegacioID, ".pdf", FileSystemManager.getFilesPath());
-      firmat.deleteOnExit();
-
-      FileOutputStream fos = new FileOutputStream(firmat);
-      fos.write(status.getSignedData());
-      fos.close();
-
-      log.debug("WWWWWWWWW " + firmat.getAbsolutePath());
-
-      colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, firmat,
-          DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
-
-    } catch (Throwable e) {
-      log.error(" CLASS = " + e.getClass());
-      String msg;
-      if (e instanceof I18NException) {
-        I18NException i18ne = (I18NException)e;
-        msg = I18NUtils.getMessage(i18ne);
-        log.error("Error processant fitxer firmat (I18NException): " + msg, e);
-      } else {
-        msg = e.getMessage();
-        log.error("Error processant fitxer firmat (Throwable): " + msg , e);
-      }
-
-      //  TODO Traduir
-      String fullMsg = "S´ha produit un error processant el fitxer firmat ´" + 
-          signFileInfo.getName() + "´: " + msg;
-      
-      HtmlUtils.saveMessageError(request, fullMsg);
-
-    }
-      
-    
-    status.setProcessed(true);
-    
-    signaturePlugin.closeSignaturesSet(signaturesSetID);
-   
-    ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-    return mav;
-    
-  }
-  
-  /*
-  @RequestMapping(value = "/finalError/{pluginID}/{signaturesSetID}")
-  public ModelAndView finalError(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("pluginID") Long pluginID,
-      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
-  
-  
-    // TODO Check null Misstage
-    ISignatureWebPlugin signaturePlugin = modulDeFirmaEjb.getInstanceByPluginID(pluginID);
-    
-    if (signaturePlugin == null) {
-      throw new I18NException("plugin.signatureweb.noexist", String.valueOf(pluginID));
-    }
-    
-    StatusSignature status = signaturePlugin.getStatusSignature(signaturesSetID, 0);
-    // TODO check null
-    
-    FileInfoSignature signFileInfo = 
-        signaturePlugin.getSignaturesSet(signaturesSetID).getFileInfoSignatureArray()[0];
-    
-    
-    {
-      // Mostrar excepció per log
-      // TODO traduir
-      String msg = "S´ha produit un error durant la firma del fitxer  ´" + 
-          signFileInfo.getName() + "´: " + status.getErrorMsg(); 
-      
-      if (status.getErrorException() == null) {
-        log.error(msg);
-      } else {
-        log.error(msg, status.getErrorException());
-      }
-      
-      
-      HtmlUtils.saveMessageError(request, msg);
-      
-      status.setProcessed(true);
-    }
-    
-    signaturePlugin.closeSignaturesSet(signaturesSetID);
-    
-    ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-    return mav;
-  
-    
-  }
-  */
-  
-  
-  
-  
-  
-  
-  
+ 
 
   @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
   public void source(@PathVariable("id") Long id, HttpServletResponse response)

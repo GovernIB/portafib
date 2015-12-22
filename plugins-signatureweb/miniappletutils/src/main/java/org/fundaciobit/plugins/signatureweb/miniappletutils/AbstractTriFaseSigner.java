@@ -21,11 +21,51 @@ import org.fundaciobit.plugins.utils.FileUtils;
  *
  */
 public abstract class AbstractTriFaseSigner {
+  
+  // final PdfSignResult pre
+  protected Object pre = null;
+  
+  // Original file with TimeStamp
+  protected byte[] data;
+  
+  
 
-  public byte[] sign(final byte[] inPDF, final String algorithm,
+  public byte[] fullSign(final byte[] inPDF, final String algorithm,
       final java.security.cert.Certificate[] certChain, final Properties xParams)
       throws Exception {
 
+    // *************** PreFirma
+    byte[] presign = step1_PreSign(inPDF, algorithm, certChain, xParams); 
+    
+    // *************** Firma
+    final byte[] interSign = step2_signHash(algorithm, presign);
+
+
+    // *************** PostFirma
+    return step3_PostSign(algorithm, certChain, xParams, interSign);
+
+  }
+
+
+
+  public byte[] step3_PostSign(final String algorithm,
+      final java.security.cert.Certificate[] certChain, final Properties xParams,
+      final byte[] interSign) throws Exception {
+    final Properties extraParams = xParams != null ? xParams : new Properties();
+    final java.security.cert.Certificate[] certificateChain = Boolean.parseBoolean(extraParams
+        .getProperty("includeOnlySignningCertificate", Boolean.FALSE.toString())) ? //$NON-NLS-1$
+    new X509Certificate[] { (X509Certificate) certChain[0] }
+        : certChain;
+    
+    // byte[] result = PAdESTriPhaseSigner.postSign(algorithm, data, certificateChain, interSign, pre, null, null);
+    byte[] result = invoke_PAdESTriPhaseSigner_postSign(algorithm, data, certificateChain, interSign, pre, null, null);
+    return result;
+  }
+  
+  
+  
+  public byte[] step1_PreSign(final byte[] inPDF,  final String algorithm,
+      final java.security.cert.Certificate[] certChain, final Properties xParams) throws Exception {
     final Properties extraParams = xParams != null ? xParams : new Properties();
 
     // TODO checkIText();
@@ -61,34 +101,26 @@ public abstract class AbstractTriFaseSigner {
     
     
     // *************** Sello de stiempo
-    byte[] data;
+    
 
     // data = es.gob.afirma.signers.pades.PdfTimestamper.timestampPdf(inPDF, extraParams, signTime);
-    data = invoke_PdfTimestamper_timestampPdf(inPDF, extraParams, signTime);
+    this.data = invoke_PdfTimestamper_timestampPdf(inPDF, extraParams, signTime);
     
     
     // *************** Prefirma
     // final PdfSignResult pre = PAdESTriPhaseSigner.preSign(algorithm, data, certificateChain, signTime, extraParams);
     // final byte[] presign = pre.getSign();
     
-    Object pre = invoke_PAdESTriPhaseSigner_preSign(algorithm, data, certificateChain, signTime, extraParams);
+    this.pre = invoke_PAdESTriPhaseSigner_preSign(algorithm, data, certificateChain, signTime, extraParams);
     byte[] presign = invoke_PdfSignResult_getSign(pre);
     
-    
-    // *************** Firma
-    final byte[] interSign = signHash(algorithm, presign);
-
-
-    // *************** Postfirma
-    // byte[] result = PAdESTriPhaseSigner.postSign(algorithm, data, certificateChain, interSign, pre, null, null);
-    byte[] result = invoke_PAdESTriPhaseSigner_postSign(algorithm, data, certificateChain, interSign, pre, null, null);
-    return result;
-    
-    
-    
+    return presign;
   }
+  
+  
+  
 
-  public abstract byte[] signHash(final String algorithm, final byte[] hash) throws Exception;
+  public abstract byte[] step2_signHash(final String algorithm, final byte[] hash) throws Exception;
   
   
   // ---------------------------------------------

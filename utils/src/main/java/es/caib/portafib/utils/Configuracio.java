@@ -171,4 +171,15 @@ public class Configuracio implements Constants {
   }
   
   
+  /**
+   * Opcional. Si no es defineix llavors obté la URL absoluta de la petició (Pot haver-hi
+   *  problemes si el Apache-Proxy no té activat "ProxyPreserveHost On"). Si és defineix 
+   *  s'utilitzarà aquesta URL com l'absoluta.
+   *  Serveix per Plugins de Firma que han d'accedir externament al Servidor de PortaFIB  
+   * @return
+   */
+  public static String getSignatureModuleAbsoluteURL() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "signaturemodule.absoluteurl");
+  }
+  
 }

@@ -21,7 +21,6 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
 
   private Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
 
-
   /**
    * 
    */

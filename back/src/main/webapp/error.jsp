@@ -12,6 +12,7 @@
 protected final Logger log = Logger.getLogger(getClass());
 
 %><%
+
 // Página d'error que mostra per pantalla i amb format els errors que es produeixen.
 long idError = System.currentTimeMillis() % 1000;
 try {

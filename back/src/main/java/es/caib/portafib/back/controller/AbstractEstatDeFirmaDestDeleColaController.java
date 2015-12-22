@@ -596,14 +596,14 @@ import es.caib.portafib.utils.Configuracio;
         CommonInfoSignature commonInfoSignature;
         {
           // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-          String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
+          String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
 
-          
-          final String urlFinal = absoluteControllerBase + "/finalFirma/" + signaturesSetID;
+          final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+          final String administrationID = loginInfo.getUsuariPersona().getNif();
           commonInfoSignature = SignatureModuleController.getCommonInfoSignature(
-              loginInfo.getEntitat(), langUI, username, urlFinal, !isJnlp);
+              loginInfo.getEntitat(), langUI, username, administrationID,  urlFinal, !isJnlp);
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
@@ -619,6 +619,7 @@ import es.caib.portafib.utils.Configuracio;
 
         signaturesSet.setTipusDocBySignatureID(tipusDocBySignatureID);
 
+        
         final String view = "PluginDeFirmaContenidor_" + getRole();
         ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
         
@@ -797,20 +798,20 @@ import es.caib.portafib.utils.Configuracio;
       CommonInfoSignature commonInfoSignature;
       {
         
-        String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, getContextWeb());
-        
-        
-        final String urlFinal = absoluteControllerBase + "/finalFirma/" + signaturesSetID;
-        
+        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+
+        final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
+
         final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+        final String administrationID = loginInfo.getUsuariPersona().getNif();
         commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-            langUI, username, urlFinal, !isJnlp);
+            langUI, username, administrationID, urlFinal, !isJnlp);
       }
-      
+
       // Vuls suposar que abans de 10 minuts haurà firmat
       Calendar caducitat = Calendar.getInstance();
       caducitat.add(Calendar.MINUTE, 10);
-      
+
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
           commonInfoSignature, fileInfoSignatureArray);

@@ -40,6 +40,12 @@
                 <module>miniappletui</module>
             </modules>
         </profile>
+        <profile>
+            <id>sia</id>
+            <modules>
+                <module>miniappletinserversia</module>
+            </modules>
+        </profile>
     </profiles>
 	
 	<dependencies>

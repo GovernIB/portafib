@@ -78,13 +78,14 @@ public class SignatureInServerTest extends TestCase {
       String languageUI = "ca";
       String filtreCertificats = "";
       String username = "anadal";
+      String administrationID = "43096845C";
       PolicyInfoSignature policyInfoSignature = null;
       String urlFinal = "none";
-      
+
       boolean browserSupportsJava = false;
 
       CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-          filtreCertificats, username, policyInfoSignature, urlFinal,
+          filtreCertificats, username, administrationID, policyInfoSignature, urlFinal,
           browserSupportsJava);
 
       String signID = "999";
@@ -125,7 +126,7 @@ public class SignatureInServerTest extends TestCase {
       MiniAppletInServerSigner signer = new MiniAppletInServerSigner(pair.getPrivateKey());
 
       byte[] signedData = signer
-          .sign(info.getDataToSign(), info.getSignAlgorithm(),
+          .fullSign(info.getDataToSign(), info.getSignAlgorithm(),
               new java.security.cert.Certificate[] { info.getCertificate() },
               info.getProperties());
 

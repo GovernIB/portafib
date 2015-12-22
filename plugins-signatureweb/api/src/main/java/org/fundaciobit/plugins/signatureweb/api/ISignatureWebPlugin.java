@@ -24,23 +24,27 @@ public interface ISignatureWebPlugin extends IPlugin {
 
   public String[] getSupportedSignatureAlgorithms(String signType);
 
-  public boolean filter(String username, String filter, boolean supportJava);
+  public boolean filter(HttpServletRequest request, String username, String administrationID,
+      String filter, boolean supportJava);
 
 
   public void closeSignaturesSet(String signaturesSetID) throws Exception;
 
 
-  public String signSet(String pluginRequestPath, SignaturesSet signaturesSet) throws Exception;
+  public String signSet(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception;
 
 
-  public void requestGET(String pluginRequestPath, String relativePath,
+  public void requestGET(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, String relativePath,
       String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception;
+      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response);
 
 
-  public void requestPOST(String pluginRequestPath, String relativePath,
+  public void requestPOST(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, String relativePath,
       String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception;
+      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response);
 
 
   public StatusSignature getStatusSignature(String signatureSetID, int signatureIndex);

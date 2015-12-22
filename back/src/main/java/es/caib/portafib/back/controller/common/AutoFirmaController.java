@@ -277,12 +277,13 @@ public class AutoFirmaController extends FitxerController
     CommonInfoSignature commonInfoSignature;
     {
       
-      String absoluteControllerBase = SignatureModuleController.getAbsoluteControllerBase(request, CONTEXTWEB);
-      final String urlFinal = absoluteControllerBase + "/final/" + signaturesSetID;
-
+      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
+      final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
+      final String administrationID = loginInfo.getUsuariPersona().getNif();
+      
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, urlFinal, !form.isJnlp());
+          langUI, username, administrationID, urlFinal, !form.isJnlp());
     }
     
     // Vuls suposar que abans de 10 minuts haurà firmat

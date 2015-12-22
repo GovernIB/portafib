@@ -13,14 +13,12 @@ import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -122,7 +120,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   
   @Override
-  public boolean filter(String username, String filter, boolean supportJava) {
+  public boolean filter(HttpServletRequest request, String username, String administrationID,
+      String filter, boolean supportJava) {
     // Per ara esta un poc complicat, ja que sempre s'gha de mostrar
     // ja que l'usuari sempre te l'opció d'afegir Certificats
     return true;
@@ -135,7 +134,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   }
 
   @Override
-  public String signSet(String pluginRequestPath, SignaturesSet signaturesSet)
+  public String signSet(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 
     addSignaturesSet(signaturesSet);
@@ -147,128 +147,99 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     String username = commonInfoSignature.getUsername();
 
     Map<File, Properties> certificates = getCertificatesOfUser(username); 
-
+    
     if (certificates.size() != 0) {
       // Mostrar llistat de certificats per a seleccionar-ne un
-      return pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
+      return relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
     } else {
       // Mostrar pujada de certificat
       Locale locale = new Locale(commonInfoSignature.getLanguageUI());
       String warn = getTraduccio("warn.notecertificats", locale);
       saveMessageWarning(signatureSetID, warn);
-      return pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE;
+      return relativePluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE;
     }
 
   }
 
 
   @Override
-  public void requestGET(String pluginRequestPath, String relativePath, String signaturesSetID,
+  public void requestGET(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
-      HttpServletResponse response) throws Exception {
+      HttpServletResponse response, Locale locale)  {
 
     
     if (relativePath.startsWith(MINIAPPLETINSERVER_WEBRESOURCE)) {
       InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
       if (fis != null) {
-        FileUtils.copy(fis, response.getOutputStream());        
-        fis.close();
-        return;
+        try {
+          FileUtils.copy(fis, response.getOutputStream());        
+          fis.close();
+          return;
+        } catch(Exception e) {
+          log.error("Error intentant retornar recurs " + relativePath + " (" 
+              + getSimpleName() + "): " +e.getMessage(), e);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
       }
     }
     
-
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
-    Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
-
     if (relativePath.startsWith(SELECT_CERTIFICATE_PAGE)) {
-      PrintWriter out =  response.getWriter();
-      response.setCharacterEncoding("utf-8");
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
-      
-      selectCertificateGET(pluginRequestPath, relativePath, signaturesSet, out, locale);
+
+      PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
+          relativePluginRequestPath, signaturesSet);
+      selectCertificateGET(relativePluginRequestPath, relativePath, signaturesSet, out, locale);
 
       generateFooter(out);
     } else if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
       
-      PrintWriter out =  response.getWriter();
-      response.setCharacterEncoding("utf-8");
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
-      uploadCertificateGET(pluginRequestPath, relativePath, signaturesSet, out, locale);
+      PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
+          relativePluginRequestPath, signaturesSet);
+      uploadCertificateGET(relativePluginRequestPath, relativePath, signaturesSet, out, locale);
 
       generateFooter(out);
-    } else if (relativePath.startsWith(CANCEL_PAGE)) {
-      cancel(pluginRequestPath, relativePath, signaturesSet, signatureIndex, response, locale);
-    } else if (relativePath.startsWith(DELETE_PAGE)) {
+    }  else if (relativePath.startsWith(DELETE_PAGE)) {
       
-      deleteCertificateGET(pluginRequestPath, relativePath, response, signaturesSet, locale);
+      deleteCertificateGET(relativePluginRequestPath, relativePath, response, signaturesSet, locale);
     } else {
     
-        
-        log.error("======== REQUEST GET DESCONEGUT IN MINIAPPLETINSERVER  =========== ");
-        log.error("pluginRequestPath: " + pluginRequestPath);
-        log.error("relativePath: " + relativePath);
-        log.error("signatureID: " + signaturesSetID);
-        log.error("signatureIndex: " + signatureIndex);
-        
-        response.sendError(404);
+        super.requestGET(absolutePluginRequestPath, 
+            relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+            request, uploadedFiles, response, locale);
     }
     
 
   }
 
   
-  // XYZ Eliminar Exception !!!!
+  
   @Override
-  public void requestPOST(String pluginRequestPath, String relativePath,
-      String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception {
-
-
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
-    // TODO null signatures set
+  public void requestPOST(String absolutePluginRequestPath, 
+      String relativePluginRequestPath, String relativePath,
+      SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
+      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response,
+      Locale locale)  {
     
-    
-    if (relativePath.endsWith(TIMESTAMP_PAGE)) {
-      requestTimeStamp(pluginRequestPath, relativePath, signaturesSetID, signatureIndex,
-           request, uploadedFiles, response);
-      return;
-    }
-
-    Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
-
-
     if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
-      PrintWriter out = response.getWriter();
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
+      PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
+          relativePluginRequestPath, signaturesSet);
 
-      uploadCertificatePOST(pluginRequestPath, request, uploadedFiles, response, signaturesSet, locale);
+      uploadCertificatePOST(relativePluginRequestPath, request, uploadedFiles, response, signaturesSet, locale);
       
       generateFooter(out);
 
     } else if (relativePath.startsWith(FIRMAR_PAGE)) {
 
-      //PrintWriter out = response.getWriter();      
-      //generateHeader(request, pluginRequestPath, out, signaturesSet);
-      
-      firmarPOST(pluginRequestPath, request, response, signaturesSet, locale);
-      
-      //generateFooter(out);
+      firmarPOST(relativePluginRequestPath, request, response, signaturesSet, locale);
 
     } else {
       
-      log.error("======== REQUEST POST DESCONEGUT IN MINIAPPLETINSERVER  =========== ");
-      log.error("pluginRequestPath: " + pluginRequestPath);
-      log.error("relativePath: " + relativePath);
-      log.error("signatureID: " + signaturesSetID);
-      log.error("signatureIndex: " + signatureIndex);
-      
-      response.sendError(404);
+      super.requestPOST(absolutePluginRequestPath, 
+          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+          request, uploadedFiles, response, locale);
       
     }
-    
-
-    
 
   }
 
@@ -280,13 +251,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private static final String FIRMAR_PAGE = "firmar";
 
-  private void firmarPOST(String pluginRequestPath, HttpServletRequest request,
+  private void firmarPOST(String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) throws Exception {
+      SignaturesSet signaturesSet, Locale locale) {
 
-    
-    // XYZ Falta gestionar Errors Generals
-    
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
@@ -297,11 +265,21 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     if (!certPath.exists()) {      
       saveMessageError(signaturesSetID, "El path " + certPath.getAbsolutePath() + " no existeix ");
-      response.sendRedirect(pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
+      sendRedirect(response, relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
       return;
     }
 
-    Properties prop = readPropertiesFromCertPath(certPath);
+    Properties prop;
+    try {
+      prop = readPropertiesFromCertPath(certPath);
+      
+    } catch(Exception ex) {
+      String msg = getTraduccio("error.pinerroni", locale);
+      saveMessageError(signaturesSetID, msg);
+      log.warn(msg + ": " + ex.getMessage(), ex);
+      sendRedirect(response, relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
+      return;
+    }
 
     String p12PasswordEncriptedB64 = prop.getProperty(PROPERTY_P12PASSWORD_ENCRIPTED);
 
@@ -313,25 +291,36 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       String msg = getTraduccio("error.pinerroni", locale);
       saveMessageError(signaturesSetID, msg);
       log.warn(msg + ": " + ex.getMessage(), ex);
-      response.sendRedirect(pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
+      sendRedirect(response, relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
       return;
     }
-        
-    FileInputStream fis = new FileInputStream(new File(certPath, FILENAME_P12));
-    PublicCertificatePrivateKeyPair pair = CertificateUtils.readPKCS12(fis, p12Password);
-    fis.close();
     
-    // XYZ Check PAIR
+    // Check PAIR
+    PublicCertificatePrivateKeyPair pair;
+    File p12file = new File(certPath, FILENAME_P12);
+    try {
+    FileInputStream fis = new FileInputStream(p12file);
+    pair = CertificateUtils.readPKCS12(fis, p12Password);
+    fis.close();
+    } catch(Exception e) {
+      // TODO traduir missatge
+      String msg = "Error llegint fitxer P12 (" + p12file.getAbsolutePath() + ")."
+          + " Consulti amb l'Administrador. Error: " + e.getMessage();
+      
+      saveMessageError(signaturesSetID, msg);
+      log.warn(msg + ": " + e.getMessage(), e);
+      sendRedirect(response, relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE);
+      return;
+    }
+    
+    
 
     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
 
-    int pos = pluginRequestPath.lastIndexOf("-1");
+    int pos = relativePluginRequestPath.lastIndexOf("-1");
 
-    String baseSignaturesSet = pluginRequestPath.substring(0, pos - 1);
-    
-    if (log.isDebugEnabled()) {
-      log.debug("MiniAppletInServerSignatureWebPlugin::baseSignaturesSet " + baseSignaturesSet);
-    }
+    String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
+
 
     //int errors = 0;
     X509Certificate certificate = pair.getPublicCertificate();
@@ -360,12 +349,16 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
               // FIRMA PADES
+              StatusSignature ss = fileInfo.getStatusSignature();
+              
+              ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
+          
               AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
       
-              byte[] signedData = cloudSign.sign(info.getDataToSign(), info.getSignAlgorithm(),
+              byte[] signedData = cloudSign.fullSign(info.getDataToSign(), info.getSignAlgorithm(),
                   new Certificate[] { info.getCertificate() }, info.getProperties());
       
-              StatusSignature ss = getStatusSignature(signaturesSetID, i);
+              
 
               File firmat = null;
 
@@ -383,22 +376,20 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
         } else {
           // TODO Falta CADes, Xades, ...
-          
-          // TODO Traduir
-          String msg = "Tipus de Firma amb ID " + fileInfo.getSignType() 
-              + " no esta suportat pel plugin `" + this.getName(locale) + "`"; 
+
+          // "Tipus de Firma amb ID {0} no està suportat pel plugin `{1}`
+          String msg = getTraduccio("tipusfirma.desconegut", locale,
+              fileInfo.getSignType(), this.getName(locale));
+              
           
           StatusSignature ss = fileInfo.getStatusSignature();
-
           ss.setErrorMsg(msg);
-          
-          ss.setErrorException(new Exception(msg));
-          
+          ss.setErrorException(null);
           ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
         }
 
         if (log.isDebugEnabled()) {
-          log.debug("XYZ   Firma amb ID " + fileInfo.getSignID() + " finalitzada en "
+          log.debug("Firma amb ID " + fileInfo.getSignID() + " finalitzada en "
             + (System.currentTimeMillis() - start) + "ms ");
         }
 
@@ -416,26 +407,22 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
         ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) + fileInfo.getName() + " (" + i + ")["
             + th.getClass().getName() + "]:" + th.getMessage());
-
-        //errors++;
       }
     }
 
-    
-    
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
-    
-    
+
     final String url;
     url = signaturesSet.getCommonInfoSignature().getUrlFinal();
-    
-    PrintWriter out = response.getWriter();
-    
-    generateRedirectPage(url, out);
-    
-    out.flush();
+
+    sendRedirect(response, url);
 
   }
+  
+  
+
+  
+  
 
 
   // ----------------------------------------------------------------------------
@@ -446,7 +433,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private static final String SELECT_CERTIFICATE_PAGE = "selectCertificate";
 
-  private void selectCertificateGET(String pluginRequestPath, String relativePath,
+  private void selectCertificateGET(String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
 
 
@@ -454,10 +441,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     Map<File, Properties> certificates = getCertificatesOfUser(signaturesSet.getCommonInfoSignature().getUsername());
 
-    out.println("<form action=\"" + pluginRequestPath + "/" + FIRMAR_PAGE
+    out.println("<form action=\"" + relativePluginRequestPath + "/" + FIRMAR_PAGE
         + "\" method=\"post\" enctype=\"multipart/form-data\">");
 
-    out.println("<table border=0>");
+    out.println("<table border=\"0\">");
     out.println("<tr>");
     out.println("<td colspan>" + getTraduccio("certificatfirmar", locale) + ":<br/></td>");
     out.println("<td>");
@@ -495,7 +482,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       out.println("</label>");
       out.println("</td>");
       out.println("<td>");
-      out.println("<button class=\"btn btn-danger\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + DELETE_PAGE + "/" + path.getName() + "'\" >" 
+      out.println("<button class=\"btn btn-danger\" type=\"button\"  onclick=\"location.href='" 
+          + relativePluginRequestPath + "/" + DELETE_PAGE + "/" + path.getName() + "'\" >" 
           + "<i class=\"icon-trash icon-white\"></i></button>");
       out.println("&nbsp;&nbsp;");
       out.println("</td>");      
@@ -524,10 +512,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     
     out.println("<br/><br/>");
     
-    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + relativePluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
         + getTraduccio("cancel", locale) + "</button>");
     out.println("&nbsp;&nbsp;");
-    out.println("<button class=\"btn btn-success\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE + "/canreturn'\" >" 
+    out.println("<button class=\"btn btn-success\" type=\"button\"  onclick=\"location.href='" + relativePluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE + "/canreturn'\" >" 
         + getTraduccio("afegircertificat.enllaz", locale) + "</button>");
     out.println("&nbsp;&nbsp;");
     int numFitxers = signaturesSet.getFileInfoSignatureArray().length;
@@ -549,7 +537,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   
   
   private void deleteCertificateGET(String pluginRequestPath, String relativePath,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) throws Exception {
+      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale)  {
     
     //out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     final boolean isDebug = log.isDebugEnabled();
@@ -567,12 +555,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     File userPath = getUserNamePath(commonInfoSignature.getUsername());
     
     FileUtils.deleteRecursive(new File(userPath, dirName));
-    
-    // TODO traduir
-    saveMessageInfo(signaturesSet.getSignaturesSetID(), "El certificat s'ha eliminat correctament.");
+
+    saveMessageInfo(signaturesSet.getSignaturesSetID(), getTraduccio("certificat.eliminat", locale));
     
     String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
-    response.sendRedirect(redirect);
+    sendRedirect(response, redirect);
+
   }
   
 
@@ -623,7 +611,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private void uploadCertificatePOST(String pluginRequestPath, HttpServletRequest request,
       Map<String, UploadedFile> uploadedFiles, HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) throws Exception {
+      SignaturesSet signaturesSet, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     String p12password = request.getParameter(FIELD_P12PASSWORD);
@@ -634,7 +622,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     if (pin == null || p12password == null) {
       saveMessageError(signaturesSetID,
           getTraduccio("error.nodefinitpasswordpin", locale));
-      response.sendRedirect(pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
+      sendRedirect(response, pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
       return;
     }
 
@@ -642,7 +630,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     UploadedFile uf = uploadedFiles.get("p12");
     if (uf == null || uf.getSize() == 0) {
       saveMessageError(signaturesSetID, getTraduccio("error.noseleccionatp12", locale));
-      response.sendRedirect(pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
+      sendRedirect(response, pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
       return;
     }
 
@@ -661,7 +649,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       String msg = getTraduccio("error.contrasenyaincorrecta", locale) + ": " + e.getMessage();
       log.error(msg,e);
       saveMessageError(signaturesSet.getSignaturesSetID(), msg);
-      response.sendRedirect(pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
+      sendRedirect(response, pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
       return;
     }
 
@@ -683,9 +671,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       prop.setProperty(PROPERTY_VALID_FROM, String.valueOf(certificate.getNotBefore().getTime()));
       prop.setProperty(PROPERTY_VALID_TO, String.valueOf(certificate.getNotAfter().getTime()));
 
-      // TODO S'ha de mostrar en la pantalla de certificats)
-      prop.setProperty("p12filename", uf.getOriginalFilename());
-
       uploadFolder.mkdirs();
       
       FileOutputStream propFile = new FileOutputStream(new File(uploadFolder,
@@ -705,7 +690,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       // Passar a la pàgina de ficar PIN
       String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
       log.debug("REDIRECT(uploadCertificate - POST ) = " + redirect);
-      response.sendRedirect(redirect);
+      sendRedirect(response, redirect);
 
     } catch (Exception ex) {
 
@@ -718,7 +703,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       String msg = getTraduccio("error.guardantcertificat", locale) + ": " + ex.getMessage();
       log.error(msg,ex);
       saveMessageError(signaturesSet.getSignaturesSetID(), msg);
-      response.sendRedirect(pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
+      sendRedirect(response, pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);
       return;
     }
   }
@@ -729,51 +714,21 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-
-  private void generateHeader(HttpServletRequest request, String pluginRequestPath,
+    
+  @Override
+  protected void getJavascriptCSS(HttpServletRequest request,String absolutePluginRequestPath, 
+      String relativePluginRequestPath,
       PrintWriter out, SignaturesSet signaturesSet) {
-    final String lang = signaturesSet.getCommonInfoSignature().getLanguageUI();
-    out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-    out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + lang + "\"  lang=\"" + lang + "\">");
-    out.println("<head>");
-
-    out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;\" charset=\"UTF-8\" >");
-
-    out.println("<title>MiniAppletInServerPlugin</title>");
-    out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-
+    
     //  Javascript i CSS externs
-    out.println("<script src=\"" + pluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/js/jquery.js\"></script>");
-    out.println("<script src=\"" + pluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/js/bootstrap.js\"></script>");
-    out.println("<link href=\"" + pluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/js/jquery.js\"></script>");
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/js/bootstrap.js\"></script>");
+    out.println("<link href=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVER_WEBRESOURCE + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
 
-    out.println("</head>");
-    out.println("<body>"); // onload=\"parent.alertsize(document.body.scrollHeight);\">");
-
-    // Missatges
-    Map<String, List<String>> missatgesBySignID = missatges.get(signaturesSet.getSignaturesSetID());
-
-    if (missatgesBySignID != null && !missatgesBySignID.isEmpty()) {
-      out.println("<div class=\"spacer\"></div>");
-
-      for (String tipus : missatgesBySignID.keySet()) {
-
-        for (String msg : missatgesBySignID.get(tipus)) {
-          out.println("<div class=\"alert alert-" + tipus + "\">");
-          out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>");
-          out.println(msg);
-          out.println("</div>");
-        }
-      }
-      out.println("<div class=\"spacer\"></div>");
-      missatges.remove(signaturesSet.getSignaturesSetID());
-    }
   }
+  
+  
 
-  private void generateFooter(PrintWriter out) {
-    out.println("</body>");
-    out.println("</html>");
-  }
 
   public File getUserNamePath(String username) {
     return new File(getPropertyBasePath(), username);
@@ -815,9 +770,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
           certificates.put(dir.getAbsoluteFile(), prop);
 
         } catch (Exception e) {
+          
+          log.error("Error desconegut llegint el certificat del directori "
+            + dir.getAbsolutePath() + ": " + e.getMessage(), e);
+          
           FileUtils.deleteRecursive(dir);
-          // TODO 
-          e.printStackTrace();
+          
           continue;
         }
 
@@ -830,80 +788,25 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private Properties readPropertiesFromCertPath(File dir) throws FileNotFoundException,
       IOException {
-    Properties prop = null;
 
     File props = new File(dir, FILENAME_PROPERTIES);
 
-    if (props.exists()) {
-
-      prop = new Properties();
-
-      FileInputStream fis = new FileInputStream(props);
-      prop.load(fis);
-      fis.close();
-    }
-    return prop;
+    return readPropertiesFromFile(props);
   }
 
-  public static final String ERROR = "error";
 
-  public static final String WARN = "warn";
-
-  public static final String SUCCESS = "success";
-
-  public static final String INFO = "info";
-
-  public void saveMessageInfo(String signatureID, String missatge) {
-    addMessage(signatureID, INFO, missatge);
-  }
-
-  public void saveMessageWarning(String signatureID, String missatge) {
-    addMessage(signatureID, WARN, missatge);
-
-  }
-
-  public void saveMessageSuccess(String signatureID, String missatge) {
-    addMessage(signatureID, SUCCESS, missatge);
-  }
-
-  public void saveMessageError(String signatureID, String missatge) {
-    addMessage(signatureID, ERROR, missatge);
-  }
-
-  private void addMessage(String signatureID, String type, String missatge) {
-
-    Map<String, List<String>> missatgesBySignID = missatges.get(signatureID);
-
-    if (missatgesBySignID == null) {
-      missatgesBySignID = new HashMap<String, List<String>>();
-      missatges.put(signatureID, missatgesBySignID);
-    }
-
-    List<String> missatgesTipus = missatgesBySignID.get(type);
-
-    if (missatgesTipus == null) {
-      missatgesTipus = new ArrayList<String>();
-      missatgesBySignID.put(type, missatgesTipus);
-    }
-
-    missatgesTipus.add(missatge);
-
+  
+  @Override
+  public String getResourceBundleName() {
+    return "miniappletinserver";
   }
   
-  
-  public String getTraduccio(String key, Locale locale) {
-  
-    try {
-       ResourceBundle rb = ResourceBundle.getBundle("miniappletinserver", locale);
-       
-       return rb.getString(key);
 
-    } catch(Exception mre) {
-      log.error("No trob la traducció per '" + key + "'", new Exception());
-      return key + "_" + locale.getLanguage().toUpperCase();
-    }
-  
+  @Override
+  protected String getSimpleName() {    
+    return "MiniAppletInServerPlugin";
   }
+  
   
 
   public static String fillPwd(String pwd, int size) {
@@ -920,5 +823,6 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       return str.toString();
     }
   }
+
   
 }

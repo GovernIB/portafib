@@ -46,10 +46,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -107,9 +109,12 @@ public class SignatureModuleController {
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
-    String filtreCerts = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
-    String username = signaturesSet.getCommonInfoSignature().getUsername();
-    boolean browserSupportsJava = signaturesSet.getCommonInfoSignature().isBrowserSupportsJava();
+    
+    CommonInfoSignature cis = signaturesSet.getCommonInfoSignature(); 
+    String filtreCerts = cis.getFiltreCertificats();
+    String username = cis.getUsername();
+    String administrationID = cis.getAdministrationID();
+    boolean browserSupportsJava = cis.isBrowserSupportsJava();
     for (Plugin modulDeFirmaJPA : moduls) {
 
       try {
@@ -126,7 +131,7 @@ public class SignatureModuleController {
         return generateErrorMAV(request, signaturesSetID, msg, null);
       }
 
-      if (signaturePlugin.filter(username, filtreCerts,browserSupportsJava)) {
+      if (signaturePlugin.filter(request, username, administrationID, filtreCerts,browserSupportsJava)) {
         modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
     }
@@ -220,10 +225,13 @@ public class SignatureModuleController {
     signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
 
     signaturesSet.setPluginID(pluginID);
+    
+    String relativeControllerBase = getRelativeControllerBase(request, CONTEXTWEB);
+    String relativeRequestPluginBasePath = getRequestPluginBasePath(
+        relativeControllerBase, signaturesSetID, -1);
 
     String absoluteControllerBase = getAbsoluteControllerBase(request, CONTEXTWEB);
-
-    String absoluteRequestPluginBasePath = getAbsoluteRequestPluginBasePath(
+    String absoluteRequestPluginBasePath = getRequestPluginBasePath(
         absoluteControllerBase, signaturesSetID, -1);
 
     
@@ -233,10 +241,11 @@ public class SignatureModuleController {
     signaturesSet.getCommonInfoSignature().setUrlFinal(newFinalUrl);
 
     String urlToPluginWebPage;
-    urlToPluginWebPage = signaturePlugin.signSet(absoluteRequestPluginBasePath, signaturesSet);
+    urlToPluginWebPage = signaturePlugin.signSet(absoluteRequestPluginBasePath,
+        relativeRequestPluginBasePath, signaturesSet);
 
 
-    return new ModelAndView(new RedirectView(urlToPluginWebPage, true));
+    return new ModelAndView(new RedirectView(urlToPluginWebPage, false));
 
   }
 
@@ -294,7 +303,7 @@ public class SignatureModuleController {
    */
   protected void requestPlugin(HttpServletRequest request, HttpServletResponse response,
       String signaturesSetID, int signatureIndex, 
-      String origrelativePath, boolean isPost) throws Exception {
+      String relativePath, boolean isPost)  {
 
     PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
     if (ss == null) {
@@ -326,22 +335,27 @@ public class SignatureModuleController {
     
     Map<String, UploadedFile> uploadedFiles = getMultipartFiles(request);
    
-    String relativePath = origrelativePath; //.replace(',', '/');
+    //String relativePath = origrelativePath;
     if (log.isDebugEnabled()) {
-      log.debug(" restOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
-      log.debug("original relativePath = " +  origrelativePath);
+      log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
+      log.debug("Original RelativePath = " +  relativePath);
       log.debug("Method = " + request.getMethod());
+      Utils.printRequestInfo(request);
     }
-    
+
     String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(request, 
         CONTEXTWEB , signaturesSetID, signatureIndex);
+    String relativeRequestPluginBasePath =  getRelativeRequestPluginBasePath(request, 
+        CONTEXTWEB , signaturesSetID, signatureIndex);
     
-    // XYZ Eliminar Excepcions de requestPOST i requestGET
+
     if (isPost) {
-      signaturePlugin.requestPOST(absoluteRequestPluginBasePath, relativePath, 
+      signaturePlugin.requestPOST(absoluteRequestPluginBasePath,
+          relativeRequestPluginBasePath, relativePath, 
           signaturesSetID, signatureIndex, request, uploadedFiles, response);
     } else {
-      signaturePlugin.requestGET(absoluteRequestPluginBasePath, relativePath,
+      signaturePlugin.requestGET(absoluteRequestPluginBasePath,
+          relativeRequestPluginBasePath, relativePath,
           signaturesSetID, signatureIndex, request, uploadedFiles, response);
     }
 
@@ -457,7 +471,7 @@ public class SignatureModuleController {
     String urlFinal;
     if (pss == null) {
       HtmlUtils.saveMessageError(request, msg);
-      urlFinal = getPortaFIBBase(request);
+      urlFinal = getRelativePortaFIBBase(request);
     } else {
     
       StatusSignaturesSet sss = pss.getStatusSignaturesSet();
@@ -563,7 +577,7 @@ public class SignatureModuleController {
    * @return
    */
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
-      String languageUI, String username,   String urlFinal,
+      String languageUI, String username, String administrationID,   String urlFinal,
       boolean browserSupportsJava) {
       
       PolicyInfoSignature policyInfoSignature = null;
@@ -574,7 +588,8 @@ public class SignatureModuleController {
           entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
       }
       
-      return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(), username,
+      return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(),
+          username, administrationID,
           policyInfoSignature,  urlFinal, browserSupportsJava); 
       
     }
@@ -701,31 +716,50 @@ public class SignatureModuleController {
     
     return fis;
   };
-
-  
-  
-  public static String getPortaFIBBase(HttpServletRequest request) {
-    return request.getScheme() + "://" + request.getServerName() + ":" +
-        + request.getServerPort() + request.getContextPath();
-  }
-  
-  
-  public static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
-    return   getPortaFIBBase(request) + webContext;
-  }
   
 
-  public static String getAbsoluteRequestPluginBasePath(HttpServletRequest request, 
+  protected static String getAbsolutePortaFIBBase(HttpServletRequest request) {
+    String absoluteURL = Configuracio.getSignatureModuleAbsoluteURL();
+    if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
+      return request.getScheme() + "://" + request.getServerName() + ":" +
+        + request.getServerPort() +  request.getContextPath();
+    } else {
+      return absoluteURL;
+    }
+  }
+  
+  public static String getRelativePortaFIBBase(HttpServletRequest request) {
+    return request.getContextPath();
+  }
+
+
+  protected static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
+    return getAbsolutePortaFIBBase(request) + webContext;
+  }
+  
+  public static String  getRelativeControllerBase(HttpServletRequest request, String webContext) {
+    return   getRelativePortaFIBBase(request) + webContext;
+  }
+
+
+  protected static String getAbsoluteRequestPluginBasePath(HttpServletRequest request, 
       String webContext, String signaturesSetID, int signatureIndex) {
     
     String base = getAbsoluteControllerBase(request, webContext);
-    return getAbsoluteRequestPluginBasePath(base, signaturesSetID, signatureIndex);
+    return getRequestPluginBasePath(base, signaturesSetID, signatureIndex);
+  }
+  
+  public static String getRelativeRequestPluginBasePath(HttpServletRequest request, 
+      String webContext, String signaturesSetID, int signatureIndex) {
+    
+    String base = getRelativeControllerBase(request, webContext);
+    return getRequestPluginBasePath(base, signaturesSetID, signatureIndex);
   }
 
 
-  public static String getAbsoluteRequestPluginBasePath(String absoluteControllerBase, 
+  private static String getRequestPluginBasePath(String base, 
        String signaturesSetID, int signatureIndex) {
-    String absoluteRequestPluginBasePath = absoluteControllerBase + "/requestPlugin/"
+    String absoluteRequestPluginBasePath = base + "/requestPlugin/"
       + signaturesSetID + "/" + signatureIndex;
 
     return absoluteRequestPluginBasePath;

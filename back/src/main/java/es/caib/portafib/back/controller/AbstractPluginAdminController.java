@@ -70,7 +70,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
          
          HashSet<Field<?>>  campsOcults = new HashSet<Field<?>>(Arrays.asList(fields));
         
-         campsOcults.remove(NOMID);         
+         campsOcults.remove(NOMID);
          campsOcults.remove(ACTIU);
          
          if (isAdmin()) {
@@ -78,6 +78,14 @@ public abstract class AbstractPluginAdminController extends PluginController {
          }
          
          pluginFilterForm.getHiddenFields().addAll(campsOcults);
+         
+         
+         pluginFilterForm.getDefaultGroupByFields().remove(ENTITATID);
+         pluginFilterForm.getDefaultGroupByFields().remove(TIPUS);
+         
+         
+         // TODO Ordenar per camp Traduit
+         //pluginFilterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy( new PluginQueryPath().NOM(). )} );
       }
       return pluginFilterForm;
   }

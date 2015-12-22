@@ -18,7 +18,8 @@
       <!-- Directori on es guardaran tots els fitxers de PortaFIB-->
       es.caib.portafib.filesdirectory=c:\\tmp\\portafibfiles
       <!-- Accés HTTP a l'aplicació de PortaFIB (Important que sigui http, no https)  -->
-      es.caib.portafib.url=http://localhost:8080/portafib
+      # es.caib.portafib.url=http://localhost:8080/portafib
+      es.caib.portafib.url=http://sistravm.ibit.org/portafib
       es.caib.portafib.email.from=portafib@portafib.org
       es.caib.portafib.defaultlanguage=ca
       <!-- Si val null incica que l'alta de persones i usuaris l'ha de realitzar l'AdEn.

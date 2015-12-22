@@ -1,9 +1,14 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinclient;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
@@ -47,24 +52,25 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
   public MiniAppletAsAppletSignatureWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
-  
+
   @Override
   public String getName(Locale locale) {
     return getTraduccio("pluginnameapplet", locale);
   }
-  
+
 
   @Override
-  public boolean filter(String username, String filter, boolean supportJava) {
+  public boolean filter(HttpServletRequest request, String username, String administrationID,
+      String filter, boolean supportJava) {
     return supportJava;
   }
-  
+
   @Override
   protected String getSimpleName() {
     return "APPLET";
   }
-  
-  
+
+
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // -------------------  S H O W    M I N I A P P L E T   ----------------------
@@ -72,23 +78,30 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
   // ----------------------------------------------------------------------------
   
   @Override
-  protected void showMiniAppletGet(String pluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex, PrintWriter out, Locale locale)
-      throws Exception {
+  protected void showMiniAppletGet(HttpServletRequest request, 
+      HttpServletResponse response, String absolutePluginRequestPath, String relativePluginRequestPath,
+      String relativePath, SignaturesSet signaturesSet, int signatureIndex, Locale locale)
+       {
+    
+   
+    StringWriter sw = new StringWriter();
+    PrintWriter out = new PrintWriter(sw); 
+    
+    
 
     out.println("<br/><br/><br/>");
 
-    String appletUrl = pluginRequestPath + "/applet";
+    String appletUrl = relativePluginRequestPath + "/applet";
 
-    log.info(" pluginRequestPath = ]" + pluginRequestPath + "[ ");
+    log.info(" pluginRequestPath = ]" + relativePluginRequestPath + "[ ");
 
-    int pos = pluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
+    int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
 
-    String baseSignaturesSet = pluginRequestPath.substring(0, pos - 1);
+    String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
 
     log.info(" baseSource = ]" + baseSignaturesSet + "[ ");
 
-    out.println("<script src=\"" + pluginRequestPath + "/" + DEPLOY_JAVA_PAGE + "\"></script>");
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + DEPLOY_JAVA_PAGE + "\"></script>");
 
     out.println("<center>");
     out.println("<script>");
@@ -125,8 +138,15 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
       }
         
 
-      MiniAppletSignInfo signInfo = MiniAppletUtils.convertRemoteSignature(
+      MiniAppletSignInfo signInfo;
+      try {
+        signInfo = MiniAppletUtils.convertRemoteSignature(
           commonInfoSignature, fileInfo, timeStampUrl, rubricURL);
+      } catch(Exception e) {
+        // TODO Millorar Missatge
+        finishWithError(response, signaturesSet, e.getMessage(), e);
+        return;
+      }
 
       out.println("       " + MiniAppletConstants.APPLET_SOURCE + "_" + i + ":'"
           + baseSignaturesSet + "/" + i + "/source',");
@@ -142,25 +162,54 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
           + signInfo.getSignAlgorithm() + "',");
 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      signInfo.getProperties().store(baos, "");
+      try {
+        signInfo.getProperties().store(baos, "");
+      } catch (IOException e) {
+        log.error(e.getMessage(), e);
+      }
       String propStr = baos.toString();
+      
+      String encoded;
+      try {
+        encoded = java.net.URLEncoder.encode(propStr, "UTF-8");
+      } catch(Exception e) {
+        encoded = propStr;
+      }
 
       out.println("       " + MiniAppletConstants.APPLET_MINIAPPLET_PROPERTIES + "_" + i
-          + ":'" + StringEscapeUtils.escapeJavaScript(java.net.URLEncoder.encode(propStr, "UTF-8"))
+          + ":'" + StringEscapeUtils.escapeJavaScript(encoded)
           + "',");
+      
+      
+      
+      
+      PrintWriter outS = generateHeader(request, response, absolutePluginRequestPath, 
+          relativePluginRequestPath, signaturesSet);
+      
+      outS.println(sw.toString());
+      
+      generateFooter(outS);
+      out.flush();
 
     } // FINAL DE FOR
 
     // ---------------- GLOBALS ----------------
 
     out.println("       " + MiniAppletConstants.APPLET_REDIRECT + ":'"
-        + StringEscapeUtils.escapeJavaScript(pluginRequestPath) + "/final',");
+        + StringEscapeUtils.escapeJavaScript(relativePluginRequestPath) + "/final',");
 
+    String encoded;
+    try {
+      encoded = java.net.URLEncoder.encode(commonInfoSignature.getFiltreCertificats(), "UTF-8");
+    } catch(Exception e) {
+      log.error(e.getMessage(), e);
+      encoded = commonInfoSignature.getFiltreCertificats();
+    }
+    
     out.println("       "
         + MiniAppletConstants.APPLET_CERTIFICATE_FILTER
         + ":'"
-        + StringEscapeUtils.escapeJavaScript(java.net.URLEncoder.encode(commonInfoSignature
-            .getFiltreCertificats(), "UTF-8")) + "',");
+        + StringEscapeUtils.escapeJavaScript(encoded) + "',");
 
     PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
     if (policy != null) {
@@ -188,12 +237,14 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
     out.println("   deployJava.runApplet(attributes, parameters, version);");
     out.println(" </script> ");
     out.println("<br/>");
-    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + pluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='" + relativePluginRequestPath + "/" + CANCEL_PAGE + "'\" >" 
         + getTraduccio("cancel", locale) + "</button>");
     out.println();
     out.println("</center>");
     
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
+    
+   
 
   }
   

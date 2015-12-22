@@ -10,9 +10,11 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 -Psqlgen          Genera scripts SQL dins /scripts/sqlgenerator. Mes
                   informacio a /scripts/sqlgenerator/readme.txt
 
--Papplet          Compila l'applet i el firma amb el afirma.keystore. Sino
+-Pminiappletui    Compila l'applet i el firma amb el afirma.keystore. Sino
                   s'ha d'executar install_portafib_applet_signed_jar.sh/bat
 
+-Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
+                  
 -Pclientcert      Genera un segon context web amb autenticacio
                   CLIENT-CERT (context a /portafib/s)
 

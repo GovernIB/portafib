@@ -3,6 +3,7 @@ package org.fundaciobit.plugins.signatureweb.miniappletinclient;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
@@ -15,9 +16,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
-
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,21 +30,18 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
-
-
 /**
  * 
  * @author anadal
  *
  */
-public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
+public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
+    AbstractMiniAppletSignaturePlugin {
 
-  
-  private static final String APPLET_WEBRESOURCE= "applet";
+  private static final String APPLET_WEBRESOURCE = "applet";
 
-  public static final Map<String,Long[]> elapsedTimes = new HashMap<String,Long[]>();
-  
-  
+  public static final Map<String, Long[]> elapsedTimes = new HashMap<String, Long[]>();
+
   /**
    * 
    */
@@ -54,22 +49,12 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
     super();
   }
 
-  
-  
-  
-  public void closeSignaturesSet(String id) {
-    super.closeSignaturesSet(id);
-    elapsedTimes.remove(id);
-  };
-  
-  
-  
-
   /**
    * @param propertyKeyBase
    * @param properties
    */
-  public AbstractMiniAppletInClientSignatureWebPlugin(String propertyKeyBase, Properties properties) {
+  public AbstractMiniAppletInClientSignatureWebPlugin(String propertyKeyBase,
+      Properties properties) {
     super(propertyKeyBase, properties);
   }
 
@@ -80,173 +65,105 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
     super(propertyKeyBase);
   }
 
-
- 
   @Override
-  public String signSet(String pluginRequestPath, SignaturesSet signaturesSet)
-      throws Exception {
+  public void closeSignaturesSet(String id) {
+    super.closeSignaturesSet(id);
+    elapsedTimes.remove(id);
+  };
+
+  @Override
+  public String signSet(String absolutePluginRequestPath, String relativePluginRequestPath,
+      SignaturesSet signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);
 
     // Mostrar llistat de certificats per a seleccionar-ne un
-    return pluginRequestPath + "/" + SHOW_MINIAPPLET_PAGE;
+    return relativePluginRequestPath + "/" + SHOW_MINIAPPLET_PAGE;
   }
 
-
-
   @Override
-  public void requestGET(String pluginRequestPath, String relativePath, String signaturesSetID,
-      int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
-      HttpServletResponse response) throws Exception {
+  public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
+      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      HttpServletResponse response, Locale locale) {
 
-    if (log.isDebugEnabled()) {
-      printRequestInfo("GET " + getSimpleName(), pluginRequestPath, relativePath, signaturesSetID, signatureIndex);
-    }
-    
     if (relativePath.startsWith(APPLET_WEBRESOURCE)) {
       InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
       if (fis != null) {
-        FileUtils.copy(fis, response.getOutputStream());        
-        fis.close();
-        return;
+        try {
+          FileUtils.copy(fis, response.getOutputStream());
+          fis.close();
+          return;
+        } catch (IOException e) {
+          log.error("Error intentant retornar recurs " + relativePath + " (" + getSimpleName()
+              + "): " + e.getMessage(), e);
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          return;
+
+        }
       }
     }
-    
+
     if (relativePath.endsWith(DEPLOY_JAVA_PAGE)) {
-      deployJava(request, response);
-      return;
-    }
-    
+      deployJava(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, locale);
 
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
+    } else if (relativePath.endsWith(SOURCE_DOC_PAGE)) {
+      sourceDocPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, signatureIndex, locale);
 
-    if (signaturesSet == null) {
-      response.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-    
-    if (relativePath.startsWith(CANCEL_PAGE)) {
-      Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
-      cancel(pluginRequestPath, relativePath, signaturesSet, signatureIndex, response, locale);
-      return;
-    }
+    } else if (relativePath.endsWith(SHOW_MINIAPPLET_PAGE)) {
 
-    Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
-    
-    if (relativePath.endsWith(SOURCE_DOC_PAGE)) { 
-      sourceDocPage(pluginRequestPath, relativePath, signaturesSet,
-          signatureIndex, request, response);
-      return;
-    }
-    
-    
-    if (relativePath.endsWith(SHOW_MINIAPPLET_PAGE)) {
-      PrintWriter out =  response.getWriter();
-      response.setCharacterEncoding("utf-8");
-      generateHeader(request, pluginRequestPath, out, signaturesSet);
-      
-      showMiniAppletGet(pluginRequestPath, relativePath, signaturesSet, signatureIndex, out, locale);
-      
-      generateFooter(out);
-      out.flush();
-    } else if(relativePath.endsWith(FINAL_PAGE))  {
-      //PrintWriter out =  response.getWriter();
-      //response.setCharacterEncoding("utf-8");
-      //generateHeader(request, pluginRequestPath, out, signaturesSet);
-      
-      finalPage(pluginRequestPath, relativePath, signaturesSet, signatureIndex, request, response);
-      
-      //generateFooter(out);
-      
-    } else { 
-      
+      showMiniAppletGet(request, response, absolutePluginRequestPath,
+          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
 
-      printRequestInfo("GET " + getSimpleName() + " DESCONEGUT",
-           pluginRequestPath, relativePath, signaturesSetID, signatureIndex);
-            
-      response.sendError(404);
+    } else if (relativePath.endsWith(FINAL_PAGE)) {
+
+      finalPage(relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+          request, response);
+    } else {
+      super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
     }
 
-  }
-
-  private void printRequestInfo(String titol, String pluginRequestPath, String relativePath,
-      String signaturesSetID, int signatureIndex) {
-    log.info("======== REQUEST " + titol + " =========== ");
-    log.info("pluginRequestPath: " + pluginRequestPath);
-    log.info("relativePath: " + relativePath);
-    log.info("signatureID: " + signaturesSetID);
-    log.info("signatureIndex: " + signatureIndex);
   }
 
   @Override
-  public void requestPOST(String pluginRequestPath, String relativePath,
-      String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) throws Exception {
+  public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
+      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      HttpServletResponse response, Locale locale) {
 
-
-    if(log.isDebugEnabled()) {
-      printRequestInfo("POST " + getSimpleName(),
-         pluginRequestPath, relativePath, signaturesSetID, signatureIndex);
-    }
-    
-
-    
-
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
-    
-    if (signaturesSet == null) {
-      response.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-    
-    
-    if (relativePath.endsWith(TIMESTAMP_PAGE)) {
-      
-      log.debug(" TIMESTAMP ---------- POST");
-      
-      requestTimeStamp(pluginRequestPath, relativePath, signaturesSetID, signatureIndex,
-           request, uploadedFiles, response);
-      return;
-    }
-
-
-    // DESTINATION
-    if (relativePath.endsWith(DESTINATION_DOC_PAGE)) { 
-      destinationDocPage(pluginRequestPath, relativePath, signaturesSet,
-          signatureIndex, request, response,  uploadedFiles); 
-    } else if (relativePath.endsWith(RUBRIC_PAGE)) { 
-      rubricPage(pluginRequestPath, relativePath, signaturesSet,
-          signatureIndex, request, response, uploadedFiles);
-    } else if (relativePath.endsWith(ERROR_PAGE)) { 
-      errorPage(pluginRequestPath, relativePath, signaturesSet,
-          signatureIndex, request, response,  uploadedFiles);
+    if (relativePath.endsWith(DESTINATION_DOC_PAGE)) {
+      // DESTINATION
+      destinationDocPage(relativePath, signaturesSet, signatureIndex, request, response,
+          uploadedFiles);
+    } else if (relativePath.endsWith(RUBRIC_PAGE)) {
+      rubricPage(relativePath, signaturesSet, signatureIndex, request, response, uploadedFiles);
+    } else if (relativePath.endsWith(CLIENT_ERROR_PAGE)) {
+      clientErrorPage(relativePath, signaturesSet, signatureIndex, request, response,
+          uploadedFiles);
     } else {
-    
-      printRequestInfo("POST " + getSimpleName() + " DESCONEGUT",
-          pluginRequestPath, relativePath, signaturesSetID, signatureIndex);
-      
-      response.sendError(404);
-      
+
+      super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
+
     }
 
   }
 
-  
-  
-  
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // ------------------------- R U B R I C   P A G  E  -------------------------
+  // ------------------------- R U B R I C P A G E -------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  
+
   public static final String RUBRIC_PAGE = "rubric";
-  
-  
-  private void rubricPage(String pluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request, 
-      HttpServletResponse response,  Map<String, UploadedFile> uploadedFiles)  {
-    
+
+  private void rubricPage(String relativePath, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request, HttpServletResponse response,
+      Map<String, UploadedFile> uploadedFiles) {
+
     try {
 
       if (uploadedFiles.size() == 0) {
@@ -255,7 +172,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
         response.sendError(404, msg);
         return;
       }
-      
+
       // Només es per estadistiques de temps de durada de firma
       FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
       Long[] times;
@@ -266,13 +183,11 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
           elapsedTimes.put(signaturesSet.getSignaturesSetID(), times);
         }
       }
-      times[signatureIndex]=System.currentTimeMillis(); 
-      
-      
-     
-      // TODO  Controlar errors
+      times[signatureIndex] = System.currentTimeMillis();
+
+      // TODO Controlar errors
       FileInfoSignature fileInfo = fileInfoArray[signatureIndex];
-      
+
       for (String name : uploadedFiles.keySet()) {
 
         UploadedFile uploadedFile = uploadedFiles.get(name);
@@ -280,9 +195,9 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
         X509Certificate cert;
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
-
         byte[] rubric;
-        rubric = fileInfo.getPdfInfoSignature().getRubricGenerator().genenerateRubricImage(cert, new Date());
+        rubric = fileInfo.getPdfInfoSignature().getRubricGenerator()
+            .genenerateRubricImage(cert, new Date());
 
         response.setContentType("image/jpeg");
         response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
@@ -290,199 +205,195 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
 
         response.getOutputStream().write(rubric);
         response.getOutputStream().flush();
-        
+
         break;
-       
+
       }
 
-     
-   } catch (Exception e) {
-     log.error("Error processant POST: " + e.getMessage(), e);
-     response.setStatus(404);
-   }
+    } catch (Exception e) {
+      log.error("Error processant POST: " + e.getMessage(), e);
+      response.setStatus(404);
+    }
 
   }
-  
-  
-  
-  
- //-----------------------------------------------------------------------------
- // ---------------------------------------------------------------------------
- // ------------------------- D E S T I N A T I O N ---------------------------
- // ---------------------------------------------------------------------------
- // ---------------------------------------------------------------------------
- 
- public static final String DESTINATION_DOC_PAGE = "destination";
- 
- 
- private void destinationDocPage(String pluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-     int signatureIndex, HttpServletRequest request, 
-     HttpServletResponse response,  Map<String, UploadedFile> uploadedFiles)  {
-   
-   try {
-     
-     
-     if (uploadedFiles.size() == 0) {
-       String msg = "MSG: + No s´ha pujat cap arxiu";
-       log.error(msg, new Exception());
-       response.sendError(404, msg);
-       return;
-     }
-    
-     
-     for (String name : uploadedFiles.keySet()) {
 
-       UploadedFile uploadedFile = uploadedFiles.get(name);
+  // -----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ------------------------- D E S T I N A T I O N ---------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
-       StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
-     
-       
-       File firmat = null;
-       firmat = File.createTempFile("MAICSigWebPlugin", "signedfile");
+  public static final String DESTINATION_DOC_PAGE = "destination";
 
-       uploadedFile.transferTo(firmat);
-       
+  private void destinationDocPage(String relativePath, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request, HttpServletResponse response,
+      Map<String, UploadedFile> uploadedFiles) {
 
-       status.setSignedData(firmat);
-       
-       status.setStatus(StatusSignature.STATUS_FINAL_OK);
+    try {
 
-       Long[]  times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
-       if (times != null) {
-         Long startTime = times[signatureIndex];
-         if (startTime != null) {
-           long elapsed = System.currentTimeMillis() - startTime;
-           if (log.isDebugEnabled()) {
-             log.info("La firma amb ID " + signaturesSet.getFileInfoSignatureArray()[signatureIndex].getSignID() 
-               + " s'ha realitzat en " + elapsed + " ms" );
-           }
-         }
-       }
+      if (uploadedFiles.size() == 0) {
+        String msg = "MSG: + No s´ha pujat cap arxiu";
+        log.error(msg, new Exception());
+        response.sendError(404, msg);
+        return;
+      }
 
-       // Només processam el primer fitxer
-       break;
-      
-     }
+      for (String name : uploadedFiles.keySet()) {
 
-    
-  } catch (Exception e) {
-    // TODO: handle exception
-    
-    log.error("Error rebent fitxer firmat " + e.getMessage(), e);
-    
-    response.setStatus(404);
+        UploadedFile uploadedFile = uploadedFiles.get(name);
+
+        StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
+            signatureIndex);
+
+        File firmat = null;
+        firmat = File.createTempFile("MAICSigWebPlugin", "signedfile");
+
+        uploadedFile.transferTo(firmat);
+
+        status.setSignedData(firmat);
+
+        status.setStatus(StatusSignature.STATUS_FINAL_OK);
+
+        Long[] times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+        if (times != null) {
+          Long startTime = times[signatureIndex];
+          if (startTime != null) {
+            long elapsed = System.currentTimeMillis() - startTime;
+            if (log.isDebugEnabled()) {
+              log.info("La firma amb ID "
+                  + signaturesSet.getFileInfoSignatureArray()[signatureIndex].getSignID()
+                  + " s'ha realitzat en " + elapsed + " ms");
+            }
+          }
+        }
+
+        // Només processam el primer fitxer
+        break;
+
+      }
+
+    } catch (Exception e) {
+      // TODO: handle exception
+
+      log.error("Error rebent fitxer firmat " + e.getMessage(), e);
+
+      response.setStatus(404);
+    }
+
   }
-   
-   
-  
- }
-  
-  
-  
-  
+
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ---------------------------------  S O U  R C E ----------------------------
+  // --------------------------------- S O U R C E ----------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  
+
   public static final String SOURCE_DOC_PAGE = "source";
-  
-  
-  private void sourceDocPage(String pluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request, 
-      HttpServletResponse response) throws Exception {
-    
+
+  private void sourceDocPage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSet signaturesSet, int signatureIndex,
+      Locale locale) {
+
     FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
-    
+
     File source = fileInfo.getSource();
     String extension;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
-       response.setContentType(MiniAppletConstants.PDF_MIME_TYPE);
-       extension=".pdf";
+      response.setContentType(MiniAppletConstants.PDF_MIME_TYPE);
+      extension = ".pdf";
     } else {
       // TODO Falta CADEs, XADES, ....
       response.setContentType("application/octet-stream");
-      extension=".bin";
+      extension = ".bin";
     }
     response.setHeader("Content-Disposition", "inline; filename=\"source." + extension + "\"");
-    response.setContentLength((int)source.length());
+    response.setContentLength((int) source.length());
 
-    java.io.OutputStream output = response.getOutputStream();
-    InputStream input = new FileInputStream(source);
-    
-    FileUtils.copy(input, output);
-   
-    input.close();
-    
-    
-    
-  }
-  
-  
-  
-//---------------------------------------------------------------------------
- // -------------------------------------------------------------------------
- // ---------------------------------  E R R O R ----------------------------
- // -------------------------------------------------------------------------
- // -------------------------------------------------------------------------
- 
- public static final String ERROR_PAGE = "error";
- 
- 
- private void errorPage(String pluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-     int signatureIndex, HttpServletRequest request, 
-     HttpServletResponse response, Map<String, UploadedFile> uploadedFiles) throws Exception {
+    try {
+      java.io.OutputStream output = response.getOutputStream();
+      InputStream input = new FileInputStream(source);
+      FileUtils.copy(input, output);
+      input.close();
 
-   StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
-   
-   try {
-     
-     
-     if (uploadedFiles.size() == 0) {
-       String msg = "MSG: + No s´ha pujat cap arxiu";
-       log.error(msg, new Exception());
-       response.sendError(404, msg);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      sendError(response, HttpServletResponse.SC_BAD_REQUEST);
+    }
 
-       // TODO Traduir emprant langUI
-       status.setErrorMsg("S'ha rebut un error però aquest no conté detalls del tipus"
-           + " d'error que s'ha produït");
-       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-       return;
-     }
-    
-     
-     for (String name : uploadedFiles.keySet()) {
-
-       UploadedFile uploadedFile = uploadedFiles.get(name);
-       
-       Properties prop = new Properties();
-       
-       prop.load(uploadedFile.getInputStream());
-       
-       String errorMsg = prop.getProperty("title") + ": " + prop.getProperty("message"); 
-
-       status.setErrorMsg(errorMsg);
-       
-       String stacktrace = prop.getProperty("stacktrace");
-       if (stacktrace != null) {
-         status.setErrorException(new StackTraceException(errorMsg, stacktrace));
-       }
-       
-       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-       break;
-      
-     }
-
-    
-  } catch (Exception e) {
-    log.error("Error processant un error enviat des de l'Applet: " + e.getMessage(), e);
-    response.setStatus(404);
   }
 
-   
- }
-  
+  // ---------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // --------------------------------- E R R O R ----------------------------
+  // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+
+  public static final String CLIENT_ERROR_PAGE = "clienterror";
+
+  /**
+   * En el client (Applet, javaWebStart, ...) s'ha produït un error i l'està
+   * enviant al servidor
+   * 
+   * @param relativePath
+   * @param signaturesSet
+   * @param signatureIndex
+   * @param request
+   * @param response
+   * @param uploadedFiles
+   * @throws Exception
+   */
+  private void clientErrorPage(String relativePath, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request, HttpServletResponse response,
+      Map<String, UploadedFile> uploadedFiles) {
+
+    StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
+        signatureIndex);
+
+    try {
+
+      if (uploadedFiles.size() == 0) {
+        String msg = "MSG: + No s´ha pujat cap arxiu";
+        log.error(msg, new Exception());
+        response.sendError(404, msg);
+
+        // TODO Traduir emprant langUI
+        status.setErrorMsg("S'ha rebut un error però aquest no conté detalls del tipus"
+            + " d'error que s'ha produït");
+        status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+        return;
+      }
+
+      for (String name : uploadedFiles.keySet()) {
+
+        UploadedFile uploadedFile = uploadedFiles.get(name);
+
+        Properties prop = new Properties();
+
+        prop.load(uploadedFile.getInputStream());
+
+        String errorMsg = prop.getProperty("title") + ": " + prop.getProperty("message");
+
+        status.setErrorMsg(errorMsg);
+
+        String stacktrace = prop.getProperty("stacktrace");
+        if (stacktrace != null) {
+          status.setErrorException(new StackTraceException(errorMsg, stacktrace));
+        }
+
+        status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+        break;
+
+      }
+
+    } catch (Exception e) {
+      log.error("Error processant un error enviat des del Client de MiniApplet ("
+          + getSimpleName() + "): " + e.getMessage(), e);
+      response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+    }
+
+  }
+
   /**
    * 
    * @author anadal
@@ -519,89 +430,63 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
     }
 
   }
-  
- //--------------------------------------------------------------------------
- // -------------------------------------------------------------------------
- // ---------------------------------  F I N A L ----------------------------
- // -------------------------------------------------------------------------
- // -------------------------------------------------------------------------
- 
- public static final String FINAL_PAGE = "final";
- 
- 
- private void finalPage(String pluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-     int signatureIndex, HttpServletRequest request, 
-     HttpServletResponse response) throws Exception {
 
-/*
-    StatusSignature[] statusList = getAllStatusBySignaturesSetID(signaturesSet.getSignaturesSetID());
-    boolean errors = false;
-    for (int i = 0; i < statusList.length; i++) {
-      if (statusList[i].getStatus() != StatusSignature.STATUS_SIGNED) {
-        errors = true;
-        break;
-      }
-    }
-   
-*/
-    
+  // --------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+  // --------------------------------- F I N A L ----------------------------
+  // -------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
+
+  public static final String FINAL_PAGE = "final";
+
+  private void finalPage(String pluginRequestPath, String relativePath,
+      SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
+      HttpServletResponse response) {
+
     final String url;
     url = signaturesSet.getCommonInfoSignature().getUrlFinal();
-    
+
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
-    
-    PrintWriter out = response.getWriter();
-    generateRedirectPage(url, out);
-    
-    out.flush();
+
+    sendRedirect(response, url);
 
   }
 
- 
-
-
-
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // -------------------    S H O W  M I N I A P P L E T   ----------------------
+  // ------------------- S H O W M I N I A P P L E T ----------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
   private static final String SHOW_MINIAPPLET_PAGE = "showminiapplet";
-  
-  protected abstract void showMiniAppletGet(String pluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex, PrintWriter out, Locale locale) throws Exception;
-  
 
-  
-  protected abstract String getSimpleName();
-     
-  
-  
+  protected abstract void showMiniAppletGet(HttpServletRequest request,
+      HttpServletResponse response, String absolutePluginRequestPath,
+      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
+      int signatureIndex, Locale locale);
+
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ---------------------------   D E P L O Y   J A V A   ---------------------
+  // --------------------------- D E P L O Y J A V A ---------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-
-  
   private static final int BUFFER_SIZE = 4096;
-  
-  
+
   private static final boolean REDIRECT = true;
-  
-  
+
   private static final boolean CACHE = false;
 
-  public static Boolean quefer = null; 
+  public static Boolean quefer = null;
 
   public static String contentDeployJava = null;
-  
+
   public static final String DEPLOY_JAVA_PAGE = "deployjava.js";
-  
-  private void deployJava(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    
+
+  private void deployJava(String absolutePluginRequestPath, String relativePluginRequestPath,
+      HttpServletRequest request, HttpServletResponse response, SignaturesSet signaturesSet,
+      Locale locale) {
+
     if (quefer == null) {
 
       final String url = "http://java.com/js/deployJava.js";
@@ -609,16 +494,16 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       if (content == null) {
 
         try {
-          InputStream is =  FileUtils.readResource(this.getClass(), DEPLOY_JAVA_PAGE);
+          InputStream is = FileUtils.readResource(this.getClass(), DEPLOY_JAVA_PAGE);
           String deployJava = new String(FileUtils.toByteArray(is));
           contentDeployJava = deployJava;
-          
+
           log.info("deployjava.jsp  ==> utilitzam CACHE del contingut de " + DEPLOY_JAVA_PAGE);
           quefer = CACHE;
-          
-        } catch(Throwable th) {
-           log.info("deployjava.jsp  ==> utilitzam REDIRECT a /js/deployJava.js");
-           quefer = REDIRECT;
+
+        } catch (Throwable th) {
+          log.info("deployjava.jsp  ==> utilitzam REDIRECT a /js/deployJava.js");
+          quefer = REDIRECT;
         }
       } else {
         log.info("deployjava.jsp  ==> utilitzam CACHE del contingut de " + url);
@@ -626,101 +511,65 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends Abstr
       }
     }
 
-   if (quefer == REDIRECT) {
-     response.sendRedirect(request.getContextPath() + "/js/deployJava.js");
-   } else {
-     // CACHE
-     PrintWriter out = response.getWriter();
-     out.write(contentDeployJava);
-     out.flush();
-   }
+    try {
+      if (quefer == REDIRECT) {
+        sendRedirect(response, request.getContextPath() + "/js/deployJava.js");
+      } else {
+        // CACHE
+        PrintWriter out = response.getWriter();
+        out.write(contentDeployJava);
+        out.flush();
+      }
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
   }
 
-  
-  protected static String downloadDeployJava(String urlPath,  HttpServletRequest request) {
+  protected static String downloadDeployJava(String urlPath, HttpServletRequest request) {
     if (contentDeployJava == null) {
       try {
         URL url = new URL(urlPath);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
-    
+
         // always check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
           // opens input stream from the HTTP connection
           InputStream inputStream = httpConn.getInputStream();
-         
+
           // opens an output stream to save into file
           ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      
+
           int bytesRead = -1;
           byte[] buffer = new byte[BUFFER_SIZE];
           while ((bytesRead = inputStream.read(buffer)) != -1) {
-              outputStream.write(buffer, 0, bytesRead);
+            outputStream.write(buffer, 0, bytesRead);
           }
 
           inputStream.close();
 
-          contentDeployJava =  new String(outputStream.toByteArray());
-          
+          contentDeployJava = new String(outputStream.toByteArray());
+
         }
-      } catch(Throwable th) {
+      } catch (Throwable th) {
         // TODO ?????
       }
     }
-    
+
     return contentDeployJava;
 
   }
-  
-  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ----------------------   U T I L I T A T S     H T M L   -------------------
+  // ---------------------- U T I L I T A T S H T M L -------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-
-
-  protected void generateHeader(HttpServletRequest request, String pluginRequestPath,
-      PrintWriter out, SignaturesSet signaturesSet) {
-    final String lang = signaturesSet.getCommonInfoSignature().getLanguageUI();
-    out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-    out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"" + lang + "\"  lang=\"" + lang + "\">");
-    out.println("<head>");
-
-    out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;\" charset=\"UTF-8\" >");
-
-    out.println("<title>MiniAppletInClientPlugin</title>");
-    out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-
-    //  Javascript i CSS externs
-
-    out.println("</head>");
-    out.println("<body>");
-
+  @Override
+  public String getResourceBundleName() {
+    return "miniappletinclient";
   }
 
-  protected void generateFooter(PrintWriter out) {
-    out.println("</body>");
-    out.println("</html>");
-  }
-
- 
-  
-  
-  protected String getTraduccio(String key, Locale locale) {
-  
-    try {
-       ResourceBundle rb = ResourceBundle.getBundle("miniappletinclient", locale);
-       
-       return rb.getString(key);
-
-    } catch(Exception mre) {
-      log.error("No trob la traducció per '" + key + "'", new Exception());
-      return key + "_" + locale.getLanguage().toUpperCase();
-    }
-  
-  }
-  
 }

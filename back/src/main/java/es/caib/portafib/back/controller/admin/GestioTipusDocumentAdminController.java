@@ -121,7 +121,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 			
 			// Sempre filtram per nom i descripcio
 			tipusDocumentFilterForm.addFilterByField(TIPUSDOCUMENTID);
-			// XYZ Poder filtrar per traduccions
+			// Poder filtrar per traduccions
 			// tipusDocumentFilterForm.addFilterByField(NOM);
 			tipusDocumentFilterForm.addFilterByField(DESCRIPCIO);
 			

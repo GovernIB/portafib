@@ -60,9 +60,6 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-        
-   
-        
 
 		<!-- Externes -->
 
@@ -320,6 +317,9 @@
                     <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
                     <version>${plugins.version}</version>
                 </dependency>
+                
+                <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+
 
    				<!-- ====================================== -->
 		        <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
@@ -356,6 +356,19 @@
                   <version>${plugins.version}</version>
                 </dependency>
 
+			</dependencies>
+		</profile>
+        
+        
+        <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
+		<profile>
+			<id>sia</id>
+			<dependencies>
+	          <dependency>
+                    <groupId>org.fundaciobit.plugins</groupId>
+                    <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+                    <version>${plugins.version}</version>
+			  </dependency>
 			</dependencies>
 		</profile>
 
