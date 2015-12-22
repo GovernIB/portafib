@@ -143,7 +143,7 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
         signInfo = MiniAppletUtils.convertRemoteSignature(
           commonInfoSignature, fileInfo, timeStampUrl, rubricURL);
       } catch(Exception e) {
-        // TODO Millorar Missatge
+        // TODO Millorar Missatge        
         finishWithError(response, signaturesSet, e.getMessage(), e);
         return;
       }
@@ -182,14 +182,6 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
       
       
       
-      
-      PrintWriter outS = generateHeader(request, response, absolutePluginRequestPath, 
-          relativePluginRequestPath, signaturesSet);
-      
-      outS.println(sw.toString());
-      
-      generateFooter(outS);
-      out.flush();
 
     } // FINAL DE FOR
 
@@ -245,6 +237,17 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
     
    
+    out.flush();
+    out.close();
+
+
+    PrintWriter outS = generateHeader(request, response, absolutePluginRequestPath, 
+        relativePluginRequestPath, signaturesSet);
+    
+    outS.println(sw.toString());
+    
+    generateFooter(outS);
+    outS.flush();
 
   }
   

@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.URL;
 import java.security.cert.X509Certificate;
 import java.util.Date;
@@ -95,11 +96,15 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
           fis.close();
           return;
         } catch (IOException e) {
-          log.error("Error intentant retornar recurs " + relativePath + " (" + getSimpleName()
-              + "): " + e.getMessage(), e);
-          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          
+          if (e.getCause() != null  && e.getCause().getClass().equals(SocketException.class)) {
+            // Ok El client ha abortat
+          } else {
+            log.error("Error intentant retornar recurs " + relativePath + " (" + getSimpleName()
+                + "): " + e.getMessage(), e);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          }
           return;
-
         }
       }
     }

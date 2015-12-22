@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.SocketException;
 import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Map;
@@ -88,6 +89,8 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
         try {
           FileUtils.copy(fis, response.getOutputStream());
           fis.close();
+          return;
+        } catch (SocketException se) {
           return;
         } catch (IOException e) {
           log.error("Error intentant retornar recurs " + relativePath + " (" 
@@ -347,16 +350,9 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
       String relativePath, SignaturesSet signaturesSet, int signatureIndex,
       Locale locale) {
 
-    //StringWriter sw = new StringWriter();
-    //PrintWriter out = new PrintWriter(sw);
-    
-    PrintWriter out;
-    try {
-      out = response.getWriter();
-    } catch (IOException e) {
-      log.error(e.getMessage(), e);
-      return;
-    }
+
+    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
+        relativePluginRequestPath, signaturesSet);
     
    
    int pos = absolutePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
@@ -414,6 +410,10 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
    out.println("    window.location.href='" + urljnlp + "';");
    out.println();
    out.println("</script>");
+   
+   generateFooter(out);
+   
+   out.flush();
 
   }
   

@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.SocketException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
@@ -175,6 +176,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         try {
           FileUtils.copy(fis, response.getOutputStream());        
           fis.close();
+          return;
+        } catch (SocketException se) {
           return;
         } catch(Exception e) {
           log.error("Error intentant retornar recurs " + relativePath + " (" 

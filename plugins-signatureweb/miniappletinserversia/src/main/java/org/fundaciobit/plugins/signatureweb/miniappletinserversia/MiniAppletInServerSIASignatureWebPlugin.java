@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.SocketException;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -170,6 +171,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         try {
           FileUtils.copy(fis, response.getOutputStream());        
           fis.close();
+          return;
+        } catch (SocketException se) {
           return;
         } catch (Exception e) {
           log.error("Error intentant retornar recurs " + relativePath + " (" 
@@ -784,6 +787,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     out.println("<button class=\"btn btn-primary\" type=\"submit\">" 
       + getTraduccio("firmardocument" + (numFitxers == 0?"":".plural"), locale) + "</button>");
     out.println("</form>");
+    out.flush();
+    out.close();
     
     } catch(Exception e) {
       // XYZ Errors  SIA  ==> Errors especifics
@@ -793,12 +798,18 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       return;
     }
     
-    PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
+    
+    
+    
+    
+    PrintWriter outS =  generateHeader(request, response, absolutePluginRequestPath, 
         relativePluginRequestPath, signaturesSet);
     
-    out.println(sw.toString());
+    outS.println(sw.toString());
     
-    generateFooter(out);
+    generateFooter(outS);
+    
+    outS.flush();
     
   }
   
