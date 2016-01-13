@@ -1,4 +1,5 @@
-<%@page import="org.apache.log4j.Logger"
+<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"
+%><%@page import="org.apache.log4j.Logger"
 %><%@page import="es.caib.portafib.utils.Configuracio"
 %><%@ page contentType="text/html;charset=UTF-8" language="java" 
 %><%@page import="java.io.InputStream"
@@ -35,7 +36,7 @@ public boolean existsSecureContext() {
     String context = request.getContextPath();
 
   
-    if (Configuracio.isAutomaticRedirect()) {
+    if (PropietatGlobalUtil.isAutomaticRedirect()) {
          
        boolean isDebug = log.isDebugEnabled();
        if (isDebug) {

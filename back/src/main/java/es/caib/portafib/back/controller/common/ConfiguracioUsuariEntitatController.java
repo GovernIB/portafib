@@ -4,10 +4,11 @@ import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -35,6 +36,10 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
 
   @EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  
+  
+  @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
+  protected PropietatGlobalLogicaLocal propietatEjb;
 
   @Override
   public String getTileForm() {
@@ -72,8 +77,10 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     usuariEntitatForm.addHiddenField(ACTIU);
     usuariEntitatForm.addHiddenField(CARREC);
     usuariEntitatForm.addReadOnlyField(POTCUSTODIAR);
-
-    if (!Configuracio.isEditableUser()) {
+    
+    if (!propietatEjb.getBooleanProperty(
+        Constants.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
+      
       usuariEntitatForm.addReadOnlyField(EMAIL);
       usuariEntitatForm.addReadOnlyField(LOGOSEGELLID);
     }
@@ -85,7 +92,8 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     // Posar titol
     usuariEntitatForm.setTitleCode("configuracio_usuari_entitat");
     usuariEntitatForm.setSubTitleCode("=" + I18NUtils.tradueix(
-        "configuracio_usuari_entitat.subtitol", LoginInfo.getInstance().getEntitat().getNom()));
+        "configuracio_usuari_entitat.subtitol", 
+        LoginInfo.getInstance().getEntitat().getNom()));
     
     usuariEntitatForm.addHelpToField(EMAIL,
         I18NUtils.tradueix("configuracio_usuari_entitat.help.email"));

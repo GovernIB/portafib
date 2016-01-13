@@ -315,6 +315,15 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp" />
     </definition>
     
+    <definition name="propietatGlobalFormAden" extends="role_aden">
+        <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
+    </definition>
+    
+    <definition name="propietatGlobalListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
+    
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
@@ -412,6 +421,17 @@
     <definition name="pluginCustodiaListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
+    
+    <definition name="propietatGlobalFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
+    </definition>
+    
+    <definition name="propietatGlobalListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
+    
+    
 
     <!--  ===========  COL·LABORADOR ================== -->
     

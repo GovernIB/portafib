@@ -44,6 +44,48 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!--  INICI LLIBRERIES DE SIA -->
+
+        <dependency>
+            <groupId>com.openlandsw.rss</groupId>
+            <artifactId>gateway-api</artifactId>
+            <version>2.4.05</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.openlandsw.rss</groupId>
+            <artifactId>gateway-api-comun</artifactId>
+            <version>2.4.05</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.51</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.51</version>
+        </dependency>
+        
+        <!--  FINAL LLIBRERIES DE SIA -->
+
+
 
         <dependency>
             <groupId>junit</groupId>

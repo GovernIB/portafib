@@ -8,13 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginException;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.userinformation.RolesInfo;
 import org.fundaciobit.plugins.utils.CertificateUtils;
@@ -24,6 +23,7 @@ import org.jboss.security.auth.certs.X509CertificateVerifier;
 
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -113,9 +113,8 @@ public class BaseCertLoginModule extends org.jboss.security.auth.spi.BaseCertLog
         // Info Usuari EJB
         UsuariPersonaLogicaLocal usuariPersonaEjb;
         try {
-          usuariPersonaEjb = (UsuariPersonaLogicaLocal) new InitialContext()
-              .lookup("portafib/UsuariPersonaLogicaEJB/local");
-        } catch (NamingException e) {
+          usuariPersonaEjb = EjbManager.getUsuariPersonaLogicaEJB();
+        } catch (I18NException e) {
           // TODO traduccio
           log.error(e);
           throw new LoginException("No puc accedir a la informació de l'usuari "

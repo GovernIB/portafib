@@ -1,6 +1,16 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%@page import="es.caib.portafib.back.security.LoginInfo"%>
+<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
+%><%
+  String entitatID = null;
+  if (LoginInfo.getInstance() != null) {
+    entitatID = LoginInfo.getInstance().getEntitatID();
+  }
 
+int minchars=PropietatGlobalUtil.getMinCharsToStartAutocomplete(entitatID);
+int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
+
+%>
 <script src="<c:url value="/js/bootstrap-typeahead.js"/>"></script>
 
 <form:hidden path="id" id="id" />
@@ -38,8 +48,8 @@
 <br/>
 <small>
 <fmt:message key="formselectionby.info" >
-  <fmt:param><%=Configuracio.getMinCharsToStartAutocomplete() %></fmt:param>
-  <fmt:param><%=Configuracio.getMaxItemsToShowInAutocomplete() %></fmt:param>
+  <fmt:param><%=minchars%></fmt:param>
+  <fmt:param><%=maxitems%></fmt:param>
 </fmt:message> 
 </small>
         
@@ -52,14 +62,14 @@
 
 <%-- http://tatiyants.com/how-to-use-json-objects-with-twitter-bootstrap-typeahead/ --%> 
 $('#search').typeahead({
-    items:<%=Configuracio.getMaxItemsToShowInAutocomplete() %>,    
-    minLength:<%=Configuracio.getMinCharsToStartAutocomplete() %>,
+    items:<%=maxitems %>,    
+    minLength:<%= minchars %>,
     source: function (query, process) {
-        
+
         $('#id').val("");
-        
+
         map = {};
-                
+     
         return $.ajax({
             url: '<c:url value="${seleccioUsuariForm.urlData}"/>',
             type: 'post',

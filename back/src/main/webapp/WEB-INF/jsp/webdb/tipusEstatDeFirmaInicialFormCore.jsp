@@ -50,7 +50,7 @@
             </td>
             <td>
               <form:errors path="tipusEstatDeFirmaInicial.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="off" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatDeFirmaInicialFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusEstatDeFirmaInicial.descripcio"  />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,TipusEstatDeFirmaInicialFields.DESCRIPCIO)? 'true' : 'false'}" path="tipusEstatDeFirmaInicial.descripcio"  />
            </td>
         </tr>
         </c:if>

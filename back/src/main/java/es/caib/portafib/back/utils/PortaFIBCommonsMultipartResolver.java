@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import es.caib.portafib.back.controller.common.AutoFirmaController;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 
 /**
  * 
@@ -78,7 +78,8 @@ public class PortaFIBCommonsMultipartResolver extends
   }
 
   private Long getMaxUploadSize() {
-    Long maxUploadSizeGlobal = Configuracio.getMaxUploadSizeInBytes();
+    Long maxUploadSizeGlobal = PropietatGlobalUtil.getMaxUploadSizeInBytes();
+    log.info("XYZ maxUploadSizeGlobal = " + maxUploadSizeGlobal);
     if (log.isDebugEnabled()) {
       if (maxUploadSizeGlobal == null) {
         log.debug("No s'ha definit limit de tamany global en la pujada de Fitxers");
@@ -100,7 +101,8 @@ public class PortaFIBCommonsMultipartResolver extends
   }
 
   private Long getMaxFitxerAdaptatSize() {
-    Long maxFitxerAdaptatSizeGlobal = Configuracio.getMaxFitxerAdaptatSizeInBytes();
+    Long maxFitxerAdaptatSizeGlobal = PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes();
+    log.info("XYZ maxFitxerAdaptatSizeGlobal = " + maxFitxerAdaptatSizeGlobal);
     if (log.isDebugEnabled()) {
       if (maxFitxerAdaptatSizeGlobal == null) {
         log.info("No s'ha definit limit de tamany global en el fitxer adaptat");

@@ -1,7 +1,7 @@
 
-(a) Actualitzar BBDD amb script d'esquema
+(a) Actualitzar BBDD amb script d'actualització d'esquema (portafib_update_schema_from_1.0.0_to_1.1.0.sql)
 
-(b) Actualitzar BBDD amb script de dades
+(b) Actualitzar BBDD amb script d'actualització de dades (portafib_update_data_from_1.0.0_to_1.1.0.sql)
 
 
 (1) S'han de donar d'alta Mòduls de Firma en l'Administrador d'Entitat (El modul de firma de servidor es de proves però totalment funcional)
@@ -16,8 +16,42 @@
 
 (3) Gestio de Segell de Temps. PortaFIB 1.1 suporta Segellat de Temps, per la qual cosa si es desitja aquesta caracteristica l'Administrador l'haurà de configurar.
    
-(4) Tots aquell usuaris que hagin configurat els correus agrupats perdran la seva configuració
+(4) Tots aquells usuaris que hagin configurat els correus agrupats perdran la seva configuració.
 
-(5) Les propietats es.caib.portafib.firmatperformat.{entitat}.{idioma} i es.caib.portafib.motiudelegacioformat.{entitat}.{idioma} seran moguts al camps [Format del camp ´Firmat per´]  i [Format del camp ´Motiu Delegació´] de l'entitat i l'idioma corresponent. S'hauran de decodificar el caràcters codificats en URLEncoder.
+(5) Les propietats es.caib.portafib.firmatperformat.{entitat}.{idioma} i es.caib.portafib.motiudelegacioformat.{entitat}.{idioma} seran moguts al camps [Format del camp ´Firmat per´] i [Format del camp ´Motiu Delegació´] de l'entitat i l'idioma corresponent. S'hauran de decodificar el caràcters codificats en URLEncoder.
 
-(6) La propietat "es.caib.portafib.checknifcertificate"  s'ha de moure a informació de l'entitat.
+(6) La propietat "es.caib.portafib.checknifcertificate" s'ha de moure a informació de l'entitat.
+
+(7) S'han mogut les següents propietats a "Propietats Globals" de PortaFIB a entorn Web (Veure menú d'Administrador). S'ha d'anar al Menú d'Administrador i s'ha de revisar que el valors de les propietats del fitxer siguin les mateixes que el valor que apareix en la pagina web. Al final, aquestes propietats s'han d'esborrar del fitxer portafib-properties-service.xml. 
+           * es.caib.portafib.editableuser
+           * es.caib.portafib.numberoferrorsinnotificationtosendmail
+           * es.caib.portafib.numberoferrorstopausenotification
+           * es.caib.portafib.notificationtimelapse
+           * es.caib.portafib.signaturemodule.absoluteurl (Nova propietat en PortaFIB 1.1)
+           * es.caib.portafib.maxuploadsizeinbytes
+           * es.caib.portafib.maxfitxeradaptatsizeinbytes
+           * es.caib.portafib.url
+           * es.caib.portafib.email.from
+           * es.caib.portafib.automaticredirect
+           * es.caib.portafib.emailsgroupedsendercronexpression
+           * es.caib.portafib.defaultentity
+           * es.caib.portafib.defaultrolesincreation
+           * es.caib.portafib.entitatidforagentssql
+           * es.caib.portafib.passwordforagentssql
+
+(8) S'han mogut les següents propietats a "Propietats d'Entitat" de l'Entitat a entorn Web (Veure menu d'Administrador d'Entitat). S'ha d'anar al Menú d'Administrador d'Entitat i s'ha de revisar que el valors de les propietats del fitxer siguin les mateixes que el valor que apareix en la pagina web. Al final, aquestes propietats s'han d'esborrar del fitxer portafib-properties-service.xml
+           * es.caib.portafib.maxitemstoshowinautocomplete
+           * es.caib.portafib.mincharstostartautocomplete
+           * es.caib.portafib.maxtimelockedsigninms
+           
+(9) S'han d'esborrar del fitxer portafib-properties-service.xml les següent propietats:
+           * es.caib.portafib.name
+
+
+
+
+
+
+
+
+

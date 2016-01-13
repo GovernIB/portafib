@@ -82,6 +82,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -575,7 +576,7 @@ import es.caib.portafib.utils.Configuracio;
 
             FileInfoSignature fileInfoSignature;
             fileInfoSignature = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
-                langUI, tipusDocBySignatureID);
+                langUI, tipusDocBySignatureID, loginInfo.getEntitatID());
 
             if (fileInfoSignature != null) {
               fileInfoSignatureArray.add(fileInfoSignature);
@@ -787,7 +788,7 @@ import es.caib.portafib.utils.Configuracio;
       
       Map<String, Long> tipusDocBySignatureID = new HashMap<String, Long>();
       FileInfoSignature fis = prepareFirmaItem(request, estatDeFirmaID, 
-          peticioDeFirmaID, langUI, tipusDocBySignatureID);
+          peticioDeFirmaID, langUI, tipusDocBySignatureID, loginInfo.getEntitatID());
 
       FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -1177,8 +1178,8 @@ import es.caib.portafib.utils.Configuracio;
    
 
     protected FileInfoSignature prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
-        Long peticioDeFirmaID, String langUI, Map<String, Long> tipusDocBySignatureID)
-            throws I18NException {
+        Long peticioDeFirmaID, String langUI, Map<String, Long> tipusDocBySignatureID,
+        String entitatID) throws I18NException {
 
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
             Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
@@ -1222,7 +1223,7 @@ import es.caib.portafib.utils.Configuracio;
           }
   
           if (timeAliveToken == -1) {
-            timeAliveToken = Configuracio.getMaxTimeLockedSignInMs();
+            timeAliveToken = PropietatGlobalUtil.getMaxTimeLockedSignInMs(entitatID);
           }
         }
 

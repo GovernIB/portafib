@@ -43,6 +43,8 @@ final String[] menu = {
   //"",
   //"fluxos.orfes",
   "",
+  "propietatglobal.gestio",
+  "",
   "fitxers.orfes",
 
 };
@@ -70,6 +72,8 @@ static {
   mapping.put("segelldetemps.plantilla.plural", "/admin/segelldetemps/list");
 
   mapping.put("plugincustodia.gestio", "/admin/plugincustodia/list");
+  
+  mapping.put("propietatglobal.gestio", "/admin/propietatglobal/list");
 
   //mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
 

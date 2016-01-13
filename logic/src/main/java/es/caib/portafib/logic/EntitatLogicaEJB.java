@@ -6,6 +6,7 @@ import es.caib.portafib.ejb.EntitatEJB;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
+import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
@@ -35,6 +36,10 @@ public class EntitatLogicaEJB extends EntitatEJB
   
   @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  
+  
+  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
   
 
   /**
@@ -87,7 +92,12 @@ public class EntitatLogicaEJB extends EntitatEJB
       }
 
     }
+    
+    // (4) Eliminar propietats globals
+    propietatGlobalEjb.delete(PropietatGlobalFields.ENTITATID.equal(entitatID));
  
+    
+    // Eliminar Entitat
     super.delete(entitatID);
     
   }

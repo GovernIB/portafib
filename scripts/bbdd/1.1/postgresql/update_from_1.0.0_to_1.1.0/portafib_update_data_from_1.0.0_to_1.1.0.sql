@@ -155,3 +155,65 @@ create index pfi_custodiainfo_pluginid_fk_i on pfi_custodiainfo (pluginid);
 ALTER TABLE pfi_custodiainfo ADD CONSTRAINT pfi_custodia_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin (pluginid);
 ALTER TABLE pfi_custodiainfo DROP COLUMN custodiapluginclassid;
 
+
+-- ========================================
+-- 2016/01/12 Propietats Globals
+-- ========================================
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (1, 'es.caib.portafib.editableuser', 'false', 'Si està a true permet als usuaris editar l''email  dels usuari-persona i usuaris-entitats, així com el logo dels usuaris-entitat. En cas contrari, únicament és l''administrador d''entitat que pot fer canvis en aquest camps');
+     
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (2, 'es.caib.portafib.numberoferrorsinnotificationtosendmail', NULL, 'Opcional. A partir de quants d''errors en una notificació callback s''enviarà un correu al responsable de l''usuari aplicació. Per defecte mai s''envia un correu');
+      
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (3, 'es.caib.portafib.numberoferrorstopausenotification', NULL, 'Opcional. A partir de quants d''errors en una notificació callback aquesta automàticament es pausarà. Per defecte es reintenten indefinidament.');
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (4, 'es.caib.portafib.notificationtimelapse', NULL, 'Opcional. Valor per defecte 60000ms (1 minut). Ha de ser major de 15000. Temps mínim que s''espera abans de reintentar una notificació fallida en ms.');
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (5, 'es.caib.portafib.signaturemodule.absoluteurl', NULL, 'Opcional. Serveix per Plugins de Firma que han d''accedir externament al Servidor de PortaFIB. Si no es defineix llavors obté la URL absoluta de la petició.(Necessari quan el Apache-Proxy no té activat "ProxyPreserveHost On").');
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (6, 'es.caib.portafib.maxuploadsizeinbytes', NULL, 'Tamany màxim de pujada de fitxers en bytes. No definit significa sense límit ');
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (7, 'es.caib.portafib.maxfitxeradaptatsizeinbytes', NULL, 'Tamany màxim del fitxer PDF una vegada se li han afegit els annexes i taula de firmes. No definit significa sense límit');      
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (8, 'es.caib.portafib.url', 'http://localhost:8080/portafib', 'URL pública d''accés a l''aplicació de PortaFIB. Es requereix fonamentalment per l''inclusió de URLs cap a PortaFIB en l''enviament de correus');
+
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (9, 'es.caib.portafib.email.from', 'portafib@portafib.org', 'És l''adreça d''email des d''on s''enviaran les notificacions per correu als usuaris');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (10, 'es.caib.portafib.emailsgroupedsendercronexpression', NULL, 'Opcional. Expressió cron que indica cada quan s''ha d''executar l''enviador de correus quan s''han definit enviament d''avisos agrupats. Per defecte s''executa cada dia a les 6:00 (0 0 6 1/1 * ? *).');
+      
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (11, 'es.caib.portafib.automaticredirect', 'false', 'Si val true llavors redirecciona segons el contexte:(a)Si entra amb http dins portafibs llavors redirecciona a portafib (b)Si entra amb https dins portafib i existeix portafib/s llavors redirecciona a portafib/s. Si val false llavors no fa res.');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (12, 'es.caib.portafib.defaultentity', NULL, 'Si val null incica que l''alta de persones i usuaris l''ha de realitzar l''AdEn. En cas contrari s''utilitzarà aquest valor com a entitat on donar d''alta automaticament persona i usuari. En entorns CAIB aquesta propietat es ignorada');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (13, 'es.caib.portafib.defaultrolesincreation', NULL, 'Indica els roles virtuals a asssignar per defecte a l''usuari-entitat quan aquest es crea automàticament. Es tracta d''una llista de roles separats per comes.Els valors possibles són: ROLE_SOLI,ROLE_DEST,ROLE_DELE i ROLE_COLA. En entorns CAIB és ignorada');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (14, 'es.caib.portafib.entitatidforagentssql', NULL, 'Opcional excepte en entorns de la CAIB. Entitat sobre la qual s''aplicaran les accions del [Agents Seycon]. Veure punt [Gestió de Rols a traves de triggers Oracle] del manual d''instal·lació per més informació.');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (15, 'es.caib.portafib.passwordforagentssql', NULL, 'Opcional excepte en entorns de la CAIB. Contrasenya (o clau de pas) per comprovar que les peticions http realment provenen d''un trigger de BBDD. Veure punt [Gestió de Rols a traves de triggers Oracle] del manual d''instal·lació per més informació.');
+
+-- ========================================
+-- 2016/01/12 Propietats d'Entitat
+-- ========================================
+  
+  
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.maxitemstoshowinautocomplete', '10', 'Opcional. Valor per defecte 10. En els formularis de cerques dinàmiques d''usuari, indica el màxim de resultats permesos per mostrar resultats de l''usuari.'  FROM pfi_entitat;
+
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.mincharstostartautocomplete', '2', 'Opcional. Valor per defecte 2. En formularis de cerques dinàmiques d''usuari, indica el mínim de caràcters que s''han d''escriure per a que  apareguin resultats. En entitats amb molts d''usuaris es recomana incrementar aquest valor a 3 o 4.'  FROM pfi_entitat;
+
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.maxtimelockedsigninms', NULL, 'Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir bloquejat un document durant la firma. Per defecte 3 minuts (180000).'  FROM pfi_entitat;
+  
+  

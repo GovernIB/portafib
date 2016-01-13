@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.SocketException;
+import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -22,6 +23,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
@@ -35,10 +37,12 @@ import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 import com.openlandsw.rss.gateway.CertificateInfo;
-import com.openlandsw.rss.gateway.ConstantsGateWay;
+import com.openlandsw.rss.gateway.constants.ConstantsGateWay;
+import com.openlandsw.rss.gateway.exception.SafeCertGateWayException;
 import com.openlandsw.rss.gateway.DataToSign;
 import com.openlandsw.rss.gateway.DataTransactionResult;
 import com.openlandsw.rss.gateway.DocumentsToSign;
+import com.openlandsw.rss.gateway.EndTransactionResult;
 import com.openlandsw.rss.gateway.GateWayAPI;
 import com.openlandsw.rss.gateway.QueryCertificatesResult;
 import com.openlandsw.rss.gateway.SignsInfo;
@@ -55,11 +59,16 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public static final String MINIAPPLETINSERVERSIA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "miniappletinserversia.";
 
-  private static final String PROPERTY_URL_GATEWAY= MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "URL_GATEWAY";
+  public static final String PROPERTY_URL_GATEWAY= MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "URL_GATEWAY";
   
-  private static final String PROPERTY_AUTH_STORE = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE";
+  public static final String PROPERTY_AUTH_STORE = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE";
   
-  private static final String PROPERTY_AUTH_STORE_PASS = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE_PASS";
+  public static final String PROPERTY_AUTH_STORE_PASS = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "AUTH_STORE_PASS";
+
+  public static final String PROPERTY_SSL_PROTOCOL = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SSL_PROTOCOL";
+  public static final String PROPERTY_LOAD_BC_PROVIDER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "LOAD_BC_PROVIDER";
+  public static final String PROPERTY_SOCKET_TIMEOUT = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SOCKET_TIMEOUT";
+
   
   private static final String PROPERTY_MAPPING_USERS_PATH = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "mappingusers";
   
@@ -589,8 +598,15 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     } finally {
       if (api != null && id_transaction != null) {
-        // XYZ Imprimir final EndTransactionResult result =
-        api.endTransaction(id_transaction);
+        // Imprimir final 
+        try {
+          EndTransactionResult result = api.endTransaction(id_transaction);
+          log.info(" XYZ result.getDescription(): " + result.getDescription());
+          log.info(" XYZ result.getResult(): " + result.getResult());
+        } catch (SafeCertGateWayException e) {
+          log.error("Error Codi: " + e.getCode());
+          log.error("Error finalitzant la transacció: " + e.getMessage(), e);
+        }
       }
     }
 
@@ -814,17 +830,28 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
   
   
-  protected Map<String, CertificateInfo> listCertificates(SignaturesSet signaturesSet) throws Exception {
+  public Map<String, CertificateInfo> listCertificates(SignaturesSet signaturesSet) throws Exception {
     
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     String administrationID = signaturesSet.getCommonInfoSignature().getAdministrationID();
     
+    return listCertificates(username, administrationID);
+
+  }
+
+  public Map<String, CertificateInfo> listCertificates(String username, String administrationID)
+      throws Exception, SafeCertGateWayException {
     GateWayAPI api = getGateWayAPI();
     
     QueryCertificatesResult qcr = api.queryCertificatesFiltered(getSIAUser(username, administrationID),
-        ConstantsGateWay.OPERATION_SIGN);
+        // ConstantsGateWay.OPERATION_SIGN
+        ConstantsGateWay.OPERATION_ALL
+        
+        );
     
     List<CertificateInfo> certificates = qcr.getCertificates();
+    
+    System.out.println(" CERTIFICATS == " + certificates.size());
     
     Map<String, CertificateInfo> certmap = new HashMap<String, CertificateInfo>();
     
@@ -833,7 +860,6 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     }
     
     return certmap;
-
   }
   
   
@@ -929,6 +955,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     if (gateWayAPI_Instance == null) {
       gateWayAPI_Instance = new GateWayAPI();
 
+      
       String url = getPropertyRequired(PROPERTY_URL_GATEWAY);
       String authStore =  getPropertyRequired(PROPERTY_AUTH_STORE);
       String authStorePass = getPropertyRequired(PROPERTY_AUTH_STORE_PASS);
@@ -937,6 +964,34 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       propertiesConfig.put("URL_GATEWAY", url);
       propertiesConfig.put("AUTH_STORE", authStore);
       propertiesConfig.put("AUTH_STORE_PASS", authStorePass);
+      
+      // Optional Properties
+      
+      String ssl = getProperty(PROPERTY_SSL_PROTOCOL);
+      String bc =  getProperty(PROPERTY_LOAD_BC_PROVIDER);
+      String timeout = getProperty(PROPERTY_SOCKET_TIMEOUT);
+      
+      if (ssl != null) {
+        propertiesConfig.put("SSL_PROTOCOL", ssl);
+      }
+      if (bc != null) {
+        propertiesConfig.put("LOAD_BC_PROVIDER", bc);
+      }
+      if (timeout != null) {
+        propertiesConfig.put("SOCKET_TIMEOUT", timeout);
+      }
+      
+      // XYZ TODO
+      Security.addProvider(new BouncyCastleProvider());
+      
+      System.out.println("java.home = " + System.getProperty("java.home"));
+      
+
+      System.out.println("XYZ - URL_GATEWAY: " + url);
+      System.out.println("XYZ - AUTH_STORE: " + authStore);
+      System.out.println("XYZ - AUTH_STORE_PASS: " + authStorePass);
+      
+      
 
       gateWayAPI_Instance.setConfig(propertiesConfig);
     }
@@ -973,10 +1028,12 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
     if (usersPattern != null) {
       
-      MessageFormat.format(usersPattern, username, administrationID);
+     username = MessageFormat.format(usersPattern, username, administrationID);
       
     }
 
+    System.out.println("XXXXXXXXXXXXXX " + username);
+    
     return username;
 
   }

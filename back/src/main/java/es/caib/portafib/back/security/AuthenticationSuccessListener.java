@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.naming.InitialContext;
-
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.userinformation.UserInfo;
@@ -35,7 +33,9 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.PortaFIBPluginsManager;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.utils.Configuracio;
@@ -51,10 +51,6 @@ public class AuthenticationSuccessListener implements
     ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
   protected final Logger log = Logger.getLogger(getClass());
-
-  protected UsuariPersonaLogicaLocal usuariPersonaEjb = null;
-
-  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb = null;
 
   @Override
   public synchronized void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
@@ -92,16 +88,13 @@ public class AuthenticationSuccessListener implements
       }
     }
 
-    // Info Usuari
-    if (usuariPersonaEjb == null) {
-      try {
-        usuariPersonaEjb = (UsuariPersonaLogicaLocal) new InitialContext()
-            .lookup("portafib/UsuariPersonaLogicaEJB/local");
-      } catch (Exception e) {
-        // TODO traduccio
-        throw new LoginException("No puc accedir al gestor d´obtenció de" +
-            		" informació de usuari per " + name + ": " + e.getMessage(), e);
-      }
+    UsuariPersonaLogicaLocal usuariPersonaEjb = null;
+    try {
+      usuariPersonaEjb = EjbManager.getUsuariPersonaLogicaEJB();
+    } catch (Throwable e) {
+      // TODO traduccio
+      throw new LoginException("No puc accedir al gestor d´obtenció de" +
+              " informació de usuari per " + name + ": " + e.getMessage(), e);
     }
 
     UsuariPersonaJPA usuariPersona = usuariPersonaEjb.findByPrimaryKeyFull(name);
@@ -110,15 +103,15 @@ public class AuthenticationSuccessListener implements
     if (usuariPersona == null) {
       // Revisar si és un Administrador que entra per primera vegada 
       if (isDebug) { 
-        log.debug("Configuracio.getDefaultEntity() = ]" + Configuracio.getDefaultEntity() + "[");
+        log.debug("Configuracio.getDefaultEntity() = ]" + PropietatGlobalUtil.getDefaultEntity() + "[");
       }
-      if (containsRoleAdmin || Configuracio.isCAIB() || Configuracio.getDefaultEntity() != null) {
+      if (containsRoleAdmin || Configuracio.isCAIB() || PropietatGlobalUtil.getDefaultEntity() != null) {
         try {
           IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
           UserInfo info = plugin.getUserInfoByUserName(name);
           if (info != null) {
             UsuariPersonaJPA admin = new UsuariPersonaJPA();
-            admin.setEmail(info.getEmail()== null? Configuracio.getAppEmail() : info.getEmail());
+            admin.setEmail(info.getEmail()== null? PropietatGlobalUtil.getAppEmail() : info.getEmail());
             admin.setIdiomaID(Configuracio.getDefaultLanguage());
             final String nom, llinatges;
             {
@@ -155,12 +148,12 @@ public class AuthenticationSuccessListener implements
               String defaultEntity;
               
               if (Configuracio.isCAIB()) {
-                defaultEntity = Configuracio.getEntitatIDForAgentsSQL();
+                defaultEntity = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
                 virtualRoles = new HashSet<String>();
                 virtualRoles.add(Constants.ROLE_DEST);
               } else {
-                defaultEntity = Configuracio.getDefaultEntity();
-                String defRolesStr = Configuracio.getDefaultRolesInCreation();
+                defaultEntity = PropietatGlobalUtil.getDefaultEntity();
+                String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
                 //log.info("defRolesStr = " + defRolesStr);
                 if (defRolesStr != null && defRolesStr.trim().length() != 0) {
                   virtualRoles = new HashSet<String>(Arrays.asList(defRolesStr.split(",")));
@@ -180,16 +173,20 @@ public class AuthenticationSuccessListener implements
             }
             necesitaConfigurar = true;
             
-            if (usuariEntitatLogicaEjb == null) {
-              try {
-                usuariEntitatLogicaEjb = (UsuariEntitatLogicaLocal) new InitialContext()
-                    .lookup("portafib/UsuariEntitatLogicaEJB/local");
-              } catch (Exception e) {
-                // TODO traduccio
-                throw new LoginException("No puc accedir al gestor d´obtenció de" +
-                        " informació d´usuari-entitat per " + name + ": " + e.getMessage(), e);
-              }
+            UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+            
+            try {
+              usuariEntitatLogicaEjb = EjbManager.getUsuariEntitatLogicaEJB();
+                  /*
+                  (UsuariEntitatLogicaLocal) new InitialContext()
+                  .lookup("portafib/UsuariEntitatLogicaEJB/local");
+                  */
+            } catch (Exception e) {
+              // TODO traduccio
+              throw new LoginException("No puc accedir al gestor d´obtenció de" +
+                      " informació d´usuari-entitat per " + name + ": " + e.getMessage(), e);
             }
+            
 
             usuariEntitat = (UsuariEntitatJPA)usuariEntitatLogicaEjb.create(admin, usuariEntitat, virtualRoles);
             

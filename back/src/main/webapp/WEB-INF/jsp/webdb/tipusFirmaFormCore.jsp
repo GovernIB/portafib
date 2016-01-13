@@ -72,7 +72,7 @@
             </td>
             <td>
               <form:errors path="tipusFirma.descripcio" cssClass="errorField alert alert-error" />
-              <form:textarea cssClass="${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.DESCRIPCIO)? 'mceEditorReadOnly':'mceEditor'}" path="tipusFirma.descripcio"  />
+              <form:textarea cssClass="input-xxlarge ${gen:contains(__theForm.readOnlyFields ,TipusFirmaFields.DESCRIPCIO)? 'mceEditorReadOnly':'mceEditor'}" path="tipusFirma.descripcio"  />
            </td>
         </tr>
         </c:if>

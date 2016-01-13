@@ -134,7 +134,7 @@ public class InitServlet extends HttpServlet {
       
       sinc.startScheduler();
     } catch (Throwable th) {
-      log.error("Error desconegut inicialitzant sincronitzador amb DIR3: " + th.getMessage(), th);
+      log.error("Error desconegut inicialitzant Timer d'enviament de correus: " + th.getMessage(), th);
     }
 
     

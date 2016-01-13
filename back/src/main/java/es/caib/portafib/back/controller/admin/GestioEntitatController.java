@@ -56,6 +56,8 @@ public class GestioEntitatController extends EntitatController implements Consta
   @EJB(mappedName = "portafib/EntitatLogicaEJB/local")
   protected EntitatLogicaLocal entitatLogicaEjb;
   
+  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
 
   @Override
   public String getTileForm() {
@@ -294,5 +296,54 @@ public class GestioEntitatController extends EntitatController implements Consta
       return e;
     }
   
+/*
 
+
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 
+'', '2', ''  FROM pfi_entitat;
+
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid,
+ '', NULL, ''  FROM pfi_entitat;
+
+*/
+
+  @Override
+  public EntitatJPA create(HttpServletRequest request, EntitatJPA entitat)
+      throws Exception,I18NException, I18NValidationException {
+      EntitatJPA e = (EntitatJPA) entitatEjb.create(entitat);
+      
+      try {
+        String _entitatID_ = e.getEntitatID();
+        propietatGlobalEjb.create("es.caib.portafib.maxitemstoshowinautocomplete",
+            "10", _entitatID_, "Opcional. Valor per defecte 10. En els formularis de cerques"
+                + " dinàmiques d'usuari, indica el màxim de resultats permesos per mostrar"
+                + " resultats de l'usuari.");
+        
+        propietatGlobalEjb.create("es.caib.portafib.mincharstostartautocomplete",
+            "2",  _entitatID_, "Opcional. Valor per defecte 2. En formularis de cerques"
+                + " dinàmiques d'usuari, indica el mínim de caràcters que s'han d'escriure"
+                + " per a que  apareguin resultats. En entitats amb molts d''usuaris es"
+                + " recomana incrementar aquest valor a 3 o 4.");
+        
+        propietatGlobalEjb.create("es.caib.portafib.maxtimelockedsigninms", null,
+            _entitatID_, "Opcional. Indica Temps de validesa del Token de Firma només"
+                + " quan hi ha multiples firmes en un bloc o hi ha delegats definits. "
+                + "Es a dir, el temps màxim que un firmant pot tenir bloquejat un"
+                + " document durant la firma. Per defecte 3 minuts (180000).");
+        
+      } catch(I18NException ie) {
+        String msg = I18NUtils.getMessage(ie);
+        // TODO Traduir
+        String missatge = "S'ha produït un error creant les propietats per l'entitat" 
+            +  e.getNom() + ". Haurà de crear-les manualment. Error: " + msg;
+        
+        log.error(missatge, ie);
+        HtmlUtils.saveMessageError(request, missatge);
+      }
+      
+      return e;
+      
+  }
+  
+  
 }

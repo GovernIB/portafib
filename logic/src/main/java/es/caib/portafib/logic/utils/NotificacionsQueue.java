@@ -384,7 +384,7 @@ public class NotificacionsQueue implements MessageListener {
           log.debug("POST: Actualitzant Notificacio");
           
           // Avisar a l'administrador de l'usuari app ?
-          Long sendMail = Configuracio.getNumberOfErrorsInNotificationToSendMail(); 
+          Long sendMail = PropietatGlobalUtil.getNumberOfErrorsInNotificationToSendMail(); 
           if(sendMail != null && sendMail == notificacioJPA.getReintents()) {
             
             if (usuariAplicacio == null) {
@@ -393,9 +393,9 @@ public class NotificacionsQueue implements MessageListener {
             } else {
             
                String dest = usuariAplicacio.getEmailAdmin();
-               final String from = Configuracio.getAppEmail();
+               final String from = PropietatGlobalUtil.getAppEmail();
                final boolean isHtml = true;
-               final String url = Configuracio.getAppUrl() + Constants.CONTEXT_ADEN_NOTIFICACIONSWS + "/list";
+               final String url = PropietatGlobalUtil.getAppUrl() + Constants.CONTEXT_ADEN_NOTIFICACIONSWS + "/list";
                Locale loc = new Locale(usuariAplicacio.getIdiomaID());
                String subject = I18NLogicUtils.tradueix(loc, "notificacioerrorcallback.subject");
                String message =  I18NLogicUtils.tradueix(loc, "notificacioerrorcallback.message",
@@ -410,7 +410,7 @@ public class NotificacionsQueue implements MessageListener {
             }
           }
           // Pausar la notificacio?
-          Long pause = Configuracio.getNumberOfErrorsToPauseNotification();
+          Long pause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
           if (pause != null && notificacioJPA.getReintents() >= pause) {
             notificacioLogicaEjb.bloquejarNotificacio(notificacioJPA.getNotificacioID());
           }
@@ -428,7 +428,7 @@ public class NotificacionsQueue implements MessageListener {
       
       if (notificacioInfo != null) {
         try {
-          long notificacionTimeLapse = Configuracio.getNotificacionsTimeLapse(); 
+          long notificacionTimeLapse = PropietatGlobalUtil.getNotificacionsTimeLapse(); 
           enviarNotificacions(Arrays.asList(notificacioInfo), notificacionTimeLapse);
         } catch (I18NException e1) {
 
@@ -908,6 +908,9 @@ public class NotificacionsQueue implements MessageListener {
     //listAllMessages();
 
   }
+  
+  
+  
 
   /*
   public static List<NotificacioInfo> listAllMessages() {

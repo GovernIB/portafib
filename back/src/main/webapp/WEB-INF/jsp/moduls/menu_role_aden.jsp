@@ -33,6 +33,8 @@ final String[] menu = {
     "",    
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
+    "",
+    "propietatglobal.gestio",
     "",    
     "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}    
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
@@ -85,6 +87,8 @@ static {
   mapping.put("peticiodefirma.llistar", "/aden/peticiofirmaaplicacio/list");
   
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
+  
+  mapping.put("propietatglobal.gestio", "/aden/propietatglobal/list");
   
 }
 

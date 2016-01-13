@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.logic.AgentsCAIBLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariEntitat;
-import es.caib.portafib.utils.Configuracio;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +54,7 @@ public class UsuarisCAIBController {
     
     // Check password
     
-    String passwordOK = Configuracio.getPasswordForAgentsSQL();
+    String passwordOK = PropietatGlobalUtil.getPasswordForAgentsSQL();
     
     if (passwordOK == null) {
       log.error("S'ha de definir la propietat es.caib.portafib.passwordforagentssql !!!!!");

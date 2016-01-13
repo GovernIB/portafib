@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+
 /**
  * 
  * @author anadal
@@ -69,8 +71,7 @@ public class EnviarCorreusAgrupatsTimerEJB implements EnviarCorreusAgrupatsTimer
   }
 
   protected Date nextExecution() throws ParseException {
-    String cronExpression = es.caib.portafib.utils.Configuracio
-        .getEmailsGroupedSenderCronExpression();
+    String cronExpression = PropietatGlobalUtil.getEmailsGroupedSenderCronExpression();
 
     if (cronExpression == null || cronExpression.trim().length() == 0
         || !org.quartz.CronExpression.isValidExpression(cronExpression)) {

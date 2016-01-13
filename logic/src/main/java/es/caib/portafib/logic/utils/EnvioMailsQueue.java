@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -47,6 +46,7 @@ public class EnvioMailsQueue implements MessageListener {
       
       
       try {
+        // TODO XYZ Moure a EjbManager
         rebreAvisLogicaEjb = (RebreAvisLogicaLocal) new InitialContext()
             .lookup("portafib/RebreAvisLogicaEJB/local");
       } catch (Exception e) {
@@ -75,7 +75,7 @@ public class EnvioMailsQueue implements MessageListener {
         
   
         EmailUtil.postMail(emailInfo.getSubject(), emailInfo.getMessage(),
-            emailInfo.isHtml(), Configuracio.getAppEmail(), emailInfo.getEmail());
+            emailInfo.isHtml(), PropietatGlobalUtil.getAppEmail(), emailInfo.getEmail());
   
         if (isDebug) {
           log.info("Enviat avis amb id "

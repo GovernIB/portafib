@@ -50,8 +50,8 @@ import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -719,7 +719,7 @@ public class SignatureModuleController {
   
 
   protected static String getAbsolutePortaFIBBase(HttpServletRequest request) {
-    String absoluteURL = Configuracio.getSignatureModuleAbsoluteURL();
+    String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
     if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
       return request.getScheme() + "://" + request.getServerName() + ":" +
         + request.getServerPort() +  request.getContextPath();

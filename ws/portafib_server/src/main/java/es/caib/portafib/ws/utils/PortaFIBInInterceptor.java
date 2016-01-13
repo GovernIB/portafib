@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Locale;
 
-import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -23,9 +22,11 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
+
 import org.apache.cxf.service.Service;
 
 /**
@@ -39,31 +40,6 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
 
   protected final Log log = LogFactory.getLog(getClass());
 
-  //@EJB(mappedName = "portafib/UsuariAplicacioLogicaEJB/local")
-  protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb = null;
-  
-  //protected WebServicesMethodsLocal usuariAplicacioLogicaEjb = null;
-  
-
-  protected UsuariAplicacioLogicaLocal getUsuariAplicacioLogicaEjb() {
-  //protected WebServicesMethodsLocal getUsuariAplicacioLogicaEjb() {
-    if (usuariAplicacioLogicaEjb == null) {
-      try {
-
-        usuariAplicacioLogicaEjb = (UsuariAplicacioLogicaLocal) new InitialContext()
-            .lookup("portafib/UsuariAplicacioLogicaEJB/local");
-
-        
-       // usuariAplicacioLogicaEjb = (WebServicesMethodsLocal) new InitialContext()
-       //     .lookup("portafib/WebServicesMethodsEJB/local");
-        
-        
-      } catch (Exception e) {
-        log.error("Error init usuariAplicacioLogicaEjb ", e);
-      }
-    }
-    return usuariAplicacioLogicaEjb;
-  }
 
   public PortaFIBInInterceptor() {
     // Veure https://cxf.apache.org/docs/interceptors.html
@@ -123,13 +99,15 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
 
     UsuariAplicacioJPA usuariAplicacio = null;
     try {
-      usuariAplicacio = getUsuariAplicacioLogicaEjb().findByPrimaryKeyFull(userapp);
+      UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+      usuariAplicacioLogicaEjb = EjbManager.getUsuariAplicacioLogicaEJB();
+      usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKeyFull(userapp);
       //usuariAplicacio = getUsuariAplicacioLogicaEjb().findUsuariAplicacioJPAFull(userapp);
       if (usuariAplicacio != null) {
         log.info("PortaFIBInInterceptor::handleMessage() Usuari APP = "
             + usuariAplicacio.getUsuariAplicacioID());
       }
-    } catch (Exception e) {
+    } catch (Throwable e) {
       throw new SoapFault(e.getMessage(), e, QNAME);
     }
 

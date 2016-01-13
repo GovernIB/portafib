@@ -31,12 +31,12 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
-import es.caib.portafib.utils.Configuracio;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -356,9 +356,13 @@ public class SearchJSONController {
           additionalWhere,
           whereQueryFull
           );
-      
   
-      final long max = Configuracio.getMaxItemsToShowInAutocomplete();
+      String entitatID = null;
+      if (LoginInfo.getInstance() != null) {
+        entitatID = LoginInfo.getInstance().getEntitatID();
+      }
+  
+      final long max = PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
       
       List<StringKeyValue> values;
       try {

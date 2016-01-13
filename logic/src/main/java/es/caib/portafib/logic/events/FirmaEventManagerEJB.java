@@ -33,6 +33,7 @@ import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.NotificacionsQueue;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.RebreAvis;
 import es.caib.portafib.model.entity.TipusNotificacio;
@@ -41,7 +42,6 @@ import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -387,7 +387,7 @@ public class FirmaEventManagerEJB implements Constants,
     String msgCode = subjectCode + ".message";
 
     Locale loc = new Locale(up.getIdiomaID());
-    final String subject = Configuracio.getAppName() + " :: " + I18NLogicUtils.tradueix(loc,subjectCode);
+    final String subject = "PortaFIB :: " + I18NLogicUtils.tradueix(loc,subjectCode);
     final String nom = up.getNom() + " " + up.getLlinatges();
     // Els primers arguments sempre són
     //      (1) Titol de la peticio
@@ -413,9 +413,9 @@ public class FirmaEventManagerEJB implements Constants,
     String href = event.getHref();
     if (href == null || href.trim().length() == 0) {
       log.error("No s'ha definit href per [" + nom + "]  " + desc, new Exception());
-      href = Configuracio.getAppUrl();
+      href = PropietatGlobalUtil.getAppUrl();
     } else {
-      href = Configuracio.getAppUrl() + href;
+      href = PropietatGlobalUtil.getAppUrl() + href;
     }
     // notificacioavis_email_message= Bones {0}:<br> Voliem informar que {1}.
     // <br/>Pot accedir a la petició de firma pitjant <a href="{2}">aqu&iacute;</a>...

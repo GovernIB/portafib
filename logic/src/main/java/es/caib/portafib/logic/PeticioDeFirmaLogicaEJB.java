@@ -27,6 +27,7 @@ import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.StampCustodiaInfo;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
@@ -811,7 +812,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     try {
 
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
-          Configuracio.getMaxFitxerAdaptatSizeInBytes());
+          PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes());
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments, 
           maxSize, taulaDeFirmes, custodiaInfoStamp);

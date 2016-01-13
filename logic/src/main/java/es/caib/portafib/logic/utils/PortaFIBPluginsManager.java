@@ -3,7 +3,6 @@ package es.caib.portafib.logic.utils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.certificate.ICertificatePlugin;
 import org.fundaciobit.plugins.documentconverter.IDocumentConverterPlugin;
-import org.fundaciobit.plugins.documentcustody.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -26,16 +25,12 @@ public class PortaFIBPluginsManager implements Constants {
 
   public static final String DOCUMENTCONVERTER_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "documentconverterplugin";
 
-  public static final String DOCUMENTCUSTODY_PLUGIN_KEY = PORTAFIB_PROPERTY_BASE + "documentcustodyplugin";
-
   public static IUserInformationPlugin loginPlugin = null;
 
   public static ICertificatePlugin certificatePlugin = null;
   
   public static IDocumentConverterPlugin documentConverterPlugin = null;
-  
-  public static IDocumentCustodyPlugin documentCustodyPlugin = null;
-  
+
   /**
    * 
    * @return null si no existeix 

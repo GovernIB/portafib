@@ -5,6 +5,8 @@ import es.caib.portafib.back.form.webdb.UsuariPersonaForm;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -27,6 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value= "/common/configuracio/usuaripersona")
 public class ConfiguracioUsuariPersonaController extends UsuariPersonaController {
 
+  @EJB(mappedName = PropietatGlobalLogicaLocal.JNDI_NAME)
+  protected PropietatGlobalLogicaLocal propietatEjb;
+  
+  
   @Override
   public String getTileForm() {
     return "configuracioUsuariPersonaForm";
@@ -62,7 +69,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       form.addReadOnlyField(USUARIPERSONAID);
      
       if (Configuracio.isCAIB() || request.isUserInRole(Constants.ROLE_ADMIN)
-          || Configuracio.getDefaultEntity() != null) {
+          || PropietatGlobalUtil.getDefaultEntity() != null) {
         // Podem modificar el nom i llinatge
       } else {
         form.addReadOnlyField(NOM);
@@ -71,7 +78,8 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
 
       form.addHiddenField(RUBRICAID);
 
-      if(up.getEmail()!=null && !Configuracio.isEditableUser()){
+      if(up.getEmail()!=null && !propietatEjb.getBooleanProperty(
+          Constants.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
           form.addReadOnlyField(EMAIL);
       }
 

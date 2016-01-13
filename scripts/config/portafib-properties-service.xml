@@ -17,74 +17,16 @@
 
       <!-- Directori on es guardaran tots els fitxers de PortaFIB-->
       es.caib.portafib.filesdirectory=c:\\tmp\\portafibfiles
-      <!-- Accés HTTP a l'aplicació de PortaFIB (Important que sigui http, no https)  -->
-      # es.caib.portafib.url=http://localhost:8080/portafib
-      es.caib.portafib.url=http://sistravm.ibit.org/portafib
-      es.caib.portafib.email.from=portafib@portafib.org
+
       es.caib.portafib.defaultlanguage=ca
-      <!-- Si val null incica que l'alta de persones i usuaris l'ha de realitzar l'AdEn.
-           En cas contrari s'utilitzarà aquest valor com a entitat on donar d'alta
-		   automaticament persona i usuari. En entorns CAIB aquesta propietat es ignorada -->
-      #es.caib.portafib.defaultentity=fundaciobit
-      <!-- S'utilitza conjuntament amb la propietat "es.caib.portafib.defaultentity".
-           Indica els roles virtuals a asssignar per defecte a l'usuari-entitat quan aquest
-           es crea automàticament. Es tracta d'una llista de roles separats per comes.
-           Els valors possibles són: ROLE_SOLI (Sol·licitant), ROLE_DEST (Destinatari)
-           ROLE_DELE (Delegat) i ROLE_COLA (Col·laborador). En entorns CAIB aquesta propietat es ignorada -->
-      #es.caib.portafib.defaultrolesincreation=ROLE_SOLI,ROLE_DEST
+
       es.caib.portafib.development=false
-      <!-- Tamany màxim de pujada de fitxers en bytes. No definit significa sense límit -->
-      es.caib.portafib.maxuploadsizeinbytes=
-      <!-- Tamany màxim del fitxer PDF una vegada se li han afegit els annexes i taula de firmes. No definit significa sense límit -->
-      es.caib.portafib.maxfitxeradaptatsizeinbytes=
-      <!-- Clau per encriptar l'identificador del fitxers a descarregar (IMPORTANT tamany de 16 caràcters) -->
+
+      <!-- Clau per encriptar l'identificador del fitxers a descarregar via web(IMPORTANT tamany de 16 caràcters) -->
       es.caib.portafib.encryptkey=portafibportafib
-      es.caib.portafib.name=PortaFIB
-      <!-- Permet editar l'email  dels usuari-persona i usuaris-entitats, així com el logo dels usuaris-entitat -->
-      es.caib.portafib.editableuser=true
 
       <!-- Llistat de Plugins per l'exportació de dades en els llistats (excel, ods, csv, ...) -->
       es.caib.portafib.exportdataplugins=org.fundaciobit.plugins.exportdata.cvs.CSVPlugin,org.fundaciobit.plugins.exportdata.ods.ODSPlugin,org.fundaciobit.plugins.exportdata.excel.ExcelPlugin
-      <!-- Opcional. A partir de quants d'errors en una notificació callback s'enviarà
-           un correu al responsable de l'usuari aplicació. Per defecte mai s'envia un correu  -->
-      # es.caib.portafib.numberoferrorsinnotificationtosendmail=3
-      <!-- Opcional. A partir de quants d'errors en una notificació callback aquesta
-           automàticament es pausarà. Per defecte es reintenten indefinidament.  -->
-      # es.caib.portafib.numberoferrorstopausenotification=6
-	  <!-- Opcional. Valor per defecte 60000ms (1 minut). Ha de ser major de 15000.
-	       Temps mínim que s'espera abans de reintentar una notificació fallida en ms. -->
-	  #es.caib.portafib.notificationtimelapse=60000
-
-      <!-- Si el valor és true llavors redirecciona segons el contexte:
-            (a) Si entra amb http dins portafibs llavors redirecciona a portafib
-            (b) Si entra amb https dins portafib i existeix portafib/s llavors redirecciona a portafib/s
-           Si el valor es false, llavors no fa res.   -->
-	  es.caib.portafib.automaticredirect=true
-
-
-      <!-- Opcional. Valor per defecte 10. En els formularis de cerques dinàmiques d'usuari,
-           indica el màxim de resultats permesos per mostrar resultats de l'usuari.	   -->
-	  # es.caib.portafib.maxitemstoshowinautocomplete=10
-
-
-      <!-- Opcional. Valor per defecte 2. En els formularis de cerques dinàmiques d'usuari,
-           indica el mínim de caràcters que ha d'escriure l'usuari abans de que li apareguin
-           els resultats de la cerca. En entitats amb molts d'usuaris es recomana incrementar
-		   aquest valora a 3 o 4 amb la finalitat de reduir càrrega de xarxa, servidor i bbdd. -->
-      # es.caib.portafib.mincharstostartautocomplete=2
-	  
-
-      <!-- Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes
-           en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir
-           bloquejat un document mentre es realitza el procés de firma. Valor per defecte 3*60*1000,
-           o sigui 3 minuts. Quan la firma es única en el bloc i no hi ha delegats definits
-           llavors no hi ha bloqueig de temps. -->
-      #es.caib.portafib.maxtimelockedsigninms=180000
-
-      <!-- Opcional. Expressió cron que indica cada quan s'ha d'executar l'enviador de correus
-           quan s'han definit enviament d'avisos agrupats.
-           Per defecte s'executa cada dia a les 6:00 (0 0 6 1/1 * ? *) -->
-      #es.caib.portafib.emailsgroupedsendercronexpression=0 0 6 1/1 * ? *
 
       <!--  Opcional. Indica si s'ha de validar el certificat emprant el Plugin de CheckCertificate
              quan l'autenticació es realitza emprant ClientCert. Valor per defecte false. -->

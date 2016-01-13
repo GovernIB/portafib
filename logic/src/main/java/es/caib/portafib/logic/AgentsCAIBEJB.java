@@ -11,6 +11,7 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.BlocDeFirmesQueryPath;
@@ -65,7 +66,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
   public UsuariEntitat processarCarrecCAIB(String tipus, String codusu, String nomrol,
       String valordomini, String agentsql, String nom) {
     
-    final String entitatID = Configuracio.getEntitatIDForAgentsSQL();
+    final String entitatID = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
 
     try {
       log.info(" + tipus =" + tipus);
@@ -281,7 +282,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     
     final boolean isHtml = false;
     EmailUtil.postMail("PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació", message, isHtml,
-        Configuracio.getAppEmail(), recipients);
+        PropietatGlobalUtil.getAppEmail(), recipients);
     
   }
 
@@ -292,11 +293,8 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     
     codusu = codusu.trim();
     
-    final String entitatID = Configuracio.getEntitatIDForAgentsSQL();
+    final String entitatID = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
     try {
-      
-      
-      
       // Cercar usuari-entitat
       UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, codusu);
       
@@ -324,7 +322,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             virtualRoles = new HashSet<String>();
             virtualRoles.add(Constants.ROLE_DEST);
           } else {              
-            String defRolesStr = Configuracio.getDefaultRolesInCreation();
+            String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
             //log.info("defRolesStr = " + defRolesStr);
             if (defRolesStr != null && defRolesStr.trim().length() != 0) {
               virtualRoles = new HashSet<String>(Arrays.asList(defRolesStr.split(",")));

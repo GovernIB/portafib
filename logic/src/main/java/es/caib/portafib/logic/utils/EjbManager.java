@@ -12,6 +12,7 @@ import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.TipusDocumentLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -37,7 +38,7 @@ public final class EjbManager {
 
   protected static UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
-  protected static  UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+  protected static UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
   protected static ColaboracioDelegacioLogicaLocal colaboracioDelegacioLogicaEjb;
 
@@ -47,7 +48,10 @@ public final class EjbManager {
   
   // Veure mètode getFluxDeFirmesEjb() per saber com es que no s'injecta
   //@EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")  
-  private static FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
+  protected static FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
+  
+  
+  protected static PropietatGlobalLogicaLocal propietatLogicaEjb;
   
   
 
@@ -204,5 +208,22 @@ public final class EjbManager {
     }
     return fluxDeFirmesLogicaEjb;
   }
+  
+  
+  
+  public static PropietatGlobalLogicaLocal getPropietatLogicaEJB() throws I18NException {
+
+    if (propietatLogicaEjb == null) {
+      try {
+        propietatLogicaEjb = (PropietatGlobalLogicaLocal) new InitialContext()
+            .lookup(PropietatGlobalLogicaLocal.JNDI_NAME);
+      } catch (Throwable e) {
+        throwNewI18NException(e, PropietatGlobalLogicaLocal.JNDI_NAME);
+      }
+    }
+    return propietatLogicaEjb;
+  }
+  
+  
 
 }
