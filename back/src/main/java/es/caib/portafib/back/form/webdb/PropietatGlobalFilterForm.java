@@ -114,7 +114,7 @@ public class PropietatGlobalFilterForm extends PortaFIBBaseFilterForm implements
   }
 
 
-  protected OrderBy[] defaultOrderBy = null;
+  protected OrderBy[] defaultOrderBy = new OrderBy[] {new OrderBy(CLAU )};
 
 
   public OrderBy[] getDefaultOrderBy() {
