@@ -19,7 +19,6 @@ import org.fundaciobit.plugins.utils.PluginsManager;
  * @author anadal
  *
  */
-
 public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends PluginLogicaEJB
    implements AbstractPluginLogicaLocal<I> {
 
@@ -35,6 +34,8 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
         TIPUS.equal(getTipusDePlugin()),
         ACTIU.equal(true),
         ENTITATID.equal(entitatID)
+        // XYZ Elegim plugin entre les genèriques o entre els específics per l'entitat
+        // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
     );
 
     return select(where);
@@ -44,7 +45,8 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
   @Override
   public I getInstanceByPluginID(long pluginID) throws I18NException {
   
-    IPlugin pluginInstance = pluginsCache.get(pluginID);
+    IPlugin pluginInstance = getPluginFromCache(pluginID);
+    
     
     if (pluginInstance == null) {
 
@@ -86,8 +88,10 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
               getName() + " (" + plugin.getClasse() + ")");
         }
         
+        addPluginToCache(pluginID, pluginInstance); 
         
-        pluginsCache.put(pluginID, pluginInstance);
+        
+        
       
     }
     return (I)pluginInstance;

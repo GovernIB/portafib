@@ -207,7 +207,7 @@ public class PropietatGlobalUtil implements Constants {
     if (val == null) {
       val = false;
     }
-    log.info("XYZ getEmailsGroupedSenderCronExpression() = " + val);
+    log.info("XYZ isAutomaticRedirect() = " + val);
     return val;
   }
 

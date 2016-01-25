@@ -109,6 +109,14 @@
             <td>
               <form:errors path="colaboracioDelegacio.descripcio" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.DESCRIPCIO)? 'true' : 'false'}" path="colaboracioDelegacio.descripcio"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.descripcio'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.descripcio'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.descripcio'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
@@ -242,6 +250,14 @@
             <td>
               <form:errors path="colaboracioDelegacio.motiuDeshabilitada" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,ColaboracioDelegacioFields.MOTIUDESHABILITADA)? 'true' : 'false'}" path="colaboracioDelegacio.motiuDeshabilitada"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.motiuDeshabilitada'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.motiuDeshabilitada'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('colaboracioDelegacio.motiuDeshabilitada'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>

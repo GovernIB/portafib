@@ -357,8 +357,11 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
               ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
           
               AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
+              
+              
+              String algorithm = info.getSignAlgorithm();
       
-              byte[] signedData = cloudSign.fullSign(info.getDataToSign(), info.getSignAlgorithm(),
+              byte[] signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
                   new Certificate[] { info.getCertificate() }, info.getProperties());
       
               

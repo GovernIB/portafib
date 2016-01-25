@@ -1,4 +1,15 @@
+PASSA 1
+=======
 
 ERROR  ==> exception unwrapping private key - java.security.InvalidKeyException: Illegal key size
-=====
-SOLUCIO => Cargar librerías en JDK: http://www.oracle.com/technetwork/es/java/javase/downloads/jce-6-download-429243.html
+SOLUCIO => Cargar librerías en JDK/JRE: http://www.oracle.com/technetwork/es/java/javase/downloads/jce-6-download-429243.html
+
+
+
+PASSA 2
+=======
+
+ERROR ==>  java.lang.SecurityException: JCE cannot authenticate the provider BC
+SOLUCIO => (1) Copiar Llibreries de BC dins [JAVAHOME]\jre\lib\ext i
+           (2) Afegir linia security.provider.XX=org.bouncycastle.jce.provider.BouncyCastleProvider  dins 
+           el fitxer [JAVAHOME]\jre\lib\security\java.security on XX és el següent numero disponible.

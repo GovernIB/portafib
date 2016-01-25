@@ -64,24 +64,35 @@ public class SignatureInServerSIATest extends TestCase {
       MiniAppletInServerSIASignatureWebPlugin plugin;
       plugin = new MiniAppletInServerSIASignatureWebPlugin("es.ibsalut.example.", properties);
       
+      final String filter = "";
+      final boolean supportJava = false; 
+      boolean filtered = plugin.filter(null, username, administrationID, filter, supportJava);
+      
+      if (!filtered) {
+        System.out.println("No ha passat el filtre del Plugin");
+      } else {
+        System.out.println("FILTRE OK");
+      }
+      
+      
+
       Map<String, CertificateInfo> certs = plugin.listCertificates(username, administrationID);
       
       System.out.println("Certificats Size" + certs.size());
-      
+
       for (CertificateInfo cinfo : certs.values()) {
         System.out.println(" ========================= ");
         System.out.println(cinfo.getDn_certificate());
         byte[] data = cinfo.getCertificate();
 
-        FileOutputStream file = new FileOutputStream(cinfo.getDn_certificate() + ".cer");
+        String dn = cinfo.getDn_certificate();
+        FileOutputStream file = new FileOutputStream(dn.substring(0, Math.max(dn.length(), 200)) + ".cer");
         
         file.write(data);
         
         file.flush();
         
         file.close();
-        
-        
       }
       
       

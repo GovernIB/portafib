@@ -73,6 +73,10 @@
     <definition name="autoFirmaForm" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaForm.jsp" />
     </definition>
+    
+    <definition name="autoFirmaFinal" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaFinal.jsp" />
+    </definition>
 
     <definition name="PluginDeFirmaContenidor_AutoFirma" extends="principal">
         <put-attribute name="titol" value="SignatureWebContainer" />

@@ -318,6 +318,8 @@ public class AutoFirmaController extends FitxerController
     
     StatusSignaturesSet statusError = null;
     
+    String idDescarrega = null;
+    
     switch(sss.getStatus()) {
     
       case StatusSignaturesSet.STATUS_FINAL_OK:
@@ -343,6 +345,8 @@ public class AutoFirmaController extends FitxerController
             } else {
               FileUtils.moveFile(status.getSignedData(), firmat);
             }
+            
+            idDescarrega = signaturesSetID;
             
             /*
             FileOutputStream fos = new FileOutputStream(firmat);
@@ -394,11 +398,23 @@ public class AutoFirmaController extends FitxerController
    
     
     SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
-   
-    ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
-    return mav;
+    
+    if (idDescarrega == null) {
+      return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+    } else {
+      ModelAndView mav = new ModelAndView("autoFirmaFinal");
+    
+      mav.addObject("id", idDescarrega);
+      
+      return mav;
+    }
+    
+    
     
   }
+  
+  
+  
   
 
   

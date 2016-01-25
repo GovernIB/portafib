@@ -78,6 +78,14 @@
             <td>
               <form:errors path="custodiaInfo.custodiaPluginParameters" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)? 'true' : 'false'}" path="custodiaInfo.custodiaPluginParameters"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.custodiaPluginParameters'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
@@ -165,6 +173,14 @@
             <td>
               <form:errors path="custodiaInfo.missatge" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGE)? 'true' : 'false'}" path="custodiaInfo.missatge"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('custodiaInfo.missatge'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>

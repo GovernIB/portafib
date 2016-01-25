@@ -141,6 +141,14 @@
             <td>
               <form:errors path="notificacioWS.descripcio" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.DESCRIPCIO)? 'true' : 'false'}" path="notificacioWS.descripcio"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.descripcio'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.descripcio'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.descripcio'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
@@ -183,6 +191,14 @@
             <td>
               <form:errors path="notificacioWS.error" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,NotificacioWSFields.ERROR)? 'true' : 'false'}" path="notificacioWS.error"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.error'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.error'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('notificacioWS.error'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>

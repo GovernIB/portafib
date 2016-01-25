@@ -5,6 +5,7 @@ import java.security.PrivateKey;
 import java.util.Properties;
 
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.plugins.utils.Base64;
 
 /**
  * 
@@ -41,11 +42,19 @@ public class MiniAppletInServerSigner extends AbstractTriFaseSigner {
     Object AOPkcs1Signer_instance = AOPkcs1Signer.newInstance();
 
     Method method  = getMethod(AOPkcs1Signer, "sign");
+
     
     final byte[] interSign;
     interSign = (byte[])method.invoke(AOPkcs1Signer_instance, hash, algorithm, privateKey,
         certificateChain, extraParams);
     
+    
+    // XYZ 
+    System.out.println(" MA SERVER_SIGNER HASH ORIGIN LEN = " + hash.length);
+    System.out.println(" MA SERVER_SIGNER signature LEN = " + interSign.length);
+    System.out.println(" MA SERVER_SIGNER signature BASE 64 = " + Base64.encode(interSign));
+    
+
     
     return interSign;
   }

@@ -3,16 +3,19 @@ package org.fundaciobit.plugins.signatureweb.miniappletinserversia;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.SocketException;
+import java.security.PublicKey;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +23,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.crypto.Cipher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.asn1.ASN1InputStream;
+import org.bouncycastle.asn1.DEROctetString;
+import org.bouncycastle.asn1.DLSequence;
+import org.bouncycastle.asn1.DLSet;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -33,6 +41,7 @@ import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
@@ -119,8 +128,26 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   @Override
   public boolean filter(HttpServletRequest request, String username, String administrationID,
       String filter, boolean supportJava) {
-    // TODO Com a molt seria revisar els certificats de l'usuari i passar el filter
-    return true;
+    
+    // Revisar si l'usuari està registrar a SIA i si té certificats
+    // de firma en aquest entorn. 
+    try {
+      Map<String, CertificateInfo> map = listCertificates(username, administrationID);
+
+      if (map != null && map.size() != 0) {
+        // XYZ Falta suportar Filtre
+        return true;
+      }
+      
+    } catch(SafeCertGateWayException se) {
+      System.out.println(" XYZ SafeCertGateWayException: CODE=" + se.getCode());
+      log.error(" XYZ SafeCertGateWayException: CODE=" + se.getCode(), se);
+    } catch(Exception e) {
+      System.out.println(" XYZ Unknown Exception e = " + e.getMessage());
+      log.error(" XYZ Unknown Error : CODE=" + e.getMessage(), e);
+    }
+
+    return false;
   }
 
   @Override
@@ -206,7 +233,12 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     } else if (relativePath.startsWith(FIRMAR_POST_PAGE)) {
       log.error(" XYZ FIRMAR_POST_PAGE ==> GET eliminar l'altre");
       firmarPost(request, response, signaturesSet, locale);
+    } else if (relativePath.startsWith(CLOSE_SIA_PAGE)) {
+      
+      closeSIAPage(response, locale);
+      
     } else {
+    
         super.requestGET(absolutePluginRequestPath, 
             relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
             request, uploadedFiles, response, locale);
@@ -245,6 +277,43 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
 
   }
+  
+  
+  //----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ------------------ TANCAR FINESTRA DE LA WEB DE SIA -------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  
+  private static final String  CLOSE_SIA_PAGE = "closesiapage";
+    
+  private void  closeSIAPage( HttpServletResponse response, Locale locale)  {
+    PrintWriter out;
+    try {
+      out = response.getWriter();
+    
+    
+    out.println("<html><head>"
+        //+ "<meta http-equiv=\"refresh\" content=\"1;url=" + redireccionURL + "\">"
+        + "<script type=\"text/javascript\">"
+       // + "function closew() {"
+        + "    window.close();"
+       // + " };"
+        + "</script>"
+        + "</head><body>"
+     //   + "<h1> TARCAR FINESTRA !!!!!</h1>"
+     //   + "<input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"closew();\" />"
+        + "</body></html>");
+    
+    out.flush();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+  }
+  
   
   
  //----------------------------------------------------------------------------
@@ -292,15 +361,42 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
     try {
+      
+      
+//      Map<?,?> allParams = request.getParameterMap();
+//      for (Object key : allParams.keySet()) {
+//        log.info("XYZ firmarPre:: ANY_PARAM[" + key + "] = " + (String)allParams.get(key));
+//      }
+      
+      
+      log.info("XYZ firmarPre:: ALL PARAMETERS[cert] = " 
+        + Arrays.toString(request.getParameterValues("cert")));
+      
+      
       // Conté el HASHCODE de
       String cert = request.getParameter("cert");
+      log.info("XYZ firmarPre:: PARAMETRE[cert] = " + cert);
 
       // TODO Optimitzar ja s'ha llegit quan mostrava el certificat a elegir
       Map<String, CertificateInfo> mapCert = listCertificates(signaturesSet);
+      
+      log.info("XYZ firmarPre:: mapCert.size() = " + mapCert.size());
+      
+      for(String key : mapCert.keySet()) {
+        log.info("XYZ firmarPre:: KEY MAP => " + key);
+      }
+      
+      
+      CertificateInfo ci = mapCert.get(cert);
+      
+      log.info("XYZ firmarPre:: mapCert[cert=" +cert + "] => " + ci);
 
-      byte[] certBytes = mapCert.get(cert).getCertificate();
+      byte[] certBytes = ci.getCertificate();
+      log.info(" XYZ Certificate[Bytes] = " + certBytes);
       X509Certificate certificate = CertificateUtils
           .decodeCertificate(new ByteArrayInputStream(certBytes));
+      
+      log.info(" XYZ Certificate = " + certificate);
 
       int pos = relativePluginRequestPath.lastIndexOf("-1");
 
@@ -312,7 +408,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       List<DocumentsToSign> _documents = new ArrayList<DocumentsToSign>();
 
-      String algorithm = null;
+      String algorithmSIA = null;
 
       // TODO Check que tots els fitxers firmen amb el mateix tipus d'algorisme
       FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
@@ -336,18 +432,46 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
           // TODO Check que tots els fitxers firmen amb el mateix tipus
           // d'algorisme
-          algorithm = info.getSignAlgorithm();
+          
+          // XYZ ZZZ
+          algorithmSIA = fileInfo.getSignAlgorithm();
+          
+          log.info(" XYZ  algorithmSIA = " + algorithmSIA);
+          
+          
+          System.out.println(" XYZ  INFO PROPERTIES = ");
+          // XYZ
+          info.getProperties().list(System.out);
+          
+          // XYZ ZZZZ
+          String algorithmMiniapplet =  info.getSignAlgorithm();
+          //String algorithmMiniapplet = algorithmSIA;
+          log.info(" XYZ ZZZ algorithmMiniapplet = " + algorithmMiniapplet);
 
           // FIRMA PADES
           MiniAppletInServerSIASigner cloudSign;
-          cloudSign = new MiniAppletInServerSIASigner(algorithm, info.getProperties());
+          cloudSign = new MiniAppletInServerSIASigner(algorithmMiniapplet, info.getProperties());
 
-          byte[] hashDocumento = cloudSign.step1_PreSign(info.getDataToSign(), algorithm,
+          byte[] hashDocumento = cloudSign.step1_PreSign(info.getDataToSign(), algorithmMiniapplet,
               new Certificate[] { info.getCertificate() }, info.getProperties());
+          
+//          // XYZ 
+//          ASN1InputStream bIn = new ASN1InputStream(new ByteArrayInputStream(hashDocumento));
+//          ASN1Primitive obj = bIn.readObject();
+//          System.out.println("XYZ DUMP ASN1: \n" + ASN1Dump.dumpAsString(obj));
+//          bIn.close();
+//          // XYZ
+         
+          
+          byte[] hash = extractHashSHA(hashDocumento);
+          
+          log.info(" XYZ HASH ORIGINAL LEN = " + hash.length);
+          log.info(" XYZ HASH ORIGINAL = " +  Base64.encode(hashDocumento));
+          
 
           DocumentsToSign doc = new DocumentsToSign();
           doc.setEncodeB64(false);
-          doc.setData(hashDocumento);
+          doc.setData(hash);
           doc.setNameDocument(fileInfo.getName());
           doc.setTitleDocument(fileInfo.getName());
           doc.setIdData(fileInfo.getSignID());
@@ -373,42 +497,140 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       // Cridam a servidor de SIA
       DataToSign datatosign = new DataToSign();
-      datatosign.setCertificate(mapCert.get(cert).getCertificate());
+      
+      datatosign.setCertificate(certBytes);
+      
+
 
       String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
       String callBackURL;
+      String tancarFinestraURL;
       if (callbackhost == null) {
         callBackURL = absolutePluginRequestPath + "/" + FIRMAR_POST_PAGE;
+        tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_SIA_PAGE;
       } else {
         callBackURL = callbackhost + request.getServletPath() + "/" + FIRMAR_POST_PAGE;
+        tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_SIA_PAGE;
       }
 
+
       log.info("XYZ callBackURL = " + callBackURL);
+      log.info("XYZ tancarFinestraURL = " + tancarFinestraURL);
+      
+      final boolean showInNewWindow = false;
+      
+      if (showInNewWindow) {
+         // OK
+      } else {
+        tancarFinestraURL = callBackURL;
+      }
+      
+      
+      
 
 
-      datatosign.setRedirectOK(callBackURL);
-      datatosign.setRedirectError(callBackURL);
+      datatosign.setRedirectOK(tancarFinestraURL);
+      datatosign.setRedirectError(tancarFinestraURL);
+      
+      datatosign.setDocuments(_documents);
 
       // Important actualment els algorismes SHA són iguals en plugins i en SIA
-      datatosign.setDigestAlgorithm(algorithm);
+      
+      log.info(" XYZ    ALGORITHM SIA === " + algorithmSIA);
+      
+      
+      datatosign.setDigestAlgorithm(algorithmSIA);
 
       String username = signaturesSet.getCommonInfoSignature().getUsername();
       String administrationID = signaturesSet.getCommonInfoSignature().getAdministrationID();
 
+      log.info("XYZ  firmarPre:: PRE startTransaction ...");
       GateWayAPI api = getGateWayAPI();
       StartTransactionResult result = api.startTransaction(
           getSIAUser(username, administrationID), datatosign, null);
+      
+      log.info("XYZ  firmarPre:: POST startTransaction ...");
+      
+      
 
       String id_transaction = result.getIdTransaction();
+      
+      log.info("XYZ  firmarPre:: id_transaction = " + id_transaction);
 
       this.transactions.put(signaturesSetID, id_transaction);
       this.processosDeFirma.put(signaturesSetID, procesDeFirmaMap);
 
       String redireccionURL = result.getRedirect();
+      
+     
+      log.info("XYZ  firmarPre:: redireccionURL = " + redireccionURL);
 
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
-      sendRedirect(response, redireccionURL);
+      
+      PrintWriter out = response.getWriter();
+      
+      out.println("<html>"  + "\n"
+          + "<head>" + "\n"
+          //+ "<meta http-equiv=\"refresh\" content=\"1;url=" + redireccionURL + "\">"
+          + "<script type=\"text/javascript\">" + "\n");
+
+          if (showInNewWindow) {
+            out.println(" var win;" + "\n"         
+              + "    win = window.open('" + redireccionURL  + "', '_blank', '');"   + "\n" // XYZ 'toolbar=0,location=0,menubar=0');"
+              + "    var timer = setInterval(function() {" + "\n"
+              + "        if (win.closed) {" + "\n"
+              + "          clearInterval(timer);" + "\n"
+              + "          document.location.href = '" + callBackURL + "';" + "\n"
+              + "        }" + "\n"
+              + "      }, 500);" + "\n"
+              + " };" + "\n");
+          } else {
+            out.println(
+                 "    var insideIframe = window.top !== window.self;" + "\n"
+               + "    if(insideIframe){" + "\n"
+               + "       window.top.location.href='" + redireccionURL + "';\n"
+               + "    } else {" + "\n"
+               + "       document.location.href = '" + redireccionURL + "';" + "\n"
+               + "    };" + "\n");
+          }
+          
+          out.println("</script>" + "\n"
+          + "</head><body>" + "\n"
+          + "<br/><center>" + "\n"
+          + "<h1>" + getTraduccio("introduircontrasenyasia", locale) + "</h1><br/>" + "\n"
+          + "<img src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVERSIA_WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
+          + "<br/><input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"xyz();\" />" + "\n"
+          + "</center>" + "\n"
+          + "</body>" + "\n"
+          + "</html>");
+      
+      
+      
+      
+      out.flush();
+      
+      /*
+      out<!DOCTYPE HTML>
+      <html lang="en-US">
+          <head>
+              <meta charset="UTF-8">
+              <meta http-equiv="refresh" content="1;url=http://example.com">
+              <script type="text/javascript">
+                  window.location.href = "http://example.com"
+              </script>
+              <title>Page Redirection</title>
+          </head>
+          <body>
+              <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
+              If you are not redirected automatically, follow the <a href='http://example.com'>link to example</a>
+          </body>
+      </html>
+      */
+
+      
+      
+      //sendRedirect(response, redireccionURL);
 
     } catch (Exception e) {
       // TODO XYZ FILTRAR ERRORS SIA. Veure documentacio
@@ -421,6 +643,9 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     }
   }
+  
+
+  
   
  /*
   pluginRequestPath http://localhost:8080/portafib/common/signmodule/requestPlugin/174059_174069/-1
@@ -484,15 +709,23 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       
       if (!"0".equals(stateTrans.getCode_error())) { 
         
-        // ========= CAS ERROR
-        // XYZ TODO Traduir
-        String errorMsg = "Error en el servidor de SIA:\n"
-          + " [ Codi: " + stateTrans.getCode_error() + "]\n"
-          + " [ Descripcio: " + stateTrans.getDescription() + "]\n"
-          + " [ Result: " + stateTrans.getResult() + "]\n"
-          + " [ State: " + stateTrans.getState() + "]";
-          
-        finishWithError(response, signaturesSet, errorMsg, null);
+        
+        if ("WEBCT00016".equals(stateTrans.getCode_error())) {
+           // CANCEL BY USER
+          cancel(request, response, signaturesSet);
+
+        } else {
+               
+          // ========= CAS ERROR
+          // XYZ TODO Traduir
+          String errorMsg = "Error en el servidor de SIA:\n"
+            + " [ Codi: " + stateTrans.getCode_error() + "]\n"
+            + " [ Descripcio: " + stateTrans.getDescription() + "]\n"
+            + " [ Result: " + stateTrans.getResult() + "]\n"
+            + " [ State: " + stateTrans.getState() + "]";
+            
+          finishWithError(response, signaturesSet, errorMsg, null);
+        }
         
           
       } else {
@@ -508,6 +741,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
           // TODO millorar error explicar
           throw e;
         }
+        
+       
   
         List<SignsInfo> firmesList = resultat.getSigns();
   
@@ -538,6 +773,23 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
             MiniAppletInServerSIASigner signer = mapSigners.get(id);
   
             byte[] signedHash = firmesMap.get(id);
+            
+            log.info(" XYZ AAAA signedHash HASH.lenght = " +  signedHash.length);
+            log.info(" XYZ AAAA signedHash HASH = " +  Base64.encode(signedHash));
+
+            
+            // XYZ ZZZ
+            /*
+            PublicKey puKey = certificate.getPublicKey();
+            Cipher cipher2 = Cipher.getInstance("RSA/None/PKCS1Padding","BC");
+            cipher2.init(Cipher.ENCRYPT_MODE, puKey);
+            signedHash = cipher2.doFinal(signedHash);
+            
+            log.info("XYZ ZZZ AAAAX signedHash RSA HASH.lenght = " +  signedHash.length);
+            log.info("XYZ ZZZ AAAAX signedHash RSA HASH = " +  Base64.encode(signedHash));
+            */
+            
+            
   
             byte[] signedData = signer.step3_PostSign(signer.getAlgorithm(),
                 new Certificate[] { certificate }, signer.getParams(), signedHash);
@@ -562,7 +814,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
           } catch (Throwable th) {
             // TODO Mirar certs tipus d'excepció
-  
+
             log.error(
                 "Error Processat les Firmes Hash o generant el Document Firmat: "
                     + th.getMessage(), th);
@@ -696,18 +948,23 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     out.println("<h3>" +  getTraduccio("selectcertificat.titol", locale) + "</h3><br/>");
     
-    String username = signaturesSet.getCommonInfoSignature().getUsername();
-    String administrationID = signaturesSet.getCommonInfoSignature().getUsername();
     
     GateWayAPI api = getGateWayAPI();
     
     // XYZ TODO FALTA CONTROLAR QUE l'usuari existesqui
-    QueryCertificatesResult qcr = api.queryCertificatesFiltered(getSIAUser(username, administrationID),
-        ConstantsGateWay.OPERATION_SIGN);
     
-    List<CertificateInfo> certificates = qcr.getCertificates();
+    String username = signaturesSet.getCommonInfoSignature().getUsername();
+    String administrationID = signaturesSet.getCommonInfoSignature().getAdministrationID();
+    log.info("XYZ  Cridant a queryCertificatesFiltered amb U: " + username + " | NIF: " + administrationID);
+    
+    Map<String, CertificateInfo> map = listCertificates(signaturesSet);
+    // QueryCertificatesResult qcr = api.queryCertificatesFiltered(getSIAUser(username, administrationID),
+    //    ConstantsGateWay.OPERATION_SIGN);
+    //List<CertificateInfo> certificates =  qcr.getCertificates();
+    
+    //List<CertificateInfo> certificates = new ArrayList<CertificateInfo>(map.values());
 
-    // XYZ TODO FALTA CONTROLAR QUE NO HI HAGI CERTIFICATS
+    // EL CONTROL DE QUE HI HAGI CERTIFICATS ES FA EN FILTER
 
     out.println("<form action=\"" + relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE
         + "\" method=\"post\" enctype=\"multipart/form-data\">");
@@ -718,8 +975,10 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     out.println("<td>");
 
     int count = 0;
-    for (CertificateInfo certInfo : certificates) {
+    for (String hash : map.keySet()) {
 
+      CertificateInfo certInfo = map.get(hash);
+      
       X509Certificate certificate;
       try {
         certificate = CertificateUtils.decodeCertificate(new ByteArrayInputStream(certInfo.getCertificate()));
@@ -739,14 +998,12 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         
         String from = sdf.format(new Date(Long.parseLong(PROPERTY_VALID_FROM)));
         String to = sdf.format(new Date(Long.parseLong(PROPERTY_VALID_TO)));
-        
-        int id = certInfo.hashCode();
-        
+
         out.println("<table>");
         out.println("<tr>");
         out.println("<td align=\"center\" width=\"50px\">");
-        out.println("<input type=\"radio\" name=\"cert\" id=\"optionsRadios_" + id
-            + "\" value=\"" + id + "\" " + ((count == 0)?"checked":"" ) + " >");
+        out.println("<input type=\"radio\" name=\"cert\" id=\"optionsRadios_" + hash
+            + "\" value=\"" + hash + "\" " + ((count == 0)?"checked":"" ) + " >");
             
         out.println("</td>");
         out.println("<td style=\"border: 1px solid gray; padding-top:1px;\">");
@@ -838,25 +1095,51 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     return listCertificates(username, administrationID);
 
   }
+  
+  
+  
+  // XYZ 
+  private Map<String, Map<String, CertificateInfo> >  cacheCertificates = new HashMap<String, Map<String,CertificateInfo>>();
+  
+  
+  private long lastCacheUpdate = 0;
+  
 
   public Map<String, CertificateInfo> listCertificates(String username, String administrationID)
       throws Exception, SafeCertGateWayException {
-    GateWayAPI api = getGateWayAPI();
     
-    QueryCertificatesResult qcr = api.queryCertificatesFiltered(getSIAUser(username, administrationID),
-        // ConstantsGateWay.OPERATION_SIGN
-        ConstantsGateWay.OPERATION_ALL
-        
-        );
+    long now = System.currentTimeMillis();
+    if ( (lastCacheUpdate + 3600000 ) < now) {
+      // Fer net la cache cada Hora
+      cacheCertificates.clear();
+    }
     
-    List<CertificateInfo> certificates = qcr.getCertificates();
+    String userSIA = getSIAUser(username, administrationID);
     
-    System.out.println(" CERTIFICATS == " + certificates.size());
+    Map<String, CertificateInfo> certmap = cacheCertificates.get(userSIA);
     
-    Map<String, CertificateInfo> certmap = new HashMap<String, CertificateInfo>();
+    if (certmap == null) {
+
+      GateWayAPI api = getGateWayAPI();
+      
+      // ConstantsGateWay.OPERATION_ALL
+      QueryCertificatesResult qcr = api.queryCertificatesFiltered(userSIA,
+          ConstantsGateWay.OPERATION_SIGN
+          );
+      
+      List<CertificateInfo> certificates = qcr.getCertificates();
+      
+      System.out.println("XYZ  CERTIFICATS == " + certificates.size());
+      
+      certmap = new HashMap<String, CertificateInfo>();
+      
+      for (CertificateInfo certificateInfo : certificates) {
+        System.out.println("XYZ  |" + certificateInfo.getDn_certificate() + "|");
+        certmap.put(String.valueOf(certificateInfo.getDn_certificate().hashCode()), certificateInfo);
+      }
+      
+      cacheCertificates.put(userSIA, certmap);
     
-    for (CertificateInfo certificateInfo : certificates) {
-      certmap.put(String.valueOf(certificateInfo.getDn_certificate().hashCode()), certificateInfo);
     }
     
     return certmap;
@@ -953,7 +1236,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public GateWayAPI getGateWayAPI() throws Exception {
 
     if (gateWayAPI_Instance == null) {
-      gateWayAPI_Instance = new GateWayAPI();
+      
 
       
       String url = getPropertyRequired(PROPERTY_URL_GATEWAY);
@@ -981,18 +1264,17 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         propertiesConfig.put("SOCKET_TIMEOUT", timeout);
       }
       
-      // XYZ TODO
+      
+      
+
       Security.addProvider(new BouncyCastleProvider());
-      
-      System.out.println("java.home = " + System.getProperty("java.home"));
-      
 
-      System.out.println("XYZ - URL_GATEWAY: " + url);
-      System.out.println("XYZ - AUTH_STORE: " + authStore);
-      System.out.println("XYZ - AUTH_STORE_PASS: " + authStorePass);
-      
-      
 
+      System.out.println("XYZ java.home = " + System.getProperty("java.home"));
+      propertiesConfig.store(System.out, "XYZ Propietats de  GateWayAPI");
+      
+      
+      gateWayAPI_Instance = new GateWayAPI();
       gateWayAPI_Instance.setConfig(propertiesConfig);
     }
 
@@ -1007,6 +1289,9 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
    * @throws Exception
    */
   public String getSIAUser(String username, String administrationID) throws Exception {
+    
+    System.out.println("IN XXXXXXXXXXXXXX U: " + username + " | NIF: " + administrationID);
+    
     
     // Primer provam el mapping
     String mappingPath = getProperty(PROPERTY_MAPPING_USERS_PATH);
@@ -1032,11 +1317,102 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       
     }
 
-    System.out.println("XXXXXXXXXXXXXX " + username);
+    System.out.println("OUT XXXXXXXXXXXXXX " + username);
     
     return username;
 
   }
 
+ /**
+  
+  
+SET(3 elem)
+  SEQUENCE(2 elem)
+    OBJECT IDENTIFIER1.2.840.113549.1.9.3
+    SET(1 elem)
+      OBJECT IDENTIFIER1.2.840.113549.1.7.1
+  SEQUENCE(2 elem)
+    OBJECT IDENTIFIER1.2.840.113549.1.9.4
+    SET(1 elem)
+      OCTET STRING(20 byte) A1D782CCBAD6B6A681493CAC8AAFC629A5A9CB3B
+  
+  * @param args
+  */
+  public static void main(String[] args) {
+    String asnStr = "MYIBFzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMCMGCSqGSIb3DQEJBDEWBBSh14LMuta2poFJPKyKr8YppanLOzCB1QYLKoZIhvcNAQkQAgwxgcUwgcIwgb8wgbwEFIrXz3GL6JeD6gH5iFf6vhfJcC/HMIGjMIGapIGXMIGUMQswCQYDVQQGEwJFUzE4MDYGA1UEChMvU0lTVEVNQVMgSU5GT1JNQVRJQ09TIEFCSUVSVE9TIFNPQ0lFREFEIEFOT05JTUExFTATBgNVBAsTDFFVQUxJRklFRCBDQTESMBAGA1UEBRMJQTgyNzMzMjYyMSAwHgYDVQQDExdQUkVQUk9EVUNDSU9OIFNJQSBTVUIwMQIEVO+1hg==";
+
+    try {
+      byte[] encoded = Base64.decode(asnStr);
+
+      byte[] data = extractHashSHA(encoded);
+
+      System.out.println("obj = " + data.length);
+
+      /*
+      ASN1Primitive objSET = (DLSequence) ;
+      ASN1Integer asn1_n = (ASN1Integer) objSET.getObjectAt(2);
+      ASN1Integer asn1_e = (ASN1Integer) dlSeq.getObjectAt(1);
+      */
+      
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+  }
+  
+  
+  
+  /*
+  protected static byte[] extractHashSHA(byte[] encoded) throws IOException {
+    ASN1InputStream asn1_is  = new ASN1InputStream(encoded);
+    
+    DLSet objSET = (DLSet)asn1_is.readObject();
+    asn1_is.close();
+    
+    DLSequence objSeq =  (DLSequence) objSET.getObjectAt(2);
+
+    DLSet objSet1 =  (DLSet) objSeq.getObjectAt(1);
+    
+    DLSequence objSeq1 =  (DLSequence) objSet1.getObjectAt(0);
+    DLSequence objSeq2 =  (DLSequence) objSeq1.getObjectAt(0);
+    DLSequence objSeq3 =  (DLSequence) objSeq2.getObjectAt(0);
+    
+    
+    //DLSet objSETOctet = (DLSet) objSeq3.getObjectAt(1);
+    DEROctetString derOctet = (DEROctetString)objSeq3.getObjectAt(0);
+    
+    byte[] data = derOctet.getOctets();
+    
+    System.out.println(" XYZ XXXXXXXXXXXXXXXXXXXXXXXX ==> " + data.length);
+    
+    return data;
+  }
+  */
+  
+  
+  
+
+  protected static byte[] extractHashSHA(byte[] encoded) throws IOException {
+    ASN1InputStream asn1_is  = new ASN1InputStream(encoded);
+    DLSet objSET = (DLSet)asn1_is.readObject();
+    asn1_is.close();
+    
+    DLSequence objSeq =  (DLSequence) objSET.getObjectAt(1);
+    
+    
+    DLSet objSETOctet = (DLSet) objSeq.getObjectAt(1);
+    
+    
+    DEROctetString derOctet = (DEROctetString)objSETOctet.getObjectAt(0);
+    
+    byte[] data = derOctet.getOctets();
+    
+    
+    System.out.println(" XYZ Z ==> " + data.length);
+    
+    return data;
+  }
+    
 
 }

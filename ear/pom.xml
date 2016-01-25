@@ -368,7 +368,17 @@
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
                     <version>${plugins.version}</version>
-			  </dependency>
+                    <exclusions>
+						<exclusion>
+						  <groupId>org.bouncycastle</groupId>
+			              <artifactId>bcprov-jdk15</artifactId>
+						</exclusion>
+                        <exclusion>
+						  <groupId>org.bouncycastle</groupId>
+			              <artifactId>bcmail-jdk15</artifactId>
+						</exclusion>
+				    </exclusions> 
+                  </dependency>
 			</dependencies>
 		</profile>
 
@@ -591,6 +601,7 @@
 		
     <plugins>
 	
+
 	
 		<plugin>
 			<artifactId>maven-clean-plugin</artifactId>

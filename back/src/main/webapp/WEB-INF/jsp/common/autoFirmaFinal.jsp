@@ -12,5 +12,6 @@
 <fmt:message key="autofirma.final.msg2"/><br>
 <a href="<c:url value="/common/autofirma/download/${id}" />" target="_blank" class="btn btn-primary" style="color:white;">
  <fmt:message key="descarregardocumentfirmat"/>
-</a>
+</a> &nbsp; 
+<a href="<c:url value="/common/autofirma/list" />" class="btn"><fmt:message key="tornar"/></a>
 </center>

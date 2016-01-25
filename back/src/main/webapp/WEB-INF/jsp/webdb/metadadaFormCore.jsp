@@ -33,6 +33,14 @@
             <td>
               <form:errors path="metadada.valor" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.VALOR)? 'true' : 'false'}" path="metadada.valor"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.valor'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
@@ -50,6 +58,14 @@
             <td>
               <form:errors path="metadada.descripcio" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,MetadadaFields.DESCRIPCIO)? 'true' : 'false'}" path="metadada.descripcio"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('metadada.descripcio'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>

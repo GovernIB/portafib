@@ -14127,6 +14127,9 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="notNullable"> 
            <boolean>true</boolean> 
           </void> 
+          <void property="orderBy"> 
+           <int>1</int> 
+          </void> 
           <void property="showInReferenceList"> 
            <boolean>true</boolean> 
           </void> 

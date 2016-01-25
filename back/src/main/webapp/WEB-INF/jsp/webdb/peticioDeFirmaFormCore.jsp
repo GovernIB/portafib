@@ -437,6 +437,14 @@
             <td>
               <form:errors path="peticioDeFirma.motiuDeRebuig" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.MOTIUDEREBUIG)? 'true' : 'false'}" path="peticioDeFirma.motiuDeRebuig"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.motiuDeRebuig'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.motiuDeRebuig'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.motiuDeRebuig'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
@@ -598,6 +606,14 @@
             <td>
               <form:errors path="peticioDeFirma.informacioAdicional" cssClass="errorField alert alert-error" />
               <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.INFORMACIOADICIONAL)? 'true' : 'false'}" path="peticioDeFirma.informacioAdicional"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.informacioAdicional'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.informacioAdicional'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('peticioDeFirma.informacioAdicional'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
            </td>
         </tr>
         </c:if>
