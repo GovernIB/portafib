@@ -48,14 +48,6 @@ public class MiniAppletInServerSigner extends AbstractTriFaseSigner {
     interSign = (byte[])method.invoke(AOPkcs1Signer_instance, hash, algorithm, privateKey,
         certificateChain, extraParams);
     
-    
-    // XYZ 
-    System.out.println(" MA SERVER_SIGNER HASH ORIGIN LEN = " + hash.length);
-    System.out.println(" MA SERVER_SIGNER signature LEN = " + interSign.length);
-    System.out.println(" MA SERVER_SIGNER signature BASE 64 = " + Base64.encode(interSign));
-    
-
-    
     return interSign;
   }
 

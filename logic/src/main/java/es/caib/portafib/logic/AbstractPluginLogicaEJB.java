@@ -34,7 +34,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
         TIPUS.equal(getTipusDePlugin()),
         ACTIU.equal(true),
         ENTITATID.equal(entitatID)
-        // XYZ Elegim plugin entre les genèriques o entre els específics per l'entitat
+        // TODO Elegim plugin entre les genèriques o entre els específics per l'entitat
         // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
     );
 

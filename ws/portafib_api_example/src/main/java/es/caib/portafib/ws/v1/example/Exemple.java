@@ -219,6 +219,14 @@ public class Exemple {
 
       } finally {
         if (peticioDeFirmaID != null && isDeleteOnFinish()) {
+          // Esperam a que les notificacions s'enviin
+          System.out.println(" Esperam a que les notificacions s'enviin .");
+          for (int i = 0; i < 20; i++) {
+            System.out.print(".");
+            Thread.sleep(500);  
+          }
+          System.out.println();
+          
           // Borrar la petició
           api.deletePeticioDeFirma(peticioDeFirmaID);
         }

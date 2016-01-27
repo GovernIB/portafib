@@ -27,7 +27,7 @@ public class PropietatGlobalUtil implements Constants {
   public static Long getNumberOfErrorsInNotificationToSendMail() {
     final String partialPropertyName = "numberoferrorsinnotificationtosendmail";
     Long val = getLong(partialPropertyName);
-    log.info("XYZ getNumberOfErrorsInNotificationToSendMail() = " + val);
+    if(log.isDebugEnabled()) { log.debug("getNumberOfErrorsInNotificationToSendMail() = " + val); }
     return val;
   }
 
@@ -43,7 +43,7 @@ public class PropietatGlobalUtil implements Constants {
     final String partialPropertyName = "numberoferrorstopausenotification";
     Long val = getLong(partialPropertyName);
 
-    log.info("XYZ getNumberOfErrorsToPauseNotification() = " + val);
+    if(log.isDebugEnabled()) { log.debug(" getNumberOfErrorsToPauseNotification() = " + val); }
     return val;
   }
 
@@ -59,7 +59,7 @@ public class PropietatGlobalUtil implements Constants {
       val = 60000L;
     }
 
-    log.info("XYZ getNotificacionsTimeLapse() = " + val);
+    if(log.isDebugEnabled()) { log.debug(" getNotificacionsTimeLapse() = " + val); }
     return val;
   }
 
@@ -80,7 +80,7 @@ public class PropietatGlobalUtil implements Constants {
       val = 10L;
     }
 
-    log.info("XYZ getMaxItemsToShowInAutocomplete() = " + val);
+    if(log.isDebugEnabled()) { log.debug("getMaxItemsToShowInAutocomplete() = " + val); }
 
     return val.intValue();
   }
@@ -100,7 +100,7 @@ public class PropietatGlobalUtil implements Constants {
       val = 2L;
     }
 
-    log.info("XYZ getMinCharsToStartAutocomplete() = " + val);
+    if(log.isDebugEnabled()) { log.debug(" getMinCharsToStartAutocomplete() = " + val); }
     return val.intValue();
   }
 
@@ -121,7 +121,7 @@ public class PropietatGlobalUtil implements Constants {
       val = 3L * 60L * 1000L; // Per defecte 180000;
     }
 
-    log.info("XYZ getMaxTimeLockedSignInMs() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getMaxTimeLockedSignInMs() = " + val); }
     return val;
   }
 
@@ -142,7 +142,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getSignatureModuleAbsoluteURL() {
     final String partialPropertyName = "signaturemodule.absoluteurl";
     String val = getString(partialPropertyName);
-    log.info("XYZ getSignatureModuleAbsoluteURL() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getSignatureModuleAbsoluteURL() = " + val); }
     return val;
   }
 
@@ -155,7 +155,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getAppUrl() {
     final String partialPropertyName = "url";
     String val = getString(partialPropertyName);
-    log.info("XYZ getAppUrl() = " + val);
+    if(log.isDebugEnabled()) { log.debug("getAppUrl() = " + val); }
     return val;
   }
 
@@ -168,7 +168,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getAppEmail() {
     final String partialPropertyName = "email.from";
     String val = getString(partialPropertyName);
-    log.info("XYZ getAppEmail() = " + val);
+    if(log.isDebugEnabled()) { log.debug(" getAppEmail() = " + val); }
     return val;
   }
 
@@ -189,7 +189,7 @@ public class PropietatGlobalUtil implements Constants {
     if (val == null) {
       val = "0 0 6 1/1 * ? *";
     }
-    log.info("XYZ getEmailsGroupedSenderCronExpression() = " + val);
+    if(log.isDebugEnabled()) { log.debug( " getEmailsGroupedSenderCronExpression() = " + val); }
     return val;
   }
 
@@ -207,7 +207,7 @@ public class PropietatGlobalUtil implements Constants {
     if (val == null) {
       val = false;
     }
-    log.info("XYZ isAutomaticRedirect() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "isAutomaticRedirect() = " + val); }
     return val;
   }
 
@@ -220,7 +220,7 @@ public class PropietatGlobalUtil implements Constants {
   public static Long getMaxUploadSizeInBytes() {
     final String partialPropertyName = "maxuploadsizeinbytes";
     Long val = getLong(partialPropertyName);
-    log.info("XYZ getMaxUploadSizeInBytes() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getMaxUploadSizeInBytes() = " + val); }
     return val;
   }
 
@@ -233,7 +233,7 @@ public class PropietatGlobalUtil implements Constants {
   public static Long getMaxFitxerAdaptatSizeInBytes() {
     final String partialPropertyName = "maxfitxeradaptatsizeinbytes";
     Long val = getLong(partialPropertyName);
-    log.info("XYZ getMaxFitxerAdaptatSizeInBytes() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getMaxFitxerAdaptatSizeInBytes() = " + val); }
     return val;
   }
 
@@ -249,7 +249,7 @@ public class PropietatGlobalUtil implements Constants {
     // return System.getProperty(PORTAFIB_PROPERTY_BASE + "defaultentity");
     final String partialPropertyName = "defaultentity";
     String val = getString(partialPropertyName);
-    log.info("XYZ getDefaultEntity() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getDefaultEntity() = " + val); }
     return val;
   }
 
@@ -266,7 +266,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getDefaultRolesInCreation() {
     final String partialPropertyName = "defaultrolesincreation";
     String val = getString(partialPropertyName);
-    log.info("XYZ getDefaultRolesInCreation() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getDefaultRolesInCreation() = " + val); }
     return val;
   }
 
@@ -281,7 +281,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getEntitatIDForAgentsSQL() {
     final String partialPropertyName = "entitatidforagentssql";
     String val = getString(partialPropertyName);
-    log.info("XYZ getEntitatIDForAgentsSQL() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getEntitatIDForAgentsSQL() = " + val); }
     return val;
   }
 
@@ -296,7 +296,7 @@ public class PropietatGlobalUtil implements Constants {
   public static String getPasswordForAgentsSQL() {
     final String partialPropertyName = "passwordforagentssql";
     String val = getString(partialPropertyName);
-    log.info("XYZ getPasswordForAgentsSQL() = " + val);
+    if(log.isDebugEnabled()) { log.debug( "getPasswordForAgentsSQL() = " + val); }
     return val;
   }
 

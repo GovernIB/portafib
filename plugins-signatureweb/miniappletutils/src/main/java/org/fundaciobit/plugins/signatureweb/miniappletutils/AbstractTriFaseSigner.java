@@ -100,7 +100,7 @@ public abstract class AbstractTriFaseSigner {
 
     
     
-    // *************** Sello de stiempo
+    // *************** Sello de tiempo
     
 
     // data = es.gob.afirma.signers.pades.PdfTimestamper.timestampPdf(inPDF, extraParams, signTime);
@@ -136,8 +136,8 @@ public abstract class AbstractTriFaseSigner {
       Class<?> cls = this.getClass();
       
       URL[] urls = new URL[] { 
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar"),
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar")
+        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
+        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
       };
       
       miniAppletClassLoader = new URLClassLoader(urls, String.class.getClassLoader());
@@ -257,7 +257,7 @@ public abstract class AbstractTriFaseSigner {
       final Properties enhancerConfig) throws Exception {
     
     // byte[] result = PAdESTriPhaseSigner.postSign(algorithm, data, certificateChain, interSign, pre, null, null);
-    
+  
     Class<?> PAdESTriPhaseSigner = loadClass("es.gob.afirma.signers.pades.PAdESTriPhaseSigner");
 
     

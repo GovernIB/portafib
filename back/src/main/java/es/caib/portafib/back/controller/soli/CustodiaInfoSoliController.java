@@ -290,7 +290,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
         ENTITATID.isNull(),
         NOMPLANTILLA.isNull(),
         CUSTODIADOCUMENTID.isNotNull(),
-        PLUGINID.isNotNull()   // XYZ SEMPRE ES NOT NUL !!!!!
+        PLUGINID.isNotNull() 
         );
     
     return Where.AND(wUser, wCommon, wFinished);

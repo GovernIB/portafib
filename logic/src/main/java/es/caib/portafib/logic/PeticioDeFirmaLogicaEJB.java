@@ -1208,9 +1208,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioDeFirma.setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT);
       update(peticioDeFirma);
 
-      // Events
-      FirmaEventList events = new FirmaEventList();
-      events.peticio_pausada(peticioDeFirma);
+      try {
+        // Events
+        FirmaEventList events = new FirmaEventList();
+        events.peticio_pausada(peticioDeFirma);
+        
+        // Avisos
+        firmaEventManagerEjb.processList(events);
+      } catch(I18NException e) {
+        log.error(I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage())), new Exception());
+      }
 
       return true;
     } else {
