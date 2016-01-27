@@ -234,7 +234,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
     } else if (relativePath.startsWith(FIRMAR_PAGE)) {
 
-      firmarPOST(relativePluginRequestPath, request, response, signaturesSet, locale);
+      firmarPOST(absolutePluginRequestPath, relativePluginRequestPath,
+          request, response, signaturesSet, locale);
 
     } else {
       
@@ -254,7 +255,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private static final String FIRMAR_PAGE = "firmar";
 
-  private void firmarPOST(String relativePluginRequestPath, HttpServletRequest request,
+  private void firmarPOST(String absolutePluginRequestPath,String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response,
       SignaturesSet signaturesSet, Locale locale) {
 
@@ -342,8 +343,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         
         String timeStampUrl = null;
         if (fileInfo.getTimeStampGenerator() != null) {
-          timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
-        }
+          String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+              relativePluginRequestPath);
+          timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+       }
 
         MiniAppletSignInfo info;
         info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,

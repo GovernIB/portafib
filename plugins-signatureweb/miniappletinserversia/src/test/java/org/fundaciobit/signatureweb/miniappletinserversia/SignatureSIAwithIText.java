@@ -134,11 +134,11 @@ public class SignatureSIAwithIText {
 
         id_transaction = startT.getIdTransaction();
 
-        System.out.println("XYZ  id_transaction = " + id_transaction);
+        System.out.println(" id_transaction = " + id_transaction);
 
         String redireccionURL = startT.getRedirect();
 
-        System.out.println("XYZ  id_transaction = " + id_transaction);
+        System.out.println("  id_transaction = " + id_transaction);
 
         Desktop.getDesktop().browse(new URI(redireccionURL));
 
@@ -150,13 +150,13 @@ public class SignatureSIAwithIText {
 
         StateTransaction stateTrans = result.getStateTransaction();
 
-        System.out.println(" XYZ --------  stateTrans.getResult() = ]"
+        System.out.println(" --------  stateTrans.getResult() = ]"
             + stateTrans.getResult() + "[");
-        System.out.println(" XYZ --------  stateTrans.getState() = ]" + stateTrans.getState()
+        System.out.println(" --------  stateTrans.getState() = ]" + stateTrans.getState()
             + "[");
-        System.out.println(" XYZ --------  stateTrans.getCode_error() = ]"
+        System.out.println(" --------  stateTrans.getCode_error() = ]"
             + stateTrans.getCode_error() + "[");
-        System.out.println(" XYZ --------  stateTrans.getDescription() = ]"
+        System.out.println(" --------  stateTrans.getDescription() = ]"
             + stateTrans.getDescription() + "[");
 
         if (!"0".equals(stateTrans.getCode_error())) {
@@ -167,7 +167,6 @@ public class SignatureSIAwithIText {
           } else {
 
             // ========= CAS ERROR
-            // XYZ TODO Traduir
             String errorMsg = "Error en el servidor de SIA:\n" + " [ Codi: "
                 + stateTrans.getCode_error() + "]\n" + " [ Descripcio: "
                 + stateTrans.getDescription() + "]\n" + " [ Result: " + stateTrans.getResult()
@@ -270,8 +269,6 @@ public class SignatureSIAwithIText {
     appearance.setLocation(location);
     appearance.setVisibleSignature(new Rectangle(36, 748, 144, 780), 1, "sig");
 
-    // TODO XYZ
-    // appearance.setImage(image);
 
     // Creating the signature
     ExternalDigest digest = new BouncyCastleDigest();

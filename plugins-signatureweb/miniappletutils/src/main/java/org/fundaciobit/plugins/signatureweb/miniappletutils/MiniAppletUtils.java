@@ -168,6 +168,10 @@ public class MiniAppletUtils {
 
     // Segell de Temps (Segellat de temps)
     if (timeStampURL != null) {
+      
+      System.out.println(" XYZ  TTTTTTTTT  isLocal=" + isLocalSignature);
+      System.out.println(" XYZ  TTTTTTTTT  tsaURL=" + timeStampURL);
+      
 
       miniAppletProperties.setProperty("tsaURL", timeStampURL);
 

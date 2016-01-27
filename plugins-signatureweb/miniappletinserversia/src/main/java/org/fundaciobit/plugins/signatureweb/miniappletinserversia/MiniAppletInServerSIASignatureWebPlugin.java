@@ -358,8 +358,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       
       X509Certificate certificate = CertificateUtils
           .decodeCertificate(new ByteArrayInputStream(certBytes));
-      
      
+      //
       int pos = relativePluginRequestPath.lastIndexOf("-1");
 
       String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
@@ -381,7 +381,10 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
         String timeStampUrl = null;
         if (fileInfo.getTimeStampGenerator() != null) {
-          timeStampUrl = baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+          String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+              relativePluginRequestPath);
+          
+          timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
         }
 
         MiniAppletSignInfo info;
@@ -449,6 +452,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       }
 
+
       String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
       String callBackURL;
       String tancarFinestraURL;
@@ -459,7 +463,10 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         callBackURL = callbackhost + request.getServletPath() + "/" + FIRMAR_POST_PAGE;
         tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_SIA_PAGE;
       }
-
+/*
+      String callBackURL = callbackhost + "/" + FIRMAR_POST_PAGE;
+      String tancarFinestraURL = callbackhost + "/" + CLOSE_SIA_PAGE;
+*/
 
       if (debug) {
         log.debug("callBackURL = " + callBackURL);
@@ -554,6 +561,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     }
   }
+
+  
 
   public StartTransactionResult startTransacion(byte[] certBytes,
       List<DocumentsToSign> documents, String hashAlgorithm, String callBackURL,

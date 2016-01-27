@@ -168,6 +168,23 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     }
 
   }
+  
+  
+  
+  
+  public String getHostAndContextPath(String absolutePluginRequestPath, String relativePluginRequestPath) {
+   
+    int pos = absolutePluginRequestPath.indexOf(relativePluginRequestPath);
+    
+    String hcp = absolutePluginRequestPath.substring(0, pos);
+    
+    System.out.println("XYZ absolutePluginRequestPath => " + absolutePluginRequestPath);
+    System.out.println("XYZ relativePluginRequestPath => " + relativePluginRequestPath);
+    System.out.println("XYZ getHostAndContextPath => " + hcp);
+    return hcp;
+  }
+  
+  
 
   // --------------------------------------------------------------------------
   // -------------------------------------------------------------------------
