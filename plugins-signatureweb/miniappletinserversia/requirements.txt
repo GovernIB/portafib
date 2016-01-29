@@ -10,6 +10,6 @@ PASSA 2
 =======
 
 ERROR ==>  java.lang.SecurityException: JCE cannot authenticate the provider BC
-SOLUCIO => (1) Copiar Llibreries de BC dins [JAVAHOME]\jre\lib\ext i
+SOLUCIO => (1) Copiar Llibreries de BC (bcpkix-jdk15on-1.51.jar i bcprov-jdk15on-1.51.jar) dins [JAVAHOME]\jre\lib\ext i
            (2) Afegir linia security.provider.XX=org.bouncycastle.jce.provider.BouncyCastleProvider  dins 
            el fitxer [JAVAHOME]\jre\lib\security\java.security on XX és el següent numero disponible.

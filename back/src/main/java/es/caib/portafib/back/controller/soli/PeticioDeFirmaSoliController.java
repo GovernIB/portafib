@@ -863,11 +863,15 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       break;
       
       case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
-        peticioDeFirma.setSegellatDeTemps(false);
+        if (peticioDeFirmaForm.isNou()) {
+          peticioDeFirma.setSegellatDeTemps(false);
+        }
       break;
       
       case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
-        peticioDeFirma.setSegellatDeTemps(true);
+        if (peticioDeFirmaForm.isNou()) {
+          peticioDeFirma.setSegellatDeTemps(true);
+        }
       break; 
       
    }
