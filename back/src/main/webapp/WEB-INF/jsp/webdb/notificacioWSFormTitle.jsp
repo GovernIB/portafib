@@ -2,23 +2,28 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
 <div class="lead" style="margin-bottom:10px">
-  <c:if test="${empty notificacioWSForm.entityNameCode}">
-    <fmt:message var="entityname" key="notificacioWS.notificacioWS"/>
-  </c:if>
-  <c:if test="${not empty notificacioWSForm.entityNameCode}">
-    <fmt:message var="entityname" key="${notificacioWSForm.entityNameCode}"/>
-  </c:if>
-  <c:if test="${not empty notificacioWSForm.titleCode}">
+ <c:choose>
+  <c:when test="${fn:startsWith(notificacioWSForm.titleCode,'=')}">
+       <c:out value="${fn:substringAfter(notificacioWSForm.titleCode, '=')}" escapeXml="false"/>
+  </c:when>
+  <c:when test="${not empty notificacioWSForm.titleCode}">
     <fmt:message key="${notificacioWSForm.titleCode}" >
       <fmt:param value="${notificacioWSForm.titleParam}" />
     </fmt:message>
-  </c:if>
-  <c:if test="${empty notificacioWSForm.titleCode}">
+  </c:when>
+  <c:otherwise>
+    <c:if test="${empty notificacioWSForm.entityNameCode}">
+      <fmt:message var="entityname" key="notificacioWS.notificacioWS"/>
+    </c:if>
+    <c:if test="${not empty notificacioWSForm.entityNameCode}">
+      <fmt:message var="entityname" key="${notificacioWSForm.entityNameCode}"/>
+    </c:if>
     <c:set var="keytitle" value="${notificacioWSForm.nou?'genapp.createtitle':(notificacioWSForm.view?'genapp.viewtitle':'genapp.edittitle')}"/>
     <fmt:message key="${keytitle}">
       <fmt:param value="${entityname}"/>
     </fmt:message>
-  </c:if>
+    </c:otherwise>
+ </c:choose>
   
   <c:if test="${not empty notificacioWSForm.subTitleCode}">
   <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">

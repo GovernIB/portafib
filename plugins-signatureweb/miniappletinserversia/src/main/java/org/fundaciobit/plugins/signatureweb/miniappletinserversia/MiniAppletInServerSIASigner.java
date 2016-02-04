@@ -1,7 +1,5 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinserversia;
 
-import java.io.ByteArrayInputStream;
-import java.security.MessageDigest;
 import java.util.Properties;
 
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;

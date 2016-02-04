@@ -26,15 +26,15 @@ final String[] menu = {
     "tipusdocument.gestio", // Gestió Tipus de Documents"
     "",
     "moduldefirma.gestio",
+    "modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", // /aden/modulfirmatipusdoc
+    "",
     "segelldetemps.gestio",
     "plantillacustodia.gestio", // "/aden/plantillacustodia"
-    "",
-    "modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", // /aden/modulfirmatipusdoc
     "",    
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
     "",
-    "propietatglobal.gestio",
+    "propietatglobal.entitat.gestio",
     "",    
     "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}    
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
@@ -88,7 +88,7 @@ static {
   
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
   
-  mapping.put("propietatglobal.gestio", "/aden/propietatglobal/list");
+  mapping.put("propietatglobal.entitat.gestio", "/aden/propietatglobal/list");
   
 }
 

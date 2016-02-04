@@ -134,7 +134,9 @@ public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInCl
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
-        timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+        String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+            relativePluginRequestPath);
+        timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
       }
         
 

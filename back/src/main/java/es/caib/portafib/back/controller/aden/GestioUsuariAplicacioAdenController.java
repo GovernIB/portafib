@@ -218,6 +218,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           usuariAplicacioFilterForm.addHiddenField(EMAILADMIN);
           usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
           usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
+          usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
           
 
           usuariAplicacioFilterForm.setTitleCode("usuariaplicacio.llistat");

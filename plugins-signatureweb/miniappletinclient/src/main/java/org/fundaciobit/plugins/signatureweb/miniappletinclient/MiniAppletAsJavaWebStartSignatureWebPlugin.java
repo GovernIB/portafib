@@ -103,7 +103,8 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
     }
     
     if (relativePath.startsWith(JNLP_PAGE)) {
-      jnlpGet(absolutePluginRequestPath, relativePath, signaturesSet, signatureIndex, response, locale);
+      jnlpGet(absolutePluginRequestPath, relativePluginRequestPath,
+          relativePath, signaturesSet, signatureIndex, response, locale);
     } else if (relativePath.startsWith(ISFINISHED_PAGE)) {
       isFinishedRequest(signaturesSet, signatureIndex, response);
       
@@ -127,7 +128,8 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
   
   protected static final String JNLP_PAGE = "jnlp"; 
   
-  protected void jnlpGet(String absolutePluginRequestPath, String relativePath,
+  protected void jnlpGet(String absolutePluginRequestPath,
+      String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, int signatureIndex,
       HttpServletResponse response, Locale locale)  {
 
@@ -192,7 +194,9 @@ public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppl
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
-        timeStampUrl =  baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+        String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+            relativePluginRequestPath);
+        timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
       }
 
       MiniAppletSignInfo signInfo;

@@ -5,7 +5,6 @@ import java.security.PrivateKey;
 import java.util.Properties;
 
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
-import org.fundaciobit.plugins.utils.Base64;
 
 /**
  * 

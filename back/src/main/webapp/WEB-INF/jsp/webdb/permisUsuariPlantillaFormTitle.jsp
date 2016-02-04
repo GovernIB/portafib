@@ -2,23 +2,28 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
   
 <div class="lead" style="margin-bottom:10px">
-  <c:if test="${empty permisUsuariPlantillaForm.entityNameCode}">
-    <fmt:message var="entityname" key="permisUsuariPlantilla.permisUsuariPlantilla"/>
-  </c:if>
-  <c:if test="${not empty permisUsuariPlantillaForm.entityNameCode}">
-    <fmt:message var="entityname" key="${permisUsuariPlantillaForm.entityNameCode}"/>
-  </c:if>
-  <c:if test="${not empty permisUsuariPlantillaForm.titleCode}">
+ <c:choose>
+  <c:when test="${fn:startsWith(permisUsuariPlantillaForm.titleCode,'=')}">
+       <c:out value="${fn:substringAfter(permisUsuariPlantillaForm.titleCode, '=')}" escapeXml="false"/>
+  </c:when>
+  <c:when test="${not empty permisUsuariPlantillaForm.titleCode}">
     <fmt:message key="${permisUsuariPlantillaForm.titleCode}" >
       <fmt:param value="${permisUsuariPlantillaForm.titleParam}" />
     </fmt:message>
-  </c:if>
-  <c:if test="${empty permisUsuariPlantillaForm.titleCode}">
+  </c:when>
+  <c:otherwise>
+    <c:if test="${empty permisUsuariPlantillaForm.entityNameCode}">
+      <fmt:message var="entityname" key="permisUsuariPlantilla.permisUsuariPlantilla"/>
+    </c:if>
+    <c:if test="${not empty permisUsuariPlantillaForm.entityNameCode}">
+      <fmt:message var="entityname" key="${permisUsuariPlantillaForm.entityNameCode}"/>
+    </c:if>
     <c:set var="keytitle" value="${permisUsuariPlantillaForm.nou?'genapp.createtitle':(permisUsuariPlantillaForm.view?'genapp.viewtitle':'genapp.edittitle')}"/>
     <fmt:message key="${keytitle}">
       <fmt:param value="${entityname}"/>
     </fmt:message>
-  </c:if>
+    </c:otherwise>
+ </c:choose>
   
   <c:if test="${not empty permisUsuariPlantillaForm.subTitleCode}">
   <br/><h5 style="line-height: 10px; margin-top: 0px; margin-bottom: 0px;">

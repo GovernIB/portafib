@@ -2407,7 +2407,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             // OK L'usuari pot fer el que vulgui. La deixam sense crear.
           } else {
             // La petició ha de tenir obligatoriament Custòdia (copia de la plantilla)
-            cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default);
+            cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default, true);
           }
         } else {
           
@@ -2416,12 +2416,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             
             if (custodiaInfo_Entitat_Default.isEditable()) {
               // Feim una còpia de l'actual
-              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current);
+              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current, true);
               // Per si s'ha canviat el plugin de CustodyInfo de l'entitat
               peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Default.getPluginID());
             } else {
               // Feim una copia de la plantilla de l'entitat
-              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default);
+              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default, true);
             }
             
             
@@ -2436,10 +2436,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             // Nova Custodia
             if (custodiaInfo_Entitat_Default.isEditable()) {
               // Feim una còpia de l'actual de la peticio
-              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current);
+              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current, true);
             } else {
               // Feim una copia de la plantilla de l'entitat
-              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default);
+              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default, true);
             }
           }
         }
@@ -2730,7 +2730,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             // OK L'usuari pot fer el que vulgui. La deixam sense crear.
           } else {
             // La petició ha de tenir obligatoriament Custòdia (copia de la plantilla)
-            cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default);
+            cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default, false);
           }
         } else {
           
@@ -2738,12 +2738,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           
             if (custodiaInfo_Entitat_Default.isEditable()) {
               // Feim una còpia de l'actual
-              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current);
+              cloneCustodiaInfo(peticio, custodiaInfo_Peticio_Current, false);
               // Per si s'ha canviat el plugin de CustodyInfo de l'entitat
               peticio.getCustodiaInfo().setPluginID(custodiaInfo_Entitat_Default.getPluginID());
              } else {
               // Feim una copia de la plantilla de l'entitat
-              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default);
+              cloneCustodiaInfo(peticio, custodiaInfo_Entitat_Default, false);
             }
 
           
@@ -2849,10 +2849,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   
   private void cloneCustodiaInfo(PeticioDeFirmaJPA peticio,
-      CustodiaInfo custOrig) throws I18NException {
+      CustodiaInfo custOrig, boolean create) throws I18NException {
 
     // TODO Check custOrig != null
-    CustodiaInfoJPA clonedCust = new CustodiaInfoJPA(custOrig);
+    CustodiaInfoBean cloned = new CustodiaInfoBean(custOrig);
+    
+    CustodiaInfoJPA clonedCust = new CustodiaInfoJPA(cloned);
     
     clonedCust.setCustodiaInfoID(0);
     clonedCust.setCustodiaDocumentID(null);
@@ -2867,10 +2869,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       clonedCust.setUsuariAplicacioID(peticio.getUsuariAplicacioID());
     }
     
-    clonedCust = (CustodiaInfoJPA)custodiaInfoEjb.create(clonedCust);
-    
-    peticio.setCustodiaInfoID(clonedCust.getCustodiaInfoID());  
-    peticio.setCustodiaInfo(clonedCust);
+    if (create) {
+      clonedCust = (CustodiaInfoJPA)custodiaInfoEjb.create(clonedCust);
+      peticio.setCustodiaInfoID(clonedCust.getCustodiaInfoID());
+    } else {
+      peticio.setCustodiaInfoID(null);
+      peticio.setCustodiaInfo(clonedCust);
+    }
   }
   
   

@@ -17,10 +17,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -934,6 +936,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   // Cache de certificats
   private Map<String, Map<String, CertificateInfo> >  cacheCertificates = new HashMap<String, Map<String,CertificateInfo>>();
   
+  private Set<String> cacheUserWithoutSIA = new HashSet<String>();
   
   private long lastCacheUpdate = 0;
   
@@ -945,9 +948,14 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     if ( (lastCacheUpdate + 3600000 ) < now) {
       // Fer net la cache cada Hora
       cacheCertificates.clear();
+      cacheUserWithoutSIA.clear();
     }
     
     String userSIA = getSIAUser(username, administrationID);
+    if (cacheUserWithoutSIA.contains(userSIA)) {
+      // L'usuari no està donat d'alta al sistema SIA
+      return null;
+    }
     
     Map<String, CertificateInfo> certmap = cacheCertificates.get(userSIA);
     
@@ -955,10 +963,22 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       GateWayAPI api = getGateWayAPI();
       
-      // ConstantsGateWay.OPERATION_ALL
-      QueryCertificatesResult qcr = api.queryCertificatesFiltered(userSIA,
-          ConstantsGateWay.OPERATION_SIGN
-          );
+      QueryCertificatesResult qcr;
+      try {
+        // ConstantsGateWay.OPERATION_ALL
+        qcr = api.queryCertificatesFiltered(userSIA, ConstantsGateWay.OPERATION_SIGN);
+      } catch(SafeCertGateWayException sce) {
+        // SafeCertGateWayException: CODE=OPQUEFIL00003:
+        // El identificador del titular no existe en SafeCert.
+        if ("OPQUEFIL00003".equals(sce.getCode())) {
+          // L'usuari no està donat d'alta al sistema SIA
+          log.warn("L'usuari " + userSIA + " no està donat d'alta al sistema SIA");
+          cacheUserWithoutSIA.add(userSIA);
+          return null;
+        } else {
+          throw sce;
+        }
+      }
       
       List<CertificateInfo> certificates = qcr.getCertificates();
       
