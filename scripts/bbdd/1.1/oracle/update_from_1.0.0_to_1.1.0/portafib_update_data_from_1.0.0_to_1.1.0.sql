@@ -61,12 +61,16 @@ INSERT INTO pfi_traducciomap VALUES (105, 'es', 'Plantilla Plugin de Sellado de 
 INSERT INTO pfi_traducciomap VALUES (155, 'ca', 'Ministeri d''Hisenda i Administracions Públiques');
 INSERT INTO pfi_traducciomap VALUES (155, 'es', 'Ministerio de Hacienda y Administraciones Públicas');
 
-INSERT INTO pfi_plugin VALUES (4, 104, 144, 'org.fundaciobit.plugins.timestamp.catcertrfc.CatCertRfcTimeStampPlugin', 'es.caib.portafib.plugins.timestamp.catcertrfc.url_rfc=http://psis.catcert.net/psis/catcert/tsp
+INSERT INTO pfi_plugin (
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus)  VALUES (4, 104, 144, 'org.fundaciobit.plugins.timestamp.catcertrfc.CatCertRfcTimeStampPlugin', 'es.caib.portafib.plugins.timestamp.catcertrfc.url_rfc=http://psis.catcert.net/psis/catcert/tsp
 es.caib.portafib.plugins.timestamp.catcertrfc.oid_rfc3161=0.4.0.2023.1.1
 es.caib.portafib.plugins.timestamp.catcertrfc.hashalgorithm=SHA-512', NULL, NULL, 1, 1);
 
 
-INSERT INTO pfi_plugin VALUES (5, 105, 155, 'org.fundaciobit.plugins.timestamp.afirmarfc.AfirmaRFCTimeStampPlugin', '#################################################
+INSERT INTO pfi_plugin (
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus)  VALUES (5, 105, 155, 'org.fundaciobit.plugins.timestamp.afirmarfc.AfirmaRFCTimeStampPlugin', '#################################################
 #Configuración para el cliente TSA Java sólo RFC#
 #################################################
 #Identificador de la aplicación cliente
@@ -124,7 +128,9 @@ INSERT INTO pfi_traducciomap VALUES (177, 'ca', 'Plugin de Custòdia per Alfresc
 INSERT INTO pfi_traducciomap VALUES (177, 'es', 'Plugin de Custodia para Alfresco');
 
 
-INSERT INTO pfi_plugin VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
+INSERT INTO pfi_plugin (
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus) VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
 es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
 # {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
 #es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
@@ -134,7 +140,9 @@ es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
 
 #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
 es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5', NULL, NULL, 1, 2);
-INSERT INTO pfi_plugin VALUES (7, 107, 177, 'org.fundaciobit.plugins.documentcustody.alfresco.base.AlfrescoBaseDocumentCustodyPlugin', '# WS or ATOM
+INSERT INTO pfi_plugin (
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus)  VALUES (7, 107, 177, 'org.fundaciobit.plugins.documentcustody.alfresco.base.AlfrescoBaseDocumentCustodyPlugin', '# WS or ATOM
 es.caib.portafib.plugins.documentcustody.alfresco.access.method=ATOM
  
 # Depends of Method and Alfresco version (alfresco 5)
