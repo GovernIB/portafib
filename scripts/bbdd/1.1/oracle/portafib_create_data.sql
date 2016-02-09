@@ -57,7 +57,7 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (13, 'es', 
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (14, 'ca', 'Sol.licitud');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (14, 'es', 'Solicitud');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (15, 'ca', 'Denúncia');
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (15, 'es', 'Denúncia');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (15, 'es', 'Denuncia');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (16, 'ca', 'Al.legació');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (16, 'es', 'Alegación');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (17, 'ca', 'Recurs');
@@ -370,13 +370,6 @@ es.caib.portafib.plugins.documentcustody.alfresco.basepath=/test
 # Only for ATOM: Elegir una de les dues
 es.caib.portafib.plugins.documentcustody.alfresco.site=ODES
 #es.caib.portafib.plugins.documentcustody.alfresco.fullsitepath=/Sites/ODES/documentLibrary', NULL, NULL, 0, 2);
-
-
-ALTER TABLE pfi_custodiainfo ADD COLUMN pluginid bigint NOT NULL DEFAULT 6;
-create index pfi_custodiainfo_pluginid_fk_i on pfi_custodiainfo (pluginid);
-ALTER TABLE pfi_custodiainfo ADD CONSTRAINT pfi_custodia_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin (pluginid);
-ALTER TABLE pfi_custodiainfo DROP COLUMN custodiapluginclassid;
-
 
 
 -- ========================================
