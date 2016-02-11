@@ -7,16 +7,14 @@
     <name>PortaFIB</name>
 
     <modules>
- 
         <module>plugins-signatureweb</module>
-               <!-- XYZ   -->
+
         <module>utils</module> 
         <module>persistence</module>
         <module>model</module> 
         <module>jpa</module>
         <module>ejb</module> 
         <module>logic</module>
-      
         <module>back</module>
         <module>ws</module>
         <module>scripts</module>
@@ -63,9 +61,14 @@
         </repository>
 		
 		<repository>
-		    <id>org.fundaciobit.genapp</id>
+            <id>genapp-maven-repository</id>
+		    <name>GenApp Maven Repository</name>
+		    <url>http://GovernIB.github.io/genapp/maven/</url>
+		    <!-- XYZ
+            <id>org.fundaciobit.genapp</id>
 		    <name>GenApp Maven Repository</name>
 		    <url>http://genapp.sourceforge.net/maven/</url>
+            -->
 	    </repository>
 
     </repositories>
