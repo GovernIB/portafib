@@ -259,16 +259,16 @@ INSERT INTO pfi_traduccio(traduccioid) VALUES (105);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (155);
 
 
-INSERT INTO pfi_traducciomap VALUES (104, 'ca', 'Plantilla Plugin de Segell de Temps de CatCert');
-INSERT INTO pfi_traducciomap VALUES (104, 'es', 'Plantilla Plugin de Sellado de Tiempo de CatCert');
-INSERT INTO pfi_traducciomap VALUES (144, 'ca', 'Agència Catalana de Certificació');
-INSERT INTO pfi_traducciomap VALUES (144, 'es', 'Agencia Catalana de Certificación');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (104, 'ca', 'Plantilla Plugin de Segell de Temps de CatCert');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (104, 'es', 'Plantilla Plugin de Sellado de Tiempo de CatCert');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (144, 'ca', 'Agència Catalana de Certificació');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (144, 'es', 'Agencia Catalana de Certificación');
 
 
-INSERT INTO pfi_traducciomap VALUES (105, 'ca', 'Plantilla Plugin de Segell de Temps de @firma (TS@)');
-INSERT INTO pfi_traducciomap VALUES (105, 'es', 'Plantilla Plugin de Sellado de Tiempo de @firma (TS@)');
-INSERT INTO pfi_traducciomap VALUES (155, 'ca', 'Ministeri d''Hisenda i Administracions Públiques');
-INSERT INTO pfi_traducciomap VALUES (155, 'es', 'Ministerio de Hacienda y Administraciones Públicas');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (105, 'ca', 'Plantilla Plugin de Segell de Temps de @firma (TS@)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (105, 'es', 'Plantilla Plugin de Sellado de Tiempo de @firma (TS@)');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (155, 'ca', 'Ministeri d''Hisenda i Administracions Públiques');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (155, 'es', 'Ministerio de Hacienda y Administraciones Públicas');
 
 INSERT INTO pfi_plugin VALUES (4, 104, 144, 'org.fundaciobit.plugins.timestamp.catcertrfc.CatCertRfcTimeStampPlugin', 'es.caib.portafib.plugins.timestamp.catcertrfc.url_rfc=http://psis.catcert.net/psis/catcert/tsp
 es.caib.portafib.plugins.timestamp.catcertrfc.oid_rfc3161=0.4.0.2023.1.1
@@ -320,16 +320,16 @@ INSERT INTO pfi_traduccio(traduccioid) VALUES (107);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (177);
 
 
-INSERT INTO pfi_traducciomap VALUES (106, 'ca', 'Plugin de Custòdia de FileSystem');
-INSERT INTO pfi_traducciomap VALUES (106, 'es', 'Plugin de Custodia de FileSystem');
-INSERT INTO pfi_traducciomap VALUES (166, 'ca', 'Plugin de Custòdia de FileSystem');
-INSERT INTO pfi_traducciomap VALUES (166, 'es', 'Plugin de Custodia de FileSystem');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (106, 'ca', 'Plugin de Custòdia de FileSystem');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (106, 'es', 'Plugin de Custodia de FileSystem');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (166, 'ca', 'Plugin de Custòdia de FileSystem');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (166, 'es', 'Plugin de Custodia de FileSystem');
 
 
-INSERT INTO pfi_traducciomap VALUES (107, 'ca', 'Plugin de Custòdia per Alfresco');
-INSERT INTO pfi_traducciomap VALUES (107, 'es', 'Plugin de Custodia para Alfresco');
-INSERT INTO pfi_traducciomap VALUES (177, 'ca', 'Plugin de Custòdia per Alfresco');
-INSERT INTO pfi_traducciomap VALUES (177, 'es', 'Plugin de Custodia para Alfresco');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (107, 'ca', 'Plugin de Custòdia per Alfresco');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (107, 'es', 'Plugin de Custodia para Alfresco');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (177, 'ca', 'Plugin de Custòdia per Alfresco');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (177, 'es', 'Plugin de Custodia para Alfresco');
 
 
 INSERT INTO pfi_plugin VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
