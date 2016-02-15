@@ -64,11 +64,6 @@
             <id>genapp-maven-repository</id>
 		    <name>GenApp Maven Repository</name>
 		    <url>http://GovernIB.github.io/genapp/maven/</url>
-		    <!-- XYZ
-            <id>org.fundaciobit.genapp</id>
-		    <name>GenApp Maven Repository</name>
-		    <url>http://genapp.sourceforge.net/maven/</url>
-            -->
 	    </repository>
 
     </repositories>
