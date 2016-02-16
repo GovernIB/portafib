@@ -57,9 +57,9 @@
         <repository>
             <id>pluginsib-maven-repos</id>
             <name>PluginsIB Maven Repository</name>
-            <url>http://pluginsib.sourceforge.net/maven/</url>
+            <url>http://GovernIB.github.io/pluginsib/maven/</url>
         </repository>
-		
+
 		<repository>
             <id>genapp-maven-repository</id>
 		    <name>GenApp Maven Repository</name>
