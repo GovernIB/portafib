@@ -8,7 +8,6 @@
 
     <modules>
         <module>plugins-signatureweb</module>
-
         <module>utils</module> 
         <module>persistence</module>
         <module>model</module> 
@@ -163,31 +162,64 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version> 
+                <configuration>
+                <!-- git commit message -->
+                <message>Maven artifacts for ${project.version}</message> 
+                <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> 
+                <noJekyll>true</noJekyll>   
+                <!-- remote branch name -->
+                <branch>refs/heads/gh-pages</branch> 
+                <includes><include>**/*</include></includes>
+                <path>maven</path>
+                <!-- github repo name -->
+                <repositoryName>portafib</repositoryName>      
+                <!-- github username or organization  -->
+                <repositoryOwner>GovernIB</repositoryOwner>    
+                <server>github_governib_portafib</server>
+                <merge>true</merge>
+                <dryRun>false</dryRun>
+                </configuration>
+                <executions>
+                <execution>
+                <goals>
+                <goal>site</goal>
+                </goals>
+                <phase>deploy</phase>
+                </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
 		
-		<extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>2.4</version>
-            </extension>
-        </extensions>
+
     </build>
 	
 	<distributionManagement>
         <repository>
-            <id>es.caib.portafib</id>
+            <id>github_governib_portafib</id>
             <name>PortaFIB Maven Repository</name>
-            <url>sftp://web.sourceforge.net/home/project-web/portafib/htdocs/maven</url>
+            <url>file://${project.build.directory}/mvn-repo</url>
         </repository>
         
         <!--   COM UTILITZAR: AFEGIR AQUEST CODI AL pom.xml    -->
         <!--
         <repositories>
            <repository>
-             <id>es.caib.portafib</id>
+             <id>portafib-maven-repos</id>
              <name>PortaFIB Maven Repository</name>
-             <url>http://portafib.sourceforge.net/maven/</url>
+             <url>http://GovernIB.github.io/portafib/maven/</url>
            </repository>
         </repositories>
         -->

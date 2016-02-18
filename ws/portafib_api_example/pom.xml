@@ -19,11 +19,11 @@
     </properties>
 
 	<repositories>
-	   <repository>
-		 <id>es.caib.portafib</id>
-		 <name>PortaFIB Maven Repository</name>
-		 <url>http://portafib.sourceforge.net/maven/</url>
-	   </repository>
+        <repository>
+             <id>portafib-maven-repos</id>
+             <name>PortaFIB Maven Repository</name>
+             <url>http://GovernIB.github.io/portafib/maven/</url>
+        </repository>
 	</repositories>
         
 	
