@@ -55,7 +55,7 @@ Menú Administrador i llistat de Tipus de document
 
  
 ![Menú Administrador d'Entitat i llistat de peticions caducades](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_5.png)<br/>
-Menú Administrador d&amp;#39;Entitat i llistat de peticions caducades
+Menú Administrador d'Entitat i llistat de peticions caducades
 
 
 ![Vista Completa de Petició de Firma en Destinatari](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_6.png)<br/>
