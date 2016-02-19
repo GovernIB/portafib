@@ -3,8 +3,9 @@
 
 
 **Descripció**
-PortaFIB és un portafirmes “digital” desenvolupat en el departament d'Administració Electrònica de la Fundació Bit per encàrrec del Govern de les Illes Balears.. Les seves
-característiques principals són:
+
+PortaFIB és un portafirmes “digital” desenvolupat en el departament d'Administració Electrònica de la Fundació Bit (OTAE) per encàrrec del Govern de les Illes Balears.
+Les seves característiques principals són:
 * Permet firmar documents de tipus PDF
 * Permet fitxers annexos al document principal
 * Suport de càrrecs
