@@ -21,3 +21,20 @@ Les seves característiques principals són:
 * ...
 
 Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/master/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+
+
+**Característiques**
+
+* Registered: 2013-02-18 
+* Project Labels: PortaFirmes  PortaSignatures  PortaFIB  MiniApplet @firma  CAIB  Portafirmas  FundacioBit  
+* Topic: WebApp, Web Services
+* License: European Union Public License & GNU General Public License version 3.0 (GPLv3)
+* Database Environment:  JDBC
+* Development Status: Mature
+* Intended Audience:  Any entity with sign requirements
+* Operating System:  OS Independent (Written in an interpreted language)
+* Programming Language:  Java
+* Translations: Catalan & Spanish
+* User Interface: Web-based
+
+
