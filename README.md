@@ -40,10 +40,11 @@ Pot descarregar el manual d'usuari per veure les característiques completes: [M
 **Captures de pantalla**
 
 ![Multientitat i Menú d'Inici](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_1.png)<br/>
-Multientitat i Menú d'Inici
+<center>Multientitat i Menú d'Inici</center>
+<hr/>
 
 ![Menú Sol·licitant i opcions per una petició de firma](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_2.png)<br/>
-Menú Sol·licitant i opcions per una peticioó de firma
+Menú Sol·licitant i opcions per una petició de firma
 
 ![Plantilla de Flux de Firmes](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_3.png)<br/>
 Plantilla de Flux de Firmes
