@@ -1,12 +1,12 @@
 package es.caib.portafib.back.utils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-
 
 /**
  *
@@ -15,13 +15,11 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
  */
 public class PortaFIBSignaturesSet extends SignaturesSet {
 
-  protected Map<String,Long> tipusDocBySignatureID = null;
-  
+  protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
+
   protected final String urlFinalOriginal;
-  
+
   protected Long pluginID = null;
-
-
 
   /**
    * @param signaturesSetID
@@ -35,16 +33,13 @@ public class PortaFIBSignaturesSet extends SignaturesSet {
     this.urlFinalOriginal = commonInfoSignature.getUrlFinal();
   }
 
-  public Map<String, Long> getTipusDocBySignatureID() {
-    return tipusDocBySignatureID;
+  public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
+    return pluginsFirmaBySignatureID;
   }
 
-  public void setTipusDocBySignatureID(Map<String, Long> tipusDocBySignatureID) {
-    this.tipusDocBySignatureID = tipusDocBySignatureID;
+  public void setPluginsFirmaBySignatureID(Map<String, List<Long>> pluginsFirmaBySignatureID) {
+    this.pluginsFirmaBySignatureID = pluginsFirmaBySignatureID;
   }
-
-
-
 
   public String getUrlFinalOriginal() {
     return urlFinalOriginal;
@@ -57,6 +52,5 @@ public class PortaFIBSignaturesSet extends SignaturesSet {
   public void setPluginID(Long pluginID) {
     this.pluginID = pluginID;
   }
-
 
 }

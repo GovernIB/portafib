@@ -294,7 +294,7 @@ public class AutoFirmaController extends FitxerController
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
         commonInfoSignature, fileInfoSignatureArray);
     
-    signaturesSet.setTipusDocBySignatureID(null);
+    signaturesSet.setPluginsFirmaBySignatureID(null);
 
 
     final String view = "PluginDeFirmaContenidor_AutoFirma";

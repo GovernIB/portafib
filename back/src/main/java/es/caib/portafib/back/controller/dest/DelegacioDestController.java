@@ -1135,7 +1135,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray);
 
-    signaturesSet.setTipusDocBySignatureID(null);
+    signaturesSet.setPluginsFirmaBySignatureID(null);
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";
     ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);

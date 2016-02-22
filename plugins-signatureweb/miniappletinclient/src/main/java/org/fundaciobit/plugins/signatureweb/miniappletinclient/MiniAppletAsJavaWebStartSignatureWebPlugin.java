@@ -27,12 +27,12 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
- * 
+ * TODO XYZ ELIMINAR !!!!!
  * 
  * @author anadal
  *
  */
-public class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppletInClientSignatureWebPlugin {
+public abstract class MiniAppletAsJavaWebStartSignatureWebPlugin extends AbstractMiniAppletInClientSignatureWebPlugin {
 
   public static final String MINIAPPLETASJAVAWEBSTART_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "miniappletasjavawebstart.";

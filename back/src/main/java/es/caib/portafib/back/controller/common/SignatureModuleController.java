@@ -7,9 +7,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +52,7 @@ import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -75,16 +76,16 @@ public class SignatureModuleController {
 
   @RequestMapping(value = "/selectsignmodule/{signaturesSetID}")
   public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
-     @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
+     @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
 
     PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
-    
+
     // TODO CHECK signature Set
 
-    Map<String, Long> signIDPerTipusDoc = signaturesSet.getTipusDocBySignatureID();
+    Map<String, List<Long>> pluginsFirmaPerTipusDoc = signaturesSet.getPluginsFirmaBySignatureID();
     
     List<Plugin> moduls;
-    if (signIDPerTipusDoc == null || signIDPerTipusDoc.size() == 0) {
+    if (pluginsFirmaPerTipusDoc == null || pluginsFirmaPerTipusDoc.size() == 0) {
       try {
         moduls = modulDeFirmaEjb.getAllPlugins(LoginInfo.getInstance().getEntitatID());
       } catch (I18NException e) {
@@ -93,18 +94,19 @@ public class SignatureModuleController {
       }
     } else {
 
-      // El HashSet és per eliminar duplicats
-      List<Long> pluginsID = new ArrayList<Long>(new HashSet<Long>(signIDPerTipusDoc.values()));
+      // TODO Mostrar missatge de warning si es perden plugins durant la intersacció
+      
+      // Hem de fer un AND de tots els tipus de plugins 
+      List<Long> pluginsID = intersection(pluginsFirmaPerTipusDoc.values());
 
-      if (pluginsID.size() != 1) {
+      if (pluginsID.size() == 0) {
         log.warn("Numero de plugins especifics = " + pluginsID.size() );
         String msg = I18NUtils.tradueix("plugindefirma.error.multiplemodules");
         return generateErrorMAV(request, signaturesSetID,  msg, null);
       }
 
-      Plugin plugin = modulDeFirmaEjb.findByPrimaryKey(pluginsID.get(0));
-      moduls = new ArrayList<Plugin>();
-      moduls.add(plugin);
+      // Passar-los tots
+      moduls = modulDeFirmaEjb.select(PluginFields.PLUGINID.in(pluginsID));
     }
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
@@ -158,6 +160,20 @@ public class SignatureModuleController {
         
   }
 
+  
+  private List<Long> intersection(Collection<List<Long>> plugins) {
+    
+    if (plugins == null || plugins.size() == 0) {
+      return new ArrayList<Long>();
+    }
+    ArrayList<List<Long>> all = new ArrayList<List<Long>>(plugins);
+    List<Long>  intersection = all.get(0);
+    for (int i = 1; i < all.size(); i++) {
+      intersection.retainAll(all.get(i));
+    }
+    return intersection;
+  }
+  
 
   @RequestMapping(value = "/final/{signaturesSetID}")
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,

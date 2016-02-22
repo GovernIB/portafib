@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -549,9 +550,8 @@ import es.caib.portafib.utils.Configuracio;
         
         String langUI = loginInfo.getUsuariPersona().getIdiomaID();
 
-
         Set<Long> peticionsDeFirmaID = new HashSet<Long>();
-        Map<String, Long> tipusDocBySignatureID = new HashMap<String, Long>();
+        Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
 
         final boolean debug = log.isDebugEnabled();
         for (StringKeyValue skv: listIds ) {
@@ -576,7 +576,7 @@ import es.caib.portafib.utils.Configuracio;
 
             FileInfoSignature fileInfoSignature;
             fileInfoSignature = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
-                langUI, tipusDocBySignatureID, loginInfo.getEntitatID());
+                langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
 
             if (fileInfoSignature != null) {
               fileInfoSignatureArray.add(fileInfoSignature);
@@ -618,7 +618,7 @@ import es.caib.portafib.utils.Configuracio;
             caducitat.getTime(), commonInfoSignature,
             fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]));
 
-        signaturesSet.setTipusDocBySignatureID(tipusDocBySignatureID);
+        signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
         
         final String view = "PluginDeFirmaContenidor_" + getRole();
@@ -786,9 +786,9 @@ import es.caib.portafib.utils.Configuracio;
       
       final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
       
-      Map<String, Long> tipusDocBySignatureID = new HashMap<String, Long>();
+      Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
       FileInfoSignature fis = prepareFirmaItem(request, estatDeFirmaID, 
-          peticioDeFirmaID, langUI, tipusDocBySignatureID, loginInfo.getEntitatID());
+          peticioDeFirmaID, langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
 
       FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
@@ -817,7 +817,7 @@ import es.caib.portafib.utils.Configuracio;
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
           commonInfoSignature, fileInfoSignatureArray);
 
-      signaturesSet.setTipusDocBySignatureID(tipusDocBySignatureID);
+      signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
       final String view = "PluginDeFirmaContenidor_AutoFirma";
       ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
@@ -1178,7 +1178,7 @@ import es.caib.portafib.utils.Configuracio;
    
 
     protected FileInfoSignature prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
-        Long peticioDeFirmaID, String langUI, Map<String, Long> tipusDocBySignatureID,
+        Long peticioDeFirmaID, String langUI, Map<String, List<Long>> pluginsFirmaBySignatureID,
         String entitatID) throws I18NException {
 
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
@@ -1314,22 +1314,24 @@ import es.caib.portafib.utils.Configuracio;
        timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, entitat, userRequiresTimeStamp);
        
        
-       // Revisar TipusDoc per PlugindeFirma
-       Long tipusDoc = peticioDeFirma.getTipusDocumentID(); 
-       Where where = Where.AND(
-           new ModulDeFirmaPerTipusDeDocumentQueryPath().PLUGIN().
-             ENTITATID().equal(LoginInfo.getInstance().getEntitatID()),
-             ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID.equal(tipusDoc)
-             );
-           
-       
-       // TODO Execute Query ONE
-       Long pluginID = modulDeFirmaPerTipusDeDocumentEjb.executeQueryOne(
-           ModulDeFirmaPerTipusDeDocumentFields.PLUGINID.select, where);
-       if (pluginID != null) {
-         log.info("Pel tipus de document " + tipusDoc + " i l'entitat " 
-           + LoginInfo.getInstance().getEntitatID() + " hi ha assignat el plugin " + pluginID);
-         tipusDocBySignatureID.put(signatureID, pluginID);
+       // Seleccionar si existeixen restriccionas de PLugins de Firma segons els 
+       // Tipus de Document de la Petició de Firma
+       {
+         Long tipusDoc = peticioDeFirma.getTipusDocumentID(); 
+         Where where = Where.AND(
+             new ModulDeFirmaPerTipusDeDocumentQueryPath().PLUGIN().
+               ENTITATID().equal(LoginInfo.getInstance().getEntitatID()),
+               ModulDeFirmaPerTipusDeDocumentFields.TIPUSDOCUMENTID.equal(tipusDoc)
+               );
+  
+         List<Long> pluginsID = modulDeFirmaPerTipusDeDocumentEjb.executeQuery(
+             ModulDeFirmaPerTipusDeDocumentFields.PLUGINID.select, where);
+         if (pluginsID != null && pluginsID.size() != 0) {
+           log.info("Pel tipus de document " + tipusDoc + " i l'entitat " 
+             + LoginInfo.getInstance().getEntitatID() + " hi ha assignats els plugins "
+             +   Arrays.toString(pluginsID.toArray()));
+           pluginsFirmaBySignatureID.put(signatureID, pluginsID);
+         }
        }
 
        return SignatureModuleController.getFileInfoSignature(signatureID, source, idname,

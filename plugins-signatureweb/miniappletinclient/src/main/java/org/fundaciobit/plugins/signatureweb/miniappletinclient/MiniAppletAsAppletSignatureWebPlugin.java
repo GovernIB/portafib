@@ -22,11 +22,12 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 
 
 /**
+ * TODO XYZ ELIMINAR !!!!!
  * 
  * @author anadal
  *
  */
-public class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInClientSignatureWebPlugin {
+public abstract class MiniAppletAsAppletSignatureWebPlugin extends AbstractMiniAppletInClientSignatureWebPlugin {
 
   public static final String MINIAPPLETASAPPLET_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "miniappletasapplet.";

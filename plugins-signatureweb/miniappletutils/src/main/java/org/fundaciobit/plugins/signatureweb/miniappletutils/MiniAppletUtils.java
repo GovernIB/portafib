@@ -3,8 +3,8 @@ package org.fundaciobit.plugins.signatureweb.miniappletutils;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
@@ -169,8 +169,10 @@ public class MiniAppletUtils {
     // Segell de Temps (Segellat de temps)
     if (timeStampURL != null) {
       
-      System.out.println(" XYZ  TTTTTTTTT  isLocal=" + isLocalSignature);
-      System.out.println(" XYZ  TTTTTTTTT  tsaURL=" + timeStampURL);
+      if (log.isDebugEnabled()) {
+        log.debug("convert::isLocal=" + isLocalSignature);
+        log.debug("convert::tsaURL=" + timeStampURL);
+      }
       
 
       miniAppletProperties.setProperty("tsaURL", timeStampURL);
