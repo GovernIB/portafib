@@ -46,11 +46,6 @@ public class SignatureInServerSIATest extends TestCase {
 
   public static void main(String[] args) {
 
-    // Firma SIA no es possible fer test ja que:
-    // (1) Necessitam un entorn WEB en la part de client
-    // (2) Necessitam un entorn de CallBack en el servidor
-    
-    
 
     try {
       

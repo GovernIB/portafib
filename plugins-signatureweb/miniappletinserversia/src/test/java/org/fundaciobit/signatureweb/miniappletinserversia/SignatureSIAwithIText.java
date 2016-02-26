@@ -42,10 +42,9 @@ import com.openlandsw.rss.gateway.exception.SafeCertGateWayException;
  * 
  * @author anadal
  * 
- *         basat en C4_07_ClientServerSigning
+ * Basat en C4_07_ClientServerSigning
  * 
- *         http://itextpdf.com/examples/security/digital-signatures-white-paper/
- *         digital-signatures-chapter-4
+ * http://itextpdf.com/examples/security/digital-signatures-white-paper/digital-signatures-chapter-4
  *
  */
 public class SignatureSIAwithIText {

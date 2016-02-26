@@ -75,6 +75,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public static final String PROPERTY_SOCKET_TIMEOUT = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SOCKET_TIMEOUT";
 
   
+  public static final String PROPERTY_FORCE_SFDA = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ForceSFDA";
+  
   private static final String PROPERTY_MAPPING_USERS_PATH = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "mappingusers";
   
   private static final String PROPERTY_USERS_PATTERN = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "userspattern";
@@ -571,13 +573,17 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       String username, String administrationID) throws Exception, SafeCertGateWayException {
     // Cridam a servidor de SIA
     DataToSign datatosign = new DataToSign();
-    
+
     datatosign.setCertificate(certBytes);
-    
+
+    final boolean forceSFDA = "true".equals(getProperty(PROPERTY_FORCE_SFDA)); 
+    log.info("PROPERTY_FORCE_SFDA = " + forceSFDA);
+
+    datatosign.setForceSFDA(forceSFDA);
 
     datatosign.setRedirectOK(callBackURL);
     datatosign.setRedirectError(callBackURL);
-    
+
     datatosign.setDocuments(documents);
 
     // Important: actualment els algorismes SHA són iguals en plugins i en SIA

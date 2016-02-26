@@ -1,9 +1,28 @@
 
+username=miguelangel.benito
+administrationID=12345678X
 
 
-pdffile.source=./hola.pdf
+pdf.source=./hola.pdf
+pdf.dest=./hola_firmat.pdf
 
-pdffile.dest=./hola_firmat.pdf
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es:16445/rss-gateway/HESS/OperationGateWayRSS
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.AUTH_STORE=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1\\plugins-signatureweb\\miniappletinserversia\\ibsalut.p12
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS={wmvm3VJFCjtdLpgDGq6Yt3Zp+CjRvRkF}
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
+#es.ibsalut.example.plugins.signatureweb.miniappletinserversia.LOAD_BC_PROVIDER=true
+#es.ibsalut.example.plugins.signatureweb.miniappletinserversia.SOCKET_TIMEOUT=20000
+
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.ForceSFDA=true;
+
+# CALLBAK HOST (optional)
+#es.ibsalut.example.plugins.signatureweb.miniappletinserversia.callbackhost=http://www.ibsalut.es/portafib
 
 
-XYZ
+# USERS MAPPING (optional)
+# es.ibsalut.example.plugins.signatureweb.miniappletinserversia.mappingusers=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1\\plugins-signatureweb\\miniappletinserversia\\mappingusers.properties
+
+# USERS PATTERN (optional)
+# {0} == username || {1} == administrationID (NIF)
+#es.ibsalut.example.plugins.signatureweb.miniappletinserversia.userspattern={0}
+es.ibsalut.example.plugins.signatureweb.miniappletinserversia.userspattern=IBSALUT_{1}
