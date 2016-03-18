@@ -21,20 +21,29 @@ public class PortaFIBSessionLocaleResolver extends SessionLocaleResolver {
   
   @Override
   protected Locale determineDefaultLocale(HttpServletRequest request) {
+    LoginInfo loginInfo = null;
     try {
-      String idioma = LoginInfo.getInstance().getUsuariPersona().getIdiomaID();    
-      Locale loc = new Locale(idioma);
-      LocaleContextHolder.setLocale(loc);
-      try {
-        this.setLocale(request, null, loc);
-      } catch(Exception e) {
-         WebUtils.setSessionAttribute(request, LOCALE_SESSION_ATTRIBUTE_NAME, loc);
-      }
-      return loc;
-    } catch(Exception e) {
-      log.error(e.getMessage(), e);
-      return super.determineDefaultLocale(request);  
+      loginInfo = LoginInfo.getInstance();  
+    } catch (Exception e) {
     }
+    
+    if (loginInfo != null) {
+      try {
+        String idioma = loginInfo.getUsuariPersona().getIdiomaID();    
+        Locale loc = new Locale(idioma);
+        LocaleContextHolder.setLocale(loc);
+        try {
+          this.setLocale(request, null, loc);
+        } catch(Exception e) {
+           WebUtils.setSessionAttribute(request, LOCALE_SESSION_ATTRIBUTE_NAME, loc);
+        }
+        return loc;
+      } catch(Exception e) {
+        log.error(e.getMessage(), e);
+      }
+    }
+    
+    return super.determineDefaultLocale(request);  
     
 
   }

@@ -87,7 +87,8 @@ public class GeneradorDeFiltreCaibController {
 
 
   public static String getFiltre(String urlStr) throws Exception {
-
+    
+    
     URL url = new URL(urlStr);
     InputStream is = url.openStream();
 
@@ -95,47 +96,60 @@ public class GeneradorDeFiltreCaibController {
 
     prop.load(is);
 
-    StringBuffer filter = new StringBuffer("checkexpiration:true\n");
+    StringBuffer filter = new StringBuffer();
+    
+    
+    int count = 0;
+    count++;
+    filter.append("filters." + count+ "=nonexpired:\n");
+    
 
     // --- CA
-    String baseKey = "ca";
-    List<String> list = getValuesWithBasekey(prop, baseKey);
+    {
+      String baseKey = "ca";
+      List<String> list = getValuesWithBasekey(prop, baseKey);
+  
+      StringBuffer filterCA = new StringBuffer();
 
-    StringBuffer filterCA = new StringBuffer();
-    if (!list.isEmpty()) {
-
-      filterCA.append("rfc2254_rec_issuer:|");
-
-      for (String ca : list) {
-        filterCA.append("(CN=" + ca + ")(OU=" + ca + ")");
+      if (!list.isEmpty()) {
+        count++;
+  
+        filterCA.append("filters." + count+ "=issuer.rfc2254.recurse:|");
+  
+        for (String ca : list) {
+          filterCA.append("(CN=" + ca + ")(OU=" + ca + ")");
+        }
+  
+        filterCA.append("\n");
+  
+        filter.append(filterCA.toString());
+  
       }
-
-      filterCA.append("\n");
-
-      filter.append(filterCA.toString());
-
     }
 
     // --- Policies
-    String[] policiesBasekey = new String[] { "policy.advanced", "policy.recognized",
-        "policy.recognizedsecuredevice", "policy.publicemployeeOID", };
-
-    StringBuffer filterPolicies = new StringBuffer();
-    for (int i = 0; i < policiesBasekey.length; i++) {
-      list = getValuesWithBasekey(prop, policiesBasekey[i]);
-      if (!list.isEmpty()) {
-        for (String pol : list) {
-          filterPolicies.append(pol).append(",");
+    {
+      String[] policiesBasekey = new String[] { "policy.advanced", "policy.recognized",
+          "policy.recognizedsecuredevice", "policy.publicemployeeOID", };
+  
+      StringBuffer filterPolicies = new StringBuffer();
+      for (int i = 0; i < policiesBasekey.length; i++) {
+        List<String> list = getValuesWithBasekey(prop, policiesBasekey[i]);
+        if (!list.isEmpty()) {
+          for (String pol : list) {
+            filterPolicies.append(pol).append(",");
+          }
         }
       }
-    }
-
-    if (filterPolicies.length() != 0) {
-      filter.append("policyid:");
-      String filterPoliciesStr = filterPolicies.toString();
-      // Llevam la darrera coma
-      filter.append(filterPoliciesStr.substring(0, filterPoliciesStr.length() - 1));
-      filter.append("\n");
+  
+      if (filterPolicies.length() != 0) {
+        count++;
+        filter.append("filters." + count+ "=policyid:");
+        String filterPoliciesStr = filterPolicies.toString();
+        // Llevam la darrera coma
+        filter.append(filterPoliciesStr.substring(0, filterPoliciesStr.length() - 1));
+        filter.append("\n");
+      }
     }
 
     return filter.toString();

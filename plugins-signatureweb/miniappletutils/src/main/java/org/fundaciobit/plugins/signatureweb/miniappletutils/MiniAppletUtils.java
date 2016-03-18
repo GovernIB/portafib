@@ -1,7 +1,14 @@
 package org.fundaciobit.plugins.signatureweb.miniappletutils;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -199,5 +206,56 @@ public class MiniAppletUtils {
 
     return info;
   }
+  
+  
+  
+  
+
+  public static boolean matchFilter(X509Certificate certificate, String filter)
+      throws IOException, Exception, NoSuchMethodException, InstantiationException,
+      IllegalAccessException, InvocationTargetException {
+    Properties propertyFilters = new Properties();
+    propertyFilters.load(new StringReader(filter));
+
+    MiniAppletClassLoader macl = new MiniAppletClassLoader();
+
+    // CertFilterManager certFilterManager = new
+    // CertFilterManager(propertyFilters);
+    Class<?> certFilterManagerClass = macl
+        .loadClass("es.gob.afirma.keystores.filters.CertFilterManager");
+    Constructor<?> contructor = certFilterManagerClass.getConstructor(Properties.class);
+    Object certFilterManager = contructor.newInstance(propertyFilters);
+
+    // List<CertificateFilter> filtres = certFilterManager.getFilters();
+    Method method2 = macl.getMethod(certFilterManagerClass, "getFilters");
+    List<? extends Object> filtres = (List<? extends Object>) method2
+        .invoke(certFilterManager);
+
+    // MultipleCertificateFilter mcf = new
+    // MultipleCertificateFilter(filtres.toArray());
+    // Crear Array de CertificateFilter
+    Class<?> certFilterClass = macl
+        .loadClass("es.gob.afirma.keystores.filters.CertificateFilter");
+    Object certFilterArray = Array.newInstance(certFilterClass, filtres.size());
+
+    int index = 0;
+    for (Object object : filtres) {
+      Array.set(certFilterArray, index, object);
+      index++;
+    }
+    // Instanciar
+    Class<?> mcfClass = macl
+        .loadClass("es.gob.afirma.keystores.filters.MultipleCertificateFilter");
+    Constructor<?> contructorMCF = mcfClass.getConstructor(certFilterArray.getClass());
+    Object mcf = contructorMCF.newInstance(certFilterArray);
+
+    // boolean match = mcf.matches(certificate1);
+    Method methodMatches = macl.getMethod(mcfClass, "matches");
+    Boolean match = (Boolean) methodMatches.invoke(mcf, certificate);
+
+    return match;
+  }
+
+  
 
 }

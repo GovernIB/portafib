@@ -28,10 +28,10 @@ public interface ISignatureWebPlugin extends IPlugin {
       String filter, boolean supportJava);
 
 
-  public void closeSignaturesSet(String signaturesSetID) throws Exception;
+  public void closeSignaturesSet(HttpServletRequest request, String signaturesSetID) throws Exception;
 
 
-  public String signSet(String absolutePluginRequestPath, 
+  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, 
       String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception;
 
 

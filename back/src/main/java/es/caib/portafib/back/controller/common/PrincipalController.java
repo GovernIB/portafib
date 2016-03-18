@@ -1,5 +1,7 @@
 package es.caib.portafib.back.controller.common;
 
+import java.util.Map;
+
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.utils.Configuracio;
@@ -20,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.util.Map;
-
 /**
  *  
  * @autor anadal
@@ -31,9 +31,6 @@ import java.util.Map;
 public class PrincipalController {
 
   protected final Logger log = Logger.getLogger(getClass());
-  
-  
-  
 
   @RequestMapping(value = "/common/principal.html")
   public ModelAndView principal(HttpSession session,
@@ -89,6 +86,7 @@ public class PrincipalController {
     }
 
   }
+ 
 
   @RequestMapping(value = "/canviarPipella", method = RequestMethod.GET)
   public ModelAndView canviarPipella(HttpServletRequest request, HttpServletResponse response)

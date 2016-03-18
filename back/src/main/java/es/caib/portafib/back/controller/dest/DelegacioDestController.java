@@ -1150,7 +1150,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
 
   SignaturesSet ss;
-  ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
+  ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
   StatusSignaturesSet sss = ss.getStatusSignaturesSet();
   
@@ -1252,7 +1252,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
  
   
-  SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+  SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
  
   ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
   return mav;

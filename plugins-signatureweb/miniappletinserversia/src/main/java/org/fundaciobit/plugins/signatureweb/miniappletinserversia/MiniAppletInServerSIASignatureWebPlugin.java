@@ -143,14 +143,14 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
 
   @Override
-  public void closeSignaturesSet(String id) {
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
     processosDeFirma.remove(id);
     transactions.remove(id);
-    super.closeSignaturesSet(id);
+    super.closeSignaturesSet(request, id);
   }
 
   @Override
-  public String signSet(String absolutePluginRequestPath, 
+  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, 
       String relativePluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 

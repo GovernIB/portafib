@@ -312,7 +312,7 @@ public class AutoFirmaController extends FitxerController
   
   
     SignaturesSet ss;
-    ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
+    ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
     
@@ -397,7 +397,7 @@ public class AutoFirmaController extends FitxerController
     }
    
     
-    SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     
     if (idDescarrega == null) {
       return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));

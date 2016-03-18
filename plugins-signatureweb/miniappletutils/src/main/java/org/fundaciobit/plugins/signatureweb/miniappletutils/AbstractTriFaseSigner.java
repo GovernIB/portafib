@@ -1,26 +1,18 @@
 package org.fundaciobit.plugins.signatureweb.miniappletutils;
 
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 
-import org.fundaciobit.plugins.utils.FileUtils;
-
-//import es.gob.afirma.signers.pades.PAdESTriPhaseSigner;
-//import es.gob.afirma.signers.pades.PdfSignResult;
-
-
 /**
  * 
  * @author anadal
  *
  */
-public abstract class AbstractTriFaseSigner {
+public abstract class AbstractTriFaseSigner extends MiniAppletClassLoader  {
   
   // final PdfSignResult pre
   protected Object pre = null;
@@ -126,35 +118,6 @@ public abstract class AbstractTriFaseSigner {
   // ---------------------------------------------
   
   
-  protected URLClassLoader miniAppletClassLoader = null;
-  
-  
-  protected URLClassLoader getMiniAppletClassLoader() {
-    
-    if (miniAppletClassLoader == null) {
-      
-      Class<?> cls = this.getClass();
-      
-      URL[] urls = new URL[] { 
-        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
-      };
-      
-      miniAppletClassLoader = new URLClassLoader(urls, String.class.getClassLoader());
-    }
-
-    return miniAppletClassLoader;
-
-  }
-  
-  
-  protected Class<?>  loadClass(String name) throws Exception {
-    Class<?> classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
-    return classToLoad;
-  }
-  
-  
-  
   
   
   public byte[] invoke_PdfTimestamper_timestampPdf(final byte[] inPDF,
@@ -228,23 +191,6 @@ public abstract class AbstractTriFaseSigner {
   }
 
 
-  protected Method getMethod(Class<?> cls, String methodName) throws Exception {
-    Method method = null;
-    
-    
-    for(Method m : cls.getMethods()) {
-      if (m.getName().equals(methodName)) {
-        method = m;
-        break;
-      }
-    }
-    
-    if (method == null) {
-      throw new Exception("No s'ha trobat el mètode '" + methodName + "' dins la classe "
-          + cls);
-    }
-    return method;
-  }
   
   
   

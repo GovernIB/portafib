@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.utils.AbstractPluginProperties;
 
@@ -45,7 +47,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
 
   
   @Override
-  public void closeSignaturesSet(String id) {
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
     synchronized (infoSign) {
       infoSign.remove(id);
     }

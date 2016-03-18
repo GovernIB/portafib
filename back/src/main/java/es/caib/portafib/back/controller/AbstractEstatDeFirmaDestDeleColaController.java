@@ -630,7 +630,7 @@ import es.caib.portafib.utils.Configuracio;
         // En el mapping finalOK o finalError descartar les entrades ja processades
         if (seleccionats.size() > 3) {
            ParallelSignedFilesProcessing pThread = new ParallelSignedFilesProcessing(
-               signaturesSetID, peticioDeFirmaLogicaEjb, modulDeFirmaEjb);
+               request, signaturesSetID, peticioDeFirmaLogicaEjb, modulDeFirmaEjb);
            pThread.start();
         }
         return mav;
@@ -841,7 +841,7 @@ import es.caib.portafib.utils.Configuracio;
     
     
       SignaturesSet ss;
-      ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
+      ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
       StatusSignaturesSet sss = ss.getStatusSignaturesSet();
       
@@ -882,7 +882,7 @@ import es.caib.portafib.utils.Configuracio;
         HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
       }
 
-      SignatureModuleController.closeSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+      SignatureModuleController.closeSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
      
       ModelAndView mav = new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
       return mav;
@@ -1028,16 +1028,19 @@ import es.caib.portafib.utils.Configuracio;
     protected final ModulDeFirmaLogicaLocal modulDeFirmaEjb;
 
     protected final String signaturesSetID;
+    
+    protected final HttpServletRequest request;
 
     /**
      * @param signaturesSetID
      * @param peticioDeFirmaLogicaEjb
      * @param modulDeFirmaEjb
      */
-    public ParallelSignedFilesProcessing(String signaturesSetID,
+    public ParallelSignedFilesProcessing(HttpServletRequest request, String signaturesSetID,
         PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb,
         ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
       super();
+      this.request = request;
       this.signaturesSetID = signaturesSetID;
       this.peticioDeFirmaLogicaEjb = peticioDeFirmaLogicaEjb;
       this.modulDeFirmaEjb = modulDeFirmaEjb;
@@ -1069,7 +1072,7 @@ import es.caib.portafib.utils.Configuracio;
         }
 
         SignaturesSet ss;
-        ss = SignatureModuleController.getSignaturesSetByID(signaturesSetID, modulDeFirmaEjb);
+        ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
         if (ss == null) {
           return;

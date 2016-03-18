@@ -18,8 +18,6 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.security.cert.X509Certificate;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,21 +41,16 @@ import es.gob.afirma.keystores.AOKeyStoreDialog;
 import es.gob.afirma.keystores.AOKeyStoreManager;
 import es.gob.afirma.keystores.AOKeyStoreManagerFactory;
 import es.gob.afirma.keystores.filters.CertificateFilter;
-import es.gob.afirma.keystores.filters.rfc.KeyUsageFilter;
 import es.caib.portafib.applet.MiniAppletConstants;
 import es.caib.portafib.applet.BasePanel;
 import es.caib.portafib.applet.ISigner;
 import es.caib.portafib.applet.ParentPanel;
 import es.caib.portafib.applet.SignerContext;
-import es.gob.afirma.core.keystores.KeyStoreManager;
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.signers.AOSignConstants;
 import es.gob.afirma.core.signers.AOSigner;
 import es.gob.afirma.core.signers.AOSignerFactory;
-import es.gob.afirma.keystores.filters.ExpiredCertificateFilter;
-import es.gob.afirma.keystores.filters.QualifiedCertificatesFilter;
-import es.gob.afirma.keystores.filters.SSLFilter;
-import es.gob.afirma.keystores.filters.SignatureDNIeFilter;
+import es.gob.afirma.keystores.filters.CertFilterManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -251,7 +244,7 @@ public class AfirmaSigner implements ISigner {
     }
   }
   
-  
+  /*
   public static class OrFilter extends CertificateFilter {
 
     final List<CertificateFilter> filters;
@@ -282,7 +275,7 @@ public class AfirmaSigner implements ISigner {
     
   }
   
-  
+ 
   public static class AndFilter extends CertificateFilter {
 
     final List<CertificateFilter> filters;
@@ -316,7 +309,7 @@ public class AfirmaSigner implements ISigner {
     
 
   }
-  
+  */
   
   
  
@@ -629,242 +622,19 @@ public class AfirmaSigner implements ISigner {
           filters,
           mandatoryCertificate
           );
+      
       dialog.show();
 
-      return ksm.getKeyEntry(dialog.getSelectedAlias(), this.keyStore.getCertificatePasswordCallback(this.parent));
+      ksm.setParentComponent(this.parent);
+      return ksm.getKeyEntry(dialog.getSelectedAlias());
 
-      
+    }
+
+
+  }
+
+
  
-    }
-
-
-  }
-
-
-  /**
-   * IMPORTANT !!!!!!!!!
-   * 
-   * DEMANAR: Que es faci pública no ofuscada (y a ser posible no final)
-   * 
-   * Aquesta classe és una còpia de la classe es.gob.afirma.keystores.filters.CertFilterManager.
-   * A partir del moment en que aquesta classe sigui publica llavors s'utilitzarà la 
-   * del MiniApplet i no aquesta còpia. 
-   */
-  final class CertFilterManager {
-
-    private static final String HEADLESS_PREFIX_KEY = "headless"; //$NON-NLS-1$
-
-    private static final String FILTER_PREFIX_KEY = "filter"; //$NON-NLS-1$
-
-    private static final String FILTER_TYPE_DNIE = "dnie:"; //$NON-NLS-1$
-    private static final String FILTER_TYPE_SSL = "ssl:"; //$NON-NLS-1$
-    private static final String FILTER_TYPE_QUALIFIED = "qualified:"; //$NON-NLS-1$
-
-    // XMAS
-    private static final String FILTER_TYPE_RFC2254_SUBJECT="rfc2254_subject:";
-    private static final String FILTER_TYPE_RFC2254_ISSUER="rfc2254_issuer:";
-
-    private static final String FILTER_TYPE_RFC2254_REC_ISSUER="rfc2254_rec_issuer:";
-    
-    private static final String FILTER_TYPE_SIGN_CERT_USAGE="sign_cert_usage:";
-    private static final String FILTER_TYPE_POLICYID="policyid:";
-    private static final String FILTER_TYPE_CHECKEXPIRATION="checkexpiration:";
-    
-    
-    
-    private static final String AFIRMA_FILTER_PREFIX_KEY = "filter"; //$NON-NLS-1$
-    
-    private static final String AFIRMA_FILTERS_PREFIX_KEY = "filters"; //$NON-NLS-1$
-    
-    private static final String AFIRMA_FILTERS_X_PREFIX_KEY = "filters."; //$NON-NLS-1$
-
-    private boolean mandatoryCertificate = false;
-
-    private final List<CertificateFilter> filtres = new ArrayList<CertificateFilter>();
-
-    /**
-     * Identifica los filtros que deben aplicarse sobre una serie de certificados para
-     * comprobar cuales de ellos se ajustan a nuestra necesidades.
-     * @param propertyFilters Listado de propiedades entre las que identificar las que
-     * establecen los criterios de filtrado.
-     */
-    CertFilterManager(final Properties propertyFilters) {
-
-      this.mandatoryCertificate = Boolean.parseBoolean(
-          propertyFilters.getProperty(HEADLESS_PREFIX_KEY));
-
-      final String filterFullValue = propertyFilters.getProperty(FILTER_PREFIX_KEY);
-      if (filterFullValue == null) {
-        return;
-      }
-      
-      List<CertificateFilter> filters = new ArrayList<CertificateFilter>();
-      
-      StringTokenizer filtersTokens = new StringTokenizer(filterFullValue, "\r\n");
-      
-     
-      /*
-      String subjectFilter = null;
-      String issuerFilter = null;
-      */
-      List<String> filtersList = new ArrayList<String>();
-
-      while(filtersTokens.hasMoreTokens()) {
-        String filterValue = filtersTokens.nextToken();
-        if (filterValue == null || filterValue.trim().length() == 0) {
-          continue;
-        }
-        
-        //System.out.println(" XXX  FIND FILTER " + filterValue);
-
-        filterValue = filterValue.toLowerCase();
-/*
-        if (filterValue.toLowerCase().startsWith(FILTER_TYPE_RFC2254_SUBJECT)) {
-          subjectFilter = filterValue.substring(FILTER_TYPE_RFC2254_SUBJECT.length());
-        } else if(filterValue.toLowerCase().startsWith(FILTER_TYPE_RFC2254_ISSUER)) {
-          issuerFilter = filterValue.substring(FILTER_TYPE_RFC2254_ISSUER.length());
-        } else */ 
-        {
-          filtersList.add(filterValue);
-        }
-      }
-      
-      //System.out.println(" XXX RFC2254: " + (subjectFilter != null || issuerFilter != null));
-      /*
-      if (subjectFilter != null || issuerFilter != null) {
-        filters.add(new RFC2254CertificateFilterRecursive(subjectFilter, issuerFilter, true));
-        if (subjectFilter != null) {
-          filtersList.remove(subjectFilter);
-        }
-        if (issuerFilter != null) {
-          filtersList.remove(issuerFilter);
-        }
-      }
-      */
-      //System.out.println(" XXX filtersList SIZE = " + filtersList);
-
-      Properties propertiesFilterXAfirma = new Properties();
-      
-      for (String filterValue : filtersList) {
-        CertificateFilter filter = null;
-        if(filterValue.toLowerCase().startsWith(FILTER_TYPE_RFC2254_REC_ISSUER)) {
-          String issuerFilter = filterValue.substring(FILTER_TYPE_RFC2254_REC_ISSUER.length());
-          filter = new RFC2254CertificateFilterRecursive(null, issuerFilter, true);
-        } else if (filterValue.toLowerCase().startsWith(FILTER_TYPE_RFC2254_SUBJECT)) {
-          String subjectFilter = null;
-          subjectFilter = filterValue.substring(FILTER_TYPE_RFC2254_SUBJECT.length());
-          filter = new RFC2254CertificateFilterRecursive(subjectFilter, null);
-        } else if(filterValue.toLowerCase().startsWith(FILTER_TYPE_RFC2254_ISSUER)) {
-          String issuerFilter = null;
-          issuerFilter = filterValue.substring(FILTER_TYPE_RFC2254_ISSUER.length());
-          filter = new RFC2254CertificateFilterRecursive(null, issuerFilter);
-        } else if (filterValue.startsWith(FILTER_TYPE_SIGN_CERT_USAGE)) {
-          filter = new KeyUsageFilter(KeyUsageFilter.SIGN_CERT_USAGE);
-        } else if (filterValue.startsWith(FILTER_TYPE_CHECKEXPIRATION)) {
-          String checkStr = filterValue.substring(FILTER_TYPE_CHECKEXPIRATION.length());
-          if (checkStr == null || checkStr.trim().length() == 0 || checkStr.trim().equals("true")) {
-            filter = new ExpiredCertificateFilter();
-          }
-        } else if (filterValue.startsWith(FILTER_TYPE_POLICYID)) {
-          
-          String idsStr = filterValue.substring(FILTER_TYPE_POLICYID.length());
-          
-          String[] ids = idsStr.split(",");
-          
-          if (ids != null && ids.length != 0) {
-            
-            List<String> oidsAllowed = new ArrayList<String>();
-            for (String oid : ids) {
-              oid = oid.trim();
-              if (oid.length() != 0) {
-                oidsAllowed.add(oid);
-              }
-            }
-            filter = new PolicyIdFilter(oidsAllowed);
-          }
-        } else  if (filterValue.startsWith(FILTER_TYPE_DNIE)) {
-          filter = new SignatureDNIeFilter();
-        } else if (filterValue.startsWith(FILTER_TYPE_SSL)) {
-          filter = new SSLFilter(filterValue.substring(FILTER_TYPE_SSL.length()));
-        } else if (filterValue.startsWith(FILTER_TYPE_QUALIFIED)) {
-          filter = new QualifiedCertificatesFilter(filterValue.substring(FILTER_TYPE_QUALIFIED.length()));
-        } else if (filterValue.startsWith(AFIRMA_FILTER_PREFIX_KEY + "=")) {
-          Properties propTmp = new Properties();
-          propTmp.put(AFIRMA_FILTER_PREFIX_KEY,
-              filterValue.substring(filterValue.indexOf('=') + 1));
-          List<CertificateFilter> filtresTmp = (List<CertificateFilter>)new es.gob.afirma.keystores.filters.CertFilterManager(propTmp).getFilters();
-          if (filtresTmp != null) {
-            // Només n'hi hauria d'haver 1
-            filter = new AndFilter(filtresTmp);
-          }          
-        } else if (filterValue.startsWith(AFIRMA_FILTERS_PREFIX_KEY + "=")) {
-          
-          Properties propTmp = new Properties();
-          String value = filterValue.substring(filterValue.indexOf('=') + 1);
-          propTmp.put(AFIRMA_FILTERS_PREFIX_KEY, value);
-          List<CertificateFilter> filtresTmp = (List<CertificateFilter>)new es.gob.afirma.keystores.filters.CertFilterManager(propTmp).getFilters();
-          if (filtresTmp != null) {
-            
-            System.out.println("AFIRMA_FILTERS_PREFIX_KEY[" + value + "] => " + filtresTmp.size());
-            
-            // FA UN 'OR' AMB LA RESTA
-            // N'hi pot haver n separats per ; segons documentacio de miniapplet
-            this.filtres.add(new AndFilter(filtresTmp));
-          }
-          
-        } else if (filterValue.startsWith(AFIRMA_FILTERS_X_PREFIX_KEY)) {
-          int pos = filterValue.indexOf('=');
-          String key = filterValue.substring(0, pos);
-          String value = filterValue.substring(pos + 1);
-          propertiesFilterXAfirma.put(key, value);
-        }
-        
-        if (filter != null) {
-          filters.add(filter);
-        }
-
-      }
-      
-      this.filtres.add(new AndFilter(filters));
-
-      if (propertiesFilterXAfirma.size() != 0) {
-        
-        // FA UN 'OR' AMB LA RESTA
-        
-        List<CertificateFilter> filtresTmp = (List<CertificateFilter>)new es.gob.afirma.keystores.filters.CertFilterManager(propertiesFilterXAfirma).getFilters();
-        // Aquests filtres 
-        if (filtresTmp != null) {
-           System.out.println("AFIRMA_FILTERS_X_PREFIX_KEY[entrades = "
-              + propertiesFilterXAfirma + "] =>" + filtresTmp.size() + " Filtres");
-           this.filtres.addAll(filtresTmp);
-        }
-
-      }
-
-    }  
-
-    /**
-     * Devuelve la lista de certificados definidos.
-     * @return Listado de certificados.
-     */
-    List<CertificateFilter> getFilters() {
-      return (this.filtres != null ? new ArrayList<CertificateFilter>(this.filtres) : null);
-    }
-
-    /**
-     * Indica si se debe seleccionar autom&aacute;ticamente un certificado si es el &uacute;nico que
-     * cumple los filtros.
-     * @return {@code true} si debe seleccionarse autom&aacute;ticamente el &uacute;nico certificado
-     * que supera el filtrado, {@code false} en caso contrario.
-     */
-    boolean isMandatoryCertificate() {
-      return this.mandatoryCertificate;
-    }
-
-
-  }
-  
-  
   
   private static final String SIGNATURE_FORMAT_AUTO = "AUTO"; //$NON-NLS-1$
   

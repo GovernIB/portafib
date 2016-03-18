@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
@@ -79,13 +80,13 @@ public class MiniAppletInClientSignatureWebPlugin extends
   }
 
   @Override
-  public void closeSignaturesSet(String id) {
-    super.closeSignaturesSet(id);
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
+    super.closeSignaturesSet(request, id);
     elapsedTimes.remove(id);
   };
 
   @Override
-  public String signSet(String absolutePluginRequestPath, String relativePluginRequestPath,
+  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
       SignaturesSet signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);
@@ -244,8 +245,14 @@ public class MiniAppletInClientSignatureWebPlugin extends
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
         byte[] rubric;
-        rubric = fileInfo.getPdfInfoSignature().getRubricGenerator()
-            .genenerateRubricImage(cert, new Date());
+        IRubricGenerator generator = fileInfo.getPdfInfoSignature().getRubricGenerator();
+        
+        if (generator == null) {
+           throw new Exception("Ha elegit mostrar Taula de Firmes però "
+               + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
+        }
+        
+        rubric = generator.genenerateRubricImage(cert, new Date());
 
         response.setContentType("image/jpeg");
         response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
@@ -922,9 +929,9 @@ public class MiniAppletInClientSignatureWebPlugin extends
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
-        String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
-            relativePluginRequestPath);
-        timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+        //String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+        //    relativePluginRequestPath);
+        timeStampUrl = baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
       }
 
       MiniAppletSignInfo signInfo;

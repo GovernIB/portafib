@@ -67,13 +67,13 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
   }
 
   @Override
-  public void closeSignaturesSet(String id) {
-    super.closeSignaturesSet(id);
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
+    super.closeSignaturesSet(request, id);
     elapsedTimes.remove(id);
   };
 
   @Override
-  public String signSet(String absolutePluginRequestPath, String relativePluginRequestPath,
+  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
       SignaturesSet signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);

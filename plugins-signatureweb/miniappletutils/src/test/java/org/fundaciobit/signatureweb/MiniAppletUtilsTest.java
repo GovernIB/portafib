@@ -1,5 +1,13 @@
 package org.fundaciobit.signatureweb;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.cert.X509Certificate;
+
+import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.utils.CertificateUtils;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -36,24 +44,22 @@ public class MiniAppletUtilsTest extends TestCase {
   }
 
   public static void main(String[] args) {
-/*
+
     try {
+      String filePath = "DNIe_firma.cer";
+      InputStream certstream = new FileInputStream(new File(filePath));
+      X509Certificate certificate1 = CertificateUtils.decodeCertificate(certstream);
 
-      AbstractTriFaseSigner atps = new AbstractTriFaseSigner();
-      byte[] inPDF = "lkasjdhalksjdfhalskdfj".getBytes();
+      String filter = "filter=issuer.rfc2254:|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003)";
 
-      Properties extraParams = new Properties();
+      Boolean match = MiniAppletUtils.matchFilter(certificate1, filter);
 
-      final GregorianCalendar signTime = new GregorianCalendar();
+      System.out.println(" FINAL :: match => " + match);
 
-      byte[] data = atps.invoke_PdfTimestamper_timestampPdf(inPDF, extraParams, signTime);
-      
-      System.out.println("BYTE TIME = " + new String(data));
-      
     } catch (Exception e) {
       e.printStackTrace();
     }
-    */
+
   }
 
 }

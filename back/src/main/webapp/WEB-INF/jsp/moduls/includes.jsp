@@ -6,6 +6,6 @@
 %><%@ taglib prefix="pfi"    uri="/WEB-INF/jstl/portafib.tld"
 %><%@ taglib prefix="gen"    uri="/WEB-INF/jstl/genapp.tld"
 %><%@ taglib prefix="tiles"  uri="http://tiles.apache.org/tags-tiles" 
-%><%@ taglib uri="http://jakarta.apache.org/taglibs/unstandard-1.0" prefix="un"
+%><%@ taglib  prefix="un" uri="http://jakarta.apache.org/taglibs/unstandard-1.0"
 %><%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"
 %><%@ page errorPage="/error.jsp" trimDirectiveWhitespaces="true"%><%--  page errorPage="/WEB-INF/jsp/error.jsp"  --%>

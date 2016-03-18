@@ -72,6 +72,9 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       + "miniappletinserver.";
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
+  
+  
+  public static final String SESSION_FILTER = "SESSION_CERTIFICATE_FILTER";
 
   protected static File miniappletInServerBasePath = null;
 
@@ -123,19 +126,24 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   @Override
   public boolean filter(HttpServletRequest request, String username, String administrationID,
       String filter, boolean supportJava) {
-    // Per ara esta un poc complicat, ja que sempre s'gha de mostrar
+    // Per ara esta un poc complicat, ja que sempre s'ha de mostrar
     // ja que l'usuari sempre te l'opció d'afegir Certificats
+    
+    request.getSession().setAttribute(SESSION_FILTER, filter);
+    
     return true;
   }
 
   @Override
-  public void closeSignaturesSet(String id) {
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
     missatges.remove(id);
-    super.closeSignaturesSet(id);
+    super.closeSignaturesSet(request, id);
+    
+    request.getSession().removeAttribute(SESSION_FILTER);
   }
 
   @Override
-  public String signSet(String absolutePluginRequestPath, 
+  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, 
       String relativePluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 
@@ -192,7 +200,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
       PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, signaturesSet);
-      selectCertificateGET(relativePluginRequestPath, relativePath, signaturesSet, out, locale);
+      selectCertificateGET(request, relativePluginRequestPath, relativePath,
+          signaturesSet, out, locale);
 
       generateFooter(out);
     } else if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
@@ -442,7 +451,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private static final String SELECT_CERTIFICATE_PAGE = "selectCertificate";
 
-  private void selectCertificateGET(String relativePluginRequestPath, String relativePath,
+  private void selectCertificateGET(HttpServletRequest request, 
+      String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
 
 
@@ -457,22 +467,50 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("<tr>");
     out.println("<td colspan>" + getTraduccio("certificatfirmar", locale) + ":<br/></td>");
     out.println("<td>");
-    
+    int certificatsDisponibles = 0;
     int count = 0;
+    
+    String filter = (String)request.getSession().getAttribute(SESSION_FILTER);
+    
+    
     for (File path : certificates.keySet()) {
+      
+      boolean passFilter;
+      File certFile = new File(path, FILENAME_CERT);   
+      
+      try {
+         X509Certificate cert = CertificateUtils.decodeCertificate(new FileInputStream(certFile));
+         
+         passFilter = MiniAppletUtils.matchFilter(cert, filter);
+         
+      } catch (Exception e) {
+        log.error(" Error llegint Certificat " + certFile.getAbsolutePath(), e);
+        passFilter = false;
+      }
+      
+      if (passFilter) {
+        certificatsDisponibles++;
+      }
+      
+      
       Properties props = certificates.get(path);
       out.println("<table>");
       out.println("<tr>");
       out.println("<td align=\"center\" width=\"50px\">");
-      out.println("<input type=\"radio\" name=\"cert\" id=\"optionsRadios_" + path.getName()
+      if (passFilter) {
+        out.println("<input type=\"radio\" name=\"cert\" id=\"optionsRadios_" + path.getName()
           + "\" value=\"" + path.getName() + "\" " + ((count == 0)?"checked":"" ) + " >");
+      } else {
+        String warn = getTraduccio("nopassafiltre", locale);
+        out.println("<p style=\"color:red\"><b>" + warn + "</b><p>");
+      }
           
       out.println("</td>");
-      out.println("<td style=\"border: 1px solid gray; padding-top:1px;\">");
+      out.println("<td style=\"border: 1px solid gray; padding-top:1px;"
+          + (passFilter? "" : "background:lightpink;") +
+          " \">");
       
       out.println("<label class=\"radio\">");
-
-
       out.println("<b>" + props.getProperty(PROPERTY_SUBJECT) + "</b><br/>");
       out.println("<i>" + props.getProperty(PROPERTY_ISSUER) + " </i><br/>");
       // Afegir dates
@@ -504,11 +542,20 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("</td>");
     out.println("</tr>");
     out.println("<tr>");
-    out.println("<td>" + getTraduccio("pinassociatacertificat", locale)+ ":</td>");
-    out.println("<td><input type=\"password\" style=\"display: none;\" />"
-        + "<input type=\"password\" id=\"myTextInput\" name=\"" + FIELD_PIN + "\" value=\"\" /></td>");
+    if(certificatsDisponibles == 0) {
+      String warn = getTraduccio("warn.notecertificats", locale);
+      out.println("<td colspan=\"2\">");
+      out.println("<br/><div class=\"alert alert-error\">");
+      out.println("<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>");
+      out.println(" <strong>" + warn+  "</strong>");
+      out.println("</div>");
+      out.println("</td>");
+    } else {
+      out.println("<td>" + getTraduccio("pinassociatacertificat", locale)+ ":</td>");
+      out.println("<td><input type=\"password\" style=\"display: none;\" />"
+          + "<input type=\"password\" id=\"myTextInput\" name=\"" + FIELD_PIN + "\" value=\"\" /></td>");
+    }
     out.println("</tr>");
-           
     out.println("</table>");
     
     out.println("<script type=\"text/javascript\">");
@@ -527,9 +574,12 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("<button class=\"btn btn-success\" type=\"button\"  onclick=\"location.href='" + relativePluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE + "/canreturn'\" >" 
         + getTraduccio("afegircertificat.enllaz", locale) + "</button>");
     out.println("&nbsp;&nbsp;");
-    int numFitxers = signaturesSet.getFileInfoSignatureArray().length;
-    out.println("<button class=\"btn btn-primary\" type=\"submit\">" 
-      + getTraduccio("firmardocument" + (numFitxers == 0?"":".plural"), locale) + "</button>");
+    
+    if(certificatsDisponibles != 0) {
+      int numFitxers = signaturesSet.getFileInfoSignatureArray().length;
+      out.println("<button class=\"btn btn-primary\" type=\"submit\">" 
+        + getTraduccio("firmardocument" + (numFitxers == 0?"":".plural"), locale) + "</button>");
+    }
     out.println("</form>");
   }
   

@@ -11,7 +11,7 @@
 
  	    <sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
         
-        <sec:logout logout-success-url="/index.jsp" />
+        <!-- <sec:logout logout-success-url="/index.jsp" />  -->
 
         <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
 		<sec:intercept-url pattern="/js/**" access="permitAll"/>
@@ -23,9 +23,6 @@
         <!-- Plugins de Firma -->
         <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
 
-		<!-- 
-		<sec:intercept-url pattern="/principal.jsp" access="isAuthenticated()"/>
-		 -->
 
 		<sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 

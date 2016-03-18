@@ -78,7 +78,7 @@ public class SignatureModuleController {
   public ModelAndView selectSignModules(HttpServletRequest request, HttpServletResponse response,
      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
 
-    PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
     // TODO CHECK signature Set
 
@@ -179,7 +179,7 @@ public class SignatureModuleController {
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     
     // Check pss is null
     if (pss == null) {
@@ -238,7 +238,7 @@ public class SignatureModuleController {
     
     // EL portaFIBSignaturesSet existe?
     PortaFIBSignaturesSet signaturesSet;
-    signaturesSet = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
     signaturesSet.setPluginID(pluginID);
     
@@ -257,7 +257,7 @@ public class SignatureModuleController {
     signaturesSet.getCommonInfoSignature().setUrlFinal(newFinalUrl);
 
     String urlToPluginWebPage;
-    urlToPluginWebPage = signaturePlugin.signSet(absoluteRequestPluginBasePath,
+    urlToPluginWebPage = signaturePlugin.signSet(request, absoluteRequestPluginBasePath,
         relativeRequestPluginBasePath, signaturesSet);
 
 
@@ -321,7 +321,7 @@ public class SignatureModuleController {
       String signaturesSetID, int signatureIndex, 
       String relativePath, boolean isPost)  {
 
-    PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     if (ss == null) {
       String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
       generateErrorAndRedirect(request, response, ss, msg, null);
@@ -385,20 +385,20 @@ public class SignatureModuleController {
   // -------------------------------------------------------------------------
 
 
-  public static void closeSignaturesSet(String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+  public static void closeSignaturesSet(HttpServletRequest request, String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     
     if (pss == null) {
       log.warn("NO Existeix signaturesSetID igual a " + signaturesSetID);
       return;
     }
     
-    closeSignaturesSet(pss, modulDeFirmaEjb);
+    closeSignaturesSet(request, pss, modulDeFirmaEjb);
   }
     
     
- private static void closeSignaturesSet(PortaFIBSignaturesSet pss, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+ private static void closeSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet pss, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
    
   
     Long pluginID = pss.getPluginID();
@@ -419,7 +419,7 @@ public class SignatureModuleController {
       }
       
       try {
-        signaturePlugin.closeSignaturesSet(signaturesSetID);
+        signaturePlugin.closeSignaturesSet(request, signaturesSetID);
       } catch (Exception e) {
         log.error("Error borrant dades d'un SignaturesSet " + signaturesSetID 
             + ": " + e.getMessage(), e);
@@ -438,7 +438,7 @@ public class SignatureModuleController {
   protected ModelAndView generateErrorMAV(HttpServletRequest request,
       String signaturesSetID,  String msg, Throwable th) {
     
-    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+    PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     return generateErrorMAV(request, pss, msg, th);
   }
   
@@ -511,9 +511,9 @@ public class SignatureModuleController {
   
   
   
-  public static SignaturesSet getSignaturesSetByID(String signaturesSetID, 
-      ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
-    return getPortaFIBSignaturesSet(signaturesSetID, modulDeFirmaEjb);
+  public static SignaturesSet getSignaturesSetByID(HttpServletRequest request,
+      String signaturesSetID,   ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+    return getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
   }
   
   /**
@@ -522,8 +522,8 @@ public class SignatureModuleController {
    * @param signaturesSetID
    * @return
    */
-  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(String signaturesSetID,
-      ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+  private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(HttpServletRequest request,
+      String signaturesSetID,  ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
     // Fer net peticions caducades SignaturesSet.getExpiryDate()
     // Check si existeix algun proces de firma caducat s'ha d'esborrar
     // Com a mínim cada minut es revisa si hi ha caducats
@@ -550,7 +550,7 @@ public class SignatureModuleController {
         synchronized (portaFIBSignaturesSets2) {
 
           for (PortaFIBSignaturesSet pss : keysToDelete) {
-            closeSignaturesSet(pss, modulDeFirmaEjb);
+            closeSignaturesSet(request, pss, modulDeFirmaEjb);
           }
         }
       }

@@ -84,9 +84,9 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   }
 
   @Override
-  public void closeSignaturesSet(String id) {
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
     missatges.remove(id);
-    super.closeSignaturesSet(id);
+    super.closeSignaturesSet(request, id);
   }
 
   // ----------------------------------------------------------------------------

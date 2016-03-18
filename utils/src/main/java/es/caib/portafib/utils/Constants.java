@@ -195,7 +195,7 @@ public interface Constants {
 
   
   // ========================================================
-  // ----- APPLET CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
+  // ----- CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================
 
 
