@@ -3,6 +3,8 @@
 PortaFIB 1.1.0
 ==============
 
+2016-04-06  Afegir Passarel·la de Firma a les funcionalitats de PortaFIB
+
 2016-03-11  Actualitzar MiniApplet de la versió 1.3 a la 1.4.
 
 2016-02-22  Fusionar Plugins de Firma MiniApplet com Applet i JavaWebstart en MiniApplet en Client
