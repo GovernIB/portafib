@@ -47,9 +47,9 @@
 (9) S'han d'esborrar del fitxer portafib-properties-service.xml les següent propietats:
            * es.caib.portafib.name
 
-(10) Filtres de  Certificats:
-          * S'han d'adaptar als filtres definits en el document d'integració del MiniApplet
-          * Per la CAIB, s'han de substituir les següents cadenes:
+(10) Filtres de  Certificats (veure punt "10.3.- Filtres de Certificats" del Manual d'Usuari):
+          * En general: S'han d'adaptar als filtres definits en el document d'integració del MiniApplet
+          * Per la CAIB: S'han de substituir les següents cadenes:
                       - "checkexpiration:true" => "filters.1=nonexpired:"
                       - "rfc2254_rec_issuer:"  => "filters.2=issuer.rfc2254.recurse:"
                       - "policyid:"            => "filters.3=policyid:"
