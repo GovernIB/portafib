@@ -103,7 +103,14 @@
       es.caib.portafib.plugins.userinformation.ldap.attribute.mail=mail
       es.caib.portafib.plugins.userinformation.ldap.attribute.administration_id=postOfficeBox
       es.caib.portafib.plugins.userinformation.ldap.attribute.name=givenName
+      # Has de triar:
+      #       - "surname1" i "surname2"
+      #       - "surname"
       es.caib.portafib.plugins.userinformation.ldap.attribute.surname=sn
+
+      es.caib.portafib.plugins.userinformation.ldap.attribute.surname1=sn1
+      es.caib.portafib.plugins.userinformation.ldap.attribute.surname2=sn2
+
       es.caib.portafib.plugins.userinformation.ldap.attribute.telephone=telephoneNumber
       es.caib.portafib.plugins.userinformation.ldap.attribute.memberof=memberOf
       es.caib.portafib.plugins.userinformation.ldap.prefix_role_match_memberof=CN=@
