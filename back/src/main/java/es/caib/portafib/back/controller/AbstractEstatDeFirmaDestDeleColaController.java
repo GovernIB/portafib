@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller;
 
-  import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.utils.Utils;
@@ -50,7 +49,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -59,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.controller.FileDownloadController;
@@ -616,13 +615,14 @@ import es.caib.portafib.utils.Configuracio;
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
             caducitat.getTime(), commonInfoSignature,
-            fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]));
+            fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]),
+            loginInfo.getEntitat());
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
         
         final String view = "PluginDeFirmaContenidor_" + getRole();
-        ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+        ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
         
         
         // Només quan #peticions > 3 activar thread
@@ -815,12 +815,12 @@ import es.caib.portafib.utils.Configuracio;
 
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-          commonInfoSignature, fileInfoSignatureArray);
+          commonInfoSignature, fileInfoSignatureArray, entitat);
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
       final String view = "PluginDeFirmaContenidor_AutoFirma";
-      ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+      ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
 
       return mav;
     }
@@ -1019,17 +1019,9 @@ import es.caib.portafib.utils.Configuracio;
    * @author anadal
    *
    */
-  public class ParallelSignedFilesProcessing extends Thread {
-
-    protected final Logger log = Logger.getLogger(ParallelSignedFilesProcessing.class);
+  public class ParallelSignedFilesProcessing extends AbstractParallelSignedFilesProcessing {
 
     protected final PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
-
-    protected final ModulDeFirmaLogicaLocal modulDeFirmaEjb;
-
-    protected final String signaturesSetID;
-    
-    protected final HttpServletRequest request;
 
     /**
      * @param signaturesSetID
@@ -1039,122 +1031,22 @@ import es.caib.portafib.utils.Configuracio;
     public ParallelSignedFilesProcessing(HttpServletRequest request, String signaturesSetID,
         PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb,
         ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
-      super();
-      this.request = request;
-      this.signaturesSetID = signaturesSetID;
+      super(request, signaturesSetID, modulDeFirmaEjb);
+      
       this.peticioDeFirmaLogicaEjb = peticioDeFirmaLogicaEjb;
-      this.modulDeFirmaEjb = modulDeFirmaEjb;
     }
 
     @Override
-    public void run() {
+    public void process(FileInfoSignature signedFileInfo, File firmat) throws I18NException {
+      SignatureID signID = decodeSignatureID(signedFileInfo.getSignID());
+
+      final long estatDeFirmaID = signID.getEstatDeFirmaID();
+      final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
+      final String token = signID.getToken();
       
-      final boolean isDebug = log.isDebugEnabled();
+      peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
+          token, signedFileInfo.getSignNumber());
       
-      if (isDebug) {
-        log.debug("(Thread) Iniciat thread ...");
-      }
-      try {
-        Thread.sleep(2000);
-      } catch (InterruptedException e1) {
-      }
-      
-      
-
-      Date caducitat = null;
-      do {
-
-
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e1) {
-          e1.printStackTrace();
-        }
-
-        SignaturesSet ss;
-        ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
-
-        if (ss == null) {
-          return;
-        }
-        
-        if (caducitat == null) {
-          caducitat = ss.getExpiryDate();
-          if (caducitat == null) {
-            // Valor per defecte
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.MINUTE, 10);
-            caducitat = new Date(System.currentTimeMillis() + 10 * 60 * 1000);
-          }
-          
-        }
-
-        StatusSignaturesSet sss = ss.getStatusSignaturesSet();
-        
-        if (sss.getStatus() == StatusSignaturesSet.STATUS_INITIALIZING) {
-          if (isDebug) {
-            log.debug("(Thread) STATUS_INITIALIZING  Esperam ....");
-          }
-          continue;
-        } else if (sss.getStatus() != StatusSignaturesSet.STATUS_IN_PROGRESS) {
-          return;
-        }
-
-        
-        FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
-
-        for (int i = signedFiles.length -1; i >= 0 ; i--) {
-
-          final FileInfoSignature signedFile = signedFiles[i];
-
-          StatusSignature status = signedFile.getStatusSignature();
-          
-          // Per a que no es trepitji Thread i finalProcesDeFirma()
-          synchronized (status) {
-
-            // Només Processarem els OK
-            if (status.isProcessed() || status.getStatus() != StatusSignature.STATUS_FINAL_OK) {
-              continue;
-            }
-
-            SignatureID signID = decodeSignatureID(signedFile.getSignID());
-
-            final long estatDeFirmaID = signID.getEstatDeFirmaID();
-            final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
-            final String token = signID.getToken();
-
-            File firmat = null;
-            try {
-
-              firmat = status.getSignedData();
-
-              if (isDebug) {
-                log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
-              }
-  
-              peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
-                  token, signedFile.getSignNumber());
-  
-              status.setProcessed(true);
-              
-              if (isDebug) {
-                log.debug("(Thread)    [" + i + "]  Processat Signature " + signedFile.getSignID() + " ...");
-              }
-  
-            } catch (Throwable e) {
-              // Do Nothing
-              
-              if (isDebug) {
-                log.debug("(Thread)   [" + i + "]   Thread Error Cridant a nouFitxerFirmat"
-                    + " (No gestionam l'error): " + e.getMessage(), e);
-              }
-              
-            }
-          } // Final synchronized
-        }
-
-      } while(caducitat.getTime() > System.currentTimeMillis()); // Sortida en cas de bloqueig
-
     }
 
   }
@@ -1245,15 +1137,18 @@ import es.caib.portafib.utils.Configuracio;
         FirmaJPA lastFirma = peticioDeFirmaLogicaEjb
             .getLastSignOfPeticioDeFirma(peticioDeFirmaID);
         final File source;
+        final String mimeType;
         if (lastFirma == null) {
           log.debug("No hi ha firmes. La font del document és el document original");
           source = FileSystemManager.getFile(peticioDeFirma.getFitxerAdaptatID());
+          mimeType = peticioDeFirma.getFitxerAdaptat().getMime();
         } else {
           if (log.isDebugEnabled()) {
             log.debug("La darrera firma és " + firma.getFirmaID() + " (#"
                 + firma.getNumFirmaDocument() + ")");
           }
           source =  FileSystemManager.getFile(lastFirma.getFitxerFirmatID());
+          mimeType = lastFirma.getFitxerFirmat().getMime();
         }
 
         final int sign_number = lastFirma == null ? 1 : (lastFirma.getNumFirmaDocument() + 1);
@@ -1271,6 +1166,7 @@ import es.caib.portafib.utils.Configuracio;
         final String reason;
         Locale loc = new Locale(peticioDeFirma.getIdiomaID());
         Long colaDeleID = estatDeFirma.getColaboracioDelegacioID();
+        UsuariPersona up = loginInfo.getUsuariPersona();
         if (colaDeleID == null) {
           // Destinatari
           reason = I18NUtils.tradueix(loc, "motiupeticiodirecta");
@@ -1283,7 +1179,7 @@ import es.caib.portafib.utils.Configuracio;
           UsuariEntitatJPA dest = usuariEntitatLogicaEjb.findByPrimaryKeyFull(colaDele
               .getDestinatariID());
 
-          UsuariPersona up = loginInfo.getUsuariPersona();
+          
           UsuariPersona destUP = dest.getUsuariPersona();
           String[] args = {
               // Delegat
@@ -1300,11 +1196,14 @@ import es.caib.portafib.utils.Configuracio;
           reason = mf.format(args);
         }
         
+        // XYZ TODO FALTA
+        final String location = null;
+
+        final String signerEmail = up.getEmail(); 
   
         
         
         // Construir Objecte
-
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
         final String firmatPerFormat = es.caib.portafib.back.utils.Utils.getFirmatPerFormat(entitat, langSign);
@@ -1337,14 +1236,12 @@ import es.caib.portafib.utils.Configuracio;
          }
        }
 
-       return SignatureModuleController.getFileInfoSignature(signatureID, source, idname,
-            location_sign_table, reason, sign_number, 
+       return SignatureModuleController.getFileInfoSignature(signatureID, source,mimeType,
+            idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator);
 
     }
-    
-
 
 
     @RequestMapping(value = "/rebutjar/{estatDeFirmaID}/{peticioDeFirmaID}")

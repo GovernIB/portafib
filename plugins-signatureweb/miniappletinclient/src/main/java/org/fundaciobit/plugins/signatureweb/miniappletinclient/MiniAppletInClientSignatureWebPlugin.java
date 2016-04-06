@@ -31,7 +31,7 @@ import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
@@ -86,7 +86,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   };
 
   @Override
-  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
+  public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
       SignaturesSet signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);
@@ -98,7 +98,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
     if (relativePath.startsWith(APPLET_WEBRESOURCE)) {
@@ -180,7 +180,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
     if (relativePath.endsWith(DESTINATION_DOC_PAGE)) {
@@ -211,7 +211,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   private void rubricPage(String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     try {
 
@@ -239,13 +239,13 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         X509Certificate cert;
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
         byte[] rubric;
-        IRubricGenerator generator = fileInfo.getPdfInfoSignature().getRubricGenerator();
+        IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
         
         if (generator == null) {
            throw new Exception("Ha elegit mostrar Taula de Firmes però "
@@ -282,7 +282,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   private void destinationDocPage(String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     try {
 
@@ -295,7 +295,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
             signatureIndex);
@@ -352,7 +352,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
     FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
 
-    File source = fileInfo.getSource();
+    File source = fileInfo.getFileToSign();
     String extension;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
       response.setContentType(MiniAppletConstants.PDF_MIME_TYPE);
@@ -400,7 +400,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
    */
   private void clientErrorPage(String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
         signatureIndex);
@@ -421,7 +421,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         Properties prop = new Properties();
 
@@ -721,16 +721,19 @@ public class MiniAppletInClientSignatureWebPlugin extends
     for (int i = 0; i < signs.length; i++) {
 
       FileInfoSignature fileInfo = signs[i];
+      
+      String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+          relativePluginRequestPath);
 
-      String rubricURL = baseSignaturesSet + "/" + i + "/rubric";
+
+      String rubricURL = callbackhost + baseSignaturesSet + "/" + i + "/rubric";
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
-        String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
-            relativePluginRequestPath);
+        
         timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
       }
-        
+      
 
       MiniAppletSignInfo signInfo;
       try {

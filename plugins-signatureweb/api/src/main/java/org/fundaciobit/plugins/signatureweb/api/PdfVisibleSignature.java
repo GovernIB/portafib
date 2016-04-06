@@ -6,28 +6,22 @@ package org.fundaciobit.plugins.signatureweb.api;
  * @author anadal
  *
  */
-public class PdfInfoSignature {
-  
-  public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
-  public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
-  public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
-  
-  protected int signaturesTableLocation = 0;
+public class PdfVisibleSignature {
+
   
   protected PdfRubricRectangle pdfRubricRectangle = null;
   
   protected IRubricGenerator rubricGenerator = null;
-
+  
 
   /**
    * @param signaturesTableLocation
    * @param pdfRubricRectangle
    * @param rubricGenerator
    */
-  public PdfInfoSignature(int signaturesTableLocation, PdfRubricRectangle pdfRubricRectangle,
+  public PdfVisibleSignature(PdfRubricRectangle pdfRubricRectangle,
       IRubricGenerator rubricGenerator) {
-    super();
-    this.signaturesTableLocation = signaturesTableLocation;
+    super();    
     this.pdfRubricRectangle = pdfRubricRectangle;
     this.rubricGenerator = rubricGenerator;
   }
@@ -35,17 +29,10 @@ public class PdfInfoSignature {
   /**
    * 
    */
-  public PdfInfoSignature() {
+  public PdfVisibleSignature() {
     super();
   }
 
-  public int getSignaturesTableLocation() {
-    return signaturesTableLocation;
-  }
-
-  public void setSignaturesTableLocation(int signaturesTableLocation) {
-    this.signaturesTableLocation = signaturesTableLocation;
-  }
 
   public PdfRubricRectangle getPdfRubricRectangle() {
     return pdfRubricRectangle;
@@ -62,8 +49,5 @@ public class PdfInfoSignature {
   public void setRubricGenerator(IRubricGenerator rubricGenerator) {
     this.rubricGenerator = rubricGenerator;
   }
-  
-  
-  
-  
+
 }

@@ -465,6 +465,17 @@ public class TestPDFUtils implements Constants {
     File logoFile = getFileFromResource("logotaulafirmescaib.jpg");
     // File logoFile = new File("logotaulafirmesfundaciobit2.jpg");
     
+    byte[] logoSegell;    
+    try {
+      logoSegell = FileUtils.readFileToByteArray(logoFile);
+    } catch (IOException e) {
+      String msg = "Error desconegut llegint logo-segell del recurs logotaulafirmescaib.jpg: "
+        + e.getMessage();
+      log.error(msg, e);
+      throw new I18NException("error.unknown",  msg);
+    }
+    
+    
       List<AttachedFile> attachments = new ArrayList<AttachedFile>(); 
       attachments.add( new AttachedFile( "hola.txt", getFileFromResource("annex_1.txt")));
 
@@ -473,7 +484,7 @@ public class TestPDFUtils implements Constants {
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments,
            null, new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
-              resumLabel, descLabel, desc, titolLabel, titol, logoFile), null);
+              resumLabel, descLabel, desc, titolLabel, titol, logoSegell), null);
 
     } catch (Throwable e) {
       e.printStackTrace();
@@ -578,8 +589,18 @@ public class TestPDFUtils implements Constants {
     // File logoFile = new File("logotaulafirmesfundaciobit.jpg");
     File logoFile = getFileFromResource("logotaulafirmescaib.jpg");
     
+    byte[] logoSegell;    
+    try {
+      logoSegell = FileUtils.readFileToByteArray(logoFile);
+    } catch (IOException e) {
+      String msg = "Error desconegut llegint logo-segell del recurs logotaulafirmescaib.jpg: "
+        + e.getMessage();
+      log.error(msg, e);
+      throw e;
+    }
+    
       stamp = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel, resumLabel, descLabel,
-        desc, titolLabel, titol, logoFile);
+        desc, titolLabel, titol, logoSegell);
     return stamp;
   }
   

@@ -9,10 +9,12 @@ import java.io.File;
  */
 public class FileInfoSignature {
 
+  public static final String PDF_MIME_TYPE = "application/pdf";
+
   /** Identificador de la firma PAdES. */
   public static final String SIGN_TYPE_PADES = "PAdES";
   /** Identificador de la firma XAdES por defecto. */
-  public static final String SIGN_TYPE_XADES =  "XAdES";
+  public static final String SIGN_TYPE_XADES = "XAdES";
   /** Identificador de la firma CAdES. */
   public static final String SIGN_TYPE_CADES = "CAdES";
   /** Identificador de la firma Factura-e (derivado de XAdES-EPES). */
@@ -21,35 +23,40 @@ public class FileInfoSignature {
   public static final String SIGN_TYPE_OOXML = "OOXML"; //$NON-NLS-1$
   /** Identificador de la firma ODF (<i>Open Document Format</i>). */
   public static final String SIGN_TYPE_ODF = "ODF"; //$NON-NLS-1$
-  
-  public static final String SIGN_ALGORITHM_SHA1="SHA-1";
-  public static final String SIGN_ALGORITHM_SHA256="SHA-256";
-  public static final String SIGN_ALGORITHM_SHA384="SHA-384";
-  public static final String SIGN_ALGORITHM_SHA512="SHA-512";
+
+  public static final String SIGN_ALGORITHM_SHA1 = "SHA-1";
+  public static final String SIGN_ALGORITHM_SHA256 = "SHA-256";
+  public static final String SIGN_ALGORITHM_SHA384 = "SHA-384";
+  public static final String SIGN_ALGORITHM_SHA512 = "SHA-512";
 
   /*
-  implicit
-  La firma resultante incluirá internamente una copia de los datos firmados.
-  El uso de este valor podría generar firmas de gran tamaño.
-  */
+   * implicit La firma resultante incluirá internamente una copia de los datos
+   * firmados. El uso de este valor podría generar firmas de gran tamaño.
+   */
   public static final int SIGN_MODE_IMPLICIT = 0;
   /*
-  explicit
-  La firma resultante no incluirá los datos firmados. Si no se indica el parámetro
-  mode se configura automáticamente este comportamiento.
-  */
+   * explicit La firma resultante no incluirá los datos firmados. Si no se
+   * indica el parámetro mode se configura automáticamente este comportamiento.
+   */
   public static final int SIGN_MODE_EXPLICIT = 1;
 
+  public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
+  public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
+  public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
 
-  File source;
-  
   String signID;
+
+  File fileToSign;
+
+  String mimeType;
 
   String name;
 
   String reason;
 
-  String firmatPerFormat;
+  String location;
+
+  String signerEmail;
 
   int signNumber;
 
@@ -61,11 +68,25 @@ public class FileInfoSignature {
 
   int signMode;
 
-  PdfInfoSignature pdfInfoSignature;
+  int signaturesTableLocation = 0;
+  
+  /** 
+   * Només necessaria en la primera firma.
+   */
+  protected SignaturesTableHeader signaturesTableHeader;
 
-  ITimeStampGenerator timeStampGenerator = null; 
+  PdfVisibleSignature pdfVisibleSignature;
 
+  boolean userRequiresTimeStamp;
+
+  ITimeStampGenerator timeStampGenerator = null;
+
+  
+  SecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
+  
   StatusSignature statusSignature = new StatusSignature();
+  
+  
 
   /**
    * 
@@ -75,54 +96,53 @@ public class FileInfoSignature {
   }
 
   /**
-   * @param source
+   * @param signID
+   * @param fileToSign
+   * @param mimeType
    * @param name
    * @param reason
-   * @param firmatPerFormat
+   * @param location
+   * @param signerEmail
    * @param signNumber
    * @param languageSign
    * @param signType
    * @param signAlgorithm
    * @param signMode
+   * @param signaturesTableLocation
+   * @param signaturesTableHeader
    * @param pdfInfoSignature
+   * @param userRequiresTimeStamp
+   * @param timeStampGenerator
+   * @param statusSignature
    */
-  public FileInfoSignature(String signID, File source, String name, String reason, String firmatPerFormat,
-      int signNumber, String languageSign, String signType, String signAlgorithm,
-      int signMode, PdfInfoSignature pdfInfoSignature, ITimeStampGenerator timeStampGenerator) {
+  public FileInfoSignature(String signID, File fileToSign, String mimeType, String name,
+      String reason, String location, String signerEmail, int signNumber, String languageSign,
+      String signType, String signAlgorithm, int signMode,
+      int signaturesTableLocation, SignaturesTableHeader signaturesTableHeader,
+      PdfVisibleSignature pdfVisibleSignature, SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
+      boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator) {
     super();
-    setValues(signID, source, name, reason, firmatPerFormat, signNumber, languageSign, signType,
-        signAlgorithm, signMode, pdfInfoSignature, timeStampGenerator);
-  }
-  
-  
-  /**
-   * @param source
-   * @param name
-   * @param reason
-   * @param firmatPerFormat
-   * @param signNumber
-   * @param languageSign
-   * @param signType
-   * @param signAlgorithm
-   * @param signMode
-   * @param pdfInfoSignature
-   */
-  public void setValues(String signID, File source, String name, String reason, String firmatPerFormat,
-      int signNumber, String languageSign, String signType, String signAlgorithm,
-      int signMode, PdfInfoSignature pdfInfoSignature, ITimeStampGenerator timeStampGenerator) {
     this.signID = signID;
-    this.source = source;
+    this.fileToSign = fileToSign;
+    this.mimeType = mimeType;
     this.name = name;
     this.reason = reason;
-    this.firmatPerFormat = firmatPerFormat;
+    this.location = location;
+    this.signerEmail = signerEmail;
     this.signNumber = signNumber;
     this.languageSign = languageSign;
     this.signType = signType;
     this.signAlgorithm = signAlgorithm;
     this.signMode = signMode;
-    this.pdfInfoSignature = pdfInfoSignature;
+    this.signaturesTableLocation = signaturesTableLocation;
+    this.signaturesTableHeader = signaturesTableHeader;
+    this.pdfVisibleSignature = pdfVisibleSignature;
+    this.secureVerificationCodeStampInfo=secureVerificationCodeStampInfo;
+    this.userRequiresTimeStamp = userRequiresTimeStamp;
     this.timeStampGenerator = timeStampGenerator;
   }
+
+
 
   public String getSignID() {
     return signID;
@@ -132,12 +152,20 @@ public class FileInfoSignature {
     this.signID = signID;
   }
 
-  public File getSource() {
-    return source;
+  public File getFileToSign() {
+    return fileToSign;
   }
 
-  public void setSource(File source) {
-    this.source = source;
+  public void setFileToSign(File fileToSign) {
+    this.fileToSign = fileToSign;
+  }
+
+  public String getMimeType() {
+    return mimeType;
+  }
+
+  public void setMimeType(String mimeType) {
+    this.mimeType = mimeType;
   }
 
   public String getName() {
@@ -156,12 +184,20 @@ public class FileInfoSignature {
     this.reason = reason;
   }
 
-  public String getFirmatPerFormat() {
-    return firmatPerFormat;
+  public String getLocation() {
+    return location;
   }
 
-  public void setFirmatPerFormat(String firmatPerFormat) {
-    this.firmatPerFormat = firmatPerFormat;
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public String getSignerEmail() {
+    return signerEmail;
+  }
+
+  public void setSignerEmail(String signerEmail) {
+    this.signerEmail = signerEmail;
   }
 
   public int getSignNumber() {
@@ -204,14 +240,38 @@ public class FileInfoSignature {
     this.signMode = signMode;
   }
 
-  public PdfInfoSignature getPdfInfoSignature() {
-    return pdfInfoSignature;
-  }
-
-  public void setPdfInfoSignature(PdfInfoSignature pdfInfoSignature) {
-    this.pdfInfoSignature = pdfInfoSignature;
+  public int getSignaturesTableLocation() {
+    return signaturesTableLocation;
   }
   
+  public SignaturesTableHeader getSignaturesTableHeader() {
+    return signaturesTableHeader;
+  }
+
+  public void setSignaturesTableHeader(SignaturesTableHeader signaturesTableHeader) {
+    this.signaturesTableHeader = signaturesTableHeader;
+  }
+
+  public void setSignaturesTableLocation(int signaturesTableLocation) {
+    this.signaturesTableLocation = signaturesTableLocation;
+  }
+
+  public PdfVisibleSignature getPdfVisibleSignature() {
+    return pdfVisibleSignature;
+  }
+
+  public void setPdfVisibleSignature(PdfVisibleSignature pdfVisibleSignature) {
+    this.pdfVisibleSignature = pdfVisibleSignature;
+  }
+
+  public boolean isUserRequiresTimeStamp() {
+    return userRequiresTimeStamp;
+  }
+
+  public void setUserRequiresTimeStamp(boolean userRequiresTimeStamp) {
+    this.userRequiresTimeStamp = userRequiresTimeStamp;
+  }
+
   public ITimeStampGenerator getTimeStampGenerator() {
     return timeStampGenerator;
   }
@@ -228,4 +288,15 @@ public class FileInfoSignature {
     this.statusSignature = statusSignature;
   }
 
+  public SecureVerificationCodeStampInfo getSecureVerificationCodeStampInfo() {
+    return secureVerificationCodeStampInfo;
+  }
+
+  public void setSecureVerificationCodeStampInfo(
+      SecureVerificationCodeStampInfo secureVerificationCodeStampInfo) {
+    this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
+  }
+
+  
+  
 }

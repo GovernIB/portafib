@@ -26,14 +26,14 @@
        <miniapplet.version>1.4</miniapplet.version>
        <miniapplet.artifactid>afirma-ui-miniapplet_1_4</miniapplet.artifactid>
     </properties>
-    
 
-	
     <modules>
        <module>api</module>
        <module>miniappletutils</module>
        <module>miniappletinserver</module>
        <module>miniappletinclient</module>
+       <module>portafib</module>
+       <module>exemple</module>
     </modules>
 
     <profiles>

@@ -65,6 +65,7 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -89,6 +90,7 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
+import org.apache.commons.io.FileUtils;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.documentcustody.DocumentCustody;
@@ -751,6 +753,17 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       final String desc = peticioDeFirma.getDescripcio();
       final String titol = peticioDeFirma.getTitol();
       final File logo = getLogoOfPeticioDeFirma(peticioDeFirma);
+      
+      byte[] logoSegell;    
+      try {
+        logoSegell = FileUtils.readFileToByteArray(logo);
+      } catch (IOException e) {
+        String msg = "Error desconegut llegint logo-segell de l'entitat " + entitatID 
+            + ": " + e.getMessage();
+        log.error(msg, e);
+        throw new I18NException("error.unknown",  msg);
+      }
+      
     
       final String signantLabel = I18NLogicUtils.tradueix(locale, "signant");
       final String resumLabel = I18NLogicUtils.tradueix(locale, "resumdefirmes");
@@ -759,7 +772,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       
       taulaDeFirmes = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel, 
-          resumLabel, descLabel, desc, titolLabel, titol, logo);
+          resumLabel, descLabel, desc, titolLabel, titol, logoSegell);
     }
   
     // Custodia

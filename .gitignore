@@ -37,3 +37,5 @@ ws/portafib_api/src/main/resources/logicmissatges_ca.properties
 ws/portafib_api/src/main/resources/logicmissatges_es.properties
 ws/portafib_api/src/main/resources/portafib_genapp_ca.properties
 ws/portafib_api/src/main/resources/portafib_genapp_es.properties
+/compil.bat
+/all.bat

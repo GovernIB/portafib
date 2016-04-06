@@ -33,7 +33,7 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
@@ -121,7 +121,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   @Override
   public boolean filter(HttpServletRequest request, String username, String administrationID,
       String filter, boolean supportJava) {
-    
+   
     // Revisar si l'usuari està registrar a SIA i si té certificats
     // de firma en aquest entorn. 
     try {
@@ -150,7 +150,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
 
   @Override
-  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, 
+  public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
       String relativePluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 
@@ -188,13 +188,13 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   @Override
   public void requestGET(String absolutePluginRequestPath, 
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale)  {
 
     
-    if (relativePath.startsWith(MINIAPPLETINSERVERSIA_WEBRESOURCE)) {
-      InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
+    if (query.startsWith(MINIAPPLETINSERVERSIA_WEBRESOURCE)) {
+      InputStream fis = FileUtils.readResource(this.getClass(), query);
       if (fis != null) {
         try {
           FileUtils.copy(fis, response.getOutputStream());        
@@ -203,7 +203,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         } catch (SocketException se) {
           return;
         } catch (Exception e) {
-          log.error("Error intentant retornar recurs " + relativePath + " (" 
+          log.error("Error intentant retornar recurs " + query + " (" 
               + getSimpleName() + "): " +e.getMessage(), e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -212,26 +212,26 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     }
     
 
-    if (relativePath.startsWith(SELECT_CERTIFICATE_PAGE)) {
+    if (query.startsWith(SELECT_CERTIFICATE_PAGE)) {
       
       selectCertificateGET(absolutePluginRequestPath, relativePluginRequestPath,
-          relativePath, request, response, signaturesSet, locale);
+          query, request, response, signaturesSet, locale);
 
      
-    } else if(relativePath.startsWith(SENSE_CERTIFICATS_PAGE)) { 
+    } else if(query.startsWith(SENSE_CERTIFICATS_PAGE)) { 
       // S'ha de provar si funciona
       senseCertificats(absolutePluginRequestPath, 
           relativePluginRequestPath, request, response, signaturesSet, locale);
-    } else if (relativePath.startsWith(FIRMAR_POST_PAGE)) {
+    } else if (query.startsWith(FIRMAR_POST_PAGE)) {
       firmarPost(request, response, signaturesSet, locale);
-    } else if (relativePath.startsWith(CLOSE_SIA_PAGE)) {
+    } else if (query.startsWith(CLOSE_SIA_PAGE)) {
       
       closeSIAPage(response, locale);
       
     } else {
     
         super.requestGET(absolutePluginRequestPath, 
-            relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+            relativePluginRequestPath, query, signaturesSet, signatureIndex,
             request, uploadedFiles, response, locale);
     }
 
@@ -243,7 +243,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public void requestPOST(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response,
+      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response,
       Locale locale)  {
 
 
@@ -1090,8 +1090,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   /**
    * 
-   * @param username
-   * @param administrationID És el NIF
+   * @param username (opcional)
+   * @param administrationID És el NIF (obligatori)
    * @return
    * @throws Exception
    */
@@ -1108,7 +1108,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
     if (mappingPath != null) {
       Properties props = readPropertiesFromFile(new File(mappingPath));
-      if (props != null) {
+      if (props != null && username != null) {
         String newUser = props.getProperty(username);
         if (newUser != null) {
           return newUser;
@@ -1121,17 +1121,27 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
     String usersPattern = getProperty(PROPERTY_USERS_PATTERN);
     
-    if (usersPattern != null) {
-      
-     username = MessageFormat.format(usersPattern, username, administrationID);
-      
-    }
 
-    if (debug) {
-      log.debug("getSIAUser:: RETURN " + username);
+    String newUser = null;
+    
+    if (usersPattern != null) {
+      newUser = MessageFormat.format(usersPattern, username, administrationID);
     }
     
-    return username;
+    if (newUser == null) {
+      if (username == null) {
+        newUser = administrationID;
+      } else {
+        newUser = username;
+      }
+    }
+    
+
+    if (debug) {
+      log.debug("getSIAUser:: RETURN " + newUser);
+    }
+    
+    return newUser;
 
   }
  

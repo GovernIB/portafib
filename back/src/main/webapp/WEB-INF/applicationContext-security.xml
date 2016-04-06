@@ -22,6 +22,8 @@
 		<sec:intercept-url pattern="/index.jsp" access="permitAll"/>
         <!-- Plugins de Firma -->
         <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
+        <!-- Passarela de Firma PortaFIB No-Autenticada -->
+        <sec:intercept-url pattern="/public/**" access="permitAll"/>
 
 
 		<sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>

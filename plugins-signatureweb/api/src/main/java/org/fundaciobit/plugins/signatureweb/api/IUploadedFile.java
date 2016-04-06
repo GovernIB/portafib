@@ -9,78 +9,7 @@ import java.io.InputStream;
  * @author anadal
  *
  */
-public interface UploadedFile {
-
-/*
-  String formName;
-
-
-  String originalFilename;
-
-
-  String contentType;
-
-
-  long size;
-
-
-  byte[] bytes;
-
-  public UploadedFile() {
-
-  }
-
-  public UploadedFile(String formName, String originalFilename, String contentType, long size,
-      byte[] bytes) {
-    super();
-    this.formName = formName;
-    this.originalFilename = originalFilename;
-    this.contentType = contentType;
-    this.size = size;
-    this.bytes = bytes;
-  }
-
-  public String getFormName() {
-    return formName;
-  }
-
-  public void setFormName(String formName) {
-    this.formName = formName;
-  }
-
-  public String getOriginalFilename() {
-    return originalFilename;
-  }
-
-  public void setOriginalFilename(String originalFilename) {
-    this.originalFilename = originalFilename;
-  }
-
-  public String getContentType() {
-    return contentType;
-  }
-
-  public void setContentType(String contentType) {
-    this.contentType = contentType;
-  }
-
-  public long getSize() {
-    return size;
-  }
-
-  public void setSize(long size) {
-    this.size = size;
-  }
-
-  public byte[] getBytes() {
-    return bytes;
-  }
-
-  public void setBytes(byte[] bytes) {
-    this.bytes = bytes;
-  }
-*/
-  
+public interface IUploadedFile {
   
 
   /**
@@ -147,8 +76,4 @@ public interface UploadedFile {
    * in the filesystem and is not available anymore for another transfer
    */
   void transferTo(File dest) throws IOException, IllegalStateException;
-
-  
-  
-  
 }

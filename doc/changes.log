@@ -3,7 +3,9 @@
 PortaFIB 1.1.0
 ==============
 
-2016-12-22  Fusionar Plugins de Firma MiniApplet com Applet i JavaWebstart en MiniApplet en Client
+2016-03-11  Actualitzar MiniApplet de la versió 1.3 a la 1.4.
+
+2016-02-22  Fusionar Plugins de Firma MiniApplet com Applet i JavaWebstart en MiniApplet en Client
 
 2016-01-12 Migració de propietats del fitxer de properties a Propietats Global i d'Entitat de la Web
 

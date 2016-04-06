@@ -11,9 +11,11 @@ import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.PdfInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSigner;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
@@ -92,16 +94,18 @@ public class SignatureInServerTest extends TestCase {
       File source = new File(pdfsource);
       String name = source.getName();
       String reason = "TEST SIGN";
-      String firmatPerFormat = "{0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - C\u00E0rrec {5}}{6,choice,0#|1&lt; - Unitat {7}} (Emissor {3})";
+      String location = "Palma";
+      String signerEmail="anadal@ibit.org";
+      
       int signNumber = 1;
       String languageSign = "ca";
       String signType = FileInfoSignature.SIGN_TYPE_PADES;
       String signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
       int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
 
-      int signaturesTableLocation = PdfInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
+      int signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
       PdfRubricRectangle pdfRubricRectangle = new PdfRubricRectangle(106, 650, 555, 710);
-
+      // String firmatPerFormat = "{0}{1,choice,0#|1&lt; - NIF {2}}{4,choice,0#|1&lt; - C\u00E0rrec {5}}{6,choice,0#|1&lt; - Unitat {7}} (Emissor {3})";
       IRubricGenerator rubricGenerator = new IRubricGenerator() {
 
         @Override
@@ -111,14 +115,21 @@ public class SignatureInServerTest extends TestCase {
         }
       };
 
-      PdfInfoSignature pdfInfoSignature = new PdfInfoSignature(signaturesTableLocation,
-          pdfRubricRectangle, rubricGenerator);
+      PdfVisibleSignature pdfInfoSignature = new PdfVisibleSignature(pdfRubricRectangle, rubricGenerator);
 
-      ITimeStampGenerator timeStampGenerator = null;
+      final ITimeStampGenerator timeStampGenerator = null;
+      final boolean userRequiresTimeStamp = (timeStampGenerator != null); 
+      
+      
+      // Valors per defcte
+      final SignaturesTableHeader signaturesTableHeader = null;
+      final SecureVerificationCodeStampInfo csvStampInfo = null;
 
-      FileInfoSignature fileInfo = new FileInfoSignature(signID, source, name, reason,
-          firmatPerFormat, signNumber, languageSign, signType, signAlgorithm, signMode,
-          pdfInfoSignature, timeStampGenerator);
+      FileInfoSignature fileInfo = new FileInfoSignature(signID, source,
+          FileInfoSignature.PDF_MIME_TYPE, name, reason,
+          location, signerEmail, signNumber, languageSign, signType, signAlgorithm, signMode,
+          signaturesTableLocation, signaturesTableHeader, pdfInfoSignature,
+          csvStampInfo,userRequiresTimeStamp,timeStampGenerator);
 
       MiniAppletSignInfo info = MiniAppletUtils.convertLocalSignature(commonInfoSignature,
           fileInfo, null, pair.getPublicCertificate());

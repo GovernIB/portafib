@@ -530,7 +530,7 @@ public class PdfUtils implements Constants {
       int posicioTaulaFirmes = Constants.TAULADEFIRMES_SENSETAULA;
       if (taulaDeFirmesInfo != null) {
         addTaulaDeFirmes(reader, stamper, taulaDeFirmesInfo);
-        posicioTaulaFirmes = taulaDeFirmesInfo.posicioTaulaDeFirmes;
+        posicioTaulaFirmes = taulaDeFirmesInfo.getPosicioTaulaDeFirmes();
       }
 
       // 1.1.- Afegir Informacio de Custodia
@@ -607,7 +607,7 @@ public class PdfUtils implements Constants {
 
   public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper,
       StampTaulaDeFirmes taulaDeFirmes) throws Exception {
-    if (taulaDeFirmes.posicioTaulaDeFirmes != TAULADEFIRMES_SENSETAULA) {
+    if (taulaDeFirmes.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
       float heightSignBoxInch = SIGNBOX_HEIGHT / 72f; // 0.5f;
       float boxLogoSide = LOGO_SIDE / 72f; // 1.1f;
       float startSignTableInch = SIGNBOX_START / 72f; // 1.25f;
@@ -621,20 +621,20 @@ public class PdfUtils implements Constants {
 
         XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
 
-        if (taulaDeFirmes.desc == null) {
-          taulaDeFirmes.desc = "";
+        if (taulaDeFirmes.getDesc() == null) {
+          taulaDeFirmes.setDesc("");
         } else {
 
-          if (taulaDeFirmes.desc.length() > 143) {
-            taulaDeFirmes.desc = taulaDeFirmes.desc.substring(0, 140) + "...";
+          if (taulaDeFirmes.getDesc().length() > 143) {
+            taulaDeFirmes.setDesc(taulaDeFirmes.getDesc().substring(0, 140) + "...");
           }
         }
 
-        if (taulaDeFirmes.titol == null) {
-          taulaDeFirmes.titol = "";
+        if (taulaDeFirmes.getTitol() == null) {
+          taulaDeFirmes.setTitol("");
         } else {
-          if (taulaDeFirmes.titol.length() > 43) {
-            taulaDeFirmes.titol = taulaDeFirmes.titol.substring(0, 40) + "...";
+          if (taulaDeFirmes.getTitol().length() > 43) {
+            taulaDeFirmes.setTitol(taulaDeFirmes.getTitol().substring(0, 40) + "...");
           }
         }
 
@@ -652,27 +652,27 @@ public class PdfUtils implements Constants {
             + "     </td>"
             + "    <td >"
             + "      <b><u>"
-            + taulaDeFirmes.resumLabel
+            + taulaDeFirmes.getResumLabel()
             + "</u></b><br/>"
             + "      <b>"
-            + taulaDeFirmes.titolLabel
+            + taulaDeFirmes.getTitolLabel()
             + ": </b>"
-            + taulaDeFirmes.titol
+            + taulaDeFirmes.getTitol()
             + "<br/>"
             + "      <b>"
-            + taulaDeFirmes.descLabel
+            + taulaDeFirmes.getDescLabel()
             + ": </b>"
-            + taulaDeFirmes.desc
+            + taulaDeFirmes.getDesc()
             + "    </td>"
             + "  </tr>"
             + "</table>"
             + "</div>"
             + "<table style='width:100%'>");
 
-        for (int r = 0; r < taulaDeFirmes.numFirmes; r++) {
+        for (int r = 0; r < taulaDeFirmes.getNumFirmes(); r++) {
           html.append("  <tr style='height:" + heightSignBoxInch + "in;' >"
               + "<td style='border-style: solid;border-width: 1px;'>" + "&nbsp;"
-              + taulaDeFirmes.signantLabel + " " + (r + 1) + "</td>" + "</tr>");
+              + taulaDeFirmes.getSignantLabel() + " " + (r + 1) + "</td>" + "</tr>");
         }
         html.append("</table>");
         html.append("</body></html>");
@@ -680,7 +680,7 @@ public class PdfUtils implements Constants {
         worker.parseXHtml(writer, document, new StringReader(html.toString()));
 
         // Afegir Logo
-        Image img = Image.getInstance(taulaDeFirmes.logoFile.getAbsolutePath());
+        Image img = Image.getInstance(taulaDeFirmes.getLogoFile());
         float x = 0.53f * 72;
         float y = A4_ALT - 1.64f * 72;
         img.setAbsolutePosition(x, y);
@@ -707,7 +707,7 @@ public class PdfUtils implements Constants {
       }
 
       int page;
-      switch (taulaDeFirmes.posicioTaulaDeFirmes) {
+      switch (taulaDeFirmes.getPosicioTaulaDeFirmes()) {
       case (int) TAULADEFIRMES_PRIMERAPAGINA:
         page = 1;
         break;

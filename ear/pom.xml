@@ -365,20 +365,20 @@
 			<id>sia</id>
 			<dependencies>
 	          <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-                    <version>${plugins.version}</version>
-                    <exclusions>
-						<exclusion>
-						  <groupId>org.bouncycastle</groupId>
-			              <artifactId>bcprov-jdk15</artifactId>
-						</exclusion>
-                        <exclusion>
-						  <groupId>org.bouncycastle</groupId>
-			              <artifactId>bcmail-jdk15</artifactId>
-						</exclusion>
-				    </exclusions> 
-                  </dependency>
+                <groupId>org.fundaciobit.plugins</groupId>
+                <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+                <version>${plugins.version}</version>
+                <exclusions>
+                    <exclusion>
+                      <groupId>org.bouncycastle</groupId>
+                      <artifactId>bcprov-jdk15</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.bouncycastle</groupId>
+                      <artifactId>bcmail-jdk15</artifactId>
+                    </exclusion>
+                </exclusions> 
+              </dependency>
 			</dependencies>
 		</profile>
 
@@ -539,8 +539,8 @@
 				</plugins>
 			</build>
 		</profile>
-		
-		
+
+
 		<!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
 		<!-- 
 		    Mòdul de desenvolupament per provar els Callback

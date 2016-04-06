@@ -36,9 +36,41 @@ public class MiniAppletClassLoader {
 
   }
   
+  // XYZ 
+  public URLClassLoader getMiniAppletClassLoader2() {
+    
+    //if (miniAppletClassLoader == null) 
+    {
+      
+      System.err.println(" XYZ CPROVAAAA 44444444  ==> ");
+      
+      Class<?> cls = this.getClass();
+      
+      URL[] urls = new URL[] { 
+        FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
+        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
+      };
+      
+      miniAppletClassLoader = new URLClassLoader(urls);//, MiniAppletClassLoader.class.getClass().getClassLoader());
+    }
+
+    return miniAppletClassLoader;
+
+  }
+  
   
   public Class<?>  loadClass(String name) throws Exception {
-    Class<?> classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
+    Class<?> classToLoad;
+    try {
+      classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
+      
+      System.err.println(" XYZ CLASSS LOADER ==> Class.forName " + name);
+      
+    } catch(java.lang.ClassNotFoundException cnfe) {
+      classToLoad = Class.forName (name, true, getMiniAppletClassLoader2());
+      
+      System.err.println(" XYZ CLASSS LOADER [ MiniAppletClassLoader ] ==> Class.forName " + name);
+    }
     return classToLoad;
   }
   

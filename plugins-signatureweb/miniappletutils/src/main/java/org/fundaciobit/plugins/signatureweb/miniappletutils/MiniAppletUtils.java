@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.PdfInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.utils.Base64;
@@ -109,14 +109,27 @@ public class MiniAppletUtils {
         miniAppletProperties.setProperty("signatureSubFilter",
             MiniAppletConstants.PADES_SUBFILTER_BES);
       }
+      
+      
+      // Sign reason
+      if (fileInfo.getReason() != null) {
+        miniAppletProperties.setProperty("signReason", fileInfo.getReason());
+      }
+      
+      if (fileInfo.getSignerEmail() != null) {
+        miniAppletProperties.setProperty("signerContact", fileInfo.getSignerEmail());
+      }
+      
+      
+      
 
-      // PDF Visible
-      PdfInfoSignature pdfSign = fileInfo.getPdfInfoSignature();
-      if (pdfSign != null
-          && pdfSign.getSignaturesTableLocation() != PdfInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
+      // PDF Visible      
+      if (fileInfo.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
+        
+        PdfVisibleSignature pdfSign = fileInfo.getPdfVisibleSignature();
 
         miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPAGE,
-            String.valueOf(pdfSign.getSignaturesTableLocation()));
+            String.valueOf(fileInfo.getSignaturesTableLocation()));
 
         PdfRubricRectangle rr = pdfSign.getPdfRubricRectangle();
 
@@ -198,8 +211,15 @@ public class MiniAppletUtils {
       miniAppletProperties.setProperty("tsType", "" + MiniAppletConstants.TS_SIGN);
 
     }
+    
+    // Location
+    if(fileInfo.getLocation() != null) {
+      miniAppletProperties.setProperty("signatureProductionCity", fileInfo.getLocation());
+    }
+    
+    
 
-    byte[] pdf = FileUtils.readFromFile(fileInfo.getSource());
+    byte[] pdf = FileUtils.readFromFile(fileInfo.getFileToSign());
 
     info = new MiniAppletSignInfo(pdf, tipusFirma, algorisme, certificate,
         miniAppletProperties);

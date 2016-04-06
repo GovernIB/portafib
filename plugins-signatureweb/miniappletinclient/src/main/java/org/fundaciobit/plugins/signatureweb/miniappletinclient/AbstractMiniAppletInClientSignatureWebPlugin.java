@@ -25,7 +25,7 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.utils.CertificateUtils;
@@ -73,8 +73,8 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
   };
 
   @Override
-  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
-      SignaturesSet signaturesSet) throws Exception {
+  public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
+      String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);
 
@@ -84,12 +84,12 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String query, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
-    if (relativePath.startsWith(APPLET_WEBRESOURCE)) {
-      InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
+    if (query.startsWith(APPLET_WEBRESOURCE)) {
+      InputStream fis = FileUtils.readResource(this.getClass(), query);
       if (fis != null) {
         try {
           FileUtils.copy(fis, response.getOutputStream());
@@ -100,7 +100,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
           if (e.getCause() != null  && e.getCause().getClass().equals(SocketException.class)) {
             // Ok El client ha abortat
           } else {
-            log.error("Error intentant retornar recurs " + relativePath + " (" + getSimpleName()
+            log.error("Error intentant retornar recurs " + query + " (" + getSimpleName()
                 + "): " + e.getMessage(), e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           }
@@ -109,25 +109,25 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
       }
     }
 
-    if (relativePath.endsWith(DEPLOY_JAVA_PAGE)) {
+    if (query.endsWith(DEPLOY_JAVA_PAGE)) {
       deployJava(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, locale);
 
-    } else if (relativePath.endsWith(SOURCE_DOC_PAGE)) {
+    } else if (query.endsWith(SOURCE_DOC_PAGE)) {
       sourceDocPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, locale);
 
-    } else if (relativePath.endsWith(SHOW_MINIAPPLET_PAGE)) {
+    } else if (query.endsWith(SHOW_MINIAPPLET_PAGE)) {
 
       showMiniAppletGet(request, response, absolutePluginRequestPath,
-          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
+          relativePluginRequestPath, query, signaturesSet, signatureIndex, locale);
 
-    } else if (relativePath.endsWith(FINAL_PAGE)) {
+    } else if (query.endsWith(FINAL_PAGE)) {
 
-      finalPage(relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+      finalPage(relativePluginRequestPath, query, signaturesSet, signatureIndex,
           request, response);
     } else {
-      super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
     }
 
@@ -135,22 +135,22 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String query, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
-    if (relativePath.endsWith(DESTINATION_DOC_PAGE)) {
+    if (query.endsWith(DESTINATION_DOC_PAGE)) {
       // DESTINATION
-      destinationDocPage(relativePath, signaturesSet, signatureIndex, request, response,
+      destinationDocPage(query, signaturesSet, signatureIndex, request, response,
           uploadedFiles);
-    } else if (relativePath.endsWith(RUBRIC_PAGE)) {
-      rubricPage(relativePath, signaturesSet, signatureIndex, request, response, uploadedFiles);
-    } else if (relativePath.endsWith(CLIENT_ERROR_PAGE)) {
-      clientErrorPage(relativePath, signaturesSet, signatureIndex, request, response,
+    } else if (query.endsWith(RUBRIC_PAGE)) {
+      rubricPage(signaturesSet, signatureIndex, request, response, uploadedFiles);
+    } else if (query.endsWith(CLIENT_ERROR_PAGE)) {
+      clientErrorPage(signaturesSet, signatureIndex, request, response,
           uploadedFiles);
     } else {
 
-      super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
 
     }
@@ -165,9 +165,9 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
   public static final String RUBRIC_PAGE = "rubric";
 
-  private void rubricPage(String relativePath, SignaturesSet signaturesSet,
+  private void rubricPage(SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     try {
 
@@ -195,13 +195,13 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         X509Certificate cert;
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
         byte[] rubric;
-        rubric = fileInfo.getPdfInfoSignature().getRubricGenerator()
+        rubric = fileInfo.getPdfVisibleSignature().getRubricGenerator()
             .genenerateRubricImage(cert, new Date());
 
         response.setContentType("image/jpeg");
@@ -232,7 +232,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
   private void destinationDocPage(String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     try {
 
@@ -245,7 +245,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
             signatureIndex);
@@ -302,7 +302,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
     FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
 
-    File source = fileInfo.getSource();
+    File source = fileInfo.getFileToSign();
     String extension;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
       response.setContentType(MiniAppletConstants.PDF_MIME_TYPE);
@@ -340,7 +340,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
    * En el client (Applet, javaWebStart, ...) s'ha produït un error i l'està
    * enviant al servidor
    * 
-   * @param relativePath
+   * @param query
    * @param signaturesSet
    * @param signatureIndex
    * @param request
@@ -348,9 +348,9 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
    * @param uploadedFiles
    * @throws Exception
    */
-  private void clientErrorPage(String relativePath, SignaturesSet signaturesSet,
+  private void clientErrorPage(SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-      Map<String, UploadedFile> uploadedFiles) {
+      Map<String, IUploadedFile> uploadedFiles) {
 
     StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
         signatureIndex);
@@ -371,7 +371,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
       for (String name : uploadedFiles.keySet()) {
 
-        UploadedFile uploadedFile = uploadedFiles.get(name);
+        IUploadedFile uploadedFile = uploadedFiles.get(name);
 
         Properties prop = new Properties();
 
@@ -467,7 +467,7 @@ public abstract class AbstractMiniAppletInClientSignatureWebPlugin extends
 
   protected abstract void showMiniAppletGet(HttpServletRequest request,
       HttpServletResponse response, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
       int signatureIndex, Locale locale);
 
   // ----------------------------------------------------------------------------

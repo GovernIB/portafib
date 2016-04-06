@@ -187,11 +187,42 @@ public interface Constants {
   public static final int POSICIO_PAGINA_CAP = 0;
   
   
+  // ========================================================
+  // ----- POLITICA DE SEGELLAT DE TEMPS ------
+  // ========================================================
+
   public static final int SEGELLDETEMPSVIAWEB_NOUSAR=0;
   public static final int SEGELLDETEMPSVIAWEB_SEMPREUSAR=1;
   public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI=2;
   public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO=3;
   
+ //========================================================
+ // ----- POLITICA DE CUSTODIA ------
+ // ========================================================
+
+  /**
+   * CustodiaInfo per Defecte de l'entitat val NULL 
+   */
+  public static final int CUSTODIA_NO_PERMETRE = 0;
+  
+  /**
+   * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false 
+   */
+  public static final int CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE = 1;
+
+  public static final int CUSTODIA_NOMES_PLANTILLES_DEFINIDES_EN_ENTITAT = 2;
+
+  /**
+   * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
+   * i només una plantilla de custòdia disponible per l'entitat 
+   */
+  public static final int CUSTODIA_EDITABLE_SENSE_CANVI_PLUGIN = 3;
+  
+  /**
+   * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
+   * i multiples plantilles de custòdia disponible per l'entitat  
+   */
+  public static final int CUSTODIA_TOTALMENT_EDITABLE = 4;
 
   
   // ========================================================

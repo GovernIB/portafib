@@ -14,7 +14,7 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                   s'ha d'executar install_portafib_applet_signed_jar.sh/bat
 
 -Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
-                  
+
 -Pclientcert      Genera un segon context web amb autenticacio
                   CLIENT-CERT (context a /portafib/s)
 
@@ -23,7 +23,8 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                        /portafib/ws/v1/PortaFIBUsuariEntitat
                        /portafib/ws/v1/PortaFIBUsuariAplicacio
                        /portafib/ws/v1/PortaFIBHelloWorld
-                  Exemple de cridada a ws\portafib_api.
+                       /portafib/ws/v1/PortaFIBPassarelaDeFirma
+                  Exemples d'us a ws\portafib_api i ws\portafib_api_example.
 
 -Pws-portafib-callback-server  Crea WS per provar la recepcio dels Callback
                   de PortaFIB. Els usuaris aplicacio han de tenir callback
@@ -41,6 +42,7 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                   http://HOST:8080/portafib/portafirmascb/v0/PortafirmasCallBack
                   i callback versio 0. Per veure les cridades accedir a
                   http://HOST:8080/portafib/portafirmascb
+
 clean             Neteja els projectes abans de compilar.
 
 --------------------------------------------------------------------------

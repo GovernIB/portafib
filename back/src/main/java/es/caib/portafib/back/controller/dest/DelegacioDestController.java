@@ -1083,6 +1083,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     final long location_sign_table = Constants.TAULADEFIRMES_SENSETAULA;
     final String reason = I18NUtils.tradueix("delegacio.autoritzar");
+    // XYZ TODO FALTA
+    final String location = null;
+    
+    final String signerEmail = loginInfo.getUsuariPersona().getEmail();
+    
     final int sign_number = 1;
     final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
     
@@ -1107,7 +1112,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         segellDeTempsEjb, entitat,userRequiresTimeStamp);
 
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
-        dstPDF, idname, (int)location_sign_table, reason, sign_number, 
+        dstPDF, FileInfoSignature.PDF_MIME_TYPE, idname,
+        (int)location_sign_table,  reason, location, signerEmail,  sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
@@ -1133,15 +1139,14 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     caducitat.add(Calendar.MINUTE, 10);
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray);
+        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";
-    ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
 
     return mav;
-
   }
 
 

@@ -29,7 +29,7 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
@@ -72,6 +72,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       + "miniappletinserver.";
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
+  
+  public static final String IGNORE_CERTIFICATE_FILTER = "ignore_certificate_filter";
   
   
   public static final String SESSION_FILTER = "SESSION_CERTIFICATE_FILTER";
@@ -130,8 +132,9 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     // ja que l'usuari sempre te l'opció d'afegir Certificats
     
     request.getSession().setAttribute(SESSION_FILTER, filter);
-    
-    return true;
+
+    // Requerim un username
+    return username != null;
   }
 
   @Override
@@ -143,7 +146,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   }
 
   @Override
-  public String signSet(HttpServletRequest request, String absolutePluginRequestPath, 
+  public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
       String relativePluginRequestPath, SignaturesSet signaturesSet)
       throws Exception {
 
@@ -173,13 +176,13 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   @Override
   public void requestGET(String absolutePluginRequestPath, 
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale)  {
 
     
-    if (relativePath.startsWith(MINIAPPLETINSERVER_WEBRESOURCE)) {
-      InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
+    if (query.startsWith(MINIAPPLETINSERVER_WEBRESOURCE)) {
+      InputStream fis = FileUtils.readResource(this.getClass(), query);
       if (fis != null) {
         try {
           FileUtils.copy(fis, response.getOutputStream());        
@@ -188,7 +191,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         } catch (SocketException se) {
           return;
         } catch(Exception e) {
-          log.error("Error intentant retornar recurs " + relativePath + " (" 
+          log.error("Error intentant retornar recurs " + query + " (" 
               + getSimpleName() + "): " +e.getMessage(), e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -196,28 +199,28 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       }
     }
     
-    if (relativePath.startsWith(SELECT_CERTIFICATE_PAGE)) {
+    if (query.startsWith(SELECT_CERTIFICATE_PAGE)) {
 
       PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, signaturesSet);
-      selectCertificateGET(request, relativePluginRequestPath, relativePath,
+      selectCertificateGET(request, relativePluginRequestPath, query,
           signaturesSet, out, locale);
 
       generateFooter(out);
-    } else if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
+    } else if (query.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
       
       PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, signaturesSet);
-      uploadCertificateGET(relativePluginRequestPath, relativePath, signaturesSet, out, locale);
+      uploadCertificateGET(relativePluginRequestPath, query, signaturesSet, out, locale);
 
       generateFooter(out);
-    }  else if (relativePath.startsWith(DELETE_PAGE)) {
+    }  else if (query.startsWith(DELETE_PAGE)) {
       
-      deleteCertificateGET(relativePluginRequestPath, relativePath, response, signaturesSet, locale);
+      deleteCertificateGET(relativePluginRequestPath, query, response, signaturesSet, locale);
     } else {
     
         super.requestGET(absolutePluginRequestPath, 
-            relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
+            relativePluginRequestPath, query, signaturesSet, signatureIndex,
             request, uploadedFiles, response, locale);
     }
     
@@ -230,7 +233,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   public void requestPOST(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response,
+      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response,
       Locale locale)  {
     
     if (relativePath.startsWith(UPLOAD_CERTIFICATE_PAGE)) {
@@ -478,14 +481,19 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       boolean passFilter;
       File certFile = new File(path, FILENAME_CERT);   
       
-      try {
-         X509Certificate cert = CertificateUtils.decodeCertificate(new FileInputStream(certFile));
-         
-         passFilter = MiniAppletUtils.matchFilter(cert, filter);
-         
-      } catch (Exception e) {
-        log.error(" Error llegint Certificat " + certFile.getAbsolutePath(), e);
-        passFilter = false;
+      if ("true".equals(getProperty(IGNORE_CERTIFICATE_FILTER))) {
+        passFilter = true;
+      } else {
+      
+        try {
+           X509Certificate cert = CertificateUtils.decodeCertificate(new FileInputStream(certFile));
+           
+           passFilter = MiniAppletUtils.matchFilter(cert, filter);
+           
+        } catch (Exception e) {
+          log.error(" Error llegint Certificat " + certFile.getAbsolutePath(), e);
+          passFilter = false;
+        }
       }
       
       if (passFilter) {
@@ -631,7 +639,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private static final String UPLOAD_CERTIFICATE_PAGE = "uploadCertificate";
 
-  private void uploadCertificateGET(String pluginRequestPath, String relativePath,
+  private void uploadCertificateGET(String pluginRequestPath, String query,
       SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
     out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     
@@ -658,7 +666,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     out.println("&nbsp;&nbsp;");
     out.println("<button class=\"btn btn-primary\" type=\"submit\">" + getTraduccio("afegircertificat.button", locale) + "</button>");
     
-    if (relativePath.endsWith("canreturn")) {
+    if (query.endsWith("canreturn")) {
       String redirect = pluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
       out.println("&nbsp;<button type=\"button\" class=\"btn\" onclick=\"location.href='" + redirect + "'\">");
       out.println(getTraduccio("tornar", locale));
@@ -669,7 +677,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   }
 
   private void uploadCertificatePOST(String pluginRequestPath, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response,
+      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response,
       SignaturesSet signaturesSet, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
@@ -686,7 +694,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     }
 
     // No s'ha pujat fitxers !!!!
-    UploadedFile uf = uploadedFiles.get("p12");
+    IUploadedFile uf = uploadedFiles.get("p12");
     if (uf == null || uf.getSize() == 0) {
       saveMessageError(signaturesSetID, getTraduccio("error.noseleccionatp12", locale));
       sendRedirect(response, pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE);

@@ -8,6 +8,8 @@ import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 
+import es.caib.portafib.jpa.EntitatJPA;
+
 /**
  *
  * @author anadal
@@ -16,8 +18,12 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 public class PortaFIBSignaturesSet extends SignaturesSet {
 
   protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
+  
+  protected List<Long> filterByPluginID = null;
 
   protected final String urlFinalOriginal;
+  
+  protected final EntitatJPA entitat;
 
   protected Long pluginID = null;
 
@@ -28,9 +34,11 @@ public class PortaFIBSignaturesSet extends SignaturesSet {
    * @param fileInfoSignatureArray
    */
   public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate,
-      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray) {
+      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
+      EntitatJPA entitat) {
     super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray);
     this.urlFinalOriginal = commonInfoSignature.getUrlFinal();
+    this.entitat = entitat;
   }
 
   public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
@@ -52,5 +60,19 @@ public class PortaFIBSignaturesSet extends SignaturesSet {
   public void setPluginID(Long pluginID) {
     this.pluginID = pluginID;
   }
+
+  public EntitatJPA getEntitat() {
+    return entitat;
+  }
+
+  public List<Long> getFilterByPluginID() {
+    return filterByPluginID;
+  }
+
+  public void setFilterByPluginID(List<Long> filterByPluginID) {
+    this.filterByPluginID = filterByPluginID;
+  }
+  
+  
 
 }

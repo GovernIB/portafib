@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -246,6 +247,11 @@ public class AutoFirmaController extends FitxerController
     final String idname = form.getFitxerAFirmarID().getOriginalFilename();
 
     final String reason = form.getMotiu();
+    // XYZ TODO FALTA
+    final String location = null;
+    final String signerEmail = loginInfo.getUsuariPersona().getEmail();
+    
+    
     final int sign_number = 1;
 
     final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
@@ -266,7 +272,8 @@ public class AutoFirmaController extends FitxerController
 
     
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
-        pdfAdaptat, idname, (int)form.getPosicioTaulaFirmesID(), reason, sign_number, 
+        pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
+        (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
@@ -292,13 +299,13 @@ public class AutoFirmaController extends FitxerController
     
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-        commonInfoSignature, fileInfoSignatureArray);
+        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat());
     
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
 
     final String view = "PluginDeFirmaContenidor_AutoFirma";
-    ModelAndView mav = SignatureModuleController.startSignatureProcess(request, view, signaturesSet);
+    ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
     
     return mav;
 
@@ -381,6 +388,7 @@ public class AutoFirmaController extends FitxerController
         String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
             + "(no ha establit l'estat final del procés de firma)";
         sss.setErrorMsg(inconsistentState);
+        sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
         statusError = sss;
         log.error(inconsistentState, new Exception());
     
@@ -610,7 +618,16 @@ public class AutoFirmaController extends FitxerController
       log.info("Idioma Source = " + langUI);
       log.info("Traduccio Signant = " + signantLabel);
     }
-    File logoSegell = FileSystemManager.getFile(logoSegellID);
+    byte[] logoSegell;    
+    try {
+      logoSegell = FileUtils.readFileToByteArray(FileSystemManager.getFile(logoSegellID));
+    } catch (IOException e) {
+      String msg = "Error desconegut llegint logo-segell amb ID " + logoSegellID 
+          + ": " + e.getMessage();
+      log.error(msg, e);
+      throw new I18NException("error.unknown",  msg);
+    }
+    
 
     // La pujada de fitxers des d'autofirma ho gestiona la classe 
     // PortaFIBCommonsMultipartResolver

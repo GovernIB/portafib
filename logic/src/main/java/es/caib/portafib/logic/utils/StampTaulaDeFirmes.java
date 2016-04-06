@@ -1,22 +1,21 @@
 package es.caib.portafib.logic.utils;
 
-import java.io.File;
-
 /**
  * 
  * @author anadal
  * 
  */
 public class StampTaulaDeFirmes {
-  int numFirmes;
-  int posicioTaulaDeFirmes;
-  String signantLabel;
-  String resumLabel;
-  String descLabel;
-  String desc;
-  String titolLabel;
-  String titol;
-  File logoFile;
+
+  private int numFirmes;
+  private int posicioTaulaDeFirmes;
+  private String signantLabel;
+  private String resumLabel;
+  private String descLabel;
+  private String desc;
+  private String titolLabel;
+  private String titol;
+  private byte[] logoFile;
 
   /**
    * 
@@ -38,7 +37,7 @@ public class StampTaulaDeFirmes {
    */
   public StampTaulaDeFirmes(int numFirmes, int posicioTaulaDeFirmes, String signantLabel,
       String resumLabel, String descLabel, String desc, String titolLabel, String titol,
-      File logoFile) {
+      byte[] logoFile) {
     super();
     this.numFirmes = numFirmes;
     this.posicioTaulaDeFirmes = posicioTaulaDeFirmes;
@@ -115,11 +114,11 @@ public class StampTaulaDeFirmes {
     this.titol = titol;
   }
 
-  public File getLogoFile() {
+  public byte[] getLogoFile() {
     return logoFile;
   }
 
-  public void setLogoFile(File logoFile) {
+  public void setLogoFile(byte[] logoFile) {
     this.logoFile = logoFile;
   }
 

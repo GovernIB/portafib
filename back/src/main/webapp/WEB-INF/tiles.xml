@@ -83,24 +83,30 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
     
-    <!--  Generic de Firma (autofirma, firma i firma delegat) -->
-    <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" preparer="basePreparer">
+    <definition name="PluginDeFirmaContenidor_Passarela" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="titol" value="SignatureWebContainer" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
+    </definition>
+    
+    <!--  Generic de Firma (passarela, autofirma, firma dest. i firma delegat) -->
+    <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" >
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_seleccio.jsp" />
     </definition>
     
-    <definition name="PluginFirmaFinal" template="/WEB-INF/jsp/layout/htmlpagelayout.jsp" preparer="basePreparer">
+    <!--  Generic de Firma (passarela, autofirma, firma dest. i firma delegat) -->
+    <definition name="PluginFirmaFinal" template="/WEB-INF/jsp/layout/htmlpagelayout.jsp" >
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_final.jsp" />
     </definition>
-    
+
     <definition name="carrecsList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
     </definition>
-    
+
     <!--  TODO ElimiNAR aquesta entrada i jsp   -->
     <definition name="senseSuportJava" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/senseSuportJava.jsp" />
     </definition>
-    
+
     <definition name="seleccioUsuariForm_COMMON" extends="principal">
         <put-attribute name="titol" value="usuariPersona.usuariPersona" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/seleccioUsuariForm.jsp" />

@@ -5,13 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,8 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +25,7 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.UploadedFile;
+import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -64,6 +58,61 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   public AbstractMiniAppletSignaturePlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
+  
+  
+  /**
+   * 
+   * @return true true indica que el plugin accepta generadors de Segell de Temps 
+   *    definits dins FileInfoSignature.timeStampGenerator
+   */
+  @Override
+  public boolean acceptExternalTimeStampGenerator() {
+    return true;
+  }
+  
+  /**
+   * 
+   * @return true, indica que el plugin internament ofereix un generador de segellat de temps.
+   */
+  @Override
+  public boolean providesTimeStampGenerator() {
+    return false;
+  }
+  
+  /**
+   * 
+   * @return true indica que el plugin accepta generadors del imatges de la Firma
+   *    Visible PDF definits dins FileInfoSignature.pdfInfoSignature.rubricGenerator.
+   */
+  @Override
+  public boolean acceptExternalRubricGenerator() {
+    return true;
+  }
+
+  
+  /**
+   * 
+   * @return true, indica que el plugin internament ofereix un generador de imatges de
+   *         la Firma Visible PDF. 
+   */
+  @Override
+  public boolean providesRubricGenerator() {
+    return false;
+  }
+  
+  
+  
+  @Override
+  public boolean acceptExternalSecureVerificationCodeStamper() {
+    return false;
+  }
+
+  @Override
+  public boolean providesSecureVerificationCodeStamper() {
+    return false;
+  }
+
+  
 
   @Override
   public String[] getSupportedSignatureTypes() {
@@ -82,6 +131,13 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     }
     return null;
   }
+  
+  @Override
+  public List<String> getSupportedBarCodeTypes() {
+    // Aquests Plugins No suporten estampació de CSV
+    return null;
+  }
+  
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
@@ -100,7 +156,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   /**
    * 
    * @param absolutePluginRequestPath
-   * @param relativePath
+   * @param query
    * @param signaturesSet
    * @param signatureIndex
    * @param request
@@ -109,9 +165,9 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    * @throws Exception
    */
   public void requestTimeStamp(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
       int signatureIndex, Locale locale, HttpServletRequest request,
-      Map<String, UploadedFile> uploadedFiles, HttpServletResponse response) {
+      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response) {
 
     final boolean isDebug = log.isDebugEnabled();
 
@@ -143,7 +199,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
       if (timeStampGen == null) {
         log.error("El generador de TimeStamp per la petició " + relativePluginRequestPath
-            + " | " + relativePath + " val null");
+            + " | " + query + " val null");
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
       } else {
 
@@ -314,7 +370,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    */
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
     if (log.isDebugEnabled()) {
@@ -344,8 +400,8 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    */
   @Override
   public final void requestGET(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, String signaturesSetID,
-      int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String relativePluginRequestPath, String query, String signaturesSetID,
+      int signatureIndex, HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response) {
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
@@ -353,14 +409,14 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     if (signaturesSet == null) {
       String titol = "GET " + getSimpleName() + " PETICIO HA CADUCAT";
 
-      requestTimeOutError(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      requestTimeOutError(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSetID, signatureIndex, request, response, signaturesSet, titol);
 
     } else {
 
       Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
 
-      requestGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
     }
 
@@ -377,7 +433,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    * 
    * @param absolutePluginRequestPath
    * @param relativePluginRequestPath
-   * @param relativePath
+   * @param query
    * @param signaturesSet
    * @param signatureIndex
    * @param request
@@ -386,28 +442,28 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    * @param locale
    */
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String query, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response, Locale locale) {
 
     if (log.isDebugEnabled()) {
       logAllRequestInfo(request, "POST " + getSimpleName(), absolutePluginRequestPath,
-          relativePluginRequestPath, relativePath, signaturesSet.getSignaturesSetID(),
+          relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(),
           signatureIndex);
     }
 
-    if (relativePath.startsWith(CANCEL_PAGE)) {
+    if (query.startsWith(CANCEL_PAGE)) {
       cancel(request, response, signaturesSet);
 
-    } else if (relativePath.endsWith(TIMESTAMP_PAGE)) {
+    } else if (query.endsWith(TIMESTAMP_PAGE)) {
 
-      requestTimeStamp(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      requestTimeStamp(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSet, signatureIndex, locale, request, uploadedFiles, response);
     } else {
 
       String titol = "POST " + getSimpleName() + " DESCONEGUT";
       requestNotFoundError(titol, absolutePluginRequestPath, relativePluginRequestPath,
-          relativePath, signaturesSet, signatureIndex, request, response, locale);
+          query, signaturesSet, signatureIndex, request, response, locale);
     }
 
   }
@@ -417,21 +473,21 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    */
   @Override
   public final void requestPOST(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, String signaturesSetID,
-      int signatureIndex, HttpServletRequest request, Map<String, UploadedFile> uploadedFiles,
+      String relativePluginRequestPath, String query, String signaturesSetID,
+      int signatureIndex, HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
       HttpServletResponse response) {
 
     SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
 
     if (signaturesSet == null) {
       String titol = "POST " + getSimpleName() + " PETICIO HA CADUCAT";
-      requestTimeOutError(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      requestTimeOutError(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSetID, signatureIndex, request, response, signaturesSet, titol);
     } else {
 
       Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
 
-      requestPOST(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+      requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
           signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
     }
 
@@ -446,11 +502,11 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   // ---------------------------------------------------------------------------
 
   public void requestTimeOutError(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, String signaturesSetID,
+      String relativePluginRequestPath, String query, String signaturesSetID,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
       SignaturesSet signaturesSet, String titol) {
     String str = allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-        relativePluginRequestPath, relativePath, signaturesSet == null ? "NULL"
+        relativePluginRequestPath, query, signaturesSet == null ? "NULL"
             : signaturesSet.getSignaturesSetID(), signatureIndex);
 
     // TODO Traduir
@@ -471,11 +527,11 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   }
 
   public void requestNotFoundError(String titol, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response,
       Locale locale) {
     String str = allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-        relativePluginRequestPath, relativePath, signaturesSet == null ? "NULL"
+        relativePluginRequestPath, query, signaturesSet == null ? "NULL"
             : signaturesSet.getSignaturesSetID(), signatureIndex);
     // S'ha realitzat una petició al plugin [{0}] però no s'ha trobat cap mètode
     // per processar-la {1}
@@ -492,57 +548,6 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     }
   }
 
-  protected void logAllRequestInfo(HttpServletRequest request, String titol,
-      String absolutePluginRequestPath, String relativePluginRequestPath, String relativePath,
-      String signaturesSetID, int signatureIndex) {
-
-    log.info(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-        relativePluginRequestPath, relativePath, signaturesSetID, signatureIndex));
-
-  }
-
-  protected String allRequestInfoToStr(HttpServletRequest request, String titol,
-      String absolutePluginRequestPath, String relativePluginRequestPath, String relativePath,
-      String signaturesSetID, int signatureIndex) {
-
-    String str1 = pluginRequestInfoToStr(titol, absolutePluginRequestPath,
-        relativePluginRequestPath, relativePath, signaturesSetID, signatureIndex);
-
-    String str2 = servletRequestInfoToStr(request);
-
-    return str1 + str2;
-  }
-
-  protected String pluginRequestInfoToStr(String titol, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, String signaturesSetID,
-      int signatureIndex) {
-    StringBuffer str = new StringBuffer("======== PLUGIN REQUEST " + titol + " ===========\n");
-    str.append("absolutePluginRequestPath: " + absolutePluginRequestPath + "\n");
-    str.append("relativePluginRequestPath: " + relativePluginRequestPath + "\n");
-    str.append("relativePath: " + relativePath + "\n");
-    str.append("signatureID: " + signaturesSetID + "\n");
-    str.append("signatureIndex: " + signatureIndex + "\n");
-    return str.toString();
-  }
-
-  protected String servletRequestInfoToStr(HttpServletRequest request) {
-    StringBuffer str = new StringBuffer(
-        " +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
-    str.append(" ++++ Scheme: " + request.getScheme() + "\n");
-    str.append(" ++++ ServerName: " + request.getServerName() + "\n");
-    str.append(" ++++ ServerPort: " + request.getServerPort() + "\n");
-    str.append(" ++++ PathInfo: " + request.getPathInfo() + "\n");
-    str.append(" ++++ PathTrans: " + request.getPathTranslated() + "\n");
-    str.append(" ++++ ContextPath: " + request.getContextPath() + "\n");
-    str.append(" ++++ ServletPath: " + request.getServletPath() + "\n");
-    str.append(" ++++ getRequestURI: " + request.getRequestURI() + "\n");
-    str.append(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
-    str.append(" ++++ getQueryString: " + request.getQueryString() + "\n");
-    str.append(" ++++ javax.servlet.forward.request_uri: "
-        + (String) request.getAttribute("javax.servlet.forward.request_uri"));
-    str.append(" ===============================================================");
-    return str.toString();
-  }
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -643,75 +648,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       SignaturesSet signaturesSet) {
   }
 
-  // ---------------------------------------------------------
-  // ------------------- I18N Utils ------------------------
-  // ---------------------------------------------------------
-
-  public abstract String getResourceBundleName();
-
-  public final String getTraduccio(String key, Locale locale, Object... params) {
-    return getTraduccio(getResourceBundleName(), key, locale, params);
-  }
-
-  public final String getTraduccio(String resourceBundleName, String key, Locale locale,
-      Object... params) {
-
-    try {
-      // TODO MILLORA: Map de resourcebundle per resourceBundleName i locale
-
-      ResourceBundle rb = ResourceBundle.getBundle(resourceBundleName, locale, UTF8CONTROL);
-
-      String msgbase = rb.getString(key);
-
-      if (params != null && params.length != 0) {
-        msgbase = MessageFormat.format(msgbase, params);
-      }
-
-      return msgbase;
-
-    } catch (Exception mre) {
-      log.error("No trob la traducció per '" + key + "'", new Exception());
-      return key + "_" + locale.getLanguage().toUpperCase();
-    }
-
-  }
-
-  protected UTF8Control UTF8CONTROL = new UTF8Control();
-
-  public class UTF8Control extends ResourceBundle.Control {
-    public ResourceBundle newBundle(String baseName, Locale locale, String format,
-        ClassLoader loader, boolean reload) throws IllegalAccessException,
-        InstantiationException, IOException {
-      // The below is a copy of the default implementation.
-      String bundleName = toBundleName(baseName, locale);
-      String resourceName = toResourceName(bundleName, "properties");
-      ResourceBundle bundle = null;
-      InputStream stream = null;
-      if (reload) {
-        URL url = loader.getResource(resourceName);
-        if (url != null) {
-          URLConnection connection = url.openConnection();
-          if (connection != null) {
-            connection.setUseCaches(false);
-            stream = connection.getInputStream();
-          }
-        }
-      } else {
-        stream = loader.getResourceAsStream(resourceName);
-      }
-      if (stream != null) {
-        try {
-          // Only this line is changed to make it to read properties files as
-          // UTF-8.
-          bundle = new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8"));
-        } finally {
-          stream.close();
-        }
-      }
-      return bundle;
-    }
-  }
-
+ 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   // ------------------- MISSATGES ---------------------------------------

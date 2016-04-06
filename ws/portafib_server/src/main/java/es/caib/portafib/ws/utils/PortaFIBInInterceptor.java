@@ -49,6 +49,7 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
   @SuppressWarnings("unchecked")
   public void handleMessage(Message message) throws Fault {
     
+    // XYZ TODO Desactivar
     boolean logEnable = true; // log.isDebugEnabled(); 
    
     if (logEnable) {
@@ -65,12 +66,12 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
         log.info("  + Method CLASS = " + method.getDeclaringClass());
         
   
-      HttpServletRequest hsr = (HttpServletRequest)message.get("HTTP.REQUEST"); 
-      log.info(" USR_1:  " +hsr.getRemoteUser());
-  
-      log.info(" ROLE: PFI_ADMIN  " +hsr.isUserInRole(Constants.PFI_ADMIN));
-      log.info(" ROLE: PFI_USER  " +hsr.isUserInRole(Constants.PFI_USER));
-      
+        HttpServletRequest hsr = (HttpServletRequest)message.get("HTTP.REQUEST"); 
+        log.info(" USR_1:  " +hsr.getRemoteUser());
+    
+        log.info(" ROLE: PFI_ADMIN  " +hsr.isUserInRole(Constants.PFI_ADMIN));
+        log.info(" ROLE: PFI_USER  " +hsr.isUserInRole(Constants.PFI_USER));
+        
       } catch (Exception e) {
        log.error(e.getMessage());
       }
