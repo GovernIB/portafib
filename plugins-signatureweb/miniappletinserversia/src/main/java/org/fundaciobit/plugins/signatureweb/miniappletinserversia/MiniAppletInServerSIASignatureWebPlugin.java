@@ -274,6 +274,10 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   private void  closeSIAPage( HttpServletResponse response, Locale locale)  {
     PrintWriter out;
     try {
+      
+      response.setCharacterEncoding("utf-8");
+      response.setContentType("text/html");
+      
       out = response.getWriter();
     
     
@@ -512,7 +516,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
-      
+      response.setCharacterEncoding("utf-8");
+      response.setContentType("text/html");
       PrintWriter out = response.getWriter();
       
       out.println("<html>"  + "\n"
