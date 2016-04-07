@@ -7,6 +7,8 @@ SOLUCIO ==> S'ha de contactar amb SIA (www.sia.es) per obtenir els jar necessari
            + gateway-api-comun-2.4.05.jar => [portafib-x.y]\local-repo\com\openlandsw\rss\gateway-api-comun\2.4.05
            + hessian-3.2.0.jar => [portafib-x.y]\local-repo\com\caucho\hessian\3.2.0
 
+Després s'haura d'executar la compilació del plugin de SIA amb el parametre -U:  "mvn -U clean install -DskipTests"
+           
 
 PASSA 1
 =======
