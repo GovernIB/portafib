@@ -18,11 +18,13 @@
   <fmt:message key="plugindefirma.seleccio.subtitle"/>
   </h5>
   <br/>
-  <small>
+  <c:if test="fn:length(companies) eq 1" >
+  <h6>
      Si no voleu que aparegui aquesta pantalla quan només hi ha un plugin, llavors anau a la <br/>
      classe <b>org.fundaciobit.plugins.signatureweb.exemple.controller.SignatureModuleController</b><br/>
      i editau el camp estatic stepSelectionWhenOnlyOnePlugin i assignau-li un valor true;
-  </small>
+  </h6>
+  </c:if>
   
   <br/>
   <div class="well" style="max-width: 400px; margin: 0 auto 10px;">
