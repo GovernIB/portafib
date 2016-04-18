@@ -311,7 +311,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     addSignaturesSet(signaturesSet);
     
-    log.info("XYZ POrtaFIB REDIRECT URL ==> " + urlReturn);
+    log.error("XYZ POrtaFIB REDIRECT URL ==> " + urlReturn);
 
     return urlReturn;
 
@@ -377,7 +377,12 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     try {
       api = getPassarelaDeFirmaApi();
       status = api.getStatusTransaction(signaturesSetID);
-
+      
+      log.error(" XYZ ERROR finalGET ==>  status = " + status);
+      log.info(" XYZ INFO finalGET ==>  status = " + status);
+      log.debug(" XYZ DEBUG finalGET ==>  status = " + status);
+      
+      
       switch (status) {
 
       case StatusSignature.STATUS_IN_PROGRESS:
@@ -454,7 +459,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       case StatusSignature.STATUS_FINAL_ERROR:
         sss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
         // TODO Traduir
-        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma: " + sss);
+        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma: " + status);
         break;
 
       }

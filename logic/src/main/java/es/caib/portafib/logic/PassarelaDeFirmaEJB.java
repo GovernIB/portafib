@@ -254,6 +254,8 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     // URL on Iniciar el proces de firma
     final String absoluteURL = PropietatGlobalUtil.getAppUrl() + PASSARELA_CONTEXTPATH
         + "/start/" + signaturesSetID;
+    
+    log.error(" XYZ Inici de TRANSACCIO PORTAFIB = " + absoluteURL);
 
     return absoluteURL;
   }
@@ -272,8 +274,12 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     PassarelaSignaturesSetFull ss = readSignaturesSet(transactionID);
 
     if (ss == null) {
+      log.error(" XYZ getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
       return null;
     } else {
+      
+      log.error(" XYZ getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
+     
       return ss.getStatus();
     }
   }

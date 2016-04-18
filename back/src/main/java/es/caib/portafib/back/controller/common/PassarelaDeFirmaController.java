@@ -252,8 +252,9 @@ public class PassarelaDeFirmaController  {
   
     final boolean debug = log.isDebugEnabled();
   
-    if(debug) {
-      log.debug("===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
+    // XYZ if(debug) 
+    {
+      log.error(" XYZ ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
   
     SignaturesSet ss;
@@ -336,6 +337,13 @@ public class PassarelaDeFirmaController  {
       break;
       
       case StatusSignaturesSet.STATUS_FINAL_ERROR:
+
+        if (sss.getErrorException() == null) {
+          log.error("XYZ  ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg());
+        } else {
+          log.error("XYZ  ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg(), sss.getErrorException());
+        }
+
         statusFinal = sss;
       break;
       
