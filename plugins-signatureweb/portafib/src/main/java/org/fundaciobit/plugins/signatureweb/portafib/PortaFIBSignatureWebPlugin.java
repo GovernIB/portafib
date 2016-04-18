@@ -310,6 +310,8 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     }
 
     addSignaturesSet(signaturesSet);
+    
+    log.info("XYZ POrtaFIB REDIRECT URL ==> " + urlReturn);
 
     return urlReturn;
 
@@ -452,7 +454,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       case StatusSignature.STATUS_FINAL_ERROR:
         sss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
         // TODO Traduir
-        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma");
+        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma: " + sss);
         break;
 
       }

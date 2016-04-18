@@ -178,12 +178,14 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
       
 
       // 5.- Passa el filtre ...
+      
       if (signaturePlugin.filter(request, username, administrationID, filtreCerts,browserSupportsJava)) {
-        pluginsFiltered.add(pluginDeFirma);
+          pluginsFiltered.add(pluginDeFirma);
       } else {
-     // Exclude Plugin
-        log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO PASSA FILTRE");
+       // Exclude Plugin
+          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO PASSA FILTRE");
       }
+      
     }
 
     
