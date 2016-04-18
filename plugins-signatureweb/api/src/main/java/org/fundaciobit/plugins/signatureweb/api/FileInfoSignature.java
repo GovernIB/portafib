@@ -81,12 +81,9 @@ public class FileInfoSignature {
 
   ITimeStampGenerator timeStampGenerator = null;
 
-  
   SecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
   
   StatusSignature statusSignature = new StatusSignature();
-  
-  
 
   /**
    * 

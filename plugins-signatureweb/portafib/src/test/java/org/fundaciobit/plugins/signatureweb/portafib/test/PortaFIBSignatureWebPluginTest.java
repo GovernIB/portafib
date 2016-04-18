@@ -1,6 +1,5 @@
 package org.fundaciobit.plugins.signatureweb.portafib.test;
 
-import java.io.File;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

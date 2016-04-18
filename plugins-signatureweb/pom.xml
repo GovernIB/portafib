@@ -33,7 +33,7 @@
        <module>miniappletinserver</module>
        <module>miniappletinclient</module>
        <module>portafib</module>
-       <module>exemple</module>
+       <module>exemplepassarela</module>
     </modules>
 
     <profiles>

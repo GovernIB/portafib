@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
+
 
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
@@ -122,7 +124,8 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       if (log.isDebugEnabled()) {
         log.warn(msg, th);
       } else {
-        log.warn(msg);
+        // XYZ
+        log.warn(msg, th);
       }
 
       return false;
@@ -633,7 +636,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   // ---------------------------------------------------------
   // ------------------- API ------------------------
   // ---------------------------------------------------------
-
+  
   public PortaFIBPassarelaDeFirmaWs getPassarelaDeFirmaApi() throws Exception {
     final String endpoint = super.getPropertyRequired(API_URL);
     final String usr = super.getPropertyRequired(API_USERNAME);
@@ -641,6 +644,16 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     URL wsdl = new URL(endpoint + "?wsdl");
     PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService(wsdl);
+    
+    // XYZ
+    /*
+    Class<?> serviceClass = loadClass(PortaFIBPassarelaDeFirmaWsService.class.getName());
+    
+    Constructor<?> constructor = serviceClass.getConstructor(URL.class); 
+    
+    PortaFIBPassarelaDeFirmaWsService service = (PortaFIBPassarelaDeFirmaWsService)constructor.newInstance(wsdl);
+    
+ */
 
     PortaFIBPassarelaDeFirmaWs api = service.getPortaFIBPassarelaDeFirmaWs();
 
@@ -651,6 +664,124 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     return api;
   }
+  
+  // XYZ
+  public Class<?>  loadClass(String name) throws Exception {
+    Class<?> classToLoad;
+    
+    System.err.println(" XYZ CLASSS KKKKKKKKKKKKKKKKKK ==> Class " + name);
+    
+      classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
+      
+      System.err.println(" XYZ CLASSS LOADER ==> Class.forName " + name);
+      
+   
+    return classToLoad;
+  }
+  
+  
+  // XYZ
+private URLClassLoader miniAppletClassLoader = null;
+  
+  
+  public URLClassLoader getMiniAppletClassLoader() {
+    
+    if (miniAppletClassLoader == null) {
+      
+      Class<?> cls = this.getClass();
+      
+      
+      URL url = PortaFIBPassarelaDeFirmaWs.class.getProtectionDomain().getCodeSource().getLocation();
+      
+      System.err.println("XYZ ZZZ URL CLASS LOADER = " + url.toString());
+      
+      //String path = PortaFIBPassarelaDeFirmaWs.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+      //String decodedPath = URLDecoder.decode(path, "UTF-8");
+      
+      URL[] urls = new URL[] {
+          url
+        //FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
+        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
+      };
+      
+      miniAppletClassLoader = new URLClassLoader(urls, javax.xml.ws.Service.class.getClassLoader());
+    }
+
+    return miniAppletClassLoader;
+
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /*
+  public PortaFIBPassarelaDeFirmaWs getPassarelaDeFirmaApi() throws Exception {
+    
+    final String endpoint = super.getPropertyRequired(API_URL);
+    final String usr = super.getPropertyRequired(API_USERNAME);
+    final String pwd = super.getPropertyRequired(API_PASSWORD);
+    
+    PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService();
+    
+    
+    PortaFIBPassarelaDeFirmaWs stub = service.getPortaFIBPassarelaDeFirmaWs();          
+    Client client = org.apache.cxf.frontend.ClientProxy.getClient(stub);     
+
+    Map<String, Object> outProps = new HashMap<String, Object>();        
+    outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+    outProps.put(WSHandlerConstants.USER, usr);
+
+    outProps.put(WSHandlerConstants.PASSWORD_TYPE,WSConstants.PW_TEXT);        
+    // Automatically adds a Base64 encoded message nonce and a created timestamp
+    outProps.put(WSHandlerConstants.ADD_UT_ELEMENTS,WSConstants.NONCE_LN + " " + WSConstants.CREATED_LN);    
+    outProps.put(WSHandlerConstants.PW_CALLBACK_REF, new ClientPasswordCallback(usr, pwd));
+    WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+    client.getOutInterceptors().add(wssOut);
+
+    //Enable GZip compression
+    Map<String, java.util.List<String>> httpHeaders = new HashMap<String, java.util.List<String>>();
+    httpHeaders.put("Content-Encoding",Collections.singletonList("gzip"));
+    httpHeaders.put("Accept-Encoding",Collections.singletonList("gzip"));
+    Map<String, Object> reqContext = client.getRequestContext();
+    reqContext.put(MessageContext.HTTP_REQUEST_HEADERS,httpHeaders);
+
+    return stub;
+}
+  
+  
+  public class ClientPasswordCallback implements CallbackHandler {
+
+    private String username;
+    private String password;
+
+    public ClientPasswordCallback(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public void handle(Callback[] callbacks) throws IOException, 
+    UnsupportedCallbackException {
+        for (Callback callback: callbacks){
+            if (callback instanceof WSPasswordCallback){
+                WSPasswordCallback pc = (WSPasswordCallback) callback;              
+                if (username.equals(pc.getIdentifier())) {                  
+                    pc.setPassword(password);                   
+                }
+            } else if (callback instanceof NameCallback){
+                throw new UnsupportedCallbackException(callback);
+            } else {
+                throw new UnsupportedCallbackException(callback);
+            }           
+        }
+    }
+}
+  */
 
   // ---------------------------------------------------------
   // ------------------- MIME ------------------------
