@@ -7,7 +7,6 @@
 
     <name>FundacioBit Plugins - SignatureWeb Plugins - Exemple Passarela</name>
 
-
     <parent>
         <artifactId>plugins-signatureweb</artifactId>
         <groupId>org.fundaciobit.plugins</groupId>

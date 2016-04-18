@@ -135,7 +135,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     } catch(SafeCertGateWayException se) {
       log.error("filter:: SafeCertGateWayException: CODE=" + se.getCode() 
           + ": " + se.getMessage(), se);
-    } catch(Exception e) {
+    } catch(Throwable e) {
       log.error("filter:: Unknown Error " + e.getMessage(), e);
     }
 
