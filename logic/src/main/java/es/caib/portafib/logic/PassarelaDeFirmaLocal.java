@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.passarela.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetFull;
 
@@ -32,14 +33,14 @@ public interface PassarelaDeFirmaLocal {
       PassarelaSignaturesSet signaturesSet, String entitatID)
       throws I18NException, I18NValidationException;
   
-  public Integer getStatusTransaction(String transactionID) throws I18NException;
+  public PassarelaSignatureStatus getStatusTransaction(String transactionID) throws I18NException;
   
   public PassarelaSignaturesSetFull getSignaturesSetFullByTransactionID(String transactionID)
       throws I18NException;
 
   public List<PassarelaSignatureResult> getSignatureResults(String transactionID) throws I18NException;
 
-  public void addSignedFileResult(String transactionID, String signID, File fitxer) throws I18NException;
+  // XYZ public void addSignedFileResult(String transactionID, String signID, File fitxer) throws I18NException;
 
   public File getFitxerOriginalPath(String transactionID,String signID);
 

@@ -5,15 +5,13 @@
     <groupId>org.fundaciobit.plugins</groupId>
     <packaging>ear</packaging>
 
-    <name>FundacioBit Plugins - SignatureWeb Plugins - Exemple Passarela - EAR</name>
+    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - EAR</name>
 
     <parent>
         <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
         <groupId>org.fundaciobit.plugins</groupId>
         <version>1.0.0</version>
     </parent>
-
-
 
     <dependencies>
 
@@ -47,53 +45,7 @@
         </dependency>
 
 
-        <!--  Plugins API -->
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugins-api</artifactId>
-            <version>${plugins.version}</version>
-            <type>jar</type>
-        </dependency>
-
-
-
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!-- XYZ FALTA PROFILE -->
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-            <version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcprov-jdk15</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcmail-jdk15</artifactId>
-                </exclusion>
-            </exclusions> 
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-portafib</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
 
         <!-- ====================================== -->
@@ -101,66 +53,23 @@
         <!-- ====================================== -->
 
         <dependency>
+            <groupId>org.fundaciobit.plugins</groupId>
+            <artifactId>plugins-api</artifactId>
+            <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.fundaciobit.plugins</groupId>                    
             <artifactId>plugin-signatureweb-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
-
     </dependencies>
-
-    <profiles>
-        <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
-        <profile>
-            <id>sia</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-                    <version>1.0.0</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcprov-jdk15</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcmail-jdk15</artifactId>
-                        </exclusion>
-                    </exclusions> 
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
-
 
     <build>
         <finalName>passarela</finalName>
-        <!-- XYZ
-		<filters>
-            <filter>../config.properties</filter>
-        </filters>
-		-->
+
         <plugins>
-
-
-
-
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -185,16 +94,11 @@
                     </archive>
 
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
-                    <!--
-		  <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
--->
+
                     <jboss>
                         <version>5</version>
                         <loader-repository>org.fundaciobit.plugins:loader=passarela.ear</loader-repository>
                         <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
-                        <!--
-              <security-domain>java:/jaas/seycon</security-domain>
-              -->
                     </jboss>
 
                     <modules>
@@ -209,13 +113,6 @@
                             <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
                             <groupId>org.fundaciobit.plugins</groupId>
                         </ejbModule>
-
-                        <!-- XYZ
-            <jarModule>
-              <artifactId>plugin-signatureweb-api</artifactId>
-              <groupId>org.fundaciobit.plugins</groupId>
-            </jarModule>
-            -->
 
 
                     </modules>

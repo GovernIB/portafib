@@ -109,6 +109,8 @@ public class SignatureModuleController {
         for (Plugin plugin : moduls) {
           if (filterByPluginID.contains(plugin.getPluginID())) {
             filteredModuls.add(plugin);
+          } else {
+            log.info("Exclos plugin [" +plugin.getClasse() + "]: NO PASSA FILTRE DE IDS ");
           }
         }
         moduls = filteredModuls;
@@ -195,6 +197,7 @@ public class SignatureModuleController {
           (anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.providesRubricGenerator())
           || (!anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.acceptExternalRubricGenerator())) {
           // Exclude Plugin
+          log.info("Exclos plugin [" + modulDeFirmaJPA.getClasse() + "]: NO TE GENERADOR DE RUBRIQUES ");
           continue;
         }
       }
@@ -207,7 +210,8 @@ public class SignatureModuleController {
           (anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.providesTimeStampGenerator())
           // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
         || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.acceptExternalTimeStampGenerator()) ) {
-       // Exclude Plugin
+         // Exclude Plugin
+          log.info("Exclos plugin [" + modulDeFirmaJPA.getClasse() + "]: NO TE GENERADOR SEGELLAT DE TEMPS ");
           continue;
         }
       } 

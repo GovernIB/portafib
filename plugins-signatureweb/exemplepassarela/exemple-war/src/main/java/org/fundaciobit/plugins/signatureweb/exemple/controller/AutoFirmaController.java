@@ -145,8 +145,8 @@ public class AutoFirmaController {
     final String username = form.getUsername();
     final String administrationID = form.getNif();
     
-    log.error("Username: ]" + username + "[");
-    log.error("administrationID: ]" + administrationID + "[");
+    log.info("Username: ]" + username + "[");
+    log.info("administrationID: ]" + administrationID + "[");
 
     CommonsMultipartFile cmf = form.getFitxerAFirmarID();
     File pdfAFirmar = getFitxerAFirmarPath(id);

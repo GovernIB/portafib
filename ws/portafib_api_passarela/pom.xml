@@ -234,9 +234,7 @@
         </build>
 	  </profile>
 	</profiles>
-	
 
-	
 	
     <dependencies>
 	
@@ -261,6 +259,14 @@
 		  <scope>compile</scope>
 		</dependency>
 
+        <!-- Només per mantenir un ordre en la compilació -->
+        <dependency>
+            <artifactId>portafib-ws-server</artifactId>
+            <groupId>es.caib.portafib</groupId>
+            <version>1.1.0</version>
+            <scope>provided</scope>
+		</dependency>
+ 
 		<dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

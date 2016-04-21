@@ -18,6 +18,7 @@ import es.caib.portafib.logic.passarela.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.PassarelaSignatureStatus;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusFull;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetFull;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesTableHeader;
@@ -50,7 +51,6 @@ import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -269,7 +269,7 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
   
 
   @Override
-  public Integer getStatusTransaction(String transactionID) throws I18NException {
+  public PassarelaSignatureStatus getStatusTransaction(String transactionID) throws I18NException {
 
     PassarelaSignaturesSetFull ss = readSignaturesSet(transactionID);
 
@@ -280,7 +280,7 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
       
       log.error(" XYZ getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
      
-      return ss.getStatus();
+      return ss;
     }
   }
 
@@ -291,7 +291,7 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     return ss;
   }
 
-
+/* XYZ
   @Override
   public void addSignedFileResult(String transactionID, String signID, File fitxer)
       throws I18NException {
@@ -301,13 +301,15 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
       return;
     }
 
-    PassarelaSignatureStatus ss = ssf.getStatusBySignatureID().get(signID);
+    PassarelaSignatureStatusFull ss = ssf.getStatusBySignatureID().get(signID);
 
     ss.setFitxerFirmat(fitxer);
     ss.setStatus(StatusSignature.STATUS_FINAL_OK);
     ss.setMsgError(null);
+    ss.setException(null);
 
   }
+  */
 
   @Override
   public List<PassarelaSignatureResult> getSignatureResults(String transactionID)
@@ -322,18 +324,19 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
       fileInfoSignMap.put(pfis.getSignID(), pfis);
     }
 
-    Map<String, PassarelaSignatureStatus> map = ssf.getStatusBySignatureID();
+    Map<String, PassarelaSignatureStatusFull> map = ssf.getStatusBySignatureID();
     Set<String> signsID = map.keySet();
     List<PassarelaSignatureResult> list = new ArrayList<PassarelaSignatureResult>();
     for (String id : signsID) {
-      PassarelaSignatureStatus ss = map.get(id);
+      PassarelaSignatureStatusFull ss = map.get(id);
 
       PassarelaFileInfoSignature pfis = fileInfoSignMap.get(id);
 
       PassarelaSignatureResult psr = new PassarelaSignatureResult();
 
       psr.setStatus(ss.getStatus());
-      psr.setErrorMsg(ss.getMsgError());
+      psr.setErrorMessage(ss.getErrorMessage());
+      psr.setErrorStackTrace(ss.getErrorStackTrace());
       psr.setSignID(id);
 
       if (ss.getFitxerFirmat() != null && ss.getFitxerFirmat().exists()) {

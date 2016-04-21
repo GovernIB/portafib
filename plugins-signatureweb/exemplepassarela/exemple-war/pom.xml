@@ -8,7 +8,7 @@
     <packaging>war</packaging>
 
 
-    <name>FundacioBit Plugins - SignatureWeb Plugins - Exemple Passarela - WAR</name>
+    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - WAR</name>
 
     <parent>
         <artifactId>plugin-signatureweb-exemplepassarela</artifactId>

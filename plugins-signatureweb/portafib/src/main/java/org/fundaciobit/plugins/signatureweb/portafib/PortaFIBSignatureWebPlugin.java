@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +18,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
+
 
 
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
@@ -39,6 +39,7 @@ import es.caib.portafib.ws.api.v1.passarela.PassarelaFileInfoSignature;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaPolicyInfoSignature;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaSignatureResult;
+import es.caib.portafib.ws.api.v1.passarela.PassarelaSignatureStatus;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaSignaturesTableHeader;
 import es.caib.portafib.ws.api.v1.passarela.PortaFIBPassarelaDeFirmaWs;
@@ -124,8 +125,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       if (log.isDebugEnabled()) {
         log.warn(msg, th);
       } else {
-        // XYZ
-        log.warn(msg, th);
+        log.warn(msg);
       }
 
       return false;
@@ -311,7 +311,9 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     addSignaturesSet(signaturesSet);
     
-    log.error("XYZ POrtaFIB REDIRECT URL ==> " + urlReturn);
+    if (log.isDebugEnabled()) {
+      log.debug("PortaFIB-Plugin REDIRECT URL ==> " + urlReturn);
+    }
 
     return urlReturn;
 
@@ -363,8 +365,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     SignaturesSet ss = getSignaturesSet(signaturesSetID);
 
-    // TODO CHECK ss == null ==> HA CADUCAT i s'ha d'enviar a un apàgina d'error
-    
+    // TODO XYZ CHECK ss == null ==> HA CADUCAT i s'ha d'enviar a una pàgina d'error
     if (ss == null) {
       log.error(" La transacció ha caducat !!!!");
     }
@@ -373,17 +374,17 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
     PortaFIBPassarelaDeFirmaWs api;
-    int status;
+    PassarelaSignatureStatus status;
     try {
       api = getPassarelaDeFirmaApi();
       status = api.getStatusTransaction(signaturesSetID);
       
-      log.error(" XYZ ERROR finalGET ==>  status = " + status);
-      log.info(" XYZ INFO finalGET ==>  status = " + status);
-      log.debug(" XYZ DEBUG finalGET ==>  status = " + status);
+      if (log.isDebugEnabled()) {
+        log.error("finalGET ==>  status = " + status);
+      }
       
       
-      switch (status) {
+      switch (status.getStatus()) {
 
       case StatusSignature.STATUS_IN_PROGRESS:
       case StatusSignature.STATUS_INITIALIZING:
@@ -446,10 +447,14 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
             statusSignature.setSignedData(signedFile);
           } else {
-            statusSignature.setErrorMsg(passarelaSignatureResult.getErrorMsg());
+            statusSignature.setErrorMsg(passarelaSignatureResult.getErrorMessage());
+            String stack = passarelaSignatureResult.getErrorStackTrace(); 
+            if (stack != null) {
+              statusSignature.setErrorException(new Exception(stack));
+            }
           }
 
-          statusSignature.setErrorException(null);
+          
           statusSignature.setProcessed(true);
         }
         sss.setStatus(StatusSignature.STATUS_FINAL_OK);
@@ -459,7 +464,10 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       case StatusSignature.STATUS_FINAL_ERROR:
         sss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
         // TODO Traduir
-        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma: " + status);
+        sss.setErrorMsg("S'ha produït un error en la passarel·la de firma: " + status.getErrorMessage());
+        if (status.getErrorStackTrace() != null) {
+          sss.setErrorException(new Exception(status.getErrorStackTrace()));
+        }
         break;
 
       }
@@ -652,15 +660,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     URL wsdl = new URL(endpoint + "?wsdl");
     PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService(wsdl);
     
-    // XYZ
-    /*
-    Class<?> serviceClass = loadClass(PortaFIBPassarelaDeFirmaWsService.class.getName());
-    
-    Constructor<?> constructor = serviceClass.getConstructor(URL.class); 
-    
-    PortaFIBPassarelaDeFirmaWsService service = (PortaFIBPassarelaDeFirmaWsService)constructor.newInstance(wsdl);
-    
- */
+
 
     PortaFIBPassarelaDeFirmaWs api = service.getPortaFIBPassarelaDeFirmaWs();
 
@@ -671,124 +671,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     return api;
   }
-  
-  // XYZ
-  public Class<?>  loadClass(String name) throws Exception {
-    Class<?> classToLoad;
-    
-    System.err.println(" XYZ CLASSS KKKKKKKKKKKKKKKKKK ==> Class " + name);
-    
-      classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
-      
-      System.err.println(" XYZ CLASSS LOADER ==> Class.forName " + name);
-      
-   
-    return classToLoad;
-  }
-  
-  
-  // XYZ
-private URLClassLoader miniAppletClassLoader = null;
-  
-  
-  public URLClassLoader getMiniAppletClassLoader() {
-    
-    if (miniAppletClassLoader == null) {
-      
-      Class<?> cls = this.getClass();
-      
-      
-      URL url = PortaFIBPassarelaDeFirmaWs.class.getProtectionDomain().getCodeSource().getLocation();
-      
-      System.err.println("XYZ ZZZ URL CLASS LOADER = " + url.toString());
-      
-      //String path = PortaFIBPassarelaDeFirmaWs.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-      //String decodedPath = URLDecoder.decode(path, "UTF-8");
-      
-      URL[] urls = new URL[] {
-          url
-        //FileUtils.getResourceAsURL(cls, "applet/miniapplet.jar"),
-        //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
-      };
-      
-      miniAppletClassLoader = new URLClassLoader(urls, javax.xml.ws.Service.class.getClassLoader());
-    }
 
-    return miniAppletClassLoader;
-
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  /*
-  public PortaFIBPassarelaDeFirmaWs getPassarelaDeFirmaApi() throws Exception {
-    
-    final String endpoint = super.getPropertyRequired(API_URL);
-    final String usr = super.getPropertyRequired(API_USERNAME);
-    final String pwd = super.getPropertyRequired(API_PASSWORD);
-    
-    PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService();
-    
-    
-    PortaFIBPassarelaDeFirmaWs stub = service.getPortaFIBPassarelaDeFirmaWs();          
-    Client client = org.apache.cxf.frontend.ClientProxy.getClient(stub);     
-
-    Map<String, Object> outProps = new HashMap<String, Object>();        
-    outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-    outProps.put(WSHandlerConstants.USER, usr);
-
-    outProps.put(WSHandlerConstants.PASSWORD_TYPE,WSConstants.PW_TEXT);        
-    // Automatically adds a Base64 encoded message nonce and a created timestamp
-    outProps.put(WSHandlerConstants.ADD_UT_ELEMENTS,WSConstants.NONCE_LN + " " + WSConstants.CREATED_LN);    
-    outProps.put(WSHandlerConstants.PW_CALLBACK_REF, new ClientPasswordCallback(usr, pwd));
-    WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-    client.getOutInterceptors().add(wssOut);
-
-    //Enable GZip compression
-    Map<String, java.util.List<String>> httpHeaders = new HashMap<String, java.util.List<String>>();
-    httpHeaders.put("Content-Encoding",Collections.singletonList("gzip"));
-    httpHeaders.put("Accept-Encoding",Collections.singletonList("gzip"));
-    Map<String, Object> reqContext = client.getRequestContext();
-    reqContext.put(MessageContext.HTTP_REQUEST_HEADERS,httpHeaders);
-
-    return stub;
-}
-  
-  
-  public class ClientPasswordCallback implements CallbackHandler {
-
-    private String username;
-    private String password;
-
-    public ClientPasswordCallback(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public void handle(Callback[] callbacks) throws IOException, 
-    UnsupportedCallbackException {
-        for (Callback callback: callbacks){
-            if (callback instanceof WSPasswordCallback){
-                WSPasswordCallback pc = (WSPasswordCallback) callback;              
-                if (username.equals(pc.getIdentifier())) {                  
-                    pc.setPassword(password);                   
-                }
-            } else if (callback instanceof NameCallback){
-                throw new UnsupportedCallbackException(callback);
-            } else {
-                throw new UnsupportedCallbackException(callback);
-            }           
-        }
-    }
-}
-  */
 
   // ---------------------------------------------------------
   // ------------------- MIME ------------------------

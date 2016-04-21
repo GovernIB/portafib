@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.common;
 
 import java.io.File;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +39,7 @@ import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.PassarelaPolicyInfoSignature;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatus;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusFull;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetFull;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -252,9 +253,8 @@ public class PassarelaDeFirmaController  {
   
     final boolean debug = log.isDebugEnabled();
   
-    // XYZ if(debug) 
-    {
-      log.error(" XYZ ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
+    if(debug) {
+      log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
   
     SignaturesSet ss;
@@ -287,7 +287,7 @@ public class PassarelaDeFirmaController  {
       throw new Exception("Ha tardat massa temps en firmar. Torni a intentar-ho.");
     }
         
-    Map<String, PassarelaSignatureStatus> statusBySignID = ssf.getStatusBySignatureID();
+    Map<String, PassarelaSignatureStatusFull> statusBySignID = ssf.getStatusBySignatureID();
     
     
     switch(sss.getStatus()) {
@@ -303,7 +303,7 @@ public class PassarelaDeFirmaController  {
             final String signID = fis.getSignID();
             
             if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-              PassarelaSignatureStatus pss = statusBySignID.get(signID);
+              PassarelaSignatureStatusFull pss = statusBySignID.get(signID);
               // Check que status.getSignedData() != null
               if (status.getSignedData() == null || !status.getSignedData().exists()) {
                 status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
@@ -315,15 +315,16 @@ public class PassarelaDeFirmaController  {
                 statusFinal = status;
                 
                 // Copiar estat
-                pss.setMsgError(msg);
+                pss.setErrorMessage(msg);
                 pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+                pss.setErrorStackTrace(null);
                 
               } else {
                 File firmat = passarelaDeFirmaEjb.getFitxerFirmatPath(transactionID, signID);
                 FileUtils.moveFile(status.getSignedData(), firmat);
                 fitxersFirmatsBySignID.put(signID, firmat);
                 // Copiar estat
-                pss.setMsgError(status.getErrorMsg());
+                pss.setErrorMessage(status.getErrorMsg());
                 pss.setStatus(status.getStatus());
                 pss.setFitxerFirmat(firmat);
                 
@@ -371,7 +372,13 @@ public class PassarelaDeFirmaController  {
     
     // Copiar Estat General
     ssf.setStatus(statusFinal.getStatus());
-    ssf.setErrorMsg(statusFinal.getErrorMsg());
+    ssf.setErrorMessage(statusFinal.getErrorMsg());
+    
+    if (statusFinal.getErrorException() != null) {
+      StringWriter trace= new StringWriter();
+      statusFinal.getErrorException().printStackTrace(new java.io.PrintWriter(trace));
+      ssf.setErrorStackTrace(trace.toString());
+    }
     
     // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la 
     // informació dins la capa EJB

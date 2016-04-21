@@ -73,7 +73,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
   
-  public static final String IGNORE_CERTIFICATE_FILTER = "ignore_certificate_filter";
+  public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVER_BASE_PROPERTIES + "ignore_certificate_filter";
   
   
   public static final String SESSION_FILTER = "SESSION_CERTIFICATE_FILTER";
@@ -487,11 +487,10 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       
         try {
            X509Certificate cert = CertificateUtils.decodeCertificate(new FileInputStream(certFile));
-           
            passFilter = MiniAppletUtils.matchFilter(cert, filter);
-           
         } catch (Exception e) {
-          log.error(" Error llegint Certificat " + certFile.getAbsolutePath(), e);
+          log.error(" Error comprovant filtre Certificat " + certFile.getAbsolutePath()
+              + ": " + e.getMessage(), e);
           passFilter = false;
         }
       }

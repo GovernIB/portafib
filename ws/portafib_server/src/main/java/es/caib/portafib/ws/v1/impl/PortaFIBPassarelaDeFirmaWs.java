@@ -11,6 +11,7 @@ import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 
 import es.caib.portafib.logic.passarela.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.utils.Constants;
@@ -113,10 +114,10 @@ public interface PortaFIBPassarelaDeFirmaWs extends IBaseAutenticatedWs {
   
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
-  public Integer getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
+  public PassarelaSignatureStatus getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
     throws WsI18NException, Throwable;
 
-  
+ 
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
   public List<PassarelaSignatureResult> getSignatureResultsOfTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 

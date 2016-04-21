@@ -75,7 +75,14 @@
   </xs:complexType>
   <xs:complexType name="getStatusTransactionResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int"/>
+      <xs:element minOccurs="0" name="return" type="tns:passarelaSignatureStatus"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSignatureStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorStackTrace" type="xs:string"/>
+      <xs:element name="status" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getVersionWs">
@@ -123,12 +130,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="passarelaSignatureResult">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="errorMsg" type="xs:string"/>
-      <xs:element minOccurs="0" name="signID" type="xs:string"/>
-      <xs:element minOccurs="0" name="signedFile" type="tns:fitxerBean"/>
-      <xs:element name="status" type="xs:int"/>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="tns:passarelaSignatureStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="signID" type="xs:string"/>
+          <xs:element minOccurs="0" name="signedFile" type="tns:fitxerBean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="fitxerBean">
     <xs:sequence>

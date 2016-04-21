@@ -14,14 +14,12 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="passarelaSignatureResult">
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://impl.v1.ws.portafib.caib.es/}passarelaSignatureStatus">
  *       &lt;sequence>
- *         &lt;element name="errorMsg" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="signID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="signedFile" type="{http://impl.v1.ws.portafib.caib.es/}fitxerBean" minOccurs="0"/>
- *         &lt;element name="status" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -30,41 +28,15 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "passarelaSignatureResult", propOrder = {
-    "errorMsg",
     "signID",
-    "signedFile",
-    "status"
+    "signedFile"
 })
-public class PassarelaSignatureResult {
+public class PassarelaSignatureResult
+    extends PassarelaSignatureStatus
+{
 
-    protected String errorMsg;
     protected String signID;
     protected FitxerBean signedFile;
-    protected int status;
-
-    /**
-     * Gets the value of the errorMsg property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    /**
-     * Sets the value of the errorMsg property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setErrorMsg(String value) {
-        this.errorMsg = value;
-    }
 
     /**
      * Gets the value of the signID property.
@@ -112,22 +84,6 @@ public class PassarelaSignatureResult {
      */
     public void setSignedFile(FitxerBean value) {
         this.signedFile = value;
-    }
-
-    /**
-     * Gets the value of the status property.
-     * 
-     */
-    public int getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets the value of the status property.
-     * 
-     */
-    public void setStatus(int value) {
-        this.status = value;
     }
 
 }

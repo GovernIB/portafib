@@ -63,13 +63,8 @@ public class MiniAppletClassLoader {
     Class<?> classToLoad;
     try {
       classToLoad = Class.forName (name, true, getMiniAppletClassLoader());
-      
-      System.err.println(" XYZ CLASSS LOADER ==> Class.forName " + name);
-      
     } catch(java.lang.ClassNotFoundException cnfe) {
       classToLoad = Class.forName (name, true, getMiniAppletClassLoader2());
-      
-      System.err.println(" XYZ CLASSS LOADER [ MiniAppletClassLoader ] ==> Class.forName " + name);
     }
     return classToLoad;
   }

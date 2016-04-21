@@ -36,10 +36,6 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
 
   protected static Logger log = Logger.getLogger(SignatureModuleEjb.class);
 
-
-  
-  
-
   
   public List<Plugin> getAllPlugins(HttpServletRequest request, String signaturesSetID) throws Exception {
 

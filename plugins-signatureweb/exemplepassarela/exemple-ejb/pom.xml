@@ -7,7 +7,7 @@
 
     <packaging>ejb</packaging>
 
-    <name>FundacioBit Plugins - SignatureWeb Plugins - Exemple Passarela - EJB</name>
+    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - EJB</name>
 
     <parent>
         <artifactId>plugin-signatureweb-exemplepassarela</artifactId>

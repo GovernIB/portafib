@@ -82,6 +82,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   private static final String PROPERTY_USERS_PATTERN = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "userspattern";
 
   private static final String PROPERTY_CALLBACK_HOST = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "callbackhost";
+  
+  public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ignore_certificate_filter";
 
   private static final String MINIAPPLETINSERVERSIA_WEBRESOURCE= "miniappletinserversiawebresource";
   
@@ -128,8 +130,35 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       Map<String, CertificateInfo> map = listCertificates(username, administrationID);
 
       if (map != null && map.size() != 0) {
-        // XYZ Falta suportar Filtre
-        return true;
+
+        
+        int certificatsDisponibles = 0;
+
+        
+        for (CertificateInfo ci : map.values()) {
+
+          boolean passFilter;
+
+          if ("true".equals(getProperty(IGNORE_CERTIFICATE_FILTER))) {
+            passFilter = true;
+          } else {
+          
+            try {
+               X509Certificate cert = CertificateUtils.decodeCertificate(new ByteArrayInputStream(ci.getCertificate()));
+               passFilter = MiniAppletUtils.matchFilter(cert, filter);
+            } catch (Exception e) {
+              log.error(" Error comprovant filtre Certificat " + ci.getDn_certificate() 
+                  + ": " + e.getMessage(), e);
+              passFilter = false;
+            }
+          }
+          
+          if (passFilter) {
+            certificatsDisponibles++;
+          }
+        }
+
+        return certificatsDisponibles != 0;
       }
       
     } catch(SafeCertGateWayException se) {

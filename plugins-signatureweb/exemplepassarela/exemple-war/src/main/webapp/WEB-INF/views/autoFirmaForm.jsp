@@ -1,4 +1,3 @@
-
 <%@ include file="/WEB-INF/views/html_header.jsp"%>
 
 <h3 class="tabs_involved">
@@ -70,8 +69,32 @@
               <form:input  cssClass="input-xxlarge"  path="location"  />
            </td>
          </tr>
-
+         
          <tr>
+          <td><label><fmt:message key="peticioDeFirma.fitxerAFirmarID" /> &nbsp;(*)</label></td>
+            <td>
+              <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-error" />
+              <form:input path="fitxerAFirmarID" type="file" />
+           </td>
+         </tr>
+
+        
+
+     </tbody>
+    </table>
+    
+    <center>
+      <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
+    </center>
+    
+    <h4 class="tabs_involved">
+      &nbsp;&nbsp;OPCIONS
+    </h4>
+    
+    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="width:auto;" > 
+    <tbody>
+    
+     <tr>
           <td><label><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" /> &nbsp;(*)</label></td>
             <td>
           <form:errors path="posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
@@ -84,38 +107,38 @@
            </td>
          </tr>
 
-        <tr>
-          <td><label><fmt:message key="peticioDeFirma.fitxerAFirmarID" /> &nbsp;(*)</label></td>
-            <td>
-              <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-error" />
-              <form:input path="fitxerAFirmarID" type="file" />
-           </td>
-         </tr>
+
          <tr>
             <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
             <td> 
                 <form:checkbox path="segellDeTemps" />
             </td>
          </tr>
-
-     </tbody>
-    </table>
-    
-    
-    
-    <h4 class="tabs_involved">
-      &nbsp;&nbsp;&nbsp;Estampaci&oacute; Codi Segur Verificaci&oacute;
-    </h4>
-    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="width:auto;" > 
-    <tbody>    
-    <tr>
+         
+         
+         <tr>
           <td>
             <label>
-              Usar Estampaci&oacute;</label>
+              Usar Estampaci&oacute; CSV</label>
             </td>
             <td>
-          <form:checkbox path="cvsActivat" /></td>
+               <form:checkbox path="cvsActivat" />
+          </td>
         </tr>
+    
+    </tbody>
+    
+    </table>
+    
+
+    
+    
+    <h5 class="tabs_involved">
+      &nbsp;&nbsp; Opcions d'Estampaci&oacute; CSV
+    </h5>
+    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="width:auto;" > 
+    <tbody>    
+    
         <tr>
           <td>
             <label>
@@ -123,16 +146,23 @@
               </label>
             </td>
             <td>
-            <form:errors path="cvsPagines" cssClass="errorField alert alert-error" />
-            <form:input  cssClass="input-xxlarge"  path="cvsPagines"  />
-            <br>
-            <small>Valors possibles s&ocute;n: <br/>
-                 buit = no mostrar<br/> 
-                 * = totes les p&agrave;gines<br/>
-                 0 = primera p&agrave;gina (taula de firmes) <br/>
-                 -1 = darrera p&agrave;gina (taula de firmes) <br/>
-                 -1, 0, 1, 3, 4-5, 8- = format Imprimir (sense taula de firmes)
-                 </small>
+                <table>
+                <tr>
+                    <td>
+                        <form:errors path="cvsPagines" cssClass="errorField alert alert-error" />
+                        <form:input  cssClass="input-large"  path="cvsPagines"  />
+                    </td>
+                    <td>                    
+                        <small>Valors possibles s&oacute;n: <br/>
+                             buit = no mostrar<br/> 
+                             * = totes les p&agrave;gines<br/>
+                             0 = primera p&agrave;gina (taula de firmes) <br/>
+                             -1 = darrera p&agrave;gina (taula de firmes) <br/>
+                             -1, 0, 1, 3, 4-5, 8- = format Imprimir (sense taula de firmes)
+                         </small>
+                    </td>
+                </tr>
+                </table>
             </td>
         </tr>
         <tr>

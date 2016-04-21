@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://impl.v1.ws.portafib.caib.es/}passarelaSignatureStatus" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,17 +33,17 @@ import javax.xml.bind.annotation.XmlType;
 public class GetStatusTransactionResponse {
 
     @XmlElement(name = "return")
-    protected Integer _return;
+    protected PassarelaSignatureStatus _return;
 
     /**
      * Gets the value of the return property.
      * 
      * @return
      *     possible object is
-     *     {@link Integer }
+     *     {@link PassarelaSignatureStatus }
      *     
      */
-    public Integer getReturn() {
+    public PassarelaSignatureStatus getReturn() {
         return _return;
     }
 
@@ -52,10 +52,10 @@ public class GetStatusTransactionResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link Integer }
+     *     {@link PassarelaSignatureStatus }
      *     
      */
-    public void setReturn(Integer value) {
+    public void setReturn(PassarelaSignatureStatus value) {
         this._return = value;
     }
 

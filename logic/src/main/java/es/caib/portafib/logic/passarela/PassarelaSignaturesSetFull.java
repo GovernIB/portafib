@@ -8,24 +8,14 @@ import java.util.Map;
  * @author anadal
  *
  */
-public class PassarelaSignaturesSetFull {
+public class PassarelaSignaturesSetFull extends PassarelaSignatureStatus {
 
   protected final String entitatID;
 
   protected final PassarelaSignaturesSet signaturesSet;
 
-  /**
-   * @see PassarelaSignatureResult.STATUS_INITIALIZING
-   * @see PassarelaSignatureResult.STATUS_IN_PROGRESS
-   * @see PassarelaSignatureResult.STATUS_FINAL_OK = 2;
-   * @see PassarelaSignatureResult.STATUS_FINAL_ERROR = -1;
-   * @see PassarelaSignatureResult.STATUS_CANCELLED = -2;
-   */
-  protected int status = PassarelaSignatureResult.STATUS_INITIALIZING;
 
-  protected String errorMsg;
-
-  protected final Map<String, PassarelaSignatureStatus> statusBySignatureID = new HashMap<String, PassarelaSignatureStatus>();
+  protected final Map<String, PassarelaSignatureStatusFull> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusFull>();
 
   /**
    * @param signaturesSet
@@ -39,7 +29,7 @@ public class PassarelaSignaturesSetFull {
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
     for (PassarelaFileInfoSignature fileInfo : files) {
-      statusBySignatureID.put(fileInfo.getSignID(), new PassarelaSignatureStatus());
+      statusBySignatureID.put(fileInfo.getSignID(), new PassarelaSignatureStatusFull());
     }
   }
 
@@ -55,7 +45,7 @@ public class PassarelaSignaturesSetFull {
     return signaturesSet;
   }
 
-  public Map<String, PassarelaSignatureStatus> getStatusBySignatureID() {
+  public Map<String, PassarelaSignatureStatusFull> getStatusBySignatureID() {
     return statusBySignatureID;
   }
 
@@ -63,12 +53,6 @@ public class PassarelaSignaturesSetFull {
     return entitatID;
   }
 
-  public String getErrorMsg() {
-    return errorMsg;
-  }
 
-  public void setErrorMsg(String errorMsg) {
-    this.errorMsg = errorMsg;
-  }
 
 }

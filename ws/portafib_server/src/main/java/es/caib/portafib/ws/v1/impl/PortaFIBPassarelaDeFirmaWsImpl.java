@@ -23,6 +23,7 @@ import org.jboss.wsf.spi.annotation.WebContext;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
@@ -272,12 +273,15 @@ public class PortaFIBPassarelaDeFirmaWsImpl extends AuthenticatedBaseWsImpl impl
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
   @Override
-  public Integer getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID)
+  public PassarelaSignatureStatus getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID)
       throws WsI18NException, Throwable {
 
     return passarelaDeFirmaEjb.getStatusTransaction(signaturesSetID);
 
   }
+  
+  
+  
 
   @Override
   public List<PassarelaSignatureResult> getSignatureResultsOfTransaction(
