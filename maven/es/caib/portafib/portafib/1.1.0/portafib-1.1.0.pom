@@ -64,6 +64,19 @@
 		    <name>GenApp Maven Repository</name>
 		    <url>http://GovernIB.github.io/genapp/maven/</url>
 	    </repository>
+        
+        
+        <repository>
+			<name>Local Maven Repository 1</name>
+			<id>es.caib.portafib.localrepo1</id>
+			<url>file://${basedir}/../local-repo</url>
+		</repository>
+        
+        <repository>
+			<name>Local Maven Repository 2</name>
+			<id>es.caib.portafib.localrepo2</id>
+			<url>file://${basedir}/../../local-repo</url>
+		</repository>
 
     </repositories>
 
@@ -95,6 +108,7 @@
         <!-- XYZ  
         <miniapplet.version>1.3</miniapplet.version>
          -->
+        <bouncycastle.version>1.51</bouncycastle.version>
         <hibernate.version>3.3.2.GA</hibernate.version>
         <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
 		<plugins.version>1.0.0</plugins.version>
@@ -136,6 +150,25 @@
         </pluginManagement>
 
         <plugins>
+        
+            <!-- Directory plugin to find parent root directory absolute path -->
+            <plugin>
+              <groupId>org.commonjava.maven.plugins</groupId>
+              <artifactId>directory-maven-plugin</artifactId>
+              <version>0.1</version>
+              <executions>
+                <execution>
+                  <id>directories</id>
+                  <goals>
+                    <goal>highest-basedir</goal>
+                  </goals>
+                  <phase>initialize</phase>
+                  <configuration>
+                    <property>main.basedir</property>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
 
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
