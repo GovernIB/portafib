@@ -25,6 +25,7 @@
 	          <module>portafib_server</module>
 	          <module>portafib_api</module>
 			  <module>portafib_api_example</module>
+              <module>portafib_api_passarela</module>
 			</modules>
 		</profile>
 
