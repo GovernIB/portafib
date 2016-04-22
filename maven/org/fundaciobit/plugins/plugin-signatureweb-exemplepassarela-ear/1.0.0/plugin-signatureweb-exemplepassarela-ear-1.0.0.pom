@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>plugin-signatureweb-exemplepassarela-ear</artifactId>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <packaging>ear</packaging>
+
+    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - EAR</name>
+
+    <parent>
+        <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
+        <groupId>org.fundaciobit.plugins</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <dependencies>
+
+        <!-- Internes -->
+        <dependency>
+            <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
+            <groupId>org.fundaciobit.plugins</groupId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
+            <groupId>org.fundaciobit.plugins</groupId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <!-- Externes -->
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>            
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
+
+
+
+        <!-- ====================================== -->
+        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
+        <!-- ====================================== -->
+
+        <dependency>
+            <groupId>org.fundaciobit.plugins</groupId>
+            <artifactId>plugins-api</artifactId>
+            <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fundaciobit.plugins</groupId>                    
+            <artifactId>plugin-signatureweb-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>passarela</finalName>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.3.2</version>
+                <!-- configuring the ear plugin -->
+                <configuration>
+
+                    <displayName>Exemple de Passarel-la de Firma</displayName>
+                    <description>Exemple de Passarel-la de Firma</description>
+
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Passarela-Version>${project.version}</Passarela-Version>
+                        </manifestEntries>
+
+
+
+                    </archive>
+
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+
+                    <jboss>
+                        <version>5</version>
+                        <loader-repository>org.fundaciobit.plugins:loader=passarela.ear</loader-repository>
+                        <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
+                    </jboss>
+
+                    <modules>
+
+                        <webModule>
+                            <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
+                            <groupId>org.fundaciobit.plugins</groupId>
+                            <contextRoot>passarela</contextRoot>
+                        </webModule>
+
+                        <ejbModule>
+                            <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
+                            <groupId>org.fundaciobit.plugins</groupId>
+                        </ejbModule>
+
+
+                    </modules>
+
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <!-- <jbossHome>D:\servers\jboss-eap-5.1\jboss-as</jbossHome>-->
+                    <serverName>default</serverName>
+                    <fileName>target/passarela.ear</fileName> 
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
