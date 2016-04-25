@@ -18,6 +18,9 @@ lib/install_axis_jaxrpc_jar.sh
 scripts/bbdd/genappbase.sql
 scripts/genapp/lastconfig.properties
 
+local-repo/com/caucho/hessian/3.2.0/hessian-3.2.0.jar
+local-repo/com/openlandsw/rss/gateway-api-comun/2.4.05/gateway-api-comun-2.4.05.jar
+local-repo/com/openlandsw/rss/gateway-api/2.4.05/gateway-api-2.4.05.jar
 
 logic/src/main/resources/genapp_ca.properties
 logic/src/main/resources/genapp_es.properties
