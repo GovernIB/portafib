@@ -114,13 +114,14 @@ public class AuthenticationSuccessListener implements
             admin.setEmail(info.getEmail()== null? PropietatGlobalUtil.getAppEmail() : info.getEmail());
             admin.setIdiomaID(Configuracio.getDefaultLanguage());
             final String nom, llinatges;
-            {
+            {         
               String nomTmp = info.getName() == null? name : info.getName();
               
               String llinatgesTmp = (info.getSurname1()== null? "" : info.getSurname1())
-                  + ((info.getSurname2()== null? "" : (" " + info.getSurname2()))).trim();
-              
-              if (llinatgesTmp.trim().length() == 0) {
+                  + (info.getSurname2()== null? "" : (" " + info.getSurname2()));
+              llinatgesTmp = llinatgesTmp.trim();
+
+              if (llinatgesTmp.length() == 0) {
                 // Miram si podem xapar el nom
                 int pos = nomTmp.indexOf(' ');
                 if (pos == -1) {
@@ -137,8 +138,7 @@ public class AuthenticationSuccessListener implements
             }
             admin.setNom(nom);
             admin.setLlinatges(llinatges);
-            
-            
+
             admin.setUsuariPersonaID(name);
             admin.setNif(info.getAdministrationID().toUpperCase());
 
