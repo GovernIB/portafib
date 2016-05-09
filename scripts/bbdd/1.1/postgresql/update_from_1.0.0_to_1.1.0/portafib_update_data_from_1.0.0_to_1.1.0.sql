@@ -193,6 +193,9 @@ INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio)
   
 INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
   VALUES (15, 'es.caib.portafib.passwordforagentssql', NULL, 'Opcional excepte en entorns de la CAIB. Contrasenya (o clau de pas) per comprovar que les peticions http realment provenen d''un trigger de BBDD. Veure punt [Gestió de Rols a traves de triggers Oracle] del manual d''instal·lació per més informació.');
+  
+INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
+  VALUES (16, 'es.caib.portafib.logouturl', NULL, 'Opcional. Afegeix una nova opció de menú davall de “Configuració” del menú de la capçalera (superior dreta) que indica una URL que servirà per poder abandonar PortaFIB. Per aplicar canvis requereix reiniciar servidor.');
 
 -- ========================================
 -- 2016/01/12 Propietats d'Entitat

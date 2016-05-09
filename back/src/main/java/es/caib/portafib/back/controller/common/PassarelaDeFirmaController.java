@@ -340,9 +340,9 @@ public class PassarelaDeFirmaController  {
       case StatusSignaturesSet.STATUS_FINAL_ERROR:
 
         if (sss.getErrorException() == null) {
-          log.error("XYZ  ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg());
+          log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg());
         } else {
-          log.error("XYZ  ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg(), sss.getErrorException());
+          log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg(), sss.getErrorException());
         }
 
         statusFinal = sss;

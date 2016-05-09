@@ -16,6 +16,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.springframework.stereotype.Component;
 
 import es.caib.portafib.ejb.IdiomaLocal;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Idioma;
 import es.caib.portafib.model.fields.IdiomaFields;
 
@@ -31,6 +32,13 @@ public class CapPreparer extends ViewPreparerSupport implements IdiomaFields {
   
   @EJB(mappedName = "portafib/IdiomaEJB/local")
   private IdiomaLocal idiomaEjb;
+  
+  
+  public static String menuLogOutUrl = null;
+  
+  
+  public static List<Idioma> idiomes = null;
+
 
 	@Override
 	public void execute(TilesRequestContext tilesContext, 
@@ -52,25 +60,26 @@ public class CapPreparer extends ViewPreparerSupport implements IdiomaFields {
 	  }
     */
     // Idiomes (cache)
-    try {
-
-      Object idiomesAttribute = tilesContext.getSessionScope().get("idiomes");
-      
-
-      List<Idioma> idiomes;
-      if (idiomesAttribute != null && idiomesAttribute instanceof List) {
-        idiomes = (List<Idioma>)idiomesAttribute;
-      } else {
+    if (idiomes == null) {
+      try {
         idiomes = idiomaEjb.select(SUPORTAT.equal(true), new OrderBy(ORDRE));
-        tilesContext.getSessionScope().put("idiomes", idiomes);
+      } catch (I18NException e) {
+        // TODO: handle exception
+        log.error("Error cercant idiomes suportats.", e);
       }
-
-      request.put("idiomes", idiomes);
-
-    } catch (I18NException e) {
-      // TODO: handle exception
-      log.error("Error cercant idiomes suportats.", e);
     }
+    request.put("idiomes", idiomes);
+    
+    // Menu Sortir
+    if (menuLogOutUrl == null) {
+      String str = PropietatGlobalUtil.getMenuLogOutUrl();
+      if (str == null || str.trim().length() == 0) {
+        menuLogOutUrl = "";
+      } else {
+        menuLogOutUrl = str.trim();
+      }      
+    }
+    request.put("menuLogOutUrl", menuLogOutUrl);
 
 	}
 }

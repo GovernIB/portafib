@@ -119,6 +119,9 @@ public class MiniAppletInClientSignatureWebPlugin extends
           }
           return;
         }
+      } else {
+        log.error("No s'ha pogut llegir el recurs: " + relativePath 
+            + " Comprovau que teniu la llibreria plugin-signatureweb-miniappletutils-x.y.z.jar.");
       }
     }
     

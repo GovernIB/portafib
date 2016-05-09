@@ -1,10 +1,16 @@
 package es.caib.portafib.back.controller.soli;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -21,6 +27,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -55,6 +62,7 @@ import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
@@ -1325,6 +1333,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     
     int deleteCount = 0;
     int pausarCount = 0;
+    int firmatCount = 0;
 
     for(PeticioDeFirma pf: list) {
     
@@ -1515,6 +1524,10 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
               "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
               "btn-danger"));
           
+          if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+            firmatCount++;
+          }
+          
         }
     
     }; // Final For de totes les peticions
@@ -1533,6 +1546,8 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     
     final boolean pausarMultiple = (size == pausarCount  && size != 0);
     
+    final boolean downloadMassiu =  (size == firmatCount  && size != 0);
+    
     if (deleteMultiple || pausarMultiple) {
       filterForm.setVisibleMultipleSelection(true);
     
@@ -1543,10 +1558,17 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         filterForm.setDeleteSelectedButtonVisible(false);
       }
       
-      if (pausarMultiple)
+      if (pausarMultiple) {
         filterForm.addAdditionalButton(new  AdditionalButton("icon-pause icon-white",
           "pausar", "javascript:submitTo('peticioDeFirmaFilterForm',"
               + " '" + request.getContextPath() + getContextWeb() + "/pausarseleccionats');" , "btn-warning"));
+      }
+      
+      if (downloadMassiu) {
+        filterForm.addAdditionalButton(new  AdditionalButton("icon-download-alt icon-white",
+          "descarregar.firmes", "javascript:submitTo('peticioDeFirmaFilterForm',"
+              + " '" + request.getContextPath() + getContextWeb() + "/downloadseleccionats');" , "btn-success"));
+      }
       
     }
     
@@ -1600,11 +1622,102 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
         }
       }
       
+    }
+
+    return llistatPaginat(request, response, null);
+  }
+  
+  
+  
+  
+  @RequestMapping(value = "/downloadseleccionats", method = RequestMethod.POST)
+  public void downloadSeleccionats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws I18NException, IOException {
+
+    // seleccionats conté les peticioIDs
+    String[] seleccionatsStr = filterForm.getSelectedItems();
+
+    if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.pausar.capseleccionat"));
+      
+      
+      response.sendRedirect(request.getContextPath() + getContextWeb() + "/list");
+      
+    } else {
+
+      // XYZ Optimitzar emprant un fitxer temporal
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      
+      ZipOutputStream zos = new ZipOutputStream(baos);
+      
+      
+
+      for(int i = 0; i< seleccionatsStr.length; i++) {
+         Long peticioDeFirmaID;
+      
+         try {
+          peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
+          
+        } catch(Throwable e) {
+          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+          continue;
+        }
+      
+        FitxerJPA firmat = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+      
+
+        try {
+         
+         String fileName = peticioDeFirmaID + ".pdf";
+         File file = FileSystemManager.getFile(firmat.getFitxerID());
+
+         addToZipFile(file, fileName, zos);
+
+       } catch(Throwable e) {
+         log.error("Error fent zip del fitxer firmat amb id " + firmat.getFitxerID()
+           + " de la petició de firma amb id = " + peticioDeFirmaID + ": " + e.getMessage(), e);
+       }
+     }
+      zos.close();
+
+      
+      response.setContentType("application/zip");
+      response.setHeader("Content-Disposition", "inline; filename=\"fitxersfirmats.zip\"");
+      response.setContentLength(baos.size());
+      
+      response.getOutputStream().write(baos.toByteArray());
+
+      baos = null;
+      
+      System.gc();
+      
+      response.getOutputStream().flush();
       
     }
+  }
+  
+  
+  public static void addToZipFile(File file, String fileName, ZipOutputStream zos) 
+      throws FileNotFoundException, IOException {
+
+    //System.out.println("Writing '" + fileName + "' to zip file");
+
     
-    
-    return llistatPaginat(request, response, null);
+    FileInputStream fis = new FileInputStream(file);
+    ZipEntry zipEntry = new ZipEntry(fileName);
+    zos.putNextEntry(zipEntry);
+
+    FileSystemManager.copy(fis, zos);
+    /*
+    byte[] bytes = new byte[1024];
+    int length;
+    while ((length = fis.read(bytes)) >= 0) {
+      zos.write(bytes, 0, length);
+    }
+    */
+    zos.closeEntry();
+    fis.close();
   }
   
   

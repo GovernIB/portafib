@@ -28,7 +28,7 @@
 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 <td valign="top">
 <a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank">
-<img src="<c:url value="/img/fundaciobit.jpg"/>"  alt="Fundació Bit" title="Fundació Bit"/>
+<img src="<c:url value="/img/fundaciobit.jpg"/>"  alt="Fundaci&oacute; Bit" title="Fundaci&oacute; Bit"/>
 </a>
 </td>
 </tr>
@@ -37,6 +37,7 @@
 </center>
 
 </div>
+
 
 <c:if test="${pfi:isDesenvolupament()}">
 

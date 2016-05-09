@@ -56,6 +56,10 @@
         </a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li><a tabindex="-1" href="<c:url value="/common/configuracio/usuaripersona/${pageContext.request.userPrincipal.name}/edit"/>"><fmt:message key="configuracio" /></a></li>
+          
+          <c:if test="${not empty menuLogOutUrl}">
+          <li><a tabindex="-1" href="<c:url value="${menuLogOutUrl}" />"><fmt:message key="sortir" /></a></li>
+          </c:if>
           <%--
           <li><a tabindex="-1" href="<c:url value="/j_spring_security_logout" />">Sortir</a></li>
            --%>

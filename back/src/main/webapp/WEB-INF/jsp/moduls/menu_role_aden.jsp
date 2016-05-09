@@ -9,7 +9,7 @@
   <h5><fmt:message key="ROLE_ADEN.menu" /></h5>
 <%!
 
-final String[] menu = {
+final String[] menu1 = {
     "entitat.modificar", // Modificació de les dades d'una Entitat
     "",
     "usuaripersona.alta",    
@@ -26,7 +26,7 @@ final String[] menu = {
     "tipusdocument.gestio", // Gestió Tipus de Documents"
     "",
     "moduldefirma.gestio",
-    "modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", // /aden/modulfirmatipusdoc
+    "modulDeFirmaPerTipusDeDocument.short", // /aden/modulfirmatipusdoc
     "",
     "segelldetemps.gestio",
     "plantillacustodia.gestio", // "/aden/plantillacustodia"
@@ -34,8 +34,10 @@ final String[] menu = {
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
     "",
-    "propietatglobal.entitat.gestio",
-    "",    
+    "propietatglobal.entitat.gestio"
+};
+
+final String[] menu2 = {
     "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}    
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
     "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio
@@ -43,6 +45,9 @@ final String[] menu = {
     "notificaciows.llistat"
 
 };
+
+
+
 
 public static final Map<String, String> mapping;
 
@@ -67,7 +72,7 @@ static {
   mapping.put("segelldetemps.gestio", "/aden/segelldetemps/list");
   mapping.put("plantillacustodia.gestio", "/aden/plantillacustodia/list");
   
-  mapping.put("modulDeFirmaPerTipusDeDocument.modulDeFirmaPerTipusDeDocument.plural", "/aden/modulfirmatipusdoc/list");
+  mapping.put("modulDeFirmaPerTipusDeDocument.short", "/aden/modulfirmatipusdoc/list");
 
   mapping.put("grups.gestio", "/aden/grup/list");
   
@@ -93,11 +98,6 @@ static {
 }
 
 %><%
-
-session.setAttribute("menu", menu);
-
-session.setAttribute("mapping", mapping);
-
 if (Configuracio.isCAIB()) {
 %>
    <li style="list-style-type: disc; list-style-position: inside;">
@@ -108,6 +108,19 @@ if (Configuracio.isCAIB()) {
    <hr  style="margin-top: 6px;  margin-bottom: 6px;" />   
 <%
 }
+
+session.setAttribute("mapping", mapping);
+
+
+final String[][] menus  = { menu1 , menu2 };
+
+
+int count = 0;
+
+for(String[] menu : menus) {
+
+  session.setAttribute("menu", menu);
+
 %>
   
   <ul class="tree" style="margin: 3px; padding: 0px;">
@@ -135,5 +148,21 @@ if (Configuracio.isCAIB()) {
     </c:forEach>
 
   </ul>
+  
+  <%
+  if (count == 0) { %>
+      </div>
+      </div>
+      <br/>
+      <div class="thumbnail">
+      <div>
+      <h5><fmt:message key="ROLE_ADEN.menu2" /></h5>
+  <%    
+  }
+  count++;
+  
+}  // final FOR 
+  %>
+  
 </div>
 </sec:authorize>

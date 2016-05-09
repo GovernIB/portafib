@@ -17,6 +17,23 @@ import es.caib.portafib.utils.Constants;
 public class PropietatGlobalUtil implements Constants {
 
   protected static final Logger log = Logger.getLogger(PropietatGlobalUtil.class);
+  
+  
+  
+  
+  /**
+   * 
+   * 
+   * @return
+   */
+  public static String getMenuLogOutUrl() {
+    final String partialPropertyName = "logouturl";
+    String val = getString(partialPropertyName);
+    if(log.isDebugEnabled()) { log.debug(" getMenuLogOutUrl() = " + val); }
+    return val;
+  }
+  
+  
 
   /**
    * A partir de quants d'errors en una notificació callback s'enviarà un correu
