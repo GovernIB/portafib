@@ -3,7 +3,13 @@
 PortaFIB 1.1.0
 ==============
 
-2016-05-09 Afegir propietat global de bbdd "es.caib.portafib.logouturl"
+2016-05-12 Millores en Api de Firma:
+                  - Eliminar descobriment de java en navegador
+                  - Incloure filtre dins del propi plugin
+
+2016-05-09 Sist: Afegir propietat global de bbdd "es.caib.portafib.logouturl"
+           AdEn: Separar opcions d'uauri aplicacio en un menú especific
+           Soli: Descarrega massiva de documents firmats           
 
 2016-04-06 Afegir Passarel·la de Firma a les funcionalitats de PortaFIB
 
