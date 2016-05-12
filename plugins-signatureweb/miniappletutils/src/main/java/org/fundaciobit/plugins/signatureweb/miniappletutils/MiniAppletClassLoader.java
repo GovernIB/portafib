@@ -39,11 +39,9 @@ public class MiniAppletClassLoader {
   // XYZ 
   public URLClassLoader getMiniAppletClassLoader2() {
     
-    //if (miniAppletClassLoader == null) 
+    
     {
-      
-      System.err.println(" XYZ CPROVAAAA 44444444  ==> ");
-      
+     
       Class<?> cls = this.getClass();
       
       URL[] urls = new URL[] { 
@@ -51,7 +49,7 @@ public class MiniAppletClassLoader {
         //FileUtils.getResourceAsURL(cls, "applet/miniappletui.jar")
       };
       
-      miniAppletClassLoader = new URLClassLoader(urls);//, MiniAppletClassLoader.class.getClass().getClassLoader());
+      miniAppletClassLoader = new URLClassLoader(urls);
     }
 
     return miniAppletClassLoader;

@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
@@ -59,7 +57,7 @@ public class SignatureModuleController {
       HttpServletResponse response, @PathVariable("signaturesSetID") String signaturesSetID)
       throws Exception {
 
-    List<Plugin> pluginsFiltered = signatureModuleEjb.getAllPlugins(request, signaturesSetID);
+    List<Plugin> pluginsFiltered = signatureModuleEjb.getAllPluginsFiltered(request, signaturesSetID);
 
     // Si només hi ha un mòdul de firma llavors anar a firmar directament
     if (stepSelectionWhenOnlyOnePlugin) {
@@ -297,23 +295,7 @@ public class SignatureModuleController {
     return mav;
   }
 
-  /**
-   * 
-   * @param entitat
-   * @param languageUI
-   * @param username
-   * @param urlFinal
-   * @param browserSupportsJava
-   * @return
-   */
-  public static CommonInfoSignature getCommonInfoSignature(String languageUI, String username,
-      String administrationID, String urlFinal, boolean browserSupportsJava,
-      PolicyInfoSignature policyInfoSignature, String filtreCertificats) {
 
-    return new CommonInfoSignature(languageUI, filtreCertificats, username, administrationID,
-        policyInfoSignature, urlFinal, browserSupportsJava);
-
-  }
 
   /**
    * 
@@ -323,7 +305,7 @@ public class SignatureModuleController {
    * @param locationSignTableID
    * @param reason
    * @param signNumber
-   * @param languageSign
+   * @param languageDoc
    * @param signTypeID
    * @param signAlgorithmID
    * @param signModeBool
@@ -335,7 +317,7 @@ public class SignatureModuleController {
   public static FileInfoSignature getFileInfoSignature(String signatureID, File fileToSign,
       String mimeType, String idname, int locationSignTableID,
       SignaturesTableHeader signaturesTableHeader, String reason, String location,
-      String signerEmail, int signNumber, String languageSign, String signType,
+      String signerEmail, int signNumber, String languageDoc, String signType,
       String signAlgorithm, int signModeUncheck, boolean userRequiresTimeStamp,
       ITimeStampGenerator timeStampGenerator, SecureVerificationCodeStampInfo csvStampInfo)
       throws Exception {
@@ -375,7 +357,7 @@ public class SignatureModuleController {
     }
 
     FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, mimeType, idname,
-        reason, location, signerEmail, signNumber, languageSign, signType, signAlgorithm,
+        reason, location, signerEmail, signNumber, languageDoc, signType, signAlgorithm,
         signMode, locationSignTableID, signaturesTableHeader, pdfInfoSignature, csvStampInfo,
         userRequiresTimeStamp, timeStampGenerator);
 

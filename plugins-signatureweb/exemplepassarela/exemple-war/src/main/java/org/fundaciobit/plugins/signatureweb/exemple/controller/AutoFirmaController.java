@@ -88,7 +88,6 @@ public class AutoFirmaController {
 //    form.setTitol(txt);
 //    form.setDescripcio(txt);
     form.setMotiu(txt);
-    form.setIdioma("ca");
 
     Map<Integer, String> posicionsTaula = new HashMap<Integer, String>();
     posicionsTaula.put(FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE,
@@ -166,7 +165,8 @@ public class AutoFirmaController {
     // Només es suporta una firma
     final int sign_number = 1;
 
-    final String langUI = "ca";
+    final String langUI = form.getLangUI();
+    final String langDoc = form.getLangDoc();
 
     final String signaturesSetID = String.valueOf(id);
     // Posam el mateix id ja que només es firma un sol fitxer
@@ -212,7 +212,7 @@ public class AutoFirmaController {
 
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         pdfAFirmar, mimeType, idname, posicioTaulaFirmesID, signaturesTableHeader, reason,
-        location, signerEmail, sign_number, langUI, FileInfoSignature.SIGN_TYPE_PADES,
+        location, signerEmail, sign_number, langDoc, FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_ALGORITHM_SHA1, FileInfoSignature.SIGN_MODE_IMPLICIT,
         userRequiresTimeStamp, timeStampGenerator, svcsi);
     
@@ -230,15 +230,12 @@ public class AutoFirmaController {
       final String filtreCertificats = "filters.1=nonexpired:";
 
       // TODO Definir politica de Firma (opcional)
-      PolicyInfoSignature policyInfoSignature = null;
+      final PolicyInfoSignature policyInfoSignature = null;
 
-      commonInfoSignature = SignatureModuleController.getCommonInfoSignature(langUI, username,
-          administrationID, urlFinal, !form.isJnlp(), policyInfoSignature, filtreCertificats);
+      commonInfoSignature = new CommonInfoSignature(langUI, filtreCertificats,
+          username, administrationID, policyInfoSignature, urlFinal);
     }
-    
-    
-    
-    
+
 
     // Vull suposar que abans de 40 minuts haurà firmat
     Calendar caducitat = Calendar.getInstance();

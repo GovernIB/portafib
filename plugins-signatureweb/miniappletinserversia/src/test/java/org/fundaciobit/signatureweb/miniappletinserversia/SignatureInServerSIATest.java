@@ -60,8 +60,7 @@ public class SignatureInServerSIATest extends TestCase {
       plugin = new MiniAppletInServerSIASignatureWebPlugin("es.ibsalut.example.", properties);
       
       final String filter = "";
-      final boolean supportJava = false; 
-      boolean filtered = plugin.filter(null, username, administrationID, filter, supportJava);
+      boolean filtered = (plugin.filter(username, administrationID, filter) != 0);
       
       if (!filtered) {
         System.out.println("No ha passat el filtre del Plugin");

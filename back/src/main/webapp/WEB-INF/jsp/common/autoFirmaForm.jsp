@@ -121,24 +121,7 @@
   <div class="navbar-form pull-right">
     <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
    </div>
-   
-   <form:hidden id="jnlp" path="jnlp" />
+ 
    <form:hidden id="id" path="id" />
   
 </form:form>
-
-
-<script src="<c:url value="/js/deployJava.jsp"/>"></script>
-
-
-<script type="text/javascript">
-
-    var jnlp;
-    jnlp = document.getElementById("jnlp");
-    if (deployJava.isPluginInstalled()) {
-      jnlp.value = 'false';
-    } else {
-      jnlp.value = 'true';
-    }
-    
-</script>

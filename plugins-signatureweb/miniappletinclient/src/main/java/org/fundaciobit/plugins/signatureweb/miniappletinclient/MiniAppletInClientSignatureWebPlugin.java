@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,7 +55,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   
   public static final String MINIAPPLETINCLIENT_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "miniappletinclient.";
-  
+
 
   /**
    * 
@@ -91,8 +92,8 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
     addSignaturesSet(signaturesSet);
 
-    // Mostrar llistat de certificats per a seleccionar-ne un
-    return relativePluginRequestPath + "/" + SHOW_MINIAPPLET_PAGE;
+    // Veure si navegador suporta java.
+    return relativePluginRequestPath + "/" + DISCOVER_JAVA_IN_BROWSER_PAGE;
   }
 
   @Override
@@ -159,9 +160,19 @@ public class MiniAppletInClientSignatureWebPlugin extends
       sourceDocPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, locale);
 
-    } else if (relativePath.endsWith(SHOW_MINIAPPLET_PAGE)) {
+    } else if (relativePath.endsWith(SHOW_APPLET_PAGE)) {
 
-      showMiniAppletGet(request, response, absolutePluginRequestPath,
+      showMiniAppletGet_APPLET(request, response, absolutePluginRequestPath,
+          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
+
+    } else if (relativePath.endsWith(SHOW_JNLP_PAGE)) {
+
+      showMiniAppletGet_JAVAWEBSTART(request, response, absolutePluginRequestPath,
+          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
+
+    } else if (relativePath.endsWith(DISCOVER_JAVA_IN_BROWSER_PAGE)) {
+
+      discoverJavaInBrowserGet(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
 
     } else if (relativePath.endsWith(FINAL_PAGE)) {
@@ -509,32 +520,144 @@ public class MiniAppletInClientSignatureWebPlugin extends
     sendRedirect(response, url);
 
   }
+  
+  
+ //----------------------------------------------------------------------------
+ // ----------------------------------------------------------------------------
+ // ------------------- DISCOVER JAVA IN BROWSER ----------------------
+ // ----------------------------------------------------------------------------
+ // ----------------------------------------------------------------------------
+  
+  private static final String COOKIE_APPLET = "applet";
+  private static final String COOKIE_JNLP = "jnlp";
 
-  // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
-  // ------------------- S H O W M I N I A P P L E T ----------------------
-  // ----------------------------------------------------------------------------
-  // ----------------------------------------------------------------------------
+  private static final String DEFAULT_JAVA_ACTION_COOKIE = "default_java_action_cookie";
 
-  private static final String SHOW_MINIAPPLET_PAGE = "showminiapplet";
+  private static final String DISCOVER_JAVA_IN_BROWSER_PAGE = "discover";
 
-  protected void showMiniAppletGet(HttpServletRequest request,
+  protected void discoverJavaInBrowserGet(HttpServletRequest request,
       HttpServletResponse response, String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
       int signatureIndex, Locale locale) {
-    
-    
-    if (isSupportedJava(request)) {
-      showMiniAppletGet_APPLET(request, response, absolutePluginRequestPath,
-          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
-    } else {
-      showMiniAppletGet_JAVAWEBSTART(request, response, absolutePluginRequestPath,
-          relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
+
+    String browserDetails = request.getHeader("User-Agent");
+    if (browserDetails != null) {
+      String user = browserDetails.toLowerCase().toLowerCase();
+      if (user.contains("chrome")) {
+        showMiniAppletGet_JAVAWEBSTART(request, response, absolutePluginRequestPath,
+            relativePluginRequestPath, relativePath, signaturesSet, signatureIndex, locale);
+        return;
+      }
     }
-    
-    
-    
+
+    String defaultJavaActionCookie = null;
+    final boolean debug = log.isDebugEnabled();
+    Cookie[] cookies = request.getCookies();
+    if (cookies == null || cookies.length == 0) {
+      log.debug("Cookies[BUIDES]");
+    } else {
+      for (int i = 0; i < cookies.length; i++) {
+        String name = cookies[i].getName();
+        if (DEFAULT_JAVA_ACTION_COOKIE.equals(name)) {
+          defaultJavaActionCookie = cookies[i].getValue();
+          if (!debug) {
+            break;
+          }
+        }
+        if (debug) {
+          log.debug("Cookie[" + name + "] = " + cookies[i].getValue());
+        }
+      }
+    }
+
+    if (debug) {
+      log.debug("discoverJavaInBrowser:: defaultJavaActionCookie[" 
+          + defaultJavaActionCookie + "]");
+      log.debug("discoverJavaInBrowserGet[" + signaturesSet.getSignaturesSetID() + "]");
+    }
+
+    if (defaultJavaActionCookie != null
+        && (defaultJavaActionCookie.equals(COOKIE_APPLET) || defaultJavaActionCookie
+            .equals(COOKIE_JNLP))) {
+
+      try {
+        if (defaultJavaActionCookie.equals(COOKIE_APPLET)) {
+          log.debug("discoverJavaInBrowserGet:. Redirigint a causa de COOKIE a APPLET");
+          response.sendRedirect(relativePluginRequestPath + "/" + SHOW_APPLET_PAGE);
+
+        } else {
+          log.debug("discoverJavaInBrowserGet:. Redirigint a causa de COOKIE a JNLP");
+          response.sendRedirect(relativePluginRequestPath + "/" + SHOW_JNLP_PAGE);
+        }
+      } catch (IOException e) {
+        log.error("Error redirigint: " + e.getMessage(), e);
+      }
+      return;
+    }
+
+    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
+        relativePluginRequestPath, signaturesSet);
+
+    out.println("<script src=\"" + relativePluginRequestPath + "/" + DEPLOY_JAVA_PAGE
+        + "\"></script>");
+
+    out.println("<script type=\"text/javascript\">");
+    out.println("if (deployJava.isPluginInstalled()) {");
+    out.println("  window.location.href='" + relativePluginRequestPath + "/"
+        + SHOW_APPLET_PAGE + "';");
+    out.println("}");
+    out.println("</script> ");
+
+    out.println("<style>");
+    out.println(".buttons {\r\n    float: left;\r\n    padding-bottom: 20px;\r\n    clear: both;\r\n}\r\na.button {\r\n    color: #6e6e6e;\r\n    font: bold 12px Helvetica, Arial, sans-serif;\r\n    text-decoration: none;\r\n    padding: 7px 12px;\r\n    position: relative;\r\n    display: inline-block;\r\n    text-shadow: 0 1px 0 #fff;\r\n    -webkit-transition: border-color .218s;\r\n    -moz-transition: border .218s;\r\n    -o-transition: border-color .218s;\r\n    transition: border-color .218s;\r\n    background: #f3f3f3;\r\n    background: -webkit-gradient(linear,0% 40%,0% 70%,from(#F5F5F5),to(#F1F1F1));\r\n    background: -moz-linear-gradient(linear,0% 40%,0% 70%,from(#F5F5F5),to(#F1F1F1));\r\n    border: solid 1px #dcdcdc;\r\n    border-radius: 2px;\r\n    -webkit-border-radius: 2px;\r\n    -moz-border-radius: 2px;\r\n    margin-right: 10px;\r\n}\r\na.button:hover {\r\n    color: #333;\r\n    border-color: #999;\r\n    -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2); \r\n\t-webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.2);\r\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);\r\n}\r\na.button:active {\r\n    color: #000;\r\n    border-color: #444;\r\n}\r\na.left {\r\n    -webkit-border-top-right-radius: 0;\r\n    -moz-border-radius-topright: 0;\r\n    border-top-right-radius: 0;\r\n    -webkit-border-bottom-right-radius: 0;\r\n    -moz-border-radius-bottomright: 0;\r\n    border-bottom-right-radius: 0;\r\n    margin: 0;\r\n}\r\na.middle {\r\n    border-radius: 0;\r\n    -webkit-border-radius: 0;\r\n    -moz-border-radius: 0;\r\n    border-left: solid 1px #f3f3f3;\r\n    margin: 0;\r\n    border-left: solid 1px rgba(255, 255, 255, 0);\r\n}\r\na.middle:hover,\r\na.right:hover { border-left: solid 1px #999 }\r\na.right {\r\n    -webkit-border-top-left-radius: 0;\r\n    -moz-border-radius-topleft: 0;\r\n    border-top-left-radius: 0;\r\n    -webkit-border-bottom-left-radius: 0;\r\n    -moz-border-radius-bottomleft: 0;\r\n    border-bottom-left-radius: 0;\r\n    border-left: solid 1px #f3f3f3;\r\n    border-left: solid 1px rgba(255, 255, 255, 0);\r\n}\r\na.big {\r\n    font-size: 16px;\r\n    padding: 10px 15px;\r\n}\r\na.supersize {\r\n    font-size: 20px;\r\n    padding: 15px 20px;\r\n}");
+    out.println("</style>");
+
+    String title = getTraduccio("discover.avis", locale); // "Avís !!!";
+    String msg = getTraduccio("discover.avis.desc", locale);
+
+    out.println("<br><br><center><h3 style=\"font-family:Arial, Helvetica, sans-serif\">"
+        + escapeHtml(title) + "</h3></center>");
+    out.println("<center> <div style=\"width:400px; font-family:'Trebuchet MS', Helvetica, sans-serif\">");
+    out.println(escapeHtml(msg));
+    out.println("</div></center><br/>");
+
+    String java_button_title =  getTraduccio("discover.java_button_title", locale); //"Ja he activat Java";
+    String java_button_subtitle =  getTraduccio("discover.java_button_subtitle", locale); //"Tornar a intentar-ho";
+
+    String jnlp_button_title =  getTraduccio("discover.jnlp_button_title", locale); //"No tenc Java instal·lat";
+    String jnlp_button_subtitle =  getTraduccio("discover.jnlp_button_subtitle", locale); //"Executar com a programa fora del navegador";
+
+    out.println("<center>");
+    out.println("<a href=\"" + relativePluginRequestPath + "/" + DISCOVER_JAVA_IN_BROWSER_PAGE
+        + "\"" + " class=\"button middle\">" + "<center>" + java_button_title + "<br/><small>"
+        + java_button_subtitle + "</small></center></a>");
+    out.println("&nbsp;&nbsp;&nbsp;&nbsp;");
+    out.println("<a href=\"" + relativePluginRequestPath + "/" + SHOW_JNLP_PAGE
+        + "\" class=\"button middle\">" + "<center>" + jnlp_button_title + "<br/><small>"
+        + jnlp_button_subtitle + " </small></center></a>");
+    out.println("</center><br/><br/><br/><br/>");
+
+    generateFooter(out);
+    out.flush();
+
   }
+ 
+ 
+ public static String escapeHtml(String s) {
+   StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+   for (int i = 0; i < s.length(); i++) {
+       char c = s.charAt(i);
+       if (c > 127 || c == '"' || c == '<' || c == '>' || c == '&') {
+           out.append("&#");
+           out.append((int) c);
+           out.append(';');
+       } else {
+           out.append(c);
+       }
+   }
+   return out.toString();
+}
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -651,18 +774,15 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
 
   @Override
-  public boolean filter(HttpServletRequest request, String username, String administrationID,
-      String filter, boolean supportJava) {
+  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
     
-    setSupportedJava(request, supportJava);
-    
-    return true;
+    return super.filter(request, signaturesSet);
+
   }
 
   @Override
-  protected String getSimpleName() { // HttpServletRequest request
+  protected String getSimpleName() {
     return "MiniAppletInClient";
-      // + (isSupportedJava(request) ? "APPLET" :  "JAVAWEBSTART");
   }
 
 
@@ -672,17 +792,22 @@ public class MiniAppletInClientSignatureWebPlugin extends
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
+  
+  private static final String SHOW_APPLET_PAGE = "showapplet";
  
   protected void showMiniAppletGet_APPLET(HttpServletRequest request, 
       HttpServletResponse response, String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex, Locale locale)
-       {
+      String relativePath, SignaturesSet signaturesSet, int signatureIndex, Locale locale)  {
+    
+    // Primer generam la pàgina i despres l'enviam al respose
+    
+    Cookie cookie = new Cookie(DEFAULT_JAVA_ACTION_COOKIE, COOKIE_APPLET);
+    cookie.setMaxAge(Integer.MAX_VALUE);
+    response.addCookie(cookie);
     
    
     StringWriter sw = new StringWriter();
     PrintWriter out = new PrintWriter(sw); 
-    
-    
 
     out.println("<br/><br/><br/>");
 
@@ -819,7 +944,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
       }
 
     }
-    out.println("       " + MiniAppletConstants.APPLET_ISJNLP + ":'" + !isSupportedJava(request) + "',");
+    out.println("       " + MiniAppletConstants.APPLET_ISJNLP + ":'false',");
     out.println("       " + MiniAppletConstants.APPLET_LANGUAGE_UI + ":'"
         + commonInfoSignature.getLanguageUI() + "'");
 
@@ -1018,7 +1143,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
       }
 
     }
-    out.println("       <param name=\"" + MiniAppletConstants.APPLET_ISJNLP + "\" value=\"" + !isSupportedJava(request) + "\"/>");
+    out.println("       <param name=\"" + MiniAppletConstants.APPLET_ISJNLP + "\" value=\"true\"/>");
     out.println("       <param name=\"" + MiniAppletConstants.APPLET_LANGUAGE_UI + "\" value=\""
         + commonInfoSignature.getLanguageUI() + "\"/>");
 
@@ -1088,13 +1213,16 @@ public class MiniAppletInClientSignatureWebPlugin extends
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
-  
+  private static final String SHOW_JNLP_PAGE = "showjnlp";
   
   protected void showMiniAppletGet_JAVAWEBSTART(HttpServletRequest request, HttpServletResponse response,
       String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSet signaturesSet, int signatureIndex,
       Locale locale) {
 
+    Cookie cookie = new Cookie(DEFAULT_JAVA_ACTION_COOKIE, COOKIE_JNLP);
+    cookie.setMaxAge(Integer.MAX_VALUE);
+    response.addCookie(cookie);
 
     PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
         relativePluginRequestPath, signaturesSet);
@@ -1110,10 +1238,10 @@ public class MiniAppletInClientSignatureWebPlugin extends
    }
    
    out.println("<div id=\"ajaxloader\" style=\"position:absolute; left:0px; top:0px; border:none;z-index:100;width:100%;height:100%;\">");
-   out.println("  <table style=\"min-height:300px;width:100%;height:100%;\">");
+   out.println("  <table style=\"min-height:200px;width:100%;height:100%;\">");
    out.println("  <tr valign=\"middle\"><td align=\"center\">");
    out.println("  <h2>" + getTraduccio("autofirma.jnlp", locale) + "</h2><br/>");
-   out.println("  <img src=\"" + absolutePluginRequestPath + "/img/ajax-loader2.gif" + "\" /><br/>");
+   out.println("  <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/img/ajax-loader2.gif" + "\"><br/>");
    out.println("  <br/>");
    out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\"" + getTraduccio("cancel", locale) + "\">");
    out.println("  </td></tr></table>");
@@ -1161,33 +1289,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
    out.flush();
 
   }
-  
-  
-  
-  
-  
-  
-  // =====================================================================
-  
-  
-  public static final String SESSION_ATRIBUTTE_SUPPORTED_JAVA = "SESSION_ATRIBUTTE_SUPPORTED_JAVA";
-  
-  
-  public void setSupportedJava(HttpServletRequest request, boolean supportsJava) {
-    request.getSession().setAttribute(SESSION_ATRIBUTTE_SUPPORTED_JAVA, supportsJava);
-  }
-  
-  
-  public boolean isSupportedJava(HttpServletRequest request) {
-    Boolean supportedJava = (Boolean)request.getSession().getAttribute(SESSION_ATRIBUTTE_SUPPORTED_JAVA);
-    if (supportedJava == null) {
-      return false;
-    } else {
-      return supportedJava;
-    }
-  }
-  
-  
-  
+
 
 }

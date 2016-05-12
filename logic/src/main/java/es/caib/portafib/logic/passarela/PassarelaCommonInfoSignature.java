@@ -30,8 +30,6 @@ public class PassarelaCommonInfoSignature {
   String administrationID;
 
   String urlFinal;
-
-  boolean browserSupportsJava;
   
   /**
    * Opcional. Si val null o buit llavors s'accepten tot els plugins
@@ -58,7 +56,7 @@ public class PassarelaCommonInfoSignature {
    * @param policyInfoSignature
    */
   public PassarelaCommonInfoSignature(String languageUI, String filtreCertificats,
-      String username, String administrationID, String urlFinal, boolean browserSupportsJava,
+      String username, String administrationID, String urlFinal, 
       PassarelaPolicyInfoSignature policyInfoSignature) {
     super();
     this.languageUI = languageUI;
@@ -66,7 +64,6 @@ public class PassarelaCommonInfoSignature {
     this.username = username;
     this.administrationID = administrationID;
     this.urlFinal = urlFinal;
-    this.browserSupportsJava = browserSupportsJava;
     this.policyInfoSignature = policyInfoSignature;
   }
 
@@ -102,14 +99,6 @@ public class PassarelaCommonInfoSignature {
 
   public void setUrlFinal(String urlFinal) {
     this.urlFinal = urlFinal;
-  }
-
-  public boolean isBrowserSupportsJava() {
-    return browserSupportsJava;
-  }
-
-  public void setBrowserSupportsJava(boolean browserSupportsJava) {
-    this.browserSupportsJava = browserSupportsJava;
   }
 
   public String getAdministrationID() {

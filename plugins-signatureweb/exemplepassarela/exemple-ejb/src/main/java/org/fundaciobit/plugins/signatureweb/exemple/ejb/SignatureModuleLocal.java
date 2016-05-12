@@ -44,6 +44,6 @@ public interface SignatureModuleLocal {
   public ExempleSignaturesSet getSignaturesSet(HttpServletRequest request,
       String signaturesSetID);
   
-  public List<Plugin> getAllPlugins(HttpServletRequest request, String signaturesSetID) throws Exception;
+  public List<Plugin> getAllPluginsFiltered(HttpServletRequest request, String signaturesSetID) throws Exception;
   
 }

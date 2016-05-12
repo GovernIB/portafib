@@ -21,6 +21,7 @@ import javax.xml.ws.BindingProvider;
 
 
 
+
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -108,16 +109,20 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public String getName(Locale locale) {
     return getTraduccio("pluginname", locale);
   }
+  
+  @Override
+  protected String getSimpleName() {
+    return "SignatureWebPortaFIB";
+  }
 
   @Override
-  public boolean filter(HttpServletRequest request, String username, String administrationID,
-      String filter, boolean supportJava) {
+  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
 
     // Per ara no aplicam cap filtre ja que tota la informació la té PortaFIB
     // Feim una cridada a l'API per testejar si existeix el servidor
     try {
       getPassarelaDeFirmaApi().getVersion();
-      return true;
+      return super.filter(request, signaturesSet);
     } catch (Throwable th) {
 
       String msg = "Filtre del plugin de SignatureWeb PortaFIB no es poc connectar"
@@ -614,7 +619,6 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     PassarelaCommonInfoSignature pcis = new PassarelaCommonInfoSignature();
     pcis.setAdministrationID(cis.getAdministrationID());
-    pcis.setBrowserSupportsJava(cis.isBrowserSupportsJava());
     pcis.setFiltreCertificats(cis.getFiltreCertificats());
     pcis.setLanguageUI(cis.getLanguageUI());
     pcis.setUrlFinal(finalURL);
@@ -736,5 +740,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public String getResourceBundleName() {
     return "portafib";
   }
+
+
 
 }

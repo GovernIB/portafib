@@ -290,7 +290,7 @@ public class AutoFirmaController extends FitxerController
       final String administrationID = loginInfo.getUsuariPersona().getNif();
       
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID, urlFinal, !form.isJnlp());
+          langUI, username, administrationID, urlFinal);
     }
     
     // Vuls suposar que abans de 10 minuts haurà firmat

@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="administrationID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="urlFinal" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="browserSupportsJava" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="acceptedPlugins" type="{http://www.w3.org/2001/XMLSchema}long" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="policyInfoSignature" type="{http://impl.v1.ws.portafib.caib.es/}passarelaPolicyInfoSignature" minOccurs="0"/>
  *       &lt;/sequence>
@@ -42,7 +41,6 @@ import javax.xml.bind.annotation.XmlType;
     "username",
     "administrationID",
     "urlFinal",
-    "browserSupportsJava",
     "acceptedPlugins",
     "policyInfoSignature"
 })
@@ -53,7 +51,6 @@ public class PassarelaCommonInfoSignature {
     protected String username;
     protected String administrationID;
     protected String urlFinal;
-    protected boolean browserSupportsJava;
     @XmlElement(nillable = true)
     protected List<Long> acceptedPlugins;
     protected PassarelaPolicyInfoSignature policyInfoSignature;
@@ -176,22 +173,6 @@ public class PassarelaCommonInfoSignature {
      */
     public void setUrlFinal(String value) {
         this.urlFinal = value;
-    }
-
-    /**
-     * Gets the value of the browserSupportsJava property.
-     * 
-     */
-    public boolean isBrowserSupportsJava() {
-        return browserSupportsJava;
-    }
-
-    /**
-     * Sets the value of the browserSupportsJava property.
-     * 
-     */
-    public void setBrowserSupportsJava(boolean value) {
-        this.browserSupportsJava = value;
     }
 
     /**

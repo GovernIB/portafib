@@ -71,6 +71,28 @@
          </tr>
          
          <tr>
+          <td><label>Idioma UI &nbsp;(*)</label></td>
+            <td>
+          <form:errors path="langUI" cssClass="errorField alert alert-error" />
+          <form:select path="langUI">
+            <form:option value="ca" selected="true" >Catal&agrave;</form:option>
+            <form:option value="es" >Castell&agrave;</form:option>
+          </form:select>
+           </td>
+         </tr>
+         
+         <tr>
+          <td><label>Idioma Doc. &nbsp;(*)</label></td>
+            <td>
+          <form:errors path="langDoc" cssClass="errorField alert alert-error" />
+          <form:select path="langDoc">
+            <form:option value="ca" selected="true" >Catal&agrave;</form:option>
+            <form:option value="es" >Castell&agrave;</form:option>
+          </form:select>
+           </td>
+         </tr>
+         
+         <tr>
           <td><label><fmt:message key="peticioDeFirma.fitxerAFirmarID" /> &nbsp;(*)</label></td>
             <td>
               <form:errors path="fitxerAFirmarID" cssClass="errorField alert alert-error" />
@@ -231,27 +253,11 @@
 
  
    
-   <form:hidden id="jnlp" path="jnlp" />
+
    <form:hidden id="id" path="id" />
    
    </div>
   
 </form:form>
-
-
-<script src="<c:url value="/js/deployJava.js"/>"></script>
-
-
-<script type="text/javascript">
-
-    var jnlp;
-    jnlp = document.getElementById("jnlp");
-    if (deployJava.isPluginInstalled()) {
-      jnlp.value = 'false';
-    } else {
-      jnlp.value = 'true';
-    }
-    
-</script>
 
 <%@ include file="/WEB-INF/views/html_footer.jsp"%>

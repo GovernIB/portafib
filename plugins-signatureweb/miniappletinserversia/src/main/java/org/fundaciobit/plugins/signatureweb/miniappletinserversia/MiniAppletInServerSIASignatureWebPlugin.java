@@ -121,11 +121,26 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   
   @Override
-  public boolean filter(HttpServletRequest request, String username, String administrationID,
-      String filter, boolean supportJava) {
+  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
    
     // Revisar si l'usuari està registrar a SIA i si té certificats
     // de firma en aquest entorn. 
+    CommonInfoSignature common = signaturesSet.getCommonInfoSignature();
+    
+    String username = common.getUsername();
+    String administrationID = common.getAdministrationID();
+    String filter = common.getFiltreCertificats();
+
+    int certificatsDisponibles = filter(username, administrationID, filter);
+    
+    if (certificatsDisponibles != 0) {
+      return super.filter(request, signaturesSet);
+    };
+    
+    return false;
+  }
+
+  public int filter(String username, String administrationID, String filter) {
     try {
       Map<String, CertificateInfo> map = listCertificates(username, administrationID);
 
@@ -158,7 +173,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
           }
         }
 
-        return certificatsDisponibles != 0;
+        return certificatsDisponibles;
+        
       }
       
     } catch(SafeCertGateWayException se) {
@@ -168,7 +184,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       log.error("filter:: Unknown Error " + e.getMessage(), e);
     }
 
-    return false;
+    return 0;
   }
 
   @Override

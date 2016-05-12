@@ -74,9 +74,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
   
   public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVER_BASE_PROPERTIES + "ignore_certificate_filter";
-  
-  
-  public static final String SESSION_FILTER = "SESSION_CERTIFICATE_FILTER";
+
 
   protected static File miniappletInServerBasePath = null;
 
@@ -126,23 +124,23 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   
   @Override
-  public boolean filter(HttpServletRequest request, String username, String administrationID,
-      String filter, boolean supportJava) {
-    // Per ara esta un poc complicat, ja que sempre s'ha de mostrar
-    // ja que l'usuari sempre te l'opció d'afegir Certificats
-    
-    request.getSession().setAttribute(SESSION_FILTER, filter);
+  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet ) {
 
+    // Per ara esta un poc complicat revisar els certificats, ja que sempre s'ha de
+    // mostrar ja que l'usuari sempre te l'opció d'afegir Certificats
+    
     // Requerim un username
-    return username != null;
+    if (signaturesSet.getCommonInfoSignature().getUsername() != null) {
+      return super.filter(request, signaturesSet);
+    }
+    
+    return false;
   }
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
     missatges.remove(id);
     super.closeSignaturesSet(request, id);
-    
-    request.getSession().removeAttribute(SESSION_FILTER);
   }
 
   @Override
@@ -473,7 +471,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     int certificatsDisponibles = 0;
     int count = 0;
     
-    String filter = (String)request.getSession().getAttribute(SESSION_FILTER);
+    String filter = signaturesSet.getCommonInfoSignature().getFiltreCertificats(); 
     
     
     for (File path : certificates.keySet()) {

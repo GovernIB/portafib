@@ -19,27 +19,24 @@ public class CommonInfoSignature {
 
   String urlFinal;
 
-  boolean browserSupportsJava;
-
   /**
    * 
    */
   public CommonInfoSignature() {
   }
 
+
+
   /**
    * @param languageUI
    * @param filtreCertificats
    * @param username
+   * @param administrationID
    * @param policyInfoSignature
-   * @param urlOK
-   * @param urlError
-   * @param browserSupportsJava
+   * @param urlFinal
    */
-  public CommonInfoSignature(String languageUI, String filtreCertificats,
-      String username, String administrationID, // = NIF
-      PolicyInfoSignature policyInfoSignature, String urlFinal,
-      boolean browserSupportsJava) {
+  public CommonInfoSignature(String languageUI, String filtreCertificats, String username,
+      String administrationID, PolicyInfoSignature policyInfoSignature, String urlFinal) {
     super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
@@ -47,8 +44,9 @@ public class CommonInfoSignature {
     this.administrationID = administrationID;
     this.policyInfoSignature = policyInfoSignature;
     this.urlFinal = urlFinal;
-    this.browserSupportsJava = browserSupportsJava;
   }
+
+
 
   public String getLanguageUI() {
     return languageUI;
@@ -88,14 +86,6 @@ public class CommonInfoSignature {
 
   public void setUrlFinal(String urlFinal) {
     this.urlFinal = urlFinal;
-  }
-
-  public boolean isBrowserSupportsJava() {
-    return browserSupportsJava;
-  }
-
-  public void setBrowserSupportsJava(boolean browserSupportsJava) {
-    this.browserSupportsJava = browserSupportsJava;
   }
 
   public String getAdministrationID() {

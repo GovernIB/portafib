@@ -254,7 +254,6 @@
       <xs:element minOccurs="0" name="username" type="xs:string"/>
       <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
       <xs:element minOccurs="0" name="urlFinal" type="xs:string"/>
-      <xs:element name="browserSupportsJava" type="xs:boolean"/>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="acceptedPlugins" nillable="true" type="xs:long"/>
       <xs:element minOccurs="0" name="policyInfoSignature" type="tns:passarelaPolicyInfoSignature"/>
     </xs:sequence>

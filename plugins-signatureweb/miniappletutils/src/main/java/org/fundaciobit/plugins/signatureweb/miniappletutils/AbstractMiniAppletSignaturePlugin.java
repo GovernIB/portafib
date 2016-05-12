@@ -493,7 +493,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
   }
 
-  protected abstract String getSimpleName();
+
 
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------

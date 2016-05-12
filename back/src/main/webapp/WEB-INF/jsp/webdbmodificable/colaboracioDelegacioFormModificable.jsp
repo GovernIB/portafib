@@ -1,6 +1,5 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-<input id="jnlp" name="jnlp" type="hidden" value=""  />
 
  <h5><fmt:message key="tipusDocument.tipusDocument" /> </h5>
  
@@ -92,31 +91,9 @@
 </table>
 
 
-<div id="ajaxloader" style="position:absolute; left:0px; top:0px; visibility:hidden; border:none;z-index:100;width:100%;height:100%;background:#CCC;filter: alpha(opacity=80);-moz-opacity:.8; opacity:.8;">
-  <table style="width:100%;height:100%;">
-  <tr valign="middle"><td align="center">
-  <h3 style="color:#FFF;"><fmt:message key="autofirma.jnlp"/></h3><br/>
-  <img src="<c:url value="/img/ajax-loader2.gif"/>" /><br/>
-  <br/>
-  <input type="button" class="btn btn-primary" onclick="javascript:goTo('<c:url value="/dest/delegat/list" />');" value="<fmt:message key="tornar"/>" />
-  </td></tr></table>
-</div>
- 
- <script src="<c:url value="/js/deployJava.jsp"/>"></script>
- 
 <script type="text/javascript">
-  
-  var jnlp;
-  jnlp = document.getElementById("jnlp");
-  if (deployJava.isPluginInstalled()) {
-    jnlp.value = 'false';
-  } else {
-    jnlp.value = 'true';
-  }
- 
-  
-  <c:if test="${! colaboracioDelegacioForm.nou}">
 
+   <c:if test="${! colaboracioDelegacioForm.nou}">
     function firmarAutoritzacio(url) {
         if (deployJava.isPluginInstalled()) {
             goTo(url + "/false");
@@ -266,7 +243,6 @@
   
   
   <style type="text/css">
-  
     .buttons_tmp { }
     .buttons_tmp .navbar-form  {display: inline; }
   </style>

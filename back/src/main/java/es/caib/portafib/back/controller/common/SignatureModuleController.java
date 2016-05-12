@@ -102,7 +102,7 @@ public class SignatureModuleController {
         return generateErrorMAV(request, signaturesSetID, msg, e);
       }
       
-      // Només deixam els que ens diu el filtre
+      // Només deixam els que ens diu el filtre de ID's
       List<Plugin> filteredModuls = new ArrayList<Plugin>();
       List<Long> filterByPluginID = signaturesSet.getFilterByPluginID();
       if (filterByPluginID != null) {
@@ -140,40 +140,10 @@ public class SignatureModuleController {
       moduls = modulDeFirmaEjb.select(PluginFields.PLUGINID.in(pluginsID));
     }
     
-    
-    
-    
 
-
-    boolean anySignatureRequireRubric = false;
-    boolean anySignatureRequireRubricAndNotProvidesGenerator = false;
-    boolean anySignatureRequireTimeStamp = false;
-    boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
-    for(FileInfoSignature fis : signaturesSet.getFileInfoSignatureArray()) {
-      if (fis.isUserRequiresTimeStamp()) {
-        anySignatureRequireTimeStamp = true;        
-        if (fis.getTimeStampGenerator() == null) {
-          anySignatureRequireRubricAndNotProvidesGenerator = true;
-        }
-      }
-
-      if (fis.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-        anySignatureRequireRubric = true;
-        if (fis.getPdfVisibleSignature() == null || fis.getPdfVisibleSignature().getRubricGenerator() == null) {
-          anySignatureRequireRubricAndNotProvidesGenerator = true;
-        }
-      }
-    }
-    
-    
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
 
-    CommonInfoSignature cis = signaturesSet.getCommonInfoSignature(); 
-    String filtreCerts = cis.getFiltreCertificats();
-    String username = cis.getUsername();
-    String administrationID = cis.getAdministrationID();
-    boolean browserSupportsJava = cis.isBrowserSupportsJava();
     for (Plugin modulDeFirmaJPA : moduls) {
 
       try {
@@ -189,34 +159,8 @@ public class SignatureModuleController {
             String.valueOf( modulDeFirmaJPA.getPluginID()));
         return generateErrorMAV(request, signaturesSetID, msg, null);
       }
-      
-      // Hem de comprovar que el plugin ofereixi internament generació de imatges per la
-      // firma visible PDF, ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireRubric) {
-        if (
-          (anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.providesRubricGenerator())
-          || (!anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.acceptExternalRubricGenerator())) {
-          // Exclude Plugin
-          log.info("Exclos plugin [" + modulDeFirmaJPA.getClasse() + "]: NO TE GENERADOR DE RUBRIQUES ");
-          continue;
-        }
-      }
-      
-      // Hem de comprovar que el plugin ofereixi internament gestió de segellat de temps
-      // ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireTimeStamp) {
-        if (
-          // Cas 1: alguna firma no conte generador i plugin no té generador intern
-          (anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.providesTimeStampGenerator())
-          // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-        || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.acceptExternalTimeStampGenerator()) ) {
-         // Exclude Plugin
-          log.info("Exclos plugin [" + modulDeFirmaJPA.getClasse() + "]: NO TE GENERADOR SEGELLAT DE TEMPS ");
-          continue;
-        }
-      } 
 
-      if (signaturePlugin.filter(request, username, administrationID, filtreCerts,browserSupportsJava)) {
+      if (signaturePlugin.filter(request, signaturesSet)) {
         modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
     }
@@ -325,6 +269,10 @@ public class SignatureModuleController {
     PortaFIBSignaturesSet signaturesSet;
     signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
 
+    if (log.isDebugEnabled()) {
+      log.debug("PortaFIBSignaturesSet signaturesSet = " + signaturesSet); 
+      log.debug("signaturesSet[" + signaturesSetID + "].setPluginID(" + pluginID + ") ");
+    }
     signaturesSet.setPluginID(pluginID);
     
     String relativeControllerBase = getRelativeControllerBase(request, getContextWeb());
@@ -407,6 +355,10 @@ public class SignatureModuleController {
       String query, boolean isPost)  {
 
     PortaFIBSignaturesSet ss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+    final boolean debug = log.isDebugEnabled();
+    if (debug) {
+      log.debug("PortaFIBSignaturesSet ss = " + ss);
+    }
     if (ss == null) {
       String msg = I18NUtils.tradueix("moduldefirma.caducat", signaturesSetID);
       generateErrorAndRedirect(request, response, ss, msg, null);
@@ -415,6 +367,9 @@ public class SignatureModuleController {
     
     Long pluginID = ss.getPluginID();
     if (pluginID == null) {
+      if (debug) {
+        log.debug("query = " + signaturesSetID + "/" + signatureIndex + "/" + query);
+      }
       String msg = I18NUtils.tradueix("moduldefirma.senseplugin", signaturesSetID);
       generateErrorAndRedirect(request, response, ss, msg, null);
       return;
@@ -438,9 +393,11 @@ public class SignatureModuleController {
    
     //String relativePath = origrelativePath;
     if (log.isDebugEnabled()) {
-      log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
-      log.debug("Original RelativePath = " +  query);
-      log.debug("Method = " + request.getMethod());
+      if (debug) {
+        log.debug("RestOfTheUrlVar = " + request.getSession().getAttribute("restOfTheUrlVar"));
+        log.debug("Original RelativePath = " +  query);
+        log.debug("Method = " + request.getMethod());
+      }
       Utils.printRequestInfo(request);
     }
 
@@ -674,6 +631,10 @@ public class SignatureModuleController {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     synchronized (portaFIBSignaturesSets) {
+      if (portaFIBSignaturesSets.containsKey(signaturesSetID)) {   
+        log.info("startSignatureProcess(" + signaturesSetID + "): " + signaturesSet);
+        log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!");
+      }
       portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
     }
 
@@ -699,8 +660,7 @@ public class SignatureModuleController {
    * @return
    */
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
-      String languageUI, String username, String administrationID,   String urlFinal,
-      boolean browserSupportsJava) {
+      String languageUI, String username, String administrationID,   String urlFinal) {
       
       PolicyInfoSignature policyInfoSignature = null;
       if (entitat.getPolicyIdentifier() != null) {
@@ -711,8 +671,7 @@ public class SignatureModuleController {
       }
       
       return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(),
-          username, administrationID,
-          policyInfoSignature,  urlFinal, browserSupportsJava); 
+          username, administrationID, policyInfoSignature,  urlFinal); 
       
     }
   

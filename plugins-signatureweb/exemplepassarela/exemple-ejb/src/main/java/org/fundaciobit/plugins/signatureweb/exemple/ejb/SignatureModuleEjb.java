@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,10 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
@@ -37,54 +33,11 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
   protected static Logger log = Logger.getLogger(SignatureModuleEjb.class);
 
   
-  public List<Plugin> getAllPlugins(HttpServletRequest request, String signaturesSetID) throws Exception {
+  @Override
+  public List<Plugin> getAllPluginsFiltered(HttpServletRequest request, String signaturesSetID) throws Exception {
 
-    
+
     ExempleSignaturesSet signaturesSet = getSignaturesSet(request, signaturesSetID);
-    
- // Miram si alguna signatura requerix de rubrica o segellat de temps
-    // i el SignatureSet no ofereix el generadors. Ens servirà per més endavant
-    // elegir un plugin que internament ofereixi generadors de rubrica o segell de temps
-    boolean anySignatureRequireRubric = false;
-    boolean anySignatureRequireRubricAndNotProvidesGenerator = false;
-    boolean anySignatureRequireTimeStamp = false;
-    boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
-    
-    boolean anySignatureRequireCSVStamp= false;
-    boolean anySignatureRequireCSVStampAndNotProvidesGenerator = false;
-    Set<String> requiredBarCodeTypes = new HashSet<String>();
-    
-    
-    
-    for(FileInfoSignature fis : signaturesSet.getFileInfoSignatureArray()) {
-      if (fis.isUserRequiresTimeStamp()) {
-        anySignatureRequireTimeStamp = true;        
-        if (fis.getTimeStampGenerator() == null) {
-          anySignatureRequireTimeStampAndNotProvidesGenerator = true;
-        }
-      }
-
-      if (fis.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-        anySignatureRequireRubric = true;
-        if (fis.getPdfVisibleSignature() == null || fis.getPdfVisibleSignature().getRubricGenerator() == null) {
-          anySignatureRequireRubricAndNotProvidesGenerator = true;
-        }
-      }
-      
-      SecureVerificationCodeStampInfo csvStamp = fis.getSecureVerificationCodeStampInfo();
-      // TODO IGNORAM POSICIO CODI DE BARRES només tenim en compte la
-      // posicio del Missatge
-      if (csvStamp != null 
-          && csvStamp.getMessagePosition() != SecureVerificationCodeStampInfo.POSITION_NONE) {
-        anySignatureRequireCSVStamp = true;
-        if (csvStamp.getSecureVerificationCodeStamper() == null) {
-          anySignatureRequireCSVStampAndNotProvidesGenerator = true;
-        }
-        requiredBarCodeTypes.add(csvStamp.getBarCodeType());
-      }
-    }
-    
-
     
  
     // TODO CHECK signature Set
@@ -97,98 +50,32 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
     List<Plugin> pluginsFiltered = new ArrayList<Plugin>();
     
     ISignatureWebPlugin signaturePlugin;
+ 
     
-    CommonInfoSignature cis = signaturesSet.getCommonInfoSignature(); 
-    String filtreCerts = cis.getFiltreCertificats();
-    String username = cis.getUsername();
-    String administrationID = cis.getAdministrationID();
-    boolean browserSupportsJava = cis.isBrowserSupportsJava();
     for (Plugin pluginDeFirma : plugins) {
       // 1.- Es pot instanciar el plugin ?
-      
-        signaturePlugin = SignatureWebPluginManager.getInstanceByPluginID(
+      signaturePlugin = SignatureWebPluginManager.getInstanceByPluginID(
             pluginDeFirma.getPluginID());
       
       
       if (signaturePlugin == null) {
         throw new Exception("No s'ha pogut instanciar Plugin amb ID " + pluginDeFirma.getPluginID());
       }
-      
-      
-      // 2.- Hem de comprovar que el plugin ofereixi internament generació de imatges per la
-      // firma visible PDF, ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireRubric) {
-        if (
-          (anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.providesRubricGenerator())
-          || (!anySignatureRequireRubricAndNotProvidesGenerator && !signaturePlugin.acceptExternalRubricGenerator())) {
-          // Exclude Plugin
-          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO TE GENERADOR DE RUBRIQUES ");
-          continue;
-        }
-      }
-      
-      // 3.- Hem de comprovar que el plugin ofereixi internament gestió de segellat de temps
-      // ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireTimeStamp) {
-        if (
-          // Cas 1: alguna firma no conte generador i plugin no té generador intern
-          (anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.providesTimeStampGenerator())
-          // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-        || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !signaturePlugin.acceptExternalTimeStampGenerator()) ) {
-          // Exclude Plugin
-          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO TE GENERADOR SEGELLAT DE TEMPS ");
-          continue;
-        }
-      }
-      
-      // 4.- Suporta Estampacio de Codi Segur de Verificació i els tipus de Codi de Barres
-      if (anySignatureRequireCSVStamp) {
-        // 4.1.- Proveidors
-        if (
-            // Cas 1: alguna firma no conte generador i plugin no té generador intern
-            (anySignatureRequireCSVStampAndNotProvidesGenerator && !signaturePlugin.providesSecureVerificationCodeStamper())
-            // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-          || (!anySignatureRequireCSVStampAndNotProvidesGenerator && !signaturePlugin.acceptExternalSecureVerificationCodeStamper()) ) {
-            // Exclude Plugin
-            log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO TE GENERADOR ESTAMPACIO CSV ");
-            continue;
-          }
-        
-        // 4.2.- Els tipus de codi de barres són suportats
-        List<String> supportedBarCodeTypes = signaturePlugin.getSupportedBarCodeTypes();
-        if (supportedBarCodeTypes == null) {
-          // Exclude Plugin
-          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 1111");
-          continue;
-        } else {
-          Set<String> intersection = new HashSet<String>(supportedBarCodeTypes); // use the copy constructor
-          intersection.retainAll(requiredBarCodeTypes);
-          if (intersection.size() != requiredBarCodeTypes.size()) {
-            // Exclude Plugin
-            log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 222222");
-            continue;
-          }
-        }
-        
-      }
-      
 
-      // 5.- Passa el filtre ...
+
+      // 2.- Passa el filtre ...
       
-      if (signaturePlugin.filter(request, username, administrationID, filtreCerts,browserSupportsJava)) {
+      if (signaturePlugin.filter(request, signaturesSet)) {
           pluginsFiltered.add(pluginDeFirma);
       } else {
-       // Exclude Plugin
+          // Exclude Plugin
           log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO PASSA FILTRE");
       }
       
     }
 
-    
-    // /WEB-INF/views/plugindefirma_seleccio.jsp
     return  pluginsFiltered;
-
-        
+  
   }
 
   

@@ -297,8 +297,7 @@ public class SignatureSIAwithIText {
       plugin = new MiniAppletInServerSIASignatureWebPlugin("es.ibsalut.example.", properties);
 
       final String filter = "";
-      final boolean supportJava = false;
-      boolean filtered = plugin.filter(null, username, administrationID, filter, supportJava);
+      boolean filtered = (plugin.filter(username, administrationID, filter) != 0);
 
       if (!filtered) {
         System.err.println("No ha passat el filtre del Plugin");

@@ -55,23 +55,15 @@ public interface ISignatureWebPlugin extends IPlugin {
 
   /**
    * Filtre que s'ha de cridar per esbrinar si aquest plugin pot realitzar la
-   * firma web. La comprovació de tipus de firma, algorismes i codi de barres
-   * s'ha de fer fora d'aquest mètode.
-   * 
-   * @param request
-   *          Petició de l'API Servlet
-   * @param username
-   *          Nom d'usuari (opcional)
-   * @param administrationID
-   *          NIF
-   * @param filter
-   *          Filtre de certificats (Veure Manual d'Usuari PortaFIB)
-   * @param supportJava
-   *          Indica si el navegador suporta l'execució d'applets
+   * firma web. Les següents comprovacions es fan en aquest mètode: tipus de firma,
+   * algorismes de firma, segellat de temps, estampacio CSV, 
+   * taula de firmes i rubrica pdf, codi de barres, ...
+   *
+   * @param request  Petició de l'API Servlet
+   * @param signaturesSet Informació de les firmes a realitzar
    * @return true, si aquest plugin es compatible per realitzar la firma.
    */
-  public boolean filter(HttpServletRequest request, String username, String administrationID,
-      String filter, boolean supportJava);
+  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet);
 
   /**
    * 

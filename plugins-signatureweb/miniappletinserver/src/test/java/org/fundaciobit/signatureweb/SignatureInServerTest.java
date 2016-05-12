@@ -84,11 +84,8 @@ public class SignatureInServerTest extends TestCase {
       PolicyInfoSignature policyInfoSignature = null;
       String urlFinal = "none";
 
-      boolean browserSupportsJava = false;
-
       CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-          filtreCertificats, username, administrationID, policyInfoSignature, urlFinal,
-          browserSupportsJava);
+          filtreCertificats, username, administrationID, policyInfoSignature, urlFinal);
 
       String signID = "999";
       File source = new File(pdfsource);

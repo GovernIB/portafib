@@ -154,7 +154,7 @@ public class PassarelaDeFirmaController  {
       final String administrationID = cis.getAdministrationID();
       final String langUI = cis.getLanguageUI();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID, urlFinal, ss.getCommonInfoSignature().isBrowserSupportsJava());
+          langUI, username, administrationID, urlFinal);
       
       PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
       if (ppis != null) {

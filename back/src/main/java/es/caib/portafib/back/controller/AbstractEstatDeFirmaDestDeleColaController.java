@@ -475,13 +475,6 @@ import es.caib.portafib.utils.Configuracio;
     }
     
     
-    @RequestMapping(value = "/firmarseleccionats/Firmar.jnlp", method = RequestMethod.POST)
-    public ModelAndView firmarSeleccionatsJNLP(HttpServletRequest request,
-        @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
-
-      return firmarseleccionatscommon(request, filterForm, true);
-
-    }
     
     
 
@@ -489,14 +482,6 @@ import es.caib.portafib.utils.Configuracio;
     public ModelAndView firmarSeleccionats(HttpServletRequest request,
         @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
 
-      return firmarseleccionatscommon(request, filterForm,false);
-
-    }
-    
-   
-
-    private ModelAndView firmarseleccionatscommon(HttpServletRequest request,
-        EstatDeFirmaFilterForm filterForm, boolean  isJnlp) throws I18NException {
       // seleccionats conté els estatIDs
       String[] seleccionatsStr = filterForm.getSelectedItems();
       // String role = filterForm.getRole();
@@ -603,7 +588,7 @@ import es.caib.portafib.utils.Configuracio;
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
           commonInfoSignature = SignatureModuleController.getCommonInfoSignature(
-              loginInfo.getEntitat(), langUI, username, administrationID,  urlFinal, !isJnlp);
+              loginInfo.getEntitat(), langUI, username, administrationID,  urlFinal);
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
@@ -753,26 +738,14 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
       ModelAndView mav;
-      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID, false);
+      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID);
       return mav;
     }
     
    
-    
-    @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}/Firmar.jnlp",   method = RequestMethod.GET)
-    public ModelAndView firmarJNLP(HttpServletRequest request, HttpServletResponse response,
-        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID)
-            throws I18NException {
-
-      ModelAndView mav;
-      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID, true);
-      return mav;
-      
-    }
-    
 
     private ModelAndView commonFirma(HttpServletRequest request, HttpServletResponse response,
-        Long estatDeFirmaID, Long peticioDeFirmaID,boolean isJnlp) throws I18NException {
+        Long estatDeFirmaID, Long peticioDeFirmaID) throws I18NException {
       log.info("Entra a firmar Peticio = " + peticioDeFirmaID + " | EstatDeFirma = " + estatDeFirmaID);
       
       try {
@@ -806,7 +779,7 @@ import es.caib.portafib.utils.Configuracio;
         final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
         final String administrationID = loginInfo.getUsuariPersona().getNif();
         commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-            langUI, username, administrationID, urlFinal, !isJnlp);
+            langUI, username, administrationID, urlFinal);
       }
 
       // Vuls suposar que abans de 10 minuts haurà firmat

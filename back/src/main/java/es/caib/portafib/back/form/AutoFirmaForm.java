@@ -52,8 +52,6 @@ public class AutoFirmaForm {
   CommonsMultipartFile adjunt3;
   CommonsMultipartFile adjunt4;
 
-  boolean jnlp;
-
   long id;
   
   boolean segellDeTemps;
@@ -101,14 +99,6 @@ public class AutoFirmaForm {
 
   public void setAdjunt4(CommonsMultipartFile adjunt4) {
     this.adjunt4 = adjunt4;
-  }
-
-  public boolean isJnlp() {
-    return jnlp;
-  }
-
-  public void setJnlp(boolean jnlp) {
-    this.jnlp = jnlp;
   }
 
   public long getId() {

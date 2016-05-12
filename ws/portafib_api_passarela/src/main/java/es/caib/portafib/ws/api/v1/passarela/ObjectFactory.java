@@ -73,30 +73,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetEntitatIDResponse }
-     * 
-     */
-    public GetEntitatIDResponse createGetEntitatIDResponse() {
-        return new GetEntitatIDResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetStatusTransaction }
-     * 
-     */
-    public GetStatusTransaction createGetStatusTransaction() {
-        return new GetStatusTransaction();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaSignaturesSet }
-     * 
-     */
-    public PassarelaSignaturesSet createPassarelaSignaturesSet() {
-        return new PassarelaSignaturesSet();
-    }
-
-    /**
      * Create an instance of {@link GetCustodiaPolicy }
      * 
      */
@@ -105,11 +81,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedBarCodeTypes }
+     * Create an instance of {@link CloseTransactionResponse }
      * 
      */
-    public GetSupportedBarCodeTypes createGetSupportedBarCodeTypes() {
-        return new GetSupportedBarCodeTypes();
+    public CloseTransactionResponse createCloseTransactionResponse() {
+        return new CloseTransactionResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVersionResponse }
+     * 
+     */
+    public GetVersionResponse createGetVersionResponse() {
+        return new GetVersionResponse();
     }
 
     /**
@@ -121,19 +105,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PassarelaSignaturesTableHeader }
+     * Create an instance of {@link GetTimeStampPolicy }
      * 
      */
-    public PassarelaSignaturesTableHeader createPassarelaSignaturesTableHeader() {
-        return new PassarelaSignaturesTableHeader();
+    public GetTimeStampPolicy createGetTimeStampPolicy() {
+        return new GetTimeStampPolicy();
     }
 
     /**
-     * Create an instance of {@link GetSupportedLanguages }
+     * Create an instance of {@link GetAllCustodiaInfoTemplates }
      * 
      */
-    public GetSupportedLanguages createGetSupportedLanguages() {
-        return new GetSupportedLanguages();
+    public GetAllCustodiaInfoTemplates createGetAllCustodiaInfoTemplates() {
+        return new GetAllCustodiaInfoTemplates();
+    }
+
+    /**
+     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
+     * 
+     */
+    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
+        return new GetDefaultCustodiaInfoResponse();
+    }
+
+    /**
+     * Create an instance of {@link StartTransactionResponse }
+     * 
+     */
+    public StartTransactionResponse createStartTransactionResponse() {
+        return new StartTransactionResponse();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaFileInfoSignature }
+     * 
+     */
+    public PassarelaFileInfoSignature createPassarelaFileInfoSignature() {
+        return new PassarelaFileInfoSignature();
+    }
+
+    /**
+     * Create an instance of {@link WsFieldValidationError }
+     * 
+     */
+    public WsFieldValidationError createWsFieldValidationError() {
+        return new WsFieldValidationError();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedSignatureTypesResponse }
+     * 
+     */
+    public GetSupportedSignatureTypesResponse createGetSupportedSignatureTypesResponse() {
+        return new GetSupportedSignatureTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetTimeStampPolicyResponse }
+     * 
+     */
+    public GetTimeStampPolicyResponse createGetTimeStampPolicyResponse() {
+        return new GetTimeStampPolicyResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVersionWs }
+     * 
+     */
+    public GetVersionWs createGetVersionWs() {
+        return new GetVersionWs();
+    }
+
+    /**
+     * Create an instance of {@link GetStatusTransaction }
+     * 
+     */
+    public GetStatusTransaction createGetStatusTransaction() {
+        return new GetStatusTransaction();
     }
 
     /**
@@ -142,6 +190,22 @@ public class ObjectFactory {
      */
     public GetVersion createGetVersion() {
         return new GetVersion();
+    }
+
+    /**
+     * Create an instance of {@link GetEntitatIDResponse }
+     * 
+     */
+    public GetEntitatIDResponse createGetEntitatIDResponse() {
+        return new GetEntitatIDResponse();
+    }
+
+    /**
+     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
+     * 
+     */
+    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
+        return new DownloadFileUsingEncryptedFileID();
     }
 
     /**
@@ -161,155 +225,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
+     * Create an instance of {@link GetSupportedLanguagesResponse }
      * 
      */
-    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
-        return new DownloadFileUsingEncryptedFileID();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaSecureVerificationCodeStampInfo }
-     * 
-     */
-    public PassarelaSecureVerificationCodeStampInfo createPassarelaSecureVerificationCodeStampInfo() {
-        return new PassarelaSecureVerificationCodeStampInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionResponse }
-     * 
-     */
-    public GetVersionResponse createGetVersionResponse() {
-        return new GetVersionResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetTimeStampPolicyResponse }
-     * 
-     */
-    public GetTimeStampPolicyResponse createGetTimeStampPolicyResponse() {
-        return new GetTimeStampPolicyResponse();
-    }
-
-    /**
-     * Create an instance of {@link CloseTransaction }
-     * 
-     */
-    public CloseTransaction createCloseTransaction() {
-        return new CloseTransaction();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaCommonInfoSignature }
-     * 
-     */
-    public PassarelaCommonInfoSignature createPassarelaCommonInfoSignature() {
-        return new PassarelaCommonInfoSignature();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedBarCodeTypesResponse }
-     * 
-     */
-    public GetSupportedBarCodeTypesResponse createGetSupportedBarCodeTypesResponse() {
-        return new GetSupportedBarCodeTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link DownloadFileUsingEncryptedFileIDResponse }
-     * 
-     */
-    public DownloadFileUsingEncryptedFileIDResponse createDownloadFileUsingEncryptedFileIDResponse() {
-        return new DownloadFileUsingEncryptedFileIDResponse();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaSignatureResult }
-     * 
-     */
-    public PassarelaSignatureResult createPassarelaSignatureResult() {
-        return new PassarelaSignatureResult();
-    }
-
-    /**
-     * Create an instance of {@link GetSignatureResultsOfTransactionResponse }
-     * 
-     */
-    public GetSignatureResultsOfTransactionResponse createGetSignatureResultsOfTransactionResponse() {
-        return new GetSignatureResultsOfTransactionResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedSignatureTypes }
-     * 
-     */
-    public GetSupportedSignatureTypes createGetSupportedSignatureTypes() {
-        return new GetSupportedSignatureTypes();
-    }
-
-    /**
-     * Create an instance of {@link GetAllPluginIDCustodiaResponse }
-     * 
-     */
-    public GetAllPluginIDCustodiaResponse createGetAllPluginIDCustodiaResponse() {
-        return new GetAllPluginIDCustodiaResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSignatureResultsOfTransaction }
-     * 
-     */
-    public GetSignatureResultsOfTransaction createGetSignatureResultsOfTransaction() {
-        return new GetSignatureResultsOfTransaction();
-    }
-
-    /**
-     * Create an instance of {@link WsValidationErrors }
-     * 
-     */
-    public WsValidationErrors createWsValidationErrors() {
-        return new WsValidationErrors();
-    }
-
-    /**
-     * Create an instance of {@link FitxerBean }
-     * 
-     */
-    public FitxerBean createFitxerBean() {
-        return new FitxerBean();
-    }
-
-    /**
-     * Create an instance of {@link GetStatusTransactionResponse }
-     * 
-     */
-    public GetStatusTransactionResponse createGetStatusTransactionResponse() {
-        return new GetStatusTransactionResponse();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NTranslation }
-     * 
-     */
-    public WsI18NTranslation createWsI18NTranslation() {
-        return new WsI18NTranslation();
-    }
-
-    /**
-     * Create an instance of {@link GetCustodiaPolicyResponse }
-     * 
-     */
-    public GetCustodiaPolicyResponse createGetCustodiaPolicyResponse() {
-        return new GetCustodiaPolicyResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedSignatureTypesResponse }
-     * 
-     */
-    public GetSupportedSignatureTypesResponse createGetSupportedSignatureTypesResponse() {
-        return new GetSupportedSignatureTypesResponse();
+    public GetSupportedLanguagesResponse createGetSupportedLanguagesResponse() {
+        return new GetSupportedLanguagesResponse();
     }
 
     /**
@@ -321,6 +241,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetSignatureResultsOfTransactionResponse }
+     * 
+     */
+    public GetSignatureResultsOfTransactionResponse createGetSignatureResultsOfTransactionResponse() {
+        return new GetSignatureResultsOfTransactionResponse();
+    }
+
+    /**
+     * Create an instance of {@link CloseTransaction }
+     * 
+     */
+    public CloseTransaction createCloseTransaction() {
+        return new CloseTransaction();
+    }
+
+    /**
      * Create an instance of {@link PassarelaSignatureStatus }
      * 
      */
@@ -329,75 +265,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PassarelaPolicyInfoSignature }
+     * Create an instance of {@link PassarelaSignaturesSet }
      * 
      */
-    public PassarelaPolicyInfoSignature createPassarelaPolicyInfoSignature() {
-        return new PassarelaPolicyInfoSignature();
+    public PassarelaSignaturesSet createPassarelaSignaturesSet() {
+        return new PassarelaSignaturesSet();
     }
 
     /**
-     * Create an instance of {@link WsFieldValidationError }
+     * Create an instance of {@link GetSupportedBarCodeTypesResponse }
      * 
      */
-    public WsFieldValidationError createWsFieldValidationError() {
-        return new WsFieldValidationError();
+    public GetSupportedBarCodeTypesResponse createGetSupportedBarCodeTypesResponse() {
+        return new GetSupportedBarCodeTypesResponse();
     }
 
     /**
-     * Create an instance of {@link GetAllCustodiaInfoTemplatesResponse }
+     * Create an instance of {@link PassarelaSecureVerificationCodeStampInfo }
      * 
      */
-    public GetAllCustodiaInfoTemplatesResponse createGetAllCustodiaInfoTemplatesResponse() {
-        return new GetAllCustodiaInfoTemplatesResponse();
+    public PassarelaSecureVerificationCodeStampInfo createPassarelaSecureVerificationCodeStampInfo() {
+        return new PassarelaSecureVerificationCodeStampInfo();
     }
 
     /**
-     * Create an instance of {@link StartTransaction }
+     * Create an instance of {@link GetAllPluginIDCustodiaResponse }
      * 
      */
-    public StartTransaction createStartTransaction() {
-        return new StartTransaction();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionWsResponse }
-     * 
-     */
-    public GetVersionWsResponse createGetVersionWsResponse() {
-        return new GetVersionWsResponse();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaFileInfoSignature }
-     * 
-     */
-    public PassarelaFileInfoSignature createPassarelaFileInfoSignature() {
-        return new PassarelaFileInfoSignature();
-    }
-
-    /**
-     * Create an instance of {@link GetVersionWs }
-     * 
-     */
-    public GetVersionWs createGetVersionWs() {
-        return new GetVersionWs();
-    }
-
-    /**
-     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
-     * 
-     */
-    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
-        return new GetDefaultCustodiaInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetTimeStampPolicy }
-     * 
-     */
-    public GetTimeStampPolicy createGetTimeStampPolicy() {
-        return new GetTimeStampPolicy();
+    public GetAllPluginIDCustodiaResponse createGetAllPluginIDCustodiaResponse() {
+        return new GetAllPluginIDCustodiaResponse();
     }
 
     /**
@@ -409,19 +305,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedSignatureAlgorithms }
+     * Create an instance of {@link GetVersionWsResponse }
      * 
      */
-    public GetSupportedSignatureAlgorithms createGetSupportedSignatureAlgorithms() {
-        return new GetSupportedSignatureAlgorithms();
+    public GetVersionWsResponse createGetVersionWsResponse() {
+        return new GetVersionWsResponse();
     }
 
     /**
-     * Create an instance of {@link CloseTransactionResponse }
+     * Create an instance of {@link GetStatusTransactionResponse }
      * 
      */
-    public CloseTransactionResponse createCloseTransactionResponse() {
-        return new CloseTransactionResponse();
+    public GetStatusTransactionResponse createGetStatusTransactionResponse() {
+        return new GetStatusTransactionResponse();
+    }
+
+    /**
+     * Create an instance of {@link FitxerBean }
+     * 
+     */
+    public FitxerBean createFitxerBean() {
+        return new FitxerBean();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaCommonInfoSignature }
+     * 
+     */
+    public PassarelaCommonInfoSignature createPassarelaCommonInfoSignature() {
+        return new PassarelaCommonInfoSignature();
+    }
+
+    /**
+     * Create an instance of {@link DownloadFileUsingEncryptedFileIDResponse }
+     * 
+     */
+    public DownloadFileUsingEncryptedFileIDResponse createDownloadFileUsingEncryptedFileIDResponse() {
+        return new DownloadFileUsingEncryptedFileIDResponse();
     }
 
     /**
@@ -433,19 +353,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedLanguagesResponse }
+     * Create an instance of {@link GetSupportedSignatureTypes }
      * 
      */
-    public GetSupportedLanguagesResponse createGetSupportedLanguagesResponse() {
-        return new GetSupportedLanguagesResponse();
+    public GetSupportedSignatureTypes createGetSupportedSignatureTypes() {
+        return new GetSupportedSignatureTypes();
     }
 
     /**
-     * Create an instance of {@link StartTransactionResponse }
+     * Create an instance of {@link GetSupportedSignatureAlgorithms }
      * 
      */
-    public StartTransactionResponse createStartTransactionResponse() {
-        return new StartTransactionResponse();
+    public GetSupportedSignatureAlgorithms createGetSupportedSignatureAlgorithms() {
+        return new GetSupportedSignatureAlgorithms();
+    }
+
+    /**
+     * Create an instance of {@link StartTransaction }
+     * 
+     */
+    public StartTransaction createStartTransaction() {
+        return new StartTransaction();
+    }
+
+    /**
+     * Create an instance of {@link WsValidationErrors }
+     * 
+     */
+    public WsValidationErrors createWsValidationErrors() {
+        return new WsValidationErrors();
+    }
+
+    /**
+     * Create an instance of {@link GetSignatureResultsOfTransaction }
+     * 
+     */
+    public GetSignatureResultsOfTransaction createGetSignatureResultsOfTransaction() {
+        return new GetSignatureResultsOfTransaction();
+    }
+
+    /**
+     * Create an instance of {@link GetAllCustodiaInfoTemplatesResponse }
+     * 
+     */
+    public GetAllCustodiaInfoTemplatesResponse createGetAllCustodiaInfoTemplatesResponse() {
+        return new GetAllCustodiaInfoTemplatesResponse();
     }
 
     /**
@@ -457,11 +409,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetAllCustodiaInfoTemplates }
+     * Create an instance of {@link GetSupportedLanguages }
      * 
      */
-    public GetAllCustodiaInfoTemplates createGetAllCustodiaInfoTemplates() {
-        return new GetAllCustodiaInfoTemplates();
+    public GetSupportedLanguages createGetSupportedLanguages() {
+        return new GetSupportedLanguages();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaSignaturesTableHeader }
+     * 
+     */
+    public PassarelaSignaturesTableHeader createPassarelaSignaturesTableHeader() {
+        return new PassarelaSignaturesTableHeader();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedBarCodeTypes }
+     * 
+     */
+    public GetSupportedBarCodeTypes createGetSupportedBarCodeTypes() {
+        return new GetSupportedBarCodeTypes();
+    }
+
+    /**
+     * Create an instance of {@link GetCustodiaPolicyResponse }
+     * 
+     */
+    public GetCustodiaPolicyResponse createGetCustodiaPolicyResponse() {
+        return new GetCustodiaPolicyResponse();
+    }
+
+    /**
+     * Create an instance of {@link WsI18NTranslation }
+     * 
+     */
+    public WsI18NTranslation createWsI18NTranslation() {
+        return new WsI18NTranslation();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaSignatureResult }
+     * 
+     */
+    public PassarelaSignatureResult createPassarelaSignatureResult() {
+        return new PassarelaSignatureResult();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaPolicyInfoSignature }
+     * 
+     */
+    public PassarelaPolicyInfoSignature createPassarelaPolicyInfoSignature() {
+        return new PassarelaPolicyInfoSignature();
     }
 
     /**

@@ -13,7 +13,9 @@ public class AutoFirmaForm {
 
   protected java.lang.String motiu;
 
-  protected String idioma;
+  protected String langUI;
+  
+  protected String langDoc;
 
   protected int posicioTaulaFirmesID;
 
@@ -30,8 +32,6 @@ public class AutoFirmaForm {
   protected transient String mimeType = null;
 
   CommonsMultipartFile fitxerAFirmarID;
-
-  boolean jnlp;
 
   long id;
 
@@ -61,14 +61,6 @@ public class AutoFirmaForm {
 
   public void setFitxerAFirmarID(CommonsMultipartFile fitxerAFirmarID) {
     this.fitxerAFirmarID = fitxerAFirmarID;
-  }
-
-  public boolean isJnlp() {
-    return jnlp;
-  }
-
-  public void setJnlp(boolean jnlp) {
-    this.jnlp = jnlp;
   }
 
   public long getId() {
@@ -103,12 +95,22 @@ public class AutoFirmaForm {
     this.posicioTaulaFirmesID = posicioTaulaFirmesID;
   }
 
-  public String getIdioma() {
-    return idioma;
+
+
+  public String getLangUI() {
+    return langUI;
   }
 
-  public void setIdioma(String idioma) {
-    this.idioma = idioma;
+  public void setLangUI(String langUI) {
+    this.langUI = langUI;
+  }
+
+  public String getLangDoc() {
+    return langDoc;
+  }
+
+  public void setLangDoc(String langDoc) {
+    this.langDoc = langDoc;
   }
 
   public String getMimeType() {

@@ -828,24 +828,16 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   @Override
   public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
-
-    String jnlp = request.getParameter("jnlp");
-    if (log.isDebugEnabled()) {
-      log.debug("getRedirectWhenCreated():: jnlp = " + jnlp);
-    }
     
-    
-    if (esDelegat() && !"true".equals(jnlp)) {
+    if (esDelegat()) {
       // Anam a la pàgina de Firma
       return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
-          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
-          + "/" + request.getParameter("jnlp");
+          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
     } else {
       return "redirect:" + getContextWeb() + "/"
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
           + "/edit";
     }
-    //return "redirect:" + getContextWeb() + "/list";
   }
 
   @Override
@@ -969,10 +961,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
   public static final String FITXER_AUTORITZACIO_PREFIX = "FitxerAutoritzacioDelegacio_";
 
-  @RequestMapping(value = "/firmarautoritzacio/{delegacioID}/{isJnlp}", method = RequestMethod.GET)
+  @RequestMapping(value = "/firmarautoritzacio/{delegacioID}", method = RequestMethod.GET)
   public ModelAndView firmarAutoritzacioDelegacio(
       @PathVariable("delegacioID") Long delegacioID,
-      @PathVariable("isJnlp") boolean isJnlp,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     ColaboracioDelegacioJPA delegacio;
@@ -1131,7 +1122,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       final String administrationID = loginInfo.getUsuariPersona().getNif();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID ,urlFirmaFinal, !isJnlp);
+          langUI, username, administrationID ,urlFirmaFinal);
     }
 
     // Vuls suposar que abans de 10 minuts haurà firmat

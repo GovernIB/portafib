@@ -1,11 +1,6 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 
-
 <input type="hidden" id="motiu" name="motiu" value=""/>
-
-
-<script src="<c:url value="/js/deployJava.jsp"/>"></script>
-
 
 <script type="text/javascript">
 
@@ -27,13 +22,8 @@
 
   <c:if test="${pipella ne 'ROLE_COLA'}">
 
-  
   function firmar(url, firmaid) {
-      if (deployJava && deployJava.isPluginInstalled()) {
-          goTo(url);
-      } else {
-          goTo(url + '/Firmar.jnlp');
-      }
+      goTo(url);
   }
   
   function getCheckboxValues() {
@@ -97,13 +87,7 @@
 
      function firmarseleccionats() {
        var url;
-       if (deployJava.isPluginInstalled()) {
-             url = '<c:url value="${contexte}/firmarseleccionats"/>';
-       } else {
-           <%-- NOTA: AIXó ES CORRECTE. FYI. --%>
-             url = '<c:url value="${contexte}/firmarseleccionats"/>/Firmar.jnlp';    
-       }
-         
+       url = '<c:url value="${contexte}/firmarseleccionats"/>';
        document.estatDeFirma.action = url;
        document.estatDeFirma.submit();
      }
