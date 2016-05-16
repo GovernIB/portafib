@@ -34,6 +34,7 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSi
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureweb.miniappletutils.XAdESSigner;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.EncrypterDecrypter;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -362,22 +363,36 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
         info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
             timeStampUrl, certificate);
 
-        if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
+        if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())
+            || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
 
-              // FIRMA PADES
+              // FIRMA PADES o Xades
               StatusSignature ss = fileInfo.getStatusSignature();
               
               ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
           
-              AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
               
               
-              String algorithm = info.getSignAlgorithm();
+              final String algorithm = info.getSignAlgorithm();
+              byte[] signedData;
+              
+              if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
       
-              byte[] signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
+                AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
+                
+      
+                signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
                   new Certificate[] { info.getCertificate() }, info.getProperties());
-      
-              
+              } else {
+                
+                log.info(" XYZ passa per  XAdESSigner xadesSigner = new XAdESSigner();");
+                XAdESSigner xadesSigner = new XAdESSigner();
+                
+                signedData = xadesSigner.sign(info.getDataToSign(), algorithm, privateKey,
+                    new Certificate[] { info.getCertificate() }, info.getProperties());
+                
+              }
+
 
               File firmat = null;
 
@@ -394,7 +409,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
               ss.setStatus(StatusSignature.STATUS_FINAL_OK);
 
         } else {
-          // TODO Falta CADes, Xades, ...
+          // TODO Falta CADes, 
 
           // "Tipus de Firma amb ID {0} no està suportat pel plugin `{1}`
           String msg = getTraduccio("tipusfirma.desconegut", locale,

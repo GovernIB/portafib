@@ -1,3 +1,4 @@
+<%@page import="org.fundaciobit.plugins.signatureweb.api.FileInfoSignature"%>
 <%@ include file="/WEB-INF/views/html_header.jsp"%>
 
 <h3 class="tabs_involved">
@@ -88,6 +89,39 @@
           <form:select path="langDoc">
             <form:option value="ca" selected="true" >Catal&agrave;</form:option>
             <form:option value="es" >Castell&agrave;</form:option>
+          </form:select>
+           </td>
+         </tr>
+         
+         
+         <tr>
+          <td><label>Tipus Firma &nbsp;(*)</label></td>
+            <td>
+          <form:errors path="signType" cssClass="errorField alert alert-error" />
+          <form:select path="signType" id="signType" onchange="canviaTipus(this)">
+            <option value="<%=FileInfoSignature.SIGN_TYPE_PADES %>" selected="true" >PADES</option>
+            <option value="<%=FileInfoSignature.SIGN_TYPE_XADES %>" >XADES</option>
+          </form:select>
+           </td>
+         </tr>
+         
+         <!--  NOMES PER XADES -->
+         <tr style="display:none;" id="signModeTR">
+          <td><label>Mode Firma &nbsp;(*)</label></td>
+            <td>
+          <form:errors path="signMode" cssClass="errorField alert alert-error" />
+          <form:select path="signMode" cssClass="input-xxlarge"  >
+            <!-- 
+              implicit La firma resultante incluirá internamente una copia de los datos
+              firmados. El uso de este valor podría generar firmas de gran tamaño.
+            -->
+            <option value="<%=FileInfoSignature.SIGN_MODE_IMPLICIT %>" selected="true" >Attached (firma inclou dades originals)</option>
+            <!--        
+              explicit La firma resultante no incluirá los datos firmados. Si no se
+              indica el parámetro mode se configura automáticamente este
+              comportamiento.
+            -->
+            <option value="<%=FileInfoSignature.SIGN_MODE_EXPLICIT %>" >Detached (firma NO inclou dades originals)</option>
           </form:select>
            </td>
          </tr>
@@ -259,5 +293,19 @@
    </div>
   
 </form:form>
+
+<<script type="text/javascript">
+<!--
+   function canviaTipus(selectItem) {
+       var val = $( "#signType" ).val();
+       if (val == '<%=FileInfoSignature.SIGN_TYPE_XADES %>') {
+           $( "#signModeTR").show();
+       } else {
+           $( "#signModeTR").hide();
+       }
+   }
+//-->
+</script>
+
 
 <%@ include file="/WEB-INF/views/html_footer.jsp"%>

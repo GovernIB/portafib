@@ -32,6 +32,10 @@ public class AutoFirmaForm {
   protected transient String mimeType = null;
 
   CommonsMultipartFile fitxerAFirmarID;
+  
+  String signType;
+
+  int signMode;
 
   long id;
 
@@ -211,4 +215,21 @@ public class AutoFirmaForm {
     this.cvsCodiBarresText = cvsCodiBarresText;
   }
 
+  public String getSignType() {
+    return signType;
+  }
+
+  public void setSignType(String signType) {
+    this.signType = signType;
+  }
+
+  public int getSignMode() {
+    return signMode;
+  }
+
+  public void setSignMode(int signMode) {
+    this.signMode = signMode;
+  }
+
+  
 }

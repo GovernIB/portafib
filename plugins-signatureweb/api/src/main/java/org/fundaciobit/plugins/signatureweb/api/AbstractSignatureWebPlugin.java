@@ -212,50 +212,19 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
            return false;
          }
          
-         Set<String> algorismesSuportats;
-         algorismesSuportats = new HashSet<String>(Arrays.asList(this.getSupportedSignatureAlgorithms(signType)));
-         if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
-           log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
+         final String[] supAlgArray = this.getSupportedSignatureAlgorithms(signType);
+         if (supAlgArray == null || supAlgArray.length == 0) {
            return false;
+         } else {
+           Set<String> algorismesSuportats;
+           algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
+           if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
+             log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
+             return false;
+           }
          }
        }
-       
 
-       
-    
-    
-    
-    
-/*
-      
-      // Hem de comprovar que el plugin ofereixi internament generació de imatges per la
-      // firma visible PDF, ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireRubric) {
-        if (
-          (anySignatureRequireRubricAndNotProvidesGenerator && !this.providesRubricGenerator())
-          || (!anySignatureRequireRubricAndNotProvidesGenerator && !this.acceptExternalRubricGenerator())) {
-          // Exclude Plugin
-          log.warn("Exclos plugin [" + getSimpleName() + "]: NO TE GENERADOR DE RUBRIQUES ");
-          return false;
-        }
-      }
-      
-      // Hem de comprovar que el plugin ofereixi internament gestió de segellat de temps
-      // ja que el FileInfoSignature no conté el generador
-      if (anySignatureRequireTimeStamp) {
-        if (
-          // Cas 1: alguna firma no conte generador i plugin no té generador intern
-          (anySignatureRequireTimeStampAndNotProvidesGenerator && !this.providesTimeStampGenerator())
-          // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-        || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !this.acceptExternalTimeStampGenerator()) ) {
-         // Exclude Plugin
-          log.info("Exclos plugin [" +  getSimpleName() + "]: NO TE GENERADOR SEGELLAT DE TEMPS ");
-          return false;
-        }
-      } 
-*/
-       
-       
 
      // 2.- Hem de comprovar que el plugin ofereixi internament generació de imatges per la
      // firma visible PDF, ja que el FileInfoSignature no conté el generador

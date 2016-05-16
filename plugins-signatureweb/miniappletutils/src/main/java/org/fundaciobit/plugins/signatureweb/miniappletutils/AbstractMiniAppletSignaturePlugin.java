@@ -117,16 +117,21 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   @Override
   public String[] getSupportedSignatureTypes() {
     // TODO Falta CADes, Xades, ...
-    return new String[] { FileInfoSignature.SIGN_TYPE_PADES };
+    return new String[] {
+        FileInfoSignature.SIGN_TYPE_PADES,
+        FileInfoSignature.SIGN_TYPE_XADES
+    };
   }
 
   @Override
   public String[] getSupportedSignatureAlgorithms(String signType) {
 
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
 
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
-          FileInfoSignature.SIGN_ALGORITHM_SHA256, FileInfoSignature.SIGN_ALGORITHM_SHA384,
+          FileInfoSignature.SIGN_ALGORITHM_SHA256,
+          FileInfoSignature.SIGN_ALGORITHM_SHA384,
           FileInfoSignature.SIGN_ALGORITHM_SHA512 };
     }
     return null;
@@ -134,7 +139,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   
   @Override
   public List<String> getSupportedBarCodeTypes() {
-    // Aquests Plugins No suporten estampació de CSV
+    // Aquests Plugins No suporten estampació de CSV per si mateixos
     return null;
   }
   

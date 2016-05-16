@@ -182,10 +182,20 @@ public static void main(String[] args) {
          //   .append("\r\n");         
          // (cn=FundacioBit-OTAE)
 
-         filter.append("rfc2254_rec_issuer:")
-            .append("|(CN= ANF Root CA)(OU= ANF Root CA)(CN=ANF Root 1 CA)(OU=ANF Root 1 CA)(CN=ANF Server CA)(OU=ANF Server CA)(CN=AC RAIZ DNIE)(OU=AC RAIZ DNIE)(CN=Chambers of Commerce Root)(OU=Chambers of Commerce Root)(CN=AC Camerfirma Certificados Camerales)(OU=AC Camerfirma Certificados Camerales)(CN=FNMT Clase 2 CA)(OU=FNMT Clase 2 CA)(CN=Autoridad de Certificacion Firmaprofesional CIF A62634068)(OU=Autoridad de Certificacion Firmaprofesional CIF A62634068)(CN=Autoridad de Certificacion de la Abogacia)(OU=Autoridad de Certificacion de la Abogacia)(CN=ANCERT Certificados CGN)(OU=ANCERT Certificados CGN)(CN=ANCERT Certificados Notariales)(OU=ANCERT Certificados Notariales)(CN=AC CAMERFIRMA AAPP)(OU=AC CAMERFIRMA AAPP)(CN=AC RAIZ FNMT-RCM)(OU=AC RAIZ FNMT-RCM)(CN=ANCERT Certificados CGN V2)(OU=ANCERT Certificados CGN V2)(CN=ANCERT Certificados Notariales V2)(OU=ANCERT Certificados Notariales V2)(CN=Chambers of Commerce Root - 2008)(OU=Chambers of Commerce Root - 2008)(CN=AC Administración Pública)(OU=AC Administración Pública)")
-            .append("\r\n");
+//         filter.append("rfc2254_rec_issuer:")
+//            .append("|(CN= ANF Root CA)(OU= ANF Root CA)(CN=ANF Root 1 CA)(OU=ANF Root 1 CA)(CN=ANF Server CA)(OU=ANF Server CA)(CN=AC RAIZ DNIE)(OU=AC RAIZ DNIE)(CN=Chambers of Commerce Root)(OU=Chambers of Commerce Root)(CN=AC Camerfirma Certificados Camerales)(OU=AC Camerfirma Certificados Camerales)(CN=FNMT Clase 2 CA)(OU=FNMT Clase 2 CA)(CN=Autoridad de Certificacion Firmaprofesional CIF A62634068)(OU=Autoridad de Certificacion Firmaprofesional CIF A62634068)(CN=Autoridad de Certificacion de la Abogacia)(OU=Autoridad de Certificacion de la Abogacia)(CN=ANCERT Certificados CGN)(OU=ANCERT Certificados CGN)(CN=ANCERT Certificados Notariales)(OU=ANCERT Certificados Notariales)(CN=AC CAMERFIRMA AAPP)(OU=AC CAMERFIRMA AAPP)(CN=AC RAIZ FNMT-RCM)(OU=AC RAIZ FNMT-RCM)(CN=ANCERT Certificados CGN V2)(OU=ANCERT Certificados CGN V2)(CN=ANCERT Certificados Notariales V2)(OU=ANCERT Certificados Notariales V2)(CN=Chambers of Commerce Root - 2008)(OU=Chambers of Commerce Root - 2008)(CN=AC Administración Pública)(OU=AC Administración Pública)")
+//            .append("\r\n");
+         
+         
+         // 
+         filter.append("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));").append("\r\n"); //nonexpired:
+         //filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.10.1;keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;issuer.rfc2254.recurse:(cn=AC FNMT Usuarios);").append("\r\n"); // nonexpired:
+         
+         // keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;
+         filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.5;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
+         
+         
          //filter.append("rfc2254_subject:SERIALNUMBER=43096845C");
          // ou=OTAE
          // cn=Delegat deFundacioBit
@@ -207,6 +217,10 @@ public static void main(String[] args) {
 
 
         if (filter.length() != 0) {
+          
+          System.out.println("Filter:");
+          System.out.println(filter);
+          
           prop.put(APPLET_CERTIFICATE_FILTER, URLEncoder.encode(filter.toString()));
         }
         

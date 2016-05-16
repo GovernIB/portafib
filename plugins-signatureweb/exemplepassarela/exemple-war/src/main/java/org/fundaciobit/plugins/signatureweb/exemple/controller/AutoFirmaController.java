@@ -212,8 +212,8 @@ public class AutoFirmaController {
 
     FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
         pdfAFirmar, mimeType, idname, posicioTaulaFirmesID, signaturesTableHeader, reason,
-        location, signerEmail, sign_number, langDoc, FileInfoSignature.SIGN_TYPE_PADES,
-        FileInfoSignature.SIGN_ALGORITHM_SHA1, FileInfoSignature.SIGN_MODE_IMPLICIT,
+        location, signerEmail, sign_number, langDoc, form.getSignType(),
+        FileInfoSignature.SIGN_ALGORITHM_SHA1, form.getSignMode(),
         userRequiresTimeStamp, timeStampGenerator, svcsi);
     
    
@@ -288,11 +288,16 @@ public class AutoFirmaController {
 
     String idDescarrega = null;
 
+    FileInfoSignature fis = null;
+    
     switch (sss.getStatus()) {
 
     case StatusSignaturesSet.STATUS_FINAL_OK: {
       // Revisam la primera i unica firma
-      StatusSignature status = ss.getFileInfoSignatureArray()[0].getStatusSignature();
+      
+      fis = ss.getFileInfoSignatureArray()[0];
+      
+      StatusSignature status = fis.getStatusSignature();
 
       if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
 
@@ -355,6 +360,9 @@ public class AutoFirmaController {
       ModelAndView mav = new ModelAndView("autoFirmaFinal");
 
       mav.addObject("id", idDescarrega);
+      
+      mav.addObject("signType", fis.getSignType());
+      
 
       return mav;
     }
@@ -432,21 +440,34 @@ public class AutoFirmaController {
    * @param response
    * @throws Exception
    */
-  @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
-  public void download(@PathVariable("id") Long id, HttpServletResponse response)
-      throws Exception {
-
+  @RequestMapping(value = "/download/{id}/{signType}", method = RequestMethod.GET)
+  public void download(@PathVariable("id") Long id, @PathVariable("signType") String signType,
+      HttpServletResponse response) throws Exception {
+   
     File ffirmat = getFitxerFirmatPath(id);
 
     if (!ffirmat.exists()) {
       response.setStatus(HttpServletResponse.SC_NO_CONTENT);
       return;
     }
-
-    String filename = "fitxerfirmat.pdf";
-
+    
+    String mime;
+    String filename;
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+      filename = "fitxerfirmat.pdf";
+      mime = PDF_MIME_TYPE;
+    } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+      filename = "fitxerfirmat.xml";
+      mime = "application/xml";
+    } else {
+      log.warn("No es suporta el tipus de firma " + signType 
+          + ". Revisi el codi per suportar aquest tipus", new Exception());
+      filename = "fitxerfirmat.bin";
+      mime = "application/octet-stream";
+    }
+    
     {
-      response.setContentType(PDF_MIME_TYPE);
+      response.setContentType(mime);
       response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
       response.setContentLength((int) ffirmat.length());
 

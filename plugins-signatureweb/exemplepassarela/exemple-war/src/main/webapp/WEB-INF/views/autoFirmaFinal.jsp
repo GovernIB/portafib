@@ -14,7 +14,7 @@
 <fmt:message key="autofirma.final.msg1"/><br>
 <fmt:message key="autofirma.final.msg2"/><br>
 <c:if test="${not empty id}" >
-<a href="<c:url value="/common/autofirma/download/${id}" />" target="_blank" class="btn btn-primary" style="color:white;">
+<a href="<c:url value="/common/autofirma/download/${id}/${signType}" />" target="_blank" class="btn btn-primary" style="color:white;">
  <fmt:message key="descarregardocumentfirmat"/>
 </a> &nbsp; 
 </c:if>

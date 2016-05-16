@@ -92,6 +92,7 @@ public class MiniAppletUtils {
       }
     }
 
+    // ====================  TIPUS DE FIRMA
     String tipusFirma;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
@@ -162,9 +163,52 @@ public class MiniAppletUtils {
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
       // TODO Alguna cosa mes ???
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_CADES;
+
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
       // TODO Alguna cosa mes ???
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_XADES;
+      
+      // En xades no te sentit el camp 'mode'
+      miniAppletProperties.remove(MiniAppletConstants.PROPERTY_SIGN_MODE);
+      
+      /**
+       * addKeyInfoKeyValue 
+       *       - true  -> Incluye el nodo KeyValue dentro de KeyInfo de XAdES (comportamiento por defecto).
+               - false -> No incluye el nodo KeyValue dentro de KeyInfo de XAdES.
+       * addKeyInfoKeyName
+       *       - true  -> Incluye el nodo KeyName dentro de KeyInfo de XAdES.
+       *       - false -> No incluye el nodo KeyName dentro de KeyInfo
+       */ 
+      if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+        /*
+         * implicit La firma resultante incluirá internamente una copia de los datos
+         * firmados. El uso de este valor podría generar firmas de gran tamaño.
+         */
+        miniAppletProperties.setProperty("addKeyInfoKeyValue", "true");
+       
+      } else {
+        /*
+         * explicit La firma resultante no incluirá los datos firmados. Si no se
+         * indica el parámetro mode se configura automáticamente este
+         * comportamiento.
+         */
+        miniAppletProperties.setProperty("addKeyInfoKeyValue", "false");
+      }
+      
+      final String mime = fileInfo.getMimeType();
+      if (mime != null && !mime.equals("application/octet-stream") 
+          && !mime.equals("application/octet-stream")
+          && !mime.equals("application/binary")
+          && !mime.equals("unknown/unknown")) {
+          miniAppletProperties.setProperty("mimeType",mime);
+          log.info("XYZ  Enviant a firma Xades fitxer " + fileInfo.getName() + " amb mime " + mime);
+      }
+      
+      // headless  true -> Evita que se muestren diálogos gráficos adicionales
+      //                   al usuario  (como por ejemplo, para la dereferenciación
+      //                   de hojas de estilo enlazadas con rutas relativas).
+      miniAppletProperties.setProperty("headless","true");
+
     } else {
       // TODO Traduir
       throw new Exception("Tipus de firma no suportada: " + fileInfo.getSignType());
@@ -212,7 +256,7 @@ public class MiniAppletUtils {
 
     }
     
-    // Location
+    // Location (comú a Pades, Xades i cades)
     if(fileInfo.getLocation() != null) {
       miniAppletProperties.setProperty("signatureProductionCity", fileInfo.getLocation());
     }
