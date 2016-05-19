@@ -1,9 +1,6 @@
 
-(a) Actualitzar BBDD amb script d'actualització d'esquema (portafib_update_schema_from_1.0.0_to_1.1.0.sql)
-
-(b) Actualitzar BBDD amb script d'actualització de dades (portafib_update_data_from_1.0.0_to_1.1.0.sql)
-
-
+(a) Actualitzar BBDD executant scripts  del directori [portafib-1.1]\scripts\bbdd\1.1\[SGBD]\update_from_1.0.0_to_1.1.0. S'han d'executar seguint l'ordre numèric del nom del fitxer.
+           
 (1) S'han de donar d'alta Mòduls de Firma en l'Administrador d'Entitat (El modul de firma de servidor es de proves però totalment funcional)
        
 (2) Custòdia
