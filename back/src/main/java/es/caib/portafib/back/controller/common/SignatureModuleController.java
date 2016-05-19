@@ -670,7 +670,8 @@ public class SignatureModuleController {
           entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
       }
       
-      return new CommonInfoSignature(languageUI, entitat.getFiltreCertificats(),
+      return new CommonInfoSignature(languageUI,
+          CommonInfoSignature.cleanFiltreCertificats(entitat.getFiltreCertificats()),
           username, administrationID, policyInfoSignature,  urlFinal); 
       
     }

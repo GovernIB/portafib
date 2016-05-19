@@ -70,6 +70,16 @@
               <form:input  cssClass="input-xxlarge"  path="location"  />
            </td>
          </tr>
+
+         <tr>
+          <td>
+            <label> Filtre Certificats &nbsp;</label>
+            </td>
+            <td>
+              <form:errors path="filtreCertificats" cssClass="errorField alert alert-error" />
+              <form:textarea rows="4"  cssClass="input-xxlarge"  path="filtreCertificats"  />  
+           </td>
+         </tr>
          
          <tr>
           <td><label>Idioma UI &nbsp;(*)</label></td>

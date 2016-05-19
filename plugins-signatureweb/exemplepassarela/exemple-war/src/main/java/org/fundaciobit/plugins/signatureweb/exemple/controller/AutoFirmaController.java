@@ -109,6 +109,11 @@ public class AutoFirmaController {
     form.setUsername("anadal");
     form.setNif("12345678X");
     form.setEmail("anadal@iibit.org");
+    
+    // XYZ   "filters.1=nonexpired:";
+    form.setFiltreCertificats("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));nonexpired:"
+        + "\r\n"
+        + "filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
     form.setLocation(urlToText(new URL("http://ip-api.com/line/?fields=city")));
 
@@ -227,12 +232,14 @@ public class AutoFirmaController {
       final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
 
       // TODO Veure manual de MiniApplet
-      final String filtreCertificats = "filters.1=nonexpired:";
+      final String filtreCertificats = form.getFiltreCertificats(); 
+         
 
       // TODO Definir politica de Firma (opcional)
       final PolicyInfoSignature policyInfoSignature = null;
 
-      commonInfoSignature = new CommonInfoSignature(langUI, filtreCertificats,
+      commonInfoSignature = new CommonInfoSignature(langUI,
+          CommonInfoSignature.cleanFiltreCertificats(filtreCertificats),
           username, administrationID, policyInfoSignature, urlFinal);
     }
 

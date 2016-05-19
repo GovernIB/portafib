@@ -147,22 +147,6 @@ public static void main(String[] args) {
       
       
 
-      // Class<?> signerClass = es.caib.portafib.applet.signers.IBKeySigner.class;
-      /*
-      Class<?> signerClass = es.caib.portafib.applet.signers.AfirmaSigner.class; 
-
-
-      prop.put(AppletConstants.APPLET_SIGNERCLASS, signerClass.getName() );
-
-     
-      if (signerClass.getName().endsWith("IBKeySigner")) {
-        prop.put(AppletConstants.APPLET_CERTIFICATE_FILTER, 
-          URLEncoder.encode(new File("./web/signatura_api.properties").toURL()
-          .toExternalForm()));
-      }
-      */
-
-      // if (signerClass.getName().endsWith("AfirmaSigner"))
       {
 
 
@@ -188,14 +172,13 @@ public static void main(String[] args) {
          
          
          // 
-         filter.append("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));").append("\r\n"); //nonexpired:
+         filter.append("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));"); //nonexpired:
+         filter.append("\n");
          //filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.10.1;keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;issuer.rfc2254.recurse:(cn=AC FNMT Usuarios);").append("\r\n"); // nonexpired:
          
          // keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;
-         filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.5;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
+         filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
-         
-         
          //filter.append("rfc2254_subject:SERIALNUMBER=43096845C");
          // ou=OTAE
          // cn=Delegat deFundacioBit

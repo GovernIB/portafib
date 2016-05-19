@@ -1,5 +1,9 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 /**
  * 
  * @author anadal
@@ -96,4 +100,32 @@ public class CommonInfoSignature {
     this.administrationID = administrationID;
   }
 
+  
+  public static String cleanFiltreCertificats(String certificateFilter) {
+    StringBuffer cleanFilter = new StringBuffer();
+  
+    if (certificateFilter != null && certificateFilter.trim().length() != 0) {
+          
+        BufferedReader br = new BufferedReader(new StringReader(certificateFilter));
+        String line;
+        try {
+          while ((line = br.readLine()) != null) {
+            line = line.trim();
+            
+            if(line.startsWith("filter=") || line.startsWith("filters=") 
+                || line.startsWith("filters.")) {
+              int i = line.indexOf('=');
+              if (i != -1) {
+                cleanFilter.append(line).append("\n");
+              };
+            }
+            
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        
+    }
+    return cleanFilter.toString();
+  }
 }

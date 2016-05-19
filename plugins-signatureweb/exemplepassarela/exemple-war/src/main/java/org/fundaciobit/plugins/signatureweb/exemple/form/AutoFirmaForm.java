@@ -33,6 +33,8 @@ public class AutoFirmaForm {
 
   CommonsMultipartFile fitxerAFirmarID;
   
+  String filtreCertificats;
+  
   String signType;
 
   int signMode;
@@ -229,6 +231,14 @@ public class AutoFirmaForm {
 
   public void setSignMode(int signMode) {
     this.signMode = signMode;
+  }
+
+  public String getFiltreCertificats() {
+    return filtreCertificats;
+  }
+
+  public void setFiltreCertificats(String filtreCertificats) {
+    this.filtreCertificats = filtreCertificats;
   }
 
   

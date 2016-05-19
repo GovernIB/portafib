@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyStore.PrivateKeyEntry;
@@ -311,26 +312,12 @@ public class AfirmaSigner implements ISigner {
   }
   */
   
-  
- 
-    
-  
-  
-  
-  
-  
-  
-  
-  
- 
-  
-  
 
   
   public class AfirmaSelectCertificate extends BasePanel implements Runnable {
 
     Thread thread;
-
+    
     /**
      * 
      */
@@ -393,20 +380,35 @@ public class AfirmaSigner implements ISigner {
       Properties params = new Properties();
 
       String filterURLEncoded = parentPanel.signerContext.getContextParameter(MiniAppletConstants.APPLET_CERTIFICATE_FILTER);
-      StringBuffer filterLog = new StringBuffer("\n========== FILTER ==========\n");
+      StringBuffer filterLog = new StringBuffer("\n========== Z FILTER Z==========\n");
       if (filterURLEncoded != null) {
         String filter;
         try {
           filter = URLDecoder.decode(filterURLEncoded, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
           e.printStackTrace();
           filter = filterURLEncoded;
         }
-        params.put("filter", filter);
+        
+        
+        try {
+          params.load(new StringReader(filter));
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
         filterLog.append(filter).append('\n');
       }
       filterLog.append("============================\n");
       System.out.println(filterLog.toString());
+      
+      StringBuffer filterLog2 = new StringBuffer("\n==========P FILTER P==========\n");
+      for(Object key : params.keySet()) {
+        filterLog2.append(key + "=" + params.getProperty((String)key)).append('\n');
+      }
+      
+      filterLog2.append("============================\n");
+      System.out.println(filterLog2.toString());
 
       for (int i = 0; i < 3; i++) {
         try {
@@ -497,9 +499,9 @@ public class AfirmaSigner implements ISigner {
    * @throws PrivilegedActionException Cuando ocurre un error de seguridad.
    * @throws AOCancelledOperationException Cuando se cancela la operaci&oacute;n. */
   public PrivateKeyEntry selectPrivateKey(final Properties params, Component parent) throws PrivilegedActionException {
-    
+
     System.out.println("ZZZZZZZZZZZZZZ  Entra dins selectPrivateKey");
-    
+
     final SelectPrivateKeyAction selectPrivateKeyAction;
     //if (this.keystoreType == null) 
     {

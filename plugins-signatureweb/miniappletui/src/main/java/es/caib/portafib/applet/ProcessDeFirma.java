@@ -154,23 +154,26 @@ public class ProcessDeFirma extends Thread {
       }
     }
 
-    // CHECK contentType == PDF
-    String contentType = sourceConnection.getContentType();
-    // TODO Només fer aquest check si la firma es PADES
-    if (contentType == null || !contentType.startsWith(MiniAppletConstants.PDF_MIME_TYPE)) {
-      // Si és text/html llavors imprimir el contingut per veure l'error
-      if (contentType != null && contentType.startsWith("text/html")) {
-        try {
-          java.io.InputStream is = sourceConnection.getInputStream();
-          int c;
-          while((c = is.read()) != -1) {
-            System.err.print((char)c);
+    if (MiniAppletConstants.VALUE_SIGN_TYPE_PADES.equals(signType)) {
+    
+      // CHECK contentType == PDF
+      String contentType = sourceConnection.getContentType();
+      // TODO Només fer aquest check si la firma es PADES
+      if (contentType == null || !contentType.startsWith(MiniAppletConstants.PDF_MIME_TYPE)) {
+        // Si és text/html llavors imprimir el contingut per veure l'error
+        if (contentType != null && contentType.startsWith("text/html")) {
+          try {
+            java.io.InputStream is = sourceConnection.getInputStream();
+            int c;
+            while((c = is.read()) != -1) {
+              System.err.print((char)c);
+            }
+            System.err.println();
+          } catch(Throwable e) {
           }
-          System.err.println();
-        } catch(Throwable e) {
         }
+        throw new Exception(tradueix("error_content_type",source, contentType));
       }
-      throw new Exception(tradueix("error_content_type",source, contentType));
     }
 
     List<String> values = sourceConnection.getHeaderFields().get("content-Length");
