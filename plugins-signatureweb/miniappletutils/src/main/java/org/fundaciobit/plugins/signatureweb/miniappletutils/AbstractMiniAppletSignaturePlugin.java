@@ -66,8 +66,19 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    *    definits dins FileInfoSignature.timeStampGenerator
    */
   @Override
-  public boolean acceptExternalTimeStampGenerator() {
-    return true;
+  public boolean acceptExternalTimeStampGenerator(String signType) {
+    
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+      return true;
+    } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+      // Per ara MiniApplet no suporta firma de XadesT
+      return false;
+    } else {
+      log.warn("S'ha cridat a " + this.getClass().getName() 
+          + "::acceptExternalTimeStampGenerator amb un tipus de firma no controlat:"
+          + signType);
+      return false;
+    }
   }
   
   /**
@@ -75,7 +86,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    * @return true, indica que el plugin internament ofereix un generador de segellat de temps.
    */
   @Override
-  public boolean providesTimeStampGenerator() {
+  public boolean providesTimeStampGenerator(String signType) {
     return false;
   }
   
@@ -116,7 +127,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes, Xades, ...
+    // TODO Falta CADes,  ...
     return new String[] {
         FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_TYPE_XADES

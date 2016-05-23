@@ -151,11 +151,11 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
               "genapp.validation.required", new I18NArgumentString(get(SIGNTYPE)));
           } else {
            
-            if (!Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureTypes()).contains(signType)) {
+            if (!Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null)).contains(signType)) {
               
               __vr.rejectValue(SIGNTYPE, "error.passarela.field.fixedvalues",
                 new I18NArgumentString(get(SIGNTYPE)), new I18NArgumentString(
-                    Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureTypes())
+                    Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null))
                      ));
             } else {
               signTypeOK = true;
@@ -172,10 +172,10 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
             __vr.rejectValue(SIGNALGO, 
               "genapp.validation.required", new I18NArgumentString(get(SIGNALGO)));
           } else {
-            if (!Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType)).contains(signAlgo)) {
+            if (!Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType, entitatID, null, null)).contains(signAlgo)) {
               __vr.rejectValue(SIGNALGO, "error.passarela.field.fixedvalues",
                 new I18NArgumentString(get(SIGNALGO)), new I18NArgumentString(
-                    Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType))
+                    Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType, entitatID, null, null))
                      ));
             }
           }

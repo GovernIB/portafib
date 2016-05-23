@@ -22,6 +22,7 @@ import javax.xml.ws.BindingProvider;
 
 
 
+
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -78,10 +79,15 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
   public static final String API_PASSWORD = PORTAFIB_BASE_PROPERTIES
       + "api_passarela_password";
-  
-  
+
   public static final String FILTER_BY_PLUGINSID = PORTAFIB_BASE_PROPERTIES
       + "filter_by_plugin_ids";
+  
+  
+  public static final String USE_PORTAFIB_CERTIFICATE_FILTER = PORTAFIB_BASE_PROPERTIES
+      + "use_portafib_certificate_filter";
+  
+  
 
   /**
    * 
@@ -175,7 +181,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
    *         Temps definits dins FileInfoSignature.timeStampGenerator
    */
   @Override
-  public boolean acceptExternalTimeStampGenerator() {
+  public boolean acceptExternalTimeStampGenerator(String signType) {
     return false;
   }
 
@@ -185,8 +191,22 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
    *         segellat de temps.
    */
   @Override
-  public boolean providesTimeStampGenerator() {
-    return true;
+  public boolean providesTimeStampGenerator(String signType) {
+    
+    // S'ha de fer una cridada a PortaFIB per a que passi per tots 
+    // els plugins a veure si suporten estampació de segellat de temps per aquest tipus 
+   
+    try {
+      return getPassarelaDeFirmaApi().providesTimeStampGenerator(signType, 
+          getFilterByPluginIDList(), null);
+    } catch (WsI18NException e) {
+      log.error(WsClientUtils.toString(e), e);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+    }
+    
+    return false;
+    
   }
 
   /**
@@ -217,7 +237,8 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     if (this.supportedSignatureTypes == null) {
       List<String> s;
       try {
-        s = getPassarelaDeFirmaApi().getSupportedSignatureTypes();
+        // TODO Falta llista per filtrar per codi de plugin 
+        s = getPassarelaDeFirmaApi().getSupportedSignatureTypes(getFilterByPluginIDList(), null);
       } catch (WsI18NException e) {
         log.error(WsClientUtils.toString(e), e);
         return null;
@@ -244,7 +265,9 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     if (ssa == null) {
       List<String> algsList;
       try {
-        algsList = getPassarelaDeFirmaApi().getSupportedSignatureAlgorithms(signType);
+        // TODO Falta llista per filtrar per codi de plugin
+        algsList = getPassarelaDeFirmaApi().getSupportedSignatureAlgorithms(signType,
+            getFilterByPluginIDList(), null);
       } catch (WsI18NException e) {
         log.error(WsClientUtils.toString(e), e);
         return null;
@@ -540,6 +563,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
       // TODO Pendent Implementacio
       fiss.setCustodiaInfo(null);
+      final String signType = fis.getSignType();
 
       File file = fis.getFileToSign();
       String mime = fis.getMimeType();
@@ -553,7 +577,9 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
         }
 
         if ("application/binary".equals(mime)) {
-          mime = FileInfoSignature.PDF_MIME_TYPE;
+          if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+            mime = FileInfoSignature.PDF_MIME_TYPE;
+          }
         }
 
       }
@@ -573,7 +599,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       fiss.setSignID(fis.getSignID());
       fiss.setSignMode(fis.getSignMode());
       fiss.setSignNumber(fis.getSignNumber());
-      fiss.setSignType(fis.getSignType());
+      fiss.setSignType(signType);
       fiss.setUseTimeStamp(fis.isUserRequiresTimeStamp());
 
       SecureVerificationCodeStampInfo svcsi = fis.getSecureVerificationCodeStampInfo();
@@ -619,23 +645,24 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     PassarelaCommonInfoSignature pcis = new PassarelaCommonInfoSignature();
     pcis.setAdministrationID(cis.getAdministrationID());
-    pcis.setFiltreCertificats(cis.getFiltreCertificats());
+    
+    if ("true".equals(getProperty(USE_PORTAFIB_CERTIFICATE_FILTER))) {
+      pcis.setUsePortafibCertificateFilter(true);
+      pcis.setFiltreCertificats(null);
+    } else {
+      pcis.setUsePortafibCertificateFilter(false);
+      pcis.setFiltreCertificats(cis.getFiltreCertificats());
+    }
+    
     pcis.setLanguageUI(cis.getLanguageUI());
     pcis.setUrlFinal(finalURL);
     pcis.setUsername(cis.getUsername());
     
-    String filterBystr = getProperty(FILTER_BY_PLUGINSID);
-    if (filterBystr != null) {
-      String[] numbers = filterBystr.split(",\\s+");
-      List<Long> list = pcis.getAcceptedPlugins();
-      for (int i = 0; i < numbers.length; i++) {
-          list.add(Long.parseLong(numbers[i]));
-      }
-      
-      log.info("FILTER_BY_PLUGINSID " + Arrays.toString(list.toArray()));
-      
-    }
+    // Filtre per PluginsID
+    List<Long> pluginsIDEnabled = getFilterByPluginIDList();
+    pcis.getAcceptedPlugins().addAll(pluginsIDEnabled);
 
+    // Politica de Firma
     PolicyInfoSignature pis = cis.getPolicyInfoSignature();
     if (pis != null) {
 
@@ -651,6 +678,33 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     return pcis;
 
   }
+  
+  
+  protected static List<Long> filteredByPluginIDCache = null;
+  
+  
+  protected List<Long> getFilterByPluginIDList() {
+    if (filteredByPluginIDCache == null) {
+      String filterBystr = getProperty(FILTER_BY_PLUGINSID);
+      List<Long> filter = new ArrayList<Long>();
+      
+      if (filterBystr != null) {
+        String[] numbers = filterBystr.split(",\\s+");
+        //List<Long> list = pcis.getAcceptedPlugins();
+        for (int i = 0; i < numbers.length; i++) {
+            filter.add(Long.parseLong(numbers[i]));
+        }
+        
+        log.info("FILTER_BY_PLUGINSID " + Arrays.toString(filter.toArray()));
+        
+      }
+      
+      filteredByPluginIDCache = filter;
+      
+    }
+    return filteredByPluginIDCache;
+  }
+  
 
   // ---------------------------------------------------------
   // ------------------- API ------------------------

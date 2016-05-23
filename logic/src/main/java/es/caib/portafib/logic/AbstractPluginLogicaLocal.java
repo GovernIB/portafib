@@ -19,4 +19,7 @@ public interface AbstractPluginLogicaLocal<I> extends PluginLogicaLocal {
 
   public List<I> getPluginInstancesByEntitatID(String entitatID) throws I18NException;
 
+  public List<I> getPluginInstancesBy(String entitatID, List<Long> filterByPluginID,
+      List<String> filterByPluginCode) throws I18NException;
+
 }

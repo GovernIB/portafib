@@ -14,8 +14,8 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
@@ -57,7 +57,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AutoFirmaController {
 
   /** Logger for this class and subclasses */
-  protected final Log log = LogFactory.getLog(getClass());
+  protected final Logger log = Logger.getLogger(getClass());
 
   public static final String CONTEXTWEB = "/common/autofirma";
 
@@ -110,10 +110,10 @@ public class AutoFirmaController {
     form.setNif("12345678X");
     form.setEmail("anadal@iibit.org");
     
-    // XYZ   "filters.1=nonexpired:";
-    form.setFiltreCertificats("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));nonexpired:"
+    form.setFiltreCertificats("filters.1=nonexpired:\r\n"
+        + "#filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));nonexpired:"
         + "\r\n"
-        + "filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
+        + "#filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
     form.setLocation(urlToText(new URL("http://ip-api.com/line/?fields=city")));
 
@@ -156,8 +156,9 @@ public class AutoFirmaController {
     File pdfAFirmar = getFitxerAFirmarPath(id);
     cmf.transferTo(pdfAFirmar);
     String mimeType = cmf.getContentType();
-    if (log.isDebugEnabled()) {
-      log.debug("MIME Rebut del navegador ==> " + cmf.getContentType());
+    //if (log.isDebugEnabled()) 
+    {
+      log.info("MIME Rebut del navegador ==> " + cmf.getContentType());
     }
 
     // Preparar pàgina
@@ -367,6 +368,9 @@ public class AutoFirmaController {
       ModelAndView mav = new ModelAndView("autoFirmaFinal");
 
       mav.addObject("id", idDescarrega);
+      
+      
+      log.info("FIRMA FINAL TIPUS === " + fis.getSignType());
       
       mav.addObject("signType", fis.getSignType());
       

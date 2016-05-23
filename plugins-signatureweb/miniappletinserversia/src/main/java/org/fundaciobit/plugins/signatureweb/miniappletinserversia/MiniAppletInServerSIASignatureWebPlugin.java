@@ -186,6 +186,17 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     return 0;
   }
+  
+  
+  @Override
+  public String[] getSupportedSignatureTypes() {
+    // XYZ TODO Falta Xades, CADes,  ...
+    return new String[] {
+        FileInfoSignature.SIGN_TYPE_PADES
+    };
+  }
+  
+  
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {

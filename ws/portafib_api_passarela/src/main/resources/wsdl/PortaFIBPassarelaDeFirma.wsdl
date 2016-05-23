@@ -38,6 +38,8 @@
   <xs:element name="passarelaFileInfoSignature" type="tns:passarelaFileInfoSignature"/>
   <xs:element name="passarelaSignaturesSet" type="tns:passarelaSignaturesSet"/>
   <xs:element name="passarelaSignaturesTableHeader" type="tns:passarelaSignaturesTableHeader"/>
+  <xs:element name="providesTimeStampGenerator" type="tns:providesTimeStampGenerator"/>
+  <xs:element name="providesTimeStampGeneratorResponse" type="tns:providesTimeStampGeneratorResponse"/>
   <xs:element name="startTransaction" type="tns:startTransaction"/>
   <xs:element name="startTransactionResponse" type="tns:startTransactionResponse"/>
   <xs:complexType name="getEntitatID">
@@ -104,6 +106,8 @@
   <xs:complexType name="getSupportedSignatureAlgorithms">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getSupportedSignatureAlgorithmsResponse">
@@ -184,6 +188,18 @@
       <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="providesTimeStampGenerator">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="providesTimeStampGeneratorResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="getVersion">
     <xs:sequence/>
   </xs:complexType>
@@ -217,7 +233,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getSupportedSignatureTypes">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getSupportedSignatureTypesResponse">
     <xs:sequence>
@@ -251,6 +270,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="languageUI" type="xs:string"/>
       <xs:element minOccurs="0" name="filtreCertificats" type="xs:string"/>
+      <xs:element name="usePortafibCertificateFilter" type="xs:boolean"/>
       <xs:element minOccurs="0" name="username" type="xs:string"/>
       <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
       <xs:element minOccurs="0" name="urlFinal" type="xs:string"/>
@@ -414,12 +434,12 @@
     <wsdl:part name="parameters" element="tns:getVersionWsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getSupportedSignatureAlgorithmsResponse">
-    <wsdl:part name="parameters" element="tns:getSupportedSignatureAlgorithmsResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getSupportedLanguages">
     <wsdl:part name="parameters" element="tns:getSupportedLanguages">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedSignatureAlgorithmsResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedSignatureAlgorithmsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getCustodiaPolicyResponse">
@@ -432,6 +452,10 @@
   </wsdl:message>
   <wsdl:message name="getAllCustodiaInfoTemplatesResponse">
     <wsdl:part name="parameters" element="tns:getAllCustodiaInfoTemplatesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="providesTimeStampGenerator">
+    <wsdl:part name="parameters" element="tns:providesTimeStampGenerator">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSupportedSignatureAlgorithms">
@@ -454,12 +478,12 @@
     <wsdl:part name="parameters" element="tns:getSupportedSignatureTypesResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getDefaultCustodiaInfo">
-    <wsdl:part name="parameters" element="tns:getDefaultCustodiaInfo">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getSupportedLanguagesResponse">
     <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDefaultCustodiaInfo">
+    <wsdl:part name="parameters" element="tns:getDefaultCustodiaInfo">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="downloadFileUsingEncryptedFileID">
@@ -476,6 +500,10 @@
   </wsdl:message>
   <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
     <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="providesTimeStampGeneratorResponse">
+    <wsdl:part name="parameters" element="tns:providesTimeStampGeneratorResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getVersionResponse">
@@ -551,6 +579,14 @@
       <wsdl:input name="getDefaultCustodiaInfo" message="tns:getDefaultCustodiaInfo">
     </wsdl:input>
       <wsdl:output name="getDefaultCustodiaInfoResponse" message="tns:getDefaultCustodiaInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="providesTimeStampGenerator">
+      <wsdl:input name="providesTimeStampGenerator" message="tns:providesTimeStampGenerator">
+    </wsdl:input>
+      <wsdl:output name="providesTimeStampGeneratorResponse" message="tns:providesTimeStampGeneratorResponse">
     </wsdl:output>
       <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
     </wsdl:fault>
@@ -718,6 +754,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getDefaultCustodiaInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="providesTimeStampGenerator">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="providesTimeStampGenerator">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="providesTimeStampGeneratorResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="WsI18NException">

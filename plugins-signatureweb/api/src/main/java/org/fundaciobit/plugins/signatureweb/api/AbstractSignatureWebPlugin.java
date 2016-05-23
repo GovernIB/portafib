@@ -120,6 +120,10 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   
   @Override
   public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
+    
+    if (signaturesSet == null) {
+      return false;
+    }
 
 /*
     boolean anySignatureRequireRubric = false;
@@ -166,26 +170,46 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
        // elegir un plugin que internament ofereixi generadors de rubrica o segell de temps
        boolean anySignatureRequireRubric = false;
        boolean anySignatureRequireRubricAndNotProvidesGenerator = false;
-       boolean anySignatureRequireTimeStamp = false;
-       boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
+       //boolean anySignatureRequireTimeStamp = false;
+       
        
        boolean anySignatureRequireCSVStamp= false;
        boolean anySignatureRequireCSVStampAndNotProvidesGenerator = false;
        Set<String> requiredBarCodeTypes = new HashSet<String>();
        
        
-       
+       // 1.- Comprovacions generals i recolecció de dades
        final FileInfoSignature[] aFirmar = signaturesSet.getFileInfoSignatureArray();
+       if (aFirmar == null) {
+         return false;
+       }
+       
        for(int i = 0; i < aFirmar.length; i++) {
          final FileInfoSignature fis = aFirmar[i];
+         String signType = fis.getSignType();
          
+         // 1.1.- Segellat de Temps
+         // Hem de comprovar que el plugin ofereixi internament gestió de segellat de
+         // temps ja que el FileInfoSignature no conté el generador
          if (fis.isUserRequiresTimeStamp()) {
-           anySignatureRequireTimeStamp = true;        
+           boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
            if (fis.getTimeStampGenerator() == null) {
              anySignatureRequireTimeStampAndNotProvidesGenerator = true;
            }
+           if (
+             // Cas 1: alguna firma no conte generador i plugin no té generador intern
+             (anySignatureRequireTimeStampAndNotProvidesGenerator && !this.providesTimeStampGenerator(signType))
+             // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
+           || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !this.acceptExternalTimeStampGenerator(signType)) ) {
+             // Exclude Plugin
+             log.info("Exclos plugin [" + getSimpleName() 
+                 + "]: NO TE GENERADOR SEGELLAT DE TEMPS PER TIPUS DE FIRMA "
+                 + signType);
+             return false;
+           }
          }
 
+         // 1.2- Taula de Firmes
          if (fis.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
            anySignatureRequireRubric = true;
            if (fis.getPdfVisibleSignature() == null || fis.getPdfVisibleSignature().getRubricGenerator() == null) {
@@ -193,6 +217,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
            }
          }
          
+         // 1.3.- Estampació Lateral CSV
          SecureVerificationCodeStampInfo csvStamp = fis.getSecureVerificationCodeStampInfo();
          // TODO IGNORAM POSICIO CODI DE BARRES només tenim en compte la
          // posicio del Missatge
@@ -205,10 +230,10 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
            requiredBarCodeTypes.add(csvStamp.getBarCodeType());
          }
          
-         // Comprovar tipus Firma i Algorisme
-         String signType = fis.getSignType();
+         // 1.4.- Comprovar tipus Firma i Algorisme
          if (!tipusFirmaSuportats.contains(signType)) {
-           log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i + "]: NO SUPORTA TIPUS FIRMA " + signType);
+           log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i 
+               + "]: NO SUPORTA TIPUS FIRMA " + signType);
            return false;
          }
          
@@ -219,7 +244,8 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
            Set<String> algorismesSuportats;
            algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
            if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
-             log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
+             log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i 
+                 + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
              return false;
            }
          }
@@ -238,23 +264,10 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
        }
      }
      
-     // 3.- Hem de comprovar que el plugin ofereixi internament gestió de segellat de temps
-     // ja que el FileInfoSignature no conté el generador
-     if (anySignatureRequireTimeStamp) {
-       if (
-         // Cas 1: alguna firma no conte generador i plugin no té generador intern
-         (anySignatureRequireTimeStampAndNotProvidesGenerator && !this.providesTimeStampGenerator())
-         // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-       || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !this.acceptExternalTimeStampGenerator()) ) {
-         // Exclude Plugin
-         log.info("Exclos plugin [" + getSimpleName() + "]: NO TE GENERADOR SEGELLAT DE TEMPS ");
-         return false;
-       }
-     }
-     
-     // 4.- Suporta Estampacio de Codi Segur de Verificació i els tipus de Codi de Barres
+
+     // 3.- Suporta Estampacio de Codi Segur de Verificació i els tipus de Codi de Barres
      if (anySignatureRequireCSVStamp) {
-       // 4.1.- Proveidors
+       // 3.1.- Proveidors
        if (
            // Cas 1: alguna firma no conte generador i plugin no té generador intern
            (anySignatureRequireCSVStampAndNotProvidesGenerator && !this.providesSecureVerificationCodeStamper())
@@ -265,7 +278,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
            return false;
          }
        
-       // 4.2.- Els tipus de codi de barres són suportats
+       // 3.2.- Els tipus de codi de barres són suportats
        List<String> supportedBarCodeTypes = this.getSupportedBarCodeTypes();
        if (supportedBarCodeTypes == null) {
          // Exclude Plugin

@@ -76,6 +76,11 @@ public interface PortaFIBPassarelaDeFirmaWs extends IBaseAutenticatedWs {
  public int getTimeStampPolicy() throws WsI18NException, Throwable;
 
  
+ @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+ @WebMethod
+ public boolean providesTimeStampGenerator(String signType,  
+     List<Long> filterByPluginID, List<String> filterByPluginCode)  throws WsI18NException, Throwable;
+ 
  
 //--------------------------------------------------------------------
 // -------------------------------------------------------------------
@@ -96,13 +101,18 @@ public interface PortaFIBPassarelaDeFirmaWs extends IBaseAutenticatedWs {
  // -------------------------------------------------------------------
 
  
- @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
- @WebMethod
- public String[] getSupportedSignatureTypes() throws WsI18NException, Throwable;
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  public String[] getSupportedSignatureTypes(
+     List<Long> filterByPluginID, List<String> filterByPluginCode)
+         throws WsI18NException, Throwable;
 
- @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
- @WebMethod
- public String[] getSupportedSignatureAlgorithms(String signType) throws WsI18NException, Throwable;
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  public String[] getSupportedSignatureAlgorithms(
+     String signType, List<Long> filterByPluginID, List<String> filterByPluginCode)
+         throws WsI18NException, Throwable;
+
   
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod

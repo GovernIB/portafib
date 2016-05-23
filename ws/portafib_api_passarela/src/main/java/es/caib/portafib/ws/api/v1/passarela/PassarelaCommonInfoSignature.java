@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="languageUI" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="filtreCertificats" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="usePortafibCertificateFilter" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="administrationID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="urlFinal" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "passarelaCommonInfoSignature", propOrder = {
     "languageUI",
     "filtreCertificats",
+    "usePortafibCertificateFilter",
     "username",
     "administrationID",
     "urlFinal",
@@ -48,6 +50,7 @@ public class PassarelaCommonInfoSignature {
 
     protected String languageUI;
     protected String filtreCertificats;
+    protected boolean usePortafibCertificateFilter;
     protected String username;
     protected String administrationID;
     protected String urlFinal;
@@ -101,6 +104,22 @@ public class PassarelaCommonInfoSignature {
      */
     public void setFiltreCertificats(String value) {
         this.filtreCertificats = value;
+    }
+
+    /**
+     * Gets the value of the usePortafibCertificateFilter property.
+     * 
+     */
+    public boolean isUsePortafibCertificateFilter() {
+        return usePortafibCertificateFilter;
+    }
+
+    /**
+     * Sets the value of the usePortafibCertificateFilter property.
+     * 
+     */
+    public void setUsePortafibCertificateFilter(boolean value) {
+        this.usePortafibCertificateFilter = value;
     }
 
     /**

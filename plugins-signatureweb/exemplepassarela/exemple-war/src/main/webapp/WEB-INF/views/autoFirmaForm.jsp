@@ -153,14 +153,37 @@
       <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
     </center>
     
+    
+    
+    
     <h4 class="tabs_involved">
-      &nbsp;&nbsp;OPCIONS
+      &nbsp;&nbsp;OPCIONS GENERALS
     </h4>
     
     <table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="width:auto;" > 
     <tbody>
+
+         <tr>
+            <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
+            <td> 
+                <form:checkbox path="segellDeTemps" />
+            </td>
+         </tr>
+
+    </tbody>
     
-     <tr>
+    </table>
+    
+    
+    <div id="opcionspades">
+    
+    <h4 class="tabs_involved">
+      &nbsp;&nbsp;OPCIONS PADES
+    </h4>
+    
+    <table class="tdformlabel table-condensed table table-bordered table-striped marTop10" style="width:auto;" > 
+    <tbody>
+          <tr>
           <td><label><fmt:message key="peticioDeFirma.posicioTaulaFirmesID" /> &nbsp;(*)</label></td>
             <td>
           <form:errors path="posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
@@ -172,17 +195,8 @@
           </form:select>
            </td>
          </tr>
-
-
-         <tr>
-            <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
-            <td> 
-                <form:checkbox path="segellDeTemps" />
-            </td>
-         </tr>
          
-         
-         <tr>
+          <tr>
           <td>
             <label>
               Usar Estampaci&oacute; CSV</label>
@@ -190,13 +204,11 @@
             <td>
                <form:checkbox path="cvsActivat" />
           </td>
-        </tr>
-    
-    </tbody>
+          </tr>
+         
+     </tbody>
     
     </table>
-    
-
     
     
     <h5 class="tabs_involved">
@@ -286,10 +298,14 @@
      </tbody>
     </table>
     
+    
 
     <center>
     <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
     </center>
+    
+    </div> <%-- Final DIV OPCIONS --%>
+    
 
     </div>
 
@@ -304,14 +320,16 @@
   
 </form:form>
 
-<<script type="text/javascript">
+<script type="text/javascript">
 <!--
    function canviaTipus(selectItem) {
        var val = $( "#signType" ).val();
        if (val == '<%=FileInfoSignature.SIGN_TYPE_XADES %>') {
            $( "#signModeTR").show();
+           $( "#opcionspades").hide();
        } else {
            $( "#signModeTR").hide();
+           $( "#opcionspades").show();
        }
    }
 //-->

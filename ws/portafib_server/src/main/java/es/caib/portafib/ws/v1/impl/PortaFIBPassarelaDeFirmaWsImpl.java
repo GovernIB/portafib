@@ -213,12 +213,30 @@ public class PortaFIBPassarelaDeFirmaWsImpl extends AuthenticatedBaseWsImpl impl
    */
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
+  @Override
   public int getTimeStampPolicy() throws WsI18NException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
     return passarelaDeFirmaEjb.getTimeStampPolicy(userapp.getEntitatID());
 
   }
+  
+  
+  
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  @Override
+  public boolean providesTimeStampGenerator(String signType, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode)
+          throws WsI18NException, Throwable {
+    
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    return passarelaDeFirmaEjb.providesTimeStampGenerator(signType,
+        userapp.getEntitatID(), filterByPluginID, filterByPluginCode);
+    
+  }
+  
+  
   
   
   
@@ -247,14 +265,24 @@ public class PortaFIBPassarelaDeFirmaWsImpl extends AuthenticatedBaseWsImpl impl
   
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
-  public String[] getSupportedSignatureTypes() throws WsI18NException, Throwable {
-    return passarelaDeFirmaEjb.getSupportedSignatureTypes();
+  public String[] getSupportedSignatureTypes(List<Long> filterByPluginID,
+      List<String> filterByPluginCode) throws WsI18NException, Throwable {
+    
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    return passarelaDeFirmaEjb.getSupportedSignatureTypes(userapp.getEntitatID(),
+        filterByPluginID, filterByPluginCode);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
-  public String[] getSupportedSignatureAlgorithms(String signType) throws WsI18NException, Throwable {
-    return passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType);
+  public String[] getSupportedSignatureAlgorithms(String signType,
+      List<Long> filterByPluginID,
+      List<String> filterByPluginCode) throws WsI18NException, Throwable {
+    
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    
+    return passarelaDeFirmaEjb.getSupportedSignatureAlgorithms(signType,
+        userapp.getEntitatID(), filterByPluginID, filterByPluginCode);
   }
   
 

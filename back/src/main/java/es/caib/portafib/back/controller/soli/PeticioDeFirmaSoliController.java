@@ -1645,7 +1645,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       
     } else {
 
-      // XYZ Optimitzar emprant un fitxer temporal
+      // XYZ TODO Optimitzar emprant un fitxer temporal
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       
       ZipOutputStream zos = new ZipOutputStream(baos);

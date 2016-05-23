@@ -201,8 +201,9 @@ public class MiniAppletUtils {
           && !mime.equals("application/binary")
           && !mime.equals("unknown/unknown")) {
           miniAppletProperties.setProperty("mimeType",mime);
-          log.info("XYZ  Enviant a firma Xades fitxer " + fileInfo.getName() + " amb mime " + mime);
+          
       }
+      log.info("Enviant a firma Xades:: fitxer " + fileInfo.getName() + " amb mime " + mime);
       
       // headless  true -> Evita que se muestren diálogos gráficos adicionales
       //                   al usuario  (como por ejemplo, para la dereferenciación

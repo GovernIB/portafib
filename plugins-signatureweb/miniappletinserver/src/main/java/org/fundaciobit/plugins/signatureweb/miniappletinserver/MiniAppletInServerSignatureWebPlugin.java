@@ -385,7 +385,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
                   new Certificate[] { info.getCertificate() }, info.getProperties());
               } else {
                 
-                log.info(" XYZ passa per  XAdESSigner xadesSigner = new XAdESSigner();");
+                log.debug("Passa per XAdESSigner");
                 XAdESSigner xadesSigner = new XAdESSigner();
                 
                 signedData = xadesSigner.sign(info.getDataToSign(), algorithm, privateKey,

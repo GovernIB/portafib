@@ -19,6 +19,12 @@ public class PassarelaCommonInfoSignature {
   String languageUI;
 
   String filtreCertificats;
+  
+  /**
+   * Indica si s'ha d'usar el filtre de certificats de l'entitat a la qual pertany 
+   * l'usuari-app o el filtre definit a la variable "filtreCertificats"
+   */
+  boolean usePortafibCertificateFilter=false;
 
   /**
    * Indica si la URL de retorn atacarà una zona protegida. Si val NULL la pàgina de 
@@ -128,4 +134,18 @@ public class PassarelaCommonInfoSignature {
     this.acceptedPlugins = acceptedPlugins;
   }
 
+
+
+  public boolean isUsePortafibCertificateFilter() {
+    return usePortafibCertificateFilter;
+  }
+
+
+
+  public void setUsePortafibCertificateFilter(boolean usePortafibCertificateFilter) {
+    this.usePortafibCertificateFilter = usePortafibCertificateFilter;
+  }
+
+  
+  
 }

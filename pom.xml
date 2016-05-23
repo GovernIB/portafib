@@ -59,24 +59,12 @@
             <url>http://GovernIB.github.io/pluginsib/maven/</url>
         </repository>
 
-		<repository>
+		  <repository>
             <id>genapp-maven-repository</id>
 		    <name>GenApp Maven Repository</name>
 		    <url>http://GovernIB.github.io/genapp/maven/</url>
 	    </repository>
-        
-        
-        <repository>
-			<name>Local Maven Repository 1</name>
-			<id>es.caib.portafib.localrepo1</id>
-			<url>file://${basedir}/../local-repo</url>
-		</repository>
-        
-        <repository>
-			<name>Local Maven Repository 2</name>
-			<id>es.caib.portafib.localrepo2</id>
-			<url>file://${basedir}/../../local-repo</url>
-		</repository>
+
 
     </repositories>
 

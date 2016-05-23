@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -50,6 +52,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -73,6 +76,10 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
 
   @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
+  
+  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+
 
   SignaturesSetValidator<PassarelaSignaturesSet> validator = new SignaturesSetValidator<PassarelaSignaturesSet>();
 
@@ -242,7 +249,22 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
 
           afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
               stampCodiSegurVerificacio);
-
+          // Final IF PADES 
+        } else {
+          if (!FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())) {
+            log.warn("Tipus de Signatura " + pfis.getSignType() 
+                + " no gestionat dins " + this.getClass().getName(), new Exception() );
+          }
+          
+          // L'original és l'adaptat, per això el movem allà
+          try {
+            FileUtils.moveFile(original, adaptat);
+          }  catch(Exception e) { 
+            log.error(" Error movent fitxer des de " + original.getAbsolutePath()
+                + " a " + adaptat.getAbsolutePath() );
+            throw new I18NException("error.copyfile", original.getAbsolutePath(), adaptat.getAbsolutePath() );
+          }
+   
         }
 
       }
@@ -254,8 +276,9 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     // URL on Iniciar el proces de firma
     final String absoluteURL = PropietatGlobalUtil.getAppUrl() + PASSARELA_CONTEXTPATH
         + "/start/" + signaturesSetID;
-    
-    log.error(" XYZ Inici de TRANSACCIO PORTAFIB = " + absoluteURL);
+    if (log.isDebugEnabled()) {
+      log.debug("Inici de TRANSACCIO PORTAFIB = " + absoluteURL);
+    }
 
     return absoluteURL;
   }
@@ -274,12 +297,12 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     PassarelaSignaturesSetFull ss = readSignaturesSet(transactionID);
 
     if (ss == null) {
-      log.error(" XYZ getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
+      log.error("getStatusTransaction(" + transactionID + ") == NULL !!!!! (caducat ?????)");
       return null;
     } else {
-      
-      log.error(" XYZ getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
-     
+      if (log.isDebugEnabled()) {
+        log.error("getStatusTransaction(" + transactionID + ") == " + ss.getStatus());
+      }
       return ss;
     }
   }
@@ -291,25 +314,7 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     return ss;
   }
 
-/* XYZ
-  @Override
-  public void addSignedFileResult(String transactionID, String signID, File fitxer)
-      throws I18NException {
 
-    PassarelaSignaturesSetFull ssf = readSignaturesSet(transactionID);
-    if (ssf == null) {
-      return;
-    }
-
-    PassarelaSignatureStatusFull ss = ssf.getStatusBySignatureID().get(signID);
-
-    ss.setFitxerFirmat(fitxer);
-    ss.setStatus(StatusSignature.STATUS_FINAL_OK);
-    ss.setMsgError(null);
-    ss.setException(null);
-
-  }
-  */
 
   @Override
   public List<PassarelaSignatureResult> getSignatureResults(String transactionID)
@@ -381,21 +386,100 @@ public class PassarelaDeFirmaEJB implements PassarelaDeFirmaLocal {
     }
 
   }
-
+  
+  
   @Override
-  public String[] getSupportedSignatureTypes() {
-    return new String[] { FileInfoSignature.SIGN_TYPE_PADES };
+  public boolean providesTimeStampGenerator(String signType, String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode) {
+   
+    
+    
+    try {
+      //Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
+      List<ISignatureWebPlugin> plugins = modulDeFirmaEjb.getPluginInstancesBy(entitatID,
+          filterByPluginID, filterByPluginCode);
+      
+      for (ISignatureWebPlugin iSignatureWebPlugin : plugins) {
+        if (iSignatureWebPlugin.providesTimeStampGenerator(signType)) {
+          return true;
+        }
+      }
+      
+    } catch (I18NException e) {
+      log.error("Error desconegut intentant esbrinar els plugins que suporten "
+          + "Segellat de Temps per tipus de firma " + signType + ": " + e.getMessage() , e);
+    }
+    return false;
+    
+    
+  }
+  
+  
+  
+  
+  
+
+  // Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
+  @Override
+  public String[] getSupportedSignatureTypes(String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode) {
+    // TODO Falta CADes, ...
+
+    Set<String> tipus = new HashSet<String>();
+    
+    try {
+      //Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
+      List<ISignatureWebPlugin> plugins = modulDeFirmaEjb.getPluginInstancesBy(entitatID,
+          filterByPluginID, filterByPluginCode);
+      
+      for (ISignatureWebPlugin iSignatureWebPlugin : plugins) {
+        String[] tipusA = iSignatureWebPlugin.getSupportedSignatureTypes(); 
+        if (tipusA != null) {
+          tipus.addAll(Arrays.asList(tipusA));
+        }
+      }
+      
+      return tipus.toArray(new String[tipus.size()]);
+      
+    } catch (I18NException e) {
+      log.error("Error desconegut intentant esbrinar els tipus de firma"
+          + " que suporten els plugins: " + e.getMessage() , e);
+      return new String[0];
+    }
+    
+    
+    
   }
 
+  // Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
   @Override
-  public String[] getSupportedSignatureAlgorithms(String signType) {
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-
-      return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
-          FileInfoSignature.SIGN_ALGORITHM_SHA256, FileInfoSignature.SIGN_ALGORITHM_SHA384,
-          FileInfoSignature.SIGN_ALGORITHM_SHA512 };
+  public String[] getSupportedSignatureAlgorithms(String signType, String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode) {
+   
+    Set<String> tipusAlgo = new HashSet<String>();
+    
+    try {
+      //Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
+      List<ISignatureWebPlugin> plugins = modulDeFirmaEjb.getPluginInstancesBy(entitatID,
+          filterByPluginID, filterByPluginCode);
+      
+      for (ISignatureWebPlugin iSignatureWebPlugin : plugins) {
+        String[] tipusA = iSignatureWebPlugin.getSupportedSignatureAlgorithms(signType); 
+        if (tipusA != null) {
+          tipusAlgo.addAll(Arrays.asList(tipusA));
+        }
+      }
+      
+      return tipusAlgo.toArray(new String[tipusAlgo.size()]);
+      
+    } catch (I18NException e) {
+      log.error("Error desconegut intentant esbrinar els algorismes de firma acceptats "
+          + " pel tipus de firma " + signType + " que suporten els plugins: "
+          + e.getMessage() , e);
+      return new String[0];
     }
-    return null;
+    
+    
   }
 
   // -----------------------------------------------------------------

@@ -40,8 +40,6 @@ public interface PassarelaDeFirmaLocal {
 
   public List<PassarelaSignatureResult> getSignatureResults(String transactionID) throws I18NException;
 
-  // XYZ public void addSignedFileResult(String transactionID, String signID, File fitxer) throws I18NException;
-
   public File getFitxerOriginalPath(String transactionID,String signID);
 
   public File getFitxerAdaptatPath(String transactionID,String signID);
@@ -53,10 +51,15 @@ public interface PassarelaDeFirmaLocal {
   public EntitatJPA getEntitat(String entitatID) throws I18NException;
   
   public int getTimeStampPolicy(String entitatID) throws I18NException;
+  
+  public boolean providesTimeStampGenerator(String signType, String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode);
 
-  public String[] getSupportedSignatureTypes();
+  public String[] getSupportedSignatureTypes(String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode);
 
-  public String[] getSupportedSignatureAlgorithms(String signType);
+  public String[] getSupportedSignatureAlgorithms(String signType,String entitatID, 
+      List<Long> filterByPluginID, List<String> filterByPluginCode);
   
   public List<String> getSupportedBarCodeTypes()  throws I18NException;
 

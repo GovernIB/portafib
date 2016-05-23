@@ -164,18 +164,20 @@ public interface ISignatureWebPlugin extends IPlugin {
   public SignaturesSet getSignaturesSet(String signaturesSetID);
 
   /**
-   * 
+   * @param signType
+   *          Tipus de Firma
    * @return true indica que el plugin accepta generadors de Segell de Temps
    *         definits dins FileInfoSignature.timeStampGenerator
    */
-  public boolean acceptExternalTimeStampGenerator();
+  public boolean acceptExternalTimeStampGenerator(String signType);
 
   /**
-   * 
+   * @param signType
+   *          Tipus de Firma
    * @return true, indica que el plugin internament ofereix un generador de
    *         segellat de temps.
    */
-  public boolean providesTimeStampGenerator();
+  public boolean providesTimeStampGenerator(String signType);
 
   /**
    * 

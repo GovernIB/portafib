@@ -19,7 +19,7 @@ import org.fundaciobit.plugins.utils.PluginsManager;
  * @author anadal
  *
  */
-public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends PluginLogicaEJB
+public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginLogicaEJB
    implements AbstractPluginLogicaLocal<I> {
 
   protected abstract int getTipusDePlugin();
@@ -102,6 +102,17 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
   @Override
   public List<I> getPluginInstancesByEntitatID(String entitatID) throws I18NException {
     
+     return getPluginInstancesBy(entitatID, null, null);
+    
+  }
+  
+  
+  
+  @Override
+  public List<I> getPluginInstancesBy(String entitatID, List<Long> filterByPluginID,
+      List<String> filterByPluginCode) throws I18NException {
+   
+    
     
     List<I> plugins = new ArrayList<I>();
     
@@ -110,6 +121,17 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin>  extends Plugin
         ACTIU.equal(true),
         ENTITATID.equal(entitatID)
     );
+    
+    
+    if (filterByPluginID != null && filterByPluginID.size() != 0) {
+      where = Where.AND(where, PLUGINID.in(filterByPluginID));
+    }
+    
+    // TODO XYZ pendent afegir camp codi dins plugin
+    //    if (filterByPluginCode != null && filterByPluginCode.size() != 0) {
+    //      where = Where.AND(where, CODI.in(filterByPluginID));
+    //    }
+    
     
     List<Plugin> modulsdefirma = select(where);
     

@@ -93,10 +93,7 @@ public class PassarelaDeFirmaController  {
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[ss.getFileInfoSignatureArray().length];
     int count = 0;
     for (PassarelaFileInfoSignature pfis : ss.getFileInfoSignatureArray()) {
-      
-      // NOTA Convertir Document a PDF i Afegir Taula de Firmes ja s'ha fet durant 
-      // l'startTransacction via WS
-      
+
       // Preparar pàgina
       final String idname = pfis.getName();
 
@@ -106,8 +103,8 @@ public class PassarelaDeFirmaController  {
       
       final int sign_number = 1;
 
-      final String langUI = ss.getCommonInfoSignature().getLanguageUI();
-
+      final String langDoc = pfis.getLanguageSign();
+      
       final String signID = pfis.getSignID();
       
       final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
@@ -125,16 +122,26 @@ public class PassarelaDeFirmaController  {
       
       int signTypeID = getSignTypeToPortaFIB(pfis.getSignType());
       
+      final String mime;
+      if (signTypeID == Constants.TIPUSFIRMA_PADES) {
+        // NOTA Convertir Document a PDF i Afegir Taula de Firmes ja s'ha fet durant 
+        // l'startTransacction via WS
+        mime = FileInfoSignature.PDF_MIME_TYPE;
+      } else {
+        mime = pfis.getFileToSign().getMime();     
+      }
+      
+      
       int signAlgorithm = getSignAlgorithmToPortaFIB(pfis.getSignAlgorithm());
       
       boolean signMode = getSignModeToPortaFIB(pfis.getSignMode());
             
       FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signID,
-          pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE, idname,
+          pdfAdaptat, mime, idname,
           posicioTaulaFirmesID, reason, location, signerEmail, sign_number, 
-          langUI, signTypeID, signAlgorithm,
+          langDoc, signTypeID, signAlgorithm,
           signMode,
-          Utils.getFirmatPerFormat(entitat, langUI), timeStampGenerator);
+          Utils.getFirmatPerFormat(entitat, langDoc), timeStampGenerator);
       
       
       fileInfoSignatureArray[count] = fis;
@@ -155,6 +162,9 @@ public class PassarelaDeFirmaController  {
       final String langUI = cis.getLanguageUI();
       commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
           langUI, username, administrationID, urlFinal);
+      if (!cis.isUsePortafibCertificateFilter()) {
+        commonInfoSignature.setFiltreCertificats(cis.getFiltreCertificats());
+      }
       
       PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
       if (ppis != null) {
