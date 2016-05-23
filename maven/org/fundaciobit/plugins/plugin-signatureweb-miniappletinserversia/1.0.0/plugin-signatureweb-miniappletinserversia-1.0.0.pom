@@ -1,129 +1,138 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureWeb - MiniAppletInServerSIA</name>
+
+  <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-    <packaging>jar</packaging>
     <version>1.0.0</version>
+    <artifactId>plugins-signatureweb</artifactId>
+  </parent>
 
-    <name>FundacioBit Plugins - SignatureWeb - MiniAppletInServerSIA</name>
+  <url>http://maven.apache.org</url>
 
-    <parent>
-        <groupId>org.fundaciobit.plugins</groupId>
-        <version>1.0.0</version>
-        <artifactId>plugins-signatureweb</artifactId>
-    </parent>
-
-    <url>http://maven.apache.org</url>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugins-api</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <version>1.0.0</version>
-            <artifactId>plugin-signatureweb-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletutils</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!--  INICI LLIBRERIES DE SIA -->
-
-        <dependency>
-            <groupId>com.openlandsw.rss</groupId>
-            <artifactId>gateway-api</artifactId>
-            <version>2.4.05</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.openlandsw.rss</groupId>
-            <artifactId>gateway-api-comun</artifactId>
-            <version>2.4.05</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>${bouncycastle.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <version>${bouncycastle.version}</version>
-        </dependency>
-        
-        <!--  FINAL LLIBRERIES DE SIA -->
-        
-        
-        <!-- LLIBRETRIES ITEXT -->
-        
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>5.4.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.itextpdf.tool</groupId>
-            <artifactId>xmlworker</artifactId>
-            <version>5.4.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itext-pdfa</artifactId>
-            <version>5.4.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.itextpdf</groupId>
-                    <artifactId>itextpdf</artifactId>
-                </exclusion>                
-            </exclusions>
-            <scope>test</scope>
-        </dependency>
-        
+  <repositories>
+    <repository>
+      <name>Local Maven Repository</name>
+      <id>es.caib.portafib.localrepo</id>
+      <url>file://${basedir}/../../local-repo</url>
+    </repository>
+  </repositories>
 
 
+  <dependencies>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-    </dependencies>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <version>1.0.0</version>
+      <artifactId>plugin-signatureweb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-miniappletutils</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--  INICI LLIBRERIES DE SIA -->
+
+    <dependency>
+      <groupId>com.openlandsw.rss</groupId>
+      <artifactId>gateway-api</artifactId>
+      <version>2.4.05</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.openlandsw.rss</groupId>
+      <artifactId>gateway-api-comun</artifactId>
+      <version>2.4.05</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.caucho</groupId>
+      <artifactId>hessian</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <!--  FINAL LLIBRERIES DE SIA -->
+
+
+    <!-- LLIBRETRIES ITEXT -->
+
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+      <version>5.4.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.itextpdf.tool</groupId>
+      <artifactId>xmlworker</artifactId>
+      <version>5.4.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itext-pdfa</artifactId>
+      <version>5.4.4</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itextpdf</artifactId>
+        </exclusion>                
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+
+
+
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 </project>
