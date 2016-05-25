@@ -4,7 +4,7 @@ import es.caib.portafib.utils.Constants;
 
 import javax.ejb.Stateless;
 
-import org.fundaciobit.plugins.documentcustody.IDocumentCustodyPlugin;
+import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**

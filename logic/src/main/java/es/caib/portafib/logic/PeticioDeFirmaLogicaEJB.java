@@ -93,11 +93,10 @@ import javax.ejb.Stateless;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
-import org.fundaciobit.plugins.documentcustody.DocumentCustody;
-import org.fundaciobit.plugins.documentcustody.CustodyException;
-import org.fundaciobit.plugins.documentcustody.IDocumentCustodyPlugin;
-import org.fundaciobit.plugins.documentcustody.NotSupportedCustodyException;
-import org.fundaciobit.plugins.documentcustody.SignatureCustody;
+import org.fundaciobit.plugins.documentcustody.api.CustodyException;
+import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
+import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
+import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.KeyValue;
@@ -2028,11 +2027,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           switch (tipusFirma) {
             case Constants.TIPUSFIRMA_PADES:
             {
-              DocumentCustody dc = new DocumentCustody();
-              dc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
-              dc.setData(FileSystemManager.getFileContent(fileID));
-              dc.setDocumentType(DocumentCustody.PDF_WITH_SIGNATURE);
-              plugin.saveDocument(custInfo.getCustodiaDocumentID(), custInfo.getCustodiaPluginParameters(), dc);
+              SignatureCustody sc = new SignatureCustody();
+              sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
+              sc.setData(FileSystemManager.getFileContent(fileID));
+              sc.setSignatureType(SignatureCustody.PADES_SIGNATURE);
+              plugin.saveSignature(custInfo.getCustodiaDocumentID(), custInfo.getCustodiaPluginParameters(), sc);
             }
               break;
             case Constants.TIPUSFIRMA_XADES:
@@ -2054,7 +2053,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             }
               break;
             default:
-              throw new Exception("Tipus de Firma no suportada !!!!");
+              throw new Exception("Tipus de Firma " + tipusFirma + " no suportada !!!!");
           }
           
         }

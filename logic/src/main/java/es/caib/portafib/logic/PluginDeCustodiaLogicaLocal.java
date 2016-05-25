@@ -2,7 +2,7 @@ package es.caib.portafib.logic;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.documentcustody.IDocumentCustodyPlugin;
+import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 
 /**
  * 
