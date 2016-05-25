@@ -3,6 +3,10 @@
 PortaFIB 1.1.0
 ==============
 
+2016-05-25 Actualitzar-se a API de Document Custody 2.0.0
+
+2016-05-23 Suport de XAdES en API de Firma per Plugins MiniApplet in Client i MiniApplet in Server
+
 2016-05-12 Millores en Api de Firma:
                   - Eliminar descobriment de java en navegador
                   - Incloure filtre dins del propi plugin
