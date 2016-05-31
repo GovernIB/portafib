@@ -2,7 +2,6 @@ package org.fundaciobit.plugins.signatureweb.miniappletutils;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -291,34 +290,24 @@ public class MiniAppletUtils {
     Constructor<?> contructor = certFilterManagerClass.getConstructor(Properties.class);
     Object certFilterManager = contructor.newInstance(propertyFilters);
 
+    
     // List<CertificateFilter> filtres = certFilterManager.getFilters();
     Method method2 = macl.getMethod(certFilterManagerClass, "getFilters");
     List<? extends Object> filtres = (List<? extends Object>) method2
         .invoke(certFilterManager);
 
-    // MultipleCertificateFilter mcf = new
-    // MultipleCertificateFilter(filtres.toArray());
-    // Crear Array de CertificateFilter
-    Class<?> certFilterClass = macl
-        .loadClass("es.gob.afirma.keystores.filters.CertificateFilter");
-    Object certFilterArray = Array.newInstance(certFilterClass, filtres.size());
-
-    int index = 0;
+    // Es fa una OR entre tots els filtres
     for (Object object : filtres) {
-      Array.set(certFilterArray, index, object);
-      index++;
+
+      // boolean match = filter.matches(certificate1);
+      Method methodMatches = macl.getMethod(object.getClass(), "matches");
+      Boolean match = (Boolean) methodMatches.invoke(object, certificate);
+      if (match) {
+        return true;
+      }
     }
-    // Instanciar
-    Class<?> mcfClass = macl
-        .loadClass("es.gob.afirma.keystores.filters.MultipleCertificateFilter");
-    Constructor<?> contructorMCF = mcfClass.getConstructor(certFilterArray.getClass());
-    Object mcf = contructorMCF.newInstance(certFilterArray);
 
-    // boolean match = mcf.matches(certificate1);
-    Method methodMatches = macl.getMethod(mcfClass, "matches");
-    Boolean match = (Boolean) methodMatches.invoke(mcf, certificate);
-
-    return match;
+    return false;
   }
 
   

@@ -141,15 +141,13 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
 
   public int filter(String username, String administrationID, String filter) {
+    
+    int certificatsDisponibles = 0;
     try {
+      
       Map<String, CertificateInfo> map = listCertificates(username, administrationID);
-
       if (map != null && map.size() != 0) {
 
-        
-        int certificatsDisponibles = 0;
-
-        
         for (CertificateInfo ci : map.values()) {
 
           boolean passFilter;
@@ -183,8 +181,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     } catch(Throwable e) {
       log.error("filter:: Unknown Error " + e.getMessage(), e);
     }
-
-    return 0;
+    return certificatsDisponibles;
   }
   
   
