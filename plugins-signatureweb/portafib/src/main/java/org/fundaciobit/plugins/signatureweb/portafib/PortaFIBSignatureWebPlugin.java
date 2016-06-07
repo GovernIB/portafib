@@ -23,6 +23,7 @@ import javax.xml.ws.BindingProvider;
 
 
 
+
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -346,22 +347,46 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     return urlReturn;
 
   }
+  
+  
+  @Override
+  public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
+      String query, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
+      HttpServletResponse response, Locale locale) {
 
+    if (query.startsWith(FINAL)) {
+
+      finalGET(absolutePluginRequestPath, relativePluginRequestPath, 
+          signaturesSet, request, response);
+
+    } else {
+      String titol = " Plugin " + getName(locale) + " (Unknown GET Request)";
+      log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
+          relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex));
+    }
+    
+  }
+
+  @Override
+  public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
+      String query, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
+      HttpServletResponse response, Locale locale) {
+    String titol = " Plugin " + getName(new Locale("ca")) + " (Unknown POST Request)";
+    log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
+        relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex));
+  }
+  
+  
+
+  /*
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, String transactionID, int signatureIndex, HttpServletRequest request,
       Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response) {
 
-    if (query.startsWith(FINAL)) {
-
-      finalGET(absolutePluginRequestPath, relativePluginRequestPath, transactionID, request,
-          response);
-
-    } else {
-      String titol = " Plugin " + getName(new Locale("ca")) + " (Unknown GET Request)";
-      log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-          relativePluginRequestPath, query, transactionID, signatureIndex));
-    }
+   
 
   }
 
@@ -375,6 +400,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
         relativePluginRequestPath, query, transactionID, signatureIndex));
 
   }
+  */
 
   // ---------------------------------------------------------
   // ----------------------- PAGINA FINAL --------------------
@@ -383,21 +409,23 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public static final String FINAL = "final";
 
   protected void finalGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String signaturesSetID, HttpServletRequest request, HttpServletResponse response) {
+      SignaturesSet ss, HttpServletRequest request, HttpServletResponse response) {
 
     final boolean debug = log.isDebugEnabled();
     
-    if (debug)  {
-      log.debug("finalGET::signaturesSetID  ==> " + signaturesSetID);
-    }
-
-    SignaturesSet ss = getSignaturesSet(signaturesSetID);
-
+    
     // TODO XYZ CHECK ss == null ==> HA CADUCAT i s'ha d'enviar a una pàgina d'error
     if (ss == null) {
       log.error(" La transacció ha caducat !!!!");
     }
     
+    final String signaturesSetID = ss.getSignaturesSetID();
+    
+    if (debug)  {
+      log.debug("finalGET::signaturesSetID  ==> " + signaturesSetID);
+    }
+
+    //SignaturesSet ss = getSignaturesSet(signaturesSetID);
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -794,7 +822,6 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public String getResourceBundleName() {
     return "portafib";
   }
-
 
 
 }

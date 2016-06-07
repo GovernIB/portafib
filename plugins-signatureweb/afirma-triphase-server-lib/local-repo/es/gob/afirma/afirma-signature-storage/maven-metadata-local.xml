@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>es.gob.afirma</groupId>
+  <artifactId>afirma-signature-storage</artifactId>
+  <versioning>
+    <versions>
+      <version>3.3.2-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20160530111243</lastUpdated>
+  </versioning>
+</metadata>

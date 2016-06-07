@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>Exemple</display-name>
+  <display-name>ExemplePassarela</display-name>
+ 
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/spring/applicationContext.xml</param-value>
@@ -9,7 +10,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <servlet>
-    <servlet-name>exemple</servlet-name>
+    <servlet-name>exemplepassarela</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
@@ -18,7 +19,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>exemple</servlet-name>
+    <servlet-name>exemplepassarela</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
@@ -47,14 +48,25 @@
       <taglib-location>/WEB-INF/tld/taglibs-unstandard.tld</taglib-location>
     </taglib>
   </jsp-config>
+
+  <filter>     
+    <filter-name>PluginFilter</filter-name>   
+    <filter-class>org.fundaciobit.plugins.signatureweb.api.utils.PluginRequestFilter</filter-class>  
+  </filter> 
+  <filter-mapping>   
+    <filter-name>PluginFilter</filter-name>  
+    <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>   
+  </filter-mapping>
+
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>UrlRewriteFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
+
 </web-app>

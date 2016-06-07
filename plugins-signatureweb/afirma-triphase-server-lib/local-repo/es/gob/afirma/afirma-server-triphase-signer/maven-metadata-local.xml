@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>es.gob.afirma</groupId>
+  <artifactId>afirma-server-triphase-signer</artifactId>
+  <versioning>
+    <versions>
+      <version>3.3.2-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20160530055634</lastUpdated>
+  </versioning>
+</metadata>

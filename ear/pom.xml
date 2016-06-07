@@ -326,6 +326,12 @@
                     <version>${plugins.version}</version>
                 </dependency>
                 
+                <dependency>
+                  <groupId>org.fundaciobit.plugins</groupId>
+                  <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
+                  <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+                
                 <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
 
 

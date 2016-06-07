@@ -5,13 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.HttpURLConnection;
 import java.net.SocketException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
 import java.util.Date;
@@ -127,12 +126,14 @@ public class MiniAppletInClientSignatureWebPlugin extends
     }
     
     
-    if (relativePath.startsWith("img/")) {
+    if (relativePath.startsWith("img/") || relativePath.startsWith("js/")) {
       InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
       if (fis != null) {
         try {
-          FileUtils.copy(fis, response.getOutputStream());
+          OutputStream os = response.getOutputStream();
+          FileUtils.copy(fis, os);
           fis.close();
+          os.flush();
           return;
         } catch (SocketException se) {
           return;
@@ -152,11 +153,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
     } else if (relativePath.startsWith(ISFINISHED_PAGE)) {
       isFinishedRequest(signaturesSet, signatureIndex, response);
       
-    } else if (relativePath.endsWith(DEPLOY_JAVA_PAGE)) {
+    } /* XYZ else if (relativePath.endsWith(DEPLOY_JAVA_PAGE)) {
       deployJava(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, locale);
 
-    } else if (relativePath.endsWith(SOURCE_DOC_PAGE)) {
+    }*/ else if (relativePath.endsWith(SOURCE_DOC_PAGE)) {
       sourceDocPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, locale);
 
@@ -665,6 +666,9 @@ public class MiniAppletInClientSignatureWebPlugin extends
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
+ public static final String DEPLOY_JAVA_PAGE = "js/deployJava.js";
+ 
+ /*  XYZ
   private static final int BUFFER_SIZE = 4096;
 
   private static final boolean REDIRECT = true;
@@ -675,7 +679,9 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   public static String contentDeployJava = null;
 
-  public static final String DEPLOY_JAVA_PAGE = "deployjava.js";
+  
+
+
 
   private void deployJava(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response, SignaturesSet signaturesSet,
@@ -707,6 +713,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
     try {
       if (quefer == REDIRECT) {
+        // XYZ TODO ERROR AQUESTA PAGINA JA NO EXISTEIX
         sendRedirect(response, request.getContextPath() + "/js/deployJava.js");
       } else {
         // CACHE
@@ -754,6 +761,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
     return contentDeployJava;
 
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -803,6 +811,8 @@ public class MiniAppletInClientSignatureWebPlugin extends
     
     Cookie cookie = new Cookie(DEFAULT_JAVA_ACTION_COOKIE, COOKIE_APPLET);
     cookie.setMaxAge(Integer.MAX_VALUE);
+    //cookie.setDomain(request.getServerName());
+    cookie.setPath(request.getContextPath());
     response.addCookie(cookie);
     
    
@@ -1241,7 +1251,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
    out.println("  <table style=\"min-height:200px;width:100%;height:100%;\">");
    out.println("  <tr valign=\"middle\"><td align=\"center\">");
    out.println("  <h2>" + getTraduccio("autofirma.jnlp", locale) + "</h2><br/>");
-   out.println("  <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/img/ajax-loader2.gif" + "\"><br/>");
+   out.println("  <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + absolutePluginRequestPath + "/img/ajax-loader2.gif" + "\"><br/>");
    out.println("  <br/>");
    out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\"" + getTraduccio("cancel", locale) + "\">");
    out.println("  </td></tr></table>");

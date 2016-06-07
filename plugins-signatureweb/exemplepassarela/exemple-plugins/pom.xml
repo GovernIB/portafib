@@ -1,139 +1,152 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-    <artifactId>plugin-signatureweb-exemplepassarela-plugins</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>plugin-signatureweb-exemplepassarela-plugins</artifactId>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <packaging>ear</packaging>
+
+  <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - Plugins</name>
+
+  <parent>
+    <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
     <groupId>org.fundaciobit.plugins</groupId>
-    <packaging>ear</packaging>
+    <version>1.0.0</version>
+  </parent>
 
-    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - Plugins</name>
+  <dependencies>
 
-    <parent>
-        <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
-        <groupId>org.fundaciobit.plugins</groupId>
-        <version>1.0.0</version>
-    </parent>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-	<dependencies>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>                    
+      <artifactId>plugin-signatureweb-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-portafib</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+              
+
+    <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+
+  </dependencies>
+
+
+  <profiles>
+    <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
+    <profile>
+      <id>sia</id>
+      <dependencies>
         <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugins-api</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+          <version>1.0.0</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcprov-jdk15</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcmail-jdk15</artifactId>
+            </exclusion>
+          </exclusions> 
         </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>                    
-            <artifactId>plugin-signatureweb-api</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-    
-    
-       <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        
-        
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-portafib</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        
-        <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
-        
-	</dependencies>
-    
-    
-    <profiles>
-        <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
-        <profile>
-            <id>sia</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-                    <version>1.0.0</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcprov-jdk15</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcmail-jdk15</artifactId>
-                        </exclusion>
-                    </exclusions> 
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-    
+  <build>
+    <finalName>passarela_plugins</finalName>
 
-	<build>
-		<finalName>passarela_plugins</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>2.3.2</version>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.3.2</version>
+        <configuration>
+          <displayName>Plugins per Exemple de Passarela</displayName>
+          <description>Plugins per Exemple de Passarela</description>
 
-				<configuration>
-					<displayName>Plugins per Exemple de Passarela</displayName>
-					<description>Plugins per Exemple de Passarela</description>
+          <defaultLibBundleDir>lib</defaultLibBundleDir>
 
-					<defaultLibBundleDir>lib</defaultLibBundleDir>
+          <jboss>
+            <version>5</version>
+            <loader-repository>org.fundaciobit.plugins:loader=passarela_plugins.ear</loader-repository> 
+            <loader-repository-config>java2ParentDelegation=false</loader-repository-config> 
+          </jboss>
 
-					<jboss>
-						<version>5</version>
-						<loader-repository>org.fundaciobit.plugins:loader=passarela_plugins.ear</loader-repository> 
-						<loader-repository-config>java2ParentDelegation=false</loader-repository-config> 
-					</jboss>
-                   
-					<modules>
-						<jarModule>
-							<groupId>org.fundaciobit.plugins</groupId>
-                            <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
-						</jarModule>
-                        <jarModule>
-							<groupId>org.fundaciobit.plugins</groupId>
-                            <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
-						</jarModule>
-                        <jarModule>
-							<groupId>org.fundaciobit.plugins</groupId>
-                             <artifactId>plugin-signatureweb-portafib</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
-						</jarModule>
-                        
-                        <!-- XYZ FALTA FER_HO PER SIA !!!!!! -->
-					</modules>
+          <modules>
+            <jarModule>
+              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
+            
+            <jarModule>
+              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
+            
+            <jarModule>
+              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>plugin-signatureweb-portafib</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
+            
+            <jarModule>
+              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
 
-				</configuration>
-			</plugin>
+          </modules>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jboss-maven-plugin</artifactId>
-				<version>1.5.0</version>
-				<configuration>
-					<serverName>default</serverName>
-					<fileName>target/passarela_plugins.ear</fileName>
-				</configuration>
-			</plugin>
+        </configuration>
+      </plugin>
 
-		</plugins>
-	</build>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <configuration>
+          <serverName>default</serverName>
+          <fileName>target/passarela_plugins.ear</fileName>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 
 </project>
