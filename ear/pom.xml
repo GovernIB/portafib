@@ -1,119 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>portafib-ear</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>portafib-ear</artifactId>
+  <groupId>es.caib.portafib</groupId>
+  <packaging>ear</packaging>
+
+  <name>PortaFIB Ear</name>
+
+  <parent>
     <groupId>es.caib.portafib</groupId>
-    <packaging>ear</packaging>
+    <artifactId>portafib</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-    <name>PortaFIB Ear</name>
+  <properties>
+    <clientcert.properties.dir>./src/main/application/APP-INF/classes/</clientcert.properties.dir>
+    <clientcert.properties.filename>clientcert.properties</clientcert.properties.filename>
+    <clientcert.properties>${clientcert.properties.dir}${clientcert.properties.filename}</clientcert.properties>
 
-    <parent>
-        <groupId>es.caib.portafib</groupId>
-        <artifactId>portafib</artifactId>
-        <version>1.1.0</version>
-    </parent>
+    <timestamp>${maven.build.timestamp}</timestamp>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+  </properties>
 
-	<properties>
-	  <clientcert.properties.dir>./src/main/application/APP-INF/classes/</clientcert.properties.dir>
-	  <clientcert.properties.filename>clientcert.properties</clientcert.properties.filename>
-	  <clientcert.properties>${clientcert.properties.dir}${clientcert.properties.filename}</clientcert.properties>
-	  
-	  <timestamp>${maven.build.timestamp}</timestamp>
-      <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-	</properties>
+  <dependencies>
 
-    <dependencies>
+    <!-- Internes -->
 
-        <!-- Internes -->
-		
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-jpa</artifactId>
-			<version>${project.version}</version>			
-	    </dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-jpa</artifactId>
+      <version>${project.version}</version>			
+    </dependency>
 
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-ejb</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
-		
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-logic</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-ejb</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+    </dependency>
 
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-persistence-jta</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
-		
-				
-		<dependency>
-            <groupId>es.caib.portafib</groupId>
-            <artifactId>portafib-back</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-logic</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+    </dependency>
 
-		<!-- Externes -->
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-persistence-jta</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
 
-		<!--  Plugins API -->
 
-		<dependency>
-		  <groupId>org.fundaciobit.plugins</groupId>
-		  <artifactId>plugins-api</artifactId>
-		  <version>${plugins.version}</version>
-		  <type>jar</type>
-		</dependency>
-    
-    
-        <!-- Commons Dependencies -->
-		
-        <dependency>
-        	<groupId>commons-fileupload</groupId>
-        	<artifactId>commons-fileupload</artifactId>
-        	<version>1.3</version>
-        </dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-back</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.2</version>
-        </dependency>
-		
-		<dependency>
-		  <groupId>apache-lang</groupId>
-		  <artifactId>commons-lang</artifactId>
-		  <version>2.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>2.0</version>
-		</dependency>
-		
-		<!-- =====================================================  -->
-		<!-- Necessitam les llibreries d'AXIS ja que ho requereix   -->
-		<!-- el plugin de CERTIFICAT-AFIRMA i el Plugin de CUSTODIA -->
-		<!-- CAIB. Hem d'excloure el jar de axis-jaxrpc ja que      -->
-		<!-- conté la classe QNAME que el JBoss no accepta i per    -->
-		<!-- això es substitueix per axis-jaxrpc-without-qname que  -->
-		<!-- no la conté.                                           -->
-		<!-- ====================================================== -->
-		<!--
+    <!-- Externes -->
+
+    <!--  Plugins API -->
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>${plugins.version}</version>
+      <type>jar</type>
+    </dependency>
+
+
+    <!-- Commons Dependencies -->
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>apache-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <!-- =====================================================  -->
+    <!-- Necessitam les llibreries d'AXIS ja que ho requereix   -->
+    <!-- el plugin de CERTIFICAT-AFIRMA i el Plugin de CUSTODIA -->
+    <!-- CAIB. Hem d'excloure el jar de axis-jaxrpc ja que      -->
+    <!-- conté la classe QNAME que el JBoss no accepta i per    -->
+    <!-- això es substitueix per axis-jaxrpc-without-qname que  -->
+    <!-- no la conté.                                           -->
+    <!-- ====================================================== -->
+    <!--
 		<dependency>
 			<groupId>axis</groupId>
 			<artifactId>axis</artifactId>
@@ -134,91 +134,91 @@
 		</dependency>
 		-->
 
-    </dependencies>
-	
-	
-	
-	<profiles>
-	
-		<profile>
-			<id>desenvolupament</id>
-			<dependencies>
+  </dependencies>
 
-			    <!-- ============================================ -->
-				<!-- ========== PLUGINS DE DATAEXPORT =========== -->
-				<!-- ============================================ -->
-				
-				<!-- Excel Plugin -->
-			    <dependency>
-					<groupId>org.fundaciobit.plugins</groupId>
-					<artifactId>plugin-exportdata-excel</artifactId>
-					<version>${plugins.version}</version>
-				</dependency>
 
-				<dependency>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi</artifactId>
-					<version>3.9</version>
-				</dependency>
-				
-				<!-- ODS Plugin -->
-				<dependency>
-					<groupId>org.fundaciobit.plugins</groupId>
-					<artifactId>plugin-exportdata-ods</artifactId>
-					<version>${plugins.version}</version>
-				</dependency>
-				
-				<dependency>
-					<groupId>org.jopendocument</groupId>
-					<artifactId>jOpenDocument</artifactId>
-					<version>1.3b1</version>
-				</dependency>
 
-				<!-- CSV Plugin -->
-				<dependency>
-					<groupId>org.fundaciobit.plugins</groupId>
-					<artifactId>plugin-exportdata-csv</artifactId>
-					<version>${plugins.version}</version>
-				</dependency>
+  <profiles>
 
-                <!-- ============================================ -->
-				<!-- ============= PLUGINS DE BARCODE =========== -->
-				<!-- ============================================ -->
-			    <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-barcode-pdf417</artifactId>
-                    <version>${plugins.version}</version>
-				</dependency>
+    <profile>
+      <id>desenvolupament</id>
+      <dependencies>
 
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-barcode-qr</artifactId>
-                    <version>${plugins.version}</version>
-				</dependency>
-
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-barcode-barcode128</artifactId>
-                    <version>${plugins.version}</version>
-                </dependency>
-            
-            
         <!-- ============================================ -->
-				<!-- ============= PLUGINS DE CUSTODIA ========== -->
-				<!-- ============================================ -->
-        
+        <!-- ========== PLUGINS DE DATAEXPORT =========== -->
+        <!-- ============================================ -->
+
+        <!-- Excel Plugin -->
         <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-documentcustody-api</artifactId>
-            <version>2.0.0</version>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-exportdata-excel</artifactId>
+          <version>${plugins.version}</version>
         </dependency>
-        
-			  <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-documentcustody-filesystem</artifactId>
-				    <version>2.0.0</version>
-				</dependency>
-                <!-- XYZ Moure a un ear de plugins
+
+        <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>3.9</version>
+        </dependency>
+
+        <!-- ODS Plugin -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-exportdata-ods</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.jopendocument</groupId>
+          <artifactId>jOpenDocument</artifactId>
+          <version>1.3b1</version>
+        </dependency>
+
+        <!-- CSV Plugin -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-exportdata-csv</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- ============= PLUGINS DE BARCODE =========== -->
+        <!-- ============================================ -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-barcode-pdf417</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-barcode-qr</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-barcode-barcode128</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+
+        <!-- ============================================ -->
+        <!-- ============= PLUGINS DE CUSTODIA ========== -->
+        <!-- ============================================ -->
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-documentcustody-api</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-documentcustody-filesystem</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+        <!-- XYZ Moure a un ear de plugins
                 <dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-documentcustody-alfresco</artifactId>
@@ -239,8 +239,8 @@
 					 </exclusions> 
                 </dependency>
                 -->
-                
-				<!--
+
+        <!--
 				<dependency>
                     <groupId>org.fundaciobit.plugins</groupId>
                     <artifactId>plugin-documentcustody-custodiacaibaxis</artifactId>
@@ -248,103 +248,103 @@
 				</dependency>
 				-->
 
-				<!-- ============================================ -->
-				<!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
-				<!-- ============================================ -->
-			    <dependency>
-				    <groupId>org.fundaciobit.plugins</groupId>
-	                <artifactId>plugin-documentconverter-openoffice</artifactId>
-				    <version>${plugins.version}</version>
-					<exclusions>
-						<exclusion>
-						  <groupId>org.slf4j</groupId>
-			              <artifactId>slf4j-api</artifactId>
-						</exclusion>
-					 </exclusions> 
-				</dependency>			
-			
-			   	<!-- ============================================ -->
-				<!-- =====      PLUGINS DE CERTIFICATE      ===== -->
-				<!-- ============================================ -->
+        <!-- ============================================ -->
+        <!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
+        <!-- ============================================ -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-documentconverter-openoffice</artifactId>
+          <version>${plugins.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+          </exclusions> 
+        </dependency>			
 
-			    <dependency>
-				    <groupId>org.fundaciobit.plugins</groupId>
-				    <artifactId>plugin-certificate-afirma</artifactId>				  
-				    <version>${plugins.version}</version>
-				</dependency>
-				
-				<dependency>
-				    <groupId>org.fundaciobit.plugins</groupId>
-				    <artifactId>plugin-certificate-afirmacxf</artifactId>				  
-				    <version>${plugins.version}</version>
-				</dependency>
-				
-				<dependency>
-				    <groupId>org.fundaciobit.plugins</groupId>
-					<artifactId>plugin-certificate-fake</artifactId>
-					<version>${plugins.version}</version>
-				</dependency>
-				
-				
-				<!-- ====================================== -->
-		        <!-- ===== PLUGINS DE USERINFORMATION ===== -->
-		        <!-- ====================================== -->
+        <!-- ============================================ -->
+        <!-- =====      PLUGINS DE CERTIFICATE      ===== -->
+        <!-- ============================================ -->
 
-				<dependency>
-				  <groupId>org.fundaciobit.plugins</groupId>
-				  <artifactId>plugin-userinformation-database</artifactId>				  
-				  <version>${plugins.version}</version>
-				</dependency>
-				
-				
-				<dependency>
-				  <groupId>org.fundaciobit.plugins</groupId>
-				  <artifactId>plugin-userinformation-ldap</artifactId>				  
-				  <version>${plugins.version}</version>
-				</dependency>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-certificate-afirma</artifactId>				  
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-certificate-afirmacxf</artifactId>				  
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-certificate-fake</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
 
 
-				<!-- ====================================== -->
-		        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
-		        <!-- ====================================== -->
+        <!-- ====================================== -->
+        <!-- ===== PLUGINS DE USERINFORMATION ===== -->
+        <!-- ====================================== -->
 
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>                    
-                    <artifactId>plugin-signatureweb-api</artifactId>
-                    <version>${plugins.version}</version>
-                </dependency>
-                
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-                    <version>${plugins.version}</version>
-                </dependency>
-                
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-                    <version>${plugins.version}</version>
-                </dependency>
-                
-                <dependency>
-                  <groupId>org.fundaciobit.plugins</groupId>
-                  <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
-                  <version>1.0.0-SNAPSHOT</version>
-                </dependency>
-                
-                <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-userinformation-database</artifactId>				  
+          <version>${plugins.version}</version>
+        </dependency>
 
 
-   				<!-- ====================================== -->
-		        <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
-		        <!-- ====================================== -->
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-userinformation-ldap</artifactId>				  
+          <version>${plugins.version}</version>
+        </dependency>
 
-                
-                <dependency>
-                  <groupId>org.fundaciobit.plugins</groupId>
-                  <artifactId>plugin-timestamp-api</artifactId>
-                  <version>${plugins.version}</version>
-                  <!-- XYZ SSSSS
+
+        <!-- ====================================== -->
+        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
+        <!-- ====================================== -->
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>                    
+          <artifactId>plugin-signatureweb-api</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+
+        <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+
+
+        <!-- ====================================== -->
+        <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
+        <!-- ====================================== -->
+
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-timestamp-api</artifactId>
+          <version>${plugins.version}</version>
+          <!-- XYZ SSSSS
                   <exclusions>
 						<exclusion>
 						  <groupId>org.bouncycastle</groupId>
@@ -356,295 +356,295 @@
 						</exclusion>
 				  </exclusions> 
                   -->
-                </dependency>
+        </dependency>
 
-                <dependency>
-                  <groupId>org.fundaciobit.plugins</groupId>
-                  <artifactId>plugin-timestamp-catcertrfc</artifactId>
-                  <version>${plugins.version}</version>
-                </dependency>
-                
-                <dependency>
-                  <groupId>org.fundaciobit.plugins</groupId>
-                  <artifactId>plugin-timestamp-afirmarfc</artifactId>
-                  <version>${plugins.version}</version>
-                </dependency>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-timestamp-catcertrfc</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
 
-			</dependencies>
-		</profile>
-        
-        
-        <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
-		<profile>
-			<id>sia</id>
-			<dependencies>
-	          <dependency>
-                <groupId>org.fundaciobit.plugins</groupId>
-                <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-                <version>${plugins.version}</version>
-                <exclusions>
-                    <exclusion>
-                      <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcprov-jdk15</artifactId>
-                    </exclusion>
-                    <exclusion>
-                      <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcmail-jdk15</artifactId>
-                    </exclusion>
-                </exclusions> 
-              </dependency>
-			</dependencies>
-		</profile>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-timestamp-afirmarfc</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
 
-		<!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
-		<profile>
-			<id>clientcert</id>
-			
-			<dependencies>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-back-clientcert</artifactId>
-					<version>${project.version}</version>
-					<type>war</type>
-				</dependency>
-			</dependencies>
-			
-            <build>
-                <plugins>
-				    <plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-ear-plugin</artifactId>
-						<version>2.3.2</version>
-						<configuration>
-							<modules combine.children="append">
-								<webModule>
-								  <groupId>es.caib.portafib</groupId>
-								  <artifactId>portafib-back-clientcert</artifactId>
-								  <contextRoot>portafib/s</contextRoot>
-								</webModule>
-							</modules>
-						</configuration>
-					</plugin>
+      </dependencies>
+    </profile>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.3</version>
-						<executions>
-						  <execution>
-							<goals>
-							  <goal>run</goal>
-							</goals>
-							<phase>generate-sources</phase>
-							<configuration>
-							  <tasks>
-							    <mkdir dir="${clientcert.properties.dir}"/>
-								<echo file="${clientcert.properties}" message="# Indica si existeix mòdul amb authenticació CLIENTCERT (portafibs)${line.separator}"/>
-								<echo file="${clientcert.properties}" append="true" message="portafib.clientcert=true${line.separator}" />
-							  </tasks>
-							</configuration>
-						  </execution>
-						</executions>
-					</plugin>
 
-                </plugins>
-            </build>
-		</profile>
+    <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
+    <profile>
+      <id>sia</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+          <version>${plugins.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcprov-jdk15</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcmail-jdk15</artifactId>
+            </exclusion>
+          </exclusions> 
+        </dependency>
+      </dependencies>
+    </profile>
 
-		<!-- WS PORTAFIRMAS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
-		<!-- 
+    <!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
+    <profile>
+      <id>clientcert</id>
+
+      <dependencies>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-back-clientcert</artifactId>
+          <version>${project.version}</version>
+          <type>war</type>
+        </dependency>
+      </dependencies>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <modules combine.children="append">
+                <webModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-back-clientcert</artifactId>
+                  <contextRoot>portafib/s</contextRoot>
+                </webModule>
+              </modules>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.3</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <tasks>
+                    <mkdir dir="${clientcert.properties.dir}"/>
+                    <echo file="${clientcert.properties}" message="# Indica si existeix mòdul amb authenticació CLIENTCERT (portafibs)${line.separator}"/>
+                    <echo file="${clientcert.properties}" append="true" message="portafib.clientcert=true${line.separator}" />
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- WS PORTAFIRMAS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
+    <!-- 
 		    Mòdul de desenvolupament per provar els Callback del Portafirmas antic de la CAIB
 			Definir els usuari aplicacio amb calback versio 0 i calback url
 			igual a http://localhost:8080/portafirmascb/web/services/MCGDWS
 			Per veure les cridades accedir a http://localhost:8080/portafib/portafirmascb
 		-->
-		<profile>
-		   <id>ws-portafirmas-callback-server</id>
-		   <dependencies>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-ws-indra-callback-server</artifactId>
-					<version>${project.version}</version>
-					<type>war</type>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-				  <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-ear-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-					   <modules combine.children="append">
-						<!-- Mòdul de desenvolupament per provar els Callback -->
-						<webModule>
-						  <groupId>es.caib.portafib</groupId>
-						  <artifactId>portafib-ws-indra-callback-server</artifactId>
-						  <contextRoot>portafib/portafirmascb</contextRoot>
-						</webModule>
-					   </modules>
-					</configuration>
-				  </plugin>
-				</plugins>
-			</build>
-		</profile>
-		
-		
-		<!-- WS de PORTAFIRMAS antic de CAIB -->
-		<!-- http://localhost:8080/portafib/portafirmasws/web/services/CWS -->
-		<profile>
-		   <id>ws-portafirmas</id>
-		   <dependencies>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-ws-indra-server</artifactId>
-					<version>${project.version}</version>
-					<type>ejb</type>					
-				</dependency>
-
-			</dependencies>
-			<build>
-				<plugins>
-				  <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-ear-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-					   <modules combine.children="append">
-					        <ejbModule>
-							  <groupId>es.caib.portafib</groupId>
-							  <artifactId>portafib-ws-indra-server</artifactId>
-							</ejbModule>
-					   </modules>
-					</configuration>
-				  </plugin>
-				</plugins>
-			</build>
-		</profile>
-		
-		<!-- WS de PORTAFIB -->
-		<!--  http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld -->
-		<!--  ... -->
-		<profile>
-		   <id>ws-portafib</id>
-		   <dependencies>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-ws-server</artifactId>
-					<version>${project.version}</version>
-					<type>ejb</type>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-				  <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-ear-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-					   <modules combine.children="append">
-							<ejbModule>
-							  <groupId>es.caib.portafib</groupId>
-							  <artifactId>portafib-ws-server</artifactId>
-						    </ejbModule>
-					   </modules>
-					</configuration>
-				  </plugin>
-				</plugins>
-			</build>
-		</profile>
+    <profile>
+      <id>ws-portafirmas-callback-server</id>
+      <dependencies>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-ws-indra-callback-server</artifactId>
+          <version>${project.version}</version>
+          <type>war</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <modules combine.children="append">
+                <!-- Mòdul de desenvolupament per provar els Callback -->
+                <webModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-ws-indra-callback-server</artifactId>
+                  <contextRoot>portafib/portafirmascb</contextRoot>
+                </webModule>
+              </modules>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
 
-		<!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
-		<!-- 
+    <!-- WS de PORTAFIRMAS antic de CAIB -->
+    <!-- http://localhost:8080/portafib/portafirmasws/web/services/CWS -->
+    <profile>
+      <id>ws-portafirmas</id>
+      <dependencies>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-ws-indra-server</artifactId>
+          <version>${project.version}</version>
+          <type>ejb</type>					
+        </dependency>
+
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <modules combine.children="append">
+                <ejbModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-ws-indra-server</artifactId>
+                </ejbModule>
+              </modules>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- WS de PORTAFIB -->
+    <!--  http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld -->
+    <!--  ... -->
+    <profile>
+      <id>ws-portafib</id>
+      <dependencies>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-ws-server</artifactId>
+          <version>${project.version}</version>
+          <type>ejb</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <modules combine.children="append">
+                <ejbModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-ws-server</artifactId>
+                </ejbModule>
+              </modules>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+
+    <!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
+    <!-- 
 		    Mòdul de desenvolupament per provar els Callback
 			Definir els usuari aplicacio amb calback versio 1 i calback url
 			igual a http://localhost:8080/portafib/cb/v1/PortaFIBCallBack
 			Per veure les cridades accedir a http://localhost:8080/portafib/portafibcb
 		-->
-		<profile>
-		   <id>ws-portafib-callback-server</id>
-		   <dependencies>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-ws-callback-server</artifactId>
-					<version>${project.version}</version>
-					<type>ejb</type>
-				</dependency>
-				<dependency>
-					<groupId>es.caib.portafib</groupId>
-					<artifactId>portafib-ws-callback-server-web</artifactId>
-					<version>${project.version}</version>
-					<type>war</type>
-				</dependency>
-			</dependencies>
-			<build>
-				<plugins>
-				  <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-ear-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-					   <modules combine.children="append">
-							<ejbModule>
-							  <groupId>es.caib.portafib</groupId>
-							  <artifactId>portafib-ws-callback-server</artifactId>
-						    </ejbModule>
-							<webModule>
-							  <groupId>es.caib.portafib</groupId>
-							  <artifactId>portafib-ws-callback-server-web</artifactId>
-							  <contextRoot>portafib/portafibcb</contextRoot>
-							</webModule>
-					   </modules>
-					</configuration>
-				  </plugin>
-				</plugins>
-			</build>
-		</profile>
-		
-		
-	</profiles>
-	
+    <profile>
+      <id>ws-portafib-callback-server</id>
+      <dependencies>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-ws-callback-server</artifactId>
+          <version>${project.version}</version>
+          <type>ejb</type>
+        </dependency>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-ws-callback-server-web</artifactId>
+          <version>${project.version}</version>
+          <type>war</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <modules combine.children="append">
+                <ejbModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-ws-callback-server</artifactId>
+                </ejbModule>
+                <webModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-ws-callback-server-web</artifactId>
+                  <contextRoot>portafib/portafibcb</contextRoot>
+                </webModule>
+              </modules>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
-    <build>
-        <finalName>portafib</finalName>
-		
-		<filters>
-            <filter>../config.properties</filter>
-        </filters>
-		
+
+  </profiles>
+
+
+  <build>
+    <finalName>portafib</finalName>
+
+    <filters>
+      <filter>../config.properties</filter>
+    </filters>
+
     <plugins>
-	
 
-	
-		<plugin>
-			<artifactId>maven-clean-plugin</artifactId>
-			<version>2.5</version>
-			<!-- Aquest bloc força a netejar sempre -->
-			<executions>
-			  <execution>
-				<id>auto-clean</id>
-				<phase>initialize</phase>
-				<goals>
-				  <goal>clean</goal>
-				</goals>
-			  </execution>
-			</executions>
 
-			<configuration>
-			  <filesets>
-				<fileset>
-				  <directory>${clientcert.properties.dir}</directory>
-				  <includes>
-				  <include>**/${clientcert.properties.filename}</include>
-				  </includes>
-				  <followSymlinks>false</followSymlinks>
-				</fileset>
-			  </filesets>
-			</configuration>
-		</plugin>
-	
-	
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <!-- Aquest bloc força a netejar sempre -->
+        <executions>
+          <execution>
+            <id>auto-clean</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${clientcert.properties.dir}</directory>
+              <includes>
+                <include>**/${clientcert.properties.filename}</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
@@ -654,26 +654,26 @@
 
           <displayName>Portafirmes de les Illes Balears (PortaFIB)</displayName>
           <description>Portafirmes de les Illes Balears (PortaFIB)</description>
-		  
-		  <archive>
-			<manifest>
-					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-			</manifest>
-			<manifestEntries>
-					<PortaFIB-Version>${project.version}</PortaFIB-Version>
-					<PortaFIB-Build-Date>${timestamp}</PortaFIB-Build-Date>
-			</manifestEntries>
-	     </archive>
+
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <PortaFIB-Version>${project.version}</PortaFIB-Version>
+              <PortaFIB-Build-Date>${timestamp}</PortaFIB-Build-Date>
+            </manifestEntries>
+          </archive>
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
-<!--
+          <!--
 		  <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
 -->
           <jboss>
-              <version>5</version>
-              <loader-repository>es.caib.portafib:loader=portafib.ear</loader-repository>
-              <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
-              <!--<security-domain>java:/jaas/seycon</security-domain>-->
+            <version>5</version>
+            <loader-repository>es.caib.portafib:loader=portafib.ear</loader-repository>
+            <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
+            <!--<security-domain>java:/jaas/seycon</security-domain>-->
           </jboss>
 
           <modules>
@@ -689,7 +689,7 @@
               <artifactId>portafib-ejb</artifactId>
             </ejbModule>
 
-			<ejbModule>
+            <ejbModule>
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-logic</artifactId>
             </ejbModule>
@@ -703,13 +703,13 @@
 
         </configuration>
       </plugin>
-	  
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jboss-maven-plugin</artifactId>
         <version>1.5.0</version>
         <configuration>
-         <!-- <jbossHome>D:\servers\jboss-eap-5.1\jboss-as</jbossHome>-->
+          <!-- <jbossHome>D:\servers\jboss-eap-5.1\jboss-as</jbossHome>-->
           <serverName>default</serverName>
           <fileName>target/portafib.ear</fileName> 
         </configuration>
