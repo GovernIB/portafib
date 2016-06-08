@@ -70,58 +70,18 @@ public class MiniAppletUtils {
     }
 
     // POLITICA DE FIRMA
-    PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
-
-    if (policy != null && policy.getPolicyIdentifier() == null
-        && policy.getPolicyIdentifier().trim().length() != 0) {
-
-      String oid = policy.getPolicyIdentifier();
-
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER, oid);
-
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_HASH,
-          policy.getPolicyIdentifierHash());
-
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_HASH_ALGORITHM,
-          policy.getPolicyIdentifierHashAlgorithm());
-
-      String val = policy.getPolicyUrlDocument();
-      if (val != null) {
-        miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_QUALIFIER, val);
-      }
-    }
+    PolicyInfoSignature policy = convertPolicy(commonInfoSignature, miniAppletProperties);
 
     // ====================  TIPUS DE FIRMA
     String tipusFirma;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
+      tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
+      
       miniAppletProperties.setProperty("alwaysCreateRevision", "true");
 
-      tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
+      convertPAdES(fileInfo, miniAppletProperties, policy);
 
-      // POLITICA DE FIRMA PADES
-      if (policy == null || policy.getPolicyIdentifier() == null
-          || policy.getPolicyIdentifier().trim().length() == 0) {
-        miniAppletProperties.setProperty("signatureSubFilter",
-            MiniAppletConstants.PADES_SUBFILTER_BES);
-            //MiniAppletConstants.PADES_SUBFILTER_BASIC
-      } else {
-        miniAppletProperties.setProperty("signatureSubFilter",
-            MiniAppletConstants.PADES_SUBFILTER_BES);
-      }
-      
-      
-      // Sign reason
-      if (fileInfo.getReason() != null) {
-        miniAppletProperties.setProperty("signReason", fileInfo.getReason());
-      }
-      
-      if (fileInfo.getSignerEmail() != null) {
-        miniAppletProperties.setProperty("signerContact", fileInfo.getSignerEmail());
-      }
-      
-      
-      
 
       // PDF Visible      
       if (fileInfo.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
@@ -167,47 +127,7 @@ public class MiniAppletUtils {
       // TODO Alguna cosa mes ???
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_XADES;
       
-      // En xades no te sentit el camp 'mode'
-      miniAppletProperties.remove(MiniAppletConstants.PROPERTY_SIGN_MODE);
-      
-      /**
-       * addKeyInfoKeyValue 
-       *       - true  -> Incluye el nodo KeyValue dentro de KeyInfo de XAdES (comportamiento por defecto).
-               - false -> No incluye el nodo KeyValue dentro de KeyInfo de XAdES.
-       * addKeyInfoKeyName
-       *       - true  -> Incluye el nodo KeyName dentro de KeyInfo de XAdES.
-       *       - false -> No incluye el nodo KeyName dentro de KeyInfo
-       */ 
-      if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-        /*
-         * implicit La firma resultante incluirá internamente una copia de los datos
-         * firmados. El uso de este valor podría generar firmas de gran tamaño.
-         */
-        miniAppletProperties.setProperty("addKeyInfoKeyValue", "true");
-       
-      } else {
-        /*
-         * explicit La firma resultante no incluirá los datos firmados. Si no se
-         * indica el parámetro mode se configura automáticamente este
-         * comportamiento.
-         */
-        miniAppletProperties.setProperty("addKeyInfoKeyValue", "false");
-      }
-      
-      final String mime = fileInfo.getMimeType();
-      if (mime != null && !mime.equals("application/octet-stream") 
-          && !mime.equals("application/octet-stream")
-          && !mime.equals("application/binary")
-          && !mime.equals("unknown/unknown")) {
-          miniAppletProperties.setProperty("mimeType",mime);
-          
-      }
-      log.info("Enviant a firma Xades:: fitxer " + fileInfo.getName() + " amb mime " + mime);
-      
-      // headless  true -> Evita que se muestren diálogos gráficos adicionales
-      //                   al usuario  (como por ejemplo, para la dereferenciación
-      //                   de hojas de estilo enlazadas con rutas relativas).
-      miniAppletProperties.setProperty("headless","true");
+      convertXAdES(fileInfo, miniAppletProperties);
 
     } else {
       // TODO Traduir
@@ -216,6 +136,34 @@ public class MiniAppletUtils {
     miniAppletProperties.setProperty(MiniAppletConstants.APPLET_SIGN_TYPE, tipusFirma);
 
     // ALGORISME DE FIRMA
+    String algorisme = convertAlgorithm(fileInfo);
+    miniAppletProperties.setProperty(MiniAppletConstants.APPLET_SIGN_ALGORITHM, algorisme);
+
+    // SEGELL DE TEMPS
+    convertTimeStamp(fileInfo, timeStampURL, isLocalSignature, miniAppletProperties);
+    
+    
+    // Dades Comuns
+    convertCommon(fileInfo, miniAppletProperties);
+    
+    
+
+    byte[] pdf = FileUtils.readFromFile(fileInfo.getFileToSign());
+
+    info = new MiniAppletSignInfo(pdf, tipusFirma, algorisme, certificate,
+        miniAppletProperties);
+
+    return info;
+  }
+
+  public static void convertCommon(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+    // Location (comú a Pades, Xades i cades)
+    if(fileInfo.getLocation() != null) {
+      miniAppletProperties.setProperty("signatureProductionCity", fileInfo.getLocation());
+    }
+  }
+
+  public static String convertAlgorithm(FileInfoSignature fileInfo) throws Exception {
     String algorisme;
     if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(fileInfo.getSignAlgorithm())) {
       algorisme = MiniAppletConstants.VALUE_SIGN_ALGORITHM_SHA1;
@@ -228,8 +176,107 @@ public class MiniAppletUtils {
     } else {
       throw new Exception("Tipus d'algorisme no suportat " + fileInfo.getSignAlgorithm());
     }
-    miniAppletProperties.setProperty(MiniAppletConstants.APPLET_SIGN_ALGORITHM, algorisme);
+    return algorisme;
+  }
 
+  public static void convertXAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+    // En xades no te sentit el camp 'mode'
+    miniAppletProperties.remove(MiniAppletConstants.PROPERTY_SIGN_MODE);
+    
+    /**
+     * addKeyInfoKeyValue 
+     *       - true  -> Incluye el nodo KeyValue dentro de KeyInfo de XAdES (comportamiento por defecto).
+             - false -> No incluye el nodo KeyValue dentro de KeyInfo de XAdES.
+     * addKeyInfoKeyName
+     *       - true  -> Incluye el nodo KeyName dentro de KeyInfo de XAdES.
+     *       - false -> No incluye el nodo KeyName dentro de KeyInfo
+     */ 
+    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+      /*
+       * implicit La firma resultante incluirá internamente una copia de los datos
+       * firmados. El uso de este valor podría generar firmas de gran tamaño.
+       */
+      miniAppletProperties.setProperty("addKeyInfoKeyValue", "true");
+     
+    } else {
+      /*
+       * explicit La firma resultante no incluirá los datos firmados. Si no se
+       * indica el parámetro mode se configura automáticamente este
+       * comportamiento.
+       */
+      miniAppletProperties.setProperty("addKeyInfoKeyValue", "false");
+    }
+    
+    final String mime = fileInfo.getMimeType();
+    if (mime != null && !mime.equals("application/octet-stream") 
+        && !mime.equals("application/octet-stream")
+        && !mime.equals("application/binary")
+        && !mime.equals("unknown/unknown")) {
+        miniAppletProperties.setProperty("mimeType",mime);
+        
+    }
+    log.info("Enviant a firma Xades:: fitxer " + fileInfo.getName() + " amb mime " + mime);
+    
+    // headless  true -> Evita que se muestren diálogos gráficos adicionales
+    //                   al usuario  (como por ejemplo, para la dereferenciación
+    //                   de hojas de estilo enlazadas con rutas relativas).
+    miniAppletProperties.setProperty("headless","true");
+  }
+
+  public static void convertPAdES(FileInfoSignature fileInfo,
+      Properties miniAppletProperties, PolicyInfoSignature policy) {
+    
+    miniAppletProperties.setProperty("alwaysCreateRevision", "true");
+    
+    // POLITICA DE FIRMA PADES
+    if (policy == null || policy.getPolicyIdentifier() == null
+        || policy.getPolicyIdentifier().trim().length() == 0) {
+      miniAppletProperties.setProperty("signatureSubFilter",
+          MiniAppletConstants.PADES_SUBFILTER_BES);
+          //MiniAppletConstants.PADES_SUBFILTER_BASIC
+    } else {
+      miniAppletProperties.setProperty("signatureSubFilter",
+          MiniAppletConstants.PADES_SUBFILTER_BES);
+    }
+    
+    
+    // Sign reason
+    if (fileInfo.getReason() != null) {
+      miniAppletProperties.setProperty("signReason", fileInfo.getReason());
+    }
+    
+    if (fileInfo.getSignerEmail() != null) {
+      miniAppletProperties.setProperty("signerContact", fileInfo.getSignerEmail());
+    }
+  }
+
+  public static PolicyInfoSignature convertPolicy(CommonInfoSignature commonInfoSignature,
+      Properties miniAppletProperties) {
+    PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
+
+    if (policy != null && policy.getPolicyIdentifier() == null
+        && policy.getPolicyIdentifier().trim().length() != 0) {
+
+      String oid = policy.getPolicyIdentifier();
+
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER, oid);
+
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_HASH,
+          policy.getPolicyIdentifierHash());
+
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_HASH_ALGORITHM,
+          policy.getPolicyIdentifierHashAlgorithm());
+
+      String val = policy.getPolicyUrlDocument();
+      if (val != null) {
+        miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_POLICY_QUALIFIER, val);
+      }
+    }
+    return policy;
+  }
+
+  public static void convertTimeStamp(FileInfoSignature fileInfo, String timeStampURL,
+      boolean isLocalSignature, Properties miniAppletProperties) {
     // Segell de Temps (Segellat de temps)
     if (timeStampURL != null) {
       
@@ -255,20 +302,6 @@ public class MiniAppletUtils {
       miniAppletProperties.setProperty("tsType", "" + MiniAppletConstants.TS_SIGN);
 
     }
-    
-    // Location (comú a Pades, Xades i cades)
-    if(fileInfo.getLocation() != null) {
-      miniAppletProperties.setProperty("signatureProductionCity", fileInfo.getLocation());
-    }
-    
-    
-
-    byte[] pdf = FileUtils.readFromFile(fileInfo.getFileToSign());
-
-    info = new MiniAppletSignInfo(pdf, tipusFirma, algorisme, certificate,
-        miniAppletProperties);
-
-    return info;
   }
   
   

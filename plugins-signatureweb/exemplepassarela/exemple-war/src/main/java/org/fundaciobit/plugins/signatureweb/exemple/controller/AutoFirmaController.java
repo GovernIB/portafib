@@ -115,6 +115,7 @@ public class AutoFirmaController {
         + "\r\n"
         + "#filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
+    // TODO XYZ Això s'ha de fer a la part CLIENT !!!!!
     form.setLocation(urlToText(new URL("http://ip-api.com/line/?fields=city")));
 
     // CSV

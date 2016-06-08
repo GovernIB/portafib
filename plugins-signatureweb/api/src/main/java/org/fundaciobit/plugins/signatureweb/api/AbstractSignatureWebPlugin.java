@@ -889,7 +889,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
     StringBuffer str = new StringBuffer("======== PLUGIN REQUEST " + titol + " ===========\n");
     str.append("absolutePluginRequestPath: " + absolutePluginRequestPath + "\n");
     str.append("relativePluginRequestPath: " + relativePluginRequestPath + "\n");
-    str.append("relativePath: " + query + "\n");
+    str.append("query: " + query + "\n");
     str.append("signatureID: " + signaturesSetID + "\n");
     str.append("signatureIndex: " + signatureIndex + "\n");
     return str.toString();

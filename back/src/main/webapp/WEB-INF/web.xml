@@ -24,12 +24,23 @@
     </servlet>
 
     <filter>
+        <filter-name>PluginFilter</filter-name>   
+        <filter-class>org.fundaciobit.plugins.signatureweb.api.utils.PluginRequestFilter</filter-class>  
+    </filter> 
+    <filter-mapping>   
+      <filter-name>PluginFilter</filter-name>  
+      <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+      <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+        <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>

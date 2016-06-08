@@ -25,10 +25,22 @@
     </dependency>
     
     <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    
+    <dependency>
         <groupId>org.fundaciobit.plugins</groupId>
         <artifactId>plugins-api</artifactId>
         <version>1.0.0</version>
         <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.fundaciobit.plugins</groupId>
+        <artifactId>plugin-signatureweb-miniappletutils</artifactId>
+        <version>1.0.0</version>
     </dependency>
 
     <dependency>
