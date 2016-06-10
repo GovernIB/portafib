@@ -26,7 +26,7 @@
     <repository>
       <name>Local Maven Repository</name>
       <id>es.caib.portafib.localrepo</id>
-      <url>file://${project.basedir}/local-repo</url>
+      <url>file://${basedir}/local-repo</url>
     </repository>
   </repositories>
 
@@ -245,7 +245,7 @@
             <id>rename-file</id>
             <phase>process-classes</phase> <!-- POST COMPILE compile -->
             <goals>
-              <goal>rename</goal>
+              <goal>${action_rename_copy}</goal>
             </goals>
             <configuration>
               <sourceFile>${project.build.directory}/classes_war/WEB-INF/classes/es</sourceFile>
@@ -258,5 +258,18 @@
 
     </plugins>
   </build>
+  
+  <profiles>
+    <profile>
+      <activation>
+        <os>
+          <family>!Linux</family>
+        </os>
+      </activation>
+      <properties>
+        <action_rename_copy>copy</action_rename_copy>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>

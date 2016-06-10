@@ -72,15 +72,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes, ...
-    return new String[] { FileInfoSignature.SIGN_TYPE_PADES, FileInfoSignature.SIGN_TYPE_XADES };
+    return new String[] {
+        FileInfoSignature.SIGN_TYPE_PADES,
+        FileInfoSignature.SIGN_TYPE_XADES,
+        FileInfoSignature.SIGN_TYPE_CADES };
   }
 
   @Override
   public String[] getSupportedSignatureAlgorithms(String signType) {
 
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
 
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
           FileInfoSignature.SIGN_ALGORITHM_SHA256, FileInfoSignature.SIGN_ALGORITHM_SHA384,
@@ -367,6 +370,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
     final String HOST = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
     final String PATH = relativePluginRequestPath;
+    
+    
+    // CODI CONVERSIO COMU
+    MiniAppletUtils.convertCommon(fis, configProperties);
+
 
     // POLITICA DE FIRMA
     PolicyInfoSignature policy;
@@ -385,9 +393,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       MiniAppletUtils.convertXAdES(fis, configProperties);
 
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+      format = "CAdEStri";
+        
+      MiniAppletUtils.convertCAdES(fis, configProperties);
+      
     } else {
-      // else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-      // format = "CAdEStri";
+
       // format = "FacturaE
       // format = "FacturaEtri
       // format = "ODF"
@@ -423,9 +435,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       MiniAppletUtils.convertTimeStamp(fis, timeStampUrl, isLocalSignature, configProperties);
     }
 
-    // CODI COMU
-    MiniAppletUtils.convertCommon(fis, configProperties);
-
+    
     // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
     configProperties.setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
 
@@ -1194,6 +1204,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       fos.close();
 
       status.setSignedData(firmat);
+      
 
       // Estat d'aquest document en particular
       status.setStatus(StatusSignature.STATUS_FINAL_OK);

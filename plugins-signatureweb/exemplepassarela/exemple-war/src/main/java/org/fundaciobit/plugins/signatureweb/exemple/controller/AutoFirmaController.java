@@ -469,8 +469,11 @@ public class AutoFirmaController {
       filename = "fitxerfirmat.pdf";
       mime = PDF_MIME_TYPE;
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-      filename = "fitxerfirmat.xml";
+      filename = "firma.xml";
       mime = "application/xml";
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+      filename = "firma.csig";
+      mime = "application/octet-stream";
     } else {
       log.warn("No es suporta el tipus de firma " + signType 
           + ". Revisi el codi per suportar aquest tipus", new Exception());

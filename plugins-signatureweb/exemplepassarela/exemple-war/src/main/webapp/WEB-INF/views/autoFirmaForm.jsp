@@ -111,11 +111,12 @@
           <form:select path="signType" id="signType" onchange="canviaTipus(this)">
             <option value="<%=FileInfoSignature.SIGN_TYPE_PADES %>" selected="true" >PADES</option>
             <option value="<%=FileInfoSignature.SIGN_TYPE_XADES %>" >XADES</option>
+             <option value="<%=FileInfoSignature.SIGN_TYPE_CADES %>" >CADES</option>
           </form:select>
            </td>
          </tr>
          
-         <!--  NOMES PER XADES -->
+         <!--  NOMES PER XADES / CADES -->
          <tr style="display:none;" id="signModeTR">
           <td><label>Mode Firma &nbsp;(*)</label></td>
             <td>
@@ -311,9 +312,6 @@
 
   </div>
 
- 
-   
-
    <form:hidden id="id" path="id" />
    
    </div>
@@ -324,12 +322,12 @@
 <!--
    function canviaTipus(selectItem) {
        var val = $( "#signType" ).val();
-       if (val == '<%=FileInfoSignature.SIGN_TYPE_XADES %>') {
+       if (val == '<%=FileInfoSignature.SIGN_TYPE_PADES %>') {
+           $( "#signModeTR").hide();
+           $( "#opcionspades").show();           
+       } else {
            $( "#signModeTR").show();
            $( "#opcionspades").hide();
-       } else {
-           $( "#signModeTR").hide();
-           $( "#opcionspades").show();
        }
    }
 //-->

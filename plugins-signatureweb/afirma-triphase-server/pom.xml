@@ -15,6 +15,20 @@
     <version>1.0.0</version>
     <artifactId>plugins-signatureweb</artifactId>
   </parent>
+
+  <repositories>
+    <repository>
+      <name>Local Maven Repository</name>
+      <id>es.caib.portafib.localrepo1</id>
+      <url>file://${project.basedir}/local-repo</url>
+    </repository>
+    <repository>
+      <name>Local Maven Repository</name>
+      <id>es.caib.portafib.localrepo2</id>
+      <url>file://${project.basedir}/../afirma-triphase-server-lib/local-repo</url>
+    </repository>
+  </repositories>
+  
   
   <dependencies>
   

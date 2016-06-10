@@ -53,21 +53,8 @@ public class MiniAppletUtils {
 
     Properties miniAppletProperties = new Properties();
 
-    /*
-     * explicit La firma resultante no incluirá los datos firmados. Si no se
-     * indica el parámetro mode se configura automáticamente este
-     * comportamiento.
-     * 
-     * implicit La firma resultante incluirá internamente una copia de los datos
-     * firmados. El uso de este valor podría generar firmas de gran tamaño.
-     */
-    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
-          MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
-    } else {
-      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
-          MiniAppletConstants.VALUE_SIGN_MODE_EXPLICIT);
-    }
+    // Dades Comuns
+    convertCommon(fileInfo, miniAppletProperties);
 
     // POLITICA DE FIRMA
     PolicyInfoSignature policy = convertPolicy(commonInfoSignature, miniAppletProperties);
@@ -143,8 +130,7 @@ public class MiniAppletUtils {
     convertTimeStamp(fileInfo, timeStampURL, isLocalSignature, miniAppletProperties);
     
     
-    // Dades Comuns
-    convertCommon(fileInfo, miniAppletProperties);
+
     
     
 
@@ -157,6 +143,23 @@ public class MiniAppletUtils {
   }
 
   public static void convertCommon(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+
+    /*
+     * explicit La firma resultante no incluirá los datos firmados. Si no se
+     * indica el parámetro mode se configura automáticamente este
+     * comportamiento.
+     * 
+     * implicit La firma resultante incluirá internamente una copia de los datos
+     * firmados. El uso de este valor podría generar firmas de gran tamaño.
+     */
+    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
+          MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
+    } else {
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
+          MiniAppletConstants.VALUE_SIGN_MODE_EXPLICIT);
+    }
+
     // Location (comú a Pades, Xades i cades)
     if(fileInfo.getLocation() != null) {
       miniAppletProperties.setProperty("signatureProductionCity", fileInfo.getLocation());
@@ -178,6 +181,15 @@ public class MiniAppletUtils {
     }
     return algorisme;
   }
+  
+  
+  public static void convertCAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
+  
+    // En principi no s'ha de fer res
+    
+  }
+  
+  
 
   public static void convertXAdES(FileInfoSignature fileInfo, Properties miniAppletProperties) {
     // En xades no te sentit el camp 'mode'
@@ -215,6 +227,7 @@ public class MiniAppletUtils {
         miniAppletProperties.setProperty("mimeType",mime);
         
     }
+    
     log.info("Enviant a firma Xades:: fitxer " + fileInfo.getName() + " amb mime " + mime);
     
     // headless  true -> Evita que se muestren diálogos gráficos adicionales
