@@ -107,8 +107,9 @@ public class PrincipalController {
         return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1", true));
       }
       if ("ROLE_ADMIN".equals(pipella)) {
-        //return new ModelAndView("role_admin");
-        return new ModelAndView(new RedirectView("/admin/fitxersorfes/list/1", true));
+        // return new ModelAndView("role_admin");
+        // "/admin/fitxersorfes/list/1"
+        return new ModelAndView(new RedirectView("/admin/entitat/list/1", true));
       }
       if ("ROLE_COLA".equals(pipella)) {
         //return new ModelAndView("role_cola");

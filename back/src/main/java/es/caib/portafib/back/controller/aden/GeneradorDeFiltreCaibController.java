@@ -101,7 +101,7 @@ public class GeneradorDeFiltreCaibController {
     
     int count = 0;
     count++;
-    filter.append("filters." + count+ "=nonexpired:\n");
+    filter.append("filters." + count+ "=nonexpired:;");
     
 
     // --- CA
@@ -112,15 +112,16 @@ public class GeneradorDeFiltreCaibController {
       StringBuffer filterCA = new StringBuffer();
 
       if (!list.isEmpty()) {
-        count++;
+        //count++;
   
-        filterCA.append("filters." + count+ "=issuer.rfc2254.recurse:|");
+        //filterCA.append("filters." + count+ "=issuer.rfc2254.recurse:|");
+        filterCA.append("issuer.rfc2254.recurse:|");
   
         for (String ca : list) {
           filterCA.append("(CN=" + ca + ")(OU=" + ca + ")");
         }
   
-        filterCA.append("\n");
+        filterCA.append(";");
   
         filter.append(filterCA.toString());
   
@@ -143,12 +144,13 @@ public class GeneradorDeFiltreCaibController {
       }
   
       if (filterPolicies.length() != 0) {
-        count++;
-        filter.append("filters." + count+ "=policyid:");
+        //count++;
+        // filter.append("filters." + count+ "=policyid:");
+        filter.append("policyid:");
         String filterPoliciesStr = filterPolicies.toString();
         // Llevam la darrera coma
         filter.append(filterPoliciesStr.substring(0, filterPoliciesStr.length() - 1));
-        filter.append("\n");
+        filter.append(";");
       }
     }
 
