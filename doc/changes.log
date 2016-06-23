@@ -3,6 +3,9 @@
 PortaFIB 1.1.0
 ==============
 
+
+2016-06-10 Nou mòdul de Firma  @firma AutoFirma i Clients Mòbils @Firma amb suport per PAdES, CAdES i XAdES.
+
 2016-05-25 Actualitzar-se a API de Document Custody 2.0.0
 
 2016-05-23 Suport de XAdES en API de Firma per Plugins MiniApplet in Client i MiniApplet in Server

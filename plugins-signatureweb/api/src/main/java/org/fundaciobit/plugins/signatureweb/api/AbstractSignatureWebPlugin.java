@@ -861,6 +861,7 @@ public abstract class AbstractSignatureWebPlugin  extends AbstractPluginProperti
   // ------------------- DEBUG ------------------------
   // ---------------------------------------------------------
 
+  // TODO XYZ Moure a Plugin Abstracte de tipus WEB
   
   protected void logAllRequestInfo(HttpServletRequest request, String titol,
       String absolutePluginRequestPath, String relativePluginRequestPath, String query,
