@@ -6,14 +6,6 @@
     <packaging>pom</packaging>
  
     <name>FundacioBit Plugins - SignatureWeb Plugins</name>
-
-    <!-- XYZ
-	<parent>
-		<groupId>org.fundaciobit.plugins</groupId>
-		<version>1.0.0</version>
-		<artifactId>plugins</artifactId>
-	</parent>
-    -->
     
     <parent>
         <groupId>es.caib.portafib</groupId>
@@ -33,6 +25,9 @@
        <module>miniappletinserver</module>
        <module>miniappletinclient</module>
        <module>portafib</module>
+       <!-- Només s'ha de recompilar quan hagi actualitzacions -->
+       <!-- <module>afirma-triphase-server-lib</module> -->
+       <module>afirma-triphase-server</module>
        <module>exemplepassarela</module>
     </modules>
 
