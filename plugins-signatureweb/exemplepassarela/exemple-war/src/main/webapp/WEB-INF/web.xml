@@ -49,24 +49,14 @@
     </taglib>
   </jsp-config>
 
-  <filter>     
-    <filter-name>PluginFilter</filter-name>   
-    <filter-class>org.fundaciobit.plugins.signatureweb.api.utils.PluginRequestFilter</filter-class>  
-  </filter> 
-  <filter-mapping>   
-    <filter-name>PluginFilter</filter-name>  
-    <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>   
-  </filter-mapping>
+  <servlet>
+    <servlet-name>PluginSignWebRequests</servlet-name>
+    <servlet-class>org.fundaciobit.plugins.signatureweb.exemple.controller.SignatureModuleController</servlet-class>
+  </servlet>
 
-  <filter>
-    <filter-name>UrlRewriteFilter</filter-name>
-    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>UrlRewriteFilter</filter-name>
+  <servlet-mapping>
+    <servlet-name>PluginSignWebRequests</servlet-name>
     <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-
+  </servlet-mapping>
+ 
 </web-app>

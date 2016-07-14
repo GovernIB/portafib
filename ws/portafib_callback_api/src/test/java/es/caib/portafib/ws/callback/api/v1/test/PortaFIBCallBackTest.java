@@ -88,5 +88,25 @@ public class PortaFIBCallBackTest extends PortaFIBTestUtils {
     callBackApi.event(event);
 
   }
+  
+  
+  public static void main(String[] args) {
+    try {
+      PortaFIBCallBackTest test = new PortaFIBCallBackTest();
+      
+      test.setUpBeforeClass();
+      
+      System.out.println(" Versio: " + callBackApi.getVersionWs());
+      
+      test.testSendEvent();
+      
+      
+    } catch (Exception e) {
+      // TODO: handle exception
+      e.printStackTrace();
+    }
+    
+  }
+  
 
 }

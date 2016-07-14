@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.Plugin;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.SignatureWebPluginManager;
@@ -158,14 +157,22 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
   public void requestPlugin(HttpServletRequest request, HttpServletResponse response,
       String absoluteRequestPluginBasePath, String relativeRequestPluginBasePath,
       String signaturesSetID, int signatureIndex, 
-      String query, boolean isPost, Map<String, IUploadedFile> uploadedFiles)  throws Exception {
+      String query, boolean isPost)  throws Exception {
 
 
       
       ExempleSignaturesSet ss = getSignaturesSet(request, signaturesSetID);
       
    log.info(" ExempleSignaturesSet ss = " + ss);
-    
+   
+   if (ss == null) {
+     response.sendError(HttpServletResponse.SC_REQUEST_URI_TOO_LONG, 
+         "Proces de Firma amb ID " + signaturesSetID + " ha caducat !!!!");
+     
+     return;
+   }
+   
+   
     
     long pluginID = ss.getPluginID();
     
@@ -191,11 +198,11 @@ public class SignatureModuleEjb implements SignatureModuleLocal {
     if (isPost) {
       signaturePlugin.requestPOST(absoluteRequestPluginBasePath,
           relativeRequestPluginBasePath, query, 
-          signaturesSetID, signatureIndex, request, uploadedFiles, response);
+          signaturesSetID, signatureIndex, request, response);
     } else {
       signaturePlugin.requestGET(absoluteRequestPluginBasePath,
           relativeRequestPluginBasePath, query,
-          signaturesSetID, signatureIndex, request, uploadedFiles, response);
+          signaturesSetID, signatureIndex, request, response);
     }
 
   }

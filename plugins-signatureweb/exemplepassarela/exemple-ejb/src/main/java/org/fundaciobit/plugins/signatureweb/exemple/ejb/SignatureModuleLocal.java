@@ -1,13 +1,11 @@
 package org.fundaciobit.plugins.signatureweb.exemple.ejb;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Local;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.Plugin;
 
@@ -38,7 +36,7 @@ public interface SignatureModuleLocal {
   public void requestPlugin(HttpServletRequest request, HttpServletResponse response,
       String absoluteRequestPluginBasePath, String relativeRequestPluginBasePath,
        String signaturesSetID, int signatureIndex, 
-      String query, boolean isPost, Map<String, IUploadedFile> uploadedFiles)  throws Exception;
+      String query, boolean isPost)  throws Exception;
   
   
   public ExempleSignaturesSet getSignaturesSet(HttpServletRequest request,

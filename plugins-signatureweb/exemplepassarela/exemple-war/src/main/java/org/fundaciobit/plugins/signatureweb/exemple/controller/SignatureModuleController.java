@@ -2,13 +2,14 @@ package org.fundaciobit.plugins.signatureweb.exemple.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,18 +20,15 @@ import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.SignatureModuleLocal;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.Plugin;
 import org.fundaciobit.plugins.signatureweb.exemple.utils.HtmlUtils;
+import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -41,7 +39,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 @RequestMapping(value = SignatureModuleController.CONTEXTWEB)
-public class SignatureModuleController {
+public class SignatureModuleController extends HttpServlet {
 
   protected static Logger log = Logger.getLogger(SignatureModuleController.class);
 
@@ -141,37 +139,78 @@ public class SignatureModuleController {
 
   }
 
-  @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}", method = RequestMethod.GET)
-  public void requestPluginGET(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable String signaturesSetID, @PathVariable int signatureIndex,
-      @RequestParam("restOfTheUrl") String query) throws Exception {
+  
 
-    final boolean isPost = false;
+  
+  
+  
+  @Override
+  public void doGet(HttpServletRequest request,
+      HttpServletResponse response) throws ServletException, IOException  {
+    processServlet(request, response, false);
+  }
+  
+  
+  @Override
+  public void doPost(HttpServletRequest request,
+      HttpServletResponse response) throws ServletException, IOException  {
+    processServlet(request, response, true);
+  }
+  
+  
+  
+  protected void processServlet(HttpServletRequest request,
+      HttpServletResponse response, boolean isPost) throws ServletException, IOException {
+    
+    final boolean debug = log.isDebugEnabled();
+    
+    if (debug) {
+      log.debug(AbstractWebPlugin.servletRequestInfoToStr(request));
+    }
+    
+    // uri = /common/signmodule/requestPlugin/1466408733012148444/-1/index.html
+    String uri = request.getRequestURI();
+    if (debug) {
+      log.debug(" uri = " + uri);
+    }
+    final String BASE = CONTEXTWEB + "/requestPlugin";
+    int index = uri.indexOf(BASE);
+    
+    if (index == -1) {
+      String msg = "URL base incorrecte !!!! Esperat " + BASE + ". URI = " + uri;
+      throw new IOException(msg);
+    }
+  
+    //  idAndQuery = 1466408733012148444/-1/index.html
+    String idAndQuery = uri.substring(index + BASE.length() + 1);
+    if (debug) {
+      log.info(" idAndQuery = " + idAndQuery);
+    }
+    
+    index = idAndQuery.indexOf('/');
+    
+    String idStr = idAndQuery.substring(0, index);
+    int index2 = idAndQuery.indexOf('/',index + 1);
+    String indexStr = idAndQuery.substring(index + 1, index2);
+    String query = idAndQuery.substring(index2 + 1, idAndQuery.length());
+        
+    if (debug) {
+      log.info(" idStr = " + idStr);
+      log.info(" indexStr = " + indexStr);
+      log.info(" query = " + query);
+    }
+    
+    int signatureIndex = Integer.parseInt(indexStr);
 
-    requestPlugin(request, response, signaturesSetID, signatureIndex, query, isPost);
-
+    try {
+      requestPlugin(request, response, idStr, signatureIndex, query, isPost);
+    } catch (Exception e) {
+      throw new IOException(e.getMessage(), e);
+    }
+  
   }
 
-  /**
-   * S'ha de redireccionar la petició al Plugin
-   * 
-   * @param request
-   * @param response
-   * @param pluginID
-   * @param signatureID
-   * @return
-   * @throws Exception
-   */
-  @RequestMapping(value = "/requestPlugin/{signaturesSetID}/{signatureIndex}", method = RequestMethod.POST)
-  public void requestPluginPOST(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable String signaturesSetID, @PathVariable int signatureIndex,
-      @RequestParam("restOfTheUrl") String query) throws Exception {
-
-    final boolean isPost = true;
-    requestPlugin(request, response, signaturesSetID, signatureIndex, query, isPost);
-
-  }
-
+  
   /**
    * 
    * @param request
@@ -193,11 +232,8 @@ public class SignatureModuleController {
     String relativeRequestPluginBasePath = getRelativeRequestPluginBasePath(request,
         CONTEXTWEB, signaturesSetID, signatureIndex);
 
-    Map<String, IUploadedFile> uploadedFiles = getMultipartFiles(request);
-
     signatureModuleEjb.requestPlugin(request, response, absoluteRequestPluginBasePath,
-        relativeRequestPluginBasePath, signaturesSetID, signatureIndex, query, isPost,
-        uploadedFiles);
+        relativeRequestPluginBasePath, signaturesSetID, signatureIndex, query, isPost);
 
   }
 
@@ -422,128 +458,8 @@ public class SignatureModuleController {
     return id;
   }
 
-  /**
-   * 
-   * @param request
-   * @return
-   */
-  public static Map<String, IUploadedFile> getMultipartFiles(HttpServletRequest request) {
-    Map<String, IUploadedFile> uploadedFiles;
-    uploadedFiles = new HashMap<String, IUploadedFile>();
-    if (request instanceof MultipartHttpServletRequest) {
-      try {
 
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-        Map<String, MultipartFile> files = multipartRequest.getFileMap();
-
-        if (log.isDebugEnabled()) {
-          log.debug("getMultipartFiles::multipartRequest.getFileMap() = " + files);
-          log.debug("getMultipartFiles::multipartRequest.getFileMap().size() = "
-              + files.size());
-        }
-
-        for (String name : files.keySet()) {
-
-          MultipartFile mpf = files.get(name);
-          if (log.isDebugEnabled()) {
-            log.debug("getMultipartFiles::KEY[" + name + "] = len:" + mpf.getSize());
-          }
-
-          if (mpf.isEmpty() || mpf.getSize() == 0) {
-            continue;
-          }
-
-          uploadedFiles.put(name, new SignatureWebUploadedFile(mpf));
-
-        }
-
-      } catch (Throwable e) {
-        log.error("Error processant fitxers pujats en la petició web: " + e.getMessage(), e);
-      }
-    }
-
-    return uploadedFiles;
-  }
-
-  /**
-   * 
-   * @author anadal
-   *
-   */
-  public static class SignatureWebUploadedFile implements IUploadedFile {
-
-    protected final MultipartFile mpf;
-
-    /**
-     * @param mpf
-     */
-    public SignatureWebUploadedFile(MultipartFile mpf) {
-      super();
-      this.mpf = mpf;
-    }
-
-    @Override
-    public String getFormFieldName() {
-      return mpf.getName();
-    }
-
-    @Override
-    public String getOriginalFilename() {
-      return mpf.getOriginalFilename();
-    }
-
-    @Override
-    public String getContentType() {
-      return mpf.getContentType();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return mpf.isEmpty();
-    }
-
-    @Override
-    public long getSize() {
-      return mpf.getSize();
-    }
-
-    @Override
-    public byte[] getBytes() throws IOException {
-      return mpf.getBytes();
-    }
-
-    @Override
-    public InputStream getInputStream() throws IOException {
-      return mpf.getInputStream();
-    }
-
-    @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
-      mpf.transferTo(dest);
-    }
-
-  }
-
-  public static void printRequestInfo(HttpServletRequest request) {
-    log.info(" +++++++++++++++++ PRINT REQUEST INFO ++++++++++++++++++++++");
-    log.info(" ++++ Scheme: " + request.getScheme());
-    log.info(" ++++ ServerName: " + request.getServerName());
-    log.info(" ++++ ServerPort: " + request.getServerPort());
-
-    log.info(" ++++ PathInfo: " + request.getPathInfo());
-    log.info(" ++++ PathTrans: " + request.getPathTranslated());
-    log.info(" ++++ ContextPath: " + request.getContextPath());
-    log.info(" ++++ ServletPath: " + request.getServletPath());
-
-    log.info(" ++++ getRequestURI: " + request.getRequestURI());
-    log.info(" ++++ getRequestURL: " + request.getRequestURL());
-    log.info(" ++++ getQueryString: " + request.getQueryString());
-
-    log.info(" ++++ javax.servlet.forward.request_uri: "
-        + (String) request.getAttribute("javax.servlet.forward.request_uri"));
-
-    log.info(" ===============================================================");
-  }
-
+  
+  
+ 
 }

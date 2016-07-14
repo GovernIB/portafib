@@ -1,15 +1,11 @@
 package org.fundaciobit.plugins.signatureweb.miniappletutils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +16,6 @@ import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -187,18 +182,17 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
-      HttpServletResponse response, Locale locale) {
+      HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 
     if (query.endsWith(TIMESTAMP_PAGE)) {
 
       requestTimeStamp(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, locale, request, uploadedFiles, response);
+          signaturesSet, signatureIndex, locale, request, response);
     } else {
 
       super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
+          signaturesSet, signatureIndex, request, response, locale);
     }
 
   }
@@ -224,17 +218,16 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
-      HttpServletResponse response, Locale locale) {
+      HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
     if (query.endsWith(TIMESTAMP_PAGE)) {
 
       requestTimeStamp(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, locale, request, uploadedFiles, response);
+          signaturesSet, signatureIndex, locale, request, response);
     } else {
 
       super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
+          signaturesSet, signatureIndex, request, response, locale);
     }
 
   }
@@ -262,7 +255,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   public void requestTimeStamp(String absolutePluginRequestPath,
       String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
       int signatureIndex, Locale locale, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response) {
+      HttpServletResponse response) {
 
     final boolean isDebug = log.isDebugEnabled();
 
@@ -335,28 +328,6 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       log.error(e.getMessage(), e);
     }
 
-  }
-
-
-
-
-  // ---------------------------------------------------------
-  // ------------------- Utils ------------------------
-  // ---------------------------------------------------------
-
-  public static Properties readPropertiesFromFile(File props) throws FileNotFoundException,
-      IOException {
-
-    Properties prop = null;
-    if (props.exists()) {
-
-      prop = new Properties();
-
-      FileInputStream fis = new FileInputStream(props);
-      prop.load(fis);
-      fis.close();
-    }
-    return prop;
   }
 
 }

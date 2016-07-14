@@ -1,64 +1,78 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureweb-portafib</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureWeb - PortaFIB</name>
+
+  <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <artifactId>plugin-signatureweb-portafib</artifactId>
-    <packaging>jar</packaging>
     <version>1.0.0</version>
+    <artifactId>plugins-signatureweb</artifactId>
+  </parent>
 
-    <name>FundacioBit Plugins - SignatureWeb - PortaFIB</name>
+  <url>http://maven.apache.org</url>
 
-    <parent>
-        <groupId>org.fundaciobit.plugins</groupId>
-        <version>1.0.0</version>
-        <artifactId>plugins-signatureweb</artifactId>
-    </parent>
+  <dependencies>
 
-    <url>http://maven.apache.org</url>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-    <dependencies>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <version>1.0.0</version>
+      <artifactId>plugin-signatureweb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugins-api</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <artifactId>portafib-ws-api-passarela</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>1.1.0</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <version>1.0.0</version>
-            <artifactId>plugin-signatureweb-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <artifactId>portafib-ws-api-passarela</artifactId>
-	        <groupId>es.caib.portafib</groupId>
-            <version>1.1.0</version>
-        </dependency>
-       
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-       
-        <dependency>  
-			<groupId>org.jboss.ws.cxf</groupId>  
-			<artifactId>jbossws-cxf-client</artifactId>  
-			<version>4.1.1.Final</version>  
-			<scope>provided</scope>  
-        </dependency> 
-        
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
 
-    </dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>  
+      <groupId>org.jboss.ws.cxf</groupId>  
+      <artifactId>jbossws-cxf-client</artifactId>  
+      <version>4.1.1.Final</version>  
+      <scope>provided</scope>  
+    </dependency> 
+
+
+  </dependencies>
 </project>

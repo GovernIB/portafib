@@ -2,7 +2,6 @@ package org.fundaciobit.plugins.signatureweb.api;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,7 +116,7 @@ public interface ISignatureWebPlugin extends IPlugin {
    */
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response);
+      HttpServletResponse response);
 
   /**
    * Peticio POST
@@ -143,7 +142,7 @@ public interface ISignatureWebPlugin extends IPlugin {
    */
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, String signaturesSetID, int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response);
+      HttpServletResponse response);
 
   /**
    * 

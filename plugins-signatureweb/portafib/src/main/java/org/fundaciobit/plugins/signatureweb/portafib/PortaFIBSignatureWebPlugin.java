@@ -19,11 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
 
-
-
-
-
-
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
@@ -34,7 +29,6 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 
 import es.caib.portafib.ws.api.v1.passarela.FitxerBean;
 import es.caib.portafib.ws.api.v1.passarela.PassarelaCommonInfoSignature;
@@ -352,8 +346,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
-      HttpServletResponse response, Locale locale) {
+      HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
 
     if (query.startsWith(FINAL)) {
 
@@ -361,9 +354,13 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
           signaturesSet, request, response);
 
     } else {
+      super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
+          signaturesSet, signatureIndex, request, response, languageUI);
+      /*
       String titol = " Plugin " + getName(locale) + " (Unknown GET Request)";
       log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
           relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex));
+          */
     }
     
   }
@@ -371,36 +368,14 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
-      HttpServletResponse response, Locale locale) {
-    String titol = " Plugin " + getName(new Locale("ca")) + " (Unknown POST Request)";
-    log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-        relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex));
+      HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
+    
+    super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query, 
+        signaturesSet, signatureIndex, request, response, languageUI);
+    
   }
   
   
-
-  /*
-  @Override
-  public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, String transactionID, int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response) {
-
-   
-
-  }
-
-  @Override
-  public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, String transactionID, int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response) {
-
-    String titol = " Plugin " + getName(new Locale("ca")) + " (Unknown POST Request)";
-    log.error(allRequestInfoToStr(request, titol, absolutePluginRequestPath,
-        relativePluginRequestPath, query, transactionID, signatureIndex));
-
-  }
-  */
 
   // ---------------------------------------------------------
   // ----------------------- PAGINA FINAL --------------------
@@ -425,7 +400,6 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       log.debug("finalGET::signaturesSetID  ==> " + signaturesSetID);
     }
 
-    //SignaturesSet ss = getSignaturesSet(signaturesSetID);
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -745,8 +719,6 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     URL wsdl = new URL(endpoint + "?wsdl");
     PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService(wsdl);
-    
-
 
     PortaFIBPassarelaDeFirmaWs api = service.getPortaFIBPassarelaDeFirmaWs();
 

@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
@@ -156,32 +155,17 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
+      HttpServletRequest request,
       HttpServletResponse response, Locale locale) {
 
+    final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+
+    
     if (log.isDebugEnabled()) {
       logAllRequestInfo(request, "GET " + getSimpleName(), absolutePluginRequestPath,
-          relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex);
+          relativePluginRequestPath, query, sai);
     }
 
-    if (query.startsWith("img/")) {
-      InputStream fis = FileUtils.readResource(this.getClass(), query);
-      if (fis != null) {
-        try {
-          FileUtils.copy(fis, response.getOutputStream());
-          fis.close();
-          return;
-        } catch (SocketException se) {
-          return;
-        } catch (IOException e) {
-          log.error("Error intentant retornar recurs " + query + " (" + getSimpleName()
-              + "): " + e.getMessage(), e);
-          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-          return;
-        }
-
-      }
-    }
 
     if (query.startsWith(ISFINISHED_PAGE)) {
       isFinishedRequest(signaturesSet, signatureIndex, response);
@@ -197,11 +181,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           response, signaturesSet, locale);
 
     } else if (commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath,
-        query, signaturesSet, signatureIndex, request, uploadedFiles, response, locale)) {
+        query, signaturesSet, signatureIndex, request, response, locale)) {
       // OK
     } else {
       super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
+          signaturesSet, signatureIndex, request, response, locale);
     }
 
   }
@@ -209,21 +193,22 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
       String query, SignaturesSet signaturesSet, int signatureIndex,
-      HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
-      HttpServletResponse response, Locale locale) {
+      HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
+    final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+        
     if (log.isDebugEnabled()) {
       logAllRequestInfo(request, "POST " + getSimpleName(), absolutePluginRequestPath,
-          relativePluginRequestPath, query, signaturesSet.getSignaturesSetID(), signatureIndex);
+          relativePluginRequestPath, query, sai);
     }
 
     if (commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-        signaturesSet, signatureIndex, request, uploadedFiles, response, locale)) {
+        signaturesSet, signatureIndex, request, response, locale)) {
       // OK
     } else {
 
       super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-          signaturesSet, signatureIndex, request, uploadedFiles, response, locale);
+          signaturesSet, signatureIndex, request, response, locale);
     }
 
   }
@@ -231,7 +216,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   public boolean commonRequestGETPOST(String absolutePluginRequestPath,
       String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
       int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response, Locale locale) {
+      HttpServletResponse response, Locale locale) {
     final boolean resultat;
 
     /*
@@ -257,7 +242,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     } else if (query.startsWith(SIGNATURESERVICE)) {
       // Servicio de firma electronica en 3 fases v2.2
       signatureService(absolutePluginRequestPath, relativePluginRequestPath, request,
-          uploadedFiles, response, signaturesSet, locale);
+          response, signaturesSet, locale);
       resultat = true;
 
     } else if (query.startsWith(STORAGESERVICE)) {
@@ -342,7 +327,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     finalURL = signaturesSet.getCommonInfoSignature().getUrlFinal();
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
-    // TODO XYZ Només podem amb un fitxer firmat
+    // TODO XYZ Només podem amb un fitxer firmat: revisar sistema Batch
     final int index = 0;
 
     FileInfoSignature fis = signaturesSet.getFileInfoSignatureArray()[index];
@@ -592,12 +577,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + " <body>"
         + "\n"
-
-        /*
-         * 
-         * XYZ FALTA AFEGIR DINS STYLE position:absolute; left:0px; top:0px;
-         * border:none;z-index:100;
-         */
         + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">"
         + "\n"
         + "  <table style=\"min-height:200px;width:100%;height:100%;\">"
@@ -613,12 +592,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "</h2><br/>"
         + "\n"
         + "  <img alt=\"Esperi\" style=\"z-index:200\" src=\""
-        + relativePluginRequestPath
-        + "/img/ajax-loader2.gif"
-        + "\"><br/>"
-        + "\n"
-        + "  <br/>"
-        + "\n"
+        + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif"
+        + "\"><br/>\n<br/>\n"
         + "  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\""
         + getTraduccio("cancel", locale)
         + "\">"
@@ -900,18 +875,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
     }
 
-    // XYZ
-    /*
-     * try { Field privateField; privateField =
-     * SignatureService.class.getDeclaredField("DOC_MANAGER");
-     * privateField.setAccessible(true);
-     * 
-     * System.out.println("XYZ NEW33 DOC_MANAGER[OBJECT] = " +
-     * privateField.get(null));
-     * System.out.println("XYZ NEW33 DOC_MANAGER[CLASS]  = " +
-     * privateField.get(null).getClass()); } catch(Exception e) {
-     * log.error("Error intentant llegir ", e); }
-     */
 
     // TODO Cache ???
     RetrieveService retrieveService = new RetrieveService();
@@ -969,10 +932,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    */
   private void signatureService(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
 
-    // TODO XYZ Cache
+    // Cache
     SignatureService signatureService = getSignatureServiceInstance();
 
     try {
@@ -1006,6 +968,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       configField = SignatureService.class.getDeclaredField("config");
       configField.setAccessible(true);
 
+      
+      // Valors NO REALS, nomes per inicialitzar el sistema !!!!
       Properties config = (Properties) configField.get(null);
 
       config.put("overwrite", "true");
@@ -1028,17 +992,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       privateField.setAccessible(true);
       privateField.set(null, DOC_MANAGER);
 
-      /*
-       * privateField = SignatureService.class.getDeclaredField("DOC_MANAGER");
-       * privateField.setAccessible(true);
-       * System.out.println("XYZ NEW2 DOC_MANAGER[OBJECT] = " +
-       * privateField.get(null));
-       * System.out.println("XYZ NEW2 DOC_MANAGER[CLASS]  = " +
-       * privateField.get(null).getClass());
-       */
-
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       log.error("Error inicialitzant DocumentManager: " + e.getMessage(), e);
     }
 

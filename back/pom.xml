@@ -1,325 +1,319 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>portafib-back</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>portafib-back</artifactId>
+  <groupId>es.caib.portafib</groupId>
+  <packaging>war</packaging>
+
+  <name>PortaFIB Back</name>
+
+  <parent>
     <groupId>es.caib.portafib</groupId>
-    <packaging>war</packaging>
+    <artifactId>portafib</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-    <name>PortaFIB Back</name>
+  <repositories>
+    <repository>
+      <id>thirdparty-releases</id>
+      <name>JBoss Thirdparty Releases</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+    </repository>
 
-    <parent>
-        <groupId>es.caib.portafib</groupId>
-        <artifactId>portafib</artifactId>
-        <version>1.1.0</version>
-    </parent>
-	
-    <repositories>
-      <repository>
-        <id>thirdparty-releases</id>
-        <name>JBoss Thirdparty Releases</name>
-        <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
-      </repository>
-    
-	</repositories>
-	
+  </repositories>
 
 
-    <dependencies>
 
-        <!-- Internas -->
+  <dependencies>
 
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-ejb</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
+    <!-- Internas -->
 
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-logic</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-ejb</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>es.caib.portafib</groupId>
-			<artifactId>portafib-utils</artifactId>
-            <version>${project.version}</version>
-			<scope>provided</scope>
-        </dependency>
-       
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-logic</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- Externas -->
-        
-        <dependency>
-		  <groupId>org.fundaciobit.plugins</groupId>
-		  <artifactId>plugins-api</artifactId>
-		  <version>${plugins.version}</version>
-		  <scope>provided</scope>
-		</dependency>
-        
-        <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-api</artifactId>
-            <version>${plugins.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-           <groupId>org.fundaciobit.plugins</groupId>
-           <artifactId>plugin-timestamp-api</artifactId>
-           <version>${plugins.version}</version>
-           <scope>provided</scope>
-         </dependency>
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-utils</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.tuckey</groupId>
-            <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.4</version>
-        </dependency>
-        
-		<dependency>
-		  <groupId>org.fundaciobit.genapp</groupId>
-		  <artifactId>genapp-core</artifactId>
-		  <version>1.0</version>
-		  <scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-		  <groupId>org.fundaciobit.genapp</groupId>
-		  <artifactId>genapp-web</artifactId>
-		  <version>1.0</version>
-		</dependency>
-		
-		<dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.2</version>
-			<scope>provided</scope>
-        </dependency>
-		
-		<dependency>
-		  <groupId>apache-lang</groupId>
-		  <artifactId>commons-lang</artifactId>
-		  <version>2.0</version>
-		  <scope>provided</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>commons-digester</groupId>
-			<artifactId>commons-digester</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
-		</dependency>
+    <!-- Externas -->
 
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-        	<groupId>commons-fileupload</groupId>
-        	<artifactId>commons-fileupload</artifactId>
-        	<version>1.3</version>
-		    <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-            <scope>provided</scope>
-		</dependency>
-        
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>${hibernate.annotations.version}</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-timestamp-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-            <scope>provided</scope>
-		</dependency>
-		
-		 
-        <dependency>
-          <groupId>org.apache.tiles</groupId>
-          <artifactId>tiles-core</artifactId>
-          <version>2.2.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-jdk14</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-core</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-          <groupId>org.apache.tiles</groupId>
-          <artifactId>tiles-jsp</artifactId>
-          <version>2.2.2</version>
-		  <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-jdk14</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-web</artifactId>
+      <version>1.0</version>
+    </dependency>
 
-		<dependency>
-            <groupId>org.jboss.security</groupId>
-            <artifactId>jbosssx</artifactId>
-            <version>2.0.4.SP7</version>
-            <scope>provided</scope>
-        </dependency>
-		
-        <dependency>
-            <groupId>org.jboss.security</groupId>
-            <artifactId>jboss-security-spi</artifactId>
-            <version>2.0.4.SP7</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
 
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-		
-	
-		<dependency>
+    <dependency>
+      <groupId>apache-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>${hibernate.annotations.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>${hibernate.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-core</artifactId>
+      <version>2.2.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-jdk14</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.tiles</groupId>
+      <artifactId>tiles-jsp</artifactId>
+      <version>2.2.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-jdk14</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.security</groupId>
+      <artifactId>jbosssx</artifactId>
+      <version>2.0.4.SP7</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.security</groupId>
+      <artifactId>jboss-security-spi</artifactId>
+      <version>2.0.4.SP7</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-expression</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${springsecurity.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-tx</artifactId>
           <groupId>org.springframework</groupId>
-          <artifactId>spring-web</artifactId>
-          <version>${spring.version}</version>
-       </dependency>
-	   
-	    <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-jdbc</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${springsecurity.version}</version>
-		<exclusions>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-		</exclusions>
-       </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${springsecurity.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-tx</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-jdbc</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-       <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-config</artifactId>
-        <version>${springsecurity.version}</version>
-				<exclusions>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-		</exclusions>
-       </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${springsecurity.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-tx</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-jdbc</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-	   <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-web</artifactId>
-        <version>${springsecurity.version}</version>
-				<exclusions>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-		</exclusions>
-       </dependency>
-	   
-       <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-taglibs</artifactId>
-        <version>${springsecurity.version}</version>
-		<exclusions>
-                <exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-		</exclusions>
-       </dependency>
-	   
-	   <dependency>
-		   <groupId>org.springframework</groupId>
-		   <artifactId>spring-orm</artifactId>
-		   <version>${spring.version}</version>
-		   <exclusions>
-		      <exclusion>
-				 <groupId>org.apache.xerces</groupId>
-				 <artifactId>xml-apis</artifactId>
-			   </exclusion>
-                <!--<exclusion>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${springsecurity.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-tx</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-jdbc</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.xerces</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+        <!--<exclusion>
                     <artifactId>spring-tx</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
@@ -328,103 +322,103 @@
                     <groupId>org.springframework</groupId>
                 </exclusion>
 				-->
-		  </exclusions>
-		</dependency>
-		
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-   
-    </dependencies>
+      </exclusions>
+    </dependency>
 
-	<build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-			<version>2.3.2</version>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-               <compilerVersion>1.6</compilerVersion>
-            </configuration>
-         </plugin>
-		 
-		 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <webResources>
-                        <!-- Documents pdf que es troben dins /doc/pdf i han d'anar a WEBAPP/Documentacio -->
-                        <resource>
-                             <directory>../doc/pdf</directory>
-                             <targetPath>doc</targetPath>
-                             <includes>
-                                <include>Manual_de_Usuari_de_PortaFIB.pdf</include>
-                                <include>MCFv1.3_manual-integrador_ES_Filtros.pdf</include>
-                             </includes>
-                             <filtering>false</filtering>
-                        </resource>
-                    </webResources>
-					<packagingExcludes>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <compilerVersion>1.6</compilerVersion>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <webResources>
+            <!-- Documents pdf que es troben dins /doc/pdf i han d'anar a WEBAPP/Documentacio -->
+            <resource>
+              <directory>../doc/pdf</directory>
+              <targetPath>doc</targetPath>
+              <includes>
+                <include>Manual_de_Usuari_de_PortaFIB.pdf</include>
+                <include>MCFv1.3_manual-integrador_ES_Filtros.pdf</include>
+              </includes>
+              <filtering>false</filtering>
+            </resource>
+          </webResources>
+          <packagingExcludes>
 					  WEB-INF/lib/xml-apis-*.jar,
 					  WEB-INF/lib/slf4j*.jar
-				  </packagingExcludes>
-                </configuration>
-            </plugin>
-		 
+          </packagingExcludes>
+        </configuration>
+      </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>2.4.1</version>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}/src/main/resources</directory>
+              <includes>
+                <include>genapp_*.properties</include>
+                <include>portafib_genapp_*.properties</include>
+                <include>logicmissatges_*.properties</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>				
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
             <configuration>
-                <filesets>
-                    <fileset>
-                        <directory>${basedir}/src/main/resources</directory>
-                        <includes>
-                           <include>genapp_*.properties</include>
-						   <include>portafib_genapp_*.properties</include>
-						   <include>logicmissatges_*.properties</include>
-                        </includes>
-                        <followSymlinks>false</followSymlinks>
-                    </fileset>
-                </filesets>
-            </configuration>
-        </plugin>
-		 
-		<plugin>
-			<artifactId>maven-resources-plugin</artifactId>
-			<version>2.6</version>
-			<executions>
-			  <execution>
-				<id>copy-resources</id>				
-				<phase>validate</phase>
-				<goals>
-				  <goal>copy-resources</goal>
-				</goals>
-				<configuration>
-				  <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-				  <resources>          
-					<resource>
-					  <directory>${basedir}/../logic/src/main/resources</directory>
-					    <includes>
-						   <include>logicmissatges_*.properties</include>
-						   <include>genapp_*.properties</include>
-						   <include>portafib_genapp_*.properties</include>
-						</includes>
-					  <filtering>true</filtering>
-					</resource>
-				  </resources>
-                  <overwrite>true</overwrite>
-				</configuration>            
-			  </execution>
-			</executions>
-		</plugin>
-	 
-      </plugins>
-   </build>
+              <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${basedir}/../logic/src/main/resources</directory>
+                  <includes>
+                    <include>logicmissatges_*.properties</include>
+                    <include>genapp_*.properties</include>
+                    <include>portafib_genapp_*.properties</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+              <overwrite>true</overwrite>
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
 </project>

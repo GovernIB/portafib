@@ -23,27 +23,29 @@
       <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <filter>
-        <filter-name>PluginFilter</filter-name>   
-        <filter-class>org.fundaciobit.plugins.signatureweb.api.utils.PluginRequestFilter</filter-class>  
-    </filter> 
-    <filter-mapping>   
-      <filter-name>PluginFilter</filter-name>  
-      <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
-      <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
-    </filter-mapping>
+    
+    
+  <servlet>
+    <servlet-name>PluginCommonSignWebRequests</servlet-name>
+    <servlet-class>es.caib.portafib.back.controller.common.SignatureModuleController</servlet-class>
+  </servlet>
 
-    <filter>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>UrlRewriteFilter</filter-name>
-        <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
-        <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
+  <servlet-mapping>
+    <servlet-name>PluginCommonSignWebRequests</servlet-name>
+    <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>PluginPublicSignWebRequests</servlet-name>
+    <servlet-class>es.caib.portafib.back.controller.common.SignatureModuleControllerPublic</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>PluginPublicSignWebRequests</servlet-name>
+    <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
+  </servlet-mapping>
+
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

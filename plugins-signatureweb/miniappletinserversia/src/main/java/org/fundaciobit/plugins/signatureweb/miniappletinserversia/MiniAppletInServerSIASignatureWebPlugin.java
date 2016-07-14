@@ -4,10 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.Security;
 import java.security.cert.Certificate;
@@ -33,13 +31,11 @@ import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.IUploadedFile;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.utils.FileUtils;
 
 import com.openlandsw.rss.gateway.CertificateInfo;
 import com.openlandsw.rss.gateway.constants.ConstantsGateWay;
@@ -74,7 +70,6 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public static final String PROPERTY_LOAD_BC_PROVIDER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "LOAD_BC_PROVIDER";
   public static final String PROPERTY_SOCKET_TIMEOUT = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "SOCKET_TIMEOUT";
 
-  
   public static final String PROPERTY_FORCE_SFDA = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ForceSFDA";
   
   private static final String PROPERTY_MAPPING_USERS_PATH = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "mappingusers";
@@ -85,15 +80,12 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   public static final String IGNORE_CERTIFICATE_FILTER = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "ignore_certificate_filter";
 
-  private static final String MINIAPPLETINSERVERSIA_WEBRESOURCE= "miniappletinserversiawebresource";
-  
   public Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new HashMap<String,Map<String,MiniAppletInServerSIASigner>>();
 
-  
   public Map<String, String> transactions = new HashMap<String, String>();
   
   /**
-   * 
+   *
    */
   public MiniAppletInServerSIASignatureWebPlugin() {
     super();
@@ -242,39 +234,20 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   @Override
   public void requestGET(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request, Map<String, IUploadedFile> uploadedFiles,
+      int signatureIndex, HttpServletRequest request, 
       HttpServletResponse response, Locale locale)  {
 
-    
-    if (query.startsWith(MINIAPPLETINSERVERSIA_WEBRESOURCE)) {
-      InputStream fis = FileUtils.readResource(this.getClass(), query);
-      if (fis != null) {
-        try {
-          FileUtils.copy(fis, response.getOutputStream());        
-          fis.close();
-          return;
-        } catch (SocketException se) {
-          return;
-        } catch (Exception e) {
-          log.error("Error intentant retornar recurs " + query + " (" 
-              + getSimpleName() + "): " +e.getMessage(), e);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-      }
-    }
-    
 
     if (query.startsWith(SELECT_CERTIFICATE_PAGE)) {
       
       selectCertificateGET(absolutePluginRequestPath, relativePluginRequestPath,
-          query, request, response, signaturesSet, locale);
+          query, request, response, signaturesSet, signatureIndex, locale);
 
      
     } else if(query.startsWith(SENSE_CERTIFICATS_PAGE)) { 
       // S'ha de provar si funciona
-      senseCertificats(absolutePluginRequestPath, 
-          relativePluginRequestPath, request, response, signaturesSet, locale);
+      senseCertificats(absolutePluginRequestPath, relativePluginRequestPath, 
+          request, response, signaturesSet, signatureIndex, locale);
     } else if (query.startsWith(FIRMAR_POST_PAGE)) {
       firmarPost(request, response, signaturesSet, locale);
     } else if (query.startsWith(CLOSE_SIA_PAGE)) {
@@ -285,7 +258,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     
         super.requestGET(absolutePluginRequestPath, 
             relativePluginRequestPath, query, signaturesSet, signatureIndex,
-            request, uploadedFiles, response, locale);
+            request, response, locale);
     }
 
   }
@@ -296,8 +269,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   public void requestPOST(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String relativePath,
       SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
-      Map<String, IUploadedFile> uploadedFiles, HttpServletResponse response,
-      Locale locale)  {
+     HttpServletResponse response, Locale locale)  {
 
 
     if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
@@ -308,7 +280,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     } else {
       super.requestPOST(absolutePluginRequestPath, 
           relativePluginRequestPath, relativePath, signaturesSet, signatureIndex,
-          request, uploadedFiles, response, locale);
+          request, response, locale);
       
     }
 
@@ -324,28 +296,23 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   private static final String  CLOSE_SIA_PAGE = "closesiapage";
     
-  private void  closeSIAPage( HttpServletResponse response, Locale locale)  {
+  private void closeSIAPage(HttpServletResponse response, Locale locale) {
     PrintWriter out;
     try {
-      
+
       response.setCharacterEncoding("utf-8");
       response.setContentType("text/html");
-      
+
       out = response.getWriter();
-    
-    
-    out.println("<html><head>"
-        + "<script type=\"text/javascript\">"
-        + "    window.close();"
-        + "</script>"
-        + "</head><body>"
-        + "</body></html>");
-    
-    out.flush();
+
+      out.println("<html><head>" + "<script type=\"text/javascript\">" + "    window.close();"
+          + "</script>" + "</head><body>" + "</body></html>");
+
+      out.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
   }
   
   
@@ -361,10 +328,13 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
  private void senseCertificats(String absolutePluginRequestPath, 
      String relativePluginRequestPath, HttpServletRequest request,
      HttpServletResponse response,
-     SignaturesSet signaturesSet, Locale locale)  {
+     SignaturesSet signaturesSet, int signatureIndex, Locale locale)  {
   
+   
+   SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+   
    PrintWriter out =  generateHeader(request, response, absolutePluginRequestPath, 
-       relativePluginRequestPath, signaturesSet);
+       relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
 
    out.println("<br/><br/>");
    
@@ -375,7 +345,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
    out.println("</center>");
   
-   generateFooter(out);
+   generateFooter(out, sai, signaturesSet);
  }
   
 
@@ -601,7 +571,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
           + "</head><body>" + "\n"
           + "<br/><center>" + "\n"
           + "<h1>" + getTraduccio("introduircontrasenyasia", locale) + "</h1><br/>" + "\n"
-          + "<img src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVERSIA_WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
+          + "<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
           + "<br/><input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"xyz();\" />" + "\n"
           + "</center>" + "\n"
           + "</body>" + "\n"
@@ -869,7 +839,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   private void selectCertificateGET(String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSet signaturesSet,
+      int signatureIndex, Locale locale) {
 
     StringWriter sw = new StringWriter();
     try {
@@ -883,7 +854,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       // EL CONTROL DE QUE HI HAGI CERTIFICATS ES FA EN FILTER
 
       out.println("<form action=\"" + relativePluginRequestPath + "/" + FIRMAR_PRE_PAGE
-          + "\" method=\"post\" enctype=\"multipart/form-data\">");
+          + "\" method=\"post\" >"); // enctype=\"multipart/form-data\"
 
       out.println("<table border=0>");
       out.println("<tr>");
@@ -970,16 +941,15 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
       return;
     }
     
-    
-    
+    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);  
     
     
     PrintWriter outS =  generateHeader(request, response, absolutePluginRequestPath, 
-        relativePluginRequestPath, signaturesSet);
+        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
     
     outS.println(sw.toString());
     
-    generateFooter(outS);
+    generateFooter(outS, sai, signaturesSet);
     
     outS.flush();
     
@@ -1077,20 +1047,6 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  
-  
-  @Override
-  protected void getJavascriptCSS(HttpServletRequest request, String absolutePluginRequestPath, 
-      String relativePluginRequestPath,
-      PrintWriter out, SignaturesSet signaturesSet) {
-    
-    //  Javascript i CSS externs
-    out.println("<script src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVERSIA_WEBRESOURCE + "/js/jquery.js\"></script>");
-    out.println("<script src=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVERSIA_WEBRESOURCE + "/js/bootstrap.js\"></script>");
-    out.println("<link href=\"" + relativePluginRequestPath + "/" + MINIAPPLETINSERVERSIA_WEBRESOURCE + "/css/bootstrap.css\" rel=\"stylesheet\" media=\"screen\">");
-
-  }
-  
   
   @Override
   public String getResourceBundleName() {
