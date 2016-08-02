@@ -1,11 +1,14 @@
 package es.caib.portafib.back.form.dest;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 
 import es.caib.portafib.back.form.webdb.ColaboracioDelegacioForm;
 
@@ -32,11 +35,11 @@ public class ColaboracioDelegacioDestForm extends ColaboracioDelegacioForm {
     return result;
   }
   
-  Map<Long, String> allTipusDocumentInfo;  
+  Map<Long, String> allTipusDocumentInfo = new HashMap<Long, String>();  
   
-  List<Long> currentTipusDocument;
+  List<Long> currentTipusDocument = new ArrayList<Long>();
   
-  List<Long> availableTipusDocument;
+  List<Long> availableTipusDocument = new ArrayList<Long>();
 
   /**
    * TIPUS = 1  => Accepta tots els tipus de document 

@@ -33,26 +33,15 @@
         <tr>
           <td>
               <b><small><fmt:message key="tipusdocument.seleccionats" /></small></b><br/>
-
               <form:select path="currentTipusDocument"  id="currentTipusDocument" cssClass="input-xlarge" multiple="true" size="4">
                 <c:if test="${not empty colaboracioDelegacioForm.currentTipusDocument}">
-                  <c:forEach items="${colaboracioDelegacioForm.allTipusDocumentInfo}" var="tipusDocInfo">
-                    <c:set var="tipusDocID" value="${tipusDocInfo.key}" />
-                    <c:if test="${gen:contains(colaboracioDelegacioForm.currentTipusDocument ,tipusDocID)}">
-                      <form:option value="${tipusDocID}">${tipusDocInfo.value}</form:option>
-                    </c:if>
+                  <c:forEach items="${colaboracioDelegacioForm.currentTipusDocument}" var="tipusDocID">
+                    <c:set var="tipusDocInfo" value="${colaboracioDelegacioForm.allTipusDocumentInfo[tipusDocID]}" />
+                    <form:option value="${tipusDocID}">${tipusDocInfo}</form:option>
+                    
                   </c:forEach>
                 </c:if>
               </form:select>
-              
-              <%--
-              <form:select path="currentTipusDocument"  id="currentTipusDocument" cssClass="input-xlarge" multiple="true" size="4">
-                <c:forEach items="${colaboracioDelegacioForm.currentTipusDocument}" var="tipusDocID">
-                <c:set var="tipusDocName" value="${colaboracioDelegacioForm.allTipusDocumentInfo[tipusDocID]}" />
-                <form:option value="${tipusDocID}">${tipusDocName}</form:option>
-                </c:forEach>
-              </form:select>
-              --%>
           </td>
           <c:if test="${!colaboracioDelegacioForm.tipusReadOnly}">
           <td>
@@ -61,24 +50,12 @@
           </td>
           <td>
               <b><small><fmt:message key="tipusdocument.disponibles" /></small></b><br/>
-              
-              <form:select path="availableTipusDocument" id="availableTipusDocument" cssClass="input-xlarge" multiple="true" size="4">
-                <c:forEach items="${colaboracioDelegacioForm.allTipusDocumentInfo}" var="tipusDocInfo">
-                  <c:set var="tipusDocID" value="${tipusDocInfo.key}" />
-                  <c:if test="${gen:contains(colaboracioDelegacioForm.availableTipusDocument ,tipusDocID)}">
-                    <form:option value="${tipusDocID}">${tipusDocInfo.value}</form:option>
-                  </c:if>
-                </c:forEach>
-              </form:select>
-              
-               <%--
               <form:select path="availableTipusDocument" id="availableTipusDocument" cssClass="input-xlarge" multiple="true" size="4">
                 <c:forEach items="${colaboracioDelegacioForm.availableTipusDocument}" var="tipusDocID">
-                    <c:set var="tipusDocName" value="${colaboracioDelegacioForm.allTipusDocumentInfo[tipusDocID]}" />
-                    <form:option value="${tipusDocID}">${tipusDocName}</form:option>
-                </c:forEach>    
+                    <c:set var="tipusDocInfo" value="${colaboracioDelegacioForm.allTipusDocumentInfo[tipusDocID]}" />
+                    <form:option value="${tipusDocID}">${tipusDocInfo}</form:option>
+                </c:forEach>
               </form:select>
-              --%>
             </td>
           </c:if>
         </tr>
@@ -93,15 +70,14 @@
 
 <script type="text/javascript">
 
-   <c:if test="${! colaboracioDelegacioForm.nou}">
-    function firmarAutoritzacio(url) {
-        if (deployJava.isPluginInstalled()) {
-            goTo(url + "/false");
-        } else {
-            goTo(url + '/true');
-        }
-    }
-   </c:if>
+    $(document).ready(function () {
+        // when a submit button is clicked, put its name into the action hidden field
+        $(":submit").click(function () {
+            preSubmit();
+            return true;
+        });
+    });
+
 
     function preSubmit() {
     	var desti = document.getElementById("currentTipusDocument");

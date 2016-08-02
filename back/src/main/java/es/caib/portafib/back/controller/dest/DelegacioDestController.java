@@ -9,12 +9,17 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -367,9 +372,17 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @Override
   public ColaboracioDelegacioForm getColaboracioDelegacioForm(ColaboracioDelegacioJPA _jpa,
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
+    
+    
+    ColaboracioDelegacioForm cdoriginal = super.getColaboracioDelegacioForm(_jpa, __isView, request, mav);
+    
+    
     ColaboracioDelegacioDestForm colaboracioDelegacioForm;
-    colaboracioDelegacioForm = new ColaboracioDelegacioDestForm(
-        super.getColaboracioDelegacioForm(_jpa, __isView, request, mav));
+    if (cdoriginal instanceof ColaboracioDelegacioDestForm) {
+      colaboracioDelegacioForm = (ColaboracioDelegacioDestForm)cdoriginal;
+    } else {
+      colaboracioDelegacioForm = new ColaboracioDelegacioDestForm(cdoriginal);
+    }
 
     // Valors per defecte
     ColaboracioDelegacioJPA colaboracioDelegacioJPA;
@@ -446,6 +459,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
           UsuariAplicacioFields.ENTITATID.equal(entitatID));
       Where whereAll = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.isNull(),
           TipusDocumentFields.USUARIAPLICACIOID.in(subQuery));
+
+      
+      
       allTipusDocumentList = tipusDocumentRefList.getReferenceList(
           TipusDocumentFields.TIPUSDOCUMENTID, whereAll);
       // Ordenam pel nom
@@ -456,6 +472,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       for (StringKeyValue stringKeyValue : allTipusDocumentList) {
         allTipusDocumentInfo.put(new Long(stringKeyValue.getKey()), stringKeyValue.getValue());
       }
+      
+      // ordenam pel Valor
+      allTipusDocumentInfo = sortByValue(allTipusDocumentInfo);
+      
 
       if (isDebug) {
         log.debug(" COUNT allTipusDocument = " + allTipusDocumentList.size());
@@ -500,12 +520,23 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         log.info(" getColaboracioDelegacioForm: Updating: Tipus<BBDD>.size() == " + tipus.size());
       }
 
+      Map<Long, String> currentTipusDocumentMap = new HashMap<Long, String>();
+      
       for (TipusDocumentColaboracioDelegacioJPA t : tipus) {
         if (isDebug) {
           log.info("      + Conte Element[" + t.getTipusDocumentID() + "]");
         }
-        currentTipusDocument.add(t.getTipusDocumentID());
+        
+        long id = t.getTipusDocumentID();
+        currentTipusDocumentMap.put(id, allTipusDocumentInfo.get(id));
+
       }
+      
+      currentTipusDocumentMap = sortByValue(currentTipusDocumentMap);
+      
+      currentTipusDocument = new ArrayList<Long>(currentTipusDocumentMap.keySet());
+      
+      
 
       int estat;
 
@@ -545,7 +576,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
           // Afegim boto per firmar
           colaboracioDelegacioForm.addAdditionalButton(new AdditionalButton("icon-pencil",
               "firmar", 
-              "javascript:firmarAutoritzacio('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/{0}')", "btn-warning"));
+              //"javascript:firmarAutoritzacio('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/{0}')",
+              //request.getContextPath() + 
+              getContextWeb() + "/firmarautoritzacio/" +  colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID(),
+              "btn-warning"));
           // Missatge informatiu
           HtmlUtils.saveMessageInfo(request,
               I18NUtils.tradueix("delegacio.avisnofirmadaautoritzacio"));
@@ -626,6 +660,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
 
     colaboracioDelegacioForm.setAllTipusDocumentInfo(allTipusDocumentInfo);
+    
+    
     colaboracioDelegacioForm.setAvailableTipusDocument(availableTipusDocument);
     colaboracioDelegacioForm.setCurrentTipusDocument(currentTipusDocument);
     colaboracioDelegacioForm.setTipus(currentTipusDocument.isEmpty() ? 1 : 2);
@@ -634,6 +670,23 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
   
   
+  private static <K, V> Map<K, V> sortByValue(Map<K, V> map) {
+    List<Entry<K, V>> list = new LinkedList<Map.Entry<K,V>>(map.entrySet());
+    Collections.sort(list, new Comparator<Object>() {
+        @SuppressWarnings("unchecked")
+        public int compare(Object o1, Object o2) {
+            return ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue()).compareTo(((Map.Entry<K, V>) (o2)).getValue());
+        }
+    });
+
+    Map<K, V> result = new LinkedHashMap<K, V>();
+    for (Iterator<Entry<K, V>> it = list.iterator(); it.hasNext();) {
+        Map.Entry<K, V> entry = (Map.Entry<K, V>) it.next();
+        result.put(entry.getKey(), entry.getValue());
+    }
+
+    return result;
+}
   
   
   @Override
@@ -709,20 +762,39 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         }
       }
     }
+    
+ 
+    final boolean isDebug = log.isDebugEnabled();
+    
+    if (isDebug) {
+      List<Long> noseleccionats = form.getAvailableTipusDocument();
+    
+      if (noseleccionats == null) {
+        log.info(" +++++++++++  noseleccionats List= NULL");
+      } else {
+        log.info(" +++++++++++  noseleccionats Size() = " + noseleccionats.size());
+      }
+    }
+    
+    
 
     // Validar Tipus de Document
-    List<Long> tipusSeleccionats = form.getCurrentTipusDocument();
-    int type = form.getTipus();
-    final boolean isDebug = log.isDebugEnabled();
+    final List<Long> tipusSeleccionats = form.getCurrentTipusDocument();
+    final int type = form.getTipus();
+    
     if (isDebug) {
-      log.info(" ----------  postValidate List= " + tipusSeleccionats 
-          + "  || type= " + type  + "-----------");
+      log.info(" ----------  CurrentTipusDocument List= " + tipusSeleccionats + "  -----------");
+      log.info(" ----------  type= " + type  + "  -----------");
     }
     Set<TipusDocumentColaboracioDelegacioJPA> tipusPerColaDele;
     tipusPerColaDele = new HashSet<TipusDocumentColaboracioDelegacioJPA>();
-    if (tipusSeleccionats == null || type == 1) {
+    if (tipusSeleccionats == null || tipusSeleccionats.size() == 0 || type == 1) {
       // No fer res, no s'ha seleccionat cap tipus
     } else {
+      if (isDebug) {
+        log.info(" ----------  CurrentTipusDocument List Size= "
+           + tipusSeleccionats.size() + "  -----------");
+      }
       if (colaboracioDelegacioForm.isNou()) {
         // === NOU
         for (Long tip : tipusSeleccionats) {
@@ -831,6 +903,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     if (esDelegat()) {
       // Anam a la pàgina de Firma
+      
+     
       return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
     } else {
@@ -965,6 +1039,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   public ModelAndView firmarAutoritzacioDelegacio(
       @PathVariable("delegacioID") Long delegacioID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    
 
     ColaboracioDelegacioJPA delegacio;
     delegacio = colaboracioDelegacioLogicaEjb.findByPrimaryKeyFull(delegacioID);
@@ -1133,6 +1208,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
+    
+    HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("firmardelegacio.titol")); 
+    //"<b>Firmar Autorització</b> Ara ha de firmar l´autorització de delegació. Sense aquest pas no es completarà aquesta delegació. Si vol, pot deixar aquest pas per més endavant però fins que no firmi aquesta delegació, aquesta no s´activarà.");
+
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
