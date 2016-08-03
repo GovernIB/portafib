@@ -4,7 +4,6 @@
   <groupId>es.caib.portafib</groupId>
   <artifactId>portafib-ws</artifactId>  
   <packaging>pom</packaging>
-  <version>1.1.1</version>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
