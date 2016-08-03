@@ -43,3 +43,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /compil.bat
 /all.bat
 /plugins-signatureweb/afirma-triphase-server/src/main/resources/index.html
+/plugins-signatureweb/compil.bat
+/mvndeploy.bat

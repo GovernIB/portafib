@@ -35,7 +35,7 @@
     <dependency>
       <artifactId>portafib-ws-api-passarela</artifactId>
       <groupId>es.caib.portafib</groupId>
-      <version>1.1.0</version>
+      <version>${portafib.version}</version>
     </dependency>
 
     <dependency>

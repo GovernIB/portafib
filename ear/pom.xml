@@ -464,7 +464,7 @@
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-indra-callback-server</artifactId>
-          <version>${project.version}</version>
+          <version>${portafib.version}</version>
           <type>war</type>
         </dependency>
       </dependencies>
@@ -498,7 +498,7 @@
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-indra-server</artifactId>
-          <version>${project.version}</version>
+          <version>${portafib.version}</version>
           <type>ejb</type>					
         </dependency>
 
@@ -531,7 +531,7 @@
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-server</artifactId>
-          <version>${project.version}</version>
+          <version>${portafib.version}</version>
           <type>ejb</type>
         </dependency>
       </dependencies>
@@ -568,13 +568,13 @@
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-callback-server</artifactId>
-          <version>${project.version}</version>
+          <version>${portafib.version}</version>
           <type>ejb</type>
         </dependency>
         <dependency>
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-callback-server-web</artifactId>
-          <version>${project.version}</version>
+          <version>${portafib.version}</version>
           <type>war</type>
         </dependency>
       </dependencies>

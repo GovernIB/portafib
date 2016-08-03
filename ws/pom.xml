@@ -1,106 +1,115 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>es.caib.portafib</groupId>
+  <artifactId>portafib-ws</artifactId>  
+  <packaging>pom</packaging>
+  <version>1.1.0</version>
+
+  <parent>
     <groupId>es.caib.portafib</groupId>
-	<artifactId>portafib-ws</artifactId>  
-	<packaging>pom</packaging>
+    <artifactId>portafib</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-	<parent>
-		<groupId>es.caib.portafib</groupId>
-		<artifactId>portafib</artifactId>
-		<version>1.1.0</version>
-	</parent>
-	
-	<name>PortaFIB WS</name>
-	
-    <modules>
-	   <module>indra_callback_api</module>
-	   <module>portafib_callback_api</module>
-    </modules>
-   
-    <profiles>
-		<profile>
-			<id>ws-portafib</id>
-			<modules>
-	          <module>portafib_server</module>
-	          <module>portafib_api</module>
-			  <module>portafib_api_example</module>
-              <module>portafib_api_passarela</module>
-			</modules>
-		</profile>
+  <name>PortaFIB WS</name>
 
-		<profile>
-			<id>ws-portafirmas</id>
-			<modules>
-	          <module>indra_server</module>
-	          <module>indra_api</module>
-			</modules>
-		</profile>
+  <modules>
+    <module>indra_callback_api</module>
+    <module>portafib_callback_api</module>
+  </modules>
 
-		<profile>
-			<id>ws-portafirmas-callback-server</id>
-			<modules>
-	          <module>indra_callback_server</module>	   
-			</modules>
-		</profile>
-		
-		<profile>
-			<id>ws-portafib-callback-server</id>
-			<modules>
-	          <module>portafib_callback_server</module>	   
-			  <module>portafib_callback_server_web</module>	   
-			</modules>
-		</profile>
+  <profiles>
+    <profile>
+      <id>ws-portafib</id>
+      <modules>
+        <module>portafib_server</module>
+        <module>portafib_api</module>
+        <module>portafib_api_example</module>
+        <module>portafib_api_passarela</module>
+      </modules>
+    </profile>
 
-	</profiles>
-	
-	
-    <repositories>
-        <repository>
-            <id>maven-nuxeo</id>
-            <name>Maven Nuxeo Repository</name>
-            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-    
-    <build>
-        <pluginManagement>
-            <plugins>
+    <profile>
+      <id>passarela</id>
+      <modules>
+        <module>portafib_server</module>
+        <module>portafib_api_passarela</module>
+      </modules>
+    </profile>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
+    <profile>
+      <id>ws-portafirmas</id>
+      <modules>
+        <module>indra_server</module>
+        <module>indra_api</module>
+      </modules>
+    </profile>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
+    <profile>
+      <id>ws-portafirmas-callback-server</id>
+      <modules>
+        <module>indra_callback_server</module>	   
+      </modules>
+    </profile>
 
-            </plugins>
-        </pluginManagement>
+    <profile>
+      <id>ws-portafib-callback-server</id>
+      <modules>
+        <module>portafib_callback_server</module>	   
+        <module>portafib_callback_server_web</module>	   
+      </modules>
+    </profile>
 
-        <plugins>
+  </profiles>
 
 
-        </plugins>
-    </build>
+  <repositories>
+    <repository>
+      <id>maven-nuxeo</id>
+      <name>Maven Nuxeo Repository</name>
+      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+
+
+    </plugins>
+  </build>
 
 </project>

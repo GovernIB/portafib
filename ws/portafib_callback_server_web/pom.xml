@@ -1,120 +1,91 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>    
-    <artifactId>portafib-ws-callback-server-web</artifactId>
-	<groupId>es.caib.portafib</groupId>
-    <packaging>war</packaging>
+  <modelVersion>4.0.0</modelVersion>    
+  <artifactId>portafib-ws-callback-server-web</artifactId>
+  <groupId>es.caib.portafib</groupId>
+  <packaging>war</packaging>
 
-    <name>PortaFIB WS - Callback Server Web (Dev)</name>
+  <name>PortaFIB WS - Callback Server Web (Dev)</name>
 
-	<parent>
-        <groupId>es.caib.portafib</groupId>
-        <artifactId>portafib-ws</artifactId>
-        <version>1.1.0</version>
-    </parent>
-			
-    <build>
-	    <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                  <ejbVersion>3.0</ejbVersion>
-                </configuration>
-            </plugin>
-			<!-- Sempre fer net -->
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4.1</version>
-				<executions>
-				  <execution>
-					<id>auto-clean</id>
-					<phase>initialize</phase>
-					<goals>
-					  <goal>clean</goal>
-					</goals>
-				  </execution>
-				</executions>
-			</plugin>
+  <parent>
+    <groupId>es.caib.portafib</groupId>
+    <artifactId>portafib-ws</artifactId>
+    <version>1.1.0</version>
+  </parent>
 
-		</plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ejb-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <ejbVersion>3.0</ejbVersion>
+        </configuration>
+      </plugin>
+      <!-- Sempre fer net -->
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+        <executions>
+          <execution>
+            <id>auto-clean</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-    <dependencies>
+    </plugins>
+  </build>
+
+  <dependencies>
 
 
-		
-        <dependency>
-            <groupId>org.jboss.ejb3</groupId>
-            <artifactId>jboss-ejb3-ext-api</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
-        </dependency>
-		<!--
 
-		<dependency>
-          <groupId>org.apache.cxf</groupId>
-          <artifactId>cxf-rt-bindings-soap</artifactId>
-          <version>${cxf.version}</version>
-		   <scope>provided</scope>
-       </dependency>
-		
-		<dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-		   <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
-		   <scope>provided</scope>
-        </dependency>
-		
-		<dependency>
-		   <groupId>org.apache.cxf</groupId>
-		   <artifactId>cxf-rt-ws-security</artifactId>
-           <version>${cxf.version}</version>
-		   <scope>provided</scope>
-        </dependency>
-		-->
-		
-		<dependency>
-          <artifactId>portafib-ws-callback-server</artifactId>
-	      <groupId>es.caib.portafib</groupId>
-		  <version>${project.version}</version>
-		  <scope>provided</scope>
-		</dependency>
-		
-		    
-		
-	    <dependency>
-		  <groupId>es.caib.portafib</groupId>
-		  <artifactId>portafib-utils</artifactId>
-		  <version>${project.version}</version>
-		  <scope>provided</scope>
-		</dependency>
-		
-		
-		<dependency>
-		   <groupId>org.jboss.ws</groupId>
-		   <artifactId>jbossws-spi</artifactId>
-		   <version>1.1.2.GA</version>
-		   <scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.jboss.ejb3</groupId>
+      <artifactId>jboss-ejb3-ext-api</artifactId>
+      <version>1.1.1</version>
+      <scope>provided</scope>
+    </dependency>
 
-		
-    </dependencies>
+    <dependency>
+      <artifactId>portafib-ws-callback-server</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>${portafib.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-utils</artifactId>
+      <version>${portafib.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-spi</artifactId>
+      <version>1.1.2.GA</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+  </dependencies>
 
 
 </project>

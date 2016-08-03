@@ -41,13 +41,7 @@
       <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
       <version>1.0.0</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-portafib</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    
+  
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
@@ -82,6 +76,19 @@
         </dependency>
       </dependencies>
     </profile>
+
+  
+    <!-- PROFILE PER INCLOURE Modul de FIRMA PORTAFIB -->
+    <profile>
+      <id>passarela</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-portafib</artifactId>
+          <version>1.0.0</version>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 
 
@@ -95,8 +102,8 @@
         <version>2.3.2</version>
 
         <configuration>
-          <displayName>Plugins per Exemple de Passarela</displayName>
-          <description>Plugins per Exemple de Passarela</description>
+          <displayName>Plugins per Exemple de Modul Firma Web</displayName>
+          <description>Plugins per Exemple de Modul Firma Web</description>
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
 
@@ -119,11 +126,13 @@
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
             
+            <!--
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
               <artifactId>plugin-signatureweb-portafib</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
+            -->
             
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
