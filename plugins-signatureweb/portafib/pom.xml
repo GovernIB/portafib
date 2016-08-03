@@ -16,8 +16,9 @@
 
   <url>http://maven.apache.org</url>
 
+  
   <dependencies>
-
+  
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugins-api</artifactId>
@@ -73,6 +74,8 @@
       <scope>provided</scope>  
     </dependency> 
 
-
   </dependencies>
+  
+
+  
 </project>

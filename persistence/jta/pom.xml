@@ -4,13 +4,13 @@
 
   <groupId>es.caib.portafib</groupId>
   <artifactId>portafib-persistence-jta</artifactId>  
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <packaging>jar</packaging>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib-persistence</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
   </parent>
 
   <name>PortaFIB Persistence JTA</name>

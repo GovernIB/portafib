@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.caib.portafib</groupId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <artifactId>portafib</artifactId>
   <packaging>pom</packaging>
   <name>PortaFIB</name>
@@ -84,24 +84,22 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
+  
   <properties>
     <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
     <version_txt_file>./versio.txt</version_txt_file>
-    <portafib.version>1.1.0</portafib.version>
+    <portafib.version>1.1.1</portafib.version>
     <plugins.version>1.0.0</plugins.version>
     <spring.version>3.1.2.RELEASE</spring.version>
     <springsecurity.version>3.1.2.RELEASE</springsecurity.version>
     <cxf.version>2.2.12</cxf.version>
-    <!-- 2.2.12 -->
-    <ibkey.version>3.3.2</ibkey.version>
     <bouncycastle.version>1.51</bouncycastle.version>
     <hibernate.version>3.3.2.GA</hibernate.version>
     <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
-
   </properties>
 
   <build>
+
     <pluginManagement>
       <plugins>
 
@@ -137,8 +135,9 @@
     </pluginManagement>
 
     <plugins>
-
+    
       <!-- Directory plugin to find parent root directory absolute path -->
+      <!--
       <plugin>
         <groupId>org.commonjava.maven.plugins</groupId>
         <artifactId>directory-maven-plugin</artifactId>
@@ -156,6 +155,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
 
       <plugin>
         <groupId>com.google.code.maven-replacer-plugin</groupId>
