@@ -69,41 +69,11 @@ public class MiniAppletUtils {
 
       convertPAdES(fileInfo, miniAppletProperties, policy);
 
-
       // PDF Visible      
-      if (fileInfo.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-        
-        PdfVisibleSignature pdfSign = fileInfo.getPdfVisibleSignature();
-
-        miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPAGE,
-            String.valueOf(fileInfo.getSignaturesTableLocation()));
-
-        PdfRubricRectangle rr = pdfSign.getPdfRubricRectangle();
-
-        miniAppletProperties.setProperty(
-            MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTX,
-            String.valueOf((int) rr.getLowerLeftX()));
-        miniAppletProperties.setProperty(
-            MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTX,
-            String.valueOf((int) rr.getUpperRightX()));
-        miniAppletProperties.setProperty(
-            MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTY,
-            String.valueOf((int) rr.getLowerLeftY()));
-        miniAppletProperties.setProperty(
-            MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTY,
-            String.valueOf((int) rr.getUpperRightY()));
-
-        if (isLocalSignature) {
-          byte[] signatureRubricImage;
-          signatureRubricImage = pdfSign.getRubricGenerator().genenerateRubricImage(
-              certificate, new Date());
-          miniAppletProperties.setProperty(
-              MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE,
-              Base64.encode(signatureRubricImage));
-        } else {
-          miniAppletProperties.setProperty(
-              MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE, rubricURL);
-        }
+      if (isLocalSignature) {
+        convertPAdESPdfVisibleLocalSignature(fileInfo, certificate, miniAppletProperties);
+      } else {  
+        convertPAdESPdfVisibleRemoteSignature(fileInfo, rubricURL, miniAppletProperties);
       }
 
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
@@ -140,6 +110,60 @@ public class MiniAppletUtils {
         miniAppletProperties);
 
     return info;
+  }
+
+  
+  public static void convertPAdESPdfVisibleLocalSignature(FileInfoSignature fileInfo,
+      X509Certificate certificate, Properties miniAppletProperties) throws Exception {
+
+    convertPAdESPdfVisible2(fileInfo, certificate, null, true, miniAppletProperties);
+  }
+  
+  
+  public static void convertPAdESPdfVisibleRemoteSignature(FileInfoSignature fileInfo,
+      String rubricURL, Properties miniAppletProperties) throws Exception {
+
+    convertPAdESPdfVisible2(fileInfo, null, rubricURL, false, miniAppletProperties);
+  }
+  
+  
+  private static void convertPAdESPdfVisible2(FileInfoSignature fileInfo,
+      X509Certificate certificate, String rubricURL, boolean isLocalSignature,
+      Properties miniAppletProperties) throws Exception {
+    if (fileInfo.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
+      
+      PdfVisibleSignature pdfSign = fileInfo.getPdfVisibleSignature();
+
+      miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGNATUREPAGE,
+          String.valueOf(fileInfo.getSignaturesTableLocation()));
+
+      PdfRubricRectangle rr = pdfSign.getPdfRubricRectangle();
+
+      miniAppletProperties.setProperty(
+          MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTX,
+          String.valueOf((int) rr.getLowerLeftX()));
+      miniAppletProperties.setProperty(
+          MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTX,
+          String.valueOf((int) rr.getUpperRightX()));
+      miniAppletProperties.setProperty(
+          MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGELOWERLEFTY,
+          String.valueOf((int) rr.getLowerLeftY()));
+      miniAppletProperties.setProperty(
+          MiniAppletConstants.PROPERTY_SIGNATUREPOSITIONONPAGEUPPERRIGHTY,
+          String.valueOf((int) rr.getUpperRightY()));
+
+      if (isLocalSignature) {
+        byte[] signatureRubricImage;
+        signatureRubricImage = pdfSign.getRubricGenerator().genenerateRubricImage(
+            certificate, new Date());
+        miniAppletProperties.setProperty(
+            MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE,
+            Base64.encode(signatureRubricImage));
+      } else {
+        miniAppletProperties.setProperty(
+            MiniAppletConstants.PROPERTY_SIGNATURE_RUBRIC_IMAGE, rubricURL);
+      }
+    }
   }
 
   public static void convertCommon(FileInfoSignature fileInfo, Properties miniAppletProperties) {

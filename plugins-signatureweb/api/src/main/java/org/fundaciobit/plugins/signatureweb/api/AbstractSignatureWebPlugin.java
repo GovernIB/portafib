@@ -1,8 +1,11 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
 
 /**
@@ -361,8 +366,13 @@ public abstract class AbstractSignatureWebPlugin
     }
 
     if (query.startsWith(CANCEL_PAGE)) {
+      
       cancel(request, response, signaturesSet);
 
+    } if (query.endsWith(RUBRIC_PAGE)) {
+      
+      rubricPage(query, signaturesSet, signatureIndex, request, response);
+      
     } else {
 
       super.requestGETPOST(absolutePluginRequestPath, relativePluginRequestPath,
@@ -591,5 +601,69 @@ public abstract class AbstractSignatureWebPlugin
     }
     
   }
+  
+  
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ------------------------- R U B R I C P A G E -------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+
+  public static final String RUBRIC_PAGE = "rubric";
+
+  public void rubricPage(String relativePath, SignaturesSet signaturesSet,
+      int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
+
+    Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);
+    
+    
+    try {
+
+      if (uploadedFiles.size() == 0) {
+        String msg = "MSG: No s´ha pujat cap arxiu (Es requereix un fitxer adjunt de tipus certificat)";
+        log.error(msg, new Exception());
+        response.sendError(404, msg);
+        return;
+      }
+
+      FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
+
+      // TODO Controlar errors
+      FileInfoSignature fileInfo = fileInfoArray[signatureIndex];
+
+      for (String name : uploadedFiles.keySet()) {
+
+        FileItem uploadedFile = uploadedFiles.get(name);
+
+        X509Certificate cert;
+        cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
+
+        byte[] rubric;
+        IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
+        
+        if (generator == null) {
+           throw new Exception("Ha elegit mostrar Taula de Firmes però "
+               + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
+        }
+        
+        rubric = generator.genenerateRubricImage(cert, new Date());
+
+        response.setContentType("image/jpeg");
+        response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
+        response.setContentLength(rubric.length);
+
+        response.getOutputStream().write(rubric);
+        response.getOutputStream().flush();
+        break;
+
+      }
+
+    } catch (Exception e) {
+      log.error("Error processant POST: " + e.getMessage(), e);
+      response.setStatus(404);
+    }
+
+  }
+  
 
 }

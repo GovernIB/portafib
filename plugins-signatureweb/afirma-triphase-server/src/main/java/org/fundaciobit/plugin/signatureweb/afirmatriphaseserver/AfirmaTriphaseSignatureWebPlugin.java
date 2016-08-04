@@ -118,7 +118,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public boolean acceptExternalRubricGenerator() {
-    return false;
+    return true;
   }
 
   @Override
@@ -356,6 +356,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     final String HOST = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
     final String PATH = relativePluginRequestPath;
     
+    int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
+    String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
+    String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+        relativePluginRequestPath);
+    
+    
     
     // CODI CONVERSIO COMU
     MiniAppletUtils.convertCommon(fis, configProperties);
@@ -372,6 +378,23 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       format = "PAdEStri";
 
       MiniAppletUtils.convertPAdES(fis, configProperties, policy);
+      
+      // Configurar per poder rebre la rúbrica
+      String rubricURL;
+      rubricURL = callbackhost + baseSignaturesSet + "/" + index + "/" + RUBRIC_PAGE;
+      try {
+         MiniAppletUtils.convertPAdESPdfVisibleRemoteSignature(fis,  rubricURL, configProperties);
+      } catch (Exception e) {
+        String errorMsg = getSimpleName() + "::Error configurant la Rubrica o PDFVisible: "
+            + e.getMessage();
+        super.finishWithError(response, signaturesSet, errorMsg, null);
+        return;
+      }
+      
+      if (log.isDebugEnabled()) {
+        log.info(" signatureRubricImage => " + configProperties.getProperty("signatureRubricImage" ));
+      }
+      
 
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       format = "XAdEStri";
@@ -409,10 +432,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     // SEGELL DE TEMPS
     if (fis.getTimeStampGenerator() != null) {
-      int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
-      String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
-      String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
-          relativePluginRequestPath);
+      
       String timeStampUrl = null;
 
       timeStampUrl = callbackhost + baseSignaturesSet + "/" + index + "/" + TIMESTAMP_PAGE;
@@ -1184,4 +1204,5 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
 
+ 
 }

@@ -1,8 +1,13 @@
 
+PortaFIB 1.1.1
+==============
+
+2016-08-04 Afegir suport de Taula de Firmes al Mòdul de Firma  @firma AutoFirma 
 
 PortaFIB 1.1.0
 ==============
 
+2016-08-03 Gestió de Versions. Creat tag de la versió PortaFIB 1.1.0
 
 2016-06-10 Nou mòdul de Firma  @firma AutoFirma i Clients Mòbils @Firma amb suport per PAdES, CAdES i XAdES.
 

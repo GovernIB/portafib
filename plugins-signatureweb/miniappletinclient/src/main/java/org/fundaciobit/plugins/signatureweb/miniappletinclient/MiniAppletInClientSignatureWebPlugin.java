@@ -10,8 +10,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URLEncoder;
-import java.security.cert.X509Certificate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +23,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
 import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
@@ -34,7 +31,6 @@ import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSi
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -179,78 +175,33 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   }
 
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ------------------------- R U B R I C P A G E -------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
+ // ---------------------------------------------------------------------------
+ // ------------------------- R U B R I C P A G E -------------------------
+ // ---------------------------------------------------------------------------
+ // ---------------------------------------------------------------------------
 
-  public static final String RUBRIC_PAGE = "rubric";
+ 
+ @Override
+ public void rubricPage(String relativePath, SignaturesSet signaturesSet,
+     int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
 
-  private void rubricPage(String relativePath, SignaturesSet signaturesSet,
-      int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
 
-    Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);
-    
-    
-    try {
+     // Només es per estadistiques de temps de durada de firma
+     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
+     Long[] times;
+     synchronized (elapsedTimes) {
+       times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
+       if (times == null) {
+         times = new Long[fileInfoArray.length];
+         elapsedTimes.put(signaturesSet.getSignaturesSetID(), times);
+       }
+     }
+     times[signatureIndex] = System.currentTimeMillis();
+  
+     super.rubricPage(relativePath, signaturesSet, signatureIndex, request2, response);
+ }
 
-      if (uploadedFiles.size() == 0) {
-        String msg = "MSG: No s´ha pujat cap arxiu (Es requereix un fitxer adjunt de tipus certificat)";
-        log.error(msg, new Exception());
-        response.sendError(404, msg);
-        return;
-      }
-
-      // Només es per estadistiques de temps de durada de firma
-      FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
-      Long[] times;
-      synchronized (elapsedTimes) {
-        times = elapsedTimes.get(signaturesSet.getSignaturesSetID());
-        if (times == null) {
-          times = new Long[fileInfoArray.length];
-          elapsedTimes.put(signaturesSet.getSignaturesSetID(), times);
-        }
-      }
-      times[signatureIndex] = System.currentTimeMillis();
-
-      // TODO Controlar errors
-      FileInfoSignature fileInfo = fileInfoArray[signatureIndex];
-
-      for (String name : uploadedFiles.keySet()) {
-
-        FileItem uploadedFile = uploadedFiles.get(name);
-
-        X509Certificate cert;
-        cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
-
-        byte[] rubric;
-        IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
-        
-        if (generator == null) {
-           throw new Exception("Ha elegit mostrar Taula de Firmes però "
-               + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
-        }
-        
-        rubric = generator.genenerateRubricImage(cert, new Date());
-
-        response.setContentType("image/jpeg");
-        response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
-        response.setContentLength(rubric.length);
-
-        response.getOutputStream().write(rubric);
-        response.getOutputStream().flush();
-
-        break;
-
-      }
-
-    } catch (Exception e) {
-      log.error("Error processant POST: " + e.getMessage(), e);
-      response.setStatus(404);
-    }
-
-  }
 
   // -----------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
@@ -739,7 +690,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
           relativePluginRequestPath);
 
 
-      String rubricURL = callbackhost + baseSignaturesSet + "/" + i + "/rubric";
+      String rubricURL = callbackhost + baseSignaturesSet + "/" + i + "/" + RUBRIC_PAGE;
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
@@ -935,7 +886,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
       FileInfoSignature fileInfo = signs[i];
 
-      String rubricURL = baseSignaturesSet + "/" + i + "/rubric";
+      String rubricURL = baseSignaturesSet + "/" + i + "/" + RUBRIC_PAGE;
       
       String timeStampUrl = null;
       if (fileInfo.getTimeStampGenerator() != null) {
