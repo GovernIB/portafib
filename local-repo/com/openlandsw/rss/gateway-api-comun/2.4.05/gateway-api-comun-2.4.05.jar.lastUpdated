@@ -1,10 +1,4 @@
 #NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
 #Wed Jan 27 09:32:49 CET 2016
-http\://genapp.sourceforge.net/maven/.error=
-https\://repo.maven.apache.org/maven2/.lastUpdated=1453883569766
-http\://pluginsib.sourceforge.net/maven/.error=
-http\://pluginsib.sourceforge.net/maven/.lastUpdated=1453883568726
-http\://genapp.sourceforge.net/maven/.lastUpdated=1453883569134
 https\://maven.nuxeo.org/nexus/content/groups/public/.lastUpdated=1453883568271
-https\://repo.maven.apache.org/maven2/.error=
-https\://maven.nuxeo.org/nexus/content/groups/public/.error=
+

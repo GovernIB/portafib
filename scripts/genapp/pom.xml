@@ -1,143 +1,143 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.fundaciobit.genapp</groupId>
-    <version>1.0</version>
-    <artifactId>genapp-run</artifactId>
-    <packaging>pom</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.genapp</groupId>
+  <version>1.0</version>
+  <artifactId>genapp-run</artifactId>
+  <packaging>pom</packaging>
 
-    <name>FundacioBit GenApp - Run</name>
+  <name>FundacioBit GenApp - Run</name>
 
-    <modules>	
-    </modules>
-	
-	<properties>
-       <spring.version>3.1.2.RELEASE</spring.version>
-    </properties>
+  <modules>	
+  </modules>
 
-    <repositories>
-        <repository>
-            <id>maven-nuxeo</id>
-            <name>Maven Nuxeo Repository</name>
-            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
+  <properties>
+    <spring.version>3.1.2.RELEASE</spring.version>
+  </properties>
 
-		<repository>
-			<id>codelds</id>
-			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
-		</repository>
-		        
-	    <repository>
-		    <id>org.fundaciobit.genapp</id>
-		    <name>GenApp Maven Repository</name>
-		    <url>http://genapp.sourceforge.net/maven/</url>
-	    </repository>
+  <repositories>
+    <repository>
+      <id>maven-nuxeo</id>
+      <name>Maven Nuxeo Repository</name>
+      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
 
-    </repositories>
+    <repository>
+      <id>codelds</id>
+      <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+    </repository>
+
+    <repository>
+      <id>genapp-maven-repos</id>
+      <name>GenApp Maven Repository</name>
+      <url>http://GovernIB.github.io/genapp/maven/</url>
+    </repository>
+
+  </repositories>
 
 
 
-    <dependencies>
-	
-	    <!--  CORE -->
-		
-		<dependency>
-          <groupId>javax.persistence</groupId>
-          <artifactId>persistence-api</artifactId>
-          <version>1.0</version>
-        </dependency>
-	
-		<dependency>
-			  <groupId>org.fundaciobit.genapp</groupId>
-			  <artifactId>genapp-core</artifactId>
-			  <version>1.0</version>
-        </dependency>
-		
-		<!--  WEB -->
+  <dependencies>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-		 </dependency>
-		 
-		<dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-web</artifactId>
-          <version>${spring.version}</version>
-        </dependency>
-	   
-	   	<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+    <!--  CORE -->
 
-	    <dependency>
-			  <groupId>org.fundaciobit.genapp</groupId>
-			  <artifactId>genapp-web</artifactId>
-			  <version>1.0</version>
-        </dependency>
-		
-		<!-- GEN -->
-		
-		<dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-        </dependency>
-		
-				
-	    <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.2</version>
-        </dependency>
-		
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.19</version>
-		</dependency>
-		
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+    </dependency>
 
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.0-801.jdbc3</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.13</version>
-		</dependency>
-	
-	    <dependency>
-			  <groupId>org.fundaciobit.genapp</groupId>
-			  <artifactId>genapp-gen</artifactId>
-			  <version>1.0</version>
-        </dependency>
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-core</artifactId>
+      <version>1.0</version>
+    </dependency>
 
-    </dependencies>
+    <!--  WEB -->
 
-    
-    <build>
- 
-    </build>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-web</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- GEN -->
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.19</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>11.2.0.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.0-801.jdbc3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.13</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-gen</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+
+  </build>
 
 </project>
