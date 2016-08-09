@@ -13,6 +13,7 @@ import es.caib.portafib.model.entity.EstatDeFirma;
 
 
 
+
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -84,5 +85,7 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
   
   
   public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException;
+  
+  public String getEmail(String usuariEntitatID);
   
 }

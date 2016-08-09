@@ -459,6 +459,15 @@
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
     </definition>
     
+    <definition name="colaboracions_List_ROLE_COLA" extends="role_cola">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
+    
+    <definition name="colaboracions_Form_ROLE_COLA" extends="role_cola">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
+    </definition>
+    
     
     <!--  ===========  DELEGAT ================== -->
     
@@ -482,6 +491,15 @@
 
     <definition name="estatFirmaFullView_ROLE_DELE" extends="role_dele">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    
+    <definition name="delegacions_List_ROLE_DELE" extends="role_dele">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/colaboracioDelegacioList.jsp" />
+    </definition>
+    
+    <definition name="delegacions_Form_ROLE_DELE" extends="role_dele">
+        <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
     </definition>
   
     <!--  ===========  DESTINATARI ================== -->

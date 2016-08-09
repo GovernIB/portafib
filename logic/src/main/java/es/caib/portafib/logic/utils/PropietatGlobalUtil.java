@@ -19,6 +19,25 @@ public class PropietatGlobalUtil implements Constants {
   protected static final Logger log = Logger.getLogger(PropietatGlobalUtil.class);
   
   
+  /**
+   * 
+   * @param entitatID
+   * @return
+   */
+  public static boolean isSendNotificationWhenCreateDelegacioColaboracio(String entitatID) {
+    // Valor per entitat
+    final String partialPropertyName = "notificationwhencreatedelegaciocolaboracio";
+    Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
+    
+    // Valor global si no existeix el de per entitat
+    if (val == null) {
+      val = getBoolean(partialPropertyName);
+    }
+    
+    return (val == null) ? false : val;
+    
+  }
+  
   
   
   /**
@@ -91,7 +110,7 @@ public class PropietatGlobalUtil implements Constants {
   public static int getMaxItemsToShowInAutocomplete(String entitatID) {
 
     final String partialPropertyName = "maxitemstoshowinautocomplete";
-    Long val = getLong(partialPropertyName);
+    Long val = getLongByEntitat(entitatID, partialPropertyName);
 
     if (val == null) {
       val = 10L;
@@ -111,7 +130,7 @@ public class PropietatGlobalUtil implements Constants {
    */
   public static int getMinCharsToStartAutocomplete(String entitatID) {
     final String partialPropertyName = "mincharstostartautocomplete";
-    Long val = getLong(partialPropertyName);
+    Long val = getLongByEntitat(entitatID, partialPropertyName);
 
     if (val == null) {
       val = 2L;
@@ -132,10 +151,10 @@ public class PropietatGlobalUtil implements Constants {
   public static long getMaxTimeLockedSignInMs(String entitatID) {
 
     final String partialPropertyName = "maxtimelockedsigninms";
-    Long val = getLong(partialPropertyName);
+    Long val = getLongByEntitat(entitatID, partialPropertyName);
 
     if (val == null || val < 60 * 1000L) {
-      val = 3L * 60L * 1000L; // Per defecte 180000;
+      val = 3L * 60L * 1000L; // Per defecte 180000 = 3 minuts;
     }
 
     if(log.isDebugEnabled()) { log.debug( "getMaxTimeLockedSignInMs() = " + val); }
@@ -331,6 +350,20 @@ public class PropietatGlobalUtil implements Constants {
       return null;
     }
   }
+  
+  
+  protected static String getStringByEntitat(String entitatID, final String partialPropertyName) {
+    try {
+      PropietatGlobalLogicaLocal propietatEjb = EjbManager.getPropietatLogicaEJB();
+      return propietatEjb.getProperty(entitatID, PORTAFIB_PROPERTY_BASE + partialPropertyName);
+    } catch (I18NException e) {
+      String msg = I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+      log.error("Unknown error getting String Property per l'entitat " + entitatID 
+          + " ]" + PORTAFIB_PROPERTY_BASE + partialPropertyName + "[: " + msg, e);
+      return null;
+    }
+  }
+  
 
   protected static Long getLong(final String partialPropertyName) {
     try {
@@ -343,6 +376,19 @@ public class PropietatGlobalUtil implements Constants {
       return null;
     }
   }
+  
+  
+  protected static Long getLongByEntitat(String entitatID, final String partialPropertyName) {
+    try {
+      PropietatGlobalLogicaLocal propietatEjb = EjbManager.getPropietatLogicaEJB();
+      return propietatEjb.getLongPropertyByEntitat(entitatID, PORTAFIB_PROPERTY_BASE + partialPropertyName);
+    } catch (I18NException e) {
+      String msg = I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+      log.error("Unknown error getting Long Property by entitat " + entitatID 
+          + "]" + PORTAFIB_PROPERTY_BASE + partialPropertyName + "[: " + msg, e);
+      return null;
+    }
+  }
 
   protected static Boolean getBoolean(final String partialPropertyName) {
     try {
@@ -352,6 +398,20 @@ public class PropietatGlobalUtil implements Constants {
       String msg = I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
       log.error("Unknown error getting Boolean Property ]" + PORTAFIB_PROPERTY_BASE
           + partialPropertyName + "[: " + msg, e);
+      return null;
+    }
+  }
+  
+  
+  protected static Boolean getBooleanByEntitat(final String entitatID,
+      final String partialPropertyName) {
+    try {
+      PropietatGlobalLogicaLocal propietatEjb = EjbManager.getPropietatLogicaEJB();
+      return propietatEjb.getBooleanPropertyByEntitat(entitatID, PORTAFIB_PROPERTY_BASE + partialPropertyName);
+    } catch (I18NException e) {
+      String msg = I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage()));
+      log.error("Unknown error getting Boolean Property by entitat " + entitatID 
+          + " ]" + PORTAFIB_PROPERTY_BASE + partialPropertyName + "[: " + msg, e);
       return null;
     }
   }

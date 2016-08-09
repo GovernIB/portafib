@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Select;
@@ -84,6 +87,9 @@ import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
+import es.caib.portafib.logic.utils.EmailInfo;
+import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
@@ -128,6 +134,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   public static final int ESTAT_DESACTIVADA = 2;
   
   public static final ValueComparator valueComparator = new ValueComparator();
+  
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariPersonaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariPersonaLocal usuariPersonaEjb;
 
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
@@ -451,40 +460,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     // (a) Els nostres documents són aquells que apunten a usuariAplicacio null
     // o a un usuariAplicacio de la nostra entitat
     Map<Long, String> allTipusDocumentInfo;
-    {
-      List<StringKeyValue> allTipusDocumentList;
-      String entitatID = LoginInfo.getInstance().getEntitatID();
-      SubQuery<UsuariAplicacio, String> subQuery;
-      subQuery = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
-          UsuariAplicacioFields.ENTITATID.equal(entitatID));
-      Where whereAll = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.isNull(),
-          TipusDocumentFields.USUARIAPLICACIOID.in(subQuery));
-
-      
-      
-      allTipusDocumentList = tipusDocumentRefList.getReferenceList(
-          TipusDocumentFields.TIPUSDOCUMENTID, whereAll);
-      // Ordenam pel nom
-      // Collections.sort(allTipusDocumentList, STRINGKEYVALUE_COMPARATOR);
-
-      allTipusDocumentInfo = new HashMap<Long, String>();
-
-      for (StringKeyValue stringKeyValue : allTipusDocumentList) {
-        allTipusDocumentInfo.put(new Long(stringKeyValue.getKey()), stringKeyValue.getValue());
-      }
-      
-      // ordenam pel Valor
-      allTipusDocumentInfo = sortByValue(allTipusDocumentInfo);
-      
-
-      if (isDebug) {
-        log.debug(" COUNT allTipusDocument = " + allTipusDocumentList.size());
-        for (StringKeyValue skv : allTipusDocumentList) {
-          log.debug("      - Trobat allTipusDocument == " + skv.getKey() + " --> "
-              + skv.getValue());
-        }
-      }
-    }
+    allTipusDocumentInfo = getAllTipusDocumentInfo(isDebug);
     // (b) Obtenim els tipus de document actual.
     // + Si es nou no té cap tipus
     // + Si estam editant, llegirem els seus tipus
@@ -513,28 +489,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     } else {
 
-      Set<TipusDocumentColaboracioDelegacioJPA> tipus;
-      tipus = colaboracioDelegacioJPA.getTipusDocumentColaboracioDelegacios();
-
-      if (isDebug) {
-        log.info(" getColaboracioDelegacioForm: Updating: Tipus<BBDD>.size() == " + tipus.size());
-      }
-
-      Map<Long, String> currentTipusDocumentMap = new HashMap<Long, String>();
       
-      for (TipusDocumentColaboracioDelegacioJPA t : tipus) {
-        if (isDebug) {
-          log.info("      + Conte Element[" + t.getTipusDocumentID() + "]");
-        }
-        
-        long id = t.getTipusDocumentID();
-        currentTipusDocumentMap.put(id, allTipusDocumentInfo.get(id));
-
-      }
+      currentTipusDocument = getCurrentTipusDocument(colaboracioDelegacioJPA,
+          allTipusDocumentInfo, isDebug);
       
-      currentTipusDocumentMap = sortByValue(currentTipusDocumentMap);
-      
-      currentTipusDocument = new ArrayList<Long>(currentTipusDocumentMap.keySet());
       
       
 
@@ -667,6 +625,75 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     colaboracioDelegacioForm.setTipus(currentTipusDocument.isEmpty() ? 1 : 2);
 
     return colaboracioDelegacioForm;
+  }
+
+
+  public List<Long> getCurrentTipusDocument(ColaboracioDelegacioJPA colaboracioDelegacioJPA,
+      Map<Long, String> allTipusDocumentInfo, boolean isDebug) {
+    List<Long> currentTipusDocument;
+    Set<TipusDocumentColaboracioDelegacioJPA> tipus;
+    tipus = colaboracioDelegacioJPA.getTipusDocumentColaboracioDelegacios();
+
+    if (isDebug) {
+      log.info(" getColaboracioDelegacioForm: Updating: Tipus<BBDD>.size() == " + tipus.size());
+    }
+
+    Map<Long, String> currentTipusDocumentMap = new HashMap<Long, String>();
+    
+    for (TipusDocumentColaboracioDelegacioJPA t : tipus) {
+      if (isDebug) {
+        log.info("      + Conte Element[" + t.getTipusDocumentID() + "]");
+      }
+      
+      long id = t.getTipusDocumentID();
+      currentTipusDocumentMap.put(id, allTipusDocumentInfo.get(id));
+
+    }
+    
+    currentTipusDocumentMap = sortByValue(currentTipusDocumentMap);
+    
+    currentTipusDocument = new ArrayList<Long>(currentTipusDocumentMap.keySet());
+    return currentTipusDocument;
+  }
+
+
+  public Map<Long, String> getAllTipusDocumentInfo(boolean isDebug) throws I18NException {
+    Map<Long, String> allTipusDocumentInfo;
+    {
+      List<StringKeyValue> allTipusDocumentList;
+      String entitatID = LoginInfo.getInstance().getEntitatID();
+      SubQuery<UsuariAplicacio, String> subQuery;
+      subQuery = usuariAplicacioEjb.getSubQuery(UsuariAplicacioFields.USUARIAPLICACIOID,
+          UsuariAplicacioFields.ENTITATID.equal(entitatID));
+      Where whereAll = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.isNull(),
+          TipusDocumentFields.USUARIAPLICACIOID.in(subQuery));
+
+      
+      
+      allTipusDocumentList = tipusDocumentRefList.getReferenceList(
+          TipusDocumentFields.TIPUSDOCUMENTID, whereAll);
+      // Ordenam pel nom
+      // Collections.sort(allTipusDocumentList, STRINGKEYVALUE_COMPARATOR);
+
+      allTipusDocumentInfo = new HashMap<Long, String>();
+
+      for (StringKeyValue stringKeyValue : allTipusDocumentList) {
+        allTipusDocumentInfo.put(new Long(stringKeyValue.getKey()), stringKeyValue.getValue());
+      }
+      
+      // ordenam pel Valor
+      allTipusDocumentInfo = sortByValue(allTipusDocumentInfo);
+      
+
+      if (isDebug) {
+        log.debug(" COUNT allTipusDocument = " + allTipusDocumentList.size());
+        for (StringKeyValue skv : allTipusDocumentList) {
+          log.debug("      - Trobat allTipusDocument == " + skv.getKey() + " --> "
+              + skv.getValue());
+        }
+      }
+    }
+    return allTipusDocumentInfo;
   }
   
   
@@ -899,18 +926,64 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
 
   @Override
-  public String getRedirectWhenCreated(HttpServletRequest request, ColaboracioDelegacioForm colaboracioDelegacioForm) {
+  public String getRedirectWhenCreated(HttpServletRequest request, 
+      ColaboracioDelegacioForm colaboracioDelegacioForm) {
     
     if (esDelegat()) {
       // Anam a la pàgina de Firma
-      
-     
       return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
     } else {
+      enviarNotificacioMailColaDele(request, colaboracioDelegacioForm.getColaboracioDelegacio());
+      
+      
       return "redirect:" + getContextWeb() + "/"
           + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
           + "/edit";
+    }
+  }
+
+
+  public void enviarNotificacioMailColaDele(HttpServletRequest request,
+      ColaboracioDelegacio coladele) {
+    final String entitatID = LoginInfo.getInstance().getEntitatID();
+    // El col·laborador s'activa directament
+    if (PropietatGlobalUtil.isSendNotificationWhenCreateDelegacioColaboracio(entitatID) && !esDeCarrec()) {
+
+      
+      UsuariEntitatJPA coladeleUser = usuariEntitatLogicaEjb.findByPrimaryKeyFull(coladele.getColaboradorDelegatID());
+      String email_coladele = (coladeleUser.getEmail() == null)? coladeleUser.getUsuariPersona().getEmail() : coladeleUser.getEmail();
+      
+      EmailInfo email = new EmailInfo();
+      email.setHtml(true);
+      // Això evita que ho torni a guardar per enviar més endavant 
+      email.setUsuariEntitatID(coladele.getColaboradorDelegatID());
+      email.setEventID(-1);
+      // PortaFIB: Ara és {0} de {1}
+      UsuariEntitatJPA usuDest = usuariEntitatLogicaEjb.findByPrimaryKeyFull(coladele.getDestinatariID());
+      String destNom = usuDest.getUsuariPersona().getNom() + " " + usuDest.getUsuariPersona().getLlinatges();
+      String tipus = I18NUtils.tradueix(getEntityNameCode());
+      email.setSubject(I18NUtils.tradueix("email.delecola.titol", tipus, destNom));
+      //Bones:<br/> Voliem informar-li que a partir del dia {0} serà {3} de {1}, per més informació pot accedir a la següent adreça <a href=\"{2}\">{2}</a>.
+      
+      
+      SimpleDateFormat sdf;
+      sdf = new I18NDateTimeFormat().getSimpleDateFormat(new Locale(coladeleUser.getUsuariPersona().getIdiomaID()));
+      
+      String dia = sdf.format(coladele.getDataInici());
+
+      String urlList = PropietatGlobalUtil.getAppUrl() + "/" + (esDelegat()?"dele/delegatde":"cola/colaboradorde") + "/list";
+      
+      email.setMessage(I18NUtils.tradueix("email.delecola.msg", dia, destNom, urlList, tipus));
+      email.setEmail(email_coladele);
+      
+      
+      try {
+        EmailUtil.enviarMails(Arrays.asList(email));
+      } catch (I18NException e) {
+        String missatge = I18NUtils.getMessage(e);
+        HtmlUtils.saveMessageError(request, missatge);
+      }
     }
   }
 
@@ -1260,10 +1333,15 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             */
             File firmat = status.getSignedData();
 
-            log.debug("WWWWWWWWW " + firmat.getAbsolutePath());
+            if(log.isDebugEnabled()) {
+              log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
+            }
 
             colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, firmat,
                 DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
+            
+            // Enviar mail a delegat o col·laborador
+            enviarNotificacioMailColaDele(request, colaboracioDelegacioEjb.findByPrimaryKey(delegacioID));
 
           } catch (Throwable e) {
             log.error(" CLASS = " + e.getClass());

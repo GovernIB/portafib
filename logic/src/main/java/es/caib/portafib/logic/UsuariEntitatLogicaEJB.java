@@ -756,6 +756,21 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     // Eliminam duplicats    
     return new ArrayList<String>(new HashSet<String>(correusAdEn));
   }
+  
+  @Override
+  public String getEmail(String usuariEntitatID) {
+    UsuariEntitatJPA ue = findByPrimaryKey(usuariEntitatID);
+    if (ue == null) {
+      return null;
+    }
+    
+    if (ue.getEmail() != null) {
+      return ue.getEmail();
+    } else {
+      return ue.getUsuariPersona().getEmail();
+    }
+    
+  }
 
 
 }

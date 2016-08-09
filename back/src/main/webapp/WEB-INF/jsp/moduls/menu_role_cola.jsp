@@ -21,7 +21,9 @@ static final String[] menu = {
     "colaboracio.pendent.plural",
     "colaboracio.acceptada.plural",
     "colaboracio.noacceptada.plural",
-    "colaboracio.ignorada.plural"
+    "colaboracio.ignorada.plural",
+    "",
+    "colaboradorde.menu"
 };
 
 public static final Map<String, String> mapping;
@@ -36,6 +38,8 @@ static {
   mapping.put("colaboracio.acceptada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_VALIDAT + "/list");
   mapping.put("colaboracio.noacceptada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_INVALIDAT + "/list");
   mapping.put("colaboracio.ignorada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_DESCARTAT + "/list");
+  
+  mapping.put("colaboradorde.menu", "/cola/colaboradorde/list");
   
   /*
   mapping.put("llistarvalidatsinvalidatspendentsrebutjats", list);

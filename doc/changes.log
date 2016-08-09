@@ -2,6 +2,12 @@
 PortaFIB 1.1.1
 ==============
 
+2016-08-09 Nova propietat global es.caib.portafib.notificationwhencreatedelegaciocolaboracio
+           que indica si s’han d’enviar avisos via correu electrònic als delegats o 
+           col·laboradors quan són assignats per un destinatari.
+
+2016-08-08 Delegats i Col·laboradors poden saber de qui són Delegats i Col·laboradors
+
 2016-08-04 Afegir suport de Taula de Firmes al Mòdul de Firma  @firma AutoFirma 
 
 PortaFIB 1.1.0

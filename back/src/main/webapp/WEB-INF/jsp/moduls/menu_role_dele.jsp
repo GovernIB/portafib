@@ -12,6 +12,8 @@ final String[] menu = {
     "delegacio.pendent.plural",
     "delegacio.acceptada.plural",
     "delegacio.noacceptada.plural",
+    "",
+    "delegatde.menu"
 };
 
 public static final Map<String, String> mapping;
@@ -24,6 +26,7 @@ static {
   mapping.put("delegacio.pendent.plural", Constants.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list");
   mapping.put("delegacio.acceptada.plural", Constants.CONTEXT_DELE_ESTATFIRMA_FIRMAT + "/list");
   mapping.put("delegacio.noacceptada.plural", Constants.CONTEXT_DELE_ESTATFIRMA_REBUTJAT + "/list");
+  mapping.put("delegatde.menu", "/dele/delegatde/list");
 
 }
 
