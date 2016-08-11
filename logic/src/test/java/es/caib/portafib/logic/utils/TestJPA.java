@@ -1,19 +1,33 @@
 package es.caib.portafib.logic.utils;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
-
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.SelectSum;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.utils.Utils;
 import org.junit.Test;
 
 import es.caib.portafib.jpa.FirmaJPA;
@@ -21,10 +35,29 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
 import es.caib.portafib.jpa.TipusFirmaJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.model.IPortaFIBDaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
+import es.caib.portafib.model.dao.IBlocDeFirmesManager;
+import es.caib.portafib.model.dao.IEstatDeFirmaManager;
+import es.caib.portafib.model.dao.IFirmaManager;
+import es.caib.portafib.model.dao.IPeticioDeFirmaManager;
+import es.caib.portafib.model.dao.IPropietatGlobalManager;
 import es.caib.portafib.model.dao.ITipusFirmaManager;
-
+import es.caib.portafib.model.dao.IUsuariEntitatManager;
+import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.entity.PropietatGlobal;
 import es.caib.portafib.model.entity.TipusFirma;
+import es.caib.portafib.model.fields.BlocDeFirmesFields;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
+import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.PropietatGlobalFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+import es.caib.portafib.utils.Constants;
 
 
 
@@ -64,18 +97,18 @@ public class TestJPA {
       prop.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
       prop.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
       // prop.put("javax.persistence.jdbc.url","jdbc:postgresql://192.168.35.151:5432/portafib");
-      prop.put("javax.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/portafib");
+      prop.put("javax.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/portafib11");
       prop.put("javax.persistence.jdbc.user", "portafib");
       prop.put("javax.persistence.jdbc.password", "portafib");
       
 
       prop.put("hibernate.connection.driver_class", "org.postgresql.Driver");
       // prop.put("javax.persistence.jdbc.url","jdbc:postgresql://192.168.35.151:5432/portafib");
-      prop.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/portafib");
+      prop.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/portafib11");
       prop.put("hibernate.connection.username", "portafib");
       prop.put("hibernate.connection.password", "portafib");
       
-      prop.put("hibernate.show_sql", "true");
+      prop.put("hibernate.show_sql", "false");
 
 
       
@@ -103,6 +136,14 @@ public class TestJPA {
       }
       
       PortaFIBDaoManager.setDaoManagers(new PortaFIBJPADaoManagers(em)); // firmesDaoManagers
+      
+      // ------------  A PARTIR D'AQUI PROVA EL TEU CODI -----------------------
+      
+      
+      
+      enviarMailPeticionsPendentsDeFirmar();
+      
+      
 
       // ITipusFirmaManager tipusFirmaMan = PortaFIBDaoManager.getDaoManagers().getTipusFirmaManager();
       //testTipusFirma(em, tipusFirmaMan);
@@ -384,6 +425,244 @@ public class TestJPA {
       e.printStackTrace();
     }
 
+  }
+
+
+
+  public void enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException {
+    System.out.println("Hola caracola");
+
+    IPortaFIBDaoManagers pdm = PortaFIBDaoManager.getDaoManagers();
+    
+    IPeticioDeFirmaManager peticioDeFirmaEjb = pdm.getPeticioDeFirmaManager();
+    IBlocDeFirmesManager blocDeFirmesEjb = pdm.getBlocDeFirmesManager();
+    IFirmaManager firmaEjb = pdm.getFirmaManager();
+    IEstatDeFirmaManager estatDeFirmaEjb = pdm.getEstatDeFirmaManager();
+    IUsuariEntitatManager usuariEntitatEjb = pdm.getUsuariEntitatManager();
+    IPropietatGlobalManager propietatGlobalManagerEjb = pdm.getPropietatGlobalManager();
+
+    // Cercar les entitats que tenguin activat l'enviament de correus
+    Where wpg = Where.AND(PropietatGlobalFields.ENTITATID.isNotNull(),
+        PropietatGlobalFields.CLAU
+            .equal(PropietatGlobalUtil.PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS),
+        PropietatGlobalFields.VALOR.isNotNull());
+
+    List<PropietatGlobal> entitatsID = propietatGlobalManagerEjb.select(wpg);
+
+    if (entitatsID == null || entitatsID.size() == 0) {
+      System.out.println("No he trobat cap entitat");
+      return;
+    }
+
+    System.out.println();
+    System.out.print("Entitats a processar = ");
+    for (PropietatGlobal pg : entitatsID) {
+      System.out.println(pg.getEntitatID() + ", ");
+    }
+    System.out.println();
+
+
+    // Per no sobrecarregar ho farem entitat per entitat
+    for (PropietatGlobal pg : entitatsID) {
+
+      int margeDeDies;
+
+      margeDeDies = 60;
+
+      /* TODO Descomentar
+      try {
+        margeDeDies = Integer.parseInt(pg.getValor());
+
+        if (margeDeDies <= 0) {
+          throw new NumberFormatException("El marge de dies es 0 o negatiu");
+        }
+
+      } catch (NumberFormatException e) {
+        // TODO Missatge
+        // log.error(,e)
+        e.printStackTrace();
+        continue;
+      }
+      */
+
+      String entitatID = pg.getEntitatID();
+
+      Where where = Where.AND(
+          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
+          new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
+      List<PeticioDeFirma> peticions = peticioDeFirmaEjb.select(where);
+
+      // Cercar nom entitats per petició
+
+      Set<String> usuarisAppIDs = new HashSet<String>();
+      for (PeticioDeFirma peticioDeFirma : peticions) {
+        usuarisAppIDs.add(peticioDeFirma.getUsuariAplicacioID());
+      }
+
+      //SelectMultipleStringKeyValue skv = new SelectMultipleStringKeyValue(
+      //    UsuariAplicacioFields.USUARIAPLICACIOID.select,
+      //    new UsuariAplicacioQueryPath().ENTITATID().select);
+
+      //Where whereEntitats = UsuariAplicacioFields.USUARIAPLICACIOID.in(usuarisAppIDs);
+
+      //List<StringKeyValue> listSKV = usuariAplicacioEjb.executeQuery(skv, whereEntitats);
+
+      //Map<String, String> map = Utils.listToMap(listSKV);
+
+      // TODO Moure a static 
+      SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+
+      System.out.println();
+      System.out.println();
+      System.out.println();
+      System.out.println();
+      System.out.println();
+
+      long now = System.currentTimeMillis();
+
+      List<PeticioDeFirma> avisarA = new ArrayList<PeticioDeFirma>();
+
+      for (PeticioDeFirma peticioDeFirma : peticions) {
+
+        long dif;
+
+        Timestamp inici = peticioDeFirma.getDataSolicitud();
+        Timestamp fi = peticioDeFirma.getDataCaducitat();
+
+        boolean enviarCorreu;
+        Long firmes;
+        Long firmesRealitzades;
+        Date dataSeguentAvis;
+
+        if (fi.getTime() < now) {
+          dif = -1;
+          enviarCorreu = true;
+          firmes = null;
+          firmesRealitzades = null;
+          dataSeguentAvis = null;
+        } else {
+
+          long diff = fi.getTime() - inici.getTime();
+
+          // Firmes a realitzar
+          dif = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+          Where w = BlocDeFirmesFields.FLUXDEFIRMESID
+              .equal(peticioDeFirma.getFluxDeFirmesID());
+          firmes = blocDeFirmesEjb.executeQueryOne(new SelectSum(
+              BlocDeFirmesFields.MINIMDEFIRMES), w);
+
+          // Firmes realitzades
+          Where wf = Where.AND(
+              new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMESID()
+                  .equal(peticioDeFirma.getFluxDeFirmesID()),
+              FirmaFields.TIPUSESTATDEFIRMAFINALID
+                  .equal(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT));
+          firmesRealitzades = firmaEjb.count(wf);
+          System.out.println(" ---------------------- ");
+          System.out.println("firmesRealitzades = " + firmesRealitzades);
+
+          double part = (1.0 * dif / firmes);
+          System.out.println("part = " + part);
+
+          double margeDeDiesAjustat = (1.0 * margeDeDies / firmes);
+          System.out.println("margeDeDiesAjustat (" + margeDeDies + "/" + firmes + " = "
+              + margeDeDiesAjustat);
+
+          double diesSeguentAvis = (((firmesRealitzades + 1) * part) - margeDeDiesAjustat);
+          System.out.println("diesSeguentAvis = " + diesSeguentAvis);
+
+          dataSeguentAvis = new Date(inici.getTime()
+              + (int) (diesSeguentAvis * 24 * 60 * 60 * 1000));
+
+          enviarCorreu = (dataSeguentAvis.getTime() < now);
+
+        }
+
+        if (enviarCorreu) {
+          avisarA.add(peticioDeFirma);
+        }
+
+        System.out.println(peticioDeFirma.getTitol() + "\t " + sdf.format(inici) + "\t "
+            + sdf.format(fi) + "\t " + dif + "\t "
+            + ((firmes == null) ? "-" : String.valueOf(firmes)) + "\t "
+            + ((firmesRealitzades == null) ? "-" : String.valueOf(firmesRealitzades)) + "\t "
+            + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis)) + "\t "
+            + enviarCorreu + "\t[" + entitatID + "]");
+      }
+
+      // Cercar les firmes actives de les peticions a les que hem d'avisar
+      Set<String> recuperarMailsDe = new HashSet<String>();
+
+      Map<PeticioDeFirma, Set<String>> avisosUsuariPerPeticio = new HashMap<PeticioDeFirma, Set<String>>();
+
+      for (PeticioDeFirma pf : avisarA) {
+
+        Where wf = Where.AND(new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES()
+            .FLUXDEFIRMESID().equal(pf.getFluxDeFirmesID()),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
+
+        List<String> avisarusuaris = estatDeFirmaEjb.executeQuery(
+            EstatDeFirmaFields.USUARIENTITATID, wf);
+
+        avisosUsuariPerPeticio.put(pf, new HashSet<String>(avisarusuaris));
+
+        recuperarMailsDe.addAll(avisarusuaris);
+
+        System.err.println("Per la peticio " + pf.getTitol() + " s'ha d'avisar a "
+            + Arrays.toString(avisarusuaris.toArray()));
+
+        // List<Long> firmesId =
+        // estatDeFirmaEjb.executeQuery(EstatDeFirmaFields.FIRMAID, wf);
+        // System.out.println(" Firmes = " +
+        // Arrays.toString(firmesId.toArray()));
+        System.out.println();
+
+      }
+
+      System.err.println("TOTS = " + Arrays.toString(recuperarMailsDe.toArray()));
+
+      // *** usuariEntitatEjb cercar correu del usuaris persona amb id de
+      // usuarientitat dins recuperarMailsDe
+
+      // Mail UsuariEntitat
+      Map<String, String> mailsByUsuariEntitat = new HashMap<String, String>();
+      {
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            UsuariEntitatFields.USUARIENTITATID.select, UsuariEntitatFields.EMAIL.select);
+
+        Where w1 = Where.AND(UsuariEntitatFields.USUARIENTITATID.in(recuperarMailsDe),
+            UsuariEntitatFields.EMAIL.isNotNull());
+
+        List<StringKeyValue> mailUE = usuariEntitatEjb.executeQuery(smskv, w1);
+
+        mailsByUsuariEntitat.putAll(Utils.listToMap(mailUE));
+
+      }
+      // mail usuari Persona
+      {
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            UsuariEntitatFields.USUARIENTITATID.select, new UsuariEntitatQueryPath()
+                .USUARIPERSONA().EMAIL().select);
+
+        Where w1 = Where.AND(UsuariEntitatFields.USUARIENTITATID.in(recuperarMailsDe),
+            UsuariEntitatFields.EMAIL.isNull());
+
+        List<StringKeyValue> mailUE = usuariEntitatEjb.executeQuery(smskv, w1);
+
+        mailsByUsuariEntitat.putAll(Utils.listToMap(mailUE));
+      }
+
+      System.out.println("mailsByUsuariEntitat.size()::" + mailsByUsuariEntitat.size());
+      System.out.println("recuperarMailsDe::" + recuperarMailsDe.size());
+      System.out.println();
+
+      for (String ue : mailsByUsuariEntitat.keySet()) {
+        System.out.println(ue + "\t=> " + mailsByUsuariEntitat.get(ue));
+      }
+
+    }
   }
 
   

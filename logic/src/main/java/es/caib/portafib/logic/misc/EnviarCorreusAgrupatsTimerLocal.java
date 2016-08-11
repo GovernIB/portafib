@@ -8,13 +8,8 @@ import javax.ejb.Local;
  *
  */
 @Local
-public interface EnviarCorreusAgrupatsTimerLocal {
+public interface EnviarCorreusAgrupatsTimerLocal extends AbstractTimerLocal {
 
   public static final String JNDI_NAME = "portafib/EnviarCorreusAgrupatsTimerEJB/local";
 
-  public void startScheduler();
-
-  public void stopScheduler();
-
-  public void enviarCorreus();
 }

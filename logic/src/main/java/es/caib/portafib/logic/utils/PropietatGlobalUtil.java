@@ -19,6 +19,18 @@ public class PropietatGlobalUtil implements Constants {
   protected static final Logger log = Logger.getLogger(PropietatGlobalUtil.class);
   
   
+  public static final String PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS =  PORTAFIB_PROPERTY_BASE + "avisosfirmespendents.diesabans";
+  
+  
+  /**
+   * 
+   * @return
+   */
+  public static String getAvisosFirmesPendentsCronExpression() {
+    return getString("avisosfirmespendents.cron");
+  }
+  
+
   /**
    * 
    * @param entitatID

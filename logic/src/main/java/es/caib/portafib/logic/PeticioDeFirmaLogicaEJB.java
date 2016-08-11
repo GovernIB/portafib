@@ -24,6 +24,8 @@ import es.caib.portafib.jpa.validator.PeticioDeFirmaBeanValidator;
 import es.caib.portafib.logic.events.FirmaEventList;
 import es.caib.portafib.logic.events.FirmaEventManagerLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
+import es.caib.portafib.logic.utils.EmailInfo;
+import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
@@ -41,12 +43,14 @@ import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.entity.PropietatGlobal;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
 import es.caib.portafib.model.fields.BitacolaFields;
+import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
 import es.caib.portafib.model.fields.EntitatFields;
@@ -56,6 +60,9 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.NotificacioWSFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -69,9 +76,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -83,6 +92,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.io.ByteArrayOutputStream;
 
 import javax.annotation.Resource;
@@ -100,6 +110,7 @@ import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
 import org.fundaciobit.plugins.utils.PluginsManager;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.KeyValue;
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -112,6 +123,8 @@ import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.SelectCount;
 import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.SelectSum;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
@@ -211,6 +224,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.AlgorismeDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
 
   private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
      new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
@@ -3031,5 +3047,346 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
   }
+  
+  
+
+  /**
+   * Per depurar
+   */
+  private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+
+  
+
+  /**
+   * Envia correus a la gent de les entitats que tenen definida una PropietatGlobal
+   * amb clau 'es.caib.portafib.avisosfirmespendents.diesabans'. El valor d'aquesta clau
+   * indica el numero de dies abans de la caducitat ed la petició en que s'han de començar
+   * a enviar correus. La freqüencia d'enviaments ve determinada per una expressió cron
+   * definida en una PropietatsGlobal de PortaFIB amb
+   * clau "es.caib.portafib.avisosfirmespendents.cron"  
+   * 
+   * @return retorna els mail als que s'ha enviat un avis
+   */
+  public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException {
+
+    
+    Map<String, InfoUser> allUsuariEntitat = new HashMap<String, InfoUser>();
+
+    boolean isDebug =log.isDebugEnabled();
+
+
+    // Cercar les entitats que tenguin activat l'enviament de correus
+    Where wpg = Where.AND(PropietatGlobalFields.ENTITATID.isNotNull(),
+        PropietatGlobalFields.CLAU
+            .equal(PropietatGlobalUtil.PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS),
+        PropietatGlobalFields.VALOR.isNotNull());
+
+    List<PropietatGlobal> entitatsID = propietatGlobalEjb.select(wpg);
+
+    if (entitatsID == null || entitatsID.size() == 0) {
+      if(isDebug) { log.debug("No he trobat cap entitat"); }
+      return allUsuariEntitat.values();
+    }
+
+    if(isDebug) { 
+       StringBuffer str = new StringBuffer("Entitats a processar = ");
+       for (PropietatGlobal pg : entitatsID) {
+         str.append(pg.getEntitatID() + ", ");
+       }
+       log.debug(str);
+    };
+
+
+    // Per no sobrecarregar ho farem entitat per entitat
+    for (PropietatGlobal pg : entitatsID) {
+      
+      String entitatID = pg.getEntitatID();
+      
+      if (isDebug) {
+        log.debug("");
+        log.debug("");
+        log.debug("=========" + entitatID + "=========");
+      }
+      
+
+      int margeDeDies;
+
+      try {
+        margeDeDies = Integer.parseInt(pg.getValor());
+
+        if (margeDeDies <= 0) {
+          throw new NumberFormatException("El marge de dies es 0 o negatiu");
+        }
+
+      } catch (NumberFormatException e) {
+        log.error("Error parsejant propietat de marge de dies de l'entitat "
+           + pg.getEntitatID(),e);
+        continue;
+      }
+      
+
+      
+
+      Where where = Where.AND(
+          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
+          new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
+      List<PeticioDeFirma> peticions = this.select(where);
+
+      // Cercar nom entitats per petició
+
+      Set<String> usuarisAppIDs = new HashSet<String>();
+      for (PeticioDeFirma peticioDeFirma : peticions) {
+        usuarisAppIDs.add(peticioDeFirma.getUsuariAplicacioID());
+      }
+
+      final long now = System.currentTimeMillis();
+
+      List<PeticioDeFirma> avisarA = new ArrayList<PeticioDeFirma>();
+
+      for (PeticioDeFirma peticioDeFirma : peticions) {
+
+        long dif;
+
+        Timestamp inici = peticioDeFirma.getDataSolicitud();
+        Timestamp fi = peticioDeFirma.getDataCaducitat();
+
+        boolean enviarCorreu;
+        Long firmes;
+        Long firmesRealitzades;
+        Date dataSeguentAvis;
+
+        if (fi.getTime() < now) {
+          dif = -1;
+          enviarCorreu = true;
+          firmes = null;
+          firmesRealitzades = null;
+          dataSeguentAvis = null;
+        } else {
+
+          long diff = fi.getTime() - inici.getTime();
+
+          // Firmes a realitzar
+          dif = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+          Where w = BlocDeFirmesFields.FLUXDEFIRMESID
+              .equal(peticioDeFirma.getFluxDeFirmesID());
+          firmes = blocDeFirmesEjb.executeQueryOne(new SelectSum(
+              BlocDeFirmesFields.MINIMDEFIRMES), w);
+
+          // Firmes realitzades
+          Where wf = Where.AND(
+              new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMESID()
+                  .equal(peticioDeFirma.getFluxDeFirmesID()),
+              FirmaFields.TIPUSESTATDEFIRMAFINALID
+                  .equal(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT));
+          firmesRealitzades = firmaLogicaEjb.count(wf);
+          if(isDebug) {
+             log.debug(" ---------------------- ");
+             log.debug("firmesRealitzades = " + firmesRealitzades);
+          }
+
+          double part = (1.0 * dif / firmes);
+          double margeDeDiesAjustat = (1.0 * margeDeDies / firmes);
+          if(isDebug) {
+            log.debug("part = " + part);          
+            log.debug("margeDeDiesAjustat (" + margeDeDies + "/" + firmes + " = "          
+              + margeDeDiesAjustat);
+          }
+
+          double diesSeguentAvis = (((firmesRealitzades + 1) * part) - margeDeDiesAjustat);
+          if(isDebug) { log.debug("diesSeguentAvis = " + diesSeguentAvis); };
+
+          dataSeguentAvis = new Date(inici.getTime()
+              + (int) (diesSeguentAvis * 24 * 60 * 60 * 1000));
+
+          enviarCorreu = (dataSeguentAvis.getTime() < now);
+
+        }
+
+        if (enviarCorreu) {
+          avisarA.add(peticioDeFirma);
+        }
+
+        if(isDebug) { 
+          log.debug(peticioDeFirma.getTitol() + "\t " + sdf.format(inici) + "\t "
+            + sdf.format(fi) + "\t " + dif + "\t "
+            + ((firmes == null) ? "-" : String.valueOf(firmes)) + "\t "
+            + ((firmesRealitzades == null) ? "-" : String.valueOf(firmesRealitzades)) + "\t "
+            + ((dataSeguentAvis == null) ? "-" : sdf.format(dataSeguentAvis)) + "\t "
+            + enviarCorreu + "\t[" + entitatID + "]");
+        }
+      }
+
+      // Cercar les firmes actives de les peticions a les que hem d'avisar
+      Set<String> recuperarMailsDe = new HashSet<String>();
+
+      Map<PeticioDeFirma, Set<String>> avisosUsuariPerPeticio = new HashMap<PeticioDeFirma, Set<String>>();
+
+      for (PeticioDeFirma pf : avisarA) {
+
+        Where wf = Where.AND(new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES()
+            .FLUXDEFIRMESID().equal(pf.getFluxDeFirmesID()),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+                .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+            EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
+
+        List<String> avisarusuaris = estatDeFirmaLogicaEjb.executeQuery(
+            EstatDeFirmaFields.USUARIENTITATID, wf);
+
+        avisosUsuariPerPeticio.put(pf, new HashSet<String>(avisarusuaris));
+
+        recuperarMailsDe.addAll(avisarusuaris);
+
+        if (isDebug) {
+           log.debug("Per la peticio " + pf.getTitol() + " s'ha d'avisar a "
+            + Arrays.toString(avisarusuaris.toArray()));
+        }
+
+
+      }
+
+      if (isDebug) {
+        log.debug("TOTS = " + Arrays.toString(recuperarMailsDe.toArray()));
+      }
+
+      // 1.- Cercar correu del usuaris persona amb id de
+      // usuarientitat dins recuperarMailsDe
+      // 1.1.- Mail UsuariEntitat
+      Map<String, InfoUser> mailsByUsuariEntitat = new HashMap<String, InfoUser>();
+      {
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            UsuariEntitatFields.USUARIENTITATID.select, UsuariEntitatFields.EMAIL.select,
+            new UsuariEntitatQueryPath().USUARIPERSONA().IDIOMAID().select);
+
+        Where w1 = Where.AND(UsuariEntitatFields.USUARIENTITATID.in(recuperarMailsDe),
+            UsuariEntitatFields.EMAIL.isNotNull());
+
+        List<StringKeyValue> mailUE = usuariEntitatEjb.executeQuery(smskv, w1);
+
+        mailsByUsuariEntitat.putAll(stringKeyValue2UserInfo(mailUE));
+
+      }
+      // 1.2.- Mail Usuari Persona
+      {
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(
+            UsuariEntitatFields.USUARIENTITATID.select, new UsuariEntitatQueryPath()
+                .USUARIPERSONA().EMAIL().select, new UsuariEntitatQueryPath()
+            .USUARIPERSONA().IDIOMAID().select);
+
+        Where w1 = Where.AND(UsuariEntitatFields.USUARIENTITATID.in(recuperarMailsDe),
+            UsuariEntitatFields.EMAIL.isNull());
+
+        List<StringKeyValue> mailUP = usuariEntitatEjb.executeQuery(smskv, w1);
+
+        mailsByUsuariEntitat.putAll(stringKeyValue2UserInfo(mailUP));
+      }
+
+      if(isDebug) {
+         log.debug("mailsByUsuariEntitat.size()::" + mailsByUsuariEntitat.size());
+         log.debug("recuperarMailsDe::" + recuperarMailsDe.size());
+         for (String ue : mailsByUsuariEntitat.keySet()) {
+           log.debug("     " + ue + "\t=> " + mailsByUsuariEntitat.get(ue));
+         }
+      }
+      
+      
+      allUsuariEntitat.putAll(mailsByUsuariEntitat);
+      String nomEntitat = entitatEjb.executeQueryOne(EntitatFields.NOM, EntitatFields.ENTITATID.equal(entitatID));
+      
+      // Muntar mails 
+      String url = PropietatGlobalUtil.getAppUrl() + Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list";
+      List<EmailInfo> emailsEntitat = new ArrayList<EmailInfo>();
+      for(String ue : allUsuariEntitat.keySet()) {
+
+        InfoUser iu = allUsuariEntitat.get(ue);
+        final Locale loc = new Locale(iu.getLanguage());
+        
+        String subject = I18NLogicUtils.tradueix(loc, "notificacioavis.requerit_per_firmar");
+      
+        String html = I18NLogicUtils.tradueix(loc, "avisfirmapendent", url, nomEntitat);
+      
+        EmailInfo email = new EmailInfo();
+        email.setEmail(iu.getEmail());
+        email.setSubject(subject);
+        email.setMessage(html.toString());
+        email.setHtml(true);
+        email.setUsuariEntitatID(iu.getUsuariEntitat());
+
+        emailsEntitat.add(email);
+
+      } // Final for
+
+      // Enviar mails
+      try {
+        EmailUtil.enviarMails(emailsEntitat);
+      } catch (I18NException e) {
+        log.error("Error enviant correus de l'entitat " + entitatID + ": " 
+          + I18NLogicUtils.getMessage(e, new Locale("ca")), e);
+      }
+
+    }; // Final For Entitats
+    
+    
+    
+    
+    return allUsuariEntitat.values();
+  }
+
+
+   
+
+  public Map<String, InfoUser> stringKeyValue2UserInfo(List<StringKeyValue> info) {
+    
+    
+    Map<String, InfoUser> tmp = new HashMap<String, InfoUser>();
+    for (StringKeyValue skv : info) {
+   // key = usuarientitatid
+      // value = email + ' ' + language
+      String usuarientitatid = skv.getKey();
+      String value = skv.getValue();
+      int pos = value.lastIndexOf(' ');
+      
+      String email = value.substring(0,pos);
+      String lang = value.substring(pos + 1);
+      
+      tmp.put(usuarientitatid, new InfoUser(usuarientitatid,email, lang));
+
+    }
+    return tmp;
+    
+  };
+
+
+  public static class InfoUser {
+    final String usuariEntitat;
+    final String email;
+    final String language;
+    /**
+     * @param usuariEntitat
+     * @param email
+     * @param language
+     */
+    public InfoUser(String usuariEntitat, String email, String language) {
+      super();
+      this.usuariEntitat = usuariEntitat;
+      this.email = email;
+      this.language = language;
+    }
+    public String getUsuariEntitat() {
+      return usuariEntitat;
+    }
+    public String getEmail() {
+      return email;
+    }
+    public String getLanguage() {
+      return language;
+    }
+    
+    @Override
+    public String toString() {
+      return this.usuariEntitat + "(" + this.language + "): " + this.email;
+    }
+    
+  }
+  
 
 }

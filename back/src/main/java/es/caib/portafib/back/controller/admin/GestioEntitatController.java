@@ -329,7 +329,20 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
             _entitatID_, "Opcional. Indica Temps de validesa del Token de Firma només"
                 + " quan hi ha multiples firmes en un bloc o hi ha delegats definits. "
                 + "Es a dir, el temps màxim que un firmant pot tenir bloquejat un"
-                + " document durant la firma. Per defecte 3 minuts (180000).");
+                + " document durant la firma. Per defecte 3 minuts.");
+
+        propietatGlobalEjb.create("es.caib.portafib.notificationwhencreatedelegaciocolaboracio",
+            null,  _entitatID_, "Opcional.Valors posibles true o false.Indica si s’han"
+            + " d’enviar avisos via correu electrònic als delegats o col·laboradors quan"
+            + "són assignats per un destinatari.Si no es defineix s´usa el valor de la" 
+            + " mateixa propietat definida en Propietats Globals");
+
+        propietatGlobalEjb.create("es.caib.portafib.avisosfirmespendents.diesabans", null,
+            _entitatID_, "Fa que s'enviïn correus als que tenen peticions de firma pendents."
+            + " Indica el numero de dies abans de la caducitat de la petició en que s'han"
+            + " de començar a enviar correus. Relacionat amb la PropietatGlobal"
+            + " es.caib.portafib.avisosfirmespendents.cron");
+
         
       } catch(I18NException ie) {
         String msg = I18NUtils.getMessage(ie);

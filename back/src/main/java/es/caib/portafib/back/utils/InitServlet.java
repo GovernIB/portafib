@@ -19,7 +19,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.stereotype.Component;
 
 
+
 import es.caib.portafib.hibernate.HibernateFileUtil;
+import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
@@ -123,10 +125,9 @@ public class InitServlet extends HttpServlet {
     } catch(Throwable e) {
       log.error("Error inicialitzant els DataExporters: " + e.getMessage(), e);
     }
+
     
-    
-    
-    // Enviar Correus Agrupats
+    // Enviar Notificacions en Correus Agrupats
     try {
       EnviarCorreusAgrupatsTimerLocal sinc;
       sinc = (EnviarCorreusAgrupatsTimerLocal) new InitialContext()
@@ -134,10 +135,20 @@ public class InitServlet extends HttpServlet {
       
       sinc.startScheduler();
     } catch (Throwable th) {
-      log.error("Error desconegut inicialitzant Timer d'enviament de correus: " + th.getMessage(), th);
+      log.error("Error desconegut inicialitzant Timer d'enviament"
+          + " de notificacions agrupades : " + th.getMessage(), th);
     }
 
-    
+    // AvisosFirmesPendents
+    try {
+      AvisosFirmesPendentsTimerLocal sinc;
+      sinc = (AvisosFirmesPendentsTimerLocal) new InitialContext()
+          .lookup(AvisosFirmesPendentsTimerLocal.JNDI_NAME);
+      sinc.startScheduler();
+    } catch (Throwable th) {
+      log.error("Error desconegut inicialitzant Timer d'enviament d'avisos"
+          + " de peticions de firma pendents: " + th.getMessage(), th);
+    }
     
 
     // Mostrar Versió

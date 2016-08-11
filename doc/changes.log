@@ -2,6 +2,10 @@
 PortaFIB 1.1.1
 ==============
 
+2016-08-12 DAV Afegides propietats es.caib.portafib.avisosfirmespendents.diesabans i
+           es.caib.portafib.avisosfirmespendents.cron que serveixen per enviar correus
+           a la gent que te peticions de firma pendents aprop de la data de caducitat
+
 2016-08-09 Nova propietat global es.caib.portafib.notificationwhencreatedelegaciocolaboracio
            que indica si s’han d’enviar avisos via correu electrònic als delegats o 
            col·laboradors quan són assignats per un destinatari.
@@ -9,6 +13,8 @@ PortaFIB 1.1.1
 2016-08-08 Delegats i Col·laboradors poden saber de qui són Delegats i Col·laboradors
 
 2016-08-04 Afegir suport de Taula de Firmes al Mòdul de Firma  @firma AutoFirma 
+
+2016-08-02 Solucionat Bug en col·laboradors/delegats: no es podia filtrar per tipus de document.
 
 PortaFIB 1.1.0
 ==============

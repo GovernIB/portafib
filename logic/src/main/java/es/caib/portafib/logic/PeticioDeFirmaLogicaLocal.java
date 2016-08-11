@@ -1,6 +1,7 @@
 package es.caib.portafib.logic;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -128,5 +130,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
       String usuariEntitatID, String usuariAplicacioID, String idioma);
 
   public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo) throws I18NException;
+  
+  public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException;
 
 }
