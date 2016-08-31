@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
 import es.caib.portafib.jpa.EntitatJPA;
 
@@ -15,7 +15,7 @@ import es.caib.portafib.jpa.EntitatJPA;
  * @author anadal
  *
  */
-public class PortaFIBSignaturesSet extends SignaturesSet {
+public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
   protected Map<String, List<Long>> pluginsFirmaBySignatureID = null;
   
@@ -35,9 +35,9 @@ public class PortaFIBSignaturesSet extends SignaturesSet {
    */
   public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate,
       CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
-      EntitatJPA entitat) {
-    super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray);
-    this.urlFinalOriginal = commonInfoSignature.getUrlFinal();
+      EntitatJPA entitat, String urlFinal) {
+    super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
+    this.urlFinalOriginal = this.getUrlFinal();
     this.entitat = entitat;
   }
 

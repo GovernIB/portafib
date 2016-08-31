@@ -63,7 +63,7 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-api</artifactId>
-      <version>${plugins.version}</version>
+      <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 

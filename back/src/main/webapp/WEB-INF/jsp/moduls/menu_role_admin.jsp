@@ -36,6 +36,7 @@ final String[] menu = {
   "tipusdocument.gestio", // Gestió Tipus de Documents"}
   "",
   "moduldefirma.plantilla.plural", // /admin/modulDeFirma
+  "moduldefirmaenservidor.plantilla.plural", // /admin/modulDeFirma
   "segelldetemps.plantilla.plural", // /admin/segelldetemps
   "plugincustodia.gestio", // admin/plugincustodia
   "",
@@ -68,6 +69,7 @@ static {
   mapping.put("tipusdocument.gestio", "/admin/gestiotipusdoc/list");
 
   mapping.put("moduldefirma.plantilla.plural", "/admin/modulDeFirma/list");
+  mapping.put("moduldefirmaenservidor.plantilla.plural", "/admin/moduldefirmaenservidor/list");
 
   mapping.put("segelldetemps.plantilla.plural", "/admin/segelldetemps/list");
 

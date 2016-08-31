@@ -311,25 +311,25 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>                    
           <artifactId>plugin-signatureweb-api</artifactId>
-          <version>${plugins.version}</version>
+          <version>${plugins.signatureweb.version}</version>
         </dependency>
 
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-          <version>${plugins.version}</version>
+          <version>${plugins.signatureweb.version}</version>
         </dependency>
 
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-          <version>${plugins.version}</version>
+          <version>${plugins.signatureweb.version}</version>
         </dependency>
 
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
-          <version>${plugins.version}</version>
+          <version>${plugins.signatureweb.version}</version>
         </dependency>
 
         <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
@@ -381,7 +381,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-          <version>${plugins.version}</version>
+          <version>${plugins.signatureweb.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.bouncycastle</groupId>

@@ -7,18 +7,18 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Properties;
 
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
-import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
-import org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSigner;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
+import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
+import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
@@ -82,10 +82,9 @@ public class SignatureInServerTest extends TestCase {
       String username = "anadal";
       String administrationID = "43096845C";
       PolicyInfoSignature policyInfoSignature = null;
-      String urlFinal = "none";
-
+      
       CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-          filtreCertificats, username, administrationID, policyInfoSignature, urlFinal);
+          filtreCertificats, username, administrationID, policyInfoSignature);
 
       String signID = "999";
       File source = new File(pdfsource);
@@ -131,7 +130,7 @@ public class SignatureInServerTest extends TestCase {
       MiniAppletSignInfo info = MiniAppletUtils.convertLocalSignature(commonInfoSignature,
           fileInfo, null, pair.getPublicCertificate());
 
-      MiniAppletInServerSigner signer = new MiniAppletInServerSigner(pair.getPrivateKey());
+      MiniAppletInServerPAdESSigner signer = new MiniAppletInServerPAdESSigner(pair.getPrivateKey());
 
       byte[] signedData = signer
           .fullSign(info.getDataToSign(), info.getSignAlgorithm(),

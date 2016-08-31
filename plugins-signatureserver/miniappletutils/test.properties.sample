@@ -1,0 +1,10 @@
+
+
+
+pdffile.source=./hola.pdf
+
+pdffile.dest=./hola_firmat.pdf
+
+p12.file=./NadalBennasarAntoniFNMT.p12
+
+p12.password=myp12password

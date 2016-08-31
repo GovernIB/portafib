@@ -9,9 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.TraduccioJPA;
-import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
 
@@ -198,57 +195,6 @@ public class Utils {
 
   public static String getOnlyNom(UsuariPersona up) {
     return up.getNom() + " " + up.getLlinatges();
-  }
-  
-
-  
-  
-  public static String getFirmatPerFormat(EntitatJPA entitat, String lang) {
-    
-    String firmatPerFormat = null;
-    
-    TraduccioJPA traduccio = entitat.getFirmatPerFormat();
-    
-    if (traduccio != null) {
-      TraduccioMapJPA tm = traduccio.getTraduccio(lang);
-      if (tm != null) {
-        firmatPerFormat = tm.getValor();
-      }
-    }
-
-    if (firmatPerFormat == null) {
-      // {0} {1,choice,0#|1< - NIF {2}} {4,choice,0#|1< - Càrrec {5}} (Emissor {3})
-      firmatPerFormat = I18NUtils.tradueix("firmatperformat");
-    }
-    
-    return firmatPerFormat;
-
-  }
-  
-  
-  public static String getMotiuDeFirmaFormat(EntitatJPA entitat, String lang) {
-    
-    
-    String motiuDeFirma = null;
-    
-    
-    TraduccioJPA traduccio = entitat.getMotiuDelegacio();
-    
-    if (traduccio != null) {
-      TraduccioMapJPA tm = traduccio.getTraduccio(lang);
-      if (tm != null) {
-        motiuDeFirma = tm.getValor();
-      }
-    }
-
-    
-    if (motiuDeFirma == null) {
-      // Firma {0} ({1}) per delegació de {2} ({3}). Motiu: {4}
-      motiuDeFirma = I18NUtils.tradueix("motiudelegacio");
-    }
-    
-    return motiuDeFirma;
-
   }
   
   public static void printRequestInfo(HttpServletRequest request) {

@@ -22,12 +22,12 @@ import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,7 +59,6 @@ import java.util.Set;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
@@ -77,12 +76,14 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
+import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
@@ -129,8 +130,8 @@ import es.caib.portafib.utils.Configuracio;
     @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
     protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
-    @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-    protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+    @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+    protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
     
     @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
     protected SegellDeTempsLogicaLocal segellDeTempsEjb;
@@ -580,28 +581,28 @@ import es.caib.portafib.utils.Configuracio;
 
         CommonInfoSignature commonInfoSignature;
         {
-          // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-          String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
-
-          final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
-
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
-          commonInfoSignature = SignatureModuleController.getCommonInfoSignature(
-              loginInfo.getEntitat(), langUI, username, administrationID,  urlFinal);
+          commonInfoSignature = SignatureUtils.getCommonInfoSignature(
+              loginInfo.getEntitat(), langUI, username, administrationID);
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
         // finalitzat el proces de firma
         Calendar caducitat = Calendar.getInstance();
         caducitat.add(Calendar.MINUTE, 9 + fileInfoSignatureArray.size());
-        
+
+        // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
+        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+
+        final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
+
 
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
             caducitat.getTime(), commonInfoSignature,
             fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]),
-            loginInfo.getEntitat());
+            loginInfo.getEntitat(), urlFinal);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -771,24 +772,21 @@ import es.caib.portafib.utils.Configuracio;
       
       CommonInfoSignature commonInfoSignature;
       {
-        
-        String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
-
-        final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
-
         final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
         final String administrationID = loginInfo.getUsuariPersona().getNif();
-        commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-            langUI, username, administrationID, urlFinal);
+        commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, 
+            langUI, username, administrationID);
       }
 
       // Vuls suposar que abans de 10 minuts haurà firmat
       Calendar caducitat = Calendar.getInstance();
       caducitat.add(Calendar.MINUTE, 10);
 
+      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+      final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-          commonInfoSignature, fileInfoSignatureArray, entitat);
+          commonInfoSignature, fileInfoSignatureArray, entitat, urlFinal);
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -813,7 +811,7 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
     
     
-      SignaturesSet ss;
+      SignaturesSetWeb ss;
       ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
       StatusSignaturesSet sss = ss.getStatusSignaturesSet();
@@ -869,7 +867,7 @@ import es.caib.portafib.utils.Configuracio;
    * @param peticioDeFirmaLogicaEjb
    * @param endOfProcess
    */
-  public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSet ss) {
+  public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSetWeb ss) {
 
     FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
     
@@ -1003,7 +1001,7 @@ import es.caib.portafib.utils.Configuracio;
      */
     public ParallelSignedFilesProcessing(HttpServletRequest request, String signaturesSetID,
         PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb,
-        ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+        ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
       super(request, signaturesSetID, modulDeFirmaEjb);
       
       this.peticioDeFirmaLogicaEjb = peticioDeFirmaLogicaEjb;
@@ -1164,7 +1162,7 @@ import es.caib.portafib.utils.Configuracio;
               colaDele.getMotiu(),          // {4} Motiu de la delegació
               peticioDeFirma.getMotiu(),    // {5} Motiu de la peticio de firma
               };
-          String basemsg = es.caib.portafib.back.utils.Utils.getMotiuDeFirmaFormat(entitat, langSign);
+          String basemsg = SignatureUtils.getMotiuDeFirmaFormat(entitat, langSign);
           MessageFormat mf = new MessageFormat(basemsg);
           reason = mf.format(args);
         }
@@ -1179,7 +1177,7 @@ import es.caib.portafib.utils.Configuracio;
         // Construir Objecte
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
-        final String firmatPerFormat = es.caib.portafib.back.utils.Utils.getFirmatPerFormat(entitat, langSign);
+        final String firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, langSign);
 
        final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
        
@@ -1209,7 +1207,7 @@ import es.caib.portafib.utils.Configuracio;
          }
        }
 
-       return SignatureModuleController.getFileInfoSignature(signatureID, source,mimeType,
+       return SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator);

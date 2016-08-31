@@ -4,20 +4,21 @@ package org.fundaciobit.plugins.signatureweb.api;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
 
@@ -27,7 +28,7 @@ import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
  *
  */
 public abstract class AbstractSignatureWebPlugin  
-   extends AbstractWebPlugin<AbstractSignatureWebPlugin.SignIDAndIndex, SignaturesSet> 
+   extends AbstractWebPlugin<AbstractSignatureWebPlugin.SignIDAndIndex, SignaturesSetWeb> 
    implements  ISignatureWebPlugin {
 
   // ------------------------------------
@@ -36,7 +37,7 @@ public abstract class AbstractSignatureWebPlugin
 
   
 
-  private Map<String, SignaturesSet> infoSign = new HashMap<String, SignaturesSet>();
+  private Map<String, SignaturesSetWeb> infoSign = new HashMap<String, SignaturesSetWeb>();
 
   /**
    * 
@@ -74,7 +75,7 @@ public abstract class AbstractSignatureWebPlugin
   @Override
   public StatusSignature getStatusSignature(String signaturesSetID, int signatureIndex) {
     
-    SignaturesSet ss = getSignaturesSet(signaturesSetID);
+    SignaturesSetWeb ss = getSignaturesSet(signaturesSetID);
 
     if (ss == null) {
       return null;
@@ -91,8 +92,8 @@ public abstract class AbstractSignatureWebPlugin
   }
   
   @Override
-  public SignaturesSet getSignaturesSet(String signaturesSetID) {
-    SignaturesSet ss;
+  public SignaturesSetWeb getSignaturesSet(String signaturesSetID) {
+    SignaturesSetWeb ss;
     synchronized (infoSign) {
       ss = infoSign.get(signaturesSetID);
     }
@@ -106,7 +107,7 @@ public abstract class AbstractSignatureWebPlugin
    * 
    * @param signaturesSet
    */
-  public void addSignaturesSet(SignaturesSet signaturesSet) {
+  public void addSignaturesSet(SignaturesSetWeb signaturesSet) {
     
     if (signaturesSet == null) {
       return;
@@ -121,148 +122,9 @@ public abstract class AbstractSignatureWebPlugin
   }
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
-    
-    if (signaturesSet == null) {
-      return false;
-    }
-
-    Set<String> tipusFirmaSuportats;
-    tipusFirmaSuportats = new HashSet<String>(Arrays.asList(this.getSupportedSignatureTypes()));
-    
-
-    // Miram si alguna signatura requerix de rubrica o segellat de temps
-       // i el SignatureSet no ofereix el generadors. Ens servirà per més endavant
-       // elegir un plugin que internament ofereixi generadors de rubrica o segell de temps
-       boolean anySignatureRequireRubric = false;
-       boolean anySignatureRequireRubricAndNotProvidesGenerator = false;
-       //boolean anySignatureRequireTimeStamp = false;
-       
-       
-       boolean anySignatureRequireCSVStamp= false;
-       boolean anySignatureRequireCSVStampAndNotProvidesGenerator = false;
-       Set<String> requiredBarCodeTypes = new HashSet<String>();
-       
-       
-       // 1.- Comprovacions generals i recolecció de dades
-       final FileInfoSignature[] aFirmar = signaturesSet.getFileInfoSignatureArray();
-       if (aFirmar == null) {
-         return false;
-       }
-       
-       for(int i = 0; i < aFirmar.length; i++) {
-         final FileInfoSignature fis = aFirmar[i];
-         String signType = fis.getSignType();
-         
-         // 1.1.- Segellat de Temps
-         // Hem de comprovar que el plugin ofereixi internament gestió de segellat de
-         // temps ja que el FileInfoSignature no conté el generador
-         if (fis.isUserRequiresTimeStamp()) {
-           boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
-           if (fis.getTimeStampGenerator() == null) {
-             anySignatureRequireTimeStampAndNotProvidesGenerator = true;
-           }
-           if (
-             // Cas 1: alguna firma no conte generador i plugin no té generador intern
-             (anySignatureRequireTimeStampAndNotProvidesGenerator && !this.providesTimeStampGenerator(signType))
-             // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-           || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !this.acceptExternalTimeStampGenerator(signType)) ) {
-             // Exclude Plugin
-             log.info("Exclos plugin [" + getSimpleName() 
-                 + "]: NO TE GENERADOR SEGELLAT DE TEMPS PER TIPUS DE FIRMA "
-                 + signType);
-             return false;
-           }
-         }
-
-         // 1.2- Taula de Firmes
-         if (fis.getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-           anySignatureRequireRubric = true;
-           if (fis.getPdfVisibleSignature() == null || fis.getPdfVisibleSignature().getRubricGenerator() == null) {
-             anySignatureRequireRubricAndNotProvidesGenerator = true;
-           }
-         }
-         
-         // 1.3.- Estampació Lateral CSV
-         SecureVerificationCodeStampInfo csvStamp = fis.getSecureVerificationCodeStampInfo();
-         // TODO IGNORAM POSICIO CODI DE BARRES només tenim en compte la
-         // posicio del Missatge
-         if (csvStamp != null 
-             && csvStamp.getMessagePosition() != SecureVerificationCodeStampInfo.POSITION_NONE) {
-           anySignatureRequireCSVStamp = true;
-           if (csvStamp.getSecureVerificationCodeStamper() == null) {
-             anySignatureRequireCSVStampAndNotProvidesGenerator = true;
-           }
-           requiredBarCodeTypes.add(csvStamp.getBarCodeType());
-         }
-         
-         // 1.4.- Comprovar tipus Firma i Algorisme
-         if (!tipusFirmaSuportats.contains(signType)) {
-           log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i 
-               + "]: NO SUPORTA TIPUS FIRMA " + signType);
-           return false;
-         }
-         
-         final String[] supAlgArray = this.getSupportedSignatureAlgorithms(signType);
-         if (supAlgArray == null || supAlgArray.length == 0) {
-           return false;
-         } else {
-           Set<String> algorismesSuportats;
-           algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
-           if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
-             log.warn("Exclos plugin [" + getSimpleName() + "]::FIRMA[" + i 
-                 + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
-             return false;
-           }
-         }
-       }
-
-
-     // 2.- Hem de comprovar que el plugin ofereixi internament generació de imatges per la
-     // firma visible PDF, ja que el FileInfoSignature no conté el generador
-     if (anySignatureRequireRubric) {
-       if (
-         (anySignatureRequireRubricAndNotProvidesGenerator && !this.providesRubricGenerator())
-         || (!anySignatureRequireRubricAndNotProvidesGenerator && !this.acceptExternalRubricGenerator())) {
-         // Exclude Plugin
-         log.info("Exclos plugin [" + getSimpleName() + "]: NO TE GENERADOR DE RUBRIQUES ");
-         return false;
-       }
-     }
-     
-
-     // 3.- Suporta Estampacio de Codi Segur de Verificació i els tipus de Codi de Barres
-     if (anySignatureRequireCSVStamp) {
-       // 3.1.- Proveidors
-       if (
-           // Cas 1: alguna firma no conte generador i plugin no té generador intern
-           (anySignatureRequireCSVStampAndNotProvidesGenerator && !this.providesSecureVerificationCodeStamper())
-           // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-         || (!anySignatureRequireCSVStampAndNotProvidesGenerator && !this.acceptExternalSecureVerificationCodeStamper()) ) {
-           // Exclude Plugin
-           log.info("Exclos plugin [" + getSimpleName() + "]: NO TE GENERADOR ESTAMPACIO CSV ");
-           return false;
-         }
-       
-       // 3.2.- Els tipus de codi de barres són suportats
-       List<String> supportedBarCodeTypes = this.getSupportedBarCodeTypes();
-       if (supportedBarCodeTypes == null) {
-         // Exclude Plugin
-         log.info("Exclos plugin [" + getSimpleName() + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 1111");
-         return false;
-       } else {
-         Set<String> intersection = new HashSet<String>(supportedBarCodeTypes); // use the copy constructor
-         intersection.retainAll(requiredBarCodeTypes);
-         if (intersection.size() != requiredBarCodeTypes.size()) {
-           // Exclude Plugin
-           log.info("Exclos plugin [" + getSimpleName() + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 222222");
-           return false;
-         }
-       }
-       
-     }
-
-    return true;
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+    final  boolean suportXAdES_T = false;
+    return AbstractSignatureServerPlugin.checkFilter(this, signaturesSet, suportXAdES_T, log);
   }
   
  
@@ -285,7 +147,7 @@ public abstract class AbstractSignatureWebPlugin
    * @param locale
    */
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, 
       HttpServletResponse response, Locale languageUI) {
 
@@ -319,7 +181,7 @@ public abstract class AbstractSignatureWebPlugin
       int signatureIndex, HttpServletRequest request,
       HttpServletResponse response) {
 
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
+    SignaturesSetWeb signaturesSet = getSignaturesSet(signaturesSetID);
 
     if (signaturesSet == null) {
       String titol = "GET " + getSimpleName() + " PETICIO HA CADUCAT";
@@ -357,7 +219,7 @@ public abstract class AbstractSignatureWebPlugin
    * @param locale
    */
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
 
     if (log.isDebugEnabled()) {
@@ -399,7 +261,7 @@ public abstract class AbstractSignatureWebPlugin
       String relativePluginRequestPath, String query, String signaturesSetID,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response) {
 
-    SignaturesSet signaturesSet = getSignaturesSet(signaturesSetID);
+    SignaturesSetWeb signaturesSet = getSignaturesSet(signaturesSetID);
 
     if (signaturesSet == null) {
       String titol = "POST " + getSimpleName() + " PETICIO HA CADUCAT";
@@ -425,10 +287,10 @@ public abstract class AbstractSignatureWebPlugin
   protected static final String CANCEL_PAGE = "cancel";
 
   protected void cancel(HttpServletRequest request, HttpServletResponse response,
-      SignaturesSet signaturesSet) {
+      SignaturesSetWeb signaturesSet) {
 
     final String url;
-    url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    url = signaturesSet.getUrlFinal();
 
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_CANCELLED);
 
@@ -456,7 +318,7 @@ public abstract class AbstractSignatureWebPlugin
    * @param th
    */
   @Override
-  public void finishWithError(HttpServletResponse response, SignaturesSet signaturesSet,
+  public void finishWithError(HttpServletResponse response, SignaturesSetWeb signaturesSet,
       String errorMsg, Throwable th) {
     if (th == null) {
       log.error(errorMsg, new Exception());
@@ -470,7 +332,7 @@ public abstract class AbstractSignatureWebPlugin
     sss.setErrorException(th);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
 
-    sendRedirect(response, signaturesSet.getCommonInfoSignature().getUrlFinal());
+    sendRedirect(response, signaturesSet.getUrlFinal());
 
   }
   
@@ -483,7 +345,7 @@ public abstract class AbstractSignatureWebPlugin
 
   protected void errorPage(String errorMsg, Throwable th, String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     if (th == null) {
       log.error(errorMsg);
@@ -497,7 +359,7 @@ public abstract class AbstractSignatureWebPlugin
 
     String finalurl = null;
     if (signaturesSet != null) {
-      finalurl = signaturesSet.getCommonInfoSignature().getUrlFinal();
+      finalurl = signaturesSet.getUrlFinal();
 
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
       signaturesSet.getStatusSignaturesSet().setErrorMsg(errorMsg);
@@ -567,7 +429,7 @@ public abstract class AbstractSignatureWebPlugin
     }
     
     
-    public SignIDAndIndex(SignaturesSet signaturesSet, int signatureIndex) {
+    public SignIDAndIndex(SignaturesSetWeb signaturesSet, int signatureIndex) {
     
       this(signaturesSet == null? "NULL" : signaturesSet.getSignaturesSetID() , signatureIndex);
     }
@@ -611,7 +473,7 @@ public abstract class AbstractSignatureWebPlugin
 
   public static final String RUBRIC_PAGE = "rubric";
 
-  public void rubricPage(String relativePath, SignaturesSet signaturesSet,
+  public void rubricPage(String relativePath, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
 
     Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);

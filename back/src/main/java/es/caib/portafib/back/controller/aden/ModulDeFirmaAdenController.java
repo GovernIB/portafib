@@ -12,7 +12,7 @@ import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -25,8 +25,8 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 public class ModulDeFirmaAdenController extends AbstractPluginAdenController<ISignatureWebPlugin> {
   
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
   
   
   @Override

@@ -36,12 +36,12 @@ import org.fundaciobit.genapp.common.query.ITableManager;
 import org.fundaciobit.genapp.common.query.LongConstantField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -63,15 +63,15 @@ import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.PosicioTaulaFirmesRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
-import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
@@ -98,8 +98,8 @@ public class AutoFirmaController extends FitxerController
 
   public static final String AUTOFIRMA = "AUTOFIRMA";
 
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
   
   @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
   protected SegellDeTempsLogicaLocal segellDeTempsEjb;
@@ -271,35 +271,34 @@ public class AutoFirmaController extends FitxerController
         entitat, userRequiresTimeStamp );
 
     
-    FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
+    FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
-        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
     
     CommonInfoSignature commonInfoSignature;
     {
-      
-      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
-      final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       final String administrationID = loginInfo.getUsuariPersona().getNif();
       
-      commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID, urlFinal);
+      commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, 
+          langUI, username, administrationID);
     }
     
     // Vuls suposar que abans de 10 minuts haurà firmat
     Calendar caducitat = Calendar.getInstance();
     caducitat.add(Calendar.MINUTE, 10);
     
-
+    String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
+    final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
+    
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat());
+        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat(), urlFinal);
     
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
@@ -318,7 +317,7 @@ public class AutoFirmaController extends FitxerController
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
   
   
-    SignaturesSet ss;
+    SignaturesSetWeb ss;
     ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();

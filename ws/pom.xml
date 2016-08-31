@@ -25,15 +25,17 @@
         <module>portafib_server</module>
         <module>portafib_api</module>
         <module>portafib_api_example</module>
-        <module>portafib_api_passarela</module>
+        <module>portafib_api_passarela_web</module>
+        <module>portafib_api_passarela_servidor</module>
       </modules>
     </profile>
 
     <profile>
-      <id>passarela</id>
+      <id>passarelaweb</id>
       <modules>
         <module>portafib_server</module>
-        <module>portafib_api_passarela</module>
+        <module>portafib_api_passarela_web</module>
+        <module>portafib_api_passarela_servidor</module>
       </modules>
     </profile>
 

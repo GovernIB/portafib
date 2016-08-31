@@ -14,13 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,20 +28,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
-import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.logic.ModulDeFirmaPublicLogicaLocal;
-import es.caib.portafib.logic.PassarelaDeFirmaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
-import es.caib.portafib.logic.passarela.PassarelaCommonInfoSignature;
-import es.caib.portafib.logic.passarela.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.PassarelaPolicyInfoSignature;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatusFull;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSetFull;
+import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWenInternalUse;
+import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.logic.utils.SignatureUtils;
 
 
 /**
@@ -53,21 +46,19 @@ import es.caib.portafib.utils.Constants;
  *
  */
 @Controller
-@RequestMapping(value = PassarelaDeFirmaLocal.PASSARELA_CONTEXTPATH)
+@RequestMapping(value = PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH)
 public class PassarelaDeFirmaController  {
 
   protected final Logger log = Logger.getLogger(this.getClass());
 
-  @EJB(mappedName = PassarelaDeFirmaLocal.JNDI_NAME)
-  protected PassarelaDeFirmaLocal passarelaDeFirmaEjb;
+  @EJB(mappedName = PassarelaDeFirmaWebLocal.JNDI_NAME)
+  protected PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
 
-  @EJB(mappedName = ModulDeFirmaPublicLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaPublicLogicaLocal modulDeFirmaPublicEjb;
+  @EJB(mappedName = ModulDeFirmaWebPublicLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebPublicLogicaLocal modulDeFirmaPublicEjb;
   
   @EJB(mappedName = SegellDeTempsPublicLogicaLocal.JNDI_NAME)
   protected SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb;
-
-
 
   /**
    * 
@@ -76,127 +67,37 @@ public class PassarelaDeFirmaController  {
     super();
   }
 
-
-  
     
   @RequestMapping(value = "/start/{transactionID}", method = RequestMethod.GET)
   public ModelAndView passarelaGet(HttpServletRequest request, HttpServletResponse response,
-      @PathVariable("transactionID") String transactionID) throws Exception, I18NException {
+      @PathVariable("transactionID") String signaturesSetID) throws Exception, I18NException {
 
 
-    PassarelaSignaturesSetFull ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(transactionID);
 
-    PassarelaSignaturesSet ss = ssf.getSignaturesSet();
+    PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(signaturesSetID);
+
+    PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
     EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
     
-    FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[ss.getFileInfoSignatureArray().length];
-    int count = 0;
-    for (PassarelaFileInfoSignature pfis : ss.getFileInfoSignatureArray()) {
-
-      // Preparar pàgina
-      final String idname = pfis.getName();
-
-      final String reason = pfis.getReason();      
-      final String location = pfis.getLocation();
-      final String signerEmail = pfis.getSignerEmail();
-      
-      final int sign_number = 1;
-
-      final String langDoc = pfis.getLanguageSign();
-      
-      final String signID = pfis.getSignID();
-      
-      final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
-      
-
-      // Ve d'un camp d'Autofirma que indica si l'usuari vol Segellat de Temps
-      boolean userRequiresTimeStamp = pfis.isUseTimeStamp();
-
-      File pdfAdaptat = passarelaDeFirmaEjb.getFitxerAdaptatPath(transactionID, signID);
-      
-      ITimeStampGenerator timeStampGenerator = null;
-      
-      timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsPublicEjb, 
-          entitat, userRequiresTimeStamp );
-      
-      int signTypeID = getSignTypeToPortaFIB(pfis.getSignType());
-      
-      final String mime;
-      if (signTypeID == Constants.TIPUSFIRMA_PADES) {
-        // NOTA Convertir Document a PDF i Afegir Taula de Firmes ja s'ha fet durant 
-        // l'startTransacction via WS
-        mime = FileInfoSignature.PDF_MIME_TYPE;
-      } else {
-        mime = pfis.getFileToSign().getMime();     
-      }
-      
-      
-      int signAlgorithm = getSignAlgorithmToPortaFIB(pfis.getSignAlgorithm());
-      
-      boolean signMode = getSignModeToPortaFIB(pfis.getSignMode());
-            
-      FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signID,
-          pdfAdaptat, mime, idname,
-          posicioTaulaFirmesID, reason, location, signerEmail, sign_number, 
-          langDoc, signTypeID, signAlgorithm,
-          signMode,
-          Utils.getFirmatPerFormat(entitat, langDoc), timeStampGenerator);
-      
-      
-      fileInfoSignatureArray[count] = fis;
-      count++;
-      
-    } 
-  
+    SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(passarelaDeFirmaEjb,
+        segellDeTempsPublicEjb, signaturesSetID, pss, entitat);
     
-    CommonInfoSignature commonInfoSignature;
-    {
-      
-      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, PassarelaDeFirmaLocal.PASSARELA_CONTEXTPATH);
-      final String urlFinal = relativeControllerBase + PassarelaDeFirmaLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + transactionID;
-      
-      PassarelaCommonInfoSignature cis = ss.getCommonInfoSignature();
-      final String username = cis.getUsername();
-      final String administrationID = cis.getAdministrationID();
-      final String langUI = cis.getLanguageUI();
-      commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID, urlFinal);
-      if (!cis.isUsePortafibCertificateFilter()) {
-        commonInfoSignature.setFiltreCertificats(cis.getFiltreCertificats());
-      }
-      
-      PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
-      if (ppis != null) {
-        
-        if (commonInfoSignature.getPolicyInfoSignature() != null) {
-          log.warn("Ja s'ha definit una politica de Firma de l'entitat, "
-              + " però la firma via passarel·la  n'ha definida una altra !!!. "
-              + "S'utilitzarà la de la Passarel·la");
-          
-        }
+    // Vull suposar que abans de 10 minuts haurà firmat
+    java.util.Date caducitat = pss.getExpiryDate();
+    
+    String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
+    final String urlFinal = relativeControllerBase + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID;
+    
 
-        commonInfoSignature.setPolicyInfoSignature(
-            new PolicyInfoSignature(ppis.getPolicyIdentifier(), ppis.getPolicyIdentifierHash(),
-                ppis.getPolicyIdentifierHashAlgorithm(), ppis.getPolicyUrlDocument()));
-
-      }
-    }
+    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
+        caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(), entitat, urlFinal);
     
-    
-    List<Long> filterByPluginsID = ss.getCommonInfoSignature().getAcceptedPlugins();
-    
+    // Filtres definits en l'Aplicació CLient
+    List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
     if (filterByPluginsID != null && filterByPluginsID.size() == 0) {
       filterByPluginsID = null;
     }
-    
-    // Vull suposar que abans de 10 minuts haurà firmat
-    java.util.Date caducitat = ss.getExpiryDate();
-
-    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(transactionID,
-        caducitat, commonInfoSignature, fileInfoSignatureArray, entitat);
-    
-    // Filtres definits en l'Aplicació CLient
     signaturesSet.setFilterByPluginID(filterByPluginsID);
     
     // No tenim cap restricció de plugins per tipus de document
@@ -207,8 +108,8 @@ public class PassarelaDeFirmaController  {
     ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
 
     if (log.isDebugEnabled()) {
-      log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + transactionID);
-      log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + commonInfoSignature.getUrlFinal());
+      log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
+      log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + signaturesSet.getUrlFinal());
     }
     
     return mav;
@@ -216,48 +117,8 @@ public class PassarelaDeFirmaController  {
   }
 
 
-  
-  public static int getSignTypeToPortaFIB(String signType) throws I18NException {
-    
-    if(FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-      return  Constants.TIPUSFIRMA_PADES;
-    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-      return Constants.TIPUSFIRMA_CADES;
-    } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-      return Constants.TIPUSFIRMA_XADES;
-    } else {
-      // TODO Traduir
-      throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signType);
-    }
-  }
 
-  public static int getSignAlgorithmToPortaFIB(String signAlgorithm) throws I18NException {
-    if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(signAlgorithm)) {
-      return Constants.SIGN_ALGORITHM_SHA1WITHRSA;
-    } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(signAlgorithm)) {
-      return Constants.SIGN_ALGORITHM_SHA256WITHRSA;
-    } else if ( FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(signAlgorithm)) {
-        return Constants.SIGN_ALGORITHM_SHA384WITHRSA;
-    } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(signAlgorithm)) {
-        return Constants.SIGN_ALGORITHM_SHA512WITHRSA;
-    } else {
-      throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithm);
-    }
-  }
-  
-  
-  public static boolean getSignModeToPortaFIB(int signMode) throws I18NException{
-    if (FileInfoSignature.SIGN_MODE_IMPLICIT == signMode) {
-      return Constants.SIGN_MODE_IMPLICIT;
-    } else if (FileInfoSignature.SIGN_MODE_EXPLICIT == signMode) {
-      return Constants.SIGN_MODE_EXPLICIT;
-    } else {
-      throw new I18NException("error.unknown", "Tipus de mode de firma no suportat " + signMode);
-    } 
-  }
-  
-
-  @RequestMapping(value =  PassarelaDeFirmaLocal.PASSARELA_CONTEXTPATH_FINAL + "/{transactionID}")
+  @RequestMapping(value =  PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/{transactionID}")
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("transactionID") String transactionID)throws Exception, I18NException {
   
@@ -267,7 +128,7 @@ public class PassarelaDeFirmaController  {
       log.debug(" ===finalProcesDeFirma() ==> signaturesSetID: " + transactionID);
     }
   
-    SignaturesSet ss;
+    SignaturesSetWeb ss;
     ss = SignatureModuleController.getSignaturesSetByID(request, transactionID, modulDeFirmaPublicEjb);
     
     // TODO  CHECK NULL i MOSTRAR MISSATGE DE FIRMA CADUCADA
@@ -291,13 +152,13 @@ public class PassarelaDeFirmaController  {
 
     Map<String, File> fitxersFirmatsBySignID = new HashMap<String, File>();
     
-    PassarelaSignaturesSetFull ssf;
+    PassarelaSignaturesSetWebInternalUse ssf;
     ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(transactionID);
     if (ssf == null) {
       throw new Exception("Ha tardat massa temps en firmar. Torni a intentar-ho.");
     }
         
-    Map<String, PassarelaSignatureStatusFull> statusBySignID = ssf.getStatusBySignatureID();
+    Map<String, PassarelaSignatureStatusWenInternalUse> statusBySignID = ssf.getStatusBySignatureID();
     
     
     switch(sss.getStatus()) {
@@ -313,7 +174,7 @@ public class PassarelaDeFirmaController  {
             final String signID = fis.getSignID();
             
             if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-              PassarelaSignatureStatusFull pss = statusBySignID.get(signID);
+              PassarelaSignatureStatusWenInternalUse pss = statusBySignID.get(signID);
               // Check que status.getSignedData() != null
               if (status.getSignedData() == null || !status.getSignedData().exists()) {
                 status.setStatus(StatusSignature.STATUS_FINAL_ERROR);

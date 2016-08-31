@@ -26,14 +26,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 
@@ -113,7 +113,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
    
     // Revisar si l'usuari està registrar a SIA i si té certificats
     // de firma en aquest entorn. 
@@ -196,7 +196,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
-      String relativePluginRequestPath, SignaturesSet signaturesSet)
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet)
       throws Exception {
 
     addSignaturesSet(signaturesSet);
@@ -233,7 +233,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   @Override
   public void requestGET(String absolutePluginRequestPath, 
-      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request, 
       HttpServletResponse response, Locale locale)  {
 
@@ -268,7 +268,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   @Override
   public void requestPOST(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
+      SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
      HttpServletResponse response, Locale locale)  {
 
 
@@ -328,7 +328,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
  private void senseCertificats(String absolutePluginRequestPath, 
      String relativePluginRequestPath, HttpServletRequest request,
      HttpServletResponse response,
-     SignaturesSet signaturesSet, int signatureIndex, Locale locale)  {
+     SignaturesSetWeb signaturesSet, int signatureIndex, Locale locale)  {
   
    
    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
@@ -359,7 +359,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   private void firmarPre(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) {
+      SignaturesSetWeb signaturesSet, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
@@ -654,7 +654,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   private static final String FIRMAR_POST_PAGE = "firmarpost";
 
   private void firmarPost(HttpServletRequest request, HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) {
+      SignaturesSetWeb signaturesSet, Locale locale) {
 
     String id_transaction = null;
 
@@ -787,7 +787,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
         signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
-        final String url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+        final String url = signaturesSet.getUrlFinal();
 
         sendRedirect(response, url);
       }
@@ -839,7 +839,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   
   private void selectCertificateGET(String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
     StringWriter sw = new StringWriter();
@@ -956,7 +956,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   }
   
   
-  public Map<String, CertificateInfo> listCertificates(SignaturesSet signaturesSet) throws Exception {
+  public Map<String, CertificateInfo> listCertificates(SignaturesSetWeb signaturesSet) throws Exception {
     
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     String administrationID = signaturesSet.getCommonInfoSignature().getAdministrationID();

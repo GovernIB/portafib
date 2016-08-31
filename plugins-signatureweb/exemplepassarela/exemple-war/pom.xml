@@ -4,7 +4,7 @@
 
     <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>war</packaging>
 
 
@@ -13,7 +13,7 @@
     <parent>
         <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
         <groupId>org.fundaciobit.plugins</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <properties>
@@ -28,7 +28,7 @@
         <dependency>
             <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
             <groupId>org.fundaciobit.plugins</groupId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.fundaciobit.plugins</groupId>
             <artifactId>plugin-signatureweb-api</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <scope>provided</scope>
         </dependency>
         

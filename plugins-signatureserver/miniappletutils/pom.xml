@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureserver-miniappletutils</artifactId>
+  <packaging>jar</packaging>
+  <version>2.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureServer - MiniAppletUtils</name>
+
+  <parent>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <version>2.0.0</version>
+    <artifactId>plugins-signatureweb</artifactId>
+  </parent>
+
+  <url>http://maven.apache.org</url>
+
+  <repositories>
+    <repository>
+			<name>Local Maven Repository</name>
+			<id>es.caib.portafib.localrepo</id>
+			<url>file://${basedir}/../../local-repo</url>
+		</repository>
+  </repositories>
+  
+
+  <!-- Només serveix per indicar a maven que s'ha de compilar -->
+  <profiles>
+    <profile>
+      <id>miniappletui</id>
+      <dependencies>
+        <dependency>
+          <artifactId>plugin-signatureweb-miniappletui</artifactId>
+          <groupId>es.caib.portafib</groupId>
+          <version>${plugins.signatureweb.version}</version>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
+
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>${plugins.version}</version>
+    </dependency>
+
+   
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-api</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.2</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <compilerVersion>1.6</compilerVersion>
+        </configuration>
+      </plugin>
+
+
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <id>copy1</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <artifactId>plugin-signatureweb-miniappletui-signed</artifactId>
+                  <groupId>es.caib.portafib</groupId>
+                  <version>1.0.0</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <destFileName>miniappletui.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.basedir}/src/main/resources/applet</outputDirectory>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy2</id>
+            <phase>process-resources</phase> 
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <artifactId>${miniapplet.artifactid}</artifactId>
+                  <groupId>es.gob.afirma</groupId>
+                  <version>${miniapplet.version}</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <destFileName>miniapplet.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.basedir}/src/main/resources/applet</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+
+    </plugins>
+  </build>
+
+</project>

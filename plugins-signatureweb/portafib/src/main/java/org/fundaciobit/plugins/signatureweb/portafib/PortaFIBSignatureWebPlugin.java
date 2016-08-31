@@ -20,32 +20,32 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.BindingProvider;
 
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 
-import es.caib.portafib.ws.api.v1.passarela.FitxerBean;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaCommonInfoSignature;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaFileInfoSignature;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaPolicyInfoSignature;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaSecureVerificationCodeStampInfo;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaSignatureResult;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaSignatureStatus;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaSignaturesSet;
-import es.caib.portafib.ws.api.v1.passarela.PassarelaSignaturesTableHeader;
-import es.caib.portafib.ws.api.v1.passarela.PortaFIBPassarelaDeFirmaWs;
-import es.caib.portafib.ws.api.v1.passarela.PortaFIBPassarelaDeFirmaWsService;
-import es.caib.portafib.ws.api.v1.passarela.WsI18NException;
-import es.caib.portafib.ws.api.v1.passarela.WsValidationException;
-import es.caib.portafib.ws.api.v1.passarela.utils.I18NUtils;
-import es.caib.portafib.ws.api.v1.passarela.utils.PassarelaDeFirmaUtils;
-import es.caib.portafib.ws.api.v1.passarela.utils.WsClientUtils;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.FitxerBean;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaCommonInfoSignature;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaFileInfoSignature;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaPolicyInfoSignature;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaSecureVerificationCodeStampInfo;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaSignatureResult;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaSignatureStatus;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaSignaturesSet;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PassarelaSignaturesTableHeader;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PortaFIBPassarelaDeFirmaWebWs;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.PortaFIBPassarelaDeFirmaWebWsService;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.WsI18NException;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.WsValidationException;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.utils.I18NUtils;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.utils.PassarelaDeFirmaUtils;
+import es.caib.portafib.ws.api.v1.passarelafirmaweb.utils.WsClientUtils;
 
 /**
  *
@@ -117,7 +117,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   }
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
 
     // Per ara no aplicam cap filtre ja que tota la informació la té PortaFIB
     // Feim una cridada a l'API per testejar si existeix el servidor
@@ -146,7 +146,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
       log.debug("closeSignaturesSet::" + signaturesSetID);
     }
 
-    SignaturesSet pss = getSignaturesSet(signaturesSetID);
+    SignaturesSetWeb pss = getSignaturesSet(signaturesSetID);
     if (pss != null) {
 
       super.closeSignaturesSet(request, signaturesSetID);
@@ -305,10 +305,10 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
 
     // Cridar A API
-    PortaFIBPassarelaDeFirmaWs api = getPassarelaDeFirmaApi();
+    PortaFIBPassarelaDeFirmaWebWs api = getPassarelaDeFirmaApi();
 
     // Sobreescriu la URL Final per a que vagi a aquest plugin
     final String finalURL = absolutePluginRequestPath + "/" + FINAL;
@@ -345,7 +345,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
 
     if (query.startsWith(FINAL)) {
@@ -367,7 +367,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
     
     super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query, 
@@ -384,7 +384,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public static final String FINAL = "final";
 
   protected void finalGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      SignaturesSet ss, HttpServletRequest request, HttpServletResponse response) {
+      SignaturesSetWeb ss, HttpServletRequest request, HttpServletResponse response) {
 
     final boolean debug = log.isDebugEnabled();
     
@@ -403,7 +403,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
-    PortaFIBPassarelaDeFirmaWs api;
+    PortaFIBPassarelaDeFirmaWebWs api;
     PassarelaSignatureStatus status;
     try {
       api = getPassarelaDeFirmaApi();
@@ -525,7 +525,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     }
 
     try {
-      response.sendRedirect(ss.getCommonInfoSignature().getUrlFinal());
+      response.sendRedirect(ss.getUrlFinal());
     } catch (IOException e) {
       log.error(e);
     }
@@ -536,7 +536,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   // ----------------------- CONVERTER -----------------------
   // ---------------------------------------------------------
 
-  protected PassarelaSignaturesSet convert(SignaturesSet ss, String finalURL) throws Exception {
+  protected PassarelaSignaturesSet convert(SignaturesSetWeb ss, String finalURL) throws Exception {
 
     PassarelaSignaturesSet pss = new PassarelaSignaturesSet();
 
@@ -712,15 +712,15 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   // ------------------- API ------------------------
   // ---------------------------------------------------------
   
-  public PortaFIBPassarelaDeFirmaWs getPassarelaDeFirmaApi() throws Exception {
+  public PortaFIBPassarelaDeFirmaWebWs getPassarelaDeFirmaApi() throws Exception {
     final String endpoint = super.getPropertyRequired(API_URL);
     final String usr = super.getPropertyRequired(API_USERNAME);
     final String pwd = super.getPropertyRequired(API_PASSWORD);
 
     URL wsdl = new URL(endpoint + "?wsdl");
-    PortaFIBPassarelaDeFirmaWsService service = new PortaFIBPassarelaDeFirmaWsService(wsdl);
+    PortaFIBPassarelaDeFirmaWebWsService service = new PortaFIBPassarelaDeFirmaWebWsService(wsdl);
 
-    PortaFIBPassarelaDeFirmaWs api = service.getPortaFIBPassarelaDeFirmaWs();
+    PortaFIBPassarelaDeFirmaWebWs api = service.getPortaFIBPassarelaDeFirmaWebWs();
 
     Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();
     reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);

@@ -1,4 +1,4 @@
-<%@page import="org.fundaciobit.plugins.signatureweb.api.FileInfoSignature"%>
+<%@page import="org.fundaciobit.plugins.signature.api.FileInfoSignature"%>
 <%@ include file="/WEB-INF/views/html_header.jsp"%>
 
 <h3 class="tabs_involved">
@@ -151,7 +151,9 @@
     </table>
     
     <center>
-      <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
+      <input id="submitbutton" name="firmarenservidor" type="submit" class="btn btn-warning" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaservidor"/>">
+      &nbsp;&nbsp;&nbsp;
+      <input id="submitbutton" name="firmarviaweb" type="submit" class="btn btn-primary" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaweb"/>">
     </center>
     
     
@@ -298,15 +300,14 @@
         </tr>
      </tbody>
     </table>
-    
-    
 
     <center>
-    <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
+      <input id="submitbutton" name="firmarenservidor" type="submit" class="btn btn-warning" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaservidor"/>">
+      &nbsp;&nbsp;&nbsp;
+      <input id="submitbutton" name="firmarviaweb" type="submit" class="btn btn-primary" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaweb"/>">
     </center>
     
     </div> <%-- Final DIV OPCIONS --%>
-    
 
     </div>
 
@@ -319,7 +320,7 @@
 </form:form>
 
 <script type="text/javascript">
-<!--
+
    function canviaTipus(selectItem) {
        var val = $( "#signType" ).val();
        if (val == '<%=FileInfoSignature.SIGN_TYPE_PADES %>') {
@@ -330,7 +331,7 @@
            $( "#opcionspades").hide();
        }
    }
-//-->
+
 </script>
 
 

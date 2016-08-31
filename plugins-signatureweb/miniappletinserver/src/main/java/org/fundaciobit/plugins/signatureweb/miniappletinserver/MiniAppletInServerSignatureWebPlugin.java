@@ -23,16 +23,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractTriFaseSigner;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.XAdESSigner;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.EncrypterDecrypter;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -123,7 +124,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet ) {
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet ) {
 
     // Per ara esta un poc complicat revisar els certificats, ja que sempre s'ha de
     // mostrar ja que l'usuari sempre te l'opció d'afegir Certificats
@@ -144,7 +145,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
-      String relativePluginRequestPath, SignaturesSet signaturesSet)
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet)
       throws Exception {
 
     addSignaturesSet(signaturesSet);
@@ -173,7 +174,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   @Override
   public void requestGET(String absolutePluginRequestPath, 
-      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request, 
       HttpServletResponse response, Locale locale)  {
 
@@ -214,7 +215,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   @Override
   public void requestPOST(String absolutePluginRequestPath, 
       String relativePluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
+      SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
       HttpServletResponse response,
       Locale locale)  {
     
@@ -254,7 +255,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private void firmarPOST(String absolutePluginRequestPath,String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) {
+      SignaturesSetWeb signaturesSet, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
@@ -364,7 +365,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
               
               if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
       
-                AbstractTriFaseSigner cloudSign = new MiniAppletInServerSigner(privateKey);
+                AbstractTriFaseSigner cloudSign = new MiniAppletInServerPAdESSigner(privateKey);
                 
       
                 signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
@@ -372,7 +373,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
               } else {
                 
                 log.debug("Passa per XAdESSigner");
-                XAdESSigner xadesSigner = new XAdESSigner();
+                MiniAppletInServerXAdESSigner xadesSigner = new MiniAppletInServerXAdESSigner();
                 
                 signedData = xadesSigner.sign(info.getDataToSign(), algorithm, privateKey,
                     new Certificate[] { info.getCertificate() }, info.getProperties());
@@ -433,7 +434,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
     final String url;
-    url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    url = signaturesSet.getUrlFinal();
 
     sendRedirect(response, url);
 
@@ -455,7 +456,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private void selectCertificateGET(HttpServletRequest request, 
       String relativePluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
+      SignaturesSetWeb signaturesSet, PrintWriter out, Locale locale) {
 
 
     out.println("<h3>" +  getTraduccio("selectcertificat.titol", locale) + "</h3><br/>");
@@ -602,7 +603,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   
   
   private void deleteCertificateGET(String pluginRequestPath, String relativePath,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale)  {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale)  {
     
     //out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     final boolean isDebug = log.isDebugEnabled();
@@ -638,7 +639,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
   private static final String UPLOAD_CERTIFICATE_PAGE = "uploadCertificate";
 
   private void uploadCertificateGET(String pluginRequestPath, String query,
-      SignaturesSet signaturesSet, PrintWriter out, Locale locale) {
+      SignaturesSetWeb signaturesSet, PrintWriter out, Locale locale) {
     out.println("<h3>" + getTraduccio("afegircertificat.title", locale)+ "</h3><br/>");
     
     out.println("<form action=\"" + pluginRequestPath + "/" + UPLOAD_CERTIFICATE_PAGE
@@ -676,7 +677,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   private void uploadCertificatePOST(String pluginRequestPath, HttpServletRequest request,
       HttpServletResponse response,
-      SignaturesSet signaturesSet, Locale locale) {
+      SignaturesSetWeb signaturesSet, Locale locale) {
     
     
     

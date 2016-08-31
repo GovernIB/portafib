@@ -45,3 +45,17 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureweb/afirma-triphase-server/src/main/resources/index.html
 /plugins-signatureweb/compil.bat
 /mvndeploy.bat
+/plugins-signatureserver/miniappletinserver/NadalBennasarAntoniFNMT.p12
+/plugins-signatureserver/miniappletinserver/hola.pdf
+/plugins-signatureserver/miniappletinserver/hola_firmat.pdf
+/plugins-signatureserver/miniappletinserver/test.properties
+/plugins-signatureserver/miniappletutils/DNIe_firma.cer
+/plugins-signatureserver/miniappletutils/cert.p12
+/plugins-signatureserver/miniappletutils/cert.properties
+/plugins-signatureserver/miniappletutils/hola.pdf
+/plugins-signatureserver/miniappletutils/hola.pdf.xades_attached.xml
+/plugins-signatureserver/miniappletutils/hola.pdf.xades_detached.xml
+/plugins-signatureserver/miniappletutils/hola_firmat.pdf
+/plugins-signatureserver/miniappletutils/src/main/resources/applet/miniapplet.jar
+/plugins-signatureserver/miniappletutils/src/main/resources/applet/miniappletui.jar
+/plugins-signatureserver/miniappletutils/test.properties

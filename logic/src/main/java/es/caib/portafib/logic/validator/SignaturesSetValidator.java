@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.validator;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
@@ -9,11 +10,17 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
-import es.caib.portafib.logic.PassarelaDeFirmaLocal;
-import es.caib.portafib.logic.passarela.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
+
+
+
+
+
+import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
+import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.utils.Constants;
@@ -37,7 +44,7 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__,
-       PassarelaDeFirmaLocal passarelaDeFirmaEjb, String entitatID) {
+       AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb, String entitatID) {
 
     
     PassarelaSignaturesSet pss = __target__;
@@ -150,15 +157,21 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
             __vr.rejectValue(SIGNTYPE, 
               "genapp.validation.required", new I18NArgumentString(get(SIGNTYPE)));
           } else {
-           
-            if (!Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null)).contains(signType)) {
-              
-              __vr.rejectValue(SIGNTYPE, "error.passarela.field.fixedvalues",
-                new I18NArgumentString(get(SIGNTYPE)), new I18NArgumentString(
-                    Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null))
-                     ));
+            List<String> list = Arrays.asList(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null)); 
+            if (list.size() == 0) {
+              // No hi ha plugins disponibles
+              __vr.rejectValue(SIGNTYPE, "plugin.signatureserver.none", new I18NArgumentString(entitatID));
             } else {
-              signTypeOK = true;
+              // Algun dels plugins suporta el tipus de firma 
+              if (!list.contains(signType)) {
+                
+                __vr.rejectValue(SIGNTYPE, "error.passarela.field.fixedvalues",
+                  new I18NArgumentString(get(SIGNTYPE)), new I18NArgumentString(
+                      Arrays.toString(passarelaDeFirmaEjb.getSupportedSignatureTypes(entitatID, null, null))
+                       ));
+              } else {
+                signTypeOK = true;
+              }
             }
           }
         }
@@ -180,6 +193,13 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
             }
           }
         }
+        
+        
+//        peticioDeFirma.tipusFirmaID=Tipus Firma
+//            peticioDeFirma.algorismeDeFirmaID=Algorisme de firma
+//            peticioDeFirma.modeDeFirma=Mode de firma
+        
+        
 
         // ------------------------
         if (pfis.getSignMode() != FileInfoSignature.SIGN_MODE_EXPLICIT
@@ -209,14 +229,16 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
         }
         
         // ------------------------
-           
-        if (pfis.getSignNumber()  != 1) {
-          // El campo {0} solamente acepta los siguientes valores: {1}.
-          Field<?> SIGNNUMBER = getF("fileInfoSignatureArray.fileToSign.signNumber");
-          __vr.rejectValue(SIGNNUMBER, "error.passarela.field.fixedvalues",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentString(get(SIGNNUMBER)), new I18NArgumentString("1"));
-        }
         
+        if (!(passarelaDeFirmaEjb instanceof PassarelaDeFirmaEnServidorLocal)) {
+           
+          if (pfis.getSignNumber()  != 1) {
+            // El campo {0} solamente acepta los siguientes valores: {1}.
+            Field<?> SIGNNUMBER = getF("fileInfoSignatureArray.fileToSign.signNumber");
+            __vr.rejectValue(SIGNNUMBER, "error.passarela.field.fixedvalues",
+              new org.fundaciobit.genapp.common.i18n.I18NArgumentString(get(SIGNNUMBER)), new I18NArgumentString("1"));
+          }
+        }
 
         // ------------------------
         

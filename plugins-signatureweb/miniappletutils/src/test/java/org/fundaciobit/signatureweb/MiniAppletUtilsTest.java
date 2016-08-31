@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.cert.X509Certificate;
 
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.CertificateUtils;
 
 import junit.framework.Test;

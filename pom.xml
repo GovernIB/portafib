@@ -7,6 +7,7 @@
   <name>PortaFIB</name>
 
   <modules>
+    <module>plugins-signatureserver</module>
     <module>plugins-signatureweb</module>
     <module>utils</module> 
     <module>persistence</module>
@@ -90,6 +91,8 @@
     <version_txt_file>./versio.txt</version_txt_file>
     <portafib.version>1.1.1</portafib.version>
     <plugins.version>1.0.0</plugins.version>
+    <plugins.signatureserver.version>2.0.0</plugins.signatureserver.version>
+    <plugins.signatureweb.version>2.0.0</plugins.signatureweb.version>
     <spring.version>3.1.2.RELEASE</spring.version>
     <springsecurity.version>3.1.2.RELEASE</springsecurity.version>
     <cxf.version>2.2.12</cxf.version>

@@ -1,56 +1,21 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
-import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.fundaciobit.plugins.IPlugin;
+import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
 
 /**
  * 
  * @author anadal
  *
  */
-public interface ISignatureWebPlugin extends IPlugin {
+public interface ISignatureWebPlugin extends ISignaturePlugin {
 
   public static final String SIGNATUREWEB_BASE_PROPERTY = IPLUGIN_BASE_PROPERTIES
       + "signatureweb.";
-
-  /**
-   * 
-   * @param locale
-   *          idioma amb que es vol el nom del plugin
-   * @return Nom del plugin
-   */
-  public String getName(Locale locale);
-
-  /**
-   * @return Els tipus de firma suportats. Actualment només es suporta PAdES.
-   * @see FileInfoSignature.SIGN_TYPE_PADES = "PAdES";
-   * @see FileInfoSignature.SIGN_TYPE_XADES = "XAdES";
-   * @see FileInfoSignature.SIGN_TYPE_CADES = "CAdES";
-   * @see FileInfoSignature.SIGN_TYPE_FACTURAE = "FacturaE";
-   * @see FileInfoSignature.SIGN_TYPE_OOXML = "OOXML";
-   * @see FileInfoSignature.SIGN_TYPE_ODF = "ODF";
-   */
-  public String[] getSupportedSignatureTypes();
-
-  /**
-   * @param signType
-   *          Tipus de Firma
-   * @return Retorna els algorismes suportats segons els tipus de firma passat
-   *         per paràmetre
-   */
-  public String[] getSupportedSignatureAlgorithms(String signType);
-
-  /**
-   * @return Retorna els tipus de Barcode suportats per l'estampació del Codi
-   *         Segur de Verificació (CSV). Per exemple, el tipus suportats pel
-   *         plugins de PortaFIB són: BarCode128, Pdf417 i QrCode
-   */
-  public List<String> getSupportedBarCodeTypes();
 
   /**
    * Filtre que s'ha de cridar per esbrinar si aquest plugin pot realitzar la
@@ -62,7 +27,7 @@ public interface ISignatureWebPlugin extends IPlugin {
    * @param signaturesSet Informació de les firmes a realitzar
    * @return true, si aquest plugin es compatible per realitzar la firma.
    */
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet);
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet);
 
   /**
    * 
@@ -90,7 +55,7 @@ public interface ISignatureWebPlugin extends IPlugin {
    *           Si hi ha errors
    */
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception;
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception;
 
   /**
    * Peticio GET
@@ -144,6 +109,16 @@ public interface ISignatureWebPlugin extends IPlugin {
       String query, String signaturesSetID, int signatureIndex, HttpServletRequest request,
       HttpServletResponse response);
 
+
+  /**
+   * 
+   * @param signaturesSetID
+   *          Identificador del proces de Firma
+   * @return Informació total de la petició
+   */
+  public SignaturesSetWeb getSignaturesSet(String signaturesSetID);
+  
+  
   /**
    * 
    * @param signatureSetID
@@ -153,58 +128,7 @@ public interface ISignatureWebPlugin extends IPlugin {
    * @return Informació de l'estat
    */
   public StatusSignature getStatusSignature(String signatureSetID, int signatureIndex);
+  
 
-  /**
-   * 
-   * @param signaturesSetID
-   *          Identificador del proces de Firma
-   * @return Informació total de la petició
-   */
-  public SignaturesSet getSignaturesSet(String signaturesSetID);
-
-  /**
-   * @param signType
-   *          Tipus de Firma
-   * @return true indica que el plugin accepta generadors de Segell de Temps
-   *         definits dins FileInfoSignature.timeStampGenerator
-   */
-  public boolean acceptExternalTimeStampGenerator(String signType);
-
-  /**
-   * @param signType
-   *          Tipus de Firma
-   * @return true, indica que el plugin internament ofereix un generador de
-   *         segellat de temps.
-   */
-  public boolean providesTimeStampGenerator(String signType);
-
-  /**
-   * 
-   * @return true indica que el plugin accepta generadors del imatges de la
-   *         Firma Visible PDF definits dins
-   *         FileInfoSignature.pdfInfoSignature.rubricGenerator.
-   */
-  public boolean acceptExternalRubricGenerator();
-
-  /**
-   * 
-   * @return true, indica que el plugin internament ofereix un generador de
-   *         imatges de la Firma Visible PDF.
-   */
-  public boolean providesRubricGenerator();
-
-  /**
-   * 
-   * @return true indica si el plugin accepta estampadors de Codi Segur de
-   *         Verificació (missatge i/o codi de barres).
-   */
-  public boolean acceptExternalSecureVerificationCodeStamper();
-
-  /**
-   * 
-   * @return true, indica que el plugin internament ofereix estampadors de Codi
-   *         Segur de Verificació (missatge i/o codi de barres).
-   */
-  public boolean providesSecureVerificationCodeStamper();
 
 }

@@ -10,7 +10,7 @@
   <parent>
     <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
   </parent>
 
   <dependencies>
@@ -18,14 +18,20 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugins-api</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+    <!-- =========== PLUGINS  FIRMA WEB =============== -->
+    <!-- ============================================== -->
+    <!-- ============================================== -->
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>                    
       <artifactId>plugin-signatureweb-api</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -33,28 +39,59 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.signatureweb.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.signatureweb.version}</version>
     </dependency>
-  
+
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.signatureweb.version}</version>
     </dependency>
-              
 
-    <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+
+
+    <!--  Plugin de firma web en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+
+    <!--  Plugin de firma web de Passarel·la PortaFIB s'ha definit en un Profile (Veure més abaix) -->
+
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+    <!-- ======== PLUGINS FIRMA EN SERVIDOR =========== -->
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>                    
+      <artifactId>plugin-signatureserver-api</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+    </dependency>
+
+    <!--  Plugin de firma en servidor de Passarel·la PortaFIB s'ha definit en un Profile (Veure més abaix) -->
 
   </dependencies>
 
 
   <profiles>
+  
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+    <!-- ===== PROFILES DE PLUGINS FIRMA EN WEB ======= -->
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+  
     <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
     <profile>
       <id>sia</id>
@@ -62,7 +99,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-          <version>1.0.0</version>
+          <version>${plugins.signatureweb.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.bouncycastle</groupId>
@@ -77,20 +114,39 @@
       </dependencies>
     </profile>
 
-  
-    <!-- PROFILE PER INCLOURE Modul de FIRMA PORTAFIB -->
+
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE PASSARELA PORTAFIB -->
     <profile>
-      <id>passarela</id>
+      <id>passarelaweb</id>
       <dependencies>
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-portafib</artifactId>
-          <version>1.0.0</version>
+          <version>${plugins.signatureweb.version}</version>
         </dependency>
       </dependencies>
     </profile>
-  </profiles>
 
+    
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+    <!-- === PROFILES DE PLUGINS FIRMA EN SERVIDOR ==== -->
+    <!-- ============================================== -->
+    <!-- ============================================== -->
+
+    <!-- PROFILE PER INCLOURE Modul de FIRMA EN SERVIDOR DE PASSARELA PORTAFIB -->
+    <profile>
+      <id>passarelaserver</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureserver-portafib</artifactId>  
+          <version>${plugins.signatureserver.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    
+  </profiles>
 
   <build>
     <finalName>passarela_plugins</finalName>
@@ -102,8 +158,8 @@
         <version>2.3.2</version>
 
         <configuration>
-          <displayName>Plugins per Exemple de Modul Firma Web</displayName>
-          <description>Plugins per Exemple de Modul Firma Web</description>
+          <displayName>Plugins per Exemple de Modul Firma Web/Servidor</displayName>
+          <description>Plugins per Exemple de Modul Firma Web/Servidor</description>
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
 
@@ -114,31 +170,43 @@
           </jboss>
 
           <modules>
+
+            <!-- ============================================== -->
+            <!-- ============================================== -->
+            <!-- =========== PLUGINS  FIRMA WEB =============== -->
+            <!-- ============================================== -->
+            <!-- ============================================== -->
+
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
               <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
-            
+
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
               <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
-            
-            <!--
-            <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureweb-portafib</artifactId>
-              <includeInApplicationXml>true</includeInApplicationXml>
-            </jarModule>
-            -->
-            
+
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
               <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
+
+            <!-- ============================================== -->
+            <!-- ============================================== -->
+            <!-- =========== PLUGINS FIRMA SERVER ============= -->
+            <!-- ============================================== -->
+            <!-- ============================================== -->
+
+            <jarModule>
+              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+              <includeInApplicationXml>true</includeInApplicationXml>
+            </jarModule>
+
 
           </modules>
 

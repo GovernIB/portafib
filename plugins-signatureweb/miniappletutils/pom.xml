@@ -4,13 +4,13 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureweb-miniappletutils</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 
   <name>FundacioBit Plugins - SignatureWeb - MiniAppletUtils</name>
 
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <artifactId>plugins-signatureweb</artifactId>
   </parent>
 
@@ -18,12 +18,11 @@
 
   <repositories>
     <repository>
-			<name>Local Maven Repository</name>
-			<id>es.caib.portafib.localrepo</id>
-			<url>file://${basedir}/../../local-repo</url>
-		</repository>
+      <name>Local Maven Repository</name>
+      <id>es.caib.portafib.localrepo</id>
+      <url>file://${basedir}/../../local-repo</url>
+    </repository>
   </repositories>
-  
 
   <!-- Només serveix per indicar a maven que s'ha de compilar -->
   <profiles>
@@ -33,41 +32,44 @@
         <dependency>
           <artifactId>plugin-signatureweb-miniappletui</artifactId>
           <groupId>es.caib.portafib</groupId>
-          <version>1.0.0</version>
+          <version>${plugins.signatureweb.version}</version>
           <scope>compile</scope>
         </dependency>
       </dependencies>
     </profile>
   </profiles>
 
-
-
   <dependencies>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugins-api</artifactId>
-      <version>1.0.0</version>
+      <version>${plugins.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
-      <version>1.0.0</version>
       <artifactId>plugin-signatureweb-api</artifactId>
-    </dependency>
-
-     <dependency>
-        <groupId>commons-fileupload</groupId>
-        <artifactId>commons-fileupload</artifactId>
-        <version>1.2.2</version>
-        <scope>provided</scope>
+      <version>${plugins.signatureweb.version}</version>
     </dependency>
 
     <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.2</version>
-        <scope>provided</scope>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-api</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>      
+      <artifactId>plugin-signatureserver-miniappletutils</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -90,6 +92,13 @@
     </dependency>
 
     <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
@@ -97,9 +106,6 @@
     </dependency>
 
   </dependencies>
-
-
-
 
   <build>
 
@@ -114,58 +120,6 @@
           <compilerVersion>1.6</compilerVersion>
         </configuration>
       </plugin>
-
-
-
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.0</version>
-        <executions>
-          <execution>
-            <id>copy1</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <artifactId>plugin-signatureweb-miniappletui-signed</artifactId>
-                  <groupId>es.caib.portafib</groupId>
-                  <version>1.0.0</version>
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                  <destFileName>miniappletui.jar</destFileName>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.basedir}/src/main/resources/applet</outputDirectory>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>copy2</id>
-            <phase>process-resources</phase> 
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <artifactId>${miniapplet.artifactid}</artifactId>
-                  <groupId>es.gob.afirma</groupId>
-                  <version>${miniapplet.version}</version>
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                  <destFileName>miniapplet.jar</destFileName>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.basedir}/src/main/resources/applet</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-
 
     </plugins>
   </build>

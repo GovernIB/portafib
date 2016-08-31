@@ -7,8 +7,11 @@ import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.validation.AbstractBeanValidator;
 import org.fundaciobit.genapp.common.validation.BeanValidatorResult;
 
-import es.caib.portafib.logic.PassarelaDeFirmaLocal;
-import es.caib.portafib.logic.passarela.PassarelaSignaturesSet;
+
+
+
+import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 
 /**
  * 
@@ -20,15 +23,12 @@ public class SignaturesSetBeanValidator extends AbstractBeanValidator<PassarelaS
   
   protected final SignaturesSetValidator<PassarelaSignaturesSet> _validator;
   
-  protected PassarelaDeFirmaLocal passarelaDeFirmaEjb;
+  protected AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb;
   
   protected String entitatID;
 
-
-  
-
   public SignaturesSetBeanValidator(SignaturesSetValidator<PassarelaSignaturesSet> _validator,
-      PassarelaDeFirmaLocal passarelaDeFirmaEjb, String entitatID) {
+      AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb, String entitatID) {
     this._validator = _validator;
     this.passarelaDeFirmaEjb = passarelaDeFirmaEjb;
     this.entitatID = entitatID;

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>    
+  <artifactId>portafib-ws-api-passarela-firma-web</artifactId>
+  <groupId>es.caib.portafib</groupId>
+  <packaging>jar</packaging>
+
+  <name>PortaFIB WS - API Passarel.la Firma Web</name>
+
+  <parent>
+    <groupId>es.caib.portafib</groupId>
+    <artifactId>portafib-ws</artifactId>
+    <version>1.1.1</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- JBoss dependency versions -->  
+    <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>  
+
+  </properties>
+
+  <dependencyManagement>  
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.spec</groupId>
+        <artifactId>jboss-javaee-6.0</artifactId>
+        <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>  
+  </dependencyManagement> 
+
+  <repositories>
+    <repository>
+      <id>java.net-m2</id>
+      <name>java.net - Maven 2</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/java.net-m2</url>
+    </repository>
+  </repositories>
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+
+              <filters>
+                <filter>
+                  <artifact>es.caib.portafib:portafib-utils</artifact>
+                  <includes>
+                    <include>es/caib/portafib/utils/Constants.*</include>
+                  </includes>
+                </filter>
+                <filter>
+                  <artifact>org.fundaciobit.genapp:genapp-core</artifact>
+                  <includes>
+                    <include>org/fundaciobit/genapp/common/i18n/I18N*.*</include>
+                    <include>org/fundaciobit/genapp/common/ws/Ws*Adapter.*</include>
+                  </includes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>				
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${basedir}/../../logic/src/main/resources</directory>
+                  <includes>
+                    <include>logicmissatges_*.properties</include>
+                    <include>genapp_*.properties</include>
+                    <include>portafib_genapp_*.properties</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+              <overwrite>true</overwrite>
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+
+
+    </plugins>
+
+  </build>
+
+
+
+  <profiles>
+    <profile>
+      <id>regenerateapi</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>				    
+          <name>regenerateapi</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+
+
+          <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-java2ws-plugin</artifactId>
+            <version>${cxf.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${cxf.version}</version>
+              </dependency>
+
+              <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-simple</artifactId>
+                <version>${cxf.version}</version>
+              </dependency>
+
+              <dependency>
+                <groupId>es.caib.portafib</groupId>
+                <artifactId>portafib-ws-server</artifactId>
+                <version>${portafib.version}</version>
+                <scope>compile</scope>
+              </dependency>
+
+              <dependency>
+                <groupId>es.caib.portafib</groupId>
+                <artifactId>portafib-jpa</artifactId>
+                <version>${portafib.version}</version>
+                <scope>compile</scope>
+              </dependency>
+
+              <dependency>
+                <groupId>es.caib.portafib</groupId>
+                <artifactId>portafib-logic</artifactId>
+                <version>${portafib.version}</version>
+                <scope>compile</scope>
+              </dependency>
+
+            </dependencies>
+
+            <executions>
+
+              <execution>
+                <id>generate-wsdl-PortaFIBPassarelaDeFirmaWebWs</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <className>es.caib.portafib.ws.v1.impl.PortaFIBPassarelaDeFirmaWebWs</className>
+                  <genWsdl>true</genWsdl>							
+                  <verbose>true</verbose>
+                  <outputFile>${basedir}/src/main/resources/wsdl/PortaFIBPassarelaDeFirmaWeb.wsdl</outputFile>
+                  <argline>-s ${basedir}/code -portname PortaFIBPassarelaDeFirmaWebWs -address http://localhost:8080/portafib/ws/v1/PortaFIBPassarelaDeFirmaWeb</argline>
+                </configuration>
+                <goals>
+                  <goal>java2ws</goal>
+                </goals>
+              </execution>
+
+            </executions>
+          </plugin>
+
+          <plugin>  
+            <groupId>org.jboss.ws.plugins</groupId>  
+            <artifactId>maven-jaxws-tools-plugin</artifactId>  
+            <version>1.1.1.Final</version>
+            <configuration>  
+              <verbose>true</verbose>  
+              <goalPrefix>wsconsume</goalPrefix>	
+              <extension>true</extension>					
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>	
+              <targetPackage>es.caib.portafib.ws.api.v1.passarelafirmaweb</targetPackage>
+              <bindingFiles>
+                <bindingFile>${basedir}/bindings/bindings.xjc</bindingFile>
+              </bindingFiles>					
+            </configuration>  
+            <executions>  
+              <execution>  
+                <id>WSDL to Java API PortaFIBPassarelaDeFirmaWeb</id>  
+                <goals>
+                  <goal>wsconsume</goal>
+                </goals>  
+                <configuration>  
+                  <wsdls> 
+                    <wsdl>${basedir}/src/main/resources/wsdl/PortaFIBPassarelaDeFirmaWeb.wsdl</wsdl>  
+                  </wsdls>
+                  <wsdlLocation>http://localhost:8080/portafib/ws/v1/PortaFIBPassarelaDeFirmaWeb?wsdl</wsdlLocation>
+
+                  <argLine>-n</argLine>
+                </configuration>  
+              </execution> 
+
+            </executions>  
+          </plugin> 
+
+        </plugins>
+
+      </build>
+    </profile>
+  </profiles>
+
+
+  <dependencies>
+
+    <dependency>  
+      <groupId>org.jboss.ws.cxf</groupId>  
+      <artifactId>jbossws-cxf-client</artifactId>  
+      <version>4.1.1.Final</version>  
+      <scope>provided</scope>  
+    </dependency> 
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-utils</artifactId>
+      <version>${portafib.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-core</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Només per mantenir un ordre en la compilació -->
+    <dependency>
+      <artifactId>portafib-ws-server</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>${portafib.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

@@ -15,7 +15,9 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 
 -Psia             Compila i inclou dins l'ear el Modul de Firma de SIA
 
--Ppassarela       Compila el Modul de Firma de Passarel·la PortaFIB
+-Ppassarelaweb    Compila el Modul de Firma Web de Passarel·la PortaFIB
+
+-Ppassarelaserver Compila el Modul de Firma en Servidor de Passarel·la PortaFIB
 
 -Pclientcert      Genera un segon context web amb autenticacio
                   CLIENT-CERT (context a /portafib/s)

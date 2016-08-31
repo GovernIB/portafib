@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureserver-portafib</artifactId>
+  <packaging>jar</packaging>
+  <version>2.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureServer - Passarel.la PortaFIB</name>
+
+  <parent>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <version>2.0.0</version>
+    <artifactId>plugins-signatureserver</artifactId>
+  </parent>
+
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-api</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <!-- Antiga <artifactId>portafib-ws-api-passarela</artifactId> -->
+      <artifactId>portafib-ws-api-passarela-firma-servidor</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>${portafib.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>  
+      <groupId>org.jboss.ws.cxf</groupId>  
+      <artifactId>jbossws-cxf-client</artifactId>  
+      <version>4.1.1.Final</version>  
+      <scope>provided</scope>  
+    </dependency> 
+
+  </dependencies>
+
+</project>

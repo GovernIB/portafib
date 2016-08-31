@@ -51,12 +51,12 @@
 
   <servlet>
     <servlet-name>PluginSignWebRequests</servlet-name>
-    <servlet-class>org.fundaciobit.plugins.signatureweb.exemple.controller.SignatureModuleController</servlet-class>
+    <servlet-class>org.fundaciobit.plugins.signatureweb.exemple.controller.SignatureWebModuleController</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>PluginSignWebRequests</servlet-name>
-    <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
+    <url-pattern>/common/signwebmodule/requestPlugin/*</url-pattern>
   </servlet-mapping>
  
 </web-app>

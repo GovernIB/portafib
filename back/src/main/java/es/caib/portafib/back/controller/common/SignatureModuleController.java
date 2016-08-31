@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller.common;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,18 +22,9 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.PdfVisibleSignature;
-import org.fundaciobit.plugins.signatureweb.api.PdfRubricRectangle;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesTableHeader;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
@@ -44,18 +34,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.utils.PortaFIBRubricGenerator;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.utils.Constants;
-import es.caib.portafib.utils.SignBoxRectangle;
-
 
 /**
  *
@@ -69,8 +54,8 @@ public class SignatureModuleController extends HttpServlet {
   protected static Logger log = Logger.getLogger(SignatureModuleController.class);
 
   
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
 
   public static final String PRIVATE_CONTEXTWEB = "/common/signmodule";
   
@@ -281,7 +266,7 @@ public class SignatureModuleController extends HttpServlet {
     String newFinalUrl = absoluteControllerBase + "/final/" + URLEncoder.encode(signaturesSetID, "UTF-8");
 
     // Substituim l'altre final URL pel NOU
-    signaturesSet.getCommonInfoSignature().setUrlFinal(newFinalUrl);
+    signaturesSet.setUrlFinal(newFinalUrl);
 
     String urlToPluginWebPage;
     urlToPluginWebPage = signaturePlugin.signDocuments(request, absoluteRequestPluginBasePath,
@@ -457,7 +442,7 @@ public class SignatureModuleController extends HttpServlet {
 
   private static long lastCheckFirmesCaducades = 0;
 
-  public static void closeSignaturesSet(HttpServletRequest request, String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+  public static void closeSignaturesSet(HttpServletRequest request, String signaturesSetID, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     
     PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
     
@@ -470,7 +455,7 @@ public class SignatureModuleController extends HttpServlet {
   }
     
     
- private static void closeSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet pss, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+ private static void closeSignaturesSet(HttpServletRequest request, PortaFIBSignaturesSet pss, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
    
   
     Long pluginID = pss.getPluginID();
@@ -581,8 +566,8 @@ public class SignatureModuleController extends HttpServlet {
   
   
   
-  public static SignaturesSet getSignaturesSetByID(HttpServletRequest request,
-      String signaturesSetID,   ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+  public static SignaturesSetWeb getSignaturesSetByID(HttpServletRequest request,
+      String signaturesSetID,   ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     return getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
   }
   
@@ -593,7 +578,7 @@ public class SignatureModuleController extends HttpServlet {
    * @return
    */
   private static PortaFIBSignaturesSet getPortaFIBSignaturesSet(HttpServletRequest request,
-      String signaturesSetID,  ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+      String signaturesSetID,  ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     // Fer net peticions caducades SignaturesSet.getExpiryDate()
     // Check si existeix algun proces de firma caducat s'ha d'esborrar
     // Com a mínim cada minut es revisa si hi ha caducats
@@ -674,157 +659,6 @@ public class SignatureModuleController extends HttpServlet {
     return mav;
   }
 
-  /**
-   * 
-   * @param entitat
-   * @param languageUI
-   * @param username
-   * @param urlFinal
-   * @param browserSupportsJava
-   * @return
-   */
-  public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
-      String languageUI, String username, String administrationID,   String urlFinal) {
-      
-      PolicyInfoSignature policyInfoSignature = null;
-      if (entitat.getPolicyIdentifier() != null) {
-        
-        policyInfoSignature = new PolicyInfoSignature(
-          entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
-          entitat.getPolicyIdentifierHashAlgorithm(), entitat.getPolicyUrlDocument());
-      }
-      
-      return new CommonInfoSignature(languageUI,
-          CommonInfoSignature.cleanFiltreCertificats(entitat.getFiltreCertificats()),
-          username, administrationID, policyInfoSignature,  urlFinal); 
-      
-    }
-  
-  
-
-  
-  /**
-   * 
-   * @param signatureID
-   * @param fileToSign
-   * @param idname
-   * @param locationSignTableID
-   * @param reason
-   * @param signNumber
-   * @param languageSign
-   * @param signTypeID
-   * @param signAlgorithmID
-   * @param signModeBool
-   * @param firmatPerFormat
-   * @param timeStampGenerator
-   * @return
-   * @throws I18NException
-   */
-  public static FileInfoSignature getFileInfoSignature(String signatureID, File fileToSign,
-      String mimeType, String idname, long locationSignTableID, String reason,
-      String location, String signerEmail,  int signNumber, String languageSign, long signTypeID, 
-      long signAlgorithmID, boolean signModeBool, String firmatPerFormat,
-      ITimeStampGenerator timeStampGenerator) throws I18NException {
-
-    PdfVisibleSignature pdfInfoSignature = null;
-
-    final int signMode = ((signModeBool == Constants.SIGN_MODE_IMPLICIT) ? 
-           FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
-
-    String signType;
-
-    int locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-    switch((int)signTypeID) {
-      case Constants.TIPUSFIRMA_PADES:
-        signType = FileInfoSignature.SIGN_TYPE_PADES;
-
-        switch((int)locationSignTableID) { 
-           case Constants.TAULADEFIRMES_SENSETAULA:
-             locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-           break;
-           case Constants.TAULADEFIRMES_PRIMERAPAGINA:
-             locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_FIRSTPAGE;
-           break;
-           case Constants.TAULADEFIRMES_DARRERAPAGINA:
-             locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
-           break;
-           default:
-              // TODO Traduir
-              throw new I18NException("error.unknown", 
-                  "Posicio de taula de firmes desconeguda: " + locationSignTableID);
-        }
-
-        
-        if (locationSignTable != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-          
-          // PDF Visible
-          pdfInfoSignature = new PdfVisibleSignature();
-
-          SignBoxRectangle signBoxRectangle = SignBoxRectangle.getPositionOfVisibleSignature(signNumber);
-          
-          PdfRubricRectangle prr = new PdfRubricRectangle();
-          prr.setLowerLeftX(signBoxRectangle.llx);
-          prr.setLowerLeftY(signBoxRectangle.lly);
-          prr.setUpperRightX(signBoxRectangle.urx);
-          prr.setUpperRightY(signBoxRectangle.ury);
-
-          IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(
-              languageSign, firmatPerFormat, reason, prr);
-
-          pdfInfoSignature.setRubricGenerator(rubricGenerator);
-          pdfInfoSignature.setPdfRubricRectangle(prr);
-          
-        }
-        
-        
-      break;
-      
-      case Constants.TIPUSFIRMA_CADES:
-        signType = FileInfoSignature.SIGN_TYPE_CADES;
-      break;
-        
-      case Constants.TIPUSFIRMA_XADES:
-        signType = FileInfoSignature.SIGN_TYPE_XADES;
-      break;
-      
-      default:
-        // TODO Traduir
-        throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
-    }
-
-    
-    String signAlgorithm;
-    switch((int)signAlgorithmID) {
-      case Constants.SIGN_ALGORITHM_SHA1WITHRSA:
-        signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
-        break;
-      case Constants.SIGN_ALGORITHM_SHA256WITHRSA:
-        signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA256;
-        break;
-      case Constants.SIGN_ALGORITHM_SHA384WITHRSA:
-        signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA384;
-        break;
-      case Constants.SIGN_ALGORITHM_SHA512WITHRSA:
-        signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA512;
-        break;
-
-      default:
-        // TODO Traduir
-        throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithmID);
-    }
-    // Ja s'ha arreglat abans
-    final SignaturesTableHeader signaturesTableHeader = null;
-    // Ja s'ha arreglat abans
-    final SecureVerificationCodeStampInfo csvStampInfo = null;
-    
-    FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, mimeType , idname,  reason,
-        location, signerEmail,  signNumber, languageSign, signType, signAlgorithm,
-        signMode, locationSignTable, signaturesTableHeader, pdfInfoSignature,
-        csvStampInfo,  timeStampGenerator != null, timeStampGenerator);
-    
-    return fis;
-  };
-  
 
   protected static String getAbsolutePortaFIBBase(HttpServletRequest request) {
     String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();

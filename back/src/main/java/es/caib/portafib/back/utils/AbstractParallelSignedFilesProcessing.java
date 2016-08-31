@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
 import es.caib.portafib.back.controller.common.SignatureModuleController;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 
 /**
  * Serveix per anar processant les firmes finalitzades just quan es firmen i no
@@ -27,7 +27,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
 
   protected final Logger log = Logger.getLogger(this.getClass());
 
-  protected final ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  protected final ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
 
   protected final String signaturesSetID;
 
@@ -39,7 +39,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
    * @param modulDeFirmaEjb
    */
   public AbstractParallelSignedFilesProcessing(HttpServletRequest request,
-      String signaturesSetID, ModulDeFirmaLogicaLocal modulDeFirmaEjb) {
+      String signaturesSetID, ModulDeFirmaWebLogicaLocal modulDeFirmaEjb) {
     super();
     this.request = request;
     this.signaturesSetID = signaturesSetID;
@@ -68,7 +68,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
         e1.printStackTrace();
       }
 
-      SignaturesSet ss;
+      SignaturesSetWeb ss;
       ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID,
           modulDeFirmaEjb);
 

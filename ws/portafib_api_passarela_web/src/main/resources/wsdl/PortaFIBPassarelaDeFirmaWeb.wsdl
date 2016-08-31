@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="PortaFIBPassarelaDeFirmaWebWsService" targetNamespace="http://impl.v1.ws.portafib.caib.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://impl.v1.ws.portafib.caib.es/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://impl.v1.ws.portafib.caib.es/">
+  <xs:element name="closeTransaction" type="tns:closeTransaction"/>
+  <xs:element name="closeTransactionResponse" type="tns:closeTransactionResponse"/>
+  <xs:element name="downloadFileUsingEncryptedFileID" type="tns:downloadFileUsingEncryptedFileID"/>
+  <xs:element name="downloadFileUsingEncryptedFileIDResponse" type="tns:downloadFileUsingEncryptedFileIDResponse"/>
+  <xs:element name="getAllCustodiaInfoTemplates" type="tns:getAllCustodiaInfoTemplates"/>
+  <xs:element name="getAllCustodiaInfoTemplatesResponse" type="tns:getAllCustodiaInfoTemplatesResponse"/>
+  <xs:element name="getAllPluginIDCustodia" type="tns:getAllPluginIDCustodia"/>
+  <xs:element name="getAllPluginIDCustodiaResponse" type="tns:getAllPluginIDCustodiaResponse"/>
+  <xs:element name="getCustodiaPolicy" type="tns:getCustodiaPolicy"/>
+  <xs:element name="getCustodiaPolicyResponse" type="tns:getCustodiaPolicyResponse"/>
+  <xs:element name="getDefaultCustodiaInfo" type="tns:getDefaultCustodiaInfo"/>
+  <xs:element name="getDefaultCustodiaInfoResponse" type="tns:getDefaultCustodiaInfoResponse"/>
+  <xs:element name="getEntitatID" type="tns:getEntitatID"/>
+  <xs:element name="getEntitatIDResponse" type="tns:getEntitatIDResponse"/>
+  <xs:element name="getSignatureResultsOfTransaction" type="tns:getSignatureResultsOfTransaction"/>
+  <xs:element name="getSignatureResultsOfTransactionResponse" type="tns:getSignatureResultsOfTransactionResponse"/>
+  <xs:element name="getStatusTransaction" type="tns:getStatusTransaction"/>
+  <xs:element name="getStatusTransactionResponse" type="tns:getStatusTransactionResponse"/>
+  <xs:element name="getSupportedBarCodeTypes" type="tns:getSupportedBarCodeTypes"/>
+  <xs:element name="getSupportedBarCodeTypesResponse" type="tns:getSupportedBarCodeTypesResponse"/>
+  <xs:element name="getSupportedLanguages" type="tns:getSupportedLanguages"/>
+  <xs:element name="getSupportedLanguagesResponse" type="tns:getSupportedLanguagesResponse"/>
+  <xs:element name="getSupportedSignatureAlgorithms" type="tns:getSupportedSignatureAlgorithms"/>
+  <xs:element name="getSupportedSignatureAlgorithmsResponse" type="tns:getSupportedSignatureAlgorithmsResponse"/>
+  <xs:element name="getSupportedSignatureTypes" type="tns:getSupportedSignatureTypes"/>
+  <xs:element name="getSupportedSignatureTypesResponse" type="tns:getSupportedSignatureTypesResponse"/>
+  <xs:element name="getTimeStampPolicy" type="tns:getTimeStampPolicy"/>
+  <xs:element name="getTimeStampPolicyResponse" type="tns:getTimeStampPolicyResponse"/>
+  <xs:element name="getVersion" type="tns:getVersion"/>
+  <xs:element name="getVersionResponse" type="tns:getVersionResponse"/>
+  <xs:element name="getVersionWs" type="tns:getVersionWs"/>
+  <xs:element name="getVersionWsResponse" type="tns:getVersionWsResponse"/>
+  <xs:element name="passarelaCommonInfoSignature" type="tns:passarelaCommonInfoSignature"/>
+  <xs:element name="passarelaFileInfoSignature" type="tns:passarelaFileInfoSignature"/>
+  <xs:element name="passarelaSignaturesSet" type="tns:passarelaSignaturesSet"/>
+  <xs:element name="passarelaSignaturesTableHeader" type="tns:passarelaSignaturesTableHeader"/>
+  <xs:element name="providesTimeStampGenerator" type="tns:providesTimeStampGenerator"/>
+  <xs:element name="providesTimeStampGeneratorResponse" type="tns:providesTimeStampGeneratorResponse"/>
+  <xs:element name="startTransaction" type="tns:startTransaction"/>
+  <xs:element name="startTransactionResponse" type="tns:startTransactionResponse"/>
+  <xs:complexType name="getEntitatID">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEntitatIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getTimeStampPolicy">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getTimeStampPolicyResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsI18NTranslation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="args" type="tns:wsI18NArgument"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsI18NArgument">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+      <xs:element name="translate" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStatusTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signaturesSetID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStatusTransactionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:passarelaSignatureStatus"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSignatureStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errorMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorStackTrace" type="xs:string"/>
+      <xs:element name="status" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getVersionWs">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionWsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedBarCodeTypes">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSupportedBarCodeTypesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedSignatureAlgorithms">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedSignatureAlgorithmsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signaturesSetID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeTransactionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSignatureResultsOfTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signaturesSetID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSignatureResultsOfTransactionResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:passarelaSignatureResult"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSignatureResult">
+    <xs:complexContent>
+      <xs:extension base="tns:passarelaSignatureStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="signID" type="xs:string"/>
+          <xs:element minOccurs="0" name="signedFile" type="tns:fitxerBean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="fitxerBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="descripcio" type="xs:string"/>
+      <xs:element minOccurs="0" name="encryptedFileID" type="xs:string"/>
+      <xs:element name="fitxerID" type="xs:long"/>
+      <xs:element minOccurs="0" name="mime" type="xs:string"/>
+      <xs:element minOccurs="0" name="nom" type="xs:string"/>
+      <xs:element name="tamany" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getDefaultCustodiaInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="title" type="xs:string"/>
+      <xs:element minOccurs="0" name="language" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getDefaultCustodiaInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:custodiaInfoBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="custodiaInfoBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiBarresID" type="xs:string"/>
+      <xs:element name="codiBarresPosicioPaginaID" type="xs:long"/>
+      <xs:element minOccurs="0" name="codiBarresText" type="xs:string"/>
+      <xs:element minOccurs="0" name="custodiaDocumentID" type="xs:string"/>
+      <xs:element name="custodiaInfoID" type="xs:long"/>
+      <xs:element minOccurs="0" name="custodiaPluginParameters" type="xs:string"/>
+      <xs:element name="custodiar" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="dataCustodia" type="xs:dateTime"/>
+      <xs:element name="editable" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="entitatID" type="xs:string"/>
+      <xs:element minOccurs="0" name="missatge" type="xs:string"/>
+      <xs:element name="missatgePosicioPaginaID" type="xs:long"/>
+      <xs:element minOccurs="0" name="nomPlantilla" type="xs:string"/>
+      <xs:element minOccurs="0" name="pagines" type="xs:string"/>
+      <xs:element name="pluginID" type="xs:long"/>
+      <xs:element minOccurs="0" name="titolPeticio" type="xs:string"/>
+      <xs:element minOccurs="0" name="urlFitxerCustodiat" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuariAplicacioID" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuariEntitatID" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="providesTimeStampGenerator">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="providesTimeStampGeneratorResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getVersion">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getVersionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllCustodiaInfoTemplates">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllCustodiaInfoTemplatesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:custodiaInfoBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguages">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSupportedLanguagesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllPluginIDCustodia">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllPluginIDCustodiaResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedSignatureTypes">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupportedSignatureTypesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="downloadFileUsingEncryptedFileID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="downloadFileUsingEncryptedFileIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:fitxerBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signaturesSet" type="tns:passarelaSignaturesSet"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSignaturesSet">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signaturesSetID" type="xs:string"/>
+      <xs:element minOccurs="0" name="expiryDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="commonInfoSignature" type="tns:passarelaCommonInfoSignature"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="fileInfoSignatureArray" nillable="true" type="tns:passarelaFileInfoSignature"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaCommonInfoSignature">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="languageUI" type="xs:string"/>
+      <xs:element minOccurs="0" name="filtreCertificats" type="xs:string"/>
+      <xs:element name="usePortafibCertificateFilter" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+      <xs:element minOccurs="0" name="administrationID" type="xs:string"/>
+      <xs:element minOccurs="0" name="urlFinal" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="acceptedPlugins" nillable="true" type="xs:long"/>
+      <xs:element minOccurs="0" name="policyInfoSignature" type="tns:passarelaPolicyInfoSignature"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaPolicyInfoSignature">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="policyIdentifier" type="xs:string"/>
+      <xs:element minOccurs="0" name="policyIdentifierHash" type="xs:string"/>
+      <xs:element minOccurs="0" name="policyIdentifierHashAlgorithm" type="xs:string"/>
+      <xs:element minOccurs="0" name="policyUrlDocument" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaFileInfoSignature">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fileToSign" type="tns:fitxerBean"/>
+      <xs:element minOccurs="0" name="signID" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="reason" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="signerEmail" type="xs:string"/>
+      <xs:element name="signNumber" type="xs:int"/>
+      <xs:element minOccurs="0" name="languageSign" type="xs:string"/>
+      <xs:element minOccurs="0" name="signType" type="xs:string"/>
+      <xs:element minOccurs="0" name="signAlgorithm" type="xs:string"/>
+      <xs:element name="signMode" type="xs:int"/>
+      <xs:element name="signaturesTableLocation" type="xs:int"/>
+      <xs:element minOccurs="0" name="signaturesTableHeader" type="tns:passarelaSignaturesTableHeader"/>
+      <xs:element minOccurs="0" name="secureVerificationCodeStampInfo" type="tns:passarelaSecureVerificationCodeStampInfo"/>
+      <xs:element name="useTimeStamp" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="custodiaInfo" type="tns:custodiaInfoBean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSignaturesTableHeader">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="logoJpeg" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="title" type="xs:string"/>
+      <xs:element minOccurs="0" name="titleFieldLabel" type="xs:string"/>
+      <xs:element minOccurs="0" name="titleFieldValue" type="xs:string"/>
+      <xs:element minOccurs="0" name="descriptionFieldLabel" type="xs:string"/>
+      <xs:element minOccurs="0" name="descriptionFieldValue" type="xs:string"/>
+      <xs:element minOccurs="0" name="signatureLabel" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="passarelaSecureVerificationCodeStampInfo">
+    <xs:sequence>
+      <xs:element name="barCodePosition" type="xs:int"/>
+      <xs:element minOccurs="0" name="barCodeText" type="xs:string"/>
+      <xs:element minOccurs="0" name="barCodeType" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element name="messagePosition" type="xs:int"/>
+      <xs:element minOccurs="0" name="pages" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startTransactionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsFieldValidationError">
+    <xs:sequence>
+      <xs:element name="label" type="xs:string"/>
+      <xs:element name="field" type="xs:string"/>
+      <xs:element name="translation" type="tns:wsI18NTranslation"/>
+      <xs:element name="error" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCustodiaPolicy">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getCustodiaPolicyResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WsI18NError" type="tns:WsI18NError"/>
+  <xs:complexType name="WsI18NError">
+    <xs:sequence>
+      <xs:element name="translation" nillable="true" type="tns:wsI18NTranslation"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WsValidationErrors" type="tns:WsValidationErrors"/>
+  <xs:complexType name="WsValidationErrors">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="fieldFaults" type="tns:wsFieldValidationError"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getTimeStampPolicyResponse">
+    <wsdl:part name="parameters" element="tns:getTimeStampPolicyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsValidationException">
+    <wsdl:part name="WsValidationException" element="tns:WsValidationErrors">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeTransaction">
+    <wsdl:part name="parameters" element="tns:closeTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startTransaction">
+    <wsdl:part name="parameters" element="tns:startTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDefaultCustodiaInfoResponse">
+    <wsdl:part name="parameters" element="tns:getDefaultCustodiaInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllCustodiaInfoTemplates">
+    <wsdl:part name="parameters" element="tns:getAllCustodiaInfoTemplates">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatIDResponse">
+    <wsdl:part name="parameters" element="tns:getEntitatIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWs">
+    <wsdl:part name="parameters" element="tns:getVersionWs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEntitatID">
+    <wsdl:part name="parameters" element="tns:getEntitatID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignatureResultsOfTransactionResponse">
+    <wsdl:part name="parameters" element="tns:getSignatureResultsOfTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllPluginIDCustodiaResponse">
+    <wsdl:part name="parameters" element="tns:getAllPluginIDCustodiaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatusTransactionResponse">
+    <wsdl:part name="parameters" element="tns:getStatusTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedBarCodeTypes">
+    <wsdl:part name="parameters" element="tns:getSupportedBarCodeTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WsI18NException">
+    <wsdl:part name="WsI18NException" element="tns:WsI18NError">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeTransactionResponse">
+    <wsdl:part name="parameters" element="tns:closeTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersion">
+    <wsdl:part name="parameters" element="tns:getVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeStampPolicy">
+    <wsdl:part name="parameters" element="tns:getTimeStampPolicy">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionWsResponse">
+    <wsdl:part name="parameters" element="tns:getVersionWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguages">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguages">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedSignatureAlgorithmsResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedSignatureAlgorithmsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustodiaPolicyResponse">
+    <wsdl:part name="parameters" element="tns:getCustodiaPolicyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllPluginIDCustodia">
+    <wsdl:part name="parameters" element="tns:getAllPluginIDCustodia">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllCustodiaInfoTemplatesResponse">
+    <wsdl:part name="parameters" element="tns:getAllCustodiaInfoTemplatesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="providesTimeStampGenerator">
+    <wsdl:part name="parameters" element="tns:providesTimeStampGenerator">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedSignatureAlgorithms">
+    <wsdl:part name="parameters" element="tns:getSupportedSignatureAlgorithms">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustodiaPolicy">
+    <wsdl:part name="parameters" element="tns:getCustodiaPolicy">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStatusTransaction">
+    <wsdl:part name="parameters" element="tns:getStatusTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignatureResultsOfTransaction">
+    <wsdl:part name="parameters" element="tns:getSignatureResultsOfTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedSignatureTypesResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedSignatureTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedLanguagesResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedLanguagesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDefaultCustodiaInfo">
+    <wsdl:part name="parameters" element="tns:getDefaultCustodiaInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileID">
+    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedBarCodeTypesResponse">
+    <wsdl:part name="parameters" element="tns:getSupportedBarCodeTypesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSupportedSignatureTypes">
+    <wsdl:part name="parameters" element="tns:getSupportedSignatureTypes">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="downloadFileUsingEncryptedFileIDResponse">
+    <wsdl:part name="parameters" element="tns:downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="providesTimeStampGeneratorResponse">
+    <wsdl:part name="parameters" element="tns:providesTimeStampGeneratorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="parameters" element="tns:getVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startTransactionResponse">
+    <wsdl:part name="parameters" element="tns:startTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PortaFIBPassarelaDeFirmaWebWs">
+    <wsdl:operation name="getEntitatID">
+      <wsdl:input name="getEntitatID" message="tns:getEntitatID">
+    </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse" message="tns:getEntitatIDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeStampPolicy">
+      <wsdl:input name="getTimeStampPolicy" message="tns:getTimeStampPolicy">
+    </wsdl:input>
+      <wsdl:output name="getTimeStampPolicyResponse" message="tns:getTimeStampPolicyResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatusTransaction">
+      <wsdl:input name="getStatusTransaction" message="tns:getStatusTransaction">
+    </wsdl:input>
+      <wsdl:output name="getStatusTransactionResponse" message="tns:getStatusTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <wsdl:input name="getVersionWs" message="tns:getVersionWs">
+    </wsdl:input>
+      <wsdl:output name="getVersionWsResponse" message="tns:getVersionWsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedBarCodeTypes">
+      <wsdl:input name="getSupportedBarCodeTypes" message="tns:getSupportedBarCodeTypes">
+    </wsdl:input>
+      <wsdl:output name="getSupportedBarCodeTypesResponse" message="tns:getSupportedBarCodeTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedSignatureAlgorithms">
+      <wsdl:input name="getSupportedSignatureAlgorithms" message="tns:getSupportedSignatureAlgorithms">
+    </wsdl:input>
+      <wsdl:output name="getSupportedSignatureAlgorithmsResponse" message="tns:getSupportedSignatureAlgorithmsResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="closeTransaction">
+      <wsdl:input name="closeTransaction" message="tns:closeTransaction">
+    </wsdl:input>
+      <wsdl:output name="closeTransactionResponse" message="tns:closeTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSignatureResultsOfTransaction">
+      <wsdl:input name="getSignatureResultsOfTransaction" message="tns:getSignatureResultsOfTransaction">
+    </wsdl:input>
+      <wsdl:output name="getSignatureResultsOfTransactionResponse" message="tns:getSignatureResultsOfTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultCustodiaInfo">
+      <wsdl:input name="getDefaultCustodiaInfo" message="tns:getDefaultCustodiaInfo">
+    </wsdl:input>
+      <wsdl:output name="getDefaultCustodiaInfoResponse" message="tns:getDefaultCustodiaInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="providesTimeStampGenerator">
+      <wsdl:input name="providesTimeStampGenerator" message="tns:providesTimeStampGenerator">
+    </wsdl:input>
+      <wsdl:output name="providesTimeStampGeneratorResponse" message="tns:providesTimeStampGeneratorResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCustodiaInfoTemplates">
+      <wsdl:input name="getAllCustodiaInfoTemplates" message="tns:getAllCustodiaInfoTemplates">
+    </wsdl:input>
+      <wsdl:output name="getAllCustodiaInfoTemplatesResponse" message="tns:getAllCustodiaInfoTemplatesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <wsdl:input name="getSupportedLanguages" message="tns:getSupportedLanguages">
+    </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse" message="tns:getSupportedLanguagesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllPluginIDCustodia">
+      <wsdl:input name="getAllPluginIDCustodia" message="tns:getAllPluginIDCustodia">
+    </wsdl:input>
+      <wsdl:output name="getAllPluginIDCustodiaResponse" message="tns:getAllPluginIDCustodiaResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedSignatureTypes">
+      <wsdl:input name="getSupportedSignatureTypes" message="tns:getSupportedSignatureTypes">
+    </wsdl:input>
+      <wsdl:output name="getSupportedSignatureTypesResponse" message="tns:getSupportedSignatureTypesResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <wsdl:input name="downloadFileUsingEncryptedFileID" message="tns:downloadFileUsingEncryptedFileID">
+    </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse" message="tns:downloadFileUsingEncryptedFileIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startTransaction">
+      <wsdl:input name="startTransaction" message="tns:startTransaction">
+    </wsdl:input>
+      <wsdl:output name="startTransactionResponse" message="tns:startTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsValidationException" message="tns:WsValidationException">
+    </wsdl:fault>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustodiaPolicy">
+      <wsdl:input name="getCustodiaPolicy" message="tns:getCustodiaPolicy">
+    </wsdl:input>
+      <wsdl:output name="getCustodiaPolicyResponse" message="tns:getCustodiaPolicyResponse">
+    </wsdl:output>
+      <wsdl:fault name="WsI18NException" message="tns:WsI18NException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortaFIBPassarelaDeFirmaWebWsServiceSoapBinding" type="tns:PortaFIBPassarelaDeFirmaWebWs">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getEntitatID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEntitatID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEntitatIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeStampPolicy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeStampPolicy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeStampPolicyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStatusTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStatusTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStatusTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionWs">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersionWs">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionWsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedBarCodeTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSupportedBarCodeTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSupportedBarCodeTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="closeTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="closeTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="closeTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedSignatureAlgorithms">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSupportedSignatureAlgorithms">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSupportedSignatureAlgorithmsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSignatureResultsOfTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSignatureResultsOfTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSignatureResultsOfTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDefaultCustodiaInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getDefaultCustodiaInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDefaultCustodiaInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="providesTimeStampGenerator">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="providesTimeStampGenerator">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="providesTimeStampGeneratorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCustodiaInfoTemplates">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllCustodiaInfoTemplates">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllCustodiaInfoTemplatesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllPluginIDCustodia">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllPluginIDCustodia">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllPluginIDCustodiaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedLanguages">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSupportedLanguages">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSupportedLanguagesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedSignatureTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSupportedSignatureTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSupportedSignatureTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileUsingEncryptedFileID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="downloadFileUsingEncryptedFileID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="downloadFileUsingEncryptedFileIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustodiaPolicy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCustodiaPolicy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCustodiaPolicyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="startTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="startTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WsValidationException">
+        <soap:fault name="WsValidationException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="WsI18NException">
+        <soap:fault name="WsI18NException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortaFIBPassarelaDeFirmaWebWsService">
+    <wsdl:port name="PortaFIBPassarelaDeFirmaWebWs" binding="tns:PortaFIBPassarelaDeFirmaWebWsServiceSoapBinding">
+      <soap:address location="http://localhost:8080/portafib/ws/v1/PortaFIBPassarelaDeFirmaWeb"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

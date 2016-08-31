@@ -25,6 +25,8 @@ final String[] menu1 = {
     "",
     "tipusdocument.gestio", // Gestió Tipus de Documents"
     "",
+    "moduldefirmaenservidor.gestio",
+    "",
     "moduldefirma.gestio",
     "modulDeFirmaPerTipusDeDocument.short", // /aden/modulfirmatipusdoc
     "",
@@ -67,6 +69,8 @@ static {
   mapping.put("colaboradordecarrec.plural", "/aden/colaboradordecarrec/list");
   
   mapping.put("tipusdocument.gestio", "/aden/gestiotipusdoc/list");
+
+  mapping.put("moduldefirmaenservidor.gestio", "/aden/moduldefirmaenservidor/list");
   
   mapping.put("moduldefirma.gestio", "/aden/modulDeFirma/list");
   mapping.put("segelldetemps.gestio", "/aden/segelldetemps/list");

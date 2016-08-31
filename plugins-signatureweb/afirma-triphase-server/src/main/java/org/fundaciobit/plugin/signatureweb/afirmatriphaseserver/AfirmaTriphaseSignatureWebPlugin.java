@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 import es.gob.afirma.core.misc.AOUtil;
@@ -93,7 +93,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSet signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
     addSignaturesSet(signaturesSet);
 
     // Mostrar Index
@@ -154,7 +154,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request,
       HttpServletResponse response, Locale locale) {
 
@@ -192,7 +192,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
     final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
@@ -214,7 +214,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   }
 
   public boolean commonRequestGETPOST(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request,
       HttpServletResponse response, Locale locale) {
     final boolean resultat;
@@ -269,7 +269,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   protected static final String ISFINISHED_PAGE = "isfinished";
 
-  protected void isFinishedRequest(SignaturesSet ss, int signatureIndex,
+  protected void isFinishedRequest(SignaturesSetWeb ss, int signatureIndex,
       HttpServletResponse response) {
 
     if (signatureIndex == -1) {
@@ -320,11 +320,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   public static final String INDEX_HTML = "index";
 
   private void indexPage(String absolutePluginRequestPath, String relativePluginRequestPath,
-      HttpServletRequest request, HttpServletResponse response, SignaturesSet signaturesSet,
+      HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
     final String finalURL;
-    finalURL = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    finalURL = signaturesSet.getUrlFinal();
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     // TODO XYZ Només podem amb un fitxer firmat: revisar sistema Batch
@@ -733,7 +733,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    * @param uploadedFiles
    * @throws Exception
    */
-  private void clientErrorPage(String query, SignaturesSet signaturesSet, int signatureIndex,
+  private void clientErrorPage(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response) {
 
     StatusSignaturesSet status;
@@ -777,7 +777,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   private void javascriptMiniApplet(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     readResource(response, JS_MINIAPPLET);
   }
@@ -828,7 +828,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    */
   private void storageService(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     // Init SignatureService
     getSignatureServiceInstance();
@@ -867,7 +867,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    */
   private void retrieveService(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     // Init Signature Service
     getSignatureServiceInstance();
@@ -952,7 +952,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    */
   private void signatureService(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     // Cache
     SignatureService signatureService = getSignatureServiceInstance();
@@ -1094,7 +1094,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       final int index = item.index;
 
       // TODO CHECK si ss == null
-      SignaturesSet ss = getSignaturesSet(signatureSetID);
+      SignaturesSetWeb ss = getSignaturesSet(signatureSetID);
 
       // TODO Check Null
 
@@ -1163,7 +1163,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     final int signatureIndex = item.index;
 
     // TODO CHECK si ss == null ==> CADUCAT !!!
-    SignaturesSet ss = getSignaturesSet(signaturesSetID);
+    SignaturesSetWeb ss = getSignaturesSet(signaturesSetID);
 
     StatusSignature status = getStatusSignature(signaturesSetID, signatureIndex);
 

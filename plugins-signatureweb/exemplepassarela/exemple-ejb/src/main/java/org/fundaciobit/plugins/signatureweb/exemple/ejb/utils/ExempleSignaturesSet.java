@@ -2,16 +2,16 @@ package org.fundaciobit.plugins.signatureweb.exemple.ejb.utils;
 
 import java.util.Date;
 
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
 /**
  *
  * @author anadal
  *
  */
-public class ExempleSignaturesSet extends SignaturesSet {
+public class ExempleSignaturesSet extends SignaturesSetWeb {
 
   protected final String urlFinalOriginal;
 
@@ -24,9 +24,10 @@ public class ExempleSignaturesSet extends SignaturesSet {
    * @param fileInfoSignatureArray
    */
   public ExempleSignaturesSet(String signaturesSetID, Date expiryDate,
-      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray) {
-    super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray);
-    this.urlFinalOriginal = commonInfoSignature.getUrlFinal();
+      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
+      String urlFinal) {
+    super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
+    this.urlFinalOriginal = this.getUrlFinal();
   }
 
   public String getUrlFinalOriginal() {

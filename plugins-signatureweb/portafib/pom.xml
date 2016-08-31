@@ -4,19 +4,18 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureweb-portafib</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureWeb - PortaFIB</name>
+  <name>FundacioBit Plugins - SignatureWeb - Passarela.la PortaFIB</name>
 
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <artifactId>plugins-signatureweb</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>
 
-  
   <dependencies>
   
     <dependency>
@@ -28,13 +27,14 @@
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
-      <version>1.0.0</version>
+      <version>2.0.0</version>
       <artifactId>plugin-signatureweb-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <artifactId>portafib-ws-api-passarela</artifactId>
+      <!-- Antiga <artifactId>portafib-ws-api-passarela</artifactId> -->
+      <artifactId>portafib-ws-api-passarela-firma-web</artifactId>
       <groupId>es.caib.portafib</groupId>
       <version>${portafib.version}</version>
     </dependency>
@@ -75,7 +75,5 @@
     </dependency> 
 
   </dependencies>
-  
 
-  
 </project>

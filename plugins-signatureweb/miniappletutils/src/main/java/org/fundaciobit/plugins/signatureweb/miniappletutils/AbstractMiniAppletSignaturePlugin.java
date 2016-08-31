@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.bouncycastle.tsp.TimeStampRequest;
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -181,7 +181,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    */
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
 
@@ -217,7 +217,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    */
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
     if (query.endsWith(TIMESTAMP_PAGE)) {
@@ -253,7 +253,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
    * @throws Exception
    */
   public void requestTimeStamp(String absolutePluginRequestPath,
-      String relativePluginRequestPath, String query, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale, HttpServletRequest request,
       HttpServletResponse response) {
 
@@ -278,9 +278,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       byte[] inputData = tsr.getMessageImprintDigest();
 
       BigInteger time = tsr.getNonce();
-      Calendar cal = Calendar.getInstance();
-      cal.setTimeInMillis(time.longValue());
-
+      
       FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
 
       ITimeStampGenerator timeStampGen = fileInfo.getTimeStampGenerator();
@@ -292,7 +290,8 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       } else {
 
         try {
-
+          final Calendar cal = Calendar.getInstance();
+          cal.setTimeInMillis(time.longValue());
           byte[] returnedData = timeStampGen.getTimeStamp(inputData, cal);
 
           if (isDebug && returnedData != null) {

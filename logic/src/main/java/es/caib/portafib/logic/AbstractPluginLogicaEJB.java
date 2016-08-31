@@ -30,17 +30,24 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
   @Override
   public List<Plugin> getAllPlugins(String entitatID) throws I18NException {
     
-    Where where = Where.AND(
+    Where where = getWhere(entitatID);
+
+    return select(where);
+
+  }
+  
+  
+  public Where getWhere(String entitatID) {
+    return Where.AND(
         TIPUS.equal(getTipusDePlugin()),
         ACTIU.equal(true),
         ENTITATID.equal(entitatID)
         // TODO Elegim plugin entre les genèriques o entre els específics per l'entitat
         // Where.OR(ENTITATID.isNull(), ENTITATID.equal(entitatID))
     );
-
-    return select(where);
-
   }
+  
+  
   
   @Override
   public I getInstanceByPluginID(long pluginID) throws I18NException {

@@ -42,12 +42,12 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.query.SelectConstant;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -73,7 +73,6 @@ import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.SeleccioUsuariValidator;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
@@ -82,14 +81,16 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
-import es.caib.portafib.logic.ModulDeFirmaLogicaLocal;
+import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
+import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
@@ -160,8 +161,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
 
-  @EJB(mappedName = ModulDeFirmaLogicaLocal.JNDI_NAME)
-  protected ModulDeFirmaLogicaLocal modulDeFirmaEjb;
+  @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
+  protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
   
   @EJB(mappedName = SegellDeTempsLogicaLocal.JNDI_NAME)
   protected SegellDeTempsLogicaLocal segellDeTempsEjb;
@@ -1250,35 +1251,34 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     ITimeStampGenerator timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(
         segellDeTempsEjb, entitat,userRequiresTimeStamp);
 
-    FileInfoSignature fis = SignatureModuleController.getFileInfoSignature(signatureID,
+    FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         dstPDF, FileInfoSignature.PDF_MIME_TYPE, idname,
         (int)location_sign_table,  reason, location, signerEmail,  sign_number, 
         langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
-        Utils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
     
     CommonInfoSignature commonInfoSignature;
     {
-      // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
-      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
-      
-      final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
-            
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       final String administrationID = loginInfo.getUsuariPersona().getNif();
-      commonInfoSignature = SignatureModuleController.getCommonInfoSignature(entitat, 
-          langUI, username, administrationID ,urlFirmaFinal);
+      commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, 
+          langUI, username, administrationID);
     }
 
     // Vuls suposar que abans de 10 minuts haurà firmat
     Calendar caducitat = Calendar.getInstance();
     caducitat.add(Calendar.MINUTE, 10);
+    
+    // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
+    String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+    final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat);
+        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat, urlFirmaFinal);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
     
@@ -1297,7 +1297,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("signaturesSetID") String signaturesSetID)throws Exception,I18NException {
 
-  SignaturesSet ss;
+  SignaturesSetWeb ss;
   ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);
 
   StatusSignaturesSet sss = ss.getStatusSignaturesSet();

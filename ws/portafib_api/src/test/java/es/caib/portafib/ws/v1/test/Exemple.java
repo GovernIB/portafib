@@ -94,14 +94,14 @@ public class Exemple {
 
       // Annexes
       AnnexBean annex = PeticioDeFirmaUtils.constructAnnexBeanFromFile(new File(
-          "c:\\annex.txt"), "text/plain", true, true);
+          ".\\src\\test\\resources\\annex_1.txt"), "text/plain", true, true);
 
       // Fitxer a Firmar
       FitxerBean fitxerAFirmar;
       fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(
-          new File("c:\\test.pdf"), Constants.PDF_MIME_TYPE);
+          new File(".\\src\\test\\resources\\test.pdf"), Constants.PDF_MIME_TYPE);
 
-      String[] nifs = new String[] { "11223344T" };
+      String[] nifs = new String[] { "43096845C" };
 
       // Crear Peticio
       PeticioDeFirmaWs peticioDeFirmaWs;
@@ -125,6 +125,10 @@ public class Exemple {
 
         // Arrancar
         api.startPeticioDeFirma(peticioDeFirmaID);
+        
+        
+        System.out.println(" Pitja retorn per continuar ....");
+        System.in.read();
 
         // Obtenir petició de Firma
         peticioDeFirmaWs = api.getPeticioDeFirma(peticioDeFirmaID);

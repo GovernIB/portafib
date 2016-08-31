@@ -21,16 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.fundaciobit.plugins.signatureweb.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignature;
-import org.fundaciobit.plugins.signatureweb.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletConstants;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletConstants;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -81,7 +81,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
-      SignaturesSet signaturesSet) throws Exception {
+      SignaturesSetWeb signaturesSet) throws Exception {
 
     addSignaturesSet(signaturesSet);
 
@@ -94,7 +94,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   @Override
   protected void getJavascriptCSS(HttpServletRequest request,String absolutePluginRequestPath, 
       String relativePluginRequestPath,
-      PrintWriter out, SignIDAndIndex sai, SignaturesSet signaturesSet) {
+      PrintWriter out, SignIDAndIndex sai, SignaturesSetWeb signaturesSet) {
     
     // BUIT No volem res
   }
@@ -105,7 +105,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String query, SignaturesSet signaturesSet, int signatureIndex,
+      String query, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale languageUI) {
     
     
@@ -156,7 +156,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
+      String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
     if (relativePath.endsWith(DESTINATION_DOC_PAGE)) {
@@ -183,7 +183,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
  
  @Override
- public void rubricPage(String relativePath, SignaturesSet signaturesSet,
+ public void rubricPage(String relativePath, SignaturesSetWeb signaturesSet,
      int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
 
 
@@ -211,7 +211,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   public static final String DESTINATION_DOC_PAGE = "destination";
 
-  private void destinationDocPage(String relativePath, SignaturesSet signaturesSet,
+  private void destinationDocPage(String relativePath, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response) {
 
     Map<String, FileItem> uploadedFiles = readFilesFromRequest(request, response, null);
@@ -279,7 +279,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   private void sourceDocPage(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSet signaturesSet, int signatureIndex,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
 
     FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
@@ -330,7 +330,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
    * @param uploadedFiles
    * @throws Exception
    */
-  private void clientErrorPage(String relativePath, SignaturesSet signaturesSet,
+  private void clientErrorPage(String relativePath, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request, HttpServletResponse response) {
 
     StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
@@ -428,11 +428,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
   public static final String FINAL_PAGE = "final";
 
   private void finalPage(String pluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex, HttpServletRequest request,
+      SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
       HttpServletResponse response) {
 
     final String url;
-    url = signaturesSet.getCommonInfoSignature().getUrlFinal();
+    url = signaturesSet.getUrlFinal();
 
     signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
@@ -456,7 +456,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   protected void discoverJavaInBrowserGet(HttpServletRequest request,
       HttpServletResponse response, String absolutePluginRequestPath,
-      String relativePluginRequestPath, String relativePath, SignaturesSet signaturesSet,
+      String relativePluginRequestPath, String relativePath, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
     String browserDetails = request.getHeader("User-Agent");
@@ -608,7 +608,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSet signaturesSet) {
+  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
     
     return super.filter(request, signaturesSet);
 
@@ -631,7 +631,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
  
   protected void showMiniAppletGet_APPLET(HttpServletRequest request, 
       HttpServletResponse response, String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex, Locale locale)  {
+      String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex, Locale locale)  {
     
     // Primer generam la pàgina i despres l'enviam al respose
     
@@ -826,7 +826,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   
   protected void jnlpGet(HttpServletRequest request, String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath,
-      SignaturesSet signaturesSet, int signatureIndex,
+      SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletResponse response, Locale locale)  {
 
     response.setContentType("application/x-java-jnlp-file");
@@ -997,7 +997,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   protected static final String ISFINISHED_PAGE = "isfinished";
 
   
-  protected void isFinishedRequest(SignaturesSet ss, int signatureIndex,
+  protected void isFinishedRequest(SignaturesSetWeb ss, int signatureIndex,
       HttpServletResponse response) {
     
     if (signatureIndex == -1) {
@@ -1047,7 +1047,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   
   protected void showMiniAppletGet_JAVAWEBSTART(HttpServletRequest request, HttpServletResponse response,
       String absolutePluginRequestPath, String relativePluginRequestPath,
-      String relativePath, SignaturesSet signaturesSet, int signatureIndex,
+      String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
 
     Cookie cookie = new Cookie(DEFAULT_JAVA_ACTION_COOKIE, COOKIE_JNLP);
