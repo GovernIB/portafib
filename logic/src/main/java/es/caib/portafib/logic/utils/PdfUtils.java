@@ -195,10 +195,7 @@ public class PdfUtils implements Constants {
       FileInputStream fis = new FileInputStream(pdf);
       pdfData = PdfUtils.toByteArray(fis);
      
-      try {
-        fis.close();
-      } catch (Exception e) {
-      }
+      try { fis.close();  } catch (Exception e) { }
     }
 
     Security.addProvider(new BouncyCastleProvider());
@@ -323,8 +320,14 @@ public class PdfUtils implements Constants {
            * les firmes.
            */
   
-          int[] revPenultim = PdfUtils.splitPDFRevisions(PdfUtils
-              .toByteArray(new FileInputStream(FileSystemManager.getFile(fitxerID))));
+          FileInputStream fis = null;
+          int[] revPenultim;
+          try {
+            fis = new FileInputStream(FileSystemManager.getFile(fitxerID));
+            revPenultim = PdfUtils.splitPDFRevisions(PdfUtils.toByteArray(fis));
+          } finally {
+            try { fis.close(); } catch (Exception e) { };
+          }
   
           int[] revDarrer = PdfUtils.splitPDFRevisions(pdfData);
   

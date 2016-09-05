@@ -359,7 +359,11 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
             // Actualitzam el Fitxer a firmar
             InputStream is = fitxerConvertit.getData().getInputStream();            
             FileOutputStream fos = new FileOutputStream(fileToConvert);
-            FileSystemManager.copy(is,fos);
+            try {
+              FileSystemManager.copy(is,fos);
+            } finally {
+              try { is.close(); } catch(Throwable th) {}
+            }
             fos.flush();
             fos.close();
             // Canviar BBDD

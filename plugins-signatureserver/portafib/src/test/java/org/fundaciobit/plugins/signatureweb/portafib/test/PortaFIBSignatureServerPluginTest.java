@@ -99,7 +99,7 @@ public class PortaFIBSignatureServerPluginTest extends TestCase {
         signFile(pdfsource, pdfdest, signType, signMode, userRequiresTimeStamp,
             rubricGenerator, plugin);
       }
-      
+
 
       // XADES ATACHED
       /*

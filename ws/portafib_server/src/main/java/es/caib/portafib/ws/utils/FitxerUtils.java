@@ -2,6 +2,7 @@ package es.caib.portafib.ws.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -61,8 +62,12 @@ public class FitxerUtils {
       }
 
       tmp = File.createTempFile("ws_", ".tmp", FileSystemManager.getFilesPath());
-      
-      FileUtils.copyInputStreamToFile(fitxer.getData().getInputStream(), tmp);
+      InputStream is = fitxer.getData().getInputStream();
+      try {
+        FileUtils.copyInputStreamToFile(is, tmp);
+      } finally {
+        try { is.close(); } catch(Throwable th) {}
+      }
 
     } catch(IOException ioe) {
       throw new I18NException("fitxer.sensedades", field.fullName);

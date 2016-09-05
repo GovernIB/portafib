@@ -1862,7 +1862,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
        f = fitxerLogicaEjb.createFull(f);
 
        FileSystemManager.crearFitxer(dh.getInputStream(), f.getFitxerID());
-       
+   
+       try { is.close(); } catch (Exception e) { };
+
        files.put(index, f);
     }
     
