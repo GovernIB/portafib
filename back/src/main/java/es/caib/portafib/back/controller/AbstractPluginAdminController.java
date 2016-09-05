@@ -138,10 +138,10 @@ public abstract class AbstractPluginAdminController extends PluginController {
   public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
       ModelAndView mav, Where where)  throws I18NException {
    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA , "PLUGIN MODUL DE FIRMA"));
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB , "PLUGIN MODUL DE FIRMA WEB"));
    __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
    __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMASERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
    return __tmp;
  }
 

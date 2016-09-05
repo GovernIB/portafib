@@ -1,27 +1,23 @@
 package es.caib.portafib.logic.passarela;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.ejb.EJB;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
 
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
-import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.StampCustodiaInfo;
-import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
-import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.Constants;
@@ -83,7 +79,11 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
           filterByPluginID, filterByPluginCode);
       
       for (T iSignaturePlugin : plugins) {
-        if (iSignaturePlugin.providesTimeStampGenerator(signType)) {
+        
+        /** El propi portaFIB és el que proveirà el Segellador de temps, però hem de saber
+         *  si els plugins en si, internament suporten un Segellador de Temps extern 
+         */        
+        if (iSignaturePlugin.acceptExternalTimeStampGenerator(signType)) {
           return true;
         }
       }
@@ -164,72 +164,27 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
     
     
   }
-
-  // -----------------------------------------------------------------
-  // -----------------------------------------------------------------
-  // --- UTILITATS FITXERS PADES: conversio i taula de firmes --------
-  // -----------------------------------------------------------------
-  // -----------------------------------------------------------------
-
+  
+  
   /**
    * 
-   * @param usuariEntitat
-   * @param id
-   * @param autoFirmaForm
-   * @return
+   * @param locale
+   * @param entitatID
+   * @param pfis
+   * @param original
+   * @param adaptat
+   * @throws I18NException
    */
-  protected void convertirDocumentAPDF(Fitxer srcInfo, File src, File dst)
+  public void processFileToSign(Locale locale, String entitatID,
+      PassarelaFileInfoSignature pfis, File original, File adaptat)
       throws I18NException {
-
-    try {
-
-      Fitxer fitxerConvertit = PdfUtils.convertToPDF(src, srcInfo);
-
-      if (fitxerConvertit == srcInfo) {
-        // Es un PDF. Movem l'original a l'adaptat
-        FileUtils.moveFile(src, dst);
-      } else {
-        // No és un PDF, ho substituim pel fitxer convertit
-
-        InputStream is = fitxerConvertit.getData().getInputStream();
-
-        FileUtils.copyInputStreamToFile(is, dst);
-
-      }
-      // OK
-
-    } catch (Exception e) {
-      log.error("Error desconegut convertint document a pdf: " + e.getMessage(), e);
-      throw new I18NException("formatfitxer.conversio.error", new I18NArgumentString(
-          e.getMessage()));
-    }
-
+    SignatureUtils.processFileToSign(locale, entitatID, pfis, original, adaptat,
+        this.entitatEjb, this.codiBarresEjb);
+    
   }
+  
+  
 
-  protected void afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
-      StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo)
-          throws I18NException {
-
-    // La pujada de fitxers des d'autofirma ho gestiona la classe
-    // PortaFIBCommonsMultipartResolver
-    final Long maxSizeFitxerAdaptat = null;
-    try {
-      File tmpDest = File.createTempFile("Passarela_Taula_de_Firmes", ".pdf");
-
-      PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, tmpDest, null,
-          maxSizeFitxerAdaptat, stampTaulaDeFirmes, stampCustodiaInfo);
-
-      // Destí no pot existir !!!
-      fitxerPDF.delete();
-
-      FileUtils.moveFile(tmpDest, fitxerPDF);
-    } catch (Exception e) {
-      // TODO traduir
-      String msg = "Error desconegut afegint taula de firmes a fitxer ("
-          + fitxerPDF.getAbsolutePath() + "): " + e.getMessage();
-      throw new I18NException("error.unknown", msg);
-    }
-  }
 
   
   // -----------------------------------------------------------------

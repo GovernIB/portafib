@@ -51,7 +51,7 @@ public class ModulDeFirmaEnServidorAdenController extends AbstractPluginAdenCont
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMASERVIDOR;
+    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR;
   }
 
   @Override

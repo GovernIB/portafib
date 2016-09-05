@@ -32,7 +32,7 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWenInternalUse;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
@@ -158,7 +158,7 @@ public class PassarelaDeFirmaController  {
       throw new Exception("Ha tardat massa temps en firmar. Torni a intentar-ho.");
     }
         
-    Map<String, PassarelaSignatureStatusWenInternalUse> statusBySignID = ssf.getStatusBySignatureID();
+    Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
     
     
     switch(sss.getStatus()) {
@@ -174,7 +174,7 @@ public class PassarelaDeFirmaController  {
             final String signID = fis.getSignID();
             
             if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-              PassarelaSignatureStatusWenInternalUse pss = statusBySignID.get(signID);
+              PassarelaSignatureStatusWebInternalUse pss = statusBySignID.get(signID);
               // Check que status.getSignedData() != null
               if (status.getSignedData() == null || !status.getSignedData().exists()) {
                 status.setStatus(StatusSignature.STATUS_FINAL_ERROR);

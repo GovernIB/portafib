@@ -305,7 +305,7 @@
 
 
         <!-- ====================================== -->
-        <!-- =====   PLUGINS DE SIGNATUREWEB  ===== -->
+        <!-- =======  PLUGINS DE FIRMA WEB  ======= -->
         <!-- ====================================== -->
 
         <dependency>
@@ -333,6 +333,23 @@
         </dependency>
 
         <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+        
+        
+        <!-- ====================================== -->
+        <!-- ==== PLUGINS DE FIRMA EN SERVIDOR ==== -->
+        <!-- ====================================== -->
+        
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>                    
+          <artifactId>plugin-signatureserver-api</artifactId>
+          <version>${plugins.signatureserver.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+          <version>${plugins.signatureserver.version}</version>
+        </dependency>
 
 
         <!-- ====================================== -->

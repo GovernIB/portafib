@@ -279,7 +279,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
         FileInfoSignature fileInfo = fileInfoArray[i];
         
         String timestampUrl;
-        if (timestampUrlBase == null) {
+        if (timestampUrlBase == null || fileInfo.getTimeStampGenerator() == null) {
           timestampUrl = null;
         } else {
           timestampUrl = timestampUrlBase + "/" + signaturesSetID + "/" + i;
@@ -384,7 +384,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     return signaturesSet;
 
   }
-  
+
   @Override
   public byte[] generateTimeStamp(String signaturesSetID,
       int signatureIndex, byte[] inputRequest) throws Exception  {
@@ -504,7 +504,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   @Override
   public String getResourceBundleName() {
-    return "server_miniappletinserver";
+    return "serverminiappletinserver";
   }
 
   /**

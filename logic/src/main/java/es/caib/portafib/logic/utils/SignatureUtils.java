@@ -1,10 +1,16 @@
 package es.caib.portafib.logic.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -15,7 +21,10 @@ import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+import org.fundaciobit.plugins.utils.PluginsManager;
 
+import es.caib.portafib.ejb.CodiBarresLocal;
+import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.TraduccioJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
@@ -24,7 +33,13 @@ import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
+import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.model.fields.CodiBarresFields;
+import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.utils.SignBoxRectangle;
 
@@ -43,7 +58,6 @@ public class SignatureUtils {
     * @param languageUI
     * @param username
     * @param urlFinal
-    * @param browserSupportsJava
     * @return
     */
    public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, 
@@ -60,10 +74,7 @@ public class SignatureUtils {
        return new CommonInfoSignature(languageUI,
            CommonInfoSignature.cleanFiltreCertificats(entitat.getFiltreCertificats()),
            username, administrationID, policyInfoSignature); 
-       
      }
-   
-   
 
    
    /**
@@ -222,11 +233,10 @@ public class SignatureUtils {
    
          // Ve d'un camp d'Autofirma que indica si l'usuari vol Segellat de Temps
          boolean userRequiresTimeStamp = pfis.isUseTimeStamp();
-   
-         File pdfAdaptat = passarelaDeFirmaEjb.getFitxerAdaptatPath(signaturesSetID, signID);
-         
-         ITimeStampGenerator timeStampGenerator = null;
-         
+                  
+         // Aqui revisam si la voluntat de segellat de temps de l'usuari no entra en 
+         // conflicte amb la configuració de segellat definida dins l'entitat
+         ITimeStampGenerator timeStampGenerator;
          timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsPublicEjb, 
              entitat, userRequiresTimeStamp );
          
@@ -241,6 +251,7 @@ public class SignatureUtils {
            mime = pfis.getFileToSign().getMime();     
          }
          
+         File pdfAdaptat = passarelaDeFirmaEjb.getFitxerAdaptatPath(signaturesSetID, signID);
          
          int signAlgorithm = getSignAlgorithmToPortaFIB(pfis.getSignAlgorithm());
          
@@ -385,5 +396,260 @@ public class SignatureUtils {
      return motiuDeFirma;
 
    }
+   
+   
+
+   // -----------------------------------------------------------------
+   // -----------------------------------------------------------------
+   // --- UTILITATS FITXERS PADES: conversio i taula de firmes --------
+   // -----------------------------------------------------------------
+   // -----------------------------------------------------------------
+
+   /**
+    * 
+    * @param usuariEntitat
+    * @param id
+    * @param autoFirmaForm
+    * @return
+    */
+   public static void convertirDocumentAPDF(Fitxer srcInfo, File src, File dst)
+       throws I18NException {
+
+     try {
+
+       Fitxer fitxerConvertit = PdfUtils.convertToPDF(src, srcInfo);
+
+       if (fitxerConvertit == srcInfo) {
+         // Es un PDF. Movem l'original a l'adaptat
+         FileUtils.moveFile(src, dst);
+       } else {
+         // No és un PDF, ho substituim pel fitxer convertit
+
+         InputStream is = fitxerConvertit.getData().getInputStream();
+
+         FileUtils.copyInputStreamToFile(is, dst);
+
+       }
+       // OK
+
+     } catch (Exception e) {
+       log.error("Error desconegut convertint document a pdf: " + e.getMessage(), e);
+       throw new I18NException("formatfitxer.conversio.error", new I18NArgumentString(
+           e.getMessage()));
+     }
+
+   }
+
+   /**
+    * 
+    * @param fitxerPDF
+    * @param stampTaulaDeFirmes
+    * @param stampCustodiaInfo
+    * @throws I18NException
+    */
+   public static void afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
+       StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo)
+           throws I18NException {
+
+     // La pujada de fitxers des d'autofirma ho gestiona la classe
+     // PortaFIBCommonsMultipartResolver
+     final Long maxSizeFitxerAdaptat = null;
+     try {
+       File tmpDest = File.createTempFile("Passarela_Taula_de_Firmes", ".pdf");
+
+       PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, tmpDest, null,
+           maxSizeFitxerAdaptat, stampTaulaDeFirmes, stampCustodiaInfo);
+
+       // Destí no pot existir !!!
+       fitxerPDF.delete();
+
+       FileUtils.moveFile(tmpDest, fitxerPDF);
+     } catch (Exception e) {
+       // TODO traduir
+       String msg = "Error desconegut afegint taula de firmes a fitxer ("
+           + fitxerPDF.getAbsolutePath() + "): " + e.getMessage();
+       throw new I18NException("error.unknown", msg);
+     }
+   }
+   
+   
+   public static void processFileToSign(Locale locale, String entitatID,
+       PassarelaFileInfoSignature pfis, File original, File adaptat, 
+       EntitatLocal entitatEjb, CodiBarresLocal codiBarresEjb)
+       throws I18NException {
+     
+     
+     
+     
+     // (1) Moure FitxerBean (datasource en memòria) a Fitxer en el Sistema
+     // d'arxius
+     FitxerBean originalInfo = pfis.getFileToSign();
+     
+     try {
+       FileUtils.copyInputStreamToFile(originalInfo.getData().getInputStream(), original);
+     } catch (IOException e) {
+       // TODO traduir
+       String msg = "Error desconegut copiant fitxer des de DataSource ("
+           + pfis.getSignID() + ") a " + original.getAbsolutePath() + ": " + e.getMessage();
+       throw new I18NException("error.unknown", msg);
+     }
+     // Desreferenciam memoria
+     originalInfo.setData(null);
+     // Alliberar memòria DataSource
+     System.gc();
+
+     // (2) Adaptam el fitxer
+     
+     
+     
+     if (FileInfoSignature.SIGN_TYPE_PADES.equals(pfis.getSignType())) {
+
+       // (a.2.1) Converteix a PDF si necessari. En qualsevol cas deixa el
+       // fitxer a "adaptat"
+       SignatureUtils.convertirDocumentAPDF(originalInfo, original, adaptat);
+
+       StampTaulaDeFirmes stampTaulaDeFirmes = null;
+
+       // (a.2.2) Afegir taula de firmes
+       final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
+       if (posicioTaulaFirmesID != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
+         final byte[] logoSegellJpeg;
+
+         final String titol;
+         final String descripcio;
+         final String signantLabel;
+         final String resumLabel;
+         final String titolLabel;
+         final String descLabel;
+
+         PassarelaSignaturesTableHeader tableHeader = pfis.getSignaturesTableHeader();
+
+         if (tableHeader == null) {
+
+           final Long logoSegellID = entitatEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
+               EntitatFields.ENTITATID.equal(entitatID));
+           try {
+             logoSegellJpeg = FileUtils.readFileToByteArray(FileSystemManager
+                 .getFile(logoSegellID));
+           } catch (IOException e) {
+             // TODO Traduir
+             String msg = "Error desconegut llegint logo-segell de l'entitat " + entitatID
+                 + ": " + e.getMessage();                
+             throw new I18NException("error.unknown", msg);
+           }
+
+           Locale localeSign = new Locale(pfis.getLanguageSign());
+
+           titol = I18NLogicUtils.tradueix(locale, "tauladefirmes");
+           descripcio = ""; // TODO Posar alguna cosa ????
+
+           signantLabel = I18NLogicUtils.tradueix(localeSign, "signant");
+           resumLabel = I18NLogicUtils.tradueix(localeSign, "resumdefirmes");
+           titolLabel = I18NLogicUtils.tradueix(localeSign, "titol");
+           descLabel = I18NLogicUtils.tradueix(localeSign, "descripcio");
+
+         } else {
+
+           logoSegellJpeg = tableHeader.getLogoJpeg();
+
+           titol = tableHeader.getTitleFieldValue();
+           descripcio = tableHeader.getDescriptionFieldValue();
+
+           signantLabel = tableHeader.getSignatureLabel();
+           resumLabel = tableHeader.getTitle();
+           titolLabel = tableHeader.getTitleFieldLabel();
+           descLabel = tableHeader.getDescriptionFieldLabel();
+         }
+
+         stampTaulaDeFirmes = new StampTaulaDeFirmes(pfis.getSignNumber(),
+             posicioTaulaFirmesID, signantLabel, resumLabel, descLabel, descripcio,
+             titolLabel, titol, logoSegellJpeg);
+       }
+
+       StampCustodiaInfo stampCodiSegurVerificacio = null;
+       PassarelaSecureVerificationCodeStampInfo pcvsStamp = pfis
+           .getSecureVerificationCodeStampInfo();
+
+       if (pcvsStamp != null) {
+
+         // TODO Message Position s'usarà per CodiBarPosition !!!!!
+         if (pcvsStamp.getMessagePosition() != SecureVerificationCodeStampInfo.POSITION_NONE) {
+
+           String codiBarresClass = codiBarresEjb.executeQueryOne(
+               CodiBarresFields.CODIBARRESID,
+               CodiBarresFields.NOM.equal(pcvsStamp.getBarCodeType()));
+
+           if (codiBarresClass == null) {
+             // TODO Traduir
+             String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom "
+                 + pcvsStamp.getBarCodeType();                
+             throw new I18NException("error.unknown", msg);
+           }
+
+           IBarcodePlugin barcodePlugin;
+           barcodePlugin = (IBarcodePlugin) PluginsManager
+               .instancePluginByClassName(codiBarresClass);
+
+           stampCodiSegurVerificacio = new StampCustodiaInfo();
+
+           stampCodiSegurVerificacio.setBarcodePlugin(barcodePlugin);
+           stampCodiSegurVerificacio.setBarcodeText(pcvsStamp.getBarCodeText());
+           stampCodiSegurVerificacio.setMissatgeCustodia(pcvsStamp.getMessage());
+           stampCodiSegurVerificacio.setPagines(pcvsStamp.getPages());
+           stampCodiSegurVerificacio.setPosicioCustodiaInfo(pcvsStamp.getMessagePosition());
+
+         }
+       }
+
+       SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
+           stampCodiSegurVerificacio);
+       // Final IF PADES
+     } else {
+       if (!FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())) {
+         log.warn("Tipus de Signatura " + pfis.getSignType() + " no supportat dins la classe "
+             + SignatureUtils.class.getName(), new Exception());
+       }
+
+       // L'original és l'adaptat, per això el movem allà
+       try {
+         FileUtils.moveFile(original, adaptat);
+       } catch (Exception e) {
+         log.error(" Error movent fitxer des de " + original.getAbsolutePath() + " a "
+             + adaptat.getAbsolutePath(), e);
+         throw new I18NException("error.copyfile", original.getAbsolutePath(),
+             adaptat.getAbsolutePath());
+       }
+
+     }
+   }
+   
+
+   /* 
+    * Si es modifica el valor d'aquesta constant llavors s'ha d'adaptar el web.xml 
+    * del projecte back. 
+    *  
+    */
+   public static final String CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR = "/common/timestampgenerator";
+   
+   /**
+    * 
+    * @param request
+    * @param webContext
+    * @param pluginID
+    * @param signaturesSetID
+    * @param signatureIndex
+    * @return
+    */
+   public static String getAbsoluteURLToTimeStampGeneratorPerFirmaEnServidor(
+       String basePath, Long pluginID) {
+
+     String absoluteRequestPluginBasePath = basePath 
+         + CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR         
+         + "/" + pluginID;
+     // NOTA signaturesSetID i signatureIndex s'afegeix dins dels propi plugin;
+
+     return absoluteRequestPluginBasePath;
+   }
+
    
 }

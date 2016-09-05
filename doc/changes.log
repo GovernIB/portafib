@@ -2,6 +2,9 @@
 PortaFIB 1.1.1
 ==============
 
+2016-09-01 Implementar API de Firma en Servidor. Plugin de Firma en Servidor de MiniApplet
+           i Plugin de Firma en Servidor emprant PortaFIB (passarel·la de firma en servidor)
+
 2016-08-12 DAV Afegides propietats es.caib.portafib.avisosfirmespendents.diesabans i
            es.caib.portafib.avisosfirmespendents.cron que serveixen per enviar correus
            a la gent que te peticions de firma pendents aprop de la data de caducitat

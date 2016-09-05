@@ -659,8 +659,7 @@ public class SignatureModuleController extends HttpServlet {
     return mav;
   }
 
-
-  protected static String getAbsolutePortaFIBBase(HttpServletRequest request) {
+  public static String getAbsolutePortaFIBBaseForSignatureModule(HttpServletRequest request) {
     String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
     if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
       return request.getScheme() + "://" + request.getServerName() + ":" +
@@ -669,6 +668,7 @@ public class SignatureModuleController extends HttpServlet {
       return absoluteURL;
     }
   }
+
   
   public static String getRelativePortaFIBBase(HttpServletRequest request) {
     return request.getContextPath();
@@ -676,7 +676,7 @@ public class SignatureModuleController extends HttpServlet {
 
 
   protected static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
-    return getAbsolutePortaFIBBase(request) + webContext;
+    return getAbsolutePortaFIBBaseForSignatureModule(request) + webContext;
   }
   
   public static String  getRelativeControllerBase(HttpServletRequest request, String webContext) {

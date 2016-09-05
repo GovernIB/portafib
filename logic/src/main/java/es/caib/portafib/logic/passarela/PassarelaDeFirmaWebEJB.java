@@ -15,20 +15,14 @@ import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
-import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
-import es.caib.portafib.logic.utils.StampCustodiaInfo;
-import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.fields.CodiBarresFields;
-import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.Constants;
 
 import javax.activation.DataHandler;
@@ -42,11 +36,7 @@ import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
-import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
@@ -105,11 +95,27 @@ public class PassarelaDeFirmaWebEJB
 
     try {
       
-      // TODO XYZ ZZZ  REPETITI EN PasDeFIRMA EN SERVIDOR !!!!!
+      Locale locale;
+
+      try {
+        locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
+      } catch (Throwable e) {
+        locale = new Locale("ca");
+      }
       
 
       for (PassarelaFileInfoSignature pfis : signaturesSet.getFileInfoSignatureArray()) {
 
+        final String signID = pfis.getSignID();
+        File original = getFitxerOriginalPath(signaturesSetID, signID);
+
+        // obtenir ruta on guardar fitxer adaptat
+        File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
+
+        processFileToSign(locale, entitatID, pfis, original, adaptat);
+        
+        /* XYZ ZZZ
+        
         // (1) Moure FitxerBean (datasource en memòria) a Fitxer en el Sistema
         // d'arxius
         FitxerBean originalInfo = pfis.getFileToSign();
@@ -197,12 +203,6 @@ public class PassarelaDeFirmaWebEJB
               descLabel = tableHeader.getDescriptionFieldLabel();
             }
 
-            /*
-             * 
-             * 
-             * adaptat, logoSegell, posicioTaulaFirmesID, titol, descripcio,
-             * signantLabel, resumLabel, titolLabel, descLabel
-             */
 
             stampTaulaDeFirmes = new StampTaulaDeFirmes(pfis.getSignNumber(),
                 posicioTaulaFirmesID, signantLabel, resumLabel, descLabel, descripcio,
@@ -265,9 +265,10 @@ public class PassarelaDeFirmaWebEJB
             throw new I18NException("error.copyfile", original.getAbsolutePath(), adaptat.getAbsolutePath() );
           }
    
-        }
+        } */
 
       }
+      
     } catch (I18NException i18n) {
       deleteSignaturesSet(signaturesSetID);
       throw i18n;
@@ -329,11 +330,11 @@ public class PassarelaDeFirmaWebEJB
       fileInfoSignMap.put(pfis.getSignID(), pfis);
     }
 
-    Map<String, PassarelaSignatureStatusWenInternalUse> map = ssf.getStatusBySignatureID();
+    Map<String, PassarelaSignatureStatusWebInternalUse> map = ssf.getStatusBySignatureID();
     Set<String> signsID = map.keySet();
     List<PassarelaSignatureResult> list = new ArrayList<PassarelaSignatureResult>();
     for (String id : signsID) {
-      PassarelaSignatureStatusWenInternalUse ss = map.get(id);
+      PassarelaSignatureStatusWebInternalUse ss = map.get(id);
 
       PassarelaFileInfoSignature pfis = fileInfoSignMap.get(id);
 

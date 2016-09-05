@@ -19,7 +19,7 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
   protected final PassarelaSignaturesSet signaturesSet;
 
 
-  protected final Map<String, PassarelaSignatureStatusWenInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWenInternalUse>();
+  protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
 
   /**
    * @param signaturesSet
@@ -33,7 +33,7 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
     for (PassarelaFileInfoSignature fileInfo : files) {
-      statusBySignatureID.put(fileInfo.getSignID(), new PassarelaSignatureStatusWenInternalUse());
+      statusBySignatureID.put(fileInfo.getSignID(), new PassarelaSignatureStatusWebInternalUse());
     }
   }
 
@@ -49,7 +49,7 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     return signaturesSet;
   }
 
-  public Map<String, PassarelaSignatureStatusWenInternalUse> getStatusBySignatureID() {
+  public Map<String, PassarelaSignatureStatusWebInternalUse> getStatusBySignatureID() {
     return statusBySignatureID;
   }
 

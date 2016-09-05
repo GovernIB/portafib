@@ -15,21 +15,16 @@ import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
-import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.logic.utils.StampCustodiaInfo;
-import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.model.fields.CodiBarresFields;
-import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.Constants;
 
@@ -44,14 +39,11 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-import org.fundaciobit.plugins.utils.PluginsManager;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
@@ -107,161 +99,24 @@ public class PassarelaDeFirmaEnServidorEJB extends
       // Guardar ZYX ZZZ
       // storeSignaturesSet(new PassarelaSignaturesSetFull(entitatID,
       // signaturesSet));
-      
-      
+
       if (passarelaSignaturesSet.getCommonInfoSignature().getUsername() == null) {
         passarelaSignaturesSet.getCommonInfoSignature().setUsername(usrApp.getUsuariAplicacioID());
       }
       
 
-      // TODO XYZ ZZZ AIXÔ ES UNA COPIA DEL QUE HI HA PER FIRMA EN SERVIDOR WEB
-      // !!!!
-
       for (PassarelaFileInfoSignature pfis : passarelaSignaturesSet
           .getFileInfoSignatureArray()) {
 
-        // (1) Moure FitxerBean (datasource en memòria) a Fitxer en el Sistema
-        // d'arxius
-        FitxerBean originalInfo = pfis.getFileToSign();
+       
         final String signID = pfis.getSignID();
         File original = getFitxerOriginalPath(signaturesSetID, signID);
-        try {
-          FileUtils.copyInputStreamToFile(originalInfo.getData().getInputStream(), original);
-        } catch (IOException e) {
-          // TODO traduir
-          String msg = "Error desconegut copiant fitxer des de DataSource ("
-              + pfis.getSignID() + ") a " + original.getAbsolutePath() + ": " + e.getMessage();
-          throw new I18NException("error.unknown", msg);
-        }
-        // Desreferenciam memoria
-        originalInfo.setData(null);
-        // Alliberar memòria DataSource
-        System.gc();
-
-        // (2) Adaptam el fitxer
 
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
 
-        if (FileInfoSignature.SIGN_TYPE_PADES.equals(pfis.getSignType())) {
+        processFileToSign(locale, entitatID, pfis, original, adaptat);
 
-          // (a.2.1) Converteix a PDF si necessari. En qualsevol cas deixa el
-          // fitxer a "adaptat"
-          convertirDocumentAPDF(originalInfo, original, adaptat);
-
-          StampTaulaDeFirmes stampTaulaDeFirmes = null;
-
-          // (a.2.2) Afegir taula de firmes
-          final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
-          if (posicioTaulaFirmesID != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-            final byte[] logoSegellJpeg;
-
-            final String titol;
-            final String descripcio;
-            final String signantLabel;
-            final String resumLabel;
-            final String titolLabel;
-            final String descLabel;
-
-            PassarelaSignaturesTableHeader tableHeader = pfis.getSignaturesTableHeader();
-
-            if (tableHeader == null) {
-
-              final Long logoSegellID = entitatEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
-                  EntitatFields.ENTITATID.equal(entitatID));
-              try {
-                logoSegellJpeg = FileUtils.readFileToByteArray(FileSystemManager
-                    .getFile(logoSegellID));
-              } catch (IOException e) {
-                // TODO Traduir
-                String msg = "Error desconegut llegint logo-segell de l'entitat " + entitatID
-                    + ": " + e.getMessage();                
-                throw new I18NException("error.unknown", msg);
-              }
-
-              Locale localeSign = new Locale(pfis.getLanguageSign());
-
-              titol = I18NLogicUtils.tradueix(locale, "tauladefirmes");
-              descripcio = ""; // TODO Posar alguna cosa ????
-
-              signantLabel = I18NLogicUtils.tradueix(localeSign, "signant");
-              resumLabel = I18NLogicUtils.tradueix(localeSign, "resumdefirmes");
-              titolLabel = I18NLogicUtils.tradueix(localeSign, "titol");
-              descLabel = I18NLogicUtils.tradueix(localeSign, "descripcio");
-
-            } else {
-
-              logoSegellJpeg = tableHeader.getLogoJpeg();
-
-              titol = tableHeader.getTitleFieldValue();
-              descripcio = tableHeader.getDescriptionFieldValue();
-
-              signantLabel = tableHeader.getSignatureLabel();
-              resumLabel = tableHeader.getTitle();
-              titolLabel = tableHeader.getTitleFieldLabel();
-              descLabel = tableHeader.getDescriptionFieldLabel();
-            }
-
-            stampTaulaDeFirmes = new StampTaulaDeFirmes(pfis.getSignNumber(),
-                posicioTaulaFirmesID, signantLabel, resumLabel, descLabel, descripcio,
-                titolLabel, titol, logoSegellJpeg);
-          }
-
-          StampCustodiaInfo stampCodiSegurVerificacio = null;
-          PassarelaSecureVerificationCodeStampInfo pcvsStamp = pfis
-              .getSecureVerificationCodeStampInfo();
-
-          if (pcvsStamp != null) {
-
-            // TODO Message Position s'usarà per CodiBarPosition !!!!!
-            if (pcvsStamp.getMessagePosition() != SecureVerificationCodeStampInfo.POSITION_NONE) {
-
-              String codiBarresClass = codiBarresEjb.executeQueryOne(
-                  CodiBarresFields.CODIBARRESID,
-                  CodiBarresFields.NOM.equal(pcvsStamp.getBarCodeType()));
-
-              if (codiBarresClass == null) {
-                // TODO Traduir
-                String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom "
-                    + pcvsStamp.getBarCodeType();                
-                throw new I18NException("error.unknown", msg);
-              }
-
-              IBarcodePlugin barcodePlugin;
-              barcodePlugin = (IBarcodePlugin) PluginsManager
-                  .instancePluginByClassName(codiBarresClass);
-
-              stampCodiSegurVerificacio = new StampCustodiaInfo();
-
-              stampCodiSegurVerificacio.setBarcodePlugin(barcodePlugin);
-              stampCodiSegurVerificacio.setBarcodeText(pcvsStamp.getBarCodeText());
-              stampCodiSegurVerificacio.setMissatgeCustodia(pcvsStamp.getMessage());
-              stampCodiSegurVerificacio.setPagines(pcvsStamp.getPages());
-              stampCodiSegurVerificacio.setPosicioCustodiaInfo(pcvsStamp.getMessagePosition());
-
-            }
-          }
-
-          afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
-              stampCodiSegurVerificacio);
-          // Final IF PADES
-        } else {
-          if (!FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())) {
-            log.warn("Tipus de Signatura " + pfis.getSignType() + " no gestionat dins "
-                + this.getClass().getName(), new Exception());
-          }
-
-          // L'original és l'adaptat, per això el movem allà
-          try {
-            FileUtils.moveFile(original, adaptat);
-          } catch (Exception e) {
-            log.error(" Error movent fitxer des de " + original.getAbsolutePath() + " a "
-                + adaptat.getAbsolutePath(), e);
-            throw new I18NException("error.copyfile", original.getAbsolutePath(),
-                adaptat.getAbsolutePath());
-          }
-
-        }
       } // Final de For
 
       // 1.- Cridar convertir PassarelaSignaturesSet a SignaturesSet
@@ -310,8 +165,18 @@ public class PassarelaDeFirmaEnServidorEJB extends
       }
 
       // Cridar al plugin per a que firmi
-      // TODO XYZ ZZZ Com funciona lo del TIMESTAMP !!!!!
-      String timestampUrlBase = null;
+      // XYZ hauria de cridar a l'altre
+      String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
+      if (absoluteURL == null) {
+         absoluteURL = PropietatGlobalUtil.getAppUrl();
+      }
+      
+      // Segellat de temps
+      String timestampUrlBase = SignatureUtils.
+          getAbsoluteURLToTimeStampGeneratorPerFirmaEnServidor(absoluteURL,
+               modulFiltered.getPluginID());
+      
+      // FIRMAR
       ss = signaturePlugin.signDocuments(ss, timestampUrlBase);
 
       // Convertir a Status i Results
@@ -331,7 +196,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
       // BORRAR TOT DIRECTORI
       File basePath = getTransactionPath(signaturesSetID);
-      try {
+      try {        
         FileUtils.deleteDirectory(basePath);
       } catch (IOException e) {
         log.error("Error eliminant directori " + basePath + "(S'ha de borrar manualment): "
@@ -341,6 +206,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
     }
 
   }
+
+  
 
   /**
    * 

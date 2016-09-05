@@ -102,10 +102,10 @@ public interface Constants {
   
   // TIPUS PLUGINS
   // NOTA: Es un combo box del camp tipus de la taula PLugin (cridar el genapp per afegir valors)
-  public static final int TIPUS_PLUGIN_MODULDEFIRMA = 0;
+  public static final int TIPUS_PLUGIN_MODULDEFIRMA_WEB = 0;
   public static final int TIPUS_PLUGIN_SEGELLDETEMPS = 1;
   public static final int TIPUS_PLUGIN_CUSTODIA = 2;
-  public static final int TIPUS_PLUGIN_MODULDEFIRMASERVIDOR = 3;
+  public static final int TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR = 3;
   
 
   // Contextes WEB per enllaços dels mails.

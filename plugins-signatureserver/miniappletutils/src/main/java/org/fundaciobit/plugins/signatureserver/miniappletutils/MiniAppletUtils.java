@@ -98,11 +98,7 @@ public class MiniAppletUtils {
 
     // SEGELL DE TEMPS
     convertTimeStamp(fileInfo, timeStampURL, isLocalSignature, miniAppletProperties);
-    
-    
 
-    
-    
 
     byte[] pdf = FileUtils.readFromFile(fileInfo.getFileToSign());
 
@@ -334,17 +330,20 @@ public class MiniAppletUtils {
       miniAppletProperties.setProperty("tsaURL", timeStampURL);
 
       ITimeStampGenerator timestampGenerator = fileInfo.getTimeStampGenerator();
+      
+      if (timestampGenerator != null) {
 
-      miniAppletProperties
-          .setProperty("tsaPolicy", timestampGenerator.getTimeStampPolicyOID());
-
-      final String CATCERT_REQUIRECERT = "" + Boolean.TRUE;
-      miniAppletProperties.setProperty("tsaRequireCert", CATCERT_REQUIRECERT);
-
-      miniAppletProperties.setProperty("tsaHashAlgorithm",
-          timestampGenerator.getTimeStampHashAlgorithm());
-      // Sello de tiempo a nivel de firma.
-      miniAppletProperties.setProperty("tsType", "" + MiniAppletConstants.TS_SIGN);
+        miniAppletProperties
+            .setProperty("tsaPolicy", timestampGenerator.getTimeStampPolicyOID());
+  
+        final String CATCERT_REQUIRECERT = "" + Boolean.TRUE;
+        miniAppletProperties.setProperty("tsaRequireCert", CATCERT_REQUIRECERT);
+  
+        miniAppletProperties.setProperty("tsaHashAlgorithm",
+            timestampGenerator.getTimeStampHashAlgorithm());
+        // Sello de tiempo a nivel de firma.
+        miniAppletProperties.setProperty("tsType", "" + MiniAppletConstants.TS_SIGN);
+      }
 
     }
   }

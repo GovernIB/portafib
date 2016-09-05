@@ -119,7 +119,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
     // Per ara no aplicam cap filtre ja que tota la informació la té PortaFIB
     // Feim una cridada a l'API per testejar si existeix el servidor
     try {
-      getPassarelaDeFirmaApi().getVersion();
+      getPassarelaDeFirmaEnServidorApi().getVersion();
       return super.filter(signaturesSet);
     } catch (Throwable th) {
 
@@ -169,7 +169,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
     // aquest tipus
 
     try {
-      return getPassarelaDeFirmaApi().providesTimeStampGenerator(signType,
+      return getPassarelaDeFirmaEnServidorApi().providesTimeStampGenerator(signType,
           getFilterByPluginIDList(), null);
     } catch (WsI18NException e) {
       log.error(WsClientUtils.toString(e), e);
@@ -210,7 +210,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
       List<String> s;
       try {
         // TODO Falta llista per filtrar per codi de plugin
-        s = getPassarelaDeFirmaApi().getSupportedSignatureTypes(getFilterByPluginIDList(),
+        s = getPassarelaDeFirmaEnServidorApi().getSupportedSignatureTypes(getFilterByPluginIDList(),
             null);
       } catch (WsI18NException e) {
         log.error(WsClientUtils.toString(e), e);
@@ -239,7 +239,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
       List<String> algsList;
       try {
         // TODO Falta llista per filtrar per codi de plugin
-        algsList = getPassarelaDeFirmaApi().getSupportedSignatureAlgorithms(signType,
+        algsList = getPassarelaDeFirmaEnServidorApi().getSupportedSignatureAlgorithms(signType,
             getFilterByPluginIDList(), null);
       } catch (WsI18NException e) {
         log.error(WsClientUtils.toString(e), e);
@@ -265,7 +265,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   public List<String> getSupportedBarCodeTypes() {
     if (supportedBarCodeTypes == null) {
       try {
-        supportedBarCodeTypes = getPassarelaDeFirmaApi().getSupportedBarCodeTypes();
+        supportedBarCodeTypes = getPassarelaDeFirmaEnServidorApi().getSupportedBarCodeTypes();
       } catch (WsI18NException e) {
         log.error(WsClientUtils.toString(e), e);
         return null;
@@ -284,7 +284,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
 
     try {
 
-      PortaFIBPassarelaDeFirmaEnServidorWs api = getPassarelaDeFirmaApi();
+      PortaFIBPassarelaDeFirmaEnServidorWs api = getPassarelaDeFirmaEnServidorApi();
 
       PassarelaSignaturesSet pSignaturesSet = convert(signaturesSet);
 
@@ -637,7 +637,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   // ---------------------------- API ------------------------
   // ---------------------------------------------------------
 
-  public PortaFIBPassarelaDeFirmaEnServidorWs getPassarelaDeFirmaApi() throws Exception {
+  public PortaFIBPassarelaDeFirmaEnServidorWs getPassarelaDeFirmaEnServidorApi() throws Exception {
     final String endpoint = super.getPropertyRequired(API_URL);
     final String usr = super.getPropertyRequired(API_USERNAME);
     final String pwd = super.getPropertyRequired(API_PASSWORD);
@@ -726,8 +726,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   @Override
   public byte[] generateTimeStamp(String signaturesSetID, int signatureIndex,
       byte[] inputRequest) throws Exception {
-    // TODO Auto-generated method stub
-    // XYZ ZZZ Aquest model no és el correcte
+    // No ofereix generador de timestamp sino que internament en proveeix un
     return null;
   }
 

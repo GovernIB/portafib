@@ -19,7 +19,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/admin/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
-public class ModulDeFirmaAdminController extends AbstractPluginAdminController {
+public class ModulDeFirmaWebAdminController extends AbstractPluginAdminController {
   
   
   
@@ -35,7 +35,7 @@ public class ModulDeFirmaAdminController extends AbstractPluginAdminController {
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMA;
+    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
   }
 
   @Override

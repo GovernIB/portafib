@@ -23,7 +23,7 @@
       <load-on-startup>1</load-on-startup>
     </servlet>
 
-    
+    <!--  ======  RECEPTOR DE PETICIONS DE PLUGIN DE FIRMA WEB ======== -->
     
   <servlet>
     <servlet-name>PluginCommonSignWebRequests</servlet-name>
@@ -35,6 +35,7 @@
     <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
   </servlet-mapping>
   
+  <!--  ===  RECEPTOR DE PETICIONS DE PLUGIN DE FIRMA WEB VIA PASSARELA === -->
   
   <servlet>
     <servlet-name>PluginPublicSignWebRequests</servlet-name>
@@ -45,6 +46,19 @@
     <servlet-name>PluginPublicSignWebRequests</servlet-name>
     <url-pattern>/public/signmodule/requestPlugin/*</url-pattern>
   </servlet-mapping>
+  
+  
+  <!--  ======  GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR ======== -->
+
+  <servlet>
+    <servlet-name>TimeStampGeneratorPerFirmaEnServidorServlet</servlet-name>
+    <servlet-class>es.caib.portafib.back.controller.common.TimeStampGeneratorPerFirmaEnServidorServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TimeStampGeneratorPerFirmaEnServidorServlet</servlet-name>
+    <url-pattern>/common/timestampgenerator/*</url-pattern>
+  </servlet-mapping>  
 
 
 	<welcome-file-list>
@@ -126,18 +140,6 @@
 		</taglib>
 	</jsp-config>
 
-	<!-- Spring 3 Filter para utilizar los métodos GET, PUT, POST y DELETE en 
-		los formularios -->
-	<!-- 
-	<filter>
-		<filter-name>httpMethodFilter</filter-name>
-		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>httpMethodFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	-->
 
    <error-page>
 		<error-code>404</error-code>
@@ -174,6 +176,8 @@
             <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
             <!-- Passarela de Firma PortaFIB No-Autenticada -->
             <url-pattern>/public/*</url-pattern>
+            <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
+            <url-pattern>/common/timestampgenerator/*</url-pattern>
         </web-resource-collection>
         <!-- No auth-constraint means everybody has access! -->
     </security-constraint>
@@ -202,8 +206,7 @@
             <role-name>PFI_USER</role-name>
         </auth-constraint>
     </security-constraint>
-    
-    
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>portafib_back-admin</web-resource-name>

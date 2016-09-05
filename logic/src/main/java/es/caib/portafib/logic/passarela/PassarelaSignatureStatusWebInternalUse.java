@@ -11,7 +11,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
  *
  */
 
-public class PassarelaSignatureStatusWenInternalUse extends  PassarelaSignatureStatus {
+public class PassarelaSignatureStatusWebInternalUse extends  PassarelaSignatureStatus {
 
   protected File fitxerFirmat;
 

@@ -52,7 +52,7 @@ public class SignatureServerModuleEjb implements SignatureServerModuleLocal {
      // Donam marge suficient: un minut per firma en servidor
      
      caducitatPerSignaturesSets.put(signaturesSetID, 
-         System.currentTimeMillis() + ONE_MINUTE_IN_MS * signaturesSet.getFileInfoSignatureArray().length );
+         System.currentTimeMillis() + 30 * ONE_MINUTE_IN_MS * signaturesSet.getFileInfoSignatureArray().length );
     }
     
   }

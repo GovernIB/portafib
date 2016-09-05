@@ -31,7 +31,7 @@ import es.caib.portafib.utils.Constants;
 @RequestMapping(value = "/aden/modulfirmatipusdoc")
 @SessionAttributes(types = { ModulDeFirmaPerTipusDeDocumentForm.class,
     ModulDeFirmaPerTipusDeDocumentFilterForm.class })
-public class GestioModulFirmaTipusDocAdenController extends
+public class ModulFirmaWebTipusDocAdenController extends
     ModulDeFirmaPerTipusDeDocumentController {
 
   @Override
@@ -94,7 +94,7 @@ public class GestioModulFirmaTipusDocAdenController extends
     
     Where w = Where.AND(where,
         PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-        PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA),
+        PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB),
         PluginFields.ACTIU.equal(true));
    return super.getReferenceListForPluginID(request, mav, w );
  }

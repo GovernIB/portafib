@@ -23,7 +23,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/aden/modulDeFirma")
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
-public class ModulDeFirmaAdenController extends AbstractPluginAdenController<ISignatureWebPlugin> {
+public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<ISignatureWebPlugin> {
   
   @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
   protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
@@ -51,7 +51,7 @@ public class ModulDeFirmaAdenController extends AbstractPluginAdenController<ISi
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMA;
+    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
   }
 
   @Override
