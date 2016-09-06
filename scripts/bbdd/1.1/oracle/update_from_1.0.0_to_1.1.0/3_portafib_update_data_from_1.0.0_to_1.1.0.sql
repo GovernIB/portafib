@@ -201,13 +201,23 @@ INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio)
   VALUES (15, 'es.caib.portafib.passwordforagentssql', NULL, 'Opcional excepte en entorns de la CAIB. Contrasenya (o clau de pas) per comprovar que les peticions http realment provenen d''un trigger de BBDD. Veure punt [Gestió de Rols a traves de triggers Oracle] del manual d''instal·lació per més informació.');
   
 INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
-  VALUES (16, 'es.caib.portafib.logouturl', NULL, 'Opcional. Afegeix una nova opció de menú davall de “Configuració” del menú de la capçalera (superior dreta) que indica una URL que servirà per poder abandonar PortaFIB. Per aplicar canvis requereix reiniciar servidor.');
+  VALUES (16, 'es.caib.portafib.logouturl', NULL, 'Opcional. Afegeix una nova opció de menú davall de “Configuració�? del menú de la capçalera (superior dreta) que indica una URL que servirà per poder abandonar PortaFIB. Per aplicar canvis requereix reiniciar servidor.');
   
 
 -- ========================================
 -- 2016/01/12 Propietats d'Entitat
 -- ========================================
-  
+
+
+CREATE OR REPLACE TRIGGER AutoIncrementPropietatGlobalID
+BEFORE INSERT ON PFI_PROPIETATGLOBAL
+FOR EACH ROW
+
+BEGIN
+  SELECT pfi_portafib_seq.NEXTVAL
+  INTO   :new.PROPIETATGLOBALID
+  FROM   dual;
+END;
   
 INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.maxitemstoshowinautocomplete', '10', 'Opcional. Valor per defecte 10. En els formularis de cerques dinàmiques d''usuari, indica el màxim de resultats permesos per mostrar resultats de l''usuari.'  FROM pfi_entitat;
 
@@ -215,4 +225,4 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
 
 INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.maxtimelockedsigninms', NULL, 'Opcional. Indica Temps de validesa del Token de Firma només quan hi ha multiples firmes en un bloc o hi ha delegats definits. Es a dir, el temps màxim que un firmant pot tenir bloquejat un document durant la firma. Per defecte 3 minuts (180000).'  FROM pfi_entitat;
   
-  
+DROP TRIGGER AutoIncrementPropietatGlobalID;

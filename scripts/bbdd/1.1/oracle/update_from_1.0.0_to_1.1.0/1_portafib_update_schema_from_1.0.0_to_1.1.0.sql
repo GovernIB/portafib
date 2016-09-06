@@ -109,7 +109,7 @@ alter table pfi_entitat add constraint pfi_entitat_custodia_fk foreign key (cust
 
 ALTER TABLE pfi_entitat ADD pluginid number(19,0);
 
-ALTER TABLE pfi_entitat ADD segelldetempsviaweb number(10,0) DEFAULT 0 not null,
+ALTER TABLE pfi_entitat ADD segelldetempsviaweb number(10,0) DEFAULT 0 not null;
 
 -- booleà
 ALTER TABLE pfi_peticiodefirma ADD segellatdetemps number(1,0) DEFAULT 0 not null;
