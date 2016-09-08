@@ -94,6 +94,7 @@ import es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
@@ -1244,7 +1245,12 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       return USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
     } else {
       // Seleccionam totes aquelles que no tenguin definit cap usuari
-      return USUARIENTITATID.isNull();
+      // i que le susuaris-aplicació pertanyin a aquesta entitat
+      final String entitatID = LoginInfo.getInstance().getEntitatID();
+      return Where.AND(
+          USUARIENTITATID.isNull(),
+          new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID)
+          );
     }
   }
   
