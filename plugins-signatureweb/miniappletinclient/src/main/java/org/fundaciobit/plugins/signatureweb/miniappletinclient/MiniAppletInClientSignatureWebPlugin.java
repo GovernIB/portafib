@@ -33,6 +33,8 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
 
+import com.handinteractive.mobile.UAgentInfo;
+
 /**
  * 
  * @author anadal
@@ -609,16 +611,27 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+
+    // Descartar tablets i mobils 
+    String userAgent = request.getHeader("User-Agent");
+    String accept = request.getHeader("Accept");
     
+    UAgentInfo uai = new UAgentInfo(userAgent, accept);
+    
+    if (uai.detectTierIphone() || uai.detectTierTablet()) {
+       return false;  
+    }
+
     return super.filter(request, signaturesSet);
 
   }
+
+
 
   @Override
   protected String getSimpleName() {
     return "MiniAppletInClient";
   }
-
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
