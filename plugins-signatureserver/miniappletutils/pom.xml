@@ -11,7 +11,7 @@
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
     <version>2.0.0</version>
-    <artifactId>plugins-signatureweb</artifactId>
+    <artifactId>plugins-signatureserver</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>
