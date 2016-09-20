@@ -57,14 +57,19 @@
    <c:if test="${empty loginInfo.usuariEntitat}">
       -
    </c:if>
-
-   <br>
+<hr>
+   
    Roles: <b>
    <c:forEach var="rol" items="${loginInfo.roles}">
       "${rol.authority}"  
    </c:forEach>
    </b><br>
    
+   <hr>
+   Role PFI_AUTOFIRMA: <%=request.isUserInRole("PFI_AUTOFIRMA") %><br/>
+   Role ROLE_AUTOFIRMA: <%=request.isUserInRole("ROLE_AUTOFIRMA") %><br/>
+   Role PFI_USER: <%=request.isUserInRole("PFI_USER") %><br/>
+   Role ROLE_USER: <%=request.isUserInRole("ROLE_USER") %><br/>
    <hr>
    
   <%  

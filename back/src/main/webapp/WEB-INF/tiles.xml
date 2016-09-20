@@ -34,7 +34,7 @@
     <definition name="principal.body" template="/WEB-INF/web/tiles/principal/principal.jsp"/>
 
     <definition name="principal" extends="base.definition" >  
-        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_inici.jsp"  />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_inici.jsp" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/principal.jsp"  />
     </definition>
 

@@ -343,6 +343,12 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
             + " de començar a enviar correus. Relacionat amb la PropietatGlobal"
             + " es.caib.portafib.avisosfirmespendents.cron");
 
+        propietatGlobalEjb.create("es.caib.portafib.autofirmaallowed", "true",
+            _entitatID_, "Opcional. Serveix per forçar la visibilitat de l´opció Gestió "
+                + "d´AutoFirmes del Menú d´Inici. Valors: * true: sempre mostra l´opció"
+                + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
+                + " el role PFI_AUTOFIRMA");
+
         
       } catch(I18NException ie) {
         String msg = I18NUtils.getMessage(ie);

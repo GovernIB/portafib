@@ -1,4 +1,8 @@
-﻿
+﻿-- ========================================
+-- 2016/09/20 Propietat d'Entitat
+-- ========================================
+
+INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entitatid, 'es.caib.portafib.autofirmaallowed', 'true', 'Opcional. Serveix per forçar la visibilitat de l´opció Gestió d´AutoFirmes del Menú d´Inici. Valors: * true: sempre mostra l´opció de menú. * false: mai mostra l´opció de menú. * null: consulta el role PFI_AUTOFIRMA' FROM pfi_entitat;
 
 -- ========================================
 -- 2016/08/12 Propietat Global     DAV

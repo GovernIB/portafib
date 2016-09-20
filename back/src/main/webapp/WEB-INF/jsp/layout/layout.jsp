@@ -41,7 +41,7 @@
 
     <c:forEach var="rolG" items="${loginInfo.roles}">
     <c:set var="rol" value="${rolG.authority}"/>
-    <c:if test="${not(rol eq 'ROLE_USER')}">
+    <c:if test="${not( (rol eq 'ROLE_USER') || (rol eq 'ROLE_AUTOFIRMA') )}">
     <li class="${(pipella eq rol)?'active' : '' }${(rol eq 'ROLE_COLA')?' dropdown' : '' }">
     
     <c:url var="linktab" value="/canviarPipella/${rol}"/>

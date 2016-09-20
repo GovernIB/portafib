@@ -347,6 +347,22 @@ public class PropietatGlobalUtil implements Constants {
     if(log.isDebugEnabled()) { log.debug( "getPasswordForAgentsSQL() = " + val); }
     return val;
   }
+  
+  
+  /**
+   * Mostar o oculta l'opció de Autofirma. Si val true sempre mostra l'opció,
+   * si val false mai mostra l'opció i si val null llavors consulta el ROLE ROLE_AUTOFIRMA. 
+   * @param entitatID
+   * @return
+   */
+  public static Boolean getAutofirmaAllowed(String entitatID) {
+    final String partialPropertyName = "autofirmaallowed";
+    Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
+    if(log.isDebugEnabled()) { log.debug( "getAutofirmaAllowed(" + entitatID+ ") = " + val); }
+    return val;
+  }
+  
+  
 
   // ----------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------
@@ -428,4 +444,5 @@ public class PropietatGlobalUtil implements Constants {
     }
   }
 
+  
 }

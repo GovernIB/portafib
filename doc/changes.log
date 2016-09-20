@@ -2,6 +2,9 @@
 PortaFIB 1.1.1
 ==============
 
+2016-09-20 Nova propietat d'entitat "es.caib.portafib.autofirmaallowed", utilitzada
+           per forçar la visibilitat de l'opció "Gestió d'AutoFirmes" del Menú d'Inici.
+
 2016-09-01 Implementar API de Firma en Servidor. Plugin de Firma en Servidor de MiniApplet
            i Plugin de Firma en Servidor emprant PortaFIB (passarel·la de firma en servidor)
 

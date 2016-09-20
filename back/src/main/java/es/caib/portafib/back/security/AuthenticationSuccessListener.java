@@ -77,6 +77,7 @@ public class AuthenticationSuccessListener implements
     boolean containsRoleAdmin = false;
     for (GrantedAuthority grantedAuthority : seyconAuthorities) {
       String rol = grantedAuthority.getAuthority();
+
       if (isDebug) { 
         log.debug("Rol SEYCON : " + rol);
       }

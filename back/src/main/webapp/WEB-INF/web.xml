@@ -233,6 +233,11 @@
 		<description>Usuari de PortaFIB</description>
 		<role-name>PFI_USER</role-name>
 	</security-role>
+    
+    <security-role>
+        <description>Apareix Opció AutoFIRMA de PortaFIB</description>
+        <role-name>PFI_AUTOFIRMA</role-name>
+    </security-role>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -1,6 +1,16 @@
+<%@page import="es.caib.portafib.back.security.LoginInfo"%>
+<%@page import="es.caib.portafib.logic.utils.PropietatGlobalUtil"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 %><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+<%
 
+Boolean autofirma = PropietatGlobalUtil.getAutofirmaAllowed(LoginInfo.getInstance().getEntitatID());
+if (autofirma == null) {
+  autofirma = request.isUserInRole("ROLE_AUTOFIRMA");
+}
+request.getSession().setAttribute("autofirma", autofirma);
+
+%>
 <c:set var="url" value="${urlActual}" />
 <div>
   <h5><fmt:message key="menuinici" /></h5>
@@ -12,7 +22,9 @@
       </a>
     </li>
 
-    <c:if test="${not empty loginInfo.entitatID}" >
+    
+    
+    <c:if test="${not empty loginInfo.entitatID && autofirma}" >
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     <li style="list-style-type: disc; list-style-position: inside;">
       <a href="<c:url value="/common/autofirma/list"/>">
@@ -20,6 +32,7 @@
       </a>
     </li>
     </c:if>
+    
 
    <%-- RebreAvis --%>
    <sec:authorize access="hasAnyRole('ROLE_SOLI', 'ROLE_DEST', 'ROLE_COLA', 'ROLE_DELE')">

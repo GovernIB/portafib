@@ -76,8 +76,10 @@
 	<bean id="attributes2GrantedAuthoritiesMapper" class="es.caib.portafib.back.security.RolesBasedAttributes2GrantedAuthoritiesMapper">
 		<property name="baseRoleMapping">
 			<map>
+                <entry key="PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
 				<entry key="PFI_USER" value="ROLE_USER"/>
 				<entry key="PFI_ADMIN" value="ROLE_ADMIN"/>
+                <entry key="@PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
 				<entry key="@PFI_USER" value="ROLE_USER"/>
                 <entry key="@PFI_ADMIN" value="ROLE_ADMIN"/>
 			</map>
@@ -89,6 +91,7 @@
 			<set>
 				<value>PFI_USER</value>
 				<value>PFI_ADMIN</value>
+                <value>PFI_AUTOFIRMA</value>
 			</set>
 		</property>
 	</bean>
