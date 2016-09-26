@@ -1,0 +1,232 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.caib.portafib</groupId>
+  <version>1.1.1</version>
+  <artifactId>portafib</artifactId>
+  <packaging>pom</packaging>
+  <name>PortaFIB</name>
+
+  <modules>
+    <module>plugins-signatureserver</module>
+    <module>plugins-signatureweb</module>
+    <module>utils</module> 
+    <module>persistence</module>
+    <module>model</module> 
+    <module>jpa</module>
+    <module>ejb</module> 
+    <module>logic</module>
+    <module>back</module>
+    <module>ws</module>
+    <module>scripts</module>
+    <module>ear</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>clientcert</id>
+      <modules>
+        <module>back-clientcert</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>produccio</id>
+      <modules>
+        <module>earplugins</module>
+      </modules>
+    </profile>
+  </profiles>
+
+  <repositories>
+
+    <repository>
+      <id>maven-nuxeo</id>
+      <name>Maven Nuxeo Repository</name>
+      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>pluginsib-maven-repos</id>
+      <name>PluginsIB Maven Repository</name>
+      <url>http://GovernIB.github.io/pluginsib/maven/</url>
+    </repository>
+
+    <repository>
+      <id>genapp-maven-repository</id>
+      <name>GenApp Maven Repository</name>
+      <url>http://GovernIB.github.io/genapp/maven/</url>
+    </repository>
+
+
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  
+  <properties>
+    <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
+    <version_txt_file>./versio.txt</version_txt_file>
+    <portafib.version>1.1.1</portafib.version>
+    <plugins.version>1.0.0</plugins.version>
+    <plugins.signatureserver.version>2.0.0</plugins.signatureserver.version>
+    <plugins.signatureweb.version>2.0.0</plugins.signatureweb.version>
+    <spring.version>3.1.2.RELEASE</spring.version>
+    <springsecurity.version>3.1.2.RELEASE</springsecurity.version>
+    <cxf.version>2.2.12</cxf.version>
+    <bouncycastle.version>1.51</bouncycastle.version>
+    <hibernate.version>3.3.2.GA</hibernate.version>
+    <hibernate.annotations.version>3.4.0.GA</hibernate.annotations.version>
+  </properties>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-idea-plugin</artifactId>
+          <configuration>
+            <jdkName>JDK1.5</jdkName>
+            <downloadSources>true</downloadSources>
+            <downloadJavadocs>true</downloadJavadocs>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+    
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>maven-replacer-plugin</artifactId>
+        <version>1.4.0</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>${version_txt_template_file}</file>
+          <outputFile>${version_txt_file}</outputFile>
+          <replacements>
+            <replacement>
+              <token>@project.version@</token>
+              <value>${project.version}</value>
+            </replacement>
+          </replacements>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.12</version> 
+        <configuration>
+          <!-- git commit message -->
+          <message>Maven artifacts for ${project.version}</message> 
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> 
+          <noJekyll>true</noJekyll>   
+          <!-- remote branch name -->
+          <branch>refs/heads/gh-pages</branch> 
+          <includes>
+            <include>**/*</include>
+          </includes>
+          <path>maven</path>
+          <!-- github repo name -->
+          <repositoryName>portafib</repositoryName>      
+          <!-- github username or organization  -->
+          <repositoryOwner>GovernIB</repositoryOwner>    
+          <server>github_governib_portafib</server>
+          <merge>true</merge>
+          <dryRun>false</dryRun>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>github_governib_maven</id>
+      <name>GitHub GovernIB Maven Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
+  
+  <!--   COM UTILITZAR: AFEGIR AQUEST CODI AL pom.xml    -->
+  <!--
+        <repositories>
+           <repository>
+             <id>maven-repos</id>
+             <name>GitHub GovernIB Maven Repository</name>
+             <url>http://GovernIB.github.io/maven/maven/</url>
+           </repository>
+        </repositories>
+  -->
+
+</project>

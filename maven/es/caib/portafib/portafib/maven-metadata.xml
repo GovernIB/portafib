@@ -3,10 +3,10 @@
   <groupId>es.caib.portafib</groupId>
   <artifactId>portafib</artifactId>
   <versioning>
-    <release>1.1.0</release>
+    <release>1.1.1</release>
     <versions>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
     </versions>
-    <lastUpdated>20160523084159</lastUpdated>
+    <lastUpdated>20160926083722</lastUpdated>
   </versioning>
 </metadata>
