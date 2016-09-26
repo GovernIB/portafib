@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>plugins-signatureserver</artifactId>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <version>2.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>FundacioBit Plugins - SignatureServer Plugins</name>
+
+  <parent>
+    <groupId>es.caib.portafib</groupId>
+    <artifactId>portafib</artifactId>
+    <version>1.1.1</version>
+  </parent>
+
+  <properties>
+    <miniapplet.version>1.4</miniapplet.version>
+    <miniapplet.artifactid>afirma-ui-miniapplet_1_4</miniapplet.artifactid>
+  </properties>
+
+  <modules>
+    <module>api</module>
+    <module>miniappletutils</module>
+    <module>miniappletinserver</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>passarelaserver</id>
+      <modules>
+        <module>portafib</module>
+      </modules>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
