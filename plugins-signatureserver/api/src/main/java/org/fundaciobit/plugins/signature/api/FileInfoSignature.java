@@ -23,6 +23,10 @@ public class FileInfoSignature {
   public static final String SIGN_TYPE_OOXML = "OOXML"; //$NON-NLS-1$
   /** Identificador de la firma ODF (<i>Open Document Format</i>). */
   public static final String SIGN_TYPE_ODF = "ODF"; //$NON-NLS-1$
+  
+  /** Identificador de Firma SMIME */
+  public static final String SIGN_TYPE_SMIME = "SMIME"; //$NON-NLS-1$
+  
 
   public static final String SIGN_ALGORITHM_SHA1 = "SHA-1";
   public static final String SIGN_ALGORITHM_SHA256 = "SHA-256";

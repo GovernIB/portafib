@@ -2,6 +2,10 @@
 PortaFIB 1.1.1
 ==============
 
+2016-09-29 Alliberar versió de PortaFIB 1.1.1
+
+2016-09-27 Unificar respositoris maven en un de sol (https://github.com/GovernIB/maven)
+
 2016-09-20 Nova propietat d'entitat "es.caib.portafib.autofirmaallowed", utilitzada
            per forçar la visibilitat de l'opció "Gestió d'AutoFirmes" del Menú d'Inici.
 
