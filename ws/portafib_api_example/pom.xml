@@ -5,14 +5,14 @@
   <artifactId>portafib-ws-api-example</artifactId>
   <groupId>es.caib.portafib</groupId>
   <packaging>jar</packaging>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
 
   <name>PortaFIB WS - API - Example</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib-ws</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
   </parent>
 
   <properties>

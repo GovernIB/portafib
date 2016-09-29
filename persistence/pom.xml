@@ -3,13 +3,13 @@
 
     <groupId>es.caib.portafib</groupId>
 	<artifactId>portafib-persistence</artifactId>  
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>es.caib.portafib</groupId>
 		<artifactId>portafib</artifactId>
-		<version>1.1.1</version>
+		<version>1.1.2</version>
 	</parent>
 
 	<name>PortaFIB Persistence</name>
