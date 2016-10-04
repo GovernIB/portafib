@@ -1,4 +1,4 @@
-# ![Logo](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
  *Portafirmes Digital de les Illes Balears*
 
 
@@ -20,7 +20,7 @@ Les seves característiques principals són:
 * API WS
 * ...
 
-Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/master/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/portafib-1.1/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
 
 
 **Característiques**
@@ -39,25 +39,25 @@ Pot descarregar el manual d'usuari per veure les característiques completes: [M
 
 **Captures de pantalla**
 
-![Multientitat i Menú d'Inici](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_1.png)<br/>
+![Multientitat i Menú d'Inici](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_1.png)<br/>
 <center>Multientitat i Menú d'Inici</center>
 <hr/>
 
-![Menú Sol·licitant i opcions per una petició de firma](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_2.png)<br/>
+![Menú Sol·licitant i opcions per una petició de firma](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_2.png)<br/>
 Menú Sol·licitant i opcions per una petició de firma
 
-![Plantilla de Flux de Firmes](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_3.png)<br/>
+![Plantilla de Flux de Firmes](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_3.png)<br/>
 Plantilla de Flux de Firmes
 
  
-![Menú Administrador i llistat de Tipus de document](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_4.png)<br/>
+![Menú Administrador i llistat de Tipus de document](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_4.png)<br/>
 Menú Administrador i llistat de Tipus de document
 
  
-![Menú Administrador d'Entitat i llistat de peticions caducades](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_5.png)<br/>
+![Menú Administrador d'Entitat i llistat de peticions caducades](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_5.png)<br/>
 Menú Administrador d'Entitat i llistat de peticions caducades
 
 
-![Vista Completa de Petició de Firma en Destinatari](https://raw.githubusercontent.com/GovernIB/portafib/binaris/projectinfo_Attachments/screenshots/screenshot_6.png)<br/>
+![Vista Completa de Petició de Firma en Destinatari](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_6.png)<br/>
 Vista Completa de Petició de Firma en Destinatari
 
