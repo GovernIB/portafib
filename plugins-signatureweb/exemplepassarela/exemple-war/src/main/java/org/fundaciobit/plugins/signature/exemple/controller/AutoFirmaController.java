@@ -523,6 +523,9 @@ public class AutoFirmaController {
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       filename = "firma.csig";
       mime = "application/octet-stream";
+    }  else if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      filename = "firma.smime.slc";
+      mime = "application/pkcs7-mime";
     } else {
       log.warn("No es suporta el tipus de firma " + signType 
           + ". Revisi el codi per suportar aquest tipus", new Exception());

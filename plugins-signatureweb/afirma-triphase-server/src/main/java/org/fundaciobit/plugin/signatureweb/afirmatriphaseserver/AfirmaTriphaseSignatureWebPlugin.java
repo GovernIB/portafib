@@ -1,5 +1,6 @@
 package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,7 +28,9 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -74,7 +77,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return new String[] {
         FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_TYPE_XADES,
-        FileInfoSignature.SIGN_TYPE_CADES };
+        FileInfoSignature.SIGN_TYPE_CADES,
+        FileInfoSignature.SIGN_TYPE_SMIME
+        };
   }
 
   @Override
@@ -88,6 +93,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           FileInfoSignature.SIGN_ALGORITHM_SHA256, FileInfoSignature.SIGN_ALGORITHM_SHA384,
           FileInfoSignature.SIGN_ALGORITHM_SHA512 };
     }
+    
+    if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
+    }
+    
     return null;
   }
 
@@ -401,7 +411,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       MiniAppletUtils.convertXAdES(fis, configProperties);
 
-    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
       format = "CAdEStri";
         
       MiniAppletUtils.convertCAdES(fis, configProperties);
@@ -1107,8 +1118,28 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
 
       fis = new FileInputStream(file);
-      final byte[] data = AOUtil.getDataFromInputStream(fis);
+      
+      
+      
+      final byte[] data;
+      if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
+        // SMIME
+        String mimeType =  fisig.getMimeType();
+        if (mimeType == null || mimeType.trim().length() == 0) {
+          mimeType = "application/octet-stream";
+        }
+        
+        MIMEInputStream mis = new MIMEInputStream(fis, mimeType);
+        data = AOUtil.getDataFromInputStream(mis);
+        mis.close();
+      } else {
+        // PADEs, CADES i XADES
+        data = AOUtil.getDataFromInputStream(fis);
+      }
+      
       fis.close();
+      
+      
       return data;
 
     } catch (final Exception e) {
@@ -1164,6 +1195,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     // TODO CHECK si ss == null ==> CADUCAT !!!
     SignaturesSetWeb ss = getSignaturesSet(signaturesSetID);
+    FileInfoSignature fisig = ss.getFileInfoSignatureArray()[signatureIndex];
 
     StatusSignature status = getStatusSignature(signaturesSetID, signatureIndex);
 
@@ -1171,6 +1203,22 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     FileOutputStream fos = null;
     try {
       firmat = File.createTempFile("TriphaseSigWebPlugin", "signedfile");
+      
+      if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
+        // SMIME
+
+        String mimeType =  fisig.getMimeType();
+        if (mimeType == null || mimeType.trim().length() == 0) {
+          mimeType = "application/octet-stream";
+        }
+        
+        SMIMEInputStream smis =  new SMIMEInputStream(data,
+            new FileInputStream(fisig.getFileToSign()), mimeType);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        FileUtils.copy(smis, baos);
+        smis.close();
+        data = baos.toByteArray();
+      }
 
       fos = new FileOutputStream(firmat);
       fos.write(data);
@@ -1182,7 +1230,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       // Estat d'aquest document en particular
       status.setStatus(StatusSignature.STATUS_FINAL_OK);
-      // Estat d'aquest document en concret
+      
+      // TODO Fer Batch
+      // Estat de tots els document ja que per ara només permet 1 fitxer
       ss.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_FINAL_OK);
 
       if (log.isDebugEnabled()) {

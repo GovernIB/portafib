@@ -76,9 +76,12 @@ public class MiniAppletUtils {
         convertPAdESPdfVisibleRemoteSignature(fileInfo, rubricURL, miniAppletProperties);
       }
 
-    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType()) ) {
       // TODO Alguna cosa mes ???
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_CADES;
+      
+      convertCAdES(fileInfo, miniAppletProperties);
 
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
       // TODO Alguna cosa mes ???
@@ -172,7 +175,8 @@ public class MiniAppletUtils {
      * implicit La firma resultante incluirá internamente una copia de los datos
      * firmados. El uso de este valor podría generar firmas de gran tamaño.
      */
-    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT 
+        && !FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
       miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
           MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
     } else {

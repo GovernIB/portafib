@@ -111,7 +111,8 @@
           <form:select path="signType" id="signType" onchange="canviaTipus(this)">
             <option value="<%=FileInfoSignature.SIGN_TYPE_PADES %>" selected="true" >PADES</option>
             <option value="<%=FileInfoSignature.SIGN_TYPE_XADES %>" >XADES</option>
-             <option value="<%=FileInfoSignature.SIGN_TYPE_CADES %>" >CADES</option>
+            <option value="<%=FileInfoSignature.SIGN_TYPE_CADES %>" >CADES</option>
+            <option value="<%=FileInfoSignature.SIGN_TYPE_SMIME %>" >SMIME</option>
           </form:select>
            </td>
          </tr>
@@ -325,10 +326,15 @@
        var val = $( "#signType" ).val();
        if (val == '<%=FileInfoSignature.SIGN_TYPE_PADES %>') {
            $( "#signModeTR").hide();
-           $( "#opcionspades").show();           
+           $( "#opcionspades").show();
        } else {
-           $( "#signModeTR").show();
-           $( "#opcionspades").hide();
+           if (val == '<%=FileInfoSignature.SIGN_TYPE_SMIME %>') {
+               $( "#signModeTR").hide();
+               $( "#opcionspades").hide();
+           } else {
+               $( "#signModeTR").show();
+               $( "#opcionspades").hide();
+           }
        }
    }
 

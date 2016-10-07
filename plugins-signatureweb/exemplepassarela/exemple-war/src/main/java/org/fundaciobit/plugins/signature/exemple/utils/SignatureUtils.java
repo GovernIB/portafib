@@ -42,7 +42,7 @@ public class SignatureUtils {
       ITimeStampGenerator timeStampGenerator, SecureVerificationCodeStampInfo csvStampInfo)
       throws Exception {
 
-    final int signMode = ((signModeUncheck == FileInfoSignature.SIGN_MODE_IMPLICIT) ? FileInfoSignature.SIGN_MODE_IMPLICIT
+    int signMode = ((signModeUncheck == FileInfoSignature.SIGN_MODE_IMPLICIT) ? FileInfoSignature.SIGN_MODE_IMPLICIT
         : FileInfoSignature.SIGN_MODE_EXPLICIT);
 
     PdfVisibleSignature pdfInfoSignature = null;
@@ -58,9 +58,10 @@ public class SignatureUtils {
         pdfInfoSignature.setRubricGenerator(null);
         pdfInfoSignature.setPdfRubricRectangle(null);
       }
-
-    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+    
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+    } else if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
     } else {
       // TODO Traduir
       throw new Exception("Tipus de firma no suportada: " + signType);
