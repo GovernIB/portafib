@@ -138,6 +138,8 @@ public interface Constants {
   public static final int TIPUSFIRMA_PADES = 0;
   public static final int TIPUSFIRMA_XADES = 1;
   public static final int TIPUSFIRMA_CADES = 2;
+  public static final int TIPUSFIRMA_SMIME = 3;
+  
 
   public static final int DOC_PDF = 0;
   public static final int DOC_IMG = 1;

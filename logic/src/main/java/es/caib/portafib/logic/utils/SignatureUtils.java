@@ -156,6 +156,10 @@ public class SignatureUtils {
        case Constants.TIPUSFIRMA_CADES:
          signType = FileInfoSignature.SIGN_TYPE_CADES;
        break;
+       
+       case Constants.TIPUSFIRMA_SMIME:
+         signType = FileInfoSignature.SIGN_TYPE_SMIME;
+       break;
          
        case Constants.TIPUSFIRMA_XADES:
          signType = FileInfoSignature.SIGN_TYPE_XADES;
@@ -315,6 +319,8 @@ public class SignatureUtils {
        return  Constants.TIPUSFIRMA_PADES;
      } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
        return Constants.TIPUSFIRMA_CADES;
+     } else if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+       return Constants.TIPUSFIRMA_SMIME;
      } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
        return Constants.TIPUSFIRMA_XADES;
      } else {
@@ -604,12 +610,9 @@ public class SignatureUtils {
        SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
            stampCodiSegurVerificacio);
        // Final IF PADES
-     } else {
-       if (!FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())) {
-         log.warn("Tipus de Signatura " + pfis.getSignType() + " no supportat dins la classe "
-             + SignatureUtils.class.getName(), new Exception());
-       }
-
+     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())  
+         || FileInfoSignature.SIGN_TYPE_CADES.equals(pfis.getSignType())
+         || FileInfoSignature.SIGN_TYPE_SMIME.equals(pfis.getSignType())) {
        // L'original és l'adaptat, per això el movem allà
        try {
          FileUtils.moveFile(original, adaptat);
@@ -620,7 +623,13 @@ public class SignatureUtils {
              adaptat.getAbsolutePath());
        }
 
+     } else {
+         log.warn("Tipus de Signatura " + pfis.getSignType() + " no supportat dins la classe "
+             + SignatureUtils.class.getName(), new Exception());
      }
+
+       
+     
    }
    
 
