@@ -1,6 +1,10 @@
 PortaFIB 1.1.2
 ==============
 
+2016-10-11 Suportar SMIME i CADES en Plugin de MiniApplet/JNLP #22
+
+2016-10-08 Problemes en Firefox amb el PLugin de Autofirma (javascript: setTimeout-setInterval) #23
+
 2016-10-07 Suportar SMIME en Plugin de Autofirma de @firma #21
 
 2016-09-29 Obrir versió de PortaFIB 1.1.2

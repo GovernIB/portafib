@@ -686,17 +686,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + HttpServletResponse.SC_NOT_MODIFIED
         + "') {"
         + "\n"
-        + "      clearTimeout(myTimer);"
+        //+ "     clearInterval(myTimer);"
         + "\n"
-        + "      myTimer = setInterval(function () {closeWhenSign()}, 4000);"
+        //+ "      myTimer = setInterval(function () {closeWhenSign()}, 5000);"
         + "\n"
         + "    } else {"
         + "\n"
-        + "      clearTimeout(myTimer);"
+        + "      clearInterval(myTimer);"
         + "\n"
         // esperarem que es faci neteja de missatges abans de reenviar al
-        // servidor
-        + "      setInterval(function () {gotoFinal()}, 3000);"
+        // servidor (hem de deixar que l'AUTOFIRMA de @firma es tanqui correctament)
+        // per això esperam a que l'AUTOFIRMA cridi a showResultCallback()
+        + "      myTimer = setTimeout(function () {gotoFinal()}, 6000);"
         + "\n"
         + "    }"
         + "\n"
@@ -712,8 +713,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + "  }"
         + "\n"
+        + "  var gotoFinalEnabled = true;\n "
         + "  function gotoFinal() {"
-        + "\n"
+        + "    if (!gotoFinalEnabled) { return; };\n"
+        + "    gotoFinalEnabled = false;\n"
+        + "    clearTimeout(myTimer);\n"
         + "    window.location.href='"
         + finalURL
         + "';"
@@ -1211,19 +1215,25 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         if (mimeType == null || mimeType.trim().length() == 0) {
           mimeType = "application/octet-stream";
         }
-        
-        SMIMEInputStream smis =  new SMIMEInputStream(data,
-            new FileInputStream(fisig.getFileToSign()), mimeType);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        FileUtils.copy(smis, baos);
-        smis.close();
-        data = baos.toByteArray();
-      }
 
-      fos = new FileOutputStream(firmat);
-      fos.write(data);
-      fos.flush();
-      fos.close();
+        FileInputStream fis = new FileInputStream(fisig.getFileToSign());
+
+        SMIMEInputStream smis =  new SMIMEInputStream(data, fis , mimeType);
+
+        FileOutputStream baos = new FileOutputStream(firmat);
+        FileUtils.copy(smis, baos);
+
+        smis.close();
+        fis.close();
+        baos.close();
+        
+      } else {
+
+        fos = new FileOutputStream(firmat);
+        fos.write(data);
+        fos.flush();
+        fos.close();
+      }
 
       status.setSignedData(firmat);
       
@@ -1241,7 +1251,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return Base64.encode(firmat.getAbsolutePath().getBytes());
 
     } catch (final IOException e) {
-      log.error("Error al guardar les dades en el fitxer '" + firmat.getAbsolutePath() + "': " + e); 
+      log.error("Error al guardar les dades en el fitxer '" + firmat.getAbsolutePath() 
+          + "': " + e.getMessage(), e); 
       if (fos != null) {
         try {
           fos.close();

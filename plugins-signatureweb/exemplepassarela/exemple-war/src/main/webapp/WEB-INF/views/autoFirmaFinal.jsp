@@ -18,7 +18,10 @@
  <fmt:message key="descarregardocumentfirmat"/>
 </a> &nbsp; 
 </c:if>
-<a href="<c:url value="/common/autofirma/form.html" />" class="btn"><fmt:message key="tornar"/></a>
+<a href="<c:url value="/" />" class="btn"><fmt:message key="tornar"/></a>
+
+<%--  common/autofirma/form.html --%>
+
 </center>
 
 <%@ include file="/WEB-INF/views/html_footer.jsp"%>

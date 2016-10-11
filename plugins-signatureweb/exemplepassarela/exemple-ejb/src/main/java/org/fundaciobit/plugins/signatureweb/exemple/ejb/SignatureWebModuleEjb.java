@@ -165,10 +165,22 @@ public class SignatureWebModuleEjb implements SignatureWebModuleLocal {
       String query, boolean isPost)  throws Exception {
 
 
-      
-      ExempleSignaturesSet ss = getSignaturesSet(request, signaturesSetID);
-      
-   log.info(" ExempleSignaturesSet ss = " + ss);
+//    
+//    log.info("requestPlugin():: " + request.getPathInfo());
+//    log.info("requestPlugin()::getRequestURI: " + request.getRequestURI());
+//    log.info("requestPlugin()::getQueryString: " + request.getQueryString());
+//   
+// 
+//    StackTraceElement[] trace = new Exception().getStackTrace();
+//    for (int i = 0; i < 4; i++) {
+//      log.info("TRACE " + trace[i].getClassName() + "::" + trace[i].getMethodName()+ " [" + trace[i].getLineNumber()+ "]");
+//    }
+//    
+    
+    ExempleSignaturesSet ss = getSignaturesSet(request, signaturesSetID);
+    log.info("requestPlugin()::ExempleSignaturesSet ss = " + ss);
+    
+    
    
    if (ss == null) {
      response.sendError(HttpServletResponse.SC_REQUEST_URI_TOO_LONG, 

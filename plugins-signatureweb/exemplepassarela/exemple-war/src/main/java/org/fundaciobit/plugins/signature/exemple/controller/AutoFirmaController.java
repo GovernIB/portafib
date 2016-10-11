@@ -339,6 +339,7 @@ public class AutoFirmaController {
   public ModelAndView finalProcesDeFirma(HttpServletRequest request,
       HttpServletResponse response, SignaturesSet ss)
       throws Exception {
+    
 
     String signaturesSetID = ss.getSignaturesSetID();
 
@@ -392,18 +393,22 @@ public class AutoFirmaController {
       if (sss.getErrorMsg() == null) {
         sss.setErrorMsg("plugindefirma.cancelat");
       }
+
       statusError = sss;
       break;
 
     default:
       String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
           + "(no ha establit l'estat final del procés de firma)";
+      
       sss.setErrorMsg(inconsistentState);
       statusError = sss;
       log.error(inconsistentState, new Exception());
     }
 
     if (statusError != null) {
+      
+     
       // TODO Mostrar excepció per log
       if (statusError.getErrorMsg() == null) {
         statusError
@@ -412,14 +417,18 @@ public class AutoFirmaController {
       HtmlUtils.saveMessageError(request, statusError.getErrorMsg());
     }
 
+
+    
     if (idDescarrega == null) {
-      return new ModelAndView(new RedirectView(AutoFirmaController.CONTEXTWEB + "/form", true));
+
+      return new ModelAndView(new RedirectView("/", true));
+      // AutoFirmaController.CONTEXTWEB + "/form"
+   
     } else {
       ModelAndView mav = new ModelAndView("autoFirmaFinal");
 
       mav.addObject("id", idDescarrega);
-      
-      
+
       log.info("FIRMA FINAL TIPUS === " + fis.getSignType());
       
       mav.addObject("signType", fis.getSignType());

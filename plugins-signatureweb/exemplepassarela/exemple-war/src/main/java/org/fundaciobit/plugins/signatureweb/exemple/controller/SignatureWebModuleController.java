@@ -85,10 +85,12 @@ public class SignatureWebModuleController extends HttpServlet {
       HttpServletResponse response, @PathVariable("signaturesSetID") String signaturesSetID)
       throws Exception {
 
+
+    
     ExempleSignaturesSet pss = signatureModuleEjb.finalProcesDeFirma(request, signaturesSetID);
 
     String urlFinal = pss.getUrlFinalOriginal();
-
+    
     ModelAndView mav = new ModelAndView("/plugindefirma_final");
     mav.addObject("URL_FINAL", urlFinal);
 
@@ -100,7 +102,7 @@ public class SignatureWebModuleController extends HttpServlet {
   public ModelAndView errorProcesDeFirma(HttpServletRequest request,
       HttpServletResponse response, @RequestParam("URL_FINAL") String urlFinal)
       throws Exception {
-
+    
     ModelAndView mav = new ModelAndView("/plugindefirma_final");
     mav.addObject("URL_FINAL", urlFinal);
 
@@ -255,6 +257,7 @@ public class SignatureWebModuleController extends HttpServlet {
 
     ModelAndView mav = new ModelAndView("/plugindefirma_final");
     // request.getSession().setAttribute("URL_FINAL", urlError);
+    
     mav.addObject("URL_FINAL", urlFinal);
 
     return mav;

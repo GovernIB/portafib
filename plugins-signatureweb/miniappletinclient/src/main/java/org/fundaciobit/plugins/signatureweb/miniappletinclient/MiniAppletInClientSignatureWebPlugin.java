@@ -3,6 +3,7 @@ package org.fundaciobit.plugins.signatureweb.miniappletinclient;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -26,9 +27,11 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -91,6 +94,36 @@ public class MiniAppletInClientSignatureWebPlugin extends
     return relativePluginRequestPath + "/" + DISCOVER_JAVA_IN_BROWSER_PAGE;
   }
   
+
+  @Override
+  public String[] getSupportedSignatureTypes() {
+    // TODO Falta CADes,  ...
+    return new String[] {
+        FileInfoSignature.SIGN_TYPE_PADES,
+        FileInfoSignature.SIGN_TYPE_XADES,
+        FileInfoSignature.SIGN_TYPE_CADES,
+        FileInfoSignature.SIGN_TYPE_SMIME
+    };
+  }
+
+
+  @Override
+  public String[] getSupportedSignatureAlgorithms(String signType) {
+
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType) ) {
+
+      return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
+          FileInfoSignature.SIGN_ALGORITHM_SHA256,
+          FileInfoSignature.SIGN_ALGORITHM_SHA384,
+          FileInfoSignature.SIGN_ALGORITHM_SHA512 };
+    } 
+    if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
+    }
+    return null;
+  }
   
   
   @Override
@@ -227,17 +260,48 @@ public class MiniAppletInClientSignatureWebPlugin extends
         return;
       }
 
+      FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
+
+      
       for (String name : uploadedFiles.keySet()) {
 
         FileItem uploadedFile = uploadedFiles.get(name);
+        
+        
 
-        StatusSignature status = getStatusSignature(signaturesSet.getSignaturesSetID(),
-            signatureIndex);
+        StatusSignature status = fileInfo.getStatusSignature(); 
+            // XYZ getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
 
         File firmat = null;
         firmat = File.createTempFile("MAICSigWebPlugin", "signedfile");
+        
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+          // SMIME
 
-        uploadedFile.write(firmat);
+          String mimeType =  fileInfo.getMimeType();
+          if (mimeType == null || mimeType.trim().length() == 0) {
+            mimeType = "application/octet-stream";
+          }
+          
+          byte[] signedData = FileUtils.toByteArray(uploadedFile.getInputStream());
+
+          FileInputStream originalSRC = new FileInputStream(fileInfo.getFileToSign());
+
+          SMIMEInputStream smis =  new SMIMEInputStream(signedData,
+              originalSRC, mimeType);
+          FileOutputStream baos = new FileOutputStream(firmat);
+          FileUtils.copy(smis, baos);
+
+
+          try {  smis.close(); } catch(Throwable th) {};
+          try { originalSRC.close(); } catch(Throwable th) {};
+          try { 
+          baos.flush();
+          baos.close();
+          } catch(Throwable th) {};
+        } else {
+          uploadedFile.write(firmat);
+        }
 
         status.setSignedData(firmat);
 
@@ -293,17 +357,43 @@ public class MiniAppletInClientSignatureWebPlugin extends
       extension = ".pdf";
     } else {
       // TODO Falta CADEs, XADES, ....
-      response.setContentType("application/octet-stream");
+      if (fileInfo.getMimeType() == null || fileInfo.getMimeType().trim().length() == 0) {
+        response.setContentType("application/octet-stream");
+      } else {
+        response.setContentType(fileInfo.getMimeType());
+      }
       extension = ".bin";
     }
     response.setHeader("Content-Disposition", "inline; filename=\"source." + extension + "\"");
-    response.setContentLength((int) source.length());
 
     try {
+      
       java.io.OutputStream output = response.getOutputStream();
-      InputStream input = new FileInputStream(source);
-      FileUtils.copy(input, output);
-      input.close();
+      if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+        // SMIME
+        String mimeType =  fileInfo.getMimeType();
+        if (mimeType == null || mimeType.trim().length() == 0) {
+          mimeType = "application/octet-stream";
+        }
+        
+        InputStream input = new FileInputStream(source);
+        
+        MIMEInputStream minput = new MIMEInputStream(input, mimeType);
+        
+        FileUtils.copy(minput, output);
+        input.close();
+        minput.close();
+        
+      } else {
+
+        response.setContentLength((int) source.length());
+        
+        InputStream input = new FileInputStream(source);
+        FileUtils.copy(input, output);
+        input.close();
+
+      }
+
 
     } catch (Exception e) {
       log.error(e.getMessage(), e);
