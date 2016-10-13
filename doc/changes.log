@@ -1,6 +1,8 @@
 PortaFIB 1.1.2
 ==============
 
+2016-10-13 Afegir propietat es.caib.portafib.activeusuarientitatafteragentseyconcreation.
+
 2016-10-11 Suportar SMIME i CADES en Plugin de MiniApplet/JNLP #22
 
 2016-10-08 Problemes en Firefox amb el PLugin de Autofirma (javascript: setTimeout-setInterval) #23

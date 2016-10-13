@@ -333,7 +333,10 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           
           // Mirar si existeix la Persona
           UsuariPersonaJPA usuariPersona = usuariPersonaLogicaEjb.findByPrimaryKey(codusu);
-          
+
+          final boolean usuariEntitatActiu = PropietatGlobalUtil.isActiveUsuariEntitatAfterAgentSeyconCreation();
+
+
           if (usuariPersona == null) {
             // La persona no existeix i l'hen de crear
             
@@ -363,19 +366,38 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
                              );
             usuariPersona.setNom(pfui.getName());
 
-            ue = getUsuariEntitatJPAInstance(codusu, entitatID);
+            ue = getUsuariEntitatJPAInstance(codusu, entitatID, usuariEntitatActiu);
           
             ue = usuariEntitatLogicaEjb.create(usuariPersona, ue, virtualRoles);
           } else {
             // La persona està creada, només hem de crear l'usuari entitat
-            ue = getUsuariEntitatJPAInstance(codusu, entitatID);
+            ue = getUsuariEntitatJPAInstance(codusu, entitatID, usuariEntitatActiu);
             ue = usuariEntitatLogicaEjb.create(codusu, ue, virtualRoles);
           }
           
-          enviarCorreuAdmistradors("S'ha creat l'usuari-entitat " + ue.getUsuariEntitatID() 
-              + " amb NIF " + usuariPersona.getNif() + " dins l'entitat " + entitatID  + "." 
-              + " Accedeixi a la Gestió d'Usuaris-Entitat"
-              + " per revisar les dades i activar-ho", entitatID);
+          String msgBase = "S'ha creat l'usuari-entitat " + ue.getUsuariEntitatID() 
+              + " amb la següent informació:" 
+              + "\n    * NIF:" + usuariPersona.getNif()
+              + "\n    * Username:" + usuariPersona.getUsuariPersonaID()
+              + "\n    * Email:" + usuariPersona.getEmail()
+              + "\n    * Idiona:" + usuariPersona.getIdiomaID()
+              + "\n    * Llinatges: " + usuariPersona.getLlinatges()
+              + "\n    * Nom: " + usuariPersona.getNom();
+          
+          if (usuariEntitatActiu) {
+            
+            enviarCorreuAdmistradors( msgBase 
+               + "\n L´usuari-entitat JA està actiu, però si troba que alguna dada no està correcte,"
+               + " llavors accedeixi a la Gestió d'Usuaris-Entitat per modificar la informació errònia."
+               , entitatID);
+
+          } else {
+            
+            enviarCorreuAdmistradors( msgBase 
+                + "\n L´usuari-entitat NO està actiu, per això seria necessari accedir a la Gestió d'Usuaris-Entitat"
+                + " per revisar les dades i activar-ho."
+                , entitatID);
+          }
           
           return ue;
         }
@@ -451,9 +473,9 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
 
   protected UsuariEntitatJPA getUsuariEntitatJPAInstance(String codusu,
-      final String entitatID) {
+      final String entitatID, boolean actiu) {
     UsuariEntitatJPA ue = new UsuariEntitatJPA();
-    ue.setActiu(false);
+    ue.setActiu(actiu);
     ue.setCarrec(null);
     ue.setEntitatID(entitatID);
     ue.setPotCustodiar(false);

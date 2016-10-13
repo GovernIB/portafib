@@ -363,6 +363,22 @@ public class PropietatGlobalUtil implements Constants {
   }
   
   
+  /**
+   * Opcional. En entorns CAIB, quan un agent seycon dóna d'alta un usuari a PortaFIB, emprant aquesta
+   * propietat podem decidir si aquest usuari-entitat es crearà activat (true) o desactivat (false o no definit).
+   *
+   * @param entitatID
+   * @return
+   */
+  public static boolean isActiveUsuariEntitatAfterAgentSeyconCreation() {
+    final String partialPropertyName = "activeusuarientitatafteragentseyconcreation";
+    Boolean val = getBoolean(partialPropertyName);
+    if(log.isDebugEnabled()) { log.debug( "isActiveUsuariEntitatAfterAgentSeyconCreation() = " + val); }
+    return val == null? false: val;
+  }
+  
+  
+  
 
   // ----------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------
