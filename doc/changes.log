@@ -1,6 +1,9 @@
 PortaFIB 1.1.2
 ==============
 
+2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven múltiples fitxers
+           emprant un certificat dins d'una targeta.
+
 2016-10-13 Afegir propietat es.caib.portafib.activeusuarientitatafteragentseyconcreation.
 
 2016-10-11 Suportar SMIME i CADES en Plugin de MiniApplet/JNLP #22
