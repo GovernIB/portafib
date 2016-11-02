@@ -59,3 +59,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureserver/miniappletutils/src/main/resources/applet/miniapplet.jar
 /plugins-signatureserver/miniappletutils/src/main/resources/applet/miniappletui.jar
 /plugins-signatureserver/miniappletutils/test.properties
+/local-repo/es/caib/portafib/plugin-signatureweb-miniappletui-signed/2.0.0/plugin-signatureweb-miniappletui-signed-1.0.0.pom
+/local-repo/es/caib/portafib/plugin-signatureweb-miniappletui-signed/2.0.0/plugin-signatureweb-miniappletui-signed-1.0.0.jar

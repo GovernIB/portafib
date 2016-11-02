@@ -20,6 +20,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.DefaultBoundedRangeModel;
 
@@ -71,6 +72,10 @@ public class ProcessDeFirma extends Thread {
   private PropertyResourceBundle bundleSign;
 
   private static String SYNC ="SYNC";
+ 
+  private static final Semaphore blockSignProcess = new Semaphore(1);
+
+  private final int index;
 
   /**
    * @param parentpanel
@@ -78,7 +83,7 @@ public class ProcessDeFirma extends Thread {
    * @param destination
    */
   public ProcessDeFirma(ParentPanel parentpanel, String source, String destination,
-      String errorPage, String idName, String signType, String signAlgorithm,  Properties properties) {
+      String errorPage, int index, String idName, String signType, String signAlgorithm,  Properties properties) {
     super();
     this.parentPanel = parentpanel;
     this.source = source;
@@ -86,9 +91,10 @@ public class ProcessDeFirma extends Thread {
     this.errorPage = errorPage;
     this.properties = properties;
     this.idName = idName;
+    this.index = index;
     
     synchronized (SYNC) {
-       System.out.println(" --------------- " + idName + " --------------");
+       System.out.println(" --------------- " + idName + "[" + index + "] --------------");
        StringWriter writer = new StringWriter();
        properties.list(new PrintWriter(writer));
 
@@ -97,6 +103,10 @@ public class ProcessDeFirma extends Thread {
        System.out.println("this.errorPage = " + errorPage);
        System.out.println("MiniApplet Properties:");
        System.out.println(writer.getBuffer().toString());
+       
+       System.out.println("this.index = " + index);
+       
+       
     }
     
 
@@ -114,30 +124,30 @@ public class ProcessDeFirma extends Thread {
 
   public InputStream llegirPDF(String source, DefaultBoundedRangeModel lecturaProgress)
       throws Exception {
-    System.out.println("llegirPDF::Inicialitzant SSL.");
+    System.out.println("llegirPDF[" + index + "]::Inicialitzant SSL.");
     initSSL();
     URLConnection sourceConnection;
     URL sourceURL;
-    System.out.println("llegirPDF::Crear URL.");
+    System.out.println("llegirPDF[" + index + "]::Crear URL.");
     try {
       sourceURL = new URL(source);
     } catch (MalformedURLException e) {
       throw new Exception(tradueix("url_incorrecta", source),e);
     }
-    System.out.println("llegirPDF::OpenConnection.");
+    System.out.println("llegirPDF[" + index + "]::OpenConnection.");
     try {
       sourceConnection = sourceURL.openConnection();
     } catch (IOException e1) {
       throw new Exception(tradueix("url_inaccesible", source),e1);
     }
-    System.out.println("llegirPDF::connect().");
+    System.out.println("llegirPDF[" + index + "]::connect().");
     try {
       sourceConnection.connect();
     } catch (Exception e2) {
       throw new Exception(tradueix("url_connect_error",source), e2);
     }
 
-    System.out.println("llegirPDF::checkErrors().");
+    System.out.println("llegirPDF[" + index + "]::checkErrors().");
     // Revisar si hi ha error i extreure el msg d'error
     if (sourceConnection instanceof  HttpURLConnection) {
       
@@ -146,8 +156,8 @@ public class ProcessDeFirma extends Thread {
       if (msg == null) {
          msg = c.getResponseMessage();
       }
-      System.out.println("Connection Code = " + c.getResponseCode());
-      System.out.println("Connection Msg. = " + msg);
+      System.out.println("Connection Code[" + index + "] = " + c.getResponseCode());
+      System.out.println("Connection Msg[" + index + "] = " + msg);
       if (c.getResponseCode() != 200) {
         // TODO traduir
         throw new Exception(msg);
@@ -182,13 +192,13 @@ public class ProcessDeFirma extends Thread {
 
       String sLength = (String) values.get(0);
 
-      System.out.println("content-Length == " + sLength);
+      System.out.println("content-Length[" + index + "] == " + sLength);
 
       if (sLength != null) {
         size = Integer.parseInt(sLength);
       }
     } else {
-      System.out.println("content-Length NO EXISTTEIX");
+      System.out.println("content-Length[" + index + "] NO EXISTTEIX");
     }
     
 
@@ -218,11 +228,11 @@ public class ProcessDeFirma extends Thread {
       OutputStream baos;
       try {
         tmpFile = File.createTempFile("portafib_applet_", ".tmp");
-        System.out.println("Creat fitxer temporal a " + tmpFile.getAbsolutePath());
+        System.out.println("Firma[" + index + "]:Creat fitxer temporal a " + tmpFile.getAbsolutePath());
         tmpFile.deleteOnExit();
         baos = new FileOutputStream(tmpFile);
       } catch (IOException e) {
-        System.err.println("No he pogut creat un fitxer temporal");
+        System.err.println("Firma[" + index + "]:No he pogut creat un fitxer temporal");
         baos = new ByteArrayOutputStream();
       }
       
@@ -261,26 +271,42 @@ public class ProcessDeFirma extends Thread {
 
   @Override
   public void run() {
-    System.out.println("Arranca thread de ProcessDeFirma");
+    System.out.println("Arranca thread de ProcessDeFirma[" + index + "]...");
     try {
+
       this.estat = EstatProcesDeFirma.LLEGINT_PDF;
-      System.out.println("Llegir PDF");
+      System.out.println("Llegir PDF[" + index + "]");
       this.inputPDF = llegirPDF(this.source, this.lecturaProgress);
       this.estat = EstatProcesDeFirma.ESPERA_SELECCIO_CERTIFICAT;
-      System.out.println("BUCLE SELECTCERT - INICI");
-      ISigner signer = this.parentPanel.getSigner(); 
-      while (!signer.isSelectedCert()) {
-        Thread.sleep(500);
-      }
-      System.out.println("BUCLE SELECTCERT - FINAL");
-      this.estat = EstatProcesDeFirma.FIRMANT;
-      System.out.println("FIRMANT ");
-      firmaTime = System.currentTimeMillis();
 
-      this.firmar();
+        System.out.println("BUCLE SELECTCERT - INICI[" + index + "]");
+        ISigner signer = this.parentPanel.getSigner(); 
+        while (!signer.isSelectedCert()) {
+          Thread.sleep(500);
+        }
+        System.out.println("BUCLE SELECTCERT - FINAL[" + index + "]");
+        
+
+//        try {
+//          System.out.println("SEMAPHORE[" + index + "]::ACQUIRE() PRE");
+//          blockSignProcess.acquire();
+//          System.out.println("SEMAPHORE[" + index + "]::ACQUIRE() POST");
+
+          this.estat = EstatProcesDeFirma.FIRMANT;
+          System.out.println("FIRMANT[" + index + "]");
+          firmaTime = System.currentTimeMillis();
+  
+          this.firmar();
+//        } finally {
+//          
+//          System.out.println("SEMAPHORE::RELEASE()[" + index + "]");
+//          blockSignProcess.release();
+//          
+//        }
+
 
       this.estat = EstatProcesDeFirma.FINAL;
-      System.out.println("FINAL");
+      System.out.println("FINAL[" + index + "]");
       
       try {
         if (tmpFile != null) {
@@ -291,7 +317,7 @@ public class ProcessDeFirma extends Thread {
       }
 
     } catch (Exception e) {
-      e.printStackTrace();
+      // XYZ ZZZ e.printStackTrace();
       this.error = new MiniAppletException(tradueix("error_firmant", ""), e.getMessage() , e);
       this.estat = EstatProcesDeFirma.ERROR;
     }
@@ -303,7 +329,7 @@ public class ProcessDeFirma extends Thread {
   public void firmar() throws Exception {
     // Generar la firma
     URL url;
-    System.out.println("Pujar fitxer resultant a: " + destination);
+    System.out.println("Firma[" + index + "]:Pujar fitxer resultant a: " + destination);
     try {
       url = new URL(destination);
     } catch (Exception e) {
@@ -349,8 +375,19 @@ public class ProcessDeFirma extends Thread {
       //firmarPDF(this.bundleSign,parentPanel.getSigner(), this.inputPDF, fio, this.idName,
       //    signType, signAlgorithm, properties);
       byte[] signed;
+      
+      try {
+        System.out.println("SEMAPHORE[" + index + "]::ACQUIRE() PRE");
+        blockSignProcess.acquire();
+        System.out.println("SEMAPHORE[" + index + "]::ACQUIRE() POST");
 
-      signed = parentPanel.getSigner().sign(bundleSign, this.inputPDF, signType, signAlgorithm, properties);
+        signed = parentPanel.getSigner().sign(bundleSign, this.inputPDF, signType, signAlgorithm, properties);
+      } finally {
+        
+        System.out.println("SEMAPHORE::RELEASE()[" + index + "]");
+        blockSignProcess.release();
+        
+      }
 
       if (uc instanceof HttpURLConnection) {
         final String formName = "destination";
@@ -382,6 +419,7 @@ public class ProcessDeFirma extends Thread {
       
       
     } catch (Throwable e) {
+      e.printStackTrace();
       throw new Exception(tradueix("error_firma", e.getMessage()),e);
     } finally {
       try {
@@ -396,11 +434,11 @@ public class ProcessDeFirma extends Thread {
 
     if (uc != null && uc instanceof HttpURLConnection) {
       
-      System.out.println("Esperant a final de comunicacio: " + System.currentTimeMillis());
+      System.out.println("Firma[" + index + "]: Esperant a final de comunicacio: " + System.currentTimeMillis());
       
       int code = ((HttpURLConnection)uc).getResponseCode();
       
-      System.out.println("Codi HTTP: "  + code);
+      System.out.println("Firma[" + index + "]: Codi HTTP: "  + code);
 
       try {
         InputStream is = uc.getInputStream();
@@ -412,7 +450,7 @@ public class ProcessDeFirma extends Thread {
         e.printStackTrace();
       } finally {
         System.out.println();
-        System.out.println("Final de comunicacio: " + System.currentTimeMillis());
+        System.out.println("Firma[" + index + "]: Final de comunicacio: " + System.currentTimeMillis());
       }
 
       HttpURLConnection c = (HttpURLConnection) uc;      
@@ -420,8 +458,8 @@ public class ProcessDeFirma extends Thread {
       if (msg == null) {
          msg = c.getResponseMessage();
       }
-      System.out.println("Connection Code = " + c.getResponseCode());
-      System.out.println("Connection Msg. = " + msg);
+      System.out.println("Firma[" + index + "]: Connection Code = " + c.getResponseCode());
+      System.out.println("Firma[" + index + "]: Connection Msg. = " + msg);
       if (c.getResponseCode() != 200) {
         // TODO traduir
         throw new IOException(msg);
@@ -454,6 +492,11 @@ public class ProcessDeFirma extends Thread {
 
   public EstatProcesDeFirma getEstat() {
     return estat;
+  }
+
+
+  public int getIndex() {
+    return index;
   }
 
 
@@ -502,7 +545,7 @@ public class ProcessDeFirma extends Thread {
 
     private void process(int numbytes) {
       if (totalBytes == 0) {
-        System.out.println("Sign Time: "
+        System.out.println("Firma[" + index + "]: Sign Time: "
             + (System.currentTimeMillis() - firmaTime) + " ms");
 
         estat = EstatProcesDeFirma.GUARDANT_PDF;
@@ -590,7 +633,7 @@ public class ProcessDeFirma extends Thread {
       } catch(Throwable t) {
           t.printStackTrace();
       } finally {
-          System.out.println("Calling finalize of Super Class");
+          System.out.println("Firma[" + index + "]: Calling finalize of Super Class");
           super.finalize();
       }
     

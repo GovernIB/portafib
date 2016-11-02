@@ -103,6 +103,7 @@ public class ParentPanel extends JPanel {
   public void start() {
     // arrancar threads
     for (ProcessDeFirma proces : this.firmes) {
+      System.out.println(" Arrancar Thread de ProcessDeFirma[" + proces.getIndex() + "]");      
       proces.start();
     }
   }
@@ -174,7 +175,7 @@ public class ParentPanel extends JPanel {
         break;
       }
 
-      firmes.add(new ProcessDeFirma(this, source, destination, errorPage, idname, 
+      firmes.add(new ProcessDeFirma(this, source, destination, errorPage, x, idname, 
           signType, signAlgorithm, properties));
       x++;
     } while (true);

@@ -56,7 +56,7 @@ public static void main(String[] args) {
 
       Properties prop = new Properties();
       
-      for (int x = 0; x < 1; x++) {
+      for (int x = 0; x < 5; x++) {
         
         Properties properties = new Properties();
 
@@ -74,10 +74,10 @@ public static void main(String[] args) {
         int i = file.getName().lastIndexOf('.');
         if (i > 0) {
           extension = file.getName().substring(i + 1);
-          dest = fileUrl.substring(0, fileUrl.length() - extension.length() - 1) + "_firmat."
+          dest = fileUrl.substring(0, fileUrl.length() - extension.length() - 1) + "_" + x + "_firmat."
               + extension;
         } else {
-          dest = fileUrl + "_firmat";
+          dest = fileUrl + "_" + x + "_firmat";
           extension = "";
         }
 
@@ -172,12 +172,12 @@ public static void main(String[] args) {
          
          
          // 
-         filter.append("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));"); //nonexpired:
+         //filter.append("filters.1=policyid:2.16.724.1.2.2.2.3;keyusage.nonrepudiation:true;issuer.rfc2254.recurse:(|(cn=AC DNIE 001)(cn=AC DNIE 002)(cn=AC DNIE 003));"); //nonexpired:
          filter.append("\n");
          //filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.10.1;keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;issuer.rfc2254.recurse:(cn=AC FNMT Usuarios);").append("\r\n"); // nonexpired:
          
          // keyusage.nonrepudiation:true;keyusage.digitalsignature:true;keyusage.keyencipherment:true;
-         filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
+         //filter.append("filters.2=policyid:1.3.6.1.4.1.5734.3.5;keyusage.digitalsignature:true;issuer.rfc2254.recurse:(OU=FNMT Clase 2 CA);nonexpired:");
 
          //filter.append("rfc2254_subject:SERIALNUMBER=43096845C");
          // ou=OTAE
