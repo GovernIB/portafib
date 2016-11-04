@@ -109,7 +109,7 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
     // TODO Falta CADes, ...
 
     Set<String> tipus = new HashSet<String>();
-    
+    final boolean debug = log.isDebugEnabled();
     try {
       //Recopilació de TOTS els plugins, per entitat + filtre per ID + filtre per codis
       List<T> plugins = getModulDeFirmaEJB().getPluginInstancesBy(entitatID,
@@ -118,6 +118,10 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
       for (T iSignaturePlugin : plugins) {
         String[] tipusA = iSignaturePlugin.getSupportedSignatureTypes(); 
         if (tipusA != null) {
+          if (debug) {
+            log.debug("getSupportedSignatureTypes()::Plugin["
+               + iSignaturePlugin.getName(new Locale("ca")) + "]: " + Arrays.toString(tipusA));
+          }
           tipus.addAll(Arrays.asList(tipusA));
         }
       }

@@ -1,6 +1,5 @@
 package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,6 +12,7 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.cert.X509Certificate;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +37,8 @@ import org.fundaciobit.plugins.utils.FileUtils;
 
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.misc.Base64;
+import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
+import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
 import es.gob.afirma.signfolder.server.proxy.RetrieveService;
 import es.gob.afirma.signfolder.server.proxy.StorageService;
 import es.gob.afirma.triphase.server.SignatureService;
@@ -49,6 +51,17 @@ import es.gob.afirma.triphase.server.document.DocumentManager;
  */
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
+  
+  
+  
+   /**
+    * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
+    * quan aquesta demana Segellat de Temps. S'ha de fer a posteriori dins del mètode
+    *  storeDocument() ja que CADES trifase no suporta nativament Segellat de Temps. 
+    */
+   protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
+  
+  
 
   /**
    *
@@ -100,6 +113,14 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     return null;
   }
+  
+  
+  @Override
+  public void closeSignaturesSet(HttpServletRequest request, String id) {
+    timeStampCache.remove(id);
+    super.closeSignaturesSet(request, id);
+  }
+  
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
@@ -118,7 +139,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
-    return true;
+
+     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+         || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+       return true;
+     } else {
+       return false;
+     }
+
   }
 
   @Override
@@ -340,7 +369,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     // TODO XYZ Només podem amb un fitxer firmat: revisar sistema Batch
     final int index = 0;
 
-    FileInfoSignature fis = signaturesSet.getFileInfoSignatureArray()[index];
+    final FileInfoSignature[] fisArray = signaturesSet.getFileInfoSignatureArray();
+    final FileInfoSignature fis = fisArray[index];
 
     Properties configProperties = new Properties();
 
@@ -449,6 +479,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       timeStampUrl = callbackhost + baseSignaturesSet + "/" + index + "/" + TIMESTAMP_PAGE;
       final boolean isLocalSignature = false;
       MiniAppletUtils.convertTimeStamp(fis, timeStampUrl, isLocalSignature, configProperties);
+      
+      // Guardar dins Cache de Propietats si es denama timeStamp i el tipus és CADES o SMIME
+      if (FileInfoSignature.SIGN_TYPE_CADES.equals(fis.getSignType())
+          || FileInfoSignature.SIGN_TYPE_SMIME.equals(fis.getSignType())) {
+        Properties[] allProp = timeStampCache.get(signaturesSetID);
+        if (allProp == null) {
+          allProp = new Properties[fisArray.length];
+          timeStampCache.put(signaturesSetID, allProp);
+        } 
+        allProp[index] = configProperties;
+      }
+
     }
 
     
@@ -1200,6 +1242,55 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     // TODO CHECK si ss == null ==> CADUCAT !!!
     SignaturesSetWeb ss = getSignaturesSet(signaturesSetID);
     FileInfoSignature fisig = ss.getFileInfoSignatureArray()[signatureIndex];
+    
+    
+    
+    //***************** SELLO DE TIEMPO PER CADES&SMIME ****************
+
+    if (fisig.getTimeStampGenerator() != null) {
+    
+      // Aplicar Segellat de Temps si és SMIME o CADES
+      if (FileInfoSignature.SIGN_TYPE_CADES.equals(fisig.getSignType())
+          || FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
+        
+        Properties[] allProp = timeStampCache.get(signaturesSetID);
+
+        try {        
+          
+          if (log.isDebugEnabled()) {
+            log.debug("storeDocument:: fisig.getSignType() => " + fisig.getSignType());
+            log.debug("storeDocument:: allProp => " + allProp);
+          }
+          
+          if (allProp == null) {
+            throw new Exception("No es troba informació per realitzar el segellat de Temps"
+                + "(allProp no hauria de ser null !!!!)");
+          }
+
+          TsaParams tsaParams = new TsaParams(allProp[signatureIndex]);
+
+          CMSTimestamper cmsTS = new CMSTimestamper(tsaParams);
+          data = cmsTS.addTimestamp(
+            data,
+            tsaParams.getTsaHashAlgorithm(),
+            new GregorianCalendar()
+          );
+        } catch (final Exception e) {
+          String msg = "Error Aplicant Segellat de Temps a una firma CADES: " + e.getMessage(); 
+          log.error(msg, e );
+          
+          // TODO Fer Batch
+          // Estat de tots els document ja que per ara només permet 1 fitxer
+          fisig.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_ERROR);
+          fisig.getStatusSignature().setErrorMsg(msg);
+          fisig.getStatusSignature().setErrorException(e);
+          ss.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_FINAL_ERROR);
+          
+        }
+      }
+    }
+    //************** FIN SELLO DE TIEMPO ****************
+
 
     StatusSignature status = getStatusSignature(signaturesSetID, signatureIndex);
 

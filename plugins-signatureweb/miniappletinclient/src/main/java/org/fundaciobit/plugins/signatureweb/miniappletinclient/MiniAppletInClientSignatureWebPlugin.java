@@ -97,7 +97,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public String[] getSupportedSignatureTypes() {
-    // TODO Falta CADes,  ...
     return new String[] {
         FileInfoSignature.SIGN_TYPE_PADES,
         FileInfoSignature.SIGN_TYPE_XADES,
@@ -124,6 +123,23 @@ public class MiniAppletInClientSignatureWebPlugin extends
     }
     return null;
   }
+  
+  
+  
+  @Override
+  public boolean acceptExternalTimeStampGenerator(String signType) {
+    
+    boolean accept = super.acceptExternalTimeStampGenerator(signType);
+    if (!accept) {
+       if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+         return true;
+       }
+    }
+    return false;
+  }
+  
+  
   
   
   @Override

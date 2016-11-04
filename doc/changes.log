@@ -1,10 +1,12 @@
 PortaFIB 1.1.2
 ==============
 
-2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven múltiples fitxers
-           emprant un certificat dins d'una targeta.
+2016-11-04 Suportar Segellat de Temps en firmes CAdES i SMIME en el Plugin AutoFirma de @Firma #85
 
-2016-10-13 Afegir propietat es.caib.portafib.activeusuarientitatafteragentseyconcreation.
+2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven múltiples fitxers
+           emprant un certificat dins d'una targeta. #84
+
+2016-10-13 Afegir propietat es.caib.portafib.activeusuarientitatafteragentseyconcreation  #83
 
 2016-10-11 Suportar SMIME i CADES en Plugin de MiniApplet/JNLP #22
 
