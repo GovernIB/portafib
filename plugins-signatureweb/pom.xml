@@ -24,6 +24,7 @@
        <module>miniappletutils</module>
        <module>miniappletinserver</module>
        <module>miniappletinclient</module>
+       <module>clavefirma</module>
        <!-- Només s'ha de recompilar quan hagi actualitzacions -->
        <!-- <module>afirma-triphase-server-lib</module> -->
        <module>afirma-triphase-server</module>

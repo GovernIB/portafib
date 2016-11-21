@@ -1,3 +1,4 @@
+<%@page import="org.fundaciobit.plugins.webutils.AbstractWebPlugin"%>
 <%@page import="org.springframework.security.core.Authentication"
 %><%@page import="org.springframework.security.core.context.SecurityContext"
 %><%@page import="org.springframework.security.core.context.SecurityContextHolder"
@@ -65,11 +66,11 @@
    </c:forEach>
    </b><br>
    
-   <hr>
-   Role PFI_AUTOFIRMA: <%=request.isUserInRole("PFI_AUTOFIRMA") %><br/>
+   <hr>   
    Role ROLE_AUTOFIRMA: <%=request.isUserInRole("ROLE_AUTOFIRMA") %><br/>
-   Role PFI_USER: <%=request.isUserInRole("PFI_USER") %><br/>
    Role ROLE_USER: <%=request.isUserInRole("ROLE_USER") %><br/>
+   Role ROLE_ADMIN: <%=request.isUserInRole("ROLE_ADMIN") %><br/>
+   Role ROLE_DEST: <%=request.isUserInRole("ROLE_DEST") %><br/>
    <hr>
    
   <%  
@@ -87,6 +88,14 @@
     <sec:authorize access="hasRole('ROLE_ADMIN')">
          ++++++++   hasRole('ROLE_ADMIN') <br>
     </sec:authorize>
+    
+    <hr>
+
+    Authentication mechanism:<%=request.getAuthType()%> <br/>
+
+    <hr>
+    
+    <%= AbstractWebPlugin.servletRequestInfoToStr(request).replace("\n", "<br/>\n") %>
  
 </c:if>
   
