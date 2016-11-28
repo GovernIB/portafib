@@ -1,6 +1,10 @@
 PortaFIB 1.1.2
 ==============
 
+2016-11-28 Pàgina dins exemple de Plugins de Firma Web per mostrar les funcionalitats dels plugins.
+ 
+2016-11-23 Implementat Plugin de Firma Web emprant Cl@aveFirma
+
 2016-11-04 Suportar Segellat de Temps en firmes CAdES i SMIME en el Plugin AutoFirma de @Firma #85
 
 2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven múltiples fitxers
