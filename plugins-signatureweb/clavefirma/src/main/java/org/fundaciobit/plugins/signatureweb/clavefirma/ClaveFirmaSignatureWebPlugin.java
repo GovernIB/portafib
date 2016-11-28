@@ -1,6 +1,8 @@
 package org.fundaciobit.plugins.signatureweb.clavefirma;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,13 +29,18 @@ import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.CertificateUtils;
+import org.fundaciobit.plugins.utils.FileUtils;
 
 import es.gob.afirma.core.misc.AOUtil;
+import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
+import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
 import es.gob.clavefirma.client.HttpCertificateBlockedException;
 import es.gob.clavefirma.client.HttpForbiddenException;
 import es.gob.clavefirma.client.HttpNetworkException;
@@ -93,6 +101,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   protected Map<String, ClaveFirmaSignInformation[]> transactions = new HashMap<String, ClaveFirmaSignInformation[]>();
 
+  
+  
+  /**
+   * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
+   * quan aquesta demana Segellat de Temps. S'ha de fer a posteriori dins del mètode
+   *  storeDocument() ja que CADES trifase no suporta nativament Segellat de Temps. 
+   */
+  protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
+ 
+ 
+  
   /**
    *
    */
@@ -216,6 +235,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
+    timeStampCache.remove(id);
     transactions.remove(id);
     super.closeSignaturesSet(request, id);
   }
@@ -636,12 +656,40 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
           timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
         }
+        
+        
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+          fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_CADES);
+        }
+        
+        
         MiniAppletSignInfo info;
-        info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
+        try {
+          info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
             timeStampUrl, certificate);
+        } finally {
+          if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+            fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_SMIME);
+          }
+        }
+        
         final Properties signProperties = info.getProperties();
+       
 
-        final byte[] dataToSign = info.getDataToSign();
+        byte[] dataToSign = info.getDataToSign();
+        
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+          // SMIME
+          String mimeType =  fileInfo.getMimeType();
+          if (mimeType == null || mimeType.trim().length() == 0) {
+            mimeType = "application/octet-stream";
+          }
+
+          MIMEInputStream mis = new MIMEInputStream(new ByteArrayInputStream(dataToSign), mimeType);
+          dataToSign = AOUtil.getDataFromInputStream(mis);
+          mis.close();
+        }
+        
 
         final Properties remoteConfProperties = new Properties();
         String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
@@ -655,6 +703,28 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE;
           tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
         }
+        
+        
+        log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS = " + (fileInfo.getTimeStampGenerator() != null));
+        if (fileInfo.getTimeStampGenerator() != null) {
+
+          log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS[SIGNTYPE] = " + fileInfo.getSignType());
+          // Guardar dins Cache de Propietats si es denama timeStamp i el tipus és CADES o SMIME
+          if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
+              || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+            
+            log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS[SIGNTYPE] = " + fileInfo.getSignType());
+            
+            Properties[] allProp = timeStampCache.get(signaturesSetID);
+            if (allProp == null) {
+              allProp = new Properties[fileInfoArray.length];
+              timeStampCache.put(signaturesSetID, allProp);
+            } 
+            allProp[i] = signProperties;
+          }
+
+        }
+        
 
         // XYZ ZZZhauria de posar l'index nO????
         log.info("XYZ ZZZ firmarPre::callBackURLOK = " + callBackURLOK);
@@ -847,13 +917,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   private static final String FIRMAR_POST_PAGE = "firmarpost";
 
   protected void firmarPostOk(HttpServletRequest request, HttpServletResponse response,
-      SignaturesSetWeb signaturesSet, int signatureIndex, Locale locale) {
+      SignaturesSetWeb signaturesSet, int signatureIndex2, Locale locale) {
 
     String signaturesSetID = signaturesSet.getSignaturesSetID();
     ClaveFirmaSignInformation[] firmaSignInformationArray = transactions.get(signaturesSetID);
 
     log.info("XYZ ZZZ");
-    log.info("XYZ ZZZ firmarPostOk:: signatureIndex = " + signatureIndex);
+    log.info("XYZ ZZZ firmarPostOk:: signatureIndex = " + signatureIndex2);
     log.info("XYZ ZZZ");
     final int i = 0; // XYZ hauria d'assignar signatureIndex
 
@@ -882,15 +952,86 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           .getDataToSign(), fsi.getLoadResult().getTriphaseData(), upgrade);
 
       // ========= CAS OK
+      
+      
+      //***************** SELLO DE TIEMPO PER CADES&SMIME ****************
 
-     
+      if (fileInfo.getTimeStampGenerator() != null) {
+      
+        // Aplicar Segellat de Temps si és SMIME o CADES
+        if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
+            || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+          
+          Properties[] allProp = timeStampCache.get(signaturesSetID);
+
+          try {        
+            
+            if (log.isDebugEnabled()) {
+              log.debug("storeDocument:: fisig.getSignType() => " + fileInfo.getSignType());
+              log.debug("storeDocument:: allProp => " + allProp);
+            }
+            
+            if (allProp == null) {
+              throw new Exception("No es troba informació per realitzar el segellat de Temps"
+                  + "(allProp no hauria de ser null !!!!)");
+            }
+
+            TsaParams tsaParams = new TsaParams(allProp[i]);
+
+            CMSTimestamper cmsTS = new CMSTimestamper(tsaParams);
+            signedData = cmsTS.addTimestamp(
+                signedData,
+              tsaParams.getTsaHashAlgorithm(),
+              new GregorianCalendar()
+            );
+          } catch (final Exception e) {
+            String msg = "Error Aplicant Segellat de Temps a una firma CADES: " + e.getMessage(); 
+            log.error(msg, e );
+            
+            // TODO Fer Batch
+            // Estat de tots els document ja que per ara només permet 1 fitxer
+            fileInfo.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            fileInfo.getStatusSignature().setErrorMsg(msg);
+            fileInfo.getStatusSignature().setErrorException(e);
+            
+            finishWithError(response, signaturesSet, msg, e);
+            
+            return;
+
+          }
+        }
+      }
+      
+      //************** FIN SELLO DE TIEMPO ****************
 
       File firmat = File.createTempFile("ClaveFirmaWebPlugin", "signedfile");
+      
+      if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+        // SMIME
 
-      FileOutputStream fos = new FileOutputStream(firmat);
-      fos.write(signedData);
-      fos.flush();
-      fos.close();
+        String mimeType =  fileInfo.getMimeType();
+        if (mimeType == null || mimeType.trim().length() == 0) {
+          mimeType = "application/octet-stream";
+        }
+
+        FileInputStream fis = new FileInputStream(fileInfo.getFileToSign());
+
+        SMIMEInputStream smis =  new SMIMEInputStream(signedData, fis , mimeType);
+
+        FileOutputStream baos = new FileOutputStream(firmat);
+        FileUtils.copy(smis, baos);
+
+        smis.close();
+        fis.close();
+        baos.close();
+        
+      } else {
+  
+        FileOutputStream fos = new FileOutputStream(firmat);
+        fos.write(signedData);
+        fos.flush();
+        fos.close();
+      }
       // Buidar memòria
       signedData = null;
 
@@ -1169,7 +1310,15 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
-    return true; // A traves de propietats de miniapplet
+    // A traves de propietats de miniapplet
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      return true;
+    } else {
+      return false;
+    }
+    
   }
 
   @Override
@@ -1201,8 +1350,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public String[] getSupportedSignatureTypes() {
     // TODO Falta CADes, ...
     return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
-        FileInfoSignature.SIGN_TYPE_XADES, FileInfoSignature.SIGN_TYPE_CADES
-    // TODO SMIME XYZ ZZZ ???
+        FileInfoSignature.SIGN_TYPE_XADES, 
+        FileInfoSignature.SIGN_TYPE_CADES,
+        FileInfoSignature.SIGN_TYPE_SMIME
     };
   }
 
@@ -1211,12 +1361,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
         || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
-        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
-    // TODO SMIME XYZ ZZZ ???
-    ) {
-
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
     }
+    
+    if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
+    }
+
     return null;
   }
 
@@ -1332,10 +1484,10 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       return HttpSignProcessConstants.SignatureFormat.PADES;
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       return HttpSignProcessConstants.SignatureFormat.XADES;
-    } else if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
       return HttpSignProcessConstants.SignatureFormat.CADES;
     } else {
-      // XYZ ZZZ SMIME
       log.error("Tipus de Firma no suportada fent conversió a ClaveFirma: " + signType,
           new Exception());
       return null;
@@ -1354,7 +1506,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(signAlgorithm)) {
       return HttpSignProcessConstants.SignatureAlgorithm.SHA512WITHRSA;
     } else {
-      // XYZ ZZZ
+      // XYZ ZZZ Llançar error o un null ?????
       log.error(
           "Algorisme de Firma no suportat fent conversió a ClaveFirma: " + signAlgorithm,
           new Exception());

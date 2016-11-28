@@ -32,7 +32,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
@@ -51,7 +50,6 @@ import java.util.Set;
 @Stateless(name = "UsuariEntitatLogicaEJB")
 @SecurityDomain("seycon")
 @Startup
-@Singleton
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     UsuariEntitatLogicaLocal {
 

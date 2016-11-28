@@ -332,6 +332,12 @@
           <version>${plugins.signatureweb.version}</version>
         </dependency>
 
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-clavefirma</artifactId>
+          <version>${plugins.signatureweb.version}</version>
+        </dependency>
+
         <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
         
         

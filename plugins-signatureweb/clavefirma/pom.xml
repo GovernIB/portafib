@@ -112,6 +112,13 @@
 	     <artifactId>clavefirma-client</artifactId>
 	      <version>1.0</version>
 	  </dependency>
+    
+    <!--  SEGELLAT DE TEMPS SMIME i CADES -->
+    <dependency>
+    	<artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
+	    <groupId>es.gob.afirma</groupId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
 		
 
 <!-- XYZ ZZZ

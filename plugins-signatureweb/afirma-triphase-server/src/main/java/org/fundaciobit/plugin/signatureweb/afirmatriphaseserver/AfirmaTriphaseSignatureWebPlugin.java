@@ -167,7 +167,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public boolean acceptExternalSecureVerificationCodeStamper() {
-    return true;
+    return false;
   }
 
   @Override

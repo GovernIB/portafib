@@ -130,13 +130,15 @@ public class MiniAppletInClientSignatureWebPlugin extends
   public boolean acceptExternalTimeStampGenerator(String signType) {
     
     boolean accept = super.acceptExternalTimeStampGenerator(signType);
-    if (!accept) {
+    if (accept) {
+      return true;
+    } else {
        if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
          return true;
        }
+       return false;
     }
-    return false;
   }
   
   

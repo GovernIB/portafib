@@ -154,12 +154,12 @@
     <center>
       <input id="submitbutton" name="firmarenservidor" type="submit" class="btn btn-warning" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaservidor"/>">
       &nbsp;&nbsp;&nbsp;
-      <input id="submitbutton" name="firmarviaweb" type="submit" class="btn btn-primary" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaweb"/>">
+      <input id="submitbutton2" name="firmarviaweb" type="submit" class="btn btn-primary" <%-- onclick="firmar()" --%> value="<fmt:message key="firmaweb"/>">
+      
+      <input id="linkbutton" name="caracteristiquesplugin" type="button" class="btn btn-info" onclick="window.location='<c:url value="/common/plugins/web"/>';" value="<fmt:message key="plugins.caracteristiques.titol"/>">
     </center>
     
-    
-    
-    
+
     <h4 class="tabs_involved">
       &nbsp;&nbsp;OPCIONS GENERALS
     </h4>
