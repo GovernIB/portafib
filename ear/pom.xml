@@ -276,7 +276,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-certificate-afirmacxf</artifactId>				  
-          <version>${plugins.version}</version>
+          <version>1.0.1</version>
         </dependency>
 
         <dependency>
