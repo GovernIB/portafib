@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -19,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -496,6 +498,39 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
     configProperties.setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
+    
+    final boolean debug = log.isDebugEnabled();
+    
+    // Afegir Filtre de Certificats
+    String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
+    if (debug) { log.debug("AUTOFIRMA:: FILTRE["+ filtre + "]"); };
+    if (filtre != null && filtre.trim().length() != 0) {
+      Properties propFiltre = new Properties();
+      try {
+        propFiltre.load(new StringReader(filtre));
+        
+        if (debug) {
+          Set<Object> keys = propFiltre.keySet();
+          for (Object key : keys) {
+            log.debug("AUTOFIRMA:: PropertiesFILTRE[" + key + "] => " + propFiltre.get(key));
+          }
+        }
+        configProperties.putAll(propFiltre);
+        
+      } catch (IOException e) {
+        // TODO XYZ
+        log.error(" Error processant filtre de certificats: " + e.getMessage(), e);
+      }
+    }
+
+
+    if (debug) {
+      Set<Object> keys = configProperties.keySet();
+      for (Object key : keys) {
+        log.debug("AUTOFIRMA:: Properties[" + key + "] => " + configProperties.get(key));
+      }
+    }
+
 
     // Convertir Properties a String
     StringBuffer configPropertiesStr = new StringBuffer();

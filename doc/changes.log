@@ -1,6 +1,10 @@
 PortaFIB 1.1.2
 ==============
 
+2016-12-01 Fer que Plugin de Firma Web de AutoFirma, funcionin els certificats
+
+2016-11-30 Eliminar transferència CHUNKED de plugin de CheckCertificate de @firma
+
 2016-11-28 Pàgina dins exemple de Plugins de Firma Web per mostrar les funcionalitats dels plugins.
  
 2016-11-23 Implementat Plugin de Firma Web emprant Cl@aveFirma
