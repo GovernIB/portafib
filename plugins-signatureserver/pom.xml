@@ -22,6 +22,7 @@
     <module>api</module>
     <module>miniappletutils</module>
     <module>miniappletinserver</module>
+    <module>exempleapp</module>
   </modules>
 
   <profiles>
