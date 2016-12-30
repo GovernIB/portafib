@@ -1,6 +1,8 @@
 PortaFIB 1.1.2
 ==============
 
+2016-12-30 Implementar Plugin de Firma en Servidor emprant @firma federat #91
+
 2016-12-01 Fer que Plugin de Firma Web de AutoFirma, funcionin els certificats
 
 2016-11-30 Eliminar transferència CHUNKED de plugin de CheckCertificate de @firma

@@ -83,6 +83,24 @@
       <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
       <version>${plugins.signatureserver.version}</version>
     </dependency>
+    
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-afirmaserver</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+      <exclusions>
+        <exclusion>
+            <artifactId>xercesImpl</artifactId>
+            <groupId>xerces</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>xml-apis</artifactId>
+            <groupId>xml-apis</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
 
     <!--  Plugin de firma en servidor de Passarel·la PortaFIB s'ha definit en un Profile (Veure més abaix) -->
 
