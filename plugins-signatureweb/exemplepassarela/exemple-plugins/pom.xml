@@ -83,7 +83,6 @@
       <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
       <version>${plugins.signatureserver.version}</version>
     </dependency>
-    
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
@@ -97,6 +96,42 @@
         <exclusion>
             <artifactId>xml-apis</artifactId>
             <groupId>xml-apis</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>xws-security</artifactId>
+            <groupId>com.sun.xml.wss</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>jaxb-impl</artifactId>
+            <groupId>com.sun.xml.bind</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>axis-jaxrpc</artifactId>
+            <groupId>org.apache.axis</groupId>
+        </exclusion>
+         <exclusion>
+            <artifactId>axis-saaj</artifactId>
+            <groupId>org.apache.axis</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>saaj-impl</artifactId>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>xalan</artifactId>
+            <groupId>xalan</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>stax-ex</artifactId>
+            <groupId>sun-jaxws</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>xml-security-impl</artifactId>
+            <groupId>com.sun.xml.security</groupId>
         </exclusion>
       </exclusions>
     </dependency>
