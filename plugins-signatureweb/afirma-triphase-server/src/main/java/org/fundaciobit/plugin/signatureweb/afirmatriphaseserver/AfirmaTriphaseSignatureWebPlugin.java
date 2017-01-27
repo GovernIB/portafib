@@ -395,7 +395,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       finishWithError(response, signaturesSet, errorMsg, e);
       return;
     }
-    final String HOST = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
+    
+    String port = url.getPort() == -1 ? "" : (":" + url.getPort());
+    
+    final String HOST = url.getProtocol() + "://" + url.getHost() + port;
     final String PATH = relativePluginRequestPath;
     
     int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
