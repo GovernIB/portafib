@@ -1195,7 +1195,8 @@ public class MiniAppletInClientSignatureWebPlugin extends
    out.println("  <table style=\"min-height:200px;width:100%;height:100%;\">");
    out.println("  <tr valign=\"middle\"><td align=\"center\">");
    out.println("  <h2>" + getTraduccio("autofirma.jnlp", locale) + "</h2><br/>");
-   out.println("  <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + absolutePluginRequestPath + "/img/ajax-loader2.gif" + "\"><br/>");
+   out.println("  <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + absolutePluginRequestPath 
+       + "/" + WEBRESOURCE + "/img/ajax-loader2.gif" + "\"><br/>");
    out.println("  <br/>");
    out.println("  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\"" + getTraduccio("cancel", locale) + "\">");
    out.println("  </td></tr></table>");

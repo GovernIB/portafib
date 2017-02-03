@@ -33,6 +33,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
+import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
@@ -357,6 +358,22 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ------------------ PAGINA INICIAL -----------------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
+  
+  
+  @Override
+  protected void getJavascriptCSS(HttpServletRequest request,
+      String absolutePluginRequestPath, String relativePluginRequestPath, PrintWriter out,
+      AbstractSignatureWebPlugin.SignIDAndIndex key, SignaturesSetWeb value) {
+
+    out.println("<script src=\"" + relativePluginRequestPath + "/miniapplet.js\"></script>");
+    
+    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key, value);
+    
+    
+    
+  }
+  
+  
 
   public static final String INDEX_HTML = "index";
 
@@ -378,13 +395,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     response.setCharacterEncoding("utf-8");
     response.setContentType("text/html");
-    PrintWriter out;
-    try {
-      out = response.getWriter();
-    } catch (Exception e) {
-      log.error(e.getMessage(), e);
-      return;
-    }
 
     URL url;
     try {
@@ -543,34 +553,23 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           .append(key + "=" + configProperties.getProperty((String) key) + "\n");
     }
 
-    out.print("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-        + "\n" + "<html>" + "\n" + "  <head>" + "\n" + "    <title>"
-        + getSimpleName()
-        + "</title>"
-        + "\n"
-        + "    <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" >"
-        + "\n"
-        + " <script type=\"text/javascript\" src=\"miniapplet.js\"></script>"
-        + "\n"
-        + " <script type=\"text/javascript\">"
-        + "\n"
-        + ""
+    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+    
+    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
+        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
+    
+    out.print(""
+        
+        + " <script type=\"text/javascript\">\n"
         // +"  // IMPORTANTE: PARA PRUEBAS, USAR SIEMPRE UNA IP O NOMBRE DE DOMINIO, NUNCA 'LOCALHOST' O '127.0.0.1'"
         // +"  // SI NO SE HACE ASI, AUTOFIRMA BLOQUEARA LA FIRMA POR SEGURIDAD"
-        + "  var HOST = \""
-        + HOST
-        + "\";"
-        + "\n"
-        + ""
-        + "\n"
+        + "  var HOST = \"" + HOST + "\";\n\n"
         + "  function showResultCallback(signatureB64, certificateB64) {"
         + "\n"
         // Enviar a finalitzar !!!
         + "    gotoFinal(); "
         + "  }"
-        + "\n"
-        + ""
-        + "\n"
+        + "\n\n"
         // Enviar error a una pàgina concreta d'aquest plugin
         + "  function showErrorCallback(errorType, errorMessage) {"
         + "\n"
@@ -588,11 +587,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + "    }"
         + "\n"
-        + "    request.open('GET', '"
-        + absolutePluginRequestPath
-        + "/"
-        + CLIENT_ERROR_PAGE
-        + "?error=' + encodeURIComponent(msg), false);"
+        + "    request.open('GET', '" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg), false);"
         + "\n"
         + "    request.send();"
         + "\n"
@@ -626,6 +621,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + "   } catch(e) {"
         + "\n"
+        // TODO XYZ ZZZ
+        + "     alert(\"Error: \" + e);\n"
         + "    try {"
         + "\n"
         + "       showErrorCallback(MiniApplet.getErrorType(), MiniApplet.getErrorMessage());\n"
@@ -683,31 +680,45 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          */
 
         + " </script>"
+        // TODO XYZ ZZZ 
+        /* XXXXX
         + "\n"
         + "  </head>"
         + "\n"
         + " <body>"
         + "\n"
+        */
         + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">"
         + "\n"
         + "  <table style=\"min-height:200px;width:100%;height:100%;\">"
         + "\n"
         + "  <tr valign=\"middle\"><td align=\"center\">"
         + "\n"
-        + "  <h2>"
-        + getTraduccio("espera", locale)
-        + "</h2><br/>"
-        + "\n"
-        + "  <h2>"
-        + getTraduccio("espera2", locale)
-        + "</h2><br/>"
-        + "\n"
-        + "  <img alt=\"Esperi\" style=\"z-index:200\" src=\""
-        + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif"
-        + "\"><br/>\n<br/>\n"
-        + "  <input type=\"button\" class=\"btn btn-primary\" onclick=\"gotoCancel()\" value=\""
+        + "  <div id=\"msgNoAndroidChrome\">\n"
+        + "     <h2>\n" + getTraduccio("espera", locale) + "</h2><br/>"
+        + "     <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\">\n"
+        + "  </div>\n"
+        + "  <div id=\"msgAndroidChrome\">\n"
+        + "     <h2>\n" + getTraduccio("iniciarfirma", locale) + "</h2><br/>"
+        + "     <input type=\"button\" class=\"btn btn-large btn-success\" onclick=\"doSignAndroidChrome()\" value=\""+ getTraduccio("firmar", locale) + "\">"
+        + "  </div>\n"
+        + "  <br/>\n"
+        + "  <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoCancel()\" value=\""
         + getTraduccio("cancel", locale)
         + "\">"
+        
+        // TODO XYZ ZZZ
+        /*
+        + "\n"
+        + "  <script type=\"text/javascript\">\n"
+        + "     if (MiniApplet.isAndroid()) {\n"
+        + "         document.write('<br>  <input id=\"backToApp\"  type=\"button\" class=\"btn btn-primary\" "
+        + "  onclick=\"alert(document.title);doSign();\" value=\""+ getTraduccio("firmar", locale) + "\">');\n"
+        + "     }\n"
+        + "  </script>\n"
+*/        
+
+        
         + "  </td></tr>"
         + "\n"
         + " </table>"
@@ -718,19 +729,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + "    MiniApplet.setForceWSMode(true);"
         + "\n"
-        + "    MiniApplet.cargarAppAfirma(HOST + \""
-        + request.getContextPath()
-        + "\"); "
+        + "    MiniApplet.cargarAppAfirma(HOST + \"" + request.getContextPath() + "\"); "
         + "\n"
-        + "    MiniApplet.setServlets(HOST + \""
-        + PATH
-        + "/"
-        + STORAGESERVICE
-        + "\", HOST +  \""
-        + PATH
-        + "/"
-        + RETRIEVESERVICE
-        + "\");"
+        + "    MiniApplet.setServlets(HOST + \"" + PATH + "/" + STORAGESERVICE + "\", HOST +  \"" + PATH + "/" + RETRIEVESERVICE + "\");"
         + "\n"
         + "  </script>"
         + "\n"
@@ -764,53 +765,82 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n"
         + "    if ((request.status + '') == '"
         + HttpServletResponse.SC_NOT_MODIFIED
-        + "') {"
-        + "\n"
-        //+ "     clearInterval(myTimer);"
-        + "\n"
-        //+ "      myTimer = setInterval(function () {closeWhenSign()}, 5000);"
-        + "\n"
-        + "    } else {"
-        + "\n"
-        + "      clearInterval(myTimer);"
-        + "\n"
+        + "') {\n"
+        + "  // OK\n"
+        + "    } else {\n"
+        + "      clearInterval(myTimer);\n"
         // esperarem que es faci neteja de missatges abans de reenviar al
         // servidor (hem de deixar que l'AUTOFIRMA de @firma es tanqui correctament)
         // per això esperam a que l'AUTOFIRMA cridi a showResultCallback()
-        + "      myTimer = setTimeout(function () {gotoFinal()}, 6000);"
-        + "\n"
-        + "    }"
-        + "\n"
+        + "      myTimer = setTimeout(function () {gotoFinal()}, 6000);\n"
+        + "    }\n"
         + "  }"
-        + "\n"
-        + "  function gotoCancel() {"
-        + "\n"
-        + "    window.location.href='"
-        + absolutePluginRequestPath
-        + "/"
-        + CANCEL_PAGE
-        + "';"
-        + "\n"
+        + "\n\n"
+        + "  function gotoCancel() {\n"
+        + "    window.location.href='" + absolutePluginRequestPath + "/" + CANCEL_PAGE + "';\n"
         + "  }"
-        + "\n"
+        + "\n\n"
         + "  var gotoFinalEnabled = true;\n "
         + "  function gotoFinal() {"
         + "    if (!gotoFinalEnabled) { return; };\n"
         + "    gotoFinalEnabled = false;\n"
         + "    clearTimeout(myTimer);\n"
-        + "    window.location.href='"
-        + finalURL
-        + "';"
-        + "\n" + "  }" + "\n"
+        + "    window.location.href='" + finalURL + "';\n"
+        + "  };"
+        + "\n\n"       
+        + " function mostrar(id) {\n"
+        + "    document.getElementById(id).style.display = 'block';\n"
+        + "};\n\n"
+        + " function ocultar(id){\n"
+        + "   document.getElementById(id).style.display = 'none';\n"
+        + " };\n\n"
+        + " function doSignAndroidChrome(){\n"
+        + "   mostrar('msgNoAndroidChrome');\n"
+        + "   ocultar('msgAndroidChrome');\n"
+        + "   doSign();\n"
+        + " };\n\n"
         // Inicia el proces de firma de forma automàtica
-        + "   doSign();\n" + " </script>" + "\n" + " </body>" + "\n" + "</html>" + "\n");
+        + " var casAC = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1 || "
+            + " navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1) && MiniApplet.isAndroid();\n"
+        + " var casIOS = MiniApplet.isIOS();"
+        + " if (casAC || casIOS ) {\n"
+        + "   mostrar('msgAndroidChrome');\n"
+        + "   ocultar('msgNoAndroidChrome');\n"
+        + " } else { \n"  
+        + "   mostrar('msgNoAndroidChrome');\n"
+        + "   ocultar('msgAndroidChrome');\n"
+        + "   doSign();\n"
+        + " }\n"
+        
+        + " </script>");
+    //    + "\n" + " </body>" + "\n" + "</html>" + "\n");
+    
+    /*
+    + "   //var a = document.createElement('a'); \n" 
+    + "   //a.setAttribute('href','javascript:doSign();'); // this is the URL\n" 
+    + "   //document.body.appendChild(a);\n" 
+    + "   alert('Abans de fer click automàtic ');\n" 
+    + "   //a.click();\n"
+    + "   setTimeout(function () { document.getElementById('backToApp').click(); }, 2000);\n"
+    + "   alert('Despres de fer click automàtic ');\n"
+    */
+    
+    
+    generateFooter(out, sai, signaturesSet);
+    
     out.flush();
 
   }
+  
+  
+  
+  
+ 
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------ JAVASCRIPT -----------------------------------
+  // ------------------ PAGINA D'ERROR-----------------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -864,7 +894,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------ JAVASCRIPT -----------------------------------
+  // ------------------ JAVASCRIPT MINIAPPLET -----------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
