@@ -2294,12 +2294,14 @@ var MiniApplet = ( function ( window, undefined ) {
 			function openUrl (url) {
 				
 				// Usamos el modo de invocacion mas apropiado segun el entorno
-				if (isChrome() || isIOS()) {
+				if (isChrome()) {
 					// Usamos document.location porque tiene mejor soporte por los navegadores que
 					// window.location que es el mecanismo estandar
 					document.location = url;
-				}
-				else {
+				} else if (isIOS()) {
+				    // XMAS Bug en Ios que no deixa arrancar Autofirma si es troba en un iframe
+				    window.top.location.href = url;
+				} else {
 					if (document.getElementById("iframeAfirma") != null) {
 						document.getElementById("iframeAfirma").src = url;
 					}

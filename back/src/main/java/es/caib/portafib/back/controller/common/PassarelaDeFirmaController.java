@@ -91,7 +91,8 @@ public class PassarelaDeFirmaController  {
     
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-        caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(), entitat, urlFinal);
+        caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
+        entitat, urlFinal, false);
     
     // Filtres definits en l'Aplicació CLient
     List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();

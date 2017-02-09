@@ -602,7 +602,7 @@ import es.caib.portafib.utils.Configuracio;
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
             caducitat.getTime(), commonInfoSignature,
             fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]),
-            loginInfo.getEntitat(), urlFinal);
+            loginInfo.getEntitat(), urlFinal, true);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -786,7 +786,7 @@ import es.caib.portafib.utils.Configuracio;
       final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-          commonInfoSignature, fileInfoSignatureArray, entitat, urlFinal);
+          commonInfoSignature, fileInfoSignatureArray, entitat, urlFinal, true);
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 

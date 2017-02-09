@@ -1278,7 +1278,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat, urlFirmaFinal);
+        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat,
+        urlFirmaFinal, true);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
     

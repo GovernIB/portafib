@@ -298,7 +298,7 @@ public class AutoFirmaController extends FitxerController
     final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
     
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat(), urlFinal);
+        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat(), urlFinal, true);
     
     signaturesSet.setPluginsFirmaBySignatureID(null);
 

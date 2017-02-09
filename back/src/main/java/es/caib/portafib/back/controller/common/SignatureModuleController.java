@@ -207,6 +207,7 @@ public class SignatureModuleController extends HttpServlet {
     
     ModelAndView mav = new ModelAndView("PluginFirmaFinal");
     mav.addObject("URL_FINAL", urlFinal);
+    mav.addObject("window", pss.isRedirectToParentWindow() ? "window.parent": "window");
 
     return mav;
     
@@ -218,6 +219,7 @@ public class SignatureModuleController extends HttpServlet {
     
     ModelAndView mav = new ModelAndView("PluginFirmaFinal");
     mav.addObject("URL_FINAL", urlFinal);
+    mav.addObject("window", "window");
 
     return mav;
   }
@@ -507,6 +509,7 @@ public class SignatureModuleController extends HttpServlet {
     ModelAndView mav = new ModelAndView("PluginFirmaFinal");
     //request.getSession().setAttribute("URL_FINAL", urlError);
     mav.addObject("URL_FINAL", urlFinal);
+    mav.addObject("window", pss.isRedirectToParentWindow() ? "window.parent": "window");
     
     return mav;
   }

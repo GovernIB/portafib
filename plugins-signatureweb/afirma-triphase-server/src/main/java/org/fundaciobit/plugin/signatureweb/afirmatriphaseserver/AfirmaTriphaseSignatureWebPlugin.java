@@ -360,6 +360,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
   
   
+  public final Map<String, String> javascript = new HashMap<String, String>();
+  
+  
   @Override
   protected void getJavascriptCSS(HttpServletRequest request,
       String absolutePluginRequestPath, String relativePluginRequestPath, PrintWriter out,
@@ -369,7 +372,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key, value);
     
+    String html =  javascript.get(key.getSignaturesSetID());
     
+    if (html != null) {
+      out.println(html);
+      javascript.remove(key.getSignaturesSetID());
+    }
     
   }
   
@@ -555,15 +563,20 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
     
-    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
-        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
     
-    out.print(""
-        
-        + " <script type=\"text/javascript\">\n"
+    
+    final boolean debugWeb = false;
+    
+    
+    
+      String javascriptCode =    
+        " <script type=\"text/javascript\">\n"
         // +"  // IMPORTANTE: PARA PRUEBAS, USAR SIEMPRE UNA IP O NOMBRE DE DOMINIO, NUNCA 'LOCALHOST' O '127.0.0.1'"
         // +"  // SI NO SE HACE ASI, AUTOFIRMA BLOQUEARA LA FIRMA POR SEGURIDAD"
-        + "  var HOST = \"" + HOST + "\";\n\n"
+        //+ "  var HOST = \"" + HOST + "\";\n"
+        //+ "\n"
+        + "  var myTimer;\n"
+        + "\n"
         + "  function showResultCallback(signatureB64, certificateB64) {"
         + "\n"
         // Enviar a finalitzar !!!
@@ -571,73 +584,38 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "  }"
         + "\n\n"
         // Enviar error a una pàgina concreta d'aquest plugin
-        + "  function showErrorCallback(errorType, errorMessage) {"
-        + "\n"
+        + "  function showErrorCallback(errorType, errorMessage) {\n"
         + "    var msg;\n"
         + "    msg = \"Type: \" + errorType + \"Message: \" + errorMessage;\n"
-        + "    var request;"
-        + "\n"
-        + "    if(window.XMLHttpRequest) {"
-        + "\n"
-        + "        request = new XMLHttpRequest();"
-        + "\n"
-        + "    } else {"
-        + "\n"
-        + "        request = new ActiveXObject(\"Microsoft.XMLHTTP\");"
-        + "\n"
-        + "    }"
-        + "\n"
-        + "    request.open('GET', '" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg), false);"
-        + "\n"
-        + "    request.send();"
-        + "\n"
+        + "    var request;\n"
+        + "    if(window.XMLHttpRequest) {\n"
+        + "      request = new XMLHttpRequest();\n"
+        + "    } else {\n"
+        + "      request = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
+        + "    }\n"
+        + "    request.open('GET', '" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg), false);\n"
+        + "    request.send();\n"
         + "    gotoFinal();\n"
         + "  }"
         + "\n"
         + "\n"
-        + "  function doSign() {"
-        + "\n"
-        + "   try {"
-        + "\n"
-        + "     MiniApplet.sign('"
-        + encodeSignatureItemID(signaturesSetID, index)
-        + "',"
-        + "\n"
-        + "     '"
-        + algorithm
-        + "',"
-        + "\n"
-        + "     '"
-        + format
-        + "',"
-        + "\n"
-        + "     '"
-        + StringEscapeUtils.escapeJavaScript(configPropertiesStr.toString())
-        + "',"
-        + "\n"
-        + "     showResultCallback,"
-        + "\n"
-        + "     showErrorCallback);"
-        + "\n"
-        + "   } catch(e) {"
-        + "\n"
-        // TODO XYZ ZZZ
-        + "     alert(\"Error: \" + e);\n"
-        + "    try {"
-        + "\n"
-        + "       showErrorCallback(MiniApplet.getErrorType(), MiniApplet.getErrorMessage());\n"
-        + "    } catch(ex) {"
-        + "\n"
-        + "       alert(\"Error: \" + ex);"
-        + "\n"
-        + "    }"
-        + "\n"
-        + "   }"
-        + "\n"
+        + "  function doSign() {\n"
+        + "    try {\n"
+        + "      MiniApplet.sign('" + encodeSignatureItemID(signaturesSetID, index) + "',"
+        + "        '" + algorithm + "', '" + format + "',"
+        + "        '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr.toString()) + "',\n"
+        + "        showResultCallback, showErrorCallback);\n"
+        + (debugWeb?"      showLog(\"Post_MiniApplet.sign()\");\n":"")
+        + "    } catch(e) {\n"
+        + "      alert(\"Error: \" + e);\n"
+        + "      try {\n"
+        + "        showErrorCallback(MiniApplet.getErrorType(), MiniApplet.getErrorMessage());\n"
+        + "      } catch(ex) {\n"
+        + "        alert(\"Error: \" + ex);\n"
+        + "      }\n"
+        + "    }\n"
         + "  }"
-        + "\n"
-        + ""
-        + "\n"
+        + "\n\n"
         /*
          * +"  function doSignBatch() {" +"   try {"
          * +"    var batch = createBatchConfiguration();" +""
@@ -679,94 +657,20 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          * +"   }" +"  }" +""
          */
 
-        + " </script>"
-        // TODO XYZ ZZZ 
-        /* XXXXX
         + "\n"
-        + "  </head>"
-        + "\n"
-        + " <body>"
-        + "\n"
-        */
-        + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">"
-        + "\n"
-        + "  <table style=\"min-height:200px;width:100%;height:100%;\">"
-        + "\n"
-        + "  <tr valign=\"middle\"><td align=\"center\">"
-        + "\n"
-        + "  <div id=\"msgNoAndroidChrome\">\n"
-        + "     <h2>\n" + getTraduccio("espera", locale) + "</h2><br/>"
-        + "     <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\">\n"
-        + "  </div>\n"
-        + "  <div id=\"msgAndroidChrome\">\n"
-        + "     <h2>\n" + getTraduccio("iniciarfirma", locale) + "</h2><br/>"
-        + "     <input type=\"button\" class=\"btn btn-large btn-success\" onclick=\"doSignAndroidChrome()\" value=\""+ getTraduccio("firmar", locale) + "\">"
-        + "  </div>\n"
-        + "  <br/>\n"
-        + "  <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoCancel()\" value=\""
-        + getTraduccio("cancel", locale)
-        + "\">"
-        
-        // TODO XYZ ZZZ
-        /*
-        + "\n"
-        + "  <script type=\"text/javascript\">\n"
-        + "     if (MiniApplet.isAndroid()) {\n"
-        + "         document.write('<br>  <input id=\"backToApp\"  type=\"button\" class=\"btn btn-primary\" "
-        + "  onclick=\"alert(document.title);doSign();\" value=\""+ getTraduccio("firmar", locale) + "\">');\n"
-        + "     }\n"
-        + "  </script>\n"
-*/        
 
-        
-        + "  </td></tr>"
-        + "\n"
-        + " </table>"
-        + "\n"
-        + "</div>"
-        + "\n"
-        + "  <script type=\"text/javascript\">"
-        + "\n"
-        + "    MiniApplet.setForceWSMode(true);"
-        + "\n"
-        + "    MiniApplet.cargarAppAfirma(HOST + \"" + request.getContextPath() + "\"); "
-        + "\n"
-        + "    MiniApplet.setServlets(HOST + \"" + PATH + "/" + STORAGESERVICE + "\", HOST +  \"" + PATH + "/" + RETRIEVESERVICE + "\");"
-        + "\n"
-        + "  </script>"
-        + "\n"
-        + "<script type=\"text/javascript\">"
-        + "\n"
-        + "  var myTimer;"
-        + "\n"
-        + "  myTimer = setInterval(function () {closeWhenSign()}, 5000);"
-        + "\n"
-        + "  function closeWhenSign() {"
-        + "\n"
-        + "    var request;"
-        + "\n"
-        + "    if(window.XMLHttpRequest) {"
-        + "\n"
-        + "        request = new XMLHttpRequest();"
-        + "\n"
-        + "    } else {"
-        + "\n"
-        + "        request = new ActiveXObject(\"Microsoft.XMLHTTP\");"
-        + "\n"
-        + "    }"
-        + "\n"
-        + "    request.open('GET', '"
-        + absolutePluginRequestPath
-        + "/"
-        + ISFINISHED_PAGE
-        + "', false);"
-        + "\n"
-        + "    request.send();"
-        + "\n"
-        + "    if ((request.status + '') == '"
-        + HttpServletResponse.SC_NOT_MODIFIED
-        + "') {\n"
-        + "  // OK\n"
+        + "  function closeWhenSign() {\n"
+        + (debugWeb?"  showLog('Cridant a closeWhenSign()');\n":"")
+        + "    var request;\n"
+        + "    if(window.XMLHttpRequest) {\n"
+        + "      request = new XMLHttpRequest();\n"
+        + "    } else {\n"
+        + "      request = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
+        + "    }\n"
+        + "    request.open('GET', '" + absolutePluginRequestPath + "/" + ISFINISHED_PAGE + "', false);\n"
+        + "    request.send();\n"
+        + "    if ((request.status + '') == '" + HttpServletResponse.SC_NOT_MODIFIED + "') {\n"
+        + "      // OK\n"
         + "    } else {\n"
         + "      clearInterval(myTimer);\n"
         // esperarem que es faci neteja de missatges abans de reenviar al
@@ -774,8 +678,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         // per això esperam a que l'AUTOFIRMA cridi a showResultCallback()
         + "      myTimer = setTimeout(function () {gotoFinal()}, 6000);\n"
         + "    }\n"
-        + "  }"
-        + "\n\n"
+        + "  }\n"
+        + "\n"
         + "  function gotoCancel() {\n"
         + "    window.location.href='" + absolutePluginRequestPath + "/" + CANCEL_PAGE + "';\n"
         + "  }"
@@ -790,29 +694,109 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "\n\n"       
         + " function mostrar(id) {\n"
         + "    document.getElementById(id).style.display = 'block';\n"
-        + "};\n\n"
+        + "};\n"
+        + "\n"
         + " function ocultar(id){\n"
         + "   document.getElementById(id).style.display = 'none';\n"
-        + " };\n\n"
-        + " function doSignAndroidChrome(){\n"
-        + "   mostrar('msgNoAndroidChrome');\n"
-        + "   ocultar('msgAndroidChrome');\n"
-        + "   doSign();\n"
-        + " };\n\n"
+        + " };\n"
+        + "\n"
+        + "function showAppletLog() {\n"
+        + "  try {\n"
+        + "    showLog(MiniApplet.getCurrentLog());\n"
+        + "  } catch(e) {\n"
+        + "    showLog(\"Type: \" + MiniApplet.getErrorType() + \"Message: \" + MiniApplet.getErrorMessage());\n"
+        + "  }\n"
+        + "}\n"
+        + "\n"
+        + "function showLog(newLog) {\n"
+        + "  document.getElementById('console').value = document.getElementById('console').value + '\\n' + newLog;\n"
+        + "}\n\n"
         // Inicia el proces de firma de forma automàtica
-        + " var casAC = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1 || "
-            + " navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1) && MiniApplet.isAndroid();\n"
-        + " var casIOS = MiniApplet.isIOS();"
-        + " if (casAC || casIOS ) {\n"
-        + "   mostrar('msgAndroidChrome');\n"
-        + "   ocultar('msgNoAndroidChrome');\n"
-        + " } else { \n"  
+        + "function doSignAndroidChrome() {\n"
         + "   mostrar('msgNoAndroidChrome');\n"
         + "   ocultar('msgAndroidChrome');\n"
+        + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Pre_doSign()');":"")
         + "   doSign();\n"
-        + " }\n"
+        + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Post_doSign()');":"")
+        + "}\n\n"
+        + "  window.onload = function(e) { \n"
+        + "    try {\n"
+        + "      var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
+        + "      var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
+        + "      var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
+        + "      var casIOS = MiniApplet.isIOS();"
+        + "      if (casAC || casIOS) {\n" // ) {\n"  //  
+        + "        mostrar('msgAndroidChrome');\n"
+        + "        ocultar('msgNoAndroidChrome');\n"
+        + "      } else { \n"  
+        + "        mostrar('msgNoAndroidChrome');\n"
+        + "        ocultar('msgAndroidChrome');\n"
+        + (debugWeb?"        showLog('Cridant a cridaOutPre_doSign()');":"")
+        + "        doSign();\n"
+        + (debugWeb?"        showLog('Cridant a cridaOutPost_doSign()');":"")
+        + "      }\n"
+        + "    } catch (e) { alert(e); };\n" 
+        + "    // Iniciar Timer\n"
+        + "    myTimer = setInterval(function () {closeWhenSign()}, 5000);\n"
+        + " } // Final window.onload\n"
+        + "</script>\n";
+     
         
-        + " </script>");
+        javascript.put(sai.getSignaturesSetID(), javascriptCode);
+        
+        PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
+            relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
+        
+
+        
+      out.println(
+        "  <script type=\"text/javascript\">"
+        + "\n"
+        + "    MiniApplet.setForceWSMode(true);"
+        + "\n"
+        + "    MiniApplet.cargarAppAfirma(\"" + HOST + request.getContextPath() + "\"); "
+        + "\n"
+        + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
+        + "\n"
+        + "</script>\n\n"
+        + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">\n"
+        + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
+        + "    <tr valign=\"middle\">\n"
+        + "    <td align=\"center\">\n"
+        + "      <div id=\"msgNoAndroidChrome\">\n"
+        + "         <h2>\n" + getTraduccio("espera", locale) + "</h2><br/>"
+        + "         <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\">\n"
+        + "      </div>\n"
+        + "      <div id=\"msgAndroidChrome\">\n"
+        + "         <h2>\n" + getTraduccio("iniciarfirma", locale) + "</h2><br/>"
+        + "         <input type=\"button\" class=\"btn btn-large btn-success\" onclick=\"doSignAndroidChrome()\" value=\""+ getTraduccio("firmar", locale) + "\">"
+        + "      </div>\n"
+        + "      <br/>\n"
+        + "      <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoCancel()\" value=\""
+        + getTraduccio("cancel", locale)
+        + "\">\n");
+        
+        
+        if (debugWeb) {
+          out.println(
+            "      <br/>\n"
+          + "      <br/>\n"
+          + "      <textarea id=\"console\" cols=\"150\" rows=\"10\"></textarea><br/>\n"
+          + "      <input type=\"button\" value=\"Firmar ORIG\" onclick=\"doSign();\">&nbsp;\n"
+          + "      <input type=\"button\" value=\"Mostrar Log ORIG\" onclick=\"showAppletLog();\">\n");
+        };
+        
+        out.println(
+           "    </td>\n"
+         + "    </tr>\n"
+         + "  </table>\n"
+         + "</div>\n");
+        
+   
+        
+        
+        
+       
     //    + "\n" + " </body>" + "\n" + "</html>" + "\n");
     
     /*

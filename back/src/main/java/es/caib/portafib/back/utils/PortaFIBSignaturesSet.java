@@ -26,6 +26,8 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
   protected final EntitatJPA entitat;
 
   protected Long pluginID = null;
+  
+  protected boolean redirectToParentWindow;
 
   /**
    * @param signaturesSetID
@@ -35,10 +37,11 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
    */
   public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate,
       CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
-      EntitatJPA entitat, String urlFinal) {
+      EntitatJPA entitat, String urlFinal, boolean redirectToParentWindow) {
     super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
     this.urlFinalOriginal = this.getUrlFinal();
     this.entitat = entitat;
+    this.redirectToParentWindow = redirectToParentWindow;
   }
 
   public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
@@ -71,6 +74,14 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
   public void setFilterByPluginID(List<Long> filterByPluginID) {
     this.filterByPluginID = filterByPluginID;
+  }
+
+  public boolean isRedirectToParentWindow() {
+    return redirectToParentWindow;
+  }
+
+  public void setRedirectToParentWindow(boolean redirectToParentWindow) {
+    this.redirectToParentWindow = redirectToParentWindow;
   }
   
   
