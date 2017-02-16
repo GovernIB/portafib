@@ -9,6 +9,7 @@
   <modules>
     <module>plugins-signatureserver</module>
     <module>plugins-signatureweb</module>
+    <!--    -->
     <module>utils</module> 
     <module>persistence</module>
     <module>model</module> 
@@ -18,6 +19,7 @@
     <module>back</module>
     <module>ws</module>
     <module>scripts</module>
+
     <module>ear</module>
   </modules>
 

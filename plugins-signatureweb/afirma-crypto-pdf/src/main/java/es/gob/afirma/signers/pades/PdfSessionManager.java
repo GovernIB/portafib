@@ -1,470 +1,288 @@
-/*     */ package es.gob.afirma.signers.pades;
-/*     */ 
-/*     */ import com.lowagie.text.DocumentException;
-/*     */ import com.lowagie.text.Image;
-/*     */ import com.lowagie.text.Rectangle;
-/*     */ import com.lowagie.text.exceptions.BadPasswordException;
-/*     */ import com.lowagie.text.pdf.PdfDate;
-/*     */ import com.lowagie.text.pdf.PdfName;
-/*     */ import com.lowagie.text.pdf.PdfObject;
-/*     */ import com.lowagie.text.pdf.PdfPKCS7;
-/*     */ import com.lowagie.text.pdf.PdfPKCS7.X509Name;
-/*     */ import com.lowagie.text.pdf.PdfReader;
-/*     */ import com.lowagie.text.pdf.PdfSignature;
-/*     */ import com.lowagie.text.pdf.PdfSignatureAppearance;
-/*     */ import com.lowagie.text.pdf.PdfStamper;
-/*     */ import com.lowagie.text.pdf.PdfStamperImp;
-/*     */ import com.lowagie.text.pdf.PdfWriter;
-/*     */ import es.gob.afirma.core.AOCancelledOperationException;
-/*     */ import es.gob.afirma.core.AOException;
-/*     */ import es.gob.afirma.core.ui.AOUIFactory;
-/*     */ import java.io.ByteArrayOutputStream;
-/*     */ import java.io.IOException;
-/*     */ import java.security.cert.Certificate;
-/*     */ import java.security.cert.X509Certificate;
-/*     */ import java.util.Calendar;
-/*     */ import java.util.HashMap;
-/*     */ import java.util.Properties;
-/*     */ import java.util.logging.Logger;
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ public final class PdfSessionManager
-/*     */ {
-/*     */   static final int LAST_PAGE = -1;
-/*     */   private static final int UNDEFINED = -1;
-/*     */   private static final int CSIZE = 27000;
-/*  51 */   private static final Logger LOGGER = Logger.getLogger("es.gob.afirma");
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   private static final int PDF_MAX_VERSION = 7;
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   private static final int PDF_MIN_VERSION = 2;
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   public static PdfTriPhaseSession getSessionData(byte[] paramArrayOfByte, Certificate[] paramArrayOfCertificate, Calendar paramCalendar, Properties paramProperties)
-/*     */     throws IOException, InvalidPdfException, AOException
-/*     */   {
+package es.gob.afirma.signers.pades;
+
+import com.aowagie.text.DocumentException;
+import com.aowagie.text.Image;
+import com.aowagie.text.Rectangle;
+import com.aowagie.text.exceptions.BadPasswordException;
+import com.aowagie.text.pdf.PdfDate;
+import com.aowagie.text.pdf.PdfName;
+import com.aowagie.text.pdf.PdfObject;
+import com.aowagie.text.pdf.PdfPKCS7;
+import com.aowagie.text.pdf.PdfPKCS7.X509Name;
+import com.aowagie.text.pdf.PdfReader;
+import com.aowagie.text.pdf.PdfSignature;
+import com.aowagie.text.pdf.PdfSignatureAppearance;
+import com.aowagie.text.pdf.PdfStamper;
+import com.aowagie.text.pdf.PdfStamperImp;
+import com.aowagie.text.pdf.PdfWriter;
+import es.gob.afirma.core.AOCancelledOperationException;
+import es.gob.afirma.core.AOException;
+import es.gob.afirma.core.ui.AOUIFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Logger;
+
+public final class PdfSessionManager
+{
+  static final int LAST_PAGE = -1;
+  static final int NEW_PAGE = -2;
+  private static final int UNDEFINED = -1;
+  private static final int CSIZE = 27000;
+  private static final Logger LOGGER = Logger.getLogger("es.gob.afirma");
+  private static final int PDF_MAX_VERSION = 7;
+  private static final int PDF_MIN_VERSION = 2;
   
-//----------------------------------
-//---- PORTAFIB: NOU ELIMINAT ------
-//----------------------------------
+  public static PdfTriPhaseSession getSessionData(byte[] paramArrayOfByte, Certificate[] paramArrayOfCertificate, Calendar paramCalendar, Properties paramProperties)
+    throws IOException, InvalidPdfException, AOException
+  {
+
+  //----------------------------------
+  //---- PORTAFIB: NOU ELIMINAT ------
+  //----------------------------------
+    
+  /* Image localImage = PdfPreProcessor.getImage(paramProperties.getProperty("signatureRubricImage")); */
+
+
+  //----------------------------------
+  //---- PORTAFIB: NOU CODI ------
+  //----------------------------------
+
+    Image localImage = PdfPreProcessor.getImage(paramProperties.getProperty("signatureRubricImage"), (X509Certificate)paramArrayOfCertificate[0]);
+
+    
+    
+    String str1 = paramProperties.getProperty("signReason");
+    
+    String str2 = paramProperties.getProperty("signatureField");
+    
+    String str3 = paramProperties.getProperty("signatureProductionCity");
+    
+    String str4 = paramProperties.getProperty("signerContact");
+    
+    int i = -1;
+    String str5 = paramProperties.getProperty("signaturePage", "-1");
+    if ("append".equalsIgnoreCase(str5)) {
+      i = -2;
+    } else {
+      try
+      {
+        i = Integer.parseInt(str5);
+      }
+      catch (Exception localException1)
+      {
+        LOGGER.warning("Se ha indicado un numero de pagina invalido ('" + str5 + "'), se usara la ultima pagina: " + localException1);
+      }
+    }
+    String str6 = paramProperties.getProperty("signatureSubFilter");
+    int j;
+    try
+    {
+      j = paramProperties.getProperty("certificationLevel") != null ? Integer.parseInt(paramProperties.getProperty("certificationLevel")) : -1;
+    }
+    catch (Exception localException2)
+    {
+      j = -1;
+    }
+    int k;
+    try
+    {
+      k = paramProperties.getProperty("pdfVersion") != null ? Integer.parseInt(paramProperties.getProperty("pdfVersion")) : 7;
+    }
+    catch (Exception localException3)
+    {
+      LOGGER.warning("Error en el establecimiento de la version PDF, se usara 7: " + localException3);
+      k = 7;
+    }
+    if ((k != -1) && ((k < 2) || (k > 7)))
+    {
+      LOGGER.warning("Se ha establecido un valor invalido para version, se ignorara: " + k);
+      k = -1;
+    }
+    String str7 = PdfVisibleAreasUtils.getLayerText(paramProperties
+      .getProperty("layer4Text"), (X509Certificate)paramArrayOfCertificate[0], paramCalendar);
+    
+    String str8 = PdfVisibleAreasUtils.getLayerText(paramProperties
+      .getProperty("layer2Text"), (X509Certificate)paramArrayOfCertificate[0], paramCalendar);
+    int m;
+    try
+    {
+      m = paramProperties.getProperty("layer2FontFamily") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontFamily")) : -1;
+    }
+    catch (Exception localException4)
+    {
+      m = -1;
+    }
+    int n;
+    try
+    {
+      n = paramProperties.getProperty("layer2FontSize") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontSize")) : -1;
+    }
+    catch (Exception localException5)
+    {
+      n = -1;
+    }
+    int i1;
+    try
+    {
+      i1 = paramProperties.getProperty("layer2FontStyle") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontStyle")) : -1;
+    }
+    catch (Exception localException6)
+    {
+      i1 = -1;
+    }
+    String str9 = paramProperties.getProperty("layer2FontColor");
+    byte[] arrayOfByte1;
+    try
+    {
+      arrayOfByte1 = XmpHelper.addSignHistoryToXmp(paramArrayOfByte, paramCalendar);
+    }
+    catch (Exception localException7)
+    {
+      LOGGER.warning("No ha podido registrarse la firma en el historico XMP: " + localException7);
+      arrayOfByte1 = paramArrayOfByte;
+    }
+    PdfReader localPdfReader = PdfUtil.getPdfReader(arrayOfByte1, paramProperties, 
+    
+      Boolean.parseBoolean(paramProperties.getProperty("headless")));
+    
+    byte[] arrayOfByte2 = localPdfReader.getMetadata();
+    boolean bool = PdfUtil.isPdfA1(arrayOfByte2);
+    if (bool) {
+      LOGGER.info("Detectado PDF-A1, no se comprimira el PDF");
+    }
+    PdfUtil.checkPdfCertification(localPdfReader.getCertificationLevel(), paramProperties);
+    if ((PdfUtil.pdfHasUnregisteredSignatures(localPdfReader)) && (!Boolean.TRUE.toString().equalsIgnoreCase(paramProperties.getProperty("allowCosigningUnregisteredSignatures")))) {
+      throw new PdfHasUnregisteredSignaturesException();
+    }
+    localPdfReader.removeUsageRights();
+    
+    ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+    PdfStamper localPdfStamper;
+    try
+    {
+      localPdfStamper = PdfStamper.createSignature(localPdfReader, localByteArrayOutputStream, k == -1 ? '\000' : 
+      
+        Integer.toString(k).toCharArray()[0], null, 
+        
+        PdfUtil.getAppendMode(paramProperties, localPdfReader), paramCalendar);
+    }
+    catch (DocumentException localDocumentException1)
+    {
+      LOGGER.severe("Error al crear la firma para estampar: " + localDocumentException1);
+      throw new AOException("Error al crear la firma para estampar", localDocumentException1);
+    }
+    catch (BadPasswordException localBadPasswordException)
+    {
+      if (Boolean.parseBoolean(paramProperties.getProperty("headless"))) {
+        throw new BadPdfPasswordException(localBadPasswordException);
+      }
+      String localObject = new String(AOUIFactory.getPassword(paramProperties
+        .getProperty("userPassword") == null ? CommonPdfMessages.getString("AOPDFSigner.0") : CommonPdfMessages.getString("AOPDFSigner.1"), null));
+      if ("".equals(localObject)) {
+        throw new AOCancelledOperationException("Entrada de contrasena de PDF cancelada por el usuario", localBadPasswordException);
+      }
+      paramProperties.put("userPassword", localObject);
+      return getSessionData(arrayOfByte1, paramArrayOfCertificate, paramCalendar, paramProperties);
+    }
+    Rectangle localRectangle = getSignaturePositionOnPage(paramProperties);
+    if ((i == -2) && (localRectangle != null) && (str2 == null))
+    {
+      localPdfStamper.insertPage(localPdfReader.getNumberOfPages() + 1, localPdfReader.getPageSizeWithRotation(1));
+      
+      i = -1;
+    }
+    Object localObject = localPdfStamper.getSignatureAppearance();
+    if ((k > 2) && (!bool) && (!"false".equalsIgnoreCase(paramProperties.getProperty("compressPdf")))) {
+      localPdfStamper.setFullCompression();
+    }
+    ((PdfSignatureAppearance)localObject).setAcro6Layers(true);
+    
+    PdfUtil.enableLtv(localPdfStamper);
+    
+    PdfPreProcessor.attachFile(paramProperties, localPdfStamper);
+    
+    PdfPreProcessor.addImage(paramProperties, localPdfStamper, localPdfReader);
+    
+    ((PdfSignatureAppearance)localObject).setRender(0);
+    if (str1 != null) {
+      ((PdfSignatureAppearance)localObject).setReason(str1);
+    }
+    ((PdfSignatureAppearance)localObject).setSignDate(paramCalendar);
+    if (i == -1) {
+      i = localPdfReader.getNumberOfPages();
+    }
+    if ((localRectangle != null) && (str2 == null)) {
+      ((PdfSignatureAppearance)localObject).setVisibleSignature(localRectangle, i, null);
+    } else if (str2 != null) {
+      ((PdfSignatureAppearance)localObject).setVisibleSignature(str2);
+    }
+    if (str3 != null) {
+      ((PdfSignatureAppearance)localObject).setLocation(str3);
+    }
+    if (str4 != null) {
+      ((PdfSignatureAppearance)localObject).setContact(str4);
+    }
+    if (localImage != null)
+    {
+      ((PdfSignatureAppearance)localObject).setImage(localImage);
+      ((PdfSignatureAppearance)localObject).setLayer2Text("");
+      ((PdfSignatureAppearance)localObject).setLayer4Text("");
+    }
+    if (str8 != null)
+    {
+      ((PdfSignatureAppearance)localObject).setLayer2Text(str8);
+      ((PdfSignatureAppearance)localObject).setLayer2Font(
+        PdfVisibleAreasUtils.getFont(m, n, i1, str9));
+    }
+    if (str7 != null) {
+      ((PdfSignatureAppearance)localObject).setLayer4Text(str7);
+    }
+    ((PdfSignatureAppearance)localObject).setCrypto(null, paramArrayOfCertificate, null, null);
+    if (str6 != null) {}
+    PdfSignature localPdfSignature = new PdfSignature(PdfName.ADOBE_PPKLITE, !str6.isEmpty() ? new PdfName(str6) : PdfName.ADBE_PKCS7_DETACHED);
+    if (((PdfSignatureAppearance)localObject).getSignDate() != null) {
+      localPdfSignature.setDate(new PdfDate(((PdfSignatureAppearance)localObject).getSignDate()));
+    }
+    localPdfSignature.setName(PdfPKCS7.getSubjectFields((X509Certificate)paramArrayOfCertificate[0]).getField("CN"));
+    if (((PdfSignatureAppearance)localObject).getReason() != null) {
+      localPdfSignature.setReason(((PdfSignatureAppearance)localObject).getReason());
+    }
+    if (((PdfSignatureAppearance)localObject).getLocation() != null) {
+      localPdfSignature.setLocation(((PdfSignatureAppearance)localObject).getLocation());
+    }
+    if (((PdfSignatureAppearance)localObject).getContact() != null) {
+      localPdfSignature.setContact(((PdfSignatureAppearance)localObject).getContact());
+    }
+    ((PdfSignatureAppearance)localObject).setCryptoDictionary(localPdfSignature);
+    if (j != -1) {
+      ((PdfSignatureAppearance)localObject).setCertificationLevel(j);
+    }
+    if (k != -1) {
+      localPdfStamper.getWriter().setPdfVersion(Integer.toString(k).toCharArray()[0]);
+    }
+    HashMap localHashMap = new HashMap();
+    localHashMap.put(PdfName.CONTENTS, Integer.valueOf(54002));
+    try
+    {
+      ((PdfSignatureAppearance)localObject).preClose(localHashMap, paramCalendar);
+    }
+    catch (DocumentException localDocumentException2)
+    {
+      LOGGER.severe("Error al estampar la firma: " + localDocumentException2);
+      throw new AOException("Error al estampar la firma", localDocumentException2);
+    }
+    PdfObject localPdfObject = ((PdfStamperImp)localPdfStamper.getWriter()).getFileID();
+    
+    return new PdfTriPhaseSession((PdfSignatureAppearance)localObject, localByteArrayOutputStream, new String(localPdfObject.getBytes()));
+  }
   
-/*  83 */  /*   Image localImage = PdfPreProcessor.getImage(paramProperties.getProperty("signatureRubricImage")); */
-
-
-//----------------------------------
-//---- PORTAFIB: NOU CODI ------
-//----------------------------------
-
-       Image localImage = PdfPreProcessor.getImage(paramProperties.getProperty("signatureRubricImage"), (X509Certificate)paramArrayOfCertificate[0]);
-
-
-/*     */     
-/*     */ 
-/*  86 */     String str1 = paramProperties.getProperty("signReason");
-/*     */     
-/*     */ 
-/*  89 */     String str2 = paramProperties.getProperty("signatureField");
-/*     */     
-/*     */ 
-/*  92 */     String str3 = paramProperties.getProperty("signatureProductionCity");
-/*     */     
-/*     */ 
-/*  95 */     String str4 = paramProperties.getProperty("signerContact");
-/*     */     
-/*     */ 
-/*  98 */     int i = -1;
-/*     */     try {
-/* 100 */       i = Integer.parseInt(paramProperties.getProperty("signaturePage"));
-/*     */     }
-/*     */     catch (Exception localException1) {}
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/* 107 */     String str5 = paramProperties.getProperty("signatureSubFilter");
-/*     */     
-/*     */     int j;
-/*     */     try
-/*     */     {
-/* 112 */       j = paramProperties.getProperty("certificationLevel") != null ? Integer.parseInt(paramProperties.getProperty("certificationLevel")) : -1;
-/*     */ 
-/*     */     }
-/*     */     catch (Exception localException2)
-/*     */     {
-/* 117 */       j = -1;
-/*     */     }
-/*     */     
-/*     */     int k;
-/*     */     try
-/*     */     {
-/* 123 */       k = paramProperties.getProperty("pdfVersion") != null ? Integer.parseInt(paramProperties.getProperty("pdfVersion")) : 7;
-/*     */ 
-/*     */     }
-/*     */     catch (Exception localException3)
-/*     */     {
-/* 128 */       LOGGER.warning("Error en el establecimiento de la version PDF, se usara 7: " + localException3);
-/* 129 */       k = 7;
-/*     */     }
-/* 131 */     if ((k != -1) && ((k < 2) || (k > 7))) {
-/* 132 */       LOGGER.warning("Se ha establecido un valor invalido para version, se ignorara: " + k);
-/* 133 */       k = -1;
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 140 */     String str6 = PdfVisibleAreasUtils.getLayerText(paramProperties.getProperty("layer4Text"), (X509Certificate)paramArrayOfCertificate[0], paramCalendar);
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 147 */     String str7 = PdfVisibleAreasUtils.getLayerText(paramProperties.getProperty("layer2Text"), (X509Certificate)paramArrayOfCertificate[0], paramCalendar);
-/*     */     
-/*     */ 
-/*     */ 
-/*     */     int m;
-/*     */     
-/*     */ 
-/*     */     try
-/*     */     {
-/* 156 */       m = paramProperties.getProperty("layer2FontFamily") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontFamily")) : -1;
-/*     */ 
-/*     */     }
-/*     */     catch (Exception localException4)
-/*     */     {
-/* 161 */       m = -1;
-/*     */     }
-/*     */     
-/*     */     int n;
-/*     */     try
-/*     */     {
-/* 167 */       n = paramProperties.getProperty("layer2FontSize") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontSize")) : -1;
-/*     */ 
-/*     */     }
-/*     */     catch (Exception localException5)
-/*     */     {
-/* 172 */       n = -1;
-/*     */     }
-/*     */     
-/*     */     int i1;
-/*     */     try
-/*     */     {
-/* 178 */       i1 = paramProperties.getProperty("layer2FontStyle") != null ? Integer.parseInt(paramProperties.getProperty("layer2FontStyle")) : -1;
-/*     */ 
-/*     */     }
-/*     */     catch (Exception localException6)
-/*     */     {
-/* 183 */       i1 = -1;
-/*     */     }
-/*     */     
-/*     */ 
-/* 187 */     String str8 = paramProperties.getProperty("layer2FontColor");
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */     byte[] arrayOfByte1;
-/*     */     
-/*     */ 
-/*     */ 
-/*     */     try
-/*     */     {
-/* 198 */       arrayOfByte1 = XmpHelper.addSignHistoryToXmp(paramArrayOfByte, paramCalendar);
-/*     */     }
-/*     */     catch (Exception localException7) {
-/* 201 */       LOGGER.warning("No ha podido registrarse la firma en el historico XMP: " + localException7);
-/* 202 */       arrayOfByte1 = paramArrayOfByte;
-/*     */     }
-/*     */     
-/* 205 */     PdfReader localPdfReader = PdfUtil.getPdfReader(arrayOfByte1, paramProperties, Boolean.parseBoolean(paramProperties.getProperty("headLess")));
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 213 */     byte[] arrayOfByte2 = localPdfReader.getMetadata();
-/* 214 */     boolean bool = PdfUtil.isPdfA1(arrayOfByte2);
-/* 215 */     if (bool) {
-/* 216 */       LOGGER.info("Detectado PDF-A1, no se comprimira el PDF");
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/* 222 */     PdfUtil.checkPdfCertification(localPdfReader.getCertificationLevel(), paramProperties);
-/*     */     
-/* 224 */     if ((PdfUtil.pdfHasUnregisteredSignatures(localPdfReader)) && (!Boolean.TRUE.toString().equalsIgnoreCase(paramProperties.getProperty("allowCosigningUnregisteredSignatures")))) {
-/* 225 */       throw new PdfHasUnregisteredSignaturesException();
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/* 230 */     localPdfReader.removeUsageRights();
-/*     */     
-/* 232 */     ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */     PdfStamper localPdfStamper;
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */     try
-/*     */     {
-/* 262 */       localPdfStamper = PdfStamper.createSignature(localPdfReader, localByteArrayOutputStream, k == -1 ? '\000' : Integer.toString(k).toCharArray()[0], null, PdfUtil.getAppendMode(paramProperties, localPdfReader), paramCalendar);
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */     }
-/*     */     catch (DocumentException localDocumentException1)
-/*     */     {
-/*     */ 
-/*     */ 
-/*     */ 
-/* 272 */       LOGGER.severe("Error al crear la firma para estampar: " + localDocumentException1);
-/* 273 */       throw new AOException("Error al crear la firma para estampar", localDocumentException1);
-/*     */ 
-/*     */     }
-/*     */     catch (BadPasswordException localBadPasswordException)
-/*     */     {
-/*     */ 
-/* 279 */       if (Boolean.parseBoolean(paramProperties.getProperty("headLess"))) {
-/* 280 */         throw new BadPdfPasswordException(localBadPasswordException);
-/*     */       }
-/*     */       
-/*     */ 
-/* 284 */       String localObject = new String(AOUIFactory.getPassword(paramProperties.getProperty("userPassword") == null ? CommonPdfMessages.getString("AOPDFSigner.0") : CommonPdfMessages.getString("AOPDFSigner.1"), null));
-/*     */       
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 290 */       if ("".equals(localObject)) {
-/* 291 */         throw new AOCancelledOperationException("Entrada de contrasena de PDF cancelada por el usuario", localBadPasswordException);
-/*     */       }
-/*     */       
-/*     */ 
-/* 295 */       paramProperties.put("userPassword", localObject);
-/* 296 */       return getSessionData(arrayOfByte1, paramArrayOfCertificate, paramCalendar, paramProperties);
-/*     */     }
-/*     */     
-/*     */ 
-/* 300 */     PdfSignatureAppearance localPdfSignatureAppearance = localPdfStamper.getSignatureAppearance();
-/*     */     
-/*     */ 
-/* 303 */     if ((k > 2) && (!bool) && (!"false".equalsIgnoreCase(paramProperties.getProperty("compressPdf")))) {
-/* 304 */       localPdfStamper.setFullCompression();
-/*     */     }
-/* 306 */     localPdfSignatureAppearance.setAcro6Layers(true);
-/*     */     
-/* 308 */     PdfUtil.enableLtv(localPdfStamper);
-/*     */     
-/*     */ 
-/* 311 */     PdfPreProcessor.attachFile(paramProperties, localPdfStamper);
-/*     */     
-/*     */ 
-/* 314 */     PdfPreProcessor.addImage(paramProperties, localPdfStamper, localPdfReader);
-/*     */     
-/*     */ 
-/* 317 */     localPdfSignatureAppearance.setRender(0);
-/*     */     
-/*     */ 
-/* 320 */     if (str1 != null) {
-/* 321 */       localPdfSignatureAppearance.setReason(str1);
-/*     */     }
-/*     */     
-/* 324 */     localPdfSignatureAppearance.setSignDate(paramCalendar);
-/*     */     
-/*     */ 
-/* 327 */     if (i == -1) {
-/* 328 */       i = localPdfReader.getNumberOfPages();
-/*     */     }
-/*     */     
-/*     */ 
-/* 332 */     Object localObject = getSignaturePositionOnPage(paramProperties);
-/* 333 */     if ((localObject != null) && (str2 == null)) {
-/* 334 */       localPdfSignatureAppearance.setVisibleSignature((Rectangle)localObject, i, null);
-/*     */     }
-/* 336 */     else if (str2 != null) {
-/* 337 */       localPdfSignatureAppearance.setVisibleSignature(str2);
-/*     */     }
-/*     */     
-/*     */ 
-/* 341 */     if (str3 != null) {
-/* 342 */       localPdfSignatureAppearance.setLocation(str3);
-/*     */     }
-/*     */     
-/*     */ 
-/* 346 */     if (str4 != null) {
-/* 347 */       localPdfSignatureAppearance.setContact(str4);
-/*     */     }
-/*     */     
-/*     */ 
-/* 351 */     if (localImage != null) {
-/* 352 */       localPdfSignatureAppearance.setImage(localImage);
-/* 353 */       localPdfSignatureAppearance.setLayer2Text("");
-/* 354 */       localPdfSignatureAppearance.setLayer4Text("");
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 362 */     if (str7 != null) {
-/* 363 */       localPdfSignatureAppearance.setLayer2Text(str7);
-/* 364 */       localPdfSignatureAppearance.setLayer2Font(PdfVisibleAreasUtils.getFont(m, n, i1, str8));
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 375 */     if (str6 != null) {
-/* 376 */       localPdfSignatureAppearance.setLayer4Text(str6);
-/*     */     }
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 383 */     localPdfSignatureAppearance.setCrypto(null, paramArrayOfCertificate, null, null);
-/*     */     
-/* 385 */     PdfSignature localPdfSignature = new PdfSignature(PdfName.ADOBE_PPKLITE, (str5 != null) && (!"".equals(str5)) ? new PdfName(str5) : PdfName.ADBE_PKCS7_DETACHED);
-/*     */     
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/* 391 */     if (localPdfSignatureAppearance.getSignDate() != null) {
-/* 392 */       localPdfSignature.setDate(new PdfDate(localPdfSignatureAppearance.getSignDate()));
-/*     */     }
-/*     */     
-/* 395 */     localPdfSignature.setName(PdfPKCS7.getSubjectFields((X509Certificate)paramArrayOfCertificate[0]).getField("CN"));
-/*     */     
-/* 397 */     if (localPdfSignatureAppearance.getReason() != null) {
-/* 398 */       localPdfSignature.setReason(localPdfSignatureAppearance.getReason());
-/*     */     }
-/*     */     
-/*     */ 
-/* 402 */     if (localPdfSignatureAppearance.getLocation() != null) {
-/* 403 */       localPdfSignature.setLocation(localPdfSignatureAppearance.getLocation());
-/*     */     }
-/*     */     
-/*     */ 
-/* 407 */     if (localPdfSignatureAppearance.getContact() != null) {
-/* 408 */       localPdfSignature.setContact(localPdfSignatureAppearance.getContact());
-/*     */     }
-/*     */     
-/* 411 */     localPdfSignatureAppearance.setCryptoDictionary(localPdfSignature);
-/*     */     
-/*     */ 
-/*     */ 
-/* 415 */     if (j != -1) {
-/* 416 */       localPdfSignatureAppearance.setCertificationLevel(j);
-/*     */     }
-/*     */     
-/*     */ 
-/* 420 */     if (k != -1) {
-/* 421 */       localPdfStamper.getWriter().setPdfVersion(Integer.toString(k).toCharArray()[0]);
-/*     */     }
-/*     */     
-/*     */ 
-/* 425 */     HashMap localHashMap = new HashMap();
-/* 426 */     localHashMap.put(PdfName.CONTENTS, Integer.valueOf(54002));
-/*     */     try
-/*     */     {
-/* 429 */       localPdfSignatureAppearance.preClose(localHashMap, paramCalendar);
-/*     */     } catch (DocumentException localDocumentException2) {
-/* 431 */       LOGGER.severe("Error al estampar la firma: " + localDocumentException2);
-/* 432 */       throw new AOException("Error al estampar la firma", localDocumentException2);
-/*     */     }
-/*     */     
-/* 435 */     PdfObject localPdfObject = ((PdfStamperImp)localPdfStamper.getWriter()).getFileID();
-/*     */     
-/* 437 */     return new PdfTriPhaseSession(localPdfSignatureAppearance, localByteArrayOutputStream, new String(localPdfObject.getBytes()));
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   private static Rectangle getSignaturePositionOnPage(Properties paramProperties)
-/*     */   {
-/* 448 */     return PdfPreProcessor.getPositionOnPage(paramProperties, "signature");
-/*     */   }
-/*     */ }
-
-
-/* Location:              D:\dades\dades\CarpetesPersonals\Programacio\portafib-1.1\plugins-signatureweb\afirma-triphase-server-lib\local-repo\es\gob\afirma\afirma-crypto-pdf_OLD\3.3.2-SNAPSHOT\afirma-crypto-pdf-3.3.2-SNAPSHOT.jar!\es\gob\afirma\signers\pades\PdfSessionManager.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */
+  private static Rectangle getSignaturePositionOnPage(Properties paramProperties)
+  {
+    return PdfPreProcessor.getPositionOnPage(paramProperties, "signature");
+  }
+}

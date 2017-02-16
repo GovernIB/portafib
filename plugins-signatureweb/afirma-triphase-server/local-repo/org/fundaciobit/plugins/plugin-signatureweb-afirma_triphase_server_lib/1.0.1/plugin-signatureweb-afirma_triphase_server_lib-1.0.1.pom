@@ -1,0 +1,286 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.1</version>
+
+  <name>FundacioBit Plugins - SignatureWeb - @firma Triphase Server Lib</name>
+  
+  <parent>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <version>2.0.0</version>
+    <artifactId>plugins-signatureweb</artifactId>
+  </parent>
+
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    <bouncycastle.version>1.53</bouncycastle.version>
+    <action_rename_copy>rename</action_rename_copy>
+  </properties>
+
+  <repositories>
+    <repository>
+      <name>Local Maven Repository</name>
+      <id>es.caib.portafib.localrepo</id>
+      <url>file://${project.basedir}/local-repo</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-server-triphase-signer</artifactId>
+      <version>2.5</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-signature-retriever</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-signature-storage</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>net.java.xades</groupId>
+      <artifactId>jxades</artifactId>
+      <version>0.1.5</version>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+-->
+
+    <dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>core</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>prov</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>pkix</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-core</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-cades</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-cades-multi</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-pkcs7</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-xml</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-pdf</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-xades</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-itext</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-jmimemagic</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-oro</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-server-triphase-signer-core</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+ 
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+    	<artifactId>afirma-server-triphase-signer-document</artifactId>
+	    <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-ui-core-jse</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-jar</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>es.gob.afirma</groupId>
+                  <artifactId>afirma-server-triphase-signer</artifactId>
+                  <version>2.5</version>
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/classes_war</outputDirectory>
+                  <includes>**/*.class</includes> 
+                  <excludes>**/*test.class</excludes>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>es.gob.afirma</groupId>
+                  <artifactId>afirma-signature-retriever</artifactId>
+                  <version>3.3.2-SNAPSHOT</version>                 
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/classes_war</outputDirectory>
+                  <includes>**/*.class</includes> 
+                  <excludes>**/*test.class</excludes>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>es.gob.afirma</groupId>
+                  <artifactId>afirma-signature-storage</artifactId>
+                  <version>3.3.2-SNAPSHOT</version>                 
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/classes_war</outputDirectory>
+                  <includes>**/*.class</includes> 
+                  <excludes>**/*test.class</excludes>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>rename-file</id>
+            <phase>process-classes</phase> <!-- POST COMPILE compile -->
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${project.build.directory}/classes_war/WEB-INF/classes/es</sourceFile>
+              <destinationFile>${project.build.directory}/classes/es</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+</project>

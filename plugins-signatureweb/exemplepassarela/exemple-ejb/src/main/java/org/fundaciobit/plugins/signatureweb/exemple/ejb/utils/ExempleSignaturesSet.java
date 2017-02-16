@@ -28,6 +28,7 @@ public class ExempleSignaturesSet extends SignaturesSetWeb {
       String urlFinal) {
     super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
     this.urlFinalOriginal = this.getUrlFinal();
+    
   }
 
   public String getUrlFinalOriginal() {

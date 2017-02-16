@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +26,14 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs.Signresult;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -38,8 +46,12 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
 
+import com.handinteractive.mobile.UAgentInfo;
+
 import es.gob.afirma.core.misc.AOUtil;
 import es.gob.afirma.core.misc.Base64;
+import es.gob.afirma.signers.batch.server.BatchPostsigner;
+import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
 import es.gob.afirma.signfolder.server.proxy.RetrieveService;
@@ -63,8 +75,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     *  storeDocument() ja que CADES trifase no suporta nativament Segellat de Temps. 
     */
    protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
-  
-  
 
   /**
    *
@@ -121,6 +131,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
     timeStampCache.remove(id);
+    javascript.remove(id);
     super.closeSignaturesSet(request, id);
   }
   
@@ -150,7 +161,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
      } else {
        return false;
      }
-
   }
 
   @Override
@@ -255,27 +265,34 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
 
+
+  
   public boolean commonRequestGETPOST(String absolutePluginRequestPath,
       String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
       int signatureIndex, HttpServletRequest request,
       HttpServletResponse response, Locale locale) {
     final boolean resultat;
 
-    /*
-     * TODO <servlet> <description>Realiza la primera fase de un proceso de
-     * firma por lote v1.1</description>
-     * <servlet-name>BatchPresigner</servlet-name>
-     * <servlet-class>es.gob.afirma.signers
-     * .batch.server.BatchPresigner</servlet-class> </servlet>
-     * 
-     * <servlet> <description>Realiza la tercera (y ultima) fase de un proceso
-     * de firma por lote v1.1</description>
-     * <servlet-name>BatchPostsigner</servlet-name>
-     * <servlet-class>es.gob.afirma.
-     * signers.batch.server.BatchPostsigner</servlet-class> </servlet>
-     */
+    if (query.startsWith(BATCHPRESIGNER)) {
+      /*
+       * Realiza la primera fase de un proceso de firma por lote v1.1
+       * <servlet-name>BatchPresigner</servlet-name>
+       * <servlet-class>es.gob.afirma.signers.batch.server.BatchPresigner</servlet-class>
+       */
+      batchPreSigner(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, locale);
+      resultat = true;
+    } else if (query.startsWith(BATCHPOSTSIGNER)) {
+      /* Realiza la tercera (y ultima) fase de un proceso
+       * de firma por lote v1.1
+       * <servlet-name>BatchPostsigner</servlet-name>
+       * <servlet-class>es.gob.afirma.signers.batch.server.BatchPostsigner</servlet-class>
+       */
+      batchPostSigner(absolutePluginRequestPath, relativePluginRequestPath, request,
+          response, signaturesSet, locale);
+      resultat = true;
 
-    if (query.startsWith(RETRIEVESERVICE)) {
+    } else if (query.startsWith(RETRIEVESERVICE)) {
       // Servicio para la recuperacion de firmas v1.2
       retrieveService(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, locale);
@@ -291,6 +308,14 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       // Servicio de almacenamiento temporal de firmas v1.4
       storageService(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, locale);
+      resultat = true;
+
+    } else if (query.startsWith(FINAL_PAGE_BATCH)) {
+        finalPageBatch(query, signaturesSet, signatureIndex, request, response);
+        resultat = true;
+
+    } else if (query.startsWith(FINAL_PAGE_CLIENT_MOBIL)) {
+      finalPageClientMobil(query, signaturesSet, signatureIndex, request, response);
       resultat = true;
 
     } else if (query.startsWith(CLIENT_ERROR_PAGE)) {
@@ -385,21 +410,429 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   public static final String INDEX_HTML = "index";
 
+
   private void indexPage(String absolutePluginRequestPath, String relativePluginRequestPath,
       HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
       int signatureIndex, Locale locale) {
 
-    final String finalURL;
-    finalURL = signaturesSet.getUrlFinal();
+    String userAgent = request.getHeader("User-Agent");
+    String accept = request.getHeader("Accept");
+    
+    // NOTA: Client Mòbil no suporta processos Batch
+    UAgentInfo uai = new UAgentInfo(userAgent, accept);
+    
+    if (uai.detectTierIphone() || uai.detectTierTablet()) {
+      // Tablets i mobils 
+      indexPageClientMobil(absolutePluginRequestPath, relativePluginRequestPath, request,
+          response, signaturesSet, signatureIndex, locale);
+    } else {
+      indexPageAutofirma(absolutePluginRequestPath, relativePluginRequestPath,
+          request, response, signaturesSet, signatureIndex, locale);
+    }
+
+  }
+  
+
+  // Comprovar que tots tenguin el mateix algorisme de FIRMA
+  private String maxAlgorith(FileInfoSignature[] fisArray) {
+
+      Map<String, Integer> counts = new HashMap<String, Integer>();
+    
+      String maxAlgo = null;
+      int maxItems = -1;
+      for (FileInfoSignature fileInfoSignature : fisArray) {
+        String algo = fileInfoSignature.getSignAlgorithm();
+        int number;
+        if (counts.get(algo) == null) {
+          counts.put(algo, 1);
+          number = 1;
+        } else {
+          number = counts.get(algo) + 1;
+          counts.put(algo, number);
+        }
+        
+        if (number > maxItems) {
+          maxItems = number;
+          maxAlgo = algo;
+        }
+        
+      }
+      return maxAlgo;
+
+  }
+
+  
+  
+
+  private void indexPageAutofirma(String absolutePluginRequestPath, String relativePluginRequestPath,
+      HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
+      int signatureIndex, Locale locale) {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
-    // TODO XYZ Només podem amb un fitxer firmat: revisar sistema Batch
-    final int index = 0;
+    
+    
+    URL url;
+    try {
+      url = new URL(absolutePluginRequestPath);
+    } catch (MalformedURLException e) {
+      String errorMsg = "La ruta Absoluta [" + absolutePluginRequestPath
+          + "] té un format incorrecte.";
+      finishWithError(response, signaturesSet, errorMsg, e);
+      return;
+    }
+    
+    String port = url.getPort() == -1 ? "" : (":" + url.getPort());
+    
+    final String HOST = url.getProtocol() + "://" + url.getHost() + port;
+    final String PATH = relativePluginRequestPath;
+    
 
+    int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
+    String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
+    String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+        relativePluginRequestPath);
+    
     final FileInfoSignature[] fisArray = signaturesSet.getFileInfoSignatureArray();
-    final FileInfoSignature fis = fisArray[index];
+    
+    final String[] configPropertiesStr = new String[fisArray.length];
+    
+    // Comprovar que tots tenguin el mateix algorisme de FIRMA
+    String algorithm = maxAlgorith(fisArray);
+    {
+      FileInfoSignature fis = new FileInfoSignature();
+      fis.setSignAlgorithm(algorithm);
+      try {
+        algorithm = MiniAppletUtils.convertAlgorithm(fis);
+      } catch (Exception e) {
+        // TODO traduir
+        String errorMsg = "Error desconegut intentant trobar quin algorisme "
+            + "és el més emprant en les firmes: " + e.getMessage();
+        finishWithError(response, signaturesSet, errorMsg, e);
+        return;
+      }
+    }
+    
+    Properties[] configProperties = new Properties[fisArray.length];
+    timeStampCache.put(signaturesSetID, configProperties);
 
-    Properties configProperties = new Properties();
+    int countNulls = 0;
+    for (int i = 0; i < fisArray.length; i++) {
+      final FileInfoSignature fis = fisArray[i];  
+      configProperties[i] = generarPropertiesFirma(response, signaturesSet,
+          signaturesSetID, baseSignaturesSet, callbackhost, i, fis, algorithm);
+     
+      if (configProperties[i] == null) {
+        countNulls++;
+        continue;
+      }
+      
+      // Convertir Properties a String
+      StringBuffer configPropertiesStr1 = new StringBuffer();
+
+      for (Object key : configProperties[i].keySet()) {
+        configPropertiesStr1
+            .append(key + "=" + configProperties[i].getProperty((String) key) + "\n");
+      }
+      configPropertiesStr[i] = configPropertiesStr1.toString();
+
+    }
+    
+    if (countNulls == fisArray.length) {
+      // TODO Traduir
+      final String errorMsg = "No s'ha aconseguit convertir les propietats de cap Firma.";
+      super.finishWithError(response, signaturesSet, errorMsg, null);
+      return;
+    }
+    
+    final boolean debug = log.isDebugEnabled();
+
+    StringBuffer batch = new StringBuffer();
+    {
+      batch.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n" + //$NON-NLS-1$
+      "<signbatch stoponerror=\"false\" algorithm=\"" + algorithm + "\">\r\n"); //$NON-NLS-1$
+      
+      // INICI FOR
+      for (int i = 0; i < fisArray.length; i++) {
+        
+        
+        if (configProperties[i] == null) {
+          continue;
+        }
+        
+        final FileInfoSignature fis = fisArray[i];  
+        
+        final String format = configProperties[i].getProperty(FORMAT);
+        
+        //var extraParams = MiniApplet.getBase64FromText(document.getElementById("params").value);
+        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
+      
+        // D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1-jboss-5.1.0.GA/server/default/deployautofirma/autofirma.war/dst_batch/document_firmat.pdf");
+        
+        File fileDst;
+        try {
+          fileDst = File.createTempFile("PluginAutofirmaBatch", ".bin");
+        } catch (IOException e) {
+          //  NOMES DESCARTAM AQUESTA FIRMA. NO TOTES
+          // TODO Traduir
+          String errorMsg = getSimpleName() 
+              + "::Error Creant fitxer temporal de destí per SignatureID="
+              + signaturesSet.getSignaturesSetID() + " (Index = " + i + "): "
+              + e.getMessage();
+
+          StatusSignature status = getStatusSignature(signaturesSetID, i);
+          status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+          status.setErrorMsg(errorMsg);
+          status.setSignedData(null);
+          status.setErrorException(e);
+          
+          return;
+        }
+        fileDst.deleteOnExit();
+        fis.getStatusSignature().setSignedData(fileDst);
+
+
+        final String dst = fileDst.getAbsolutePath().replace('\\', '/');
+        
+        if (debug) {
+          log.debug("[" + i + "] DEST FILE= " + dst);
+        }
+        
+        
+        final String config = SignSaverFile.PROP_FILENAME + "=" + dst;
+            // + "\r\n" + SignSaverFile.PROP_INSTANCE + "=" + instanceID;
+        
+        String src = fis.getFileToSign().getAbsolutePath().replace('\\', '/');
+        
+        final String signatureFullID = configProperties[i].getProperty(SIGNATUREID);
+      
+        batch.append(
+           "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
+            "    <datasource>file://" + src +  "</datasource>\r\n" + //$NON-NLS-1$
+            "    <format>"  + format + "</format>\r\n" + 
+            "    <suboperation>sign</suboperation>\r\n" + 
+            "    <extraparams>" + extraParamsB64 + "</extraparams>\r\n" + 
+            "    <signsaver>\r\n" + //$NON-NLS-1$
+            "      <class>org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile</class>\r\n" +
+            "      <config>" + encodeB64(config) + "</config>\r\n" + 
+            "    </signsaver>\r\n" +
+            "   </singlesign>\r\n");
+      }
+      // FINAL FOR 
+
+      batch.append("</signbatch>"); 
+    
+    }
+    
+    
+    if (debug) {
+      log.debug("Batch File = \r\n" + batch);
+      log.debug("Batch Size = \r\n" + batch.length());
+    }
+
+    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+    
+    final boolean debugWeb = "true".equals(getProperty("debug"));
+
+    String javascriptCode =    
+        "<script type=\"text/javascript\">\n"
+      + "  var myTimer;\n"
+      + "\n"
+      + "  function showResultCallback(signatureB64, certificateB64) {\n"
+      + "    isFinalEnabled = true;\n"
+      + "    clearTimeout(myTimer);\n"
+      + "    document.getElementById(\"" + RESULT_REQUEST_PARAM +  "\").value = signatureB64;\n"
+      + "    document.resultsForm.submit();\n"
+      //+ "    window.location.href='" +  absolutePluginRequestPath + "/"+ FINAL_PAGE_BATCH + "?" + RESULT_REQUEST_PARAM + "=' + encodeURIComponent(signatureB64);\n"
+      + "  }"
+      + "\n\n"
+      // Enviar error a una pàgina concreta d'aquest plugin
+      + "  function showErrorCallback(errorType, errorMessage) {\n"
+      + "    var msg;\n"
+      + "    msg = \"Type: \" + errorType + \"Message: \" + errorMessage;\n"
+      + "    isFinalEnabled = true;\n"
+      + "    clearTimeout(myTimer);\n"
+      + "    window.location.href='" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg);\n"
+      + "  }"
+      + "\n"
+      + "\n"
+
+      // doSignBatch
+      + "  function doSign() {\n"
+      + "    try {\n"
+      + "      var batchB64 = '" + encodeB64(batch.toString()) + "';\n"
+      + "\n"
+      + "      MiniApplet.signBatch(\n"
+      + "         batchB64,\n"
+      + "         '" + HOST + PATH + "/" + BATCHPRESIGNER+ "',\n"
+      + "         '" + HOST + PATH + "/" + BATCHPOSTSIGNER + "',\n"
+      + "         '', showResultCallback,showErrorCallback);\n"
+      + "    } catch(e) {\n"
+      + "      alert(\"Error: \" + e);\n"
+      + "      try {\n"
+      + "        showErrorCallback(MiniApplet.getErrorType(), MiniApplet.getErrorMessage());\n"
+      + "      } catch(ex) {\n"
+      + "        alert(\"Error: \" + ex);\n"
+      + "      }\n"
+      + "    }\n"
+      + "  }"
+      + "\n\n"
+      + "\n"
+      + "  function closeWhenSign() {\n"
+      + (debugWeb?"  showLog('Cridant a closeWhenSign()');\n":"")
+      + "    var request;\n"
+      + "    if(window.XMLHttpRequest) {\n"
+      + "      request = new XMLHttpRequest();\n"
+      + "    } else {\n"
+      + "      request = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
+      + "    }\n"
+      + "    request.open('GET', '" + absolutePluginRequestPath + "/" + ISFINISHED_PAGE + "', false);\n"
+      + "    request.send();\n"
+      + "    if ((request.status + '') == '" + HttpServletResponse.SC_NOT_MODIFIED + "') {\n"
+      + "      // OK\n"
+      + "    } else {\n"
+      + "      clearInterval(myTimer);\n"
+      // esperarem que es faci neteja de missatges abans de reenviar al
+      // servidor (hem de deixar que l'AUTOFIRMA de @firma es tanqui correctament)
+      // per això esperam a que l'AUTOFIRMA cridi a showResultCallback()
+      + "      if (!isFinalEnabled) {\n"
+      + "        myTimer = setTimeout(function () {gotoFinal('')}, 6000);\n"
+      + "      }\n"
+      + "    }\n"
+      + "  }\n"
+      + "\n"
+      + "  function gotoCancel() {\n"
+      + "    window.location.href='" + absolutePluginRequestPath + "/" + CANCEL_PAGE + "';\n"
+      + "  }"
+      + "\n\n"
+      + "  var isFinalEnabled = false;\n "
+      + "  function gotoFinal() {"
+      + "    if (isFinalEnabled) { return; };\n"
+      + "    isFinalEnabled = true;\n"
+      + "    clearTimeout(myTimer);\n"
+      + "    window.location.href='" +  signaturesSet.getUrlFinal() + "';\n"
+      + "  };"
+      + "\n\n"       
+      + " function mostrar(id) {\n"
+      + "    document.getElementById(id).style.display = 'block';\n"
+      + "};\n"
+      + "\n"
+      + " function ocultar(id){\n"
+      + "   document.getElementById(id).style.display = 'none';\n"
+      + " };\n"
+      + "\n"
+      + "function showAppletLog() {\n"
+      + "  try {\n"
+      + "    showLog(MiniApplet.getCurrentLog());\n"
+      + "  } catch(e) {\n"
+      + "    showLog(\"Type: \" + MiniApplet.getErrorType() + \"Message: \" + MiniApplet.getErrorMessage());\n"
+      + "  }\n"
+      + "}\n"
+      + "\n"
+      + "function showLog(newLog) {\n"
+      + "  document.getElementById('console').value = document.getElementById('console').value + '\\n' + newLog;\n"
+      + "}\n\n"
+      // Inicia el proces de firma de forma automàtica
+      + "function doSignAndroidChrome() {\n"
+      + "   mostrar('msgNoAndroidChrome');\n"
+      + "   ocultar('msgAndroidChrome');\n"
+      + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Pre_doSign()');":"")
+      + "   doSign();\n"
+      + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Post_doSign()');":"")
+      + "}\n\n"
+      + "  window.onload = function(e) { \n"
+      + "    try {\n"
+      + "      var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
+      + "      var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
+      + "      var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
+      + "      var casIOS = MiniApplet.isIOS();"
+      + "      if (casAC || casIOS) {\n" // ) {\n"  //  
+      + "        mostrar('msgAndroidChrome');\n"
+      + "        ocultar('msgNoAndroidChrome');\n"
+      + "      } else { \n"  
+      + "        mostrar('msgNoAndroidChrome');\n"
+      + "        ocultar('msgAndroidChrome');\n"
+      + (debugWeb?"        showLog('Cridant a cridaOutPre_doSign()');":"")
+      + "        doSign();\n"
+      + (debugWeb?"        showLog('Cridant a cridaOutPost_doSign()');":"")
+      + "      }\n"
+      + "    } catch (e) { alert(e); };\n" 
+      + "    // Iniciar Timer\n"
+      + "    myTimer = setInterval(function () {closeWhenSign()}, 5000);\n"
+      + " } // Final window.onload\n"
+      + "</script>\n";
+   
+      
+      javascript.put(sai.getSignaturesSetID(), javascriptCode);
+      
+      
+      response.setCharacterEncoding("utf-8");
+      response.setContentType("text/html");
+      
+      PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
+          relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
+      
+
+      
+    out.println(
+      "  <script type=\"text/javascript\">"
+      + "\n"
+      + "    MiniApplet.setForceWSMode(true);"
+      + "\n"
+      + "    MiniApplet.cargarAppAfirma(\"" + HOST + request.getContextPath() + "\"); "
+      + "\n"
+      + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
+      + "\n"
+      + "</script>\n\n"
+      + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">\n"
+      + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
+      + "    <tr valign=\"middle\">\n"
+      + "    <td align=\"center\">\n"
+      + "      <div id=\"msgNoAndroidChrome\">\n"
+      + "         <h2>\n" + getTraduccio("espera", locale) + "</h2><br/>"
+      + "         <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\">\n"
+      + "      </div>\n"
+      + "      <div id=\"msgAndroidChrome\">\n"
+      + "         <h2>\n" + getTraduccio("iniciarfirma", locale) + "</h2><br/>"
+      + "         <input type=\"button\" class=\"btn btn-large btn-success\" onclick=\"doSignAndroidChrome()\" value=\""+ getTraduccio("firmar", locale) + "\">"
+      + "      </div>\n"
+      + "      <br/>\n"
+      + "      <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoCancel()\" value=\""
+      + getTraduccio("cancel", locale)
+      + "\">\n");
+      
+      
+      if (debugWeb) {
+        out.println(
+          "      <br/>\n"
+        + "      <br/>\n"
+        + "      <textarea id=\"console\" cols=\"150\" rows=\"10\"></textarea><br/>\n"
+        + "      <input type=\"button\" value=\"Firmar ORIG\" onclick=\"doSign();\">&nbsp;\n"
+        + "      <input type=\"button\" value=\"Mostrar Log ORIG\" onclick=\"showAppletLog();\">\n");
+      };
+      
+      out.println(
+         "    </td>\n"
+       + "    </tr>\n"
+       + "  </table>\n"
+       + "</div>\n"
+       // Formulari per enviar resultats
+       + "<form name=\"resultsForm\" method=\"post\" action=\"" +  absolutePluginRequestPath + "/"+ FINAL_PAGE_BATCH + "\">\n"
+       + "  <input type='hidden' id='" + RESULT_REQUEST_PARAM + "' name='" + RESULT_REQUEST_PARAM + "' />\n"
+       + "</form>\n");
+
+    generateFooter(out, sai, signaturesSet);
+    
+    out.flush();
+
+  }
+  
+  
+  
+  private void indexPageClientMobil(String absolutePluginRequestPath, String relativePluginRequestPath,
+      HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet,
+      int signatureIndex, Locale locale) {
+
+    final String signaturesSetID = signaturesSet.getSignaturesSetID();
 
     response.setCharacterEncoding("utf-8");
     response.setContentType("text/html");
@@ -423,164 +856,94 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
     String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
         relativePluginRequestPath);
+ 
     
     
+    final FileInfoSignature[] fisArray = signaturesSet.getFileInfoSignatureArray();
     
-    // CODI CONVERSIO COMU
-    MiniAppletUtils.convertCommon(fis, configProperties);
-
-
-    // POLITICA DE FIRMA
-    PolicyInfoSignature policy;
-    policy = MiniAppletUtils.convertPolicy(signaturesSet.getCommonInfoSignature(),
-        configProperties);
-
-    final String signType = fis.getSignType();
-    String format;
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-      format = "PAdEStri";
-
-      MiniAppletUtils.convertPAdES(fis, configProperties, policy);
-      
-      // Configurar per poder rebre la rúbrica
-      String rubricURL;
-      rubricURL = callbackhost + baseSignaturesSet + "/" + index + "/" + RUBRIC_PAGE;
-      try {
-         MiniAppletUtils.convertPAdESPdfVisibleRemoteSignature(fis,  rubricURL, configProperties);
-      } catch (Exception e) {
-        String errorMsg = getSimpleName() + "::Error configurant la Rubrica o PDFVisible: "
-            + e.getMessage();
-        super.finishWithError(response, signaturesSet, errorMsg, null);
-        return;
+    final String[] configPropertiesStr = new String[fisArray.length];
+    
+    
+    Properties[] configProperties = new Properties[fisArray.length];
+    timeStampCache.put(signaturesSetID, configProperties);
+     
+    
+    
+    int countNulls = 0;
+    for (int i = 0; i < fisArray.length; i++) {
+      final FileInfoSignature fis = fisArray[i];  
+      configProperties[i] = generarPropertiesFirma(response, signaturesSet,
+          signaturesSetID, baseSignaturesSet, callbackhost, i, fis, null);
+     
+      if (configProperties[i] == null) {
+        countNulls++;
+        continue;
       }
       
-      if (log.isDebugEnabled()) {
-        log.info(" signatureRubricImage => " + configProperties.getProperty("signatureRubricImage" ));
+      String format = configProperties[i].getProperty(FORMAT);
+      format = format + "tri";
+      
+      configProperties[i].setProperty(FORMAT, format);
+      
+      configProperties[i].remove(SIGNATUREID);
+      
+      // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
+      configProperties[i].setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
+      
+      // Convertir Properties a String
+      StringBuffer configPropertiesStr1 = new StringBuffer();
+
+      for (Object key : configProperties[i].keySet()) {
+        configPropertiesStr1
+            .append(key + "=" + configProperties[i].getProperty((String) key) + "\n");
       }
-      
+      configPropertiesStr[i] = configPropertiesStr1.toString();
 
-    } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-      format = "XAdEStri";
-
-      MiniAppletUtils.convertXAdES(fis, configProperties);
-
-    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
-        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-      format = "CAdEStri";
-        
-      MiniAppletUtils.convertCAdES(fis, configProperties);
-      
-    } else {
-
-      // format = "FacturaE
-      // format = "FacturaEtri
-      // format = "ODF"
-      // format = "OOXML"
-      final String errorMsg = getSimpleName() + "::Tipus de Firma descogut o no suportat: "
-          + signType;
-
+    }
+    
+    if (countNulls == fisArray.length) {
+      // TODO Traduir
+      final String errorMsg = "No s'ha aconseguit convertir les propietats de cap Firma.";
       super.finishWithError(response, signaturesSet, errorMsg, null);
       return;
     }
 
-    // ALGORISME DE FIRMA
-    String algorithm;
-    try {
-      algorithm = MiniAppletUtils.convertAlgorithm(fis);
-    } catch (Exception e) {
-      String errorMsg = getSimpleName() + "::Tipus d'algorisme desconegut o no suportat "
-          + fis.getSignAlgorithm();
-      super.finishWithError(response, signaturesSet, errorMsg, null);
-      return;
-    }
-
-    // SEGELL DE TEMPS
-    if (fis.getTimeStampGenerator() != null) {
-      
-      String timeStampUrl = null;
-
-      timeStampUrl = callbackhost + baseSignaturesSet + "/" + index + "/" + TIMESTAMP_PAGE;
-      final boolean isLocalSignature = false;
-      MiniAppletUtils.convertTimeStamp(fis, timeStampUrl, isLocalSignature, configProperties);
-      
-      // Guardar dins Cache de Propietats si es denama timeStamp i el tipus és CADES o SMIME
-      if (FileInfoSignature.SIGN_TYPE_CADES.equals(fis.getSignType())
-          || FileInfoSignature.SIGN_TYPE_SMIME.equals(fis.getSignType())) {
-        Properties[] allProp = timeStampCache.get(signaturesSetID);
-        if (allProp == null) {
-          allProp = new Properties[fisArray.length];
-          timeStampCache.put(signaturesSetID, allProp);
-        } 
-        allProp[index] = configProperties;
-      }
-
-    }
-
-    
-    // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
-    configProperties.setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
-    
-    final boolean debug = log.isDebugEnabled();
-    
-    // Afegir Filtre de Certificats
-    String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
-    if (debug) { log.debug("AUTOFIRMA:: FILTRE["+ filtre + "]"); };
-    if (filtre != null && filtre.trim().length() != 0) {
-      Properties propFiltre = new Properties();
-      try {
-        propFiltre.load(new StringReader(filtre));
-        
-        if (debug) {
-          Set<Object> keys = propFiltre.keySet();
-          for (Object key : keys) {
-            log.debug("AUTOFIRMA:: PropertiesFILTRE[" + key + "] => " + propFiltre.get(key));
-          }
-        }
-        configProperties.putAll(propFiltre);
-        
-      } catch (IOException e) {
-        // TODO XYZ
-        log.error(" Error processant filtre de certificats: " + e.getMessage(), e);
-      }
-    }
-
-
-    if (debug) {
-      Set<Object> keys = configProperties.keySet();
-      for (Object key : keys) {
-        log.debug("AUTOFIRMA:: Properties[" + key + "] => " + configProperties.get(key));
-      }
-    }
-
-
-    // Convertir Properties a String
-    StringBuffer configPropertiesStr = new StringBuffer();
-
-    for (Object key : configProperties.keySet()) {
-      configPropertiesStr
-          .append(key + "=" + configProperties.getProperty((String) key) + "\n");
-    }
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
-    
-    
-    
-    final boolean debugWeb = false;
-    
-    
-    
-      String javascriptCode =    
+ 
+    final boolean debugWeb = "true".equals(getProperty("debug"));
+
+      String javascriptCode1 =    
         " <script type=\"text/javascript\">\n"
         // +"  // IMPORTANTE: PARA PRUEBAS, USAR SIEMPRE UNA IP O NOMBRE DE DOMINIO, NUNCA 'LOCALHOST' O '127.0.0.1'"
         // +"  // SI NO SE HACE ASI, AUTOFIRMA BLOQUEARA LA FIRMA POR SEGURIDAD"
         //+ "  var HOST = \"" + HOST + "\";\n"
         //+ "\n"
+        + "  var indexFirma = 0;\n"
         + "  var myTimer;\n"
-        + "\n"
-        + "  function showResultCallback(signatureB64, certificateB64) {"
-        + "\n"
-        // Enviar a finalitzar !!!
-        + "    gotoFinal(); "
+        + "  var realitzantfirma = '" + getTraduccio("realitzantfirma", locale, "XXX", String.valueOf(fisArray.length) )  + "';\n"
+        + "  function replaceAll(str, find, replace) {\n"
+        + "     return str.replace(new RegExp(find, 'g'), replace);\n"
+        + "  }\n\n"
+        + "  function showResultCallback(signatureB64, certificateB64) {\n"
+        // Enviar a finalitzar o a firmar la següent !!!
+        + "    indexFirma++;\n"
+        + (debugWeb?"    showLog('Incrementant indexFirma. Nou valor  = ' + indexFirma);\n":"")
+        + "    if (indexFirma < " + fisArray.length + ") {\n"
+        + (debugWeb?"      showLog('Next Sign. Cridant a doSign().');\n":"")
+        + "      $('#progresFirma').text(replaceAll(realitzantfirma, 'XXX', ''+ (indexFirma + 1)));\n"
+        + "      if (isChromeOrIOS()) {\n" // ) {\n"  //  
+        + "        mostrar('msgAndroidChrome');\n"
+        + "        ocultar('msgNoAndroidChrome');\n"
+        + "      } else { \n"  
+        + "        doSign();\n"
+        + "      }\n"
+        + "    } else {\n"
+        //+ "      gotoFinal();\n"
+        + "      isFinalEnabled = true;\n"
+        + "      clearTimeout(myTimer);\n"
+        + "      window.location.href='" +  absolutePluginRequestPath + "/"+ FINAL_PAGE_CLIENT_MOBIL + "';\n"
+        + "    }\n"
         + "  }"
         + "\n\n"
         // Enviar error a una pàgina concreta d'aquest plugin
@@ -597,14 +960,31 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "    request.send();\n"
         + "    gotoFinal();\n"
         + "  }"
-        + "\n"
-        + "\n"
+        + "\n\n"
         + "  function doSign() {\n"
         + "    try {\n"
-        + "      MiniApplet.sign('" + encodeSignatureItemID(signaturesSetID, index) + "',"
-        + "        '" + algorithm + "', '" + format + "',"
-        + "        '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr.toString()) + "',\n"
-        + "        showResultCallback, showErrorCallback);\n"
+        + "      switch(indexFirma) {\n";
+        
+        StringBuffer javascriptCode2 = new StringBuffer(); 
+        
+        for (int j = 0; j < configProperties.length; j++) {
+          
+          final String algorithm = configProperties[j].getProperty(ALGORITHM);
+          
+          final String format = configProperties[j].getProperty(FORMAT);
+          
+          javascriptCode2.append(
+              "      case " + j + ":\n" 
+            + "        MiniApplet.sign('" + encodeSignatureItemID(signaturesSetID, j) + "',"
+            + "          '" + algorithm + "', '" + format + "',"
+            + "          '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr[j]) + "',\n"
+            + "          showResultCallback, showErrorCallback);\n"
+            + "      break;\n");
+        }
+        
+        
+        String javascriptCode3 =
+        "      } // Final Switch\n"
         + (debugWeb?"      showLog(\"Post_MiniApplet.sign()\");\n":"")
         + "    } catch(e) {\n"
         + "      alert(\"Error: \" + e);\n"
@@ -615,50 +995,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "      }\n"
         + "    }\n"
         + "  }"
-        + "\n\n"
-        /*
-         * +"  function doSignBatch() {" +"   try {"
-         * +"    var batch = createBatchConfiguration();" +""
-         * +"    MiniApplet.signBatch("
-         * +"     MiniApplet.getBase64FromText(batch)," +
-         * "     HOST + 'PATH/BatchPresigner',    '/afirma-server-triphase-signer/BatchPresigner'"
-         * +
-         * "     HOST + 'PATH/BatchPostsigner',  '/afirma-server-triphase-signer/BatchPostsigner'"
-         * +"     document.getElementById(\"params\").value,"
-         * +"     showResultCallback," +"     showErrorCallback);" +""
-         * +"   } catch(e) {" +"    try {" +
-         * "     showLog(\"Type: \" + MiniApplet.getErrorType() + \"\"Message: \" + MiniApplet.getErrorMessage());"
-         * +"    } catch(ex) {" +"     showLog(\"Error: \" + e);" +"    }"
-         * +"   }" +"  }"
-         * 
-         * +"  " +"  function doCoSign() {" +"   try {"
-         * +"    var signature = document.getElementById(\"signature\").value;"
-         * +"    var data = document.getElementById(\"data\").value;" +""
-         * +"    MiniApplet.coSign(" +
-         * "     (signature != undefined && signature != null && signature != \"\") ? signature : null,"
-         * +
-         * "     (data != undefined && data != null && data != \"\") ? data : null,"
-         * +"     document.getElementById(\"algorithm\").value,"
-         * +"     document.getElementById(\"format\").value,"
-         * +"     document.getElementById(\"params\").value,"
-         * +"     showResultCallback," +"     showErrorCallback);" +""
-         * +"   } catch(e) {" +
-         * "    showLog(\"Type: \" + MiniApplet.getErrorType() + \"Message: \" + MiniApplet.getErrorMessage());"
-         * +"   }" +"  }" +"" +"  function doCounterSign() {" +"   try {"
-         * +"    var signature = document.getElementById(\"signature\").value;"
-         * +"" +"    MiniApplet.counterSign(" +
-         * "     (signature != undefined && signature != null && signature != \"\") ? signature : null,"
-         * +"     document.getElementById(\"algorithm\").value,"
-         * +"     document.getElementById(\"format\").value,"
-         * +"     document.getElementById(\"params\").value,"
-         * +"     showResultCallback," +"     showErrorCallback);"
-         * +"   } catch(e) {" +
-         * "    showLog(\"Type: \" + MiniApplet.getErrorType() + \"Message: \" + MiniApplet.getErrorMessage());"
-         * +"   }" +"  }" +""
-         */
-
-        + "\n"
-
+        + "\n\n\n"
         + "  function closeWhenSign() {\n"
         + (debugWeb?"  showLog('Cridant a closeWhenSign()');\n":"")
         + "    var request;\n"
@@ -689,7 +1026,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "    if (!gotoFinalEnabled) { return; };\n"
         + "    gotoFinalEnabled = false;\n"
         + "    clearTimeout(myTimer);\n"
-        + "    window.location.href='" + finalURL + "';\n"
+        //+ "    window.location.href='" + signaturesSet.getUrlFinal() + "';\n"
+        + "    window.location.href='" +  absolutePluginRequestPath + "/"+ FINAL_PAGE_CLIENT_MOBIL + "';\n"
         + "  };"
         + "\n\n"       
         + " function mostrar(id) {\n"
@@ -715,17 +1053,23 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "function doSignAndroidChrome() {\n"
         + "   mostrar('msgNoAndroidChrome');\n"
         + "   ocultar('msgAndroidChrome');\n"
+        + ( (fisArray.length > 1)? "   ocultar('avisNfirmes');\n" : "")        
         + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Pre_doSign()');":"")
         + "   doSign();\n"
         + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Post_doSign()');":"")
         + "}\n\n"
+        
+        + "function isChromeOrIOS() {\n"
+        + "  var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
+        + "  var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
+        + "  var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
+        + "  var casIOS = MiniApplet.isIOS();\n"
+        + "  return casAC || casIOS;"
+        + "}\n\n"
+        
         + "  window.onload = function(e) { \n"
         + "    try {\n"
-        + "      var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
-        + "      var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
-        + "      var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
-        + "      var casIOS = MiniApplet.isIOS();"
-        + "      if (casAC || casIOS) {\n" // ) {\n"  //  
+        + "      if (isChromeOrIOS()) {\n" // ) {\n"  //  
         + "        mostrar('msgAndroidChrome');\n"
         + "        ocultar('msgNoAndroidChrome');\n"
         + "      } else { \n"  
@@ -742,13 +1086,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "</script>\n";
      
         
+        String javascriptCode = javascriptCode1 + javascriptCode2.toString() + javascriptCode3;
+        
         javascript.put(sai.getSignaturesSetID(), javascriptCode);
         
         PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
             relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
-        
 
-        
       out.println(
         "  <script type=\"text/javascript\">"
         + "\n"
@@ -763,11 +1107,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
         + "    <tr valign=\"middle\">\n"
         + "    <td align=\"center\">\n"
+        + "      <div id=\"progresFirma\" class=\"alert alert-success\" >\n"
+        + "          " + getTraduccio("realitzantfirma", locale, "1", String.valueOf(fisArray.length) )  + "\n"
+        + "      </div>\n"
         + "      <div id=\"msgNoAndroidChrome\">\n"
         + "         <h2>\n" + getTraduccio("espera", locale) + "</h2><br/>"
-        + "         <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\">\n"
+        + "         <img alt=\"Esperi\" style=\"z-index:200\" src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\"><br/>\n"
         + "      </div>\n"
         + "      <div id=\"msgAndroidChrome\">\n"
+        + ( (fisArray.length > 1)? "      <div id=\"avisNfirmes\" class=\"alert alert-error\">Hi ha " + fisArray.length + " firmes que es realitzaran una darrera l'altre. Vol continuar?</div><br/>\n" : "")
         + "         <h2>\n" + getTraduccio("iniciarfirma", locale) + "</h2><br/>"
         + "         <input type=\"button\" class=\"btn btn-large btn-success\" onclick=\"doSignAndroidChrome()\" value=\""+ getTraduccio("firmar", locale) + "\">"
         + "      </div>\n"
@@ -775,6 +1123,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "      <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoCancel()\" value=\""
         + getTraduccio("cancel", locale)
         + "\">\n");
+
         
         
         if (debugWeb) {
@@ -791,24 +1140,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          + "    </tr>\n"
          + "  </table>\n"
          + "</div>\n");
-        
-   
-        
-        
-        
-       
-    //    + "\n" + " </body>" + "\n" + "</html>" + "\n");
-    
-    /*
-    + "   //var a = document.createElement('a'); \n" 
-    + "   //a.setAttribute('href','javascript:doSign();'); // this is the URL\n" 
-    + "   //document.body.appendChild(a);\n" 
-    + "   alert('Abans de fer click automàtic ');\n" 
-    + "   //a.click();\n"
-    + "   setTimeout(function () { document.getElementById('backToApp').click(); }, 2000);\n"
-    + "   alert('Despres de fer click automàtic ');\n"
-    */
-    
     
     generateFooter(out, sai, signaturesSet);
     
@@ -818,8 +1149,413 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
   
   
+
+  protected String encodeB64(final String config) {
+    try {
+      return Base64.encode(config.getBytes("UTF-8"));
+    } catch(UnsupportedEncodingException uce) {
+      uce.printStackTrace(); // TODO
+      return Base64.encode(config.getBytes());
+    }
+  }
   
+  
+  public static final String ALGORITHM = "algorithm";
+  
+  public static final String FORMAT = "format";
+  
+  public static final String SIGNATUREID = "SignatureId";
+
+
+  protected Properties generarPropertiesFirma(HttpServletResponse response,
+      SignaturesSetWeb signaturesSet, final String signaturesSetID, String baseSignaturesSet,
+      String callbackhost, final int index, 
+      final FileInfoSignature fis, String algorithmRequired) {
+    Properties configProperties = new Properties();
+    
+    // ALGORISME DE FIRMA
+    String algorithm;
+    try {
+      algorithm = MiniAppletUtils.convertAlgorithm(fis);
+    } catch (Exception e) {
+      String errorMsg = getSimpleName() + "::Tipus d'algorisme desconegut o no suportat "
+          + fis.getSignAlgorithm();
+
+      StatusSignature status = getStatusSignature(signaturesSetID, index);
+      status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      status.setErrorMsg(errorMsg);
+      status.setSignedData(null);
+
+      return null;
+    }
+    configProperties.put(ALGORITHM, algorithm);
+    
+    if ((algorithmRequired != null) && (!algorithmRequired.equals(algorithm))) {
+      // TODO Traduir
+      String errorMsg = "Només es pot suportar un sol tipus d´algorisme per transacció ("
+        + algorithmRequired + ") però aquesta firma el té diferent (" + algorithm + ")";
+      StatusSignature status = getStatusSignature(signaturesSetID, index);
+      status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      status.setErrorMsg(errorMsg);
+      status.setSignedData(null);
+      
+      return null;
+    }
+    
+    
+    // CODI CONVERSIO COMU
+    MiniAppletUtils.convertCommon(fis, configProperties);
+
+
+    // POLITICA DE FIRMA
+    PolicyInfoSignature policy;
+    policy = MiniAppletUtils.convertPolicy(signaturesSet.getCommonInfoSignature(),
+        configProperties);
+
+    final String signType = fis.getSignType();
+    String format;
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+      format = "PAdES";
+
+      MiniAppletUtils.convertPAdES(fis, configProperties, policy);
+      
+      // Configurar per poder rebre la rúbrica
+      String rubricURL;
+      rubricURL = callbackhost + baseSignaturesSet + "/" + index + "/" + RUBRIC_PAGE;
+      try {
+         MiniAppletUtils.convertPAdESPdfVisibleRemoteSignature(fis,  rubricURL, configProperties);
+      } catch (Exception e) {
+        String errorMsg = getSimpleName() + "::Error configurant la Rubrica o PDFVisible: "
+            + e.getMessage();
+
+        StatusSignature status = getStatusSignature(signaturesSetID, index);
+        status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+        status.setErrorMsg(errorMsg);
+        status.setSignedData(null);
+        status.setErrorException(e);
+        
+        return null;
+      }
+      
+      if (log.isDebugEnabled()) {
+        log.info(" signatureRubricImage => " + configProperties.getProperty("signatureRubricImage" ));
+      }
+      
+
+    } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+      format = "XAdES";
+
+      MiniAppletUtils.convertXAdES(fis, configProperties);
+
+    } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+      format = "CAdES";
+        
+      MiniAppletUtils.convertCAdES(fis, configProperties);
+      
+    } else {
+
+      // format = "FacturaE
+      // format = "FacturaEtri
+      // format = "ODF"
+      // format = "OOXML"
+      final String errorMsg = getSimpleName() + "::Tipus de Firma descogut o no suportat: "
+          + signType;
+
+      StatusSignature status = getStatusSignature(signaturesSetID, index);
+      status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      status.setErrorMsg(errorMsg);
+      status.setSignedData(null);
+      return null;
+    }
+
+    configProperties.put(FORMAT, format);
+
+    // SIGNATURE ID
+    configProperties.put(SIGNATUREID, encodeSignatureItemID(signaturesSetID, index));
+
+    // SEGELL DE TEMPS
+    if (fis.getTimeStampGenerator() != null) {
+      String timeStampUrl;
+      timeStampUrl = callbackhost + baseSignaturesSet + "/" + index + "/" + TIMESTAMP_PAGE;
+      final boolean isLocalSignature = false;
+      MiniAppletUtils.convertTimeStamp(fis, timeStampUrl, isLocalSignature, configProperties);
+    }
+
+    
+    // ESPECIFIC DE @firma AutoFirma i Client @firma Mòbil
+    //configProperties.setProperty("serverUrl", HOST + PATH + "/" + SIGNATURESERVICE);
+    
+    final boolean debug = log.isDebugEnabled();
+    
+    // Afegir Filtre de Certificats
+    String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
+    if (debug) { log.debug("AUTOFIRMA:: FILTRE["+ filtre + "]"); };
+    if (filtre != null && filtre.trim().length() != 0) {
+      Properties propFiltre = new Properties();
+      try {
+        propFiltre.load(new StringReader(filtre));
+        
+        if (debug) {
+          Set<Object> keys = propFiltre.keySet();
+          for (Object key : keys) {
+            log.debug("AUTOFIRMA:: PropertiesFILTRE[" + key + "] => " + propFiltre.get(key));
+          }
+        }
+        configProperties.putAll(propFiltre);
+        
+      } catch (IOException e) {
+        // TODO tradudir
+        String errorMsg = " Error processant filtre de certificats: " + e.getMessage();
+        StatusSignature status = getStatusSignature(signaturesSetID, index);
+        status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+        status.setErrorMsg(errorMsg);
+        status.setSignedData(null);
+        status.setErrorException(e);
+      }
+    }
+
+
+    if (debug) {
+      Set<Object> keys = configProperties.keySet();
+      for (Object key : keys) {
+        log.debug("AUTOFIRMA[" + index + "]:: Properties[" + key + "] => " + configProperties.get(key));
+      }
+    }
+
+    return configProperties;
+
+   
+  }
+  
+  
+  
+  
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ------------------ PAGINA DE FINAL -----------------------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  public static final String FINAL_PAGE_CLIENT_MOBIL = "finalClientMobil";
+
+
+  
+  /**
+   * pagina de FInal pel CLient Mòbil
+   * 
+   * @param query
+   * @param signaturesSet
+   * @param signatureIndex
+   * @param request
+   * @param response
+   * @param uploadedFiles
+   * @throws Exception
+   */
+  private void finalPageClientMobil(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
+      HttpServletRequest request, HttpServletResponse response) {
+
+   try { 
+     
+     // Verificar que totes les firmes estan guardades
+     int pending;
+     for (int i = 0; i < 10; i++) {
+       
+       pending = 0;
+       for (FileInfoSignature fis: signaturesSet.getFileInfoSignatureArray() ) {
+         
+         int status = fis.getStatusSignature().getStatus();
+         
+         if (status == StatusSignature.STATUS_INITIALIZING 
+             || status == StatusSignature.STATUS_IN_PROGRESS) {
+           pending++;
+         }
+         
+       }
+
+       if (pending == 0) {
+         break;
+       }
+       
+       // TODO  if i > 10 ???
+       log.warn("finalPageClientMobil() : Esperant a que totes les firmes finalitzin."
+           + " Reintent " + i + "/10.");
+       Thread.sleep(1000);
+     }
+
+     StatusSignaturesSet statusSet = signaturesSet.getStatusSignaturesSet();
+     statusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
+
+     if (log.isDebugEnabled()) {
+       log.debug("finalPageClientMobil() : REDIRECT A " + signaturesSet.getUrlFinal());
+     }
+
+     response.sendRedirect(signaturesSet.getUrlFinal());
+
+   } catch (Exception e) {
+     String errorMsg = getSimpleName()
+         + "Error processant l´xml del resultat de la firma ("
+         + signaturesSet.getSignaturesSetID() + "): " + e.getMessage();
+     super.finishWithError(response, signaturesSet, errorMsg, e);
+     return ;
+   }
+
+  }
+  
+  
+  
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ------------------ PAGINA DE FINAL BATCH -----------------------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  public static final String FINAL_PAGE_BATCH = "finalBatch";
+
+  public static final String RESULT_REQUEST_PARAM = "result";
+  
+  
+  /**
+   * En el client (Applet, javaWebStart, ...) s'ha produït un error i l'està
+   * enviant al servidor
+   * 
+   * @param query
+   * @param signaturesSet
+   * @param signatureIndex
+   * @param request
+   * @param response
+   * @param uploadedFiles
+   * @throws Exception
+   */
+  private void finalPageBatch(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
+      HttpServletRequest request, HttpServletResponse response) {
+
+    
+   String resultXMLB64 = request.getParameter(RESULT_REQUEST_PARAM);
+   
+   if (resultXMLB64 == null || resultXMLB64.trim().length() == 0) {
+      String errorMsg = getSimpleName()
+          + "El client no ha enviat el resultat de la operació de firma ("
+          + signaturesSet.getSignaturesSetID() + ")";
+      super.finishWithError(response, signaturesSet, errorMsg, null);
+      return ;
+   }
+   
+   final boolean debug = log.isDebugEnabled();
+
+   try {
+  
+     if (debug) {
+       log.debug("resultXMLB64 = " + resultXMLB64);
+     }
+  
+     String resultXML = new String(Base64.decode(resultXMLB64));
+     if (debug) {
+       log.debug("resultXML = \n" + resultXML);
+     }
+     Signs result = xmlToSignResultList(resultXML);
+     
+     final String signaturesSetID = signaturesSet.getSignaturesSetID();
+     
+     int countError = 0;
+     List<String> allIds = new ArrayList<String>();
+     for (Signresult sr : result.getSignresult()) {
+       
+       allIds.add(sr.getId());
+
+       if (debug) {
+         log.debug("--------------------------------- ");
+         log.debug(" sr.getId = " + sr.getId());
+         log.debug(" sr.getResult = " + sr.getResult());
+         log.debug(" sr.getDescription = " + sr.getDescription());
+         log.debug(" sr.getValue = " + sr.getValue());
+       }
+       
+       Item item = decodeSignatureItemID(sr.getId());
+       
+          
+       StatusSignature status = getStatusSignature(signaturesSetID, item.index);
+       
+       if ("DONE_AND_SAVED".equals(sr.getResult())) {
+         status.setStatus(StatusSignature.STATUS_FINAL_OK);
+       } else {
+         countError++;
+         log.error("Resultat de Firma Erroni en SignSet = " + item.signaturesSetID 
+             + "(index = " + item.index + " ) = " + sr.getResult());
+         
+         
+         String valor = sr.getValue();
+         if (valor != null && valor.trim().length() != 0) {
+           valor = "( Valor = " + valor.trim() + ")";
+         } else {
+           valor = "";
+         }
+         
+         status.setErrorMsg(sr.getDescription() + valor);
+         status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+         status.setSignedData(null);
+       }
+
+     }
+     
+     // Revisar si tot ja s'ha guardat
+     if (debug) {
+       log.debug(" finalPageBatch() : CHECK TOT GUARDAT\n"
+         + "          +  AllIds: " + allIds.size() + " \n"         
+         + "          + Error Count: " + countError + "\n\n");     
+     }     
+     try {
+     
+       List<String> pendents = new ArrayList<String>(allIds);
+       for (int i = 0; i < 10; i++) {
+          pendents = SignSaverFile.checkProcessedFiles(pendents);
+          if (pendents.size() <= countError) {
+            break;
+          } else {
+            log.warn("finalPageBatch(): falten " + pendents.size()
+                + " elements pel PostProces. Esperam mig segon.");  
+            Thread.sleep(500);
+          }
+       }
  
+       if (pendents.size() > countError) {
+         // Marcar com a No processades
+         
+         for (String id : pendents) {
+           Item item = decodeSignatureItemID(id);
+           
+           StatusSignature status = getStatusSignature(signaturesSetID, item.index);
+           // Traduir
+           status.setErrorMsg("Per alguna raó desconeguda no s'ha guardat el fitxer");
+           status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+           status.setSignedData(null);
+         }
+  
+       }
+     } finally {
+     
+       SignSaverFile.removeProcessedFiles(allIds);
+       
+     }
+
+     StatusSignaturesSet statusSet = signaturesSet.getStatusSignaturesSet();
+     statusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
+    
+     if (debug) {
+       log.debug("finalPageBatch() : REDIRECT A " + signaturesSet.getUrlFinal());
+     }
+
+     response.sendRedirect(signaturesSet.getUrlFinal());
+
+   } catch (Exception e) {
+     String errorMsg = getSimpleName()
+         + "Error processant l´xml del resultat de la firma ("
+         + signaturesSet.getSignaturesSetID() + "): " + e.getMessage();
+     super.finishWithError(response, signaturesSet, errorMsg, e);
+     return ;
+   }
+
+  }
   
 
   // ----------------------------------------------------------------------------
@@ -872,6 +1608,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       log.warn("@firma AUTOFIRMA: S'ha rebut un error: " + errorMsg);
       status.setErrorMsg(errorMsg);
       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+    }
+
+    try {
+      response.sendRedirect(signaturesSet.getUrlFinal());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
   }
@@ -1040,6 +1782,109 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
 
   }
+  
+  
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // --------- SERVEIS @FIRMA BATCH :: BatchPresigner ----------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  
+  public static final String BATCHPRESIGNER = "BatchPresigner";
+  
+  
+  /**
+   * ?????????
+   * 
+   * @param absolutePluginRequestPath
+   * @param relativePluginRequestPath
+   * @param request
+   * @param response
+   * @param signaturesSet
+   * @param locale
+   */
+  private void batchPreSigner(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+
+    // Cache
+    BatchPresigner signatureService = getBatchPresignerInstance();
+
+    try {
+      signatureService.service(request, response);
+    } catch (Exception e) {
+
+      final String errorMsg = "Error desconegut processant batchPreSigner(): "
+          + e.getMessage();
+
+      finishWithError(response, signaturesSet, errorMsg, e);
+    }
+
+  }
+
+  private BatchPresigner batchPresigner = null;
+
+  public BatchPresigner getBatchPresignerInstance() {
+    if (batchPresigner == null) {
+      batchPresigner = new BatchPresigner();
+      init(); // TODO només fer-ho una vegada !!!!!!!!!!
+    }
+    return batchPresigner;
+  }
+
+  
+  
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // --------- SERVEIS @FIRMA BATCH :: BatchPostsigner ----------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+ 
+  public static final String BATCHPOSTSIGNER = "BatchPostsigner";
+  
+  
+  /**
+   * ?????????
+   * 
+   * @param absolutePluginRequestPath
+   * @param relativePluginRequestPath
+   * @param request
+   * @param response
+   * @param signaturesSet
+   * @param locale
+   */
+  private void batchPostSigner(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+
+    // Cache
+    BatchPostsigner signatureService = getBatchPostsignerInstance();
+
+    try {
+      signatureService.service(request, response);
+    } catch (Exception e) {
+
+      final String errorMsg = "Error desconegut processant batchPreSigner(): "
+          + e.getMessage();
+
+      finishWithError(response, signaturesSet, errorMsg, e);
+    }
+
+  }
+
+  private BatchPostsigner batchPostsigner = null;
+
+  public BatchPostsigner getBatchPostsignerInstance() {
+    if (batchPostsigner == null) {
+      batchPostsigner = new BatchPostsigner();
+      init(); // TODO només fer-ho una vegada !!!!!!!!!!
+    }
+    return batchPostsigner;
+  }
+
+  
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -1133,7 +1978,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  protected String encodeSignatureItemID(String signaturesSetID, int index) {
+  public static String encodeSignatureItemID(String signaturesSetID, int index) {
 
     // log.error(" ENCODE:: signaturesSetID = " + signaturesSetID);
     // log.error(" ENCODE:: index = ]" + index + "[");
@@ -1141,15 +1986,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return Base64.encode((signaturesSetID + "|" + index).getBytes());
   }
 
-  protected Item decodeSignatureItemID(String id) throws IOException {
+  public static Item decodeSignatureItemID(String id) throws IOException {
     String id_and_index = new String(Base64.decode(id));
 
-    final boolean debug = log.isDebugEnabled();
+    //final boolean debug = log.isDebugEnabled();
 
-    if (debug) {
-      log.debug(" DECODE:: id = " + id);
-      log.debug(" DECODE:: id_and_index = ]" + id_and_index + "[");
-    }
+//    if (debug) {
+//      log.debug(" DECODE:: id = " + id);
+//      log.debug(" DECODE:: id_and_index = ]" + id_and_index + "[");
+//    }
 
     String[] parts = id_and_index.split("\\|");
 
@@ -1158,17 +2003,17 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     item.signaturesSetID = parts[0];
     item.index = Integer.parseInt(parts[1]);
 
-    if (debug) {
-      log.debug(" DECODE:: parts = ]" + item.signaturesSetID + "[");
-      log.debug(" DECODE:: parts = ]" + item.index + "[");
-    }
+//    if (debug) {
+//      log.debug(" DECODE:: parts = ]" + item.signaturesSetID + "[");
+//      log.debug(" DECODE:: parts = ]" + item.index + "[");
+//    }
 
     return item;
   }
 
-  protected class Item {
-    String signaturesSetID;
-    int index;
+  public static class Item {
+    public String signaturesSetID;
+    public int index;
   }
 
   /**
@@ -1216,9 +2061,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
 
       fis = new FileInputStream(file);
-      
-      
-      
+
       final byte[] data;
       if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
         // SMIME
@@ -1384,10 +2227,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       // Estat d'aquest document en particular
       status.setStatus(StatusSignature.STATUS_FINAL_OK);
       
-      // TODO Fer Batch
-      // Estat de tots els document ja que per ara només permet 1 fitxer
-      ss.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_FINAL_OK);
-
       if (log.isDebugEnabled()) {
         log.debug(" Traduir  Escribiendo el fichero: " + firmat.getAbsolutePath());
       }
@@ -1408,5 +2247,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
 
- 
+
+  protected static Signs xmlToSignResultList(String xml) throws JAXBException {
+    xml = xml.trim();
+    
+    if (!xml.toLowerCase().endsWith("</signs>")) {
+      xml = xml + "</signs>";
+    }
+    
+    JAXBContext jaxbContext = JAXBContext.newInstance(Signs.class);
+
+    Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+    
+    Signs customer = (Signs) jaxbUnmarshaller.unmarshal(new StringReader(xml));
+    return customer;
+  }
+  
+
 }

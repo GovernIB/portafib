@@ -4,27 +4,34 @@
 Aquest readme descriu les pases per generar una nova versió de la llibreria afirma-crypto-pdf 
 per poder suportar estampació de taula de firmes.
 
-(1) Obtenir codi font de la versió qeu s'utilitzi de afirma-crypto-pdf
+(1) Anar a src/main/java/es/gob/afirma/signers/pades/ i renombrar els fitxers:
+      * PdfPreProcessor.java   => PdfPreProcessor.java_COPIA
+      * PdfSessionManager.java => PdfSessionManager.java_COPIA
 
-(2) En el nostre cas només requerim fer canvis als fitxers 
+(2) Obtenir codi font de la nova versió de afirma-crypto-pdf (Si no es té llavors es pot decompilar emprant Java Decompiler)
+
+(3) En el nostre cas només requerim fer canvis als fitxers PdfPreProcessor i PdfSessionManager.
+    Copiar els fitxers (o codi font) als fitxers d'aquest projecte:
     * src/main/java/es/gob/afirma/signers/pades/PdfPreProcessor.java
     * src/main/java/es/gob/afirma/signers/pades/PdfSessionManager.java
-    per això les hem ficat dins aquest projecte
-
-(3) Actualitzar la llibreria següent amb la nova versió 
-[portafib]\plugins-signatureweb\afirma-triphase-server-lib\local-repo\es\gob\afirma\afirma-crypto-pdf\3.3.2-SNAPSHOT
-i marcar-la com a ORIGINAL
-
-(4) Fer una altra còpia dins d'aquest projecte amb el mateix nom del punt (3)
-
-(5) Recompilar aquest projecte: mvn clean install
-
-(6) Fer una còpia del jar original amb el nom correcte:
-    En el nostre cas afirma-crypto-pdf-3.3.2-SNAPSHOT.jar
-
-(7) Substituir les classes generades dins target del jar 
-    afirma-crypto-pdf-3.3.2-SNAPSHOT.jar i guardar
     
-(8) Copiar el nou jar a  [portafib]\plugins-signatureweb\afirma-triphase-server-lib\local-repo\es\gob\afirma\afirma-crypto-pdf\[VERSIO]
+(4) Actualitzar els fitxers  PdfPreProcessor i PdfSessionManager amb els canvis marcats
+    a PdfPreProcessor.java_COPIA i PdfSessionManager.java_COPIA
 
-(9) Avisar que s'ha d'esborrar el directori [HOME]\.m2\repository\es\gob\afirma
+(5) Descarregar el binari de afirma-crypto-pdf-3.3.2-SNAPSHOT.jar
+
+   (5.1) Copiar la llibreria a [portafib]\plugins-signatureweb\afirma-triphase-server-lib\local-repo\es\gob\afirma\afirma-crypto-pdf\ i posar-li nom  afirma-crypto-pdf-3.3.2-SNAPSHOT_ORIGINAL.jar
+
+   (5.2) Copiar la llibreria a [portafib]\plugins-signatureweb\afirma-crypto-pdf i posar-li nom  afirma-crypto-pdf-3.3.2-SNAPSHOT_ORIGINAL.jar
+   
+   (5.3) Copiar la llibreria a [portafib]\plugins-signatureweb\afirma-crypto-pdf  sense canviar-li el nom (afirma-crypto-pdf-3.3.2-SNAPSHOT.jar)
+
+(6) Recompilar aquest projecte: mvn clean install
+
+(7) Editar el jar [portafib]\plugins-signatureweb\afirma-crypto-pdf\afirma-crypto-pdf-3.3.2-SNAPSHOT.jar emprant un editor de zips i substituir les classes generades ([portafib]\plugins-signatureweb\afirma-crypto-pdf\target\classes). Guardar
+    
+(8) Copiar el nou jar [portafib]\plugins-signatureweb\afirma-crypto-pdf\afirma-crypto-pdf-3.3.2-SNAPSHOT.jar a  [portafib]\plugins-signatureweb\afirma-triphase-server-lib\local-repo\es\gob\afirma\afirma-crypto-pdf\[VERSIO] (en el nostre cas VERSIO=3.3.2-SNAPSHOT)
+
+(9) Esborrar el directori [HOME]\.m2\repository\es\gob\afirma
+
+(10) Recompilar-ho tot (Recompilar manualment el projecte [portafib]\plugins-signatureweb\afirma-triphase-server-lib)

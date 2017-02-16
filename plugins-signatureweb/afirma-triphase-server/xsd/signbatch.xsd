@@ -1,0 +1,71 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="signbatch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="singlesign" maxOccurs="unbounded" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="datasource"/>
+              <xs:element name="format">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="XAdES"/>
+                    <xs:enumeration value="CAdES"/>
+                    <xs:enumeration value="PAdES"/>
+                    <xs:enumeration value="FacturaE"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="suboperation">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="sign"/>
+                    <xs:enumeration value="cosign"/>
+                    <xs:enumeration value="countersign"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="extraparams">
+                <xs:simpleType>
+                  <xs:restriction base="xs:base64Binary" />
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="signsaver">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="class"/>
+                    <xs:element name="config">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:base64Binary" />
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="Id" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:integer" name="concurrenttimeout" use="optional"/>
+      <xs:attribute name="stoponerror" use="optional">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="algorithm" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="SHA1withRSA"/>
+            <xs:enumeration value="SHA256withRSA"/>
+            <xs:enumeration value="SHA384withRSA"/>
+            <xs:enumeration value="SHA512withRSA"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

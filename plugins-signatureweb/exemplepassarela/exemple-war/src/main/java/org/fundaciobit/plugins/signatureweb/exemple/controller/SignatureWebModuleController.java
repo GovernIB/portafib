@@ -319,8 +319,13 @@ public class SignatureWebModuleController extends HttpServlet {
       throws Exception {
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
+    
+    // Posam URL  per sortir del IFRAME
+    signaturesSet.setUrlFinal(request.getContextPath() + SignatureWebModuleController.CONTEXTWEB + "/final/" + signaturesSetID);
 
     signatureModuleEjb.startSignatureProcess(signaturesSet);
+    
+
 
     final String urlToSelectPluginPagePage = getAbsoluteControllerBase(request, CONTEXTWEB)
         + "/selectsignmodule/" + signaturesSetID;
