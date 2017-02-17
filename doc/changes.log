@@ -1,6 +1,8 @@
 PortaFIB 1.1.2
 ==============
 
+2017-02-17 Solucionat Bug en la generació de firmes EPES  #94
+
 2017-02-16 Suportar firmes múltiples am Autofirma, Android i IOS amb el plugin de Firma
            Web "Cliente Móvil @firma" (actualitzar a la versió 1.5 de firma trifàsica)
 
