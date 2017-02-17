@@ -534,7 +534,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
             .append(key + "=" + configProperties[i].getProperty((String) key) + "\n");
       }
       configPropertiesStr[i] = configPropertiesStr1.toString();
-
+      
     }
     
     if (countNulls == fisArray.length) {

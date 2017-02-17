@@ -297,9 +297,16 @@ public class MiniAppletUtils {
 
   public static PolicyInfoSignature convertPolicy(CommonInfoSignature commonInfoSignature,
       Properties miniAppletProperties) {
+    
     PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
+    return convertPolicy(policy, miniAppletProperties);
+  }
+    
+    
+  public static PolicyInfoSignature convertPolicy(PolicyInfoSignature policy,
+        Properties miniAppletProperties) {  
 
-    if (policy != null && policy.getPolicyIdentifier() == null
+    if (policy != null && policy.getPolicyIdentifier() != null
         && policy.getPolicyIdentifier().trim().length() != 0) {
 
       String oid = policy.getPolicyIdentifier();
