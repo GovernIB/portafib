@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigInteger;
+import java.security.Key;
+import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
@@ -41,12 +43,24 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   private static final String FIELD_P12FILENAME = "p12filename";
 
+
+  private static final String FIELD_JKS_FILENAME = "jksfilename";
+
+  private static final String FIELD_JKS_KEYSTORE_PASSWORD = "jkskeystorepassword";
+
+  private static final String FIELD_JKS_CERT_PASSWORD = "jkscertpassword";
+
+  private static final String FIELD_JKS_ALIAS = "jksalias";
+
   private static final String FILENAME_PROPERTIES = "cert.properties";
 
   public static final String MINIAPPLETINSERVER_BASE_PROPERTIES = SIGNATURESERVER_BASE_PROPERTY
       + "miniappletinserver.";
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
+  
+  
+  
 
   protected static File miniappletInServerBasePath = null;
 
@@ -186,16 +200,20 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   @Override
   public boolean filter(SignaturesSet signaturesSet) {
 
-    // Per ara esta un poc complicat revisar els certificats, ja que sempre s'ha
-    // de
-    // mostrar ja que l'usuari sempre te l'opció d'afegir Certificats
-
     // Requerim un username
-    if (signaturesSet.getCommonInfoSignature().getUsername() != null) {
-      return super.filter(signaturesSet);
+    String username = signaturesSet.getCommonInfoSignature().getUsername();
+
+    if (username == null) {
+      return false;
     }
 
-    return false;
+    try {
+      getCertificateOfUser(username, signaturesSet.getCommonInfoSignature().getLanguageUI());
+    } catch (Exception e) {
+      return false;
+    }
+
+    return super.filter(signaturesSet);
   }
 
   // ----------------------------------------------------------------------------
@@ -220,11 +238,25 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
       final String username = commonInfoSignature.getUsername();
       
       final String signaturesSetID =  signaturesSet.getSignaturesSetID();
+      
+      Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
   
       InfoCertificate cinfo;
   
       try {
         cinfo = getCertificateOfUser(username, commonInfoSignature.getLanguageUI());
+        
+        
+        if (cinfo == null) {
+          String warn = getTraduccio("warn.notecertificats", locale);
+          
+          StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
+          sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+          sss.setErrorMsg(warn);
+          return signaturesSet;
+        }
+        
+        
       } catch (Exception e) {
   
         // No te certificats certificat
@@ -237,23 +269,23 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
         return signaturesSet;
       }
   
-      File p12file = cinfo.p12File;
-  
-      String p12Password = cinfo.p12Password;
-  
+      
       // Check PAIR
       PublicCertificatePrivateKeyPair pair;
       try {
-        FileInputStream fis = new FileInputStream(p12file);
-        pair = CertificateUtils.readPKCS12(fis, p12Password);
-        fis.close();
-      } catch (Exception e) {
+      
+        pair = cinfo.getPublicCertificatePrivateKeyPair(cinfo);
+      
   
-        // String msg = "Error llegint fitxer P12 (" + p12file.getAbsolutePath() + ")."
+      } catch (Exception e) {
+        
+        log.error("Error llegint clau privada-publica: " + e.getMessage(), e);
+        
+        // String msg = "Error llegint fitxer (" + cinfo.getKeyStoreFile() + ")."
         //    + " Consulti amb l'Administrador. Error: " + e.getMessage();
-        String msg = getTraduccio("error.fitxer.p12", 
+        String msg = getTraduccio("error.fitxer.llegint", 
             new Locale(commonInfoSignature.getLanguageUI()),
-            p12file.getAbsolutePath(), e.getMessage());
+            cinfo.getKeyStoreFile().getAbsolutePath(), e.getMessage());
   
         StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
         sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
@@ -271,7 +303,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   
       long start;
   
-      Locale locale = new Locale(signaturesSet.getCommonInfoSignature().getLanguageUI());
+      
   
       for (int i = 0; i < fileInfoArray.length; i++) {
   
@@ -385,6 +417,8 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   }
 
+  
+
   @Override
   public byte[] generateTimeStamp(String signaturesSetID,
       int signatureIndex, byte[] inputRequest) throws Exception  {
@@ -449,6 +483,13 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
    * @return Key del map apunta a un Directori
    */
   public InfoCertificate getCertificateOfUser(String username, String lang) throws Exception {
+    
+    
+    if (memoryInfoCertificate.containsKey(username)) {
+      return memoryInfoCertificate.get(username);
+    }
+    
+    
 
     File userPath = getUserNamePath(username);
     final Locale locale = new Locale(lang);
@@ -477,29 +518,83 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     }
 
     String p12Password = prop.getProperty(FIELD_P12PASSWORD);
-    if (p12Password == null || p12Password.trim().length() == 0) {
-      // "No s'ha definit la propietat " " en el fitxer "
-      throw new Exception(
-          getTraduccio("error.nopropietatdefinida", locale, FIELD_P12PASSWORD,
-          propsFile.getAbsolutePath()));
+    
+    
+    if (p12Password != null && p12Password.trim().length() != 0) {
+        
+        // ============= LLEGIR P12
+    
+        if (isEmpty(p12Password)) {
+          // "No s'ha definit la propietat " " en el fitxer "
+          throw new Exception(
+              getTraduccio("error.nopropietatdefinida", locale, FIELD_P12PASSWORD,
+              propsFile.getAbsolutePath()));
+        }
+    
+        String filename = prop.getProperty(FIELD_P12FILENAME);
+        if (isEmpty(filename)) {
+          // "No s'ha definit la propietat " " en el fitxer "
+          throw new Exception(getTraduccio("error.nopropietatdefinida", locale,
+              FIELD_P12FILENAME, propsFile.getAbsolutePath()));
+        }
+    
+        File p12File = new File(userPath, filename);
+    
+        if (!p12File.exists()) {
+          throw new Exception(getTraduccio("error.fitxer.noexisteix", locale, 
+              p12File.getAbsolutePath()));
+        }
+    
+        return new PKCS12InfoCertificate(p12File, p12Password);
+        
+    }  else {
+      String jksFilename = prop.getProperty(FIELD_JKS_FILENAME);
+      if (!isEmpty(jksFilename)) {
+        
+        // ============= LLEGIR JKS
+        
+        String keyStorePassword = prop.getProperty(FIELD_JKS_KEYSTORE_PASSWORD);
+        if (isEmpty(keyStorePassword)) {
+          // "No s'ha definit la propietat " " en el fitxer "
+          throw new Exception(getTraduccio("error.nopropietatdefinida", locale,
+              FIELD_JKS_KEYSTORE_PASSWORD, propsFile.getAbsolutePath()));
+        }
+        
+        
+        String certificatePassword = prop.getProperty(FIELD_JKS_CERT_PASSWORD);
+        if (isEmpty(certificatePassword)) {
+          // "No s'ha definit la propietat " " en el fitxer "
+          throw new Exception(getTraduccio("error.nopropietatdefinida", locale,
+              FIELD_JKS_CERT_PASSWORD, propsFile.getAbsolutePath()));
+        }
+
+        String alias = prop.getProperty(FIELD_JKS_ALIAS);
+        if (isEmpty(alias)) {
+          // "No s'ha definit la propietat " " en el fitxer "
+          throw new Exception(getTraduccio("error.nopropietatdefinida", locale,
+              FIELD_JKS_ALIAS, propsFile.getAbsolutePath()));
+        }
+
+        final File keyStore = new File(userPath, jksFilename);
+        
+        return new JKSInfoCertificate(keyStore, keyStorePassword, certificatePassword, alias);
+        
+        
+      } else {
+        // TODO Traduir
+        throw new Exception("El fitxer " + propsFile.getAbsolutePath() 
+           + " no conté informació correcta del keystore:\n"
+           + "   + PKCS12: " + FIELD_P12FILENAME + "," + FIELD_P12PASSWORD + "\n"
+           + "   + JKS: " + FIELD_JKS_FILENAME + ", " + FIELD_JKS_KEYSTORE_PASSWORD
+           + ", " + FIELD_JKS_CERT_PASSWORD + ", " +  FIELD_JKS_ALIAS);
+
+      }
     }
 
-    String filename = prop.getProperty(FIELD_P12FILENAME);
-    if (filename == null || filename.trim().length() == 0) {
-      // "No s'ha definit la propietat " " en el fitxer "
-      throw new Exception(getTraduccio("error.nopropietatdefinida", locale,
-          FIELD_P12FILENAME, propsFile.getAbsolutePath()));
-    }
+  }
 
-    File p12File = new File(userPath, filename);
-
-    if (!p12File.exists()) {
-      throw new Exception(getTraduccio("error.fitxer.noexisteix", locale, 
-          p12File.getAbsolutePath()));
-    }
-
-    return new InfoCertificate(p12File, p12Password);
-
+  protected boolean isEmpty(String filename) {
+    return filename == null || filename.trim().length() == 0;
   }
 
   @Override
@@ -507,12 +602,38 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     return "serverminiappletinserver";
   }
 
+  
+  private final Map<String, InfoCertificate> memoryInfoCertificate = new HashMap<String, MiniAppletInServerSignatureServerPlugin.InfoCertificate>();
+  
+  
+  public void putInfoCertificate(String username, InfoCertificate infoCertificate) {
+     if (username != null && infoCertificate != null) {
+       memoryInfoCertificate.put(username, infoCertificate);
+     }
+  }
+  
+  
+  
   /**
    * 
    * @author anadal
    *
    */
-  private static class InfoCertificate {
+  public interface InfoCertificate {
+    
+    public File getKeyStoreFile();
+    
+    
+    public PublicCertificatePrivateKeyPair getPublicCertificatePrivateKeyPair(
+        InfoCertificate cinfo) throws Exception;
+    
+  }
+  
+  
+  
+  public static class PKCS12InfoCertificate implements InfoCertificate {
+    
+    
     public final File p12File;
     public final String p12Password;
 
@@ -520,12 +641,91 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
      * @param p12File
      * @param p12Password
      */
-    public InfoCertificate(File p12File, String p12Password) {
+    public PKCS12InfoCertificate(File p12File, String p12Password) {
       super();
       this.p12File = p12File;
       this.p12Password = p12Password;
     }
 
+    @Override
+    public File getKeyStoreFile() {
+      return this.p12File;
+    }
+    
+    @Override
+    public PublicCertificatePrivateKeyPair getPublicCertificatePrivateKeyPair(
+        InfoCertificate cinfo) throws Exception {
+      PublicCertificatePrivateKeyPair pair;
+      File p12file = this.p12File;
+    
+      String p12Password = this.p12Password;
+   
+     
+     
+      FileInputStream fis = new FileInputStream(p12file);
+      pair = CertificateUtils.readPKCS12(fis, p12Password);
+      fis.close();
+      return pair;
+    }
   }
+  
+  
+  
+  public static class JKSInfoCertificate implements InfoCertificate {
+    
+    private final File keyStore;
+    
+    private final String keyStorePassword;
+    
+    private final String certificatePassword;
+    
+    private final String alias;
+    
+    
+
+    /**
+     * @param keyStore
+     * @param keyStorePassword
+     * @param certificatePassword
+     * @param alias
+     */
+    public JKSInfoCertificate(File keyStore, String keyStorePassword,
+        String certificatePassword, String alias) {
+      super();
+      this.keyStore = keyStore;
+      this.keyStorePassword = keyStorePassword;
+      this.certificatePassword = certificatePassword;
+      this.alias = alias;
+    }
+
+    @Override
+    public File getKeyStoreFile() {
+      return this.keyStore;
+    }
+
+    @Override
+    public PublicCertificatePrivateKeyPair getPublicCertificatePrivateKeyPair(
+        InfoCertificate cinfo) throws Exception {
+      FileInputStream is = new FileInputStream(keyStore);
+
+      KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+      keystore.load(is, this.keyStorePassword.toCharArray());
+
+      Key key = keystore.getKey(alias, certificatePassword.toCharArray());
+      if (key instanceof PrivateKey) {
+        // Get certificate of public key
+        Certificate cert = keystore.getCertificate(alias);
+
+        // Return a key pair
+        return new PublicCertificatePrivateKeyPair((X509Certificate)cert, (PrivateKey) key);
+      } else {
+        // TODO Traduir
+        throw new Exception("El certificat seleccionat (" + this.keyStore.getAbsolutePath()
+            + ")no conté Clau Privada");
+      }
+    }
+  }
+
+  
 
 }
