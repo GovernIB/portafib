@@ -17,11 +17,6 @@
   <url>http://maven.apache.org</url>
 
   <repositories>
-    <repository>
-      <name>Local Maven Repository</name>
-      <id>es.caib.portafib.localrepo</id>
-      <url>file://${basedir}/../../local-repo</url>
-    </repository>
 
     <repository>
       <name>Local Maven Repository ClaveFirma</name>
