@@ -262,6 +262,14 @@ public class AuthenticationSuccessListener implements
     for (UsuariEntitatJPA usuariEntitat : usuariEntitats) {
       
       EntitatJPA entitat = usuariEntitat.getEntitat();
+      
+      if (entitat == null) {
+        log.info("Configuracio.getDefaultEntity() = ]" + PropietatGlobalUtil.getDefaultEntity() + "[");
+        log.info("ROLES = ]" + Arrays.toString(seyconAuthorities.toArray())+ "[");
+        log.warn("Entitat val null");
+        continue;
+      }
+      
       String entitatID = entitat.getEntitatID();
       if (isDebug) {
         log.debug("--------------- Entitat " + entitatID);
