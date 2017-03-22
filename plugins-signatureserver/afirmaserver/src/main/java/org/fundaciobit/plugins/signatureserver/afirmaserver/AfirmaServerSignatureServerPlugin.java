@@ -833,6 +833,7 @@ java.lang.Exception: Error firmant document hola.pdf (0)[java.lang.VerifyError]:
     return "afirmaserver";
   }
   
+  // TODO XYZ ZZZ Això esta dins CXF utils
   public static boolean isXMLFormat(byte[] data) {
 
     if (!isBinaryFile(data)) {
@@ -849,6 +850,7 @@ java.lang.Exception: Error firmant document hola.pdf (0)[java.lang.VerifyError]:
     return false;
   }
 
+//TODO XYZ ZZZ Això esta dins CXF utils
   public static boolean isBinaryFile(byte[] data) {
 
     int size = data.length;
@@ -876,6 +878,7 @@ java.lang.Exception: Error firmant document hola.pdf (0)[java.lang.VerifyError]:
     return 100 * other / (ascii + other) > 95;
   }
 
+//TODO XYZ ZZZ Això esta dins CXF utils
   public static boolean isXMLLike(String inXMLStr) {
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

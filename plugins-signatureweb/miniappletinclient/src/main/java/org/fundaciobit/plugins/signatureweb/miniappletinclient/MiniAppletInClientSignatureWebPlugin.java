@@ -831,11 +831,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
       }
 
       out.println("       " + MiniAppletConstants.APPLET_SOURCE + "_" + i + ":'"
-          + baseSignaturesSet + "/" + i + "/source',");
+          + baseSignaturesSet + "/" + i + "/" + SOURCE_DOC_PAGE + "',");
       out.println("       " + MiniAppletConstants.APPLET_DESTINATION + "_" + i + ":'"
-          + baseSignaturesSet + "/" + i + "/destination',");
+          + baseSignaturesSet + "/" + i + "/" + DESTINATION_DOC_PAGE + "',");
       out.println("       " + MiniAppletConstants.APPLET_ERRORPAGE + "_" + i + ":'"
-          + baseSignaturesSet + "/" + i + "/error',");
+          + baseSignaturesSet + "/" + i + "/" + CLIENT_ERROR_PAGE + "',");
       out.println("       " + MiniAppletConstants.APPLET_IDNAME + "_" + i + ":'"
           + StringEscapeUtils.escapeJavaScript(fileInfo.getName()) + "',");
       out.println("       " + MiniAppletConstants.APPLET_SIGN_TYPE + "_" + i + ":'"

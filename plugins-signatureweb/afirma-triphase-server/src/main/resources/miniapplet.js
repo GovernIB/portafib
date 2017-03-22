@@ -2297,8 +2297,14 @@ var MiniApplet = ( function ( window, undefined ) {
 				if (isChrome()) {
 					// Usamos document.location porque tiene mejor soporte por los navegadores que
 					// window.location que es el mecanismo estandar
-					document.location = url;
-				} else if (isIOS()) {
+				    // XMAS Bug en alguns Android que mostra cara trista dins d'un document
+				    // quean si es troba en un iframe
+				    if (isAndroid()) {
+				      window.top.location = url;
+				    } else { 
+					  document.location = url;
+				    }
+				} else if (isIOS() ) {
 				    // XMAS Bug en Ios que no deixa arrancar Autofirma si es troba en un iframe
 				    window.top.location.href = url;
 				} else {
