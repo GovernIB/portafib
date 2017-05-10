@@ -306,9 +306,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
   
       long start;
-  
-      
-  
+
       for (int i = 0; i < fileInfoArray.length; i++) {
   
         start = System.currentTimeMillis();
