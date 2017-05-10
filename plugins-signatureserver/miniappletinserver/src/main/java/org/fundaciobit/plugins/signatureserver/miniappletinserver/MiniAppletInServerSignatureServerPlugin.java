@@ -108,7 +108,8 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
 
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType) 
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       return true;
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       // Per ara MiniApplet no suporta firma de XadesT
@@ -165,14 +166,17 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   @Override
   public String[] getSupportedSignatureTypes() {
     // TODO Falta CADes, ...
-    return new String[] { FileInfoSignature.SIGN_TYPE_PADES, FileInfoSignature.SIGN_TYPE_XADES };
+    return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
+        FileInfoSignature.SIGN_TYPE_CADES, 
+        FileInfoSignature.SIGN_TYPE_XADES };
   }
 
   @Override
   public String[] getSupportedSignatureAlgorithms(String signType) {
 
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
 
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
           FileInfoSignature.SIGN_ALGORITHM_SHA256, FileInfoSignature.SIGN_ALGORITHM_SHA384,
@@ -322,11 +326,17 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
           MiniAppletSignInfo info;
           info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
               timestampUrl, certificate);
+          
+          
+          log.info(" XYZ ZZZZ  !!!!!!  MINIAPPLET IN SERVER TYPE  == " + fileInfo.getSignType());
+          log.info(" XYZ ZZZZ  !!!!!!  MINIAPPLET IN SERVER PADES == " + FileInfoSignature.SIGN_TYPE_PADES);
+          
   
           if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())
-              || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
+              || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())
+              || FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
   
-            // FIRMA PADES o Xades
+            // FIRMA PADES, CADES o Xades
             StatusSignature ss = fileInfo.getStatusSignature();
   
             ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
@@ -340,6 +350,19 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   
               signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
                   new Certificate[] { info.getCertificate() }, info.getProperties());
+              
+            } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
+              log.debug("Passa per CAdESSigner");
+            
+              MiniAppletInServerCAdESSigner cadesSigner = new MiniAppletInServerCAdESSigner();
+              
+              //            StringWriter sw = new StringWriter();
+              //            info.getProperties().store(sw, "PropertiesDemo");
+              //            log.info("CADES PROPERTIES:\n" + sw.toString() );
+              signedData = cadesSigner.sign(info.getDataToSign(), algorithm, privateKey,
+                  new Certificate[] { info.getCertificate() }, info.getProperties());
+            
+            
             } else {
   
               log.debug("Passa per XAdESSigner");

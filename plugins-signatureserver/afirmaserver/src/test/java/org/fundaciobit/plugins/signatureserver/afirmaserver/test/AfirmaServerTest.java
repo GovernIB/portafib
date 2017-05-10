@@ -102,7 +102,8 @@ public class AfirmaServerTest extends TestCase {
       return srcFile;
     }
 
-    public File getDestFile(Integer signMode, boolean userRequiresTimeStamp) throws Exception {
+    public File getDestFile(Integer signMode, boolean userRequiresTimeStamp, 
+        boolean epes) throws Exception {
       String base = userRequiresTimeStamp ? this.destTS : this.dest;
 
       String replace;
@@ -110,6 +111,14 @@ public class AfirmaServerTest extends TestCase {
         replace = "";
       } else {
         replace = (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) ? "attached" : "detached";
+      }
+      
+      if (epes) {
+        if (replace.length() == 0) {
+          replace = "epes";
+        } else {
+          replace = replace + "_epes";
+        }
       }
 
       String tmp = MessageFormat.format(base, replace);
@@ -173,6 +182,7 @@ public class AfirmaServerTest extends TestCase {
 
       final String username = null;
       // final String username = "serversigner";
+      final boolean epes = false;
 
       // PADES SIGN
       {
@@ -180,7 +190,7 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "PAdES"));
+            userRequiresTimeStamp, epes, rubricGenerator, plugin, username, "PAdES"));
       }
 
       // PADES SIGN TS
@@ -190,17 +200,18 @@ public class AfirmaServerTest extends TestCase {
         boolean userRequiresTimeStamp = true;
 
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "PAdES-TS"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "PAdES-TS"));
       }
-
+      
       // XADES ATACHED
       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "XAdES-Attached"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "XAdES-Attached"));
       }
+      
 
       // XADES ATACHED TS
       {
@@ -208,25 +219,26 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "XAdES-Attached-TS"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "XAdES-Attached-TS"));
       }
 
+      
       // XADES DETACHED
       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "XAdES-Detached"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "XAdES-Detached"));
       }
-
+      
       // CADES ATACHED
       {
         String signType = FileInfoSignature.SIGN_TYPE_CADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "CADES-Attached"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "CADES-Attached"));
       }
 
       // CADES ATACHED TS
@@ -235,7 +247,7 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "CAdES-Attached-TS"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "CAdES-Attached-TS"));
       }
 
       // CADES DETACHED
@@ -244,7 +256,16 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "CAdES-Detached"));
+            userRequiresTimeStamp, epes, rubricGenerator, plugin, username, "CAdES-Detached"));
+      }
+      
+      // CADES DETACHED TS
+      {
+        String signType = FileInfoSignature.SIGN_TYPE_CADES;
+        int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
+        boolean userRequiresTimeStamp = true;
+        results.add(signFile(testFileBySignType.get(signType), signType, signMode,
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "CAdES-Detached"));
       }
 
       // SMIME ATTACHED
@@ -253,7 +274,7 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = false;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "SMIME-Attached"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "SMIME-Attached"));
       }
 
       // SMIME ATTACHED TIMESTAMP
@@ -262,7 +283,7 @@ public class AfirmaServerTest extends TestCase {
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
-            userRequiresTimeStamp, rubricGenerator, plugin, username, "SMIME-Attached-TS"));
+            userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "SMIME-Attached-TS"));
       }
 
       System.out.println();
@@ -289,8 +310,11 @@ public class AfirmaServerTest extends TestCase {
   }
 
   public static TestResult signFile(TestFile testFile, String signType, int signMode,
-      boolean userRequiresTimeStamp, IRubricGenerator rubricGenerator,
+      boolean userRequiresTimeStamp, boolean epes, IRubricGenerator rubricGenerator,
       ISignatureServerPlugin plugin, String username, String title) throws Exception {
+    
+    Thread.sleep(1000);
+    
 
     // String pdfsource, String mime, String pdfdest,
 
@@ -298,6 +322,15 @@ public class AfirmaServerTest extends TestCase {
     String filtreCertificats = "";
     String administrationID = null; // No te sentit en API Firma En Servidor
     PolicyInfoSignature policyInfoSignature = null;
+    if (epes) {      
+      policyInfoSignature = new PolicyInfoSignature();
+      policyInfoSignature.setPolicyIdentifier("urn:oid:2.16.724.1.3.1.1.2.1.9");
+      policyInfoSignature.setPolicyIdentifierHash("G7roucf600+f03r/o0bAOQ6WAs0=");
+      policyInfoSignature.setPolicyIdentifierHashAlgorithm("SHA1");
+      policyInfoSignature.setPolicyUrlDocument("https://sede.060.gob.es/politica_de_firma_anexo_1.pdf");
+    }
+
+    
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
         filtreCertificats, username, administrationID, policyInfoSignature);
 
@@ -341,7 +374,7 @@ public class AfirmaServerTest extends TestCase {
     if (!plugin.filter(signaturesSet)) {
       return new TestResult(title, "No passa filtre", TestStatus.NO_SUPORTAT, null);
     }
-    ;
+    
 
     signaturesSet = plugin.signDocuments(signaturesSet, timestampUrlBase);
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
@@ -367,7 +400,7 @@ public class AfirmaServerTest extends TestCase {
         String msg = "Error Firma 1. MSG = " + status.getErrorMsg();
         return new TestResult(title, msg, TestStatus.ERROR, status.getErrorException());
       } else {
-        File dest = testFile.getDestFile(signMode, userRequiresTimeStamp);
+        File dest = testFile.getDestFile(signMode, userRequiresTimeStamp, epes);
         if (dest.exists()) {
           if (!dest.delete()) {
             String msg = "No s'ha pogut esborrar " + dest.getAbsolutePath();
