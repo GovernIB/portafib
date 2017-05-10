@@ -326,12 +326,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
           MiniAppletSignInfo info;
           info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
               timestampUrl, certificate);
-          
-          
-          log.info(" XYZ ZZZZ  !!!!!!  MINIAPPLET IN SERVER TYPE  == " + fileInfo.getSignType());
-          log.info(" XYZ ZZZZ  !!!!!!  MINIAPPLET IN SERVER PADES == " + FileInfoSignature.SIGN_TYPE_PADES);
-          
-  
+
           if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())
               || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())
               || FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
