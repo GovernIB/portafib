@@ -56,10 +56,16 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   public static final String MINIAPPLETINSERVER_BASE_PROPERTIES = SIGNATURESERVER_BASE_PROPERTY
       + "miniappletinserver.";
+  
+  
+
+  
+  
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
   
-  
+  public static final String DEFAULT_ALIAS_CERTIFICATE = MINIAPPLETINSERVER_BASE_PROPERTIES
+      + "defaultAliasCertificate.";
   
 
   protected static File miniappletInServerBasePath = null;
@@ -490,8 +496,12 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
-  public File getUserNamePath(String username) {
-    return new File(getPropertyBasePath(), username);
+  public File getUserNamePath(String username) throws Exception {
+    if (username == null || username.trim().length() == 0) {
+      return new File(getPropertyBasePath(), getPropertyRequired(DEFAULT_ALIAS_CERTIFICATE));
+    } else {
+      return new File(getPropertyBasePath(), username);
+    }
   }
 
   /**
