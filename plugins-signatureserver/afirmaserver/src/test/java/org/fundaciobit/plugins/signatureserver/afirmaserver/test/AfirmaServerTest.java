@@ -194,7 +194,7 @@ public class AfirmaServerTest extends TestCase {
       }
 
       // PADES SIGN TS
-      {
+      if (false) {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
         boolean userRequiresTimeStamp = true;
@@ -204,7 +204,7 @@ public class AfirmaServerTest extends TestCase {
       }
       
       // XADES ATACHED
-      {
+       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = false;
@@ -214,7 +214,7 @@ public class AfirmaServerTest extends TestCase {
       
 
       // XADES ATACHED TS
-      {
+       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
@@ -224,7 +224,7 @@ public class AfirmaServerTest extends TestCase {
 
       
       // XADES DETACHED
-      {
+       {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
         boolean userRequiresTimeStamp = false;

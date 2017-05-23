@@ -51,10 +51,77 @@
     </dependency>
 
     <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-utils-cxf</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <version>${cxf.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-ws-security</artifactId>
+      <version>${cxf.version}</version>
+      <scope>provided</scope>
+
+      <exclusions>
+        <exclusion>  
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+      <version>${cxf.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-bindings-soap</artifactId>
+      <version>${cxf.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>integra</artifactId>
       <version>1.3.1</version>
+
+      <!-- Eliminam tota la comunicació AXIS -->
       <exclusions>
+
+        <exclusion>  
+          <groupId>org.apache.axis</groupId>
+          <artifactId>axis</artifactId>
+        </exclusion>
+        <exclusion>  
+          <groupId>org.apache.axis</groupId>
+          <artifactId>axis-jaxrpc</artifactId>
+        </exclusion>
+        <exclusion>  
+          <groupId>org.apache.axis</groupId>
+          <artifactId>axis-saaj</artifactId>
+        </exclusion>
+        <exclusion>  
+          <groupId>org.apache.santuario</groupId>
+          <artifactId>xmlsec</artifactId>
+        </exclusion>
+        <exclusion>  
+          <groupId>com.sun.xml.wss</groupId>
+          <artifactId>xws-security</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>org.bouncycastle</groupId>
           <artifactId>bcprov-jdk16</artifactId>
@@ -67,15 +134,9 @@
           <groupId>org.bouncycastle</groupId>
           <artifactId>bctsp-jdk16</artifactId>
         </exclusion>
-        
-      </exclusions>
-    </dependency>
 
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.3.2</version>
-      <type>jar</type>
+      </exclusions>
+
     </dependency>
 
     <dependency>
@@ -83,15 +144,6 @@
       <artifactId>plugin-signatureserver-miniappletutils</artifactId>
       <version>${plugins.signatureweb.version}</version>
     </dependency>
-
-    <!-- 
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.2</version>
-      <scope>provided</scope>
-    </dependency>
-    -->
 
     <dependency>
       <groupId>junit</groupId>

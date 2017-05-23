@@ -1,0 +1,39 @@
+# Classe org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+
+# Obligatiori. Aplicació definida dins "Gestión de Aplicaciones" de @firma federat, on
+# en l'apartat 'Parametros de la aplicación' en el camp "Política de TimeStamp" té
+# definit el valor "Sin TimeStamp" 
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.applicationID=appPrueba
+# Opcional. Aplicació definida dins "Gestión de Aplicaciones" de @firma federat, on 
+# en l'apartat 'Parametros de la aplicación' en el camp "Política de TimeStamp" té definit
+# el valor "Con TimeStamp". Si aquest valor no està definit llavors no es poden
+# fer firmes amb segell de temps (No suporta  PAdES-T).
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.applicationID_TimeStamp=appPruebaTS
+
+# Si signaturesSet.getCommonInfoSignature().getUsername() es null, llavors
+# s'utilitza aquest valor com a sistema de selecció del certificat amb el que firmar
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
+
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.TransformersTemplatesPath=D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1/plugins-signatureserver/afirmaserver/config/transformersTemplates
+
+
+
+#Propiedades de comunicacion con el repositorio de servicios
+
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.endpoint=http://localhost:9090/afirmaws/services/DSSAfirmaSign
+
+# USERNAME-PASSWORD Token
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.username=userTest
+#userTest
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.password=12345
+#12345
+
+# CERTIFICATE Token
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.ks.path=D:/dades/dades/proves-dgidt.jks
+#D:/dades/dades/CarpetesPersonals/Programacio/PortaFIB/plugins/plugins-certificate/afirma/proves-dgidt.jks
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.ks.type=JKS
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.ks.password=<<PASSWORD>>
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.ks.cert.alias=1
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.authorization.ks.cert.password=<<PASSWORD>>
+
+
