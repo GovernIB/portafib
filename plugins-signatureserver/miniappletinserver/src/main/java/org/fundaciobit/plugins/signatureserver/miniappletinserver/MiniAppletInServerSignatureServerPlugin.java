@@ -65,7 +65,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
   
   public static final String DEFAULT_ALIAS_CERTIFICATE = MINIAPPLETINSERVER_BASE_PROPERTIES
-      + "defaultAliasCertificate.";
+      + "defaultAliasCertificate";
   
 
   protected static File miniappletInServerBasePath = null;
@@ -213,7 +213,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     // Requerim un username
     String username = signaturesSet.getCommonInfoSignature().getUsername();
 
-    if (username == null) {
+    if (username == null && getProperty(DEFAULT_ALIAS_CERTIFICATE) == null) {
       return false;
     }
 

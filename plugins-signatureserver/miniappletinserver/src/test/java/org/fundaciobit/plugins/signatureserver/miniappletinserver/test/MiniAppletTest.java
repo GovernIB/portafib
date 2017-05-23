@@ -1,6 +1,7 @@
 package org.fundaciobit.plugins.signatureserver.miniappletinserver.test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
@@ -59,7 +60,7 @@ public class MiniAppletTest extends TestCase {
   
   
   
-  public static final String BASE_PACKAGE = "org.fundaciobit.exemple.signatureserverplugins.";
+  public static final String BASE_PACKAGE = "org.fundaciobit.exemple.signatureserverplugins.2.";
 
   public static void main(String[] args) {
 
@@ -69,9 +70,9 @@ public class MiniAppletTest extends TestCase {
       
       Properties prop = new Properties();
       
-      prop.put(BASE_PACKAGE + MiniAppletInServerSignatureServerPlugin.BASE_DIR,
-          new File(".").getAbsolutePath());
-
+      prop.load(new FileInputStream(new File("./plugin.properties")));
+      
+     
       ISignatureServerPlugin pluginInstance;
       pluginInstance = (ISignatureServerPlugin) PluginsManager.instancePluginByClassName(
           MiniAppletInServerSignatureServerPlugin.class.getName(), BASE_PACKAGE, prop);
@@ -87,6 +88,18 @@ public class MiniAppletTest extends TestCase {
         boolean userRequiresTimeStamp = false;
         String username = "anadaljks"; // configuracio
         String pdfdest = "hola_firmat_jks.pdf";
+        signFile(pdfsource, pdfdest, signType, signMode, userRequiresTimeStamp,
+            rubricGenerator, username, pluginInstance);
+      }
+      
+      
+      // PAdES SIGN from JKS withg username null
+      {
+        String signType = FileInfoSignature.SIGN_TYPE_PADES;
+        int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+        boolean userRequiresTimeStamp = false;
+        String username = null; // configuracio
+        String pdfdest = "hola_firmat_jks_username_null.pdf";
         signFile(pdfsource, pdfdest, signType, signMode, userRequiresTimeStamp,
             rubricGenerator, username, pluginInstance);
       }
