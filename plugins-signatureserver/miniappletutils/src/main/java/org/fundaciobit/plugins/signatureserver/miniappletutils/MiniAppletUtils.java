@@ -176,7 +176,7 @@ public class MiniAppletUtils {
      * firmados. El uso de este valor podría generar firmas de gran tamaño.
      */
     if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT 
-        && !FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+        || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
       miniAppletProperties.setProperty(MiniAppletConstants.PROPERTY_SIGN_MODE,
           MiniAppletConstants.VALUE_SIGN_MODE_IMPLICIT);
     } else {

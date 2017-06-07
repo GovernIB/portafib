@@ -67,7 +67,9 @@ import es.gob.afirma.triphase.server.document.DocumentManager;
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
   
-  
+   
+  public static final String CLAVEFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
+      + "clavefirma.";
   
    /**
     * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
@@ -97,6 +99,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   public AfirmaTriphaseSignatureWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
+  
+  
+  
+  protected boolean isDebug() {
+    return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "debug"));
+  }
+  
+  
+  
 
   @Override
   public String[] getSupportedSignatureTypes() {
@@ -631,7 +642,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
     
-    final boolean debugWeb = "true".equals(getProperty("debug"));
+    final boolean debugWeb = isDebug();
 
     String javascriptCode =    
         "<script type=\"text/javascript\">\n"
@@ -911,7 +922,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
  
-    final boolean debugWeb = "true".equals(getProperty("debug"));
+    final boolean debugWeb = isDebug();
 
       String javascriptCode1 =    
         " <script type=\"text/javascript\">\n"
@@ -1172,6 +1183,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       String callbackhost, final int index, 
       final FileInfoSignature fis, String algorithmRequired) {
     Properties configProperties = new Properties();
+    
+    
+    //  XYZ ZZZ cridar a MiniAppletUtils..convertLocalSignature() ??? 
+    
     
     // ALGORISME DE FIRMA
     String algorithm;

@@ -25,6 +25,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -33,6 +34,7 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
+import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.plugins.utils.CertificateUtils;
@@ -53,9 +55,6 @@ import es.gob.clavefirma.client.generatecert.HttpUserWeakRegistryException;
 import es.gob.clavefirma.client.signprocess.HttpLoadProcess;
 import es.gob.clavefirma.client.signprocess.HttpSignProcess;
 import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants;
-import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureAlgorithm;
-import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureFormat;
-import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureOperation;
 import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureUpgrade;
 import es.gob.clavefirma.client.signprocess.LoadResult;
 
@@ -66,7 +65,6 @@ import es.gob.clavefirma.client.signprocess.LoadResult;
  *
  */
 public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
-  // AbstractSignatureWebPlugin {
 
   public static final String CLAVEFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "clavefirma.";
@@ -84,24 +82,16 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   private static final String PROPERTY_USERS_PATTERN = CLAVEFIRMA_BASE_PROPERTIES
       + "userspattern";
 
-  // XYZ ??????
+
   private static final String PROPERTY_CALLBACK_HOST = CLAVEFIRMA_BASE_PROPERTIES
       + "callbackhost";
 
   public static final String IGNORE_CERTIFICATE_FILTER = CLAVEFIRMA_BASE_PROPERTIES
       + "ignore_certificate_filter";
   
-  public static final String PROPERTY_ALLOW_CERTIFICATE_GENERATION =
-      CLAVEFIRMA_BASE_PROPERTIES + "allowcertificategeneration";
-  
-  public static final String PROPERTY_SHOW_INFO_WHEN_NON_REGISTERED_USER =
-      CLAVEFIRMA_BASE_PROPERTIES + "showinfowhennonregistereduser";
-  
-  
 
   protected Map<String, ClaveFirmaSignInformation[]> transactions = new HashMap<String, ClaveFirmaSignInformation[]>();
-
-  
+ 
   
   /**
    * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
@@ -136,12 +126,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   
   
   protected boolean permetreGeneracioDeCertificat() {
-    return "true".equalsIgnoreCase(getProperty(PROPERTY_ALLOW_CERTIFICATE_GENERATION));
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "allowcertificategeneration"));
   }
   
 
   protected boolean mostrarInformacioAUsuariNoRegistrat() {
-    return "true".equalsIgnoreCase(getProperty(PROPERTY_SHOW_INFO_WHEN_NON_REGISTERED_USER));
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "showinfowhennonregistereduser"));
+  }
+  
+  
+  protected boolean isDebug() {
+    return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "debug"));
   }
 
 
@@ -192,7 +187,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       
       int certificatsDisponibles;
-      if ("true".equals(getProperty(IGNORE_CERTIFICATE_FILTER))) {
+      if ("true".equalsIgnoreCase(getProperty(IGNORE_CERTIFICATE_FILTER))) {
         // Ignoram el filtre de certificats
         certificatsDisponibles = map.size();
       } else {
@@ -334,6 +329,29 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     }
 
   }
+  
+  @Override
+  protected void getJavascriptCSS(HttpServletRequest request,
+      String absolutePluginRequestPath, String relativePluginRequestPath, PrintWriter out,
+      AbstractSignatureWebPlugin.SignIDAndIndex key, SignaturesSetWeb value) {
+    
+    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key, value);
+
+    String newJS = getProperty(CLAVEFIRMA_BASE_PROPERTIES + "newjavascripturl");
+    
+    if (newJS != null && newJS.trim().length() != 0) {
+      out.println("<script type=\"text/javascript\" src=\"" + newJS + "\"></script>");
+    }
+
+    String newCSS = getProperty(CLAVEFIRMA_BASE_PROPERTIES + "newcssurl");
+    
+    if (newCSS != null && newCSS.trim().length() != 0) {
+      out.println("<link href=\"" + newCSS + "\" rel=\"stylesheet\" type=\"text/css\">");
+    }
+
+  }
+  
+
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -436,10 +454,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
      tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
    }
 
-   // XYZ ZZZhauria de posar l'index nO????
-   log.info("XYZ ZZZ generarNouCertificat::callBackURLOK = " + callBackURLOK);
-   log.info("XYZ ZZZ generarNouCertificat::callBackURLError = " + callBackURLError);
-   log.info("XYZ ZZZ generarNouCertificat::tancarFinestraURL = " + tancarFinestraURL);
+   // XYZ ZZZ hauria de posar l'index nO????
+   final boolean debug = isDebug();
+   
+   if (debug) {
+     log.info("generarNouCertificat::callBackURLOK = " + callBackURLOK);
+     log.info("generarNouCertificat::callBackURLError = " + callBackURLError);
+     log.info("generarNouCertificat::tancarFinestraURL = " + tancarFinestraURL);
+   }
    
    
    Properties config = new Properties();
@@ -457,18 +479,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
      String confB64 = AOUtil.properties2Base64(config);
      result = HttpGenerateCertificate.generateCertificate(appId, subjectId, confB64);
      
-     String transactionId = result.getTransactionId();
-     
-     log.info("XYZ ZZZ generarNouCertificat::Recibido el ID de transaccion: " + transactionId);
-     
      
      String redirectUrl = result.getRedirectUrl();
      
-     log.info("XYZ ZZZ generarNouCertificat::Recibida la URL de redireccion: " + redirectUrl);
-     
-
-     // XYZ ZZZ
-     final boolean debug = true; // log.isDebugEnabled()
+     if (isDebug()) {
+       String transactionId = result.getTransactionId();
+       log.info("generarNouCertificat::Recibido el ID de transaccion: " + transactionId);
+       log.info("generarNouCertificat::Recibida la URL de redireccion: " + redirectUrl);
+     }
 
      showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
          callBackURLError, tancarFinestraURL, redirectUrl);
@@ -497,9 +515,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       String errorMsg = ("Error en la solicitud de certificado: " + e.getMessage());
       finishWithError(response, signaturesSet, errorMsg, e);
     }
-   
-   
-   
+
  }
  
  
@@ -570,31 +586,35 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       HttpServletRequest request, HttpServletResponse response,
       SignaturesSetWeb signaturesSet, Locale locale) {
 
-    log.info("XYZ ZZZ firmarPre::absolutePluginRequestPath=" + absolutePluginRequestPath);
-    log.info("XYZ ZZZ firmarPre::relativePluginRequestPath=" + relativePluginRequestPath);
+    final boolean debug = isDebug();
+    
+    if (debug) {
+      log.debug("firmarPre::absolutePluginRequestPath=" + absolutePluginRequestPath);
+      log.debug("firmarPre::relativePluginRequestPath=" + relativePluginRequestPath);
+    }
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
-    final boolean debug = log.isDebugEnabled();
+    
     try {
 
       // Conté el SerialNumber del Cert
       String cert = request.getParameter("cert");
       if (debug) {
-        log.debug("firmarPre:: PARAMETRE[cert] = " + cert);
+        log.info("firmarPre:: PARAMETRE[cert] = " + cert);
       }
 
       List<X509Certificate> mapCert = listCertificates(signaturesSet);
 
       if (debug) {
-        log.debug("firmarPre:: mapCert.size() = " + mapCert.size());
+        log.info("firmarPre:: mapCert.size() = " + mapCert.size());
       }
 
       X509Certificate certificate = null;
       for (X509Certificate key : mapCert) {
         if (debug) {
-          log.debug("firmarPre:: KEY MAP => " + key.getIssuerDN());
+          log.info("firmarPre:: KEY MAP => " + key.getIssuerDN());
         }
 
         if (cert.equals(String.valueOf(key.getSerialNumber()))) {
@@ -642,12 +662,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
         FileInfoSignature fileInfo = fileInfoArray[i];
         StatusSignature ss = fileInfo.getStatusSignature();
+        
+        final String signTypeOrig = fileInfo.getSignType();
 
-        final HttpSignProcessConstants.SignatureFormat signType;
-        signType = convertSignType(fileInfo.getSignType());
-
-        final HttpSignProcessConstants.SignatureAlgorithm signAlgorithm;
-        signAlgorithm = convertSignAlgorithm(fileInfo.getSignAlgorithm());
 
         String timeStampUrl = null;
         if (fileInfo.getTimeStampGenerator() != null) {
@@ -658,9 +675,10 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         }
         
         
-        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-          fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_CADES);
-        }
+        // XYZ ZZZ
+//        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+//          fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_CADES);
+//        }
         
         
         MiniAppletSignInfo info;
@@ -668,17 +686,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
             timeStampUrl, certificate);
         } finally {
-          if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-            fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_SMIME);
-          }
+     // XYZ ZZZ     
+     //     if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+     //       fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_SMIME);
+     //     }
         }
         
         final Properties signProperties = info.getProperties();
-       
 
         byte[] dataToSign = info.getDataToSign();
         
-        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
           // SMIME
           String mimeType =  fileInfo.getMimeType();
           if (mimeType == null || mimeType.trim().length() == 0) {
@@ -689,9 +707,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           dataToSign = AOUtil.getDataFromInputStream(mis);
           mis.close();
         }
-        
 
-        final Properties remoteConfProperties = new Properties();
+
         String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
 
         if (callbackhost == null) {
@@ -704,16 +721,21 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
         }
         
-        
-        log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS = " + (fileInfo.getTimeStampGenerator() != null));
+        if (debug) {
+          log.info("firmarPre:: SEGELL DE TEMPS = " + (fileInfo.getTimeStampGenerator() != null));
+        }
         if (fileInfo.getTimeStampGenerator() != null) {
 
-          log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS[SIGNTYPE] = " + fileInfo.getSignType());
+          if (debug) {
+            log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] PRE= " + signTypeOrig);
+          }
           // Guardar dins Cache de Propietats si es denama timeStamp i el tipus és CADES o SMIME
-          if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
-              || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
+          if (FileInfoSignature.SIGN_TYPE_CADES.equals(signTypeOrig)
+              || FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
             
-            log.info("XYZ ZZZ firmarPre:: SEGELL DE TEMPS[SIGNTYPE] = " + fileInfo.getSignType());
+            if (debug) {
+              log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] POST= " + signTypeOrig);
+            }
             
             Properties[] allProp = timeStampCache.get(signaturesSetID);
             if (allProp == null) {
@@ -727,10 +749,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         
 
         // XYZ ZZZhauria de posar l'index nO????
-        log.info("XYZ ZZZ firmarPre::callBackURLOK = " + callBackURLOK);
-        log.info("XYZ ZZZ firmarPre::callBackURLError = " + callBackURLError);
-        log.info("XYZ ZZZ firmarPre::tancarFinestraURL = " + tancarFinestraURL);
+        if (debug) {
+          log.info("firmarPre::callBackURLOK = " + callBackURLOK);
+          log.info("firmarPre::callBackURLError = " + callBackURLError);
+          log.info("firmarPre::tancarFinestraURL = " + tancarFinestraURL);
+        }
 
+        final Properties remoteConfProperties = new Properties();
         // redirectOkUrl: URL a la que redirigir al usuario en caso de terminar
         // correcta-mente la operación.
         remoteConfProperties.setProperty("redirectOkUrl", callBackURLOK);
@@ -740,18 +765,43 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         // dado de alta en la GISS).
         remoteConfProperties.put("procedureName", getPropertyRequired(PROPERTY_PROCEDURE));
 
-        // Muntar Objecte
+        if (debug) {
+          
+          StringWriter writer = new StringWriter();
+          signProperties.list(new PrintWriter(writer));
+          
+          log.info(" -------------- SIGN PROPERTIES -------------------\n"
+             + writer.getBuffer().toString());
 
+          writer = new StringWriter();
+          remoteConfProperties.list(new PrintWriter(writer));
+          
+          log.info(" -------------- REMOTE PROPERTIES -------------------\n"
+             + writer.getBuffer().toString());
+
+        }
+        
+        final HttpSignProcessConstants.SignatureFormat signTypeClaveFirma;
+        signTypeClaveFirma = convertSignType(signTypeOrig);
+
+        final HttpSignProcessConstants.SignatureAlgorithm signAlgorithm;
+        signAlgorithm = convertSignAlgorithm(fileInfo.getSignAlgorithm());
+
+        // Muntar Objecte
         ClaveFirmaSignInformation cfsi = new ClaveFirmaSignInformation(appId, subjectId,
-            signType, signAlgorithm, signProperties, certificate, dataToSign,
+            signTypeClaveFirma, signAlgorithm, signProperties, certificate, dataToSign,
             remoteConfProperties);
 
         LoadResult loadResult;
         try {
-          log.info("XYZ ZZZ Cridam a INIT");
+          if (debug) {
+            log.info("Cridam a INIT");
+          }
           initApiClientLib();
 
-          log.info("XYZ ZZZ Cridam a HttpLoadProcess.loadData()");
+          if (debug) {
+            log.info("Cridam a HttpLoadProcess.loadData()");
+          }
           loadResult = HttpLoadProcess.loadData(cfsi.getAppId(), cfsi.getSubjectId(),
               cfsi.getSignOperation(), cfsi.getSignType(), cfsi.getSignAlgorithm(),
               cfsi.getSignProperties(), cfsi.getCertificate(), cfsi.getDataToSign(),
@@ -765,13 +815,12 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
           claveFirmaSignInfoArray[i] = cfsi;
 
-          String transactionId = loadResult.getTransactionId();
-
-          log.info("XYZ ZZZ Recibido el ID de transaccion: " + transactionId);
-
           redirectUrl = loadResult.getRedirectUrl();
-
-          log.info("XYZ ZZZ Recibida LA URL de redireccion: " + redirectUrl);
+          if (debug) {
+            final String transactionId = loadResult.getTransactionId();
+            log.info("XYZ ZZZ Recibido el ID de transaccion: " + transactionId);
+            log.info("XYZ ZZZ Recibida LA URL de redireccion: " + redirectUrl);
+          }
 
         } catch (Throwable th) {
           String msg;
@@ -791,8 +840,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       this.transactions.put(signaturesSetID, claveFirmaSignInfoArray);
       
       signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
-      
-      
 
       showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
           callBackURLError, tancarFinestraURL, redirectUrl);
@@ -882,17 +929,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   private void signErrorPage(HttpServletRequest request, HttpServletResponse response,
       SignaturesSetWeb signaturesSet, int signatureIndex, String query, Locale locale) {
-    // XYZ ZZZZ
-    // TODO Traduir
-    log.info("XYZ ZZZ S'ha rebut una cridada a la URL d'ERROR: signaturesSetID = "
-        + signaturesSet.getSignaturesSetID());
-    
-    log.info("signErrorPage:: QUERY = |" + query + "|");
-    
-    // XYZ ZZZZ
-    Map<Object, Object> params = request.getParameterMap();
-    for (Object key : params.keySet()) {
-      log.info("signErrorPage():: param[" + key + "] = " + ((String[])params.get(key))[0]);
+    final boolean debug = isDebug();
+    if (debug) {
+      log.info("signErrorPage:: S'ha rebut una cridada a la URL d'ERROR: signaturesSetID = "
+          + signaturesSet.getSignaturesSetID());
+      
+      log.info("signErrorPage:: QUERY = |" + query + "|");
+
+      Map<Object, Object> params = request.getParameterMap();
+      for (Object key : params.keySet()) {
+        log.info("signErrorPage():: param[" + key + "] = " + ((String[])params.get(key))[0]);
+      }
     }
     
     
@@ -921,10 +968,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     String signaturesSetID = signaturesSet.getSignaturesSetID();
     ClaveFirmaSignInformation[] firmaSignInformationArray = transactions.get(signaturesSetID);
+    
+    final boolean debug = isDebug();
 
-    log.info("XYZ ZZZ");
-    log.info("XYZ ZZZ firmarPostOk:: signatureIndex = " + signatureIndex2);
-    log.info("XYZ ZZZ");
+    if (debug) {
+      log.info("");
+      log.info("firmarPostOk:: signatureIndex = " + signatureIndex2);
+      log.info("");
+    }
     final int i = 0; // XYZ hauria d'assignar signatureIndex
 
     if (firmaSignInformationArray == null || firmaSignInformationArray[i] == null) {
@@ -966,9 +1017,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
           try {        
             
-            if (log.isDebugEnabled()) {
-              log.debug("storeDocument:: fisig.getSignType() => " + fileInfo.getSignType());
-              log.debug("storeDocument:: allProp => " + allProp);
+            if (debug) {
+              log.info("storeDocument:: fisig.getSignType() => " + fileInfo.getSignType());
+              log.info("storeDocument:: allProp => " + allProp);
             }
             
             if (allProp == null) {
@@ -1233,12 +1284,12 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       // Configura Properties de ConfigManager !!!!!
       initApiClientLib();
-      certificates = listCertificatesStatic(userClaveFirma, appId);
+      certificates = listCertificatesStatic(userClaveFirma, appId, log);
 
 
-      final boolean debug = log.isDebugEnabled();
+      final boolean debug = isDebug();
       if (debug) {
-        log.debug(" CERTIFICATS == " + certificates.size());
+        log.info(" CERTIFICATS == " + certificates.size());
       }
 
       if (certificates != null) {
@@ -1251,7 +1302,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   }
 
   public static List<X509Certificate> listCertificatesStatic(String userClaveFirma,
-      final String appId) throws Exception, HttpCertificateBlockedException, HttpNoUserException  {
+      final String appId, Logger log) throws Exception, HttpCertificateBlockedException, HttpNoUserException  {
     // Listamos los certificados del usuario
     List<X509Certificate> certificates = null;
     try {
@@ -1279,9 +1330,12 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           || e instanceof HttpNoUserException) {
         throw e;
       } else {
-        // XYZ ZZZ TRADUIR
-        System.out.println(e);
-        throw new Exception("Error general llistant els certificats de l'usuari: " + e.getMessage(), e);
+        // XYZ ZZZ TODO TRADUIR
+        String msg = "Error general llistant els certificats de l'usuari: " + e.getMessage();
+        if (log != null) {
+          log.error(msg, e);
+        }
+        throw new Exception(msg, e);
       }
     }
     
@@ -1388,19 +1442,25 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       String propertiesPath = getPropertyRequired(PROPERTY_CLIENT_CONFIG_PROPERTIES_PATH);
 
-      log.info("XYZ ZZZ propertiesPath = " + propertiesPath);
+      final boolean debug = isDebug();
+      
+      if (debug) {
+        log.info("initApiClientLib::propertiesPath = " + propertiesPath);
+      }
 
       File f = new File(propertiesPath);
 
-      log.info("XYZ ZZZ new File(propertiesPath).exists() = " + f.exists());
+      if (debug) {
+        log.info("initApiClientLib::new File(propertiesPath).exists() = " + f.exists());
+      }
 
-      staticInit(f);
+      staticInit(f, isDebug()?log:null);
 
       inicialitzat = true;
     }
   }
 
-  private static void staticInit(File propertiesFile) throws Exception {
+  public static void staticInit(File propertiesFile, Logger log) throws Exception {
     
     String javaVersion = System.getProperty("java.version"); // => 1.6.0_33"
     
@@ -1423,61 +1483,22 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     field.set(null, config);
 
     // XYZ ZZZ prova
-
-    field = es.gob.clavefirma.client.ConfigManager.class.getDeclaredField("config");
-    field.setAccessible(true);
-
-    Properties configget = (Properties) field.get(null);
-
-    for (Object key : configget.keySet()) {
-      // XYZ ZZZ log.info
-      System.out.println("XYZ ZZZ PropertiesGET[" + key + "] => " + configget.get(key));
+    if (log != null) { 
+    
+      field = es.gob.clavefirma.client.ConfigManager.class.getDeclaredField("config");
+      field.setAccessible(true);
+  
+      Properties configget = (Properties) field.get(null);
+  
+      for (Object key : configget.keySet()) {
+        // XYZ ZZZ log.info
+        log.info("staticInit::PropertiesGET[" + key + "] => " + configget.get(key));
+      }
     }
 
   }
 
-  // XYZ ZZZ ELIMINAR o PASSAR A TESTS !!!!
-  public static void main(String[] args) {
-
-    try {
-      
-      //XTrustProvider.install();
-      //System.setProperty("https.protocols", "TLSv1.1");
-      
-      String javaVersion = System.getProperty("java.version"); // => 1.6.0_33"
-      
-      if (javaVersion.startsWith("1.6")) {
-        System.setProperty("https.protocols", "TLSv1");
-      }
-      
-      for(Object key : System.getProperties().keySet()) {
-        System.out.println(key + " => " + System.getProperty((String)key));
-      }
-      
-      
-      
-      File propertiesFile = new File(
-          "D:\\dades\\dades\\CarpetesPersonals\\Programacio\\clavefirma_apache-tomcat-8.0.20_7000\\webapps\\clavefirma_config\\client_config.properties");
-      staticInit(propertiesFile);
-      
-      String userClaveFirma = "00001";
-      String appId = "930CD4CDF298";
-      
-
-      
-      List<X509Certificate> list = listCertificatesStatic(userClaveFirma, appId);
-      
-      for (X509Certificate x509Certificate : list) {
-        System.out.println(" - " + x509Certificate.toString());
-      }
-
-    } catch (Exception e) {
-      // TODO: handle exception
-      e.printStackTrace();
-
-    }
-
-  }
+ 
 
   protected HttpSignProcessConstants.SignatureFormat convertSignType(String signType) {
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
@@ -1526,10 +1547,10 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
    */
   public String getClaveFirmaUser(String username, String administrationID) throws Exception {
 
-    boolean debug = log.isDebugEnabled();
+    boolean debug = isDebug();
 
     if (debug) {
-      log.debug("getClaveFirmaUser => U: " + username + " | NIF: " + administrationID);
+      log.info("getClaveFirmaUser => U: " + username + " | NIF: " + administrationID);
     }
 
     // Primer provam el mapping
@@ -1565,124 +1586,12 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     }
 
     if (debug) {
-      log.debug("getClaveFirmaUser:: RETURN " + newUser);
+      log.info("getClaveFirmaUser:: RETURN " + newUser);
     }
 
     return newUser;
 
   }
 
-  public class ClaveFirmaSignInformation {
-
-    protected final String appId;
-    protected final String subjectId;
-    protected final HttpSignProcessConstants.SignatureOperation signOperation;
-    protected final HttpSignProcessConstants.SignatureFormat signType;
-    protected final HttpSignProcessConstants.SignatureAlgorithm signAlgorithm;
-    protected final Properties signProperties;
-    protected final X509Certificate certificate;
-    protected final byte[] dataToSign;
-    protected final Properties remoteConfProperties;
-
-    protected LoadResult loadResult;
-
-    /**
-     * @param appId
-     * @param subjectId
-     * @param signOperation
-     * @param signType
-     * @param signAlgorithm
-     * @param signProperties
-     * @param certificate
-     * @param dataToSign
-     * @param remoteConfProperties
-     */
-    public ClaveFirmaSignInformation(String appId, String subjectId, SignatureFormat signType,
-        SignatureAlgorithm signAlgorithm, Properties signProperties,
-        X509Certificate certificate, byte[] dataToSign, Properties remoteConfProperties) {
-      super();
-      this.appId = appId;
-      this.subjectId = subjectId;
-      this.signOperation = HttpSignProcessConstants.SignatureOperation.SIGN;
-      this.signType = signType;
-      this.signAlgorithm = signAlgorithm;
-      this.signProperties = signProperties;
-      this.certificate = certificate;
-      this.dataToSign = dataToSign;
-      this.remoteConfProperties = remoteConfProperties;
-    }
-
-    /**
-     * @param appId
-     * @param subjectId
-     * @param signOperation
-     * @param signType
-     * @param signAlgorithm
-     * @param signProperties
-     * @param certificate
-     * @param dataToSign
-     * @param remoteConfProperties
-     */
-    public ClaveFirmaSignInformation(String appId, String subjectId,
-        SignatureOperation signOperation, SignatureFormat signType,
-        SignatureAlgorithm signAlgorithm, Properties signProperties,
-        X509Certificate certificate, byte[] dataToSign, Properties remoteConfProperties) {
-      super();
-      this.appId = appId;
-      this.subjectId = subjectId;
-      this.signOperation = signOperation;
-      this.signType = signType;
-      this.signAlgorithm = signAlgorithm;
-      this.signProperties = signProperties;
-      this.certificate = certificate;
-      this.dataToSign = dataToSign;
-      this.remoteConfProperties = remoteConfProperties;
-    }
-
-    public String getAppId() {
-      return appId;
-    }
-
-    public String getSubjectId() {
-      return subjectId;
-    }
-
-    public HttpSignProcessConstants.SignatureOperation getSignOperation() {
-      return signOperation;
-    }
-
-    public HttpSignProcessConstants.SignatureFormat getSignType() {
-      return signType;
-    }
-
-    public HttpSignProcessConstants.SignatureAlgorithm getSignAlgorithm() {
-      return signAlgorithm;
-    }
-
-    public Properties getSignProperties() {
-      return signProperties;
-    }
-
-    public X509Certificate getCertificate() {
-      return certificate;
-    }
-
-    public byte[] getDataToSign() {
-      return dataToSign;
-    }
-
-    public Properties getRemoteConfProperties() {
-      return remoteConfProperties;
-    }
-
-    public LoadResult getLoadResult() {
-      return loadResult;
-    }
-
-    public void setLoadResult(LoadResult loadResult) {
-      this.loadResult = loadResult;
-    }
-
-  }
-
+  
 }

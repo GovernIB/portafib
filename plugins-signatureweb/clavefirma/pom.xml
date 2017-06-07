@@ -16,21 +16,6 @@
 
   <url>http://maven.apache.org</url>
 
-  <repositories>
-
-    <repository>
-      <name>Local Maven Repository ClaveFirma</name>
-      <id>es.caib.portafib.localrepo.clavefirma</id>
-      <url>file://${basedir}/local-repo</url>
-    </repository>
-
-    <repository>
-      <name>Local Maven Repository @firma</name>
-      <id>es.caib.portafib.localrepo.afirma</id>
-      <url>file://${basedir}/../afirma-triphase-server-lib/local-repo</url>
-    </repository>
-
-  </repositories>
 
   <dependencies>
 
