@@ -62,23 +62,3 @@ Menú Administrador d'Entitat i llistat de peticions caducades
 Vista Completa de Petició de Firma en Destinatari
 
 
-
-
-# Versions dels Plugins de Firma Web i Firma en Servidor (15/06/2017)
-
-| Plugin  | Versió |
-| ------------- | ------------- |
-| plugin-signatureserver-miniappletutils | 2.0.1  |
-| plugin-signatureweb-miniappletutils | 2.0.1 |
-| - | - |
-| plugin-signatureserver-afirmaserver | 2.0.2 |
-| plugin-signatureserver-miniappletinserver | 2.0.3 |
-| plugin-signatureserver-portafib | 2.0.0 |
-| - | - |
-| plugin-signatureweb-miniappletinserver | 2.0.1 |
-| plugin-signatureweb-miniappletinserversia | 2.0.1 |
-| plugin-signatureweb-miniappletinclient | 2.0.1 |
-| plugin-signatureweb-clavefirma | 2.0.1 |
-| plugin-signatureweb-afirma_triphase_server | 2.0.2 |
-| plugin-signatureweb-portafib | 2.0.0 |
-
