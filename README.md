@@ -68,7 +68,7 @@ Vista Completa de Petició de Firma en Destinatari
 
 | Plugin  | Versió |
 | ------------- | ------------- |
-| plugin-signatureserver-miniappletutils 2.0.1  |
+| plugin-signatureserver-miniappletutils | 2.0.1  |
 | plugin-signatureweb-miniappletutils | 2.0.1 |
 | - | - |
 | plugin-signatureserver-afirmaserver | 2.0.2 |
