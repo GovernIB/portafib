@@ -237,10 +237,10 @@ public class AutoFirmaController extends FitxerController
     
     File fitxerPDF = form.getFitxerAFirmarIDFile();
     File pdfAdaptat = getFitxerAdaptatPath(form.getUsuariEntitatID(), id);
-    // TODO Gestionar I18Exception
-    generaFitxerAdaptat(fitxerPDF, pdfAdaptat, form.getIdioma(), form.getLogoSegell()
-        .getFitxerID(), form.getAttachments(), (int) form.getPosicioTaulaFirmesID(),
-        form.getTitol(), form.getDescripcio());
+    // XYZ ZZZ Això NOMES S'HA DE CRIDAR SI ÉS PDF
+    final int originalNumberOfSigns = generaFitxerAdaptat(fitxerPDF, pdfAdaptat, 
+        form.getIdioma(), form.getLogoSegell().getFitxerID(), form.getAttachments(),
+        (int) form.getPosicioTaulaFirmesID(), form.getTitol(), form.getDescripcio());
     
 
     // Preparar pàgina
@@ -277,9 +277,6 @@ public class AutoFirmaController extends FitxerController
         langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
-
-    FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
-
     
     CommonInfoSignature commonInfoSignature;
     {
@@ -297,8 +294,10 @@ public class AutoFirmaController extends FitxerController
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
     final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
     
-    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-        commonInfoSignature, fileInfoSignatureArray, loginInfo.getEntitat(), urlFinal, true);
+    PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
+        caducitat.getTime(),  commonInfoSignature,
+        new FileInfoSignature[] { fis }, new int[] { originalNumberOfSigns },
+        loginInfo.getEntitat(), urlFinal, true);
     
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
@@ -601,7 +600,7 @@ public class AutoFirmaController extends FitxerController
   
   
 
-  private File generaFitxerAdaptat(File fitxerPDF, File dstPDF, String langUI,
+  private int generaFitxerAdaptat(File fitxerPDF, File dstPDF, String langUI,
       long logoSegellID, List<AttachedFile> attachments, int posicioTaulaFirmesID,
       String titol, String descripcio)
       throws Exception, I18NException {
@@ -632,15 +631,12 @@ public class AutoFirmaController extends FitxerController
     // PortaFIBCommonsMultipartResolver
     final Long maxSizeFitxerAdaptat = null;
 
-    PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, dstPDF,
+    return PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxerPDF, dstPDF,
         attachments, maxSizeFitxerAdaptat,
-        // numFirmes, posicioTaulaDeFirmes, signantLabel, resumLabel,
-        // descLabel, desc, titolLabel, titol, logoFile)
         new StampTaulaDeFirmes(1, posicioTaulaFirmesID,
         signantLabel, resumLabel, descLabel, descripcio, 
         titolLabel, titol, logoSegell), null
          );
-    return dstPDF;
   }
 
 

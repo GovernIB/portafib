@@ -81,6 +81,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
+import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
@@ -531,7 +532,7 @@ import es.caib.portafib.utils.Configuracio;
         List<StringKeyValue> listIds = estatDeFirmaEjb.executeQuery(smskv, ESTATDEFIRMAID.in(seleccionats));
         
 
-        List<FileInfoSignature> fileInfoSignatureArray = new ArrayList<FileInfoSignature>();
+        List<FileInfoFull> fileInfoFullArray = new ArrayList<FileInfoFull>();
         
         String langUI = loginInfo.getUsuariPersona().getIdiomaID();
 
@@ -559,12 +560,12 @@ import es.caib.portafib.utils.Configuracio;
               continue;
             }
 
-            FileInfoSignature fileInfoSignature;
-            fileInfoSignature = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
+            FileInfoFull fileInfoFull;
+            fileInfoFull = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
                 langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
 
-            if (fileInfoSignature != null) {
-              fileInfoSignatureArray.add(fileInfoSignature);
+            if (fileInfoFull != null) {
+              fileInfoFullArray.add(fileInfoFull);
             }
 
             peticionsDeFirmaID.add(peticioDeFirmaID);
@@ -572,7 +573,7 @@ import es.caib.portafib.utils.Configuracio;
           }
         }
 
-        if (fileInfoSignatureArray.isEmpty()) {
+        if (fileInfoFullArray.isEmpty()) {
           // TODO avis
           return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
         }
@@ -590,18 +591,27 @@ import es.caib.portafib.utils.Configuracio;
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
         // finalitzat el proces de firma
         Calendar caducitat = Calendar.getInstance();
-        caducitat.add(Calendar.MINUTE, 9 + fileInfoSignatureArray.size());
+        caducitat.add(Calendar.MINUTE, 9 + fileInfoFullArray.size());
 
         // {0} ==> es substituirà per l'ID del plugin de firma seleccionat per firmar
         String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
 
         final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
-
+        FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[fileInfoFullArray.size()];
+        int[] originalNumberOfSignsArray = new int[fileInfoFullArray.size()];
+        {
+          int count = 0;
+          for(FileInfoFull fif : fileInfoFullArray) {
+            fileInfoSignatureArray[count] = fif.fileInfoSignature;
+            originalNumberOfSignsArray[count] = fif.originalNumberOfSigns;
+            count++;
+          }
+        }
 
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
             caducitat.getTime(), commonInfoSignature,
-            fileInfoSignatureArray.toArray(new FileInfoSignature[fileInfoSignatureArray.size()]),
+            fileInfoSignatureArray, originalNumberOfSignsArray,
             loginInfo.getEntitat(), urlFinal, true);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
@@ -761,10 +771,9 @@ import es.caib.portafib.utils.Configuracio;
       final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
       
       Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
-      FileInfoSignature fis = prepareFirmaItem(request, estatDeFirmaID, 
+      FileInfoFull fif = prepareFirmaItem(request, estatDeFirmaID, 
           peticioDeFirmaID, langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
 
-      FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
       EntitatJPA entitat = loginInfo.getEntitat();
 
@@ -785,8 +794,10 @@ import es.caib.portafib.utils.Configuracio;
       String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
       final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
-      PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID, caducitat.getTime(),
-          commonInfoSignature, fileInfoSignatureArray, entitat, urlFinal, true);
+      PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(
+          signaturesSetID, caducitat.getTime(), commonInfoSignature,
+          new FileInfoSignature[] { fif.fileInfoSignature }, new int[] { fif.originalNumberOfSigns},
+          entitat, urlFinal, true);
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -808,7 +819,7 @@ import es.caib.portafib.utils.Configuracio;
      */
     @RequestMapping(value = "/finalFirma/{signaturesSetID}")
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
-        @PathVariable("signaturesSetID") String signaturesSetID)throws Exception {
+        @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
     
       SignaturesSetWeb ss;
@@ -872,6 +883,9 @@ import es.caib.portafib.utils.Configuracio;
     FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
     
     final boolean isDebug = log.isDebugEnabled();
+    
+    int[] originalNumberOfSignsArray = ((PortaFIBSignaturesSet)ss).getOriginalNumberOfSignsArray();
+    
 
     for (int i = 0; i < signedFiles.length; i++) {
 
@@ -907,10 +921,10 @@ import es.caib.portafib.utils.Configuracio;
             }
 
             peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
-                token, signedFile.getSignNumber());
+                token, signedFile.getSignNumber(), originalNumberOfSignsArray[i]);
 
             status.setProcessed(true);
-            
+
             if (isDebug) {
               log.debug("(FINAL)Processada Signature " + signedFile.getSignID() + " ...");
             }
@@ -1008,15 +1022,16 @@ import es.caib.portafib.utils.Configuracio;
     }
 
     @Override
-    public void process(FileInfoSignature signedFileInfo, File firmat) throws I18NException {
+    public void process(FileInfoSignature signedFileInfo, File firmat, int originalNumberOfSigns) throws I18NException {
       SignatureID signID = decodeSignatureID(signedFileInfo.getSignID());
 
       final long estatDeFirmaID = signID.getEstatDeFirmaID();
       final long peticioDeFirmaID = signID.getPeticioDeFirmaID();
       final String token = signID.getToken();
       
+     
       peticioDeFirmaLogicaEjb.nouFitxerFirmat(firmat, estatDeFirmaID, peticioDeFirmaID,
-          token, signedFileInfo.getSignNumber());
+          token, signedFileInfo.getSignNumber(), originalNumberOfSigns);
       
     }
 
@@ -1043,7 +1058,7 @@ import es.caib.portafib.utils.Configuracio;
 
    
 
-    protected FileInfoSignature prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
+    protected FileInfoFull prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
         Long peticioDeFirmaID, String langUI, Map<String, List<Long>> pluginsFirmaBySignatureID,
         String entitatID) throws I18NException {
 
@@ -1171,9 +1186,7 @@ import es.caib.portafib.utils.Configuracio;
         final String location = null;
 
         final String signerEmail = up.getEmail(); 
-  
-        
-        
+
         // Construir Objecte
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
@@ -1206,11 +1219,19 @@ import es.caib.portafib.utils.Configuracio;
            pluginsFirmaBySignatureID.put(signatureID, pluginsID);
          }
        }
+       
+       
+       // Cercar el numero de firmes del document original
+       // XYZ ZZZ Només per PDF !!!!!
+       File originalDoc = FileSystemManager.getFile(peticioDeFirma.getFitxerAdaptatID());
+       final int originalNumberOfSigns = PdfUtils.getNumberOfSignaturesInPDF(originalDoc);
+       
 
-       return SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
+       return new FileInfoFull(SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
-            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator);
+            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator),
+            originalNumberOfSigns);
 
     }
 
@@ -2470,17 +2491,24 @@ import es.caib.portafib.utils.Configuracio;
     }
     
 
-    /*
-     * @Override public String[] getArgumentsMissatge(Object __estatDeFirmaID,
-     * Exception e) { java.lang.Long estatDeFirmaID = (java.lang.Long)
-     * __estatDeFirmaID; if (estatDeFirmaID == null) { return new String[] {
-     * I18NUtils.tradueix("estatDeFirma.estatDeFirma"),
-     * I18NUtils.tradueix("estatDeFirma.estatDeFirmaID"), null, e == null ? "" :
-     * e.getMessage() }; } else { return new String[] {
-     * I18NUtils.tradueix("estatDeFirma.estatDeFirma"),
-     * I18NUtils.tradueix("estatDeFirma.estatDeFirmaID"),
-     * String.valueOf(estatDeFirmaID), e == null ? "" : e.getMessage() }; } }
-     */
+    public static class FileInfoFull {
+      public final FileInfoSignature fileInfoSignature;
+      public final int originalNumberOfSigns;
+      /**
+       * @param fileInfoSignature
+       * @param originalNumberOfSigns
+       */
+      public FileInfoFull(FileInfoSignature fileInfoSignature, int originalNumberOfSigns) {
+        super();
+        this.fileInfoSignature = fileInfoSignature;
+        this.originalNumberOfSigns = originalNumberOfSigns;
+      }
+      
+      
+      
+    }
+    
+
   } // Final de Classe
 
 

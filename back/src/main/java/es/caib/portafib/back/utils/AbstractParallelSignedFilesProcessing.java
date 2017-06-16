@@ -97,6 +97,10 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
       } else if (sss.getStatus() != StatusSignaturesSet.STATUS_IN_PROGRESS) {
         return;
       }
+      
+      
+      int[] originalNumberOfSignsArray = ((PortaFIBSignaturesSet)ss).getOriginalNumberOfSignsArray();
+      
 
       FileInfoSignature[] signedFiles = ss.getFileInfoSignatureArray();
 
@@ -123,7 +127,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
               log.debug("firmat.getAbsolutePath(): " + firmat.getAbsolutePath());
             }
 
-            this.process(signedFile, firmat);
+            this.process(signedFile, firmat, originalNumberOfSignsArray[i]);
 
             status.setProcessed(true);
 
@@ -150,7 +154,7 @@ public abstract class AbstractParallelSignedFilesProcessing extends Thread {
 
   }
 
-  public abstract void process(final FileInfoSignature signedFileInfo, File firmat)
-      throws I18NException;
+  public abstract void process(final FileInfoSignature signedFileInfo, File firmat,
+      int originalNumberOfSigns)  throws I18NException;
 
 }

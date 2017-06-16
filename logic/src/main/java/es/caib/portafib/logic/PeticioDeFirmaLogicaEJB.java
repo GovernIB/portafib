@@ -842,13 +842,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
           PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes());
 
-      PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments, 
-          maxSize, taulaDeFirmes, custodiaInfoStamp);
-      /*
-      TableSignAndAttachments(srcPDF, dstPDF, numFirmes, posicio, signantLabel,
-          resumLabel, descLabel, desc, titolLabel, titol, logo, attachments, attachmentsNames,
-          maxSize);
-          */
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(
+          srcPDF, dstPDF, attachments, maxSize, taulaDeFirmes, custodiaInfoStamp);
 
       FitxerJPA f = new FitxerJPA();
       f.setDescripcio("");
@@ -1828,7 +1823,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   @Override
   public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID,
-      String token, int numFirma) throws I18NException {
+      String token, int numFirmaPortaFIB, int numFirmesOriginals) throws I18NException {
 
     Long fileID = null;
     try {
@@ -1876,21 +1871,25 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         mime = Constants.PDF_MIME_TYPE;
 
         Map<Integer, Long> fitxersByNumFirma = null;
-        if (numFirma != 1) {
+        if (numFirmaPortaFIB != 1) {
           fitxersByNumFirma = getFitxersFirmatsOfPeticioDeFirma(peticioDeFirma
               .getPeticioDeFirmaID());
         }
 
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
+        
+        
+        final String entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
 
         InformacioCertificat info;
         info = PdfUtils.checkCertificatePADES(fitxerOriginalID, fitxersByNumFirma, file,
-            numFirma);
+            numFirmaPortaFIB, numFirmesOriginals, ignoreCheckPostSign);
 
         // Obtenir informació del certificat
-
         final boolean isDebug = log.isDebugEnabled();
         if (isDebug) {
+          log.debug("PropietatGlobalUtil.ignoreCheckPostSign: " + ignoreCheckPostSign);
           log.debug("NumeroSerieCertificat = " + info.getNumeroSerie());
           log.debug("Emissor = " + info.getEmissorID());
           log.debug("Subject = " + info.getSubject());
@@ -1904,7 +1903,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         break;
 
       default:
-        throw new Exception("No esta implementat la gestió de fitxers"
+        throw new Exception("No esta implementada la verificació de fitxers firmats"
             + " amb tipus de firma " + tipusFirma);
       }
 
@@ -1917,8 +1916,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Obtenir informació del certificat
       if (comprovarFirma != null && comprovarFirma == true) {
-        StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
-        Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
+        final StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
+        final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
             .getUsuariEntitatID());
         String expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
         LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
@@ -1944,7 +1943,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       events.firma_parcial(peticioDeFirma, estatDeFirma);
 
       // 3.- Associar Fitxer a la Firma i guardar
-      firma.setNumFirmaDocument(numFirma);
+      firma.setNumFirmaDocument(numFirmaPortaFIB);
       firma.setFitxerFirmatID(fitxer.getFitxerID());
       firma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT);
       firmaLogicaEjb.update(firma);

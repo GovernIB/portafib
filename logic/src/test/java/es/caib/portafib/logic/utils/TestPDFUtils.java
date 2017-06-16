@@ -177,7 +177,9 @@ public class TestPDFUtils implements Constants {
     
     byte[] pdfData = FileUtils.readFileToByteArray(docFir);
     
-    boolean result = PdfUtils.checkDocumentWhenFirstSign(new FileInputStream(docOrig), pdfData);
+    byte[] originalData = FileUtils.readFileToByteArray(docOrig);
+    
+    boolean result = PdfUtils.checkDocumentWhenFirstSign(originalData, pdfData, 0);
     
     log.info("Orig Len = " + docOrig.length());
     
@@ -211,9 +213,8 @@ public class TestPDFUtils implements Constants {
       }
       
       File dstPDF = new File("testAttachingFilesToPDFwithAttachs_test.pdf");
-          
-          
-      PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, files, null, null, null);
+
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, null, null, null);
       
       Set<String> attachments = extractDocLevelAttachments(dstPDF.getAbsolutePath());
       
@@ -332,6 +333,30 @@ public class TestPDFUtils implements Constants {
   
   
   
+  public static void main5(String[] args) {
+
+    try {
+
+      File parent = new File("C:\\Users\\anadal.IBITNET\\Desktop\\FIRMATS_NO_PORTAFIB");
+      
+      File original = new File(parent, "Fichero 3 MB - firmado.pdf");
+      File firmat = new File(parent, "ELIMINAR_Fichero3mb_firmado_.pdf");
+
+      byte[] originalData = FileUtils.readFileToByteArray(original);
+
+      byte[] firmatData = FileUtils.readFileToByteArray(firmat);
+
+      boolean result = PdfUtils.checkDocumentWhenFirstSign(originalData, firmatData, 1);
+
+      log.info("Result = " + result);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+  
+  
   
   public static void mainTestHorizontal(String[] args) {
     
@@ -427,7 +452,10 @@ public class TestPDFUtils implements Constants {
   }
 
   public static void main(String[] args) {
-    new TestPDFUtils().generaPDFPerProvesApplet();
+    //new TestPDFUtils().generaPDFPerProvesApplet();
+    
+    main5(args);
+    
   }
     
 
@@ -482,7 +510,7 @@ public class TestPDFUtils implements Constants {
       log.info(" INICI XX " + dstPDF.getAbsolutePath());
       // File logoFile = null;
 
-      PdfUtils.add_TableSign_Attachments_CustodyInfo(srcPDF, dstPDF, attachments,
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments,
            null, new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
               resumLabel, descLabel, desc, titolLabel, titol, logoSegell), null);
 
@@ -559,7 +587,7 @@ public class TestPDFUtils implements Constants {
 
       File dstPDF = new File("testHorizontal_" + file.getName());
 
-      PdfUtils.add_TableSign_Attachments_CustodyInfo(file, dstPDF, attachments, null,
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(file, dstPDF, attachments, null,
           taulaDeFirmesInfo , custodiaInfo);
 
     }

@@ -106,3 +106,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureserver/miniappletinserver/SERVER_MINIAPPLETINSERVER/anadaljks/cert.properties
 /plugins-signatureserver/miniappletinserver/SERVER_MINIAPPLETINSERVER/anadalp12/anadal.p12
 /plugins-signatureserver/miniappletinserver/SERVER_MINIAPPLETINSERVER/anadalp12/cert.properties
+/plugins-signatureweb/clavefirma/src/test/java/org/fundaciobit/signatureweb/clavefirma/TestListCertificates.java
+/ws/portafib_api_example/src/main/java/es/caib/portafib/ws/v1/example/Reiniciar.java
+/plugins-signatureserver/miniappletinserver/src/test/java/org/fundaciobit/plugins/signatureserver/miniappletinserver/test/NoCommitar.java
+/plugins-signatureserver/exempleapp/src/main/java/org/fundaciobit/plugins/signatureserver/exempleapp/ExempleNoCommit.java

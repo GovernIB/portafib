@@ -104,10 +104,11 @@ public class PassarelaDeFirmaEnServidorEJB extends
         passarelaSignaturesSet.getCommonInfoSignature().setUsername(usrApp.getUsuariAplicacioID());
       }
       
+      PassarelaFileInfoSignature[] fisArray =  passarelaSignaturesSet.getFileInfoSignatureArray();
+      int[] originalNumberOfSignsArray2 = new int[fisArray.length];
+      for (int i = 0; i < fisArray.length; i++) {
 
-      for (PassarelaFileInfoSignature pfis : passarelaSignaturesSet
-          .getFileInfoSignatureArray()) {
-
+        PassarelaFileInfoSignature pfis = fisArray[i];
        
         final String signID = pfis.getSignID();
         File original = getFitxerOriginalPath(signaturesSetID, signID);
@@ -115,7 +116,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
 
-        processFileToSign(locale, entitatID, pfis, original, adaptat);
+        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis, original, adaptat);
 
       } // Final de For
 

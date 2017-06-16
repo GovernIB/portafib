@@ -226,11 +226,12 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 	  
 	  
 	  final Map<Integer,Long>  fitxersByNumFirma = null;
-    final int numFirma = 1;
+    final int numFirma = 1; // Només du 1 firma
+    final int numFirmesOriginals = 0; // Sabem que l'original no contenia cap altre firma
     InformacioCertificat info;
     // null == Indica que no s'ha de revisar si el document ha sigut modificat
     info = PdfUtils.checkCertificatePADES(null, fitxersByNumFirma,
-        firmat, numFirma);
+        firmat, numFirma, numFirmesOriginals, false);
     
     
     EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());

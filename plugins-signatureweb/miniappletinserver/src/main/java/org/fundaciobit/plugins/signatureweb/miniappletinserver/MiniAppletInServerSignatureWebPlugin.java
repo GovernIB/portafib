@@ -28,6 +28,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerCAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
@@ -351,7 +352,8 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
             timeStampUrl, certificate);
 
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())
-            || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
+            || FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())
+            || FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
 
               // FIRMA PADES o Xades
               StatusSignature ss = fileInfo.getStatusSignature();
@@ -370,6 +372,18 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       
                 signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
                   new Certificate[] { info.getCertificate() }, info.getProperties());
+              }  else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())) {
+                log.debug("Passa per CAdESSigner");
+                
+                MiniAppletInServerCAdESSigner cadesSigner = new MiniAppletInServerCAdESSigner();
+                
+                //            StringWriter sw = new StringWriter();
+                //            info.getProperties().store(sw, "PropertiesDemo");
+                //            log.info("CADES PROPERTIES:\n" + sw.toString() );
+                signedData = cadesSigner.sign(info.getDataToSign(), algorithm, privateKey,
+                    new Certificate[] { info.getCertificate() }, info.getProperties());
+              
+              
               } else {
                 
                 log.debug("Passa per XAdESSigner");
@@ -418,16 +432,25 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
       } catch (Throwable th) {
         // TODO Mirar certs tipus d'excepció
 
-        log.error("Error Firmant: " + th.getMessage(), th);
+        log.error("Error Firmant: " + th.getMessage() + " [CLASS: "
+            + th.getClass().getName() + "]", th);
 
         StatusSignature ss = getStatusSignature(signaturesSetID, i);
 
         ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
 
         ss.setErrorException(th);
+        
+        String msg;
+        Throwable cause = th.getCause();
+        if (cause != null && th instanceof java.lang.reflect.InvocationTargetException) {
+          msg = cause.getMessage();
+        } else {
+          msg = th.getMessage();
+        }
 
-        ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) + fileInfo.getName() + " (" + i + ")["
-            + th.getClass().getName() + "]:" + th.getMessage());
+        ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) 
+            + fileInfo.getName() + " (" + i + "):" + msg);
       }
     }
 

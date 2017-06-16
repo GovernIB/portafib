@@ -39,25 +39,25 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-      <version>${plugins.signatureweb.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-      <version>${plugins.signatureweb.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
       <version>2.0.1</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+      <version>2.0.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-clavefirma</artifactId>
-      <version>${plugins.signatureweb.version}</version>
+      <version>2.0.1</version>
     </dependency>
 
 
@@ -81,13 +81,13 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
-      <version>2.0.2</version>
+      <version>2.0.3</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-afirmaserver</artifactId>
-      <version>${plugins.signatureserver.version}</version>
+      <version>2.0.2</version>
       <exclusions>
         <exclusion>
             <artifactId>xercesImpl</artifactId>
@@ -157,7 +157,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-          <version>${plugins.signatureweb.version}</version>
+          <version>2.0.1</version>
           <exclusions>
             <exclusion>
               <groupId>org.bouncycastle</groupId>

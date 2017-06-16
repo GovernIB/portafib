@@ -1277,9 +1277,12 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
     final String urlFirmaFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
+    // Sabem que no té cap firma 
+    final int[] originalNumberOfSignsArray = new int[] {0};
+    
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
-        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray, entitat,
-        urlFirmaFinal, true);
+        caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray,
+        originalNumberOfSignsArray, entitat, urlFirmaFinal, true);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
     

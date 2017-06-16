@@ -22,6 +22,20 @@ public class PropietatGlobalUtil implements Constants {
   public static final String PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS =  PORTAFIB_PROPERTY_BASE + "avisosfirmespendents.diesabans";
   
   
+  
+  /**
+   * 
+   * @param entitatID
+   * @return
+   */
+  public static boolean ignoreCheckPostSign(String entitatID) {
+    // Valor per entitat
+    final String partialPropertyName = "ignorecheckpostsign";
+    Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
+    return (val == null)? false : val;
+  }
+  
+  
   /**
    * 
    * @return

@@ -25,6 +25,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerCAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
@@ -56,11 +57,6 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   public static final String MINIAPPLETINSERVER_BASE_PROPERTIES = SIGNATURESERVER_BASE_PROPERTY
       + "miniappletinserver.";
-  
-  
-
-  
-  
 
   public static final String BASE_DIR = MINIAPPLETINSERVER_BASE_PROPERTIES + "base_dir";
   

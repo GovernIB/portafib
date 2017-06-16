@@ -4,7 +4,7 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureserver-afirmaserver</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.1</version>
+  <version>2.0.2</version>
 
   <name>FundacioBit Plugins - SignatureServer - @firma Server</name>
 
@@ -15,23 +15,6 @@
   </parent>
 
   <url>http://maven.apache.org</url>
-
-
-  <repositories>
-    <repository>
-      <name>Local Maven Repository</name>
-      <id>es.caib.portafib.localrepo</id>
-      <url>file://${project.basedir}/local-repo</url>
-    </repository>
-
-
-    <repository>
-      <name>Local Maven Repository @firma</name>
-      <id>es.caib.portafib.localrepo.afirma</id>
-      <url>file://${basedir}/../../plugins-signatureweb/afirma-triphase-server-lib/local-repo</url>
-    </repository>
-
-  </repositories>
 
 
   <dependencies>
@@ -142,7 +125,7 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-miniappletutils</artifactId>
-      <version>${plugins.signatureweb.version}</version>
+      <version>2.0.1</version>
     </dependency>
 
     <dependency>

@@ -79,20 +79,20 @@ public class PassarelaDeFirmaController  {
     PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
     EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
-    
+
     SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(passarelaDeFirmaEjb,
         segellDeTempsPublicEjb, signaturesSetID, pss, entitat);
-    
+
     // Vull suposar que abans de 10 minuts haurà firmat
     java.util.Date caducitat = pss.getExpiryDate();
     
-    String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
+    String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(
+        request, PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH);
     final String urlFinal = relativeControllerBase + PassarelaDeFirmaWebLocal.PASSARELA_CONTEXTPATH_FINAL + "/" + signaturesSetID;
-    
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
-        entitat, urlFinal, false);
+        ssf.getOriginalNumberOfSignsArray(),  entitat, urlFinal, false);
     
     // Filtres definits en l'Aplicació CLient
     List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
@@ -156,6 +156,7 @@ public class PassarelaDeFirmaController  {
     PassarelaSignaturesSetWebInternalUse ssf;
     ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(transactionID);
     if (ssf == null) {
+      // TODO XYZ ZZZ TRADUIR 
       throw new Exception("Ha tardat massa temps en firmar. Torni a intentar-ho.");
     }
         

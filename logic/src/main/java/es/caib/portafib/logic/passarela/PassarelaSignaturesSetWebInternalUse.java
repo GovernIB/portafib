@@ -18,15 +18,18 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   protected final PassarelaSignaturesSet signaturesSet;
 
+  protected final int[] originalNumberOfSignsArray;
 
-  protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
+  protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID 
+    = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
 
   /**
    * @param signaturesSet
    */
-  public PassarelaSignaturesSetWebInternalUse(String entitatID,
+  public PassarelaSignaturesSetWebInternalUse(String entitatID, int[] originalNumberOfSignsArray,
       PassarelaSignaturesSet signaturesSet) {
     super();
+    this.originalNumberOfSignsArray= originalNumberOfSignsArray;
     this.signaturesSet = signaturesSet;
     this.entitatID = entitatID;
 
@@ -57,6 +60,8 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
     return entitatID;
   }
 
-
+  public int[] getOriginalNumberOfSignsArray() {
+    return originalNumberOfSignsArray;
+  }
 
 }

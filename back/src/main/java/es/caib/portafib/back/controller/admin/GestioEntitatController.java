@@ -349,6 +349,11 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
                 + " el role PFI_AUTOFIRMA");
 
+        propietatGlobalEjb.create("es.caib.portafib.ignorecheckpostsign", "false", 
+            _entitatID_, "Opcional. Serveix per indicar a PortaFIB que "
+                + "revisi(false o no definit) o no revisi(true) la manipulació"
+                + " del PDF firmat");
+
         
       } catch(I18NException ie) {
         String msg = I18NUtils.getMessage(ie);

@@ -453,7 +453,7 @@ public class SignatureUtils {
     * @param stampCustodiaInfo
     * @throws I18NException
     */
-   public static void afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
+   public static int afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
        StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo)
            throws I18NException {
 
@@ -463,13 +463,15 @@ public class SignatureUtils {
      try {
        File tmpDest = File.createTempFile("Passarela_Taula_de_Firmes", ".pdf");
 
-       PdfUtils.add_TableSign_Attachments_CustodyInfo(fitxerPDF, tmpDest, null,
+       final int originalNumberOfSigns = PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxerPDF, tmpDest, null,
            maxSizeFitxerAdaptat, stampTaulaDeFirmes, stampCustodiaInfo);
 
        // Destí no pot existir !!!
        fitxerPDF.delete();
 
        FileUtils.moveFile(tmpDest, fitxerPDF);
+       
+       return originalNumberOfSigns;
      } catch (Exception e) {
        // TODO traduir
        String msg = "Error desconegut afegint taula de firmes a fitxer ("
@@ -479,7 +481,19 @@ public class SignatureUtils {
    }
    
    
-   public static void processFileToSign(Locale locale, String entitatID,
+   /**
+    * 
+    * @param locale
+    * @param entitatID
+    * @param pfis
+    * @param original
+    * @param adaptat
+    * @param entitatEjb
+    * @param codiBarresEjb
+    * @return
+    * @throws I18NException
+    */
+   public static int processFileToSign(Locale locale, String entitatID,
        PassarelaFileInfoSignature pfis, File original, File adaptat, 
        EntitatLocal entitatEjb, CodiBarresLocal codiBarresEjb)
        throws I18NException {
@@ -607,7 +621,7 @@ public class SignatureUtils {
          }
        }
 
-       SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
+       return SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat, stampTaulaDeFirmes,
            stampCodiSegurVerificacio);
        // Final IF PADES
      } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())  
@@ -622,14 +636,14 @@ public class SignatureUtils {
          throw new I18NException("error.copyfile", original.getAbsolutePath(),
              adaptat.getAbsolutePath());
        }
+       return 0;
 
      } else {
-         log.warn("Tipus de Signatura " + pfis.getSignType() + " no supportat dins la classe "
-             + SignatureUtils.class.getName(), new Exception());
+        throw new I18NException(new Exception(), "error.desconegut",
+            new I18NArgumentString("Tipus de Signatura " + pfis.getSignType() 
+            + " no supportat dins la classe " + SignatureUtils.class.getName()));
      }
 
-       
-     
    }
    
 

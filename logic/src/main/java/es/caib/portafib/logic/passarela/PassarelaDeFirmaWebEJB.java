@@ -82,9 +82,7 @@ public class PassarelaDeFirmaWebEJB
 
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
 
-    // Guardar
-    storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID, signaturesSet));
-    
+
     // Canviar llista buida per NULL
     List<Long> filterPluginsByIDs = signaturesSet.getCommonInfoSignature().getAcceptedPlugins();
     if (filterPluginsByIDs != null && filterPluginsByIDs.size() == 0) {
@@ -102,19 +100,27 @@ public class PassarelaDeFirmaWebEJB
       } catch (Throwable e) {
         locale = new Locale("ca");
       }
-      
 
-      for (PassarelaFileInfoSignature pfis : signaturesSet.getFileInfoSignatureArray()) {
+      PassarelaFileInfoSignature[] fileInfoSignatureArray = signaturesSet.getFileInfoSignatureArray();
+      int[] originalNumberOfSignsArray = new int[fileInfoSignatureArray.length];
+
+
+      int count = 0;
+      for (int i = 0; i < fileInfoSignatureArray.length; i++) {
+        
+         PassarelaFileInfoSignature pfis = fileInfoSignatureArray[i];
 
         final String signID = pfis.getSignID();
         File original = getFitxerOriginalPath(signaturesSetID, signID);
 
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
-
-        processFileToSign(locale, entitatID, pfis, original, adaptat);
-
+        originalNumberOfSignsArray[count] = processFileToSign(locale, entitatID, pfis, original, adaptat);
+        count++;
       }
+      
+      // Guardar
+      storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID, originalNumberOfSignsArray, signaturesSet));
       
     } catch (I18NException i18n) {
       deleteSignaturesSet(signaturesSetID);

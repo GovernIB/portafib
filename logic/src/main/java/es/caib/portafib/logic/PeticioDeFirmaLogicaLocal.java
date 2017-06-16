@@ -95,7 +95,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public boolean isLockedPeticioDeFirma(long peticioDeFirmaID, String usuariEntitatID);
   */
   public void nouFitxerFirmat(File file, Long estatDeFirmaID,
-      Long peticioDeFirmaID, String token, int numFirma) throws I18NException;
+      Long peticioDeFirmaID, String token, int numFirma, int numFirmesOriginals) throws I18NException;
 
   public void rebutjar(PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig)
      throws I18NException;

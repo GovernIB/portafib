@@ -56,7 +56,8 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
     
-    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       return true;
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       // Per ara MiniApplet no suporta firma de XadesT
@@ -118,6 +119,7 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
     // TODO Falta CADes,  ...
     return new String[] {
         FileInfoSignature.SIGN_TYPE_PADES,
+        FileInfoSignature.SIGN_TYPE_CADES, 
         FileInfoSignature.SIGN_TYPE_XADES
     };
   }
@@ -126,7 +128,8 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
   public String[] getSupportedSignatureAlgorithms(String signType) {
 
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
 
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1,
           FileInfoSignature.SIGN_ALGORITHM_SHA256,
