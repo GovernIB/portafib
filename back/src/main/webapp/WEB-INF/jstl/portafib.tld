@@ -14,10 +14,17 @@
 <short-name>PortaFIB</short-name>
 
 <function>
+        <name>processEmailURL</name>
+        <description>Retorna codi HTMl si el parametre correcpon a un email o a una url.</description>
+        <function-class>es.caib.portafib.back.utils.Utils</function-class>
+        <function-signature>java.lang.String processEmailURL(java.lang.String)</function-signature>
+</function>
+
+<function>
         <name>fileUrl</name>
         <description>Crea una URL a partir d'un objecte IFile</description>
         <function-class>es.caib.portafib.back.controller.FileDownloadController</function-class>
-        <function-signature>String fileUrl(es.caib.portafib.model.entity.Fitxer) throws Exception
+        <function-signature>java.lang.String fileUrl(es.caib.portafib.model.entity.Fitxer) throws Exception
         </function-signature>
 </function>
 

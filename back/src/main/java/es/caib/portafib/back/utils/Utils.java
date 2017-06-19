@@ -39,7 +39,6 @@ public class Utils {
         code = newCode;
       }
       return getSortIcons(baseFilter, additionalField.getOrderBy(), code);
-    
   }
   
 
@@ -195,6 +194,34 @@ public class Utils {
 
   public static String getOnlyNom(UsuariPersona up) {
     return up.getNom() + " " + up.getLlinatges();
+  }
+  
+  
+  public static String processEmailURL(String addicionalInfo) {
+    
+    if (addicionalInfo == null) {
+      return null;
+    }
+
+    addicionalInfo = addicionalInfo.trim();
+    if (addicionalInfo.length() == 0) {
+      return "";
+    }
+
+    java.util.regex.Pattern p = java.util.regex.Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+    if (p.matcher(addicionalInfo).matches()) {
+      return "<a href=\"mailto:" + addicionalInfo + "\">" + addicionalInfo + "</a>";
+    } else {
+      
+      String url = addicionalInfo.toLowerCase();
+      
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        return "<a href=\""+ addicionalInfo +"\" target=\"_blank\">" + addicionalInfo + "</a>";
+      } else {
+        return addicionalInfo;
+      }
+    }
+
   }
   
   public static void printRequestInfo(HttpServletRequest request) {

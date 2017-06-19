@@ -44,11 +44,14 @@
 
        <b> <fmt:message key="peticioDeFirma.remitentNom" />:</b>
            <c:out  value="${peticioDeFirma.remitentNom}" /><br />
-
+       <c:if test="${not empty peticioDeFirma.informacioAdicional}">
        <b> <fmt:message key="peticioDeFirma.remitentDescripcio" />:</b>
-           <c:out  value="${peticioDeFirma.remitentDescripcio}" /><br />  
-           
-           
+           ${pfi:processEmailURL(peticioDeFirma.remitentDescripcio)}<br />
+       </c:if>  
+       <c:if test="${not empty peticioDeFirma.informacioAdicional}">
+         <b> <fmt:message key="expedient.informacio" />:</b>
+           ${pfi:processEmailURL(peticioDeFirma.informacioAdicional)}<br />      
+        </c:if> 
         <c:choose>
           <c:when test="${peticioDeFirma.prioritatID <= 2}">
              <c:set var="title_priority" value="prioritat.baixa"/>

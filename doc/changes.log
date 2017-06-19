@@ -1,9 +1,13 @@
 PortaFIB 1.1.3
 ==============
 
+2017-06-19 Afegir informació d'expedient dins el camp informacioAddicional de PeticioDeFirma #106 
+
+2017-06-19 Afegir botó de descarrega directe de fitxers #105
+
 2017-06-16 Suportar firmes CADES en Plugin de MiniAppletInServer (Web i En Servidor)
 
-2017-06-15 Permetre firmar PDFs amb firmes preexitens(Nova propietat es.caib.portafib.ignorecheckpostsign per indicar si verificar PDF rebut del plugin de firma).
+2017-06-15 Permetre firmar PDFs amb firmes preexitens(Nova propietat es.caib.portafib.ignorecheckpostsign per indicar si verificar PDF rebut del plugin de firma). #103
 
 2017-06-12 Obrir versió de PortaFIB 1.1.3
 

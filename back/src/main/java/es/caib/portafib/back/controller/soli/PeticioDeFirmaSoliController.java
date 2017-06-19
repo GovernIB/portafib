@@ -72,6 +72,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -927,9 +928,14 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     if (isSolicitantUsuariEntitat()) {
       peticioDeFirmaForm.addHiddenField(USUARIAPLICACIOID);
+
       peticioDeFirmaForm.addHiddenField(REMITENTNOM);
       peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
-      peticioDeFirmaForm.addHiddenField(INFORMACIOADICIONAL);
+      if (Configuracio.isCAIB()) {
+        peticioDeFirmaForm.addHiddenField(INFORMACIOADICIONAL);
+      } else {
+        peticioDeFirmaForm.addLabel(INFORMACIOADICIONAL, "expedient.informacio");
+      }
     } else {
       peticioDeFirmaForm.addReadOnlyField(USUARIAPLICACIOID);
     }
@@ -1418,7 +1424,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
              "icon-check icon-white", "revisat",  getContextWeb() + "/revisat/" + peticioDeFirmaID,
              "btn-warning") );
-         
        }
         
        /* VEURE DOC */
