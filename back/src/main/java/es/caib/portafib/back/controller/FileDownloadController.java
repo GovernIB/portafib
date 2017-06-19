@@ -62,8 +62,20 @@ public class FileDownloadController {
         response.setHeader("MSGPORTAFIB", msg);
         response.sendError(response.SC_NOT_FOUND);
       } else {
-        fullDownload(arxiuId, filename, contentType, response);
+        fullDownload(arxiuId, filename, contentType, response, false);
       }
+    }
+    
+    /**
+     * 
+     * @param arxiuId
+     * @param filename
+     * @param contentType
+     * @param response
+     */
+    public static void fullDownload(long arxiuId, String filename, String contentType, 
+      HttpServletResponse response) {
+      fullDownload(arxiuId, filename, contentType, response, false);
     }
 
     /**
@@ -74,7 +86,7 @@ public class FileDownloadController {
      * @param response
      */
     public static void fullDownload(long arxiuId, String filename, String contentType, 
-      HttpServletResponse response) {
+      HttpServletResponse response, boolean attachment) {
 
       FileInputStream input = null;
       OutputStream output = null;
@@ -94,12 +106,20 @@ public class FileDownloadController {
         if (filename == null) {
           filename = "file"; // arxiu.getNombre()
         }
-        if (contentType == null) {
-          MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-          contentType = mimeTypesMap.getContentType(file);
+        
+
+        if (attachment) {
+          response.setContentType("application/force-download");
+          response.setHeader("Content-Transfer-Encoding","binary");
+        } else {
+          if (contentType == null) {
+            MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+            contentType = mimeTypesMap.getContentType(file);
+          }
+          response.setContentType(contentType);
         }
-        response.setContentType(contentType);
-        response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
+
+        response.setHeader("Content-Disposition", (attachment?"attachment":"inline") + "; filename=\"" + filename + "\"");
         response.setContentLength((int) file.length());
 
         output = response.getOutputStream();

@@ -530,13 +530,27 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   public void docfirmat(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)
       throws I18NException {
 
-    
     Fitxer f;
     f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
     
+    final boolean attachment = false;
     FileDownloadController.fullDownload(f.getFitxerID(),
-        f.getNom(), f.getMime(), response); 
+        f.getNom(), f.getMime(), response, attachment); 
+
+  }
+  
+  
+  @RequestMapping(value = "/docfirmat/descarregar/{peticioDeFirmaID}", method = RequestMethod.GET)
+  public void docfirmatDescarregar(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)
+      throws I18NException {
+
+    Fitxer f;
+    f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
     
+    final boolean attachment = true;
+    FileDownloadController.fullDownload(f.getFitxerID(),
+        f.getNom(), f.getMime(), response, attachment); 
+
   }
 
 
@@ -1412,6 +1426,13 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
            "icon-file icon-white", "veuredoc", 
             // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
            "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioDeFirmaID +"', '_blank'); win.focus();",
+           "btn-info") );
+       
+       /* DESCARREGAR DOC */
+       filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+           "icon-download-alt icon-white", "descarregardoc", 
+            // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
+           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/descarregar/" + peticioDeFirmaID +"', '_blank'); win.focus();",
            "btn-info") );
 
         if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {

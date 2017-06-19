@@ -1891,11 +1891,18 @@ import es.caib.portafib.utils.Configuracio;
         PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId); 
         long peticioID = peticio.getPeticioDeFirmaID();
       
-        // TODO falta obri-ho en una nova pipella
-        filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton("icon-file",
-          "veuredoc",
+        /* VEURE DOC */
+        filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
+          "icon-file", "veuredoc",
           "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/" + peticioID + "', '_blank'); win.focus();"
            , "btn-info"));
+        
+        /* DESCARREGAR DOC */
+        filterForm.addAdditionalButtonByPK(estatDeFirmaId, new AdditionalButton(
+            "icon-download-alt", "descarregardoc", 
+             // getContextWeb() + "/docfirmat/" + peticioDeFirmaID,
+            "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/descarregar/" + peticioID + "', '_blank'); win.focus();"
+            , "btn-info") );
         
         
         // Comprovar si hi ha anexes
@@ -2404,7 +2411,34 @@ import es.caib.portafib.utils.Configuracio;
       Fitxer f;
       f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
 
-      FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response);
+      final boolean attachment = false;
+      FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);
+    }
+    
+    
+    @RequestMapping(value = "/docfirmat/descarregar/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public void docfirmatDescarregar(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)
+        throws I18NException {
+      /*
+       * PeticioDeFirmaJPA peticio =
+       * this.peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID); long
+       * estat = peticio.getTipusEstatPeticioDeFirmaID();
+       * 
+       * Fitxer f; if (estat == TIPUSESTATPETICIODEFIRMA_NOINICIAT) { f =
+       * peticio.getFitxerAFirmar(); } else {
+       * 
+       * FirmaJPA firma =
+       * this.peticioDeFirmaLogicaEjb.getLastSignOfPeticioDeFirma(
+       * peticioDeFirmaID); if (firma == null) { f =
+       * peticio.getFitxerTaulaFirmesFitxersAdjunts(); } else { f =
+       * firma.getFitxerFirmat(); } }
+       */
+
+      Fitxer f;
+      f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
+
+      final boolean attachment = true;
+      FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);
     }
 
     @Override

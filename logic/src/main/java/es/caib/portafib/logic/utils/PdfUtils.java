@@ -541,7 +541,6 @@ public class PdfUtils implements Constants {
    * @param attachmentsNames
    * @throws Exception
    */
-  // XYZ ZZZ
   public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
       final List<AttachedFile> attachmentsOrig, Long maxSize,
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo) throws Exception,
