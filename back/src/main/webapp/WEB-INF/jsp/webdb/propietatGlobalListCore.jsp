@@ -24,7 +24,7 @@
 
       <c:forEach var="propietatGlobal" items="${propietatGlobalItems}">
 
-        <tr>
+        <tr id="propietatGlobal_rowid_${propietatGlobal.propietatGlobalID}">
           <%@include file="propietatGlobalListCoreMultipleSelect.jsp" %>
 
           <%@include file="propietatGlobalListCoreContent.jsp" %>

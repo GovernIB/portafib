@@ -3,7 +3,7 @@
 <un:useConstants var="FitxerFields" className="es.caib.portafib.model.fields.FitxerFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,FitxerFields.NOM)}">
-        <tr>
+        <tr id="fitxer_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FitxerFields.NOM])?'fitxer.nom':__theForm.labels[FitxerFields.NOM]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FitxerFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="fitxer_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FitxerFields.DESCRIPCIO])?'fitxer.descripcio':__theForm.labels[FitxerFields.DESCRIPCIO]}" />
@@ -46,7 +46,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FitxerFields.TAMANY)}">
-        <tr>
+        <tr id="fitxer_tamany_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FitxerFields.TAMANY])?'fitxer.tamany':__theForm.labels[FitxerFields.TAMANY]}" /> &nbsp;(*)
@@ -64,7 +64,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FitxerFields.MIME)}">
-        <tr>
+        <tr id="fitxer_mime_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FitxerFields.MIME])?'fitxer.mime':__theForm.labels[FitxerFields.MIME]}" /> &nbsp;(*)

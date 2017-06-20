@@ -24,7 +24,7 @@
 
       <c:forEach var="custodiaInfo" items="${custodiaInfoItems}">
 
-        <tr>
+        <tr id="custodiaInfo_rowid_${custodiaInfo.custodiaInfoID}">
           <%@include file="custodiaInfoListCoreMultipleSelect.jsp" %>
 
           <%@include file="custodiaInfoListCoreContent.jsp" %>

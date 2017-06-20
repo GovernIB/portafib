@@ -24,7 +24,7 @@
 
       <c:forEach var="roleUsuariAplicacio" items="${roleUsuariAplicacioItems}">
 
-        <tr>
+        <tr id="roleUsuariAplicacio_rowid_${roleUsuariAplicacio.id}">
           <%@include file="roleUsuariAplicacioListCoreMultipleSelect.jsp" %>
 
           <%@include file="roleUsuariAplicacioListCoreContent.jsp" %>

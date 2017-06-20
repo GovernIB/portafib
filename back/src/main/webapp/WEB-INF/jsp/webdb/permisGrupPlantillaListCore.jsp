@@ -24,7 +24,7 @@
 
       <c:forEach var="permisGrupPlantilla" items="${permisGrupPlantillaItems}">
 
-        <tr>
+        <tr id="permisGrupPlantilla_rowid_${permisGrupPlantilla.permisGrupPlantillaID}">
           <%@include file="permisGrupPlantillaListCoreMultipleSelect.jsp" %>
 
           <%@include file="permisGrupPlantillaListCoreContent.jsp" %>

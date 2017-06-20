@@ -24,7 +24,7 @@
 
       <c:forEach var="entitat" items="${entitatItems}">
 
-        <tr>
+        <tr id="entitat_rowid_${entitat.entitatID}">
           <%@include file="entitatListCoreMultipleSelect.jsp" %>
 
           <%@include file="entitatListCoreContent.jsp" %>

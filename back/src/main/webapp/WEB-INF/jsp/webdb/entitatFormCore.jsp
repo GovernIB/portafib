@@ -3,7 +3,7 @@
 <un:useConstants var="EntitatFields" className="es.caib.portafib.model.fields.EntitatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ENTITATID)}">
-        <tr>
+        <tr id="entitat_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ENTITATID])?'entitat.entitatID':__theForm.labels[EntitatFields.ENTITATID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.NOM)}">
-        <tr>
+        <tr id="entitat_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.NOM])?'entitat.nom':__theForm.labels[EntitatFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="entitat_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.DESCRIPCIO])?'entitat.descripcio':__theForm.labels[EntitatFields.DESCRIPCIO]}" />
@@ -64,7 +64,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ACTIVA)}">
-        <tr>
+        <tr id="entitat_activa_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ACTIVA])?'entitat.activa':__theForm.labels[EntitatFields.ACTIVA]}" />
@@ -86,7 +86,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.WEB)}">
-        <tr>
+        <tr id="entitat_web_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.WEB])?'entitat.web':__theForm.labels[EntitatFields.WEB]}" /> &nbsp;(*)
@@ -104,7 +104,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FAVICONID)}">
-        <tr>
+        <tr id="entitat_faviconID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FAVICONID])?'entitat.faviconID':__theForm.labels[EntitatFields.FAVICONID]}" /> &nbsp;(*)
@@ -142,7 +142,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOWEBID)}">
-        <tr>
+        <tr id="entitat_logoWebID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOWEBID])?'entitat.logoWebID':__theForm.labels[EntitatFields.LOGOWEBID]}" /> &nbsp;(*)
@@ -180,7 +180,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOWEBPEUID)}">
-        <tr>
+        <tr id="entitat_logoWebPeuID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOWEBPEUID])?'entitat.logoWebPeuID':__theForm.labels[EntitatFields.LOGOWEBPEUID]}" /> &nbsp;(*)
@@ -218,7 +218,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.LOGOSEGELLID)}">
-        <tr>
+        <tr id="entitat_logoSegellID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.LOGOSEGELLID])?'entitat.logoSegellID':__theForm.labels[EntitatFields.LOGOSEGELLID]}" /> &nbsp;(*)
@@ -256,7 +256,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ADREZAHTML)}">
-        <tr>
+        <tr id="entitat_adrezaHtml_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ADREZAHTML])?'entitat.adrezaHtml':__theForm.labels[EntitatFields.ADREZAHTML]}" /> &nbsp;(*)
@@ -273,7 +273,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FILTRECERTIFICATS)}">
-        <tr>
+        <tr id="entitat_filtreCertificats_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FILTRECERTIFICATS])?'entitat.filtreCertificats':__theForm.labels[EntitatFields.FILTRECERTIFICATS]}" /> &nbsp;(*)
@@ -298,7 +298,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PDFAUTORITZACIODELEGACIOID)}">
-        <tr>
+        <tr id="entitat_pdfAutoritzacioDelegacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PDFAUTORITZACIODELEGACIOID])?'entitat.pdfAutoritzacioDelegacioID':__theForm.labels[EntitatFields.PDFAUTORITZACIODELEGACIOID]}" /> &nbsp;(*)
@@ -336,7 +336,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTTELEFON)}">
-        <tr>
+        <tr id="entitat_suportTelefon_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTTELEFON])?'entitat.suportTelefon':__theForm.labels[EntitatFields.SUPORTTELEFON]}" />
@@ -354,7 +354,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTWEB)}">
-        <tr>
+        <tr id="entitat_suportWeb_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTWEB])?'entitat.suportWeb':__theForm.labels[EntitatFields.SUPORTWEB]}" />
@@ -372,7 +372,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SUPORTEMAIL)}">
-        <tr>
+        <tr id="entitat_suportEmail_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SUPORTEMAIL])?'entitat.suportEmail':__theForm.labels[EntitatFields.SUPORTEMAIL]}" />
@@ -390,7 +390,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="entitat_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.USUARIAPLICACIOID])?'entitat.usuariAplicacioID':__theForm.labels[EntitatFields.USUARIAPLICACIOID]}" />
@@ -419,7 +419,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXUPLOADSIZE)}">
-        <tr>
+        <tr id="entitat_maxUploadSize_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXUPLOADSIZE])?'entitat.maxUploadSize':__theForm.labels[EntitatFields.MAXUPLOADSIZE]}" />
@@ -437,7 +437,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXSIZEFITXERADAPTAT)}">
-        <tr>
+        <tr id="entitat_maxSizeFitxerAdaptat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXSIZEFITXERADAPTAT])?'entitat.maxSizeFitxerAdaptat':__theForm.labels[EntitatFields.MAXSIZEFITXERADAPTAT]}" />
@@ -455,7 +455,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MAXFILESTOSIGNATSAMETIME)}">
-        <tr>
+        <tr id="entitat_maxFilesToSignAtSameTime_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MAXFILESTOSIGNATSAMETIME])?'entitat.maxFilesToSignAtSameTime':__theForm.labels[EntitatFields.MAXFILESTOSIGNATSAMETIME]}" />
@@ -473,7 +473,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
-        <tr>
+        <tr id="entitat_policyIdentifier_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIER])?'entitat.policyIdentifier':__theForm.labels[EntitatFields.POLICYIDENTIFIER]}" />
@@ -491,7 +491,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASH)}">
-        <tr>
+        <tr id="entitat_policyIdentifierHash_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIERHASH])?'entitat.policyIdentifierHash':__theForm.labels[EntitatFields.POLICYIDENTIFIERHASH]}" />
@@ -516,7 +516,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIERHASHALGORITHM)}">
-        <tr>
+        <tr id="entitat_policyIdentifierHashAlgorithm_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYIDENTIFIERHASHALGORITHM])?'entitat.policyIdentifierHashAlgorithm':__theForm.labels[EntitatFields.POLICYIDENTIFIERHASHALGORITHM]}" />
@@ -534,7 +534,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYURLDOCUMENT)}">
-        <tr>
+        <tr id="entitat_policyUrlDocument_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.POLICYURLDOCUMENT])?'entitat.policyUrlDocument':__theForm.labels[EntitatFields.POLICYURLDOCUMENT]}" />
@@ -564,7 +564,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">
-        <tr>
+        <tr id="entitat_motiuDelegacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.MOTIUDELEGACIOID])?'entitat.motiuDelegacioID':__theForm.labels[EntitatFields.MOTIUDELEGACIOID]}" />
@@ -597,7 +597,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.FIRMATPERFORMATID)}">
-        <tr>
+        <tr id="entitat_firmatPerFormatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.FIRMATPERFORMATID])?'entitat.firmatPerFormatID':__theForm.labels[EntitatFields.FIRMATPERFORMATID]}" />
@@ -630,7 +630,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
-        <tr>
+        <tr id="entitat_algorismeDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.ALGORISMEDEFIRMAID])?'entitat.algorismeDeFirmaID':__theForm.labels[EntitatFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
@@ -657,7 +657,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
-        <tr>
+        <tr id="entitat_comprovarNifFirma_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARNIFFIRMA])?'entitat.comprovarNifFirma':__theForm.labels[EntitatFields.COMPROVARNIFFIRMA]}" />
@@ -679,7 +679,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
-        <tr>
+        <tr id="entitat_custodiaInfoID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.CUSTODIAINFOID])?'entitat.custodiaInfoID':__theForm.labels[EntitatFields.CUSTODIAINFOID]}" />
@@ -708,7 +708,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINID)}">
-        <tr>
+        <tr id="entitat_pluginID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINID])?'entitat.pluginID':__theForm.labels[EntitatFields.PLUGINID]}" />
@@ -737,7 +737,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <tr>
+        <tr id="entitat_segellDeTempsViaWeb_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)

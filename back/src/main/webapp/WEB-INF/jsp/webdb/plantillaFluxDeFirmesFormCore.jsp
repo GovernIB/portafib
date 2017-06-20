@@ -3,7 +3,7 @@
 <un:useConstants var="PlantillaFluxDeFirmesFields" className="es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.FLUXDEFIRMESID)}">
-        <tr>
+        <tr id="plantillaFluxDeFirmes_fluxDeFirmesID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID])?'plantillaFluxDeFirmes.fluxDeFirmesID':__theForm.labels[PlantillaFluxDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="plantillaFluxDeFirmes_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO])?'plantillaFluxDeFirmes.descripcio':__theForm.labels[PlantillaFluxDeFirmesFields.DESCRIPCIO]}" /> &nbsp;(*)
@@ -55,7 +55,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="plantillaFluxDeFirmes_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID])?'plantillaFluxDeFirmes.usuariEntitatID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIENTITATID]}" />
@@ -84,7 +84,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="plantillaFluxDeFirmes_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID])?'plantillaFluxDeFirmes.usuariAplicacioID':__theForm.labels[PlantillaFluxDeFirmesFields.USUARIAPLICACIOID]}" />
@@ -113,7 +113,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PlantillaFluxDeFirmesFields.COMPARTIR)}">
-        <tr>
+        <tr id="plantillaFluxDeFirmes_compartir_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR])?'plantillaFluxDeFirmes.compartir':__theForm.labels[PlantillaFluxDeFirmesFields.COMPARTIR]}" />

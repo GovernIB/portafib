@@ -24,7 +24,7 @@
 
       <c:forEach var="bitacola" items="${bitacolaItems}">
 
-        <tr>
+        <tr id="bitacola_rowid_${bitacola.bitacolaID}">
           <%@include file="bitacolaListCoreMultipleSelect.jsp" %>
 
           <%@include file="bitacolaListCoreContent.jsp" %>

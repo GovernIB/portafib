@@ -3,7 +3,7 @@
 <un:useConstants var="UsuariPersonaFields" className="es.caib.portafib.model.fields.UsuariPersonaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.USUARIPERSONAID)}">
-        <tr>
+        <tr id="usuariPersona_usuariPersonaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.USUARIPERSONAID])?'usuariPersona.usuariPersonaID':__theForm.labels[UsuariPersonaFields.USUARIPERSONAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.NOM)}">
-        <tr>
+        <tr id="usuariPersona_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NOM])?'usuariPersona.nom':__theForm.labels[UsuariPersonaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.LLINATGES)}">
-        <tr>
+        <tr id="usuariPersona_llinatges_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.LLINATGES])?'usuariPersona.llinatges':__theForm.labels[UsuariPersonaFields.LLINATGES]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.EMAIL)}">
-        <tr>
+        <tr id="usuariPersona_email_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.EMAIL])?'usuariPersona.email':__theForm.labels[UsuariPersonaFields.EMAIL]}" /> &nbsp;(*)
@@ -75,7 +75,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.NIF)}">
-        <tr>
+        <tr id="usuariPersona_nif_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.NIF])?'usuariPersona.nif':__theForm.labels[UsuariPersonaFields.NIF]}" /> &nbsp;(*)
@@ -93,7 +93,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.IDIOMAID)}">
-        <tr>
+        <tr id="usuariPersona_idiomaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.IDIOMAID])?'usuariPersona.idiomaID':__theForm.labels[UsuariPersonaFields.IDIOMAID]}" /> &nbsp;(*)
@@ -120,7 +120,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.RUBRICAID)}">
-        <tr>
+        <tr id="usuariPersona_rubricaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.RUBRICAID])?'usuariPersona.rubricaID':__theForm.labels[UsuariPersonaFields.RUBRICAID]}" />

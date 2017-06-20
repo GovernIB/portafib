@@ -24,7 +24,7 @@
 
       <c:forEach var="posicioTaulaFirmes" items="${posicioTaulaFirmesItems}">
 
-        <tr>
+        <tr id="posicioTaulaFirmes_rowid_${posicioTaulaFirmes.posicioTaulaFirmesID}">
           <%@include file="posicioTaulaFirmesListCoreMultipleSelect.jsp" %>
 
           <%@include file="posicioTaulaFirmesListCoreContent.jsp" %>

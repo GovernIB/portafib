@@ -24,7 +24,7 @@
 
       <c:forEach var="blocDeFirmes" items="${blocDeFirmesItems}">
 
-        <tr>
+        <tr id="blocDeFirmes_rowid_${blocDeFirmes.blocDeFirmesID}">
           <%@include file="blocDeFirmesListCoreMultipleSelect.jsp" %>
 
           <%@include file="blocDeFirmesListCoreContent.jsp" %>

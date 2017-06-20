@@ -3,7 +3,7 @@
 <un:useConstants var="IdiomaFields" className="es.caib.portafib.model.fields.IdiomaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.IDIOMAID)}">
-        <tr>
+        <tr id="idioma_idiomaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[IdiomaFields.IDIOMAID])?'idioma.idiomaID':__theForm.labels[IdiomaFields.IDIOMAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.NOM)}">
-        <tr>
+        <tr id="idioma_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[IdiomaFields.NOM])?'idioma.nom':__theForm.labels[IdiomaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.SUPORTAT)}">
-        <tr>
+        <tr id="idioma_suportat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[IdiomaFields.SUPORTAT])?'idioma.suportat':__theForm.labels[IdiomaFields.SUPORTAT]}" />
@@ -61,7 +61,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,IdiomaFields.ORDRE)}">
-        <tr>
+        <tr id="idioma_ordre_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[IdiomaFields.ORDRE])?'idioma.ordre':__theForm.labels[IdiomaFields.ORDRE]}" /> &nbsp;(*)

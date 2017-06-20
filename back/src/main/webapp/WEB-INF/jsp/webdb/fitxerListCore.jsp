@@ -24,7 +24,7 @@
 
       <c:forEach var="fitxer" items="${fitxerItems}">
 
-        <tr>
+        <tr id="fitxer_rowid_${fitxer.fitxerID}">
           <%@include file="fitxerListCoreMultipleSelect.jsp" %>
 
           <%@include file="fitxerListCoreContent.jsp" %>

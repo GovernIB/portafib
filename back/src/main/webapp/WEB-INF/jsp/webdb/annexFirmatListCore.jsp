@@ -24,7 +24,7 @@
 
       <c:forEach var="annexFirmat" items="${annexFirmatItems}">
 
-        <tr>
+        <tr id="annexFirmat_rowid_${annexFirmat.annexfirmatID}">
           <%@include file="annexFirmatListCoreMultipleSelect.jsp" %>
 
           <%@include file="annexFirmatListCoreContent.jsp" %>

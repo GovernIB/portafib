@@ -3,7 +3,7 @@
 <un:useConstants var="RoleUsuariEntitatFields" className="es.caib.portafib.model.fields.RoleUsuariEntitatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleUsuariEntitatFields.ROLEID)}">
-        <tr>
+        <tr id="roleUsuariEntitat_roleID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.ROLEID])?'roleUsuariEntitat.roleID':__theForm.labels[RoleUsuariEntitatFields.ROLEID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleUsuariEntitatFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="roleUsuariEntitat_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID])?'roleUsuariEntitat.usuariEntitatID':__theForm.labels[RoleUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)

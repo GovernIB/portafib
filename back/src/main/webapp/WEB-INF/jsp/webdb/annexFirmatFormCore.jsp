@@ -3,7 +3,7 @@
 <un:useConstants var="AnnexFirmatFields" className="es.caib.portafib.model.fields.AnnexFirmatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.FITXERID)}">
-        <tr>
+        <tr id="annexFirmat_fitxerID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FITXERID])?'annexFirmat.fitxerID':__theForm.labels[AnnexFirmatFields.FITXERID]}" /> &nbsp;(*)
@@ -41,7 +41,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.ANNEXID)}">
-        <tr>
+        <tr id="annexFirmat_annexID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.ANNEXID])?'annexFirmat.annexID':__theForm.labels[AnnexFirmatFields.ANNEXID]}" /> &nbsp;(*)
@@ -68,7 +68,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AnnexFirmatFields.FIRMAID)}">
-        <tr>
+        <tr id="annexFirmat_firmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AnnexFirmatFields.FIRMAID])?'annexFirmat.firmaID':__theForm.labels[AnnexFirmatFields.FIRMAID]}" /> &nbsp;(*)

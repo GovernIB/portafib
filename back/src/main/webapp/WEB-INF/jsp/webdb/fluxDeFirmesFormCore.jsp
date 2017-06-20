@@ -3,7 +3,7 @@
 <un:useConstants var="FluxDeFirmesFields" className="es.caib.portafib.model.fields.FluxDeFirmesFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,FluxDeFirmesFields.NOM)}">
-        <tr>
+        <tr id="fluxDeFirmes_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FluxDeFirmesFields.NOM])?'fluxDeFirmes.nom':__theForm.labels[FluxDeFirmesFields.NOM]}" /> &nbsp;(*)

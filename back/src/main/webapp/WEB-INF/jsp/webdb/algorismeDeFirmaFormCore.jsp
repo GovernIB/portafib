@@ -3,7 +3,7 @@
 <un:useConstants var="AlgorismeDeFirmaFields" className="es.caib.portafib.model.fields.AlgorismeDeFirmaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID)}">
-        <tr>
+        <tr id="algorismeDeFirma_algorismeDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID])?'algorismeDeFirma.algorismeDeFirmaID':__theForm.labels[AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AlgorismeDeFirmaFields.NOM)}">
-        <tr>
+        <tr id="algorismeDeFirma_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AlgorismeDeFirmaFields.NOM])?'algorismeDeFirma.nom':__theForm.labels[AlgorismeDeFirmaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AlgorismeDeFirmaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="algorismeDeFirma_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AlgorismeDeFirmaFields.DESCRIPCIO])?'algorismeDeFirma.descripcio':__theForm.labels[AlgorismeDeFirmaFields.DESCRIPCIO]}" />
@@ -64,7 +64,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,AlgorismeDeFirmaFields.SUPORTAT)}">
-        <tr>
+        <tr id="algorismeDeFirma_suportat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[AlgorismeDeFirmaFields.SUPORTAT])?'algorismeDeFirma.suportat':__theForm.labels[AlgorismeDeFirmaFields.SUPORTAT]}" />

@@ -3,7 +3,7 @@
 <un:useConstants var="RebreAvisFields" className="es.caib.portafib.model.fields.RebreAvisFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,RebreAvisFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="rebreAvis_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.USUARIENTITATID])?'rebreAvis.usuariEntitatID':__theForm.labels[RebreAvisFields.USUARIENTITATID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RebreAvisFields.TIPUSNOTIFICACIOID)}">
-        <tr>
+        <tr id="rebreAvis_tipusNotificacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.TIPUSNOTIFICACIOID])?'rebreAvis.tipusNotificacioID':__theForm.labels[RebreAvisFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RebreAvisFields.REBREAGRUPAT)}">
-        <tr>
+        <tr id="rebreAvis_rebreAgrupat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RebreAvisFields.REBREAGRUPAT])?'rebreAvis.rebreAgrupat':__theForm.labels[RebreAvisFields.REBREAGRUPAT]}" />

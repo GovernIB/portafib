@@ -3,7 +3,7 @@
 <un:useConstants var="TipusFirmaFields" className="es.caib.portafib.model.fields.TipusFirmaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusFirmaFields.TIPUSFIRMAID)}">
-        <tr>
+        <tr id="tipusFirma_tipusFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusFirmaFields.TIPUSFIRMAID])?'tipusFirma.tipusFirmaID':__theForm.labels[TipusFirmaFields.TIPUSFIRMAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusFirmaFields.NOM)}">
-        <tr>
+        <tr id="tipusFirma_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusFirmaFields.NOM])?'tipusFirma.nom':__theForm.labels[TipusFirmaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusFirmaFields.SUPORTADA)}">
-        <tr>
+        <tr id="tipusFirma_suportada_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusFirmaFields.SUPORTADA])?'tipusFirma.suportada':__theForm.labels[TipusFirmaFields.SUPORTADA]}" />
@@ -61,7 +61,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusFirmaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="tipusFirma_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusFirmaFields.DESCRIPCIO])?'tipusFirma.descripcio':__theForm.labels[TipusFirmaFields.DESCRIPCIO]}" />

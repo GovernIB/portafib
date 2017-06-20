@@ -3,7 +3,7 @@
 <un:useConstants var="UsuariEntitatFields" className="es.caib.portafib.model.fields.UsuariEntitatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="usuariEntitat_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.USUARIENTITATID])?'usuariEntitat.usuariEntitatID':__theForm.labels[UsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.CARREC)}">
-        <tr>
+        <tr id="usuariEntitat_carrec_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.CARREC])?'usuariEntitat.carrec':__theForm.labels[UsuariEntitatFields.CARREC]}" />
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.USUARIPERSONAID)}">
-        <tr>
+        <tr id="usuariEntitat_usuariPersonaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.USUARIPERSONAID])?'usuariEntitat.usuariPersonaID':__theForm.labels[UsuariEntitatFields.USUARIPERSONAID]}" /> &nbsp;(*)
@@ -66,7 +66,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.ENTITATID)}">
-        <tr>
+        <tr id="usuariEntitat_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.ENTITATID])?'usuariEntitat.entitatID':__theForm.labels[UsuariEntitatFields.ENTITATID]}" /> &nbsp;(*)
@@ -93,7 +93,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.ACTIU)}">
-        <tr>
+        <tr id="usuariEntitat_actiu_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.ACTIU])?'usuariEntitat.actiu':__theForm.labels[UsuariEntitatFields.ACTIU]}" />
@@ -115,7 +115,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.EMAIL)}">
-        <tr>
+        <tr id="usuariEntitat_email_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.EMAIL])?'usuariEntitat.email':__theForm.labels[UsuariEntitatFields.EMAIL]}" />
@@ -133,7 +133,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.LOGOSEGELLID)}">
-        <tr>
+        <tr id="usuariEntitat_logoSegellID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.LOGOSEGELLID])?'usuariEntitat.logoSegellID':__theForm.labels[UsuariEntitatFields.LOGOSEGELLID]}" />
@@ -178,7 +178,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.PREDETERMINAT)}">
-        <tr>
+        <tr id="usuariEntitat_predeterminat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.PREDETERMINAT])?'usuariEntitat.predeterminat':__theForm.labels[UsuariEntitatFields.PREDETERMINAT]}" />
@@ -200,7 +200,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.REBRETOTSELSAVISOS)}">
-        <tr>
+        <tr id="usuariEntitat_rebreTotsElsAvisos_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.REBRETOTSELSAVISOS])?'usuariEntitat.rebreTotsElsAvisos':__theForm.labels[UsuariEntitatFields.REBRETOTSELSAVISOS]}" />
@@ -222,7 +222,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.POTCUSTODIAR)}">
-        <tr>
+        <tr id="usuariEntitat_potCustodiar_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.POTCUSTODIAR])?'usuariEntitat.potCustodiar':__theForm.labels[UsuariEntitatFields.POTCUSTODIAR]}" />

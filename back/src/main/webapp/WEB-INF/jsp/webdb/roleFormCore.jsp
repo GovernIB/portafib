@@ -3,7 +3,7 @@
 <un:useConstants var="RoleFields" className="es.caib.portafib.model.fields.RoleFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.ROLEID)}">
-        <tr>
+        <tr id="role_roleID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleFields.ROLEID])?'role.roleID':__theForm.labels[RoleFields.ROLEID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.NOM)}">
-        <tr>
+        <tr id="role_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleFields.NOM])?'role.nom':__theForm.labels[RoleFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,RoleFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="role_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[RoleFields.DESCRIPCIO])?'role.descripcio':__theForm.labels[RoleFields.DESCRIPCIO]}" />

@@ -3,7 +3,7 @@
 <un:useConstants var="BitacolaFields" className="es.caib.portafib.model.fields.BitacolaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.DATA)}">
-        <tr>
+        <tr id="bitacola_data_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.DATA])?'bitacola.data':__theForm.labels[BitacolaFields.DATA]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="bitacola_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.DESCRIPCIO])?'bitacola.descripcio':__theForm.labels[BitacolaFields.DESCRIPCIO]}" /> &nbsp;(*)
@@ -64,7 +64,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.PETICIODEFIRMAID)}">
-        <tr>
+        <tr id="bitacola_peticioDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.PETICIODEFIRMAID])?'bitacola.peticioDeFirmaID':__theForm.labels[BitacolaFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
@@ -91,7 +91,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="bitacola_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BitacolaFields.USUARIENTITATID])?'bitacola.usuariEntitatID':__theForm.labels[BitacolaFields.USUARIENTITATID]}" /> &nbsp;(*)

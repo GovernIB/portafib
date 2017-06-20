@@ -3,7 +3,7 @@
 <un:useConstants var="CodiBarresFields" className="es.caib.portafib.model.fields.CodiBarresFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.CODIBARRESID)}">
-        <tr>
+        <tr id="codiBarres_codiBarresID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.CODIBARRESID])?'codiBarres.codiBarresID':__theForm.labels[CodiBarresFields.CODIBARRESID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.NOM)}">
-        <tr>
+        <tr id="codiBarres_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.NOM])?'codiBarres.nom':__theForm.labels[CodiBarresFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CodiBarresFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="codiBarres_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CodiBarresFields.DESCRIPCIO])?'codiBarres.descripcio':__theForm.labels[CodiBarresFields.DESCRIPCIO]}" />

@@ -3,7 +3,7 @@
 <un:useConstants var="FirmaFields" className="es.caib.portafib.model.fields.FirmaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.DESTINATARIID)}">
-        <tr>
+        <tr id="firma_destinatariID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.DESTINATARIID])?'firma.destinatariID':__theForm.labels[FirmaFields.DESTINATARIID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.BLOCDEFIRMAID)}">
-        <tr>
+        <tr id="firma_blocDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.BLOCDEFIRMAID])?'firma.blocDeFirmaID':__theForm.labels[FirmaFields.BLOCDEFIRMAID]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.OBLIGATORI)}">
-        <tr>
+        <tr id="firma_obligatori_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.OBLIGATORI])?'firma.obligatori':__theForm.labels[FirmaFields.OBLIGATORI]}" />
@@ -79,7 +79,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.FITXERFIRMATID)}">
-        <tr>
+        <tr id="firma_fitxerFirmatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.FITXERFIRMATID])?'firma.fitxerFirmatID':__theForm.labels[FirmaFields.FITXERFIRMATID]}" />
@@ -124,7 +124,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NUMFIRMADOCUMENT)}">
-        <tr>
+        <tr id="firma_numFirmaDocument_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NUMFIRMADOCUMENT])?'firma.numFirmaDocument':__theForm.labels[FirmaFields.NUMFIRMADOCUMENT]}" />
@@ -142,7 +142,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAPAGINA)}">
-        <tr>
+        <tr id="firma_caixaPagina_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAPAGINA])?'firma.caixaPagina':__theForm.labels[FirmaFields.CAIXAPAGINA]}" /> &nbsp;(*)
@@ -160,7 +160,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAX)}">
-        <tr>
+        <tr id="firma_caixaX_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAX])?'firma.caixaX':__theForm.labels[FirmaFields.CAIXAX]}" />
@@ -178,7 +178,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAY)}">
-        <tr>
+        <tr id="firma_caixaY_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAY])?'firma.caixaY':__theForm.labels[FirmaFields.CAIXAY]}" />
@@ -196,7 +196,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAAMPLE)}">
-        <tr>
+        <tr id="firma_caixaAmple_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAAMPLE])?'firma.caixaAmple':__theForm.labels[FirmaFields.CAIXAAMPLE]}" />
@@ -214,7 +214,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CAIXAALT)}">
-        <tr>
+        <tr id="firma_caixaAlt_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.CAIXAALT])?'firma.caixaAlt':__theForm.labels[FirmaFields.CAIXAALT]}" />
@@ -232,7 +232,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NUMEROSERIECERTIFICAT)}">
-        <tr>
+        <tr id="firma_numeroSerieCertificat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NUMEROSERIECERTIFICAT])?'firma.numeroSerieCertificat':__theForm.labels[FirmaFields.NUMEROSERIECERTIFICAT]}" />
@@ -250,7 +250,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.EMISSORCERTIFICAT)}">
-        <tr>
+        <tr id="firma_emissorCertificat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.EMISSORCERTIFICAT])?'firma.emissorCertificat':__theForm.labels[FirmaFields.EMISSORCERTIFICAT]}" />
@@ -268,7 +268,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.NOMCERTIFICAT)}">
-        <tr>
+        <tr id="firma_nomCertificat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.NOMCERTIFICAT])?'firma.nomCertificat':__theForm.labels[FirmaFields.NOMCERTIFICAT]}" />
@@ -286,7 +286,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.TIPUSESTATDEFIRMAFINALID)}">
-        <tr>
+        <tr id="firma_tipusEstatDeFirmaFinalID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.TIPUSESTATDEFIRMAFINALID])?'firma.tipusEstatDeFirmaFinalID':__theForm.labels[FirmaFields.TIPUSESTATDEFIRMAFINALID]}" />
@@ -315,7 +315,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MOSTRARRUBRICA)}">
-        <tr>
+        <tr id="firma_mostrarRubrica_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[FirmaFields.MOSTRARRUBRICA])?'firma.mostrarRubrica':__theForm.labels[FirmaFields.MOSTRARRUBRICA]}" />

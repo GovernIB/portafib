@@ -24,7 +24,7 @@
 
       <c:forEach var="posicioPagina" items="${posicioPaginaItems}">
 
-        <tr>
+        <tr id="posicioPagina_rowid_${posicioPagina.posicioPaginaID}">
           <%@include file="posicioPaginaListCoreMultipleSelect.jsp" %>
 
           <%@include file="posicioPaginaListCoreContent.jsp" %>

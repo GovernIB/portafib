@@ -24,7 +24,7 @@
 
       <c:forEach var="traduccio" items="${traduccioItems}">
 
-        <tr>
+        <tr id="traduccio_rowid_${traduccio.traduccioID}">
           <%@include file="traduccioListCoreMultipleSelect.jsp" %>
 
           <%@include file="traduccioListCoreContent.jsp" %>

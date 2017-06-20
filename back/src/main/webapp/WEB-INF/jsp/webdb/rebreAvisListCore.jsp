@@ -24,7 +24,7 @@
 
       <c:forEach var="rebreAvis" items="${rebreAvisItems}">
 
-        <tr>
+        <tr id="rebreAvis_rowid_${rebreAvis.id}">
           <%@include file="rebreAvisListCoreMultipleSelect.jsp" %>
 
           <%@include file="rebreAvisListCoreContent.jsp" %>

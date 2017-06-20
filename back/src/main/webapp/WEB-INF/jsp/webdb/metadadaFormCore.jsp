@@ -3,7 +3,7 @@
 <un:useConstants var="MetadadaFields" className="es.caib.portafib.model.fields.MetadadaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.NOM)}">
-        <tr>
+        <tr id="metadada_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.NOM])?'metadada.nom':__theForm.labels[MetadadaFields.NOM]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.VALOR)}">
-        <tr>
+        <tr id="metadada_valor_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.VALOR])?'metadada.valor':__theForm.labels[MetadadaFields.VALOR]}" /> &nbsp;(*)
@@ -46,7 +46,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="metadada_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.DESCRIPCIO])?'metadada.descripcio':__theForm.labels[MetadadaFields.DESCRIPCIO]}" />
@@ -71,7 +71,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.PETICIODEFIRMAID)}">
-        <tr>
+        <tr id="metadada_peticioDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.PETICIODEFIRMAID])?'metadada.peticioDeFirmaID':__theForm.labels[MetadadaFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
@@ -98,7 +98,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,MetadadaFields.TIPUSMETADADAID)}">
-        <tr>
+        <tr id="metadada_tipusMetadadaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[MetadadaFields.TIPUSMETADADAID])?'metadada.tipusMetadadaID':__theForm.labels[MetadadaFields.TIPUSMETADADAID]}" /> &nbsp;(*)

@@ -3,7 +3,7 @@
 <un:useConstants var="NotificacioWSFields" className="es.caib.portafib.model.fields.NotificacioWSFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.PETICIODEFIRMAID)}">
-        <tr>
+        <tr id="notificacioWS_peticioDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.PETICIODEFIRMAID])?'notificacioWS.peticioDeFirmaID':__theForm.labels[NotificacioWSFields.PETICIODEFIRMAID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.TIPUSNOTIFICACIOID)}">
-        <tr>
+        <tr id="notificacioWS_tipusNotificacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.TIPUSNOTIFICACIOID])?'notificacioWS.tipusNotificacioID':__theForm.labels[NotificacioWSFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.DATACREACIO)}">
-        <tr>
+        <tr id="notificacioWS_dataCreacio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATACREACIO])?'notificacioWS.dataCreacio':__theForm.labels[NotificacioWSFields.DATACREACIO]}" /> &nbsp;(*)
@@ -93,7 +93,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.DATAENVIAMENT)}">
-        <tr>
+        <tr id="notificacioWS_dataEnviament_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATAENVIAMENT])?'notificacioWS.dataEnviament':__theForm.labels[NotificacioWSFields.DATAENVIAMENT]}" />
@@ -129,7 +129,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="notificacioWS_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DESCRIPCIO])?'notificacioWS.descripcio':__theForm.labels[NotificacioWSFields.DESCRIPCIO]}" />
@@ -154,7 +154,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.BLOQUEJADA)}">
-        <tr>
+        <tr id="notificacioWS_bloquejada_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.BLOQUEJADA])?'notificacioWS.bloquejada':__theForm.labels[NotificacioWSFields.BLOQUEJADA]}" />
@@ -179,7 +179,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.ERROR)}">
-        <tr>
+        <tr id="notificacioWS_error_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.ERROR])?'notificacioWS.error':__theForm.labels[NotificacioWSFields.ERROR]}" />
@@ -204,7 +204,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.DATAERROR)}">
-        <tr>
+        <tr id="notificacioWS_dataError_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.DATAERROR])?'notificacioWS.dataError':__theForm.labels[NotificacioWSFields.DATAERROR]}" />
@@ -240,7 +240,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,NotificacioWSFields.REINTENTS)}">
-        <tr>
+        <tr id="notificacioWS_reintents_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[NotificacioWSFields.REINTENTS])?'notificacioWS.reintents':__theForm.labels[NotificacioWSFields.REINTENTS]}" /> &nbsp;(*)

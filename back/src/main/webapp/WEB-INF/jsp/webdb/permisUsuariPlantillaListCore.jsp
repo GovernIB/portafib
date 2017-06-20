@@ -24,7 +24,7 @@
 
       <c:forEach var="permisUsuariPlantilla" items="${permisUsuariPlantillaItems}">
 
-        <tr>
+        <tr id="permisUsuariPlantilla_rowid_${permisUsuariPlantilla.permisUsuariPlantillaID}">
           <%@include file="permisUsuariPlantillaListCoreMultipleSelect.jsp" %>
 
           <%@include file="permisUsuariPlantillaListCoreContent.jsp" %>

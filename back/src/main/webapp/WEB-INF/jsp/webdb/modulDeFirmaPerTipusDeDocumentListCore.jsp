@@ -24,7 +24,7 @@
 
       <c:forEach var="modulDeFirmaPerTipusDeDocument" items="${modulDeFirmaPerTipusDeDocumentItems}">
 
-        <tr>
+        <tr id="modulDeFirmaPerTipusDeDocument_rowid_${modulDeFirmaPerTipusDeDocument.ID}">
           <%@include file="modulDeFirmaPerTipusDeDocumentListCoreMultipleSelect.jsp" %>
 
           <%@include file="modulDeFirmaPerTipusDeDocumentListCoreContent.jsp" %>

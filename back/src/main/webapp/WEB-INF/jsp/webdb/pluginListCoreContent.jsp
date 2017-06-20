@@ -6,7 +6,7 @@
 
         <!--  /** Additional Fields */  -->
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}" >
-        <c:if test="${ __entry.key < 0 }">
+        <c:if test="${ __entry.key < 0  && ((empty __entry.value.searchBy)? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.searchBy)) && ((empty __entry.value.groupBy )? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.groupBy ))}">
           <td>
              <c:if test="${not empty __entry.value.valueMap }">
                <c:out escapeXml="${__entry.value.escapeXml}" value="${__entry.value.valueMap[plugin.pluginID]}" />
@@ -85,7 +85,7 @@
 
         <!--  /** Additional Fields */  -->
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}" >
-        <c:if test="${ __entry.key >= 0 }">
+        <c:if test="${ __entry.key >= 0  && ((empty __entry.value.searchBy)? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.searchBy)) && ((empty __entry.value.groupBy )? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.groupBy ))}">
           <td>
              <c:if test="${not empty __entry.value.valueMap }">
                <c:out escapeXml="${__entry.value.escapeXml}" value="${__entry.value.valueMap[plugin.pluginID]}" />

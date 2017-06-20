@@ -3,7 +3,7 @@
 <un:useConstants var="PluginFields" className="es.caib.portafib.model.fields.PluginFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.NOMID)}">
-        <tr>
+        <tr id="plugin_nomID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.NOMID])?'plugin.nomID':__theForm.labels[PluginFields.NOMID]}" /> &nbsp;(*)
@@ -36,7 +36,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.DESCRIPCIOCURTAID)}">
-        <tr>
+        <tr id="plugin_descripcioCurtaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.DESCRIPCIOCURTAID])?'plugin.descripcioCurtaID':__theForm.labels[PluginFields.DESCRIPCIOCURTAID]}" /> &nbsp;(*)
@@ -69,7 +69,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.CLASSE)}">
-        <tr>
+        <tr id="plugin_classe_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.CLASSE])?'plugin.classe':__theForm.labels[PluginFields.CLASSE]}" /> &nbsp;(*)
@@ -87,7 +87,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.TIPUS)}">
-        <tr>
+        <tr id="plugin_tipus_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.TIPUS])?'plugin.tipus':__theForm.labels[PluginFields.TIPUS]}" /> &nbsp;(*)
@@ -114,7 +114,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.PROPERTIESADMIN)}">
-        <tr>
+        <tr id="plugin_propertiesAdmin_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.PROPERTIESADMIN])?'plugin.propertiesAdmin':__theForm.labels[PluginFields.PROPERTIESADMIN]}" />
@@ -139,7 +139,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.PROPERTIESENTITAT)}">
-        <tr>
+        <tr id="plugin_propertiesEntitat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.PROPERTIESENTITAT])?'plugin.propertiesEntitat':__theForm.labels[PluginFields.PROPERTIESENTITAT]}" />
@@ -164,7 +164,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.ENTITATID)}">
-        <tr>
+        <tr id="plugin_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.ENTITATID])?'plugin.entitatID':__theForm.labels[PluginFields.ENTITATID]}" />
@@ -193,7 +193,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.ACTIU)}">
-        <tr>
+        <tr id="plugin_actiu_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PluginFields.ACTIU])?'plugin.actiu':__theForm.labels[PluginFields.ACTIU]}" />

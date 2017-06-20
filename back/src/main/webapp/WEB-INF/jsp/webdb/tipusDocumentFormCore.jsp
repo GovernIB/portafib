@@ -3,7 +3,7 @@
 <un:useConstants var="TipusDocumentFields" className="es.caib.portafib.model.fields.TipusDocumentFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTID)}">
-        <tr>
+        <tr id="tipusDocument_tipusDocumentID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID])?'tipusDocument.tipusDocumentID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.NOMID)}">
-        <tr>
+        <tr id="tipusDocument_nomID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.NOMID])?'tipusDocument.nomID':__theForm.labels[TipusDocumentFields.NOMID]}" /> &nbsp;(*)
@@ -54,7 +54,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="tipusDocument_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.DESCRIPCIO])?'tipusDocument.descripcio':__theForm.labels[TipusDocumentFields.DESCRIPCIO]}" />
@@ -79,7 +79,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="tipusDocument_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.USUARIAPLICACIOID])?'tipusDocument.usuariAplicacioID':__theForm.labels[TipusDocumentFields.USUARIAPLICACIOID]}" />

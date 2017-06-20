@@ -3,7 +3,7 @@
 <un:useConstants var="TipusDocumentColaboracioDelegacioFields" className="es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID)}">
-        <tr>
+        <tr id="tipusDocumentColaboracioDelegacio_colaboracioDelegacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID])?'tipusDocumentColaboracioDelegacio.colaboracioDelegacioID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.COLABORACIODELEGACIOID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID)}">
-        <tr>
+        <tr id="tipusDocumentColaboracioDelegacio_tipusDocumentID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID])?'tipusDocumentColaboracioDelegacio.tipusDocumentID':__theForm.labels[TipusDocumentColaboracioDelegacioFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)

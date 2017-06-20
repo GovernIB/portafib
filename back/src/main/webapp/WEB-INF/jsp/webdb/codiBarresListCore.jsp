@@ -24,7 +24,7 @@
 
       <c:forEach var="codiBarres" items="${codiBarresItems}">
 
-        <tr>
+        <tr id="codiBarres_rowid_${codiBarres.codiBarresID}">
           <%@include file="codiBarresListCoreMultipleSelect.jsp" %>
 
           <%@include file="codiBarresListCoreContent.jsp" %>

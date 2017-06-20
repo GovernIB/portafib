@@ -24,7 +24,7 @@
 
       <c:forEach var="tipusEstatDeFirmaInicial" items="${tipusEstatDeFirmaInicialItems}">
 
-        <tr>
+        <tr id="tipusEstatDeFirmaInicial_rowid_${tipusEstatDeFirmaInicial.tipusEstatDeFirmaInicialID}">
           <%@include file="tipusEstatDeFirmaInicialListCoreMultipleSelect.jsp" %>
 
           <%@include file="tipusEstatDeFirmaInicialListCoreContent.jsp" %>

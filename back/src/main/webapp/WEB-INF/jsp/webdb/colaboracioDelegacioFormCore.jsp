@@ -3,7 +3,7 @@
 <un:useConstants var="ColaboracioDelegacioFields" className="es.caib.portafib.model.fields.ColaboracioDelegacioFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.DESTINATARIID)}">
-        <tr>
+        <tr id="colaboracioDelegacio_destinatariID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DESTINATARIID])?'colaboracioDelegacio.destinatariID':__theForm.labels[ColaboracioDelegacioFields.DESTINATARIID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.COLABORADORDELEGATID)}">
-        <tr>
+        <tr id="colaboracioDelegacio_colaboradorDelegatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.COLABORADORDELEGATID])?'colaboracioDelegacio.colaboradorDelegatID':__theForm.labels[ColaboracioDelegacioFields.COLABORADORDELEGATID]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.ESDELEGAT)}">
-        <tr>
+        <tr id="colaboracioDelegacio_esDelegat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.ESDELEGAT])?'colaboracioDelegacio.esDelegat':__theForm.labels[ColaboracioDelegacioFields.ESDELEGAT]}" />
@@ -79,7 +79,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.MOTIU)}">
-        <tr>
+        <tr id="colaboracioDelegacio_motiu_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.MOTIU])?'colaboracioDelegacio.motiu':__theForm.labels[ColaboracioDelegacioFields.MOTIU]}" /> &nbsp;(*)
@@ -97,7 +97,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="colaboracioDelegacio_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DESCRIPCIO])?'colaboracioDelegacio.descripcio':__theForm.labels[ColaboracioDelegacioFields.DESCRIPCIO]}" />
@@ -122,7 +122,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.DATAINICI)}">
-        <tr>
+        <tr id="colaboracioDelegacio_dataInici_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DATAINICI])?'colaboracioDelegacio.dataInici':__theForm.labels[ColaboracioDelegacioFields.DATAINICI]}" /> &nbsp;(*)
@@ -158,7 +158,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.DATAFI)}">
-        <tr>
+        <tr id="colaboracioDelegacio_dataFi_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.DATAFI])?'colaboracioDelegacio.dataFi':__theForm.labels[ColaboracioDelegacioFields.DATAFI]}" />
@@ -194,7 +194,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.ACTIVA)}">
-        <tr>
+        <tr id="colaboracioDelegacio_activa_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.ACTIVA])?'colaboracioDelegacio.activa':__theForm.labels[ColaboracioDelegacioFields.ACTIVA]}" />
@@ -216,7 +216,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.REVISOR)}">
-        <tr>
+        <tr id="colaboracioDelegacio_revisor_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.REVISOR])?'colaboracioDelegacio.revisor':__theForm.labels[ColaboracioDelegacioFields.REVISOR]}" />
@@ -238,7 +238,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.MOTIUDESHABILITADA)}">
-        <tr>
+        <tr id="colaboracioDelegacio_motiuDeshabilitada_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.MOTIUDESHABILITADA])?'colaboracioDelegacio.motiuDeshabilitada':__theForm.labels[ColaboracioDelegacioFields.MOTIUDESHABILITADA]}" />
@@ -263,7 +263,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,ColaboracioDelegacioFields.FITXERAUTORITZACIOID)}">
-        <tr>
+        <tr id="colaboracioDelegacio_fitxerAutoritzacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[ColaboracioDelegacioFields.FITXERAUTORITZACIOID])?'colaboracioDelegacio.fitxerAutoritzacioID':__theForm.labels[ColaboracioDelegacioFields.FITXERAUTORITZACIOID]}" />

@@ -24,7 +24,7 @@
 
       <c:forEach var="tipusNotificacio" items="${tipusNotificacioItems}">
 
-        <tr>
+        <tr id="tipusNotificacio_rowid_${tipusNotificacio.tipusNotificacioID}">
           <%@include file="tipusNotificacioListCoreMultipleSelect.jsp" %>
 
           <%@include file="tipusNotificacioListCoreContent.jsp" %>

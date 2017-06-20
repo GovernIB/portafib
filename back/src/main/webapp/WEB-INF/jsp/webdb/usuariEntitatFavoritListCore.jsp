@@ -24,7 +24,7 @@
 
       <c:forEach var="usuariEntitatFavorit" items="${usuariEntitatFavoritItems}">
 
-        <tr>
+        <tr id="usuariEntitatFavorit_rowid_${usuariEntitatFavorit.ID}">
           <%@include file="usuariEntitatFavoritListCoreMultipleSelect.jsp" %>
 
           <%@include file="usuariEntitatFavoritListCoreContent.jsp" %>

@@ -24,7 +24,7 @@
 
       <c:forEach var="tipusMetadada" items="${tipusMetadadaItems}">
 
-        <tr>
+        <tr id="tipusMetadada_rowid_${tipusMetadada.tipusMetadadaID}">
           <%@include file="tipusMetadadaListCoreMultipleSelect.jsp" %>
 
           <%@include file="tipusMetadadaListCoreContent.jsp" %>

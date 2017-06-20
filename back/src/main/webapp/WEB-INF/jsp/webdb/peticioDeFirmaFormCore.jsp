@@ -3,7 +3,7 @@
 <un:useConstants var="PeticioDeFirmaFields" className="es.caib.portafib.model.fields.PeticioDeFirmaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TITOL)}">
-        <tr>
+        <tr id="peticioDeFirma_titol_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TITOL])?'peticioDeFirma.titol':__theForm.labels[PeticioDeFirmaFields.TITOL]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="peticioDeFirma_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DESCRIPCIO])?'peticioDeFirma.descripcio':__theForm.labels[PeticioDeFirmaFields.DESCRIPCIO]}" />
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.MOTIU)}">
-        <tr>
+        <tr id="peticioDeFirma_motiu_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MOTIU])?'peticioDeFirma.motiu':__theForm.labels[PeticioDeFirmaFields.MOTIU]}" /> &nbsp;(*)
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.FITXERAFIRMARID)}">
-        <tr>
+        <tr id="peticioDeFirma_fitxerAFirmarID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID])?'peticioDeFirma.fitxerAFirmarID':__theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID]}" /> &nbsp;(*)
@@ -95,7 +95,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.FITXERADAPTATID)}">
-        <tr>
+        <tr id="peticioDeFirma_fitxerAdaptatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERADAPTATID])?'peticioDeFirma.fitxerAdaptatID':__theForm.labels[PeticioDeFirmaFields.FITXERADAPTATID]}" />
@@ -140,7 +140,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSDOCUMENTID)}">
-        <tr>
+        <tr id="peticioDeFirma_tipusDocumentID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSDOCUMENTID])?'peticioDeFirma.tipusDocumentID':__theForm.labels[PeticioDeFirmaFields.TIPUSDOCUMENTID]}" /> &nbsp;(*)
@@ -167,7 +167,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT)}">
-        <tr>
+        <tr id="peticioDeFirma_descripcioTipusDocument_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT])?'peticioDeFirma.descripcioTipusDocument':__theForm.labels[PeticioDeFirmaFields.DESCRIPCIOTIPUSDOCUMENT]}" />
@@ -185,7 +185,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}">
-        <tr>
+        <tr id="peticioDeFirma_posicioTaulaFirmesID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID])?'peticioDeFirma.posicioTaulaFirmesID':__theForm.labels[PeticioDeFirmaFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
@@ -212,7 +212,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DATASOLICITUD)}">
-        <tr>
+        <tr id="peticioDeFirma_dataSolicitud_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATASOLICITUD])?'peticioDeFirma.dataSolicitud':__theForm.labels[PeticioDeFirmaFields.DATASOLICITUD]}" />
@@ -248,7 +248,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DATAFINAL)}">
-        <tr>
+        <tr id="peticioDeFirma_dataFinal_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATAFINAL])?'peticioDeFirma.dataFinal':__theForm.labels[PeticioDeFirmaFields.DATAFINAL]}" />
@@ -284,7 +284,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.DATACADUCITAT)}">
-        <tr>
+        <tr id="peticioDeFirma_dataCaducitat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.DATACADUCITAT])?'peticioDeFirma.dataCaducitat':__theForm.labels[PeticioDeFirmaFields.DATACADUCITAT]}" /> &nbsp;(*)
@@ -320,7 +320,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSFIRMAID)}">
-        <tr>
+        <tr id="peticioDeFirma_tipusFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSFIRMAID])?'peticioDeFirma.tipusFirmaID':__theForm.labels[PeticioDeFirmaFields.TIPUSFIRMAID]}" /> &nbsp;(*)
@@ -347,7 +347,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.ALGORISMEDEFIRMAID)}">
-        <tr>
+        <tr id="peticioDeFirma_algorismeDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.ALGORISMEDEFIRMAID])?'peticioDeFirma.algorismeDeFirmaID':__theForm.labels[PeticioDeFirmaFields.ALGORISMEDEFIRMAID]}" /> &nbsp;(*)
@@ -374,7 +374,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.MODEDEFIRMA)}">
-        <tr>
+        <tr id="peticioDeFirma_modeDeFirma_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA])?'peticioDeFirma.modeDeFirma':__theForm.labels[PeticioDeFirmaFields.MODEDEFIRMA]}" />
@@ -398,7 +398,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}">
-        <tr>
+        <tr id="peticioDeFirma_tipusEstatPeticioDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID])?'peticioDeFirma.tipusEstatPeticioDeFirmaID':__theForm.labels[PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID]}" /> &nbsp;(*)
@@ -425,7 +425,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.MOTIUDEREBUIG)}">
-        <tr>
+        <tr id="peticioDeFirma_motiuDeRebuig_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.MOTIUDEREBUIG])?'peticioDeFirma.motiuDeRebuig':__theForm.labels[PeticioDeFirmaFields.MOTIUDEREBUIG]}" />
@@ -450,7 +450,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.IDIOMAID)}">
-        <tr>
+        <tr id="peticioDeFirma_idiomaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.IDIOMAID])?'peticioDeFirma.idiomaID':__theForm.labels[PeticioDeFirmaFields.IDIOMAID]}" /> &nbsp;(*)
@@ -477,7 +477,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.PRIORITATID)}">
-        <tr>
+        <tr id="peticioDeFirma_prioritatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PRIORITATID])?'peticioDeFirma.prioritatID':__theForm.labels[PeticioDeFirmaFields.PRIORITATID]}" /> &nbsp;(*)
@@ -504,7 +504,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.FLUXDEFIRMESID)}">
-        <tr>
+        <tr id="peticioDeFirma_fluxDeFirmesID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FLUXDEFIRMESID])?'peticioDeFirma.fluxDeFirmesID':__theForm.labels[PeticioDeFirmaFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
@@ -531,7 +531,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="peticioDeFirma_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.USUARIAPLICACIOID])?'peticioDeFirma.usuariAplicacioID':__theForm.labels[PeticioDeFirmaFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
@@ -558,7 +558,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.REMITENTNOM)}">
-        <tr>
+        <tr id="peticioDeFirma_remitentNom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.REMITENTNOM])?'peticioDeFirma.remitentNom':__theForm.labels[PeticioDeFirmaFields.REMITENTNOM]}" /> &nbsp;(*)
@@ -576,7 +576,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.REMITENTDESCRIPCIO)}">
-        <tr>
+        <tr id="peticioDeFirma_remitentDescripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.REMITENTDESCRIPCIO])?'peticioDeFirma.remitentDescripcio':__theForm.labels[PeticioDeFirmaFields.REMITENTDESCRIPCIO]}" />
@@ -594,7 +594,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADICIONAL)}">
-        <tr>
+        <tr id="peticioDeFirma_informacioAdicional_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.INFORMACIOADICIONAL])?'peticioDeFirma.informacioAdicional':__theForm.labels[PeticioDeFirmaFields.INFORMACIOADICIONAL]}" />
@@ -619,7 +619,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.LOGOSEGELLID)}">
-        <tr>
+        <tr id="peticioDeFirma_logoSegellID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.LOGOSEGELLID])?'peticioDeFirma.logoSegellID':__theForm.labels[PeticioDeFirmaFields.LOGOSEGELLID]}" />
@@ -664,7 +664,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.CUSTODIAINFOID)}">
-        <tr>
+        <tr id="peticioDeFirma_custodiaInfoID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.CUSTODIAINFOID])?'peticioDeFirma.custodiaInfoID':__theForm.labels[PeticioDeFirmaFields.CUSTODIAINFOID]}" />
@@ -693,7 +693,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="peticioDeFirma_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.USUARIENTITATID])?'peticioDeFirma.usuariEntitatID':__theForm.labels[PeticioDeFirmaFields.USUARIENTITATID]}" />
@@ -722,7 +722,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.AVISWEB)}">
-        <tr>
+        <tr id="peticioDeFirma_avisWeb_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.AVISWEB])?'peticioDeFirma.avisWeb':__theForm.labels[PeticioDeFirmaFields.AVISWEB]}" />
@@ -744,7 +744,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
-        <tr>
+        <tr id="peticioDeFirma_segellatDeTemps_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS])?'peticioDeFirma.segellatDeTemps':__theForm.labels[PeticioDeFirmaFields.SEGELLATDETEMPS]}" />

@@ -3,7 +3,7 @@
 <un:useConstants var="TipusMetadadaFields" className="es.caib.portafib.model.fields.TipusMetadadaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusMetadadaFields.TIPUSMETADADAID)}">
-        <tr>
+        <tr id="tipusMetadada_tipusMetadadaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusMetadadaFields.TIPUSMETADADAID])?'tipusMetadada.tipusMetadadaID':__theForm.labels[TipusMetadadaFields.TIPUSMETADADAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusMetadadaFields.NOM)}">
-        <tr>
+        <tr id="tipusMetadada_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusMetadadaFields.NOM])?'tipusMetadada.nom':__theForm.labels[TipusMetadadaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusMetadadaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="tipusMetadada_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusMetadadaFields.DESCRIPCIO])?'tipusMetadada.descripcio':__theForm.labels[TipusMetadadaFields.DESCRIPCIO]}" />

@@ -24,7 +24,7 @@
 
       <c:forEach var="annex" items="${annexItems}">
 
-        <tr>
+        <tr id="annex_rowid_${annex.annexID}">
           <%@include file="annexListCoreMultipleSelect.jsp" %>
 
           <%@include file="annexListCoreContent.jsp" %>

@@ -3,7 +3,7 @@
 <un:useConstants var="TipusNotificacioFields" className="es.caib.portafib.model.fields.TipusNotificacioFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusNotificacioFields.TIPUSNOTIFICACIOID)}">
-        <tr>
+        <tr id="tipusNotificacio_tipusNotificacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID])?'tipusNotificacio.tipusNotificacioID':__theForm.labels[TipusNotificacioFields.TIPUSNOTIFICACIOID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusNotificacioFields.NOM)}">
-        <tr>
+        <tr id="tipusNotificacio_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.NOM])?'tipusNotificacio.nom':__theForm.labels[TipusNotificacioFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusNotificacioFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="tipusNotificacio_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.DESCRIPCIO])?'tipusNotificacio.descripcio':__theForm.labels[TipusNotificacioFields.DESCRIPCIO]}" />
@@ -64,7 +64,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusNotificacioFields.ESAVIS)}">
-        <tr>
+        <tr id="tipusNotificacio_esAvis_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusNotificacioFields.ESAVIS])?'tipusNotificacio.esAvis':__theForm.labels[TipusNotificacioFields.ESAVIS]}" />

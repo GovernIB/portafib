@@ -24,7 +24,7 @@
 
       <c:forEach var="role" items="${roleItems}">
 
-        <tr>
+        <tr id="role_rowid_${role.roleID}">
           <%@include file="roleListCoreMultipleSelect.jsp" %>
 
           <%@include file="roleListCoreContent.jsp" %>

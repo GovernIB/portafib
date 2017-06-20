@@ -25,19 +25,19 @@
       </div>
       <div class="form-inline">
       
-<c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
-<c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
-<div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-  <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
-  <fmt:message key="genapp.form.searchby" var="cercaperAF" >
-    <fmt:param>
-      <fmt:message key="${__entry.value.codeName}" />
-    </fmt:param>
-  </fmt:message>
-  <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
-</div>
-</c:if>
-</c:forEach>
+      <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
+      <c:if test="${ __entry.key < 0 && not empty __entry.value.searchBy }">
+      <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+        <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
+        <fmt:message key="genapp.form.searchby" var="cercaperAF" >
+          <fmt:param>
+            <fmt:message key="${__entry.value.codeName}" />
+          </fmt:param>
+        </fmt:message>
+        <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
+      </div>
+      </c:if>
+      </c:forEach>
 
 
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,TipusEstatDeFirmaInicialFields.TIPUSESTATDEFIRMAINICIALID)}">
@@ -48,12 +48,12 @@
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               
               <form:input cssClass="input-append input-small" path="tipusEstatDeFirmaInicialIDDesde" />
-                                       
-              
+
+
               <span class="add-on"><fmt:message key="genapp.to" /></span>
-              
+
               <form:input cssClass="input-append input-small search-query" path="tipusEstatDeFirmaInicialIDFins" />
-              
+
             </div>
 
 
@@ -85,19 +85,19 @@
 
         </c:if>
 
-<c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
-<c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
-<div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-  <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
-  <fmt:message key="genapp.form.searchby" var="cercaperAF" >
-    <fmt:param>
-      <fmt:message key="${__entry.value.codeName}" />
-    </fmt:param>
-  </fmt:message>
-  <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
-</div>
-</c:if>
-</c:forEach>
+      <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
+      <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">
+      <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+        <span class="add-on"><fmt:message key="${__entry.value.codeName}" />:</span>
+        <fmt:message key="genapp.form.searchby" var="cercaperAF" >
+          <fmt:param>
+            <fmt:message key="${__entry.value.codeName}" />
+          </fmt:param>
+        </fmt:message>
+        <input id="${__entry.value.searchBy.fullName}" name="${__entry.value.searchBy.fullName}" class="search-query input-medium" placeholder="${cercaperAF}" type="text" value="${__entry.value.searchByValue}"/>
+      </div>
+      </c:if>
+      </c:forEach>
       </div>
     </div>
 

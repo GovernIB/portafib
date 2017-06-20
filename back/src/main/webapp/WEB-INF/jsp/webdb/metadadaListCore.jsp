@@ -24,7 +24,7 @@
 
       <c:forEach var="metadada" items="${metadadaItems}">
 
-        <tr>
+        <tr id="metadada_rowid_${metadada.metadadaID}">
           <%@include file="metadadaListCoreMultipleSelect.jsp" %>
 
           <%@include file="metadadaListCoreContent.jsp" %>

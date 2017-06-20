@@ -3,7 +3,7 @@
 <un:useConstants var="CustodiaInfoFields" className="es.caib.portafib.model.fields.CustodiaInfoFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.NOMPLANTILLA)}">
-        <tr>
+        <tr id="custodiaInfo_nomPlantilla_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.NOMPLANTILLA])?'custodiaInfo.nomPlantilla':__theForm.labels[CustodiaInfoFields.NOMPLANTILLA]}" />
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIADOCUMENTID)}">
-        <tr>
+        <tr id="custodiaInfo_custodiaDocumentID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID])?'custodiaInfo.custodiaDocumentID':__theForm.labels[CustodiaInfoFields.CUSTODIADOCUMENTID]}" />
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.PLUGINID)}">
-        <tr>
+        <tr id="custodiaInfo_pluginID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PLUGINID])?'custodiaInfo.pluginID':__theForm.labels[CustodiaInfoFields.PLUGINID]}" /> &nbsp;(*)
@@ -66,7 +66,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS)}">
-        <tr>
+        <tr id="custodiaInfo_custodiaPluginParameters_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS])?'custodiaInfo.custodiaPluginParameters':__theForm.labels[CustodiaInfoFields.CUSTODIAPLUGINPARAMETERS]}" />
@@ -91,7 +91,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">
-        <tr>
+        <tr id="custodiaInfo_custodiar_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CUSTODIAR])?'custodiaInfo.custodiar':__theForm.labels[CustodiaInfoFields.CUSTODIAR]}" />
@@ -113,7 +113,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-        <tr>
+        <tr id="custodiaInfo_urlFitxerCustodiat_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT])?'custodiaInfo.urlFitxerCustodiat':__theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT]}" />
@@ -143,7 +143,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
-        <tr>
+        <tr id="custodiaInfo_pagines_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PAGINES])?'custodiaInfo.pagines':__theForm.labels[CustodiaInfoFields.PAGINES]}" /> &nbsp;(*)
@@ -161,7 +161,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.MISSATGE)}">
-        <tr>
+        <tr id="custodiaInfo_missatge_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGE])?'custodiaInfo.missatge':__theForm.labels[CustodiaInfoFields.MISSATGE]}" /> &nbsp;(*)
@@ -186,7 +186,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}">
-        <tr>
+        <tr id="custodiaInfo_missatgePosicioPaginaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID])?'custodiaInfo.missatgePosicioPaginaID':__theForm.labels[CustodiaInfoFields.MISSATGEPOSICIOPAGINAID]}" /> &nbsp;(*)
@@ -213,7 +213,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CODIBARRESID)}">
-        <tr>
+        <tr id="custodiaInfo_codiBarresID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESID])?'custodiaInfo.codiBarresID':__theForm.labels[CustodiaInfoFields.CODIBARRESID]}" /> &nbsp;(*)
@@ -240,7 +240,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}">
-        <tr>
+        <tr id="custodiaInfo_codiBarresPosicioPaginaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID])?'custodiaInfo.codiBarresPosicioPaginaID':__theForm.labels[CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID]}" /> &nbsp;(*)
@@ -267,7 +267,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CODIBARRESTEXT)}">
-        <tr>
+        <tr id="custodiaInfo_codiBarresText_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CODIBARRESTEXT])?'custodiaInfo.codiBarresText':__theForm.labels[CustodiaInfoFields.CODIBARRESTEXT]}" /> &nbsp;(*)
@@ -285,7 +285,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="custodiaInfo_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIENTITATID])?'custodiaInfo.usuariEntitatID':__theForm.labels[CustodiaInfoFields.USUARIENTITATID]}" />
@@ -314,7 +314,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="custodiaInfo_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID])?'custodiaInfo.usuariAplicacioID':__theForm.labels[CustodiaInfoFields.USUARIAPLICACIOID]}" />
@@ -343,7 +343,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.ENTITATID)}">
-        <tr>
+        <tr id="custodiaInfo_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENTITATID])?'custodiaInfo.entitatID':__theForm.labels[CustodiaInfoFields.ENTITATID]}" />
@@ -372,7 +372,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.TITOLPETICIO)}">
-        <tr>
+        <tr id="custodiaInfo_titolPeticio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.TITOLPETICIO])?'custodiaInfo.titolPeticio':__theForm.labels[CustodiaInfoFields.TITOLPETICIO]}" />
@@ -390,7 +390,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.DATACUSTODIA)}">
-        <tr>
+        <tr id="custodiaInfo_dataCustodia_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DATACUSTODIA])?'custodiaInfo.dataCustodia':__theForm.labels[CustodiaInfoFields.DATACUSTODIA]}" />
@@ -426,7 +426,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.EDITABLE)}">
-        <tr>
+        <tr id="custodiaInfo_editable_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EDITABLE])?'custodiaInfo.editable':__theForm.labels[CustodiaInfoFields.EDITABLE]}" />

@@ -3,7 +3,7 @@
 <un:useConstants var="TipusEstatPeticioDeFirmaFields" className="es.caib.portafib.model.fields.TipusEstatPeticioDeFirmaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}">
-        <tr>
+        <tr id="tipusEstatPeticioDeFirma_tipusEstatPeticioDeFirmaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID])?'tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirmaID':__theForm.labels[TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusEstatPeticioDeFirmaFields.NOM)}">
-        <tr>
+        <tr id="tipusEstatPeticioDeFirma_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusEstatPeticioDeFirmaFields.NOM])?'tipusEstatPeticioDeFirma.nom':__theForm.labels[TipusEstatPeticioDeFirmaFields.NOM]}" /> &nbsp;(*)
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusEstatPeticioDeFirmaFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="tipusEstatPeticioDeFirma_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[TipusEstatPeticioDeFirmaFields.DESCRIPCIO])?'tipusEstatPeticioDeFirma.descripcio':__theForm.labels[TipusEstatPeticioDeFirmaFields.DESCRIPCIO]}" />

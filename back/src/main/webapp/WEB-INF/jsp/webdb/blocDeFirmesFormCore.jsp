@@ -3,7 +3,7 @@
 <un:useConstants var="BlocDeFirmesFields" className="es.caib.portafib.model.fields.BlocDeFirmesFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.ORDRE)}">
-        <tr>
+        <tr id="blocDeFirmes_ordre_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.ORDRE])?'blocDeFirmes.ordre':__theForm.labels[BlocDeFirmesFields.ORDRE]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.DATAFINALITZACIO)}">
-        <tr>
+        <tr id="blocDeFirmes_dataFinalitzacio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO])?'blocDeFirmes.dataFinalitzacio':__theForm.labels[BlocDeFirmesFields.DATAFINALITZACIO]}" />
@@ -57,7 +57,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.FLUXDEFIRMESID)}">
-        <tr>
+        <tr id="blocDeFirmes_fluxDeFirmesID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID])?'blocDeFirmes.fluxDeFirmesID':__theForm.labels[BlocDeFirmesFields.FLUXDEFIRMESID]}" /> &nbsp;(*)
@@ -84,7 +84,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,BlocDeFirmesFields.MINIMDEFIRMES)}">
-        <tr>
+        <tr id="blocDeFirmes_minimDeFirmes_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES])?'blocDeFirmes.minimDeFirmes':__theForm.labels[BlocDeFirmesFields.MINIMDEFIRMES]}" /> &nbsp;(*)

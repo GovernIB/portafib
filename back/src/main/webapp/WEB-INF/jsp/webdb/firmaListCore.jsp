@@ -24,7 +24,7 @@
 
       <c:forEach var="firma" items="${firmaItems}">
 
-        <tr>
+        <tr id="firma_rowid_${firma.firmaID}">
           <%@include file="firmaListCoreMultipleSelect.jsp" %>
 
           <%@include file="firmaListCoreContent.jsp" %>

@@ -24,7 +24,7 @@
 
       <c:forEach var="plantillaFluxDeFirmes" items="${plantillaFluxDeFirmesItems}">
 
-        <tr>
+        <tr id="plantillaFluxDeFirmes_rowid_${plantillaFluxDeFirmes.fluxDeFirmesID}">
           <%@include file="plantillaFluxDeFirmesListCoreMultipleSelect.jsp" %>
 
           <%@include file="plantillaFluxDeFirmesListCoreContent.jsp" %>

@@ -157,30 +157,44 @@ import es.caib.portafib.utils.Configuracio;
 
     @Autowired
     protected TipusDocumentRefList tipusDocumentRefList;
-    
-    private static final int COLUMN_PETICIODEFIRMA = -3;
-    
-    private static final StringField COLUMN_PETICIODEFIRMA_FIELD;
 
-    private static final int COLUMN_TIPUS_DOC = -2;
+    private static final int COLUMN_PETICIODEFIRMA_TITOL = -6;
+    private static final StringField COLUMN_PETICIODEFIRMA_TITOL_FIELD;
     
-    private static final LongField COLUMN_TIPUS_DOC_FIELD;
     
-    private static final int COLUMN_DATA_INICI_SHORT = -1;
+    private static final int COLUMN_PETICIODEFIRMA_DESCRIPCIO = -5;
+    private static final StringField COLUMN_PETICIODEFIRMA_DESCRIPCIO_FIELD;
+    
+    private static final int COLUMN_PETICIODEFIRMA_MOTIU = -4;
+    private static final StringField COLUMN_PETICIODEFIRMA_MOTIU_FIELD;
 
-    private static final int COLUMN_REMITENT = 1;
+    private static final int COLUMN_PETICIODEFIRMA_TIPUSDOC = -3;
     
-    private static final StringField COLUMN_REMITENT_FIELD;
+    private static final LongField COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD;
     
-    private static final int COLUMN_DELEGAT_DE_COLABORADOR = 2;
+    private static final int COLUMN_ESTATDEFIRMA_DATAINICI_SMALL = -2;
+
+    private static final int COLUMN_ESTATDEFIRMA_DATAFI_SMALL = -1;
+
+    private static final int COLUMN_PETICIODEFIRMA_REMITENT = 1;
     
-    private static final int COLUMN_DELEGATS_DE_DESTINATARI = 3;
+    private static final StringField COLUMN_PETICIODEFIRMA_REMITENT_FIELD;
     
-    private static final int COLUMN_COLABORADORS = 4;
+    private static final int COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO = 2;
     
-    private static final int COLUMN_PRIORITAT = 5;
+    private static final StringField COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO_FIELD;
     
-    private static final IntegerField COLUMN_PRIORITAT_FIELD;
+    private static final int COLUMN_DELEGAT_DE_COLABORADOR = 3;
+    
+    private static final int COLUMN_DELEGATS_DE_DESTINATARI = 4;
+    
+    private static final int COLUMN_COLABORADORS = 5;
+    
+    private static final int COLUMN_PETICIODEFIRMA_PRIORITAT = 6;
+    
+    private static final IntegerField COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD;
+    
+
     
     
     // Propietat de Col.laboracio-Delegacio
@@ -191,13 +205,20 @@ import es.caib.portafib.utils.Configuracio;
       PeticioDeFirmaQueryPath pfqp;
       pfqp = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA();
       
-      COLUMN_PETICIODEFIRMA_FIELD = pfqp.TITOL();
+      COLUMN_PETICIODEFIRMA_TITOL_FIELD = pfqp.TITOL();
 
-      COLUMN_TIPUS_DOC_FIELD = pfqp.TIPUSDOCUMENTID();
+      COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD = pfqp.TIPUSDOCUMENTID();
 
-      COLUMN_REMITENT_FIELD = pfqp.REMITENTNOM();
+      COLUMN_PETICIODEFIRMA_REMITENT_FIELD = pfqp.REMITENTNOM();
           
-      COLUMN_PRIORITAT_FIELD = pfqp.PRIORITATID();
+      COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD = pfqp.PRIORITATID();
+      
+      // NOMES SEARCH
+      COLUMN_PETICIODEFIRMA_DESCRIPCIO_FIELD = pfqp.DESCRIPCIO();
+      
+      COLUMN_PETICIODEFIRMA_MOTIU_FIELD = pfqp.MOTIU();
+      
+      COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO_FIELD = pfqp.REMITENTDESCRIPCIO();
       
       UsuariPersonaQueryPath personaQueryPath = new EstatDeFirmaQueryPath()
           .COLABORACIODELEGACIO().DESTINATARI().USUARIPERSONA();
@@ -230,6 +251,8 @@ import es.caib.portafib.utils.Configuracio;
         ff.addHiddenField(DESCRIPCIO);
         ff.addHiddenField(USUARIENTITATID);
         ff.addHiddenField(DATAINICI);
+        ff.addHiddenField(DATAFI);
+
         // Ocultar estatinicial
         ff.addHiddenField(TIPUSESTATDEFIRMAINICIALID);
 
@@ -243,12 +266,11 @@ import es.caib.portafib.utils.Configuracio;
             // DataFi és null  si no han fet res
             new OrderBy(DATAFI, OrderType.DESC), 
             // Propietat de Peticio de firma
-            new OrderBy(COLUMN_PRIORITAT_FIELD, OrderType.DESC), 
+            new OrderBy(COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD, OrderType.DESC), 
             new OrderBy(DATAINICI, OrderType.DESC),
-
         });
 
-        ff.addGroupByField(COLUMN_TIPUS_DOC_FIELD); // Propietat de Peticio De Firma
+        ff.addGroupByField(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD); // Propietat de Peticio De Firma
         if (getRole().equals(Constants.ROLE_COLA)) {
           // Propietat de Col.laboracio-Delegacio
           ff.addGroupByField(DESTINATARIID);
@@ -260,15 +282,23 @@ import es.caib.portafib.utils.Configuracio;
         ff.addGroupByField(TIPUSESTATDEFIRMAFINALID);
         
         switch(getFilterType()) {
-        
+
           case FILTRAR_PER_PENDENT: // Pendent de firma o validacio
             ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
             ff.addHiddenField(DATAFI);
 
             ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
             ff.getGroupByFields().remove(DATAFI);
+            
+            // Eliminam la data de Fi, ja que sempre val null en cas PENDENT
+            {
+              ArrayList<Field<?>> filterBy = new ArrayList<Field<?>>(ff.getDefaultFilterByFields()); 
+              filterBy.remove(DATAFI);
+              ff.setFilterByFields(filterBy);
+            }
+            
           break;
-          
+
           case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
             // Es la forma d'indicar que no volem la columna de Col·laborador
             ff.addHiddenField(ColaboracioDelegacioFields.DESTINATARIID);
@@ -279,79 +309,141 @@ import es.caib.portafib.utils.Configuracio;
             ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
             ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
           break;
-          
+
           case FILTRAR_PER_NODEFINIT: // Descartat o ni validat ni invalidat
           case FILTRAR_PER_ACCEPTAT:   // Firmat o validat
             ff.addHiddenField(TIPUSESTATDEFIRMAFINALID);
             ff.getGroupByFields().remove(TIPUSESTATDEFIRMAFINALID);
-
           break;
           
           
           default:
         }
 
-        //  NOVES COLUMNES
+        //  NOVES COLUMNES PETICIO
 
         // ===================  Nom de petició de firma
-        AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
-        addfieldPF.setCodeName("document");
-        addfieldPF.setPosition(COLUMN_PETICIODEFIRMA);
-        // Els valors s'ompliran al mètode postList()
-        addfieldPF.setValueMap(new HashMap<String, String>());
-        addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_FIELD);
-        
-        addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_FIELD);
-
-        ff.addAdditionalField(addfieldPF);
+        {
+          AdditionalField<String,String> addfieldPF = new AdditionalField<String,String>(); 
+          addfieldPF.setCodeName("document");
+          addfieldPF.setPosition(COLUMN_PETICIODEFIRMA_TITOL);
+          // Els valors s'ompliran al mètode postList()
+          addfieldPF.setValueMap(new HashMap<String, String>());
+          addfieldPF.setOrderBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
+          
+          addfieldPF.setSearchBy(COLUMN_PETICIODEFIRMA_TITOL_FIELD);
+  
+          ff.addAdditionalField(addfieldPF);
+        }
 
         
         // ===================  tipus de document 
         {
-        AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
-        adfieldTD.setCodeName("tipus");
-        adfieldTD.setPosition(COLUMN_TIPUS_DOC);
-        // Els valors s'ompliran al mètode postList()
-        adfieldTD.setValueMap(new HashMap<String, String>());
-        adfieldTD.setOrderBy(COLUMN_TIPUS_DOC_FIELD);
-        
-        ff.addAdditionalField(adfieldTD);
+          AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
+          adfieldTD.setCodeName("tipus");
+          adfieldTD.setPosition(COLUMN_PETICIODEFIRMA_TIPUSDOC);
+          // Els valors s'ompliran al mètode postList()
+          adfieldTD.setValueMap(new HashMap<String, String>());
+          adfieldTD.setOrderBy(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD);
+          
+          ff.addAdditionalField(adfieldTD);
         }
         
-        // ===================  data inici (format curt)
-        {
-        AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
-        adfieldDI.setCodeName("datainici.short");
-        adfieldDI.setPosition(COLUMN_DATA_INICI_SHORT);
-        // Els valors s'ompliran al mètode postList()
-        adfieldDI.setValueMap(new HashMap<String, String>());
-        adfieldDI.setOrderBy(DATAINICI);
-
-        
-        ff.addAdditionalField(adfieldDI);
-        }
-
         // =================== 
         final String role = getRole();
         if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
 
-          // NOVA COLUMNA
+          // NOVA COLUMNA PETICIO DE FIRMA
           AdditionalField<String,String> adfieldRN = new AdditionalField<String,String>(); 
           adfieldRN.setCodeName("peticioDeFirma.remitentNom");
-          adfieldRN.setPosition(COLUMN_REMITENT);
+          adfieldRN.setPosition(COLUMN_PETICIODEFIRMA_REMITENT);
           adfieldRN.setEscapeXml(false);
           // Els valors s'ompliran al mètode postList()
           adfieldRN.setValueMap(new HashMap<String, String>());
-          adfieldRN.setOrderBy(COLUMN_REMITENT_FIELD);
-          adfieldRN.setSearchBy(COLUMN_REMITENT_FIELD);
+          adfieldRN.setOrderBy(COLUMN_PETICIODEFIRMA_REMITENT_FIELD);
+          adfieldRN.setSearchBy(COLUMN_PETICIODEFIRMA_REMITENT_FIELD);
 
           ff.addAdditionalField(adfieldRN);
 
           // NOVA AGRUPACIO
-          ff.addGroupByField(COLUMN_REMITENT_FIELD);
+          ff.addGroupByField(COLUMN_PETICIODEFIRMA_REMITENT_FIELD);
+        }
+        
+        // NOVES COLUMNES NOMES PER CERQUES
+        
+        // ===================  Cerca per Descripcio de petició de Firma 
+        {
+          AdditionalField<String,String> addfieldDESC = new AdditionalField<String,String>(); 
+          addfieldDESC.setCodeName("peticioDeFirma.descripcio");
+          addfieldDESC.setPosition(COLUMN_PETICIODEFIRMA_DESCRIPCIO);
+          // No omplirem els valors
+          addfieldDESC.setValueMap(new HashMap<String, String>());
+
+          addfieldDESC.setSearchBy(COLUMN_PETICIODEFIRMA_DESCRIPCIO_FIELD);
+
+          ff.addAdditionalField(addfieldDESC);
+          
+          ff.addHiddenField(COLUMN_PETICIODEFIRMA_DESCRIPCIO_FIELD);
         }
 
+
+        // ===================  Cerca per Motiu de petició de Firma 
+        {
+          AdditionalField<String,String> addfieldMOTIU = new AdditionalField<String,String>(); 
+          addfieldMOTIU.setCodeName("peticioDeFirma.motiu");
+          addfieldMOTIU.setPosition(COLUMN_PETICIODEFIRMA_MOTIU);
+          // No omplirem els valors
+          addfieldMOTIU.setValueMap(new HashMap<String, String>());
+
+          addfieldMOTIU.setSearchBy(COLUMN_PETICIODEFIRMA_MOTIU_FIELD);
+
+          ff.addAdditionalField(addfieldMOTIU);
+          
+          ff.addHiddenField(COLUMN_PETICIODEFIRMA_MOTIU_FIELD);
+        }
         
+        if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+          AdditionalField<String,String> addfieldREMIDESC = new AdditionalField<String,String>(); 
+          addfieldREMIDESC.setCodeName("peticioDeFirma.remitentDescripcio");
+          addfieldREMIDESC.setPosition(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO);
+          // No omplirem els valors
+          addfieldREMIDESC.setValueMap(new HashMap<String, String>());
+
+          addfieldREMIDESC.setSearchBy(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO_FIELD);
+
+          ff.addAdditionalField(addfieldREMIDESC);
+
+          ff.addHiddenField(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO_FIELD);
+        }
+        
+        
+        // NOVES COLUMNES ESTAT DE FIRMA
+        
+        // ===================  data inici (small)
+        {
+          AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
+          adfieldDI.setCodeName("datainici.short");
+          adfieldDI.setPosition(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL);
+          // Els valors s'ompliran al mètode postList()
+          adfieldDI.setValueMap(new HashMap<String, String>());
+          adfieldDI.setEscapeXml(false);
+          
+          ff.addAdditionalField(adfieldDI);
+        }
+        
+        // ===================  data fi (small)
+        if (getFilterType() != FILTRAR_PER_PENDENT) {
+          AdditionalField<String,String> adfieldDF = new AdditionalField<String,String>(); 
+          adfieldDF.setCodeName("datafi.short");
+          adfieldDF.setPosition(COLUMN_ESTATDEFIRMA_DATAFI_SMALL);
+          // Els valors s'ompliran al mètode postList()
+          adfieldDF.setValueMap(new HashMap<String, String>());
+          adfieldDF.setEscapeXml(false);
+
+          ff.addAdditionalField(adfieldDF);
+        }
+
+
         // ======================
 
         if (role.equals(Constants.ROLE_COLA)) {
@@ -373,11 +465,11 @@ import es.caib.portafib.utils.Configuracio;
         AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
         adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\"" 
             + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
-        adfieldPR.setPosition(COLUMN_PRIORITAT);
+        adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
         adfieldPR.setEscapeXml(false);
         // Els valors s'ompliran al mètode postList()
         adfieldPR.setValueMap(new HashMap<String, String>());
-        adfieldPR.setOrderBy(COLUMN_PRIORITAT_FIELD);
+        adfieldPR.setOrderBy(COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD);
         
         ff.addAdditionalField(adfieldPR);
         
@@ -388,8 +480,7 @@ import es.caib.portafib.utils.Configuracio;
         } else {
           ff.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_SIMPLE_ICON_LIST);
         }
-        
-        
+
         // altres comandes
         ff.setAttachedAdditionalJspCode(true);
 
@@ -425,7 +516,7 @@ import es.caib.portafib.utils.Configuracio;
         _listSKV = this.tipusDocumentRefList.getReferenceList(
             TipusDocumentFields.TIPUSDOCUMENTID, null);
         _tmp = Utils.listToMap(_listSKV);
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_TIPUS_DOC_FIELD, false);
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
       }
 
       return groupByItemsMap;
@@ -1613,35 +1704,37 @@ import es.caib.portafib.utils.Configuracio;
       {
 
         Map<Long, String> mapPF;
-        mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA).getValueMap();
+        mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
         mapPF.clear();
         
         Map<Long, String> mapTD;
-        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_TIPUS_DOC).getValueMap();
+        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
         mapTD.clear();
         
         final boolean remitent = role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE);
         Map<Long, String> mapCR = null;
         if (remitent) {          
-          mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_REMITENT).getValueMap();
+          mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_REMITENT).getValueMap();
           mapCR.clear();
         }
 
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
            
-           
            mapPF.put(estatDeFirmaId, pf.getTitol());
-           
            mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
            
-           
-           
            if (remitent) {
-             mapCR.put(estatDeFirmaId, "<small title=\"" + pf.getRemitentDescripcio() + "\" >"
-                 + pf.getRemitentNom() + "</small>");
+             StringBuffer str = new StringBuffer();
+             str.append("<small><b>");
+             str.append(pf.getRemitentNom()).append("</b>");
+             String remiDesc = pf.getRemitentDescripcio();
+             if (remiDesc != null) {
+               str.append("<br/>").append(remiDesc);
+             }
+             str.append("</small>");
+             mapCR.put(estatDeFirmaId,  str.toString());
            }
-           
            
            annexesByPeticio.put(pf.getPeticioDeFirmaID(),
              annexEjb.count(AnnexFields.PETICIODEFIRMAID.equal(pf.getPeticioDeFirmaID())));
@@ -1651,23 +1744,35 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       
+      org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat dateTimeFormat;
+      dateTimeFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat();
       
-      
+      // DATA INICI
       {
-        org.fundaciobit.genapp.common.web.i18n.I18NDateFormat dateFormat;
-        dateFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateFormat();
-
         Map<Long, String> mapDI;
-        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DATA_INICI_SHORT).getValueMap();
+        mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL).getValueMap();
         mapDI.clear();
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
-          mapDI.put(estatDeFirma.getEstatDeFirmaID(), dateFormat.format(estatDeFirma.getDataInici()));
+          mapDI.put(estatDeFirma.getEstatDeFirmaID(), 
+              "<small>" + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "<br/>") + "</small>");
         }
-        
       }
       
-     
       
+      
+      // DATA FI
+      if (getFilterType() != FILTRAR_PER_PENDENT) {
+
+        Map<Long, String> mapDF;
+        mapDF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAFI_SMALL).getValueMap();
+        mapDF.clear();
+        for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
+          mapDF.put(estatDeFirma.getEstatDeFirmaID(), 
+              "<small>" + dateTimeFormat.format(estatDeFirma.getDataFi()).replace(" ", "<br/>") + "</small>");
+        }
+      }  
+
+
       List<Long> estatsID = new ArrayList<Long>();
       if (role.equals(Constants.ROLE_COLA) || role.equals(Constants.ROLE_DELE)) {
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
@@ -1704,8 +1809,6 @@ import es.caib.portafib.utils.Configuracio;
       if (role.equals(Constants.ROLE_DEST)) {
         
         Map<Long, String> mapDD = new HashMap<Long, String>();
-
-        
         Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
             ESTATS_INICIALS_DELE);
         
@@ -1845,7 +1948,7 @@ import es.caib.portafib.utils.Configuracio;
       {
         
         Map<Long, String> mapPR;
-        mapPR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PRIORITAT).getValueMap();
+        mapPR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_PRIORITAT).getValueMap();
         mapPR.clear();
         
         String color_priority, title_priority;
@@ -1932,7 +2035,7 @@ import es.caib.portafib.utils.Configuracio;
 
          if (ef.getTipusEstatDeFirmaFinalID() == null) {
    
-           final long estatInicial = ef.getTipusEstatDeFirmaInicialID(); 
+           final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
            if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
              
              filterForm.addAdditionalButtonByPK(estatId,
@@ -2479,7 +2582,7 @@ import es.caib.portafib.utils.Configuracio;
         case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
            return ".noacceptada";
 
-        case FILTRAR_PER_NODEFINIT: // Colllaboracions ignorades
+        case FILTRAR_PER_NODEFINIT: // Col·laboracions ignorades
            return ".ignorada";
 
         default:

@@ -3,7 +3,7 @@
 <un:useConstants var="PermisUsuariPlantillaFields" className="es.caib.portafib.model.fields.PermisUsuariPlantillaFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisUsuariPlantillaFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="permisUsuariPlantilla_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID])?'permisUsuariPlantilla.usuariEntitatID':__theForm.labels[PermisUsuariPlantillaFields.USUARIENTITATID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID)}">
-        <tr>
+        <tr id="permisUsuariPlantilla_plantillaFluxDeFirmesID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID])?'permisUsuariPlantilla.plantillaFluxDeFirmesID':__theForm.labels[PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID]}" /> &nbsp;(*)

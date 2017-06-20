@@ -24,7 +24,7 @@
 
       <c:forEach var="tipusDocument" items="${tipusDocumentItems}">
 
-        <tr>
+        <tr id="tipusDocument_rowid_${tipusDocument.tipusDocumentID}">
           <%@include file="tipusDocumentListCoreMultipleSelect.jsp" %>
 
           <%@include file="tipusDocumentListCoreContent.jsp" %>

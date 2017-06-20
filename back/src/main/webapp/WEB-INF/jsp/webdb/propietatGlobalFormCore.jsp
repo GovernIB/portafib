@@ -3,7 +3,7 @@
 <un:useConstants var="PropietatGlobalFields" className="es.caib.portafib.model.fields.PropietatGlobalFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PropietatGlobalFields.CLAU)}">
-        <tr>
+        <tr id="propietatGlobal_clau_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.CLAU])?'propietatGlobal.clau':__theForm.labels[PropietatGlobalFields.CLAU]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PropietatGlobalFields.VALOR)}">
-        <tr>
+        <tr id="propietatGlobal_valor_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.VALOR])?'propietatGlobal.valor':__theForm.labels[PropietatGlobalFields.VALOR]}" />
@@ -46,7 +46,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PropietatGlobalFields.ENTITATID)}">
-        <tr>
+        <tr id="propietatGlobal_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.ENTITATID])?'propietatGlobal.entitatID':__theForm.labels[PropietatGlobalFields.ENTITATID]}" />
@@ -75,7 +75,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PropietatGlobalFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="propietatGlobal_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PropietatGlobalFields.DESCRIPCIO])?'propietatGlobal.descripcio':__theForm.labels[PropietatGlobalFields.DESCRIPCIO]}" />

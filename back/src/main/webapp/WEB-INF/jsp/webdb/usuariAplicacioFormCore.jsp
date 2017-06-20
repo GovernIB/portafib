@@ -3,7 +3,7 @@
 <un:useConstants var="UsuariAplicacioFields" className="es.caib.portafib.model.fields.UsuariAplicacioFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.USUARIAPLICACIOID)}">
-        <tr>
+        <tr id="usuariAplicacio_usuariAplicacioID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID])?'usuariAplicacio.usuariAplicacioID':__theForm.labels[UsuariAplicacioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CONTRASENYA)}">
-        <tr>
+        <tr id="usuariAplicacio_contrasenya_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CONTRASENYA])?'usuariAplicacio.contrasenya':__theForm.labels[UsuariAplicacioFields.CONTRASENYA]}" />
@@ -39,7 +39,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ENTITATID)}">
-        <tr>
+        <tr id="usuariAplicacio_entitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ENTITATID])?'usuariAplicacio.entitatID':__theForm.labels[UsuariAplicacioFields.ENTITATID]}" /> &nbsp;(*)
@@ -66,7 +66,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.EMAILADMIN)}">
-        <tr>
+        <tr id="usuariAplicacio_emailAdmin_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.EMAILADMIN])?'usuariAplicacio.emailAdmin':__theForm.labels[UsuariAplicacioFields.EMAILADMIN]}" /> &nbsp;(*)
@@ -84,7 +84,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKVERSIO)}">
-        <tr>
+        <tr id="usuariAplicacio_callbackVersio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO])?'usuariAplicacio.callbackVersio':__theForm.labels[UsuariAplicacioFields.CALLBACKVERSIO]}" /> &nbsp;(*)
@@ -111,7 +111,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CALLBACKURL)}">
-        <tr>
+        <tr id="usuariAplicacio_callbackURL_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CALLBACKURL])?'usuariAplicacio.callbackURL':__theForm.labels[UsuariAplicacioFields.CALLBACKURL]}" /> &nbsp;(*)
@@ -129,7 +129,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.ACTIU)}">
-        <tr>
+        <tr id="usuariAplicacio_actiu_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.ACTIU])?'usuariAplicacio.actiu':__theForm.labels[UsuariAplicacioFields.ACTIU]}" />
@@ -151,7 +151,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.IDIOMAID)}">
-        <tr>
+        <tr id="usuariAplicacio_idiomaID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.IDIOMAID])?'usuariAplicacio.idiomaID':__theForm.labels[UsuariAplicacioFields.IDIOMAID]}" /> &nbsp;(*)
@@ -178,7 +178,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.DESCRIPCIO)}">
-        <tr>
+        <tr id="usuariAplicacio_descripcio_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.DESCRIPCIO])?'usuariAplicacio.descripcio':__theForm.labels[UsuariAplicacioFields.DESCRIPCIO]}" />
@@ -203,7 +203,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.LOGOSEGELLID)}">
-        <tr>
+        <tr id="usuariAplicacio_logoSegellID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.LOGOSEGELLID])?'usuariAplicacio.logoSegellID':__theForm.labels[UsuariAplicacioFields.LOGOSEGELLID]}" />
@@ -248,7 +248,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POTCUSTODIAR)}">
-        <tr>
+        <tr id="usuariAplicacio_potCustodiar_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POTCUSTODIAR])?'usuariAplicacio.potCustodiar':__theForm.labels[UsuariAplicacioFields.POTCUSTODIAR]}" />

@@ -24,7 +24,7 @@
 
       <c:forEach var="algorismeDeFirma" items="${algorismeDeFirmaItems}">
 
-        <tr>
+        <tr id="algorismeDeFirma_rowid_${algorismeDeFirma.algorismeDeFirmaID}">
           <%@include file="algorismeDeFirmaListCoreMultipleSelect.jsp" %>
 
           <%@include file="algorismeDeFirmaListCoreContent.jsp" %>

@@ -24,7 +24,7 @@
 
       <c:forEach var="peticioDeFirma" items="${peticioDeFirmaItems}">
 
-        <tr>
+        <tr id="peticioDeFirma_rowid_${peticioDeFirma.peticioDeFirmaID}">
           <%@include file="peticioDeFirmaListCoreMultipleSelect.jsp" %>
 
           <%@include file="peticioDeFirmaListCoreContent.jsp" %>

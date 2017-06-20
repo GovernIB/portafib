@@ -24,7 +24,7 @@
 
       <c:forEach var="notificacioWS" items="${notificacioWSItems}">
 
-        <tr>
+        <tr id="notificacioWS_rowid_${notificacioWS.notificacioID}">
           <%@include file="notificacioWSListCoreMultipleSelect.jsp" %>
 
           <%@include file="notificacioWSListCoreContent.jsp" %>

@@ -24,7 +24,7 @@
 
       <c:forEach var="colaboracioDelegacio" items="${colaboracioDelegacioItems}">
 
-        <tr>
+        <tr id="colaboracioDelegacio_rowid_${colaboracioDelegacio.colaboracioDelegacioID}">
           <%@include file="colaboracioDelegacioListCoreMultipleSelect.jsp" %>
 
           <%@include file="colaboracioDelegacioListCoreContent.jsp" %>

@@ -24,7 +24,7 @@
 
       <c:forEach var="prioritat" items="${prioritatItems}">
 
-        <tr>
+        <tr id="prioritat_rowid_${prioritat.prioritatID}">
           <%@include file="prioritatListCoreMultipleSelect.jsp" %>
 
           <%@include file="prioritatListCoreContent.jsp" %>

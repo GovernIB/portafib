@@ -3,7 +3,7 @@
 <un:useConstants var="GrupEntitatUsuariEntitatFields" className="es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,GrupEntitatUsuariEntitatFields.USUARIENTITATID)}">
-        <tr>
+        <tr id="grupEntitatUsuariEntitat_usuariEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[GrupEntitatUsuariEntitatFields.USUARIENTITATID])?'grupEntitatUsuariEntitat.usuariEntitatID':__theForm.labels[GrupEntitatUsuariEntitatFields.USUARIENTITATID]}" /> &nbsp;(*)
@@ -30,7 +30,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,GrupEntitatUsuariEntitatFields.GRUPENTITATID)}">
-        <tr>
+        <tr id="grupEntitatUsuariEntitat_grupEntitatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[GrupEntitatUsuariEntitatFields.GRUPENTITATID])?'grupEntitatUsuariEntitat.grupEntitatID':__theForm.labels[GrupEntitatUsuariEntitatFields.GRUPENTITATID]}" /> &nbsp;(*)

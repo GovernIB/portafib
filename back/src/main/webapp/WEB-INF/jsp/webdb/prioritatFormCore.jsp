@@ -3,7 +3,7 @@
 <un:useConstants var="PrioritatFields" className="es.caib.portafib.model.fields.PrioritatFields"/>
   
         <c:if test="${!gen:contains(__theForm.hiddenFields,PrioritatFields.PRIORITATID)}">
-        <tr>
+        <tr id="prioritat_prioritatID_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PrioritatFields.PRIORITATID])?'prioritat.prioritatID':__theForm.labels[PrioritatFields.PRIORITATID]}" /> &nbsp;(*)
@@ -21,7 +21,7 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PrioritatFields.NOM)}">
-        <tr>
+        <tr id="prioritat_nom_rowid">
           <td>
             <label>
               <fmt:message key="${(empty __theForm.labels[PrioritatFields.NOM])?'prioritat.nom':__theForm.labels[PrioritatFields.NOM]}" /> &nbsp;(*)
