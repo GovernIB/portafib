@@ -72,7 +72,6 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -703,8 +702,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       // Venim de la pàgina de selecccio de Fluxos
       final String nomPeticio = flux.getNom();
       
-      
-      
 
       String usuariAplicacioID;
       if (isSolicitantUsuariEntitat()) {
@@ -789,8 +786,14 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
       
       // TODO Afegir boto per crear i iniciar flux de firmes
+      
+      // DESCRIPCIO TIPUS DE DOCUMENT
+      peticioDeFirmaForm.setAttachedAdditionalJspCode(true);
+      
 
     } else {
+      
+
 
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
@@ -917,6 +920,10 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       peticioDeFirmaForm.addHiddenField(FITXERADAPTATID);
 
       peticioDeFirmaForm.addHiddenField(TIPUSESTATPETICIODEFIRMAID);
+      
+      // GESTIONAR VIA JS LA DESCRIPCIO DE TIPUS DE DOCUMENT
+      peticioDeFirmaForm.setAttachedAdditionalJspCode(true);
+      
     } else {
       for(Field<?> field: PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS) {
         peticioDeFirmaForm.addReadOnlyField(field);
@@ -924,6 +931,12 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
       peticioDeFirmaForm.setTitleCode("peticiodefirma.veuredetalls");
       peticioDeFirmaForm.setDeleteButtonVisible(false);
       peticioDeFirmaForm.setSaveButtonVisible(false);
+      
+      // OCULTAR LA DESCRIPCIO DE TIPUS DE DOCUMENT SI VAL NULL
+      String descr = peticioDeFirmaForm.getPeticioDeFirma().getDescripcioTipusDocument();
+      if (descr == null || descr.trim().length() == 0) {
+        peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
+      }
     }
 
     if (isSolicitantUsuariEntitat()) {

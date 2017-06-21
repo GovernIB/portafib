@@ -15,6 +15,10 @@
   <%@include file="../webdb/peticioDeFirmaFormCore.jsp" %>
   <%@include file="../webdb/peticioDeFirmaFormCorePost.jsp" %>
   <%@include file="../webdb/peticioDeFirmaFormButtons.jsp" %>
+  
+  <c:if test="${peticioDeFirmaForm.attachedAdditionalJspCode}">
+     <%@include file="../webdbmodificable/peticioDeFirmaFormModificable.jsp" %>
+  </c:if>
 
 </form:form>
   

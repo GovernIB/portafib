@@ -1,6 +1,8 @@
 PortaFIB 1.1.3
 ==============
 
+2017-06-21 Només mostrar camp de Descripció de Tipus Documental de la Petició de Firma si Tipus Documental val 99 (Altres documents) #108
+
 2017-06-20 Afegir Filtres de Cerca de Petició dins pantalles de Destinatari, Delegat i Col·laborador, així com millorar llistats  #107
 
 2017-06-19 Afegir informació d'expedient dins el camp informacioAddicional de PeticioDeFirma #106 

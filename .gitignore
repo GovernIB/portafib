@@ -110,3 +110,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ws/portafib_api_example/src/main/java/es/caib/portafib/ws/v1/example/Reiniciar.java
 /plugins-signatureserver/miniappletinserver/src/test/java/org/fundaciobit/plugins/signatureserver/miniappletinserver/test/NoCommitar.java
 /plugins-signatureserver/exempleapp/src/main/java/org/fundaciobit/plugins/signatureserver/exempleapp/ExempleNoCommit.java
+/plugins-signatureserver/SCAN_IECISA_PDFA.pdf
+/ws/portafib_api_passarela_servidor/setpath.bat
