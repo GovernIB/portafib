@@ -112,3 +112,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureserver/exempleapp/src/main/java/org/fundaciobit/plugins/signatureserver/exempleapp/ExempleNoCommit.java
 /plugins-signatureserver/SCAN_IECISA_PDFA.pdf
 /ws/portafib_api_passarela_servidor/setpath.bat
+/plugins-signatureweb/clavefirma/primer_doc_firmat_amb_clave_firma_1.1_2017_06_22.pdf
+/plugins-signatureserver/afirmaserver/config/plugin.properties

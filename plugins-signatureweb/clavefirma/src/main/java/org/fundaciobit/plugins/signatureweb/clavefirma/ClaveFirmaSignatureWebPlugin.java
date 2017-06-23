@@ -47,11 +47,11 @@ import es.gob.clavefirma.client.HttpCertificateBlockedException;
 import es.gob.clavefirma.client.HttpForbiddenException;
 import es.gob.clavefirma.client.HttpNetworkException;
 import es.gob.clavefirma.client.HttpNoUserException;
+import es.gob.clavefirma.client.HttpWeakRegistryException;
 import es.gob.clavefirma.client.certificatelist.HttpCertificateList;
 import es.gob.clavefirma.client.generatecert.GenerateCertificateResult;
 import es.gob.clavefirma.client.generatecert.HttpCertificateAvailableException;
 import es.gob.clavefirma.client.generatecert.HttpGenerateCertificate;
-import es.gob.clavefirma.client.generatecert.HttpUserWeakRegistryException;
 import es.gob.clavefirma.client.signprocess.HttpLoadProcess;
 import es.gob.clavefirma.client.signprocess.HttpSignProcess;
 import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants;
@@ -59,7 +59,7 @@ import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureUp
 import es.gob.clavefirma.client.signprocess.LoadResult;
 
 /**
- * XYZ ZZZ Revisar cas de no te certificats i solicitar-ne un => On guardar ID
+ * XYZ ZZZ Revisar cas de no te certificats i solicitar-ne un => Kit de test no Funciona
  * 
  * @author anadal
  *
@@ -454,7 +454,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
      tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
    }
 
-   // XYZ ZZZ hauria de posar l'index nO????
    final boolean debug = isDebug();
    
    if (debug) {
@@ -504,17 +503,21 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       // XYZ ZZZ Traduir
       String errorMsg = ("El usuario ya tiene un certificado de ese tipo: " + e.getMessage());
       finishWithError(response, signaturesSet, errorMsg, e);
-    } catch (HttpUserWeakRegistryException e) {
+    } catch (HttpWeakRegistryException e) {
       // XYZ ZZZ Traduir
       String errorMsg = ("El usuario no tiene acceso a esta operacion por "
           + " registrarse mediante autenticacion debil: " + e.getMessage());
       finishWithError(response, signaturesSet, errorMsg, e);
-
+    } catch (HttpNoUserException e) {
+      // XYZ ZZZ Traduir
+      String errorMsg = ("El usuario no tiene acceso a esta operacion por "
+          + " registrarse mediante autenticacion debil: " + e.getMessage());
+      finishWithError(response, signaturesSet, errorMsg, e);
     } catch (Exception e) {
       // XYZ ZZZ Traduir
       String errorMsg = ("Error en la solicitud de certificado: " + e.getMessage());
       finishWithError(response, signaturesSet, errorMsg, e);
-    }
+    } 
 
  }
  
@@ -673,25 +676,11 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
           timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
         }
-        
-        
-        // XYZ ZZZ
-//        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-//          fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_CADES);
-//        }
-        
-        
+
         MiniAppletSignInfo info;
-        try {
-          info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
+        info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
             timeStampUrl, certificate);
-        } finally {
-     // XYZ ZZZ     
-     //     if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-     //       fileInfo.setSignType(FileInfoSignature.SIGN_TYPE_SMIME);
-     //     }
-        }
-        
+
         final Properties signProperties = info.getProperties();
 
         byte[] dataToSign = info.getDataToSign();
@@ -707,7 +696,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           dataToSign = AOUtil.getDataFromInputStream(mis);
           mis.close();
         }
-
 
         String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
 
@@ -747,8 +735,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
         }
         
-
-        // XYZ ZZZhauria de posar l'index nO????
         if (debug) {
           log.info("firmarPre::callBackURLOK = " + callBackURLOK);
           log.info("firmarPre::callBackURLError = " + callBackURLError);
@@ -806,9 +792,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
               cfsi.getSignOperation(), cfsi.getSignType(), cfsi.getSignAlgorithm(),
               cfsi.getSignProperties(), cfsi.getCertificate(), cfsi.getDataToSign(),
               cfsi.getRemoteConfProperties());
-
+          
           cfsi.setLoadResult(loadResult);
-
+        
           // XYZ ZZZ Print loadResult.getTriphaseData()
 
           ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
@@ -1289,7 +1275,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       final boolean debug = isDebug();
       if (debug) {
-        log.info(" CERTIFICATS == " + certificates.size());
+        log.info(" CERTIFICATS == " + ((certificates == null)? "NULL" : certificates.size()));
       }
 
       if (certificates != null) {
@@ -1308,6 +1294,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     try {
 
       certificates = HttpCertificateList.getList(appId, userClaveFirma);
+
+      log.error(" XYZ ZZZ HttpCertificateList.getList() = " + certificates);
+
       if (certificates == null || certificates.isEmpty()) {
         return null; // error = "0;URL='ChooseCertificateNoCerts.jsp'";
       }
@@ -1482,7 +1471,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     field.set(null, config);
 
-    // XYZ ZZZ prova
     if (log != null) { 
     
       field = es.gob.clavefirma.client.ConfigManager.class.getDeclaredField("config");
@@ -1491,7 +1479,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       Properties configget = (Properties) field.get(null);
   
       for (Object key : configget.keySet()) {
-        // XYZ ZZZ log.info
         log.info("staticInit::PropertiesGET[" + key + "] => " + configget.get(key));
       }
     }
