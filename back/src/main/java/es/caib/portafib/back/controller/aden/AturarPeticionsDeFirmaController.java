@@ -300,7 +300,7 @@ public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
             "aturarpeticionsdefirma.motiurebuig",
             Utils.getNom(LoginInfo.getInstance().getUsuariPersona()));
       
-        peticioDeFirmaLogicaEjb.rebutjar(peticioDeFirma, motiuDeRebuig);
+        peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma, motiuDeRebuig);
 
       }
 

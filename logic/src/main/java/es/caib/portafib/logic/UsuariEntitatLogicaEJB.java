@@ -253,8 +253,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       return fitxers;
     }
 
-    // Checks 
-    
+    // Checks
+
     // (1) L'usuari apareix dins un flux de firma 
     //    (flux d'una petició o d'una plantilla de persona o aplicacio)
     Where w = FirmaFields.DESTINATARIID.equal(usuariEntitatID);

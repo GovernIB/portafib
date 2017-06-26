@@ -29,7 +29,7 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   private FirmaLogicaLocal firmaLogicaEjb;
   
   
-  
+  @Override
   public BlocDeFirmesJPA createFull(BlocDeFirmesJPA blocDeFirmesJPA) throws I18NException {
     Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
     //blocDeFirmesJPA.setFirmas(null);
@@ -55,11 +55,13 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
   /**
    * 
    */
+  @Override
   public Set<Long> deleteFull(Long blocDeFirmesID) throws I18NException {
     BlocDeFirmesJPA blocDeFirmesJPA = findByPrimaryKey(blocDeFirmesID);
     return deleteFull(blocDeFirmesJPA);
   }
 
+  @Override
   public Set<Long> deleteFull(BlocDeFirmesJPA blocDeFirmesJPA ) throws I18NException {
 
     Set<Long> files = new HashSet<Long>();

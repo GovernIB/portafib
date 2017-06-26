@@ -7,6 +7,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -53,6 +54,18 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
     }
     
     return ua;
+  }
+  
+  
+  @Override
+  public void deleteFull(long fitxerID) throws I18NException {
+    
+    // Esborrar de BBDD
+    delete(fitxerID);
+    
+    // Esborrar fitxer Fisic
+    FileSystemManager.eliminarArxiu(fitxerID);
+
   }
   
 }

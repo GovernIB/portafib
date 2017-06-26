@@ -2028,7 +2028,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FileSystemManager.sobreescriureFitxer(file, fitxer.getFitxerID());
       fileID = fitxer.getFitxerID();
       
-      // 9.- Custodia
+      // 9.- PeticióFinalitzada:
+      // 9.1.- PeticióFinalitzada: Custodia
       if (peticioFinalitzada && peticioDeFirma.getCustodiaInfoID() != null) {
 
         CustodiaInfo custInfo = custodiaInfoEjb.findByPrimaryKey(peticioDeFirma.getCustodiaInfoID());
@@ -2073,6 +2074,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           
         }
       }
+      
+      
+      // 9.2.- PeticióFinalitzada: Esborrat de fitxers innecessaris
+      if (peticioFinalitzada) {
+        ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, firma);
+      }
+      
 
     } catch (Throwable error) {
       
@@ -2110,6 +2118,77 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       } catch (Exception e) {
         log.error(e.getMessage(), e);
       }
+    }
+  }
+
+
+  /**
+   * Fer neteja de tots els fitxers firmats (excepte el darrer si es una petició
+   *  finalitzada) i del fitxer adaptat. 
+   * 
+   * @param peticioDeFirma
+   * @param firma Si val null, llavors s'han d'esborrar totes les firmes ja que és un rebuig
+   */
+  protected void ferNetejaPeticioFinalitzadaRebutjada(PeticioDeFirmaJPA peticioDeFirma,
+      FirmaJPA firma) {
+    
+    final Long peticioDeFirmaID = peticioDeFirma.getPeticioDeFirmaID();
+    
+    final boolean debug = log.isDebugEnabled();
+    
+    try {
+      // (a) Esborrar document Adaptat
+      Long fitxerAdaptatID = peticioDeFirma.getFitxerAdaptatID();
+      if (fitxerAdaptatID != null) {
+        peticioDeFirma.setFitxerAdaptatID(null);
+        this.update(peticioDeFirma);
+        if (debug) {
+          log.debug("Fer neteja de Fitxer Adaptat: ID = " + fitxerAdaptatID);
+        }
+        fitxerLogicaEjb.deleteFull(fitxerAdaptatID);
+      }
+
+      // (b) Esborrar Firmes Intermitges
+      final LongField PETICIOID = new FirmaQueryPath().BLOCDEFIRMES().
+         FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID();
+
+      Where where = Where.AND(PETICIOID.equal(peticioDeFirmaID),
+          FirmaFields.NUMFIRMADOCUMENT.isNotNull());
+
+      if (firma != null) {
+         where = Where.AND(where, FirmaFields.FITXERFIRMATID.notEqual(firma.getFitxerFirmatID()));
+      }
+
+      List<Firma> firmes = firmaLogicaEjb.select(where);
+
+      if (debug) {
+        log.debug("Fer neteja de FITXERS INNECESSARIS DE firmes. LEN = " + firmes.size());
+      }
+
+      for (Firma f : firmes) {
+        
+        long fitxerID = f.getFitxerFirmatID();
+        if (debug) {
+          log.debug("Fer neteja de FITXERS INNECESSARIS DE firmes. FITXER_ID = " + fitxerID);
+        }
+        f.setFitxerFirmatID(null);
+        firmaLogicaEjb.update(f);
+
+        fitxerLogicaEjb.deleteFull(fitxerID);
+      }
+      
+      
+    } catch (Throwable error) {
+      String msg;
+      if (error instanceof I18NException) {
+        msg = I18NLogicUtils.getMessage((I18NException)error, new Locale("ca"));
+      } else {
+        msg = error.getMessage();
+      }
+
+      // Si hi ha errors la cosa no és greu i es deixa passar 
+      log.error("Error greu netejant peticio de firma finalitzada o rebutjada " 
+         + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
     }
   }
 
@@ -2187,7 +2266,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public void rebutjar(PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig)
+  public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig)
     throws I18NException {
 
     EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
@@ -2227,6 +2306,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       rebutjar(estatDeFirma, firma, peticioDeFirma, motiuDeRebuig);
     }
+    
+    // Fer neteja de tots els fitxers firmats i del fitxer adaptat
+    ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, null);
 
   }
 
@@ -2297,6 +2379,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Avisar del rebuig
       firmaEventManagerEjb.processList(events);
+
+      // Fer neteja de tots els fitxers firmats i del fitxer adaptat
+      ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, null);
+
 
     } finally {
       try {

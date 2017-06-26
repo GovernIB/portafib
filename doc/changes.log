@@ -1,6 +1,8 @@
 PortaFIB 1.1.3
 ==============
 
+2017-06-26 Neteja de fitxer adaptat i firmes intermèdies després de Finalitzada o Rebutjada una petició de firma #109
+
 2017-06-23 Actualitzar Plugin de Firma Web Cl@veFirma a la versió 1.1 
 
 2017-06-21 Només mostrar camp de Descripció de Tipus Documental de la Petició de Firma si Tipus Documental val 99 (Altres documents) #108

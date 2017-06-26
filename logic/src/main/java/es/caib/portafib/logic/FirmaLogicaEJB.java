@@ -41,6 +41,7 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
     return deleteFull(firma);
   }
 
+  @Override
   public Set<Long> deleteFull(FirmaJPA firma) throws I18NException {
     
     Set<Long> files = new HashSet<Long>();
