@@ -180,7 +180,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
           msg = th.getMessage();
         }
 
-        log.error("Error creant un Peticio de Forma Massiva: " + msg, th);
+        log.error("Error creant una Peticio de Forma Massiva: " + msg, th);
 
         countError++;
       }

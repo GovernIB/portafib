@@ -44,12 +44,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.PortaFIBFilesFormManager;
 import es.caib.portafib.back.controller.aden.CustodiaInfoAdenController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.AnnexController;
-import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
@@ -68,7 +68,6 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.AnnexLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
@@ -115,7 +114,7 @@ import org.springframework.validation.FieldError;
 @RequestMapping(value = Constants.CONTEXT_SOLI_PETICIOFIRMA)
 @SessionAttributes(types = {SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
-public class PeticioDeFirmaSoliController extends PeticioDeFirmaController implements Constants {
+public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaController implements Constants {
   
   public static final String SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES = 
        "SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES";
@@ -136,9 +135,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
-  
+ 
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
   
@@ -1320,13 +1317,10 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
             potCustodiar.put(peticio.getPeticioDeFirmaID(), usuariPotCustodiar);
           }
         }
-        
-        
-      }
-      
-      
 
-      
+      }
+
+
     } else  {
       // USUARI APLICACIO
       {
@@ -1551,27 +1545,28 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
           
         }
 
-        /** CLONAR */
-        filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-            "icon-random", "clonar",  
-            "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
-            ""));
-
-        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT 
-            || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
-            || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
-          
-        /* REINICIALITZAR
-        */
+        if (peticioDeFirma.getFitxerAFirmarID() != null) {
+          /** CLONAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-              "icon-repeat icon-white", "reinicialitzar",  
-              "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
-              "btn-danger"));
-          
-          if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
-            firmatCount++;
+              "icon-random", "clonar",  
+              "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
+              ""));
+  
+          if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT 
+              || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
+              || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+            
+            /** REINICIALITZAR  */
+            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+                "icon-repeat icon-white", "reinicialitzar",  
+                "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
+                "btn-danger"));
+            
+            if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+              firmatCount++;
+            }
+            
           }
-          
         }
     
     }; // Final For de totes les peticions
@@ -1645,7 +1640,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     if (seleccionatsStr == null || seleccionatsStr.length == 0) {
 
-      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.pausar.capseleccionat"));
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.capseleccionat"));
       
       return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     } else {
@@ -1683,7 +1678,7 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
 
     if (seleccionatsStr == null || seleccionatsStr.length == 0) {
 
-      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.pausar.capseleccionat"));
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.capseleccionat"));
       
       
       response.sendRedirect(request.getContextPath() + getContextWeb() + "/list");
@@ -1763,21 +1758,6 @@ public class PeticioDeFirmaSoliController extends PeticioDeFirmaController imple
     zos.closeEntry();
     fis.close();
   }
-  
-  
-
-
-  @Override
-  public void delete(HttpServletRequest request, PeticioDeFirma peticioDeFirma)
-    throws Exception, I18NException {
-
-    Set<Long> fitxers;
-    fitxers = peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(
-        peticioDeFirma.getPeticioDeFirmaID(), LoginInfo.getInstance().getUsuariEntitatID());
-    
-    borrarFitxers(fitxers);
-  }
-  
 
   
   @Override

@@ -45,8 +45,8 @@ private static final long serialVersionUID = -940591816L;
 	java.lang.String motiu;
 
 	@Index(name="pfi_petifirma_fitxerid_fk_i")
-	@Column(name="fitxerafirmarid",nullable = false,length = 19)
-	long fitxerAFirmarID;
+	@Column(name="fitxerafirmarid",length = 19)
+	java.lang.Long fitxerAFirmarID;
 
 	@Index(name="pfi_petifirma_fitxeadaid_fk_i")
 	@Column(name="fitxeradaptatid",length = 19)
@@ -145,7 +145,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -177,7 +177,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -208,11 +208,10 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long fitxerAFirmarID , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
-    this.fitxerAFirmarID=fitxerAFirmarID;
     this.tipusDocumentID=tipusDocumentID;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.dataCaducitat=dataCaducitat;
@@ -294,10 +293,10 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 		this.motiu = _motiu_;
 	};
 
-	public long getFitxerAFirmarID() {
+	public java.lang.Long getFitxerAFirmarID() {
 		return(fitxerAFirmarID);
 	};
-	public void setFitxerAFirmarID(long _fitxerAFirmarID_) {
+	public void setFitxerAFirmarID(java.lang.Long _fitxerAFirmarID_) {
 		this.fitxerAFirmarID = _fitxerAFirmarID_;
 	};
 
@@ -540,7 +539,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@ForeignKey(name="pfi_petifirma_fitxer_fir_fk")
-	@JoinColumn(name = "fitxerafirmarid", referencedColumnName ="fitxerID", nullable = false, insertable=false, updatable=false)
+	@JoinColumn(name = "fitxerafirmarid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
 	private FitxerJPA fitxerAFirmar;
 
 	public FitxerJPA getFitxerAFirmar() {

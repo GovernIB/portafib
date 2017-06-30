@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 import es.caib.portafib.jpa.validator.PeticioDeFirmaValidator;
 
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
 /**
@@ -93,13 +92,6 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
     if (isNou) { // Creacio
       // ================ CREATION
       // Fitxers 
-      CommonsMultipartFile fitxerAFirmarID = ((PeticioDeFirmaForm)target).getFitxerAFirmarID();
-      if (fitxerAFirmarID == null || fitxerAFirmarID.isEmpty()) {
-        errors.rejectValue(get(FITXERAFIRMARID), "genapp.validation.required",
-          new String[]{ org.fundaciobit.genapp.common.web.i18n.I18NUtils.tradueix(get(FITXERAFIRMARID)) },
-          null);
-      }
-
     }
     validator.validate(wvr, target,
       isNou, algorismeDeFirmaEjb, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, posicioTaulaFirmesEjb, prioritatEjb, tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb, tipusFirmaEjb, usuariAplicacioEjb, usuariEntitatEjb);

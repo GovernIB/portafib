@@ -7,6 +7,7 @@ import java.util.Set;
 import es.caib.portafib.ejb.AnnexEJB;
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.AnnexJPA;
+import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
@@ -50,7 +51,7 @@ public class AnnexLogicaEJB extends AnnexEJB implements AnnexLogicaLocal,
   }
 
   @Override
-  public Set<Long> deleteFull(AnnexJPA annex) throws I18NException {
+  public Set<Long> deleteFull(Annex annex) throws I18NException {
     
     Set<Long> files = new HashSet<Long>();
     

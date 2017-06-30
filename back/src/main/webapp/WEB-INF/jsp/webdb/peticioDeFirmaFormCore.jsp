@@ -60,7 +60,7 @@
         <tr id="peticioDeFirma_fitxerAFirmarID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID])?'peticioDeFirma.fitxerAFirmarID':__theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID]}" /> &nbsp;(*)
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID])?'peticioDeFirma.fitxerAFirmarID':__theForm.labels[PeticioDeFirmaFields.FITXERAFIRMARID]}" />
               <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FITXERAFIRMARID]}">
               <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.FITXERAFIRMARID]}" ></i>
               </c:if>
@@ -84,6 +84,13 @@
                     <span class="add-on">&nbsp;</span>
                 </c:if>
                 <c:if test="${not empty __theForm.peticioDeFirma.fitxerAFirmar}">
+                <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FITXERAFIRMARID)}" >
+                    <span class="add-on">
+                        <form:checkbox path="fitxerAFirmarIDDelete"/>
+                        <fmt:message key="genapp.form.file.delete"/>
+                    </span>
+                    <span class="add-on">&nbsp;</span>   
+                </c:if>
                     <span class="add-on">
                         <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.peticioDeFirma.fitxerAFirmar)}"/>">${__theForm.peticioDeFirma.fitxerAFirmar.nom}</a>
                     </span>

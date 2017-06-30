@@ -14,8 +14,8 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.lang.String getMotiu();
 	public void setMotiu(java.lang.String _motiu_);
 
-	public long getFitxerAFirmarID();
-	public void setFitxerAFirmarID(long _fitxerAFirmarID_);
+	public java.lang.Long getFitxerAFirmarID();
+	public void setFitxerAFirmarID(java.lang.Long _fitxerAFirmarID_);
 
 	public java.lang.Long getFitxerAdaptatID();
 	public void setFitxerAdaptatID(java.lang.Long _fitxerAdaptatID_);

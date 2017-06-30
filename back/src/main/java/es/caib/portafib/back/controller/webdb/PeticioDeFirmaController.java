@@ -792,8 +792,9 @@ public java.lang.Long stringToPK(String value) {
     if (f != null) { 
       peticioDeFirma.setFitxerAFirmarID(f.getFitxerID());
     } else {
-      peticioDeFirma.setFitxerAFirmarID(0);
+      peticioDeFirma.setFitxerAFirmarID(null);
     }
+
 
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerAdaptatID(), form.isFitxerAdaptatIDDelete(),
         form.isNou()? null : peticioDeFirma.getFitxerAdaptat());

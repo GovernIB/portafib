@@ -10848,7 +10848,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <string>fitxerAFirmarID</string> 
           </void> 
           <void property="javaType"> 
-           <class>long</class> 
+           <class>java.lang.Long</class> 
           </void> 
           <void property="labels"> 
            <void method="put"> 
@@ -10859,9 +10859,6 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>es</string> 
             <string>Fichero a Firmar</string> 
            </void> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
           </void> 
           <void property="size"> 
            <int>19</int> 

@@ -334,6 +334,18 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
     </definition>
     
+                      
+    <definition name="peticionsDeFirmaNetejarEsborrarList" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
+    </definition>
+    
+    <!-- XYZ ZZZ
+    <definition name="peticioDeFirmaNetejarEsborrarForm" extends="role_aden">
+        <put-attribute name="titol" value="peticioDeFirma.peticioDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaForm.jsp" />
+    </definition>
+     -->
+    
 
     <!--  ===========  ADMINISTRADOR ================== -->
     

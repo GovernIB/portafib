@@ -11,6 +11,8 @@
 
 final String[] menu1 = {
     "entitat.modificar", // Modificació de les dades d'una Entitat
+    "propietatglobal.entitat.gestio",
+    "tipusdocument.gestio", // Gestió Tipus de Documents
     "",
     "usuaripersona.alta",    
     "usuaripersona.modificar",
@@ -18,12 +20,8 @@ final String[] menu1 = {
     "",
     "carrec.gestio",
     "colaboradordecarrec.plural",
-    "",
     "solicitant.gestio",
-    "",
     "grups.gestio",
-    "",
-    "tipusdocument.gestio", // Gestió Tipus de Documents"
     "",
     "moduldefirmaenservidor.gestio",
     "",
@@ -35,8 +33,7 @@ final String[] menu1 = {
     "",    
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
-    "",
-    "propietatglobal.entitat.gestio"
+    "peticiodefirma.netejaesborrat"
 };
 
 final String[] menu2 = {
@@ -45,10 +42,7 @@ final String[] menu2 = {
     "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio
     "custodiaInfo.custodiaInfo.plural",
     "notificaciows.llistat"
-
 };
-
-
 
 
 public static final Map<String, String> mapping;
@@ -98,6 +92,8 @@ static {
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
   
   mapping.put("propietatglobal.entitat.gestio", "/aden/propietatglobal/list");
+  
+  mapping.put("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list");
   
 }
 

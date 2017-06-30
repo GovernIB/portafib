@@ -1,7 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.util.ArrayList;
-
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
@@ -51,7 +51,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/aden/aturarpeticions")
 @SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class })
-public class AturarPeticionsDeFirmaController extends PeticioDeFirmaController {
+public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaController {
   
   public static final String USUARI_ENTITAT_ID_HOLDER =
         "AturarPeticionsDeFirmaController_USUARI_ENTITAT_ID_HOLDER";

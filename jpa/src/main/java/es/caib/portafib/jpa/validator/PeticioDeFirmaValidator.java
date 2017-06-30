@@ -206,14 +206,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 
-    if (__vr.getFieldErrorCount(FITXERAFIRMARID) == 0) { // FITXER
-      Object __value = __vr.getFieldValue(__target__,FITXERAFIRMARID);
-      if (__value == null || String.valueOf(__value).trim().length() == 0 || String.valueOf(__value).trim().equals("0") ) {
-          __vr.rejectValue(FITXERAFIRMARID, "genapp.validation.required",
-             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(FITXERAFIRMARID)));
-      }
-    }
-
       // ====== Check Unique MULTIPLES - NOU =======
 
       // Check Unique - no PK

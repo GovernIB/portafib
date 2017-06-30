@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Constants;
 
@@ -37,7 +38,7 @@ import es.caib.portafib.utils.Constants;
 @Controller
 @RequestMapping(value = "/aden/peticionscaducades")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class LlistatPeticionsCaducadesController extends PeticioDeFirmaController {
+public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaController {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -61,8 +62,12 @@ public class LlistatPeticionsCaducadesController extends PeticioDeFirmaControlle
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     Where w1 = DATACADUCITAT.lessThan(new Timestamp(Calendar.getInstance().getTimeInMillis()));
     String entitatID = LoginInfo.getInstance().getEntitatID();
+    
+    Where w2 = new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID);
+    /* Codi Antic
     Where w2 = USUARIAPLICACIOID.in(usuariAplicacioEjb.getSubQuery(
         UsuariAplicacioFields.USUARIAPLICACIOID, UsuariAplicacioFields.ENTITATID.equal(entitatID)));
+    */
     Where w3 = TIPUSESTATPETICIODEFIRMAID.in(new Integer[]{        
         Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
         Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT,

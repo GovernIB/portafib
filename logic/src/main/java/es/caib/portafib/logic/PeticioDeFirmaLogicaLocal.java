@@ -132,5 +132,26 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo) throws I18NException;
   
   public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException;
+  
+  /**
+   * Fa neteja en peticions firmades de:
+   *     - Firmes Intermedies
+   *     - Fitxer Adaptat
+   *     - Fitxer original
+   *     - Annexes adjunts-firmats
+   * @param peticioDeFirmaID
+   * @throws I18NException
+   */
+  public void cleanOriginalFilesOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
+  
+  /**
+   * Fa neteja en peticions firmades o rebutjades de:
+   *     - Firmes Intermedies
+   *     - Fitxer Adaptat
+   * @param peticioDeFirmaID
+   * @throws I18NException
+   */
+  public void cleanAdaptatFileOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
+  
 
 }
