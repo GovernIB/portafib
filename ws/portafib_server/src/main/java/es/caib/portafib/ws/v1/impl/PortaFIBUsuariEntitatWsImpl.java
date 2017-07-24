@@ -260,6 +260,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   public String getUsuariEntitatIDInMyEntitatByAdministrationID(
       @WebParam(name = "administrationID") String administrationID)
       throws WsI18NException, Throwable {
+   
     String entitatID = UsuariAplicacioCache.get().getEntitatID();
     return getUsuariEntitatIDByAdministrationID(administrationID, entitatID);
   }

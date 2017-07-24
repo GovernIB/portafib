@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Select;
@@ -259,13 +260,15 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
           I18NUtils.tradueix("peticiodefirma.capseleccionat"));
 
     } else {
+      Set<Long> fitxersAEliminar;
       for (int i = 0; i < seleccionats.length; i++) {
         try {
           Long peticioDeFirmaID = stringToPK(seleccionats[i]);
           {
             String usuariEntitatID = LoginInfo.getInstance().getUsuariEntitatID();
-            peticioDeFirmaLogicaEjb.deleteFullUsingUsuariEntitat(peticioDeFirmaID,
-                usuariEntitatID);
+            fitxersAEliminar =  peticioDeFirmaLogicaEjb.
+                deleteFullUsingUsuariEntitat(peticioDeFirmaID, usuariEntitatID);
+            FileSystemManager.eliminarArxius(fitxersAEliminar);
           }
         } catch (I18NException i18ne) {
           String missatge = I18NUtils.getMessage(i18ne);

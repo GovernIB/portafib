@@ -95,7 +95,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     if (peticioDeFirmaWs.getFitxerAFirmar() != null) {
       FitxerJPA f = FitxerUtils.createFitxer(peticioDeFirmaWs.getFitxerAFirmar(),
           fitxerEjb, fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
-      jpa.setFitxerAFirmarID(f==null? 0 : f.getFitxerID());
+      jpa.setFitxerAFirmarID(f==null? null : f.getFitxerID());
       jpa.setFitxerAFirmar(null);
     }
     // Fitxer

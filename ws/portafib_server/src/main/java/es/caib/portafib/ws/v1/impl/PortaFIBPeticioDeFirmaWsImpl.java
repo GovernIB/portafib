@@ -337,14 +337,21 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
+      Fitxer fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
+      
+      log.info(" XYZ ZZZ  fileToConvertInfo = " + fileToConvertInfo );
+      
+      if (fileToConvertInfo == null) {
+        throw new I18NException("genapp.validation.required",
+            PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
+      }
+      
       PeticioDeFirmaJPA peticioDeFirmaJPA = PeticioDeFirmaWs.toJPA(peticioDeFirmaWs,
           fitxerLogicaEjb, fitxersCreats);
       
       // Convertir Fitxers
-      long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
-      Fitxer fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
-      
-      if (fitxerAFirmarID != 0 && fileToConvertInfo != null) {
+      Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
+      {
   
 
           File fileToConvert =  FileSystemManager.getFile(fitxerAFirmarID);

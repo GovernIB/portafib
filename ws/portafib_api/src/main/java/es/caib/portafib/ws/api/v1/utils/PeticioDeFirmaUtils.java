@@ -206,6 +206,8 @@ public class PeticioDeFirmaUtils {
      
      for (int j = 0; j < nifs[i].length; j++) {
        // Cercar usuariEntitat associat al nif
+       
+       System.out.println("XYZ ZZZ getUsuariEntitatIDInMyEntitatByAdministrationID(" + nifs[i][j] + ")");
        usuariEntitat = usuariEntitatAPI.getUsuariEntitatIDInMyEntitatByAdministrationID(nifs[i][j]);
        
        FirmaBean firma = new FirmaBean();

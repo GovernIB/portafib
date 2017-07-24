@@ -10,5 +10,5 @@ INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) VALU
 -- 2016/10/10 Suportar SMIME en Plugin de Autofirma de @firma #21
 -- ========================================
 
-INSERT INTO pfi_tipusfirma VALUES (3, '<p>SMIME</p>', 'SMIME', false);
+INSERT INTO pfi_tipusfirma VALUES (3, '<p>SMIME</p>', 'SMIME', 0);
 
