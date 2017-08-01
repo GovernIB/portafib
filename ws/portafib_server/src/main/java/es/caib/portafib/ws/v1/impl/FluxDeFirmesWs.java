@@ -9,7 +9,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.model.bean.FluxDeFirmesBean;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 
 /**
@@ -61,7 +60,7 @@ public class FluxDeFirmesWs extends FluxDeFirmesBean {
     }
     
     // Bean
-    FluxDeFirmesJPA jpa = FluxDeFirmesJPA.toJPA(fluxDeFirmesWs);
+    FluxDeFirmesJPA jpa = toJPA(fluxDeFirmesWs);
 
     // Blocs
     if (fluxDeFirmesWs.getBlocsDeFirmes() == null) {
@@ -75,6 +74,15 @@ public class FluxDeFirmesWs extends FluxDeFirmesBean {
     }
 
     return jpa;
+  }
+  
+  
+  private static FluxDeFirmesJPA toJPA(FluxDeFirmesBean __bean) {
+    if (__bean == null) { return null;}
+    FluxDeFirmesJPA __tmp = new FluxDeFirmesJPA();
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setNom(__bean.getNom());
+    return __tmp;
   }
   
   

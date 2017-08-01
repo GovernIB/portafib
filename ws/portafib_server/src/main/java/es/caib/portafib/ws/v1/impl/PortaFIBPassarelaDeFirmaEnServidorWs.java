@@ -8,8 +8,6 @@ import javax.jws.WebService;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 
-import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -28,8 +26,8 @@ public interface PortaFIBPassarelaDeFirmaEnServidorWs extends AbstractPortaFIBPa
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
-  public PassarelaFullResults signDocuments(
-      @WebParam(name = "signaturesSet") PassarelaSignaturesSet signaturesSet)
+  public PassarelaFullResultsWs signDocuments(
+      @WebParam(name = "signaturesSet") PassarelaSignaturesSetWs signaturesSet)
       throws WsI18NException, WsValidationException, Throwable;
 
 }

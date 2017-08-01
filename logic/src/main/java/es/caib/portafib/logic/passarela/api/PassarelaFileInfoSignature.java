@@ -52,6 +52,9 @@ public class PassarelaFileInfoSignature {
    * NO IMPLEMENTAT
    */
   protected CustodiaInfoBean custodiaInfo;
+  
+  
+  
 
   /**
    * 
@@ -59,6 +62,53 @@ public class PassarelaFileInfoSignature {
   public PassarelaFileInfoSignature() {
     super();
   }
+  
+  
+
+  /**
+   * @param fileToSign
+   * @param signID
+   * @param name
+   * @param reason
+   * @param location
+   * @param signerEmail
+   * @param signNumber
+   * @param languageSign
+   * @param signType
+   * @param signAlgorithm
+   * @param signMode
+   * @param signaturesTableLocation
+   * @param signaturesTableHeader
+   * @param secureVerificationCodeStampInfo
+   * @param useTimeStamp
+   * @param custodiaInfo
+   */
+  public PassarelaFileInfoSignature(FitxerBean fileToSign, String signID, String name,
+      String reason, String location, String signerEmail, int signNumber, String languageSign,
+      String signType, String signAlgorithm, int signMode, int signaturesTableLocation,
+      PassarelaSignaturesTableHeader signaturesTableHeader,
+      PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
+      boolean useTimeStamp, CustodiaInfoBean custodiaInfo) {
+    super();
+    this.fileToSign = fileToSign;
+    this.signID = signID;
+    this.name = name;
+    this.reason = reason;
+    this.location = location;
+    this.signerEmail = signerEmail;
+    this.signNumber = signNumber;
+    this.languageSign = languageSign;
+    this.signType = signType;
+    this.signAlgorithm = signAlgorithm;
+    this.signMode = signMode;
+    this.signaturesTableLocation = signaturesTableLocation;
+    this.signaturesTableHeader = signaturesTableHeader;
+    this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
+    this.useTimeStamp = useTimeStamp;
+    this.custodiaInfo = custodiaInfo;
+  }
+
+
 
   public FitxerBean getFileToSign() {
     return fileToSign;

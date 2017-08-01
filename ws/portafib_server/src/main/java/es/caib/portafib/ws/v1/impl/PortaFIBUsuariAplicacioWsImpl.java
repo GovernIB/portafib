@@ -26,15 +26,13 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
-import es.caib.portafib.model.bean.UsuariAplicacioBean;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
-import es.caib.portafib.ws.utils.FitxerUtils;
-import es.caib.portafib.ws.utils.JPAConversion;
+import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
+import es.caib.portafib.ws.v1.utils.JPAConversion;
 
 /**
  * 
@@ -53,7 +51,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariAplicacioWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBUsuariAplicacioWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
-public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseWsImpl 
+public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl 
   implements PortaFIBUsuariAplicacioWs {
 
   public static final String NAME = "PortaFIBUsuariAplicacio";
@@ -119,7 +117,7 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseWsImpl
       UsuariAplicacioJPA user = JPAConversion.toUsuariAplicacioJPA(usuariAplicacioBean, fitxerLogicaEjb,fitxersCreats);
       user = usuariAplicacioLogicaEjb.createFull(user, loginUserApp.getEntitatID());
     } catch (Throwable e) {
-      FitxerUtils.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     }
   }

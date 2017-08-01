@@ -10,9 +10,8 @@ import javax.jws.WebService;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 
-import es.caib.portafib.model.bean.UsuariAplicacioBean;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.IBaseAutenticatedWs;
+import es.caib.portafib.ws.v1.utils.IBaseAutenticatedV1Ws;
 
 /**
  * 
@@ -20,7 +19,7 @@ import es.caib.portafib.ws.utils.IBaseAutenticatedWs;
  * 
  */
 @WebService
-public interface PortaFIBUsuariAplicacioWs extends IBaseAutenticatedWs {
+public interface PortaFIBUsuariAplicacioWs extends IBaseAutenticatedV1Ws {
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------

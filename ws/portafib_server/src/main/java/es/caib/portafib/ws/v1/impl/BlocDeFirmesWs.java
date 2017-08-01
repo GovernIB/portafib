@@ -8,10 +8,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.model.bean.FirmaBean;
-import es.caib.portafib.model.bean.BlocDeFirmesBean;
 import es.caib.portafib.model.entity.BlocDeFirmes;
-import es.caib.portafib.ws.utils.JPAConversion;
+import es.caib.portafib.ws.v1.utils.JPAConversion;
 
 /**
  * 
@@ -52,7 +50,7 @@ public class BlocDeFirmesWs extends BlocDeFirmesBean {
       return null;
     }
     // Bean
-    BlocDeFirmesJPA jpa = BlocDeFirmesJPA.toJPA(blocDeFirmesWs);
+    BlocDeFirmesJPA jpa = toJPA(blocDeFirmesWs);
     // Firmes
     if (blocDeFirmesWs.getFirmes() != null) {
       Set<FirmaJPA> firmesJPA = new HashSet<FirmaJPA>();
@@ -66,6 +64,17 @@ public class BlocDeFirmesWs extends BlocDeFirmesBean {
     return jpa;
   }
   
+  
+  private static BlocDeFirmesJPA toJPA(BlocDeFirmesBean __bean) {
+    if (__bean == null) { return null;}
+    BlocDeFirmesJPA __tmp = new BlocDeFirmesJPA();
+    __tmp.setBlocDeFirmesID(__bean.getBlocDeFirmesID());
+    __tmp.setOrdre(__bean.getOrdre());
+    __tmp.setDataFinalitzacio(__bean.getDataFinalitzacio());
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setMinimDeFirmes(__bean.getMinimDeFirmes());
+    return __tmp;
+  }
   
   public static BlocDeFirmesWs toWs(BlocDeFirmesJPA jpa) {
     if (jpa == null) {

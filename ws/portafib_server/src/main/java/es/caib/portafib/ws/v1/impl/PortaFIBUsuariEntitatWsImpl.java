@@ -15,7 +15,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 
-
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.fundaciobit.plugins.userinformation.UserInfo;
@@ -33,23 +32,18 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
-
 import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
-
-import es.caib.portafib.model.bean.UsuariEntitatBean;
-import es.caib.portafib.model.bean.UsuariPersonaBean;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
-import es.caib.portafib.ws.utils.FitxerUtils;
-import es.caib.portafib.ws.utils.JPAConversion;
+import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
+import es.caib.portafib.ws.v1.utils.JPAConversion;
 
 /**
  * 
@@ -68,7 +62,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
             endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBUsuariEntitatWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBUsuariEntitatWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
-public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBUsuariEntitatWs {
+public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl implements PortaFIBUsuariEntitatWs {
 
   public static final String NAME = "PortaFIBUsuariEntitat";
 
@@ -179,7 +173,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
       UsuariPersonaJPA user = JPAConversion.toUsuariPersonaJPA(usuariPersonaBean, fitxerLogicaEjb, fitxersCreats);
       user = usuariPersonaLogicaEjb.createFull(user);
     } catch (Throwable e) {
-      FitxerUtils.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     }
   }
@@ -366,7 +360,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
       return UsuariEntitatBean.toBean(user);
       
     } catch (Throwable e) {
-      FitxerUtils.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

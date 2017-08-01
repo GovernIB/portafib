@@ -1879,7 +1879,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
         
         
-        final String entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        final String entitatID;
+        if (peticioDeFirma.getUsuariEntitat() != null) {
+          entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        } else {
+          entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+        }
         final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
 
         InformacioCertificat info;

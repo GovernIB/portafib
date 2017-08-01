@@ -3,6 +3,7 @@ package es.caib.portafib.ws.v1.impl;
 import java.util.List;
 
 
+
 import javax.annotation.security.RolesAllowed;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -11,10 +12,8 @@ import javax.jws.WebService;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 
-import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.IBaseAutenticatedWs;
+import es.caib.portafib.ws.v1.utils.IBaseAutenticatedV1Ws;
 
 /**
  * 
@@ -22,7 +21,7 @@ import es.caib.portafib.ws.utils.IBaseAutenticatedWs;
  *
  */
 @WebService
-public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
+public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedV1Ws {
 
 
   

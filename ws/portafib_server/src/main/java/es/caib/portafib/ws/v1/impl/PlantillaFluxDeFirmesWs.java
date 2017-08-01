@@ -7,13 +7,14 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.model.bean.PlantillaFluxDeFirmesBean;
+
 
 /**
  * 
  * @author anadal
  * 
  */
+// TODO XYZ ZZZ Aquest Bean No s'utilitza !!!!!!!
 public class PlantillaFluxDeFirmesWs {
 
   protected PlantillaFluxDeFirmesBean plantillaFluxDeFirmesBean;
@@ -51,11 +52,24 @@ public class PlantillaFluxDeFirmesWs {
 
     FluxDeFirmesJPA fluxJPA = FluxDeFirmesWs.toJPA(
         plantillaFluxDeFirmesWs.getFluxDeFirmesWs(), fitxerEjb, fitxersCreats);
-    fluxJPA.setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA.toJPA(plantillaFluxDeFirmesWs
+    fluxJPA.setPlantillaFluxDeFirmes(toJPA(plantillaFluxDeFirmesWs
         .getPlantillaFluxDeFirmesBean()));
 
     return fluxJPA;
   }
+  
+  
+  private static PlantillaFluxDeFirmesJPA toJPA(PlantillaFluxDeFirmesBean __bean) {
+    if (__bean == null) { return null;}
+    PlantillaFluxDeFirmesJPA __tmp = new PlantillaFluxDeFirmesJPA();
+    __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
+    __tmp.setDescripcio(__bean.getDescripcio());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setCompartir(__bean.getCompartir());
+    return __tmp;
+  }
+  
 
   public static PlantillaFluxDeFirmesWs toWs(FluxDeFirmesJPA jpa) {
     if (jpa == null) {

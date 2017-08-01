@@ -10,7 +10,7 @@ import javax.validation.constraints.Null;
 import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
 
-import es.caib.portafib.ws.utils.BaseWsImpl;
+import es.caib.portafib.ws.v1.utils.BaseV1WsImpl;
 
 /**
  * 
@@ -33,7 +33,7 @@ import es.caib.portafib.ws.utils.BaseWsImpl;
     transportGuarantee= TransportGuarantee.NONE,
     secureWSDLAccess = false
 )
-public class PortaFIBHelloWorldWsImpl extends BaseWsImpl {
+public class PortaFIBHelloWorldWsImpl extends BaseV1WsImpl {
   
   public static final String NAME = "PortaFIBHelloWorld";
   

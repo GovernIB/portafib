@@ -16,6 +16,34 @@ public class PassarelaSecureVerificationCodeStampInfo {
   int barCodePosition;
   String barCodeText;
 
+  /**
+   * 
+   */
+  public PassarelaSecureVerificationCodeStampInfo() {
+    super();
+  }
+
+
+  /**
+   * @param pages
+   * @param message
+   * @param messagePosition
+   * @param barCodeType
+   * @param barCodePosition
+   * @param barCodeText
+   */
+  public PassarelaSecureVerificationCodeStampInfo(String pages, String message,
+      int messagePosition, String barCodeType, int barCodePosition, String barCodeText) {
+    super();
+    this.pages = pages;
+    this.message = message;
+    this.messagePosition = messagePosition;
+    this.barCodeType = barCodeType;
+    this.barCodePosition = barCodePosition;
+    this.barCodeText = barCodeText;
+  }
+
+
   public String getPages() {
     return pages;
   }

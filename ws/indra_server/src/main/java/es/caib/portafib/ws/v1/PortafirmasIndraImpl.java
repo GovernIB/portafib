@@ -2390,7 +2390,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     peticioDeFirma.setModeDeFirma(SIGN_MODE_IMPLICIT);
 
-    peticioDeFirma.setFitxerAFirmarID(0); // Index 0 conté el fitxer a firmar
+    peticioDeFirma.setFitxerAFirmarID(null); // Index 0 conté el fitxer a firmar
     
     // attributes.getUrl()
     
@@ -2449,8 +2449,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     // Indica si el document ja està signat i es volen afegir més signatures.    
     // Tiquet #129
-    attributes.setIsFileSign(PdfUtils.isSignedPDF(
-        FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID())));
+    final int numberSignatures = PdfUtils.getNumberOfSignaturesInPDF(
+        FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID()));
+    attributes.setIsFileSign( numberSignatures == 0? false : true);
 
     attributes.setNumberAnnexes(peticioDeFirma.getAnnexs().size());
     

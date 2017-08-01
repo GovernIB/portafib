@@ -68,6 +68,19 @@ public class CarrecWs {
     this.actiu = actiu;
   }
 
+  public static CarrecWs toCarrecWs(UsuariEntitatBean __bean) {
+    if (__bean == null) {
+      return null;
+    }
+    CarrecWs carrec = new CarrecWs();
+    carrec.setCarrecID(__bean.getUsuariEntitatID());
+    carrec.setCarrecName(__bean.getCarrec());
+    carrec.setUsuariPersonaID(__bean.getUsuariPersonaID());
+    carrec.setEntitatID(__bean.getEntitatID());
+    carrec.setActiu(__bean.isActiu());
+    return carrec;
+  }
+  
   public static CarrecWs toCarrecWs(UsuariEntitat __bean) {
     if (__bean == null) {
       return null;

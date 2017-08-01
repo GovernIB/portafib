@@ -65,9 +65,8 @@ public class Exemple {
           + " emprant l'usuari " + usr_app);
       
       String[] nifsDestinataris = getNifsDestinataris();
-      
-      System.out.println(" XYZ ZZZ nifsDestinataris = " + nifsDestinataris);
-      System.out.println(" XYZ ZZZ nifsDestinataris = " + Arrays.toString(nifsDestinataris));
+
+      System.out.println("nifsDestinataris = " + Arrays.toString(nifsDestinataris));
       
       if (nifsDestinataris == null) {
         throw new Exception("S'ha de definir la propietat nifsDestinataris dins test.properties");
@@ -141,7 +140,6 @@ public class Exemple {
 
       // Fitxer a Firmar
       FitxerBean fitxerAFirmar;
-      /*
       if (getFitxerAFirmar() == null) {
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromResource(
              "test.pdf", Constants.PDF_MIME_TYPE);
@@ -150,8 +148,7 @@ public class Exemple {
         String mime =  "application/octet-stream";
         fitxerAFirmar = PeticioDeFirmaUtils.constructFitxerBeanFromFile(f, mime);
       }
-      */
-      fitxerAFirmar = null;
+
 
       // Crear Peticio
       PeticioDeFirmaWs peticioDeFirmaWs;

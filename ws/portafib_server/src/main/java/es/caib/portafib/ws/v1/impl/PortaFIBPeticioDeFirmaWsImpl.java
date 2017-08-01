@@ -40,9 +40,6 @@ import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.bean.FirmaBean;
-import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
@@ -50,9 +47,10 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
-import es.caib.portafib.ws.utils.FitxerUtils;
+import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
+import es.caib.portafib.ws.v1.utils.JPAConversion;
 
 /**
  * 
@@ -71,7 +69,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
     endpointInterface = "es.caib.portafib.ws.v1.impl." + PortaFIBPeticioDeFirmaWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBPeticioDeFirmaWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
-public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implements PortaFIBPeticioDeFirmaWs {
+public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl implements PortaFIBPeticioDeFirmaWs {
   
   public static final String NAME = "PortaFIBPeticioDeFirma";
 
@@ -122,9 +120,14 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       language = userapp.getIdiomaID();
     }
     final String usuariAplicacioID = userapp.getUsuariAplicacioID();
-    return peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title,
+    
+    es.caib.portafib.model.bean.CustodiaInfoBean cibModel;
+    
+    cibModel = peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title,
         userapp.getEntitatID(), usuariEntitatID, usuariAplicacioID, language);
 
+    return CustodiaInfoBean.toBean(cibModel);
+    
   }
 
   
@@ -259,7 +262,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       return fluxJPA.getFluxDeFirmesID();
     
     } catch (Throwable e) {
-      FitxerUtils.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     } 
   }
@@ -337,7 +340,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
-      Fitxer fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
+      FitxerBean fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
       
       log.info(" XYZ ZZZ  fileToConvertInfo = " + fileToConvertInfo );
       
@@ -352,10 +355,9 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       // Convertir Fitxers
       Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
       {
-  
 
           File fileToConvert =  FileSystemManager.getFile(fitxerAFirmarID);
-          Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, fileToConvertInfo);
+          Fitxer fitxerConvertit = PdfUtils.convertToPDF(fileToConvert, JPAConversion.toJPA(fileToConvertInfo));
   
           if (fitxerConvertit == fileToConvertInfo) {
             // Es un PDF.
@@ -396,7 +398,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       return PeticioDeFirmaWs.toWs(peticioDeFirmaJPA);
 
     } catch (Throwable e) {
-      FitxerUtils.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

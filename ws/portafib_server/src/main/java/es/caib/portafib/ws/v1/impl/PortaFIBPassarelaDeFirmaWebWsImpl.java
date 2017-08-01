@@ -20,11 +20,9 @@ import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 
 /**
  * 
@@ -77,31 +75,32 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
   @WebMethod
   @Override
   public String startTransaction(
-      @WebParam(name = "signaturesSet") PassarelaSignaturesSet signaturesSet)
+      @WebParam(name = "signaturesSet") PassarelaSignaturesSetWs signaturesSet)
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
-    return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, userapp.getEntitatID());
+    return passarelaDeFirmaWebEjb.startTransaction(
+        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID());
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
   @Override
-  public PassarelaSignatureStatus getStatusTransaction(
+  public PassarelaSignatureStatusWs getStatusTransaction(
       @WebParam(name = "signaturesSetID") String signaturesSetID) throws WsI18NException,
       Throwable {
 
-    return passarelaDeFirmaWebEjb.getStatusTransaction(signaturesSetID);
+    return PassarelaConversion.convert(passarelaDeFirmaWebEjb.getStatusTransaction(signaturesSetID));
 
   }
 
   @Override
-  public List<PassarelaSignatureResult> getSignatureResultsOfTransaction(
+  public List<PassarelaSignatureResultWs> getSignatureResultsOfTransaction(
       @WebParam(name = "signaturesSetID") String signaturesSetID) throws WsI18NException,
       Throwable {
 
-    return passarelaDeFirmaWebEjb.getSignatureResults(signaturesSetID);
+    return PassarelaConversion.convert(passarelaDeFirmaWebEjb.getSignatureResults(signaturesSetID));
 
   }
 

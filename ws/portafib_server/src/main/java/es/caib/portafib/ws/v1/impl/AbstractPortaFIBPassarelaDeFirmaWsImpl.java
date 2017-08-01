@@ -14,19 +14,18 @@ import org.fundaciobit.genapp.common.ws.WsI18NException;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
-import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 /**
  * @author anadal
  *
  */
-public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends AuthenticatedBaseWsImpl
+public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl
    implements AbstractPortaFIBPassarelaDeFirmaWs {
   
 
@@ -126,8 +125,10 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
       language = userapp.getIdiomaID();
     }
     final String usuariAplicacioID = userapp.getUsuariAplicacioID();
-    return peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title, userapp.getEntitatID(),
+    es.caib.portafib.model.bean.CustodiaInfoBean cibModel = peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title, userapp.getEntitatID(),
         usuariEntitatID, usuariAplicacioID, language);
+
+    return CustodiaInfoBean.toBean(cibModel); 
 
   }
 

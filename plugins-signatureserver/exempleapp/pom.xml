@@ -83,7 +83,7 @@
 
     <!-- PROFILE PER INCLOURE Modul de FIRMA EN SERVIDOR DE PASSARELA PORTAFIB -->
     <profile>
-      <id>passarelaserver</id>
+      <id>passarelaserver-v1</id>
       <dependencies>
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>

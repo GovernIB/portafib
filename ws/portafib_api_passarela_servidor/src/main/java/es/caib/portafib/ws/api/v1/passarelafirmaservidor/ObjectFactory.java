@@ -26,19 +26,20 @@ public class ObjectFactory {
 
     private final static QName _GetTimeStampPolicyResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getTimeStampPolicyResponse");
     private final static QName _GetDefaultCustodiaInfoResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getDefaultCustodiaInfoResponse");
+    private final static QName _PassarelaFileInfoSignatureWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaFileInfoSignatureWs");
     private final static QName _GetAllCustodiaInfoTemplates_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getAllCustodiaInfoTemplates");
     private final static QName _WsI18NError_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "WsI18NError");
     private final static QName _GetEntitatIDResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getEntitatIDResponse");
-    private final static QName _PassarelaSignaturesSet_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaSignaturesSet");
     private final static QName _GetVersionWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getVersionWs");
+    private final static QName _PassarelaFullResultsWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaFullResultsWs");
     private final static QName _GetEntitatID_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getEntitatID");
     private final static QName _GetAllPluginIDCustodiaResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getAllPluginIDCustodiaResponse");
+    private final static QName _PassarelaSignaturesSetWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaSignaturesSetWs");
     private final static QName _GetSupportedBarCodeTypes_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedBarCodeTypes");
-    private final static QName _PassarelaFullResults_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaFullResults");
     private final static QName _SignDocumentsResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "signDocumentsResponse");
     private final static QName _GetVersion_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getVersion");
+    private final static QName _PassarelaCommonInfoSignatureWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaCommonInfoSignatureWs");
     private final static QName _GetTimeStampPolicy_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getTimeStampPolicy");
-    private final static QName _PassarelaSignaturesTableHeader_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaSignaturesTableHeader");
     private final static QName _GetVersionWsResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getVersionWsResponse");
     private final static QName _WsValidationErrors_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "WsValidationErrors");
     private final static QName _GetSupportedLanguages_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedLanguages");
@@ -53,12 +54,11 @@ public class ObjectFactory {
     private final static QName _GetSupportedLanguagesResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedLanguagesResponse");
     private final static QName _GetDefaultCustodiaInfo_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getDefaultCustodiaInfo");
     private final static QName _DownloadFileUsingEncryptedFileID_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "downloadFileUsingEncryptedFileID");
+    private final static QName _PassarelaSignaturesTableHeaderWs_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaSignaturesTableHeaderWs");
     private final static QName _GetSupportedBarCodeTypesResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedBarCodeTypesResponse");
     private final static QName _GetSupportedSignatureTypes_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getSupportedSignatureTypes");
     private final static QName _DownloadFileUsingEncryptedFileIDResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "downloadFileUsingEncryptedFileIDResponse");
-    private final static QName _PassarelaCommonInfoSignature_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaCommonInfoSignature");
     private final static QName _ProvidesTimeStampGeneratorResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "providesTimeStampGeneratorResponse");
-    private final static QName _PassarelaFileInfoSignature_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "passarelaFileInfoSignature");
     private final static QName _GetVersionResponse_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "getVersionResponse");
     private final static QName _SignDocuments_QNAME = new QName("http://impl.v1.ws.portafib.caib.es/", "signDocuments");
 
@@ -70,83 +70,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedSignatureAlgorithms }
-     * 
-     */
-    public GetSupportedSignatureAlgorithms createGetSupportedSignatureAlgorithms() {
-        return new GetSupportedSignatureAlgorithms();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NError }
-     * 
-     */
-    public WsI18NError createWsI18NError() {
-        return new WsI18NError();
-    }
-
-    /**
-     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
-     * 
-     */
-    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
-        return new DownloadFileUsingEncryptedFileID();
-    }
-
-    /**
-     * Create an instance of {@link GetVersion }
-     * 
-     */
-    public GetVersion createGetVersion() {
-        return new GetVersion();
-    }
-
-    /**
-     * Create an instance of {@link GetCustodiaPolicyResponse }
-     * 
-     */
-    public GetCustodiaPolicyResponse createGetCustodiaPolicyResponse() {
-        return new GetCustodiaPolicyResponse();
-    }
-
-    /**
-     * Create an instance of {@link ProvidesTimeStampGenerator }
-     * 
-     */
-    public ProvidesTimeStampGenerator createProvidesTimeStampGenerator() {
-        return new ProvidesTimeStampGenerator();
-    }
-
-    /**
      * Create an instance of {@link PassarelaCommonInfoSignature }
      * 
      */
     public PassarelaCommonInfoSignature createPassarelaCommonInfoSignature() {
         return new PassarelaCommonInfoSignature();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedSignatureTypesResponse }
-     * 
-     */
-    public GetSupportedSignatureTypesResponse createGetSupportedSignatureTypesResponse() {
-        return new GetSupportedSignatureTypesResponse();
-    }
-
-    /**
-     * Create an instance of {@link PassarelaSignaturesTableHeader }
-     * 
-     */
-    public PassarelaSignaturesTableHeader createPassarelaSignaturesTableHeader() {
-        return new PassarelaSignaturesTableHeader();
-    }
-
-    /**
-     * Create an instance of {@link GetAllCustodiaInfoTemplates }
-     * 
-     */
-    public GetAllCustodiaInfoTemplates createGetAllCustodiaInfoTemplates() {
-        return new GetAllCustodiaInfoTemplates();
     }
 
     /**
@@ -158,35 +86,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetVersionResponse }
+     * Create an instance of {@link PassarelaSecureVerificationCodeStampInfo }
      * 
      */
-    public GetVersionResponse createGetVersionResponse() {
-        return new GetVersionResponse();
+    public PassarelaSecureVerificationCodeStampInfo createPassarelaSecureVerificationCodeStampInfo() {
+        return new PassarelaSecureVerificationCodeStampInfo();
     }
 
     /**
-     * Create an instance of {@link GetAllPluginIDCustodiaResponse }
+     * Create an instance of {@link PassarelaSignaturesSet }
      * 
      */
-    public GetAllPluginIDCustodiaResponse createGetAllPluginIDCustodiaResponse() {
-        return new GetAllPluginIDCustodiaResponse();
+    public PassarelaSignaturesSet createPassarelaSignaturesSet() {
+        return new PassarelaSignaturesSet();
     }
 
     /**
-     * Create an instance of {@link PassarelaFileInfoSignature }
+     * Create an instance of {@link GetVersionWs }
      * 
      */
-    public PassarelaFileInfoSignature createPassarelaFileInfoSignature() {
-        return new PassarelaFileInfoSignature();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedSignatureTypes }
-     * 
-     */
-    public GetSupportedSignatureTypes createGetSupportedSignatureTypes() {
-        return new GetSupportedSignatureTypes();
+    public GetVersionWs createGetVersionWs() {
+        return new GetVersionWs();
     }
 
     /**
@@ -198,19 +118,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PassarelaFullResults }
+     * Create an instance of {@link GetCustodiaPolicy }
      * 
      */
-    public PassarelaFullResults createPassarelaFullResults() {
-        return new PassarelaFullResults();
+    public GetCustodiaPolicy createGetCustodiaPolicy() {
+        return new GetCustodiaPolicy();
     }
 
     /**
-     * Create an instance of {@link WsFieldValidationError }
+     * Create an instance of {@link PassarelaPolicyInfoSignature }
      * 
      */
-    public WsFieldValidationError createWsFieldValidationError() {
-        return new WsFieldValidationError();
+    public PassarelaPolicyInfoSignature createPassarelaPolicyInfoSignature() {
+        return new PassarelaPolicyInfoSignature();
     }
 
     /**
@@ -222,51 +142,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedSignatureAlgorithmsResponse }
+     * Create an instance of {@link FitxerBean }
      * 
      */
-    public GetSupportedSignatureAlgorithmsResponse createGetSupportedSignatureAlgorithmsResponse() {
-        return new GetSupportedSignatureAlgorithmsResponse();
+    public FitxerBean createFitxerBean() {
+        return new FitxerBean();
     }
 
     /**
-     * Create an instance of {@link WsValidationErrors }
+     * Create an instance of {@link GetTimeStampPolicy }
      * 
      */
-    public WsValidationErrors createWsValidationErrors() {
-        return new WsValidationErrors();
+    public GetTimeStampPolicy createGetTimeStampPolicy() {
+        return new GetTimeStampPolicy();
     }
 
     /**
-     * Create an instance of {@link PassarelaSignatureStatus }
+     * Create an instance of {@link GetDefaultCustodiaInfo }
      * 
      */
-    public PassarelaSignatureStatus createPassarelaSignatureStatus() {
-        return new PassarelaSignatureStatus();
+    public GetDefaultCustodiaInfo createGetDefaultCustodiaInfo() {
+        return new GetDefaultCustodiaInfo();
     }
 
     /**
-     * Create an instance of {@link CustodiaInfoBean }
+     * Create an instance of {@link GetSupportedLanguages }
      * 
      */
-    public CustodiaInfoBean createCustodiaInfoBean() {
-        return new CustodiaInfoBean();
+    public GetSupportedLanguages createGetSupportedLanguages() {
+        return new GetSupportedLanguages();
     }
 
     /**
-     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
+     * Create an instance of {@link WsI18NTranslation }
      * 
      */
-    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
-        return new GetDefaultCustodiaInfoResponse();
+    public WsI18NTranslation createWsI18NTranslation() {
+        return new WsI18NTranslation();
     }
 
     /**
-     * Create an instance of {@link GetCustodiaPolicy }
+     * Create an instance of {@link ProvidesTimeStampGenerator }
      * 
      */
-    public GetCustodiaPolicy createGetCustodiaPolicy() {
-        return new GetCustodiaPolicy();
+    public ProvidesTimeStampGenerator createProvidesTimeStampGenerator() {
+        return new ProvidesTimeStampGenerator();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedSignatureTypesResponse }
+     * 
+     */
+    public GetSupportedSignatureTypesResponse createGetSupportedSignatureTypesResponse() {
+        return new GetSupportedSignatureTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaFileInfoSignature }
+     * 
+     */
+    public PassarelaFileInfoSignature createPassarelaFileInfoSignature() {
+        return new PassarelaFileInfoSignature();
+    }
+
+    /**
+     * Create an instance of {@link GetEntitatID }
+     * 
+     */
+    public GetEntitatID createGetEntitatID() {
+        return new GetEntitatID();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedSignatureAlgorithms }
+     * 
+     */
+    public GetSupportedSignatureAlgorithms createGetSupportedSignatureAlgorithms() {
+        return new GetSupportedSignatureAlgorithms();
     }
 
     /**
@@ -278,27 +230,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetAllPluginIDCustodia }
+     * Create an instance of {@link WsValidationErrors }
      * 
      */
-    public GetAllPluginIDCustodia createGetAllPluginIDCustodia() {
-        return new GetAllPluginIDCustodia();
+    public WsValidationErrors createWsValidationErrors() {
+        return new WsValidationErrors();
     }
 
     /**
-     * Create an instance of {@link PassarelaSecureVerificationCodeStampInfo }
+     * Create an instance of {@link SignDocumentsResponse }
      * 
      */
-    public PassarelaSecureVerificationCodeStampInfo createPassarelaSecureVerificationCodeStampInfo() {
-        return new PassarelaSecureVerificationCodeStampInfo();
-    }
-
-    /**
-     * Create an instance of {@link WsI18NTranslation }
-     * 
-     */
-    public WsI18NTranslation createWsI18NTranslation() {
-        return new WsI18NTranslation();
+    public SignDocumentsResponse createSignDocumentsResponse() {
+        return new SignDocumentsResponse();
     }
 
     /**
@@ -318,35 +262,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FitxerBean }
+     * Create an instance of {@link PassarelaSignatureStatus }
      * 
      */
-    public FitxerBean createFitxerBean() {
-        return new FitxerBean();
+    public PassarelaSignatureStatus createPassarelaSignatureStatus() {
+        return new PassarelaSignatureStatus();
     }
 
     /**
-     * Create an instance of {@link GetEntitatID }
+     * Create an instance of {@link GetAllPluginIDCustodiaResponse }
      * 
      */
-    public GetEntitatID createGetEntitatID() {
-        return new GetEntitatID();
+    public GetAllPluginIDCustodiaResponse createGetAllPluginIDCustodiaResponse() {
+        return new GetAllPluginIDCustodiaResponse();
     }
 
     /**
-     * Create an instance of {@link PassarelaPolicyInfoSignature }
+     * Create an instance of {@link GetVersion }
      * 
      */
-    public PassarelaPolicyInfoSignature createPassarelaPolicyInfoSignature() {
-        return new PassarelaPolicyInfoSignature();
+    public GetVersion createGetVersion() {
+        return new GetVersion();
     }
 
     /**
-     * Create an instance of {@link SignDocuments }
+     * Create an instance of {@link GetDefaultCustodiaInfoResponse }
      * 
      */
-    public SignDocuments createSignDocuments() {
-        return new SignDocuments();
+    public GetDefaultCustodiaInfoResponse createGetDefaultCustodiaInfoResponse() {
+        return new GetDefaultCustodiaInfoResponse();
     }
 
     /**
@@ -358,43 +302,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetAllCustodiaInfoTemplatesResponse }
+     * Create an instance of {@link GetAllCustodiaInfoTemplates }
      * 
      */
-    public GetAllCustodiaInfoTemplatesResponse createGetAllCustodiaInfoTemplatesResponse() {
-        return new GetAllCustodiaInfoTemplatesResponse();
+    public GetAllCustodiaInfoTemplates createGetAllCustodiaInfoTemplates() {
+        return new GetAllCustodiaInfoTemplates();
     }
 
     /**
-     * Create an instance of {@link SignDocumentsResponse }
+     * Create an instance of {@link GetSupportedSignatureTypes }
      * 
      */
-    public SignDocumentsResponse createSignDocumentsResponse() {
-        return new SignDocumentsResponse();
+    public GetSupportedSignatureTypes createGetSupportedSignatureTypes() {
+        return new GetSupportedSignatureTypes();
     }
 
     /**
-     * Create an instance of {@link PassarelaSignaturesSet }
+     * Create an instance of {@link GetCustodiaPolicyResponse }
      * 
      */
-    public PassarelaSignaturesSet createPassarelaSignaturesSet() {
-        return new PassarelaSignaturesSet();
+    public GetCustodiaPolicyResponse createGetCustodiaPolicyResponse() {
+        return new GetCustodiaPolicyResponse();
     }
 
     /**
-     * Create an instance of {@link GetDefaultCustodiaInfo }
+     * Create an instance of {@link GetVersionResponse }
      * 
      */
-    public GetDefaultCustodiaInfo createGetDefaultCustodiaInfo() {
-        return new GetDefaultCustodiaInfo();
+    public GetVersionResponse createGetVersionResponse() {
+        return new GetVersionResponse();
     }
 
     /**
-     * Create an instance of {@link GetVersionWs }
+     * Create an instance of {@link PassarelaFullResults }
      * 
      */
-    public GetVersionWs createGetVersionWs() {
-        return new GetVersionWs();
+    public PassarelaFullResults createPassarelaFullResults() {
+        return new PassarelaFullResults();
     }
 
     /**
@@ -406,19 +350,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedLanguages }
+     * Create an instance of {@link GetAllCustodiaInfoTemplatesResponse }
      * 
      */
-    public GetSupportedLanguages createGetSupportedLanguages() {
-        return new GetSupportedLanguages();
+    public GetAllCustodiaInfoTemplatesResponse createGetAllCustodiaInfoTemplatesResponse() {
+        return new GetAllCustodiaInfoTemplatesResponse();
     }
 
     /**
-     * Create an instance of {@link GetSupportedBarCodeTypes }
+     * Create an instance of {@link SignDocuments }
      * 
      */
-    public GetSupportedBarCodeTypes createGetSupportedBarCodeTypes() {
-        return new GetSupportedBarCodeTypes();
+    public SignDocuments createSignDocuments() {
+        return new SignDocuments();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedSignatureAlgorithmsResponse }
+     * 
+     */
+    public GetSupportedSignatureAlgorithmsResponse createGetSupportedSignatureAlgorithmsResponse() {
+        return new GetSupportedSignatureAlgorithmsResponse();
+    }
+
+    /**
+     * Create an instance of {@link PassarelaSignaturesTableHeader }
+     * 
+     */
+    public PassarelaSignaturesTableHeader createPassarelaSignaturesTableHeader() {
+        return new PassarelaSignaturesTableHeader();
     }
 
     /**
@@ -430,11 +390,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTimeStampPolicy }
+     * Create an instance of {@link CustodiaInfoBean }
      * 
      */
-    public GetTimeStampPolicy createGetTimeStampPolicy() {
-        return new GetTimeStampPolicy();
+    public CustodiaInfoBean createCustodiaInfoBean() {
+        return new CustodiaInfoBean();
+    }
+
+    /**
+     * Create an instance of {@link WsI18NError }
+     * 
+     */
+    public WsI18NError createWsI18NError() {
+        return new WsI18NError();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedBarCodeTypes }
+     * 
+     */
+    public GetSupportedBarCodeTypes createGetSupportedBarCodeTypes() {
+        return new GetSupportedBarCodeTypes();
+    }
+
+    /**
+     * Create an instance of {@link WsFieldValidationError }
+     * 
+     */
+    public WsFieldValidationError createWsFieldValidationError() {
+        return new WsFieldValidationError();
+    }
+
+    /**
+     * Create an instance of {@link GetAllPluginIDCustodia }
+     * 
+     */
+    public GetAllPluginIDCustodia createGetAllPluginIDCustodia() {
+        return new GetAllPluginIDCustodia();
+    }
+
+    /**
+     * Create an instance of {@link DownloadFileUsingEncryptedFileID }
+     * 
+     */
+    public DownloadFileUsingEncryptedFileID createDownloadFileUsingEncryptedFileID() {
+        return new DownloadFileUsingEncryptedFileID();
     }
 
     /**
@@ -453,6 +453,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getDefaultCustodiaInfoResponse")
     public JAXBElement<GetDefaultCustodiaInfoResponse> createGetDefaultCustodiaInfoResponse(GetDefaultCustodiaInfoResponse value) {
         return new JAXBElement<GetDefaultCustodiaInfoResponse>(_GetDefaultCustodiaInfoResponse_QNAME, GetDefaultCustodiaInfoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaFileInfoSignature }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaFileInfoSignatureWs")
+    public JAXBElement<PassarelaFileInfoSignature> createPassarelaFileInfoSignatureWs(PassarelaFileInfoSignature value) {
+        return new JAXBElement<PassarelaFileInfoSignature>(_PassarelaFileInfoSignatureWs_QNAME, PassarelaFileInfoSignature.class, null, value);
     }
 
     /**
@@ -483,21 +492,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaSignaturesSet }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaSignaturesSet")
-    public JAXBElement<PassarelaSignaturesSet> createPassarelaSignaturesSet(PassarelaSignaturesSet value) {
-        return new JAXBElement<PassarelaSignaturesSet>(_PassarelaSignaturesSet_QNAME, PassarelaSignaturesSet.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetVersionWs }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getVersionWs")
     public JAXBElement<GetVersionWs> createGetVersionWs(GetVersionWs value) {
         return new JAXBElement<GetVersionWs>(_GetVersionWs_QNAME, GetVersionWs.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaFullResults }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaFullResultsWs")
+    public JAXBElement<PassarelaFullResults> createPassarelaFullResultsWs(PassarelaFullResults value) {
+        return new JAXBElement<PassarelaFullResults>(_PassarelaFullResultsWs_QNAME, PassarelaFullResults.class, null, value);
     }
 
     /**
@@ -519,21 +528,21 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaSignaturesSet }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaSignaturesSetWs")
+    public JAXBElement<PassarelaSignaturesSet> createPassarelaSignaturesSetWs(PassarelaSignaturesSet value) {
+        return new JAXBElement<PassarelaSignaturesSet>(_PassarelaSignaturesSetWs_QNAME, PassarelaSignaturesSet.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetSupportedBarCodeTypes }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getSupportedBarCodeTypes")
     public JAXBElement<GetSupportedBarCodeTypes> createGetSupportedBarCodeTypes(GetSupportedBarCodeTypes value) {
         return new JAXBElement<GetSupportedBarCodeTypes>(_GetSupportedBarCodeTypes_QNAME, GetSupportedBarCodeTypes.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaFullResults }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaFullResults")
-    public JAXBElement<PassarelaFullResults> createPassarelaFullResults(PassarelaFullResults value) {
-        return new JAXBElement<PassarelaFullResults>(_PassarelaFullResults_QNAME, PassarelaFullResults.class, null, value);
     }
 
     /**
@@ -555,21 +564,21 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaCommonInfoSignature }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaCommonInfoSignatureWs")
+    public JAXBElement<PassarelaCommonInfoSignature> createPassarelaCommonInfoSignatureWs(PassarelaCommonInfoSignature value) {
+        return new JAXBElement<PassarelaCommonInfoSignature>(_PassarelaCommonInfoSignatureWs_QNAME, PassarelaCommonInfoSignature.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetTimeStampPolicy }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "getTimeStampPolicy")
     public JAXBElement<GetTimeStampPolicy> createGetTimeStampPolicy(GetTimeStampPolicy value) {
         return new JAXBElement<GetTimeStampPolicy>(_GetTimeStampPolicy_QNAME, GetTimeStampPolicy.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaSignaturesTableHeader }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaSignaturesTableHeader")
-    public JAXBElement<PassarelaSignaturesTableHeader> createPassarelaSignaturesTableHeader(PassarelaSignaturesTableHeader value) {
-        return new JAXBElement<PassarelaSignaturesTableHeader>(_PassarelaSignaturesTableHeader_QNAME, PassarelaSignaturesTableHeader.class, null, value);
     }
 
     /**
@@ -699,6 +708,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaSignaturesTableHeader }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaSignaturesTableHeaderWs")
+    public JAXBElement<PassarelaSignaturesTableHeader> createPassarelaSignaturesTableHeaderWs(PassarelaSignaturesTableHeader value) {
+        return new JAXBElement<PassarelaSignaturesTableHeader>(_PassarelaSignaturesTableHeaderWs_QNAME, PassarelaSignaturesTableHeader.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetSupportedBarCodeTypesResponse }{@code >}}
      * 
      */
@@ -726,30 +744,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaCommonInfoSignature }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaCommonInfoSignature")
-    public JAXBElement<PassarelaCommonInfoSignature> createPassarelaCommonInfoSignature(PassarelaCommonInfoSignature value) {
-        return new JAXBElement<PassarelaCommonInfoSignature>(_PassarelaCommonInfoSignature_QNAME, PassarelaCommonInfoSignature.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ProvidesTimeStampGeneratorResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "providesTimeStampGeneratorResponse")
     public JAXBElement<ProvidesTimeStampGeneratorResponse> createProvidesTimeStampGeneratorResponse(ProvidesTimeStampGeneratorResponse value) {
         return new JAXBElement<ProvidesTimeStampGeneratorResponse>(_ProvidesTimeStampGeneratorResponse_QNAME, ProvidesTimeStampGeneratorResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link PassarelaFileInfoSignature }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://impl.v1.ws.portafib.caib.es/", name = "passarelaFileInfoSignature")
-    public JAXBElement<PassarelaFileInfoSignature> createPassarelaFileInfoSignature(PassarelaFileInfoSignature value) {
-        return new JAXBElement<PassarelaFileInfoSignature>(_PassarelaFileInfoSignature_QNAME, PassarelaFileInfoSignature.class, null, value);
     }
 
     /**

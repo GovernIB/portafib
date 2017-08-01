@@ -576,8 +576,9 @@
       </build>
     </profile>
 
-    <!-- WS de PORTAFIB -->
-    <!--  http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld -->
+    <!-- WS de PORTAFIB: v2 i v1 (a no ser que d'hagi compilat amb el Profile "exclude-ws-portafib-v1" -->
+    <!-- v1 => http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld -->
+    <!-- v2 => http://localhost:8080/portafib/ws/v2/PortaFIBHelloWorldv2 -->
     <!--  ... -->
     <profile>
       <id>ws-portafib</id>
@@ -607,7 +608,7 @@
         </plugins>
       </build>
     </profile>
-
+    
 
     <!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
     <!-- 

@@ -28,7 +28,7 @@
 
   <profiles>
     <profile>
-      <id>passarelaserver</id>
+      <id>passarelaserver-v1</id>
       <modules>
         <module>portafib</module>
       </modules>

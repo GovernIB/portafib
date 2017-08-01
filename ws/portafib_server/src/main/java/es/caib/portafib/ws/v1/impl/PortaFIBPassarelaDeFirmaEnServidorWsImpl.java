@@ -18,10 +18,9 @@ import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
-import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v1.utils.PassarelaConversion;
 
 /**
  * 
@@ -56,15 +55,20 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
   @Override
-  public PassarelaFullResults signDocuments(
-      @WebParam(name = "signaturesSet") PassarelaSignaturesSet signaturesSet)
+  public PassarelaFullResultsWs signDocuments(
+      @WebParam(name = "signaturesSet") PassarelaSignaturesSetWs signaturesSet)
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-    
 
-    return passarelaDeFirmaEnServidorEjb.signDocuments(signaturesSet,
+    es.caib.portafib.logic.passarela.api.PassarelaFullResults results;
+
+    results = passarelaDeFirmaEnServidorEjb.signDocuments(
+        PassarelaConversion.convert(signaturesSet),
         userapp.getEntitat(), userapp);
+    
+    return PassarelaConversion.convert(results);
   }
+
 
 }

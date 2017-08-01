@@ -15,6 +15,25 @@ public class PassarelaSignatureStatus {
   protected String errorMessage;
 
   protected String errorStackTrace;
+  
+  /**
+   * 
+   */
+  public PassarelaSignatureStatus() {
+    super();
+  }
+  
+  /**
+   * @param status
+   * @param errorMessage
+   * @param errorStackTrace
+   */
+  public PassarelaSignatureStatus(int status, String errorMessage, String errorStackTrace) {
+    super();
+    this.status = status;
+    this.errorMessage = errorMessage;
+    this.errorStackTrace = errorStackTrace;
+  }
 
   public int getStatus() {
     return status;

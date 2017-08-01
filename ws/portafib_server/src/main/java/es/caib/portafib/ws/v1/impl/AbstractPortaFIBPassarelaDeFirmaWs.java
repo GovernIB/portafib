@@ -6,19 +6,16 @@ import javax.annotation.security.RolesAllowed;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 
-
-
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 
-import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.IBaseAutenticatedWs;
+import es.caib.portafib.ws.v1.utils.IBaseAutenticatedV1Ws;
+
 /**
  * @author anadal
  *
  */
-
-public interface AbstractPortaFIBPassarelaDeFirmaWs extends IBaseAutenticatedWs {
+public interface AbstractPortaFIBPassarelaDeFirmaWs extends IBaseAutenticatedV1Ws {
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------

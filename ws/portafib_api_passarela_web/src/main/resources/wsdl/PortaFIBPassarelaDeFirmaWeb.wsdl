@@ -34,10 +34,10 @@
   <xs:element name="getVersionResponse" type="tns:getVersionResponse"/>
   <xs:element name="getVersionWs" type="tns:getVersionWs"/>
   <xs:element name="getVersionWsResponse" type="tns:getVersionWsResponse"/>
-  <xs:element name="passarelaCommonInfoSignature" type="tns:passarelaCommonInfoSignature"/>
-  <xs:element name="passarelaFileInfoSignature" type="tns:passarelaFileInfoSignature"/>
-  <xs:element name="passarelaSignaturesSet" type="tns:passarelaSignaturesSet"/>
-  <xs:element name="passarelaSignaturesTableHeader" type="tns:passarelaSignaturesTableHeader"/>
+  <xs:element name="passarelaCommonInfoSignatureWs" type="tns:passarelaCommonInfoSignature"/>
+  <xs:element name="passarelaFileInfoSignatureWs" type="tns:passarelaFileInfoSignature"/>
+  <xs:element name="passarelaSignaturesSetWs" type="tns:passarelaSignaturesSet"/>
+  <xs:element name="passarelaSignaturesTableHeaderWs" type="tns:passarelaSignaturesTableHeader"/>
   <xs:element name="providesTimeStampGenerator" type="tns:providesTimeStampGenerator"/>
   <xs:element name="providesTimeStampGeneratorResponse" type="tns:providesTimeStampGeneratorResponse"/>
   <xs:element name="startTransaction" type="tns:startTransaction"/>

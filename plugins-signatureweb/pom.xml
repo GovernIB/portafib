@@ -45,7 +45,7 @@
             </modules>
         </profile>
         <profile>
-            <id>passarelaweb</id>
+            <id>passarelaweb-v1</id>
             <modules>
                 <module>portafib</module>
             </modules>

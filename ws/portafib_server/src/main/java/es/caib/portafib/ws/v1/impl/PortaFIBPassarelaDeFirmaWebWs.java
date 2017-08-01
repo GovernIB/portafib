@@ -10,9 +10,6 @@ import javax.jws.WebService;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -33,20 +30,20 @@ public interface PortaFIBPassarelaDeFirmaWebWs extends AbstractPortaFIBPassarela
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
   public String startTransaction(
-     @WebParam(name = "signaturesSet") PassarelaSignaturesSet signaturesSet) 
+     @WebParam(name = "signaturesSet") PassarelaSignaturesSetWs signaturesSet) 
    throws WsI18NException, WsValidationException, Throwable;
 
 
   
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
-  public PassarelaSignatureStatus getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
+  public PassarelaSignatureStatusWs getStatusTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
     throws WsI18NException, Throwable;
 
  
   @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
   @WebMethod
-  public List<PassarelaSignatureResult> getSignatureResultsOfTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
+  public List<PassarelaSignatureResultWs> getSignatureResultsOfTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
     throws WsI18NException, Throwable;
 
   
