@@ -115,3 +115,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureweb/clavefirma/primer_doc_firmat_amb_clave_firma_1.1_2017_06_22.pdf
 /plugins-signatureserver/afirmaserver/config/plugin.properties
 /ws/portafib_server/src/main/java/es/caib/portafib/ws/utils/FitxerUtilsCommon.java
+/plugins-signatureserver/afirmaserver/setpath.bat
+/dependencies.txt
