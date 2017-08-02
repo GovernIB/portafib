@@ -20,6 +20,7 @@
 
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+
   </properties>
 
   <dependencies>
@@ -53,12 +54,18 @@
       <type>jar</type>
     </dependency>
 
-
     <dependency>
       <groupId>es.caib.portafib</groupId>
       <artifactId>portafib-back</artifactId>
       <version>${project.version}</version>
       <type>war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-ws-server</artifactId>
+      <version>${portafib.version}</version>
+      <type>ejb</type>
     </dependency>
 
     <!-- Externes -->
@@ -339,12 +346,12 @@
         </dependency>
 
         <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
-        
-        
+
+
         <!-- ====================================== -->
         <!-- ==== PLUGINS DE FIRMA EN SERVIDOR ==== -->
         <!-- ====================================== -->
-        
+
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>                    
           <artifactId>plugin-signatureserver-api</artifactId>
@@ -386,17 +393,17 @@
               <groupId>org.slf4j</groupId>
               <artifactId>jcl-over-slf4j</artifactId>
             </exclusion>
-            
+
             <exclusion>  
               <groupId>org.apache.ws.security</groupId>
               <artifactId>wss4j</artifactId>
             </exclusion>
-            
+
             <exclusion>  
               <groupId>org.apache.santuario</groupId>
               <artifactId>xmlsec</artifactId>
             </exclusion>
-         
+
           </exclusions>
         </dependency>
 
@@ -576,10 +583,11 @@
       </build>
     </profile>
 
-    <!-- WS de PORTAFIB: v2 i v1 (a no ser que d'hagi compilat amb el Profile "exclude-ws-portafib-v1" -->
+    <!-- WS de PORTAFIB: Inclou totes les versions i combinacions elegides en el profiles  -->
     <!-- v1 => http://localhost:8080/portafib/ws/v1/PortaFIBHelloWorld -->
     <!-- v2 => http://localhost:8080/portafib/ws/v2/PortaFIBHelloWorldv2 -->
     <!--  ... -->
+    <!--
     <profile>
       <id>ws-portafib</id>
       <dependencies>
@@ -608,7 +616,8 @@
         </plugins>
       </build>
     </profile>
-    
+    -->
+
 
     <!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
     <!-- 
@@ -669,8 +678,6 @@
     </filters>
 
     <plugins>
-
-
 
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -753,6 +760,13 @@
               <groupId>es.caib.portafib</groupId>
               <artifactId>portafib-persistence-jta</artifactId>
             </jarModule>
+
+            <!-- Sempre l'afegim, però podria passar que el jar estas buit 
+                 si no s'ha marcat cap profile de WS -->
+            <ejbModule>
+              <groupId>es.caib.portafib</groupId>
+              <artifactId>portafib-ws-server</artifactId>
+            </ejbModule>
 
           </modules>
 

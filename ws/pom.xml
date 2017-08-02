@@ -16,13 +16,17 @@
   <modules>
     <module>indra_callback_api</module>
     <module>portafib_callback_api</module>
+
+    <!-- NOTA: El mòdul 'portafib_server' conté tant l'API v1 com l'API v2, que 
+         s'activen segons els profiles seleccionats. S'ha tengut que fer en un
+         sol mòdul a causa de les limitacions dels WS-EJB (llegir ./server/readme.txt).
+         Sempre esta actiu però pot passar que es generei un jar buit si no 
+         es defineix cap profile de WS. -->
+    <module>portafib_server</module> 
   </modules>
 
   <profiles>
 
-    <!-- NOTA: El mòdul 'portafib_server' conté tant l'API v1 com l'API v2, 
-         que s'activen segons els profiles seleccionats. S'ha tengut que fer
-         així a causa de les limitacions dels WS-EJB    -->
 
     <profile>
       <id>ws-portafib-v1</id>
@@ -53,7 +57,7 @@
         -->
       </modules>
     </profile>
-    
+
     <profile>
       <id>passarelaserver-v2</id>
       <modules>
@@ -71,7 +75,7 @@
         <module>portafib_api_passarela_web</module>
       </modules>
     </profile>
-    
+
     <profile>
       <id>passarelaserver-v1</id>
       <modules>
@@ -79,7 +83,6 @@
         <module>portafib_api_passarela_servidor</module>
       </modules>
     </profile>
-    
 
     <profile>
       <id>ws-portafirmas</id>
@@ -149,10 +152,6 @@
       </plugins>
     </pluginManagement>
 
-    <plugins>
-
-
-    </plugins>
   </build>
 
 </project>

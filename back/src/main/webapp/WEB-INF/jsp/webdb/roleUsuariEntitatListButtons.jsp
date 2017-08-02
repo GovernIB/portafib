@@ -67,7 +67,7 @@
       <ul class="dropdown-menu pull-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
             <c:if test="${__theFilterForm.editButtonVisible}">
             <li>
-            <a class="btn  btn-small a_item" style="margin-bottom:5px;${(empty )? '' : 'color: white;'}" href="<c:url value="${contexte}/${roleUsuariEntitat.id}/edit"/>" onclick="goTo('<c:url value="${contexte}/${roleUsuariEntitat.id}/edit"/>')">
+            <a class="btn  btn-small a_item" style="margin-bottom:5px;" href="<c:url value="${contexte}/${roleUsuariEntitat.id}/edit"/>" onclick="goTo('<c:url value="${contexte}/${roleUsuariEntitat.id}/edit"/>')">
             <i class="icon-pencil"></i>
              <fmt:message key="genapp.edit"/>
             </a>
@@ -75,7 +75,7 @@
             </c:if>
             <c:if test="${__theFilterForm.deleteButtonVisible}">
             <li>
-            <a class="btn btn-danger btn-small a_item" style="margin-bottom:5px;${(empty btn-danger)? '' : 'color: white;'}" href="#myModal" onclick="openModal('<c:url value="${contexte}/${roleUsuariEntitat.id}/delete"/>','show');">
+            <a class="btn btn-danger btn-small a_item" style="margin-bottom:5px;color: white;" href="#myModal" onclick="openModal('<c:url value="${contexte}/${roleUsuariEntitat.id}/delete"/>','show');">
             <i class="icon-trash icon-white"></i>
              <fmt:message key="genapp.delete"/>
             </a>
@@ -91,7 +91,7 @@
                   <c:set var="thelink" value="goTo('${thelink}')"/>
                   </c:if>
                   <li>
-                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'}" href="${thehref}" onclick="${thelink}">
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'};" href="${thehref}" onclick="${thelink}">
                   <c:if test="${fn:startsWith(button.icon, '/')}">
                   <img src="<c:url value="${button.icon}"/>"/>
                   </c:if>                  <c:if test="${!fn:startsWith(button.icon, '/')}">
@@ -113,7 +113,7 @@
                   <c:set var="thelink" value="goTo('${thelink}')"/>
                   </c:if>
                   <li>
-                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'}" href="${thehref}" onclick="${thelink}">
+                  <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'};" href="${thehref}" onclick="${thelink}">
                   <c:if test="${fn:startsWith(button.icon, '/')}">
                   <img src="<c:url value="${button.icon}"/>"/>
                   </c:if>                  <c:if test="${!fn:startsWith(button.icon, '/')}">

@@ -19,11 +19,11 @@
     <source_v2_common>${basedir}/src_common/main/java</source_v2_common>
     <source_v2_ws>${basedir}/src_common/main/java</source_v2_ws>
     <source_v2_passarela>${basedir}/src_common/main/java</source_v2_passarela>
-
   </properties>
 
   <build>
     <plugins>
+    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ejb-plugin</artifactId>

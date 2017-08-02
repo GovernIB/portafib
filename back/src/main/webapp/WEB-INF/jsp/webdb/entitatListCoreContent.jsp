@@ -149,7 +149,10 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYURLDOCUMENT)}">
           <td>
-          ${entitat.policyUrlDocument}
+                       <c:if test="${ not empty entitat.policyUrlDocument}">
+               <a href="${entitat.policyUrlDocument}" target="_blank">${entitat.policyUrlDocument}</a>
+             </c:if>
+
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MOTIUDELEGACIOID)}">

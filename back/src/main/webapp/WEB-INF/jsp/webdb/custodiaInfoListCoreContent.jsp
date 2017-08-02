@@ -59,7 +59,10 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
           <td>
-          ${custodiaInfo.urlFitxerCustodiat}
+                       <c:if test="${ not empty custodiaInfo.urlFitxerCustodiat}">
+               <a href="${custodiaInfo.urlFitxerCustodiat}" target="_blank">${custodiaInfo.urlFitxerCustodiat}</a>
+             </c:if>
+
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PAGINES)}">

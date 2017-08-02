@@ -2,7 +2,7 @@
 La idea inicial era posar cada versió de WS (la part dels servidor) dins un jar separat.
 El primer problema que em vaig trobar va ser que JBoss no permet dos jars amb el mateix contexte:
 
-<< FALTA ERROR >>
+Error : Context-Root already exists
 
 
 Si pos un context root diferent, per exemple @WebContext(contextRoot="/portafib/ws/v2", ...), llavors em dóna l'error següent:
