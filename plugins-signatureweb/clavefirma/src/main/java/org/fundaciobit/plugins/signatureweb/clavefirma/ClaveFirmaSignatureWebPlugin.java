@@ -89,8 +89,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       + "ignore_certificate_filter";
 
   protected Map<String, ClaveFirmaSignInformation[]> transactions = new HashMap<String, ClaveFirmaSignInformation[]>();
-  
-  
+
   protected Map<String, String> generateCertificateTransactions = new HashMap<String, String>();
 
   /**
@@ -252,8 +251,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
             + "(showPluginWhenUserHasWeakRegistry = true)", we);
         return false;
       }
-      
-      
+
     } catch (Throwable e) {
       log.error("filter:: Unknown Error " + e.getMessage(), e);
       return false;
@@ -289,8 +287,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       noRegistratPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(USUARI_AMB_REGISTRE_DEBIL_PAGE)) {
-        usuariAmbRegistreDebilPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
-            signaturesSet, signatureIndex, locale);    
+      usuariAmbRegistreDebilPage(absolutePluginRequestPath, relativePluginRequestPath,
+          request, response, signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(CERTIFICATE_BLOCKED_PAGE)) {
       // L'usuari té un certificat bloquejat
       certificateBlockedPage(absolutePluginRequestPath, relativePluginRequestPath, request,
@@ -304,7 +302,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           response, signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(CANCEL_AMB_MISSATGE_PAGE)) {
       cancelAmbMissatge(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
-          request,  response, signaturesSet, locale);
+          request, response, signaturesSet, locale);
     } else if (relativePath.startsWith(SIGN_ERROR_PAGE)) {
       signErrorPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, relativePath, locale);
@@ -374,11 +372,11 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       }
 
     } catch (HttpWeakRegistryException we) {
-      
+
       // L'usuari té un registre dèbil en el sistema ClaveFirma
       addSignaturesSet(signaturesSet);
       return relativePluginRequestPath + "/" + USUARI_AMB_REGISTRE_DEBIL_PAGE;
-      
+
     } catch (HttpNoUserException se) {
 
       // L'usuari no està donat d'alta en el sistema ClaveFirma
@@ -447,7 +445,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // -------------------  USUARI AMB REGISTRE DEBIL ----------------------------
+  // ------------------- USUARI AMB REGISTRE DEBIL ----------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
 
@@ -455,8 +453,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   private void usuariAmbRegistreDebilPage(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
-      HttpServletResponse response, SignaturesSetWeb signaturesSet,
-      int signatureIndex, Locale locale) {
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale) {
 
     String titol = getTraduccio("error.usuariambregistredebil.titol", locale);
     String subtitol = getTraduccio("error.usuariambregistredebil.missatge", locale);
@@ -474,11 +472,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
         signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
-  }  
-  
-  
-  
-  
+  }
+
   // ----------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
   // -------------- USUARI AMB CERTIFICAT BLOQUEJAT ----------------------------
@@ -640,7 +635,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       generateCertificateTransactions.put(signaturesSet.getSignaturesSetID(), transactionId);
 
-
       showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
           callBackURLError, tancarFinestraURL, redirectUrl);
 
@@ -706,8 +700,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     out.println("  </label><br><br>");
 
     out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
-        + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE + "/generarnoucertificat.cancel'\" >"
-        + getTraduccio("cancel", locale) + "</button> &nbsp;&nbsp;");
+        + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE
+        + "/generarnoucertificat.cancel'\" >" + getTraduccio("cancel", locale)
+        + "</button> &nbsp;&nbsp;");
 
     out.println("<button class=\"btn btn-primary\" type=\"button\"  onclick=\"location.href='"
         + relativePluginRequestPath + "/" + GENERAR_NOU_CERTIFICAT_PAGE + "'\" >"
@@ -733,9 +728,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   protected void cancelAmbMissatge(String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
-    
+
     int index = relativePath.lastIndexOf("/");
-    
+
     if (isDebug()) {
       log.info("cancelAmbMissatge():: relativePath = " + relativePath);
     }
@@ -792,8 +787,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     }
 
     // "transactionid" definit dins generarNouCertificat()
-    
-    final String transactionid = generateCertificateTransactions.get(signaturesSet.getSignaturesSetID());
+
+    final String transactionid = generateCertificateTransactions.get(signaturesSet
+        .getSignaturesSetID());
 
     if (debug) {
       log.info("firmarPreDesDeCertgenerat:: transactionid = |" + transactionid + "|");
@@ -804,7 +800,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       X509Certificate certificate = HttpGenerateCertificate.recoverCertificate(appId,
           transactionid);
-      
+
       if (debug) {
         log.info("firmarPreDesDeCertgenerat:: certificateRecuperat = |" + certificate + "|");
       }
@@ -979,11 +975,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       if (callbackhost == null) {
         callBackURLOK = absolutePluginRequestPath + "/" + FIRMAR_POST_PAGE;
-        callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE + "/PROCES_DE_FIRMA";
+        callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE
+            + "/PROCES_DE_FIRMA";
         tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_CLAVEFIRMA_PAGE;
       } else {
         callBackURLOK = callbackhost + request.getServletPath() + "/" + FIRMAR_POST_PAGE;
-        callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE + "/PROCES_DE_FIRMA";
+        callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE
+            + "/PROCES_DE_FIRMA";
         tancarFinestraURL = callbackhost + request.getServletPath() + "/"
             + CLOSE_CLAVEFIRMA_PAGE;
       }
@@ -1197,15 +1195,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       } else {
         msg = getTraduccio("error.generantcertificat", locale);
       }
-    } else if(query.endsWith("PROCES_DE_FIRMA")) { 
-      
-      if (params.containsKey("password") ) {
+    } else if (query.endsWith("PROCES_DE_FIRMA")) {
+
+      if (params.containsKey("password")) {
         msg = getTraduccio("firmardocument.cancel", locale);
       } else {
         msg = getTraduccio("error.autenticacio", locale);
       }
-      
-      
+
     } else {
       msg = getTraduccio("error.autenticacio", locale);
     }
@@ -1455,8 +1452,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       out.println("<br/><br/>");
 
       out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
-          + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE + "/firmardocument.cancel'\" >"
-          + getTraduccio("cancel", locale) + "</button>");
+          + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE
+          + "/firmardocument.cancel'\" >" + getTraduccio("cancel", locale) + "</button>");
 
       out.println("&nbsp;&nbsp;");
       int numFitxers = signaturesSet.getFileInfoSignatureArray().length;

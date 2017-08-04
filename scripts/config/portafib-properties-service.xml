@@ -8,7 +8,7 @@
 
       # Dialecte de Hibernate
       es.caib.portafib.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect      
+      # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.MySQLDialect
       # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.DB2Dialect
       # es.caib.portafib.hibernate.dialect=org.hibernate.dialect.SQLServerDialect
       # es.caib.portafib.hibernate.dialect=net.sf.hibernate.dialect.Oracle9Dialect
@@ -91,7 +91,6 @@
       <!-- ======== PLUGIN USER-INFORMATION - LDAP ======= -->
       <!--
       es.caib.portafib.userinformationplugin=org.fundaciobit.plugins.userinformation.ldap.LdapUserInformationPlugin
-      
       es.caib.portafib.plugins.userinformation.ldap.host_url=ldap://ldap.ibit.org:389
       es.caib.portafib.plugins.userinformation.ldap.security_principal=[LDAPUSERNAME]
       es.caib.portafib.plugins.userinformation.ldap.security_authentication=simple
