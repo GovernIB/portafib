@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.security.cert.X509Certificate;
@@ -59,7 +60,6 @@ import es.gob.clavefirma.client.signprocess.HttpSignProcessConstants.SignatureUp
 import es.gob.clavefirma.client.signprocess.LoadResult;
 
 /**
- * XYZ ZZZ Revisar cas de no te certificats i solicitar-ne un => Kit de test no Funciona
  * 
  * @author anadal
  *
@@ -72,7 +72,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public static final String PROPERTY_APPID = CLAVEFIRMA_BASE_PROPERTIES + "appid";
 
   public static final String PROPERTY_PROCEDURE = CLAVEFIRMA_BASE_PROPERTIES + "procedure";
-  
+
   public static final String PROPERTY_CLIENT_CONFIG_PROPERTIES_PATH = CLAVEFIRMA_BASE_PROPERTIES
       + "client_properties_config_path";
 
@@ -82,26 +82,25 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   private static final String PROPERTY_USERS_PATTERN = CLAVEFIRMA_BASE_PROPERTIES
       + "userspattern";
 
-
   private static final String PROPERTY_CALLBACK_HOST = CLAVEFIRMA_BASE_PROPERTIES
       + "callbackhost";
 
   public static final String IGNORE_CERTIFICATE_FILTER = CLAVEFIRMA_BASE_PROPERTIES
       + "ignore_certificate_filter";
-  
 
   protected Map<String, ClaveFirmaSignInformation[]> transactions = new HashMap<String, ClaveFirmaSignInformation[]>();
- 
   
+  
+  protected Map<String, String> generateCertificateTransactions = new HashMap<String, String>();
+
   /**
-   * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
-   * quan aquesta demana Segellat de Temps. S'ha de fer a posteriori dins del mètode
-   *  storeDocument() ja que CADES trifase no suporta nativament Segellat de Temps. 
+   * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o
+   * CADES quan aquesta demana Segellat de Temps. S'ha de fer a posteriori dins
+   * del mètode storeDocument() ja que CADES trifase no suporta nativament
+   * Segellat de Temps.
    */
   protected final Map<String, Properties[]> timeStampCache = new HashMap<String, Properties[]>();
- 
- 
-  
+
   /**
    *
    */
@@ -123,22 +122,31 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public ClaveFirmaSignatureWebPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
-  
-  
+
   protected boolean permetreGeneracioDeCertificat() {
-    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "allowcertificategeneration"));
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "allowcertificategeneration"));
   }
-  
 
   protected boolean mostrarInformacioAUsuariNoRegistrat() {
-    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "showinfowhennonregistereduser"));
-  }
-  
-  
-  protected boolean isDebug() {
-    return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "debug"));
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "showinfowhennonregistereduser"));
   }
 
+  protected boolean showPluginWhenUserCertificateBlocked() {
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "showpluginwhenusercertificateblocked"));
+  }
+
+  protected boolean showPluginWhenUserHasWeakRegistry() {
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "showpluginwhenuserhasweakregistry"));
+  }
+
+  protected boolean isDebug() {
+    return log.isDebugEnabled()
+        || "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "debug"));
+  }
 
   @Override
   public String getName(Locale locale) {
@@ -155,7 +163,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     String username = common.getUsername();
     String administrationID = common.getAdministrationID();
     String filter = common.getFiltreCertificats();
-
 
     if (checkCertificates(username, administrationID, filter)) {
       return super.filter(request, signaturesSet);
@@ -182,10 +189,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         } else {
           return false;
         }
-        
+
       }
 
-      
       int certificatsDisponibles;
       if ("true".equalsIgnoreCase(getProperty(IGNORE_CERTIFICATE_FILTER))) {
         // Ignoram el filtre de certificats
@@ -209,19 +215,45 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         }
       }
       return certificatsDisponibles != 0;
-    
-      
+
     } catch (HttpCertificateBlockedException se) {
-      log.warn("filter:: L'usuari té el certificat bloquejat: " + se.getMessage() , se);
-      return false;
-    } catch (HttpNoUserException se) {
-      
-      if (mostrarInformacioAUsuariNoRegistrat()) {
+      if (showPluginWhenUserCertificateBlocked()) {
+        log.info("filter:: L'usuari " + username + "(" + administrationID + ") té el "
+            + "certificat bloquejat però la propietat showPluginWhenUserCertificateBlocked"
+            + " = true (" + se.getClass() + ")");
         return true;
       } else {
-        log.warn("filter:: L'usuari no està donat d'alta en el sistema ClaveFirma", se);
+        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ")  té el"
+            + " certificat bloquejat: " + se.getMessage(), se);
         return false;
       }
+    } catch (HttpNoUserException se) {
+
+      if (mostrarInformacioAUsuariNoRegistrat()) {
+        log.info("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
+            + "donat d'alta en el sistema ClaveFirma però la propietat "
+            + "mostrarInformacioAUsuariNoRegistrat = true: " + se.getClass());
+        return true;
+      } else {
+        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
+            + "donat d'alta en el sistema ClaveFirma", se);
+        return false;
+      }
+    } catch (HttpWeakRegistryException we) {
+
+      if (showPluginWhenUserHasWeakRegistry()) {
+        log.info("filter:: L'usuari  " + username + "(" + administrationID + ") està "
+            + "registrat a ClaveFirma amb un registre dèbil "
+            + "(showPluginWhenUserHasWeakRegistry = true): " + we.getClass());
+        return true;
+      } else {
+        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") està "
+            + "registrat a ClaveFirma amb un registre dèbil "
+            + "(showPluginWhenUserHasWeakRegistry = true)", we);
+        return false;
+      }
+      
+      
     } catch (Throwable e) {
       log.error("filter:: Unknown Error " + e.getMessage(), e);
       return false;
@@ -232,6 +264,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public void closeSignaturesSet(HttpServletRequest request, String id) {
     timeStampCache.remove(id);
     transactions.remove(id);
+    generateCertificateTransactions.remove(id);
     super.closeSignaturesSet(request, id);
   }
 
@@ -243,27 +276,41 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     if (relativePath.startsWith(SELECT_CERTIFICATE_PAGE)) {
       selectCertificateGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
           request, response, signaturesSet, signatureIndex, locale);
+    } else if (relativePath.startsWith(FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE)) {
+      firmarPreDesDeCertgenerat(absolutePluginRequestPath, relativePluginRequestPath,
+          relativePath, request, response, signaturesSet, signatureIndex, locale);
+    } else if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
+      firmarPre(absolutePluginRequestPath, relativePluginRequestPath, relativePath, request,
+          response, signaturesSet, locale);
     } else if (relativePath.startsWith(FIRMAR_POST_PAGE)) {
-        firmarPostOk(request, response, signaturesSet, signatureIndex, locale);
+      firmarPostOk(request, response, signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(NO_REGISTRAT_PAGE)) {
-        // L'usuari no està donat d'alta a Cl@ve Firma
-        noRegistratPage(absolutePluginRequestPath, relativePluginRequestPath, request,
-            response, signaturesSet, signatureIndex, locale);
+      // L'usuari no està donat d'alta a Cl@ve Firma
+      noRegistratPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, signatureIndex, locale);
+    } else if (relativePath.startsWith(USUARI_AMB_REGISTRE_DEBIL_PAGE)) {
+        usuariAmbRegistreDebilPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+            signaturesSet, signatureIndex, locale);    
+    } else if (relativePath.startsWith(CERTIFICATE_BLOCKED_PAGE)) {
+      // L'usuari té un certificat bloquejat
+      certificateBlockedPage(absolutePluginRequestPath, relativePluginRequestPath, request,
+          response, signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(GENERAR_NOU_CERTIFICAT_PAGE)) {
-        generarNouCertificat(absolutePluginRequestPath, relativePluginRequestPath,
-            request, response, signaturesSet, signatureIndex, locale);    
+      generarNouCertificat(absolutePluginRequestPath, relativePluginRequestPath, request,
+          response, signaturesSet, signatureIndex, locale);
     } else if (relativePath.startsWith(SENSE_CERTIFICATS_PAGE)) {
       // S'ha de provar si funciona
       senseCertificats(absolutePluginRequestPath, relativePluginRequestPath, request,
           response, signaturesSet, signatureIndex, locale);
+    } else if (relativePath.startsWith(CANCEL_AMB_MISSATGE_PAGE)) {
+      cancelAmbMissatge(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
+          request,  response, signaturesSet, locale);
     } else if (relativePath.startsWith(SIGN_ERROR_PAGE)) {
-      signErrorPage(request, response, signaturesSet, signatureIndex, relativePath, locale);
-    }  else if (relativePath.startsWith(CLOSE_CLAVEFIRMA_PAGE)) {
-
+      signErrorPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, signatureIndex, relativePath, locale);
+    } else if (relativePath.startsWith(CLOSE_CLAVEFIRMA_PAGE)) {
       closeClaveFirmaPage(response, locale);
-
     } else {
-
       super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
           signaturesSet, signatureIndex, request, response, locale);
     }
@@ -275,17 +322,19 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       HttpServletRequest request, HttpServletResponse response, Locale locale) {
 
-    if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
-
-      firmarPre(absolutePluginRequestPath, relativePluginRequestPath, request, response,
-          signaturesSet, locale);
+    if (relativePath.startsWith(FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE)) {
+      firmarPreDesDeCertgenerat(absolutePluginRequestPath, relativePluginRequestPath,
+          relativePath, request, response, signaturesSet, signatureIndex, locale);
+    } else if (relativePath.startsWith(FIRMAR_PRE_PAGE)) {
+      firmarPre(absolutePluginRequestPath, relativePluginRequestPath, relativePath, request,
+          response, signaturesSet, locale);
 
     } else if (relativePath.startsWith(SIGN_ERROR_PAGE)) {
-      signErrorPage(request, response, signaturesSet, signatureIndex, relativePath, locale);
+      signErrorPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, signatureIndex, relativePath, locale);
     } else {
       super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, relativePath,
           signaturesSet, signatureIndex, request, response, locale);
-
     }
 
   }
@@ -303,59 +352,75 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
       String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
- 
+
     List<X509Certificate> certificates;
-    // En principi això ja no ha de llançar errors a no ser de usuari no registrat
+    // En principi això ja no ha de llançar errors a no ser de usuari no
+    // registrat
     try {
       certificates = listCertificates(signaturesSet);
-      
-      if (certificates == null || certificates.size() == 0) { 
-        // Si s'ha arribat aquí, es que es permet la creació de Certificats Online
+
+      if (certificates == null || certificates.size() == 0) {
+        // Si s'ha arribat aquí, es que es permet la creació de Certificats
+        // Online
         // Afegim 5 minuts pel tema de donar d'alta el certificat
-        signaturesSet.setExpiryDate(new Date(signaturesSet.getExpiryDate().getTime() + 300000));
+        signaturesSet
+            .setExpiryDate(new Date(signaturesSet.getExpiryDate().getTime() + 300000));
         addSignaturesSet(signaturesSet);
-        return  relativePluginRequestPath + "/" + SENSE_CERTIFICATS_PAGE;
+        return relativePluginRequestPath + "/" + SENSE_CERTIFICATS_PAGE;
       } else {
-        // Mostrar llistat de certificats per a  seleccionar-ne un 
+        // Mostrar llistat de certificats per a seleccionar-ne un
         addSignaturesSet(signaturesSet);
-        return relativePluginRequestPath + "/" +   SELECT_CERTIFICATE_PAGE;        
+        return relativePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
       }
+
+    } catch (HttpWeakRegistryException we) {
+      
+      // L'usuari té un registre dèbil en el sistema ClaveFirma
+      addSignaturesSet(signaturesSet);
+      return relativePluginRequestPath + "/" + USUARI_AMB_REGISTRE_DEBIL_PAGE;
       
     } catch (HttpNoUserException se) {
 
-      //  L'usuari no està donat d'alta en el sistema ClaveFirma
+      // L'usuari no està donat d'alta en el sistema ClaveFirma
       addSignaturesSet(signaturesSet);
-      return relativePluginRequestPath + "/" +   NO_REGISTRAT_PAGE; 
+      return relativePluginRequestPath + "/" + NO_REGISTRAT_PAGE;
+
+    } catch (HttpCertificateBlockedException hcbe) {
+
+      // L'usuari té un certificat bloquejat
+      addSignaturesSet(signaturesSet);
+      return relativePluginRequestPath + "/" + CERTIFICATE_BLOCKED_PAGE;
+
     }
 
   }
-  
+
   @Override
   protected void getJavascriptCSS(HttpServletRequest request,
       String absolutePluginRequestPath, String relativePluginRequestPath, PrintWriter out,
       AbstractSignatureWebPlugin.SignIDAndIndex key, SignaturesSetWeb value) {
-    
-    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key, value);
+
+    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out,
+        key, value);
 
     String newJS = getProperty(CLAVEFIRMA_BASE_PROPERTIES + "newjavascripturl");
-    
+
     if (newJS != null && newJS.trim().length() != 0) {
       out.println("<script type=\"text/javascript\" src=\"" + newJS + "\"></script>");
     }
 
     String newCSS = getProperty(CLAVEFIRMA_BASE_PROPERTIES + "newcssurl");
-    
+
     if (newCSS != null && newCSS.trim().length() != 0) {
       out.println("<link href=\"" + newCSS + "\" rel=\"stylesheet\" type=\"text/css\">");
     }
 
   }
-  
-
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ---------------- TANCAR FINESTRA DE LA WEB DE CL@VEFIRMA -------------------
+  // ---------------- TANCAR FINESTRA DE LA WEB DE CL@VEFIRMA
+  // -------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -379,117 +444,206 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     }
 
   }
+
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // -------------------  USUARI AMB REGISTRE DEBIL ----------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+
+  private static final String USUARI_AMB_REGISTRE_DEBIL_PAGE = "usuariambregistredebil";
+
+  private void usuariAmbRegistreDebilPage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet,
+      int signatureIndex, Locale locale) {
+
+    String titol = getTraduccio("error.usuariambregistredebil.titol", locale);
+    String subtitol = getTraduccio("error.usuariambregistredebil.missatge", locale);
+
+    String button_label = getTraduccio("acceptar", locale);
+    String button_url = signaturesSet.getUrlFinal();
+
+    StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
+
+    signaturesSet.getCommonInfoSignature().getLanguageUI();
+
+    sss.setErrorMsg(titol + ": " + subtitol);
+    sss.setErrorException(null);
+    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+
+    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+        signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+  }  
   
   
   
- //----------------------------------------------------------------------------
- // ---------------------------------------------------------------------------
- // -------------- USUARI NO REGISTRAT A CL@VE FIRMA --------------------------
- // ---------------------------------------------------------------------------
- // ---------------------------------------------------------------------------
-
- private static final String NO_REGISTRAT_PAGE = "noregistrat";
-
- private void noRegistratPage(String absolutePluginRequestPath,
-     String relativePluginRequestPath, HttpServletRequest request,
-     HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
-     Locale locale) {
-
-   SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
-
-   PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
-       relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
-
-   out.println("<br/><br/>");
-
-   out.println("<center>");
-   out.println("<div>");
-   out.println("<p style=\"text-align:center\">");
-   // EL USUARIO NO EST&Aacute; DADO DE ALTA EN EL SISTEMA
-   out.println("    <h4>"  +  getTraduccio("error.noregistrat.titol", locale) +  "</h4>");
-   out.println("</p>");
-   out.println("</div>");
-   out.println("<div>");
-   out.println("<p>");
-   out.println(getTraduccio("error.noregistrat.missatge", locale));
-   out.println("</p>");
-   out.println("</div>");
-   out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
-       + relativePluginRequestPath + "/" + CANCEL_PAGE + "'\" >"
-       + getTraduccio("cancel", locale) + "</button>");
-
-   out.println("</center>");
-
-   generateFooter(out, sai, signaturesSet);
- }
   
- 
- 
- // ----------------------------------------------------------------------------
- // ----------------------------------------------------------------------------
- // --------------------- SENSE CERTIFICAT - GENERAR UN DE NOU -----------------
- // ----------------------------------------------------------------------------
- // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // -------------- USUARI AMB CERTIFICAT BLOQUEJAT ----------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
- private static final String GENERAR_NOU_CERTIFICAT_PAGE = "generarnoucertificat";
+  private static final String NO_REGISTRAT_PAGE = "noregistrat";
 
- protected void generarNouCertificat(String absolutePluginRequestPath,
-     String relativePluginRequestPath, HttpServletRequest request,
-     HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
-     Locale locale) {
-   
+  private void noRegistratPage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale) {
 
-   String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
+    String titol = getTraduccio("error.noregistrat.titol", locale);
+    String subtitol = getTraduccio("error.noregistrat.missatge", locale);
+    // String button_label = getTraduccio("cancel", locale);
+    // String button_url = relativePluginRequestPath + "/" + CANCEL_PAGE;
 
-   String callBackURLOK;
-   String callBackURLError;
-   String tancarFinestraURL;
-   if (callbackhost == null) {
-     callBackURLOK = absolutePluginRequestPath + "/" + SELECT_CERTIFICATE_PAGE;
-     callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE + "/ERROR_GENERANT_CERTIFICAT";
-     tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_CLAVEFIRMA_PAGE;
-   } else {
-     callBackURLOK = callbackhost + request.getServletPath() + "/" + SELECT_CERTIFICATE_PAGE;
-     callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE + "/ERROR_GENERANT_CERTIFICAT";
-     tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
-   }
+    String button_label = getTraduccio("acceptar", locale);
+    String button_url = signaturesSet.getUrlFinal(); // relativePluginRequestPath
+                                                     // + "/" + CANCEL_PAGE;
 
-   final boolean debug = isDebug();
-   
-   if (debug) {
-     log.info("generarNouCertificat::callBackURLOK = " + callBackURLOK);
-     log.info("generarNouCertificat::callBackURLError = " + callBackURLError);
-     log.info("generarNouCertificat::tancarFinestraURL = " + tancarFinestraURL);
-   }
-   
-   
-   Properties config = new Properties();
-   config.setProperty("redirectOkUrl", callBackURLOK);
-   config.setProperty("redirectErrorUrl", callBackURLError);
-   GenerateCertificateResult result;
-   try {
-     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+    StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
 
-     final String appId = getPropertyRequired(PROPERTY_APPID);
-     final String subjectId = getClaveFirmaUser(commonInfoSignature.getUsername(),
-         commonInfoSignature.getAdministrationID());
+    signaturesSet.getCommonInfoSignature().getLanguageUI();
 
-     initApiClientLib();
-     String confB64 = AOUtil.properties2Base64(config);
-     result = HttpGenerateCertificate.generateCertificate(appId, subjectId, confB64);
-     
-     
-     String redirectUrl = result.getRedirectUrl();
-     
-     if (isDebug()) {
-       String transactionId = result.getTransactionId();
-       log.info("generarNouCertificat::Recibido el ID de transaccion: " + transactionId);
-       log.info("generarNouCertificat::Recibida la URL de redireccion: " + redirectUrl);
-     }
+    sss.setErrorMsg(titol + ": " + subtitol);
+    sss.setErrorException(null);
+    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
 
-     showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
-         callBackURLError, tancarFinestraURL, redirectUrl);
-     
+    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+        signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+  }
+
+  // ----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // -------------- USUARI NO REGISTRAT A CL@VE FIRMA --------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+
+  private static final String CERTIFICATE_BLOCKED_PAGE = "certificateblocked";
+
+  private void certificateBlockedPage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale) {
+
+    String titol = getTraduccio("error.certificatbloquejat.titol", locale);
+    String subtitol = getTraduccio("error.certificatbloquejat.missatge", locale);
+    String button_label = getTraduccio("acceptar", locale);
+    String button_url = signaturesSet.getUrlFinal(); // relativePluginRequestPath
+                                                     // + "/" + CANCEL_PAGE;
+
+    StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
+
+    signaturesSet.getCommonInfoSignature().getLanguageUI();
+
+    sss.setErrorMsg(titol + ": " + subtitol);
+    sss.setErrorException(null);
+    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+
+    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+        signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+  }
+
+  protected void showSimplePage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale, String titol, String subtitol, String button_label, String button_url) {
+    SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+
+    PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
+        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
+
+    out.println("<br/><br/>");
+
+    out.println("<center>");
+    out.println("<div>");
+    out.println("<p style=\"text-align:center\">");
+    // EL USUARIO NO EST&Aacute; DADO DE ALTA EN EL SISTEMA
+    out.println("    <h4>" + titol + "</h4>");
+    out.println("</p>");
+    out.println("</div>");
+    out.println("<div>");
+    out.println("<p>");
+    out.println(subtitol);
+    out.println("</p>");
+    out.println("</div>");
+    out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
+        + button_url + "'\" >" + button_label + "</button>");
+
+    out.println("</center>");
+
+    generateFooter(out, sai, signaturesSet);
+  }
+
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ----------------- SENSE CERTIFICAT - GENERAR UN DE NOU -----------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  private static final String GENERAR_NOU_CERTIFICAT_PAGE = "generarnoucertificat";
+
+  protected void generarNouCertificat(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale) {
+
+    String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
+
+    String callBackURLOK;
+    String callBackURLError;
+    String tancarFinestraURL;
+    if (callbackhost == null) {
+      callBackURLOK = absolutePluginRequestPath + "/" + FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE;
+      callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE
+          + "/ERROR_GENERANT_CERTIFICAT";
+      tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_CLAVEFIRMA_PAGE;
+    } else {
+      callBackURLOK = callbackhost + request.getServletPath() + "/"
+          + FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE;
+      callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE
+          + "/ERROR_GENERANT_CERTIFICAT";
+      tancarFinestraURL = callbackhost + request.getServletPath() + "/"
+          + CLOSE_CLAVEFIRMA_PAGE;
+    }
+
+    final boolean debug = isDebug();
+
+    if (debug) {
+      log.info("generarNouCertificat::callBackURLOK = " + callBackURLOK);
+      log.info("generarNouCertificat::callBackURLError = " + callBackURLError);
+      log.info("generarNouCertificat::tancarFinestraURL = " + tancarFinestraURL);
+    }
+
+    Properties config = new Properties();
+    config.setProperty("redirectOkUrl", callBackURLOK);
+    config.setProperty("redirectErrorUrl", callBackURLError);
+    GenerateCertificateResult result;
+    try {
+      final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+
+      final String appId = getPropertyRequired(PROPERTY_APPID);
+      final String subjectId = getClaveFirmaUser(commonInfoSignature.getUsername(),
+          commonInfoSignature.getAdministrationID());
+
+      initApiClientLib();
+      String confB64 = AOUtil.properties2Base64(config);
+      result = HttpGenerateCertificate.generateCertificate(appId, subjectId, confB64);
+
+      String redirectUrl = result.getRedirectUrl();
+
+      String transactionId = result.getTransactionId();
+      if (isDebug()) {
+        log.info("generarNouCertificat::Recibido el ID de transaccion: " + transactionId);
+        log.info("generarNouCertificat::Recibida la URL de redireccion: " + redirectUrl);
+      }
+
+      generateCertificateTransactions.put(signaturesSet.getSignaturesSetID(), transactionId);
+
+
+      showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
+          callBackURLError, tancarFinestraURL, redirectUrl);
+
     } catch (HttpForbiddenException e) {
       // XYZ ZZZ Traduir
       String errorMsg = ("Error de permisos en la solicitud de certificados: " + e
@@ -517,15 +671,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       // XYZ ZZZ Traduir
       String errorMsg = ("Error en la solicitud de certificado: " + e.getMessage());
       finishWithError(response, signaturesSet, errorMsg, e);
-    } 
+    }
 
- }
- 
- 
+  }
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------------------ SENSE CERTIFICATS ---------------------------
+  // ------------------------------ SENSE CERTIFICATS
+  // ---------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -544,32 +697,25 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     out.println("<br/><br/>");
 
     out.println("<center>");
-    
 
     out.println("<h4>" + getTraduccio("generarnoucertificat.titol", locale) + "" + "</h4>");
-    
-    
-    
+
     out.println("<div style=\"margin-top:30px;text-align: center; \">");
     out.println("  <label>");
     out.println("   <i>" + getTraduccio("generarnoucertificat.info", locale) + "</i>");
     out.println("  </label><br><br>");
-    
+
     out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
-        + relativePluginRequestPath + "/" + CANCEL_PAGE + "'\" >"
+        + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE + "/generarnoucertificat.cancel'\" >"
         + getTraduccio("cancel", locale) + "</button> &nbsp;&nbsp;");
-    
+
     out.println("<button class=\"btn btn-primary\" type=\"button\"  onclick=\"location.href='"
         + relativePluginRequestPath + "/" + GENERAR_NOU_CERTIFICAT_PAGE + "'\" >"
         + getTraduccio("generarnoucertificat.boto", locale) + "</button>");
-    
-    
+
     out.println("</div>");
-    
-    
+
     out.println("<br/>");
-
-
 
     out.println("</center>");
 
@@ -578,28 +724,138 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------ FIRMAR PRE
-  // ----------------------------------------------
+  // ------------------ CANCELA AMB MISSATGE ESPECIFIC -----------------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  private static final String CANCEL_AMB_MISSATGE_PAGE = "cancelambmissatge";
+
+  protected void cancelAmbMissatge(String absolutePluginRequestPath,
+      String relativePluginRequestPath, String relativePath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+    
+    int index = relativePath.lastIndexOf("/");
+    
+    if (isDebug()) {
+      log.info("cancelAmbMissatge():: relativePath = " + relativePath);
+    }
+
+    String codeTrans = relativePath.substring(index + 1, relativePath.length());
+
+    if (isDebug()) {
+      log.info("cancelAmbMissatge():: codeTrans = " + codeTrans);
+    }
+
+    StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
+
+    signaturesSet.getCommonInfoSignature().getLanguageUI();
+
+    sss.setErrorMsg(getTraduccio(codeTrans, locale));
+    sss.setErrorException(null);
+    sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+
+    try {
+      response.sendRedirect(signaturesSet.getUrlFinal());
+    } catch (IOException e) {
+      log.error("Error fent redirect: " + e.getMessage(), e);
+    }
+
+  }
+
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ----------------- SENSE CERTIFICAT - GENERAR UN DE NOU -----------------
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+
+  private static final String FIRMAR_PRE_DES_DE_CERT_GENERAT_PAGE = "firmarpredesdecertgenerat";
+
+  protected void firmarPreDesDeCertgenerat(String absolutePluginRequestPath,
+      String relativePluginRequestPath, String query, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      Locale locale) {
+
+    final boolean debug = isDebug();
+
+    if (debug) {
+      log.info("firmarPreDesDeCertgenerat::absolutePluginRequestPath="
+          + absolutePluginRequestPath);
+      log.info("firmarPreDesDeCertgenerat::relativePluginRequestPath="
+          + relativePluginRequestPath);
+      log.info("firmarPreDesDeCertgenerat:: QUERY = |" + query + "|");
+
+      Map<Object, Object> params = request.getParameterMap();
+      for (Object key : params.keySet()) {
+        log.info("firmarPreDesDeCertgenerat():: param[" + key + "] = "
+            + ((String[]) params.get(key))[0]);
+      }
+    }
+
+    // "transactionid" definit dins generarNouCertificat()
+    
+    final String transactionid = generateCertificateTransactions.get(signaturesSet.getSignaturesSetID());
+
+    if (debug) {
+      log.info("firmarPreDesDeCertgenerat:: transactionid = |" + transactionid + "|");
+    }
+
+    try {
+      final String appId = getPropertyRequired(PROPERTY_APPID);
+
+      X509Certificate certificate = HttpGenerateCertificate.recoverCertificate(appId,
+          transactionid);
+      
+      if (debug) {
+        log.info("firmarPreDesDeCertgenerat:: certificateRecuperat = |" + certificate + "|");
+      }
+
+      firmar(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, locale, debug, certificate);
+
+    } catch (Exception e) {
+      // TODO XYZ FILTRAR ERRORS . Veure documentacio
+
+      // TODO Traduir
+      String msg = " Error desconegut recuperant certificat d'usuari que acaba de ser"
+          + " generat al servidor de ClaveFirma(transaccio = " + transactionid + "): "
+          + e.getMessage();
+
+      finishWithError(response, signaturesSet, msg, e);
+    }
+
+  }
+
+  // ----------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------
+  // ------------------ FIRMAR PRE ---------------------------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
   private static final String FIRMAR_PRE_PAGE = "firmarpre";
 
   protected void firmarPre(String absolutePluginRequestPath, String relativePluginRequestPath,
-      HttpServletRequest request, HttpServletResponse response,
+      String query, HttpServletRequest request, HttpServletResponse response,
       SignaturesSetWeb signaturesSet, Locale locale) {
 
     final boolean debug = isDebug();
-    
+
+    Map<Object, Object> params = null;
     if (debug) {
       log.debug("firmarPre::absolutePluginRequestPath=" + absolutePluginRequestPath);
       log.debug("firmarPre::relativePluginRequestPath=" + relativePluginRequestPath);
+
+      log.info("firmarPre:: QUERY = |" + query + "|");
+
+      params = request.getParameterMap();
+      for (Object key : params.keySet()) {
+        log.info("firmarPre():: param[" + key + "] = " + ((String[]) params.get(key))[0]);
+      }
     }
 
-    final String signaturesSetID = signaturesSet.getSignaturesSetID();
-    final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+    // XYZ ZZZ
+    // Aqui hem de cridar a recuperar certificat just recent generat !!!!
+    // TODO
 
-    
     try {
 
       // Conté el SerialNumber del Cert
@@ -627,208 +883,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       }
 
-      int pos = relativePluginRequestPath.lastIndexOf("-1");
-
-      String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
-
-      final String appId = getPropertyRequired(PROPERTY_APPID);
-      final String subjectId = getClaveFirmaUser(commonInfoSignature.getUsername(),
-          commonInfoSignature.getAdministrationID());
-
-      // TODO Check que tots els fitxers firmen amb el mateix tipus d'algorisme
-      FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
-
-      ClaveFirmaSignInformation[] claveFirmaSignInfoArray = new ClaveFirmaSignInformation[fileInfoArray.length];
-
-      // TODO Només de la primera firma
-      String callBackURLOK;
-      String callBackURLError;
-      String tancarFinestraURL;
-      String redirectUrl = null;
-
-      // NOMES SUPORTAM UNA FIRMA !!!!!
-      for (int i = 1; i < fileInfoArray.length; i++) {
-        // NOMES SUPORTAM UNA FIRMA !!!!!
-        // ClaveFirma no suporta multiples firmes
-        String msg =  getTraduccio("warn.nosuportamultiplesfirmes", locale, this.getName(locale));
-        FileInfoSignature fileInfo = fileInfoArray[i];
-        StatusSignature ss = fileInfo.getStatusSignature();
-        ss.setErrorMsg(msg);
-        ss.setErrorException(null);
-        ss.setStatus(StatusSignature.STATUS_CANCELLED);
-      }
-
-      // TODO AQUI HI HAURIA D?AVER UN FOR for (int i = 0; i <
-      // fileInfoArray.length; i++)
-      int i = 0;
-      {
-
-        FileInfoSignature fileInfo = fileInfoArray[i];
-        StatusSignature ss = fileInfo.getStatusSignature();
-        
-        final String signTypeOrig = fileInfo.getSignType();
-
-
-        String timeStampUrl = null;
-        if (fileInfo.getTimeStampGenerator() != null) {
-          String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
-              relativePluginRequestPath);
-
-          timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
-        }
-
-        MiniAppletSignInfo info;
-        info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
-            timeStampUrl, certificate);
-
-        final Properties signProperties = info.getProperties();
-
-        byte[] dataToSign = info.getDataToSign();
-        
-        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
-          // SMIME
-          String mimeType =  fileInfo.getMimeType();
-          if (mimeType == null || mimeType.trim().length() == 0) {
-            mimeType = "application/octet-stream";
-          }
-
-          MIMEInputStream mis = new MIMEInputStream(new ByteArrayInputStream(dataToSign), mimeType);
-          dataToSign = AOUtil.getDataFromInputStream(mis);
-          mis.close();
-        }
-
-        String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
-
-        if (callbackhost == null) {
-          callBackURLOK = absolutePluginRequestPath + "/" + FIRMAR_POST_PAGE;
-          callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE;
-          tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_CLAVEFIRMA_PAGE;
-        } else {
-          callBackURLOK = callbackhost + request.getServletPath() + "/" + FIRMAR_POST_PAGE;
-          callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE;
-          tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_CLAVEFIRMA_PAGE;
-        }
-        
-        if (debug) {
-          log.info("firmarPre:: SEGELL DE TEMPS = " + (fileInfo.getTimeStampGenerator() != null));
-        }
-        if (fileInfo.getTimeStampGenerator() != null) {
-
-          if (debug) {
-            log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] PRE= " + signTypeOrig);
-          }
-          // Guardar dins Cache de Propietats si es denama timeStamp i el tipus és CADES o SMIME
-          if (FileInfoSignature.SIGN_TYPE_CADES.equals(signTypeOrig)
-              || FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
-            
-            if (debug) {
-              log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] POST= " + signTypeOrig);
-            }
-            
-            Properties[] allProp = timeStampCache.get(signaturesSetID);
-            if (allProp == null) {
-              allProp = new Properties[fileInfoArray.length];
-              timeStampCache.put(signaturesSetID, allProp);
-            } 
-            allProp[i] = signProperties;
-          }
-
-        }
-        
-        if (debug) {
-          log.info("firmarPre::callBackURLOK = " + callBackURLOK);
-          log.info("firmarPre::callBackURLError = " + callBackURLError);
-          log.info("firmarPre::tancarFinestraURL = " + tancarFinestraURL);
-        }
-
-        final Properties remoteConfProperties = new Properties();
-        // redirectOkUrl: URL a la que redirigir al usuario en caso de terminar
-        // correcta-mente la operación.
-        remoteConfProperties.setProperty("redirectOkUrl", callBackURLOK);
-        // redirectErrorUrl: URL a la que redirigir al usuario en caso de error.
-        remoteConfProperties.setProperty("redirectErrorUrl", callBackURLError);
-        // procedureName: Nombre del procedimiento que se ejecuta (previamente
-        // dado de alta en la GISS).
-        remoteConfProperties.put("procedureName", getPropertyRequired(PROPERTY_PROCEDURE));
-
-        if (debug) {
-          
-          StringWriter writer = new StringWriter();
-          signProperties.list(new PrintWriter(writer));
-          
-          log.info(" -------------- SIGN PROPERTIES -------------------\n"
-             + writer.getBuffer().toString());
-
-          writer = new StringWriter();
-          remoteConfProperties.list(new PrintWriter(writer));
-          
-          log.info(" -------------- REMOTE PROPERTIES -------------------\n"
-             + writer.getBuffer().toString());
-
-        }
-        
-        final HttpSignProcessConstants.SignatureFormat signTypeClaveFirma;
-        signTypeClaveFirma = convertSignType(signTypeOrig);
-
-        final HttpSignProcessConstants.SignatureAlgorithm signAlgorithm;
-        signAlgorithm = convertSignAlgorithm(fileInfo.getSignAlgorithm());
-
-        // Muntar Objecte
-        ClaveFirmaSignInformation cfsi = new ClaveFirmaSignInformation(appId, subjectId,
-            signTypeClaveFirma, signAlgorithm, signProperties, certificate, dataToSign,
-            remoteConfProperties);
-
-        LoadResult loadResult;
-        try {
-          if (debug) {
-            log.info("Cridam a INIT");
-          }
-          initApiClientLib();
-
-          if (debug) {
-            log.info("Cridam a HttpLoadProcess.loadData()");
-          }
-          loadResult = HttpLoadProcess.loadData(cfsi.getAppId(), cfsi.getSubjectId(),
-              cfsi.getSignOperation(), cfsi.getSignType(), cfsi.getSignAlgorithm(),
-              cfsi.getSignProperties(), cfsi.getCertificate(), cfsi.getDataToSign(),
-              cfsi.getRemoteConfProperties());
-          
-          cfsi.setLoadResult(loadResult);
-        
-          // XYZ ZZZ Print loadResult.getTriphaseData()
-
-          ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
-
-          claveFirmaSignInfoArray[i] = cfsi;
-
-          redirectUrl = loadResult.getRedirectUrl();
-          if (debug) {
-            final String transactionId = loadResult.getTransactionId();
-            log.info("XYZ ZZZ Recibido el ID de transaccion: " + transactionId);
-            log.info("XYZ ZZZ Recibida LA URL de redireccion: " + redirectUrl);
-          }
-
-        } catch (Throwable th) {
-          String msg;
-          if (th instanceof HttpForbiddenException) {
-            msg = "Error de permisos en la carga de datos: " + th.getMessage();
-          } else if (th instanceof HttpNetworkException) {
-            msg = "Error de red en la carga de datos: " + th.getMessage();
-          } else {
-            msg = "Error en la carga de datos a firmar: " + th.getMessage();
-          }
-
-          finishWithError(response, signaturesSet, msg, th);
-        }
-
-      }
-
-      this.transactions.put(signaturesSetID, claveFirmaSignInfoArray);
-      
-      signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
-
-      showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
-          callBackURLError, tancarFinestraURL, redirectUrl);
+      firmar(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, locale, debug, certificate);
     } catch (Exception e) {
       // TODO XYZ FILTRAR ERRORS . Veure documentacio
 
@@ -841,6 +897,220 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     }
   }
 
+  protected void firmar(String absolutePluginRequestPath, String relativePluginRequestPath,
+      HttpServletRequest request, HttpServletResponse response,
+      SignaturesSetWeb signaturesSet, Locale locale, final boolean debug,
+      X509Certificate certificate) throws Exception, UnsupportedEncodingException, IOException {
+
+    final String signaturesSetID = signaturesSet.getSignaturesSetID();
+    final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+
+    int pos = relativePluginRequestPath.lastIndexOf("-1");
+
+    String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
+
+    final String appId = getPropertyRequired(PROPERTY_APPID);
+    final String subjectId = getClaveFirmaUser(commonInfoSignature.getUsername(),
+        commonInfoSignature.getAdministrationID());
+
+    // TODO Check que tots els fitxers firmen amb el mateix tipus d'algorisme
+    FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
+
+    ClaveFirmaSignInformation[] claveFirmaSignInfoArray = new ClaveFirmaSignInformation[fileInfoArray.length];
+
+    // TODO Només de la primera firma
+    String callBackURLOK;
+    String callBackURLError;
+    String tancarFinestraURL;
+    String redirectUrl = null;
+
+    // NOMES SUPORTAM UNA FIRMA !!!!!
+    for (int i = 1; i < fileInfoArray.length; i++) {
+      // NOMES SUPORTAM UNA FIRMA !!!!!
+      // ClaveFirma no suporta multiples firmes
+      String msg = getTraduccio("warn.nosuportamultiplesfirmes", locale, this.getName(locale));
+      FileInfoSignature fileInfo = fileInfoArray[i];
+      StatusSignature ss = fileInfo.getStatusSignature();
+      ss.setErrorMsg(msg);
+      ss.setErrorException(null);
+      ss.setStatus(StatusSignature.STATUS_CANCELLED);
+    }
+
+    // TODO AQUI HI HAURIA D?AVER UN FOR for (int i = 0; i <
+    // fileInfoArray.length; i++)
+    int i = 0;
+    {
+
+      FileInfoSignature fileInfo = fileInfoArray[i];
+      StatusSignature ss = fileInfo.getStatusSignature();
+
+      final String signTypeOrig = fileInfo.getSignType();
+
+      String timeStampUrl = null;
+      if (fileInfo.getTimeStampGenerator() != null) {
+        String callbackhost = getHostAndContextPath(absolutePluginRequestPath,
+            relativePluginRequestPath);
+
+        timeStampUrl = callbackhost + baseSignaturesSet + "/" + i + "/" + TIMESTAMP_PAGE;
+      }
+
+      MiniAppletSignInfo info;
+      info = MiniAppletUtils.convertLocalSignature(commonInfoSignature, fileInfo,
+          timeStampUrl, certificate);
+
+      final Properties signProperties = info.getProperties();
+
+      byte[] dataToSign = info.getDataToSign();
+
+      if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
+        // SMIME
+        String mimeType = fileInfo.getMimeType();
+        if (mimeType == null || mimeType.trim().length() == 0) {
+          mimeType = "application/octet-stream";
+        }
+
+        MIMEInputStream mis = new MIMEInputStream(new ByteArrayInputStream(dataToSign),
+            mimeType);
+        dataToSign = AOUtil.getDataFromInputStream(mis);
+        mis.close();
+      }
+
+      String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
+
+      if (callbackhost == null) {
+        callBackURLOK = absolutePluginRequestPath + "/" + FIRMAR_POST_PAGE;
+        callBackURLError = absolutePluginRequestPath + "/" + SIGN_ERROR_PAGE + "/PROCES_DE_FIRMA";
+        tancarFinestraURL = absolutePluginRequestPath + "/" + CLOSE_CLAVEFIRMA_PAGE;
+      } else {
+        callBackURLOK = callbackhost + request.getServletPath() + "/" + FIRMAR_POST_PAGE;
+        callBackURLError = callbackhost + request.getServletPath() + "/" + SIGN_ERROR_PAGE + "/PROCES_DE_FIRMA";
+        tancarFinestraURL = callbackhost + request.getServletPath() + "/"
+            + CLOSE_CLAVEFIRMA_PAGE;
+      }
+
+      if (debug) {
+        log.info("firmarPre:: SEGELL DE TEMPS = " + (fileInfo.getTimeStampGenerator() != null));
+      }
+      if (fileInfo.getTimeStampGenerator() != null) {
+
+        if (debug) {
+          log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] PRE= " + signTypeOrig);
+        }
+        // Guardar dins Cache de Propietats si es denama timeStamp i el tipus
+        // és CADES o SMIME
+        if (FileInfoSignature.SIGN_TYPE_CADES.equals(signTypeOrig)
+            || FileInfoSignature.SIGN_TYPE_SMIME.equals(signTypeOrig)) {
+
+          if (debug) {
+            log.info("firmarPre:: SEGELL DE TEMPS[SIGNTYPE] POST= " + signTypeOrig);
+          }
+
+          Properties[] allProp = timeStampCache.get(signaturesSetID);
+          if (allProp == null) {
+            allProp = new Properties[fileInfoArray.length];
+            timeStampCache.put(signaturesSetID, allProp);
+          }
+          allProp[i] = signProperties;
+        }
+
+      }
+
+      if (debug) {
+        log.info("firmarPre::callBackURLOK = " + callBackURLOK);
+        log.info("firmarPre::callBackURLError = " + callBackURLError);
+        log.info("firmarPre::tancarFinestraURL = " + tancarFinestraURL);
+      }
+
+      final Properties remoteConfProperties = new Properties();
+      // redirectOkUrl: URL a la que redirigir al usuario en caso de terminar
+      // correcta-mente la operación.
+      remoteConfProperties.setProperty("redirectOkUrl", callBackURLOK);
+      // redirectErrorUrl: URL a la que redirigir al usuario en caso de error.
+      remoteConfProperties.setProperty("redirectErrorUrl", callBackURLError);
+      // procedureName: Nombre del procedimiento que se ejecuta (previamente
+      // dado de alta en la GISS).
+      remoteConfProperties.put("procedureName", getPropertyRequired(PROPERTY_PROCEDURE));
+
+      if (debug) {
+
+        StringWriter writer = new StringWriter();
+        signProperties.list(new PrintWriter(writer));
+
+        log.info(" -------------- SIGN PROPERTIES -------------------\n"
+            + writer.getBuffer().toString());
+
+        writer = new StringWriter();
+        remoteConfProperties.list(new PrintWriter(writer));
+
+        log.info(" -------------- REMOTE PROPERTIES -------------------\n"
+            + writer.getBuffer().toString());
+
+      }
+
+      final HttpSignProcessConstants.SignatureFormat signTypeClaveFirma;
+      signTypeClaveFirma = convertSignType(signTypeOrig);
+
+      final HttpSignProcessConstants.SignatureAlgorithm signAlgorithm;
+      signAlgorithm = convertSignAlgorithm(fileInfo.getSignAlgorithm());
+
+      // Muntar Objecte
+      ClaveFirmaSignInformation cfsi = new ClaveFirmaSignInformation(appId, subjectId,
+          signTypeClaveFirma, signAlgorithm, signProperties, certificate, dataToSign,
+          remoteConfProperties);
+
+      LoadResult loadResult;
+      try {
+        if (debug) {
+          log.info("Cridam a INIT");
+        }
+        initApiClientLib();
+
+        if (debug) {
+          log.info("Cridam a HttpLoadProcess.loadData()");
+        }
+        loadResult = HttpLoadProcess.loadData(cfsi.getAppId(), cfsi.getSubjectId(),
+            cfsi.getSignOperation(), cfsi.getSignType(), cfsi.getSignAlgorithm(),
+            cfsi.getSignProperties(), cfsi.getCertificate(), cfsi.getDataToSign(),
+            cfsi.getRemoteConfProperties());
+
+        cfsi.setLoadResult(loadResult);
+
+        // XYZ ZZZ Print loadResult.getTriphaseData()
+
+        ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
+
+        claveFirmaSignInfoArray[i] = cfsi;
+
+        redirectUrl = loadResult.getRedirectUrl();
+        if (debug) {
+          final String transactionId = loadResult.getTransactionId();
+          log.info("Recibido el ID de transaccion: " + transactionId);
+          log.info("Recibida la URL de redireccion: " + redirectUrl);
+        }
+
+      } catch (Throwable th) {
+        String msg;
+        if (th instanceof HttpForbiddenException) {
+          msg = "Error de permisos en la carga de datos: " + th.getMessage();
+        } else if (th instanceof HttpNetworkException) {
+          msg = "Error de red en la carga de datos: " + th.getMessage();
+        } else {
+          msg = "Error en la carga de datos a firmar: " + th.getMessage();
+        }
+
+        finishWithError(response, signaturesSet, msg, th);
+      }
+
+    }
+
+    this.transactions.put(signaturesSetID, claveFirmaSignInfoArray);
+
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
+
+    showFullScreenPage(relativePluginRequestPath, response, locale, debug, callBackURLOK,
+        callBackURLError, tancarFinestraURL, redirectUrl);
+  }
+
   protected void showFullScreenPage(String relativePluginRequestPath,
       HttpServletResponse response, Locale locale, final boolean debug, String callBackURLOK,
       String callBackURLError, String tancarFinestraURL, String redirectUrl)
@@ -851,7 +1121,6 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       log.info("tancarFinestraURL = " + tancarFinestraURL);
       log.info("redireccionURL = " + redirectUrl);
     }
-    
 
     final boolean showInNewWindow = false;
 
@@ -861,44 +1130,28 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       tancarFinestraURL = callBackURLOK;
     }
 
-
     response.setCharacterEncoding("utf-8");
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
 
-    out.println("<html>" + "\n" + "<head>" + "\n" + "<script type=\"text/javascript\">"
-        + "\n");
+    out.println("<html>" + "\n" + "<head>" + "\n" + "<script type=\"text/javascript\">" + "\n");
 
     if (showInNewWindow) {
       out.println(" var win;" + "\n" + "    win = window.open('" + redirectUrl
           + "', '_blank', '');" + "\n" + "    var timer = setInterval(function() {" + "\n"
           + "        if (win.closed) {" + "\n" + "          clearInterval(timer);" + "\n"
-          + "          document.location.href = '" + callBackURLOK + "';" + "\n"
-          + "        }" + "\n" + "      }, 500);" + "\n" + " };" + "\n");
+          + "          document.location.href = '" + callBackURLOK + "';" + "\n" + "        }"
+          + "\n" + "      }, 500);" + "\n" + " };" + "\n");
     } else {
       out.println("    var insideIframe = window.top !== window.self;" + "\n"
-          + "    if(insideIframe){" + "\n" + "       window.top.location.href='"
-          + redirectUrl + "';\n" + "    } else {" + "\n"
-          + "       document.location.href = '" + redirectUrl + "';" + "\n" + "    };"
-          + "\n");
+          + "    if(insideIframe){" + "\n" + "       window.top.location.href='" + redirectUrl
+          + "';\n" + "    } else {" + "\n" + "       document.location.href = '" + redirectUrl
+          + "';" + "\n" + "    };" + "\n");
     }
 
-    out.println("</script>"
-        + "\n"
-        + "</head><body>"
-        + "\n"
-        + "<br/><center>"
-        + "\n"
-        + "<h1>"
-        + getTraduccio("introduircontrasenya", locale)
-        + "</h1><br/>"
-        + "\n"
-        + "<img src=\""
-        + relativePluginRequestPath
-        + "/"
-        + WEBRESOURCE
-        + "/img/ajax-loader2.gif\" />"
-        + "\n"
+    out.println("</script>" + "\n" + "</head><body>" + "\n" + "<br/><center>" + "\n" + "<h1>"
+        + getTraduccio("introduircontrasenya", locale) + "</h1><br/>" + "\n" + "<img src=\""
+        + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n"
         + "<br/><input id=\"clickMe\" type=\"button\" value=\"clickme\" onclick=\"xyz();\" />"
         + "\n" + "</center>" + "\n" + "</body>" + "\n" + "</html>");
 
@@ -913,29 +1166,49 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   private static final String SIGN_ERROR_PAGE = "signErrorPage";
 
-  private void signErrorPage(HttpServletRequest request, HttpServletResponse response,
-      SignaturesSetWeb signaturesSet, int signatureIndex, String query, Locale locale) {
+  private void signErrorPage(String absolutePluginRequestPath,
+      String relativePluginRequestPath, HttpServletRequest request,
+      HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
+      String query, Locale locale) {
     final boolean debug = isDebug();
+    final Map<Object, Object> params = request.getParameterMap();
     if (debug) {
       log.info("signErrorPage:: S'ha rebut una cridada a la URL d'ERROR: signaturesSetID = "
           + signaturesSet.getSignaturesSetID());
-      
+
       log.info("signErrorPage:: QUERY = |" + query + "|");
 
-      Map<Object, Object> params = request.getParameterMap();
       for (Object key : params.keySet()) {
-        log.info("signErrorPage():: param[" + key + "] = " + ((String[])params.get(key))[0]);
+        log.info("signErrorPage():: param[" + key + "] = " + ((String[]) params.get(key))[0]);
       }
     }
-    
-    
+
     String msg;
-    if (query.endsWith("ERROR_GENERANT_CERTIFICAT"))  {
-      msg = getTraduccio("error.generantcerificat", locale);
+    // Aquesta cadena esta definida al mètode generarNouCertificat()
+    if (query.endsWith("ERROR_GENERANT_CERTIFICAT")) {
+
+      if (params.containsKey("btnNo")) {
+        // Cancelar en primera pagina (pagina pregunta de generacio)
+        msg = getTraduccio("generarnoucertificat.cancel", locale);
+      } else if (params.containsKey("otp") && params.containsKey("iPass2")
+          && params.containsKey("iPass1")) {
+        // Cancelar en la segona pagina (contraseña)
+        msg = getTraduccio("generarnoucertificat.cancel", locale);
+      } else {
+        msg = getTraduccio("error.generantcertificat", locale);
+      }
+    } else if(query.endsWith("PROCES_DE_FIRMA")) { 
+      
+      if (params.containsKey("password") ) {
+        msg = getTraduccio("firmardocument.cancel", locale);
+      } else {
+        msg = getTraduccio("error.autenticacio", locale);
+      }
+      
+      
     } else {
       msg = getTraduccio("error.autenticacio", locale);
     }
-    
 
     finishWithError(response, signaturesSet, msg, null);
   }
@@ -954,7 +1227,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     String signaturesSetID = signaturesSet.getSignaturesSetID();
     ClaveFirmaSignInformation[] firmaSignInformationArray = transactions.get(signaturesSetID);
-    
+
     final boolean debug = isDebug();
 
     if (debug) {
@@ -989,25 +1262,24 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           .getDataToSign(), fsi.getLoadResult().getTriphaseData(), upgrade);
 
       // ========= CAS OK
-      
-      
-      //***************** SELLO DE TIEMPO PER CADES&SMIME ****************
+
+      // ***************** SELLO DE TIEMPO PER CADES&SMIME ****************
 
       if (fileInfo.getTimeStampGenerator() != null) {
-      
+
         // Aplicar Segellat de Temps si és SMIME o CADES
         if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
             || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
-          
+
           Properties[] allProp = timeStampCache.get(signaturesSetID);
 
-          try {        
-            
+          try {
+
             if (debug) {
               log.info("storeDocument:: fisig.getSignType() => " + fileInfo.getSignType());
               log.info("storeDocument:: allProp => " + allProp);
             }
-            
+
             if (allProp == null) {
               throw new Exception("No es troba informació per realitzar el segellat de Temps"
                   + "(allProp no hauria de ser null !!!!)");
@@ -1016,44 +1288,42 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
             TsaParams tsaParams = new TsaParams(allProp[i]);
 
             CMSTimestamper cmsTS = new CMSTimestamper(tsaParams);
-            signedData = cmsTS.addTimestamp(
-                signedData,
-              tsaParams.getTsaHashAlgorithm(),
-              new GregorianCalendar()
-            );
+            signedData = cmsTS.addTimestamp(signedData, tsaParams.getTsaHashAlgorithm(),
+                new GregorianCalendar());
           } catch (final Exception e) {
-            String msg = "Error Aplicant Segellat de Temps a una firma CADES: " + e.getMessage(); 
-            log.error(msg, e );
-            
+            String msg = "Error Aplicant Segellat de Temps a una firma CADES: "
+                + e.getMessage();
+            log.error(msg, e);
+
             // TODO Fer Batch
             // Estat de tots els document ja que per ara només permet 1 fitxer
             fileInfo.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_ERROR);
             fileInfo.getStatusSignature().setErrorMsg(msg);
             fileInfo.getStatusSignature().setErrorException(e);
-            
+
             finishWithError(response, signaturesSet, msg, e);
-            
+
             return;
 
           }
         }
       }
-      
-      //************** FIN SELLO DE TIEMPO ****************
+
+      // ************** FIN SELLO DE TIEMPO ****************
 
       File firmat = File.createTempFile("ClaveFirmaWebPlugin", "signedfile");
-      
+
       if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
         // SMIME
 
-        String mimeType =  fileInfo.getMimeType();
+        String mimeType = fileInfo.getMimeType();
         if (mimeType == null || mimeType.trim().length() == 0) {
           mimeType = "application/octet-stream";
         }
 
         FileInputStream fis = new FileInputStream(fileInfo.getFileToSign());
 
-        SMIMEInputStream smis =  new SMIMEInputStream(signedData, fis , mimeType);
+        SMIMEInputStream smis = new SMIMEInputStream(signedData, fis, mimeType);
 
         FileOutputStream baos = new FileOutputStream(firmat);
         FileUtils.copy(smis, baos);
@@ -1061,9 +1331,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         smis.close();
         fis.close();
         baos.close();
-        
+
       } else {
-  
+
         FileOutputStream fos = new FileOutputStream(firmat);
         fos.write(signedData);
         fos.flush();
@@ -1094,8 +1364,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
       ss.setErrorException(e);
 
-      ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) + fileInfo.getName() + " ["
-          + e.getClass().getName() + "]:" + e.getMessage());
+      ss.setErrorMsg(getTraduccio("error.firmantdocument", locale, fileInfo.getName() + " ["
+          + e.getClass().getName() + "]:" + e.getMessage()));
 
       finishWithError(response, signaturesSet, msg, e);
 
@@ -1115,21 +1385,16 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       String relativePluginRequestPath, String relativePath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
-    
-    
 
     StringWriter sw = new StringWriter();
     try {
-      
+
       // En principi això ja no ha de llançar errors a no ser de comunicació
       List<X509Certificate> map = listCertificates(signaturesSet);
-   
 
       PrintWriter out = new PrintWriter(sw);
 
       out.println("<h3>" + getTraduccio("selectcertificat.titol", locale) + "</h3><br/>");
-
-      
 
       // EL CONTROL DE QUE HI HAGI CERTIFICATS ES FA EN FILTER
 
@@ -1190,7 +1455,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       out.println("<br/><br/>");
 
       out.println("<button class=\"btn\" type=\"button\"  onclick=\"location.href='"
-          + relativePluginRequestPath + "/" + CANCEL_PAGE + "'\" >"
+          + relativePluginRequestPath + "/" + CANCEL_AMB_MISSATGE_PAGE + "/firmardocument.cancel'\" >"
           + getTraduccio("cancel", locale) + "</button>");
 
       out.println("&nbsp;&nbsp;");
@@ -1230,7 +1495,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   // ----------------------------------------------------------------------------
 
   public List<X509Certificate> listCertificates(SignaturesSetWeb signaturesSet)
-      throws Exception,  HttpCertificateBlockedException, HttpNoUserException {
+      throws Exception, HttpCertificateBlockedException, HttpNoUserException {
 
     String username = signaturesSet.getCommonInfoSignature().getUsername();
     String administrationID = signaturesSet.getCommonInfoSignature().getAdministrationID();
@@ -1247,7 +1512,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   private long lastCacheUpdate = 0;
 
   public List<X509Certificate> listCertificates(String username, String administrationID)
-      throws Exception,  HttpCertificateBlockedException, HttpNoUserException {
+      throws Exception, HttpCertificateBlockedException, HttpNoUserException {
 
     long now = System.currentTimeMillis();
     if ((lastCacheUpdate + 3600000) < now) {
@@ -1272,10 +1537,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       initApiClientLib();
       certificates = listCertificatesStatic(userClaveFirma, appId, log);
 
-
       final boolean debug = isDebug();
       if (debug) {
-        log.info(" CERTIFICATS == " + ((certificates == null)? "NULL" : certificates.size()));
+        log.info(" CERTIFICATS == " + ((certificates == null) ? "NULL" : certificates.size()));
       }
 
       if (certificates != null) {
@@ -1288,14 +1552,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   }
 
   public static List<X509Certificate> listCertificatesStatic(String userClaveFirma,
-      final String appId, Logger log) throws Exception, HttpCertificateBlockedException, HttpNoUserException  {
+      final String appId, Logger log) throws Exception, HttpCertificateBlockedException,
+      HttpNoUserException, HttpWeakRegistryException {
     // Listamos los certificados del usuario
     List<X509Certificate> certificates = null;
     try {
 
       certificates = HttpCertificateList.getList(appId, userClaveFirma);
 
-      log.error(" XYZ ZZZ HttpCertificateList.getList() = " + certificates);
+      if (log != null) {
+        log.error(" HttpCertificateList.getList() = " + certificates);
+      }
 
       if (certificates == null || certificates.isEmpty()) {
         return null; // error = "0;URL='ChooseCertificateNoCerts.jsp'";
@@ -1303,20 +1570,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       return certificates;
     } catch (final HttpNetworkException e) {
       // XYZ ZZZ Traduir
-      throw new Exception("Error contactant amb el Component Central pel Llistat de Certificats: " + e.getMessage(), e);
-    } 
-    /*
-    catch (final HttpCertificateBlockedException e) {
-      // XYZ ZZZ
-      throw new Exception("0;URL='ChooseCertificateCertBlocked.jsp'", e);
-    } catch (final HttpNoUserException e) {
-      throw new Exception("0;URL='ChooseCertificateNoUser.jsp'", e);
-    }
-    */
-    catch (final Exception e) {
-      
-      if (e instanceof HttpCertificateBlockedException
-          || e instanceof HttpNoUserException) {
+      throw new Exception(
+          "Error contactant amb el Component Central pel Llistat de Certificats: "
+              + e.getMessage(), e);
+    } catch (final Exception e) {
+
+      if (e instanceof HttpCertificateBlockedException || e instanceof HttpNoUserException
+          || e instanceof HttpWeakRegistryException) {
         throw e;
       } else {
         // XYZ ZZZ TODO TRADUIR
@@ -1327,7 +1587,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         throw new Exception(msg, e);
       }
     }
-    
+
   }
 
   // ------------------------------------------------------------------
@@ -1361,7 +1621,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     } else {
       return false;
     }
-    
+
   }
 
   @Override
@@ -1393,10 +1653,8 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   public String[] getSupportedSignatureTypes() {
     // TODO Falta CADes, ...
     return new String[] { FileInfoSignature.SIGN_TYPE_PADES,
-        FileInfoSignature.SIGN_TYPE_XADES, 
-        FileInfoSignature.SIGN_TYPE_CADES,
-        FileInfoSignature.SIGN_TYPE_SMIME
-    };
+        FileInfoSignature.SIGN_TYPE_XADES, FileInfoSignature.SIGN_TYPE_CADES,
+        FileInfoSignature.SIGN_TYPE_SMIME };
   }
 
   @Override
@@ -1407,7 +1665,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
     }
-    
+
     if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
       return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1 };
     }
@@ -1432,7 +1690,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       String propertiesPath = getPropertyRequired(PROPERTY_CLIENT_CONFIG_PROPERTIES_PATH);
 
       final boolean debug = isDebug();
-      
+
       if (debug) {
         log.info("initApiClientLib::propertiesPath = " + propertiesPath);
       }
@@ -1443,20 +1701,19 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         log.info("initApiClientLib::new File(propertiesPath).exists() = " + f.exists());
       }
 
-      staticInit(f, isDebug()?log:null);
+      staticInit(f, isDebug() ? log : null);
 
       inicialitzat = true;
     }
   }
 
   public static void staticInit(File propertiesFile, Logger log) throws Exception {
-    
+
     String javaVersion = System.getProperty("java.version"); // => 1.6.0_33"
-    
+
     if (javaVersion.startsWith("1.6")) {
       System.setProperty("https.protocols", "TLSv1");
     }
-    
 
     Properties config = readPropertiesFromFile(propertiesFile);
 
@@ -1471,21 +1728,19 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     field.set(null, config);
 
-    if (log != null) { 
-    
+    if (log != null) {
+
       field = es.gob.clavefirma.client.ConfigManager.class.getDeclaredField("config");
       field.setAccessible(true);
-  
+
       Properties configget = (Properties) field.get(null);
-  
+
       for (Object key : configget.keySet()) {
         log.info("staticInit::PropertiesGET[" + key + "] => " + configget.get(key));
       }
     }
 
   }
-
- 
 
   protected HttpSignProcessConstants.SignatureFormat convertSignType(String signType) {
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
@@ -1580,5 +1835,4 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   }
 
-  
 }
