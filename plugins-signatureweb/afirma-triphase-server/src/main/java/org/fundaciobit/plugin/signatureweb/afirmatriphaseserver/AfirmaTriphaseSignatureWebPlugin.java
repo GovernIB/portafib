@@ -68,8 +68,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     implements DocumentManager {
   
    
-  public static final String CLAVEFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
-      + "clavefirma.";
+  public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
+      + "autofirma.";
   
    /**
     * S'utilitza per guardar les propietats que s'utilitza per la firma SMIME o CADES 
@@ -103,7 +103,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
   
   protected boolean isDebug() {
-    return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES + "debug"));
+    return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
   }
   
   
@@ -406,8 +406,22 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     out.println("<script src=\"" + relativePluginRequestPath + "/miniapplet.js\"></script>");
     
-    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out, key, value);
-    
+
+    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out,
+        key, value);
+
+    String newJS = getProperty(AUTOFIRMA_BASE_PROPERTIES + "newjavascripturl");
+
+    if (newJS != null && newJS.trim().length() != 0) {
+      out.println("<script type=\"text/javascript\" src=\"" + newJS + "\"></script>");
+    }
+
+    String newCSS = getProperty(AUTOFIRMA_BASE_PROPERTIES + "newcssurl");
+
+    if (newCSS != null && newCSS.trim().length() != 0) {
+      out.println("<link href=\"" + newCSS + "\" rel=\"stylesheet\" type=\"text/css\">");
+    }
+
     String html =  javascript.get(key.getSignaturesSetID());
     
     if (html != null) {

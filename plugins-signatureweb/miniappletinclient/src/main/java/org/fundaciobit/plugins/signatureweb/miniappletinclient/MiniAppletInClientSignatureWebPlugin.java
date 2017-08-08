@@ -149,7 +149,21 @@ public class MiniAppletInClientSignatureWebPlugin extends
       String relativePluginRequestPath,
       PrintWriter out, SignIDAndIndex sai, SignaturesSetWeb signaturesSet) {
     
-    // BUIT No volem res
+    super.getJavascriptCSS(request, absolutePluginRequestPath, relativePluginRequestPath, out,
+        sai, signaturesSet);
+
+    String newJS = getProperty(MINIAPPLETINCLIENT_BASE_PROPERTIES + "newjavascripturl");
+
+    if (newJS != null && newJS.trim().length() != 0) {
+      out.println("<script type=\"text/javascript\" src=\"" + newJS + "\"></script>");
+    }
+
+    String newCSS = getProperty(MINIAPPLETINCLIENT_BASE_PROPERTIES + "newcssurl");
+
+    if (newCSS != null && newCSS.trim().length() != 0) {
+      out.println("<link href=\"" + newCSS + "\" rel=\"stylesheet\" type=\"text/css\">");
+    }
+
   }
   
   
@@ -739,6 +753,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
   @Override
   protected String getSimpleName() {
     return "MiniAppletInClient";
+  }
+  
+  protected boolean isDebug() {
+    return log.isDebugEnabled()
+        || "true".equalsIgnoreCase(getProperty(MINIAPPLETINCLIENT_BASE_PROPERTIES + "debug"));
   }
 
   // ----------------------------------------------------------------------------
