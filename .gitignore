@@ -117,3 +117,19 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ws/portafib_server/src/main/java/es/caib/portafib/ws/utils/FitxerUtilsCommon.java
 /plugins-signatureserver/afirmaserver/setpath.bat
 /dependencies.txt
+/deps.bat
+/hola.txt
+/plugins-signatureserver/afirmaserver/afirma_integra_facade_XML_bug.png
+/plugins-signatureserver/afirmaserver/afirma_integra_traduccions.png
+/plugins-signatureserver/afirmaserver/config/plugin.properties.caib
+/plugins-signatureserver/afirmaserver/results/foto.jpg_cades_detached_ts.csig
+/plugins-signatureserver/exempleapp/sample_signed_nocommit.pdf
+/plugins-signatureserver/miniappletinserver/foto.jpg
+/plugins-signatureserver/miniappletinserver/hola_firmat_jks_username_null.pdf
+/plugins-signatureserver/miniappletinserver/run.bat
+/plugins-signatureweb/novaversio.bat
+/portafib - Còpia.genapp
+/ws/portafib_api_example/signed_PeticioFirma_182180.pdf
+/ws/portafib_api_passarela_servidor/setpath - Còpia.bat
+/ws/portafib_api_passarela_servidor/test_firmat.pdf
+/ws/portafib_api_passarela_web/setpath.bat
