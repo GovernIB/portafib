@@ -58,13 +58,18 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
   
   
   @Override
-  public void deleteFull(long fitxerID) throws I18NException {
+  public boolean deleteFull(long fitxerID) throws I18NException {
     
     // Esborrar de BBDD
     delete(fitxerID);
     
     // Esborrar fitxer Fisic
-    FileSystemManager.eliminarArxiu(fitxerID);
+    if (!FileSystemManager.eliminarArxiu(fitxerID)) {
+      log.warn("No s'ha pogut esborrar el fitxer amb ID " + fitxerID, new Exception());
+      return false;
+    } else {
+      return true;
+    }
 
   }
   

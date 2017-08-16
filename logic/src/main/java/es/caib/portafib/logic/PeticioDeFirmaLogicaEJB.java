@@ -817,6 +817,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       String msg = prop.getProperty(locale.getLanguage());
       
+      if (msg == null) {
+        throw new I18NException("custodiainfo.missatge.error.format", locale.getLanguage());
+      }
+      
       String missatge = MessageFormat.format(msg, arguments);
 
       String barcodeText = MessageFormat.format(custodiaInfo.getCodiBarresText(), arguments);
@@ -2238,7 +2242,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (debug) {
         log.debug("Fer neteja de Fitxer Adaptat: ID = " + fitxerAdaptatID);
       }
-      fitxerLogicaEjb.deleteFull(fitxerAdaptatID);
+      
+      if (!fitxerLogicaEjb.deleteFull(fitxerAdaptatID)) {
+        log.warn("No s'ha pogut esborrar fitxer adaptat ( " + fitxerAdaptatID + ")");
+      }
     }
 
     // (b) Esborrar Firmes Intermitges

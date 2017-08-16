@@ -228,11 +228,8 @@ public class PdfUtils implements Constants {
       if (fitxerOriginalID != null) {
         if (numFirmaPortaFIB == 1) {
           // Comprovar fitxer original i pujat
-          
-          //FileSystemManager.getChecksum(fitxerOriginalID);
-          
           byte[] originalData = FileSystemManager.getFileContent(fitxerOriginalID);
-          
+ 
           boolean isOK;
           isOK = checkDocumentWhenFirstSign(originalData, signedPDFData, numFirmesOriginals);
           

@@ -1,6 +1,6 @@
 
 -- ========================================
--- 2015/12/01 Plugin de Custòdia Documental
+-- 2015/12/01 Plugin de CustÃ²dia Documental
 -- ========================================
 
 ALTER TABLE pfi_custodiainfo ADD COLUMN pluginid bigint NOT NULL DEFAULT 6;

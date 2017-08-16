@@ -1,6 +1,6 @@
 
 -- =============================================================
---  2015/11/11 Modul de Firma i relació amb Tipus de Documents
+--  2015/11/11 Modul de Firma i relaciÃ³ amb Tipus de Documents
 -- =============================================================
 
 
@@ -16,7 +16,7 @@ CREATE TABLE pfi_plugin (
     tipus integer NOT NULL
 );
 ALTER TABLE portafib.pfi_plugin OWNER TO portafib;
-COMMENT ON COLUMN pfi_plugin.entitatid IS 'Si val null indica que és de l''Administrador. En cas conytrari ja és una instanciació d''una Entitat';
+COMMENT ON COLUMN pfi_plugin.entitatid IS 'Si val null indica que Ã©s de l''Administrador. En cas conytrari ja Ã©s una instanciaciÃ³ d''una Entitat';
 
 CREATE TABLE pfi_modulfirmapertipusdoc (
     id bigint DEFAULT nextval('pfi_portafib_seq'::regclass) NOT NULL,
@@ -85,7 +85,7 @@ create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
 
 
 -- ======================================================
---  2015/11/13 Custòdia per defecte dins Entitat
+--  2015/11/13 CustÃ²dia per defecte dins Entitat
 -- ======================================================
 
 ALTER TABLE pfi_entitat ADD custodiainfoid bigint;

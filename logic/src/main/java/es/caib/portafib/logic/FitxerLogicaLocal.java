@@ -21,7 +21,7 @@ public interface FitxerLogicaLocal extends FitxerLocal {
 
   public FitxerJPA checkBasic(long fitxerID) throws I18NException;
   
-  public void deleteFull(long fitxerID) throws I18NException;
+  public boolean deleteFull(long fitxerID) throws I18NException;
 
 }
 
