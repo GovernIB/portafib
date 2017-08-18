@@ -15,9 +15,14 @@ import java.util.List;
 import javax.annotation.security.RunAs;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.utils.XTrustProvider;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -323,8 +328,14 @@ public class NotificacionsQueue implements MessageListener {
           break;
           
           case 1:  
-            // Enviem a l'API de Portafib
-            enviarNotificacioApiPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
+            // Enviem a l'API WS Callback de Portafib
+            enviarNotificacioApiWSPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
+          break;
+          
+          case 2:
+            // Enviem a l'API REST Callback de Portafib
+            enviarNotificacioApiRESTPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
+          break;
             
           case -1:
           default:
@@ -445,8 +456,68 @@ public class NotificacionsQueue implements MessageListener {
     }
 
   }
+  
+  
+  
+  
+  private static void enviarNotificacioApiRESTPortaFIBv1(NotificacioInfo notificacioInfo,
+      FirmaEvent fe, UsuariAplicacio usuariAplicacio) throws I18NException {
+    // ENVIAR A SERVEI REST 
+    if (log.isDebugEnabled()) {
+      log.info("");
+      log.info("--------------------");
+      log.info("Enviada notificacio amb id " + notificacioInfo.getIdObjectSent()
+          + " a l´usuari-aplicacio " + usuariAplicacio.getUsuariAplicacioID() 
+          + " al servei REST ] "  + usuariAplicacio.getCallbackURL() + " (Versio "
+          + usuariAplicacio.getCallbackVersio() + ")");
+      log.info("--------------------");
+      log.info("");
+    }
+    
+    String endPoint = usuariAplicacio.getCallbackURL();
+    
+    /// ----------- FINAL 
 
-  private static void enviarNotificacioApiPortaFIBv1(NotificacioInfo notificacioInfo,
+    PortaFIBEvent event = createPortaFIBEvent(fe, usuariAplicacio);
+
+    String json = null;
+    try {
+      Client client = Client.create();
+
+      WebResource webResource = client.resource(endPoint);
+
+      ObjectMapper mapper = new ObjectMapper();
+      json = mapper.writeValueAsString(event);
+
+      if (log.isDebugEnabled()) {
+        log.info("JSON EVENT:\n" + json);
+      }
+
+      ClientResponse response = webResource.type("application/json").post(
+          ClientResponse.class, json);
+
+      if (response.getStatus() != 200) {
+        throw new Exception("Error Cridant a Servei Rest(" + endPoint + "): " + 
+            response.getEntity(String.class) + "[" + response.getStatus() + "]");
+      }
+
+      String output = response.getEntity(String.class);
+      
+      if (log.isDebugEnabled()) {
+        log.info("Resposta cridada REST a métode event(): ]" + output + "[ \n");
+      }
+
+    } catch (Exception e) {
+      log.error("JSON EVENT:\n" + json);
+      log.error("CallBackException(REST): " + e.getMessage(), e);
+      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
+    }
+  }
+  
+  
+  
+
+  private static void enviarNotificacioApiWSPortaFIBv1(NotificacioInfo notificacioInfo,
       FirmaEvent fe, UsuariAplicacio usuariAplicacio) throws I18NException {
     // ENVIAR A WEBSERVICE NOU
     if (log.isDebugEnabled()) {
@@ -478,6 +549,18 @@ public class NotificacionsQueue implements MessageListener {
     Map<String, Object> reqContext = ((BindingProvider) callbackApi).getRequestContext();
     reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
+    PortaFIBEvent event = createPortaFIBEvent(fe, usuariAplicacio);
+
+    try {
+      callbackApi.event(event);
+    } catch (CallBackException e) {
+      log.error("CallBackException(WS): " + e.getMessage(), e);
+      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
+    }
+  }
+
+  protected static PortaFIBEvent createPortaFIBEvent(FirmaEvent fe,
+      UsuariAplicacio usuariAplicacio) throws I18NException {
     PortaFIBEvent event = new PortaFIBEvent();
 
     event.setEventDate(new Timestamp(fe.getDateEvent().getTime()));
@@ -535,13 +618,7 @@ public class NotificacionsQueue implements MessageListener {
         }
       }
     }
-
-    try {
-      callbackApi.event(event);
-    } catch (CallBackException e) {
-      log.error("CallBackException: " + e.getMessage(), e);
-      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
-    }
+    return event;
   }
 
   /**

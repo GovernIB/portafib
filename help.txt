@@ -34,11 +34,18 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                        /portafib/ws/v1/PortaFIBUsuariAplicacio             
                   Exemples d'us a ws\portafib_api i ws\portafib_api_example.
 
--Pws-portafib-callback-server  Crea WS per provar la recepcio dels Callback
-                  de PortaFIB. Els usuaris aplicacio han de tenir callback
-                  url http://HOST:8080/portafib/cb/v1/PortaFIBCallBack
-                  i callback versio 1. Per veure les cridades accedir
-                  a http://HOST:8080/portafib/portafibcb
+-Pws-portafib-callback-server  Crea un conjunt de serveis per testejar la 
+                  funcionalitat de callback de PortaFIB:
+                  - WS per provar la recepcio dels Callback de PortaFIB via WS.
+                    Els usuaris aplicacio han de tenir callback a una url com
+                    http://HOST:PORT/portafib/cb/v1/PortaFIBCallBack i el
+                    camp 'Callback Versio" a 'PortaFIB Callback WS v1.0'
+                  - REST per provar la recepcio dels Callback de PortaFIB via REST.
+                    Els usuaris aplicacio han de tenir callback a una url com
+                    http://HOST:PORT/portafib/cbrest/v1/event (POST)
+                    i camp 'Callback Versio" a 'PortaFIB Callback REST v1.0'
+                  - WEB: UI per poder consultar els events de Callback enviats
+                    via WS o via REST. La url és http://HOST:PORT/portafib/portafibcb
 
 -Pws-portafirmas  Crea WS compatible amb l'API del PortaFirmas antic de la CAIB.
                   El WS es accessible des de /portafib/portafirmasws/web/services/CWS.

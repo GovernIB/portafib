@@ -9,6 +9,9 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
+
+import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
+import es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore;
 import es.caib.portafib.ws.utils.VersionsWs;
 
 /**

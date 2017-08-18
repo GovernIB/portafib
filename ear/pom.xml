@@ -641,6 +641,17 @@
           <version>${portafib.version}</version>
           <type>war</type>
         </dependency>
+        <dependency>
+          <groupId>es.caib.portafib</groupId>
+          <artifactId>portafib-callback-server-rest</artifactId>
+          <version>${portafib.version}</version>
+          <type>war</type>
+        </dependency>
+        <dependency>  
+          <artifactId>portafib-callback-beans</artifactId>
+          <groupId>es.caib.portafib</groupId>
+          <version>${portafib.version}</version>
+        </dependency>
       </dependencies>
       <build>
         <plugins>
@@ -658,6 +669,11 @@
                   <groupId>es.caib.portafib</groupId>
                   <artifactId>portafib-ws-callback-server-web</artifactId>
                   <contextRoot>portafib/portafibcb</contextRoot>
+                </webModule>
+                <webModule>
+                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>portafib-callback-server-rest</artifactId>
+                  <contextRoot>portafib/cbrest</contextRoot>
                 </webModule>
               </modules>
             </configuration>

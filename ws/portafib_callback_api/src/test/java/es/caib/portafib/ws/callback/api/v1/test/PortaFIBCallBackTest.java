@@ -77,7 +77,7 @@ public class PortaFIBCallBackTest extends PortaFIBTestUtils {
     signingRequest.setID(1234L);
     signingRequest.setTitle("Titol peticio");
     signingRequest.setState(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
-    signingRequest.setAdditionalInformation("additiona info");
+    signingRequest.setAdditionalInformation("additiona info WS");
     signingRequest.setRejectionReason("Rebutjar per ...");
     signingRequest.setCustodyURL("http://vd.caib.es/holacaracola/12345");
 

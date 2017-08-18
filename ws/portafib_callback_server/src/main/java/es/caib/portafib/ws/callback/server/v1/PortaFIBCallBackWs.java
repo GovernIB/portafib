@@ -4,6 +4,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
+
 /**
  * 
  * @author anadal

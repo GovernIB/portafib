@@ -1,13 +1,12 @@
-<%@page import="es.caib.portafib.ws.callback.server.v1.Actor"%>
-<%@page import="es.caib.portafib.ws.callback.server.v1.Sign"%>
-<%@page import="es.caib.portafib.ws.callback.server.v1.SigningRequest"%>
-<%@page import="es.caib.portafib.utils.Constants"%>
-<%@page import="es.caib.portafib.ws.callback.server.v1.PortaFIBEvent"%>
-<%@page import="es.caib.portafib.ws.callback.server.v1.PortaFIBEventStore"%>
-<%@page import="es.caib.portafib.ws.callback.server.v1.PortaFIBCallBackWsImpl"%>
-<%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Set"%>
+<%@page import="es.caib.portafib.utils.Constants"%>
+<%@page import="es.caib.portafib.callback.beans.v1.PortaFIBEvent"%>
+<%@page import="es.caib.portafib.callback.beans.v1.Actor"%>
+<%@page import="es.caib.portafib.callback.beans.v1.Sign"%>
+<%@page import="es.caib.portafib.callback.beans.v1.SigningRequest"%>
+<%@page import="es.caib.portafib.callback.beans.v1.tester.PortaFIBEventStore"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 <%!
@@ -107,7 +106,11 @@ body {font-family: Arial; font-size: 8;}
 <tr>
   <td><h2>Llistat de Callbacks Rebuts</h2></td>
   <td>&nbsp;</td>
-  <td><h3>(<a href="../cb/v1/PortaFIBCallBack?wsdl">WSDL</a>) </h3></td>
+  <td><h3>(<a target="_blank" href="../cb/v1/PortaFIBCallBack?wsdl">WSDL</a>) </h3></td>
+  <td>&nbsp;</td>
+  <td><h3>(<a target="_blank" href="../cbrest/v1/versio">Versi&oacute; REST</a>) </h3></td>
+  <td>&nbsp;</td>
+  <td><h3>(<a target="_blank" href="../cbrest/v1/event">CallBack REST</a>) </h3></td>
   <td>&nbsp;</td>
   <td><a href="index.jsp?action=clean">Fer Net</a></td>
 </tr>

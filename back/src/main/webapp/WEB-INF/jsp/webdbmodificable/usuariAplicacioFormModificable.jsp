@@ -10,8 +10,13 @@
 
      if (value == '0') {
     	 callBackUrl.value="http://localhost:8080/portafib/portafirmascb/v0/PortafirmasCallBack";
-     } else {
+     } else if (value == '1') {
     	 callBackUrl.value="http://localhost:8080/portafib/cb/v1/PortaFIBCallBack";
+     } else if (value == '2') {
+         callBackUrl.value="http://localhost:8080/portafib/cbrest/v1/event";
+     } else {
+         <%-- Error de desenvolupament --%>
+         alert("ID de versió desconeguda: " + value);
      }
 
   }

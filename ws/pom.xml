@@ -102,6 +102,8 @@
     <profile>
       <id>ws-portafib-callback-server</id>
       <modules>
+        <module>portafib_callback_beans</module> 
+        <module>portafib_callback_server_rest</module>
         <module>portafib_callback_server</module>	   
         <module>portafib_callback_server_web</module>	   
       </modules>

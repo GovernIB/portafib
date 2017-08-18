@@ -6,7 +6,7 @@
   <groupId>es.caib.portafib</groupId>
   <packaging>war</packaging>
 
-  <name>PortaFIB WS - Callback Server Web (Dev)</name>
+  <name>PortaFIB WS - Callback Server Web (Test)</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
@@ -60,6 +60,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>  
+      <artifactId>portafib-callback-beans</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>1.1.3</version>
+      <scope>provided</scope>
+    </dependency>
 
 
     <dependency>

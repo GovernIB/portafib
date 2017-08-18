@@ -186,10 +186,12 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     public List<StringKeyValue> getReferenceListForCallbackVersio(HttpServletRequest request,
         ModelAndView mav, Where where)  throws I18NException {
      List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-          
+     // NOTA: Si és modifica aquest llistat, llavors s'ha de modificar també el fitxer
+     // [portafib]/back/src/main/webapp/WEB-INF/jsp/webdbmodificable/usuariAplicacioFormModificable.jsp
      __tmp.add(new StringKeyValue("-1" , "No Callback"));
      __tmp.add(new StringKeyValue("0" , "Portafirmas CAIB"));
-     __tmp.add(new StringKeyValue("1" , "PortaFIB Callback v1.0"));
+     __tmp.add(new StringKeyValue("1" , "PortaFIB Callback WS v1.0"));
+     __tmp.add(new StringKeyValue("2" , "PortaFIB Callback REST v1.0"));
      return __tmp;
    }
     
