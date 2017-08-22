@@ -1,9 +1,11 @@
 
-
-
 pdf.source=./hola.pdf
 pdf.dest=./hola_firmat.pdf
 
 org.fundaciobit.example.plugins.signatureweb.portafib.api_passarela_url=http://localhost:8080/portafib/ws/v1/PortaFIBPassarelaDeFirma
 org.fundaciobit.example.plugins.signatureweb.portafib.api_passarela_username=fundaciobit_usrapp
 org.fundaciobit.example.plugins.signatureweb.portafib.api_passarela_password=fundaciobit_usrapp
+
+# Opcional
+#org.fundaciobit.exemple.plugins.signatureweb.portafib.filter_by_plugin_ids=165068,23454
+#org.fundaciobit.exemple.plugins.signatureweb.portafib.use_portafib_certificate_filter=true

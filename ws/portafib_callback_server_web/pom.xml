@@ -6,7 +6,7 @@
   <groupId>es.caib.portafib</groupId>
   <packaging>war</packaging>
 
-  <name>PortaFIB WS - Callback Server Web (Test)</name>
+  <name>PortaFIB - Callback Server Web (Test)</name>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
