@@ -610,7 +610,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           status.setSignedData(null);
           status.setErrorException(e);
           
-          return;
+          continue;
         }
         fileDst.deleteOnExit();
         fis.getStatusSignature().setSignedData(fileDst);
@@ -626,7 +626,59 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         final String config = SignSaverFile.PROP_FILENAME + "=" + dst;
             // + "\r\n" + SignSaverFile.PROP_INSTANCE + "=" + instanceID;
         
-        String src = fis.getFileToSign().getAbsolutePath().replace('\\', '/');
+        
+        File sourceFile;
+        if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fis.getSignType())) {
+
+          try {
+          
+            FileInputStream finputStream = new FileInputStream(fis.getFileToSign());
+            
+            // SMIME
+            String mimeType =  fis.getMimeType();
+            if (mimeType == null || mimeType.trim().length() == 0) {
+              mimeType = "application/octet-stream";
+            }
+            
+            MIMEInputStream mis = new MIMEInputStream(finputStream, mimeType);
+            //final byte[] data; = AOUtil.getDataFromInputStream(mis);
+            
+            sourceFile = File.createTempFile("PluginAutofirmaBatchSMIMEORIGINAL", ".bin");
+            
+            FileOutputStream fos = new FileOutputStream(sourceFile);
+            
+            FileUtils.copy(mis, fos);
+            
+            mis.close();
+            finputStream.close();
+            
+            fos.flush();
+            fos.close();
+
+          } catch(Exception e) {
+            //  NOMES DESCARTAM AQUESTA FIRMA. NO TOTES
+            // TODO Traduir
+            String errorMsg = getSimpleName() 
+                + "::Error Adaptant fitxer original a SMIME SignatureID="
+                + signaturesSet.getSignaturesSetID() + " (Index = " + i + "): "
+                + e.getMessage();
+
+            StatusSignature status = getStatusSignature(signaturesSetID, i);
+            status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            status.setErrorMsg(errorMsg);
+            status.setSignedData(null);
+            status.setErrorException(e);
+            
+            continue;
+          }
+          
+        } else {
+          // PADEs, CADES i XADES
+          sourceFile = fis.getFileToSign();
+        }
+      
+      
+        String src = sourceFile.getAbsolutePath().replace('\\', '/');
         
         final String signatureFullID = configProperties[i].getProperty(SIGNATUREID);
       
@@ -1470,17 +1522,17 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return ;
    }
    
-   final boolean debug = log.isDebugEnabled();
+   final boolean debug = isDebug();
 
    try {
   
      if (debug) {
-       log.debug("resultXMLB64 = " + resultXMLB64);
+       log.info("resultXMLB64 = " + resultXMLB64);
      }
   
      String resultXML = new String(Base64.decode(resultXMLB64));
      if (debug) {
-       log.debug("resultXML = \n" + resultXML);
+       log.info("resultXML = \n" + resultXML);
      }
      Signs result = xmlToSignResultList(resultXML);
      
@@ -1493,11 +1545,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        allIds.add(sr.getId());
 
        if (debug) {
-         log.debug("--------------------------------- ");
-         log.debug(" sr.getId = " + sr.getId());
-         log.debug(" sr.getResult = " + sr.getResult());
-         log.debug(" sr.getDescription = " + sr.getDescription());
-         log.debug(" sr.getValue = " + sr.getValue());
+         log.info("--------------------------------- ");
+         log.info(" sr.getId = " + sr.getId());
+         log.info(" sr.getResult = " + sr.getResult());
+         log.info(" sr.getDescription = " + sr.getDescription());
+         log.info(" sr.getValue = " + sr.getValue());
        }
        
        Item item = decodeSignatureItemID(sr.getId());
@@ -1506,7 +1558,24 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        StatusSignature status = getStatusSignature(signaturesSetID, item.index);
        
        if ("DONE_AND_SAVED".equals(sr.getResult())) {
+
+         final File dataInicial = status.getSignedData();
+         
+         File fitxerArreglat = checkSMIMEiSegellatDeTemps(dataInicial, signaturesSetID, signatureIndex,
+             signaturesSet, signaturesSet.getFileInfoSignatureArray()[item.index], status);
+         
+         if (fitxerArreglat != null) {
+           status.setSignedData(fitxerArreglat);
+           if (!dataInicial.delete()) {
+             log.warn("No s'ha pogut esborrar fitxer firmat original després de"
+                 + " l'adaptació SMIME/SegellDetemps en PostBatch", new Exception());
+             
+             dataInicial.deleteOnExit();
+           }
+         }
+         
          status.setStatus(StatusSignature.STATUS_FINAL_OK);
+         
        } else {
          countError++;
          log.error("Resultat de Firma Erroni en SignSet = " + item.signaturesSetID 
@@ -1529,12 +1598,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
      
      // Revisar si tot ja s'ha guardat
      if (debug) {
-       log.debug(" finalPageBatch() : CHECK TOT GUARDAT\n"
+       log.info(" finalPageBatch() : CHECK TOT GUARDAT\n"
          + "          +  AllIds: " + allIds.size() + " \n"         
          + "          + Error Count: " + countError + "\n\n");     
      }     
      try {
-     
+    
        List<String> pendents = new ArrayList<String>(allIds);
        for (int i = 0; i < 10; i++) {
           pendents = SignSaverFile.checkProcessedFiles(pendents);
@@ -1561,6 +1630,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          }
   
        }
+
      } finally {
      
        SignSaverFile.removeProcessedFiles(allIds);
@@ -1571,7 +1641,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
      statusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
     
      if (debug) {
-       log.debug("finalPageBatch() : REDIRECT A " + signaturesSet.getUrlFinal());
+       log.info("finalPageBatch() : REDIRECT A " + signaturesSet.getUrlFinal());
      }
 
      response.sendRedirect(signaturesSet.getUrlFinal());
@@ -2092,7 +2162,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       fis = new FileInputStream(file);
 
       final byte[] data;
+
       if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
+
         // SMIME
         String mimeType =  fisig.getMimeType();
         if (mimeType == null || mimeType.trim().length() == 0) {
@@ -2167,7 +2239,29 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     SignaturesSetWeb ss = getSignaturesSet(signaturesSetID);
     FileInfoSignature fisig = ss.getFileInfoSignatureArray()[signatureIndex];
     
+    StatusSignature status = getStatusSignature(signaturesSetID, signatureIndex);
     
+    try {
+      File firmat = checkSMIMEiSegellatDeTemps(data, signaturesSetID, signatureIndex, ss, fisig,
+          status);
+      return Base64.encode(firmat.getAbsolutePath().getBytes());
+    } catch(IOException e) {
+
+      // Estat de tots els document ja que per ara només permet 1 fitxer
+      fisig.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      fisig.getStatusSignature().setErrorMsg(e.getMessage());
+      fisig.getStatusSignature().setErrorException(e);
+      ss.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      throw e;
+
+    }
+
+  }
+
+  protected File checkSMIMEiSegellatDeTemps(byte[] data, final String signaturesSetID,
+      final int signatureIndex, SignaturesSetWeb ss, FileInfoSignature fisig,
+      StatusSignature status) throws IOException {
+
     
     //***************** SELLO DE TIEMPO PER CADES&SMIME ****************
 
@@ -2202,30 +2296,25 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         } catch (final Exception e) {
           String msg = "Error Aplicant Segellat de Temps a una firma CADES: " + e.getMessage(); 
           log.error(msg, e );
-          
-          // TODO Fer Batch
-          // Estat de tots els document ja que per ara només permet 1 fitxer
-          fisig.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_ERROR);
-          fisig.getStatusSignature().setErrorMsg(msg);
-          fisig.getStatusSignature().setErrorException(e);
-          ss.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_FINAL_ERROR);
-          
+
+          throw new IOException(msg, e);
+
         }
       }
     }
     //************** FIN SELLO DE TIEMPO ****************
 
 
-    StatusSignature status = getStatusSignature(signaturesSetID, signatureIndex);
+   
 
     File firmat = null;
     FileOutputStream fos = null;
     try {
       firmat = File.createTempFile("TriphaseSigWebPlugin", "signedfile");
       
+
       if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
         // SMIME
-
         String mimeType =  fisig.getMimeType();
         if (mimeType == null || mimeType.trim().length() == 0) {
           mimeType = "application/octet-stream";
@@ -2259,7 +2348,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       if (log.isDebugEnabled()) {
         log.debug(" Traduir  Escribiendo el fichero: " + firmat.getAbsolutePath());
       }
-      return Base64.encode(firmat.getAbsolutePath().getBytes());
+      
 
     } catch (final IOException e) {
       log.error("Error al guardar les dades en el fitxer '" + firmat.getAbsolutePath() 
@@ -2273,8 +2362,40 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       throw e;
     }
+    return firmat;
+  }
+  
+  
+  
+  
+  protected File checkSMIMEiSegellatDeTemps(File dataInicial, final String signaturesSetID,
+      final int signatureIndex, SignaturesSetWeb ss, FileInfoSignature fisig,
+      StatusSignature status) throws Exception {
+
+    
+    boolean retornDirecte= true;
+    if ((fisig.getTimeStampGenerator() != null) &&
+        (FileInfoSignature.SIGN_TYPE_CADES.equals(fisig.getSignType())
+          || FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType()))) {
+      retornDirecte = false;
+    }
+    
+    if (FileInfoSignature.SIGN_TYPE_SMIME.equals(fisig.getSignType())) {
+      retornDirecte = false;
+    }
+    
+    if (retornDirecte == true) {
+      return null;
+    }
+    
+    
+    byte[] data = FileUtils.readFromFile(dataInicial);
+    
+    return checkSMIMEiSegellatDeTemps(data, signaturesSetID, signatureIndex, ss, fisig, status);
+    
 
   }
+  
 
 
   protected static Signs xmlToSignResultList(String xml) throws JAXBException {

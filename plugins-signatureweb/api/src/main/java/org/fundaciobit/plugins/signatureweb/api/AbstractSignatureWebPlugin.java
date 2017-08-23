@@ -70,7 +70,7 @@ public abstract class AbstractSignatureWebPlugin
     }
     System.gc();
   }
-  
+
 
   @Override
   public StatusSignature getStatusSignature(String signaturesSetID, int signatureIndex) {

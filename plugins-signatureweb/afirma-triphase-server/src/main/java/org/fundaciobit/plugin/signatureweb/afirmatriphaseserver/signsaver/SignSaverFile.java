@@ -28,7 +28,6 @@ public class SignSaverFile implements SignSaver {
   private static final Map<String, Long> processedFiles = new HashMap<String, Long>();
   
   
-  
   private Logger log = Logger.getLogger(SignSaverFile.class);
   
   private String filename;
@@ -52,13 +51,15 @@ public class SignSaverFile implements SignSaver {
 
   @Override
   public void saveSign(SingleSign sign, byte[] dataToSave) throws IOException {
- 
+
     FileOutputStream o = new FileOutputStream(this.filename);
     o.write(dataToSave);
     o.flush();
     o.close();
     
     Item item = AfirmaTriphaseSignatureWebPlugin.decodeSignatureItemID(sign.getId());
+    
+    
     
     if (log.isDebugEnabled()) {
       log.debug(
