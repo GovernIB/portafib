@@ -15,9 +15,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 
-
-
-
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.fundaciobit.plugins.userinformation.UserInfo;
@@ -47,6 +44,7 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v2.impl.beans.CarrecWs;
 import es.caib.portafib.ws.v2.impl.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.v2.impl.utils.JPAConversion;
 
@@ -166,9 +164,45 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     }      
     return UsuariPersonaBean.toBean(up);
   }
+  
+  
+  @RolesAllowed({ PFI_ADMIN , PFI_USER })
+  @WebMethod
+  @Override
+  public String getUsuariPersonaNom(
+      @WebParam(name = "usuariPersonaID") String usuariPersonaID)
+      throws WsValidationException, WsI18NException, Throwable {
+    UsuariPersonaJPA up = usuariPersonaLogicaEjb.findByPrimaryKey(usuariPersonaID);      
+    if (up == null) {
+      return null;
+    }
+    
+    if (!wsContext.isUserInRole(PFI_ADMIN)) {
+      // Si només som PFI_USER, llavors nomes podem tornar nom de les persones
+      // si estan donades d'alta a la meva entitat. Per això es verificarà que
+      // la persona tengui un usuari dins l'entitat a la que pertany l'usuari-app
+      String entitatApp= es.caib.portafib.ws.utils.UsuariAplicacioCache.get().getEntitatID();
+      
+      String usuariEntitatID = usuariEntitatLogicaEjb.executeQueryOne(
+          UsuariEntitatFields.USUARIENTITATID,
+          Where.AND(
+            UsuariEntitatFields.USUARIPERSONAID.equal(usuariPersonaID),
+            UsuariEntitatFields.ENTITATID.equal(entitatApp)
+            ));
+
+      if (usuariEntitatID == null) {     
+        // No podem mostrar informació de les persones d'altres entitats sense ser ADMIN
+        throw new I18NException("error.acces.personanom");
+      }
+    }
+    
+    return up.getNom() + " " + up.getLlinatges();
+  }
+
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN })
+  @Override
   public void createUsuariPersona(
       @WebParam(name = "usuariPersonaBean") UsuariPersonaBean usuariPersonaBean)
       throws WsValidationException, WsI18NException, Throwable {
@@ -185,6 +219,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN })
+  @Override
   public void deleteUsuariPersona(@WebParam(name = "usuariPersonaID") String usuariPersonaID)
       throws WsI18NException, Throwable {
     Set<Long> fitxers = usuariPersonaLogicaEjb.deleteFull(usuariPersonaID);
@@ -197,12 +232,14 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
 
+  
+  
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN})
+  @Override
   public UsuariEntitatBean getUsuariEntitat(
-      @WebParam(name = "usuariEntitatID") String usuariEntitatID
-      ) throws Throwable {
+      @WebParam(name = "usuariEntitatID") String usuariEntitatID) throws Throwable {
     
     if (usuariEntitatID == null) {
       return null;
@@ -214,23 +251,18 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();
     }
-    
-    if (!wsContext.isUserInRole(PFI_ADMIN)) {
-      // S'ha de verificar que l'entitat de l'usuari app. que fa 
-      // la petició sigui igual que la de l'usuari entitat
-      if (!ue.getEntitatID().equals(es.caib.portafib.ws.utils.UsuariAplicacioCache.get().getEntitatID())) {
-        // No podem mostrar informació d'usuaris-entitat d'altres entitats sense ser ADMIN
-        return null;
-      }
+    // Només usuaris-entitat
+    if (ue == null || ue.getCarrec() != null) {
+      return null;
     }
     
     return UsuariEntitatBean.toBean(ue);
   }
 
-  
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public String getUsuariEntitatIDByAdministrationID(
       @WebParam(name = "administrationID") String administrationID,
       @WebParam(name = "entitatID") String entitatID)
@@ -256,6 +288,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER })
   @WebMethod
+  @Override
   public String getUsuariEntitatIDInMyEntitatByAdministrationID(
       @WebParam(name = "administrationID") String administrationID)
       throws WsI18NException, Throwable {
@@ -317,36 +350,14 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
       @WebParam(name = "entitatID") String entitatID) throws WsValidationException,
       WsI18NException, Throwable {
     
-    return internalCreateCarrecOrUsuariEntitat(administrationID, entitatID, null, null);
-  }
-
-  @RolesAllowed({ PFI_ADMIN })
-  @WebMethod
-  public void createCarrec(@WebParam(name = "carrec") CarrecWs carrec)
-    throws WsValidationException, WsI18NException, Throwable {
-    usuariEntitatLogicaEjb.createFull(CarrecWs.toUsuariEntitatJPA(carrec));
-  }
-  
-  
-  
- 
-  
-  @RolesAllowed({ PFI_ADMIN })
-  @WebMethod
-  public CarrecWs createCarrecSimple(
-      @WebParam(name = "administrationID") String administrationID,
-      @WebParam(name = "entitatID") String entitatID,
-      @WebParam(name = "carrecUsername") String carrecUsername,
-      @WebParam(name = "carrecName") String carrecName
-    ) throws WsValidationException,
-      WsI18NException, Throwable {
-    return CarrecWs.toCarrecWs(internalCreateCarrecOrUsuariEntitat(
-      administrationID,entitatID, carrecUsername, carrecName)); 
+    return internalCreateCarrecOrUsuariEntitat(usuariPersonaLogicaEjb,
+        usuariEntitatLogicaEjb, administrationID, entitatID, null, null);
   }
 
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public UsuariEntitatBean createUsuariEntitat(
       @WebParam(name = "usuariEntitatBean") UsuariEntitatBean usuariEntitatBean)
       throws WsValidationException, WsI18NException, Throwable {
@@ -373,7 +384,9 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   }
 
   
-  private UsuariEntitatBean internalCreateCarrecOrUsuariEntitat(
+  public static UsuariEntitatBean internalCreateCarrecOrUsuariEntitat(
+      UsuariPersonaLogicaLocal usuariPersonaLogicaEjb,
+      UsuariEntitatLogicaLocal usuariEntitatLogicaEjb,
       String administrationID,String entitatID,
       String carrecUsername, String carrecName
     ) throws WsValidationException,
@@ -529,6 +542,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   @WebMethod
   public void activateCarrec(@WebParam(name = "carrecID") String carrecID)
       throws WsI18NException, Throwable {
+    // TODO Comprovar que sigui un càrrec
     usuariEntitatLogicaEjb.activarCarrec(carrecID);
   }
 
@@ -537,6 +551,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   public void deactivateCarrec(
       @WebParam(name = "carrecID") String carrecID)
       throws WsI18NException, Throwable {
+    // TODO Comprovar que sigui un càrrec
     usuariEntitatLogicaEjb.desactivarCarrec(carrecID);
   }
   
@@ -545,6 +560,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseWsImpl impleme
   public void deleteCarrec(
       @WebParam(name = "carrecID") String carrecID)
       throws WsI18NException, Throwable {
+    // TODO Comprovar que sigui un càrrec 
     deleteUsuariEntitat(carrecID);
   }
 

@@ -12,6 +12,7 @@ import org.fundaciobit.genapp.common.ws.WsValidationException;
 
 import es.caib.portafib.model.bean.UsuariAplicacioBean;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.ws.v2.impl.beans.UsuariAplicacioFilterWs;
 import es.caib.portafib.ws.v2.impl.utils.IBaseAutenticatedWs;
 
 /**

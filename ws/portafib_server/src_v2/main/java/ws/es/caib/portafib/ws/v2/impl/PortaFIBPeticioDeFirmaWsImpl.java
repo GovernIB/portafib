@@ -52,6 +52,10 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v2.impl.beans.BlocDeFirmesWs;
+import es.caib.portafib.ws.v2.impl.beans.FluxDeFirmesWs;
+import es.caib.portafib.ws.v2.impl.beans.PeticioDeFirmaWs;
+import es.caib.portafib.ws.v2.impl.beans.TipusDocumentInfoWs;
 import es.caib.portafib.ws.v2.impl.utils.AuthenticatedBaseWsImpl;
 
 
@@ -310,8 +314,11 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
       long id = td.getTipusDocumentID();
       String nom = tramap.getValor();
-         
-      tipus.add( new TipusDocumentInfoWs(id, nom));
+      
+      // XYZ ZZZ PORTAFIB v2:  Falta el pare del document NTI
+      Long tipusDocumentNTIID = (( id >= 0) && (id <= 99))?null:99L; // ALTRES
+
+      tipus.add( new TipusDocumentInfoWs(id, nom, tipusDocumentNTIID));
     }
 
     Collections.sort(tipus);

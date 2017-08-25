@@ -137,6 +137,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER})
   @WebMethod
+  @Override
   public String getUsuariPersonaIDByAdministrationID(
       @WebParam(name = "administrationID") String administrationID)
       throws WsValidationException, WsI18NException, Throwable {
@@ -149,6 +150,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
   
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public UsuariPersonaBean getUsuariPersona(
       @WebParam(name = "usuariPersonaID") String usuariPersonaID)
       throws WsValidationException, WsI18NException, Throwable {
@@ -164,6 +166,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN })
+  @Override
   public void createUsuariPersona(
       @WebParam(name = "usuariPersonaBean") UsuariPersonaBean usuariPersonaBean)
       throws WsValidationException, WsI18NException, Throwable {
@@ -180,6 +183,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN })
+  @Override
   public void deleteUsuariPersona(@WebParam(name = "usuariPersonaID") String usuariPersonaID)
       throws WsI18NException, Throwable {
     Set<Long> fitxers = usuariPersonaLogicaEjb.deleteFull(usuariPersonaID);
@@ -195,6 +199,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @WebMethod
   @RolesAllowed({ PFI_ADMIN})
+  @Override
   public UsuariEntitatBean getUsuariEntitat(
       @WebParam(name = "usuariEntitatID") String usuariEntitatID
       ) throws Throwable {
@@ -226,6 +231,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public String getUsuariEntitatIDByAdministrationID(
       @WebParam(name = "administrationID") String administrationID,
       @WebParam(name = "entitatID") String entitatID)
@@ -251,6 +257,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @RolesAllowed({ PFI_ADMIN, PFI_USER })
   @WebMethod
+  @Override
   public String getUsuariEntitatIDInMyEntitatByAdministrationID(
       @WebParam(name = "administrationID") String administrationID)
       throws WsI18NException, Throwable {
@@ -307,6 +314,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public UsuariEntitatBean createUsuariEntitatSimple(
       @WebParam(name = "administrationID") String administrationID,
       @WebParam(name = "entitatID") String entitatID) throws WsValidationException,
@@ -317,6 +325,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
 
   @RolesAllowed({ PFI_ADMIN })
   @WebMethod
+  @Override
   public void createCarrec(@WebParam(name = "carrec") CarrecWs carrec)
     throws WsValidationException, WsI18NException, Throwable {
     usuariEntitatLogicaEjb.createFull(CarrecWs.toUsuariEntitatJPA(carrec));

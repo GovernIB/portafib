@@ -174,7 +174,7 @@
             <url-pattern>/index.jsp</url-pattern>
             <!-- Plugins de Firma -->
             <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
-            <!-- Passarela de Firma PortaFIB No-Autenticada -->
+            <!-- Passarela de Firma PortaFIB No-Autenticada i REST -->
             <url-pattern>/public/*</url-pattern>
             <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
             <url-pattern>/common/timestampgenerator/*</url-pattern>

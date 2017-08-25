@@ -1,7 +1,9 @@
 PortaFIB 1.1.3
 ==============
 
-2017-08-18 Afegir suport de CallBack REST per Notificar canvis en les Peticions de firma
+2017-08-24 Afegit servei REST pel llistat de Tipus de Documents (Veure Manual de WebServices)
+
+2017-08-18 Afegir suport de CallBack REST per Notificar canvis en les Peticions de firma (Veure Manual de WebServices)
 
 2017-08-04 Afegides propietats newjavascripturl i newcssurl als plugins de Firma Web AutoFirma i MiniAppletInClient
 

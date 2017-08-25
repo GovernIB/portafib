@@ -1,129 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans	xmlns="http://www.springframework.org/schema/beans"
-		xmlns:sec="http://www.springframework.org/schema/security"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="
-				http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-				http://www.springframework.org/schema/security
-				http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+<beans  xmlns="http://www.springframework.org/schema/beans"
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
- 	    <sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
+    <sec:http create-session="never" use-expressions="true" auto-config="false" entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
         
-        <!-- <sec:logout logout-success-url="/index.jsp" />  -->
+    <!-- <sec:logout logout-success-url="/index.jsp" />  -->
 
-        <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
-		<sec:intercept-url pattern="/js/**" access="permitAll"/>
-		<sec:intercept-url pattern="/doc/**" access="permitAll"/>
-		<sec:intercept-url pattern="/img/**" access="permitAll"/>
-		<sec:intercept-url pattern="/css/**" access="permitAll"/>
-		<sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
-		<sec:intercept-url pattern="/index.jsp" access="permitAll"/>
-        <!-- Plugins de Firma -->
-        <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
-        <!-- Passarela de Firma PortaFIB No-Autenticada -->
-        <sec:intercept-url pattern="/public/**" access="permitAll"/>
-        <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
-        <sec:intercept-url pattern="/common/timestampgenerator/**" access="permitAll"/>
+    <sec:intercept-url pattern="/carrecscaib/**" access="permitAll"/>
+    <sec:intercept-url pattern="/js/**" access="permitAll"/>
+    <sec:intercept-url pattern="/doc/**" access="permitAll"/>
+    <sec:intercept-url pattern="/img/**" access="permitAll"/>
+    <sec:intercept-url pattern="/css/**" access="permitAll"/>
+    <sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
+    <sec:intercept-url pattern="/index.jsp" access="permitAll"/>
+    <!-- Plugins de Firma -->
+    <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
+    <!-- Passarela de Firma PortaFIB No-Autenticada i REST -->
+    <sec:intercept-url pattern="/public/**" access="permitAll"/>
+    <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
+    <sec:intercept-url pattern="/common/timestampgenerator/**" access="permitAll"/>
 
 
-		<sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+    <sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
-		<sec:intercept-url pattern="/soli/**" access="hasRole('ROLE_SOLI')"/>
-		
-		<sec:intercept-url pattern="/dest/**" access="hasRole('ROLE_DEST')"/>
-		
-		<sec:intercept-url pattern="/dele/**" access="hasRole('ROLE_DELE')"/>
-		
-		<sec:intercept-url pattern="/cola/**" access="hasRole('ROLE_COLA')"/>
-		
-		<sec:intercept-url pattern="/aden/**" access="hasRole('ROLE_ADEN')"/>
+    <sec:intercept-url pattern="/soli/**" access="hasRole('ROLE_SOLI')"/>
+    
+    <sec:intercept-url pattern="/dest/**" access="hasRole('ROLE_DEST')"/>
+    
+    <sec:intercept-url pattern="/dele/**" access="hasRole('ROLE_DELE')"/>
+    
+    <sec:intercept-url pattern="/cola/**" access="hasRole('ROLE_COLA')"/>
+    
+    <sec:intercept-url pattern="/aden/**" access="hasRole('ROLE_ADEN')"/>
 
-		<sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-		
-		<sec:intercept-url pattern="/webdb/**" access="hasRole('ROLE_ADMIN')"/>
-		
-		
-		
-		<!-- <sec:intercept-url pattern="/**" access="ROLE_ADMIN, ROLE_USER"/>
-		
-		hasRole('supervisor')" />
-	    <intercept-url pattern="/secure/**" access="isAuthenticated()" />
-	    <intercept-url pattern="/listAccounts.html" access="isAuthenticated()" />
-	    <intercept-url pattern="/post.html" access="hasAnyRole('supervisor','teller')" />
-	
+    <sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+    
+    <sec:intercept-url pattern="/webdb/**" access="hasRole('ROLE_ADMIN')"/>
+    
+    
+    
+    <!-- <sec:intercept-url pattern="/**" access="ROLE_ADMIN, ROLE_USER"/>
+    
+    hasRole('supervisor')" />
+      <intercept-url pattern="/secure/**" access="isAuthenticated()" />
+      <intercept-url pattern="/listAccounts.html" access="isAuthenticated()" />
+      <intercept-url pattern="/post.html" access="hasAnyRole('supervisor','teller')" />
+  
         -->
-		
-		
-		<sec:custom-filter position="PRE_AUTH_FILTER" ref="preauthFilter"/>
-		<sec:session-management session-fixation-protection="none"/>
-	</sec:http>
+    
+    
+    <sec:custom-filter position="PRE_AUTH_FILTER" ref="preauthFilter"/>
+    <sec:session-management session-fixation-protection="none"/>
+  </sec:http>
 
-	<sec:authentication-manager alias="authenticationManager">
-		<sec:authentication-provider ref="preAuthenticatedAuthenticationProvider"/>
-	</sec:authentication-manager>
-	
+  <sec:authentication-manager alias="authenticationManager">
+    <sec:authentication-provider ref="preAuthenticatedAuthenticationProvider"/>
+  </sec:authentication-manager>
+  
 
-	<bean id="preAuthenticatedProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+  <bean id="preAuthenticatedProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 
-	<bean id="preAuthenticatedAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
-		<property name="preAuthenticatedUserDetailsService">
-			<bean class="org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService" />
-		</property>
-	</bean>
+  <bean id="preAuthenticatedAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+    <property name="preAuthenticatedUserDetailsService">
+      <bean class="org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService" />
+    </property>
+  </bean>
 
-	<bean id="attributes2GrantedAuthoritiesMapper" class="es.caib.portafib.back.security.RolesBasedAttributes2GrantedAuthoritiesMapper">
-		<property name="baseRoleMapping">
-			<map>
+  <bean id="attributes2GrantedAuthoritiesMapper" class="es.caib.portafib.back.security.RolesBasedAttributes2GrantedAuthoritiesMapper">
+    <property name="baseRoleMapping">
+      <map>
                 <entry key="PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
-				<entry key="PFI_USER" value="ROLE_USER"/>
-				<entry key="PFI_ADMIN" value="ROLE_ADMIN"/>
+        <entry key="PFI_USER" value="ROLE_USER"/>
+        <entry key="PFI_ADMIN" value="ROLE_ADMIN"/>
                 <entry key="@PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
-				<entry key="@PFI_USER" value="ROLE_USER"/>
+        <entry key="@PFI_USER" value="ROLE_USER"/>
                 <entry key="@PFI_ADMIN" value="ROLE_ADMIN"/>
-			</map>
-		</property>
-	</bean>
+      </map>
+    </property>
+  </bean>
 
-	<bean id="mappableAttributesRetriever" class="es.caib.portafib.back.security.RolesBasedMappableAttributesRetriever">
-		<property name="defaultMappableAttributes">
-			<set>
-				<value>PFI_USER</value>
-				<value>PFI_ADMIN</value>
+  <bean id="mappableAttributesRetriever" class="es.caib.portafib.back.security.RolesBasedMappableAttributesRetriever">
+    <property name="defaultMappableAttributes">
+      <set>
+        <value>PFI_USER</value>
+        <value>PFI_ADMIN</value>
                 <value>PFI_AUTOFIRMA</value>
-			</set>
-		</property>
-	</bean>
+      </set>
+    </property>
+  </bean>
 
-	<bean id="preauthFilter" class="org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter">
-		<property name="authenticationDetailsSource">
-		<bean class="org.springframework.security.web.authentication.preauth.j2ee.J2eeBasedPreAuthenticatedWebAuthenticationDetailsSource">
-		<!--  <bean class="es.caib.portafib.back.security.RolesBasedPreAuthenticatedWebAuthenticationDetailsSource">-->
-			<property name="mappableRolesRetriever" ref="mappableAttributesRetriever"/>
-			<property name="userRoles2GrantedAuthoritiesMapper" ref="attributes2GrantedAuthoritiesMapper"/>
-		</bean>
-		</property>
-		<property name="authenticationManager" ref="authenticationManager"/>
-	</bean>
+  <bean id="preauthFilter" class="org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter">
+    <property name="authenticationDetailsSource">
+    <bean class="org.springframework.security.web.authentication.preauth.j2ee.J2eeBasedPreAuthenticatedWebAuthenticationDetailsSource">
+    <!--  <bean class="es.caib.portafib.back.security.RolesBasedPreAuthenticatedWebAuthenticationDetailsSource">-->
+      <property name="mappableRolesRetriever" ref="mappableAttributesRetriever"/>
+      <property name="userRoles2GrantedAuthoritiesMapper" ref="attributes2GrantedAuthoritiesMapper"/>
+    </bean>
+    </property>
+    <property name="authenticationManager" ref="authenticationManager"/>
+  </bean>
 
-	<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
-	<!-- secured-annotations = (@Secured("ROLE_ADMIN")) -->
-	<!-- jsr250-annotations = (@RunAs @RolesAllowed @PermitAll @DenyAll @DeclareRoles) -->
-	<!-- pre-post-annotations = @PreAuthorized("hasAuthority('ROLE_ADMIN')") -->
-	<!--  proxy-target-class="true"  -->
-	
-	<!-- 
-	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true"  />
-	-->
-	
-	<!-- <sec:global-method-security
-	    secured-annotations="enabled" 
-	    jsr250-annotations="enabled"
-	    pre-post-annotations="enabled">        
-	</sec:global-method-security> -->
-	
-	
-	<bean class="es.caib.portafib.back.security.AuthenticationSuccessListener" />
-	
+  <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+  <!-- secured-annotations = (@Secured("ROLE_ADMIN")) -->
+  <!-- jsr250-annotations = (@RunAs @RolesAllowed @PermitAll @DenyAll @DeclareRoles) -->
+  <!-- pre-post-annotations = @PreAuthorized("hasAuthority('ROLE_ADMIN')") -->
+  <!--  proxy-target-class="true"  -->
+  
+  <!-- 
+  <sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true"  />
+  -->
+  
+  <!-- <sec:global-method-security
+      secured-annotations="enabled" 
+      jsr250-annotations="enabled"
+      pre-post-annotations="enabled">        
+  </sec:global-method-security> -->
+  
+  
+  <bean class="es.caib.portafib.back.security.AuthenticationSuccessListener" />
+  
 </beans>

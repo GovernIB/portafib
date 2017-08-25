@@ -32,6 +32,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
+import es.caib.portafib.ws.v2.impl.beans.UsuariAplicacioFilterWs;
 import es.caib.portafib.ws.v2.impl.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.v2.impl.utils.JPAConversion;
 

@@ -101,4 +101,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
                   value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
     </bean>
 
+    <!-- Cridades REST-JSON -->    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <util:list id="beanList">
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </util:list>
+        </property>
+    </bean>
+
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+
 </beans>

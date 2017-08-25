@@ -38,7 +38,7 @@ import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 @org.apache.cxf.interceptor.InInterceptors(interceptors = { "es.caib.portafib.ws.v2.impl.utils.PortaFIBInInterceptor" })
 @org.apache.cxf.interceptor.InFaultInterceptors(interceptors = { "es.caib.portafib.ws.v2.impl.utils.PortaFIBInInterceptor" })
 @WebService(name = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS, portName = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS, serviceName = PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS
-    + "Service", endpointInterface = "es.caib.portafib.ws.v2.impl."
+    + "Service", endpointInterface = "es.caib.portafib.ws.v2.passarela."
     + PortaFIBPassarelaDeFirmaWebWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v2/"
     + PortaFIBPassarelaDeFirmaWebWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")

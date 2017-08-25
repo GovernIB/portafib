@@ -160,6 +160,8 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 			tipusDocumentForm.addHiddenField(TIPUSDOCUMENTID);
 			tipusDocumentForm.addLabel(USUARIAPLICACIOID,
 					"tipusdocument.usuariAplicacioID");
+			tipusDocumentForm.getTipusDocument().setUsuariAplicacioID(LoginInfo.getInstance().getEntitat().getUsuariAplicacioID());
+			
 		}
 
 		return tipusDocumentForm;

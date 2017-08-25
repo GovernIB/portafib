@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Gestiona Usuaris Entitat i Càrrecs d'alt nivell
+ * Gestiona Usuaris Entitat d'alt nivell
  * @author anadal
  * @author mgonzalez
  * 
@@ -587,9 +587,9 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
 
 
-  public void activar(String usuariEntitatID, boolean activar) throws I18NException {
+  protected void activar(String usuariEntitatID, boolean isCarrec) throws I18NException {
 
-    UsuariEntitatJPA usuariEntitatJPA = checkBasic(usuariEntitatID, activar);
+    UsuariEntitatJPA usuariEntitatJPA = checkBasic(usuariEntitatID, isCarrec);
 
     if (usuariEntitatJPA.isActiu()) {
       return;
@@ -648,7 +648,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
 
 
-  public void desactivar(String usuariEntitatID, boolean isCarrec) throws I18NException {
+  protected void desactivar(String usuariEntitatID, boolean isCarrec) throws I18NException {
 
     UsuariEntitatJPA usuariEntitatJPA = checkBasic(usuariEntitatID, isCarrec);
 
@@ -734,6 +734,18 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
           new I18NArgumentString(usuariEntitatID)
           );
     }
+    
+    // Comprovar que sigui un càrrec o usuarientitat
+    if (isCarrec && usuariEntitatJPA.getCarrec()== null) {
+      // L´identificador {0} no representa un Càrrec
+      throw new I18NException("error.idnorepresenta.carrec", usuariEntitatID);
+    } 
+    
+    if (!isCarrec && usuariEntitatJPA.getCarrec() != null) {
+     // L´identificador {0} no representa un usuari-entitat
+      throw new I18NException("error.idnorepresenta.usuarientitat", usuariEntitatID);
+    }
+    
     
     return usuariEntitatJPA;
   }

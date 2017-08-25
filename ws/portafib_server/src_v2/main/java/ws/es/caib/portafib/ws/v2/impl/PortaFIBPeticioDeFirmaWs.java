@@ -3,6 +3,9 @@ package es.caib.portafib.ws.v2.impl;
 import java.util.List;
 
 
+
+
+
 import javax.annotation.security.RolesAllowed;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -14,6 +17,9 @@ import org.fundaciobit.genapp.common.ws.WsValidationException;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.ws.v2.impl.beans.FluxDeFirmesWs;
+import es.caib.portafib.ws.v2.impl.beans.PeticioDeFirmaWs;
+import es.caib.portafib.ws.v2.impl.beans.TipusDocumentInfoWs;
 import es.caib.portafib.ws.v2.impl.utils.IBaseAutenticatedWs;
 
 /**

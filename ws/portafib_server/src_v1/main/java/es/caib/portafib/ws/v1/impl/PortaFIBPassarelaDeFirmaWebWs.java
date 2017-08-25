@@ -52,5 +52,4 @@ public interface PortaFIBPassarelaDeFirmaWebWs extends AbstractPortaFIBPassarela
   public void closeTransaction(@WebParam(name = "signaturesSetID") String signaturesSetID) 
     throws WsI18NException, Throwable;
 
-  
 }
