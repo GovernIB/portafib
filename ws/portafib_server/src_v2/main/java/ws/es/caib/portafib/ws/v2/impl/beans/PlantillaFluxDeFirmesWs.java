@@ -1,24 +1,19 @@
 package es.caib.portafib.ws.v2.impl.beans;
 
-import java.util.Set;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
-
-import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
-import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.model.bean.PlantillaFluxDeFirmesBean;
+
 
 /**
  * 
  * @author anadal
  * 
  */
-public class PlantillaFluxDeFirmesWs {
+public class PlantillaFluxDeFirmesWs extends FluxDeFirmesWs {
 
-  protected PlantillaFluxDeFirmesBean plantillaFluxDeFirmesBean;
-
-  protected FluxDeFirmesWs fluxDeFirmesWs;
+  java.lang.String descripcio;
+  java.lang.String usuariEntitatID;
+  java.lang.String usuariAplicacioID;
+  java.lang.Boolean compartir;
 
   /**
    * 
@@ -27,52 +22,64 @@ public class PlantillaFluxDeFirmesWs {
     super();
   }
 
-  public FluxDeFirmesWs getFluxDeFirmesWs() {
-    return fluxDeFirmesWs;
+  /**
+   * @param descripcio
+   * @param usuariEntitatID
+   * @param usuariAplicacioID
+   * @param compartir
+   */
+  public PlantillaFluxDeFirmesWs(String descripcio, String usuariEntitatID,
+      String usuariAplicacioID, Boolean compartir, FluxDeFirmesWs __bean) {
+    super(__bean);
+    this.descripcio = descripcio;
+    this.usuariEntitatID = usuariEntitatID;
+    this.usuariAplicacioID = usuariAplicacioID;
+    this.compartir = compartir;
   }
 
-  public void setFluxDeFirmesWs(FluxDeFirmesWs fluxDeFirmesWs) {
-    this.fluxDeFirmesWs = fluxDeFirmesWs;
+  public java.lang.String getDescripcio() {
+    return descripcio;
   }
 
-  public PlantillaFluxDeFirmesBean getPlantillaFluxDeFirmesBean() {
-    return plantillaFluxDeFirmesBean;
+  public void setDescripcio(java.lang.String descripcio) {
+    this.descripcio = descripcio;
   }
 
-  public void setPlantillaFluxDeFirmesBean(PlantillaFluxDeFirmesBean plantillaFluxDeFirmesBean) {
-    this.plantillaFluxDeFirmesBean = plantillaFluxDeFirmesBean;
+  public java.lang.String getUsuariEntitatID() {
+    return usuariEntitatID;
   }
 
-  public static FluxDeFirmesJPA toJPA(PlantillaFluxDeFirmesWs plantillaFluxDeFirmesWs,
-      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException {
-    if (plantillaFluxDeFirmesWs == null) {
-      return null;
-    }
-
-    FluxDeFirmesJPA fluxJPA = FluxDeFirmesWs.toJPA(
-        plantillaFluxDeFirmesWs.getFluxDeFirmesWs(), fitxerEjb, fitxersCreats);
-    fluxJPA.setPlantillaFluxDeFirmes(PlantillaFluxDeFirmesJPA.toJPA(plantillaFluxDeFirmesWs
-        .getPlantillaFluxDeFirmesBean()));
-
-    return fluxJPA;
+  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
   }
 
-  public static PlantillaFluxDeFirmesWs toWs(FluxDeFirmesJPA jpa) {
+  public java.lang.String getUsuariAplicacioID() {
+    return usuariAplicacioID;
+  }
+
+  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
+    this.usuariAplicacioID = usuariAplicacioID;
+  }
+
+  public java.lang.Boolean getCompartir() {
+    return compartir;
+  }
+
+  public void setCompartir(java.lang.Boolean compartir) {
+    this.compartir = compartir;
+  }
+
+  public static PlantillaFluxDeFirmesWs toWs(PlantillaFluxDeFirmesJPA jpa) {
     if (jpa == null) {
       return null;
     }
 
-    FluxDeFirmesWs fluxDeFirmesWs = FluxDeFirmesWs.toWs(jpa);
-    PlantillaFluxDeFirmesBean plantillaInfo = PlantillaFluxDeFirmesBean.toBean(jpa
-        .getPlantillaFluxDeFirmes());
+    FluxDeFirmesWs fluxDeFirmesWs = FluxDeFirmesWs.toWs(jpa.getFluxDeFirmes());
 
     // Bean
-    PlantillaFluxDeFirmesWs plantillaFluxDeFirmesWs = new PlantillaFluxDeFirmesWs();
+    return new PlantillaFluxDeFirmesWs(jpa.getDescripcio(), jpa.getUsuariEntitatID(),
+        jpa.getUsuariAplicacioID(), jpa.getCompartir(), fluxDeFirmesWs);
 
-    plantillaFluxDeFirmesWs.setFluxDeFirmesWs(fluxDeFirmesWs);
-    plantillaFluxDeFirmesWs.setPlantillaFluxDeFirmesBean(plantillaInfo);
-
-    return plantillaFluxDeFirmesWs;
   }
 
 }

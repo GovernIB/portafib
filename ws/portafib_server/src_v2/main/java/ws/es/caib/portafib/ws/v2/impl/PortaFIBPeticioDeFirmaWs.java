@@ -1,6 +1,11 @@
 package es.caib.portafib.ws.v2.impl;
 
+import java.util.Date;
 import java.util.List;
+
+
+
+
 
 
 
@@ -18,7 +23,9 @@ import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.v2.impl.beans.FluxDeFirmesWs;
+import es.caib.portafib.ws.v2.impl.beans.PeticioDeFirmaSimpleWs;
 import es.caib.portafib.ws.v2.impl.beans.PeticioDeFirmaWs;
+import es.caib.portafib.ws.v2.impl.beans.PlantillaFluxDeFirmesWs;
 import es.caib.portafib.ws.v2.impl.beans.TipusDocumentInfoWs;
 import es.caib.portafib.ws.v2.impl.utils.IBaseAutenticatedWs;
 
@@ -89,6 +96,23 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
   public void deletePlantillaFluxDeFirmes(
       @WebParam(name = "plantillaDeFluxDeFirmesID") long plantillaDeFluxDeFirmesID) 
     throws WsI18NException, Throwable;
+  
+  /**
+   * 
+   * @param usuariEntitatID
+   * @param compartirFilter
+   * @return
+   * @throws WsI18NException
+   * @throws Throwable
+   */
+  // Nou a v2
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  public List<PlantillaFluxDeFirmesWs> listPlantillesDeFluxDeFirmes(
+      @WebParam(name = "usuariEntitatID") String usuariEntitatID,
+      @WebParam(name = "compartirFilter") List<Boolean> compartirFilter
+    ) throws WsI18NException, Throwable;
+  
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -170,5 +194,24 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
     @WebParam(name = "peticioDeFirmaID") long peticioDeFirmaID)
       throws WsI18NException, Throwable;
 
+  //Nou a v2
+  @RolesAllowed({ Constants.PFI_ADMIN ,Constants.PFI_USER })
+  @WebMethod
+  public List<PeticioDeFirmaSimpleWs> listPeticioDeFirma(
+      @WebParam(name = "usuariEntitatID") String usuariEntitatID,
+      @WebParam(name = "titleFilter") String nameFilter,
+      @WebParam(name = "states") List<Integer> estatsFilter,
+      @WebParam(name = "startDateFrom") Date startDateFrom,
+      @WebParam(name = "startDateTo") Date startDateTo,
+      @WebParam(name = "endDateFrom") Date endDateFrom,
+      @WebParam(name = "endDateTo") Date endDateTo)
+          throws WsI18NException, Throwable;
   
+  @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
+  @WebMethod
+  public long clone(@WebParam(name = "peticioDeFirmaIDAClonar") long peticioDeFirmaID,
+      @WebParam(name = "titol") String titol,
+      @WebParam(name = "descripcio") String descripcio,
+      @WebParam(name = "motiu") String motiu,
+      @WebParam(name = "noufitxer") FitxerBean arxiuPujat) throws WsI18NException, Throwable;
 }
