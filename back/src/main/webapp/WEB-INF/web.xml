@@ -60,6 +60,9 @@
     <url-pattern>/common/timestampgenerator/*</url-pattern>
   </servlet-mapping>  
 
+  
+  
+    <!--  CONFIG GENERAL  -->
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

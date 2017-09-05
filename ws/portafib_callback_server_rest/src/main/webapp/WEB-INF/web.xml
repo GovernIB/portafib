@@ -18,6 +18,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+    <!--  Realment es donarà d'alta a /portafib/cbrest/. Veure pom.xml de ear -->
 	<servlet-mapping>
 		<servlet-name>jersey-servlet</servlet-name>
 		<url-pattern>/*</url-pattern>

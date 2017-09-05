@@ -27,7 +27,6 @@
     <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
     <sec:intercept-url pattern="/common/timestampgenerator/**" access="permitAll"/>
 
-
     <sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
     <sec:intercept-url pattern="/soli/**" access="hasRole('ROLE_SOLI')"/>

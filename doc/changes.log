@@ -1,13 +1,20 @@
 PortaFIB 1.1.3
 ==============
 
+2017-09-05 Manual Manual_de_WebServices_i_CallBack_de_PortaFIB.odt s'ha dividit en tres documents:
+                 - Manual_de_WebServices_de_PortaFIB.odt
+                 - Manual_de_CallBack_de_PortaFIB.odt
+                 - Manual_de_RESTServices_de_PortaFIB.odt
+
+2017-09-04 Afegit servei REST autenticat pel llistat d'avisos d'un usuari-entitat i mètode echo (Veure Manual de RESTServices)
+
 2017-08-24 Afegit servei REST pel llistat de Tipus de Documents (Veure Manual de WebServices)
 
 2017-08-18 Afegir suport de CallBack REST per Notificar canvis en les Peticions de firma (Veure Manual de WebServices)
 
 2017-08-04 Afegides propietats newjavascripturl i newcssurl als plugins de Firma Web AutoFirma i MiniAppletInClient
 
-2017-08-04 Revisió global del PLugin de Firma Web de Cl@veFirma (Formulari Alta MINHAP)
+2017-08-04 Revisió global del Plugin de Firma Web de Cl@veFirma (Formulari Alta MINHAP)
 
 2017-07-24 Pantalla per realitzar neteges de fitxers de peticions de firmes (Menú AdEn) #113
 

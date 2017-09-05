@@ -51,7 +51,7 @@ import java.util.Set;
 @SecurityDomain("seycon")
 @Startup
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
-    UsuariEntitatLogicaLocal {
+    UsuariEntitatLogicaLocal, Constants {
 
   @EJB(mappedName = "portafib/UsuariEntitatFavoritEJB/local")
   private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
@@ -63,27 +63,27 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   private RebreAvisLocal rebreAvisEjb;
 
   @EJB(mappedName = "portafib/FirmaEJB/local")
-  protected FirmaLocal firmaEjb;
+  private FirmaLocal firmaEjb;
 
   @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
 
   @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  private PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  private es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
   @EJB(mappedName = "portafib/ColaboracioDelegacioEJB/local")
   private ColaboracioDelegacioLocal colaboracioDelegacioEjb;
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
-  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+  private UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
-
-  protected UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
+  private es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  
+  private UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
   
   @Override
@@ -781,6 +781,5 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     }
     
   }
-
 
 }

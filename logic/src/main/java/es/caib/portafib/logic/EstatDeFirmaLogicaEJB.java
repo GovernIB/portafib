@@ -13,17 +13,25 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.NotificacioWSFields;
+import es.caib.portafib.model.fields.NotificacioWSQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
@@ -37,7 +45,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless(name = "EstatDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
 public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
-  implements EstatDeFirmaLogicaLocal {
+  implements EstatDeFirmaLogicaLocal, Constants {
 
   @EJB(mappedName = "portafib/FirmaEJB/local")
   private FirmaLocal firmaEjb;
@@ -47,6 +55,9 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
 
   @Override
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException {
@@ -61,10 +72,10 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
   
 
   @Override
-  public List<EstatDeFirma> getEstatDeFirmaByUsuariEntitat(String usu_ent_actual, String rol,
+  public Set<Long> getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(String usuariEntitatID, String rol,
       Long[] estatsDeFirma) throws I18NException {
-    List<EstatDeFirma> estatsDeFirmaList;
-    Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usu_ent_actual);
+    
+    Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
     
     Where w2;
     if (Constants.ROLE_DEST.equals(rol)) {
@@ -87,9 +98,27 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     }
     Where w4 = EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull();
 
-    estatsDeFirmaList = this.select(Where.AND(w1, w2, w3, w4));
+    // List<EstatDeFirma> estatsDeFirmaList;
+    //estatsDeFirmaList = this.select(Where.AND(w1, w2, w3, w4));
+    
+    List<Long> firmes = this.executeQuery(FIRMAID, Where.AND(w1, w2, w3, w4));
+    
+    // Cercarem les Peticions de Firma associades als ID de les firmes 
+    
+    // new PeticioDeFirmaQueryPath().FLUXDEFIRMES().
+    LongField field = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID();
+    
+    Set<Long> idsPeticioDeFirma = new HashSet<Long>();
+    
+    for (Long firmaid : firmes) {
+      Long idPeticio = firmaEjb.executeQueryOne(field, FirmaFields.FIRMAID.equal(firmaid));
+      if (idPeticio == null) {
+        log.error(" Error cercan l'id de Peticio de la firma amb id " + firmaid, new Exception());
+      }
+      idsPeticioDeFirma.add(idPeticio);
+    }
 
-    return estatsDeFirmaList;
+    return idsPeticioDeFirma;
   }
 
   /**
@@ -178,6 +207,75 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     
     return select(wEdF);
 
+  }
+  
+  @Override
+  public Map<String, List<Long>> getAvisosUsuariEntitat(String usuariEntitatID, 
+      String entitatID, Set<String> roles) throws I18NException {
+    Map<String, List<Long>> avisos = new HashMap<String, List<Long>>();
+    for (String rol : roles) {          
+      // ROL SOLICITANT
+      if (ROLE_SOLI.equals(rol)) {
+        Where w = Where.AND(
+          PeticioDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID),
+          PeticioDeFirmaFields.AVISWEB.equal(true)
+        );
+        //Long count = peticioDeFirmaEjb.count(w);
+        List<Long> list = peticioDeFirmaEjb.executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, w);
+        if (list != null && list.size() != 0) {
+          avisos.put(rol, list);
+        }
+        continue;
+      }
+      // ROLS DESTINATARI, DELEGAT i COLABORADOR
+      if (ROLE_DEST.equals(rol) 
+          || ROLE_DELE.equals(rol)
+          || ROLE_COLA.equals(rol)) {
+        Long[] estatsDeFirma;
+        if (ROLE_COLA.equals(rol)) {
+          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+              TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR};
+        } else {
+          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
+        }
+
+        Set<Long> peticioDeFirmaIDs;
+        peticioDeFirmaIDs = this.getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(
+            usuariEntitatID, rol, estatsDeFirma);
+
+        if (peticioDeFirmaIDs != null && peticioDeFirmaIDs.size() != 0) {
+          if (log.isDebugEnabled()) {
+            log.debug("Afegint avisos pel rol " + rol + " (" + peticioDeFirmaIDs.size()  + ")");
+          }
+          avisos.put(rol, new ArrayList<Long>(peticioDeFirmaIDs));
+        }
+      }
+      // ROLS ADEN
+      if (ROLE_ADEN.equals(rol)) {
+        // Revisar si hi ha notificacion que donen errors
+        
+        Where w1 = NotificacioWSFields.DATAENVIAMENT.isNull();
+        Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
+        Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
+
+        PeticioDeFirmaQueryPath pfQP = new NotificacioWSQueryPath().PETICIODEFIRMA();
+        
+        Where w4 = pfQP.USUARIAPLICACIOID().isNotNull();
+        
+        Where w5 = pfQP.USUARIAPLICACIO().ENTITATID().equal(entitatID);
+        
+        //NotificacioWSFields.PETICIODEFIRMAID
+        
+        //Long count = notificacioWSEjb.count(Where.AND(w1,w2,w3,w4,w5));
+        
+        List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w4,w5));
+        
+        if (peticioIDs != null && peticioIDs.size() != 0) {
+          avisos.put(rol, peticioIDs);
+        }
+      }
+    }
+    return avisos;
   }
   
 }

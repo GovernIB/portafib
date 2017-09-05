@@ -1,11 +1,11 @@
 package es.caib.portafib.back.preparer;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
@@ -18,7 +18,6 @@ import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparerSupport;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -28,12 +27,6 @@ import org.springframework.stereotype.Component;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.NotificacioWSQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-
 
 /**
  * @author anadal
@@ -47,17 +40,11 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
 
   protected final Logger log = Logger.getLogger(getClass());
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
-  
   @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
   protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/FirmaEJB/local")
-  protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.NotificacioWSLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.NotificacioWSLocal notificacioWSEjb;
+
   
 	@Override
 	public void execute(TilesRequestContext tilesContext, 
@@ -140,72 +127,28 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
       // Avisos
       Map<String,Long> avisos = new HashMap<String, Long>(); 
       try {      
-        Set<GrantedAuthority> roles = loginInfo.getRoles(); 
+        Set<GrantedAuthority> rolesInterns = loginInfo.getRoles(); 
+        Set<String> roles = new HashSet<String>();
+        for (GrantedAuthority grantedAuthority : rolesInterns) {
+          roles.add(grantedAuthority.getAuthority());
+        }
         
         //log.info("BasePreparer::ROLES = " + roles);
         //log.info("BasePreparer::ROLES = " + roles.size());
-        String usu_ent_actual = loginInfo.getUsuariEntitatID();      
-        for (GrantedAuthority grantedAuthority : roles) {
-          String rol = grantedAuthority.getAuthority();
-          // ROL SOLICITANT
-          if (ROLE_SOLI.equals(rol)) {
-            Where w = Where.AND(
-              PeticioDeFirmaFields.USUARIENTITATID.equal(usu_ent_actual),
-              PeticioDeFirmaFields.AVISWEB.equal(true)
-            );
-            Long count = peticioDeFirmaEjb.count(w);
-            if (count != 0) {
-              avisos.put(rol, count);
-            }
-            continue;
-          }
-          // ROLS DESTINATARI, DELEGAT i COLABORADOR
-          if (ROLE_DEST.equals(rol) 
-              || ROLE_DELE.equals(rol)
-              || ROLE_COLA.equals(rol)) {
-            Long[] estatsDeFirma;
-            if (ROLE_COLA.equals(rol)) {
-              estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-                  TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR};
-            } else {
-              estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
-            }
-            List<EstatDeFirma> estatsDeFirmaList;
-            estatsDeFirmaList = estatDeFirmaLogicaEjb.getEstatDeFirmaByUsuariEntitat(
-                usu_ent_actual, rol, estatsDeFirma);
-            
-            if (estatsDeFirmaList != null && estatsDeFirmaList.size() != 0) {
-              if (log.isDebugEnabled()) {
-                log.debug("Afegint avisos pel rol " + rol + " (" + estatsDeFirmaList.size()  + ")");
-              }
-              avisos.put(rol, new Long(estatsDeFirmaList.size()));
-            }
-          }
-          // ROLS ADEN
-          if (ROLE_ADEN.equals(rol)) {
-            // Revisar si hi ha notificacion que donen errors
-            
-            Where w1 = NotificacioWSFields.DATAENVIAMENT.isNull();
-            Where w2 = NotificacioWSFields.REINTENTS.greaterThan(5);
-            Where w3 = NotificacioWSFields.BLOQUEJADA.equal(false);
+        String usu_ent_actual = loginInfo.getUsuariEntitatID();
 
-            PeticioDeFirmaQueryPath pfQP = new NotificacioWSQueryPath().PETICIODEFIRMA();
-            
-            Where w4 = pfQP.USUARIAPLICACIOID().isNotNull();
-            
-            Where w5 = pfQP.USUARIAPLICACIO().ENTITATID().equal(loginInfo.getEntitatID());
-            
-            Long count = notificacioWSEjb.count(Where.AND(w1,w2,w3,w4,w5));
-            
-            if (count != null && count != 0) {
-              avisos.put(rol, count);
-            }
-          }
+        Map<String,List<Long>> avisosPeticio = estatDeFirmaLogicaEjb.getAvisosUsuariEntitat(usu_ent_actual, loginInfo.getEntitatID(), roles);
+        
+        for (Map.Entry<String, List<Long>> entry : avisosPeticio.entrySet()) {
+          
+          avisos.put(entry.getKey(), (long)entry.getValue().size());
         }
+        
   
       } catch (I18NException e) {
         log.error("Error intentant obtenir els avisos dels rols "
             + I18NUtils.getMessage(e), e);
+        
       }
       request.put("avisos", avisos); 
 
@@ -226,5 +169,7 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
 
     
 	}
+
+  
 
 }

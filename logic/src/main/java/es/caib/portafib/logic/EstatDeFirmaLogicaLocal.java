@@ -7,10 +7,12 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+
 /**
  * 
  * @author anadal
@@ -18,21 +20,21 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
-  
- 
+
   public EstatDeFirmaJPA findByPrimaryKeyUnauthorized(Long id);
-  
+
   public EstatDeFirmaJPA createFull(EstatDeFirmaJPA estatDeFirma) throws I18NException;
 
-  public List<EstatDeFirma> getEstatDeFirmaByUsuariEntitat(String usu_ent_actual,
-      String rol, Long[] estatsDeFirma) throws I18NException;
-  
-  
-  public Map<Long,PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
+  public Set<Long> getPeticioDeFirmaIDsDeEstatDeFirmaActiusByUsuariEntitat(
+      String usuariEntitatID, String rol, Long[] estatsDeFirma) throws I18NException;
+
+  public Map<Long, PeticioDeFirma> getPeticioDeFirmaFromEstatDeFirmaID(
       List<EstatDeFirma> estatDeFirmaList) throws I18NException;
-  
+
   public List<EstatDeFirma> getAllEstatDeFirmaActiuOfFlux(Long fluxDeFirmesID)
       throws I18NException;
-  
-}
 
+  public Map<String, List<Long>> getAvisosUsuariEntitat(String usuariEntitatID,
+      String entitatID, Set<String> roles) throws I18NException;
+
+}
