@@ -1,0 +1,113 @@
+#!/bin/sh
+#
+# JBoss Control Script
+# -------------------------------------
+
+# Joan Navarrete's Production
+# 10/2009
+# ----------------------------------
+
+
+# Modificat per Toni Nadal
+# 25/07/2011
+#
+# Startup script for JBOSS
+# 
+# How to:
+#  (1) Copiar aquest script a /etc/init.d/
+#  (2) Executar les següents comandes:  
+#       sudo chown root:root /etc/init.d/jboss
+#       sudo chmod ug+x /etc/init.d/jboss
+#       sudo update-rc.d jboss defaults
+#  (3) Per arrancar jboss de forma manual:  
+#       sudo /etc/init.d/jboss start
+#  (4) Per aturar jboss de forma manual:  
+#       sudo /etc/init.d/jboss stop
+
+
+
+# ###########################################
+#      DEFINIM LES VARIABLES DE TREBALL:
+# ###########################################
+#  IMPORTANT!!!!: COPIAR LES MATEIXES VARIABLES AL RUN.CONF!!!!!
+
+SERVER=localhost:8080
+#JBOSS_HOME="/usr/local/jboss-3.2.8.SP1"
+JBOSS_HOME="/usr/local/jboss-as"
+JAVAPTH=/usr/local/jdk1.6.0_37/bin
+JAVA_HOME=/usr/local/jdk1.6.0_37/
+JAVA_OPTS="$JAVA_OPTS -Xms512m -Xmx768m -XX:MaxPermSize=256m -Djava.awt.headless=true -Duser.timezone=Europe/Madrid"
+export JAVA_OPTS
+export JAVA_HOME
+
+
+#################################################################
+#                 Final de les variables d'entorn
+#################################################################
+
+#classpath for the shutdown class
+JBOSSCP=${JBOSSCP:-"$JBOSS_HOME/bin/shutdown.jar:$JBOSS_HOME/client/jnet.jar"}
+#define the script to use to start jboss
+JBOSSSH=${JBOSSSH:-"$JBOSS_HOME/bin/run.sh -b 0.0.0.0 -c default"}
+#LOGS del JBOSS:
+JBOSS_LOGS=$JBOSS_HOME/server/default/log
+# Script d'arrancada
+CMD_START="cd $JBOSS_HOME/bin; $JBOSSSH"
+# Script D'ATURADA.  ALERTA AMB EL PORT!!!!
+#CMD_STOP="$JAVAPTH/java -classpath $JBOSSCP org.jboss.Shutdown --server=$SERVER  --shutdown"
+CMD_STOP="/usr/local/jboss-as/bin/shutdown.sh -S"
+# Cadena per fer la cerca si no atura bé fer un Kill
+CADENA_CERCA=$JBOSS_HOME/bin/run.jar
+#################################################################
+#                 Final de les variables d'entorn
+#################################################################
+
+
+if [ -n "$JBOSS_CONSOLE" -a ! -d "$JBOSS_CONSOLE" ]; then
+  # ensure the file exists
+  touch $JBOSS_CONSOLE
+fi
+
+if [ -n "$JBOSS_CONSOLE" -a ! -f "$JBOSS_CONSOLE" ]; then
+  echo "WARNING: location for saving console log invalid: $JBOSS_CONSOLE"
+  echo "WARNING: ignoring it and using /dev/null"
+  JBOSS_CONSOLE="/dev/null"
+fi
+
+
+#define what will be done with the console log
+JBOSS_CONSOLE=${JBOSS_CONSOLE:-"/dev/null"}
+
+if [ -z "`echo $PATH | grep $JAVAPTH`" ]; then
+  export PATH=$PATH:$JAVAPTH
+fi
+
+if [ ! -d "$JBOSS_HOME" ]; then
+  echo JBOSS_HOME does not exist as a valid directory : $JBOSS_HOME
+  exit 1
+fi
+
+
+case "$1" in
+start)
+    JBOSS_LOGS=$JBOSS_HOME/server/default/log
+    cd $JBOSS_HOME/bin
+    rm -rf $JBOSS_HOME/server/default/work/*
+    rm -rf $JBOSS_HOME/server/default/tmp/*
+    #cp $JBOSS_LOGS/server.log.old $JBOSS_LOGS/server.log.old2
+    #cp $JBOSS_LOGS/server.log $JBOSS_LOGS/server.log.old
+    rm -rf $JBOSS_LOGS/server.log*
+    eval $CMD_START >${JBOSS_CONSOLE} 2>&1 &
+    ;;
+stop)
+    $CMD_STOP; sleep 20; kill -9 `ps -ef | grep $CADENA_CERCA |awk '{print $2}'`    
+    ;;
+restart)
+    $0 stop
+    $0 start
+    ;;
+*)
+    echo "usage: $0 (start|stop|restart|help)"
+esac
+
+
