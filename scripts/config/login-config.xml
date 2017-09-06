@@ -30,8 +30,8 @@
 
          <login-module code="org.fundaciobit.plugins.loginmodule.ldap.LdapLoginModule" flag="sufficient" >
 			<module-option name="ldap.host_url">ldap://ldap.ibit.org:389</module-option>
-			<module-option name="ldap.security_principal">lectorldap</module-option>
-			<module-option name="ldap.security_credentials">lectorldap</module-option>
+			<module-option name="ldap.security_principal">myusername</module-option>
+			<module-option name="ldap.security_credentials">mypassword</module-option>
 			<module-option name="ldap.security_authentication">simple</module-option>
 			<module-option name="ldap.users_context_dn">cn=Users,dc=ibitnet,dc=lan</module-option>
 			<module-option name="ldap.search_scope">onelevel</module-option>
