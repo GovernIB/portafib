@@ -47,11 +47,11 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
   public static final Locale locale = new Locale("ca");
 
-  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
-  private UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  @EJB(mappedName = UsuariEntitatNonSecureLogicaLocal.JNDI_NAME)
+  private UsuariEntitatNonSecureLogicaLocal usuariEntitatNonSecureLogicaEjb;
   
-  @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
-  protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+  @EJB(mappedName = UsuariPersonaNonSecureLogicaLocal.JNDI_NAME)
+  protected UsuariPersonaNonSecureLogicaLocal usuariPersonaLogicaNonSecuredEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -85,7 +85,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           + agentsql;
       
       // Cercar usuari-entitat
-      UsuariEntitat ue = usuariEntitatLogicaEjb.findByPrimaryKey(usuariEntitatID);
+      UsuariEntitat ue = usuariEntitatNonSecureLogicaEjb.findByPrimaryKey(usuariEntitatID);
 
       // ------------------------------
       // I N S E R T
@@ -109,7 +109,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
        
           ue.setUsuariPersonaID(codusu);
           
-          usuariEntitatLogicaEjb.create(ue);
+          usuariEntitatNonSecureLogicaEjb.create(ue);
          
           enviarCorreuAdmistradors("S'ha creat el càrrec " + usuariEntitatID 
               + " dins l'entitat " + entitatID 
@@ -161,7 +161,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             ue.setActiu(false);
             ue.setCarrec("PENDENT DE BORRAR - " + ue.getCarrec());            
           }
-          usuariEntitatLogicaEjb.update(ue);
+          usuariEntitatNonSecureLogicaEjb.update(ue);
           if (isUpdate) {
             if (!ue.isActiu()) {
               String msg = "S'ha rebut una petició per actualitzar el càrrec amb ID "
@@ -273,7 +273,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
      throws Exception, I18NException {
     
     List<String> recipientsList;
-    recipientsList = usuariEntitatLogicaEjb.getEmailsOfAdministradorsEntitatByEntitat(entitatID);
+    recipientsList = usuariEntitatNonSecureLogicaEjb.getEmailsOfAdministradorsEntitatByEntitat(entitatID);
     
     String[] recipients = recipientsList.toArray(new String[recipientsList.size()]);
     if (log.isDebugEnabled()) {
@@ -281,8 +281,17 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     }
     
     final boolean isHtml = false;
-    EmailUtil.postMail("PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació", message, isHtml,
-        PropietatGlobalUtil.getAppEmail(), recipients);
+    // Com que si alguna de les adreces falla, llavors tot el bloc falla, 
+    // s'enviaram els correus un a un
+    for (int i = 0; i < recipients.length; i++) {
+      try {
+        EmailUtil.postMail("PORTAFIB: Actualització de Càrrecs/Usuaris requereix la seva actuació", message, isHtml,
+          PropietatGlobalUtil.getAppEmail(), recipients[i]);
+      } catch(Exception e) {
+        log.error("Error enviant missatge a " + recipients[i], e);
+      }
+    }
+
     
   }
 
@@ -296,7 +305,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     final String entitatID = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
     try {
       // Cercar usuari-entitat
-      UsuariEntitatJPA ue = usuariEntitatLogicaEjb.findUsuariEntitatByUsername(entitatID, codusu);
+      UsuariEntitatJPA ue = usuariEntitatNonSecureLogicaEjb.findUsuariEntitatByUsername(entitatID, codusu);
       
       // ------------------------------
       // I N S E R T
@@ -306,6 +315,22 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
         if (ue != null) {
           // Usuari-Entitat ja existeix: Només l'hen d'activar si no està actiu
           if (!ue.isActiu()) {
+            final boolean usuariEntitatActiu = PropietatGlobalUtil.isActiveUsuariEntitatAfterAgentSeyconCreation();
+            
+            if (usuariEntitatActiu) {
+              // Activar-ho automàticament
+              try {
+                usuariEntitatNonSecureLogicaEjb.activarUsuariEntitat(ue.getUsuariEntitatID());
+                ue.setActiu(true);
+                return ue;
+              } catch(I18NException i18ne) {
+                String msg = "Error desconegut activant usuari entitat "
+                   + ue.getUsuariEntitatID() + ": " + I18NLogicUtils.getMessage(i18ne, locale);
+                enviarCorreuAdmistradors(msg, entitatID);
+                log.error(msg, i18ne);                
+              }
+            }
+
             enviarCorreuAdmistradors(
                 "S'ha rebut una petició via AgentSQL(" + agentsql + ") per donar"
                 + " d'alta (insert) l'usuari " + codusu + " dins l'entitat "
@@ -329,20 +354,18 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
               //log.info(" virtualRoles = " + Arrays.toString(virtualRoles.toArray()));
             }
           }
-          
-          
+
           // Mirar si existeix la Persona
-          UsuariPersonaJPA usuariPersona = usuariPersonaLogicaEjb.findByPrimaryKey(codusu);
+          UsuariPersonaJPA usuariPersona = usuariPersonaLogicaNonSecuredEjb.findByPrimaryKey(codusu);
 
           final boolean usuariEntitatActiu = PropietatGlobalUtil.isActiveUsuariEntitatAfterAgentSeyconCreation();
-
 
           if (usuariPersona == null) {
             // La persona no existeix i l'hen de crear
             
             UserInfo pfui;
             try {
-              pfui = usuariPersonaLogicaEjb.checkUsernameInUserInformationPlugin(codusu);
+              pfui = usuariPersonaLogicaNonSecuredEjb.checkUsernameInUserInformationPlugin(codusu);
             } catch(I18NException i18ne) {
               
               String msg = "\nS'ha rebut una petició via AgentSQL(" + agentsql + ") per donar"
@@ -368,11 +391,11 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
 
             ue = getUsuariEntitatJPAInstance(codusu, entitatID, usuariEntitatActiu);
           
-            ue = usuariEntitatLogicaEjb.create(usuariPersona, ue, virtualRoles);
+            ue = usuariEntitatNonSecureLogicaEjb.create(usuariPersona, ue, virtualRoles);
           } else {
             // La persona està creada, només hem de crear l'usuari entitat
             ue = getUsuariEntitatJPAInstance(codusu, entitatID, usuariEntitatActiu);
-            ue = usuariEntitatLogicaEjb.create(codusu, ue, virtualRoles);
+            ue = usuariEntitatNonSecureLogicaEjb.create(codusu, ue, virtualRoles);
           }
           
           String msgBase = "S'ha creat l'usuari-entitat " + ue.getUsuariEntitatID() 
@@ -420,7 +443,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           String firmesEnBlocsActius = getFirmesEnBlocsActius(usuariEntitatID);
 
           if (firmesEnBlocsActius.isEmpty()) {
-            usuariEntitatLogicaEjb.desactivarUsuariEntitat(usuariEntitatID);
+            usuariEntitatNonSecureLogicaEjb.desactivarUsuariEntitat(usuariEntitatID);
             return ue;
           } else {
             String msg = "\nNo es pot desactivar l'usuari-entitat " + usuariEntitatID 

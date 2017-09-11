@@ -29,7 +29,7 @@ static {
   mapping = new HashMap<String, String>();
   
 
-  mapping.put("solicituddefirma.llistat", Constants.CONTEXT_DEST_ESTATFIRMA + "/list");
+  mapping.put("solicituddefirma.llistat.totes.plural", Constants.CONTEXT_DEST_ESTATFIRMA + "/list");
   
   mapping.put("solicituddefirma.llistat.pendent.plural", Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list");
   mapping.put("solicituddefirma.llistat.acceptada.plural", Constants.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list");

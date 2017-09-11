@@ -1,6 +1,13 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.ejb.*;
+import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
+import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
+import es.caib.portafib.ejb.RebreAvisLocal;
+import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
+import es.caib.portafib.ejb.UsuariEntitatEJB;
+import es.caib.portafib.ejb.UsuariEntitatFavoritLocal;
+import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -15,7 +22,18 @@ import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitatFavorit;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.model.fields.*;
+import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
+import es.caib.portafib.model.fields.RebreAvisFields;
+import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
+import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariEntitatFavoritFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Constants;
 
 import org.hibernate.Hibernate;
@@ -754,13 +772,13 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID)
       throws I18NException {
 
-
     UsuariEntitatQueryPath usuariEntitatQueryPath = new RoleUsuariEntitatQueryPath().USUARIENTITAT();
     List<String> correusAdEn = roleUsuariEntitatEjb.executeQuery(
         usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
         Where.AND(
             RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
-            usuariEntitatQueryPath.ENTITATID().equal(entitatID)
+            usuariEntitatQueryPath.ENTITATID().equal(entitatID),
+            usuariEntitatQueryPath.ACTIU().equal(true)
         )
       );
     // Eliminam duplicats    
