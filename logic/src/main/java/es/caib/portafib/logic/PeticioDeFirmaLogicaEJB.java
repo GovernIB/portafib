@@ -1634,8 +1634,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       files.addAll(fluxDeFirmesLogicaEjb.deleteFull(fluxID));
 
       // Borrar fitxer a firmar
-      files.add(pf.getFitxerAFirmarID());
-      fitxerLogicaEjb.delete(pf.getFitxerAFirmarID());
+      if (pf.getFitxerAFirmarID() != null) {
+        files.add(pf.getFitxerAFirmarID());
+        fitxerLogicaEjb.delete(pf.getFitxerAFirmarID());
+      }
 
       // Borrar fitxer amb taula de firmes
       if (pf.getFitxerAdaptatID() != null
