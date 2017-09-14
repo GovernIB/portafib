@@ -15,6 +15,8 @@ import org.bouncycastle.tsp.TimeStampRequest;
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.utils.FileUtils;
 
@@ -287,9 +289,9 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
       ITimeStampGenerator timeStampGen = fileInfo.getTimeStampGenerator();
 
       if (timeStampGen == null) {
-        log.error("El generador de TimeStamp per la petició " + relativePluginRequestPath
+        throw new Exception("El generador de TimeStamp per la petició " + relativePluginRequestPath
             + " | " + query + " val null");
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        
       } else {
 
         try {
@@ -304,13 +306,27 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
           response.getOutputStream().write(returnedData);
         } catch (Exception e) {
-          log.error("Error greu cridant el TimeStampGenerator: " + e.getMessage(), e);
-          response.sendError(HttpServletResponse.SC_NOT_FOUND);
+          throw new Exception("Error greu cridant el TimeStampGenerator: " + e.getMessage(), e);          
         }
       }
     } catch (Throwable th) {
-      errorPage(th.getMessage(), th, absolutePluginRequestPath, relativePluginRequestPath,
-          request, response, signaturesSet, locale);
+      //errorPage(th.getMessage(), th, absolutePluginRequestPath, relativePluginRequestPath,
+      //    request, response, signaturesSet, locale);
+      
+      String errorMsg = th.getMessage();
+      
+      log.error(errorMsg, th);
+      
+      StatusSignature ss = signaturesSet.getFileInfoSignatureArray()[signatureIndex].getStatusSignature();
+      ss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+      ss.setErrorMsg(errorMsg);
+      ss.setErrorException(th);
+       
+      try {
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      } catch (IOException e) {
+        log.error(" Error cridant a sendError: " + e.getMessage(), e);
+      }
     }
 
   }

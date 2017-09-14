@@ -1443,9 +1443,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
      for (int i = 0; i < 10; i++) {
        
        pending = 0;
+       
+       
+       log.info("\n\n\n");
+       
        for (FileInfoSignature fis: signaturesSet.getFileInfoSignatureArray() ) {
          
+         log.info(" XYZ ZZZ  =============== " + fis.getName() + " ==================");
+         
          int status = fis.getStatusSignature().getStatus();
+         
+         log.info(" STATUS(init=0, progres=1, final=2, ERROR=-1, CANCEL=-2) = " + status);
+
          
          if (status == StatusSignature.STATUS_INITIALIZING 
              || status == StatusSignature.STATUS_IN_PROGRESS) {
@@ -1453,11 +1462,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          }
          
        }
+       
+       log.info(" \n\n PENDING = " + pending);
 
        if (pending == 0) {
          break;
        }
-       
+
        // TODO  if i > 10 ???
        log.warn("finalPageClientMobil() : Esperant a que totes les firmes finalitzin."
            + " Reintent " + i + "/10.");
@@ -1541,7 +1552,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
      int countError = 0;
      List<String> allIds = new ArrayList<String>();
      for (Signresult sr : result.getSignresult()) {
-       
+
        allIds.add(sr.getId());
 
        if (debug) {
@@ -1556,6 +1567,14 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        
           
        StatusSignature status = getStatusSignature(signaturesSetID, item.index);
+       
+       if (status.getStatus() < 0) {
+         // Ja s'ha produït un error de tipus Canceled(-2) or Error(-1).
+         // llavors no feim res
+         countError++;
+         continue;
+       } 
+       
        
        if ("DONE_AND_SAVED".equals(sr.getResult())) {
 
@@ -1578,6 +1597,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          
        } else {
          countError++;
+
          log.error("Resultat de Firma Erroni en SignSet = " + item.signaturesSetID 
              + "(index = " + item.index + " ) = " + sr.getResult());
          
@@ -1592,6 +1612,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
          status.setErrorMsg(sr.getDescription() + valor);
          status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
          status.setSignedData(null);
+         
        }
 
      }

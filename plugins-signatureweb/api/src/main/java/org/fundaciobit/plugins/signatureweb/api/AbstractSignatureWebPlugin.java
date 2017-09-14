@@ -1,6 +1,5 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.cert.X509Certificate;
@@ -346,25 +345,29 @@ public abstract class AbstractSignatureWebPlugin
   protected void errorPage(String errorMsg, Throwable th, String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
-
+  
     if (th == null) {
-      log.error(errorMsg);
+      log.error("AbstractSignatureWebPlugin::errorPage() " + errorMsg);
     } else {
-      log.error(errorMsg, th);
+      log.error("AbstractSignatureWebPlugin::errorPage() " + errorMsg, th);
     }
 
     if (locale == null) {
       locale = request.getLocale();
     }
 
-    String finalurl = null;
-    if (signaturesSet != null) {
-      finalurl = signaturesSet.getUrlFinal();
-
-      signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-      signaturesSet.getStatusSignaturesSet().setErrorMsg(errorMsg);
-      signaturesSet.getStatusSignaturesSet().setErrorException(th);
+    
+    if (signaturesSet == null) {
+      log.warn("AbstractSignatureWebPlugin::errorPage(): signaturesSet es null !!!"); 
     }
+    
+   
+    String finalurl = signaturesSet.getUrlFinal();
+
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+    signaturesSet.getStatusSignaturesSet().setErrorMsg(errorMsg);
+    signaturesSet.getStatusSignaturesSet().setErrorException(th);
+    
     
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, -1);
 
