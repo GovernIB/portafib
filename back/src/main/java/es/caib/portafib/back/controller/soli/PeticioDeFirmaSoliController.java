@@ -1376,6 +1376,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     int deleteCount = 0;
     int pausarCount = 0;
     int firmatCount = 0;
+    int marcarRevisatCount = 0;
 
     for(PeticioDeFirma pf: list) {
     
@@ -1437,6 +1438,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
 
        if (avisweb) {
+         marcarRevisatCount++;
          /* MARCAR REVISAT */
          filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
              "icon-check icon-white", "revisat",  getContextWeb() + "/revisat/" + peticioDeFirmaID,
@@ -1597,7 +1599,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     
     final boolean downloadMassiu =  (size == firmatCount  && size != 0);
     
-    if (deleteMultiple || pausarMultiple) {
+    final boolean marcarRevisat = ( marcarRevisatCount > 1);
+    
+    if (deleteMultiple || pausarMultiple || marcarRevisat) {
       filterForm.setVisibleMultipleSelection(true);
     
     
@@ -1617,6 +1621,13 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         filterForm.addAdditionalButton(new  AdditionalButton("icon-download-alt icon-white",
           "descarregar.firmes", "javascript:submitTo('peticioDeFirmaFilterForm',"
               + " '" + request.getContextPath() + getContextWeb() + "/downloadseleccionats');" , "btn-success"));
+      }
+      
+      if (marcarRevisat) {
+        filterForm.addAdditionalButton(new AdditionalButton(
+            "icon-check icon-white", "revisat",  "javascript:submitTo('peticioDeFirmaFilterForm',"
+                + " '" + request.getContextPath() + getContextWeb() + "/marcarrevisatseleccionats');",
+            "btn-warning"));
       }
       
     }
@@ -1676,6 +1687,50 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     return llistatPaginat(request, response, null);
   }
   
+  
+  
+  
+  @RequestMapping(value = "/marcarrevisatseleccionats", method = RequestMethod.POST)
+  public ModelAndView marcarRevisatSeleccionats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws I18NException {
+
+    // seleccionats conté els estatIDs
+    String[] seleccionatsStr = filterForm.getSelectedItems();
+    // String role = filterForm.getRole();
+
+
+    if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+      
+      return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+    } else {
+      
+
+      for(int i = 0; i< seleccionatsStr.length; i++) {
+         try {
+          Long peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
+          
+          PeticioDeFirma pfue;
+          pfue = peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
+
+          if (pfue == null) {
+            this.createMessageError(request, "error.notfound", peticioDeFirmaID);
+          }
+
+          if (pfue.isAvisWeb()) {
+            pfue.setAvisWeb(false);
+            peticioDeFirmaEjb.update(pfue);
+          }
+        } catch(Throwable e) {
+          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+        }
+      }
+      
+    }
+
+    return llistatPaginat(request, response, null);
+  }
   
   
   
