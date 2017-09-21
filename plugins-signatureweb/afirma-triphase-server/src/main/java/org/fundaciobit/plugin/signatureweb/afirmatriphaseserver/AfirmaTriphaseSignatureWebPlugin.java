@@ -330,7 +330,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       resultat = true;
 
     } else if (query.startsWith(CLIENT_ERROR_PAGE)) {
-      clientErrorPage(query, signaturesSet, signatureIndex, request, response);
+      clientErrorPage(query, signaturesSet, signatureIndex, request, response,
+          absolutePluginRequestPath, locale);
+      resultat = true;
+    } else if (query.startsWith(DOWNLOAD_AUTOFIRMA_PAGE) ) { 
+      downloadAutofirmaPage(query, signaturesSet, signatureIndex, request, response,
+          absolutePluginRequestPath, relativePluginRequestPath, locale);
       resultat = true;
     } else {
       resultat = false;
@@ -1677,6 +1682,89 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
   
+  
+  
+  
+//----------------------------------------------------------------------------
+ // ----------------------------------------------------------------------------
+ // ------------------ PAGINA D'ERROR-----------------------------------
+ // ----------------------------------------------------------------------------
+ // ----------------------------------------------------------------------------
+
+ public static final String DOWNLOAD_AUTOFIRMA_PAGE = "downloadautofirma";
+
+ /**
+  * Mostra pàgina per descarregar autofirma
+  * 
+  * @param query
+  * @param signaturesSet
+  * @param signatureIndex
+  * @param request
+  * @param response
+  * @param uploadedFiles
+  * @throws Exception
+  */
+ private void downloadAutofirmaPage(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
+     HttpServletRequest request, HttpServletResponse response, String absolutePluginRequestPath,
+     String relativePluginRequestPath, Locale locale) {
+
+   response.setCharacterEncoding("utf-8");
+   response.setContentType("text/html");
+   
+   SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+   
+   PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, 
+       relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
+   
+   
+   String[][] descarregues = new String[][] {
+      { "Windows / Linux / Mac", "http://firmaelectronica.gob.es/Home/Descargas.html" },
+      { "ANDROID", "https://play.google.com/store/apps/details?id=es.gob.afirma&hl=ca" },
+      { "IOS" , "https://itunes.apple.com/es/app/cliente-firma-movil/id627410001?mt=8" }
+   };
+   
+   out.println(
+     
+      "<div style=\"width:100%;height:100%;\">\n"
+      + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
+      + "    <tr valign=\"middle\">\n"
+      + "    <td align=\"center\">\n"
+      + "      <div>\n"
+      + "         <h2>\n" + getTraduccio("tempsexpiratdescarregarclient.titol", locale) + "</h2><br/>\n"
+      + "         <h4>\n" + getTraduccio("tempsexpiratdescarregarclient.msg", locale) + "</h4><br/>\n"
+      + "         <div  align=\"left\">\n"
+      + "          <ul>\n");
+      
+      
+
+        for (int i = 0; i < descarregues.length; i++) {
+          out.println("          <li><b>" + descarregues[i][0]+ ":</b>"
+              + " <a href=\"" + descarregues[i][1]+ "\" target=\"_blank\">" + descarregues[i][1]+ "</a></li>\n");
+        }
+
+
+        out.println("          </ul>\n"
+      + "   </div>"
+      + "      </div>\n"
+      + "      <br/>\n"
+      + "      <input type=\"button\" class=\"btn btn-warning\" onclick=\"gotoFinal()\" value=\""
+      + getTraduccio("tornar", locale)
+      + "\">\n");
+
+      out.println("<script type=\"text/javascript\">\n"
+      + "\n"
+      + "  function gotoFinal() {\n"
+      + "    window.location.href='" + signaturesSet.getUrlFinal() + "';\n"
+      + "  }\n"
+      + "</script>");
+
+   
+   generateFooter(out, sai, signaturesSet);
+   
+   out.flush();
+    
+ }
+  
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -1699,7 +1787,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
    * @throws Exception
    */
   private void clientErrorPage(String query, SignaturesSetWeb signaturesSet, int signatureIndex,
-      HttpServletRequest request, HttpServletResponse response) {
+      HttpServletRequest request, HttpServletResponse response, String absolutePluginRequestPath,
+      Locale locale) {
 
     StatusSignaturesSet status;
     if (signatureIndex == -1) {
@@ -1726,9 +1815,30 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     } else {
       log.warn("@firma AUTOFIRMA: S'ha rebut un error: " + errorMsg);
-      status.setErrorMsg(errorMsg);
-      status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      
+
+      if (errorMsg.startsWith("Type: java.util.concurrent.TimeoutExceptionMessage:")) {
+        try {
+          String msg = getTraduccio("tempsexpiratdescarregarclient.msg", locale);
+          
+          status.setErrorMsg(msg);
+          status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+          
+          response.sendRedirect(absolutePluginRequestPath + "/" + DOWNLOAD_AUTOFIRMA_PAGE);
+          return;
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      } else if (errorMsg.startsWith("Type: es.gob.afirma.core.AOCancelledOperationExceptionMessage")) {
+        super.cancel(request, response, signaturesSet);          
+        return;        
+      }
+      
+
     }
+    
+    status.setErrorMsg(errorMsg);
+    status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
 
     try {
       response.sendRedirect(signaturesSet.getUrlFinal());

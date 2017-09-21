@@ -284,6 +284,10 @@ public abstract class AbstractMiniAppletSignaturePlugin extends AbstractSignatur
 
       BigInteger time = tsr.getNonce();
       
+      log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE REAL: " + time.toString());
+      log.info("XYZ ZZZ PLUGIN:requestTimeStamp() => NONCE LONG: " + time.longValue());
+      
+      
       FileInfoSignature fileInfo = signaturesSet.getFileInfoSignatureArray()[signatureIndex];
 
       ITimeStampGenerator timeStampGen = fileInfo.getTimeStampGenerator();
