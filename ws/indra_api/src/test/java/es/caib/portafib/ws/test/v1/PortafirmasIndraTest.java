@@ -136,11 +136,12 @@ public class PortafirmasIndraTest extends IndraTestUtils {
         XTrustProvider.install();
       }
 
-      CwsProxy proxy = new CwsProxy(endPoint);
-
-      int peticioID = 132001;
-
-      callToDownloadDocument(proxy, app, peticioID);
+      //CwsProxy proxy = new CwsProxy(endPoint);
+      // int peticioID = 132001;
+      // callToDownloadDocument(proxy, app, peticioID);
+      
+      new PortafirmasIndraTest().testHeliumCode();
+      
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

@@ -20,7 +20,7 @@ import es.caib.portafib.ws.callback.api.v1.PortaFIBCallBackWsService;
  */
 public abstract class PortaFIBTestUtils {
 
-  public static final String CALLBACK = "PortaFIBCallBack";
+  //public static final String CALLBACK = "PortaFIBCallBack";
   
   private static Properties testProperties = new Properties();
   
@@ -35,8 +35,8 @@ public abstract class PortaFIBTestUtils {
   
  
 
-  public static String getEndPoint(String api) {
-    return testProperties.getProperty("test_host") + api;
+  public static String getEndPoint() {
+    return testProperties.getProperty("test_host");
   }
 
 
@@ -44,11 +44,11 @@ public abstract class PortaFIBTestUtils {
     
     
 
-    final String endpoint = getEndPoint(CALLBACK);
+    final String endpoint = getEndPoint();
     
-    if (endpoint.toLowerCase().startsWith("https")) {
-        XTrustProvider.install();
-    }
+    //if (endpoint.toLowerCase().startsWith("https")) {
+    //    XTrustProvider.install();
+    //}
     
 
     PortaFIBCallBackWsService callbackService = new PortaFIBCallBackWsService(new URL(endpoint + "?wsdl"));

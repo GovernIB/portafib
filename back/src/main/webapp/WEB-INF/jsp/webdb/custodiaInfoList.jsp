@@ -5,7 +5,7 @@
         method="${method}"  enctype="multipart/form-data">
 
   <%@include file="custodiaInfoListCommon.jsp" %>
-  <div class="filterLine lead" style="margin-bottom:10px">
+  <div id="${formName}_listheader" class="filterLine lead" style="margin-bottom:10px">
     <%@include file="custodiaInfoListHeaderButtons.jsp" %>
     <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
 

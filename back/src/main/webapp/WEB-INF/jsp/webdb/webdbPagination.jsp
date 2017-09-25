@@ -49,6 +49,7 @@ function reassignAction() {
       </form:select>
     </div>
 
+<c:if test="${not empty __theFilterForm.itemsPerPage}">
 
   <div class="pagination pagination-centered" id="${formName}_pagination_center">
     <c:url var="firstUrl" value="${contexte}/list/1" 
@@ -93,6 +94,6 @@ function reassignAction() {
     </ul>
     </div>
     
-    
+    </c:if>
 </div>
 

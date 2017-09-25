@@ -5,7 +5,7 @@
         method="${method}"  enctype="multipart/form-data">
 
   <%@include file="annexListCommon.jsp" %>
-  <div class="filterLine lead" style="margin-bottom:10px">
+  <div id="${formName}_listheader" class="filterLine lead" style="margin-bottom:10px">
     <%@include file="annexListHeaderButtons.jsp" %>
     <%-- ADD HERE NEW HEADER BUTTONS (Multiple Select or similar to add item)  --%>
 

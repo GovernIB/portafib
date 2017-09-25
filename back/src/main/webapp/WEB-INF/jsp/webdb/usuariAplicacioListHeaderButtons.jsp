@@ -30,6 +30,7 @@
       </c:if>
       <%-- FILTRAR PER BOTO - FINAL  --%>
      
+      <%-- BOTO DE NOU ELEMENT EN LLISTAT  --%>
     <c:if test="${__theFilterForm.addButtonVisible}">
       <a class="btn btn-small pull-right" role="button" data-toggle="modal"
         href="<c:url value="${contexte}/new"/>"> <i class="icon-plus-sign"></i>
@@ -38,6 +39,7 @@
        </fmt:message>
       </a>
     </c:if>
+      <%-- BOTO DE ESBORRAT MULTIPLE  --%>
     <c:if test="${__theFilterForm.deleteSelectedButtonVisible && __theFilterForm.visibleMultipleSelection && not empty usuariAplicacioItems}">
       <a class="btn btn-danger btn-small pull-right" style="color: white;" href="#myModal"
         onclick="openModalSubmit('<c:url value="${contexte}/deleteSelected"/>','show', 'usuariAplicacio');"
