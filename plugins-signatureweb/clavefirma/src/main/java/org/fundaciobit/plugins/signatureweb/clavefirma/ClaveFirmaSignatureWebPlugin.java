@@ -127,19 +127,38 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         + "allowcertificategeneration"));
   }
 
-  protected boolean mostrarInformacioAUsuariNoRegistrat() {
+  
+  protected boolean passFilterQuanUsuariNoRegistrat() {
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "passfilterwhennonregistereduser"));
+  }
+  
+  
+  protected boolean showInformacioQuanUsuariNoRegistrat() {
     return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
         + "showinfowhennonregistereduser"));
   }
-
-  protected boolean showPluginWhenUserCertificateBlocked() {
+  
+  
+  protected boolean passFilterWhenUserCertificateBlocked() {
     return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
-        + "showpluginwhenusercertificateblocked"));
+        + "passfilterwhenusercertificateblocked"));
   }
 
-  protected boolean showPluginWhenUserHasWeakRegistry() {
+  protected boolean showInfoWhenUserCertificateBlocked() {
     return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
-        + "showpluginwhenuserhasweakregistry"));
+        + "showinfowhenusercertificateblocked"));
+  }
+
+
+  protected boolean passFilterWhenUserHasWeakRegistry() {
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "passfilterwhenuserhasweakregistry"));
+  }
+  
+  protected boolean showInfoWhenUserHasWeakRegistry() {
+    return "true".equalsIgnoreCase(getProperty(CLAVEFIRMA_BASE_PROPERTIES
+        + "showinfowhenuserhasweakregistry"));
   }
 
   protected boolean isDebug() {
@@ -216,9 +235,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       return certificatsDisponibles != 0;
 
     } catch (HttpCertificateBlockedException se) {
-      if (showPluginWhenUserCertificateBlocked()) {
+      if (passFilterWhenUserCertificateBlocked()) {
         log.info("filter:: L'usuari " + username + "(" + administrationID + ") té el "
-            + "certificat bloquejat però la propietat showPluginWhenUserCertificateBlocked"
+            + "certificat bloquejat però la propietat passfilterwhenusercertificateblocked"
             + " = true (" + se.getClass() + ")");
         return true;
       } else {
@@ -228,27 +247,27 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       }
     } catch (HttpNoUserException se) {
 
-      if (mostrarInformacioAUsuariNoRegistrat()) {
+      if (passFilterQuanUsuariNoRegistrat()) {
         log.info("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
             + "donat d'alta en el sistema ClaveFirma però la propietat "
-            + "mostrarInformacioAUsuariNoRegistrat = true: " + se.getClass());
+            + "passfilterwhennonregistereduser = true: " + se.getClass());
         return true;
       } else {
         log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
-            + "donat d'alta en el sistema ClaveFirma", se);
+            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)", se);
         return false;
       }
     } catch (HttpWeakRegistryException we) {
 
-      if (showPluginWhenUserHasWeakRegistry()) {
+      if (passFilterWhenUserHasWeakRegistry()) {
         log.info("filter:: L'usuari  " + username + "(" + administrationID + ") està "
             + "registrat a ClaveFirma amb un registre dèbil "
-            + "(showPluginWhenUserHasWeakRegistry = true): " + we.getClass());
+            + "(passfilterwhenuserhasweakregistry = true): " + we.getClass());
         return true;
       } else {
         log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") està "
             + "registrat a ClaveFirma amb un registre dèbil "
-            + "(showPluginWhenUserHasWeakRegistry = true)", we);
+            + "(passfilterwhenuserhasweakregistry = false)", we);
         return false;
       }
 
@@ -464,14 +483,21 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
 
-    signaturesSet.getCommonInfoSignature().getLanguageUI();
-
     sss.setErrorMsg(titol + ": " + subtitol);
     sss.setErrorException(null);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-
-    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+    
+    
+    if (showInfoWhenUserHasWeakRegistry()) {
+      showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
         signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+    } else {
+      try {
+        response.sendRedirect(signaturesSet.getUrlFinal());
+      } catch (IOException e) {
+        log.error("Error fent redirect: " + e.getMessage(), e);
+      }
+    }
   }
 
   // ----------------------------------------------------------------------------
@@ -492,20 +518,27 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     // String button_label = getTraduccio("cancel", locale);
     // String button_url = relativePluginRequestPath + "/" + CANCEL_PAGE;
 
-    String button_label = getTraduccio("acceptar", locale);
-    String button_url = signaturesSet.getUrlFinal(); // relativePluginRequestPath
-                                                     // + "/" + CANCEL_PAGE;
-
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
-
-    signaturesSet.getCommonInfoSignature().getLanguageUI();
 
     sss.setErrorMsg(titol + ": " + subtitol);
     sss.setErrorException(null);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
 
-    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
-        signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+    if (showInformacioQuanUsuariNoRegistrat()) {
+      final String button_label = getTraduccio("acceptar", locale);
+      final String button_url = signaturesSet.getUrlFinal(); // relativePluginRequestPath
+
+      showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+          signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+    } else {
+      try {
+        response.sendRedirect(signaturesSet.getUrlFinal());
+      } catch (IOException e) {
+        log.error("Error fent redirect: " + e.getMessage(), e);
+      }
+    }
+
+    
   }
 
   // ----------------------------------------------------------------------------
@@ -523,20 +556,28 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     String titol = getTraduccio("error.certificatbloquejat.titol", locale);
     String subtitol = getTraduccio("error.certificatbloquejat.missatge", locale);
-    String button_label = getTraduccio("acceptar", locale);
-    String button_url = signaturesSet.getUrlFinal(); // relativePluginRequestPath
-                                                     // + "/" + CANCEL_PAGE;
+
 
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
-
-    signaturesSet.getCommonInfoSignature().getLanguageUI();
 
     sss.setErrorMsg(titol + ": " + subtitol);
     sss.setErrorException(null);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-
-    showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
+    
+    if (showInfoWhenUserCertificateBlocked()) {
+      String button_label = getTraduccio("acceptar", locale);
+      String button_url = signaturesSet.getUrlFinal();
+      showSimplePage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
         signaturesSet, signatureIndex, locale, titol, subtitol, button_label, button_url);
+    } else {
+      try {
+        response.sendRedirect(signaturesSet.getUrlFinal());
+      } catch (IOException e) {
+        log.error("Error fent redirect: " + e.getMessage(), e);
+      }
+    }
+    
+    
   }
 
   protected void showSimplePage(String absolutePluginRequestPath,

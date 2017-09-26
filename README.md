@@ -77,6 +77,6 @@ Vista Completa de Petició de Firma en Destinatari
 | plugin-signatureweb-miniappletinserver | 2.0.1 |
 | plugin-signatureweb-miniappletinserversia | 2.0.1 |
 | plugin-signatureweb-miniappletinclient | 2.0.1 |
-| plugin-signatureweb-clavefirma | 2.0.1 |
+| plugin-signatureweb-clavefirma | 2.0.3 |
 | plugin-signatureweb-afirma_triphase_server | 2.0.2 |
 | plugin-signatureweb-portafib | 2.0.0 |
