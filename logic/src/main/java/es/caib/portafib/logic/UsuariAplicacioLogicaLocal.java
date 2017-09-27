@@ -45,5 +45,7 @@ public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioLocal {
   public boolean eliminarRolUser(String usuariAplicacioID) throws I18NException, Exception;
   
   public UsuariAplicacioJPA checkBasicUsuariAplicacioID(String usuariAplicacioID)  throws I18NException;
+  
+  public void testCallBackAPI(String usuariAplicacioID) throws Exception;
 
 }

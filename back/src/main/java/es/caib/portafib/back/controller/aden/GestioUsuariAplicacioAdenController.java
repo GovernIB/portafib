@@ -15,12 +15,12 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
-
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
@@ -228,6 +228,13 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           usuariAplicacioFilterForm.setDeleteSelectedButtonVisible(false);
           
           usuariAplicacioFilterForm.setVisibleMultipleSelection(false);
+          
+          
+          usuariAplicacioFilterForm.addAdditionalButtonForEachItem( new AdditionalButton(
+               "icon-check", "validar.urlcallback",  getContextWeb() + "/validarurlcallback/{0}",
+               "btn-info"));
+          
+          
           /*
           Map<String,String> map = new HashMap<String, String>();
           map.put("anadal", "ROL 1");
@@ -296,6 +303,47 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
         return usuariAplicacioFilterForm;
     }
+    
+    
+    
+    
+  @RequestMapping(value = "/validarurlcallback/{usuariAplicacioID}", method = RequestMethod.GET)
+  public String validarURLCallBack(
+      @PathVariable("usuariAplicacioID") java.lang.String usuariAplicacioID,
+      HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    
+    log.info(" XYZ ZZZ ENTRA TEST DE validarURLCallBack( );");
+
+    try {
+      this.usuariAplicacioLogicaEjb.testCallBackAPI(usuariAplicacioID);
+
+      HtmlUtils.saveMessageSuccess(request, "Test OK");
+
+    } catch (Throwable e) {
+
+      UsuariAplicacioJPA usuariAplicacio = (UsuariAplicacioJPA) this.usuariAplicacioLogicaEjb
+          .findByPrimaryKey(usuariAplicacioID);
+
+      // XYZ ZZZ TODO Traduir
+      String error = "Error provant la URL de CallBack(" + usuariAplicacio.getCallbackURL()
+          + ") de l'usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() + ": "
+          + e.getMessage();
+
+      HtmlUtils.saveMessageError(request, error + "<br/>"
+          + ExceptionUtils.getStackTrace(e).replace("\n", "<br/>"));
+
+      log.error(error, e);
+
+    }
+
+    log.info(" XYZ ZZZ FINAL TEST DE validarURLCallBack( );");
+    
+    //return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+    return "redirect:" + getContextWeb() + "/list";
+
+  }
+    
+    
     
     @Override
     public void postList(HttpServletRequest request, ModelAndView mav, UsuariAplicacioFilterForm filterForm,  List<UsuariAplicacio> list) throws I18NException {

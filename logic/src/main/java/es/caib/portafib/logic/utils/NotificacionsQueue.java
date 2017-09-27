@@ -1,8 +1,11 @@
 package es.caib.portafib.logic.utils;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -14,6 +17,7 @@ import java.util.List;
 
 import javax.annotation.security.RunAs;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -458,8 +462,30 @@ public class NotificacionsQueue implements MessageListener {
   }
   
   
-  
-  
+  public static void testApiCallBack(UsuariAplicacio usuariAplicacio) throws Exception {
+    switch (usuariAplicacio.getCallbackVersio()) {
+    case 0:
+      // test l'api de Indra
+      testApiIndra(usuariAplicacio);
+      break;
+
+    case 1:
+      // Enviem a l'API WS Callback de Portafib
+      testApiWSPortaFIBv1(usuariAplicacio);
+      break;
+
+    case 2:
+      // Enviem a l'API REST Callback de Portafib
+      testApiRESTPortaFIBv1(usuariAplicacio);
+      break;
+
+    case -1:
+    default:
+      // Do nothing
+    }
+  }
+
+
   private static void enviarNotificacioApiRESTPortaFIBv1(NotificacioInfo notificacioInfo,
       FirmaEvent fe, UsuariAplicacio usuariAplicacio) throws I18NException {
     // ENVIAR A SERVEI REST 
@@ -515,6 +541,35 @@ public class NotificacionsQueue implements MessageListener {
   }
   
   
+  private static void testApiRESTPortaFIBv1(UsuariAplicacio usuariAplicacio) throws Exception {
+    // Recupera Versió
+
+    String urlStr = usuariAplicacio.getCallbackURL();
+
+    int pos = urlStr.lastIndexOf("/");
+
+    urlStr = urlStr.substring(0, pos) + "/versio";
+
+    URL url = new URL(urlStr);
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("GET");
+    conn.setRequestProperty("Accept", "application/json");
+
+    if (conn.getResponseCode() != 200) {
+      throw new Exception("Failed : HTTP error code : " + conn.getResponseCode());
+    }
+
+    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+    String output = IOUtils.toString(br);
+
+    log.info("Testing OK. API WS PortaFIB v1. Usuari aplicació "
+        + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + urlStr
+        + ". Cridada a getVersionWs() amb resultat " + output);
+
+    conn.disconnect();
+
+  }
   
 
   private static void enviarNotificacioApiWSPortaFIBv1(NotificacioInfo notificacioInfo,
@@ -531,6 +586,32 @@ public class NotificacionsQueue implements MessageListener {
       log.info("");
     }
     
+    PortaFIBCallBackWs callbackApi = getCallBackApiWSPortaFIBv1(usuariAplicacio);
+
+    PortaFIBEvent event = createPortaFIBEvent(fe, usuariAplicacio);
+
+    try {
+      callbackApi.event(event);
+    } catch (CallBackException e) {
+      log.error("CallBackException(WS): " + e.getMessage(), e);
+      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
+    }
+  }
+  
+  
+  private static void testApiWSPortaFIBv1(UsuariAplicacio usuariAplicacio) throws Exception {
+    PortaFIBCallBackWs api = getCallBackApiWSPortaFIBv1(usuariAplicacio);
+    
+    int version = api.getVersionWs();
+    
+    log.info("Testing OK. API WS PortaFIB v1. Usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() 
+        + ". Cridada a getVersionWs() amb resultat " + version);
+    
+  }
+  
+
+  protected static PortaFIBCallBackWs getCallBackApiWSPortaFIBv1(
+      UsuariAplicacio usuariAplicacio) {
     String endPoint = usuariAplicacio.getCallbackURL();
 
     //URL wsdlLocation = PortaFIBCallBackWsService.class.getResource("/wsdl/PortaFIBCallBack_v1.wsdl");
@@ -548,15 +629,7 @@ public class NotificacionsQueue implements MessageListener {
     // Adreça servidor
     Map<String, Object> reqContext = ((BindingProvider) callbackApi).getRequestContext();
     reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
-
-    PortaFIBEvent event = createPortaFIBEvent(fe, usuariAplicacio);
-
-    try {
-      callbackApi.event(event);
-    } catch (CallBackException e) {
-      log.error("CallBackException(WS): " + e.getMessage(), e);
-      throw new I18NException(e, "error.unknown", new I18NArgumentString(e.getMessage()));
-    }
+    return callbackApi;
   }
 
   protected static PortaFIBEvent createPortaFIBEvent(FirmaEvent fe,
@@ -725,6 +798,42 @@ public class NotificacionsQueue implements MessageListener {
     throw new I18NException("error.unknown",str.toString());
 
   }
+  
+  
+  
+  private static void testApiIndra(UsuariAplicacio usuariAplicacio) throws Exception {
+    // Recupera Versió
+
+    String urlStr = usuariAplicacio.getCallbackURL();
+
+    
+
+    urlStr = urlStr + "?wsdl";
+
+    URL url = new URL(urlStr);
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("GET");
+    conn.setRequestProperty("Accept", "application/json");
+
+    if (conn.getResponseCode() != 200) {
+      throw new Exception("Failed : HTTP error code : " + conn.getResponseCode());
+    }
+
+    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+    String output = IOUtils.toString(br);
+
+    log.info("Testing OK. API Callback Indra. Usuari aplicació "
+        + usuariAplicacio.getUsuariAplicacioID() + " amb URL " + urlStr
+        + ". Cridada a ?wsdl amb resultat " + output.substring(0, Math.min(40, output.length())));
+
+    conn.disconnect();
+
+  }
+  
+  
+  
+  
 
   private static CallbackRequest createCallbackRequest(long eventID, final UsuariAplicacio ua,
       FirmaEvent fe) throws I18NException {

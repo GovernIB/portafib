@@ -14,6 +14,7 @@ import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.ejb.UsuariAplicacioEJB;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.utils.NotificacionsQueue;
 import es.caib.portafib.logic.validator.UsuariAplicacioBeanLogicValidator;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -420,6 +421,20 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     }
     
   }
+  
+  
+  @Override
+  public void testCallBackAPI(String usuariAplicacioID) throws Exception {
+    
+    UsuariAplicacioJPA usuariAplicacio =  (UsuariAplicacioJPA)this.findByPrimaryKey(usuariAplicacioID);
+    
+    
+    NotificacionsQueue.testApiCallBack(usuariAplicacio);
+    
+    
+  }
+  
+  
   
   /**
    *  Aquest mètode serveix per eliminar els roles d'un usuari seycon

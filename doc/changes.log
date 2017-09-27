@@ -1,6 +1,10 @@
 PortaFIB 1.1.3
 ==============
 
+2017-09-27 Afegir botó per testejar URL de CallBack en llistat d'Usuaris-Aplicació #135
+
+2017-09-25 Actualitzar Plugin de Firma Web Cl@veFirma a v2.0.3 (Noves propietats, veure Manual d'Usuari) #134
+
 2017-09-15 Afegir Boto de "Marcar com revisat" de items seleccionats en Peticions de Sol·licitant #132
 
 2017-09-11 Solucionar Bug que no permetia esborrar peticions amb fitxers netejats #130
