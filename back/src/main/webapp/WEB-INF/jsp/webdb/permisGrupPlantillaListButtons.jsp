@@ -8,7 +8,7 @@
            <c:when test="${__theFilterForm.actionsRenderer == 1}">
             <div class="btn-group" data-toggle="buttons-checkbox">
             <c:if test="${__theFilterForm.editButtonVisible}">
-            <a class="btn " href="<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>" onclick="goTo('<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>')" title="<fmt:message key="genapp.edit"/>">
+            <a class="btn " href="<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>" onclick="" title="<fmt:message key="genapp.edit"/>">
                <i class="icon-pencil"></i>
             </a>
             </c:if>
@@ -23,8 +23,7 @@
                   <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
                   <c:if test="${!fn:startsWith(thelink,'javascript:')}">
                   <c:url var="thehref" value="${thelink}"/>
-                  <c:url var="thelink" value="${thelink}"/>
-                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  <c:url var="thelink" value=""/>
                   </c:if>
                   <a class="btn ${button.type}" href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
                      <c:if test="${fn:startsWith(button.icon, '/')}">
@@ -42,8 +41,7 @@
                   <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
                   <c:if test="${!fn:startsWith(thelink,'javascript:')}">
                   <c:url var="thehref" value="${thelink}"/>
-                  <c:url var="thelink" value="${thelink}"/>
-                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  <c:url var="thelink" value=""/>
                   </c:if>
                   <a class="btn ${button.type}" href="${thehref}" onclick="${thelink}" title="<fmt:message key="${button.codeText}"/>">
                      <c:if test="${fn:startsWith(button.icon, '/')}">
@@ -67,7 +65,7 @@
       <ul class="dropdown-menu pull-right" style="min-width:35px;padding:5px 5px 0px 5px;margin:0px;font-size: 12px" >
             <c:if test="${__theFilterForm.editButtonVisible}">
             <li>
-            <a class="btn  btn-small a_item" style="margin-bottom:5px;" href="<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>" onclick="goTo('<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>')">
+            <a class="btn  btn-small a_item" style="margin-bottom:5px;" href="<c:url value="${contexte}/${permisGrupPlantilla.permisGrupPlantillaID}/edit"/>" onclick="">
             <i class="icon-pencil"></i>
              <fmt:message key="genapp.edit"/>
             </a>
@@ -87,8 +85,7 @@
                   <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
                   <c:if test="${!fn:startsWith(thelink,'javascript:')}">
                   <c:url var="thehref" value="${thelink}"/>
-                  <c:url var="thelink" value="${thelink}"/>
-                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  <c:url var="thelink" value=""/>
                   </c:if>
                   <li>
                   <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'};" href="${thehref}" onclick="${thelink}">
@@ -109,8 +106,7 @@
                   <c:set var="thelink" value="${fn:replace(button.link,bracket, pk)}" />
                   <c:if test="${!fn:startsWith(thelink,'javascript:')}">
                   <c:url var="thehref" value="${thelink}"/>
-                  <c:url var="thelink" value="${thelink}"/>
-                  <c:set var="thelink" value="goTo('${thelink}')"/>
+                  <c:url var="thelink" value=""/>
                   </c:if>
                   <li>
                   <a class="btn ${button.type} btn-small a_item" style="margin-bottom:5px;${(empty button.type)? '' : 'color: white;'};" href="${thehref}" onclick="${thelink}">

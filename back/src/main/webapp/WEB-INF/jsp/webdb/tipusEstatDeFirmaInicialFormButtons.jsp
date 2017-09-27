@@ -19,13 +19,12 @@
     <c:set var="thehref" value="#"/>
     <c:if test="${!fn:startsWith(thelink,'javascript:')}">
      <c:url var="thehref" value="${thelink}"/>
-     <c:url var="thelink" value="${thelink}"/>
-     <c:set var="thelink" value="goTo('${thelink}')"/>
+     <c:url var="thelink" value=""/>
     </c:if>
-    <button type="button" class="btn ${button.type}" 
-       href="${thehref}" onclick="${thelink}">
+    <a class="btn ${button.type}" 
+       href="${thehref}" onclick="${thelink}" style="${(empty button.type)? '' : 'color: white;'}"  >
        <i class="${button.icon}"></i><fmt:message key="${button.codeText}"/>
-    </button>
+    </a>
     </c:if>
     </c:forEach>
   </div>
