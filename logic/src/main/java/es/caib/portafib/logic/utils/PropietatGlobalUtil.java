@@ -332,6 +332,47 @@ public class PropietatGlobalUtil implements Constants {
     return val;
   }
 
+
+  
+  
+  /**
+   * Mostar o oculta l'opció de Autofirma. Si val true sempre mostra l'opció,
+   * si val false mai mostra l'opció i si val null llavors consulta el ROLE ROLE_AUTOFIRMA. 
+   * @param entitatID
+   * @return
+   */
+  public static Boolean getAutofirmaAllowed(String entitatID) {
+    final String partialPropertyName = "autofirmaallowed";
+    Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
+    if(log.isDebugEnabled()) { log.debug( "getAutofirmaAllowed(" + entitatID+ ") = " + val); }
+    return val;
+  }
+  
+  
+
+  
+  
+  // --------------------------------------------------------------------
+  // --------------------------------------------------------------------
+  // --------------------- AGENT SEYCON (CAIB) --------------------------
+  // --------------------------------------------------------------------
+  // --------------------------------------------------------------------
+  
+  /**
+   * Opcional. En entorns CAIB, quan un agent seycon dóna d'alta un usuari a PortaFIB, emprant aquesta
+   * propietat podem decidir si aquest usuari-entitat es crearà activat (true) o desactivat (false o no definit).
+   *
+   * @param entitatID
+   * @return
+   */
+  public static boolean isActiveUsuariEntitatAfterAgentSeyconCreation() {
+    final String partialPropertyName = "activeusuarientitatafteragentseyconcreation";
+    Boolean val = getBoolean(partialPropertyName);
+    if(log.isDebugEnabled()) { log.debug( "isActiveUsuariEntitatAfterAgentSeyconCreation() = " + val); }
+    return val == null? false: val;
+  }
+  
+  
   /**
    * Opcional excepte en entorns de la CAIB. Entitat sobre la qual s'aplicaran
    * les accions del “Agents Seycon”. Veure punt “5.6.-Gestió de Rols a traves
@@ -361,36 +402,6 @@ public class PropietatGlobalUtil implements Constants {
     if(log.isDebugEnabled()) { log.debug( "getPasswordForAgentsSQL() = " + val); }
     return val;
   }
-  
-  
-  /**
-   * Mostar o oculta l'opció de Autofirma. Si val true sempre mostra l'opció,
-   * si val false mai mostra l'opció i si val null llavors consulta el ROLE ROLE_AUTOFIRMA. 
-   * @param entitatID
-   * @return
-   */
-  public static Boolean getAutofirmaAllowed(String entitatID) {
-    final String partialPropertyName = "autofirmaallowed";
-    Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
-    if(log.isDebugEnabled()) { log.debug( "getAutofirmaAllowed(" + entitatID+ ") = " + val); }
-    return val;
-  }
-  
-  
-  /**
-   * Opcional. En entorns CAIB, quan un agent seycon dóna d'alta un usuari a PortaFIB, emprant aquesta
-   * propietat podem decidir si aquest usuari-entitat es crearà activat (true) o desactivat (false o no definit).
-   *
-   * @param entitatID
-   * @return
-   */
-  public static boolean isActiveUsuariEntitatAfterAgentSeyconCreation() {
-    final String partialPropertyName = "activeusuarientitatafteragentseyconcreation";
-    Boolean val = getBoolean(partialPropertyName);
-    if(log.isDebugEnabled()) { log.debug( "isActiveUsuariEntitatAfterAgentSeyconCreation() = " + val); }
-    return val == null? false: val;
-  }
-  
   
   
 
