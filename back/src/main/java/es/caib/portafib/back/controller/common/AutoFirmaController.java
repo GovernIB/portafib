@@ -186,8 +186,10 @@ public class AutoFirmaController extends FitxerController
   
   @RequestMapping(value = "", method = RequestMethod.POST)
   public ModelAndView autofirmaPost(HttpServletRequest request, HttpServletResponse response,
-      @ModelAttribute AutoFirmaForm form, BindingResult result) throws Exception, I18NException {
+      @ModelAttribute AutoFirmaForm form, BindingResult result)  {
     
+    try {
+
     autoFirmaValidator.validate(form, result);
 
     
@@ -305,6 +307,24 @@ public class AutoFirmaController extends FitxerController
     final String view = "PluginDeFirmaContenidor_AutoFirma";
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
     
+    return mav;
+    
+    } catch(I18NException e) {
+      
+      String msg = I18NUtils.getMessage(e);
+      log.error(msg, e);
+      HtmlUtils.saveMessageError(request, msg);
+      
+    } catch(Exception e) {
+
+      String msg = I18NUtils.tradueix("error.unknown", e.getMessage() );
+      log.error(msg, e);
+      HtmlUtils.saveMessageError(request, msg);
+
+    }
+    
+    ModelAndView mav = new ModelAndView("autoFirmaForm");
+    mav.addObject(form);
     return mav;
 
   }
@@ -685,6 +705,7 @@ public class AutoFirmaController extends FitxerController
       FileSystemManager.copy(input, output);
   
       input.close();
+      output.flush();
       output.close();
     }
   }

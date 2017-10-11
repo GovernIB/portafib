@@ -22,12 +22,13 @@
   
   
   <repositories>
+      <!--
     <repository>
       <name>Local Maven Repository</name>
       <id>es.caib.portafib.localrepo1</id>
       <url>file://${project.basedir}/../afirma-triphase-server-lib/local-repo</url>
     </repository>
-    <!--
+
     <repository>
       <id>uji</id>
       <url>http://devel.uji.es/nexus/content/groups/public/</url>

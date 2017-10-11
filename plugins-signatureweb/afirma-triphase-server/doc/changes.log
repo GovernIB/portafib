@@ -1,4 +1,7 @@
 
+2017-10-10 Solucionat problema de PDF corrupte quan es firmava un PDF amb taula de firmes
+           (Veure detalls https://github.com/GovernIB/portafib/issues/138)
 
+2017-10-10 Nova versió 2.0.3
 
 2017-08-04 Afegides propietats newjavascripturl i newcssurl per gestionar javascript i css extern
