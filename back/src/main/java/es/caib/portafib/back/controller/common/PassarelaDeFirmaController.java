@@ -156,8 +156,8 @@ public class PassarelaDeFirmaController  {
     PassarelaSignaturesSetWebInternalUse ssf;
     ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(transactionID);
     if (ssf == null) {
-      // TODO XYZ ZZZ TRADUIR 
-      throw new Exception("Ha tardat massa temps en firmar. Torni a intentar-ho.");
+      //  "Ha tardat massa temps en firmar. Torni a intentar-ho."
+      throw new I18NException("firmar.tempsexcedit");
     }
         
     Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();

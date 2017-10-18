@@ -311,8 +311,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   public String validarURLCallBack(
       @PathVariable("usuariAplicacioID") java.lang.String usuariAplicacioID,
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
-    
-    log.info(" XYZ ZZZ ENTRA TEST DE validarURLCallBack( );");
 
     try {
       this.usuariAplicacioLogicaEjb.testCallBackAPI(usuariAplicacioID);
@@ -324,10 +322,10 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       UsuariAplicacioJPA usuariAplicacio = (UsuariAplicacioJPA) this.usuariAplicacioLogicaEjb
           .findByPrimaryKey(usuariAplicacioID);
 
-      // XYZ ZZZ TODO Traduir
-      String error = "Error provant la URL de CallBack(" + usuariAplicacio.getCallbackURL()
-          + ") de l'usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() + ": "
-          + e.getMessage();
+      // Error provant la URL de CallBack({0}) de l'usuari aplicació {1} : {2}
+      String error = I18NUtils.tradueix("validar.urlcallback.error",
+          usuariAplicacio.getCallbackURL(), usuariAplicacio.getUsuariAplicacioID(),
+          e.getMessage());
 
       HtmlUtils.saveMessageError(request, error + "<br/>"
           + ExceptionUtils.getStackTrace(e).replace("\n", "<br/>"));
@@ -336,9 +334,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
     }
 
-    log.info(" XYZ ZZZ FINAL TEST DE validarURLCallBack( );");
-    
-    //return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
     return "redirect:" + getContextWeb() + "/list";
 
   }

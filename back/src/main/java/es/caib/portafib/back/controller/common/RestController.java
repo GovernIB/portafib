@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.common;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,10 +75,11 @@ public class RestController {
         lang = lang.trim();
 
         if (!idiomes.contains(lang)) {
-          // XYZ ZZZ traduir emprant Configuracio.getDefaultLanguage()
+          // L´idioma {0} no està suportat. Valors possibles: {1}
 
-          String msg = "L'idioma '" + lang + "' no està suportat." + " Valors possibles: "
-              + Arrays.toString(idiomes.toArray());
+          
+          final String msg = I18NUtils.tradueix("rest.idiomanosuportat.error", lang, 
+              Arrays.toString(idiomes.toArray()));
           return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
         }
       }
@@ -90,9 +92,9 @@ public class RestController {
         Long count = usuariAplicacioLogicaEjb.count(UsuariAplicacioFields.USUARIAPLICACIOID
             .equal(appuser));
         if (count == 0) {
-          // XYZ ZZZ traduir emprant Configuracio.getDefaultLanguage()
-          return new ResponseEntity<String>("No existeix l'Usuari-Aplicacio '" + appuser
-              + "'.", HttpStatus.BAD_REQUEST);
+          // No existe el Usuario-Aplicación {0}.
+          final String msg = I18NUtils.tradueix("rest.usrappnoexisteix.error", appuser);
+          return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
         }
 
         whereTD = Where.OR(TipusDocumentFields.USUARIAPLICACIOID.equal(appuser),

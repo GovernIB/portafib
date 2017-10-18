@@ -2,6 +2,7 @@ package es.caib.portafib.back.controller.common;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,8 +103,8 @@ public class RestAutenticatedController {
 
       if (entitatsMap == null || entitatsMap.size() == 0) {
 
-        // XYZ ZZZ traduir
-        final String msg = "Aquest usuari no té cap entitat associada";
+        // Aquest usuari no té cap entitat associada";
+        String msg = I18NUtils.tradueix("rest.usuarisenseentitat.error");
         return new ResponseEntity<String>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
@@ -115,8 +116,8 @@ public class RestAutenticatedController {
           entitats = new HashSet<String>();
           entitats.add(entitatID);
         } else {
-          // XYZ ZZZ traduir
-          final String msg = "Aquest usuari no pertany a l'entitat " + entitatID;
+          // Aquest usuari no pertany a l'entitat {0}
+          final String msg = I18NUtils.tradueix("rest.usuarinopertanyentitat.error", entitatID); 
           return new ResponseEntity<String>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
       }
