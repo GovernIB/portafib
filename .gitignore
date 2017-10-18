@@ -133,3 +133,15 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ws/portafib_api_passarela_servidor/setpath - Còpia.bat
 /ws/portafib_api_passarela_servidor/test_firmat.pdf
 /ws/portafib_api_passarela_web/setpath.bat
+/ws/portafib_api_passarela_servidor/src/main/resources/genapp_ca.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/genapp_es.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/logicmissatges_ca.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/logicmissatges_es.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/portafib_genapp_ca.properties
+/ws/portafib_api_passarela_servidor/src/main/resources/portafib_genapp_es.properties
+/ws/portafib_api_passarela_web/src/main/resources/genapp_ca.properties
+/ws/portafib_api_passarela_web/src/main/resources/genapp_es.properties
+/ws/portafib_api_passarela_web/src/main/resources/logicmissatges_ca.properties
+/ws/portafib_api_passarela_web/src/main/resources/logicmissatges_es.properties
+/ws/portafib_api_passarela_web/src/main/resources/portafib_genapp_ca.properties
+/ws/portafib_api_passarela_web/src/main/resources/portafib_genapp_es.properties

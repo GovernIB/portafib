@@ -9,7 +9,9 @@ import com.aowagie.text.pdf.PdfContentByte;
 import com.aowagie.text.pdf.PdfReader;
 import com.aowagie.text.pdf.PdfStamper;
 import com.aowagie.text.pdf.PdfWriter;
+
 import es.gob.afirma.core.misc.Base64;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
@@ -28,7 +30,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+
+import javax.net.ssl.SSLContext;
+
 import es.gob.afirma.core.misc.AOUtil;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 
 public final class PdfPreProcessor
 {
@@ -263,7 +274,38 @@ static byte[] downloadImage(String url, byte[] certificate) throws Exception  {
   connection.setDoInput(true);
   connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
+  
+  if (url.toLowerCase().startsWith("https")) {
+    // IGNORAR CERTIFICATS DE SERVIDOR
+    
+    // Create a trust manager that does not validate certificate chains 
+    final TrustManager[] trustAllCerts = new TrustManager[] {
+        new X509TrustManager() { 
+          @Override public void checkClientTrusted( final X509Certificate[] chain, final String authType ) {
+          } 
 
+          @Override public void checkServerTrusted( final X509Certificate[] chain, final String authType ) {
+          } 
+          
+          @Override public X509Certificate[] getAcceptedIssuers() {
+            return null; 
+          } 
+        } 
+      };
+    
+    
+      //Install the all-trusting trust manager
+      final SSLContext sslContext = SSLContext.getInstance( "SSL" );
+      sslContext.init( null, trustAllCerts, new java.security.SecureRandom() );
+      //Create an ssl socket factory with our all-trusting manager
+      final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+    
+    
+      //All set up, we can get a resource through https now:
+      //Tell the url connection object to use our socket factory which bypasses security checks
+      ( (HttpsURLConnection) connection ).setSSLSocketFactory( sslSocketFactory );
+  }
+  
   OutputStream output = connection.getOutputStream();
   PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
 
