@@ -1,6 +1,10 @@
 PortaFIB 1.1.3
 ==============
 
+2017-10-19 Eliminar repositois locals (local-repo) de PortaFIB (MiniApplet i SIA). #140
+
+2017-10-18 Plugin Web Autofirma: No descarregava rúbrica en entorns HTTPS. #140
+
 2017-10-10 Plugin Web Autofirma: Nova versió 2.0.3. Solucionat problema de PDF corrupte
            quan es firmava un PDF amb taula de firmes
            (Veure detalls https://github.com/GovernIB/portafib/issues/138)
