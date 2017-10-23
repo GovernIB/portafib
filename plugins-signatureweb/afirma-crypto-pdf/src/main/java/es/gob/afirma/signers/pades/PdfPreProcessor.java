@@ -304,6 +304,18 @@ static byte[] downloadImage(String url, byte[] certificate) throws Exception  {
       //All set up, we can get a resource through https now:
       //Tell the url connection object to use our socket factory which bypasses security checks
       ( (HttpsURLConnection) connection ).setSSLSocketFactory( sslSocketFactory );
+      
+      
+      ( (HttpsURLConnection) connection ).setHostnameVerifier(
+          new javax.net.ssl.HostnameVerifier(){
+
+                  @Override
+              public boolean verify(String hostname,
+                      javax.net.ssl.SSLSession sslSession) {
+                  return true;
+              }
+          });
+      
   }
   
   OutputStream output = connection.getOutputStream();

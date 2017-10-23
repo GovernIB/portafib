@@ -665,8 +665,16 @@ public class SignatureModuleController extends HttpServlet {
   public static String getAbsolutePortaFIBBaseForSignatureModule(HttpServletRequest request) {
     String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
     if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
-      return request.getScheme() + "://" + request.getServerName() + ":" +
-        + request.getServerPort() +  request.getContextPath();
+      final String scheme = request.getScheme();
+      final int port = request.getServerPort();
+      if ( (scheme.toLowerCase().equals("http") && port == 80 )
+          ||  (scheme.toLowerCase().equals("https") && port == 443 ) ) {
+        return request.getScheme() + "://" + request.getServerName() 
+            +  request.getContextPath();
+      } else {
+        return request.getScheme() + "://" + request.getServerName() + ":" +
+          + request.getServerPort() +  request.getContextPath();
+      }
     } else {
       return absoluteURL;
     }

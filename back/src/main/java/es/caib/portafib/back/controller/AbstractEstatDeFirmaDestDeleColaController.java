@@ -1074,8 +1074,8 @@ import es.caib.portafib.utils.Configuracio;
         default: {
           // TODO traduir
           String msg = "Ha finalitzat el process de firma amb ID " + ss.getSignaturesSetID()
-              + " però la firma del fitxer ´" + signedFile.getName()
-              + "´ no està ni firmat ni té errors.";
+              + " però el document firmat del fitxer ´" + signedFile.getName()
+              + "´ no existeix i tampoc s´han descrit errors.";
 
           log.error(msg, new Exception());
 

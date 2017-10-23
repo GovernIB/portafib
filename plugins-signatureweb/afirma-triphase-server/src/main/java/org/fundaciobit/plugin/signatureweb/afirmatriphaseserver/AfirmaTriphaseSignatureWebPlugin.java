@@ -666,13 +666,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       configPropertiesStr[i] = configPropertiesStr1.toString();
       
       if (debug) {
-        /*
-        StringWriter writer = new StringWriter();
-        configProperties[i].list(new PrintWriter(writer));
-        String pStr= writer.getBuffer().toString();
-        */
-        log.info("============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n" + configPropertiesStr[i]);
-
+        log.info("============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
+          + configPropertiesStr[i]);
       }
 
     }
@@ -1009,6 +1004,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     generateFooter(out, sai, signaturesSet);
     
     out.flush();
+    
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_IN_PROGRESS);
 
   }
   
@@ -1338,6 +1335,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     generateFooter(out, sai, signaturesSet);
     
     out.flush();
+    
+    signaturesSet.getStatusSignaturesSet().setStatus(StatusSignature.STATUS_IN_PROGRESS);
 
   }
   
@@ -1599,44 +1598,63 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     try {
       final boolean debug = isDebug();
-      // Verificar que totes les firmes estan guardades
-      int pending;
-      for (int i = 0; i < 10; i++) {
+      
+      StatusSignaturesSet generalStatusSet = signaturesSet.getStatusSignaturesSet();
+      final int generalStatus = generalStatusSet.getStatus();
+          
 
-        pending = 0;
-
-        for (FileInfoSignature fis : signaturesSet.getFileInfoSignatureArray()) {
-
-          int status = fis.getStatusSignature().getStatus();
-
-          if (debug) {
-            log.info(" =============== " + fis.getName() + " ==================");
-            log.info(" STATUS(init=0, progres=1, final=2, ERROR=-1, CANCEL=-2) = " + status);
-          }
-
-          if (status == StatusSignature.STATUS_INITIALIZING
-              || status == StatusSignature.STATUS_IN_PROGRESS) {
-            pending++;
-          }
-
-        }
-
-        if (debug) {
-          log.info(" -------------------- \n\n PENDING = " + pending);
-        }
-
-        if (pending == 0) {
-          break;
-        }
-
-        // TODO if i > 10 ???
-        log.warn("finalPageClientMobil() : Esperant a que totes les firmes finalitzin."
-            + " Reintent " + i + "/10.");
-        Thread.sleep(1000);
+      if (debug) {
+        log.info(" STATUS LIST => (init=0, progres=1, final=2, ERROR=-1, CANCEL=-2) ");
+        log.info("finalPageClientMobil:: generalStatus = " + generalStatus);
       }
-
-      StatusSignaturesSet statusSet = signaturesSet.getStatusSignaturesSet();
-      statusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
+      
+      // Verificar que totes les firmes estan guardades si l'estat general es correcte
+      if (generalStatus == StatusSignature.STATUS_INITIALIZING
+          || generalStatus == StatusSignature.STATUS_IN_PROGRESS) {
+        int pending = 0;
+        for (int i = 0; i < 10; i++) {
+  
+          pending = 0;
+          
+          FileInfoSignature[] fisArray =  signaturesSet.getFileInfoSignatureArray();
+  
+          for (int f = 0; f < fisArray.length ; f++) {
+            FileInfoSignature fis = fisArray[f];
+  
+            int status = fis.getStatusSignature().getStatus();
+  
+            if (debug) {
+              log.info(" ===== " + f + ".- " + fis.getName() + " STATUS = " + status + " =====");
+            }
+  
+            if (status == StatusSignature.STATUS_INITIALIZING
+                || status == StatusSignature.STATUS_IN_PROGRESS) {
+              pending++;
+            }
+  
+          }
+  
+          if (debug) {
+            log.info(" -------------------- \n\n PENDING = " + pending);
+          }
+  
+          if (pending == 0) {
+            break;
+          }
+  
+          // TODO if i > 10 ???
+          log.warn("finalPageClientMobil() : Esperant a que totes les firmes finalitzin."
+              + " Reintent " + i + "/10.");
+          Thread.sleep(1000);
+        }
+        
+        // TODO XYZ ZZZ Posar a totes les pendents estat ERROR
+        
+        
+        if (pending == 0) {
+          generalStatusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
+        }
+      } 
 
       if (debug) {
         log.debug("finalPageClientMobil() : REDIRECT A " + signaturesSet.getUrlFinal());
@@ -1946,6 +1964,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     StatusSignaturesSet status;
     if (signatureIndex == -1) {
+      log.error("clientErrorPage: Cridat amb signatureIndex == -1");
       status = signaturesSet.getStatusSignaturesSet();
     } else {
       status = getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);
@@ -1953,19 +1972,20 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     String errorMsg = request.getParameter("error");
     if (errorMsg == null) {
-      String msg = "S'ha cridat a " + CLIENT_ERROR_PAGE
-          + " però aquest no conté el parametre 'error'";
+      
+      log.error( "S'ha cridat a " + CLIENT_ERROR_PAGE
+          + " però aquest no conté el parametre 'error'");
+      
+      // S'ha rebut un error de Autofirma o del Client de Firma Mòbil però aquest
+      // no conté detalls del tipus d'error que s'ha produït
+     
+      String msg = getTraduccio("error.sensemissatge", locale);
       log.error(msg, new Exception());
-      try {
-        response.sendError(404, msg);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
       // TODO Traduir emprant langUI
-      status.setErrorMsg("S'ha rebut un error però aquest no conté detalls del tipus"
-          + " d'error que s'ha produït");
+      status.setErrorMsg(msg);
       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+      
+      return;
 
     } else {
       log.warn("@firma AUTOFIRMA: S'ha rebut un error: " + errorMsg);
@@ -1987,11 +2007,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         cancel(request, response, signaturesSet);          
         return;        
       }
-      
 
     }
     
-    status.setErrorMsg(errorMsg);
+    status.setErrorMsg(getTraduccio("error.missatge", locale, errorMsg));
     status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
 
     try {
