@@ -1,4 +1,10 @@
 
+2017-11-03 Afegida propietat downloadforwindowsxp per mostrar descarrega de Autofirma antiga per Windows XP
+
+2017-11-03 Afegit nou document de compatibilitat per versió 2.0.3
+
+2017-11-03 Afegit miniapplet.js de la versió 1.5 
+
 2017-10-10 Solucionat problema de PDF corrupte quan es firmava un PDF amb taula de firmes
            (Veure detalls https://github.com/GovernIB/portafib/issues/138)
 

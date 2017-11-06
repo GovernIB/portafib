@@ -613,7 +613,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     final String HOST = url.getProtocol() + "://" + url.getHost() + port;
     final String PATH = relativePluginRequestPath;
-    
+
 
     int pos = relativePluginRequestPath.lastIndexOf(String.valueOf(signatureIndex));
     String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
@@ -806,8 +806,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     
     if (debug) {
-      log.debug("Batch File = \r\n" + batch);
-      log.debug("Batch Size = \r\n" + batch.length());
+      log.info("Batch File = \r\n" + batch);
+      log.info("Batch Size = \r\n" + batch.length());
     }
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
@@ -1141,15 +1141,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "  function showErrorCallback(errorType, errorMessage) {\n"
         + "    var msg;\n"
         + "    msg = \"Type: \" + errorType + \"Message: \" + errorMessage;\n"
-        + "    var request;\n"
-        + "    if(window.XMLHttpRequest) {\n"
-        + "      request = new XMLHttpRequest();\n"
-        + "    } else {\n"
-        + "      request = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
-        + "    }\n"
-        + "    request.open('GET', '" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg), false);\n"
-        + "    request.send();\n"
-        + "    gotoFinal();\n"
+        + "    window.location.href='" + absolutePluginRequestPath + "/"+ CLIENT_ERROR_PAGE + "?error=' + encodeURIComponent(msg);\n"
         + "  }"
         + "\n\n"
         + "  function doSign() {\n"
@@ -1253,6 +1245,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         + "function isChromeOrIOS() {\n"
         + "  var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
         + "  var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
+        + (debugWeb?"  showLog('isChrome~() = ' + ( C1 || C2));":"")
         + "  var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
         + "  var casIOS = MiniApplet.isIOS();\n"
         + "  return casAC || casIOS;"
@@ -1260,15 +1253,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
         + "  window.onload = function(e) { \n"
         + "    try {\n"
+
+        + (debugWeb?"        showLog('isChromeOrIOS() = ' + isChromeOrIOS());":"")
+        + (debugWeb?"        showLog('MiniApplet.isAndroid() = ' + MiniApplet.isAndroid());":"")
+        //+ (debugWeb?"        showLog('MiniApplet.isChrome() = ' + MiniApplet.isChrome());":"")
+
+        
         + "      if (isChromeOrIOS()) {\n" // ) {\n"  //  
         + "        mostrar('msgAndroidChrome');\n"
         + "        ocultar('msgNoAndroidChrome');\n"
         + "      } else { \n"  
         + "        mostrar('msgNoAndroidChrome');\n"
         + "        ocultar('msgAndroidChrome');\n"
-        + (debugWeb?"        showLog('Cridant a cridaOutPre_doSign()');":"")
+        + (debugWeb?"        showLog('Cridant a crida Pre  doSign()');":"")
         + "        doSign();\n"
-        + (debugWeb?"        showLog('Cridant a cridaOutPost_doSign()');":"")
+        + (debugWeb?"        showLog('Cridant a crida Post doSign()');":"")
         + "      }\n"
         + "    } catch (e) { alert(e); };\n" 
         + "    // Iniciar Timer\n"
@@ -1635,7 +1634,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           }
   
           if (debug) {
-            log.info(" -------------------- \n\n PENDING = " + pending);
+            log.info(" -------------------- PENDING = " + pending);
           }
   
           if (pending == 0) {
@@ -1652,12 +1651,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         
         
         if (pending == 0) {
+          if (debug) {
+            log.info(" POSANT STATUS A FINAL OK");
+          }
           generalStatusSet.setStatus(StatusSignature.STATUS_FINAL_OK);
         }
       } 
 
       if (debug) {
-        log.debug("finalPageClientMobil() : REDIRECT A " + signaturesSet.getUrlFinal());
+        log.info("finalPageClientMobil() : REDIRECT A " + signaturesSet.getUrlFinal());
       }
 
       response.sendRedirect(signaturesSet.getUrlFinal());
@@ -1889,12 +1891,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
        relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
    
    
-   String[][] descarregues = new String[][] {
-      { "Windows / Linux / Mac", "http://firmaelectronica.gob.es/Home/Descargas.html" },
-      { "ANDROID", "https://play.google.com/store/apps/details?id=es.gob.afirma&hl=ca" },
-      { "IOS" , "https://itunes.apple.com/es/app/cliente-firma-movil/id627410001?mt=8" }
-   };
    
+   List<String[]> descarregues = new ArrayList<String[]>();
+   
+     
+   String downloadForWindowsXP = getProperty(AUTOFIRMA_BASE_PROPERTIES + "downloadforwindowsxp");
+   
+   if ("true".equals(downloadForWindowsXP)) {
+     descarregues.add(new String[] { "Windows XP",
+       "https://github.com/GovernIB/maven/raw/binaris/portafib/portafib-1.1/AutoFirma_1.4.2_Win_XP.exe" });
+   }
+
+   descarregues.add(new String[] { "Windows / Linux / Mac", "http://firmaelectronica.gob.es/Home/Descargas.html" });
+   descarregues.add(new String[] { "ANDROID", "https://play.google.com/store/apps/details?id=es.gob.afirma&hl=ca" });
+   descarregues.add(new String[] { "IOS" , "https://itunes.apple.com/es/app/cliente-firma-movil/id627410001?mt=8" });
+
    out.println(
      
       "<div style=\"width:100%;height:100%;\">\n"
@@ -1903,15 +1914,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + "    <td align=\"center\">\n"
       + "      <div>\n"
       + "         <h2>\n" + getTraduccio("tempsexpiratdescarregarclient.titol", locale) + "</h2><br/>\n"
-      + "         <h4>\n" + getTraduccio("tempsexpiratdescarregarclient.msg", locale) + "</h4><br/>\n"
+      + "         <h4>\n"
+      +  getTraduccio("tempsexpiratdescarregarclient.msg", locale) + " "
+      +  getTraduccio("tempsexpiratdescarregarclient.msg.downloads", locale) + "<br/>\n"
+      + "          </h4><br/>\n"
       + "         <div  align=\"left\">\n"
       + "          <ul>\n");
       
       
 
-        for (int i = 0; i < descarregues.length; i++) {
-          out.println("          <li><b>" + descarregues[i][0]+ ":</b>"
-              + " <a href=\"" + descarregues[i][1]+ "\" target=\"_blank\">" + descarregues[i][1]+ "</a></li>\n");
+        for (String[] desc : descarregues) {
+          out.println("          <li><b>" + desc[0]+ ":</b>"
+              + " <a href=\"" + desc[1]+ "\" target=\"_blank\">" + desc[1]+ "</a></li>\n");
         }
 
 
@@ -1985,7 +1999,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       status.setErrorMsg(msg);
       status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
       
-      return;
+      try {
+        response.sendRedirect(signaturesSet.getUrlFinal());
+        return;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
     } else {
       log.warn("@firma AUTOFIRMA: S'ha rebut un error: " + errorMsg);
@@ -1998,6 +2017,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           status.setErrorMsg(msg);
           status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
           
+          if (isDebug()) {
+             log.info("Temps expirat redireccionant a " + absolutePluginRequestPath + "/" + DOWNLOAD_AUTOFIRMA_PAGE);
+          }
           response.sendRedirect(absolutePluginRequestPath + "/" + DOWNLOAD_AUTOFIRMA_PAGE);
           return;
         } catch (IOException e) {
@@ -2005,7 +2027,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         }
       } else if (errorMsg.startsWith("Type: es.gob.afirma.core.AOCancelledOperationExceptionMessage")) {
         cancel(request, response, signaturesSet);          
-        return;        
+        return;
       }
 
     }

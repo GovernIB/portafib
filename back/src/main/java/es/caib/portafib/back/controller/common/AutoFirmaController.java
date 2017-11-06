@@ -813,6 +813,15 @@ public class AutoFirmaController extends FitxerController
     for (int i = 0; i < data.length; i++) {
       
       File fileName = getFitxerAFirmarPath(ueID, Long.parseLong(data[i]), null);
+      
+      if (fileName == null) {
+        // TODO XYZ ZZZ S'ha de fer passar Request al mètode executeSelect i
+        // despres mostrar aquest missatge per pàgina web
+        log.error("La carpeta amb ID " + ueID + " de l'usuari "
+            + LoginInfo.getInstance().getUsuariEntitatID() 
+            + " esta corrupte. L'Administrador l'hauria d'esborrar.", new Exception());
+        continue;
+      }
 
       Fitxer f = new FitxerJPA();
       
