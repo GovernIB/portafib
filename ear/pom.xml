@@ -276,12 +276,6 @@
 
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-certificate-afirma</artifactId>				  
-          <version>${plugins.version}</version>
-        </dependency>
-
-        <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-certificate-afirmacxf</artifactId>				  
           <version>1.0.1</version>
         </dependency>
@@ -289,7 +283,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-certificate-fake</artifactId>
-          <version>${plugins.version}</version>
+          <version>1.0.1</version>
         </dependency>
 
 

@@ -44,7 +44,6 @@
       <!-- ======== PLUGIN CHECK CERTIFICATE - @FIRMA ======= -->
 
       <!--
-      #es.caib.portafib.certificateplugin=org.fundaciobit.plugins.certificate.afirma.AfirmaCertificatePlugin
       es.caib.portafib.certificateplugin=org.fundaciobit.plugins.certificate.afirmacxf.AfirmaCxfCertificatePlugin
 
       # MODE_VALIDACIO_SIMPLE = 0;
