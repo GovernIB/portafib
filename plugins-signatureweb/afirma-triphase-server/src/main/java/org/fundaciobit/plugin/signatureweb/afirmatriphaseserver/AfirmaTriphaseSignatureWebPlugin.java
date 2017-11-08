@@ -847,7 +847,9 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + "         batchB64,\n"
       + "         '" + HOST + PATH + "/" + BATCHPRESIGNER+ "',\n"
       + "         '" + HOST + PATH + "/" + BATCHPOSTSIGNER + "',\n"
-      + "         '', showResultCallback,showErrorCallback);\n"
+                  //  Parametres generals de la primera Firma
+      + "         '" + StringEscapeUtils.escapeJavaScript(configPropertiesStr[0]) + "',\n" 
+      + "         showResultCallback,showErrorCallback);\n"
       + "    } catch(e) {\n"
       + "      alert(\"Error: \" + e);\n"
       + "      try {\n"
@@ -2059,9 +2061,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
     //readResource(response, JS_MINIAPPLET);
-    
-    
-    
+
     try {
       if (miniAppletJSChache == null) {
         InputStream fis = FileUtils.readResource(this.getClass(), JS_MINIAPPLET);

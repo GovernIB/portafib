@@ -1,4 +1,6 @@
 
+2017-11-08 Solucionat el mal funcionament del filtre de Certificats #143
+
 2017-11-08 Afegida propietat firefoxinwindowsuseoskeystore. Si val false, quan s'arranca AutoFirma
            des de Firefox s'usa el magatzem de certificats de Firefox. Si aquesta propietat val true
            llavors NOMES en Windows carrega els certificats del magatzem del Sistema Operatiu. #142
