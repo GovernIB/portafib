@@ -481,7 +481,10 @@ var MiniApplet = ( function ( window, undefined ) {
 		/** Obtiene el nombre del almacen que corresponde al presente navegador o, si se debe acceder
 		 * al almacen del sistema, se devuelve null. */
 		function getDefaultKeystore() {
-			if(isFirefox()){
+		    // XMAS Si no es windows però si Firefox llavors ...
+		    // XMAS Old Code if(isFirefox()){
+			// /*XXXX*/ == navigator.appVersion.indexOf("Win")==-1 && 
+		    if(/*XXXXX*/ isFirefox()){
 				return KEYSTORE_MOZILLA;
 			}
 			return null;

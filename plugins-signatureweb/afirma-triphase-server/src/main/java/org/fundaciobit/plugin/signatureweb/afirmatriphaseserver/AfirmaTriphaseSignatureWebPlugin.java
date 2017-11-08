@@ -1,5 +1,6 @@
 package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -2050,12 +2051,71 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
 
   public static final String JS_MINIAPPLET = "miniapplet.js";
+  
+  public byte[] miniAppletJSChache = null;
 
   private void javascriptMiniApplet(String absolutePluginRequestPath,
       String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
-    readResource(response, JS_MINIAPPLET);
+    //readResource(response, JS_MINIAPPLET);
+    
+    
+    
+    try {
+      if (miniAppletJSChache == null) {
+        InputStream fis = FileUtils.readResource(this.getClass(), JS_MINIAPPLET);
+        if (fis == null) {
+          final String msg = "No s'ha pogut llegir el recurs: " + JS_MINIAPPLET;
+          log.error(msg, new Exception(msg));
+          try {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+          } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+          }
+          return;
+        }
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        FileUtils.copy(fis, baos);
+        fis.close();
+        
+        
+        String firefoxInWindowsUseOSKeystore = getProperty(AUTOFIRMA_BASE_PROPERTIES + "firefoxinwindowsuseoskeystore");
+        
+        miniAppletJSChache = baos.toByteArray();
+        
+        if ("true".equals(firefoxInWindowsUseOSKeystore)) {
+          String str =  new String(miniAppletJSChache);  
+          // /*XXXXX*/ == navigator.appVersion.indexOf("Win")==-1 && 
+          str = str.replace("/*XXXXX*/", "navigator.appVersion.indexOf(\"Win\")==-1 && ");
+          miniAppletJSChache = str.getBytes();
+        }
+      }
+
+    
+      response.getOutputStream().write(miniAppletJSChache);
+      
+    } catch (IOException e) {
+  
+      if (e.getCause() != null && e.getCause().getClass().equals(SocketException.class)) {
+        // Ok El client ha abortat
+      } else {
+        final String msg = "Error intentant retornar recurs " + JS_MINIAPPLET + " ("
+            + getSimpleName() + "): " + e.getMessage();
+        log.error(msg, e);
+        try {
+          response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+        } catch (IOException e1) {
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+  
+      }
+    }
+    
+    
+    
+    
   }
 
   private void readResource(HttpServletResponse response, String relativePath) {
@@ -2063,7 +2123,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     if (fis != null) {
       responseResource(response, relativePath, fis);
     } else {
-      log.error("No s'ha pogut llegir el recurs: " + relativePath);
+      final String msg = "No s'ha pogut llegir el recurs: " + relativePath;
+      log.error(msg, new Exception(msg));
+      try {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+      } catch (IOException e) {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      }
     }
   }
 
@@ -2077,9 +2143,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       if (e.getCause() != null && e.getCause().getClass().equals(SocketException.class)) {
         // Ok El client ha abortat
       } else {
-        log.error("Error intentant retornar recurs " + relativePath + " (" + getSimpleName()
-            + "): " + e.getMessage(), e);
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        final String msg = "Error intentant retornar recurs " + relativePath + " ("
+            + getSimpleName() + "): " + e.getMessage();
+        log.error(msg, e);
+        try {
+          response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+        } catch (IOException e1) {
+          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
       }
     }
   }

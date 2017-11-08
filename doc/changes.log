@@ -1,6 +1,10 @@
 PortaFIB 1.1.3
 ==============
 
+2017-11-08 Plugin Web Autofirma: Nova propietat firefoxinwindowsuseoskeystore (veure manual d'Usuari #142)
+
+2017-11-07 Actualitzar Plugin de Certificat FAKE per suportar certificats "IDCES-" de la FNMT
+
 2017-11-06 Millores en Plugin Autofirma, Proves i lògica de l'opció "Firma un Document" #141
 
 2017-10-19 Eliminar repositois locals (local-repo) de PortaFIB (MiniApplet i SIA). #140

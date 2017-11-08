@@ -1,5 +1,9 @@
 
-2017-11-03 Afegida propietat downloadforwindowsxp per mostrar descarrega de Autofirma antiga per Windows XP
+2017-11-08 Afegida propietat firefoxinwindowsuseoskeystore. Si val false, quan s'arranca AutoFirma
+           des de Firefox s'usa el magatzem de certificats de Firefox. Si aquesta propietat val true
+           llavors NOMES en Windows carrega els certificats del magatzem del Sistema Operatiu. #142
+
+2017-11-03 Afegida propietat downloadforwindowsxp per mostrar descarrega de Autofirma 1.4.2 per Windows XP
 
 2017-11-03 Afegit nou document de compatibilitat per versió 2.0.3
 
