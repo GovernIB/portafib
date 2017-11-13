@@ -89,7 +89,7 @@ public class AutoFirmaController {
   public ModelAndView autofirmaGet(HttpServletRequest request) throws Exception {
 
     AutoFirmaForm form = new AutoFirmaForm();
-    final String txt = "Autofirma";
+    final String txt = "Per petició de firma pròpia";
 //    form.setTitol(txt);
 //    form.setDescripcio(txt);
     form.setMotiu(txt);

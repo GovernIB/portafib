@@ -2477,6 +2477,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioDeFirma
           .setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
+      if (peticioDeFirma.getUsuariEntitatID() != null) {
+        peticioDeFirma.setAvisWeb(true);
+      }
       this.update(peticioDeFirma);
       events.peticio_rebutjada(peticioDeFirma, estatDeFirma);
 
