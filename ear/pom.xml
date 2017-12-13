@@ -422,7 +422,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-timestamp-afirmarfc</artifactId>
-          <version>${plugins.version}</version>
+          <version>1.0.1</version>
         </dependency>
 
       </dependencies>
