@@ -20,9 +20,9 @@
 
   <repositories>
     <repository>
-      <id>portafib-maven-repos</id>
-      <name>PortaFIB Maven Repository</name>
-      <url>http://GovernIB.github.io/portafib/maven/</url>
+      <id>governib-maven-repos</id>
+      <name>GovernIB Maven Repository</name>
+      <url>http://GovernIB.github.io/maven/maven/</url>
     </repository>
   </repositories>
 
@@ -38,6 +38,12 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.3.2</version>
       </plugin>
 
     </plugins>
