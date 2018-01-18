@@ -1053,9 +1053,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     
     Properties[] configProperties = new Properties[fisArray.length];
     timeStampCache.put(signaturesSetID, configProperties);
-     
-    final boolean debugWeb = isDebug();
-    
+
+    final boolean debug = isDebug();
+    final boolean debugWeb = "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
+
     int countNulls = 0;
     for (int i = 0; i < fisArray.length; i++) {
       final FileInfoSignature fis = fisArray[i];  
@@ -1089,7 +1090,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       configPropertiesStr[i] = configPropertiesStr1.toString();
       
       
-      if (debugWeb) {
+      if (debug) {
         log.info("============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
           + configPropertiesStr[i]);
       }
