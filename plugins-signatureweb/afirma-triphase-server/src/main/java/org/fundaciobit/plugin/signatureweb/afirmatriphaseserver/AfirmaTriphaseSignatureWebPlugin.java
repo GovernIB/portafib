@@ -813,7 +813,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
     
-    final boolean debugWeb = isDebug();
+    final boolean debugWeb = "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
+    
 
     String javascriptCode =    
         "<script type=\"text/javascript\">\n"
