@@ -363,18 +363,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------- IS_FINISHED ----------------------
+  // ------------------- RUBRIC CACHE ----------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
   public static final Map<String, Map<Integer, byte[]>> imageRubricCache = new HashMap<String, Map<Integer, byte[]>>();
-  
-  public void rubricPageAutofirma(String relativePath, SignaturesSetWeb signaturesSet,
-      int signatureIndex, HttpServletRequest request2, HttpServletResponse response) {
+
+  public void rubricPageAutofirma(String relativePath,
+      SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request2,
+      HttpServletResponse response) {
 
     Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);
-    
-    
+
     try {
 
       if (uploadedFiles.size() == 0) {
@@ -389,6 +389,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       // TODO Controlar errors
       FileInfoSignature fileInfo = fileInfoArray[signatureIndex];
 
+      // Només llegirem el primer certificat enviat (veure break del final)
       for (String name : uploadedFiles.keySet()) {
 
         FileItem uploadedFile = uploadedFiles.get(name);
@@ -397,32 +398,36 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
         byte[] rubric = null;
-        
-        Map<Integer, byte[]> map = imageRubricCache.get(signaturesSet.getSignaturesSetID());
-        if (map != null) {
-          rubric = map.get(signatureIndex);
-          map.remove(signatureIndex);
-        }
-        
-        
-        if (rubric == null) {
-        
-          IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
-          
-          if (generator == null) {
-             throw new Exception("Ha elegit mostrar Taula de Firmes però "
-                 + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
-          }
-          
-          rubric = generator.genenerateRubricImage(cert, new Date());
-          
+
+        Map<Integer, byte[]> map;
+
+        synchronized (imageRubricCache) {
+          map = imageRubricCache.get(signaturesSet.getSignaturesSetID());
           if (map == null) {
             map = new HashMap<Integer, byte[]>();
             imageRubricCache.put(signaturesSet.getSignaturesSetID(), map);
+          } else {
+            rubric = map.get(signatureIndex);
           }
-          
+        }
+
+        if (rubric == null) {
+
+          IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
+
+          if (generator == null) {
+            throw new Exception("Ha elegit mostrar Taula de Firmes però "
+                + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
+          }
+
+          rubric = generator.genenerateRubricImage(cert, new Date());
+
+          // Guardam la imatge per utilitzar-la en la segona cridada
           map.put(signatureIndex, rubric);
-          
+
+        } else {
+          // Esborram la imatge ja que no la tornarem a utilitzar
+          map.remove(signatureIndex);
         }
 
         response.setContentType("image/jpeg");
