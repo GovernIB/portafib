@@ -1,6 +1,8 @@
 PortaFIB 1.1.3
 ==============
 
+2018-01-22 Autofirma + Taula de Firmes +Cert.En.Targeta => Error Validació PDF (Error en firmes múltiples) #138
+
 2017-12-13 Actualitzar Plugin de Segellat de Temps de TS@ (suportar jdk 1.7)
 
 2017-11-13 No es marca com a pendent de revisió una Petició REBUTJADA #145
