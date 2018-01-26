@@ -68,16 +68,20 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
 
 -Ppassarelaweb-v2 [EN DESENVOLUPAMENT. NOMES PEL FUTUR PORTAFIB v2.0.0]
                   Compila el Modul de Firma Web de Passarel·la PortaFIB
-                  Tambe crea l'API i WS per atacar a Passarela Web v2 de PortaFIB.
-                  Els WS definits son 
+                  Tambe crea l'API i WS per atacar a Passarela Web v2 de
+                  PortaFIB. Els WS definits son 
                        /portafib/ws/v2/PortaFIBPassarelaDeFirmaWeb
 
 -Ppassarelaserver-v2 [EN DESENVOLUPAMENT. NOMES PEL FUTUR PORTAFIB v2.0.0]
                  Compila el Modul de Firma en Servidor de Passarel·la PortaFIB
-                  Tambe crea l'API i WS per atacar a Passarela Server v2 de PortaFIB.
-                  Els WS definits son 
+                  Tambe crea l'API i WS per atacar a Passarela Server v2 de
+                  PortaFIB. Els WS definits son 
                        /portafib/ws/v2/PortaFIBPassarelaDeFirmaEnServidor
-                       
+
+-Dclavefirma      Al ser incompatible el plugin de FIRe amb el de Cl@veFirma,
+                  aquest darrer esta desactivat. Aquesta opcio serveix per
+                  utilitzar Cl@veFirma enlloc de FIRe.
+
 clean             Neteja els projectes abans de compilar.
 
 --------------------------------------------------------------------------

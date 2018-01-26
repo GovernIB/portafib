@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureweb-fire</artifactId>
+  <packaging>jar</packaging>
+  <version>2.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureWeb - FIRe_2.1</name>
+
+  <parent>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <version>2.0.0</version>
+    <artifactId>plugins-signatureweb</artifactId>
+  </parent>
+
+  <url>http://maven.apache.org</url>
+
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <version>2.0.0</version>
+      <artifactId>plugin-signatureweb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureweb-miniappletutils</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <!--  INICI LLIBRERIES DE FIRe -->
+
+    <!-- XYZ ZZZ
+    <dependency>
+        <groupId>javax.json</groupId>
+        <artifactId>javax.json-api</artifactId>
+        <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.0.4</version>
+    </dependency>
+    -->
+
+
+    <dependency>
+      <groupId>es.gob.fire</groupId>
+      <artifactId>fire-client</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <!--  SEGELLAT DE TEMPS SMIME i CADES -->
+    <dependency>
+      <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
+      <groupId>es.gob.afirma</groupId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-core</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+
+    <!-- XYZ ZZZ
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+    
+    -->
+
+    <!--  FINAL LLIBRERIES DE CLAVEFIRMA -->
+
+
+    <!-- TEST - LLIBRETRIES ITEXT -->
+
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+      <version>5.4.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.itextpdf.tool</groupId>
+      <artifactId>xmlworker</artifactId>
+      <version>5.4.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itext-pdfa</artifactId>
+      <version>5.4.4</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itextpdf</artifactId>
+        </exclusion>                
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+</project>

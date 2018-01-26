@@ -79,6 +79,11 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     }
     return miniappletInServerBasePath;
   }
+  
+  protected boolean isDebug() {
+    return log.isDebugEnabled()
+        || "true".equalsIgnoreCase(getProperty(MINIAPPLETINSERVER_BASE_PROPERTIES + "debug"));
+  }
 
   /**
    * 
@@ -210,12 +215,19 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     String username = signaturesSet.getCommonInfoSignature().getUsername();
 
     if (username == null && getProperty(DEFAULT_ALIAS_CERTIFICATE) == null) {
+      if (isDebug()) {
+        log.warn("No s'ha definit username en signaturesSet i el DEFAULT_ALIAS_CERTIFICATE val null"); 
+      }
       return false;
     }
 
     try {
       getCertificateOfUser(username, signaturesSet.getCommonInfoSignature().getLanguageUI());
     } catch (Exception e) {
+      if (isDebug()) {
+        log.warn("No s'ha pogut obtenir el certificat en la ruta definida en la configuració: "
+           + e.getMessage(), e); 
+      }
       return false;
     }
 

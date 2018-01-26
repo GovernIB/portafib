@@ -333,13 +333,8 @@
           <version>2.0.3</version>
         </dependency>
 
-        <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-clavefirma</artifactId>
-          <version>2.0.3</version>
-        </dependency>
-
-        <!--  Plugin de firma en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
+        <!--  Els Plugins de firma en web SIA, Cl@veFirma i FIRe s'han -->
+        <!--  definit en l'apartat de profiles (Veure més abaix)       -->
 
 
         <!-- ====================================== -->
@@ -428,8 +423,11 @@
       </dependencies>
     </profile>
 
-
-    <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
+    <!-- ============================================= -->
+    <!-- =====  PLUGINS DE FIRMA WEB PER PROFILE ===== -->
+    <!-- ============================================= -->
+ 
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB SIA -->
     <profile>
       <id>sia</id>
       <dependencies>
@@ -450,6 +448,44 @@
         </dependency>
       </dependencies>
     </profile>
+    
+    
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE FIRe   -->
+    <!-- Nota: És incompatible amb el mòdul de Cl@aveFirma -->
+    <profile>
+      <id>fire</id>
+      <activation>
+        <property>
+          <name>!clavefirma</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-fire</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE Cl@aveFirma -->
+    <!-- Nota: És incompatible amb el mòdul de FIRe             -->
+    <profile>
+      <id>clavefirma</id>
+      <activation>
+        <property>
+          <name>clavefirma</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-clavefirma</artifactId>
+          <version>2.0.3</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
 
     <!-- FRONT WEB PORTAFIB AMB AUTENTICACIO CLIENT-CERT -->
     <profile>

@@ -24,7 +24,7 @@
 
     <!-- ============================================== -->
     <!-- ============================================== -->
-    <!-- =========== PLUGINS  FIRMA WEB =============== -->
+    <!-- =========== PLUGINS FIRMA WEB ================ -->
     <!-- ============================================== -->
     <!-- ============================================== -->
 
@@ -54,11 +54,7 @@
       <version>2.0.3</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-clavefirma</artifactId>
-      <version>2.0.3</version>
-    </dependency>
+
 
 
     <!--  Plugin de firma web en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
@@ -90,48 +86,48 @@
       <version>2.0.2</version>
       <exclusions>
         <exclusion>
-            <artifactId>xercesImpl</artifactId>
-            <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <groupId>xerces</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>xml-apis</artifactId>
-            <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>xws-security</artifactId>
-            <groupId>com.sun.xml.wss</groupId>
+          <artifactId>xws-security</artifactId>
+          <groupId>com.sun.xml.wss</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>jaxb-impl</artifactId>
-            <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+          <groupId>com.sun.xml.bind</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>axis-jaxrpc</artifactId>
-            <groupId>org.apache.axis</groupId>
-        </exclusion>
-         <exclusion>
-            <artifactId>axis-saaj</artifactId>
-            <groupId>org.apache.axis</groupId>
+          <artifactId>axis-jaxrpc</artifactId>
+          <groupId>org.apache.axis</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>saaj-impl</artifactId>
-            <groupId>com.sun.xml.messaging.saaj</groupId>
+          <artifactId>axis-saaj</artifactId>
+          <groupId>org.apache.axis</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>slf4j-api</artifactId>
-            <groupId>org.slf4j</groupId>
+          <artifactId>saaj-impl</artifactId>
+          <groupId>com.sun.xml.messaging.saaj</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>xalan</artifactId>
-            <groupId>xalan</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>stax-ex</artifactId>
-            <groupId>sun-jaxws</groupId>
+          <artifactId>xalan</artifactId>
+          <groupId>xalan</groupId>
         </exclusion>
         <exclusion>
-            <artifactId>xml-security-impl</artifactId>
-            <groupId>com.sun.xml.security</groupId>
+          <artifactId>stax-ex</artifactId>
+          <groupId>sun-jaxws</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xml-security-impl</artifactId>
+          <groupId>com.sun.xml.security</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -143,13 +139,13 @@
 
 
   <profiles>
-  
+
     <!-- ============================================== -->
     <!-- ============================================== -->
     <!-- ===== PROFILES DE PLUGINS FIRMA EN WEB ======= -->
     <!-- ============================================== -->
     <!-- ============================================== -->
-  
+
     <!-- PROFILE PER INCLOURE Modul de FIRMA SIA -->
     <profile>
       <id>sia</id>
@@ -185,7 +181,44 @@
       </dependencies>
     </profile>
 
-    
+
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE FIRe -->
+    <!-- Nota: És incompatible amb el mòdul de Cl@aveFirma -->
+    <profile>
+      <id>fire</id>
+      <activation>
+        <property>
+          <name>!clavefirma</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-fire</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- PROFILE PER INCLOURE Modul de FIRMA WEB DE Cl@aveFirma -->
+    <!-- Nota: És incompatible amb el mòdul de FIRe -->
+    <profile>
+      <id>clavefirma</id>
+      <activation>
+        <property>
+          <name>clavefirma</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-signatureweb-clavefirma</artifactId>
+          <version>2.0.3</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+
     <!-- ============================================== -->
     <!-- ============================================== -->
     <!-- === PROFILES DE PLUGINS FIRMA EN SERVIDOR ==== -->
@@ -203,7 +236,7 @@
         </dependency>
       </dependencies>
     </profile>
-    
+
   </profiles>
 
   <build>
@@ -250,12 +283,6 @@
             <jarModule>
               <groupId>org.fundaciobit.plugins</groupId>
               <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
-              <includeInApplicationXml>true</includeInApplicationXml>
-            </jarModule>
-
-            <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureweb-clavefirma</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
 

@@ -25,6 +25,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.plugins.utils.XTrustProvider;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -155,13 +156,19 @@ public class AfirmaServerTest extends TestCase {
           "image/jpeg", "foto.jpg_smime_{0}.slc", "foto.jpg_smime_{0}_ts.slc"));
 
       Properties pluginProperties = new Properties();
-      pluginProperties.load(new FileInputStream(new File("./config/plugin.properties")));
+      pluginProperties.load(new FileInputStream(new File("./config/plugin.properties.caib")));
 
       String propertyKeyBase = "org.fundaciobit.exemple.signatureserverplugins.3.";
 
       ISignatureServerPlugin plugin;
       plugin = new org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin(
           propertyKeyBase, pluginProperties);
+      
+      
+      XTrustProvider.install();
+      
+      String TS_APPID = pluginProperties.getProperty(propertyKeyBase + "plugins.signatureserver.afirmaserver.applicationID_TimeStamp");
+      
 
       /*
        * IRubricGenerator rubricGenerator = new IRubricGenerator() {
@@ -185,6 +192,7 @@ public class AfirmaServerTest extends TestCase {
       final boolean epes = false;
 
       // PADES SIGN
+      /* XYZ ZZZ
       {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
@@ -192,9 +200,10 @@ public class AfirmaServerTest extends TestCase {
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
             userRequiresTimeStamp, epes, rubricGenerator, plugin, username, "PAdES"));
       }
-
+*/
+      
       // PADES SIGN TS
-      if (false) {
+      if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
         boolean userRequiresTimeStamp = true;
@@ -202,7 +211,7 @@ public class AfirmaServerTest extends TestCase {
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
             userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "PAdES-TS"));
       }
-      
+      /* XYZ ZZZ
       // XADES ATACHED
        {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
@@ -214,7 +223,7 @@ public class AfirmaServerTest extends TestCase {
       
 
       // XADES ATACHED TS
-       {
+       if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_XADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
@@ -242,7 +251,7 @@ public class AfirmaServerTest extends TestCase {
       }
 
       // CADES ATACHED TS
-      {
+      if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_CADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
@@ -260,7 +269,7 @@ public class AfirmaServerTest extends TestCase {
       }
       
       // CADES DETACHED TS
-      {
+      if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_CADES;
         int signMode = FileInfoSignature.SIGN_MODE_EXPLICIT; // Detached
         boolean userRequiresTimeStamp = true;
@@ -278,13 +287,14 @@ public class AfirmaServerTest extends TestCase {
       }
 
       // SMIME ATTACHED TIMESTAMP
-      {
+      if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_SMIME;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT; // Attached
         boolean userRequiresTimeStamp = true;
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
             userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "SMIME-Attached-TS"));
       }
+      */
 
       System.out.println();
       System.out.println(" ===========  RESULTATS PROVES ===========");

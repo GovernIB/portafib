@@ -16,7 +16,7 @@ org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmas
 
 org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.TransformersTemplatesPath=D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1/plugins-signatureserver/afirmaserver/config/transformersTemplates
 
-
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.debug=true
 
 #Propiedades de comunicacion con el repositorio de servicios
 

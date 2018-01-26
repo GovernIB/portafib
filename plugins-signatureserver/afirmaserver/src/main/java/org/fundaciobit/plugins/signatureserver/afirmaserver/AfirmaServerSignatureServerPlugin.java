@@ -136,15 +136,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     String applicationID_TS = getProperty(APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY);
     if (applicationID_TS != null) {
-      //
-      // || FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-      //
 
       // NOTA: Amb aplication amb suport de firma només he aconseguit
       // que es generin firmes Xades amb segell de temps
       if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
           || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
-          || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
+          || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)
+          //|| FileInfoSignature.SIGN_TYPE_PADES.equals(signType)  // XYZ ZZZ PADES NO PAREIX QUE AFEGEIX EL SEGELL DE TEMPS
+          ) {
         return true;
       }
     }
@@ -160,7 +159,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    */
   @Override
   public boolean acceptExternalRubricGenerator() {
-    return false; // TODO No se COM ESTAMPAR
+    return false; 
   }
 
   /**
@@ -416,6 +415,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
           } else {
             inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_BES);
+            
+            //inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
+            //inParams.put(DSSTagsRequest.SIGPOL_SIGNATURE_POLICY_IDENTIFIER,"2.16.724.1.3.1.1.2.1.9");
           }
         } else {
 
@@ -443,6 +445,28 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         }
 
         TransformersFacade transformersFacade = getTransformersFacade();
+        
+        if (debug) {
+          
+          StringBuffer inputProperties = new StringBuffer();
+          
+          for(String key : inParams.keySet()) {
+            
+            inputProperties.append(key + " => ");
+            Object obj = inParams.get(key);
+            if (obj instanceof String) {
+              inputProperties.append((String)obj);
+            } else {
+              inputProperties.append(" [ BINARY VALUE]");
+            }
+            inputProperties.append("\n");
+            
+          }
+          
+          log.info(" ============ INPUT PROPERTIES ==============\n" + inputProperties + "\n");
+          
+        }
+        
 
         // Construimos el XML que constituye la petici�n
         String xmlInput = transformersFacade.generateXml(inParams,
@@ -544,7 +568,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           }
 
         } else {
-
           // TODO XYZ ZZZ Traduir
           throw new Exception(
               "No es pot determinar l'estat final de la petició de firma (XML de retorn està buit)");
