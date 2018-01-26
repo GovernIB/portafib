@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -1019,6 +1020,39 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
 
     FIReFileInfoSignature[] fireFirmaSignInfoArray = new FIReFileInfoSignature[fileInfoArray.length];
+    
+    final Properties commonRemoteConfProperties = new Properties();
+    
+    // FILTRE DE CERTIFICATS
+    // Afegir Filtre de Certificats si mode mix (local o cl@avefirma) o mode local
+    final String certOrigin = getCertOrigin();
+    if ("local".equals(certOrigin) || certOrigin == null) {
+    
+      String filtre = signaturesSet.getCommonInfoSignature().getFiltreCertificats();
+      if (debug) { log.info("firmar::FILTRE["+ filtre + "]"); };
+      if (filtre != null && filtre.trim().length() != 0) {
+        
+        try {
+          Properties propFiltre = new Properties();
+          propFiltre.load(new StringReader(filtre));
+          
+          if (debug) {
+            Set<Object> keys = propFiltre.keySet();
+            for (Object key : keys) {
+              log.info("firma::PropertiesFILTRE[" + key + "] => " + propFiltre.get(key));
+            }
+          }
+          
+          commonRemoteConfProperties.putAll(propFiltre);
+        } catch (Exception e) {
+          // TODO tradudir XYZ ZZZ
+          final String msg = " Error processant filtre de certificats: " + e.getMessage();
+          finishWithError(response, signaturesSet, msg, e);
+          return;
+        }
+      }
+    }
+    
 
     // ============= DADES COMUNS
 
@@ -1046,7 +1080,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       log.info("firmarPre::tancarFinestraURL = " + tancarFinestraURL);
     }
 
-    final Properties commonRemoteConfProperties = new Properties();
+
 
     // redirectOkUrl: URL a la que redirigir al usuario en caso de terminar
     // correcta-mente la operación.
@@ -1055,11 +1089,10 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     commonRemoteConfProperties.setProperty("redirectErrorUrl", callBackURLError);
     // procedureName: Nombre del procedimiento que se ejecuta (previamente
     // dado de alta en la GISS).
-    commonRemoteConfProperties.put("procedureName", getPropertyRequired(FIRE_BASE_PROPERTIES
+    commonRemoteConfProperties.setProperty("procedureName", getPropertyRequired(FIRE_BASE_PROPERTIES
         + "procedure"));
 
     // Configuramos si el certificado es local o de Cl@ve Firma (Opcional)
-    final String certOrigin = getCertOrigin();
     if (certOrigin != null) {
       commonRemoteConfProperties.setProperty("certOrigin", certOrigin); //$NON-NLS-1$
     }
