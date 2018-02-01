@@ -31,6 +31,8 @@ public class SignSaverFile implements SignSaver {
   private Logger log = Logger.getLogger(SignSaverFile.class);
   
   private String filename;
+  
+  private boolean debug;
 
   public SignSaverFile(String targetFileName) { //, String *** afirmaTriphaseSignatureWebPluginInstance) {
     if (targetFileName == null) {
@@ -45,7 +47,8 @@ public class SignSaverFile implements SignSaver {
   @Override
   public Properties getConfig() {
     Properties p = new Properties();
-    p.put("FileName", this.filename);
+    p.put(PROP_FILENAME, this.filename);
+    p.put("debug", String.valueOf(this.debug));
     return p;
   }
 
@@ -56,26 +59,24 @@ public class SignSaverFile implements SignSaver {
     o.write(dataToSave);
     o.flush();
     o.close();
-    
-    Item item = AfirmaTriphaseSignatureWebPlugin.decodeSignatureItemID(sign.getId());
-    
-    
-    
-    if (log.isDebugEnabled()) {
-      log.debug(
-       " ----------------\n"
+
+    if (this.debug) {
+      Item item = AfirmaTriphaseSignatureWebPlugin.decodeSignatureItemID(sign.getId());
+      log.info(
+       " ------- SignSaverFile::saveSign(" + sign.getId() + ") ---------\n"
        + " FINAL SAVE IN this.filename =" + this.filename + "\n"
        + " sign.getId() = " +  sign.getId() + "\n"
        + " SignaturesSetID = " +  item.signaturesSetID + "\n"
        + " index = " +  item.index + "\n"
-       + " sign.getSignFormat() = " + sign.getSignFormat()
-       + "\n");
+       + " sign.getSignFormat() = " + sign.getSignFormat() + "\n"
+       + " dataToSave.length = " +  dataToSave.length + "\n"
+       );
     }
-    
+
     synchronized (PROP_FILENAME) {
       processedFiles.put(sign.getId(), System.currentTimeMillis() + FIVE_MINUTES);
     }
-    
+
   }
 
   @Override
@@ -90,6 +91,12 @@ public class SignSaverFile implements SignSaver {
     }
 
     this.filename = file;
+    this.debug = "true".equals(config.getProperty("debug"));
+    
+    if (debug) {
+      log.info("Inicialitzat SignSaverFile amb fitxer: " + this.filename);
+    }
+    
   }
 
   @Override

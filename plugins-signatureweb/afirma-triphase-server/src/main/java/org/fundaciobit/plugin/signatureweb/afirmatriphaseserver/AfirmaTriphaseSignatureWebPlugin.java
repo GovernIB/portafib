@@ -72,6 +72,8 @@ import es.gob.afirma.triphase.server.document.DocumentManager;
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
   
+  public static final boolean debugMemory = true;
+  
    
   public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "autofirma.";
@@ -148,20 +150,66 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
   @Override
   public void closeSignaturesSet(HttpServletRequest request, String id) {
+    
+    // TODO XYZ ZZZ Cada 5 minuts revisar Peticions Caducades
+
+    if (debugMemory) {
+      printMemoryInfo(id, null, "closeSignaturesSetPRE");
+    }
+    internalCloseSignaturesSet(request, id);
+    if (debugMemory) {
+      printMemoryInfo(id, null, "closeSignaturesSetPOST");
+    }
+  }
+
+  protected void internalCloseSignaturesSet(HttpServletRequest request, String id) {
     timeStampCache.remove(id);
     javascript.remove(id);
-    imageRubricCache.remove(id);
+
+    Map<Integer,File> rubriques = imageRubricCache.remove(id);
+    if (rubriques != null && rubriques.size() != 0) {
+      
+      for(File rubricFile :  rubriques.values()) {
+        
+        if (rubricFile.exists()) {
+          if (!rubricFile.delete()) {
+            rubricFile.deleteOnExit();
+            log.warn("internalCloseSignaturesSet::No he pogut esborrar el fitxer temporal de rubrica: " + rubricFile.getAbsolutePath());
+          }
+        }
+      }
+    }
+    
     super.closeSignaturesSet(request, id);
   }
+  
+  
+  
+  
   
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
       String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
     addSignaturesSet(signaturesSet);
+    
+    if (debugMemory) {
+      printMemoryInfo(signaturesSet.getSignaturesSetID(), null, "SignDocuments");
+    }
 
     // Mostrar Index
     return relativePluginRequestPath + "/" + INDEX_HTML;
+  }
+
+  protected void printMemoryInfo(String signaturesSetID, Integer index, String titol) {
+    Runtime r = Runtime.getRuntime();
+    final long t = r.totalMemory();
+    final long used = t - r.freeMemory();
+    final float percent = (used * 100f)/ (float)t;
+    log.info("DMEM Memoria(titol/used/total/percent):\t"
+        + titol + "[" + signaturesSetID + "]"
+        + ( (index == null)?"":("{" +  index + "}")    )
+        + "\t" + used + "\t" + t + "\t" + + percent);
   }
 
   @Override
@@ -367,11 +415,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
-  public static final Map<String, Map<Integer, byte[]>> imageRubricCache = new HashMap<String, Map<Integer, byte[]>>();
+  public static final Map<String, Map<Integer, File>> imageRubricCache = new HashMap<String, Map<Integer, File>>();
 
   public void rubricPageAutofirma(String relativePath,
       SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request2,
       HttpServletResponse response) {
+    
+    if (debugMemory) {
+      printMemoryInfo(signaturesSet.getSignaturesSetID(), signatureIndex, "rubricPageAutofirmaPRE");
+    }
 
     Map<String, FileItem> uploadedFiles = readFilesFromRequest(request2, response, null);
 
@@ -397,20 +449,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         X509Certificate cert;
         cert = CertificateUtils.decodeCertificate(uploadedFile.getInputStream());
 
-        byte[] rubric = null;
+        File rubric = null;
 
-        Map<Integer, byte[]> map;
+        Map<Integer, File> map;
 
         synchronized (imageRubricCache) {
           map = imageRubricCache.get(signaturesSet.getSignaturesSetID());
           if (map == null) {
-            map = new HashMap<Integer, byte[]>();
+            map = new HashMap<Integer, File>();
             imageRubricCache.put(signaturesSet.getSignaturesSetID(), map);
           } else {
             rubric = map.get(signatureIndex);
           }
         }
 
+        final boolean incache = (rubric != null);
         if (rubric == null) {
 
           IRubricGenerator generator = fileInfo.getPdfVisibleSignature().getRubricGenerator();
@@ -420,22 +473,64 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
                 + "no existeix cap Generador d'Imatges per la Firma Visible PDF.");
           }
 
-          rubric = generator.genenerateRubricImage(cert, new Date());
+          // XYZ ZZZ
+          final long time = System.currentTimeMillis();
+          
+          byte[] rubricByteArray = generator.genenerateRubricImage(cert, new Date());
+          
+          File rubricFile = File.createTempFile("Autofirma_Rubric_" 
+              + signaturesSet.getSignaturesSetID() + "_" + signatureIndex , ".jpg");
+          
+          FileOutputStream fos = new FileOutputStream(rubricFile);
+          fos.write(rubricByteArray);
+          fos.flush();
+          fos.close();
+          
+          if(isDebug()) {
+            log.info("Temps en generar imatge " + signaturesSet.getSignaturesSetID()
+                + "[" + signatureIndex + "] => " + (System.currentTimeMillis() - time) 
+                + ". Enviat a fitxer " + rubricFile);
+          }
 
           // Guardam la imatge per utilitzar-la en la segona cridada
-          map.put(signatureIndex, rubric);
+          map.put(signatureIndex, rubricFile);
+          
+          response.setContentType("image/jpeg");
+          response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
+          response.setContentLength(rubricByteArray.length);
+
+          response.getOutputStream().write(rubricByteArray);
+          response.getOutputStream().flush();
 
         } else {
-          // Esborram la imatge ja que no la tornarem a utilitzar
-          map.remove(signatureIndex);
+         
+          
+          response.setContentType("image/jpeg");
+          response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
+          response.setContentLength((int)rubric.length());
+          
+          org.apache.commons.io.FileUtils.copyFile(rubric, response.getOutputStream());
+          
+
+
+          //response.getOutputStream().write(rubric);
+          response.getOutputStream().flush();
+          
+          if (rubric.delete()) {
+            // Esborram la imatge ja que no la tornarem a utilitzar
+            map.remove(signatureIndex);
+          } else {
+            rubric.deleteOnExit();
+            log.warn("rubricPageAutofirma::No he pogut esborrar el fitxer temporal de rubrica: " + rubric.getAbsolutePath());
+          };
+
+        }
+        
+        if (debugMemory) {
+          printMemoryInfo(signaturesSet.getSignaturesSetID(), signatureIndex, "rubricPageAutofirmaPOST-"
+            + (incache?"CACHE":"GENERATED"));
         }
 
-        response.setContentType("image/jpeg");
-        response.setHeader("Content-Disposition", "inline; filename=\"rubric.jpg\"");
-        response.setContentLength(rubric.length);
-
-        response.getOutputStream().write(rubric);
-        response.getOutputStream().flush();
         break;
 
       }
@@ -671,6 +766,13 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
       configPropertiesStr[i] = configPropertiesStr1.toString();
       
+      // XYZ ZZZ Pel problema 
+      //          - https://github.com/GovernIB/portafib/issues/144
+      //          - Plugin Autofirma: Acentos en Reason no aparecen bien al firmar #144
+      // Properties p = new Properties();
+      // ByteArrayOutputStream baos;
+      // p.store(baos, "UTF-8");
+      
       if (debug) {
         log.info("============ PROPERTIES @FIRMA AUTOFIRMA[" + i + "] ================\n"
           + configPropertiesStr[i]);
@@ -734,7 +836,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           log.debug("[" + i + "] DEST FILE= " + dst);
         }
 
-        final String config = SignSaverFile.PROP_FILENAME + "=" + dst;
+        final String config = SignSaverFile.PROP_FILENAME + "=" + dst +  "\ndebug=" + debug;
+        
             // + "\r\n" + SignSaverFile.PROP_INSTANCE + "=" + instanceID;
 
         File sourceFile;
@@ -799,7 +902,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
             "    <suboperation>sign</suboperation>\r\n" + 
             "    <extraparams>" + extraParamsB64 + "</extraparams>\r\n" + 
             "    <signsaver>\r\n" + //$NON-NLS-1$
-            "      <class>org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile</class>\r\n" +
+            // org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile
+            "      <class>" + SignSaverFile.class.getName() + "</class>\r\n" +
             "      <config>" + encodeB64(config) + "</config>\r\n" + 
             "    </signsaver>\r\n" +
             "   </singlesign>\r\n");
@@ -2119,10 +2223,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
       }
     }
-    
-    
-    
-    
+
   }
 
   private void readResource(HttpServletResponse response, String relativePath) {
@@ -2829,5 +2930,5 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return customer;
   }
   
-
+  
 }
