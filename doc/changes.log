@@ -1,7 +1,11 @@
 PortaFIB 1.1.3
 ==============
 
-2018-01-31 Nova Versió Plugin Autofirma 2.0.4 (Cache de rubriques en disc) #150
+2018-02-06 Nova Versió Plugin Autofirma 2.0.5:
+          * Timeout en Firmes Batch i Repositori de Certificats Firefox en Windows #151
+          * Acentos en Reason no aparecen bien al firmar #144
+
+2018-01-31 Nova Versió Plugin Autofirma 2.0.4 (Cache de rubriques en disc #150)
 
 2018-01-26 Plugin de Firma WEB FIRe. #146
 

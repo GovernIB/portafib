@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -54,7 +53,7 @@ import org.fundaciobit.plugins.utils.FileUtils;
 import com.handinteractive.mobile.UAgentInfo;
 
 import es.gob.afirma.core.misc.AOUtil;
-import es.gob.afirma.core.misc.Base64;
+//import es.gob.afirma.core.misc.Base64;
 import es.gob.afirma.signers.batch.server.BatchPostsigner;
 import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
@@ -72,7 +71,7 @@ import es.gob.afirma.triphase.server.document.DocumentManager;
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
   
-  public static final boolean debugMemory = true;
+  public static final boolean debugMemory = false;
   
    
   public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
@@ -1066,14 +1065,32 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
       
 
-      
+    final String hostURLBase = HOST + request.getContextPath();
+    final String cargarAppAfirma;
+    
+    final String firefoxInWindowsUseOSKeystore = getProperty(AUTOFIRMA_BASE_PROPERTIES + "firefoxinwindowsuseoskeystore");
+    if ("true".equals(firefoxInWindowsUseOSKeystore)) {
+      // Si estam a Windows i Firefox llavors usar KeyStore de Certificats del SO
+      cargarAppAfirma = 
+          " var isFirefox =  (navigator.userAgent.toUpperCase().indexOf(\"FIREFOX\") != -1);\n"
+          + (debugWeb?"    showLog(' Is Firefox: ' + isFirefox + '| isWindows=' + (navigator.appVersion.indexOf(\"Win\") != -1));\n":"")
+          + "    if (isFirefox && (navigator.appVersion.indexOf(\"Win\") != -1)) {\n"    
+          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\", MiniApplet.KEYSTORE_WINDOWS);\n"
+          + "    } else {\n" 
+          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n" 
+          + "    };\n"; 
+          
+    } else {
+      // KeyStore de Certificats per defecte
+      cargarAppAfirma = "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n";
+    }
+    
+
     out.println(
-      "  <script type=\"text/javascript\">"
-      + "\n"
-      + "    MiniApplet.setForceWSMode(true);"
-      + "\n"
-      + "    MiniApplet.cargarAppAfirma(\"" + HOST + request.getContextPath() + "\"); "
-      + "\n"
+      "  <script type=\"text/javascript\">\n"
+      + "    NUM_MAX_ITERATIONS = "+ (15 + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
+      + "    MiniApplet.setForceWSMode(true);\n"
+      + cargarAppAfirma + "\n"
       + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
       + "\n"
       + "</script>\n\n"
@@ -1457,12 +1474,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   
 
   protected String encodeB64(final String config) {
-    try {
-      return Base64.encode(config.getBytes("UTF-8"));
-    } catch(UnsupportedEncodingException uce) {
-      uce.printStackTrace(); // TODO
-      return Base64.encode(config.getBytes());
-    }
+      final boolean urlSafe=true;
+      return org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.Base64.encode(config.getBytes(), urlSafe);
   }
   
   
@@ -1480,7 +1493,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     Properties configProperties = new Properties();
     
     
-    //  XYZ ZZZ cridar a MiniAppletUtils..convertLocalSignature() ??? 
+    //  XYZ ZZZ cridar a MiniAppletUtils.convertLocalSignature() ??? 
     boolean debug = isDebug();
     
     // ALGORISME DE FIRMA
@@ -2191,17 +2204,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         FileUtils.copy(fis, baos);
         fis.close();
         
-        
-        String firefoxInWindowsUseOSKeystore = getProperty(AUTOFIRMA_BASE_PROPERTIES + "firefoxinwindowsuseoskeystore");
-        
         miniAppletJSChache = baos.toByteArray();
-        
-        if ("true".equals(firefoxInWindowsUseOSKeystore)) {
-          String str =  new String(miniAppletJSChache);  
-          // /*XXXXX*/ == navigator.appVersion.indexOf("Win")==-1 && 
-          str = str.replace("/*XXXXX*/", "navigator.appVersion.indexOf(\"Win\")==-1 && ");
-          miniAppletJSChache = str.getBytes();
-        }
       }
 
     

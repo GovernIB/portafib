@@ -10,6 +10,9 @@ if (document.all && !window.setTimeout.isPolyfill) {
 	window.setTimeout.isPolyfill = true;
 }
 
+// XMAS S'ha mogut fora de la classe per poder modificar-ho
+var NUM_MAX_ITERATIONS = 15;
+
 var originalXMLHttpRequest = window.XMLHttpRequest;
 
 var MiniApplet = ( function ( window, undefined ) {
@@ -481,10 +484,7 @@ var MiniApplet = ( function ( window, undefined ) {
 		/** Obtiene el nombre del almacen que corresponde al presente navegador o, si se debe acceder
 		 * al almacen del sistema, se devuelve null. */
 		function getDefaultKeystore() {
-		    // XMAS Si no es windows però si Firefox llavors ...
-		    // XMAS Old Code if(isFirefox()){
-			// /*XXXX*/ == navigator.appVersion.indexOf("Win")==-1 && 
-		    if(/*XXXXX*/ isFirefox()){
+		    if(isFirefox()){
 				return KEYSTORE_MOZILLA;
 			}
 			return null;
@@ -2712,7 +2712,8 @@ var MiniApplet = ( function ( window, undefined ) {
 				}
 			}
 
-			var NUM_MAX_ITERATIONS = 15;
+			// XMAS S'ha mogut fora de la classe per poder modificar-ho
+			//var NUM_MAX_ITERATIONS = 15;
 			var iterations = 0;
 
 			function getStoredFileFromServlet (idDocument, servletAddress, cipherKey, successCallback, errorCallback) {

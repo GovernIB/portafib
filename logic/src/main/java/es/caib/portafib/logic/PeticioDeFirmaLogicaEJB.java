@@ -588,6 +588,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 //          javax.xml.bind.JAXBElement<PeticioDeFirmaJPA> jaxbElement = new javax.xml.bind.JAXBElement<PeticioDeFirmaJPA>(
 //          new javax.xml.namespace.QName("peticioDeFirma"), PeticioDeFirmaJPA.class, clone);
 //          m.marshal(jaxbElement, baos);
+            
             m.marshal(clone, baos);
 
             custodyParameter = baos.toString();

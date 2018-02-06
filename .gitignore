@@ -147,3 +147,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /ws/portafib_api_passarela_web/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureweb/fire/exemples_de_firma
 /plugins-signatureweb/fire/doc/clavefirma_doc
+/plugins-signatureserver/afirmaserver/results/hola_firmat_ts.pdf
+/ws/portafib_api_example/src/main/java/es/caib/portafib/ws/v1/example/ExempleEsborrar.java
