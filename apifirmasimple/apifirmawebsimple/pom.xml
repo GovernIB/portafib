@@ -2,21 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>    
-  <artifactId>portafib-rest-client-example</artifactId>
-  <groupId>es.caib.portafib</groupId>
+  <artifactId>apifirmawebsimple</artifactId>
+  <groupId>org.fundaciobit.apifirmasimple</groupId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
-  <version>1.1.3</version>
 
-  <name>PortaFIB - Rest Client Example</name>
+  <name>API Firma Web Simple v1.0.0</name>
 
   <parent>
-    <groupId>es.caib.portafib</groupId>
-    <artifactId>portafib-ws</artifactId>
-    <version>1.1.3</version>
+    <artifactId>apifirmasimple</artifactId>
+    <groupId>org.fundaciobit.apifirmasimple</groupId>
+    <version>1.0.0</version>
   </parent>
+
 
   <properties>
   </properties>
+
 
   <build>
 
@@ -30,13 +32,12 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-
     </plugins>
 
   </build>
 
   <dependencies>
-  
+
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -79,11 +80,18 @@
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
     </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
 

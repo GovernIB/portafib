@@ -7,6 +7,8 @@
   <name>PortaFIB</name>
 
   <modules>
+    <module>apifirmasimple</module> 
+
     <module>plugins-signatureserver</module>
     <module>plugins-signatureweb</module>
     <module>utils</module> 

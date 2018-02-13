@@ -27,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.common.SignatureModuleController;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
@@ -36,7 +38,9 @@ import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.utils.Configuracio;
 
 
 /**
@@ -72,9 +76,13 @@ public class PassarelaDeFirmaController  {
   public ModelAndView passarelaGet(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("transactionID") String signaturesSetID) throws Exception, I18NException {
 
-
-
     PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(signaturesSetID);
+
+    if (ssf == null) {
+      // XYZ ZZZ TODO Traduir
+      throw new Exception("La transacció amb ID " + signaturesSetID 
+          + " no existeix o ja ha caducat.");
+    }
 
     PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
@@ -104,10 +112,28 @@ public class PassarelaDeFirmaController  {
     // No tenim cap restricció de plugins per tipus de document
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
-
     final String view = "PluginDeFirmaContenidor_Passarela";
     ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
+    
+    LoginInfo loginInfo = null;
+    try {
+      loginInfo = LoginInfo.getInstance();  
+    } catch (Throwable e) {
+    }
+    
+    String idioma = signaturesSet.getCommonInfoSignature().getLanguageUI();
+    log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO (idioma)=> " + idioma);
+    if (idioma == null || idioma.trim().length() == 0) {
+      idioma = Configuracio.getDefaultLanguage();
+      log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO (idioma default) => " + idioma);
+    }
+    log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO => " + loginInfo);
+    if (loginInfo == null || loginInfo.getUsuariAplicacio() != null) {
+      PortaFIBSessionLocaleResolver.setLocaleManually(request, idioma);
+      mav.addObject("lang", idioma);
+    }
 
+   
     if (log.isDebugEnabled()) {
       log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
       log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + signaturesSet.getUrlFinal());

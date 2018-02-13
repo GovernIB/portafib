@@ -171,7 +171,23 @@ public class SignatureUtils {
      }
 
      
-     String signAlgorithm;
+     String signAlgorithm = convertSignAlgorithmID(signAlgorithmID);
+     // Ja s'ha arreglat abans
+     final SignaturesTableHeader signaturesTableHeader = null;
+     // Ja s'ha arreglat abans
+     final SecureVerificationCodeStampInfo csvStampInfo = null;
+     
+     FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, mimeType , idname,  reason,
+         location, signerEmail,  signNumber, languageSign, signType, signAlgorithm,
+         signMode, locationSignTable, signaturesTableHeader, pdfInfoSignature,
+         csvStampInfo,  timeStampGenerator != null, timeStampGenerator);
+     
+     return fis;
+   }
+
+
+  public static String convertSignAlgorithmID(long signAlgorithmID) throws I18NException {
+    String signAlgorithm;
      switch((int)signAlgorithmID) {
        case Constants.SIGN_ALGORITHM_SHA1WITHRSA:
          signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
@@ -190,18 +206,8 @@ public class SignatureUtils {
          // TODO Traduir
          throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithmID);
      }
-     // Ja s'ha arreglat abans
-     final SignaturesTableHeader signaturesTableHeader = null;
-     // Ja s'ha arreglat abans
-     final SecureVerificationCodeStampInfo csvStampInfo = null;
-     
-     FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, mimeType , idname,  reason,
-         location, signerEmail,  signNumber, languageSign, signType, signAlgorithm,
-         signMode, locationSignTable, signaturesTableHeader, pdfInfoSignature,
-         csvStampInfo,  timeStampGenerator != null, timeStampGenerator);
-     
-     return fis;
-   };
+    return signAlgorithm;
+  };
    
    
    

@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
+
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.userinformation.UserInfo;
@@ -25,12 +28,16 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import es.caib.portafib.back.preparer.BasePreparer;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -49,8 +56,11 @@ import es.caib.portafib.utils.Constants;
 @Component
 public class AuthenticationSuccessListener implements
     ApplicationListener<InteractiveAuthenticationSuccessEvent> {
-
+  
   protected final Logger log = Logger.getLogger(getClass());
+  
+  
+  public static final Set<String> allowedApplicationContexts = new HashSet<String>();
 
   @Override
   public synchronized void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
@@ -217,9 +227,101 @@ public class AuthenticationSuccessListener implements
       
       
       if (usuariPersona == null) {
-        //  TODO traduccio
-        throw new LoginException("L'usuari " + name
+        //  TODO XYZ ZZZ traduccio
+        // =======================================================
+        // Revisar si és un Usuari-Aplicació que ataca via REST
+        // =======================================================
+        
+        HttpServletRequest request =  ((ServletRequestAttributes) RequestContextHolder.
+                    currentRequestAttributes()).
+                    getRequest();
+        
+        
+        //log.info(" XYZ ZZZ \n\n httpRequest2 =" + request + "\n\n");
+        
+        // TODO Mirar Classe es.caib.portafib.back.controller.apifirmawebsimple.v1.RestApiFirmaWebSimpleV1Controller
+        // CONTEXT = /common/rest/apifirmawebsimple/v1  => ServletPath
+        String servletPath = request.getServletPath();
+        boolean found = false;
+        
+        for (String baseServletPath : allowedApplicationContexts) {
+          if (servletPath.startsWith(baseServletPath)) {
+            log.info("XYZ ZZZ TROBAT BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
+            found = true;
+            break;
+          }
+        }
+        
+        if (!found) {
+        
+          log.info(" +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
+          log.info(" ++++ Scheme: " + request.getScheme() + "\n");
+          log.info(" ++++ ServerName: " + request.getServerName() + "\n");
+          log.info(" ++++ ServerPort: " + request.getServerPort() + "\n");
+          log.info(" ++++ PathInfo: " + request.getPathInfo() + "\n");
+          log.info(" ++++ PathTrans: " + request.getPathTranslated() + "\n");
+          log.info(" ++++ ContextPath: " + request.getContextPath() + "\n");
+          log.info(" ++++ ServletPath: " + request.getServletPath() + "\n");
+          log.info(" ++++ getRequestURI: " + request.getRequestURI() + "\n");
+          log.info(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
+          log.info(" ++++ getQueryString: " + request.getQueryString() + "\n");
+          log.info(" ++++ javax.servlet.forward.request_uri: "
+            + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
+          log.info(" ===============================================================");
+  
+          // TODO XYZ ZZZ Afegir un llistat de Zones restringides a Usuari APP
+          //++++ Scheme: http
+          //++++ ServerName: 10.215.216.175
+          //++++ ServerPort: 8080
+          //++++ PathInfo: null
+          //++++ PathTrans: null
+          //++++ ContextPath: /portafib
+          //++++ ServletPath: /common/rest/apifirmawebsimple/v1/closeTransaction
+          //++++ getRequestURI: /portafib/common/rest/apifirmawebsimple/v1/closeTransaction
+          //++++ getRequestURL: http://10.215.216.175:8080/portafib/common/rest/apifirmawebsimple/v1/closeTransaction
+          //++++ getQueryString: null
+          
+          // XYZ ZZZ
+          throw new LoginException("Esta intentant accedir a una zona no permesa amb un usuari aplicació");
+        }
+
+
+
+        UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
+        try {
+          usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
+        } catch (Throwable e) {
+          // TODO traduccio
+          throw new LoginException("No puc accedir al gestor d´obtenció de" +
+                  " informació de usuari-aplicacio per " + name + ": " + e.getMessage(), e);
+        }
+
+        
+        UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(name);
+        if (usuariAplicacio == null) {
+          throw new LoginException("L'usuari " + name
               + " està autenticat però no s'ha donat d'alta en el PortaFIB ");
+        }
+        
+        
+        EntitatJPA entitat = usuariAplicacio.getEntitat();
+        // Check deshabilitada
+        if (!entitat.isActiva()) {        
+          throw new LoginException("L'entitat " + entitat.getNom() 
+              +  " a la que està associat l'usuari-aplicacio " + name + " esta deshabilitada.");
+        }
+        
+        // create a new authentication token for usuariAplicacio
+        LoginInfo loginInfo = new LoginInfo(user, usuariAplicacio, 
+            entitat, seyconAuthorities);
+
+        // and set the authentication of the current Session context
+        SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
+        
+        log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
+        
+        return;
+        
       }
       
     }

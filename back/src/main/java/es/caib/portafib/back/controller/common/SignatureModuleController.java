@@ -41,6 +41,7 @@ import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.utils.Configuracio;
 
 /**
  *
@@ -157,11 +158,16 @@ public class SignatureModuleController extends HttpServlet {
       String msg = I18NUtils.tradueix("signaturemodule.notfound");
       return generateErrorMAV(request, signaturesSetID, msg, null);
     }
+    
+    String lang = signaturesSet.getCommonInfoSignature().getLanguageUI();
+    if (lang == null) {
+      lang = Configuracio.getDefaultLanguage();
+    }
 
     ModelAndView mav = new ModelAndView("PluginFirmaSeleccio");
     mav.addObject("signaturesSetID", signaturesSetID);
     mav.addObject("moduls", modulsFiltered);
-    mav.addObject("lang", signaturesSet.getCommonInfoSignature().getLanguageUI());
+    mav.addObject("lang", lang);
     mav.addObject("thecontext", getContextWeb());
 
     return mav;

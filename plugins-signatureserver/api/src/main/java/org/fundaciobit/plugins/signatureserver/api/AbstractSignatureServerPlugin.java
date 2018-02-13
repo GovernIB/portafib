@@ -99,9 +99,21 @@ public abstract class AbstractSignatureServerPlugin
       return false;
     }
 
+    
+    final FileInfoSignature[] aFirmar = signaturesSet.getFileInfoSignatureArray();
+    if (aFirmar == null) {
+      return false;
+    }
+    
+    
+    return checkFilter(plugin, aFirmar, suportXAdES_T, log);
+  }
+
+  public static boolean checkFilter(ISignaturePlugin plugin,
+      final FileInfoSignature[] aFirmar, boolean suportXAdES_T, Logger log) {
     Set<String> tipusFirmaSuportats;
     tipusFirmaSuportats = new HashSet<String>(Arrays.asList(plugin.getSupportedSignatureTypes()));
-    
+
 
     // Miram si alguna signatura requerix de rubrica o segellat de temps
        // i el SignatureSet no ofereix el generadors. Ens servirà per més endavant
@@ -117,10 +129,7 @@ public abstract class AbstractSignatureServerPlugin
        
        
        // 1.- Comprovacions generals i recolecció de dades
-       final FileInfoSignature[] aFirmar = signaturesSet.getFileInfoSignatureArray();
-       if (aFirmar == null) {
-         return false;
-       }
+
        
        for(int i = 0; i < aFirmar.length; i++) {
          final FileInfoSignature fis = aFirmar[i];

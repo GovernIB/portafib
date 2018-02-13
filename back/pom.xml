@@ -20,7 +20,6 @@
       <name>JBoss Thirdparty Releases</name>
       <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
     </repository>
-
   </repositories>
 
 
@@ -52,6 +51,12 @@
 
 
     <!-- Externas -->
+
+    <dependency>
+      <artifactId>apifirmawebsimple</artifactId>
+      <groupId>org.fundaciobit.apifirmasimple</groupId>
+      <version>1.0.0</version>
+    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>

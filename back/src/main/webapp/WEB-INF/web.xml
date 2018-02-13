@@ -14,6 +14,10 @@
       </listener-class>
     </listener>
      -->
+    <!--  Serveix per obtenir el HttpServletRequest en el AuthenticationSuccessListener -->
+    <listener>  
+      <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
+    </listener>
 
 	<!--  LOAD-ON-STARTUP SERVLET -->
 

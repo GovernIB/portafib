@@ -29,7 +29,12 @@ public class PortaFIBSessionLocaleResolver extends SessionLocaleResolver {
     
     if (loginInfo != null) {
       try {
-        String idioma = loginInfo.getUsuariPersona().getIdiomaID();    
+        String idioma;      
+        if (loginInfo.getUsuariPersona() == null) {
+          idioma = loginInfo.getUsuariAplicacio().getIdiomaID();
+        } else {
+          idioma = loginInfo.getUsuariPersona().getIdiomaID();
+        }
         Locale loc = new Locale(idioma);
         LocaleContextHolder.setLocale(loc);
         try {
@@ -44,9 +49,14 @@ public class PortaFIBSessionLocaleResolver extends SessionLocaleResolver {
     }
     
     return super.determineDefaultLocale(request);  
-    
-
   }
   
+  
+  
+  public static void setLocaleManually(HttpServletRequest request, String idioma) {
+    Locale loc = new Locale(idioma);
+    LocaleContextHolder.setLocale(loc);
+    WebUtils.setSessionAttribute(request, LOCALE_SESSION_ATTRIBUTE_NAME, loc);
+  }
   
 }

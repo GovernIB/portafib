@@ -1,5 +1,8 @@
 package es.caib.portafib.back.security;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -7,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.back.security.LoginException;
@@ -24,9 +28,11 @@ import org.springframework.security.core.userdetails.User;
 public class LoginInfo {
 
   final User springSecurityUser;
+  
+  final UsuariAplicacioJPA usuariAplicacio; 
 
   final UsuariPersonaJPA usuariPersona;
-
+  
   final Map<String, EntitatJPA> entitats;
 
   final Map<String, Set<GrantedAuthority>> rolesPerEntitat;
@@ -53,7 +59,47 @@ public class LoginInfo {
     this.usuariEntitatPerEntitatID = usuariEntitatPerEntitatID;
     this.needConfigUser=needConfigUser;
     setEntitatID(entitatIDActual);
+    
+    // Només per usuari Aplicacio
+    this.usuariAplicacio = null;
   }
+  
+  
+  /**
+   * Login per usuari aplicacio
+   * 
+   * @param springSecurityUser
+   * @param usuariAplicacio
+   * @param entitat
+   * @param roles
+   */
+  public LoginInfo(User springSecurityUser, UsuariAplicacioJPA usuariAplicacio,
+      EntitatJPA entitat, Collection<GrantedAuthority> roles) {
+    this.springSecurityUser = springSecurityUser;
+
+    Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
+    entitats.put(entitat.getEntitatID(), entitat);
+
+    Map<String, Set<GrantedAuthority>> rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
+    rolesPerEntitat.put((String) null, new HashSet<GrantedAuthority>(roles));
+    rolesPerEntitat.put(entitat.getEntitatID(), new HashSet<GrantedAuthority>(roles));
+    
+    Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
+    usuariEntitatPerEntitatID.put(entitat.getEntitatID(), null);
+
+    this.entitats = entitats;
+    this.rolesPerEntitat = rolesPerEntitat;
+
+    this.usuariAplicacio = usuariAplicacio;
+    setEntitatID(entitat.getEntitatID());
+    // Només per usuari-entitat
+    this.usuariPersona = null;
+    this.usuariEntitatPerEntitatID = usuariEntitatPerEntitatID;
+    this.needConfigUser = false;
+
+  }
+  
+  
 
   public UsuariPersonaJPA getUsuariPersona() {
     return usuariPersona;
@@ -109,6 +155,11 @@ public class LoginInfo {
   public UsuariEntitatJPA getUsuariEntitat() {
     return this.usuariEntitatPerEntitatID.get(this.entitatIDActual);
   }
+
+  public UsuariAplicacioJPA getUsuariAplicacio() {
+    return usuariAplicacio;
+  }
+
 
   public Map<String, EntitatJPA> getEntitats() {
     return entitats;

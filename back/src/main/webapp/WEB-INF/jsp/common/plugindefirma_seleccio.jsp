@@ -9,7 +9,6 @@
   </h5>
   
   <br/>
-  <br/>
   
   <div class="well" style="max-width: 400px; margin: 0 auto 10px;">
   <c:forEach items="${moduls}" var="modul">
