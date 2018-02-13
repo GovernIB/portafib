@@ -4,13 +4,13 @@
 
   <groupId>es.caib.portafib</groupId>
   <artifactId>portafib-logic</artifactId>
-  <version>1.1.3</version>
+  <version>1.1.4</version>
   <packaging>ejb</packaging>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>1.1.3</version>
+    <version>1.1.4</version>
   </parent>
 
   <name>PortaFIB Logica</name>
@@ -106,13 +106,13 @@
     <dependency>
       <artifactId>portafib-ws-indra-callback-api</artifactId>
       <groupId>es.caib.portafib</groupId>
-      <version>${portafib.version}</version>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
       <artifactId>portafib-ws-callback-api</artifactId>
       <groupId>es.caib.portafib</groupId>
-      <version>${portafib.version}</version>
+      <version>1.1</version>
     </dependency>
     
     <!-- CallBack REST v1-->

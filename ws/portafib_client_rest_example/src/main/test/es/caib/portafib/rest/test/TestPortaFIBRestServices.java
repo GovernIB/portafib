@@ -23,11 +23,11 @@ import com.sun.jersey.core.util.Base64;
  * 
  * @author anadal
  * 
- *         Test de Serveis REST que es troben dins /back en la classe -
- *         src/main/java/es/caib/portafib/back/controller/common/
- *         RestAutenticatedController.java -
- *         src/main/java/es/caib/portafib/back/
- *         controller/common/RestController.java
+ * Test de Serveis REST que es troben dins /back en la classes:
+ *  -src/main/java/es/caib/portafib/back/controller/common/
+ *         RestAutenticatedController.java 
+ *  -src/main/java/es/caib/portafib/back/controller/common/
+           RestController.java
  *
  */
 public class TestPortaFIBRestServices {

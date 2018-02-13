@@ -9,7 +9,7 @@
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>1.1.3</version>
+    <version>1.1.4</version>
   </parent>
 
   <name>PortaFIB Model</name>

@@ -36,7 +36,7 @@
       <!-- Antiga <artifactId>portafib-ws-api-passarela</artifactId> -->
       <artifactId>portafib-ws-api-passarela-firma-web</artifactId>
       <groupId>es.caib.portafib</groupId>
-      <version>${portafib.version}</version>
+      <version>1.1</version>
     </dependency>
 
     <dependency>
