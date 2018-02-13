@@ -149,3 +149,10 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureweb/fire/doc/clavefirma_doc
 /plugins-signatureserver/afirmaserver/results/hola_firmat_ts.pdf
 /ws/portafib_api_example/src/main/java/es/caib/portafib/ws/v1/example/ExempleEsborrar.java
+/plugins-signatureserver/afirmaserver/config/plugin.properties.fundaciobit
+/plugins-signatureweb/afirma-crypto-pdf/afirma-crypto-pdf-3.3.2-SNAPSHOT.jar
+/doc/PluginAutofirma_i_ClientMòbil.odt
+/doc/PluginsFirmaWeb.odp
+/doc/ProblemaSIAApache.odt
+/compil2.bat
+/plugins-signatureserver/afirmaserver/config/plugin_afirmaserver_regweb3.properties
