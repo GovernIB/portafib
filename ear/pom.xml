@@ -217,43 +217,17 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-documentcustody-api</artifactId>
-          <version>2.0.0</version>
+          <version>3.0.0</version>
         </dependency>
 
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-documentcustody-filesystem</artifactId>
-          <version>2.0.0</version>
+          <version>3.0.0</version>
         </dependency>
-        <!-- XYZ Moure a un ear de plugins
-                <dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-documentcustody-alfresco</artifactId>
-                    <version>2.0.0</version>
-                    <exclusions>
-						<exclusion>
-						  <groupId>org.slf4j</groupId>
-			              <artifactId>slf4j-api</artifactId>
-						</exclusion>
-                        <exclusion>
-						  <groupId>javax.xml.stream</groupId>
-			              <artifactId>stax-api</artifactId>
-						</exclusion>
-                        <exclusion>
-						  <groupId>xpp3</groupId>
-			              <artifactId>xpp3</artifactId>
-						</exclusion>
-					 </exclusions> 
-                </dependency>
-                -->
 
-        <!--
-				<dependency>
-                    <groupId>org.fundaciobit.plugins</groupId>
-                    <artifactId>plugin-documentcustody-custodiacaibaxis</artifactId>
-				    <version>${plugins.version}</version>
-				</dependency>
-				-->
+        
+        <!-- ALTRES PLUGINS EN l'APARTAT DE PROFILES -->
 
         <!-- ============================================ -->
         <!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
@@ -423,6 +397,49 @@
       </dependencies>
     </profile>
 
+    <!-- =================================================== -->
+    <!-- =====  PLUGINS DE DOCUMENTCUSTODY PER PROFILE ===== -->
+    <!-- =================================================== -->
+    
+    <!-- Profile per Incloure Plugin de Document Custody de Arxiu Digital CAIB -->
+    <profile>
+      <id>arxiudigitalcaib</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-documentcustody-arxiudigitalcaib</artifactId>
+          <version>3.0.7</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- Profile per Incloure Plugin de Document Custody de Alfresco -->
+    <profile>
+      <id>alfresco</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.fundaciobit.plugins</groupId>
+          <artifactId>plugin-documentcustody-alfresco</artifactId>
+          <version>3.0.0</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>javax.xml.stream</groupId>
+              <artifactId>stax-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>xpp3</groupId>
+              <artifactId>xpp3</artifactId>
+            </exclusion>
+           </exclusions> 
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    
     <!-- ============================================= -->
     <!-- =====  PLUGINS DE FIRMA WEB PER PROFILE ===== -->
     <!-- ============================================= -->
@@ -544,11 +561,11 @@
 
     <!-- WS PORTAFIRMAS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
     <!-- 
-		    Mòdul de desenvolupament per provar els Callback del Portafirmas antic de la CAIB
-			Definir els usuari aplicacio amb calback versio 0 i calback url
-			igual a http://localhost:8080/portafirmascb/web/services/MCGDWS
-			Per veure les cridades accedir a http://localhost:8080/portafib/portafirmascb
-		-->
+        Mòdul de desenvolupament per provar els Callback del Portafirmas antic de la CAIB
+      Definir els usuari aplicacio amb calback versio 0 i calback url
+      igual a http://localhost:8080/portafirmascb/web/services/MCGDWS
+      Per veure les cridades accedir a http://localhost:8080/portafib/portafirmascb
+    -->
     <profile>
       <id>ws-portafirmas-callback-server</id>
       <dependencies>
@@ -590,7 +607,7 @@
           <groupId>es.caib.portafib</groupId>
           <artifactId>portafib-ws-indra-server</artifactId>
           <version>${portafib.version}</version>
-          <type>ejb</type>					
+          <type>ejb</type>          
         </dependency>
 
       </dependencies>
@@ -651,11 +668,11 @@
 
     <!-- PORTAFIB WS CALLBACK SERVER - RECEPTOR DE CRIDADES CALLBACK -->
     <!-- 
-		    Mòdul de desenvolupament per provar els Callback
-			Definir els usuari aplicacio amb calback versio 1 i calback url
-			igual a http://localhost:8080/portafib/cb/v1/PortaFIBCallBack
-			Per veure les cridades accedir a http://localhost:8080/portafib/portafibcb
-		-->
+        Mòdul de desenvolupament per provar els Callback
+      Definir els usuari aplicacio amb calback versio 1 i calback url
+      igual a http://localhost:8080/portafib/cb/v1/PortaFIBCallBack
+      Per veure les cridades accedir a http://localhost:8080/portafib/portafibcb
+    -->
     <profile>
       <id>ws-portafib-callback-server</id>
       <dependencies>
@@ -775,7 +792,7 @@
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
           <!--
-		  <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
+      <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
 -->
           <jboss>
             <version>5</version>

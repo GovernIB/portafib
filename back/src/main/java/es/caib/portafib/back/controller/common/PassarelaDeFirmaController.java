@@ -38,7 +38,6 @@ import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.Configuracio;
 

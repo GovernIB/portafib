@@ -2,6 +2,10 @@
 PortaFIB 1.1.4
 ==============
 
+2018-02-14 Actualitzar API de Document Custody a PortaFIB #153
+
+2018-02-14 Nou Manual de Migració de Versions de PortaFIB
+
 2018-02-13 API de Firma Web Simple: Simplificar el Model de API de Firma Web emprant Cridades REST i Servidor Intermedi (Prototipus) #148
 
 2018-02-13 Nou versionat de les API's del Directori WS de PortaFIB #152

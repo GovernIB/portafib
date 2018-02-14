@@ -88,12 +88,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.io.ByteArrayOutputStream;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -104,6 +104,7 @@ import org.apache.commons.io.FileUtils;
 import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
+import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
@@ -130,9 +131,6 @@ import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.query.LongConstantField;
 import org.jboss.ejb3.annotation.SecurityDomain;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 /**
  *
@@ -561,48 +559,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             log.info(" BLOC FIRMES ORIGINAL = " + peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess().size());
             
 
-            String custodyParameter;
-            /*
-            {
-              ByteArrayOutputStream baos = new ByteArrayOutputStream();
-              java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(baos);
-              encoder.writeObject(PeticioDeFirmaJPA.copyJPA(peticioDeFirma));
-              encoder.close();
-              custodyParameter = new String(baos.toByteArray());
-              log.info(custodyParameter);
-            }
-            */
             
             
             // CustodyParameter conté la peticio de Firma en Format XML
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            
-            JAXBContext jc = JAXBContext.newInstance(PeticioDeFirmaJPA.class);
 
-            Marshaller m = jc.createMarshaller();
-                        
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            // la còpia es fa per evitar problemes amb HIbernate i per evitar recursió
-            PeticioDeFirmaJPA clone = PeticioDeFirmaJPA.copyJPA(peticioDeFirma);
-//          javax.xml.bind.JAXBElement<PeticioDeFirmaJPA> jaxbElement = new javax.xml.bind.JAXBElement<PeticioDeFirmaJPA>(
-//          new javax.xml.namespace.QName("peticioDeFirma"), PeticioDeFirmaJPA.class, clone);
-//          m.marshal(jaxbElement, baos);
+            // la còpia es fa per evitar modificacions de la instància interna
             
-            m.marshal(clone, baos);
 
-            custodyParameter = baos.toString();
             
-            if (log.isDebugEnabled()) {
-              log.debug(custodyParameter);
-            }
+            Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(peticioDeFirma, custodiaInfo);
             
-            
-            
-            custodyID = plugin.reserveCustodyID(custodyParameter);
+            custodyID = plugin.reserveCustodyID(additionParameters);
             // TODO Check custodyID != null
             custodiaInfo.setCustodiaDocumentID(custodyID);
-            String url = plugin.getValidationUrl(custodyID);
+            String url = plugin.getValidationUrl(custodyID, additionParameters);
             custodiaInfo.setUrlFitxerCustodiat(url);
             custodiaInfo.setTitolPeticio(peticioDeFirma.getTitol());
             custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
@@ -690,6 +660,31 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
     }
 
+  }
+
+
+  protected Map<String, Object> getAdditionalParametersForDocumentCustody(
+      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws Exception {
+    
+    
+    Map<String, Object> additionParameters = new HashMap<String,Object>();
+
+    if (custodiaInfo != null) {
+      String params = custodiaInfo.getCustodiaPluginParameters();
+      if (params != null && params.trim().length() != 0) {
+        // Afegir propietats a additionParameters
+        Properties prop = new Properties();
+        prop.load(new StringReader(params));
+        for(Entry<Object, Object> e : prop.entrySet()) {
+          additionParameters.put(e.getKey().toString(), e.getValue());
+        }
+      }
+    }
+    
+    PeticioDeFirmaJPA clone = PeticioDeFirmaJPA.copyJPA(peticioDeFirma);
+    additionParameters.put("peticio", clone);
+
+    return additionParameters;
   }
 
   private long thingsToDoInPADES(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
@@ -804,12 +799,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
        */
       
       String data = new I18NCommonDateTimeFormat(locale).format(new Date());
+      
+      Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(peticioDeFirma, custodiaInfo);
 
       String custodyID = custodiaInfo.getCustodiaDocumentID();
       Object[] arguments = new Object[] {
           custodiaInfo.getUrlFitxerCustodiat(), custodyID,
           custodiaInfo.getPluginID(), // TODO Posar NOM del Plugin
-          data, plugin.getSpecialValue(custodyID)
+          data, plugin.getSpecialValue(custodyID, additionParameters)
           };
       
       
@@ -2051,6 +2048,24 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           
           custInfo.setDataCustodia(new Timestamp(new Date().getTime()));
           custodiaInfoEjb.update(custInfo);
+          
+          Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(peticioDeFirma, custInfo);
+          
+          // Si la firma es DETACHED (o sigui EXPLICID) s'ha de definir DocumentCustody
+          DocumentCustody dc = null;
+          if (tipusFirma != Constants.TIPUSFIRMA_PADES 
+              && peticioDeFirma.getModeDeFirma() == Constants.SIGN_MODE_EXPLICIT) { 
+            
+            FitxerJPA fitxerAFirmar = peticioDeFirma.getFitxerAFirmar();
+            
+            dc = new DocumentCustody();
+            dc.setData(FileSystemManager.getFileContent(fitxerAFirmar.getFitxerID()));
+            dc.setLength(dc.getData().length);
+            dc.setMime(dc.getMime());
+            dc.setName(dc.getName());
+            
+          }
+
 
           switch (tipusFirma) {
             case Constants.TIPUSFIRMA_PADES:
@@ -2059,7 +2074,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
               sc.setData(FileSystemManager.getFileContent(fileID));
               sc.setSignatureType(SignatureCustody.PADES_SIGNATURE);
-              plugin.saveSignature(custInfo.getCustodiaDocumentID(), custInfo.getCustodiaPluginParameters(), sc);
+              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, null, sc, null);
             }
               break;
             case Constants.TIPUSFIRMA_XADES:
@@ -2068,7 +2083,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
               sc.setData(FileSystemManager.getFileContent(fileID));
               sc.setSignatureType(SignatureCustody.XADES_SIGNATURE);
-              plugin.saveSignature(custInfo.getCustodiaDocumentID(), custInfo.getCustodiaPluginParameters(), sc);
+              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, dc , sc, null);
             }
               break;
             case Constants.TIPUSFIRMA_CADES:
@@ -2077,7 +2092,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
               sc.setData(FileSystemManager.getFileContent(fileID));
               sc.setSignatureType(SignatureCustody.CADES_SIGNATURE);
-              plugin.saveSignature(custInfo.getCustodiaDocumentID(), custInfo.getCustodiaPluginParameters(), sc);
+              plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, dc, sc, null);
             }
               break;
             default:

@@ -82,6 +82,10 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                   aquest darrer esta desactivat. Aquesta opcio serveix per
                   utilitzar Cl@veFirma enlloc de FIRe.
 
+-Parxiudigitalcaib Inclou el Plugin de DocumentCustody de l'Arxiu Digital CAIB
+
+-Palfresco       Inclou el Plugin de DocumentCustody de Alfresco 
+
 clean             Neteja els projectes abans de compilar.
 
 --------------------------------------------------------------------------
