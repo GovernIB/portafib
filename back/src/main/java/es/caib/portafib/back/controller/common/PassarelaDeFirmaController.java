@@ -99,7 +99,7 @@ public class PassarelaDeFirmaController  {
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
-        ssf.getOriginalNumberOfSignsArray(),  entitat, urlFinal, false);
+        ssf.getOriginalNumberOfSignsArray(),  entitat, urlFinal, ssf.isFullView());
     
     // Filtres definits en l'Aplicació CLient
     List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
@@ -112,8 +112,10 @@ public class PassarelaDeFirmaController  {
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
     final String view = "PluginDeFirmaContenidor_Passarela";
-    ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
     
+
+    ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
+
     LoginInfo loginInfo = null;
     try {
       loginInfo = LoginInfo.getInstance();  
@@ -121,7 +123,7 @@ public class PassarelaDeFirmaController  {
     }
     
     String idioma = signaturesSet.getCommonInfoSignature().getLanguageUI();
-    log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO (idioma)=> " + idioma);
+    
     if (idioma == null || idioma.trim().length() == 0) {
       idioma = Configuracio.getDefaultLanguage();
       log.info(" XYZ ZZZ  PassarelaDeFirmaController:: LOGIN INFO (idioma default) => " + idioma);
@@ -134,9 +136,14 @@ public class PassarelaDeFirmaController  {
 
    
     if (log.isDebugEnabled()) {
+      log.debug(" ===startPublicSignatureProcess() ==> idioma " + idioma);
       log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
       log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + signaturesSet.getUrlFinal());
     }
+    
+    // En passarela de firma requerim dins d'un frame
+    // 
+    mav.addObject("fullView", ssf.isFullView());
     
     return mav;
 

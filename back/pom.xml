@@ -53,9 +53,9 @@
     <!-- Externas -->
 
     <dependency>
-      <artifactId>apifirmawebsimple</artifactId>
+      <artifactId>apifirmasimple</artifactId>
       <groupId>org.fundaciobit.apifirmasimple</groupId>
-      <version>1.0.0</version>
+      <version>1.0</version>
     </dependency>
 
     <dependency>

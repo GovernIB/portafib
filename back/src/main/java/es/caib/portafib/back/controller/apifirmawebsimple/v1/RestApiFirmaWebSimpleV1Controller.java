@@ -6,14 +6,15 @@ import org.fundaciobit.apifirmawebsimple.ApiFirmaWebSimple;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResults;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleCommonInfo;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleError;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignaturesSet;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleSignaturesSet;
 import org.fundaciobit.apifirmawebsimple.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apifirmawebsimple.exceptions.ServerException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
@@ -42,6 +43,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
+import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -76,7 +78,7 @@ import java.util.Map;
 public class RestApiFirmaWebSimpleV1Controller {
 
   public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
-  
+
   static {
     // Add to Application Authorized Zone
     AuthenticationSuccessListener.allowedApplicationContexts.add(CONTEXT + "/");
@@ -99,31 +101,37 @@ public class RestApiFirmaWebSimpleV1Controller {
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getTransactionID(@RequestBody FirmaWebSimpleCommonInfo commonInfo) {
+  public ResponseEntity<?> getTransactionID(@RequestBody FirmaSimpleCommonInfo commonInfo) {
 
-    // XYZ ZZZ Fer neteja de transaccions Obsoletes !!!!
+    // Fer neteja de transaccions Obsoletes !!!!
+    cleanExpiredTransactions();
 
-    // XYZ ZZZ Check de commonInfo
-
-    log.info(" XYZ ZZZ eNTRA A getTransactionID::getReturnUrl() => "
-        + commonInfo.getReturnUrl());
-    log.info(" XYZ ZZZ eNTRA A getTransactionID::getLanguageUI() => "
-        + commonInfo.getLanguageUI());
-
-    final String transactionID;
-    synchronized (this) {
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-      }
-      // XYZ ZZZ Cercar un hash
-      //transactionID = System.currentTimeMillis() + "" + System.nanoTime();
-      transactionID = org.fundaciobit.plugins.utils.Base64.encode(System.currentTimeMillis() + "" + System.nanoTime()).toLowerCase();
-      //HibernateFileUtil.encryptFileID(fileID)
-      //transactionID = ;
+    // Check de commonInfo
+    if (commonInfo == null) {
+      return generateServerError("El parametre d'entrada de tipus FirmaSimpleCommonInfo no pot ser null.");
     }
 
-    log.info(" XYZ ZZZ  Creada transacció amb ID = |" + transactionID + "|");
+    String lang = commonInfo.getLanguageUI();
+    if (lang == null || lang.trim().length() == 0) {
+      return generateServerError("El camp LanguageUI del tipus FirmaSimpleCommonInfo no pot ser null o buit.");
+    }
+
+    String transactionID;
+    synchronized (this) {
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+      }
+
+      transactionID = System.currentTimeMillis() + "" + System.nanoTime();
+      transactionID = org.fundaciobit.plugins.utils.Base64.encode(transactionID).toLowerCase();
+      transactionID = transactionID.replaceAll("=", "");
+
+    }
+
+    if (log.isDebugEnabled()) {
+      log.info(" Creada transacció amb ID = |" + transactionID + "|");
+    }
 
     HttpHeaders headers = addAccessControllAllowOrigin();
 
@@ -137,15 +145,17 @@ public class RestApiFirmaWebSimpleV1Controller {
 
   }
 
-
   @RequestMapping(value = "/" + ApiFirmaWebSimple.STARTTRANSACTION, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> startTransaction(
-      @RequestBody FirmaSimpleSignaturesSet simpleSignaturesSet) {
+      @RequestBody FirmaWebSimpleSignaturesSet simpleSignaturesSet) {
 
-    log.info(" XYZ ZZZ eNTRA A startTransaction => " + simpleSignaturesSet);
+    log.info(" XYZ ZZZ eNTRA A startTransaction => simpleSignaturesSet: "
+        + simpleSignaturesSet);
+
+    cleanExpiredTransactions();
 
     // TODO XYZ ZZZ CHECKS DE LOGIN
 
@@ -163,6 +173,9 @@ public class RestApiFirmaWebSimpleV1Controller {
       // TODO XYZ ZZZ Traduir
       return generateServerError("No existeix cap transacció amb ID " + transactionID);
     }
+    
+    
+    
 
     if (ti.getStatus() != TransactionInfo.STATUS_RESERVED_ID) {
       // TODO XYZ ZZZ Traduir
@@ -211,14 +224,17 @@ public class RestApiFirmaWebSimpleV1Controller {
       // DADES DE l'ENTITAT
       String filtreCertificats = null;
 
-      FirmaWebSimpleCommonInfo commonInfo = ti.getCommonInfo();
+      FirmaSimpleCommonInfo commonInfo = ti.getCommonInfo();
 
       String username = commonInfo.getUsername();
       String administrationID = commonInfo.getAdministrationID();
-      String urlFinal = commonInfo.getReturnUrl();
+      String urlFinal = simpleSignaturesSet.getReturnUrl();
       String languageUI = commonInfo.getLanguageUI();
 
       log.info(" XYZ ZZZ startTransaction::getLanguageUI() => " + languageUI);
+
+      log.info(" XYZ ZZZ startTransaction::getReturnUrl() => "
+          + simpleSignaturesSet.getReturnUrl());
 
       // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara ccercar-ho de les
       // DADES DE l'ENTITAT
@@ -320,7 +336,9 @@ public class RestApiFirmaWebSimpleV1Controller {
       }
 
       // CRIDAR A START TRANSACION
-      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID);
+      final boolean fullView = FirmaWebSimpleSignaturesSet.VIEW_FULLSCREEN
+          .equals(simpleSignaturesSet.getView());
+      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView);
 
       // String redirectUrl = "holacaracola.com";
 
@@ -331,7 +349,26 @@ public class RestApiFirmaWebSimpleV1Controller {
       ti.setStatus(TransactionInfo.STATUS_IN_PROGRESS);
 
       return re;
+    } catch (I18NValidationException i18nve) {
 
+      String idioma = ti.getCommonInfo().getLanguageUI();
+          
+      String msg = I18NLogicUtils.getMessage(i18nve, new Locale(idioma));
+      
+      log.error(msg, i18nve);
+
+      return generateServerError(msg);
+
+      
+    } catch (I18NException i18ne) { 
+      String idioma = ti.getCommonInfo().getLanguageUI();
+      
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(idioma));
+      
+      log.error(msg, i18ne);
+
+      return generateServerError(msg);
+      
     } catch (Throwable th) {
 
       String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
@@ -385,9 +422,15 @@ public class RestApiFirmaWebSimpleV1Controller {
       HttpServletRequest request) {
 
     log.info(" XYZ ZZZ getTransactionResults => ENTRA");
+    
+    // Clean Transactions caducades
+    cleanExpiredTransactions();
+    
+    // XYZ ZZZ
+    // Revisar que existeix currentTransaccitions
 
     try {
-      // TODO XYZ Clean Transaccitions caducades
+      
 
       List<PassarelaSignatureResult> results;
       results = passarelaDeFirmaWebEjb.getSignatureResults(transactionID);
@@ -423,25 +466,22 @@ public class RestApiFirmaWebSimpleV1Controller {
     }
 
   }
-  
-  
+
   @RequestMapping(value = "/" + ApiFirmaWebSimple.CLOSETRANSACTION, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public void closeTransaction(@RequestBody String transactionID) {
-    
+
     log.info(" XYZ ZZZ closeTransaction => ENTRA");
-    
+
     passarelaDeFirmaWebEjb.closeTransaction(transactionID);
 
     currentTransactions.remove(transactionID);
-    
+
     log.info(" XYZ ZZZ closeTransaction => FINAL OK");
-    
+
   }
-  
-  
 
   protected ResponseEntity<FirmaSimpleError> generateServerError(String msg) {
     return generateServerError(msg, null);
@@ -473,8 +513,7 @@ public class RestApiFirmaWebSimpleV1Controller {
     return headers;
   }
 
-  protected FirmaSimpleFile convertFitxerBeanToFirmaSimpleFile(FitxerBean fb)
-      throws Exception {
+  protected FirmaSimpleFile convertFitxerBeanToFirmaSimpleFile(FitxerBean fb) throws Exception {
 
     if (fb == null) {
       return null;
@@ -494,7 +533,6 @@ public class RestApiFirmaWebSimpleV1Controller {
         }
       }
     }
-    
 
   }
 
@@ -513,6 +551,30 @@ public class RestApiFirmaWebSimpleV1Controller {
     return fileToSign;
   }
 
+  /**
+   * Fer neteja de transaccions Obsoletes
+   */
+  protected void cleanExpiredTransactions() {
+
+    final long now = System.currentTimeMillis();
+    for (TransactionInfo info : new ArrayList<TransactionInfo>(currentTransactions.values())) {
+      try {
+        // 15 minutes
+        if (info.getStartTime().getTime() + 900000 < now) {
+          closeTransaction(info.getTransactionID());
+        }
+      } catch (Exception e) {
+        log.error("Error desconegut"
+            + " netejant transaccions expirades de l'APIFirmaSimple: " + e.getMessage(), e);
+      }
+    }
+  }
+
+  /**
+   * 
+   * @author anadal
+   *
+   */
   public class VirtualSignaturePlugin implements ISignaturePlugin {
 
     protected String entitatID;
@@ -529,7 +591,6 @@ public class RestApiFirmaWebSimpleV1Controller {
 
     @Override
     public String getName(Locale locale) {
-
       return "VirtualSignaturePlugin";
     }
 
@@ -554,15 +615,13 @@ public class RestApiFirmaWebSimpleV1Controller {
       try {
         return passarelaDeFirmaWebEjb.getSupportedBarCodeTypes();
       } catch (I18NException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-        // XYZ ZZZ FER uN LOG COM TOCA
+        log.error(" Error cridant a passarelaDeFirmaWebEjb.getSupportedBarCodeTypes(): "
+             + e.getMessage(), e);
         return null;
       }
     }
 
     /**
-     * 
      * @return true true indica que el plugin accepta generadors de Segell de
      *         Temps definits dins FileInfoSignature.timeStampGenerator
      */
@@ -614,7 +673,6 @@ public class RestApiFirmaWebSimpleV1Controller {
     }
   }
 
-
   /**
    * 
    * @author anadal
@@ -631,7 +689,7 @@ public class RestApiFirmaWebSimpleV1Controller {
 
     final String transactionID;
 
-    final FirmaWebSimpleCommonInfo commonInfo;
+    final FirmaSimpleCommonInfo commonInfo;
 
     final Date startTime;
 
@@ -643,7 +701,7 @@ public class RestApiFirmaWebSimpleV1Controller {
      * @param status
      */
     public TransactionInfo(String transactionID, Date startTime,
-        FirmaWebSimpleCommonInfo commonInfo, int status) {
+        FirmaSimpleCommonInfo commonInfo, int status) {
       super();
       this.transactionID = transactionID;
       this.startTime = startTime;
@@ -667,11 +725,10 @@ public class RestApiFirmaWebSimpleV1Controller {
       return startTime;
     }
 
-    public FirmaWebSimpleCommonInfo getCommonInfo() {
+    public FirmaSimpleCommonInfo getCommonInfo() {
       return commonInfo;
     }
 
   }
-
 
 }

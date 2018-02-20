@@ -13,6 +13,8 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
  *
  */
 public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStatus {
+  
+  protected final boolean fullView;
 
   protected final String entitatID;
 
@@ -27,11 +29,12 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
    * @param signaturesSet
    */
   public PassarelaSignaturesSetWebInternalUse(String entitatID, int[] originalNumberOfSignsArray,
-      PassarelaSignaturesSet signaturesSet) {
+      boolean fullView, PassarelaSignaturesSet signaturesSet) {
     super();
     this.originalNumberOfSignsArray= originalNumberOfSignsArray;
     this.signaturesSet = signaturesSet;
     this.entitatID = entitatID;
+    this.fullView = fullView;
 
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
@@ -62,6 +65,10 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   public int[] getOriginalNumberOfSignsArray() {
     return originalNumberOfSignsArray;
+  }
+
+  public boolean isFullView() {
+    return fullView;
   }
 
 }

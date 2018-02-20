@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
-public class FirmaWebSimpleCommonInfo {
+public class FirmaSimpleCommonInfo {
 
   String languageUI;
 
@@ -16,27 +16,23 @@ public class FirmaWebSimpleCommonInfo {
 
   String administrationID;
 
-  String returnUrl;
 
   /**
    * 
    */
-  public FirmaWebSimpleCommonInfo() {
+  public FirmaSimpleCommonInfo() {
   }
 
   /**
    * @param languageUI
    * @param username
    * @param administrationID
-   * @param returnUrl
    */
-  public FirmaWebSimpleCommonInfo(String languageUI, String username, String administrationID,
-      String returnUrl) {
+  public FirmaSimpleCommonInfo(String languageUI, String username, String administrationID) {
     super();
     this.languageUI = languageUI;
     this.username = username;
     this.administrationID = administrationID;
-    this.returnUrl = returnUrl;
   }
 
   public String getLanguageUI() {
@@ -53,14 +49,6 @@ public class FirmaWebSimpleCommonInfo {
 
   public void setUsername(String username) {
     this.username = username;
-  }
-
-  public String getReturnUrl() {
-    return returnUrl;
-  }
-
-  public void setReturnUrl(String returnUrl) {
-    this.returnUrl = returnUrl;
   }
 
   public String getAdministrationID() {

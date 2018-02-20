@@ -1,0 +1,4 @@
+
+org.fundaciobit.apifirmasimple.exemple.apifirmaweb.endpoint=http://10.215.216.175:8080/portafib/common/rest/apifirmawebsimple/v1/
+org.fundaciobit.apifirmasimple.exemple.apifirmaweb.username=fundaciobit_rest
+org.fundaciobit.apifirmasimple.exemple.apifirmaweb.password=fundaciobi_rest

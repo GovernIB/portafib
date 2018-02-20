@@ -1,6 +1,15 @@
 <%@page import="es.caib.portafib.utils.Configuracio"
 %><%@include file="/WEB-INF/jsp/moduls/includes.jsp"
 %><un:useConstants var="Constants" className="es.caib.portafib.utils.Constants"/>
+<%-- PANTALLA COMPLETA --%>
+<c:if test="${fullView}">
+<div id="fullview"></div>
+<script type="text/javascript" language="javascript"> 
+$("#fullview").load("${urlToSelectPluginPage}")
+</script>
+</c:if>
+<%-- DINS D'UN IFRAME --%>
+<c:if test="${!fullView}">
 <%--
 <table id="tablefull" width="100%" style="height:*;border-color: red;" border="1" cellpadding="0" cellspacing="0">
 <tr valign="top">
@@ -65,3 +74,4 @@
       });
 
 </script>
+</c:if>

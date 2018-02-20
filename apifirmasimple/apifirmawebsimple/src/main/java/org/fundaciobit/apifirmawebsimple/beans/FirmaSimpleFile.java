@@ -1,10 +1,16 @@
 package org.fundaciobit.apifirmawebsimple.beans;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 
  * @author anadal
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class FirmaSimpleFile {
 
   java.lang.String nom;

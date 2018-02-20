@@ -28,7 +28,7 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
   public static final String PASSARELA_CONTEXTPATH_FINAL = "/final";
 
   public String startTransaction(
-      PassarelaSignaturesSet signaturesSet, String entitatID)
+      PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView)
       throws I18NException, I18NValidationException;
   
   public PassarelaSignatureStatus getStatusTransaction(String transactionID) throws I18NException;

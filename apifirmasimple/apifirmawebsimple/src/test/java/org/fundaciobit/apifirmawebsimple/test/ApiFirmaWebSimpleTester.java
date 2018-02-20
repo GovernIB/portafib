@@ -21,8 +21,8 @@ import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResults;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignaturesSet;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleCommonInfo;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleSignaturesSet;
 import org.fundaciobit.plugins.utils.FileUtils;
 
 /**
@@ -79,22 +79,23 @@ public class ApiFirmaWebSimpleTester {
 
       int port = 1989;
 
-      String returnUrl = "http://localhost:" + port;
-
       api = getApiFirmaWebSimple();
 
-      FirmaWebSimpleCommonInfo commonInfo;
-      commonInfo = new FirmaWebSimpleCommonInfo(languageUI, username, administrationID,
-          returnUrl);
+      FirmaSimpleCommonInfo commonInfo;
+      commonInfo = new FirmaSimpleCommonInfo(languageUI, username, administrationID);
 
       // XYZ ZZZ Enviar la part comu de la transacció
       transactionID = api.getTransactionID(commonInfo);
 
       System.out.println("languageUI = |" + languageUI + "|");
       System.out.println("TransactionID = |" + transactionID + "|");
+      
+      final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
 
-      FirmaSimpleSignaturesSet signaturesSet;
-      signaturesSet = new FirmaSimpleSignaturesSet(transactionID, fileInfoSignatureArray);
+      final String view = FirmaWebSimpleSignaturesSet.VIEW_FULLSCREEN;
+      
+      FirmaWebSimpleSignaturesSet signaturesSet = new FirmaWebSimpleSignaturesSet(
+          transactionID, fileInfoSignatureArray, returnUrl, view);
 
       String redirectUrl = api.startTransaction(signaturesSet);
 

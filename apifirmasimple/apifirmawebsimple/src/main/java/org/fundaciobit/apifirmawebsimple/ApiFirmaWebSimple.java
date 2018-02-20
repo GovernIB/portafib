@@ -4,8 +4,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleError;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResults;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignaturesSet;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleCommonInfo;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleSignaturesSet;
 import org.fundaciobit.apifirmawebsimple.exceptions.ApiFirmaException;
 import org.fundaciobit.apifirmawebsimple.exceptions.CancelledUserException;
 import org.fundaciobit.apifirmawebsimple.exceptions.ClientException;
@@ -67,13 +67,13 @@ public class ApiFirmaWebSimple {
   // https://stackoverflow.com/questions/2145431/https-using-jersey-client
 
   /**
-   * Retorna la URL on redireccionar per realitzar la firma
+   * 
    * 
    * @param signaturesSet
-   * @return
+   * @return Retorna l'ID de la transacció
    * @throws Exception
    */
-  public String getTransactionID(FirmaWebSimpleCommonInfo commonInfo) throws Exception {
+  public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws Exception {
 
     ClientResponse response = commonCall(commonInfo, ApiFirmaWebSimple.GETTRANSACTIONID);
 
@@ -85,13 +85,12 @@ public class ApiFirmaWebSimple {
   }
 
   /**
-   * Retorna la URL on redireccionar per realitzar la firma
-   * 
+   *
    * @param signaturesSet
-   * @return
+   * @return Retorna la URL on redireccionar per realitzar la firma
    * @throws Exception
    */
-  public String startTransaction(FirmaSimpleSignaturesSet signaturesSet) throws Exception {
+  public String startTransaction(FirmaWebSimpleSignaturesSet signaturesSet) throws Exception {
 
     ClientResponse response = commonCall(signaturesSet, ApiFirmaWebSimple.STARTTRANSACTION);
 
@@ -217,16 +216,16 @@ public class ApiFirmaWebSimple {
         // Error no controlat
       }
 
-      System.out.println("XYZ ZZZ ERROR SIMPLE: ]" + simple + "[");
+      //System.out.println(" ERROR SIMPLE: ]" + simple + "[");
 
       if (simple != null) {
         String tipus = simple.getType();
-        System.out.println("XYZ ZZZ ERROR TIPUS: ]" + tipus + "[");
+        //System.out.println(" ERROR TIPUS: ]" + tipus + "[");
 
         if (tipus != null && tipus.trim().length() != 0) {
 
-          System.out.println("XYZ ZZZ ERROR TIPUS IS SERVER EXCEPTION: ]"
-              + tipus.equals(ServerException.class.getName()) + "[");
+          //System.out.println(" ERROR TIPUS IS SERVER EXCEPTION: ]"
+          //    + tipus.equals(ServerException.class.getName()) + "[");
 
           if (tipus.equals(NoAvailablePluginException.class.getName())) {
             throw new NoAvailablePluginException(simple.getMessage(), simple.getStackTrace());

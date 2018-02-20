@@ -80,8 +80,9 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
+    final boolean fullView = false;
     return passarelaDeFirmaWebEjb.startTransaction(
-        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID());
+        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID(), fullView);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

@@ -71,7 +71,7 @@ public class PassarelaDeFirmaWebEJB
   
   
   @Override
-  public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID)
+  public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView)
       throws I18NException, I18NValidationException {
 
     // Validar
@@ -120,7 +120,8 @@ public class PassarelaDeFirmaWebEJB
       }
       
       // Guardar
-      storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID, originalNumberOfSignsArray, signaturesSet));
+      storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID,
+          originalNumberOfSignsArray, fullView, signaturesSet));
       
     } catch (I18NException i18n) {
       deleteSignaturesSet(signaturesSetID);
