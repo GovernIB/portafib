@@ -157,3 +157,8 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /compil2.bat
 /plugins-signatureserver/afirmaserver/config/plugin_afirmaserver_regweb3.properties
 /apifirmasimple/apifirmawebsimple/signed_hola.pdf
+/plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadaljks/anadal.jks
+/plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadaljks/cert.properties
+/plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadalp12/anadal.p12
+/plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadalp12/cert.properties
+/plugins-signatureserver/afirmalibs/run.bat

@@ -23,6 +23,7 @@
     <module>miniappletutils</module>
     <module>miniappletinserver</module>
     <module>afirmaserver</module>
+    <module>afirmalibs</module>
     <module>exempleapp</module>
   </modules>
 

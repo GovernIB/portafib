@@ -2,6 +2,8 @@
 PortaFIB 1.1.4
 ==============
 
+2018-02-22 Plugin de Firma en Servidor que utilitzi llibreries de @firma #154
+
 2018-02-20 API de Firma Web Simple: Exemple WebApp d'ús d'aquesta API #148
 
 2018-02-14 Actualitzar API de Document Custody a PortaFIB #153

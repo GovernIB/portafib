@@ -1,0 +1,180 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>plugin-signatureserver-afirmalibs</artifactId>
+  <packaging>jar</packaging>
+  <version>2.0.0</version>
+
+  <name>FundacioBit Plugins - SignatureServer - @firma Libs</name>
+
+  <parent>
+    <groupId>org.fundaciobit.plugins</groupId>
+    <version>2.0.0</version>
+    <artifactId>plugins-signatureserver</artifactId>
+  </parent>
+
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    <bouncycastle.version>1.53</bouncycastle.version>
+  </properties>
+
+  <dependencies>
+
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugins-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-api</artifactId>
+      <version>${plugins.signatureserver.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-signatureserver-miniappletutils</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+
+    <!--
+
+    <dependency>
+      <groupId>net.java.xades</groupId>
+      <artifactId>jxades</artifactId>
+      <version>0.1.5</version>
+    </dependency>
+
+
+
+
+    <dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>core</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>prov</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.madgag.spongycastle</groupId>
+			<artifactId>pkix</artifactId>
+			<version>1.54.0.0</version>
+		</dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-core</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-cades</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-cades-multi</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-pkcs7</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-xml</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+    
+        <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-itext</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-jmimemagic</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-lib-oro</artifactId>
+      <version>0.0.3-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-server-triphase-signer-core</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+ 
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+    	<artifactId>afirma-server-triphase-signer-document</artifactId>
+	    <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-ui-core-jse</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+    
+-->
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-pdf</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-xades</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+    </plugins>
+  </build>
+
+</project>
