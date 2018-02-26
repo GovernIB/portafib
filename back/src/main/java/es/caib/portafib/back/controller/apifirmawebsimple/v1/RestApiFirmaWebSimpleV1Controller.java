@@ -1,18 +1,14 @@
 package es.caib.portafib.back.controller.apifirmawebsimple.v1;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.apifirmawebsimple.ApiFirmaWebSimple;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResults;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleError;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleSignaturesSet;
-import org.fundaciobit.apifirmawebsimple.exceptions.NoAvailablePluginException;
-import org.fundaciobit.apifirmawebsimple.exceptions.ServerException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
@@ -48,18 +44,13 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
 
-import javax.activation.DataHandler;
 import javax.ejb.EJB;
-import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -75,7 +66,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = RestApiFirmaWebSimpleV1Controller.CONTEXT)
-public class RestApiFirmaWebSimpleV1Controller {
+public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
   public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
 
@@ -483,73 +474,6 @@ public class RestApiFirmaWebSimpleV1Controller {
 
   }
 
-  protected ResponseEntity<FirmaSimpleError> generateServerError(String msg) {
-    return generateServerError(msg, null);
-  }
-
-  protected ResponseEntity<FirmaSimpleError> generateServerError(String msg, Throwable th) {
-    String sStackTrace = null;
-    if (th != null) {
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      th.printStackTrace(pw);
-      sStackTrace = sw.toString();
-    }
-
-    return new ResponseEntity<FirmaSimpleError>(new FirmaSimpleError(msg,
-        ServerException.class.getName(), sStackTrace), HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  protected ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language) {
-    // TODO XYZ ZZZ Traduir
-    String msg = "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.";
-    return new ResponseEntity<FirmaSimpleError>(new FirmaSimpleError(msg,
-        NoAvailablePluginException.class.getName()), HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  private HttpHeaders addAccessControllAllowOrigin() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Access-Control-Allow-Origin", "*");
-    return headers;
-  }
-
-  protected FirmaSimpleFile convertFitxerBeanToFirmaSimpleFile(FitxerBean fb) throws Exception {
-
-    if (fb == null) {
-      return null;
-    }
-    InputStream is = null;
-    try {
-      is = fb.getData().getInputStream();
-      byte[] data = IOUtils.toByteArray(is);
-      return new FirmaSimpleFile(fb.getNom(), fb.getMime(), data);
-    } catch (Exception e) {
-      throw e;
-    } finally {
-      if (is != null) {
-        try {
-          is.close();
-        } catch (Exception e2) {
-        }
-      }
-    }
-
-  }
-
-  protected FitxerBean convertFirmaSimpleFileToFitxerBean(FirmaSimpleFile asf) {
-    FitxerBean fileToSign = new FitxerBean();
-    fileToSign.setDescripcio(null);
-    final String mime = asf.getMime();
-    fileToSign.setMime(mime);
-    fileToSign.setNom(asf.getNom());
-
-    byte[] data = asf.getData();
-    fileToSign.setTamany(data.length);
-
-    ByteArrayDataSource bads = new ByteArrayDataSource(data, mime);
-    fileToSign.setData(new DataHandler(bads));
-    return fileToSign;
-  }
 
   /**
    * Fer neteja de transaccions Obsoletes

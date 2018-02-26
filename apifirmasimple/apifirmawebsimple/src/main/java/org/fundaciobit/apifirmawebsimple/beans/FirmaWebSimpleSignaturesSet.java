@@ -5,11 +5,15 @@ package org.fundaciobit.apifirmawebsimple.beans;
  * @author anadal
  *
  */
-public class FirmaWebSimpleSignaturesSet extends FirmaSimpleSignaturesSet {
+public class FirmaWebSimpleSignaturesSet  {
 
   public static final String VIEW_FULLSCREEN = "fullview";
   
   public static final String VIEW_IFRAME = "iframe";
+  
+  FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
+  
+  String transactionID;
   
   String returnUrl;
 
@@ -28,10 +32,19 @@ public class FirmaWebSimpleSignaturesSet extends FirmaSimpleSignaturesSet {
    */
   public FirmaWebSimpleSignaturesSet(String transactionID,
       FirmaSimpleFileInfoSignature[] fileInfoSignatureArray, String returnUrl, String view) {
-    super(transactionID, fileInfoSignatureArray);
+    this.fileInfoSignatureArray = fileInfoSignatureArray;
 
+    this.transactionID = transactionID;
     this.returnUrl = returnUrl;
     this.view = view;
+  }
+  
+  public FirmaSimpleFileInfoSignature[] getFileInfoSignatureArray() {
+    return fileInfoSignatureArray;
+  }
+
+  public void setFileInfoSignatureArray(FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
+    this.fileInfoSignatureArray = fileInfoSignatureArray;
   }
 
   public String getReturnUrl() {
@@ -49,5 +62,14 @@ public class FirmaWebSimpleSignaturesSet extends FirmaSimpleSignaturesSet {
   public void setView(String view) {
     this.view = view;
   }
+  
+  public String getTransactionID() {
+    return transactionID;
+  }
+
+  public void setTransactionID(String transactionID) {
+    this.transactionID = transactionID;
+  }
+
 
 }

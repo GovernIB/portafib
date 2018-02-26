@@ -8,33 +8,29 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
-public class FirmaSimpleSignaturesSet {
- 
-  String transactionID;
+public class FirmaEnServidorSimpleSignaturesSet {
+
+  FirmaSimpleCommonInfo commonInfo;
 
   FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
 
   /**
    * 
    */
-  public FirmaSimpleSignaturesSet() {
+  public FirmaEnServidorSimpleSignaturesSet() {
+    super();
   }
-
-
 
   /**
-   * @param transactionID
-   * @param returnUrl
+   * @param commonInfo
    * @param fileInfoSignatureArray
    */
-  public FirmaSimpleSignaturesSet(String transactionID,
+  public FirmaEnServidorSimpleSignaturesSet(FirmaSimpleCommonInfo commonInfo,
       FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
     super();
-    this.transactionID = transactionID;
+    this.commonInfo = commonInfo;
     this.fileInfoSignatureArray = fileInfoSignatureArray;
   }
-
-
 
   public FirmaSimpleFileInfoSignature[] getFileInfoSignatureArray() {
     return fileInfoSignatureArray;
@@ -44,15 +40,12 @@ public class FirmaSimpleSignaturesSet {
     this.fileInfoSignatureArray = fileInfoSignatureArray;
   }
 
-  public String getTransactionID() {
-    return transactionID;
+  public FirmaSimpleCommonInfo getCommonInfo() {
+    return commonInfo;
   }
 
-  public void setTransactionID(String transactionID) {
-    this.transactionID = transactionID;
+  public void setCommonInfo(FirmaSimpleCommonInfo commonInfo) {
+    this.commonInfo = commonInfo;
   }
 
-
-
-  
 }
