@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(TIPUSDOCUMENTID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  modulDeFirmaPerTipusDeDocumentForm.getStringOfField(TIPUSDOCUMENTID);
     Where _where = null;
-    if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(_fieldName)) {
+    if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(TIPUSDOCUMENTID)) {
       _where = TipusDocumentFields.TIPUSDOCUMENTID.equal(modulDeFirmaPerTipusDeDocumentForm.getModulDeFirmaPerTipusDeDocument().getTipusDocumentID());
     }
     return getReferenceListForTipusDocumentID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (modulDeFirmaPerTipusDeDocumentForm.isHiddenField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  modulDeFirmaPerTipusDeDocumentForm.getStringOfField(PLUGINID);
     Where _where = null;
-    if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(_fieldName)) {
+    if (modulDeFirmaPerTipusDeDocumentForm.isReadOnlyField(PLUGINID)) {
       _where = PluginFields.PLUGINID.equal(modulDeFirmaPerTipusDeDocumentForm.getModulDeFirmaPerTipusDeDocument().getPluginID());
     }
     return getReferenceListForPluginID(request, mav, Where.AND(where, _where));

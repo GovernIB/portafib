@@ -611,9 +611,8 @@ public java.lang.Long stringToPK(String value) {
     if (annexForm.isHiddenField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  annexForm.getStringOfField(PETICIODEFIRMAID);
     Where _where = null;
-    if (annexForm.isReadOnlyField(_fieldName)) {
+    if (annexForm.isReadOnlyField(PETICIODEFIRMAID)) {
       _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(annexForm.getAnnex().getPeticioDeFirmaID());
     }
     return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));

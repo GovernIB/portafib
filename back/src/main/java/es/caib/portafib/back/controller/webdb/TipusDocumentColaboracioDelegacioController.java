@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(COLABORACIODELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  tipusDocumentColaboracioDelegacioForm.getStringOfField(COLABORACIODELEGACIOID);
     Where _where = null;
-    if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(_fieldName)) {
+    if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(COLABORACIODELEGACIOID)) {
       _where = ColaboracioDelegacioFields.COLABORACIODELEGACIOID.equal(tipusDocumentColaboracioDelegacioForm.getTipusDocumentColaboracioDelegacio().getColaboracioDelegacioID());
     }
     return getReferenceListForColaboracioDelegacioID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (tipusDocumentColaboracioDelegacioForm.isHiddenField(TIPUSDOCUMENTID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  tipusDocumentColaboracioDelegacioForm.getStringOfField(TIPUSDOCUMENTID);
     Where _where = null;
-    if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(_fieldName)) {
+    if (tipusDocumentColaboracioDelegacioForm.isReadOnlyField(TIPUSDOCUMENTID)) {
       _where = TipusDocumentFields.TIPUSDOCUMENTID.equal(tipusDocumentColaboracioDelegacioForm.getTipusDocumentColaboracioDelegacio().getTipusDocumentID());
     }
     return getReferenceListForTipusDocumentID(request, mav, Where.AND(where, _where));

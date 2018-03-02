@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (permisUsuariPlantillaForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  permisUsuariPlantillaForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (permisUsuariPlantillaForm.isReadOnlyField(_fieldName)) {
+    if (permisUsuariPlantillaForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(permisUsuariPlantillaForm.getPermisUsuariPlantilla().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (permisUsuariPlantillaForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  permisUsuariPlantillaForm.getStringOfField(PLANTILLAFLUXDEFIRMESID);
     Where _where = null;
-    if (permisUsuariPlantillaForm.isReadOnlyField(_fieldName)) {
+    if (permisUsuariPlantillaForm.isReadOnlyField(PLANTILLAFLUXDEFIRMESID)) {
       _where = PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.equal(permisUsuariPlantillaForm.getPermisUsuariPlantilla().getPlantillaFluxDeFirmesID());
     }
     return getReferenceListForPlantillaFluxDeFirmesID(request, mav, Where.AND(where, _where));

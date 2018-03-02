@@ -605,9 +605,8 @@ public java.lang.String stringToPK(String value) {
     if (usuariPersonaForm.isHiddenField(IDIOMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  usuariPersonaForm.getStringOfField(IDIOMAID);
     Where _where = null;
-    if (usuariPersonaForm.isReadOnlyField(_fieldName)) {
+    if (usuariPersonaForm.isReadOnlyField(IDIOMAID)) {
       _where = IdiomaFields.IDIOMAID.equal(usuariPersonaForm.getUsuariPersona().getIdiomaID());
     }
     return getReferenceListForIdiomaID(request, mav, Where.AND(where, _where));

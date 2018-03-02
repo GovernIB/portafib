@@ -569,9 +569,8 @@ public java.lang.Long stringToPK(String value) {
     if (grupEntitatForm.isHiddenField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  grupEntitatForm.getStringOfField(ENTITATID);
     Where _where = null;
-    if (grupEntitatForm.isReadOnlyField(_fieldName)) {
+    if (grupEntitatForm.isReadOnlyField(ENTITATID)) {
       _where = EntitatFields.ENTITATID.equal(grupEntitatForm.getGrupEntitat().getEntitatID());
     }
     return getReferenceListForEntitatID(request, mav, Where.AND(where, _where));

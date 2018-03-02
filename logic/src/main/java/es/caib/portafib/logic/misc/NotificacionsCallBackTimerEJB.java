@@ -182,7 +182,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
         }
 
         int firstResult = 0;
-        int maxResults = 15;
+        int maxResults = 40;
         List<NotificacioWS> notificacions;
         NotificacioWSLogicaLocal notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
 
@@ -229,7 +229,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
                     + ": " + e.getMessage(), e);
           }
 
-          Thread.sleep(1000);
+          Thread.sleep(1500);
 
           // Estarem fent feina com a màxim 45 segons per no saturar el servidor
           if ((System.currentTimeMillis() - now) > maxTempsNotificant) {

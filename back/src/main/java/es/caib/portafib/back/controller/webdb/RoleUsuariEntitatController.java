@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (roleUsuariEntitatForm.isHiddenField(ROLEID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  roleUsuariEntitatForm.getStringOfField(ROLEID);
     Where _where = null;
-    if (roleUsuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (roleUsuariEntitatForm.isReadOnlyField(ROLEID)) {
       _where = RoleFields.ROLEID.equal(roleUsuariEntitatForm.getRoleUsuariEntitat().getRoleID());
     }
     return getReferenceListForRoleID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (roleUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  roleUsuariEntitatForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (roleUsuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (roleUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(roleUsuariEntitatForm.getRoleUsuariEntitat().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));

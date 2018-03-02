@@ -639,9 +639,8 @@ public java.lang.String stringToPK(String value) {
     if (usuariEntitatForm.isHiddenField(USUARIPERSONAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  usuariEntitatForm.getStringOfField(USUARIPERSONAID);
     Where _where = null;
-    if (usuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (usuariEntitatForm.isReadOnlyField(USUARIPERSONAID)) {
       _where = UsuariPersonaFields.USUARIPERSONAID.equal(usuariEntitatForm.getUsuariEntitat().getUsuariPersonaID());
     }
     return getReferenceListForUsuariPersonaID(request, mav, Where.AND(where, _where));
@@ -679,9 +678,8 @@ public java.lang.String stringToPK(String value) {
     if (usuariEntitatForm.isHiddenField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  usuariEntitatForm.getStringOfField(ENTITATID);
     Where _where = null;
-    if (usuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (usuariEntitatForm.isReadOnlyField(ENTITATID)) {
       _where = EntitatFields.ENTITATID.equal(usuariEntitatForm.getUsuariEntitat().getEntitatID());
     }
     return getReferenceListForEntitatID(request, mav, Where.AND(where, _where));

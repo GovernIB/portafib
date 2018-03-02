@@ -587,9 +587,8 @@ public java.lang.Long stringToPK(String value) {
     if (usuariEntitatFavoritForm.isHiddenField(ORIGENID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  usuariEntitatFavoritForm.getStringOfField(ORIGENID);
     Where _where = null;
-    if (usuariEntitatFavoritForm.isReadOnlyField(_fieldName)) {
+    if (usuariEntitatFavoritForm.isReadOnlyField(ORIGENID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatFavoritForm.getUsuariEntitatFavorit().getOrigenID());
     }
     return getReferenceListForOrigenID(request, mav, Where.AND(where, _where));
@@ -627,9 +626,8 @@ public java.lang.Long stringToPK(String value) {
     if (usuariEntitatFavoritForm.isHiddenField(FAVORITID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  usuariEntitatFavoritForm.getStringOfField(FAVORITID);
     Where _where = null;
-    if (usuariEntitatFavoritForm.isReadOnlyField(_fieldName)) {
+    if (usuariEntitatFavoritForm.isReadOnlyField(FAVORITID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatFavoritForm.getUsuariEntitatFavorit().getFavoritID());
     }
     return getReferenceListForFavoritID(request, mav, Where.AND(where, _where));

@@ -627,9 +627,8 @@ public java.lang.Long stringToPK(String value) {
     if (annexFirmatForm.isHiddenField(ANNEXID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  annexFirmatForm.getStringOfField(ANNEXID);
     Where _where = null;
-    if (annexFirmatForm.isReadOnlyField(_fieldName)) {
+    if (annexFirmatForm.isReadOnlyField(ANNEXID)) {
       _where = AnnexFields.ANNEXID.equal(annexFirmatForm.getAnnexFirmat().getAnnexID());
     }
     return getReferenceListForAnnexID(request, mav, Where.AND(where, _where));
@@ -667,9 +666,8 @@ public java.lang.Long stringToPK(String value) {
     if (annexFirmatForm.isHiddenField(FIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  annexFirmatForm.getStringOfField(FIRMAID);
     Where _where = null;
-    if (annexFirmatForm.isReadOnlyField(_fieldName)) {
+    if (annexFirmatForm.isReadOnlyField(FIRMAID)) {
       _where = FirmaFields.FIRMAID.equal(annexFirmatForm.getAnnexFirmat().getFirmaID());
     }
     return getReferenceListForFirmaID(request, mav, Where.AND(where, _where));

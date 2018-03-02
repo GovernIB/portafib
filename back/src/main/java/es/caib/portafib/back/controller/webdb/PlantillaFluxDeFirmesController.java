@@ -615,9 +615,8 @@ public java.lang.Long stringToPK(String value) {
     if (plantillaFluxDeFirmesForm.isHiddenField(FLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  plantillaFluxDeFirmesForm.getStringOfField(FLUXDEFIRMESID);
     Where _where = null;
-    if (plantillaFluxDeFirmesForm.isReadOnlyField(_fieldName)) {
+    if (plantillaFluxDeFirmesForm.isReadOnlyField(FLUXDEFIRMESID)) {
       _where = FluxDeFirmesFields.FLUXDEFIRMESID.equal(plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes().getFluxDeFirmesID());
     }
     return getReferenceListForFluxDeFirmesID(request, mav, Where.AND(where, _where));
@@ -655,9 +654,8 @@ public java.lang.Long stringToPK(String value) {
     if (plantillaFluxDeFirmesForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  plantillaFluxDeFirmesForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (plantillaFluxDeFirmesForm.isReadOnlyField(_fieldName)) {
+    if (plantillaFluxDeFirmesForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
@@ -696,9 +694,8 @@ public java.lang.Long stringToPK(String value) {
     if (plantillaFluxDeFirmesForm.isHiddenField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  plantillaFluxDeFirmesForm.getStringOfField(USUARIAPLICACIOID);
     Where _where = null;
-    if (plantillaFluxDeFirmesForm.isReadOnlyField(_fieldName)) {
+    if (plantillaFluxDeFirmesForm.isReadOnlyField(USUARIAPLICACIOID)) {
       _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(plantillaFluxDeFirmesForm.getPlantillaFluxDeFirmes().getUsuariAplicacioID());
     }
     return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));

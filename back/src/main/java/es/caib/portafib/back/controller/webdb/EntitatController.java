@@ -789,9 +789,8 @@ public java.lang.String stringToPK(String value) {
     if (entitatForm.isHiddenField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  entitatForm.getStringOfField(USUARIAPLICACIOID);
     Where _where = null;
-    if (entitatForm.isReadOnlyField(_fieldName)) {
+    if (entitatForm.isReadOnlyField(USUARIAPLICACIOID)) {
       _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(entitatForm.getEntitat().getUsuariAplicacioID());
     }
     return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));
@@ -882,9 +881,8 @@ public java.lang.String stringToPK(String value) {
     if (entitatForm.isHiddenField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  entitatForm.getStringOfField(ALGORISMEDEFIRMAID);
     Where _where = null;
-    if (entitatForm.isReadOnlyField(_fieldName)) {
+    if (entitatForm.isReadOnlyField(ALGORISMEDEFIRMAID)) {
       _where = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(entitatForm.getEntitat().getAlgorismeDeFirmaID());
     }
     return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where, _where));
@@ -922,9 +920,8 @@ public java.lang.String stringToPK(String value) {
     if (entitatForm.isHiddenField(CUSTODIAINFOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  entitatForm.getStringOfField(CUSTODIAINFOID);
     Where _where = null;
-    if (entitatForm.isReadOnlyField(_fieldName)) {
+    if (entitatForm.isReadOnlyField(CUSTODIAINFOID)) {
       _where = CustodiaInfoFields.CUSTODIAINFOID.equal(entitatForm.getEntitat().getCustodiaInfoID());
     }
     return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where, _where));
@@ -963,9 +960,8 @@ public java.lang.String stringToPK(String value) {
     if (entitatForm.isHiddenField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  entitatForm.getStringOfField(PLUGINID);
     Where _where = null;
-    if (entitatForm.isReadOnlyField(_fieldName)) {
+    if (entitatForm.isReadOnlyField(PLUGINID)) {
       _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginID());
     }
     return getReferenceListForPluginID(request, mav, Where.AND(where, _where));

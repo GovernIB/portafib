@@ -628,9 +628,8 @@ public java.lang.Long stringToPK(String value) {
     if (tipusDocumentForm.isHiddenField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  tipusDocumentForm.getStringOfField(USUARIAPLICACIOID);
     Where _where = null;
-    if (tipusDocumentForm.isReadOnlyField(_fieldName)) {
+    if (tipusDocumentForm.isReadOnlyField(USUARIAPLICACIOID)) {
       _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(tipusDocumentForm.getTipusDocument().getUsuariAplicacioID());
     }
     return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));

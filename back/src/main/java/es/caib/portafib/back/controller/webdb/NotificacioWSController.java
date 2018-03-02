@@ -594,9 +594,8 @@ public java.lang.Long stringToPK(String value) {
     if (notificacioWSForm.isHiddenField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  notificacioWSForm.getStringOfField(PETICIODEFIRMAID);
     Where _where = null;
-    if (notificacioWSForm.isReadOnlyField(_fieldName)) {
+    if (notificacioWSForm.isReadOnlyField(PETICIODEFIRMAID)) {
       _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(notificacioWSForm.getNotificacioWS().getPeticioDeFirmaID());
     }
     return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
@@ -634,9 +633,8 @@ public java.lang.Long stringToPK(String value) {
     if (notificacioWSForm.isHiddenField(TIPUSNOTIFICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  notificacioWSForm.getStringOfField(TIPUSNOTIFICACIOID);
     Where _where = null;
-    if (notificacioWSForm.isReadOnlyField(_fieldName)) {
+    if (notificacioWSForm.isReadOnlyField(TIPUSNOTIFICACIOID)) {
       _where = TipusNotificacioFields.TIPUSNOTIFICACIOID.equal(notificacioWSForm.getNotificacioWS().getTipusNotificacioID());
     }
     return getReferenceListForTipusNotificacioID(request, mav, Where.AND(where, _where));

@@ -633,9 +633,8 @@ public java.lang.Long stringToPK(String value) {
     if (colaboracioDelegacioForm.isHiddenField(DESTINATARIID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  colaboracioDelegacioForm.getStringOfField(DESTINATARIID);
     Where _where = null;
-    if (colaboracioDelegacioForm.isReadOnlyField(_fieldName)) {
+    if (colaboracioDelegacioForm.isReadOnlyField(DESTINATARIID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(colaboracioDelegacioForm.getColaboracioDelegacio().getDestinatariID());
     }
     return getReferenceListForDestinatariID(request, mav, Where.AND(where, _where));
@@ -673,9 +672,8 @@ public java.lang.Long stringToPK(String value) {
     if (colaboracioDelegacioForm.isHiddenField(COLABORADORDELEGATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  colaboracioDelegacioForm.getStringOfField(COLABORADORDELEGATID);
     Where _where = null;
-    if (colaboracioDelegacioForm.isReadOnlyField(_fieldName)) {
+    if (colaboracioDelegacioForm.isReadOnlyField(COLABORADORDELEGATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(colaboracioDelegacioForm.getColaboracioDelegacio().getColaboradorDelegatID());
     }
     return getReferenceListForColaboradorDelegatID(request, mav, Where.AND(where, _where));

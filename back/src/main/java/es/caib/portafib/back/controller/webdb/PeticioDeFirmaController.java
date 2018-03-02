@@ -857,9 +857,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(TIPUSDOCUMENTID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(TIPUSDOCUMENTID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(TIPUSDOCUMENTID)) {
       _where = TipusDocumentFields.TIPUSDOCUMENTID.equal(peticioDeFirmaForm.getPeticioDeFirma().getTipusDocumentID());
     }
     return getReferenceListForTipusDocumentID(request, mav, Where.AND(where, _where));
@@ -897,9 +896,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(POSICIOTAULAFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(POSICIOTAULAFIRMESID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(POSICIOTAULAFIRMESID)) {
       _where = PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.equal(peticioDeFirmaForm.getPeticioDeFirma().getPosicioTaulaFirmesID());
     }
     return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where, _where));
@@ -937,9 +935,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(TIPUSFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(TIPUSFIRMAID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(TIPUSFIRMAID)) {
       _where = TipusFirmaFields.TIPUSFIRMAID.equal(peticioDeFirmaForm.getPeticioDeFirma().getTipusFirmaID());
     }
     return getReferenceListForTipusFirmaID(request, mav, Where.AND(where, _where));
@@ -977,9 +974,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(ALGORISMEDEFIRMAID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(ALGORISMEDEFIRMAID)) {
       _where = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(peticioDeFirmaForm.getPeticioDeFirma().getAlgorismeDeFirmaID());
     }
     return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where, _where));
@@ -1017,9 +1013,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(TIPUSESTATPETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(TIPUSESTATPETICIODEFIRMAID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(TIPUSESTATPETICIODEFIRMAID)) {
       _where = TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(peticioDeFirmaForm.getPeticioDeFirma().getTipusEstatPeticioDeFirmaID());
     }
     return getReferenceListForTipusEstatPeticioDeFirmaID(request, mav, Where.AND(where, _where));
@@ -1057,9 +1052,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(IDIOMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(IDIOMAID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(IDIOMAID)) {
       _where = IdiomaFields.IDIOMAID.equal(peticioDeFirmaForm.getPeticioDeFirma().getIdiomaID());
     }
     return getReferenceListForIdiomaID(request, mav, Where.AND(where, _where));
@@ -1097,9 +1091,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(PRIORITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(PRIORITATID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(PRIORITATID)) {
       _where = PrioritatFields.PRIORITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getPrioritatID());
     }
     return getReferenceListForPrioritatID(request, mav, Where.AND(where, _where));
@@ -1137,9 +1130,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(FLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(FLUXDEFIRMESID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(FLUXDEFIRMESID)) {
       _where = FluxDeFirmesFields.FLUXDEFIRMESID.equal(peticioDeFirmaForm.getPeticioDeFirma().getFluxDeFirmesID());
     }
     return getReferenceListForFluxDeFirmesID(request, mav, Where.AND(where, _where));
@@ -1177,9 +1169,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(USUARIAPLICACIOID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(USUARIAPLICACIOID)) {
       _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticioDeFirmaForm.getPeticioDeFirma().getUsuariAplicacioID());
     }
     return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));
@@ -1217,9 +1208,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(CUSTODIAINFOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(CUSTODIAINFOID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(CUSTODIAINFOID)) {
       _where = CustodiaInfoFields.CUSTODIAINFOID.equal(peticioDeFirmaForm.getPeticioDeFirma().getCustodiaInfoID());
     }
     return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where, _where));
@@ -1258,9 +1248,8 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  peticioDeFirmaForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (peticioDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));

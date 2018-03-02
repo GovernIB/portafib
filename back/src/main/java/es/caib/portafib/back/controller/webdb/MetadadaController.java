@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (metadadaForm.isHiddenField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  metadadaForm.getStringOfField(PETICIODEFIRMAID);
     Where _where = null;
-    if (metadadaForm.isReadOnlyField(_fieldName)) {
+    if (metadadaForm.isReadOnlyField(PETICIODEFIRMAID)) {
       _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(metadadaForm.getMetadada().getPeticioDeFirmaID());
     }
     return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (metadadaForm.isHiddenField(TIPUSMETADADAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  metadadaForm.getStringOfField(TIPUSMETADADAID);
     Where _where = null;
-    if (metadadaForm.isReadOnlyField(_fieldName)) {
+    if (metadadaForm.isReadOnlyField(TIPUSMETADADAID)) {
       _where = TipusMetadadaFields.TIPUSMETADADAID.equal(metadadaForm.getMetadada().getTipusMetadadaID());
     }
     return getReferenceListForTipusMetadadaID(request, mav, Where.AND(where, _where));

@@ -657,9 +657,8 @@ public java.lang.Long stringToPK(String value) {
     if (estatDeFirmaForm.isHiddenField(FIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  estatDeFirmaForm.getStringOfField(FIRMAID);
     Where _where = null;
-    if (estatDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (estatDeFirmaForm.isReadOnlyField(FIRMAID)) {
       _where = FirmaFields.FIRMAID.equal(estatDeFirmaForm.getEstatDeFirma().getFirmaID());
     }
     return getReferenceListForFirmaID(request, mav, Where.AND(where, _where));
@@ -697,9 +696,8 @@ public java.lang.Long stringToPK(String value) {
     if (estatDeFirmaForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  estatDeFirmaForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (estatDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (estatDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirmaForm.getEstatDeFirma().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
@@ -737,9 +735,8 @@ public java.lang.Long stringToPK(String value) {
     if (estatDeFirmaForm.isHiddenField(TIPUSESTATDEFIRMAINICIALID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  estatDeFirmaForm.getStringOfField(TIPUSESTATDEFIRMAINICIALID);
     Where _where = null;
-    if (estatDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (estatDeFirmaForm.isReadOnlyField(TIPUSESTATDEFIRMAINICIALID)) {
       _where = TipusEstatDeFirmaInicialFields.TIPUSESTATDEFIRMAINICIALID.equal(estatDeFirmaForm.getEstatDeFirma().getTipusEstatDeFirmaInicialID());
     }
     return getReferenceListForTipusEstatDeFirmaInicialID(request, mav, Where.AND(where, _where));
@@ -777,9 +774,8 @@ public java.lang.Long stringToPK(String value) {
     if (estatDeFirmaForm.isHiddenField(TIPUSESTATDEFIRMAFINALID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  estatDeFirmaForm.getStringOfField(TIPUSESTATDEFIRMAFINALID);
     Where _where = null;
-    if (estatDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (estatDeFirmaForm.isReadOnlyField(TIPUSESTATDEFIRMAFINALID)) {
       _where = TipusEstatDeFirmaFinalFields.TIPUSESTATDEFIRMAFINALID.equal(estatDeFirmaForm.getEstatDeFirma().getTipusEstatDeFirmaFinalID());
     }
     return getReferenceListForTipusEstatDeFirmaFinalID(request, mav, Where.AND(where, _where));
@@ -818,9 +814,8 @@ public java.lang.Long stringToPK(String value) {
     if (estatDeFirmaForm.isHiddenField(COLABORACIODELEGACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  estatDeFirmaForm.getStringOfField(COLABORACIODELEGACIOID);
     Where _where = null;
-    if (estatDeFirmaForm.isReadOnlyField(_fieldName)) {
+    if (estatDeFirmaForm.isReadOnlyField(COLABORACIODELEGACIOID)) {
       _where = ColaboracioDelegacioFields.COLABORACIODELEGACIOID.equal(estatDeFirmaForm.getEstatDeFirma().getColaboracioDelegacioID());
     }
     return getReferenceListForColaboracioDelegacioID(request, mav, Where.AND(where, _where));

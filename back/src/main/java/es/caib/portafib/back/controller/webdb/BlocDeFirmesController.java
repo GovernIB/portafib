@@ -569,9 +569,8 @@ public java.lang.Long stringToPK(String value) {
     if (blocDeFirmesForm.isHiddenField(FLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  blocDeFirmesForm.getStringOfField(FLUXDEFIRMESID);
     Where _where = null;
-    if (blocDeFirmesForm.isReadOnlyField(_fieldName)) {
+    if (blocDeFirmesForm.isReadOnlyField(FLUXDEFIRMESID)) {
       _where = FluxDeFirmesFields.FLUXDEFIRMESID.equal(blocDeFirmesForm.getBlocDeFirmes().getFluxDeFirmesID());
     }
     return getReferenceListForFluxDeFirmesID(request, mav, Where.AND(where, _where));

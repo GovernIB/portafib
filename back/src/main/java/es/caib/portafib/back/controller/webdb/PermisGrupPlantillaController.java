@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (permisGrupPlantillaForm.isHiddenField(GRUPENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  permisGrupPlantillaForm.getStringOfField(GRUPENTITATID);
     Where _where = null;
-    if (permisGrupPlantillaForm.isReadOnlyField(_fieldName)) {
+    if (permisGrupPlantillaForm.isReadOnlyField(GRUPENTITATID)) {
       _where = GrupEntitatFields.GRUPENTITATID.equal(permisGrupPlantillaForm.getPermisGrupPlantilla().getGrupEntitatID());
     }
     return getReferenceListForGrupEntitatID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (permisGrupPlantillaForm.isHiddenField(PLANTILLAFLUXDEFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  permisGrupPlantillaForm.getStringOfField(PLANTILLAFLUXDEFIRMESID);
     Where _where = null;
-    if (permisGrupPlantillaForm.isReadOnlyField(_fieldName)) {
+    if (permisGrupPlantillaForm.isReadOnlyField(PLANTILLAFLUXDEFIRMESID)) {
       _where = PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.equal(permisGrupPlantillaForm.getPermisGrupPlantilla().getPlantillaFluxDeFirmesID());
     }
     return getReferenceListForPlantillaFluxDeFirmesID(request, mav, Where.AND(where, _where));

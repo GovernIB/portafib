@@ -703,9 +703,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(PLUGINID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(PLUGINID)) {
       _where = PluginFields.PLUGINID.equal(custodiaInfoForm.getCustodiaInfo().getPluginID());
     }
     return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
@@ -743,9 +742,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(MISSATGEPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(MISSATGEPOSICIOPAGINAID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(MISSATGEPOSICIOPAGINAID)) {
       _where = PosicioPaginaFields.POSICIOPAGINAID.equal(custodiaInfoForm.getCustodiaInfo().getMissatgePosicioPaginaID());
     }
     return getReferenceListForMissatgePosicioPaginaID(request, mav, Where.AND(where, _where));
@@ -783,9 +781,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(CODIBARRESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(CODIBARRESID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(CODIBARRESID)) {
       _where = CodiBarresFields.CODIBARRESID.equal(custodiaInfoForm.getCustodiaInfo().getCodiBarresID());
     }
     return getReferenceListForCodiBarresID(request, mav, Where.AND(where, _where));
@@ -823,9 +820,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(CODIBARRESPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(CODIBARRESPOSICIOPAGINAID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(CODIBARRESPOSICIOPAGINAID)) {
       _where = PosicioPaginaFields.POSICIOPAGINAID.equal(custodiaInfoForm.getCustodiaInfo().getCodiBarresPosicioPaginaID());
     }
     return getReferenceListForCodiBarresPosicioPaginaID(request, mav, Where.AND(where, _where));
@@ -863,9 +859,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(custodiaInfoForm.getCustodiaInfo().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
@@ -904,9 +899,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(USUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(USUARIAPLICACIOID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(USUARIAPLICACIOID)) {
       _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(custodiaInfoForm.getCustodiaInfo().getUsuariAplicacioID());
     }
     return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));
@@ -945,9 +939,8 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  custodiaInfoForm.getStringOfField(ENTITATID);
     Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(_fieldName)) {
+    if (custodiaInfoForm.isReadOnlyField(ENTITATID)) {
       _where = EntitatFields.ENTITATID.equal(custodiaInfoForm.getCustodiaInfo().getEntitatID());
     }
     return getReferenceListForEntitatID(request, mav, Where.AND(where, _where));

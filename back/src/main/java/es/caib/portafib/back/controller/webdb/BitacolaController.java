@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (bitacolaForm.isHiddenField(PETICIODEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  bitacolaForm.getStringOfField(PETICIODEFIRMAID);
     Where _where = null;
-    if (bitacolaForm.isReadOnlyField(_fieldName)) {
+    if (bitacolaForm.isReadOnlyField(PETICIODEFIRMAID)) {
       _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(bitacolaForm.getBitacola().getPeticioDeFirmaID());
     }
     return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (bitacolaForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  bitacolaForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (bitacolaForm.isReadOnlyField(_fieldName)) {
+    if (bitacolaForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(bitacolaForm.getBitacola().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));

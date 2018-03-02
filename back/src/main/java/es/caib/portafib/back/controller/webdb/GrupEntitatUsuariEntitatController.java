@@ -591,9 +591,8 @@ public java.lang.Long stringToPK(String value) {
     if (grupEntitatUsuariEntitatForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  grupEntitatUsuariEntitatForm.getStringOfField(USUARIENTITATID);
     Where _where = null;
-    if (grupEntitatUsuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (grupEntitatUsuariEntitatForm.isReadOnlyField(USUARIENTITATID)) {
       _where = UsuariEntitatFields.USUARIENTITATID.equal(grupEntitatUsuariEntitatForm.getGrupEntitatUsuariEntitat().getUsuariEntitatID());
     }
     return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
@@ -631,9 +630,8 @@ public java.lang.Long stringToPK(String value) {
     if (grupEntitatUsuariEntitatForm.isHiddenField(GRUPENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    final String _fieldName =  grupEntitatUsuariEntitatForm.getStringOfField(GRUPENTITATID);
     Where _where = null;
-    if (grupEntitatUsuariEntitatForm.isReadOnlyField(_fieldName)) {
+    if (grupEntitatUsuariEntitatForm.isReadOnlyField(GRUPENTITATID)) {
       _where = GrupEntitatFields.GRUPENTITATID.equal(grupEntitatUsuariEntitatForm.getGrupEntitatUsuariEntitat().getGrupEntitatID());
     }
     return getReferenceListForGrupEntitatID(request, mav, Where.AND(where, _where));
