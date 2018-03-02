@@ -18,11 +18,10 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
-
-
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
+import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.utils.Build;
@@ -151,6 +150,20 @@ public class InitServlet extends HttpServlet {
     }
     
 
+    // NotificacionCallBack
+    try {
+      NotificacionsCallBackTimerLocal notifCallback;
+      notifCallback = (NotificacionsCallBackTimerLocal) new InitialContext()
+          .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
+      notifCallback.startScheduler();
+    } catch (Throwable th) {
+      log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions Callback"
+           + th.getMessage(), th);
+      throw new ServletException(th);
+    }
+    
+    
+    
     // Mostrar Versió
     String ver = LogicUtils.getVersio();
     try {

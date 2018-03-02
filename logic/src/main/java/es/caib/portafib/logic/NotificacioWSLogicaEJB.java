@@ -9,21 +9,21 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
 
 import es.caib.portafib.ejb.NotificacioWSEJB;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.events.FirmaEvent;
+import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.NotificacioInfo;
-import es.caib.portafib.logic.utils.NotificacionsQueue;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.NotificacioWS;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 
@@ -36,6 +36,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
   implements NotificacioWSLogicaLocal {
+  
+  
+  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
+  private NotificacionsCallBackTimerLocal notifCallback;
   
   
   @Override
@@ -117,14 +121,35 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
     }
 
     if (notificacio.isBloquejada()) {
-      // Hem de tornar a ficar la notificació dins la coa d'enviament
-      NotificacioInfo notifInfo = getNotificacioInfoFromNotificacioJPA(notificacio);
 
-      NotificacionsQueue.enviarNotificacions(Arrays.asList(notifInfo));
-      
       notificacio.setBloquejada(false);
       
+      // Forçam a que s'executi la primera
+      notificacio.setDataError(null);
+      
+      
+      Long pause = PropietatGlobalUtil.getNumberOfErrorsToPauseNotification();
+      if (pause != null && notificacio.getReintents() >= pause) {
+
+        log.info("La notificacio " + notificacio.getNotificacioID() 
+            + "esta en el numero màxim de reintents (Actual: " + notificacio.getReintents() 
+            + "| Màxim permes: " + pause + "). Resetejam comptador de reintents a 0." );
+        notificacio.setReintents(0);;
+      }
+
+      
       notificacio = (NotificacioWSJPA)this.update(notificacio);
+
+      // Hem de tornar a ficar la notificació dins la coa d'enviament
+      //NotificacioInfo notifInfo = getNotificacioInfoFromNotificacioJPA(notificacio);
+
+      //log.info("XYZ ZZZ desbloquejar Notificacio amb ID = " + notificacio.getNotificacioID());
+      //log.info("XYZ ZZZ notifCallback = " + notifCallback);
+
+      // Despertar per processar
+      notifCallback.wakeUp();
+      
+      //NotificacionsQueue.enviarNotificacions(Arrays.asList(notifInfo));
     }
     return notificacio;
   }
@@ -167,7 +192,42 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
   }
 
   @Override
-  public NotificacioInfo getNotificacioInfoFromNotificacioJPA(NotificacioWSJPA notificacio)
+  public boolean isTimerRunning() {
+    return notifCallback.isTimerRunning();
+  }
+
+  @Override
+  public void startTimer() {
+    notifCallback.startScheduler();
+  }
+
+  @Override
+  public void stopTimer() {
+    notifCallback.stopScheduler();
+  }
+  
+  
+  
+  /**
+   * Retorna un array de informació de les execucions:
+   *     [1] => darrra execució completa
+   *     [2] => darrera execució
+   *     [3] => propera execució
+   * @return
+   */
+  @Override
+  public long[] getExecutionsInfo() {
+    return notifCallback.getExecutionsInfo();
+  }
+  
+
+  /**
+   * 
+   * @param notificacio
+   * @return
+   * @throws I18NException
+   */
+  public static NotificacioInfo getNotificacioInfoFromNotificacioJPA(NotificacioWS notificacio)
       throws I18NException {
     String desc = notificacio.getDescripcio();
     if (desc == null || desc.trim().isEmpty()) {
@@ -188,6 +248,9 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
 
     }
   }
+  
+  
+
 
   
 }

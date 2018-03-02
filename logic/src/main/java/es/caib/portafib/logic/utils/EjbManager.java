@@ -57,17 +57,28 @@ public final class EjbManager {
 
   public static NotificacioWSLogicaLocal getNotificacioLogicaEJB() throws I18NException {
 
-    if (notificacioLogicaEjb == null) {
-      try {
-        notificacioLogicaEjb = (NotificacioWSLogicaLocal) new InitialContext()
-            .lookup("portafib/NotificacioLogicaEJB/local");
-      } catch (Throwable e) {
-        throwNewI18NException(e, "NotificacioLogicaLocal");
+    synchronized (log) {
+      if (notificacioLogicaEjb == null) {
+        try {
+          notificacioLogicaEjb = (NotificacioWSLogicaLocal) new InitialContext()
+              .lookup("portafib/NotificacioLogicaEJB/local");
+        } catch (Throwable e) {
+          throwNewI18NException(e, "NotificacioLogicaLocal");
+        }
       }
     }
-
     return notificacioLogicaEjb;
   }
+  
+  
+  
+  public static void resetNotificacioLogicaEJB() {
+    synchronized (log) {
+      notificacioLogicaEjb = null;
+    }
+  }
+  
+  
   
   private static void throwNewI18NException(Throwable e, String name) throws I18NException {
     throw new I18NException(e, "error.unknown",

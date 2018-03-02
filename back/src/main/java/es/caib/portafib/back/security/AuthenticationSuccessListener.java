@@ -227,7 +227,7 @@ public class AuthenticationSuccessListener implements
       
       
       if (usuariPersona == null) {
-        //  TODO XYZ ZZZ traduccio
+
         // =======================================================
         // Revisar si és un Usuari-Aplicació que ataca via REST
         // =======================================================
@@ -236,9 +236,6 @@ public class AuthenticationSuccessListener implements
                     currentRequestAttributes()).
                     getRequest();
         
-        
-        //log.info(" XYZ ZZZ \n\n httpRequest2 =" + request + "\n\n");
-        
         // TODO Mirar Classe es.caib.portafib.back.controller.apifirmawebsimple.v1.RestApiFirmaWebSimpleV1Controller
         // CONTEXT = /common/rest/apifirmawebsimple/v1  => ServletPath
         String servletPath = request.getServletPath();
@@ -246,7 +243,7 @@ public class AuthenticationSuccessListener implements
         
         for (String baseServletPath : allowedApplicationContexts) {
           if (servletPath.startsWith(baseServletPath)) {
-            log.info("XYZ ZZZ TROBAT BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
+            log.info("TROBADA BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
             found = true;
             break;
           }
@@ -269,19 +266,8 @@ public class AuthenticationSuccessListener implements
             + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
           log.info(" ===============================================================");
   
-          // TODO XYZ ZZZ Afegir un llistat de Zones restringides a Usuari APP
-          //++++ Scheme: http
-          //++++ ServerName: 10.215.216.175
-          //++++ ServerPort: 8080
-          //++++ PathInfo: null
-          //++++ PathTrans: null
-          //++++ ContextPath: /portafib
-          //++++ ServletPath: /common/rest/apifirmawebsimple/v1/closeTransaction
-          //++++ getRequestURI: /portafib/common/rest/apifirmawebsimple/v1/closeTransaction
-          //++++ getRequestURL: http://10.215.216.175:8080/portafib/common/rest/apifirmawebsimple/v1/closeTransaction
-          //++++ getQueryString: null
           
-          // XYZ ZZZ
+          // XYZ ZZZ Traduir
           throw new LoginException("Esta intentant accedir a una zona no permesa amb un usuari aplicació");
         }
 

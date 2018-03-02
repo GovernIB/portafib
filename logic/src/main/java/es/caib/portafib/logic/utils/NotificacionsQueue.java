@@ -12,10 +12,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.security.RunAs;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -64,203 +60,22 @@ import es.indra.www.portafirmasmcgdws.mcgdws.MCGDwsService;
 import es.indra.www.portafirmasmcgdws.mcgdws.Rejection;
 import es.indra.www.portafirmasmcgdws.mcgdws.Signer;
 
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.jms.DeliveryMode;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.naming.InitialContext;
 import javax.xml.ws.BindingProvider;
 
 /**
  * @author anadal
  * 
  */
-//@SuppressWarnings("restriction")
-@RunAs("PFI_USER")
-@MessageDriven(name = Constants.NOTIFICACIONS_QUEUE, activationConfig = {
-    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-    @ActivationConfigProperty(propertyName = "destination", propertyValue = Constants.NOTIFICACIONS_QUEUE),
-    @ActivationConfigProperty(propertyName = "DLQMaxResent", propertyValue = "52000") })
-public class NotificacionsQueue implements MessageListener {
+public class NotificacionsQueue {
 
   
   protected static final Logger log = Logger.getLogger(NotificacionsQueue.class);
 
-
-  /**
-   * 
-   */
-  
-  @Override
-  public synchronized void onMessage(Message message) {
-
-    NotificacioInfo notificacioInfo;
-    //NotificacioWSLogicaLocal notificacioLogicaEjb;
-    try {
-      notificacioInfo = (NotificacioInfo) ((ObjectMessage) message).getObject();
-      
-      //notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
-      
-    } catch (Throwable e1) {
-      return;
-    }
-    
-   
-    
-    processNotificacio(notificacioInfo);
-
-  }
-  
-  /*
-  
-  private static final Map<Long, NotificacioInfo> cacheOfNotificacions = new HashMap<Long, NotificacioInfo>();
-  
-  public static final Where WHERE_NOTIF = Where.AND(
-      NotificacioFields.DATAENVIAMENT.isNull(),
-      NotificacioFields.BLOQUEJADA.equal(false)
-      );
-
-  
-  public static final OrderBy[] ORDERBY_NOTIF = new OrderBy[] {
-    new OrderBy(NotificacioFields.PRIORITAT, OrderType.DESC),
-    new OrderBy(NotificacioFields.DATACREACIO, OrderType.DESC)
-  };
-  
-  
-  /**
-   * 
-   * @throws Exception
-   */
-  /*
-  public static void loadNotificacioInfoFromDataBase() throws Exception {
-
-      NotificacioWSLogicaLocal notificacioLogicaEjb = null;
-      
-      notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
-
-      // Selecciona el primer element (0) i com a màxim extreu un element de la bbdd (1)
-      List<Notificacio> list = notificacioLogicaEjb.select(WHERE_NOTIF, 0, 1, ORDERBY_NOTIF);
-
-      log.info("LLISTA DE NOTIFICACIONS = " + list.size());
-      
-      
-      List<NotificacioInfo> listNotifInfo = new ArrayList<NotificacioInfo>(list.size());
-      
-      for (Notificacio notificacio : list) {
-        
-        NotificacioJPA notificacioJPA = (NotificacioJPA)notificacio;
-        try {
-    
-          NotificacioInfo notificacioInfo;
-
-          notificacioInfo =  notificacioLogicaEjb.getNotificacioInfoFromNotificacioJPA(notificacioJPA);
-          
-          listNotifInfo.add(notificacioInfo);
-          
-        } catch (ParseException e) {
-          log.error(e.getMessage(), e);
-
-          notificacioJPA.setBloquejada(true);
-          notificacioJPA.setError(e.getMessage());
-
-          notificacioLogicaEjb.update(notificacioJPA);
-        }
-      }
-      
-    
-    enviarNotificacions(listNotifInfo);
-  }
-  */
-  
-  
-  
-    
-/*
-  private static long lastDatabaseChecking = 0;
-  
-
-  public void processNextNotificacio()  {
-    
-    log.info(" ---------XX ENTRA DINS processNextNotificacio()");
-    
-    long now = System.currentTimeMillis();
-    
-    // Interval de checks de la BASEDADES Llegir de Configuració
-    long interval = 60000;
-    
-    // Per no saturar la BBDD
-    if (now < (lastDatabaseChecking + interval)) {
-      log.info(" --------- SURT");
-      return;
-    }
-    lastDatabaseChecking  = now;
-    log.info(" --------- MIRA BBDD");
-    
-    
-    try {
-    
-    NotificacioLogicaLocal notificacioLogicaEjb = null;
-    
-    notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
-      
-    
-    // Selecciona el primer element (0) i com a màxim extreu un element de la bbdd (1)
-    List<Notificacio> list = notificacioLogicaEjb.select(WHERE_NOTIF, 0, 1, ORDERBY_NOTIF);
-    
-    
-    log.info("LLISTA DE NOTIFICACIONS = " + list.size());
-    
-    if (list == null || list.size() == 0) {
-      cacheOfNotificacions.clear();
-      return;
-    }
-
-    NotificacioJPA notificacioJPA = (NotificacioJPA)list.get(0);
-
-    long  notificacioID = notificacioJPA.getNotificacioID();
-
-    NotificacioInfo notificacioInfo = cacheOfNotificacions.get(notificacioID);
-    if (notificacioInfo == null) {
-      // Pot ser hi ha més entrades dins la BBDD que no estan en cache 
-      // (Per exemple després de reiniciar el JBoss).
-      lastDatabaseChecking = 0;
-      try {
-        notificacioInfo =  notificacioLogicaEjb.getNotificacioInfoFromNotificacioJPA(notificacioJPA);
-      } catch (ParseException e) {
-        log.error(e.getMessage(), e);
-
-        notificacioJPA.setBloquejada(true);
-        notificacioJPA.setError(e.getMessage());
-
-        notificacioLogicaEjb.update(notificacioJPA);          
-        
-        return;
-      }
-    }
-
-    processNotificacio(notificacioLogicaEjb, notificacioInfo);
-
-    cacheOfNotificacions.remove(notificacioID);
-    
-    } catch (Exception e) {
-      log.error(e.getMessage(), e);
-    }
-    
-    
-  }
-  
-  */
   
   public static void processNotificacio(NotificacioInfo notificacioInfo) {
     
-    
+    // XYZ ZZZ Quan lo de Notificacions funcioni correctament llavors descomentar
+    final boolean isDebug = true; // log.isDebugEnabled() 
   
     NotificacioWSJPA notificacioJPA = null;
 
@@ -273,7 +88,9 @@ public class NotificacionsQueue implements MessageListener {
 
       long notificacioID = notificacioInfo.getNotificacioID();
 
-      log.debug("\n--------====== NOTIFICACIO " + notificacioID + " ======------------");
+      if (isDebug) {
+        log.info("\n --------====== NOTIFICACIO " + notificacioID + " ======------------");
+      }
 
       notificacioJPA = notificacioLogicaEjb.findByPrimaryKeyForNotificacioQueue(notificacioID);
       if (notificacioJPA == null) {
@@ -283,7 +100,7 @@ public class NotificacionsQueue implements MessageListener {
       }
 
       if (notificacioJPA.isBloquejada()) {
-        log.debug("La notificacio amb ID " + notificacioJPA.getNotificacioID()
+        log.warn("La notificacio amb ID " + notificacioJPA.getNotificacioID()
             + " esta bloquejada. Passam a la següent.");
         //message.acknowledge();
         return;
@@ -300,7 +117,8 @@ public class NotificacionsQueue implements MessageListener {
       FirmaEvent fe = notificacioInfo.getFirmaEvent();
       if (fe == null) {
         // TODO enviar a admin
-        log.error("La FirmaEvent val NULL !!!!!");
+        log.error("La notificacio amb ID " + notificacioJPA.getNotificacioID() 
+            + " té un FirmaEvent amb valor NULL !!!!!");
         return;
       }
 
@@ -319,7 +137,7 @@ public class NotificacionsQueue implements MessageListener {
        
       } else {
         
-        if (log.isDebugEnabled() && usuariAplicacio != null) {
+        if (isDebug && usuariAplicacio != null) {
             log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
             log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
             log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
@@ -340,7 +158,7 @@ public class NotificacionsQueue implements MessageListener {
             // Enviem a l'API REST Callback de Portafib
             enviarNotificacioApiRESTPortaFIBv1(notificacioInfo, fe, usuariAplicacio);
           break;
-            
+
           case -1:
           default:
               // Do nothing
@@ -432,31 +250,25 @@ public class NotificacionsQueue implements MessageListener {
 
         } catch (I18NException e2) {
           // TODO avisar a admin
+          
           log.error(I18NLogicUtils.getMessage(e2, new Locale(Configuracio.getDefaultLanguage())), e2);
+          
+          // Ticket https://github.com/GovernIB/portafib/issues/155
+          Throwable causedBy = e2.getCause();
+          
+          
+          if (causedBy != null && causedBy.getClass().equals(javax.persistence.TransactionRequiredException.class)) {
+            // Error: "EntityManager must be access within a transaction"
+            EjbManager.resetNotificacioLogicaEJB();
+            log.info("S'ha resetejat l'EJB NotificacioLogicaEJB ja que s'ha perdut la sessió d'Hibernate.");
+          }
+          
         }
       } else {
         log.warn("NotificacioLogicaEjb(" + notificacioLogicaEjb + ") o notificacioJPA ("
             + notificacioJPA + ") és null.");
       }
-
-      // TORNAM A FICAR DINS LA COA
-      
-      if (notificacioInfo != null) {
-        try {
-          long notificacionTimeLapse = PropietatGlobalUtil.getNotificacionsTimeLapse(); 
-          enviarNotificacions(Arrays.asList(notificacioInfo), notificacionTimeLapse);
-        } catch (I18NException e1) {
-
-          // No es guardarà
-          throw new RuntimeException("Error intentant tornar a ficar "
-              + "la notificació dins la coa: " + 
-              I18NLogicUtils.getMessage(e1, 
-                  new Locale(Configuracio.getDefaultLanguage()))
-              , new Exception(msgError));
-
-        }
-      }
-      
+     
     }
 
   }
@@ -945,28 +757,7 @@ public class NotificacionsQueue implements MessageListener {
     return cbRequest;
   }
 
-  /**
-   * 
-   * @param usuariEntitatID
-   * @return
-   */
-  /*
-  private static String extractUserName(String usuariEntitatID) throws I18NException {
-    // Cridar a API per extreure l'identificador de l'usuari persona
-    
-    UsuariEntitatLogicaLocal usuariEntitatLogicaEJB =  EjbManager.getUsuariEntitatLogicaEJB();
-    
-    UsuariEntitatJPA ue = usuariEntitatLogicaEJB.findByPrimaryKey(usuariEntitatID);
-    
-    if (ue == null) {
-      throw new I18NException("error.unknown",
-          "No trob l'usuari entitat amb ID = " + usuariEntitatID);
-    } else {
-      return ue.getUsuariPersonaID();
-    }
-  }
-  */
-  
+ 
   
   /**
    * 
@@ -992,173 +783,4 @@ public class NotificacionsQueue implements MessageListener {
     
   }
 
-  
-  
-  
-  
-  /*
-  public static void enviarNotificacions(List<NotificacioInfo> notificacions) {
-    
-    for (NotificacioInfo notificacioInfo : notificacions) {
-      cacheOfNotificacions.put(notificacioInfo.getNotificacioID(), notificacioInfo);
-    }
-
-  }
-  
-  */
-  
-  
-
-  
-  private static long timeOfLastNotification = -1;
-
-  public static void enviarNotificacions(List<NotificacioInfo> notificacions) throws I18NException {
-    // 0 = El volem enviar ara
-    enviarNotificacions(notificacions, 0);
-  }
-
-  
-  private static void enviarNotificacions(List<NotificacioInfo> notificacions,
-      long minDelayInMs) throws I18NException {
-
-    if (notificacions == null || notificacions.size() == 0) {
-      return;
-    }
-
-    // Cercam la darrera notificacio enviada
-    final long now = new Date().getTime();
-    long startDate = now;
-    if (startDate < timeOfLastNotification) {
-      startDate = timeOfLastNotification;
-    }
-    if (minDelayInMs != 0) {
-      if ( (startDate - now) < minDelayInMs) {
-        startDate  = now + (now + minDelayInMs - startDate) ;
-      }
-    }
-
-    // Esperarem a començar l'enviament mig segon per cada notificacio
-    long date = startDate + (notificacions.size() - 1) * 500; 
-
-    QueueConnection connection = null;
-    QueueSession session = null;
-    try {
-
-      InitialContext ic = new InitialContext();
-      final Queue queue = (Queue) ic.lookup(Constants.NOTIFICACIONS_QUEUE);
-      final QueueConnectionFactory factory;
-      factory = (QueueConnectionFactory) ic.lookup("java:/ConnectionFactory");
-      connection = factory.createQueueConnection();
-      session = connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-
-      // Temps entre enviaments de notificacion, per no saturar el servidor
-      final Integer sleep = 5000;
-
-      int counter = 0;
-      for (NotificacioInfo notificacioInfo : notificacions) {
-
-        ObjectMessage message = session.createObjectMessage();
-
-        // IMPORTANT: HEm de deixar aquest marge de 5 segons ja que pot passar 
-        // que s'executi l'enviament de la notificació però la notificacio encara
-        // no estigui guardada !!!  
-        counter++;
-        timeOfLastNotification = date + sleep * counter;
-
-
-        // Esperamos x segundos entre cada mensaje
-        message.setLongProperty("JMS_JBOSS_SCHEDULED_DELIVERY", timeOfLastNotification);
-        message.setObject(notificacioInfo);
-        
-
-        message.setJMSDeliveryMode(DeliveryMode.PERSISTENT);
-        // JMS defines ten levels of priority with 0 as the lowest and 9 as the highest
-        message.setJMSPriority(notificacioInfo.getFirmaEvent().getPrioritat());
-        // message.setIntProperty("JMS_JBOSS_REDELIVERY_LIMIT", 3);
-
-        final QueueSender sender = session.createSender(queue);
-        sender.send(message);
-      }      
-      
-    } catch(Exception e) {
-      throw new I18NException(e, "error.unknown", 
-          new I18NArgumentString("Error enviant notificació a coa: " + e.getMessage()));
-    } finally {
-      try {
-        session.close();
-        connection.close();
-      } catch (Exception e) {
-      }
-    }
-    
-    //listAllMessages();
-
-  }
-  
-  
-  
-
-  /*
-  public static List<NotificacioInfo> listAllMessages() {
-    if (true) {
-      return;
-    }
-    
-    log.info(" +++++++++++++++ LLISTAT DE MISSATGES");    
-    QueueConnection connection = null;
-    QueueSession session = null;
-    List<NotificacioInfo> list = new ArrayList<NotificacioInfo>();
-    try {
-      InitialContext ic = new InitialContext();
-      final Queue queue = (Queue) ic.lookup(Constants.NOTIFICACIONS_QUEUE);
-      final QueueConnectionFactory factory;
-      factory = (QueueConnectionFactory) ic.lookup("java:/ConnectionFactory");
-      connection = factory.createQueueConnection();
-      session = connection.createQueueSession(false, QueueSession.CLIENT_ACKNOWLEDGE);
-
-      QueueBrowser browser = session.createBrowser(queue);
-
-      Enumeration<?> msgs =  browser.getEnumeration();
-      
-      if ( !msgs.hasMoreElements() ) { 
-        log.info("     No messages in queue");
-      } else { 
-          int count = 1;
-          while (msgs.hasMoreElements()) { 
-              Message m = (Message)msgs.nextElement(); 
-              if (m instanceof ObjectMessage) {
-                ObjectMessage message = (ObjectMessage) m;
-                Object ni = message.getObject();
-                log.info("Reading message: Class=" + ni.getClass());
-                if (ni instanceof NotificacioInfo) {
-                  NotificacioInfo notificacio = (NotificacioInfo) ni;
-                  log.info("    [" + count + "] notificacio.getNotificacioID() = "
-                      + notificacio.getNotificacioID());
-                  list.add(notificacio);
-                }
-                count++;
-              }
-          }
-      }
-
-    } catch (Exception e) {
-      log.error("Error llistant elements: " + e.getMessage());
-    } finally {
-      if (session != null) {
-        try {
-          session.close();
-        } catch (JMSException e) {
-        }
-
-      }
-      if (connection != null) {
-        try {
-          connection.close();
-        } catch (JMSException e) {
-        }
-      }
-    }
-    return list;
-  }
-*/
 }

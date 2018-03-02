@@ -22,13 +22,26 @@ public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
 
   public NotificacioInfo createFullFromFirmaEvent(FirmaEvent firmaEvent) throws I18NException;
 
-  public NotificacioInfo getNotificacioInfoFromNotificacioJPA(NotificacioWSJPA notificacio) throws I18NException;
-
   public NotificacioWSJPA aturarNotificacio(java.lang.Long notificacioID) throws I18NException;
   
   public NotificacioWSJPA bloquejarNotificacio(java.lang.Long notificacioID) throws I18NException;
 
   public NotificacioWSJPA desbloquejarNotificacio(java.lang.Long notificacioID) throws I18NException;
 
+  public boolean isTimerRunning();
+  
+  public void startTimer();
+  
+  public void stopTimer();
+  
+  /**
+   * Retorna un array de informació de les execucions:
+   *     [1] => darrra execució completa
+   *     [2] => darrera execució
+   *     [3] => propera execució
+   * @return
+   */
+  public long[] getExecutionsInfo();
+  
 }
 

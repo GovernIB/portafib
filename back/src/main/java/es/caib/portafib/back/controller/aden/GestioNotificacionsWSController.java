@@ -1,6 +1,8 @@
 package es.caib.portafib.back.controller.aden;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +97,13 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     this.usuariAplicacioRefList
         .setSelects(new Select<?>[] { UsuariAplicacioFields.USUARIAPLICACIOID.select });
   }
+  
+  
+  
+  // TODO XYZ ZZZ S'ha d'emprar el DateFormatter de GenApp 
+  public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+  
+  
 
   @Override
   public NotificacioWSFilterForm getNotificacioWSFilterForm(Integer pagina, ModelAndView mav,
@@ -102,9 +111,14 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     NotificacioWSFilterForm notificacioFilterForm;
     notificacioFilterForm = super.getNotificacioWSFilterForm(pagina, mav, request);
     if (notificacioFilterForm.isNou()) {
+      
+      notificacioFilterForm.setTitleCode("notificaciows.llistat");
+
+      notificacioFilterForm.setItemsPerPage(20);
 
       notificacioFilterForm
-          .setDefaultOrderBy(new OrderBy[] { new OrderBy(DATACREACIO, OrderType.DESC),
+          .setDefaultOrderBy(new OrderBy[] { new OrderBy(BLOQUEJADA), 
+              new OrderBy(DATACREACIO, OrderType.DESC),
               new OrderBy(NOTIFICACIOID, OrderType.DESC) });
 
       notificacioFilterForm.addGroupByField(TIPUSNOTIFICACIOID);
@@ -137,7 +151,36 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.setDeleteSelectedButtonVisible(false);
       notificacioFilterForm.setVisibleMultipleSelection(false);
 
+
     }
+
+   
+
+    notificacioFilterForm.getAdditionalButtons().clear();
+    
+    if (notificacioLogicaEjb.isTimerRunning()) {
+      
+      long[] times = notificacioLogicaEjb.getExecutionsInfo();
+      
+      String lef = SDF.format(new Date(times[0]));
+      String le = SDF.format(new Date(times[1]));
+      String ne = SDF.format(new Date(times[2]));
+
+      HtmlUtils.saveMessageSuccess(request,
+          I18NUtils.tradueix("notificaciows.timer.estaarrancat", lef, le, ne));
+      
+      notificacioFilterForm.addAdditionalButton(new AdditionalButton(
+          "icon-stop icon-white", "notificaciows.timer.aturar", getContextWeb() + "/stopTimer", "btn-danger"));
+      
+    } else {
+
+      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("notificaciows.timer.estaaturat"));
+      
+      notificacioFilterForm.addAdditionalButton(new AdditionalButton(
+          "icon-play-circle icon-white", "notificaciows.timer.arrancar", getContextWeb() + "/startTimer", "btn-success"));
+    }
+    
+    
 
     return notificacioFilterForm;
   }
@@ -147,7 +190,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       NotificacioWSFilterForm filterForm, List<NotificacioWS> list) throws I18NException {
 
     // Valors inicials, pendents del que es digui més endavant
-    filterForm.getAdditionalButtons().clear();
+    //filterForm.getAdditionalButtons().clear();
     filterForm.getAdditionalButtonsByPK().clear();
     filterForm.setVisibleMultipleSelection(false);
 
@@ -256,6 +299,8 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     if (!notificacioForm.isNou() && __isView) {
 
       NotificacioWSJPA notificacio = notificacioForm.getNotificacioWS();
+      
+      notificacioForm.setTitleCode("notificaciows.veure");
 
       int action = getStatus(notificacio);
 
@@ -468,6 +513,27 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
         desbloquejarNotificacio(Long.parseLong(seleccionats[i]), request, response);
       }
     }
+
+    return "redirect:" + getContextWeb() + "/list/";
+  }
+  
+  
+  
+  
+  @RequestMapping(value = "/startTimer", method = RequestMethod.GET)
+  public String startNotificacioCallBackTimer(HttpServletRequest request,
+      HttpServletResponse response) throws Exception {
+
+    notificacioLogicaEjb.startTimer();
+
+    return "redirect:" + getContextWeb() + "/list/";
+  }
+
+  @RequestMapping(value = "/stopTimer", method = RequestMethod.GET)
+  public String stopNotificacioCallBackTimer(HttpServletRequest request,
+      HttpServletResponse response) throws Exception {
+
+    notificacioLogicaEjb.stopTimer();
 
     return "redirect:" + getContextWeb() + "/list/";
   }

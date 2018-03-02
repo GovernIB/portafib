@@ -28,11 +28,11 @@ import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaEJB;
 import es.caib.portafib.logic.UsuariEntitatLogicaEJB;
+import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.NotificacioInfo;
-import es.caib.portafib.logic.utils.NotificacionsQueue;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.RebreAvis;
@@ -53,6 +53,9 @@ import es.caib.portafib.utils.Constants;
 @RunAs("PFI_USER")
 public class FirmaEventManagerEJB implements Constants,
      UsuariEntitatFields, FirmaEventManagerLocal {
+
+  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
+  private NotificacionsCallBackTimerLocal notifCallback;
 
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   private PeticioDeFirmaLocal peticioDeFirmaEjb;
@@ -349,17 +352,12 @@ public class FirmaEventManagerEJB implements Constants,
     }
     
     EmailUtil.enviarMails(avisos);
-    NotificacionsQueue.enviarNotificacions(notificacions);
+
+    notifCallback.wakeUp();
 
     return map;
 
   }
-  
-  
-  
- 
-  
-  
   
 
   protected EmailInfo crearEmail(FirmaEvent event, String eventCode) throws Exception {

@@ -12,4 +12,6 @@ public interface AbstractTimerLocal {
   public void stopScheduler();
 
   public void executeTask();
+  
+  public boolean isTimerRunning();
 }

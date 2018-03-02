@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.misc;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -18,6 +19,9 @@ import org.quartz.impl.triggers.CronTriggerImpl;
  *
  */
 public abstract class AbstractTimerEJB implements AbstractTimerLocal {
+  
+  public static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+  
 
   @Resource
   TimerService timerService;
@@ -62,6 +66,25 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
 
   protected Date nextExecution() throws ParseException {
 
+    Date nextFireAt = computeNextExecution();
+    
+    if (nextFireAt == null) {
+      log.warn("El timer " + getTimerName() + "  s'ha aturat ja que no s'ha definit"
+          + " cap expressió de tipus cron.", new Exception());
+      return null;
+    }
+
+    TimerService timerService = context.getTimerService();
+    Timer timer2 = timerService.createTimer(nextFireAt, getTimerName());
+
+    if (log.isDebugEnabled()) {
+      log.debug("[" + getTimerName() + "] timeoutHandler : " + timer2.getInfo());
+    }
+    return nextFireAt;
+
+  }
+
+  protected Date computeNextExecution() throws ParseException {
     String cronExpression = getCronExpression();
 
     if (cronExpression != null && cronExpression.trim().length() != 0
@@ -76,8 +99,6 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
     }
 
     if (cronExpression == null) {
-      log.warn("El timer " + getTimerName() + "  s'ha aturat ja que no s'ha definit"
-          + " cap expressió de tipus cron.", new Exception());
       return null;
     }
 
@@ -85,32 +106,42 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
     CronTriggerImpl tr = new CronTriggerImpl();
     tr.setCronExpression(cronExpression);
     Date nextFireAt = tr.getFireTimeAfter(currTime);
-
-    TimerService timerService = context.getTimerService();
-    Timer timer2 = timerService.createTimer(nextFireAt, getTimerName());
-
+    
     if (log.isDebugEnabled()) {
       log.debug("[" + getTimerName() + "] Reference time: " + currTime);
       log.debug("[" + getTimerName() + "] Next fire after reference time: " + nextFireAt);
-      log.debug("[" + getTimerName() + "] timeoutHandler : " + timer2.getInfo());
     }
     return nextFireAt;
-
   }
 
-  protected void removeTimer(String name) {
+  @Override
+  public boolean isTimerRunning() {
+    return searchTimerByName(this.getTimerName()) != null;
+  }
+
+  protected Timer searchTimerByName(String name) {
+    javax.ejb.Timer timer = null;
     TimerService timerService = context.getTimerService();
     for (Object obj : timerService.getTimers()) {
-      javax.ejb.Timer timer = (javax.ejb.Timer) obj;
+      timer = (javax.ejb.Timer) obj;
       String scheduled = (String) timer.getInfo();
-
       if (scheduled.equals(name)) {
-        log.info("Removing old timer(" + getTimerName() + ") : " + scheduled + "("
-            + timer.getNextTimeout() + ")");
-        timer.cancel();
+        return timer;
       }
     }
+    return timer;
   }
+  
+  
+  protected void removeTimer(String name) {
+    Timer timer = searchTimerByName(name);
+    if (timer != null) {
+      log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
+          + timer.getNextTimeout() + ")");
+      timer.cancel();
+    }
+  }
+
 
   @Override
   public void startScheduler() {
@@ -120,7 +151,7 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
 
       Date nextExecution = nextExecution();
 
-      log.info("Primer enviament de " + getTimerName() + " sera " + nextExecution);
+      log.info("Primer enviament de " + getTimerName() + " sera " + SDF.format(nextExecution));
 
     } catch (ParseException e) {
       log.fatal("Error creant timer de " + getTimerName() + ": " + e.getMessage(), e);
