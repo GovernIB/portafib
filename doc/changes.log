@@ -2,6 +2,8 @@
 PortaFIB 1.1.4
 ==============
 
+2018-03-05 Error "Received fatal alert: protocol_version" al descarregar o pujar del repositori maven #158
+
 2018-03-02 GENAPP: No funciona el referenceList quan el camp es ReadOnly https://github.com/GovernIB/genapp/issues/20
 
 2018-03-02 Eliminar Coa JBoss de Notificacions Ws i substituir-la per un Timer #157
