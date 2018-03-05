@@ -114,7 +114,7 @@
       <groupId>es.caib.portafib</groupId>
       <version>1.1</version>
     </dependency>
-    
+
     <!-- CallBack REST v1-->
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -298,17 +298,6 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-          <compilerVersion>1.6</compilerVersion>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ejb-plugin</artifactId>
         <version>2.3</version>
         <configuration>
@@ -317,6 +306,21 @@
       </plugin>
 
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
   </build>
 
 </project>

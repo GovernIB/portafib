@@ -69,21 +69,6 @@
 
     <!--  INICI LLIBRERIES DE FIRe -->
 
-    <!-- XYZ ZZZ
-    <dependency>
-        <groupId>javax.json</groupId>
-        <artifactId>javax.json-api</artifactId>
-        <version>1.0</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>javax.json</artifactId>
-        <version>1.0.4</version>
-    </dependency>
-    -->
-
-
     <dependency>
       <groupId>es.gob.fire</groupId>
       <artifactId>fire-client</artifactId>
@@ -103,23 +88,7 @@
       <version>3.3.2-SNAPSHOT</version>
     </dependency>
 
-
-    <!-- XYZ ZZZ
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
-    </dependency>
-    
-    -->
-
-    <!--  FINAL LLIBRERIES DE CLAVEFIRMA -->
+    <!--  FINAL LLIBRERIES DE FIRE -->
 
 
     <!-- TEST - LLIBRETRIES ITEXT -->
@@ -159,4 +128,20 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

@@ -7,7 +7,7 @@
   <version>1.0.1</version>
 
   <name>FundacioBit Plugins - SignatureWeb - @firma Triphase Server Lib</name>
-  
+
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
     <version>2.0.0</version>
@@ -15,7 +15,7 @@
   </parent>
 
   <url>http://maven.apache.org</url>
-  
+
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <bouncycastle.version>1.53</bouncycastle.version>
@@ -59,37 +59,24 @@
       <artifactId>jxades</artifactId>
       <version>0.1.5</version>
     </dependency>
-<!--
+
     <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
+      <groupId>com.madgag.spongycastle</groupId>
+      <artifactId>core</artifactId>
+      <version>1.54.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
+      <groupId>com.madgag.spongycastle</groupId>
+      <artifactId>prov</artifactId>
+      <version>1.54.0.0</version>
     </dependency>
--->
 
     <dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>core</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>prov</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>pkix</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
+      <groupId>com.madgag.spongycastle</groupId>
+      <artifactId>pkix</artifactId>
+      <version>1.54.0.0</version>
+    </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
@@ -162,11 +149,11 @@
       <artifactId>afirma-server-triphase-signer-core</artifactId>
       <version>3.3.2-SNAPSHOT</version>
     </dependency>
- 
+
     <dependency>
       <groupId>es.gob.afirma</groupId>
-    	<artifactId>afirma-server-triphase-signer-document</artifactId>
-	    <version>3.3.2-SNAPSHOT</version>
+      <artifactId>afirma-server-triphase-signer-document</artifactId>
+      <version>3.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -259,7 +246,8 @@
         <executions>
           <execution>
             <id>rename-file</id>
-            <phase>process-classes</phase> <!-- POST COMPILE compile -->
+            <phase>process-classes</phase>
+            <!-- POST COMPILE compile -->
             <goals>
               <goal>rename</goal>
             </goals>
@@ -271,8 +259,23 @@
         </executions>
       </plugin>
 
-
     </plugins>
+
+    <build>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <source>1.6</source>
+              <target>1.6</target>
+              <encoding>UTF-8</encoding>
+            </configuration>
+          </plugin>
+        </plugins>
+      </pluginManagement>
+    </build>
   </build>
 
 </project>

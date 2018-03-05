@@ -62,7 +62,7 @@
       <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
       <version>2.0.3</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-afirmaserver</artifactId>
@@ -73,9 +73,9 @@
 
 
   </dependencies>
-  
+
   <profiles>
-   <!-- ============================================== -->
+    <!-- ============================================== -->
     <!-- ============================================== -->
     <!-- === PROFILES DE PLUGINS FIRMA EN SERVIDOR ==== -->
     <!-- ============================================== -->
@@ -92,7 +92,7 @@
         </dependency>
       </dependencies>
     </profile>
-    
+
   </profiles>
 
 

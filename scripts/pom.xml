@@ -1,75 +1,75 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>es.caib.portafib</groupId>
+  <artifactId>portafib-scripts</artifactId>  
+  <packaging>pom</packaging>
+
+  <parent>
     <groupId>es.caib.portafib</groupId>
-	<artifactId>portafib-scripts</artifactId>  
-	<packaging>pom</packaging>
+    <artifactId>portafib</artifactId>
+    <version>1.1.4</version>
+  </parent>
 
-	<parent>
-		<groupId>es.caib.portafib</groupId>
-		<artifactId>portafib</artifactId>
-		<version>1.1.4</version>
-	</parent>
-	
-	<name>PortaFIB Scripts</name>
-	
-    <modules>
-    </modules>
-	
-	<properties>
-    </properties>
-   
-    <profiles>
-		<profile>
-			<id>sqlgen</id>
-			<modules>
-	          <module>sqlgenerator</module>	   
-			</modules>
-		</profile>	
-	</profiles>
+  <name>PortaFIB Scripts</name>
 
-    <repositories>
-        <repository>
-            <id>maven-nuxeo</id>
-            <name>Maven Nuxeo Repository</name>
-            <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+  <modules>
+  </modules>
 
-    <build>
-        <pluginManagement>
-            <plugins>
+  <properties>
+  </properties>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
+  <profiles>
+    <profile>
+      <id>sqlgen</id>
+      <modules>
+        <module>sqlgenerator</module>	   
+      </modules>
+    </profile>	
+  </profiles>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
+  <repositories>
+    <repository>
+      <id>maven-nuxeo</id>
+      <name>Maven Nuxeo Repository</name>
+      <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
 
-            </plugins>
-        </pluginManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
 
-    </build>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
+  </build>
 
 </project>

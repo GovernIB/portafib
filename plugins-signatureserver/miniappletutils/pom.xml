@@ -24,7 +24,6 @@
       <version>${plugins.version}</version>
     </dependency>
 
-   
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-api</artifactId>
@@ -60,8 +59,6 @@
   </dependencies>
 
 
-
-
   <build>
 
     <plugins>
@@ -72,7 +69,7 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
-          <compilerVersion>1.6</compilerVersion>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       

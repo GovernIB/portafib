@@ -54,7 +54,7 @@
       <scope>provided</scope>
     </dependency>
 
-    
+
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -70,51 +70,35 @@
     <!--  INICI LLIBRERIES DE CLAVEFIRMA -->
 
     <dependency>
-        <groupId>javax.json</groupId>
-        <artifactId>javax.json-api</artifactId>
-        <version>1.0</version>
+      <groupId>javax.json</groupId>
+      <artifactId>javax.json-api</artifactId>
+      <version>1.0</version>
     </dependency>
-    
+
     <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>javax.json</artifactId>
-        <version>1.0.4</version>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.json</artifactId>
+      <version>1.0.4</version>
     </dependency>
-    
+
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-core</artifactId>
       <version>3.3.2-SNAPSHOT</version>
     </dependency>
-    
+
     <dependency>
-	     <groupId>es.gob.clavefirma</groupId>
-	     <artifactId>clavefirma-client</artifactId>
-	      <version>1.1</version>
-	  </dependency>
-    
+      <groupId>es.gob.clavefirma</groupId>
+      <artifactId>clavefirma-client</artifactId>
+      <version>1.1</version>
+    </dependency>
+
     <!--  SEGELLAT DE TEMPS SMIME i CADES -->
     <dependency>
-    	<artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
-	    <groupId>es.gob.afirma</groupId>
+      <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
+      <groupId>es.gob.afirma</groupId>
       <version>3.3.2-SNAPSHOT</version>
     </dependency>
-		
-
-<!-- XYZ ZZZ
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>${bouncycastle.version}</version>
-    </dependency>
-    
-    -->
 
     <!--  FINAL LLIBRERIES DE CLAVEFIRMA -->
 
@@ -148,9 +132,6 @@
       <scope>test</scope>
     </dependency>
 
-
-
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -159,4 +140,21 @@
     </dependency>
 
   </dependencies>
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

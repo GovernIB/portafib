@@ -19,7 +19,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- JBoss dependency versions -->  
     <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>  
-
   </properties>
 
   <dependencyManagement>  
@@ -44,18 +43,21 @@
 
   <build>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -135,8 +137,6 @@
       </activation>
       <build>
         <plugins>
-
-
           <plugin>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-java2ws-plugin</artifactId>

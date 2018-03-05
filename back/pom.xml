@@ -330,15 +330,7 @@
           <groupId>org.apache.xerces</groupId>
           <artifactId>xml-apis</artifactId>
         </exclusion>
-        <!--<exclusion>
-                    <artifactId>spring-tx</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-jdbc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-				-->
+
       </exclusions>
     </dependency>
 
@@ -437,5 +429,21 @@
       </plugin>
 
     </plugins>
+
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
   </build>
 </project>

@@ -45,109 +45,6 @@
       <version>2.0.1</version>
     </dependency>
 
-
-    <!--
-
-    <dependency>
-      <groupId>net.java.xades</groupId>
-      <artifactId>jxades</artifactId>
-      <version>0.1.5</version>
-    </dependency>
-
-
-
-
-    <dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>core</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>prov</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.madgag.spongycastle</groupId>
-			<artifactId>pkix</artifactId>
-			<version>1.54.0.0</version>
-		</dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-core</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-cades</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-cades-multi</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-core-pkcs7</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-crypto-core-xml</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-    
-        <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-lib-itext</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-lib-jmimemagic</artifactId>
-      <version>0.0.3-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-lib-oro</artifactId>
-      <version>0.0.3-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-server-triphase-signer-core</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
- 
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-    	<artifactId>afirma-server-triphase-signer-document</artifactId>
-	    <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>es.gob.afirma</groupId>
-      <artifactId>afirma-ui-core-jse</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
-    </dependency>
-    
--->
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-crypto-pdf</artifactId>
@@ -167,14 +64,22 @@
       <scope>test</scope>
     </dependency>
 
-
-
   </dependencies>
 
   <build>
-    <plugins>
-
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>

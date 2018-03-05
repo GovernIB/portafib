@@ -54,9 +54,6 @@
       <version>${plugins.signatureweb.autofirma.version}</version>
     </dependency>
 
-
-
-
     <!--  Plugin de firma web en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
 
     <!--  Plugin de firma web de Passarel·la PortaFIB s'ha definit en un Profile (Veure més abaix) -->
@@ -320,6 +317,22 @@
       </plugin>
 
     </plugins>
+
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
   </build>
 
 </project>
