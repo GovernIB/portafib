@@ -100,8 +100,8 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
   public List<PassarelaSignatureResultWs> getSignatureResultsOfTransaction(
       @WebParam(name = "signaturesSetID") String signaturesSetID) throws WsI18NException,
       Throwable {
-
-    return PassarelaConversion.convert(passarelaDeFirmaWebEjb.getSignatureResults(signaturesSetID));
+    final boolean includeFiles = true;
+    return PassarelaConversion.convert(passarelaDeFirmaWebEjb.getSignatureResults(signaturesSetID, includeFiles));
 
   }
 

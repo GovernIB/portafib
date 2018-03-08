@@ -268,8 +268,22 @@ public class PassarelaDeFirmaEnServidorEJB extends
         final String signType = pfis.getSignType();
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
           signedFile.setMime(Constants.PDF_MIME_TYPE);
+          String nom = signedFile.getNom();
+          if (!nom.trim().toLowerCase().endsWith(".pdf")) {
+            signedFile.setNom(nom.trim() + ".pdf");
+          }
         } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
           signedFile.setMime("text/xml");
+          String nom = signedFile.getNom();
+          if (!nom.trim().toLowerCase().endsWith(".xml")) {
+            signedFile.setNom(nom.trim() + ".xml");
+          }
+        } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+          signedFile.setMime("application/octet-stream");
+          String nom = signedFile.getNom();
+          if (!nom.trim().toLowerCase().endsWith(".csig")) {
+            signedFile.setNom(nom.trim() + ".csig");
+          }
         } else {
           signedFile.setMime("application/octet-stream");
         }
@@ -279,10 +293,6 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
         psr.setSignedFile(signedFile);
       }
-
-      
-      
-
 
       results.add(psr);
     }

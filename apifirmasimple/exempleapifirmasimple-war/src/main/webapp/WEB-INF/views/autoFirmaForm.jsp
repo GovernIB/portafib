@@ -1,4 +1,4 @@
-﻿<%@ include file="/WEB-INF/views/html_header.jsp"%>
+<%@ include file="/WEB-INF/views/html_header.jsp"%>
 
 <h3 class="tabs_involved">
     &nbsp;&nbsp;&nbsp;
@@ -121,13 +121,14 @@
                 </table>
 
                 <div style="text-align:center; width:100%">
-                <%--
+
+                    <input id="submitbutton2" name="firmarviaweb"
+                        type="submit" class="btn btn-primary"
+                        value="<fmt:message key="firmaweb"/>">
+                    &nbsp;&nbsp;&nbsp; 
                     <input id="submitbutton" name="firmarenservidor" type="submit"
                         class="btn btn-warning"
-                        value="<fmt:message key="firmaservidor"/>">  --%>
-                    &nbsp;&nbsp;&nbsp; <input id="submitbutton2" name="firmarviaweb"
-                        type="submit" class="btn btn-primary"
-                        <%-- onclick="firmar()" --%> value="<fmt:message key="firmaweb"/>">
+                        value="<fmt:message key="firmaservidor"/>"> 
 
                 </div>
 

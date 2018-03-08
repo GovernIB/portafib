@@ -172,7 +172,7 @@ public class PassarelaDeFirmaWebEJB
 
 
   @Override
-  public List<PassarelaSignatureResult> getSignatureResults(String transactionID)
+  public List<PassarelaSignatureResult> getSignatureResults(String transactionID, boolean addFiles)
       throws I18NException {
     PassarelaSignaturesSetWebInternalUse ssf = readSignaturesSet(transactionID);
     if (ssf == null) {
@@ -192,25 +192,7 @@ public class PassarelaDeFirmaWebEJB
 
       PassarelaFileInfoSignature pfis = fileInfoSignMap.get(id);
 
-      PassarelaSignatureResult psr = new PassarelaSignatureResult();
-
-      psr.setStatus(ss.getStatus());
-      psr.setErrorMessage(ss.getErrorMessage());
-      psr.setErrorStackTrace(ss.getErrorStackTrace());
-      psr.setSignID(id);
-
-      if (ss.getFitxerFirmat() != null && ss.getFitxerFirmat().exists()) {
-        DataSource fds = new FileDataSource(ss.getFitxerFirmat());
-
-        FitxerBean signedFile = new FitxerBean();
-        signedFile.setNom("signed_" + pfis.getFileToSign().getNom());
-        signedFile.setMime(Constants.PDF_MIME_TYPE);
-        signedFile.setTamany(ss.getFitxerFirmat().length());
-        signedFile.setData(new DataHandler(fds));
-        signedFile.setDescripcio("Signed Document");
-
-        psr.setSignedFile(signedFile);
-      }
+      PassarelaSignatureResult psr = convertToPassarelaSignatureResult(addFiles, ss, pfis);
       list.add(psr);
     }
 
@@ -218,6 +200,60 @@ public class PassarelaDeFirmaWebEJB
 
   }
 
+
+  protected PassarelaSignatureResult convertToPassarelaSignatureResult(boolean addFiles,
+      PassarelaSignatureStatusWebInternalUse ss, PassarelaFileInfoSignature pfis) {
+    
+    
+    final String id = pfis.getSignID();
+    
+    PassarelaSignatureResult psr = new PassarelaSignatureResult();
+
+    psr.setStatus(ss.getStatus());
+    psr.setErrorMessage(ss.getErrorMessage());
+    psr.setErrorStackTrace(ss.getErrorStackTrace());
+    psr.setSignID(id);
+
+    if (addFiles) {
+      if (ss.getFitxerFirmat() != null && ss.getFitxerFirmat().exists()) {
+        DataSource fds = new FileDataSource(ss.getFitxerFirmat());
+ 
+        FitxerBean signedFile = new FitxerBean();
+        signedFile.setNom("signed_" + pfis.getFileToSign().getNom());
+        signedFile.setMime(Constants.PDF_MIME_TYPE);
+        signedFile.setTamany(ss.getFitxerFirmat().length());
+        signedFile.setData(new DataHandler(fds));
+        signedFile.setDescripcio("Signed Document");
+ 
+        psr.setSignedFile(signedFile);
+      }
+    }
+    return psr;
+  }
+
+  
+  @Override
+  public PassarelaSignatureResult getSignatureResult(String transactionID, String signID)
+      throws I18NException {
+    PassarelaSignaturesSetWebInternalUse ssf = readSignaturesSet(transactionID);
+    if (ssf == null) {
+      return null;
+    }
+    
+    PassarelaSignatureStatusWebInternalUse ss = ssf.getStatusBySignatureID().get(signID);
+
+    for (PassarelaFileInfoSignature pfis : ssf.getSignaturesSet().getFileInfoSignatureArray()) {
+      if (pfis.getSignID().equals(signID)) {
+        return  convertToPassarelaSignatureResult(true, ss, pfis);
+      }
+    }
+  
+    return null;
+    
+  }
+  
+  
+  
   @Override
   public void closeTransaction(String transactionID) {
     deleteSignaturesSet(transactionID);

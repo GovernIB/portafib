@@ -17,17 +17,26 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.apifirmasimple.exemple.form.AutoFirmaForm;
 import org.fundaciobit.apifirmasimple.exemple.form.AutoFirmaValidator;
+import org.fundaciobit.apifirmasimple.exemple.utils.ApiFirmaEnServidorCache;
 import org.fundaciobit.apifirmasimple.exemple.utils.ApiFirmaWebCache;
 import org.fundaciobit.apifirmasimple.exemple.utils.HtmlUtils;
 import org.fundaciobit.apifirmasimple.exemple.utils.InfoGlobal;
-import org.fundaciobit.apifirmawebsimple.ApiFirmaWebSimple;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFile;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResult;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResults;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaWebSimpleSignaturesSet;
+import org.fundaciobit.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.apifirmasimple.v1.ApiFirmaWebSimple;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apifirmasimple.v1.exceptions.AbstractFirmaSimpleException;
+import org.fundaciobit.apifirmasimple.v1.exceptions.ServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -116,10 +125,16 @@ public class AutoFirmaController {
     CommonsMultipartFile[] fitxers = new CommonsMultipartFile[] { form.getFitxerAFirmarID(),
         form.getFitxerAFirmarID2(), form.getFitxerAFirmarID3(), form.getFitxerAFirmarID4() };
 
-    ApiFirmaWebSimple api = null;
+    ApiFirmaWebSimple apiWeb = null;
     String transactionID = null;
 
+    boolean esWeb = (request.getParameter("firmarviaweb") != null);
+
     try {
+
+      if (esWeb) {
+        apiWeb = ApiFirmaWebCache.getApiFirmaWebSimple();
+      }
 
       final String username = form.getUsername();
       final String administrationID = form.getNif();
@@ -139,20 +154,22 @@ public class AutoFirmaController {
 
       FirmaSimpleCommonInfo commonInfoSignature;
       commonInfoSignature = new FirmaSimpleCommonInfo(langUI, username, administrationID);
-
-      api = ApiFirmaWebCache.getApiFirmaWebSimple();
-
-      // Enviam la part comu de la transacció
-      transactionID = api.getTransactionID(commonInfoSignature);
-      log.info("TransactionID = |" + transactionID + "|");
+      
+      
+      if (esWeb) {
+        // Enviam la part comu de la transacció
+        transactionID = apiWeb.getTransactionID(commonInfoSignature);
+        log.info("TransactionID = |" + transactionID + "|");
+      }
+      
 
       Map<String, InfoGlobal> peticions = new HashMap<String, InfoGlobal>();
       List<FirmaSimpleFileInfoSignature> fileInfoSignatureList = new ArrayList<FirmaSimpleFileInfoSignature>();
 
       for (int i = 0; i < fitxers.length; i++) {
-        
+
         CommonsMultipartFile cmf = fitxers[i];
-        
+
         if (cmf == null || cmf.isEmpty()) {
           continue;
         }
@@ -177,61 +194,98 @@ public class AutoFirmaController {
 
         peticions.put(fileInfoSignature.getSignID(), new InfoGlobal(fileInfoSignature));
 
-        //log.info("[" + signID + "] MIME Rebut del navegador ==> " + mimeTypeFitxer);
+        // log.info("[" + signID + "] MIME Rebut del navegador ==> " +
+        // mimeTypeFitxer);
+        if (esWeb) {
+          apiWeb.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID,
+              fileInfoSignature));
+        }
       }
 
       FirmaSimpleFileInfoSignature[] fileInfoSignatureArray;
       fileInfoSignatureArray = fileInfoSignatureList
           .toArray(new FirmaSimpleFileInfoSignature[fileInfoSignatureList.size()]);
 
-      String view;
-      if (AutoFirmaForm.VISUALITZACIO_FULLVIEW.equals(form.getVisualitzacio())) {
-        view = FirmaWebSimpleSignaturesSet.VIEW_FULLSCREEN;
-      } else {
-        view = FirmaWebSimpleSignaturesSet.VIEW_IFRAME;
-      }
-      boolean isFullView = FirmaWebSimpleSignaturesSet.VIEW_FULLSCREEN.equals(view);
-
-      String relativeControllerBase = getRelativeControllerBase(request, CONTEXTWEB);
-      final String returnUrl;
-      if (isFullView) {
-        returnUrl = relativeControllerBase + "/finalWeb/" + transactionID;
-      } else {
-        returnUrl = relativeControllerBase + "/finalWebIFrame/" + transactionID;
-      }
-
-      FirmaWebSimpleSignaturesSet signaturesSet;
-      signaturesSet = new FirmaWebSimpleSignaturesSet(transactionID, fileInfoSignatureArray,
-          returnUrl, view);
-
-      String redirectUrl = api.startTransaction(signaturesSet);
-
-      request.getSession().setAttribute("peticions", peticions);
+      final String relativeControllerBase = getRelativeControllerBase(request, CONTEXTWEB);
 
       // Esbrinam SI WEB O SERVER
+      if (esWeb) {
 
-      // XYZ ZZZ boolean esWeb = (request.getParameter("firmarviaweb") != null);
-
-      // if (esWeb)
-      {
-
-        if (isFullView) {
-
-          ModelAndView mav = new ModelAndView("redirect:" + redirectUrl);
-
-          return mav;
+        // Es Web
+        String view;
+        if (AutoFirmaForm.VISUALITZACIO_FULLVIEW.equals(form.getVisualitzacio())) {
+          view = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN;
         } else {
-
-          request.getSession().setAttribute("redirectUrl", redirectUrl);
-          ModelAndView mav = new ModelAndView("redirect:" + CONTEXTWEB + "/viewiniframe");
-
-          return mav;
-
+          view = FirmaSimpleStartTransactionRequest.VIEW_IFRAME;
         }
 
-      }
-      // else { // Es servidor }
 
+
+        final String returnUrl;
+        boolean isFullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN.equals(view);
+        if (isFullView) {
+          returnUrl = relativeControllerBase + "/finalWeb/" + transactionID;
+        } else {
+          returnUrl = relativeControllerBase + "/finalWebIFrame/" + transactionID;
+        }
+
+        FirmaSimpleStartTransactionRequest startTransactionInfo;
+        startTransactionInfo = new FirmaSimpleStartTransactionRequest(transactionID,
+            returnUrl, view);
+
+        String redirectUrl = apiWeb.startTransaction(startTransactionInfo);
+
+        request.getSession().setAttribute("peticions", peticions);
+
+        if (isFullView) {
+          ModelAndView mav = new ModelAndView("redirect:" + redirectUrl);
+          return mav;
+        } else {
+          request.getSession().setAttribute("redirectUrl", redirectUrl);
+          ModelAndView mav = new ModelAndView("redirect:" + CONTEXTWEB + "/viewiniframe");
+          return mav;
+        }
+
+      } else {
+        // Es servidor
+        ApiFirmaEnServidorSimple apiServidor = ApiFirmaEnServidorCache
+            .getApiFirmaEnServidorSimple();
+        
+        Integer max = apiServidor.getMaxNumberOfSignaturesByTransaction();
+        
+        if (max != null) {
+          if (fileInfoSignatureArray.length > max) {
+            
+            // TODO Aqui s'ha de llançar un error o dividir la petició en multiples fitxers
+            
+            HtmlUtils.saveMessageWarning(request, "No s'ha programat la partició de les"
+                + " peticions quan aquestes superen el màxim permés (" + max + ")");
+            
+          }
+        }
+        
+
+        FirmaSimpleSignDocumentsRequest fes = new FirmaSimpleSignDocumentsRequest(
+            commonInfoSignature, fileInfoSignatureArray);
+
+
+
+        FirmaSimpleSignDocumentsResponse fullResults = apiServidor.signDocuments(fes);
+
+        return finalProcesDeFirmaServer(request, response, fullResults, peticions);
+
+      } // Final if -Web-EnServidor
+    } catch (AbstractFirmaSimpleException e) {
+      
+      log.error(e.getMessage(), e);
+
+      HtmlUtils.saveMessageError(request, e.getMessage());
+      
+      ModelAndView mav = new ModelAndView("autoFirmaForm");
+      mav.addObject(form);
+
+      return mav;
+      
     } catch (Exception e) {
 
       String msg = "Error desconegut processant entrada de dades o inicialitzant el proces de firma: "
@@ -243,9 +297,10 @@ public class AutoFirmaController {
 
       try {
 
-        if (api != null && transactionID != null) {
+        // Només s'executa si es WEB
+        if (apiWeb != null && transactionID != null) {
           try {
-            api.closeTransaction(transactionID);
+            apiWeb.closeTransaction(transactionID);
           } catch (Throwable th) {
             th.printStackTrace();
           }
@@ -266,7 +321,7 @@ public class AutoFirmaController {
   @RequestMapping(value = "/viewiniframe", method = RequestMethod.GET)
   public ModelAndView viewInIframe(HttpServletRequest request) throws Exception {
 
-    String redirectUrl = (String)request.getSession().getAttribute("redirectUrl");
+    String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
     if (log.isDebugEnabled()) {
       log.debug("ENTRA A /viewiniframe => redirectUrl: " + redirectUrl);
     }
@@ -322,89 +377,97 @@ public class AutoFirmaController {
     try {
       api = ApiFirmaWebCache.getApiFirmaWebSimple();
 
-      // 5 reintents
-      for (int i = 0; i < 5; i++) {
+      FirmaSimpleGetTransactionStatusResponse fullTransactionStatus;
+      fullTransactionStatus = api.getTransactionStatus(transactionID);
 
-        FirmaSimpleSignatureStatus transactionStatus = api.getTransactionStatus(transactionID);
+      FirmaSimpleStatus transactionStatus = fullTransactionStatus.getTransactionStatus();
 
-        int status = transactionStatus.getStatus();
+      int status = transactionStatus.getStatus();
 
-        switch (status) {
+      switch (status) {
 
-        case FirmaSimpleSignatureStatus.STATUS_INITIALIZING: // = 0;
-          System.out.println("Initializing ... wait (???)");
-          Thread.sleep(2000);
-          break;
+      case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+        HtmlUtils.saveMessageError(request, "S'ha rebut un estat inconsistent del proces de firma"
+            + " (inicialitzant). Pot ser s'hagi produït un error en el Plugin de Firma."
+            + " Consulti amb el seu administrador.");
+        return new ModelAndView(new RedirectView("/", true));
 
-        case FirmaSimpleSignatureStatus.STATUS_IN_PROGRESS: // = 1;
-          System.out.println("In PROGRESS ... wait");
-          Thread.sleep(2000);
-          break;
+      case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+        HtmlUtils.saveMessageError(request, "S'ha rebut un estat inconsistent del proces de firma"
+            + " (en progrés). Pot ser s'hagi produït un error en el Plugin de Firma."
+            + " Consulti amb el seu administrador.");
+        return new ModelAndView(new RedirectView("/", true));
 
-        case FirmaSimpleSignatureStatus.STATUS_FINAL_ERROR: // = -1;
-        {
-          String msg = "Error durant la realització de les firmes de la transacció "
-              + transactionID + ": " + transactionStatus.getErrorMessage();
-          String desc = transactionStatus.getErrorStackTrace();
-          if (desc != null) {
-            msg = msg + "<br/>" + desc;
-          }
-
-          log.error(msg);
-
-          HtmlUtils.saveMessageError(request, msg);
-
-          return new ModelAndView(new RedirectView("/", true));
+      case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+      {
+        String msg = "Error durant la realització de les firmes de la transacció "
+            + transactionID + ": " + transactionStatus.getErrorMessage();
+        String desc = transactionStatus.getErrorStackTrace();
+        if (desc != null) {
+          msg = msg + "<br/>" + desc;
         }
 
-        case FirmaSimpleSignatureStatus.STATUS_CANCELLED: // = -2;
-        {
-          HtmlUtils.saveMessageWarning(request, "Durant el procés de firmes,"
-              + " l'usuari ha cancelat la transacció amb ID " + transactionID + ".");
-          return new ModelAndView(new RedirectView("/", true));
+        log.error(msg);
+
+        HtmlUtils.saveMessageError(request, msg);
+
+        return new ModelAndView(new RedirectView("/", true));
+      }
+
+      case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+      {
+        HtmlUtils.saveMessageWarning(request, "Durant el procés de firmes,"
+            + " l'usuari ha cancelat la transacció amb ID " + transactionID + ".");
+        return new ModelAndView(new RedirectView("/", true));
+      }
+
+      case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+      {
+
+        Map<String, InfoGlobal> peticions = (Map<String, InfoGlobal>) request.getSession()
+            .getAttribute("peticions");
+
+        List<FirmaSimpleSignatureStatus> results = fullTransactionStatus
+            .getSignaturesStatusList();
+
+        final boolean isDebug = log.isDebugEnabled();
+        if (isDebug) {
+          log.debug(" ===== WEB PETICIONS [" + peticions + "] =========");
+          log.debug(" ===== WEB RESULTATS [" + results.size() + "] =========");
         }
 
-        case FirmaSimpleSignatureStatus.STATUS_FINAL_OK: // = 2;
-        {
+        for (FirmaSimpleSignatureStatus signatureStatus : results) {
 
-          FirmaSimpleSignatureResults resultsHolder = api.getTransactionResults(transactionID);
-          List<FirmaSimpleSignatureResult> results = resultsHolder.getResults();
-
-          Map<String, InfoGlobal> peticions = (Map<String, InfoGlobal>) request.getSession()
-              .getAttribute("peticions");
-          
-          final boolean isDebug = log.isDebugEnabled();
+          String signID = signatureStatus.getSignID();
 
           if (isDebug) {
-            log.debug(" ===== PETICIONS [" + peticions + "] =========");
-            log.debug(" ===== RESULTATS [" + results.size() + "] =========");
+            log.debug(" ------ WEB SIGNID ]" + signID + "[");
           }
 
-          for (FirmaSimpleSignatureResult fssr : results) {
+          FirmaSimpleStatus fss = signatureStatus.getStatus();
 
-            if (isDebug) {
-              log.debug(" ------ SIGNID ]" + fssr.getSignID() + "[");
-            }
+          InfoGlobal infoGlobal = peticions.get(signID);
 
-            InfoGlobal infoGlobal = peticions.get(fssr.getSignID());
-            infoGlobal.setResultat(fssr);
+          FirmaSimpleFile signedFile;
+          signedFile = api.getSignatureResult(new FirmaSimpleGetSignatureResultRequest(
+              transactionID, signID));
 
-          } // Final for de fitxers firmats
+          infoGlobal.setResultat(new FirmaSimpleSignatureResult(signID, fss, signedFile));
 
-          ModelAndView mav = new ModelAndView("autoFirmaFinal");
-          return mav;
+        } // Final for de fitxers firmats
 
-        } // Final Case Firma OK
+        ModelAndView mav = new ModelAndView("autoFirmaFinal");
+        return mav;
 
-        } // Final Switch Global
-        
-        
-        log.warn("finalProcesDeFirmaWeb:: REINTENT " + (i + 1));
-        
-      } // for reintents
+      } // Final Case Firma OK
 
-      HtmlUtils.saveMessageError(request, "No s'han pogut recuperar informació de"
-         + " resultats ja que segons el servidor la petició està Inicialitzant-se o En procés");
+      } // Final Switch Global
+
+      HtmlUtils
+          .saveMessageError(
+              request,
+              "No s'han pogut recuperar informació de"
+                  + " resultats ja que segons el servidor la petició està Inicialitzant-se o En procés");
       return new ModelAndView(new RedirectView("/", true));
 
     } catch (Exception e) {
@@ -433,16 +496,88 @@ public class AutoFirmaController {
 
   }
 
-  // XYZ ZZZ TODO
-  @RequestMapping(value = "/finalServer/{signaturesSetID}")
   public ModelAndView finalProcesDeFirmaServer(HttpServletRequest request,
-      HttpServletResponse response, @PathVariable("signaturesSetID") String signaturesSetID)
-      throws Exception {
+      HttpServletResponse response, FirmaSimpleSignDocumentsResponse fullResults,
+      Map<String, InfoGlobal> peticions) throws Exception {
 
-    // SignaturesSet ss;
-    // ss = signatureServerModuleEjb.getSignaturesSet(signaturesSetID);
+    FirmaSimpleStatus transactionStatus = fullResults.getStatusSignatureProcess();
 
-    return null; // finalProcesDeFirma(request, response, ss);
+    int status = transactionStatus.getStatus();
+
+    switch (status) {
+
+    case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+      HtmlUtils
+          .saveMessageWarning(request,
+              "Error desconegut ja que el proces de firma indica que està en un estat Initializing (???)");
+      return new ModelAndView(new RedirectView("/", true));
+
+    case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+      HtmlUtils
+          .saveMessageWarning(request,
+              "Error desconegut ja que el proces de firma indica que està en un estat EnProgres (???)");
+      return new ModelAndView(new RedirectView("/", true));
+
+    case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+    {
+      String msg = "Error durant la realització de les firmes: "
+          + transactionStatus.getErrorMessage();
+      String desc = transactionStatus.getErrorStackTrace();
+      if (desc != null) {
+        msg = msg + "<br/>" + desc;
+      }
+
+      log.error(msg);
+
+      HtmlUtils.saveMessageError(request, msg);
+
+      return new ModelAndView(new RedirectView("/", true));
+    }
+
+    case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+    {
+      // XYZ ZZZ Traduir
+      HtmlUtils.saveMessageWarning(request, "S'ha cancelat el procés de firmes");
+      return new ModelAndView(new RedirectView("/", true));
+    }
+
+    case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+    {
+
+      List<FirmaSimpleSignatureResult> results = fullResults.getResults();
+
+      final boolean isDebug = log.isDebugEnabled();
+
+      if (isDebug) {
+        log.debug(" ===== SERVER PETICIONS [" + peticions + "] =========");
+        log.debug(" ===== SERVER RESULTATS [" + results.size() + "] =========");
+      }
+
+      for (FirmaSimpleSignatureResult fssr : results) {
+
+        if (isDebug) {
+          log.debug(" ------ SERVER SIGNID ]" + fssr.getSignID() + "[");
+        }
+
+        InfoGlobal infoGlobal = peticions.get(fssr.getSignID());
+        infoGlobal.setResultat(fssr);
+
+      } // Final for de fitxers firmats
+
+      request.getSession().setAttribute("peticions", peticions);
+
+      ModelAndView mav = new ModelAndView("autoFirmaFinal");
+      return mav;
+
+    } // Final Case Firma OK
+
+    default:
+      // XYZ ZZZ Traduir
+      HtmlUtils.saveMessageError(request, "Estat desconegut (" + status + ")"
+          + " despres del procés de firma en servidor");
+      return new ModelAndView(new RedirectView("/", true));
+
+    } // Final Switch Global
 
   }
 
@@ -567,6 +702,5 @@ public class AutoFirmaController {
   public static String getRelativeControllerBase(HttpServletRequest request, String webContext) {
     return getRelativeURLBase(request) + webContext;
   }
-
 
 }

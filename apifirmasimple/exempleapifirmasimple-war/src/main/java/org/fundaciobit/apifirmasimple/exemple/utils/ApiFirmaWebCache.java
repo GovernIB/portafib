@@ -2,7 +2,7 @@ package org.fundaciobit.apifirmasimple.exemple.utils;
 
 import java.util.Properties;
 
-import org.fundaciobit.apifirmawebsimple.ApiFirmaWebSimple;
+import org.fundaciobit.apifirmasimple.v1.ApiFirmaWebSimple;
 
 /**
  * 
@@ -17,6 +17,8 @@ public class ApiFirmaWebCache {
 
     Properties prop = System.getProperties();
 
+    // XYZ ZZZ Check NULL POINTER en valors
+    
     return new ApiFirmaWebSimple(prop.getProperty(BASE_PACKAGE + "endpoint"),
         prop.getProperty(BASE_PACKAGE + "username"), prop.getProperty(BASE_PACKAGE
             + "password"));

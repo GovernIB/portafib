@@ -1,9 +1,5 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ include file="/WEB-INF/views/include.jsp"%>
-<%--
-<un:useConstants var="Constants" className="org.fundaciobit.plugins.signatureweb.exemple.utils.Constants" />
- --%>
- <un:useConstants var="StatusFirma" className="org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureStatus" />
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/views/include.jsp"%> 
 <!DOCTYPE html>
 <html>
 <head>

@@ -2,6 +2,8 @@
 
 <%@ include file="/WEB-INF/views/html_header.jsp"%>
 
+<un:useConstants var="StatusFirma" className="org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus" />
+
 <div style="margin:40px;">
 <br>
 <br>
@@ -25,23 +27,23 @@
                 <td><c:out value="${entry.key}" /></td>
                 <td>
                   SignID: ${result.signID} <br/>
-                  Status Number: ${result.status} <br/>
+                  Status Number: ${result.status.status} <br/>
                   Status String:
 
                   <c:choose>
-                     <c:when test = "${result.status == StatusFirma.STATUS_INITIALIZING}">
+                     <c:when test = "${result.status.status == StatusFirma.STATUS_INITIALIZING}">
                         INICIALITZANT
                      </c:when>
-                     <c:when test = "${result.status == StatusFirma.STATUS_IN_PROGRESS}">
+                     <c:when test = "${result.status.status == StatusFirma.STATUS_IN_PROGRESS}">
                         EN PROGRES
                      </c:when>
-                     <c:when test = "${result.status == StatusFirma.STATUS_FINAL_OK}">
+                     <c:when test = "${result.status.status == StatusFirma.STATUS_FINAL_OK}">
                         FINAL_OK
                      </c:when>
-                     <c:when test = "${result.status == StatusFirma.STATUS_FINAL_ERROR}">
+                     <c:when test = "${result.status.status == StatusFirma.STATUS_FINAL_ERROR}">
                         ERROR
                      </c:when>
-                     <c:when test = "${result.status == StatusFirma.STATUS_CANCELLED}">
+                     <c:when test = "${result.status.status == StatusFirma.STATUS_CANCELLED}">
                         CANCEL·LAT
                      </c:when>
                      <c:otherwise>
@@ -61,23 +63,21 @@
                 </a> &nbsp;</td>
 
 
-                <td>
-                <c:if test="${result.status == StatusFirma.STATUS_FINAL_OK}">
+                <td>                
+                <c:if test="${result.status.status == StatusFirma.STATUS_FINAL_OK}">
                  <a
                     href="<c:url value="/common/autofirma/download/signed/${entry.key}" />"
                     target="_blank" class="btn btn-primary" style="color: white;"> <fmt:message
                             key="descarregardocumentfirmat" />
                 </a>
                  </c:if>
-                <c:if test="${result.status != StatusFirma.STATUS_FINAL_OK}">
-                   
-                   <b>${result.errorMessage}</b><br/>
-                   <i>
-                   ${result.errorStackTrace}
-                   </i>
-
+                <c:if test="${result.status.status != StatusFirma.STATUS_FINAL_OK}">
+                   <div class="alert alert-danger">
+                     <button type="button" class="close" data-dismiss="alert">&times;</button>
+                     <b>${result.status.errorMessage}</b><br/>
+                     <i>${result.status.errorStackTrace}</i>
+                   </div>
                 </c:if>
-                
                  &nbsp;
                 </td>
             </tr>

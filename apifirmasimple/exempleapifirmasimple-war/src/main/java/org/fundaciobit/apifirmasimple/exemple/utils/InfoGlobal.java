@@ -1,7 +1,7 @@
 package org.fundaciobit.apifirmasimple.exemple.utils;
 
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.apifirmawebsimple.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 
 /**
  * 
