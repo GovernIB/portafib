@@ -35,13 +35,10 @@
 
   </repositories>
 
-
-
   <modules>
-    <module>apifirmawebsimple</module>
+    <module>apifirmasimple</module>
     <module>exempleapifirmasimple-war</module>
   </modules>
-
 
   <build>
     <pluginManagement>
