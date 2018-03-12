@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.caib.portafib.back.security.AuthenticationSuccessListener;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -44,6 +43,7 @@ import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -65,13 +65,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   public static final String CONTEXT = "/common/rest/apifirmaenservidorsimple/v1";
 
-  static {
-    // Add to Application Authorized Zone
-    AuthenticationSuccessListener.allowedApplicationContexts.add(CONTEXT + "/");
-  }
-
-
-
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
@@ -86,7 +79,24 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getMaxNumberOfSignaturesByTransaction() {
+  public ResponseEntity<?> getMaxNumberOfSignaturesByTransaction(HttpServletRequest request) {
+    
+    String error = autenticate(request); 
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    };
+    
+    try {
+      
+      LoginInfo li =  LoginInfo.getInstance();
+      log.info("XYZ ZZZ  USUARI ENTITAT = " +  li.getEntitatID());
+      
+    } catch (Exception e) {
+      // TODO: handle exception
+      log.error("Error en LoginInfo : " + e.getMessage(), e);
+    } 
+    
+    
 
     Integer max = internalGetMaxNumberOfSignaturesByTransaction();
     HttpHeaders headers = addAccessControllAllowOrigin();
@@ -111,10 +121,15 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> signDocuments(
+  public ResponseEntity<?> signDocuments(HttpServletRequest request,
       @RequestBody FirmaSimpleSignDocumentsRequest simpleSignaturesSet) {
 
     log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignaturesSet: " + simpleSignaturesSet);
+    
+    String error = autenticate(request); 
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    };
 
     // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
 

@@ -36,7 +36,6 @@ import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apifirmasimple.v1.exceptions.AbstractFirmaSimpleException;
-import org.fundaciobit.apifirmasimple.v1.exceptions.ServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;

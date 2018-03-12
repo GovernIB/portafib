@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.servlet.http.HttpServletRequest;
-
-
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
 import org.fundaciobit.plugins.userinformation.UserInfo;
@@ -28,16 +25,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import es.caib.portafib.back.preparer.BasePreparer;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
-import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -60,7 +53,7 @@ public class AuthenticationSuccessListener implements
   protected final Logger log = Logger.getLogger(getClass());
   
   
-  public static final Set<String> allowedApplicationContexts = new HashSet<String>();
+  /* public static final Set<String> allowedApplicationContexts = new HashSet<String>(); */
 
   @Override
   public synchronized void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
@@ -225,7 +218,7 @@ public class AuthenticationSuccessListener implements
         }
       }
       
-      
+      /*
       if (usuariPersona == null) {
 
         // =======================================================
@@ -309,8 +302,10 @@ public class AuthenticationSuccessListener implements
         return;
         
       }
+      */
       
     }
+    
 
     Set<UsuariEntitatJPA> usuariEntitats = usuariPersona.getUsuariEntitats();
     if (log.isDebugEnabled()) {

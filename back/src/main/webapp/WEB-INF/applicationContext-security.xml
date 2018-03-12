@@ -26,6 +26,9 @@
     <sec:intercept-url pattern="/public/**" access="permitAll"/>
     <!-- GENERADOR DE SEGELLAT DE TEMPS PER FIRMA EN SERVIDOR -->
     <sec:intercept-url pattern="/common/timestampgenerator/**" access="permitAll"/>
+    <!--  REST Autenticació per Codi -->
+    <sec:intercept-url pattern="/common/rest/apifirmaenservidorsimple/v1/**" access="permitAll"/>
+    <sec:intercept-url pattern="/common/rest/apifirmawebsimple/v1/**" access="permitAll"/>
 
     <sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 

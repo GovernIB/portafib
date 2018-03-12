@@ -9,6 +9,8 @@ import javax.ejb.SessionContext;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import org.apache.log4j.Logger;
 import org.quartz.impl.triggers.CronTriggerImpl;
@@ -38,6 +40,7 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
     removeTimer(getTimerName());
   }
 
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Timeout
   public void timeOutHandler(Timer timer) {
     try {

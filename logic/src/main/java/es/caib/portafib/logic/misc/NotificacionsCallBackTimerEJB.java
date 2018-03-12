@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -34,6 +35,7 @@ import es.caib.portafib.model.fields.NotificacioWSFields;
 public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
     NotificacionsCallBackTimerLocal {
 
+  
   // NOTA: Les següents propietats han de ser estatiques ja que
   // s'instancia un nou timer despres de cada WakeUp
   
@@ -51,6 +53,9 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
    * 
    */
   protected static boolean forceExecutionNow = false;
+  
+  //@EJB(mappedName = "portafib/NotificacioLogicaEJB/local")
+  //protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
 
   @Override
@@ -94,6 +99,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   }
 
   @Override
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   protected java.util.Date computeNextExecution() throws ParseException {
 
     long properaExecucio;
@@ -113,7 +119,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   @Override
   public void executeTask() {
     
-    final boolean debug = true;  // XYZ ZZZ log.isDebugEnabled();
+    final boolean debug = log.isDebugEnabled();
      
     // No volem que ens aturin mentre estam executant
     synchronized (log) {

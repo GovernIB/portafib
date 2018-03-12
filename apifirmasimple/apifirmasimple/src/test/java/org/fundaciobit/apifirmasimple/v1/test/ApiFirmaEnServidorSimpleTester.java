@@ -48,6 +48,13 @@ public class ApiFirmaEnServidorSimpleTester {
   public static void main(String[] args) {
 
     try {
+      
+      
+      ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
+      
+      Integer max = api.getMaxNumberOfSignaturesByTransaction();
+      
+      System.out.println("getMaxNumberOfSignaturesByTransaction = " + max);
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
       String signID = "1";
@@ -68,7 +75,7 @@ public class ApiFirmaEnServidorSimpleTester {
       String username = "anadal";
       String administrationID = "43096845C";
 
-      ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
+      
 
       FirmaSimpleCommonInfo commonInfo;
       commonInfo = new FirmaSimpleCommonInfo(languageUI, username, administrationID);
@@ -108,7 +115,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
       {
-        System.err.println("S'ha cancelat el proces de firmes.");
+        System.err.println("S'ha cancel·lat el procés de firmat.");
         return;
       }
 
