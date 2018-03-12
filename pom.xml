@@ -59,7 +59,7 @@
 
     <!-- Requerim GENAPP i PLUGINSIB -->
     <repository>
-       <id>github-governib-maven-repos</id>
+       <id>github-governib-maven</id>
        <name>GitHub GovernIB Maven Repository</name>
        <url>https://GovernIB.github.io/maven/maven/</url>
     </repository>
