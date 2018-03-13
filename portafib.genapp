@@ -10,7 +10,7 @@
      <string>portafib</string> 
     </void> 
     <void property="url"> 
-     <string>jdbc:postgresql://10.215.216.175:5432/portafib11</string> 
+     <string>jdbc:postgresql://10.215.216.175:5432/portafib20</string> 
     </void> 
     <void property="usr"> 
      <string>portafib</string> 
@@ -17456,10 +17456,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="2"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>nomid</string> 
+               <string>descripciocurtaid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_plugin_traduccio_nom_fk</string> 
+               <string>pfi_plugin_traduccio_desc_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_plugin</string> 
@@ -17469,10 +17469,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="3"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>descripciocurtaid</string> 
+               <string>nomid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_plugin_traduccio_desc_fk</string> 
+               <string>pfi_plugin_traduccio_nom_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_plugin</string> 
