@@ -4,13 +4,13 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.1</version>
+  <version>3.0.0</version>
 
   <name>FundacioBit Plugins - SignatureWeb - @firma Triphase Server Lib</name>
 
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <artifactId>plugins-signatureweb</artifactId>
   </parent>
 
@@ -261,21 +261,21 @@
 
     </plugins>
 
-    <build>
-      <pluginManagement>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <source>1.6</source>
-              <target>1.6</target>
-              <encoding>UTF-8</encoding>
-            </configuration>
-          </plugin>
-        </plugins>
-      </pluginManagement>
-    </build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
   </build>
 
 </project>

@@ -10,7 +10,7 @@
   <parent>
     <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
   </parent>
 
   <dependencies>
@@ -39,13 +39,13 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
-      <version>2.0.1</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
-      <version>2.0.1</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
@@ -74,19 +74,19 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-afirmalibs</artifactId>
-      <version>2.0.0</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
-      <version>2.0.3</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-afirmaserver</artifactId>
-      <version>2.0.2</version>
+      <version>3.0.0</version>
       <exclusions>
         <exclusion>
           <artifactId>xercesImpl</artifactId>
@@ -156,7 +156,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
-          <version>2.0.1</version>
+          <version>3.0.0</version>
           <exclusions>
             <exclusion>
               <groupId>org.bouncycastle</groupId>
@@ -198,7 +198,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-fire</artifactId>
-          <version>2.0.0</version>
+          <version>3.0.0</version>
         </dependency>
       </dependencies>
     </profile>
@@ -216,7 +216,7 @@
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-signatureweb-clavefirma</artifactId>
-          <version>2.0.3</version>
+          <version>3.0.0</version>
         </dependency>
       </dependencies>
     </profile>

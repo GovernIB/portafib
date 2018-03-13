@@ -4,13 +4,13 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureserver-portafib</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.0</version>
+  <version>3.0.0</version>
 
   <name>FundacioBit Plugins - SignatureServer - Passarel.la PortaFIB</name>
 
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <artifactId>plugins-signatureserver</artifactId>
   </parent>
 

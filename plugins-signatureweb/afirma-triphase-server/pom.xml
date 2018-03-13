@@ -4,7 +4,7 @@
   <groupId>org.fundaciobit.plugins</groupId>
   <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
   <packaging>jar</packaging>
-  <version>2.0.5</version>
+  <version>3.0.0</version>
 
   <name>FundacioBit Plugins - SignatureWeb - @firma Triphase Server</name>
 
@@ -12,7 +12,7 @@
 
   <parent>
     <groupId>org.fundaciobit.plugins</groupId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <artifactId>plugins-signatureweb</artifactId>
   </parent>
 
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
-      <version>1.0.1</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
@@ -33,15 +33,15 @@
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
-      <version>2.0.0</version>
       <artifactId>plugin-signatureweb-api</artifactId>
+      <version>3.0.0</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureweb-miniappletutils</artifactId>
-      <version>2.0.1</version>
+      <version>3.0.0</version>
     </dependency>
 
     <dependency>
@@ -76,7 +76,6 @@
       <version>2.5</version>
       <scope>provided</scope>
     </dependency>
-
 
     <dependency>
       <groupId>junit</groupId>
