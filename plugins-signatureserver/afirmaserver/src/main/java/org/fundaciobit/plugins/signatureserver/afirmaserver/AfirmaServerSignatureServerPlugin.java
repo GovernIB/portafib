@@ -14,7 +14,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.Reference;
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.ws.BindingProvider;
+
+import net.java.xades.security.xml.XMLSignatureElement;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
@@ -22,8 +28,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignature;
-import org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService;
+
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
@@ -32,12 +37,18 @@ import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.FileUtils;
 import org.fundaciobit.plugins.utils.cxf.CXFUtils;
 import org.fundaciobit.plugins.utils.cxf.ClientHandler;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import es.gob.afirma.afirma5ServiceInvoker.Afirma5ServiceInvokerException;
 import es.gob.afirma.i18n.Language;
 import es.gob.afirma.integraFacade.GenerateMessageResponse;
+import es.gob.afirma.integraFacade.ValidateRequest;
 import es.gob.afirma.integraFacade.pojo.ServerSignerResponse;
+import es.gob.afirma.integraFacade.pojo.UpgradeSignatureRequest;
 import es.gob.afirma.transformers.TransformersConstants;
 import es.gob.afirma.transformers.TransformersFacade;
+import es.gob.afirma.utils.Base64Coder;
 import es.gob.afirma.utils.GeneralConstants;
 import es.gob.afirma.utils.DSSConstants.AlgorithmTypes;
 import es.gob.afirma.utils.DSSConstants.DSSTagsRequest;
@@ -50,7 +61,8 @@ import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
  * @author anadal
  *
  */
-public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin {
+public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin
+  implements ValidateSignatureConstants {
 
   protected static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
 
@@ -76,8 +88,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public static final String TRANSFORMERSTEMPLATESPATH_PROPERTY = AFIRMASERVER_BASE_PROPERTIES
       + "TransformersTemplatesPath";
 
-  public static final String ENDPOINT = AFIRMASERVER_BASE_PROPERTIES + "endpoint";
-
+  public static final String ENDPOINT_SIGN = AFIRMASERVER_BASE_PROPERTIES + "endpoint";
+  
+  public static final String ENDPOINT_UPGRADE = AFIRMASERVER_BASE_PROPERTIES + "endpoint_upgrade";
+ 
+  
   /**
    * 
    */
@@ -478,7 +493,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           log.info(" XML_INPUT\n" + xmlInput);
         }
 
-        String xmlOutput = cridadaWs(xmlInput);
+
+        String xmlOutput = cridadaWsSign(xmlInput);
 
         if (debug) {
           log.info(" XML_OUTPUT  =\n" + xmlOutput);
@@ -602,6 +618,154 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return signaturesSet;
 
   }
+  
+  
+  /**
+   * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i supportUpgradeSignature() #167
+   * https://github.com/GovernIB/portafib/issues/167
+   * @param upgSigReq
+   * @return
+   * @throws Exception
+   */
+  public ServerSignerResponse upgradeSignature(UpgradeSignatureRequest upgSigReq) throws Exception {
+      ServerSignerResponse serSigRes = new ServerSignerResponse();
+      String resultValidate = ValidateRequest.validateUpgradeSignatureRequest(upgSigReq);
+      
+      TransformersFacade transformersFacade = getTransformersFacade();
+      
+      //try {
+          if (resultValidate != null) {
+              throw new Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020", new Object[]{resultValidate}));
+          }
+          Map<String, Object> inputParameters = generateUpgradeSignatureRequest(upgSigReq);
+          if (inputParameters != null) {
+              String xmlInput = transformersFacade.generateXml(inputParameters, "DSSAfirmaVerify", "verify", "1_0");
+              
+              
+              //String xmlOutput = Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput, "DSSAfirmaVerify", "verify", upgSigReq.getApplicationId());
+
+              String xmlOutput = cridadaWsUpgrade(xmlInput);
+              
+              
+              Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput, "DSSAfirmaVerify", "verify", "1_0");
+              if (propertiesResult != null) {
+                  GenerateMessageResponse.generateServerSignerResponse(propertiesResult, serSigRes);
+              }
+          }
+          /*
+      }
+      catch (Exception e) {
+          log.error((Object)Language.getFormatResIntegra("IFWS031", new Object[]{e.getMessage()}));
+      }
+      */
+      return serSigRes;
+  }
+  
+  
+  
+  public static Map<String, Object> generateUpgradeSignatureRequest(UpgradeSignatureRequest upgSigReq) {
+      HashMap<String, Object> inputParameters = new HashMap<String, Object>();
+      if (upgSigReq.getSignature() != null) {
+          incorporateSignatureImplicit(inputParameters, upgSigReq.getSignature());
+      } else {
+          inputParameters.put("dss:SignatureObject/dss:Other/afxp:SignatureArchiveId", upgSigReq.getTransactionId());
+          inputParameters.put("dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:repositoryId", upgSigReq.getSignatureRepository().getId());
+          inputParameters.put("dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:objectId", upgSigReq.getSignatureRepository().getObject());
+      }
+      inputParameters.put("dss:OptionalInputs/dss:ClaimedIdentity/dss:Name", upgSigReq.getApplicationId());
+      if (upgSigReq.getSignatureFormat() != null) {
+          inputParameters.put("dss:OptionalInputs/dss:ReturnUpdatedSignature@Type", upgSigReq.getSignatureFormat().getUriFormat());
+      }
+      if (upgSigReq.getTargetSigner() != null) {
+          String encodedTargetSigner = null;
+          try {
+              encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
+          }
+          catch (Exception e) {
+        	  // XYZ ZZZ 
+              e.printStackTrace();
+          }
+          inputParameters.put("dss:OptionalInputs/afxp:TargetSigner", encodedTargetSigner);
+      }
+      if (upgSigReq.isIgnoreGracePeriod()) {
+          inputParameters.put("dss:OptionalInputs/afxp:IgnoreGracePeriod", "");
+      }
+      return inputParameters;
+  }
+  
+  
+  private static void incorporateSignatureImplicit(Map<String, Object> inputParameters, byte[] signature) {
+      try {
+          if (!CXFUtils.isXMLFormat(signature)) {
+              inputParameters.put("dss:SignatureObject/dss:Base64Signature", new String(Base64Coder.encodeBase64(signature)));
+          } else {
+
+              String typeOfESignature =  getXAdESFormat(signature);
+              if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
+                  inputParameters.put("dss:SignatureObject", new String(signature));
+              } else if ("XAdES Enveloped".equals(typeOfESignature) || "XAdES Detached".equals(typeOfESignature)) {
+                  String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
+                  inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument", idSignaturePtr);
+                  inputParameters.put("dss:InputDocuments/dss:Document@ID", idSignaturePtr);
+                  inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", new String(Base64.encode((byte[])signature)));
+              }
+          }
+      }
+      catch (Exception e) {
+         // XYZ ZZZ
+    	  e.printStackTrace();
+      }
+  }
+  
+  
+  /**
+   * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@ 
+   * @param eSignature
+   * @return
+   * @throws SigningException
+   */
+  public static String getXAdESFormat(byte[] signature) throws Exception {
+    
+    DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
+    dBFactory.setNamespaceAware(true);
+
+    org.w3c.dom.Document eSignature = dBFactory.newDocumentBuilder().parse(
+        new ByteArrayInputStream(signature));
+
+    XMLSignature xmlSignature;
+    String rootName = eSignature.getDocumentElement().getNodeName();
+    if (rootName.equalsIgnoreCase("ds:Signature") || rootName.equals("ROOT_COSIGNATURES")) {
+      //  "XAdES Enveloping"
+      return SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED;
+    }
+    NodeList signatureNodeLs = eSignature.getElementsByTagName("ds:Manifest");
+    if (signatureNodeLs.getLength() > 0) {
+      //  "XAdES Externally Detached
+      return SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED;
+    }
+    NodeList signsList = eSignature.getElementsByTagNameNS(
+        "http://www.w3.org/2000/09/xmldsig#", "Signature");
+    if (signsList.getLength() == 0) {
+      throw new Exception(Language.getResIntegra("XS003"));
+    }
+    org.w3c.dom.Node signatureNode = signsList.item(0);
+    try {
+      xmlSignature = new XMLSignatureElement((Element) signatureNode).getXMLSignature();
+    } catch (MarshalException e) {
+      throw new Exception(Language.getResIntegra("XS005"), e);
+    }
+    List<?> references = xmlSignature.getSignedInfo().getReferences();
+    for (int i = 0; i < references.size(); ++i) {
+      if (!"".equals(((Reference) references.get(i)).getURI()))
+        continue;
+      //  "XAdES Enveloped"
+      return SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED;
+    }
+    //  "XAdES Detached"
+    return SIGNFORMAT_EXPLICIT_DETACHED;
+  }
+  
+  
 
   /*
    * Al utilitzar import net.java.xades.util.XMLUtils.isXMLFormat(bytesToSign);
@@ -703,22 +867,22 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   // Cache
 
-  protected DSSSignature api = null;
+  protected org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignature apiSign = null;
 
-  protected long lastConnection = 0;
+  protected long lastConnectionSign = 0;
 
-  public synchronized String cridadaWs(String inputXml) throws Exception {
+  public synchronized String cridadaWsSign(String inputXml) throws Exception {
 
     // Cada 10 minuts refem la comunicació
     long now = System.currentTimeMillis();
-    if (lastConnection + 10 * 60 * 1000L < now) {
-      lastConnection = now;
-      api = null;
+    if (lastConnectionSign + 10 * 60 * 1000L < now) {
+      lastConnectionSign = now;
+      apiSign = null;
     }
 
-    if (api == null) {
+    if (apiSign == null) {
 
-      String endPoint = getPropertyRequired(ENDPOINT);
+      String endPoint = getPropertyRequired(ENDPOINT_SIGN);
       boolean debug = isDebug();
       if (debug) {
         log.info("ENDPOINT = " + endPoint);
@@ -731,22 +895,72 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         log.info("ClientHandler Class = " + clientHandler.getClass());
       }
 
-      DSSSignatureService service = new DSSSignatureService(new java.net.URL(endPoint
+      org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService service;
+      service= new org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService(new java.net.URL(endPoint
           + "?wsdl"));
-      api = service.getDSSAfirmaSign();
+      apiSign = service.getDSSAfirmaSign();
 
-      Map<String, Object> reqContext = ((BindingProvider) api).getRequestContext();
+      Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
-      clientHandler.addSecureHeader(api);
+      clientHandler.addSecureHeader(apiSign);
 
     }
 
-    String xmlResposta = api.sign(inputXml);
+    String xmlResposta = apiSign.sign(inputXml);
 
     return xmlResposta;
 
   }
+  
+  
+  
+  protected org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignature apiUpgrade = null;
+
+  protected long lastConnectionUpgrade = 0;
+
+  public synchronized String cridadaWsUpgrade(String inputXml) throws Exception {
+
+    // Cada 10 minuts refem la comunicació
+    long now = System.currentTimeMillis();
+    if (lastConnectionUpgrade + 10 * 60 * 1000L < now) {
+      lastConnectionUpgrade = now;
+      apiUpgrade = null;
+    }
+
+    if (apiUpgrade == null) {
+
+      String endPoint = getPropertyRequired(ENDPOINT_UPGRADE);
+      boolean debug = isDebug();
+      if (debug) {
+        log.info("ENDPOINT = " + endPoint);
+      }
+
+      final ClientHandler clientHandler;
+      clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
+
+      if (debug) {
+        log.info("ClientHandler Class = " + clientHandler.getClass());
+      }
+
+      org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service;
+      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(new java.net.URL(endPoint + "?wsdl"));
+      apiUpgrade = service.getDSSAfirmaVerify();
+
+      Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
+      reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
+
+      clientHandler.addSecureHeader(apiUpgrade);
+
+    }
+
+    String xmlResposta = apiUpgrade.verify(inputXml);
+
+    return xmlResposta;
+
+  }
+  
+  
 
   /**
    * Aquets mètode servirà per validar la comunicació amb el Servidor
@@ -757,7 +971,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     try {
 
-      String endpoint = getPropertyRequired(ENDPOINT);
+      String endpoint = getPropertyRequired(ENDPOINT_SIGN);
       try {
         URL url = new URL(endpoint + "?wsdl");
         URLConnection conn = url.openConnection();
