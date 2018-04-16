@@ -656,23 +656,28 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
-        <tr id="entitat_comprovarNifFirma_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICACUSTODIA)}">
+        <tr id="entitat_politicaCustodia_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARNIFFIRMA])?'entitat.comprovarNifFirma':__theForm.labels[EntitatFields.COMPROVARNIFFIRMA]}" />
-              <c:if test="${not empty __theForm.help[EntitatFields.COMPROVARNIFFIRMA]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.COMPROVARNIFFIRMA]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICACUSTODIA])?'entitat.politicaCustodia':__theForm.labels[EntitatFields.POLITICACUSTODIA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.POLITICACUSTODIA]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.POLITICACUSTODIA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
-              <form:errors path="entitat.comprovarNifFirma" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma" />
+          <form:errors path="entitat.politicaCustodia" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICACUSTODIA)}" >
+          <form:hidden path="entitat.politicaCustodia"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
           </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
-                <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarNifFirma}" />
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICACUSTODIA)}" >
+          <form:select id="entitat_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="input-xxlarge" path="entitat.politicaCustodia">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
           </c:if>
            </td>
         </tr>
@@ -699,6 +704,87 @@
           <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
           <form:option value="" ></form:option>
             <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <tr id="entitat_segellDeTempsViaWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:hidden path="entitat.segellDeTempsViaWeb"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
+            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
+        <tr id="entitat_politicaTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICATAULAFIRMES])?'entitat.politicaTaulaFirmes':__theForm.labels[EntitatFields.POLITICATAULAFIRMES]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.POLITICATAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.POLITICATAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.politicaTaulaFirmes" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICATAULAFIRMES)}" >
+          <form:hidden path="entitat.politicaTaulaFirmes"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaTaulaFirmes,__theForm.listOfValuesForPoliticaTaulaFirmes)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICATAULAFIRMES)}" >
+          <form:select id="entitat_politicaTaulaFirmes"  onchange="if(typeof onChangePoliticaTaulaFirmes == 'function') {  onChangePoliticaTaulaFirmes(this); };"  cssClass="input-xxlarge" path="entitat.politicaTaulaFirmes">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaTaulaFirmes}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
+        <tr id="entitat_posicioTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.POSICIOTAULAFIRMES])?'entitat.posicioTaulaFirmes':__theForm.labels[EntitatFields.POSICIOTAULAFIRMES]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.POSICIOTAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.POSICIOTAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.posicioTaulaFirmes" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
+          <form:hidden path="entitat.posicioTaulaFirmes"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.posicioTaulaFirmes,__theForm.listOfValuesForPosicioTaulaFirmes)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
+          <form:select id="entitat_posicioTaulaFirmes"  onchange="if(typeof onChangePosicioTaulaFirmes == 'function') {  onChangePosicioTaulaFirmes(this); };"  cssClass="input-xxlarge" path="entitat.posicioTaulaFirmes">
+            <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmes}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -736,25 +822,129 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <tr id="entitat_segellDeTempsViaWeb_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
+        <tr id="entitat_pluginRubricaID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINRUBRICAID])?'entitat.pluginRubricaID':__theForm.labels[EntitatFields.PLUGINRUBRICAID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINRUBRICAID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINRUBRICAID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:hidden path="entitat.segellDeTempsViaWeb"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
+          <form:errors path="entitat.pluginRubricaID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINRUBRICAID)}" >
+          <form:hidden path="entitat.pluginRubricaID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginRubricaID,__theForm.listOfPluginForPluginRubricaID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
-            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINRUBRICAID)}" >
+          <form:select id="entitat_pluginRubricaID"  onchange="if(typeof onChangePluginRubricaID == 'function') {  onChangePluginRubricaID(this); };"  cssClass="input-xxlarge" path="entitat.pluginRubricaID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfPluginForPluginRubricaID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+        <tr id="entitat_comprovarNifFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.COMPROVARNIFFIRMA])?'entitat.comprovarNifFirma':__theForm.labels[EntitatFields.COMPROVARNIFFIRMA]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.COMPROVARNIFFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.COMPROVARNIFFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
+              <form:errors path="entitat.comprovarNifFirma" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)? 'false' : 'true'}" path="entitat.comprovarNifFirma" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.COMPROVARNIFFIRMA)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.entitat.comprovarNifFirma}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.CHECKCANVIATDOCFIRMAT)}">
+        <tr id="entitat_checkCanviatDocFirmat_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.CHECKCANVIATDOCFIRMAT])?'entitat.checkCanviatDocFirmat':__theForm.labels[EntitatFields.CHECKCANVIATDOCFIRMAT]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.CHECKCANVIATDOCFIRMAT]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.CHECKCANVIATDOCFIRMAT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}" >
+              <form:errors path="entitat.checkCanviatDocFirmat" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)? 'false' : 'true'}" path="entitat.checkCanviatDocFirmat" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.CHECKCANVIATDOCFIRMAT)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.entitat.checkCanviatDocFirmat}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINVALIDAFIRMESID)}">
+        <tr id="entitat_pluginValidaFirmesID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINVALIDAFIRMESID])?'entitat.pluginValidaFirmesID':__theForm.labels[EntitatFields.PLUGINVALIDAFIRMESID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINVALIDAFIRMESID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINVALIDAFIRMESID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.pluginValidaFirmesID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDAFIRMESID)}" >
+          <form:hidden path="entitat.pluginValidaFirmesID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaFirmesID,__theForm.listOfPluginForPluginValidaFirmesID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDAFIRMESID)}" >
+          <form:select id="entitat_pluginValidaFirmesID"  onchange="if(typeof onChangePluginValidaFirmesID == 'function') {  onChangePluginValidaFirmesID(this); };"  cssClass="input-xxlarge" path="entitat.pluginValidaFirmesID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfPluginForPluginValidaFirmesID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINVALIDACERTIFICATID)}">
+        <tr id="entitat_pluginValidaCertificatID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINVALIDACERTIFICATID])?'entitat.pluginValidaCertificatID':__theForm.labels[EntitatFields.PLUGINVALIDACERTIFICATID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINVALIDACERTIFICATID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINVALIDACERTIFICATID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.pluginValidaCertificatID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}" >
+          <form:hidden path="entitat.pluginValidaCertificatID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginValidaCertificatID,__theForm.listOfPluginForPluginValidaCertificatID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINVALIDACERTIFICATID)}" >
+          <form:select id="entitat_pluginValidaCertificatID"  onchange="if(typeof onChangePluginValidaCertificatID == 'function') {  onChangePluginValidaCertificatID(this); };"  cssClass="input-xxlarge" path="entitat.pluginValidaCertificatID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfPluginForPluginValidaCertificatID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

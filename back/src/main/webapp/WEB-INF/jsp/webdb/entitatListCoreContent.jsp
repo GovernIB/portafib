@@ -179,9 +179,12 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICACUSTODIA)}">
           <td>
-            <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.comprovarNifFirma?'success':'error'}.png"/>">
+          <c:set var="tmp">${entitat.politicaCustodia}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaCustodia[tmp]}
+          </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
@@ -189,6 +192,30 @@
           <c:set var="tmp">${entitat.custodiaInfoID}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+          <td>
+          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
+          <td>
+          <c:set var="tmp">${entitat.politicaTaulaFirmes}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaTaulaFirmes[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
+          <td>
+          <c:set var="tmp">${entitat.posicioTaulaFirmes}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPosicioTaulaFirmes[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -200,11 +227,37 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
           <td>
-          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
+          <c:set var="tmp">${entitat.pluginRubricaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
+          ${__theFilterForm.mapOfPluginForPluginRubricaID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.comprovarNifFirma?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CHECKCANVIATDOCFIRMAT)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${entitat.checkCanviatDocFirmat?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINVALIDAFIRMESID)}">
+          <td>
+          <c:set var="tmp">${entitat.pluginValidaFirmesID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfPluginForPluginValidaFirmesID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINVALIDACERTIFICATID)}">
+          <td>
+          <c:set var="tmp">${entitat.pluginValidaCertificatID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfPluginForPluginValidaCertificatID[tmp]}
           </c:if>
           </td>
         </c:if>

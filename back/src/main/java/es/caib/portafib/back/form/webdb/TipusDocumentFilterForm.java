@@ -65,6 +65,28 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
   }
 
 
+  private java.lang.Long tipusDocumentBaseIDDesde;
+
+  public java.lang.Long getTipusDocumentBaseIDDesde() {
+    return this.tipusDocumentBaseIDDesde;
+  }
+
+  public void setTipusDocumentBaseIDDesde(java.lang.Long tipusDocumentBaseIDDesde) {
+    this.tipusDocumentBaseIDDesde = tipusDocumentBaseIDDesde;
+  }
+
+
+  private java.lang.Long tipusDocumentBaseIDFins;
+
+  public java.lang.Long getTipusDocumentBaseIDFins() {
+    return this.tipusDocumentBaseIDFins;
+  }
+
+  public void setTipusDocumentBaseIDFins(java.lang.Long tipusDocumentBaseIDFins) {
+    this.tipusDocumentBaseIDFins = tipusDocumentBaseIDFins;
+  }
+
+
   private java.lang.String descripcio;
 
   public java.lang.String getDescripcio() {
@@ -96,9 +118,12 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
     this.tipusDocumentIDFins = __toClone.tipusDocumentIDFins;
     this.nomIDDesde = __toClone.nomIDDesde;
     this.nomIDFins = __toClone.nomIDFins;
+    this.tipusDocumentBaseIDDesde = __toClone.tipusDocumentBaseIDDesde;
+    this.tipusDocumentBaseIDFins = __toClone.tipusDocumentBaseIDFins;
     this.descripcio = __toClone.descripcio;
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.mapOfTraduccioForNomID = __toClone.mapOfTraduccioForNomID;
+    this.mapOfValuesForTipusDocumentBaseID = __toClone.mapOfValuesForTipusDocumentBaseID;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
   }
   
@@ -111,7 +136,7 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] {  }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTBASEID }));
   }
 
 
@@ -142,6 +167,18 @@ public class TipusDocumentFilterForm extends PortaFIBBaseFilterForm implements T
 
   public void setMapOfTraduccioForNomID(Map<String, String> mapOfTraduccioForNomID) {
     this.mapOfTraduccioForNomID = mapOfTraduccioForNomID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForTipusDocumentBaseID;
+
+  public Map<String, String> getMapOfValuesForTipusDocumentBaseID() {
+    return this.mapOfValuesForTipusDocumentBaseID;
+  }
+
+  public void setMapOfValuesForTipusDocumentBaseID(Map<String, String> mapOfValuesForTipusDocumentBaseID) {
+    this.mapOfValuesForTipusDocumentBaseID = mapOfValuesForTipusDocumentBaseID;
   }
 
 

@@ -519,6 +519,89 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="peticioDeFirma.tipusOperacioFirma" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="tipusOperacioFirmaDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="tipusOperacioFirmaFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.EXPEDIENTCODI)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.expedientCodi" var="expedientCodi" />
+              <fmt:message key="genapp.form.searchby" var="cercaperexpedientCodi" >                
+                 <fmt:param value="${expedientCodi}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${expedientCodi}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperexpedientCodi}" path="expedientCodi" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.EXPEDIENTNOM)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.expedientNom" var="expedientNom" />
+              <fmt:message key="genapp.form.searchby" var="cercaperexpedientNom" >                
+                 <fmt:param value="${expedientNom}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${expedientNom}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperexpedientNom}" path="expedientNom" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.EXPEDIENTURL)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.expedientUrl" var="expedientUrl" />
+              <fmt:message key="genapp.form.searchby" var="cercaperexpedientUrl" >                
+                 <fmt:param value="${expedientUrl}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${expedientUrl}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperexpedientUrl}" path="expedientUrl" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.procedimentCodi" var="procedimentCodi" />
+              <fmt:message key="genapp.form.searchby" var="cercaperprocedimentCodi" >                
+                 <fmt:param value="${procedimentCodi}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${procedimentCodi}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperprocedimentCodi}" path="procedimentCodi" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.procedimentnom" var="procedimentnom" />
+              <fmt:message key="genapp.form.searchby" var="cercaperprocedimentnom" >                
+                 <fmt:param value="${procedimentnom}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${procedimentnom}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperprocedimentnom}" path="procedimentnom" />
+            </div>
+
+
+        </c:if>
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">

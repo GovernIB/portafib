@@ -87,6 +87,12 @@ private static final long serialVersionUID = -491371752L;
 	@Column(name="mostrarrubrica",nullable = false,length = 1)
 	boolean mostrarRubrica;
 
+	@Column(name="motiu",length = 255)
+	java.lang.String motiu;
+
+	@Column(name="minimderevisors",nullable = false,length = 10)
+	int minimDeRevisors;
+
 
 
   /** Constructor Buit */
@@ -94,7 +100,7 @@ private static final long serialVersionUID = -491371752L;
   }
 
   /** Constructor amb tots els camps  */
-  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica) {
+  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
@@ -111,9 +117,11 @@ private static final long serialVersionUID = -491371752L;
     this.nomCertificat=nomCertificat;
     this.tipusEstatDeFirmaFinalID=tipusEstatDeFirmaFinalID;
     this.mostrarRubrica=mostrarRubrica;
+    this.motiu=motiu;
+    this.minimDeRevisors=minimDeRevisors;
 }
   /** Constructor sense valors autoincrementals */
-  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica) {
+  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
@@ -129,15 +137,18 @@ private static final long serialVersionUID = -491371752L;
     this.nomCertificat=nomCertificat;
     this.tipusEstatDeFirmaFinalID=tipusEstatDeFirmaFinalID;
     this.mostrarRubrica=mostrarRubrica;
+    this.motiu=motiu;
+    this.minimDeRevisors=minimDeRevisors;
 }
   /** Constructor dels valors Not Null */
-  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica) {
+  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica , int minimDeRevisors) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
     this.caixaPagina=caixaPagina;
     this.mostrarRubrica=mostrarRubrica;
+    this.minimDeRevisors=minimDeRevisors;
 }
   public FirmaJPA(Firma __bean) {
     this.setFirmaID(__bean.getFirmaID());
@@ -156,6 +167,8 @@ private static final long serialVersionUID = -491371752L;
     this.setNomCertificat(__bean.getNomCertificat());
     this.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
     this.setMostrarRubrica(__bean.isMostrarRubrica());
+    this.setMotiu(__bean.getMotiu());
+    this.setMinimDeRevisors(__bean.getMinimDeRevisors());
     // Fitxer
     this.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 	}
@@ -272,6 +285,20 @@ private static final long serialVersionUID = -491371752L;
 		this.mostrarRubrica = _mostrarRubrica_;
 	};
 
+	public java.lang.String getMotiu() {
+		return(motiu);
+	};
+	public void setMotiu(java.lang.String _motiu_) {
+		this.motiu = _motiu_;
+	};
+
+	public int getMinimDeRevisors() {
+		return(minimDeRevisors);
+	};
+	public void setMinimDeRevisors(int _minimDeRevisors_) {
+		this.minimDeRevisors = _minimDeRevisors_;
+	};
+
 
 
   @Override
@@ -310,6 +337,19 @@ private static final long serialVersionUID = -491371752L;
 
 	public void setEstatDeFirmas(Set<EstatDeFirmaJPA> estatDeFirmas) {
 	  this.estatDeFirmas = estatDeFirmas;
+	}
+
+
+// EXP  Field:firmaid | Table: pfi_revisordefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firma")
+	private Set<RevisorDeFirmaJPA> revisorDeFirmas = new HashSet<RevisorDeFirmaJPA>(0);
+	public  Set<RevisorDeFirmaJPA> getRevisorDeFirmas() {
+    return this.revisorDeFirmas;
+  }
+
+	public void setRevisorDeFirmas(Set<RevisorDeFirmaJPA> revisorDeFirmas) {
+	  this.revisorDeFirmas = revisorDeFirmas;
 	}
 
 
@@ -394,6 +434,8 @@ private static final long serialVersionUID = -491371752L;
     __tmp.setNomCertificat(__bean.getNomCertificat());
     __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
     __tmp.setMostrarRubrica(__bean.isMostrarRubrica());
+    __tmp.setMotiu(__bean.getMotiu());
+    __tmp.setMinimDeRevisors(__bean.getMinimDeRevisors());
     // Fitxer
     __tmp.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 		return __tmp;
@@ -425,6 +467,10 @@ private static final long serialVersionUID = -491371752L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"RevisorDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeFirmas())) ) {
+      __tmp.setRevisorDeFirmas(RevisorDeFirmaJPA.copyJPA(__jpa.getRevisorDeFirmas(), __alreadyCopied,"FirmaJPA"));
+    }
     if(!"AnnexFirmatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexFirmats) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexFirmats())) ) {
       __tmp.setAnnexFirmats(AnnexFirmatJPA.copyJPA(__jpa.getAnnexFirmats(), __alreadyCopied,"FirmaJPA"));

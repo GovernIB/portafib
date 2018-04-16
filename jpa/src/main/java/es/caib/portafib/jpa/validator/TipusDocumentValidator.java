@@ -40,6 +40,10 @@ public class TipusDocumentValidator<T> implements TipusDocumentFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOMID)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSDOCUMENTBASEID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSDOCUMENTBASEID)));
+
     // Check size
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);

@@ -44,9 +44,15 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
-    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
     this.listOfValuesForSegellDeTempsViaWeb = __toClone.listOfValuesForSegellDeTempsViaWeb;
+    this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
+    this.listOfValuesForPosicioTaulaFirmes = __toClone.listOfValuesForPosicioTaulaFirmes;
+    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
+    this.listOfPluginForPluginRubricaID = __toClone.listOfPluginForPluginRubricaID;
+    this.listOfPluginForPluginValidaFirmesID = __toClone.listOfPluginForPluginValidaFirmesID;
+    this.listOfPluginForPluginValidaCertificatID = __toClone.listOfPluginForPluginValidaCertificatID;
   }
   
   public EntitatForm(EntitatJPA entitat, boolean nou) {
@@ -189,6 +195,18 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
+  private List<StringKeyValue> listOfValuesForPoliticaCustodia;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
+    return this.listOfValuesForPoliticaCustodia;
+  }
+
+  public void setListOfValuesForPoliticaCustodia(List<StringKeyValue> listOfValuesForPoliticaCustodia) {
+    this.listOfValuesForPoliticaCustodia = listOfValuesForPoliticaCustodia;
+  }
+
+
+
   private List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID;
 
   public List<StringKeyValue> getListOfCustodiaInfoForCustodiaInfoID() {
@@ -197,6 +215,42 @@ public class EntitatForm extends PortaFIBBaseForm {
 
   public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
     this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
+
+  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
+    return this.listOfValuesForSegellDeTempsViaWeb;
+  }
+
+  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
+    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPoliticaTaulaFirmes;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaTaulaFirmes() {
+    return this.listOfValuesForPoliticaTaulaFirmes;
+  }
+
+  public void setListOfValuesForPoliticaTaulaFirmes(List<StringKeyValue> listOfValuesForPoliticaTaulaFirmes) {
+    this.listOfValuesForPoliticaTaulaFirmes = listOfValuesForPoliticaTaulaFirmes;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPosicioTaulaFirmes;
+
+  public List<StringKeyValue> getListOfValuesForPosicioTaulaFirmes() {
+    return this.listOfValuesForPosicioTaulaFirmes;
+  }
+
+  public void setListOfValuesForPosicioTaulaFirmes(List<StringKeyValue> listOfValuesForPosicioTaulaFirmes) {
+    this.listOfValuesForPosicioTaulaFirmes = listOfValuesForPosicioTaulaFirmes;
   }
 
 
@@ -213,14 +267,38 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
+  private List<StringKeyValue> listOfPluginForPluginRubricaID;
 
-  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
-    return this.listOfValuesForSegellDeTempsViaWeb;
+  public List<StringKeyValue> getListOfPluginForPluginRubricaID() {
+    return this.listOfPluginForPluginRubricaID;
   }
 
-  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
-    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
+  public void setListOfPluginForPluginRubricaID(List<StringKeyValue> listOfPluginForPluginRubricaID) {
+    this.listOfPluginForPluginRubricaID = listOfPluginForPluginRubricaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfPluginForPluginValidaFirmesID;
+
+  public List<StringKeyValue> getListOfPluginForPluginValidaFirmesID() {
+    return this.listOfPluginForPluginValidaFirmesID;
+  }
+
+  public void setListOfPluginForPluginValidaFirmesID(List<StringKeyValue> listOfPluginForPluginValidaFirmesID) {
+    this.listOfPluginForPluginValidaFirmesID = listOfPluginForPluginValidaFirmesID;
+  }
+
+
+
+  private List<StringKeyValue> listOfPluginForPluginValidaCertificatID;
+
+  public List<StringKeyValue> getListOfPluginForPluginValidaCertificatID() {
+    return this.listOfPluginForPluginValidaCertificatID;
+  }
+
+  public void setListOfPluginForPluginValidaCertificatID(List<StringKeyValue> listOfPluginForPluginValidaCertificatID) {
+    this.listOfPluginForPluginValidaCertificatID = listOfPluginForPluginValidaCertificatID;
   }
 
 

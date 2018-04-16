@@ -56,6 +56,14 @@ public class UsuariEntitatValidator<T> implements UsuariEntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REBRETOTSELSAVISOS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICADEPLUGINFIRMAWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICADEPLUGINFIRMAWEB)));
+
     // Check size
     if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
       java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);

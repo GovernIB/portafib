@@ -2,6 +2,24 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="PluginFields" className="es.caib.portafib.model.fields.PluginFields"/>
   
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.CODI)}">
+        <tr id="plugin_codi_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PluginFields.CODI])?'plugin.codi':__theForm.labels[PluginFields.CODI]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PluginFields.CODI]}">
+              <i class="icon-info-sign" title="${__theForm.help[PluginFields.CODI]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="plugin.codi" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.CODI)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="plugin.codi"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.NOMID)}">
         <tr id="plugin_nomID_rowid">
           <td>
@@ -86,6 +104,24 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.ORDRE)}">
+        <tr id="plugin_ordre_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PluginFields.ORDRE])?'plugin.ordre':__theForm.labels[PluginFields.ORDRE]}" />
+              <c:if test="${not empty __theForm.help[PluginFields.ORDRE]}">
+              <i class="icon-info-sign" title="${__theForm.help[PluginFields.ORDRE]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="plugin.ordre" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PluginFields.ORDRE)? 'input-mini uneditable-input' : 'input-mini'}"   path="plugin.ordre"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.TIPUS)}">
         <tr id="plugin_tipus_rowid">
           <td>
@@ -163,6 +199,33 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.POLITICADEUS)}">
+        <tr id="plugin_politicadeus_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICADEUS])?'plugin.politicadeus':__theForm.labels[PluginFields.POLITICADEUS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PluginFields.POLITICADEUS]}">
+              <i class="icon-info-sign" title="${__theForm.help[PluginFields.POLITICADEUS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="plugin.politicadeus" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
+          <form:hidden path="plugin.politicadeus"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicadeus,__theForm.listOfValuesForPoliticadeus)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
+          <form:select id="plugin_politicadeus"  onchange="if(typeof onChangePoliticadeus == 'function') {  onChangePoliticadeus(this); };"  cssClass="input-xxlarge" path="plugin.politicadeus">
+            <c:forEach items="${__theForm.listOfValuesForPoliticadeus}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.ENTITATID)}">
         <tr id="plugin_entitatID_rowid">
           <td>
@@ -209,6 +272,33 @@
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.ACTIU)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.plugin.actiu}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.POLITICAMOSTRARPROPIETATS)}">
+        <tr id="plugin_politicaMostrarPropietats_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICAMOSTRARPROPIETATS])?'plugin.politicaMostrarPropietats':__theForm.labels[PluginFields.POLITICAMOSTRARPROPIETATS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PluginFields.POLITICAMOSTRARPROPIETATS]}">
+              <i class="icon-info-sign" title="${__theForm.help[PluginFields.POLITICAMOSTRARPROPIETATS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="plugin.politicaMostrarPropietats" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICAMOSTRARPROPIETATS)}" >
+          <form:hidden path="plugin.politicaMostrarPropietats"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaMostrarPropietats,__theForm.listOfValuesForPoliticaMostrarPropietats)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICAMOSTRARPROPIETATS)}" >
+          <form:select id="plugin_politicaMostrarPropietats"  onchange="if(typeof onChangePoliticaMostrarPropietats == 'function') {  onChangePoliticaMostrarPropietats(this); };"  cssClass="input-xxlarge" path="plugin.politicaMostrarPropietats">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaMostrarPropietats}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
           </c:if>
            </td>
         </tr>

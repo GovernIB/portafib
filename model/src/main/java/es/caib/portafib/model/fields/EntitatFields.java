@@ -38,10 +38,17 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
 	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
-	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
+	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
-	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
 	 public static final IntegerField SEGELLDETEMPSVIAWEB = new IntegerField(_TABLE_MODEL, "segellDeTempsViaWeb", "segelldetempsviaweb");
+	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
+	 public static final IntegerField POSICIOTAULAFIRMES = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmes", "posiciotaulafirmes");
+	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
+	 public static final LongField PLUGINRUBRICAID = new LongField(_TABLE_MODEL, "pluginRubricaID", "pluginrubricaid");
+	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
+	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
+	 public static final LongField PLUGINVALIDAFIRMESID = new LongField(_TABLE_MODEL, "pluginValidaFirmesID", "pluginvalidafirmesid");
+	 public static final LongField PLUGINVALIDACERTIFICATID = new LongField(_TABLE_MODEL, "pluginValidaCertificatID", "pluginvalidacertificatid");
 
 
   public static final Field<?>[] ALL_ENTITAT_FIELDS = {
@@ -71,10 +78,17 @@ public interface EntitatFields extends java.io.Serializable {
     MOTIUDELEGACIOID,
     FIRMATPERFORMATID,
     ALGORISMEDEFIRMAID,
-    COMPROVARNIFFIRMA,
+    POLITICACUSTODIA,
     CUSTODIAINFOID,
+    SEGELLDETEMPSVIAWEB,
+    POLITICATAULAFIRMES,
+    POSICIOTAULAFIRMES,
     PLUGINID,
-    SEGELLDETEMPSVIAWEB
+    PLUGINRUBRICAID,
+    COMPROVARNIFFIRMA,
+    CHECKCANVIATDOCFIRMAT,
+    PLUGINVALIDAFIRMESID,
+    PLUGINVALIDACERTIFICATID
   };
 
 

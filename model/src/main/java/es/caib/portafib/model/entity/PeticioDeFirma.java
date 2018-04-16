@@ -17,6 +17,9 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.lang.Long getFitxerAFirmarID();
 	public void setFitxerAFirmarID(java.lang.Long _fitxerAFirmarID_);
 
+	public java.lang.Long getFirmaOriginalDetachedID();
+	public void setFirmaOriginalDetachedID(java.lang.Long _firmaOriginalDetachedID_);
+
 	public java.lang.Long getFitxerAdaptatID();
 	public void setFitxerAdaptatID(java.lang.Long _fitxerAdaptatID_);
 
@@ -89,8 +92,28 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public boolean isSegellatDeTemps();
 	public void setSegellatDeTemps(boolean _segellatDeTemps_);
 
+	public int getTipusOperacioFirma();
+	public void setTipusOperacioFirma(int _tipusOperacioFirma_);
+
+	public java.lang.String getExpedientCodi();
+	public void setExpedientCodi(java.lang.String _expedientCodi_);
+
+	public java.lang.String getExpedientNom();
+	public void setExpedientNom(java.lang.String _expedientNom_);
+
+	public java.lang.String getExpedientUrl();
+	public void setExpedientUrl(java.lang.String _expedientUrl_);
+
+	public java.lang.String getProcedimentCodi();
+	public void setProcedimentCodi(java.lang.String _procedimentCodi_);
+
+	public java.lang.String getProcedimentnom();
+	public void setProcedimentnom(java.lang.String _procedimentnom_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerAFirmar();
+  // Fitxer
+  public <F extends Fitxer> F getFirmaOriginalDetached();
   // Fitxer
   public <F extends Fitxer> F getFitxerAdaptat();
   // Fitxer

@@ -22,7 +22,9 @@ public class PluginForm extends PortaFIBBaseForm {
     this.listOfTraduccioForNomID = __toClone.listOfTraduccioForNomID;
     this.listOfTraduccioForDescripcioCurtaID = __toClone.listOfTraduccioForDescripcioCurtaID;
     this.listOfValuesForTipus = __toClone.listOfValuesForTipus;
+    this.listOfValuesForPoliticadeus = __toClone.listOfValuesForPoliticadeus;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
+    this.listOfValuesForPoliticaMostrarPropietats = __toClone.listOfValuesForPoliticaMostrarPropietats;
   }
   
   public PluginForm(PluginJPA plugin, boolean nou) {
@@ -83,6 +85,18 @@ public class PluginForm extends PortaFIBBaseForm {
 
 
 
+  private List<StringKeyValue> listOfValuesForPoliticadeus;
+
+  public List<StringKeyValue> getListOfValuesForPoliticadeus() {
+    return this.listOfValuesForPoliticadeus;
+  }
+
+  public void setListOfValuesForPoliticadeus(List<StringKeyValue> listOfValuesForPoliticadeus) {
+    this.listOfValuesForPoliticadeus = listOfValuesForPoliticadeus;
+  }
+
+
+
   private List<StringKeyValue> listOfEntitatForEntitatID;
 
   public List<StringKeyValue> getListOfEntitatForEntitatID() {
@@ -91,6 +105,18 @@ public class PluginForm extends PortaFIBBaseForm {
 
   public void setListOfEntitatForEntitatID(List<StringKeyValue> listOfEntitatForEntitatID) {
     this.listOfEntitatForEntitatID = listOfEntitatForEntitatID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPoliticaMostrarPropietats;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaMostrarPropietats() {
+    return this.listOfValuesForPoliticaMostrarPropietats;
+  }
+
+  public void setListOfValuesForPoliticaMostrarPropietats(List<StringKeyValue> listOfValuesForPoliticaMostrarPropietats) {
+    this.listOfValuesForPoliticaMostrarPropietats = listOfValuesForPoliticaMostrarPropietats;
   }
 
 

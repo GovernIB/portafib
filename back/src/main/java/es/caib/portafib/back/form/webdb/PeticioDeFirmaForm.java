@@ -19,6 +19,10 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
   private boolean fitxerAFirmarIDDelete;
   
   
+  private CommonsMultipartFile firmaOriginalDetachedID;
+  private boolean firmaOriginalDetachedIDDelete;
+  
+  
   private CommonsMultipartFile fitxerAdaptatID;
   private boolean fitxerAdaptatIDDelete;
   
@@ -43,6 +47,7 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
+    this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
   }
   
   public PeticioDeFirmaForm(PeticioDeFirmaJPA peticioDeFirma, boolean nou) {
@@ -71,6 +76,20 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
   
   public void setFitxerAFirmarIDDelete(boolean fitxerAFirmarIDDelete) {
     this.fitxerAFirmarIDDelete = fitxerAFirmarIDDelete;
+   }
+  public CommonsMultipartFile getFirmaOriginalDetachedID() {
+    return firmaOriginalDetachedID;
+  }
+  
+   public void setFirmaOriginalDetachedID(CommonsMultipartFile firmaOriginalDetachedID) {
+    this.firmaOriginalDetachedID = firmaOriginalDetachedID;
+  }
+  public boolean isFirmaOriginalDetachedIDDelete() {
+    return firmaOriginalDetachedIDDelete;
+  }
+  
+  public void setFirmaOriginalDetachedIDDelete(boolean firmaOriginalDetachedIDDelete) {
+    this.firmaOriginalDetachedIDDelete = firmaOriginalDetachedIDDelete;
    }
   public CommonsMultipartFile getFitxerAdaptatID() {
     return fitxerAdaptatID;
@@ -228,6 +247,18 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfUsuariEntitatForUsuariEntitatID(List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
     this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForTipusOperacioFirma;
+
+  public List<StringKeyValue> getListOfValuesForTipusOperacioFirma() {
+    return this.listOfValuesForTipusOperacioFirma;
+  }
+
+  public void setListOfValuesForTipusOperacioFirma(List<StringKeyValue> listOfValuesForTipusOperacioFirma) {
+    this.listOfValuesForTipusOperacioFirma = listOfValuesForTipusOperacioFirma;
   }
 
 

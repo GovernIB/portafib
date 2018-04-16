@@ -1,0 +1,27 @@
+
+<%-- ========= FITXER AUTOGENERAT - NO MODIFICAR !!!!! --%>
+<%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
+ 
+  <%@include file="revisorDeFirmaFormTitle.jsp" %>
+
+
+<form:form modelAttribute="revisorDeFirmaForm" method="${method}"
+  enctype="multipart/form-data">
+  
+  <c:set var="contexte" value="${revisorDeFirmaForm.contexte}"/>
+  <form:hidden path="nou" />
+  
+  <%@include file="revisorDeFirmaFormCorePre.jsp" %>
+  <%@include file="revisorDeFirmaFormCore.jsp" %>
+
+  <%@include file="revisorDeFirmaFormCorePost.jsp" %>
+
+  <%@include file="revisorDeFirmaFormButtons.jsp" %>
+
+  <c:if test="${revisorDeFirmaForm.attachedAdditionalJspCode}">
+     <%@include file="../webdbmodificable/revisorDeFirmaFormModificable.jsp" %>
+  </c:if>
+
+</form:form>
+
+

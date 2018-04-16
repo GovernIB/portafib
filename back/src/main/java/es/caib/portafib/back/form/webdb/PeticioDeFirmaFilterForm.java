@@ -406,6 +406,83 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
+  private java.lang.Integer tipusOperacioFirmaDesde;
+
+  public java.lang.Integer getTipusOperacioFirmaDesde() {
+    return this.tipusOperacioFirmaDesde;
+  }
+
+  public void setTipusOperacioFirmaDesde(java.lang.Integer tipusOperacioFirmaDesde) {
+    this.tipusOperacioFirmaDesde = tipusOperacioFirmaDesde;
+  }
+
+
+  private java.lang.Integer tipusOperacioFirmaFins;
+
+  public java.lang.Integer getTipusOperacioFirmaFins() {
+    return this.tipusOperacioFirmaFins;
+  }
+
+  public void setTipusOperacioFirmaFins(java.lang.Integer tipusOperacioFirmaFins) {
+    this.tipusOperacioFirmaFins = tipusOperacioFirmaFins;
+  }
+
+
+  private java.lang.String expedientCodi;
+
+  public java.lang.String getExpedientCodi() {
+    return this.expedientCodi;
+  }
+
+  public void setExpedientCodi(java.lang.String expedientCodi) {
+    this.expedientCodi = expedientCodi;
+  }
+
+
+  private java.lang.String expedientNom;
+
+  public java.lang.String getExpedientNom() {
+    return this.expedientNom;
+  }
+
+  public void setExpedientNom(java.lang.String expedientNom) {
+    this.expedientNom = expedientNom;
+  }
+
+
+  private java.lang.String expedientUrl;
+
+  public java.lang.String getExpedientUrl() {
+    return this.expedientUrl;
+  }
+
+  public void setExpedientUrl(java.lang.String expedientUrl) {
+    this.expedientUrl = expedientUrl;
+  }
+
+
+  private java.lang.String procedimentCodi;
+
+  public java.lang.String getProcedimentCodi() {
+    return this.procedimentCodi;
+  }
+
+  public void setProcedimentCodi(java.lang.String procedimentCodi) {
+    this.procedimentCodi = procedimentCodi;
+  }
+
+
+  private java.lang.String procedimentnom;
+
+  public java.lang.String getProcedimentnom() {
+    return this.procedimentnom;
+  }
+
+  public void setProcedimentnom(java.lang.String procedimentnom) {
+    this.procedimentnom = procedimentnom;
+  }
+
+
   public PeticioDeFirmaFilterForm() {
   }
   
@@ -446,6 +523,13 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
     this.usuariEntitatID = __toClone.usuariEntitatID;
+    this.tipusOperacioFirmaDesde = __toClone.tipusOperacioFirmaDesde;
+    this.tipusOperacioFirmaFins = __toClone.tipusOperacioFirmaFins;
+    this.expedientCodi = __toClone.expedientCodi;
+    this.expedientNom = __toClone.expedientNom;
+    this.expedientUrl = __toClone.expedientUrl;
+    this.procedimentCodi = __toClone.procedimentCodi;
+    this.procedimentnom = __toClone.procedimentnom;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
     this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID = __toClone.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
     this.mapOfTipusFirmaForTipusFirmaID = __toClone.mapOfTipusFirmaForTipusFirmaID;
@@ -457,6 +541,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
     this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
+    this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
   }
   
   /* ========= UTILS ========== */
@@ -619,6 +704,18 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
   public void setMapOfUsuariEntitatForUsuariEntitatID(Map<String, String> mapOfUsuariEntitatForUsuariEntitatID) {
     this.mapOfUsuariEntitatForUsuariEntitatID = mapOfUsuariEntitatForUsuariEntitatID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForTipusOperacioFirma;
+
+  public Map<String, String> getMapOfValuesForTipusOperacioFirma() {
+    return this.mapOfValuesForTipusOperacioFirma;
+  }
+
+  public void setMapOfValuesForTipusOperacioFirma(Map<String, String> mapOfValuesForTipusOperacioFirma) {
+    this.mapOfValuesForTipusOperacioFirma = mapOfValuesForTipusOperacioFirma;
   }
 
 

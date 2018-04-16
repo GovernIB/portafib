@@ -131,6 +131,19 @@ private static final long serialVersionUID = 2131015322L;
 	}
 
 
+// EXP  Field:algorismedefirmaid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "algorismeDeFirma")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracios() {
+    return this.usuariAplicacioConfiguracios;
+  }
+
+	public void setUsuariAplicacioConfiguracios(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios) {
+	  this.usuariAplicacioConfiguracios = usuariAplicacioConfiguracios;
+	}
+
+
 
  // ---------------  STATIC METHODS ------------------
   public static AlgorismeDeFirmaJPA toJPA(AlgorismeDeFirma __bean) {
@@ -176,6 +189,10 @@ private static final long serialVersionUID = 2131015322L;
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
       __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"AlgorismeDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
+      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"AlgorismeDeFirmaJPA"));
     }
     // Copia de beans complexes (IMP)
 

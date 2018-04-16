@@ -115,6 +115,16 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.mostrarRubrica?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOTIU)}">
+          <td>
+          ${firma.motiu}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
+          <td>
+          ${firma.minimDeRevisors}
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

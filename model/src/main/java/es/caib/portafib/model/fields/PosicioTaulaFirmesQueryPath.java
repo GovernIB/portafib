@@ -50,4 +50,18 @@ public class PosicioTaulaFirmesQueryPath extends org.fundaciobit.genapp.common.q
   }
 */
 
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIOS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PosicioTaulaFirmesQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracios" + ".";
+      }
+    });
+  }
+*/
+
 }

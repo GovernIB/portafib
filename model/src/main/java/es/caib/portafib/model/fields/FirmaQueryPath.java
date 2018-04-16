@@ -75,6 +75,14 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     return new BooleanField(getQueryPath(), FirmaFields.MOSTRARRUBRICA);
   }
 
+  public StringField MOTIU() {
+    return new StringField(getQueryPath(), FirmaFields.MOTIU);
+  }
+
+  public IntegerField MINIMDEREVISORS() {
+    return new IntegerField(getQueryPath(), FirmaFields.MINIMDEREVISORS);
+  }
+
 
 
   @Override
@@ -107,6 +115,20 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     return new EstatDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
           return FirmaQueryPath.this.getQueryPath() + "estatDeFirmas" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public RevisorDeFirmaQueryPath REVISORDEFIRMAS() {
+    return new RevisorDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return FirmaQueryPath.this.getQueryPath() + "revisorDeFirmas" + ".";
       }
     });
   }

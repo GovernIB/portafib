@@ -50,6 +50,12 @@ public interface Firma extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public boolean isMostrarRubrica();
 	public void setMostrarRubrica(boolean _mostrarRubrica_);
 
+	public java.lang.String getMotiu();
+	public void setMotiu(java.lang.String _motiu_);
+
+	public int getMinimDeRevisors();
+	public void setMinimDeRevisors(int _minimDeRevisors_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerFirmat();
 

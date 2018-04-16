@@ -243,6 +243,19 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
+// EXP  Field:firmaoriginaldetachedid | Table: pfi_peticiodefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmaOriginalDetachedID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_firmaoriginaldetachedids() {
+    return this.peticioDeFirma_firmaoriginaldetachedids;
+  }
+
+	public void setPeticioDeFirma_firmaoriginaldetachedids(Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids) {
+	  this.peticioDeFirma_firmaoriginaldetachedids = peticioDeFirma_firmaoriginaldetachedids;
+	}
+
+
 // EXP  Field:fitxeradaptatid | Table: pfi_peticiodefirma | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fitxerAdaptatID")
@@ -292,6 +305,19 @@ private static final long serialVersionUID = -252813913L;
 
 	public void setUsuariAplicacios(Set<UsuariAplicacioJPA> usuariAplicacios) {
 	  this.usuariAplicacios = usuariAplicacios;
+	}
+
+
+// EXP  Field:logincertificateid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "loginCertificateID")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracios() {
+    return this.usuariAplicacioConfiguracios;
+  }
+
+	public void setUsuariAplicacioConfiguracios(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios) {
+	  this.usuariAplicacioConfiguracios = usuariAplicacioConfiguracios;
 	}
 
 
@@ -406,6 +432,10 @@ private static final long serialVersionUID = -252813913L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_firmaoriginaldetachedids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_firmaoriginaldetachedids())) ) {
+      __tmp.setPeticioDeFirma_firmaoriginaldetachedids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_firmaoriginaldetachedids(), __alreadyCopied,"FitxerJPA"));
+    }
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacios) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacios())) ) {
       __tmp.setColaboracioDelegacios(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacios(), __alreadyCopied,"FitxerJPA"));
@@ -445,6 +475,10 @@ private static final long serialVersionUID = -252813913L;
     if(!"UsuariPersonaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariPersonas) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariPersonas())) ) {
       __tmp.setUsuariPersonas(UsuariPersonaJPA.copyJPA(__jpa.getUsuariPersonas(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
+      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"FitxerJPA"));
     }
     if(!"AnnexFirmatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexFirmats) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexFirmats())) ) {

@@ -120,6 +120,50 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
   }
 
 
+  private java.lang.Integer politicaCustodiaDesde;
+
+  public java.lang.Integer getPoliticaCustodiaDesde() {
+    return this.politicaCustodiaDesde;
+  }
+
+  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
+    this.politicaCustodiaDesde = politicaCustodiaDesde;
+  }
+
+
+  private java.lang.Integer politicaCustodiaFins;
+
+  public java.lang.Integer getPoliticaCustodiaFins() {
+    return this.politicaCustodiaFins;
+  }
+
+  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
+    this.politicaCustodiaFins = politicaCustodiaFins;
+  }
+
+
+  private java.lang.Integer politicaDePluginFirmaWebDesde;
+
+  public java.lang.Integer getPoliticaDePluginFirmaWebDesde() {
+    return this.politicaDePluginFirmaWebDesde;
+  }
+
+  public void setPoliticaDePluginFirmaWebDesde(java.lang.Integer politicaDePluginFirmaWebDesde) {
+    this.politicaDePluginFirmaWebDesde = politicaDePluginFirmaWebDesde;
+  }
+
+
+  private java.lang.Integer politicaDePluginFirmaWebFins;
+
+  public java.lang.Integer getPoliticaDePluginFirmaWebFins() {
+    return this.politicaDePluginFirmaWebFins;
+  }
+
+  public void setPoliticaDePluginFirmaWebFins(java.lang.Integer politicaDePluginFirmaWebFins) {
+    this.politicaDePluginFirmaWebFins = politicaDePluginFirmaWebFins;
+  }
+
+
   public UsuariAplicacioFilterForm() {
   }
   
@@ -134,9 +178,15 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
     this.callbackURL = __toClone.callbackURL;
     this.idiomaID = __toClone.idiomaID;
     this.descripcio = __toClone.descripcio;
+    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
+    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
+    this.politicaDePluginFirmaWebDesde = __toClone.politicaDePluginFirmaWebDesde;
+    this.politicaDePluginFirmaWebFins = __toClone.politicaDePluginFirmaWebFins;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
     this.mapOfValuesForCallbackVersio = __toClone.mapOfValuesForCallbackVersio;
     this.mapOfIdiomaForIdiomaID = __toClone.mapOfIdiomaForIdiomaID;
+    this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
+    this.mapOfValuesForPoliticaDePluginFirmaWeb = __toClone.mapOfValuesForPoliticaDePluginFirmaWeb;
   }
   
   /* ========= UTILS ========== */
@@ -203,6 +253,30 @@ public class UsuariAplicacioFilterForm extends PortaFIBBaseFilterForm implements
 
   public void setMapOfIdiomaForIdiomaID(Map<String, String> mapOfIdiomaForIdiomaID) {
     this.mapOfIdiomaForIdiomaID = mapOfIdiomaForIdiomaID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaCustodia;
+
+  public Map<String, String> getMapOfValuesForPoliticaCustodia() {
+    return this.mapOfValuesForPoliticaCustodia;
+  }
+
+  public void setMapOfValuesForPoliticaCustodia(Map<String, String> mapOfValuesForPoliticaCustodia) {
+    this.mapOfValuesForPoliticaCustodia = mapOfValuesForPoliticaCustodia;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaDePluginFirmaWeb;
+
+  public Map<String, String> getMapOfValuesForPoliticaDePluginFirmaWeb() {
+    return this.mapOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+  public void setMapOfValuesForPoliticaDePluginFirmaWeb(Map<String, String> mapOfValuesForPoliticaDePluginFirmaWeb) {
+    this.mapOfValuesForPoliticaDePluginFirmaWeb = mapOfValuesForPoliticaDePluginFirmaWeb;
   }
 
 

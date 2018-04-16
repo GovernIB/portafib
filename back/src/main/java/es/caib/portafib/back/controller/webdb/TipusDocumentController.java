@@ -200,6 +200,16 @@ public class TipusDocumentController
       };
     }
 
+    // Field tipusDocumentBaseID
+    {
+      _listSKV = getReferenceListForTipusDocumentBaseID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForTipusDocumentBaseID(_tmp);
+      if (filterForm.getGroupByFields().contains(TIPUSDOCUMENTBASEID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSDOCUMENTBASEID, false);
+      };
+    }
+
     // Field usuariAplicacioID
     {
       _listSKV = getReferenceListForUsuariAplicacioID(request, mav, filterForm, list, groupByItemsMap, null);
@@ -226,6 +236,7 @@ public class TipusDocumentController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(NOMID, filterForm.getMapOfTraduccioForNomID());
+    __mapping.put(TIPUSDOCUMENTBASEID, filterForm.getMapOfValuesForTipusDocumentBaseID());
     __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
@@ -284,6 +295,13 @@ public class TipusDocumentController
 
   public void fillReferencesForForm(TipusDocumentForm tipusDocumentForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
+    // Comprovam si ja esta definida la llista
+    if (tipusDocumentForm.getListOfValuesForTipusDocumentBaseID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForTipusDocumentBaseID(request, mav, tipusDocumentForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      tipusDocumentForm.setListOfValuesForTipusDocumentBaseID(_listSKV);
+    }
     // Comprovam si ja esta definida la llista
     if (tipusDocumentForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, tipusDocumentForm, null);
@@ -620,6 +638,55 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForNomID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return traduccioRefList.getReferenceList(TraduccioFields.TRADUCCIOID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
+       ModelAndView mav, TipusDocumentForm tipusDocumentForm, Where where)  throws I18NException {
+    if (tipusDocumentForm.isHiddenField(TIPUSDOCUMENTBASEID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForTipusDocumentBaseID(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
+       ModelAndView mav, TipusDocumentFilterForm tipusDocumentFilterForm,
+       List<TipusDocument> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (tipusDocumentFilterForm.isHiddenField(TIPUSDOCUMENTBASEID)
+      && !tipusDocumentFilterForm.isGroupByField(TIPUSDOCUMENTBASEID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForTipusDocumentBaseID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    __tmp.add(new StringKeyValue("6" , "6"));
+    __tmp.add(new StringKeyValue("7" , "7"));
+    __tmp.add(new StringKeyValue("8" , "8"));
+    __tmp.add(new StringKeyValue("9" , "9"));
+    __tmp.add(new StringKeyValue("10" , "10"));
+    __tmp.add(new StringKeyValue("11" , "11"));
+    __tmp.add(new StringKeyValue("12" , "12"));
+    __tmp.add(new StringKeyValue("13" , "13"));
+    __tmp.add(new StringKeyValue("14" , "14"));
+    __tmp.add(new StringKeyValue("15" , "15"));
+    __tmp.add(new StringKeyValue("16" , "16"));
+    __tmp.add(new StringKeyValue("17" , "17"));
+    __tmp.add(new StringKeyValue("18" , "18"));
+    __tmp.add(new StringKeyValue("19" , "19"));
+    __tmp.add(new StringKeyValue("20" , "20"));
+    __tmp.add(new StringKeyValue("99" , "99"));
+    return __tmp;
   }
 
 

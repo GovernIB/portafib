@@ -42,6 +42,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POTCUSTODIAR)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POTCUSTODIAR)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICACUSTODIA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POLITICACUSTODIA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

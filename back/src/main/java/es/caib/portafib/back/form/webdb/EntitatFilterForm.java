@@ -307,6 +307,28 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.Integer politicaCustodiaDesde;
+
+  public java.lang.Integer getPoliticaCustodiaDesde() {
+    return this.politicaCustodiaDesde;
+  }
+
+  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
+    this.politicaCustodiaDesde = politicaCustodiaDesde;
+  }
+
+
+  private java.lang.Integer politicaCustodiaFins;
+
+  public java.lang.Integer getPoliticaCustodiaFins() {
+    return this.politicaCustodiaFins;
+  }
+
+  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
+    this.politicaCustodiaFins = politicaCustodiaFins;
+  }
+
+
   private java.lang.Long custodiaInfoIDDesde;
 
   public java.lang.Long getCustodiaInfoIDDesde() {
@@ -326,6 +348,72 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
     this.custodiaInfoIDFins = custodiaInfoIDFins;
+  }
+
+
+  private java.lang.Integer segellDeTempsViaWebDesde;
+
+  public java.lang.Integer getSegellDeTempsViaWebDesde() {
+    return this.segellDeTempsViaWebDesde;
+  }
+
+  public void setSegellDeTempsViaWebDesde(java.lang.Integer segellDeTempsViaWebDesde) {
+    this.segellDeTempsViaWebDesde = segellDeTempsViaWebDesde;
+  }
+
+
+  private java.lang.Integer segellDeTempsViaWebFins;
+
+  public java.lang.Integer getSegellDeTempsViaWebFins() {
+    return this.segellDeTempsViaWebFins;
+  }
+
+  public void setSegellDeTempsViaWebFins(java.lang.Integer segellDeTempsViaWebFins) {
+    this.segellDeTempsViaWebFins = segellDeTempsViaWebFins;
+  }
+
+
+  private java.lang.Integer politicaTaulaFirmesDesde;
+
+  public java.lang.Integer getPoliticaTaulaFirmesDesde() {
+    return this.politicaTaulaFirmesDesde;
+  }
+
+  public void setPoliticaTaulaFirmesDesde(java.lang.Integer politicaTaulaFirmesDesde) {
+    this.politicaTaulaFirmesDesde = politicaTaulaFirmesDesde;
+  }
+
+
+  private java.lang.Integer politicaTaulaFirmesFins;
+
+  public java.lang.Integer getPoliticaTaulaFirmesFins() {
+    return this.politicaTaulaFirmesFins;
+  }
+
+  public void setPoliticaTaulaFirmesFins(java.lang.Integer politicaTaulaFirmesFins) {
+    this.politicaTaulaFirmesFins = politicaTaulaFirmesFins;
+  }
+
+
+  private java.lang.Integer posicioTaulaFirmesDesde;
+
+  public java.lang.Integer getPosicioTaulaFirmesDesde() {
+    return this.posicioTaulaFirmesDesde;
+  }
+
+  public void setPosicioTaulaFirmesDesde(java.lang.Integer posicioTaulaFirmesDesde) {
+    this.posicioTaulaFirmesDesde = posicioTaulaFirmesDesde;
+  }
+
+
+  private java.lang.Integer posicioTaulaFirmesFins;
+
+  public java.lang.Integer getPosicioTaulaFirmesFins() {
+    return this.posicioTaulaFirmesFins;
+  }
+
+  public void setPosicioTaulaFirmesFins(java.lang.Integer posicioTaulaFirmesFins) {
+    this.posicioTaulaFirmesFins = posicioTaulaFirmesFins;
   }
 
 
@@ -351,25 +439,69 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
-  private java.lang.Integer segellDeTempsViaWebDesde;
+  private java.lang.Long pluginRubricaIDDesde;
 
-  public java.lang.Integer getSegellDeTempsViaWebDesde() {
-    return this.segellDeTempsViaWebDesde;
+  public java.lang.Long getPluginRubricaIDDesde() {
+    return this.pluginRubricaIDDesde;
   }
 
-  public void setSegellDeTempsViaWebDesde(java.lang.Integer segellDeTempsViaWebDesde) {
-    this.segellDeTempsViaWebDesde = segellDeTempsViaWebDesde;
+  public void setPluginRubricaIDDesde(java.lang.Long pluginRubricaIDDesde) {
+    this.pluginRubricaIDDesde = pluginRubricaIDDesde;
   }
 
 
-  private java.lang.Integer segellDeTempsViaWebFins;
+  private java.lang.Long pluginRubricaIDFins;
 
-  public java.lang.Integer getSegellDeTempsViaWebFins() {
-    return this.segellDeTempsViaWebFins;
+  public java.lang.Long getPluginRubricaIDFins() {
+    return this.pluginRubricaIDFins;
   }
 
-  public void setSegellDeTempsViaWebFins(java.lang.Integer segellDeTempsViaWebFins) {
-    this.segellDeTempsViaWebFins = segellDeTempsViaWebFins;
+  public void setPluginRubricaIDFins(java.lang.Long pluginRubricaIDFins) {
+    this.pluginRubricaIDFins = pluginRubricaIDFins;
+  }
+
+
+  private java.lang.Long pluginValidaFirmesIDDesde;
+
+  public java.lang.Long getPluginValidaFirmesIDDesde() {
+    return this.pluginValidaFirmesIDDesde;
+  }
+
+  public void setPluginValidaFirmesIDDesde(java.lang.Long pluginValidaFirmesIDDesde) {
+    this.pluginValidaFirmesIDDesde = pluginValidaFirmesIDDesde;
+  }
+
+
+  private java.lang.Long pluginValidaFirmesIDFins;
+
+  public java.lang.Long getPluginValidaFirmesIDFins() {
+    return this.pluginValidaFirmesIDFins;
+  }
+
+  public void setPluginValidaFirmesIDFins(java.lang.Long pluginValidaFirmesIDFins) {
+    this.pluginValidaFirmesIDFins = pluginValidaFirmesIDFins;
+  }
+
+
+  private java.lang.Long pluginValidaCertificatIDDesde;
+
+  public java.lang.Long getPluginValidaCertificatIDDesde() {
+    return this.pluginValidaCertificatIDDesde;
+  }
+
+  public void setPluginValidaCertificatIDDesde(java.lang.Long pluginValidaCertificatIDDesde) {
+    this.pluginValidaCertificatIDDesde = pluginValidaCertificatIDDesde;
+  }
+
+
+  private java.lang.Long pluginValidaCertificatIDFins;
+
+  public java.lang.Long getPluginValidaCertificatIDFins() {
+    return this.pluginValidaCertificatIDFins;
+  }
+
+  public void setPluginValidaCertificatIDFins(java.lang.Long pluginValidaCertificatIDFins) {
+    this.pluginValidaCertificatIDFins = pluginValidaCertificatIDFins;
   }
 
 
@@ -404,19 +536,37 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
     this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
     this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
+    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
+    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
-    this.pluginIDDesde = __toClone.pluginIDDesde;
-    this.pluginIDFins = __toClone.pluginIDFins;
     this.segellDeTempsViaWebDesde = __toClone.segellDeTempsViaWebDesde;
     this.segellDeTempsViaWebFins = __toClone.segellDeTempsViaWebFins;
+    this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
+    this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
+    this.posicioTaulaFirmesDesde = __toClone.posicioTaulaFirmesDesde;
+    this.posicioTaulaFirmesFins = __toClone.posicioTaulaFirmesFins;
+    this.pluginIDDesde = __toClone.pluginIDDesde;
+    this.pluginIDFins = __toClone.pluginIDFins;
+    this.pluginRubricaIDDesde = __toClone.pluginRubricaIDDesde;
+    this.pluginRubricaIDFins = __toClone.pluginRubricaIDFins;
+    this.pluginValidaFirmesIDDesde = __toClone.pluginValidaFirmesIDDesde;
+    this.pluginValidaFirmesIDFins = __toClone.pluginValidaFirmesIDFins;
+    this.pluginValidaCertificatIDDesde = __toClone.pluginValidaCertificatIDDesde;
+    this.pluginValidaCertificatIDFins = __toClone.pluginValidaCertificatIDFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
-    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
     this.mapOfValuesForSegellDeTempsViaWeb = __toClone.mapOfValuesForSegellDeTempsViaWeb;
+    this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
+    this.mapOfValuesForPosicioTaulaFirmes = __toClone.mapOfValuesForPosicioTaulaFirmes;
+    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
+    this.mapOfPluginForPluginRubricaID = __toClone.mapOfPluginForPluginRubricaID;
+    this.mapOfPluginForPluginValidaFirmesID = __toClone.mapOfPluginForPluginValidaFirmesID;
+    this.mapOfPluginForPluginValidaCertificatID = __toClone.mapOfPluginForPluginValidaCertificatID;
   }
   
   /* ========= UTILS ========== */
@@ -499,6 +649,18 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
 
 
+  private Map<String, String> mapOfValuesForPoliticaCustodia;
+
+  public Map<String, String> getMapOfValuesForPoliticaCustodia() {
+    return this.mapOfValuesForPoliticaCustodia;
+  }
+
+  public void setMapOfValuesForPoliticaCustodia(Map<String, String> mapOfValuesForPoliticaCustodia) {
+    this.mapOfValuesForPoliticaCustodia = mapOfValuesForPoliticaCustodia;
+  }
+
+
+
   private Map<String, String> mapOfCustodiaInfoForCustodiaInfoID;
 
   public Map<String, String> getMapOfCustodiaInfoForCustodiaInfoID() {
@@ -507,6 +669,42 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setMapOfCustodiaInfoForCustodiaInfoID(Map<String, String> mapOfCustodiaInfoForCustodiaInfoID) {
     this.mapOfCustodiaInfoForCustodiaInfoID = mapOfCustodiaInfoForCustodiaInfoID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForSegellDeTempsViaWeb;
+
+  public Map<String, String> getMapOfValuesForSegellDeTempsViaWeb() {
+    return this.mapOfValuesForSegellDeTempsViaWeb;
+  }
+
+  public void setMapOfValuesForSegellDeTempsViaWeb(Map<String, String> mapOfValuesForSegellDeTempsViaWeb) {
+    this.mapOfValuesForSegellDeTempsViaWeb = mapOfValuesForSegellDeTempsViaWeb;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaTaulaFirmes;
+
+  public Map<String, String> getMapOfValuesForPoliticaTaulaFirmes() {
+    return this.mapOfValuesForPoliticaTaulaFirmes;
+  }
+
+  public void setMapOfValuesForPoliticaTaulaFirmes(Map<String, String> mapOfValuesForPoliticaTaulaFirmes) {
+    this.mapOfValuesForPoliticaTaulaFirmes = mapOfValuesForPoliticaTaulaFirmes;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPosicioTaulaFirmes;
+
+  public Map<String, String> getMapOfValuesForPosicioTaulaFirmes() {
+    return this.mapOfValuesForPosicioTaulaFirmes;
+  }
+
+  public void setMapOfValuesForPosicioTaulaFirmes(Map<String, String> mapOfValuesForPosicioTaulaFirmes) {
+    this.mapOfValuesForPosicioTaulaFirmes = mapOfValuesForPosicioTaulaFirmes;
   }
 
 
@@ -523,14 +721,38 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
 
 
-  private Map<String, String> mapOfValuesForSegellDeTempsViaWeb;
+  private Map<String, String> mapOfPluginForPluginRubricaID;
 
-  public Map<String, String> getMapOfValuesForSegellDeTempsViaWeb() {
-    return this.mapOfValuesForSegellDeTempsViaWeb;
+  public Map<String, String> getMapOfPluginForPluginRubricaID() {
+    return this.mapOfPluginForPluginRubricaID;
   }
 
-  public void setMapOfValuesForSegellDeTempsViaWeb(Map<String, String> mapOfValuesForSegellDeTempsViaWeb) {
-    this.mapOfValuesForSegellDeTempsViaWeb = mapOfValuesForSegellDeTempsViaWeb;
+  public void setMapOfPluginForPluginRubricaID(Map<String, String> mapOfPluginForPluginRubricaID) {
+    this.mapOfPluginForPluginRubricaID = mapOfPluginForPluginRubricaID;
+  }
+
+
+
+  private Map<String, String> mapOfPluginForPluginValidaFirmesID;
+
+  public Map<String, String> getMapOfPluginForPluginValidaFirmesID() {
+    return this.mapOfPluginForPluginValidaFirmesID;
+  }
+
+  public void setMapOfPluginForPluginValidaFirmesID(Map<String, String> mapOfPluginForPluginValidaFirmesID) {
+    this.mapOfPluginForPluginValidaFirmesID = mapOfPluginForPluginValidaFirmesID;
+  }
+
+
+
+  private Map<String, String> mapOfPluginForPluginValidaCertificatID;
+
+  public Map<String, String> getMapOfPluginForPluginValidaCertificatID() {
+    return this.mapOfPluginForPluginValidaCertificatID;
+  }
+
+  public void setMapOfPluginForPluginValidaCertificatID(Map<String, String> mapOfPluginForPluginValidaCertificatID) {
+    this.mapOfPluginForPluginValidaCertificatID = mapOfPluginForPluginValidaCertificatID;
   }
 
 

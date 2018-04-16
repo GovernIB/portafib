@@ -66,8 +66,8 @@ public class TipusDocumentJPAManager
 		return list.toArray(new TipusDocument[list.size()]);
 	};
 
-	public synchronized TipusDocument create( long _tipusDocumentID_, long _nomID_, java.lang.String _descripcio_, java.lang.String _usuariAplicacioID_) throws I18NException {
-		TipusDocumentJPA __bean =  new TipusDocumentJPA(_tipusDocumentID_,_nomID_,_descripcio_,_usuariAplicacioID_);
+	public synchronized TipusDocument create( long _tipusDocumentID_, long _nomID_, long _tipusDocumentBaseID_, java.lang.String _descripcio_, java.lang.String _usuariAplicacioID_) throws I18NException {
+		TipusDocumentJPA __bean =  new TipusDocumentJPA(_tipusDocumentID_,_nomID_,_tipusDocumentBaseID_,_descripcio_,_usuariAplicacioID_);
 		return create(__bean);
 	}
 

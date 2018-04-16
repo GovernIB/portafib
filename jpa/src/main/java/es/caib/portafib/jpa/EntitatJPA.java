@@ -131,20 +131,47 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="algorismedefirmaid",nullable = false,length = 19)
 	int algorismeDeFirmaID;
 
-	@Column(name="comprovarniffirma",nullable = false,length = 1)
-	boolean comprovarNifFirma;
+  /** 0: No permetre, 1:Només Plantilles de l'Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */
+	@Column(name="politicacustodia",nullable = false,length = 10)
+	int politicaCustodia;
 
 	@Index(name="pfi_entitat_custodiadef_fk_i")
 	@Column(name="custodiainfoid",length = 19)
 	java.lang.Long custodiaInfoID;
+
+	@Column(name="segelldetempsviaweb",nullable = false,length = 10)
+	int segellDeTempsViaWeb;
+
+  /** 0 no es permet taules de firmes, 1 definit en l'entitat, 2 opcional per defecte el definit a l'entitat, 3 opcional per defecte sense taula de firmes */
+	@Column(name="politicataulafirmes",nullable = false,length = 10)
+	int politicaTaulaFirmes;
+
+  /** SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1; */
+	@Column(name="posiciotaulafirmes",nullable = false,length = 10)
+	int posicioTaulaFirmes;
 
   /** Plugin de segellat de temps */
 	@Index(name="pfi_entitat_segelltemps_fk_i")
 	@Column(name="pluginid",length = 19)
 	java.lang.Long pluginID;
 
-	@Column(name="segelldetempsviaweb",nullable = false,length = 10)
-	int segellDeTempsViaWeb;
+	@Index(name="pfi_entitat_pluginrubri_fk_i")
+	@Column(name="pluginrubricaid",length = 19)
+	java.lang.Long pluginRubricaID;
+
+	@Column(name="comprovarniffirma",nullable = false,length = 1)
+	boolean comprovarNifFirma;
+
+	@Column(name="checkcanviatdocfirmat",nullable = false,length = 1)
+	boolean checkCanviatDocFirmat;
+
+	@Index(name="pfi_entitat_pluginvalfir_fk_i")
+	@Column(name="pluginvalidafirmesid",length = 19)
+	java.lang.Long pluginValidaFirmesID;
+
+	@Index(name="pfi_entitat_pluginvalcer_fk_i")
+	@Column(name="pluginvalidacertificatid",length = 19)
+	java.lang.Long pluginValidaCertificatID;
 
 
 
@@ -153,7 +180,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , boolean comprovarNifFirma , java.lang.Long custodiaInfoID , java.lang.Long pluginID , int segellDeTempsViaWeb) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , int politicaCustodia , java.lang.Long custodiaInfoID , int segellDeTempsViaWeb , int politicaTaulaFirmes , int posicioTaulaFirmes , java.lang.Long pluginID , java.lang.Long pluginRubricaID , boolean comprovarNifFirma , boolean checkCanviatDocFirmat , java.lang.Long pluginValidaFirmesID , java.lang.Long pluginValidaCertificatID) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -180,13 +207,20 @@ opcional incluso cuando se genera una firma EPES. */
     this.motiuDelegacioID=motiuDelegacioID;
     this.firmatPerFormatID=firmatPerFormatID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
-    this.comprovarNifFirma=comprovarNifFirma;
+    this.politicaCustodia=politicaCustodia;
     this.custodiaInfoID=custodiaInfoID;
-    this.pluginID=pluginID;
     this.segellDeTempsViaWeb=segellDeTempsViaWeb;
+    this.politicaTaulaFirmes=politicaTaulaFirmes;
+    this.posicioTaulaFirmes=posicioTaulaFirmes;
+    this.pluginID=pluginID;
+    this.pluginRubricaID=pluginRubricaID;
+    this.comprovarNifFirma=comprovarNifFirma;
+    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
+    this.pluginValidaFirmesID=pluginValidaFirmesID;
+    this.pluginValidaCertificatID=pluginValidaCertificatID;
 }
   /** Constructor dels valors Not Null */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , boolean comprovarNifFirma , int segellDeTempsViaWeb) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , int politicaCustodia , int segellDeTempsViaWeb , int politicaTaulaFirmes , int posicioTaulaFirmes , boolean comprovarNifFirma , boolean checkCanviatDocFirmat) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.activa=activa;
@@ -199,8 +233,12 @@ opcional incluso cuando se genera una firma EPES. */
     this.filtreCertificats=filtreCertificats;
     this.pdfAutoritzacioDelegacioID=pdfAutoritzacioDelegacioID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
-    this.comprovarNifFirma=comprovarNifFirma;
+    this.politicaCustodia=politicaCustodia;
     this.segellDeTempsViaWeb=segellDeTempsViaWeb;
+    this.politicaTaulaFirmes=politicaTaulaFirmes;
+    this.posicioTaulaFirmes=posicioTaulaFirmes;
+    this.comprovarNifFirma=comprovarNifFirma;
+    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
 }
   public EntitatJPA(Entitat __bean) {
     this.setEntitatID(__bean.getEntitatID());
@@ -229,10 +267,17 @@ opcional incluso cuando se genera una firma EPES. */
     this.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     this.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
     this.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
-    this.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    this.setPluginID(__bean.getPluginID());
     this.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
+    this.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
+    this.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
+    this.setPluginID(__bean.getPluginID());
+    this.setPluginRubricaID(__bean.getPluginRubricaID());
+    this.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    this.setCheckCanviatDocFirmat(__bean.isCheckCanviatDocFirmat());
+    this.setPluginValidaFirmesID(__bean.getPluginValidaFirmesID());
+    this.setPluginValidaCertificatID(__bean.getPluginValidaCertificatID());
     // Fitxer
     this.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -427,11 +472,11 @@ opcional incluso cuando se genera una firma EPES. */
 		this.algorismeDeFirmaID = _algorismeDeFirmaID_;
 	};
 
-	public boolean isComprovarNifFirma() {
-		return(comprovarNifFirma);
+	public int getPoliticaCustodia() {
+		return(politicaCustodia);
 	};
-	public void setComprovarNifFirma(boolean _comprovarNifFirma_) {
-		this.comprovarNifFirma = _comprovarNifFirma_;
+	public void setPoliticaCustodia(int _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
 	};
 
 	public java.lang.Long getCustodiaInfoID() {
@@ -441,6 +486,27 @@ opcional incluso cuando se genera una firma EPES. */
 		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
+	public int getSegellDeTempsViaWeb() {
+		return(segellDeTempsViaWeb);
+	};
+	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_) {
+		this.segellDeTempsViaWeb = _segellDeTempsViaWeb_;
+	};
+
+	public int getPoliticaTaulaFirmes() {
+		return(politicaTaulaFirmes);
+	};
+	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_) {
+		this.politicaTaulaFirmes = _politicaTaulaFirmes_;
+	};
+
+	public int getPosicioTaulaFirmes() {
+		return(posicioTaulaFirmes);
+	};
+	public void setPosicioTaulaFirmes(int _posicioTaulaFirmes_) {
+		this.posicioTaulaFirmes = _posicioTaulaFirmes_;
+	};
+
 	public java.lang.Long getPluginID() {
 		return(pluginID);
 	};
@@ -448,11 +514,39 @@ opcional incluso cuando se genera una firma EPES. */
 		this.pluginID = _pluginID_;
 	};
 
-	public int getSegellDeTempsViaWeb() {
-		return(segellDeTempsViaWeb);
+	public java.lang.Long getPluginRubricaID() {
+		return(pluginRubricaID);
 	};
-	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_) {
-		this.segellDeTempsViaWeb = _segellDeTempsViaWeb_;
+	public void setPluginRubricaID(java.lang.Long _pluginRubricaID_) {
+		this.pluginRubricaID = _pluginRubricaID_;
+	};
+
+	public boolean isComprovarNifFirma() {
+		return(comprovarNifFirma);
+	};
+	public void setComprovarNifFirma(boolean _comprovarNifFirma_) {
+		this.comprovarNifFirma = _comprovarNifFirma_;
+	};
+
+	public boolean isCheckCanviatDocFirmat() {
+		return(checkCanviatDocFirmat);
+	};
+	public void setCheckCanviatDocFirmat(boolean _checkCanviatDocFirmat_) {
+		this.checkCanviatDocFirmat = _checkCanviatDocFirmat_;
+	};
+
+	public java.lang.Long getPluginValidaFirmesID() {
+		return(pluginValidaFirmesID);
+	};
+	public void setPluginValidaFirmesID(java.lang.Long _pluginValidaFirmesID_) {
+		this.pluginValidaFirmesID = _pluginValidaFirmesID_;
+	};
+
+	public java.lang.Long getPluginValidaCertificatID() {
+		return(pluginValidaCertificatID);
+	};
+	public void setPluginValidaCertificatID(java.lang.Long _pluginValidaCertificatID_) {
+		this.pluginValidaCertificatID = _pluginValidaCertificatID_;
 	};
 
 
@@ -488,6 +582,19 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
+// EXP  Field:entitatid | Table: pfi_estadistica | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
+	private Set<EstadisticaJPA> estadisticas = new HashSet<EstadisticaJPA>(0);
+	public  Set<EstadisticaJPA> getEstadisticas() {
+    return this.estadisticas;
+  }
+
+	public void setEstadisticas(Set<EstadisticaJPA> estadisticas) {
+	  this.estadisticas = estadisticas;
+	}
+
+
 // EXP  Field:entitatid | Table: pfi_grupentitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
@@ -511,6 +618,19 @@ opcional incluso cuando se genera una firma EPES. */
 
 	public void setPlugins(Set<PluginJPA> plugins) {
 	  this.plugins = plugins;
+	}
+
+
+// EXP  Field:entitatid | Table: pfi_plugincridada | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
+	private Set<PluginCridadaJPA> pluginCridadas = new HashSet<PluginCridadaJPA>(0);
+	public  Set<PluginCridadaJPA> getPluginCridadas() {
+    return this.pluginCridadas;
+  }
+
+	public void setPluginCridadas(Set<PluginCridadaJPA> pluginCridadas) {
+	  this.pluginCridadas = pluginCridadas;
 	}
 
 
@@ -738,6 +858,51 @@ opcional incluso cuando se genera una firma EPES. */
     this.plugin = plugin;
   }
 
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_entitat_plugin_rubr_fk")
+	@JoinColumn(name = "pluginrubricaid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+	private PluginJPA pluginRubrica;
+
+	public PluginJPA getPluginRubrica() {
+    return this.pluginRubrica;
+  }
+
+	public  void setPluginRubrica(PluginJPA pluginRubrica) {
+    this.pluginRubrica = pluginRubrica;
+  }
+
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_entitat_plugin_vafi_fk")
+	@JoinColumn(name = "pluginvalidafirmesid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+	private PluginJPA pluginValidaFirmes;
+
+	public PluginJPA getPluginValidaFirmes() {
+    return this.pluginValidaFirmes;
+  }
+
+	public  void setPluginValidaFirmes(PluginJPA pluginValidaFirmes) {
+    this.pluginValidaFirmes = pluginValidaFirmes;
+  }
+
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_entitat_plugin_cert_fk")
+	@JoinColumn(name = "pluginvalidacertificatid", referencedColumnName ="pluginID", nullable = true, insertable=false, updatable=false)
+	private PluginJPA pluginValidaCertificat;
+
+	public PluginJPA getPluginValidaCertificat() {
+    return this.pluginValidaCertificat;
+  }
+
+	public  void setPluginValidaCertificat(PluginJPA pluginValidaCertificat) {
+    this.pluginValidaCertificat = pluginValidaCertificat;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static EntitatJPA toJPA(Entitat __bean) {
@@ -769,10 +934,17 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
     __tmp.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
     __tmp.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
-    __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setPluginID(__bean.getPluginID());
     __tmp.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
+    __tmp.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
+    __tmp.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
+    __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setPluginRubricaID(__bean.getPluginRubricaID());
+    __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
+    __tmp.setCheckCanviatDocFirmat(__bean.isCheckCanviatDocFirmat());
+    __tmp.setPluginValidaFirmesID(__bean.getPluginValidaFirmesID());
+    __tmp.setPluginValidaCertificatID(__bean.getPluginValidaCertificatID());
     // Fitxer
     __tmp.setFavicon(FitxerJPA.toJPA(__bean.getFavicon()));
     // Fitxer
@@ -816,6 +988,10 @@ opcional incluso cuando se genera una firma EPES. */
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugins) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugins())) ) {
       __tmp.setPlugins(PluginJPA.copyJPA(__jpa.getPlugins(), __alreadyCopied,"EntitatJPA"));
     }
+    if(!"EstadisticaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estadisticas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstadisticas())) ) {
+      __tmp.setEstadisticas(EstadisticaJPA.copyJPA(__jpa.getEstadisticas(), __alreadyCopied,"EntitatJPA"));
+    }
     if(!"GrupEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.grupEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getGrupEntitats())) ) {
       __tmp.setGrupEntitats(GrupEntitatJPA.copyJPA(__jpa.getGrupEntitats(), __alreadyCopied,"EntitatJPA"));
@@ -832,11 +1008,19 @@ opcional incluso cuando se genera una firma EPES. */
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.propietatGlobals) || org.hibernate.Hibernate.isInitialized(__jpa.getPropietatGlobals())) ) {
       __tmp.setPropietatGlobals(PropietatGlobalJPA.copyJPA(__jpa.getPropietatGlobals(), __alreadyCopied,"EntitatJPA"));
     }
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
+      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"EntitatJPA"));
+    }
     if(!"UsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
       __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"EntitatJPA"));
     }
     // Copia de beans complexes (IMP)
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginRubrica) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginRubrica()) ) ) {
+      __tmp.setPluginRubrica(PluginJPA.copyJPA(__jpa.getPluginRubrica(), __alreadyCopied,"EntitatJPA"));
+    }
     if(!"TraduccioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.motiuDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getMotiuDelegacio()) ) ) {
       __tmp.setMotiuDelegacio(TraduccioJPA.copyJPA(__jpa.getMotiuDelegacio(), __alreadyCopied,"EntitatJPA"));
@@ -845,9 +1029,17 @@ opcional incluso cuando se genera una firma EPES. */
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmatPerFormat) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmatPerFormat()) ) ) {
       __tmp.setFirmatPerFormat(TraduccioJPA.copyJPA(__jpa.getFirmatPerFormat(), __alreadyCopied,"EntitatJPA"));
     }
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginValidaCertificat) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginValidaCertificat()) ) ) {
+      __tmp.setPluginValidaCertificat(PluginJPA.copyJPA(__jpa.getPluginValidaCertificat(), __alreadyCopied,"EntitatJPA"));
+    }
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginValidaFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginValidaFirmes()) ) ) {
+      __tmp.setPluginValidaFirmes(PluginJPA.copyJPA(__jpa.getPluginValidaFirmes(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {

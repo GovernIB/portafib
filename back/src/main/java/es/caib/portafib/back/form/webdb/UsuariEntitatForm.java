@@ -26,6 +26,8 @@ public class UsuariEntitatForm extends PortaFIBBaseForm {
       this.usuariEntitat = __toClone.usuariEntitat;
     this.listOfUsuariPersonaForUsuariPersonaID = __toClone.listOfUsuariPersonaForUsuariPersonaID;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
+    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
+    this.listOfValuesForPoliticaDePluginFirmaWeb = __toClone.listOfValuesForPoliticaDePluginFirmaWeb;
   }
   
   public UsuariEntitatForm(UsuariEntitatJPA usuariEntitat, boolean nou) {
@@ -75,6 +77,30 @@ public class UsuariEntitatForm extends PortaFIBBaseForm {
 
   public void setListOfEntitatForEntitatID(List<StringKeyValue> listOfEntitatForEntitatID) {
     this.listOfEntitatForEntitatID = listOfEntitatForEntitatID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPoliticaCustodia;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
+    return this.listOfValuesForPoliticaCustodia;
+  }
+
+  public void setListOfValuesForPoliticaCustodia(List<StringKeyValue> listOfValuesForPoliticaCustodia) {
+    this.listOfValuesForPoliticaCustodia = listOfValuesForPoliticaCustodia;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaDePluginFirmaWeb() {
+    return this.listOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+  public void setListOfValuesForPoliticaDePluginFirmaWeb(List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb) {
+    this.listOfValuesForPoliticaDePluginFirmaWeb = listOfValuesForPoliticaDePluginFirmaWeb;
   }
 
 

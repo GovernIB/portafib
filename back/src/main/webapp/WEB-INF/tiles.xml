@@ -701,6 +701,16 @@
     </definition>
 
 
+    <definition name="estadisticaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="estadistica.estadistica" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estadisticaForm.jsp" />
+    </definition>
+    
+    <definition name="estadisticaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estadisticaList.jsp" />
+    </definition>
+
+
     <definition name="estatDeFirmaFormWebDB" extends="webdb">
         <put-attribute name="titol" value="estatDeFirma.estatDeFirma" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaForm.jsp" />
@@ -851,6 +861,36 @@
     </definition>
 
 
+    <definition name="pluginCridadaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="pluginCridada.pluginCridada" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginCridadaForm.jsp" />
+    </definition>
+    
+    <definition name="pluginCridadaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginCridadaList.jsp" />
+    </definition>
+
+
+    <definition name="pluginFirmaWebPerUsuariAplicacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="pluginFirmaWebPerUsuariAplicacio.pluginFirmaWebPerUsuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioForm.jsp" />
+    </definition>
+    
+    <definition name="pluginFirmaWebPerUsuariAplicacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariAplicacioList.jsp" />
+    </definition>
+
+
+    <definition name="pluginFirmaWebPerUsuariEntitatFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="pluginFirmaWebPerUsuariEntitat.pluginFirmaWebPerUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariEntitatForm.jsp" />
+    </definition>
+    
+    <definition name="pluginFirmaWebPerUsuariEntitatListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginFirmaWebPerUsuariEntitatList.jsp" />
+    </definition>
+
+
     <definition name="posicioPaginaFormWebDB" extends="webdb">
         <put-attribute name="titol" value="posicioPagina.posicioPagina" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioPaginaForm.jsp" />
@@ -898,6 +938,16 @@
     
     <definition name="rebreAvisListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/rebreAvisList.jsp" />
+    </definition>
+
+
+    <definition name="revisorDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="revisorDeFirma.revisorDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="revisorDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/revisorDeFirmaList.jsp" />
     </definition>
 
 
@@ -1031,6 +1081,16 @@
     </definition>
 
 
+    <definition name="usuariAplicacioConfiguracioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp" />
+    </definition>
+    
+    <definition name="usuariAplicacioConfiguracioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioList.jsp" />
+    </definition>
+
+
     <definition name="usuariEntitatFormWebDB" extends="webdb">
         <put-attribute name="titol" value="usuariEntitat.usuariEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatForm.jsp" />
@@ -1048,6 +1108,16 @@
     
     <definition name="usuariEntitatFavoritListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
+    </definition>
+
+
+    <definition name="usuariEntitatRevisorFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="usuariEntitatRevisor.usuariEntitatRevisor" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatRevisorForm.jsp" />
+    </definition>
+    
+    <definition name="usuariEntitatRevisorListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatRevisorList.jsp" />
     </definition>
 
 

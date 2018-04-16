@@ -14,6 +14,7 @@ public interface TipusDocumentFields extends java.io.Serializable {
 
 	 public static final LongField TIPUSDOCUMENTID = new LongField(_TABLE_MODEL, "tipusDocumentID", "tipusdocumentid");  // PK
 	 public static final LongField NOMID = new LongField(_TABLE_MODEL, "nomID", "nom");
+	 public static final LongField TIPUSDOCUMENTBASEID = new LongField(_TABLE_MODEL, "tipusDocumentBaseID", "tipusdocumentbaseid");
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
 	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
 
@@ -21,6 +22,7 @@ public interface TipusDocumentFields extends java.io.Serializable {
   public static final Field<?>[] ALL_TIPUSDOCUMENT_FIELDS = {
     TIPUSDOCUMENTID,
     NOMID,
+    TIPUSDOCUMENTBASEID,
     DESCRIPCIO,
     USUARIAPLICACIOID
   };

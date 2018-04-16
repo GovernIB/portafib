@@ -18,6 +18,7 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.ColaboracioDelegacioJPA</class>
 		<class>es.caib.portafib.jpa.CustodiaInfoJPA</class>
 		<class>es.caib.portafib.jpa.EntitatJPA</class>
+		<class>es.caib.portafib.jpa.EstadisticaJPA</class>
 		<class>es.caib.portafib.jpa.EstatDeFirmaJPA</class>
 		<class>es.caib.portafib.jpa.FirmaJPA</class>
 		<class>es.caib.portafib.jpa.FitxerJPA</class>
@@ -33,11 +34,15 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.PeticioDeFirmaJPA</class>
 		<class>es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA</class>
 		<class>es.caib.portafib.jpa.PluginJPA</class>
+		<class>es.caib.portafib.jpa.PluginCridadaJPA</class>
+		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariAplicacioJPA</class>
+		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.PosicioPaginaJPA</class>
 		<class>es.caib.portafib.jpa.PosicioTaulaFirmesJPA</class>
 		<class>es.caib.portafib.jpa.PrioritatJPA</class>
 		<class>es.caib.portafib.jpa.PropietatGlobalJPA</class>
 		<class>es.caib.portafib.jpa.RebreAvisJPA</class>
+		<class>es.caib.portafib.jpa.RevisorDeFirmaJPA</class>
 		<class>es.caib.portafib.jpa.RoleJPA</class>
 		<class>es.caib.portafib.jpa.RoleUsuariAplicacioJPA</class>
 		<class>es.caib.portafib.jpa.RoleUsuariEntitatJPA</class>
@@ -52,8 +57,10 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.TraduccioJPA</class>
 		<class>es.caib.portafib.jpa.TraduccioMapJPA</class>
 		<class>es.caib.portafib.jpa.UsuariAplicacioJPA</class>
+		<class>es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA</class>
 		<class>es.caib.portafib.jpa.UsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.UsuariEntitatFavoritJPA</class>
+		<class>es.caib.portafib.jpa.UsuariEntitatRevisorJPA</class>
 		<class>es.caib.portafib.jpa.UsuariPersonaJPA</class>
 
         <properties>

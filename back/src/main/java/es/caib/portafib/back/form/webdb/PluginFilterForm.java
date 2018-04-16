@@ -43,6 +43,17 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
+  private java.lang.String codi;
+
+  public java.lang.String getCodi() {
+    return this.codi;
+  }
+
+  public void setCodi(java.lang.String codi) {
+    this.codi = codi;
+  }
+
+
   private java.lang.Long nomIDDesde;
 
   public java.lang.Long getNomIDDesde() {
@@ -98,6 +109,28 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
+  private java.lang.Integer ordreDesde;
+
+  public java.lang.Integer getOrdreDesde() {
+    return this.ordreDesde;
+  }
+
+  public void setOrdreDesde(java.lang.Integer ordreDesde) {
+    this.ordreDesde = ordreDesde;
+  }
+
+
+  private java.lang.Integer ordreFins;
+
+  public java.lang.Integer getOrdreFins() {
+    return this.ordreFins;
+  }
+
+  public void setOrdreFins(java.lang.Integer ordreFins) {
+    this.ordreFins = ordreFins;
+  }
+
+
   private java.lang.Integer tipusDesde;
 
   public java.lang.Integer getTipusDesde() {
@@ -142,6 +175,28 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
+  private java.lang.Integer politicadeusDesde;
+
+  public java.lang.Integer getPoliticadeusDesde() {
+    return this.politicadeusDesde;
+  }
+
+  public void setPoliticadeusDesde(java.lang.Integer politicadeusDesde) {
+    this.politicadeusDesde = politicadeusDesde;
+  }
+
+
+  private java.lang.Integer politicadeusFins;
+
+  public java.lang.Integer getPoliticadeusFins() {
+    return this.politicadeusFins;
+  }
+
+  public void setPoliticadeusFins(java.lang.Integer politicadeusFins) {
+    this.politicadeusFins = politicadeusFins;
+  }
+
+
   private java.lang.String entitatID;
 
   public java.lang.String getEntitatID() {
@@ -153,6 +208,28 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
+  private java.lang.Integer politicaMostrarPropietatsDesde;
+
+  public java.lang.Integer getPoliticaMostrarPropietatsDesde() {
+    return this.politicaMostrarPropietatsDesde;
+  }
+
+  public void setPoliticaMostrarPropietatsDesde(java.lang.Integer politicaMostrarPropietatsDesde) {
+    this.politicaMostrarPropietatsDesde = politicaMostrarPropietatsDesde;
+  }
+
+
+  private java.lang.Integer politicaMostrarPropietatsFins;
+
+  public java.lang.Integer getPoliticaMostrarPropietatsFins() {
+    return this.politicaMostrarPropietatsFins;
+  }
+
+  public void setPoliticaMostrarPropietatsFins(java.lang.Integer politicaMostrarPropietatsFins) {
+    this.politicaMostrarPropietatsFins = politicaMostrarPropietatsFins;
+  }
+
+
   public PluginFilterForm() {
   }
   
@@ -160,27 +237,36 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
     super(__toClone);
     this.pluginIDDesde = __toClone.pluginIDDesde;
     this.pluginIDFins = __toClone.pluginIDFins;
+    this.codi = __toClone.codi;
     this.nomIDDesde = __toClone.nomIDDesde;
     this.nomIDFins = __toClone.nomIDFins;
     this.descripcioCurtaIDDesde = __toClone.descripcioCurtaIDDesde;
     this.descripcioCurtaIDFins = __toClone.descripcioCurtaIDFins;
     this.classe = __toClone.classe;
+    this.ordreDesde = __toClone.ordreDesde;
+    this.ordreFins = __toClone.ordreFins;
     this.tipusDesde = __toClone.tipusDesde;
     this.tipusFins = __toClone.tipusFins;
     this.propertiesAdmin = __toClone.propertiesAdmin;
     this.propertiesEntitat = __toClone.propertiesEntitat;
+    this.politicadeusDesde = __toClone.politicadeusDesde;
+    this.politicadeusFins = __toClone.politicadeusFins;
     this.entitatID = __toClone.entitatID;
+    this.politicaMostrarPropietatsDesde = __toClone.politicaMostrarPropietatsDesde;
+    this.politicaMostrarPropietatsFins = __toClone.politicaMostrarPropietatsFins;
     this.mapOfTraduccioForNomID = __toClone.mapOfTraduccioForNomID;
     this.mapOfTraduccioForDescripcioCurtaID = __toClone.mapOfTraduccioForDescripcioCurtaID;
     this.mapOfValuesForTipus = __toClone.mapOfValuesForTipus;
+    this.mapOfValuesForPoliticadeus = __toClone.mapOfValuesForPoliticadeus;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
+    this.mapOfValuesForPoliticaMostrarPropietats = __toClone.mapOfValuesForPoliticaMostrarPropietats;
   }
   
   /* ========= UTILS ========== */
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { NOMID ,CLASSE ,PROPERTIESADMIN ,PROPERTIESENTITAT }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { CODI ,NOMID ,CLASSE ,PROPERTIESADMIN ,PROPERTIESENTITAT }));
   }
 
   @Override
@@ -244,6 +330,18 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
 
 
 
+  private Map<String, String> mapOfValuesForPoliticadeus;
+
+  public Map<String, String> getMapOfValuesForPoliticadeus() {
+    return this.mapOfValuesForPoliticadeus;
+  }
+
+  public void setMapOfValuesForPoliticadeus(Map<String, String> mapOfValuesForPoliticadeus) {
+    this.mapOfValuesForPoliticadeus = mapOfValuesForPoliticadeus;
+  }
+
+
+
   private Map<String, String> mapOfEntitatForEntitatID;
 
   public Map<String, String> getMapOfEntitatForEntitatID() {
@@ -252,6 +350,18 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
 
   public void setMapOfEntitatForEntitatID(Map<String, String> mapOfEntitatForEntitatID) {
     this.mapOfEntitatForEntitatID = mapOfEntitatForEntitatID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaMostrarPropietats;
+
+  public Map<String, String> getMapOfValuesForPoliticaMostrarPropietats() {
+    return this.mapOfValuesForPoliticaMostrarPropietats;
+  }
+
+  public void setMapOfValuesForPoliticaMostrarPropietats(Map<String, String> mapOfValuesForPoliticaMostrarPropietats) {
+    this.mapOfValuesForPoliticaMostrarPropietats = mapOfValuesForPoliticaMostrarPropietats;
   }
 
 

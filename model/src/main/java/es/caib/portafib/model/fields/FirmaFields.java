@@ -28,6 +28,8 @@ public interface FirmaFields extends java.io.Serializable {
 	 public static final StringField NOMCERTIFICAT = new StringField(_TABLE_MODEL, "nomCertificat", "nomcertificat");
 	 public static final LongField TIPUSESTATDEFIRMAFINALID = new LongField(_TABLE_MODEL, "tipusEstatDeFirmaFinalID", "tipusestatdefirmafinalid");
 	 public static final BooleanField MOSTRARRUBRICA = new BooleanField(_TABLE_MODEL, "mostrarRubrica", "mostrarrubrica");
+	 public static final StringField MOTIU = new StringField(_TABLE_MODEL, "motiu", "motiu");
+	 public static final IntegerField MINIMDEREVISORS = new IntegerField(_TABLE_MODEL, "minimDeRevisors", "minimderevisors");
 
 
   public static final Field<?>[] ALL_FIRMA_FIELDS = {
@@ -46,7 +48,9 @@ public interface FirmaFields extends java.io.Serializable {
     EMISSORCERTIFICAT,
     NOMCERTIFICAT,
     TIPUSESTATDEFIRMAFINALID,
-    MOSTRARRUBRICA
+    MOSTRARRUBRICA,
+    MOTIU,
+    MINIMDEREVISORS
   };
 
 

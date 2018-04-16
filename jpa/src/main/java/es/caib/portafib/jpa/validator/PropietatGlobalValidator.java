@@ -61,9 +61,9 @@ public class PropietatGlobalValidator<T> implements PropietatGlobalFields {
     
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);
-      if (__descripcio!= null && __descripcio.length() > 255) {
+      if (__descripcio!= null && __descripcio.length() > 1000) {
         __vr.rejectValue(DESCRIPCIO, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DESCRIPCIO)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DESCRIPCIO)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(1000)));
       }
     }
     

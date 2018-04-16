@@ -66,8 +66,8 @@ public class PluginJPAManager
 		return list.toArray(new Plugin[list.size()]);
 	};
 
-	public synchronized Plugin create( long _nomID_, long _descripcioCurtaID_, java.lang.String _classe_, int _tipus_, java.lang.String _propertiesAdmin_, java.lang.String _propertiesEntitat_, java.lang.String _entitatID_, boolean _actiu_) throws I18NException {
-		PluginJPA __bean =  new PluginJPA(_nomID_,_descripcioCurtaID_,_classe_,_tipus_,_propertiesAdmin_,_propertiesEntitat_,_entitatID_,_actiu_);
+	public synchronized Plugin create( java.lang.String _codi_, long _nomID_, long _descripcioCurtaID_, java.lang.String _classe_, java.lang.Integer _ordre_, int _tipus_, java.lang.String _propertiesAdmin_, java.lang.String _propertiesEntitat_, int _politicadeus_, java.lang.String _entitatID_, boolean _actiu_, int _politicaMostrarPropietats_) throws I18NException {
+		PluginJPA __bean =  new PluginJPA(_codi_,_nomID_,_descripcioCurtaID_,_classe_,_ordre_,_tipus_,_propertiesAdmin_,_propertiesEntitat_,_politicadeus_,_entitatID_,_actiu_,_politicaMostrarPropietats_);
 		return create(__bean);
 	}
 

@@ -29,6 +29,11 @@
           ${plugin.pluginID}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.CODI)}">
+          <td>
+          ${plugin.codi}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.NOMID)}">
           <td>
           <c:set var="tmp">${plugin.nomID}</c:set>
@@ -50,6 +55,11 @@
           ${plugin.classe}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ORDRE)}">
+          <td>
+          ${plugin.ordre}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.TIPUS)}">
           <td>
           <c:set var="tmp">${plugin.tipus}</c:set>
@@ -68,6 +78,14 @@
           ${plugin.propertiesEntitat}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.POLITICADEUS)}">
+          <td>
+          <c:set var="tmp">${plugin.politicadeus}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticadeus[tmp]}
+          </c:if>
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ENTITATID)}">
           <td>
           <c:set var="tmp">${plugin.entitatID}</c:set>
@@ -79,6 +97,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.ACTIU)}">
           <td>
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${plugin.actiu?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.POLITICAMOSTRARPROPIETATS)}">
+          <td>
+          <c:set var="tmp">${plugin.politicaMostrarPropietats}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaMostrarPropietats[tmp]}
+          </c:if>
           </td>
         </c:if>
 

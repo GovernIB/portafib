@@ -15,6 +15,10 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new LongField(getQueryPath(), PluginFields.PLUGINID);
   }
 
+  public StringField CODI() {
+    return new StringField(getQueryPath(), PluginFields.CODI);
+  }
+
   public LongField NOMID() {
     return new LongField(getQueryPath(), PluginFields.NOMID);
   }
@@ -25,6 +29,10 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
   public StringField CLASSE() {
     return new StringField(getQueryPath(), PluginFields.CLASSE);
+  }
+
+  public IntegerField ORDRE() {
+    return new IntegerField(getQueryPath(), PluginFields.ORDRE);
   }
 
   public IntegerField TIPUS() {
@@ -39,12 +47,20 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new StringField(getQueryPath(), PluginFields.PROPERTIESENTITAT);
   }
 
+  public IntegerField POLITICADEUS() {
+    return new IntegerField(getQueryPath(), PluginFields.POLITICADEUS);
+  }
+
   public StringField ENTITATID() {
     return new StringField(getQueryPath(), PluginFields.ENTITATID);
   }
 
   public BooleanField ACTIU() {
     return new BooleanField(getQueryPath(), PluginFields.ACTIU);
+  }
+
+  public IntegerField POLITICAMOSTRARPROPIETATS() {
+    return new IntegerField(getQueryPath(), PluginFields.POLITICAMOSTRARPROPIETATS);
   }
 
 
@@ -75,10 +91,52 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public EntitatQueryPath ENTITATS() {
+  public EntitatQueryPath ENTITAT_PLUGINVALIDACERTIFICATIDS() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return PluginQueryPath.this.getQueryPath() + "entitats" + ".";
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginvalidacertificatids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public EntitatQueryPath ENTITAT_PLUGINIDS() {
+    return new EntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public EntitatQueryPath ENTITAT_PLUGINVALIDAFIRMESIDS() {
+    return new EntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginvalidafirmesids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public EntitatQueryPath ENTITAT_PLUGINRUBRICAIDS() {
+    return new EntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "entitat_pluginrubricaids" + ".";
       }
     });
   }
@@ -93,6 +151,62 @@ public class PluginQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new ModulDeFirmaPerTipusDeDocumentQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PluginQueryPath.this.getQueryPath() + "modulDeFirmaPerTipusDeDocuments" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PluginFirmaWebPerUsuariAplicacioQueryPath PLUGINFIRMAWEBPERUSUARIAPLICACIOS() {
+    return new PluginFirmaWebPerUsuariAplicacioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "pluginFirmaWebPerUsuariAplicacios" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PluginFirmaWebPerUsuariEntitatQueryPath PLUGINFIRMAWEBPERUSUARIENTITATS() {
+    return new PluginFirmaWebPerUsuariEntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "pluginFirmaWebPerUsuariEntitats" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_PLUGINFIRMASERVIDORIDS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_pluginfirmaservidorids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_PLUGINSEGELLATIDS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_pluginsegellatids" + ".";
       }
     });
   }

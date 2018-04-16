@@ -18,6 +18,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.NOMID)}">
         <th>${pfi:getSortIcons(__theFilterForm,TipusDocumentFields.NOMID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,TipusDocumentFields.TIPUSDOCUMENTBASEID)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
         <th>${pfi:getSortIcons(__theFilterForm,TipusDocumentFields.DESCRIPCIO)}</th>
         </c:if>

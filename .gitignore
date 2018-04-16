@@ -162,3 +162,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadalp12/anadal.p12
 /plugins-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadalp12/cert.properties
 /plugins-signatureserver/afirmalibs/run.bat
+/plugins-signatureserver/afirmaserver/hola_upgraded.pdf
+/back/src/main/webapp/WEB-INF/jsp/admin
+/back/src/main/webapp/WEB-INF/jsp/user

@@ -114,6 +114,10 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLATDETEMPS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIOFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOPERACIOFIRMA)));
+
     // Check size
     if (__vr.getFieldErrorCount(TITOL) == 0) {
       java.lang.String __titol = (java.lang.String)__vr.getFieldValue(__target__,TITOL);
@@ -200,6 +204,46 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
       if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
         __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(EXPEDIENTCODI) == 0) {
+      java.lang.String __expedientcodi = (java.lang.String)__vr.getFieldValue(__target__,EXPEDIENTCODI);
+      if (__expedientcodi!= null && __expedientcodi.length() > 255) {
+        __vr.rejectValue(EXPEDIENTCODI, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(EXPEDIENTCODI)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(EXPEDIENTNOM) == 0) {
+      java.lang.String __expedientnom = (java.lang.String)__vr.getFieldValue(__target__,EXPEDIENTNOM);
+      if (__expedientnom!= null && __expedientnom.length() > 255) {
+        __vr.rejectValue(EXPEDIENTNOM, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(EXPEDIENTNOM)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(EXPEDIENTURL) == 0) {
+      java.lang.String __expedienturl = (java.lang.String)__vr.getFieldValue(__target__,EXPEDIENTURL);
+      if (__expedienturl!= null && __expedienturl.length() > 255) {
+        __vr.rejectValue(EXPEDIENTURL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(EXPEDIENTURL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(PROCEDIMENTCODI) == 0) {
+      java.lang.String __procedimentcodi = (java.lang.String)__vr.getFieldValue(__target__,PROCEDIMENTCODI);
+      if (__procedimentcodi!= null && __procedimentcodi.length() > 255) {
+        __vr.rejectValue(PROCEDIMENTCODI, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROCEDIMENTCODI)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(PROCEDIMENTNOM) == 0) {
+      java.lang.String __procedimentnom = (java.lang.String)__vr.getFieldValue(__target__,PROCEDIMENTNOM);
+      if (__procedimentnom!= null && __procedimentnom.length() > 255) {
+        __vr.rejectValue(PROCEDIMENTNOM, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROCEDIMENTNOM)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     

@@ -53,6 +53,33 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.TIPUSDOCUMENTBASEID)}">
+        <tr id="tipusDocument_tipusDocumentBaseID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID])?'tipusDocument.tipusDocumentBaseID':__theForm.labels[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}">
+              <i class="icon-info-sign" title="${__theForm.help[TipusDocumentFields.TIPUSDOCUMENTBASEID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="tipusDocument.tipusDocumentBaseID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}" >
+          <form:hidden path="tipusDocument.tipusDocumentBaseID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.tipusDocument.tipusDocumentBaseID,__theForm.listOfValuesForTipusDocumentBaseID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,TipusDocumentFields.TIPUSDOCUMENTBASEID)}" >
+          <form:select id="tipusDocument_tipusDocumentBaseID"  onchange="if(typeof onChangeTipusDocumentBaseID == 'function') {  onChangeTipusDocumentBaseID(this); };"  cssClass="input-xxlarge" path="tipusDocument.tipusDocumentBaseID">
+            <c:forEach items="${__theForm.listOfValuesForTipusDocumentBaseID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,TipusDocumentFields.DESCRIPCIO)}">
         <tr id="tipusDocument_descripcio_rowid">
           <td>

@@ -12,6 +12,7 @@ public interface IPortaFIBDaoManagers {
 	public IColaboracioDelegacioManager getColaboracioDelegacioManager();
 	public ICustodiaInfoManager getCustodiaInfoManager();
 	public IEntitatManager getEntitatManager();
+	public IEstadisticaManager getEstadisticaManager();
 	public IEstatDeFirmaManager getEstatDeFirmaManager();
 	public IFirmaManager getFirmaManager();
 	public IFitxerManager getFitxerManager();
@@ -27,11 +28,15 @@ public interface IPortaFIBDaoManagers {
 	public IPeticioDeFirmaManager getPeticioDeFirmaManager();
 	public IPlantillaFluxDeFirmesManager getPlantillaFluxDeFirmesManager();
 	public IPluginManager getPluginManager();
+	public IPluginCridadaManager getPluginCridadaManager();
+	public IPluginFirmaWebPerUsuariAplicacioManager getPluginFirmaWebPerUsuariAplicacioManager();
+	public IPluginFirmaWebPerUsuariEntitatManager getPluginFirmaWebPerUsuariEntitatManager();
 	public IPosicioPaginaManager getPosicioPaginaManager();
 	public IPosicioTaulaFirmesManager getPosicioTaulaFirmesManager();
 	public IPrioritatManager getPrioritatManager();
 	public IPropietatGlobalManager getPropietatGlobalManager();
 	public IRebreAvisManager getRebreAvisManager();
+	public IRevisorDeFirmaManager getRevisorDeFirmaManager();
 	public IRoleManager getRoleManager();
 	public IRoleUsuariAplicacioManager getRoleUsuariAplicacioManager();
 	public IRoleUsuariEntitatManager getRoleUsuariEntitatManager();
@@ -45,8 +50,10 @@ public interface IPortaFIBDaoManagers {
 	public ITipusNotificacioManager getTipusNotificacioManager();
 	public ITraduccioManager getTraduccioManager();
 	public IUsuariAplicacioManager getUsuariAplicacioManager();
+	public IUsuariAplicacioConfiguracioManager getUsuariAplicacioConfiguracioManager();
 	public IUsuariEntitatManager getUsuariEntitatManager();
 	public IUsuariEntitatFavoritManager getUsuariEntitatFavoritManager();
+	public IUsuariEntitatRevisorManager getUsuariEntitatRevisorManager();
 	public IUsuariPersonaManager getUsuariPersonaManager();
 
 }

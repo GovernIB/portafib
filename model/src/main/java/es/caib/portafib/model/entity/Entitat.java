@@ -80,17 +80,38 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getAlgorismeDeFirmaID();
 	public void setAlgorismeDeFirmaID(int _algorismeDeFirmaID_);
 
-	public boolean isComprovarNifFirma();
-	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
+	public int getPoliticaCustodia();
+	public void setPoliticaCustodia(int _politicaCustodia_);
 
 	public java.lang.Long getCustodiaInfoID();
 	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
+	public int getSegellDeTempsViaWeb();
+	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_);
+
+	public int getPoliticaTaulaFirmes();
+	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_);
+
+	public int getPosicioTaulaFirmes();
+	public void setPosicioTaulaFirmes(int _posicioTaulaFirmes_);
+
 	public java.lang.Long getPluginID();
 	public void setPluginID(java.lang.Long _pluginID_);
 
-	public int getSegellDeTempsViaWeb();
-	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_);
+	public java.lang.Long getPluginRubricaID();
+	public void setPluginRubricaID(java.lang.Long _pluginRubricaID_);
+
+	public boolean isComprovarNifFirma();
+	public void setComprovarNifFirma(boolean _comprovarNifFirma_);
+
+	public boolean isCheckCanviatDocFirmat();
+	public void setCheckCanviatDocFirmat(boolean _checkCanviatDocFirmat_);
+
+	public java.lang.Long getPluginValidaFirmesID();
+	public void setPluginValidaFirmesID(java.lang.Long _pluginValidaFirmesID_);
+
+	public java.lang.Long getPluginValidaCertificatID();
+	public void setPluginValidaCertificatID(java.lang.Long _pluginValidaCertificatID_);
 
   // Fitxer
   public <F extends Fitxer> F getFavicon();

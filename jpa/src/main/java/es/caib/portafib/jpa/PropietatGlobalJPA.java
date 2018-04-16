@@ -43,7 +43,7 @@ private static final long serialVersionUID = 1545722544L;
 	@Column(name="entitatid",length = 50)
 	java.lang.String entitatID;
 
-	@Column(name="descripcio",length = 255)
+	@Column(name="descripcio",length = 1000)
 	java.lang.String descripcio;
 
 

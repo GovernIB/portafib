@@ -103,19 +103,6 @@ private static final long serialVersionUID = -326205279L;
 	}
 
 
-// EXP  Field:nomid | Table: pfi_plugin | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
-	private Set<PluginJPA> plugin_nomids = new HashSet<PluginJPA>(0);
-	public  Set<PluginJPA> getPlugin_nomids() {
-    return this.plugin_nomids;
-  }
-
-	public void setPlugin_nomids(Set<PluginJPA> plugin_nomids) {
-	  this.plugin_nomids = plugin_nomids;
-	}
-
-
 // EXP  Field:descripciocurtaid | Table: pfi_plugin | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "descripcioCurtaID")
@@ -129,6 +116,19 @@ private static final long serialVersionUID = -326205279L;
 	}
 
 
+// EXP  Field:nomid | Table: pfi_plugin | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
+	private Set<PluginJPA> plugin_nomids = new HashSet<PluginJPA>(0);
+	public  Set<PluginJPA> getPlugin_nomids() {
+    return this.plugin_nomids;
+  }
+
+	public void setPlugin_nomids(Set<PluginJPA> plugin_nomids) {
+	  this.plugin_nomids = plugin_nomids;
+	}
+
+
 // EXP  Field:nom | Table: pfi_tipusdocument | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "nomID")
@@ -139,6 +139,32 @@ private static final long serialVersionUID = -326205279L;
 
 	public void setTipusDocuments(Set<TipusDocumentJPA> tipusDocuments) {
 	  this.tipusDocuments = tipusDocuments;
+	}
+
+
+// EXP  Field:motiudelegacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "motiuDelegacioID")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_motiudelegacioids() {
+    return this.usuariAplicacioConfiguracio_motiudelegacioids;
+  }
+
+	public void setUsuariAplicacioConfiguracio_motiudelegacioids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids) {
+	  this.usuariAplicacioConfiguracio_motiudelegacioids = usuariAplicacioConfiguracio_motiudelegacioids;
+	}
+
+
+// EXP  Field:firmatperformatid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmatPerFormatID")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_firmatperformatids() {
+    return this.usuariAplicacioConfiguracio_firmatperformatids;
+  }
+
+	public void setUsuariAplicacioConfiguracio_firmatperformatids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids) {
+	  this.usuariAplicacioConfiguracio_firmatperformatids = usuariAplicacioConfiguracio_firmatperformatids;
 	}
 
 
@@ -211,6 +237,14 @@ private static final long serialVersionUID = -326205279L;
     if(!"PluginJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin_descripciocurtaids) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin_descripciocurtaids())) ) {
       __tmp.setPlugin_descripciocurtaids(PluginJPA.copyJPA(__jpa.getPlugin_descripciocurtaids(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_motiudelegacioids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids())) ) {
+      __tmp.setUsuariAplicacioConfiguracio_motiudelegacioids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_motiudelegacioids(), __alreadyCopied,"TraduccioJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio_firmatperformatids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids())) ) {
+      __tmp.setUsuariAplicacioConfiguracio_firmatperformatids(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio_firmatperformatids(), __alreadyCopied,"TraduccioJPA"));
     }
     if(!"TipusDocumentJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocuments) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocuments())) ) {

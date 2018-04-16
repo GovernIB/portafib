@@ -76,6 +76,50 @@ public class UsuariEntitatFilterForm extends PortaFIBBaseFilterForm implements U
   }
 
 
+  private java.lang.Integer politicaCustodiaDesde;
+
+  public java.lang.Integer getPoliticaCustodiaDesde() {
+    return this.politicaCustodiaDesde;
+  }
+
+  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
+    this.politicaCustodiaDesde = politicaCustodiaDesde;
+  }
+
+
+  private java.lang.Integer politicaCustodiaFins;
+
+  public java.lang.Integer getPoliticaCustodiaFins() {
+    return this.politicaCustodiaFins;
+  }
+
+  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
+    this.politicaCustodiaFins = politicaCustodiaFins;
+  }
+
+
+  private java.lang.Integer politicaDePluginFirmaWebDesde;
+
+  public java.lang.Integer getPoliticaDePluginFirmaWebDesde() {
+    return this.politicaDePluginFirmaWebDesde;
+  }
+
+  public void setPoliticaDePluginFirmaWebDesde(java.lang.Integer politicaDePluginFirmaWebDesde) {
+    this.politicaDePluginFirmaWebDesde = politicaDePluginFirmaWebDesde;
+  }
+
+
+  private java.lang.Integer politicaDePluginFirmaWebFins;
+
+  public java.lang.Integer getPoliticaDePluginFirmaWebFins() {
+    return this.politicaDePluginFirmaWebFins;
+  }
+
+  public void setPoliticaDePluginFirmaWebFins(java.lang.Integer politicaDePluginFirmaWebFins) {
+    this.politicaDePluginFirmaWebFins = politicaDePluginFirmaWebFins;
+  }
+
+
   public UsuariEntitatFilterForm() {
   }
   
@@ -86,8 +130,14 @@ public class UsuariEntitatFilterForm extends PortaFIBBaseFilterForm implements U
     this.usuariPersonaID = __toClone.usuariPersonaID;
     this.entitatID = __toClone.entitatID;
     this.email = __toClone.email;
+    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
+    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
+    this.politicaDePluginFirmaWebDesde = __toClone.politicaDePluginFirmaWebDesde;
+    this.politicaDePluginFirmaWebFins = __toClone.politicaDePluginFirmaWebFins;
     this.mapOfUsuariPersonaForUsuariPersonaID = __toClone.mapOfUsuariPersonaForUsuariPersonaID;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
+    this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
+    this.mapOfValuesForPoliticaDePluginFirmaWeb = __toClone.mapOfValuesForPoliticaDePluginFirmaWeb;
   }
   
   /* ========= UTILS ========== */
@@ -142,6 +192,30 @@ public class UsuariEntitatFilterForm extends PortaFIBBaseFilterForm implements U
 
   public void setMapOfEntitatForEntitatID(Map<String, String> mapOfEntitatForEntitatID) {
     this.mapOfEntitatForEntitatID = mapOfEntitatForEntitatID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaCustodia;
+
+  public Map<String, String> getMapOfValuesForPoliticaCustodia() {
+    return this.mapOfValuesForPoliticaCustodia;
+  }
+
+  public void setMapOfValuesForPoliticaCustodia(Map<String, String> mapOfValuesForPoliticaCustodia) {
+    this.mapOfValuesForPoliticaCustodia = mapOfValuesForPoliticaCustodia;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaDePluginFirmaWeb;
+
+  public Map<String, String> getMapOfValuesForPoliticaDePluginFirmaWeb() {
+    return this.mapOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+  public void setMapOfValuesForPoliticaDePluginFirmaWeb(Map<String, String> mapOfValuesForPoliticaDePluginFirmaWeb) {
+    this.mapOfValuesForPoliticaDePluginFirmaWeb = mapOfValuesForPoliticaDePluginFirmaWeb;
   }
 
 

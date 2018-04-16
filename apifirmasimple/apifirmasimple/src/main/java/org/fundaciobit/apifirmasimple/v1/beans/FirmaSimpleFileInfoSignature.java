@@ -12,12 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class FirmaSimpleFileInfoSignature {
 
-  public static final String OPERATION_FIRMA = "FIRMA";
-
-  public static final String OPERATION_COFIRMA = "COFIRMA";
-
-  public static final String OPERATION_CONTRAFIRMA = "CONTRAFIRMA";
-
   protected FirmaSimpleFile fileToSign;
 
   /**
@@ -39,7 +33,15 @@ public class FirmaSimpleFileInfoSignature {
 
   protected String languageSign;
 
-  protected String operationSign = OPERATION_FIRMA;
+  protected String expedientCodi;
+
+  protected String expedientNom;
+
+  protected String expedientUrl;
+
+  protected String procedimentCodi;
+
+  protected String procedimentNom;
 
   protected List<FirmaSimpleKeyValue> additionalInformation = null;
 
@@ -60,8 +62,9 @@ public class FirmaSimpleFileInfoSignature {
    * @param signNumber
    * @param languageSign
    */
-  public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign, String signID, String name,
-      String reason, String location, String signerEmail, int signNumber, String languageSign) {
+  public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign,
+      String signID, String name, String reason, String location,
+      String signerEmail, int signNumber, String languageSign) {
     super();
     this.fileToSign = fileToSign;
     this.signID = signID;
@@ -87,9 +90,9 @@ public class FirmaSimpleFileInfoSignature {
    * @param additionalInformation
    */
   public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign,
-      FirmaSimpleFile previusSignatureDetachedFile, String signID, String name, String reason,
-      String location, String signerEmail, int signNumber, String languageSign,
-      String operationSign, List<FirmaSimpleKeyValue> additionalInformation) {
+      FirmaSimpleFile previusSignatureDetachedFile, String signID, String name,
+      String reason, String location, String signerEmail, int signNumber,
+      String languageSign, List<FirmaSimpleKeyValue> additionalInformation) {
     super();
     this.fileToSign = fileToSign;
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
@@ -100,7 +103,6 @@ public class FirmaSimpleFileInfoSignature {
     this.signerEmail = signerEmail;
     this.signNumber = signNumber;
     this.languageSign = languageSign;
-    this.operationSign = operationSign;
     this.additionalInformation = additionalInformation;
   }
 
@@ -168,19 +170,12 @@ public class FirmaSimpleFileInfoSignature {
     this.languageSign = languageSign;
   }
 
-  public String getOperationSign() {
-    return operationSign;
-  }
-
-  public void setOperationSign(String operationSign) {
-    this.operationSign = operationSign;
-  }
-
   public FirmaSimpleFile getPreviusSignatureDetachedFile() {
     return previusSignatureDetachedFile;
   }
 
-  public void setPreviusSignatureDetachedFile(FirmaSimpleFile previusSignatureDetachedFile) {
+  public void setPreviusSignatureDetachedFile(
+      FirmaSimpleFile previusSignatureDetachedFile) {
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
   }
 
@@ -188,10 +183,49 @@ public class FirmaSimpleFileInfoSignature {
     return additionalInformation;
   }
 
-  public void setAdditionalInformation(List<FirmaSimpleKeyValue> additionalInformation) {
+  public void setAdditionalInformation(
+      List<FirmaSimpleKeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
   }
 
-  
+  public String getExpedientCodi() {
+    return expedientCodi;
+  }
+
+  public void setExpedientCodi(String expedientCodi) {
+    this.expedientCodi = expedientCodi;
+  }
+
+  public String getExpedientNom() {
+    return expedientNom;
+  }
+
+  public void setExpedientNom(String expedientNom) {
+    this.expedientNom = expedientNom;
+  }
+
+  public String getExpedientUrl() {
+    return expedientUrl;
+  }
+
+  public void setExpedientUrl(String expedientUrl) {
+    this.expedientUrl = expedientUrl;
+  }
+
+  public String getProcedimentCodi() {
+    return procedimentCodi;
+  }
+
+  public void setProcedimentCodi(String procedimentCodi) {
+    this.procedimentCodi = procedimentCodi;
+  }
+
+  public String getProcedimentNom() {
+    return procedimentNom;
+  }
+
+  public void setProcedimentNom(String procedimentNom) {
+    this.procedimentNom = procedimentNom;
+  }
 
 }

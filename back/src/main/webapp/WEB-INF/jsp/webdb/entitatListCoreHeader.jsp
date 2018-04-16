@@ -90,17 +90,38 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.ALGORISMEDEFIRMAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.ALGORISMEDEFIRMAID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARNIFFIRMA)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICACUSTODIA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICACUSTODIA)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.CUSTODIAINFOID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICATAULAFIRMES)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POSICIOTAULAFIRMES)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINRUBRICAID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.COMPROVARNIFFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.COMPROVARNIFFIRMA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CHECKCANVIATDOCFIRMAT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.CHECKCANVIATDOCFIRMAT)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINVALIDAFIRMESID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINVALIDAFIRMESID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINVALIDACERTIFICATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINVALIDACERTIFICATID)}</th>
         </c:if>
 
 

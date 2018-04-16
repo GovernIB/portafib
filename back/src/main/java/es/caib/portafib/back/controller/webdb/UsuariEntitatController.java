@@ -222,6 +222,26 @@ public class UsuariEntitatController
 
       fillValuesToGroupByItemsBoolean("potcustodiar", groupByItemsMap, POTCUSTODIAR);
 
+    // Field politicaCustodia
+    {
+      _listSKV = getReferenceListForPoliticaCustodia(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaCustodia(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICACUSTODIA)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICACUSTODIA, false);
+      };
+    }
+
+    // Field politicaDePluginFirmaWeb
+    {
+      _listSKV = getReferenceListForPoliticaDePluginFirmaWeb(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaDePluginFirmaWeb(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICADEPLUGINFIRMAWEB)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICADEPLUGINFIRMAWEB, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -239,6 +259,8 @@ public class UsuariEntitatController
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(USUARIPERSONAID, filterForm.getMapOfUsuariPersonaForUsuariPersonaID());
     __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
+    __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
+    __mapping.put(POLITICADEPLUGINFIRMAWEB, filterForm.getMapOfValuesForPoliticaDePluginFirmaWeb());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -299,6 +321,20 @@ public class UsuariEntitatController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       usuariEntitatForm.setListOfEntitatForEntitatID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariEntitatForm.getListOfValuesForPoliticaCustodia() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, usuariEntitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      usuariEntitatForm.setListOfValuesForPoliticaCustodia(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariEntitatForm.getListOfValuesForPoliticaDePluginFirmaWeb() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaDePluginFirmaWeb(request, mav, usuariEntitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      usuariEntitatForm.setListOfValuesForPoliticaDePluginFirmaWeb(_listSKV);
     }
     
   }
@@ -709,6 +745,72 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return entitatRefList.getReferenceList(EntitatFields.ENTITATID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
+    if (usuariEntitatForm.isHiddenField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaCustodia(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
+       List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariEntitatFilterForm.isHiddenField(POLITICACUSTODIA)
+      && !usuariEntitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(HttpServletRequest request,
+       ModelAndView mav, UsuariEntitatForm usuariEntitatForm, Where where)  throws I18NException {
+    if (usuariEntitatForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(HttpServletRequest request,
+       ModelAndView mav, UsuariEntitatFilterForm usuariEntitatFilterForm,
+       List<UsuariEntitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariEntitatFilterForm.isHiddenField(POLITICADEPLUGINFIRMAWEB)
+      && !usuariEntitatFilterForm.isGroupByField(POLITICADEPLUGINFIRMAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaDePluginFirmaWeb(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
   }
 
 

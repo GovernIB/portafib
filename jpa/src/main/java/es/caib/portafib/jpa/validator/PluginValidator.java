@@ -32,6 +32,10 @@ public class PluginValidator<T> implements PluginFields {
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager) {
 
     // Valors Not Null
+    __vr.rejectIfEmptyOrWhitespace(__target__,CODI, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CODI)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,NOMID, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOMID)));
@@ -48,11 +52,27 @@ public class PluginValidator<T> implements PluginFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICADEUS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICADEUS)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,ACTIU, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ACTIU)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICAMOSTRARPROPIETATS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICAMOSTRARPROPIETATS)));
+
     // Check size
+    if (__vr.getFieldErrorCount(CODI) == 0) {
+      java.lang.String __codi = (java.lang.String)__vr.getFieldValue(__target__,CODI);
+      if (__codi!= null && __codi.length() > 255) {
+        __vr.rejectValue(CODI, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CODI)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
     if (__vr.getFieldErrorCount(CLASSE) == 0) {
       java.lang.String __classe = (java.lang.String)__vr.getFieldValue(__target__,CLASSE);
       if (__classe!= null && __classe.length() > 255) {

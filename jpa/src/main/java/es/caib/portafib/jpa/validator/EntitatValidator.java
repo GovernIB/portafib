@@ -66,13 +66,29 @@ public class EntitatValidator<T> implements EntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ALGORISMEDEFIRMAID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLDETEMPSVIAWEB, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLDETEMPSVIAWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICATAULAFIRMES, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICATAULAFIRMES)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POSICIOTAULAFIRMES, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POSICIOTAULAFIRMES)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(COMPROVARNIFFIRMA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,CHECKCANVIATDOCFIRMAT, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CHECKCANVIATDOCFIRMAT)));
 
     // Check size
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
@@ -354,6 +370,48 @@ public class EntitatValidator<T> implements EntitatFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(PLUGINRUBRICAID) == 0) {
+      java.lang.Long __pluginrubricaid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINRUBRICAID);
+      if (__pluginrubricaid != null ) {
+        Long __count_ = null;
+        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginrubricaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(PLUGINRUBRICAID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginrubricaid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(PLUGINVALIDAFIRMESID) == 0) {
+      java.lang.Long __pluginvalidafirmesid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINVALIDAFIRMESID);
+      if (__pluginvalidafirmesid != null ) {
+        Long __count_ = null;
+        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginvalidafirmesid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(PLUGINVALIDAFIRMESID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginvalidafirmesid)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(PLUGINVALIDACERTIFICATID) == 0) {
+      java.lang.Long __pluginvalidacertificatid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINVALIDACERTIFICATID);
+      if (__pluginvalidacertificatid != null ) {
+        Long __count_ = null;
+        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginvalidacertificatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(PLUGINVALIDACERTIFICATID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginvalidacertificatid)));
         }
       }
     }

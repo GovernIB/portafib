@@ -17,6 +17,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
 	 public static final StringField MOTIU = new StringField(_TABLE_MODEL, "motiu", "motiu");
 	 public static final LongField FITXERAFIRMARID = new LongField(_TABLE_MODEL, "fitxerAFirmarID", "fitxerafirmarid");
+	 public static final LongField FIRMAORIGINALDETACHEDID = new LongField(_TABLE_MODEL, "firmaOriginalDetachedID", "firmaoriginaldetachedid");
 	 public static final LongField FITXERADAPTATID = new LongField(_TABLE_MODEL, "fitxerAdaptatID", "fitxeradaptatid");
 	 public static final LongField TIPUSDOCUMENTID = new LongField(_TABLE_MODEL, "tipusDocumentID", "tipusdocumentid");
 	 public static final StringField DESCRIPCIOTIPUSDOCUMENT = new StringField(_TABLE_MODEL, "descripcioTipusDocument", "descripciotipusdocument");
@@ -41,6 +42,12 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
 	 public static final BooleanField AVISWEB = new BooleanField(_TABLE_MODEL, "avisWeb", "avisweb");
 	 public static final BooleanField SEGELLATDETEMPS = new BooleanField(_TABLE_MODEL, "segellatDeTemps", "segellatdetemps");
+	 public static final IntegerField TIPUSOPERACIOFIRMA = new IntegerField(_TABLE_MODEL, "tipusOperacioFirma", "tipusoperaciofirma");
+	 public static final StringField EXPEDIENTCODI = new StringField(_TABLE_MODEL, "expedientCodi", "expedientcodi");
+	 public static final StringField EXPEDIENTNOM = new StringField(_TABLE_MODEL, "expedientNom", "expedientnom");
+	 public static final StringField EXPEDIENTURL = new StringField(_TABLE_MODEL, "expedientUrl", "expedienturl");
+	 public static final StringField PROCEDIMENTCODI = new StringField(_TABLE_MODEL, "procedimentCodi", "procedimentcodi");
+	 public static final StringField PROCEDIMENTNOM = new StringField(_TABLE_MODEL, "procedimentnom", "procedimentnom");
 
 
   public static final Field<?>[] ALL_PETICIODEFIRMA_FIELDS = {
@@ -49,6 +56,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     DESCRIPCIO,
     MOTIU,
     FITXERAFIRMARID,
+    FIRMAORIGINALDETACHEDID,
     FITXERADAPTATID,
     TIPUSDOCUMENTID,
     DESCRIPCIOTIPUSDOCUMENT,
@@ -72,7 +80,13 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     CUSTODIAINFOID,
     USUARIENTITATID,
     AVISWEB,
-    SEGELLATDETEMPS
+    SEGELLATDETEMPS,
+    TIPUSOPERACIOFIRMA,
+    EXPEDIENTCODI,
+    EXPEDIENTNOM,
+    EXPEDIENTURL,
+    PROCEDIMENTCODI,
+    PROCEDIMENTNOM
   };
 
 

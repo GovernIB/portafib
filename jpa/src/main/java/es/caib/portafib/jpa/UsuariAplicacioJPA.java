@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 import java.util.Set;
@@ -72,6 +73,14 @@ private static final long serialVersionUID = -360699331L;
 	@Column(name="potcustodiar",length = 1)
 	java.lang.Boolean potCustodiar;
 
+  /** -1: el que digui l'entitat, 0: No permetre, 1: Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio */
+	@Column(name="politicacustodia",nullable = false,length = 10)
+	java.lang.Integer politicaCustodia;
+
+  /** 0 - Només plugins de l'entitat, 1 - Plugins de l'entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir) */
+	@Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
+	int politicaDePluginFirmaWeb;
+
 
 
   /** Constructor Buit */
@@ -79,7 +88,7 @@ private static final long serialVersionUID = -360699331L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -91,9 +100,11 @@ private static final long serialVersionUID = -360699331L;
     this.descripcio=descripcio;
     this.logoSegellID=logoSegellID;
     this.potCustodiar=potCustodiar;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -101,6 +112,8 @@ private static final long serialVersionUID = -360699331L;
     this.callbackURL=callbackURL;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   public UsuariAplicacioJPA(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
@@ -114,6 +127,8 @@ private static final long serialVersionUID = -360699331L;
     this.setDescripcio(__bean.getDescripcio());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setPotCustodiar(__bean.getPotCustodiar());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 	}
@@ -195,6 +210,20 @@ private static final long serialVersionUID = -360699331L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
+	public java.lang.Integer getPoliticaCustodia() {
+		return(politicaCustodia);
+	};
+	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
+	};
+
+	public int getPoliticaDePluginFirmaWeb() {
+		return(politicaDePluginFirmaWeb);
+	};
+	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_) {
+		this.politicaDePluginFirmaWeb = _politicaDePluginFirmaWeb_;
+	};
+
 
 
   @Override
@@ -267,6 +296,19 @@ private static final long serialVersionUID = -360699331L;
 	}
 
 
+// EXP  Field:usuariaplicacioid | Table: pfi_pluginfirmawebperusrapp | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
+	private Set<PluginFirmaWebPerUsuariAplicacioJPA> pluginFirmaWebPerUsuariAplicacios = new HashSet<PluginFirmaWebPerUsuariAplicacioJPA>(0);
+	public  Set<PluginFirmaWebPerUsuariAplicacioJPA> getPluginFirmaWebPerUsuariAplicacios() {
+    return this.pluginFirmaWebPerUsuariAplicacios;
+  }
+
+	public void setPluginFirmaWebPerUsuariAplicacios(Set<PluginFirmaWebPerUsuariAplicacioJPA> pluginFirmaWebPerUsuariAplicacios) {
+	  this.pluginFirmaWebPerUsuariAplicacios = pluginFirmaWebPerUsuariAplicacios;
+	}
+
+
 // EXP  Field:usuariaplicacioid | Table: pfi_roleusuariaplicacio | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
@@ -290,6 +332,19 @@ private static final long serialVersionUID = -360699331L;
 
 	public void setTipusDocuments(Set<TipusDocumentJPA> tipusDocuments) {
 	  this.tipusDocuments = tipusDocuments;
+	}
+
+
+// EXP  Field:usuariaplicacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToOne(mappedBy="usuariAplicacio")
+	private UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio;
+	public UsuariAplicacioConfiguracioJPA getUsuariAplicacioConfiguracio() {
+	  return this.usuariAplicacioConfiguracio;
+	}
+
+	public  void setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) {
+	  this.usuariAplicacioConfiguracio = usuariAplicacioConfiguracio;
 	}
 
 
@@ -354,6 +409,8 @@ private static final long serialVersionUID = -360699331L;
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 		return __tmp;
@@ -385,9 +442,17 @@ private static final long serialVersionUID = -360699331L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"PluginFirmaWebPerUsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariAplicacios())) ) {
+      __tmp.setPluginFirmaWebPerUsuariAplicacios(PluginFirmaWebPerUsuariAplicacioJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
     if(!"PlantillaFluxDeFirmesJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmess())) ) {
       __tmp.setPlantillaFluxDeFirmess(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmess(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio())) ) {
+      __tmp.setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {

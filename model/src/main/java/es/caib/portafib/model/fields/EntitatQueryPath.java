@@ -115,20 +115,48 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.ALGORISMEDEFIRMAID);
   }
 
-  public BooleanField COMPROVARNIFFIRMA() {
-    return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
+  public IntegerField POLITICACUSTODIA() {
+    return new IntegerField(getQueryPath(), EntitatFields.POLITICACUSTODIA);
   }
 
   public LongField CUSTODIAINFOID() {
     return new LongField(getQueryPath(), EntitatFields.CUSTODIAINFOID);
   }
 
+  public IntegerField SEGELLDETEMPSVIAWEB() {
+    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
+  }
+
+  public IntegerField POLITICATAULAFIRMES() {
+    return new IntegerField(getQueryPath(), EntitatFields.POLITICATAULAFIRMES);
+  }
+
+  public IntegerField POSICIOTAULAFIRMES() {
+    return new IntegerField(getQueryPath(), EntitatFields.POSICIOTAULAFIRMES);
+  }
+
   public LongField PLUGINID() {
     return new LongField(getQueryPath(), EntitatFields.PLUGINID);
   }
 
-  public IntegerField SEGELLDETEMPSVIAWEB() {
-    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
+  public LongField PLUGINRUBRICAID() {
+    return new LongField(getQueryPath(), EntitatFields.PLUGINRUBRICAID);
+  }
+
+  public BooleanField COMPROVARNIFFIRMA() {
+    return new BooleanField(getQueryPath(), EntitatFields.COMPROVARNIFFIRMA);
+  }
+
+  public BooleanField CHECKCANVIATDOCFIRMAT() {
+    return new BooleanField(getQueryPath(), EntitatFields.CHECKCANVIATDOCFIRMAT);
+  }
+
+  public LongField PLUGINVALIDAFIRMESID() {
+    return new LongField(getQueryPath(), EntitatFields.PLUGINVALIDAFIRMESID);
+  }
+
+  public LongField PLUGINVALIDACERTIFICATID() {
+    return new LongField(getQueryPath(), EntitatFields.PLUGINVALIDACERTIFICATID);
   }
 
 
@@ -159,6 +187,20 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public EstadisticaQueryPath ESTADISTICAS() {
+    return new EstadisticaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "estadisticas" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public GrupEntitatQueryPath GRUPENTITATS() {
     return new GrupEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -177,6 +219,20 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
           return EntitatQueryPath.this.getQueryPath() + "plugins" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PluginCridadaQueryPath PLUGINCRIDADAS() {
+    return new PluginCridadaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "pluginCridadas" + ".";
       }
     });
   }
@@ -308,6 +364,30 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
           return EntitatQueryPath.this.getQueryPath() + "plugin" + ".";
+      }
+    });
+  }
+
+  public PluginQueryPath PLUGINRUBRICA() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "pluginRubrica" + ".";
+      }
+    });
+  }
+
+  public PluginQueryPath PLUGINVALIDAFIRMES() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "pluginValidaFirmes" + ".";
+      }
+    });
+  }
+
+  public PluginQueryPath PLUGINVALIDACERTIFICAT() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return EntitatQueryPath.this.getQueryPath() + "pluginValidaCertificat" + ".";
       }
     });
   }

@@ -124,6 +124,20 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
   }
 */
 
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIOS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return CustodiaInfoQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracios" + ".";
+      }
+    });
+  }
+*/
+
   public PluginQueryPath PLUGIN() {
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {

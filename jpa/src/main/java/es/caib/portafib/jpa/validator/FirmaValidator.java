@@ -54,6 +54,10 @@ public class FirmaValidator<T> implements FirmaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MOSTRARRUBRICA)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,MINIMDEREVISORS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MINIMDEREVISORS)));
+
     // Check size
     if (__vr.getFieldErrorCount(DESTINATARIID) == 0) {
       java.lang.String __destinatariid = (java.lang.String)__vr.getFieldValue(__target__,DESTINATARIID);
@@ -76,6 +80,14 @@ public class FirmaValidator<T> implements FirmaFields {
       if (__nomcertificat!= null && __nomcertificat.length() > 1000) {
         __vr.rejectValue(NOMCERTIFICAT, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOMCERTIFICAT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(1000)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(MOTIU) == 0) {
+      java.lang.String __motiu = (java.lang.String)__vr.getFieldValue(__target__,MOTIU);
+      if (__motiu!= null && __motiu.length() > 255) {
+        __vr.rejectValue(MOTIU, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MOTIU)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     

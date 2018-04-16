@@ -26,6 +26,8 @@ private static final long serialVersionUID = 1947127827L;
 	java.lang.String nomCertificat;
 	java.lang.Long tipusEstatDeFirmaFinalID;
 	boolean mostrarRubrica;
+	java.lang.String motiu;
+	int minimDeRevisors;
 
 
   /** Constructor Buit */
@@ -33,7 +35,7 @@ private static final long serialVersionUID = 1947127827L;
   }
 
   /** Constructor amb tots els camps  */
-  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica) {
+  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
@@ -50,9 +52,11 @@ private static final long serialVersionUID = 1947127827L;
     this.nomCertificat=nomCertificat;
     this.tipusEstatDeFirmaFinalID=tipusEstatDeFirmaFinalID;
     this.mostrarRubrica=mostrarRubrica;
+    this.motiu=motiu;
+    this.minimDeRevisors=minimDeRevisors;
 }
   /** Constructor sense valors autoincrementals */
-  public FirmaBean(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica) {
+  public FirmaBean(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
@@ -68,15 +72,18 @@ private static final long serialVersionUID = 1947127827L;
     this.nomCertificat=nomCertificat;
     this.tipusEstatDeFirmaFinalID=tipusEstatDeFirmaFinalID;
     this.mostrarRubrica=mostrarRubrica;
+    this.motiu=motiu;
+    this.minimDeRevisors=minimDeRevisors;
 }
   /** Constructor dels valors Not Null */
-  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica) {
+  public FirmaBean(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica , int minimDeRevisors) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
     this.caixaPagina=caixaPagina;
     this.mostrarRubrica=mostrarRubrica;
+    this.minimDeRevisors=minimDeRevisors;
 }
   public FirmaBean(Firma __bean) {
     this.setFirmaID(__bean.getFirmaID());
@@ -95,6 +102,8 @@ private static final long serialVersionUID = 1947127827L;
     this.setNomCertificat(__bean.getNomCertificat());
     this.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
     this.setMostrarRubrica(__bean.isMostrarRubrica());
+    this.setMotiu(__bean.getMotiu());
+    this.setMinimDeRevisors(__bean.getMinimDeRevisors());
     // Fitxer
     this.setFitxerFirmat(FitxerBean.toBean(__bean.getFitxerFirmat()));
 	}
@@ -211,6 +220,20 @@ private static final long serialVersionUID = 1947127827L;
 		this.mostrarRubrica = _mostrarRubrica_;
 	};
 
+	public java.lang.String getMotiu() {
+		return(motiu);
+	};
+	public void setMotiu(java.lang.String _motiu_) {
+		this.motiu = _motiu_;
+	};
+
+	public int getMinimDeRevisors() {
+		return(minimDeRevisors);
+	};
+	public void setMinimDeRevisors(int _minimDeRevisors_) {
+		this.minimDeRevisors = _minimDeRevisors_;
+	};
+
 
 
   // ======================================
@@ -234,6 +257,8 @@ private static final long serialVersionUID = 1947127827L;
     __tmp.setNomCertificat(__bean.getNomCertificat());
     __tmp.setTipusEstatDeFirmaFinalID(__bean.getTipusEstatDeFirmaFinalID());
     __tmp.setMostrarRubrica(__bean.isMostrarRubrica());
+    __tmp.setMotiu(__bean.getMotiu());
+    __tmp.setMinimDeRevisors(__bean.getMinimDeRevisors());
     // Fitxer
     __tmp.setFitxerFirmat(FitxerBean.toBean(__bean.getFitxerFirmat()));
 		return __tmp;

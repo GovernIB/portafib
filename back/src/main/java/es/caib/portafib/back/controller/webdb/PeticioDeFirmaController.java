@@ -345,6 +345,16 @@ public class PeticioDeFirmaController
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, SEGELLATDETEMPS);
 
+    // Field tipusOperacioFirma
+    {
+      _listSKV = getReferenceListForTipusOperacioFirma(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForTipusOperacioFirma(_tmp);
+      if (filterForm.getGroupByFields().contains(TIPUSOPERACIOFIRMA)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSOPERACIOFIRMA, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -371,6 +381,7 @@ public class PeticioDeFirmaController
     __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
     __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
+    __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -494,6 +505,13 @@ public class PeticioDeFirmaController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       peticioDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (peticioDeFirmaForm.getListOfValuesForTipusOperacioFirma() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForTipusOperacioFirma(request, mav, peticioDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      peticioDeFirmaForm.setListOfValuesForTipusOperacioFirma(_listSKV);
     }
     
   }
@@ -796,6 +814,16 @@ public java.lang.Long stringToPK(String value) {
     }
 
 
+    f = (FitxerJPA)afm.preProcessFile(form.getFirmaOriginalDetachedID(), form.isFirmaOriginalDetachedIDDelete(),
+        form.isNou()? null : peticioDeFirma.getFirmaOriginalDetached());
+    ((PeticioDeFirmaJPA)peticioDeFirma).setFirmaOriginalDetached(f);
+    if (f != null) { 
+      peticioDeFirma.setFirmaOriginalDetachedID(f.getFitxerID());
+    } else {
+      peticioDeFirma.setFirmaOriginalDetachedID(null);
+    }
+
+
     f = (FitxerJPA)afm.preProcessFile(form.getFitxerAdaptatID(), form.isFitxerAdaptatIDDelete(),
         form.isNou()? null : peticioDeFirma.getFitxerAdaptat());
     ((PeticioDeFirmaJPA)peticioDeFirma).setFitxerAdaptat(f);
@@ -822,6 +850,7 @@ public java.lang.Long stringToPK(String value) {
   @Override
   public void deleteFiles(PeticioDeFirma peticioDeFirma) {
     deleteFile(peticioDeFirma.getFitxerAFirmarID());
+    deleteFile(peticioDeFirma.getFirmaOriginalDetachedID());
     deleteFile(peticioDeFirma.getFitxerAdaptatID());
     deleteFile(peticioDeFirma.getLogoSegellID());
   }
@@ -1280,6 +1309,37 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
+    if (peticioDeFirmaForm.isHiddenField(TIPUSOPERACIOFIRMA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForTipusOperacioFirma(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+       List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (peticioDeFirmaFilterForm.isHiddenField(TIPUSOPERACIOFIRMA)
+      && !peticioDeFirmaFilterForm.isGroupByField(TIPUSOPERACIOFIRMA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForTipusOperacioFirma(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForTipusOperacioFirma(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
   }
 
 

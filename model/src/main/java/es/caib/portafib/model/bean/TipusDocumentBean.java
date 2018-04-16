@@ -12,6 +12,7 @@ private static final long serialVersionUID = 1572605540L;
 
 	long tipusDocumentID;// PK
 	long nomID;
+	long tipusDocumentBaseID;
 	java.lang.String descripcio;
 	java.lang.String usuariAplicacioID;
 
@@ -21,20 +22,23 @@ private static final long serialVersionUID = 1572605540L;
   }
 
   /** Constructor amb tots els camps  */
-  public TipusDocumentBean(long tipusDocumentID , long nomID , java.lang.String descripcio , java.lang.String usuariAplicacioID) {
+  public TipusDocumentBean(long tipusDocumentID , long nomID , long tipusDocumentBaseID , java.lang.String descripcio , java.lang.String usuariAplicacioID) {
     this.tipusDocumentID=tipusDocumentID;
     this.nomID=nomID;
+    this.tipusDocumentBaseID=tipusDocumentBaseID;
     this.descripcio=descripcio;
     this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor dels valors Not Null */
-  public TipusDocumentBean(long tipusDocumentID , long nomID) {
+  public TipusDocumentBean(long tipusDocumentID , long nomID , long tipusDocumentBaseID) {
     this.tipusDocumentID=tipusDocumentID;
     this.nomID=nomID;
+    this.tipusDocumentBaseID=tipusDocumentBaseID;
 }
   public TipusDocumentBean(TipusDocument __bean) {
     this.setTipusDocumentID(__bean.getTipusDocumentID());
     this.setNomID(__bean.getNomID());
+    this.setTipusDocumentBaseID(__bean.getTipusDocumentBaseID());
     this.setDescripcio(__bean.getDescripcio());
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
@@ -51,6 +55,13 @@ private static final long serialVersionUID = 1572605540L;
 	};
 	public void setNomID(long _nomID_) {
 		this.nomID = _nomID_;
+	};
+
+	public long getTipusDocumentBaseID() {
+		return(tipusDocumentBaseID);
+	};
+	public void setTipusDocumentBaseID(long _tipusDocumentBaseID_) {
+		this.tipusDocumentBaseID = _tipusDocumentBaseID_;
 	};
 
 	public java.lang.String getDescripcio() {
@@ -76,6 +87,7 @@ private static final long serialVersionUID = 1572605540L;
     TipusDocumentBean __tmp = new TipusDocumentBean();
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
     __tmp.setNomID(__bean.getNomID());
+    __tmp.setTipusDocumentBaseID(__bean.getTipusDocumentBaseID());
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;

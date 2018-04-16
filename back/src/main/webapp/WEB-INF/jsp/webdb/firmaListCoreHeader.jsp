@@ -60,6 +60,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOSTRARRUBRICA)}">
         <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.MOSTRARRUBRICA)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MOTIU)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.MOTIU)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.MINIMDEREVISORS)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

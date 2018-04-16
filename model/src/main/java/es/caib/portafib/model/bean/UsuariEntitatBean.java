@@ -20,6 +20,8 @@ private static final long serialVersionUID = -1453348584L;
 	boolean predeterminat;
 	boolean rebreTotsElsAvisos;
 	java.lang.Boolean potCustodiar;
+	java.lang.Integer politicaCustodia;
+	int politicaDePluginFirmaWeb;
 
 
   /** Constructor Buit */
@@ -27,7 +29,7 @@ private static final long serialVersionUID = -1453348584L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar) {
+  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.carrec=carrec;
     this.usuariPersonaID=usuariPersonaID;
@@ -38,15 +40,19 @@ private static final long serialVersionUID = -1453348584L;
     this.predeterminat=predeterminat;
     this.rebreTotsElsAvisos=rebreTotsElsAvisos;
     this.potCustodiar=potCustodiar;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos) {
+  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.usuariPersonaID=usuariPersonaID;
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.predeterminat=predeterminat;
     this.rebreTotsElsAvisos=rebreTotsElsAvisos;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   public UsuariEntitatBean(UsuariEntitat __bean) {
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
@@ -59,6 +65,8 @@ private static final long serialVersionUID = -1453348584L;
     this.setPredeterminat(__bean.isPredeterminat());
     this.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
     this.setPotCustodiar(__bean.getPotCustodiar());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -133,6 +141,20 @@ private static final long serialVersionUID = -1453348584L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
+	public java.lang.Integer getPoliticaCustodia() {
+		return(politicaCustodia);
+	};
+	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
+	};
+
+	public int getPoliticaDePluginFirmaWeb() {
+		return(politicaDePluginFirmaWeb);
+	};
+	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_) {
+		this.politicaDePluginFirmaWeb = _politicaDePluginFirmaWeb_;
+	};
+
 
 
   // ======================================
@@ -150,6 +172,8 @@ private static final long serialVersionUID = -1453348584L;
     __tmp.setPredeterminat(__bean.isPredeterminat());
     __tmp.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
     __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

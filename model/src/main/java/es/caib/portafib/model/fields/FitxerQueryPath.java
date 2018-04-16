@@ -171,6 +171,20 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_FIRMAORIGINALDETACHEDIDS() {
+    return new PeticioDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return FitxerQueryPath.this.getQueryPath() + "peticioDeFirma_firmaoriginaldetachedids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public PeticioDeFirmaQueryPath PETICIODEFIRMA_FITXERADAPTATIDS() {
     return new PeticioDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -217,6 +231,20 @@ public class FitxerQueryPath extends org.fundaciobit.genapp.common.query.QueryPa
     return new UsuariAplicacioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return FitxerQueryPath.this.getQueryPath() + "usuariAplicacios" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIOS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return FitxerQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracios" + ".";
       }
     });
   }

@@ -20,6 +20,7 @@ public class TipusDocumentForm extends PortaFIBBaseForm {
     super(__toClone);
       this.tipusDocument = __toClone.tipusDocument;
     this.listOfTraduccioForNomID = __toClone.listOfTraduccioForNomID;
+    this.listOfValuesForTipusDocumentBaseID = __toClone.listOfValuesForTipusDocumentBaseID;
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
   }
   
@@ -53,6 +54,18 @@ public class TipusDocumentForm extends PortaFIBBaseForm {
 
   public void setListOfTraduccioForNomID(List<StringKeyValue> listOfTraduccioForNomID) {
     this.listOfTraduccioForNomID = listOfTraduccioForNomID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForTipusDocumentBaseID;
+
+  public List<StringKeyValue> getListOfValuesForTipusDocumentBaseID() {
+    return this.listOfValuesForTipusDocumentBaseID;
+  }
+
+  public void setListOfValuesForTipusDocumentBaseID(List<StringKeyValue> listOfValuesForTipusDocumentBaseID) {
+    this.listOfValuesForTipusDocumentBaseID = listOfValuesForTipusDocumentBaseID;
   }
 
 

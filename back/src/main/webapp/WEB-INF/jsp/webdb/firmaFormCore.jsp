@@ -336,3 +336,39 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MOTIU)}">
+        <tr id="firma_motiu_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.MOTIU])?'firma.motiu':__theForm.labels[FirmaFields.MOTIU]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.MOTIU]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.MOTIU]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.motiu" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.MOTIU)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="firma.motiu"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
+        <tr id="firma_minimDeRevisors_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.MINIMDEREVISORS])?'firma.minimDeRevisors':__theForm.labels[FirmaFields.MINIMDEREVISORS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[FirmaFields.MINIMDEREVISORS]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.MINIMDEREVISORS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.minimDeRevisors" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.MINIMDEREVISORS)? 'input-mini uneditable-input' : 'input-mini'}"   path="firma.minimDeRevisors"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

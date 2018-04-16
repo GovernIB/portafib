@@ -8,6 +8,9 @@ public interface TipusDocument extends org.fundaciobit.genapp.common.IGenAppEnti
 	public long getNomID();
 	public void setNomID(long _nomID_);
 
+	public long getTipusDocumentBaseID();
+	public void setTipusDocumentBaseID(long _tipusDocumentBaseID_);
+
 	public java.lang.String getDescripcio();
 	public void setDescripcio(java.lang.String _descripcio_);
 

@@ -101,6 +101,51 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)}">
+        <tr id="peticioDeFirma_firmaOriginalDetachedID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID])?'peticioDeFirma.firmaOriginalDetachedID':__theForm.labels[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+              <form:errors path="peticioDeFirma.firmaOriginalDetachedID" cssClass="errorField alert alert-error" />
+              <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
+                <div class="input-append">
+                <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)}" >
+                    <div class="uneditable-input span3">
+                      <i class="icon-file fileupload-exists"></i>
+                      <span class="fileupload-preview"></span>
+                    </div>
+                    <span class="btn btn-file">
+                      <span class="fileupload-new"><fmt:message key="genapp.form.file.select"/></span>
+                      <span class="fileupload-exists"><fmt:message key="genapp.form.file.change"/></span>
+                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)? 'input uneditable-input' : 'input'}"  path="firmaOriginalDetachedID" type="file" />
+                    </span>
+                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="genapp.form.file.unselect"/></a>
+                    <span class="add-on">&nbsp;</span>
+                </c:if>
+                <c:if test="${not empty __theForm.peticioDeFirma.firmaOriginalDetached}">
+                <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID)}" >
+                    <span class="add-on">
+                        <form:checkbox path="firmaOriginalDetachedIDDelete"/>
+                        <fmt:message key="genapp.form.file.delete"/>
+                    </span>
+                    <span class="add-on">&nbsp;</span>   
+                </c:if>
+                    <span class="add-on">
+                        <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.peticioDeFirma.firmaOriginalDetached)}"/>">${__theForm.peticioDeFirma.firmaOriginalDetached.nom}</a>
+                    </span>
+                </c:if>
+                </div>
+              </div>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.FITXERADAPTATID)}">
         <tr id="peticioDeFirma_fitxerAdaptatID_rowid">
           <td>
@@ -768,6 +813,123 @@
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.peticioDeFirma.segellatDeTemps}" />
           </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
+        <tr id="peticioDeFirma_tipusOperacioFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA])?'peticioDeFirma.tipusOperacioFirma':__theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.tipusOperacioFirma" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
+          <form:hidden path="peticioDeFirma.tipusOperacioFirma"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusOperacioFirma,__theForm.listOfValuesForTipusOperacioFirma)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
+          <form:select id="peticioDeFirma_tipusOperacioFirma"  onchange="if(typeof onChangeTipusOperacioFirma == 'function') {  onChangeTipusOperacioFirma(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.tipusOperacioFirma">
+            <c:forEach items="${__theForm.listOfValuesForTipusOperacioFirma}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTCODI)}">
+        <tr id="peticioDeFirma_expedientCodi_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTCODI])?'peticioDeFirma.expedientCodi':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTCODI]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTCODI]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTCODI]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="peticioDeFirma.expedientCodi" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTCODI)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="peticioDeFirma.expedientCodi"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTNOM)}">
+        <tr id="peticioDeFirma_expedientNom_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTNOM])?'peticioDeFirma.expedientNom':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTNOM]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTNOM]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTNOM]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="peticioDeFirma.expedientNom" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTNOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="peticioDeFirma.expedientNom"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTURL)}">
+        <tr id="peticioDeFirma_expedientUrl_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.EXPEDIENTURL])?'peticioDeFirma.expedientUrl':__theForm.labels[PeticioDeFirmaFields.EXPEDIENTURL]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.EXPEDIENTURL]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.EXPEDIENTURL]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="peticioDeFirma.expedientUrl" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.EXPEDIENTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="peticioDeFirma.expedientUrl"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTCODI)}">
+        <tr id="peticioDeFirma_procedimentCodi_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PROCEDIMENTCODI])?'peticioDeFirma.procedimentCodi':__theForm.labels[PeticioDeFirmaFields.PROCEDIMENTCODI]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.PROCEDIMENTCODI]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.PROCEDIMENTCODI]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="peticioDeFirma.procedimentCodi" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTCODI)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="peticioDeFirma.procedimentCodi"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTNOM)}">
+        <tr id="peticioDeFirma_procedimentnom_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.PROCEDIMENTNOM])?'peticioDeFirma.procedimentnom':__theForm.labels[PeticioDeFirmaFields.PROCEDIMENTNOM]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.PROCEDIMENTNOM]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.PROCEDIMENTNOM]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="peticioDeFirma.procedimentnom" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PROCEDIMENTNOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="peticioDeFirma.procedimentnom"   />
+
            </td>
         </tr>
         </c:if>

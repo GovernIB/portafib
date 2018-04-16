@@ -81,6 +81,22 @@
           <td>
             <fmt:message key="potcustodiar.${usuariEntitat.potCustodiar}" />          </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICACUSTODIA)}">
+          <td>
+          <c:set var="tmp">${usuariEntitat.politicaCustodia}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaCustodia[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+          <td>
+          <c:set var="tmp">${usuariEntitat.politicaDePluginFirmaWeb}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

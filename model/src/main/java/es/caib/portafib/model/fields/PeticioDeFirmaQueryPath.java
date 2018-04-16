@@ -31,6 +31,10 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new LongField(getQueryPath(), PeticioDeFirmaFields.FITXERAFIRMARID);
   }
 
+  public LongField FIRMAORIGINALDETACHEDID() {
+    return new LongField(getQueryPath(), PeticioDeFirmaFields.FIRMAORIGINALDETACHEDID);
+  }
+
   public LongField FITXERADAPTATID() {
     return new LongField(getQueryPath(), PeticioDeFirmaFields.FITXERADAPTATID);
   }
@@ -127,6 +131,30 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.SEGELLATDETEMPS);
   }
 
+  public IntegerField TIPUSOPERACIOFIRMA() {
+    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.TIPUSOPERACIOFIRMA);
+  }
+
+  public StringField EXPEDIENTCODI() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTCODI);
+  }
+
+  public StringField EXPEDIENTNOM() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTNOM);
+  }
+
+  public StringField EXPEDIENTURL() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTURL);
+  }
+
+  public StringField PROCEDIMENTCODI() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTCODI);
+  }
+
+  public StringField PROCEDIMENTNOM() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTNOM);
+  }
+
 
 
   @Override
@@ -196,6 +224,14 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new FitxerQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PeticioDeFirmaQueryPath.this.getQueryPath() + "fitxerAFirmar" + ".";
+      }
+    });
+  }
+
+  public FitxerQueryPath FIRMAORIGINALDETACHED() {
+    return new FitxerQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PeticioDeFirmaQueryPath.this.getQueryPath() + "firmaOriginalDetached" + ".";
       }
     });
   }

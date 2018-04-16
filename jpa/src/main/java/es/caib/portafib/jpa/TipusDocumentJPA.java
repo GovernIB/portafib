@@ -35,6 +35,10 @@ private static final long serialVersionUID = -1473284441L;
 	@Column(name="nom",nullable = false,length = 19)
 	long nomID;
 
+  /** Correspon només al tipus estandard (1 al 99) definits a les NTI */
+	@Column(name="tipusdocumentbaseid",nullable = false,length = 19)
+	long tipusDocumentBaseID;
+
 	@Column(name="descripcio",length = 1000)
 	java.lang.String descripcio;
 
@@ -50,20 +54,23 @@ private static final long serialVersionUID = -1473284441L;
   }
 
   /** Constructor amb tots els camps  */
-  public TipusDocumentJPA(long tipusDocumentID , long nomID , java.lang.String descripcio , java.lang.String usuariAplicacioID) {
+  public TipusDocumentJPA(long tipusDocumentID , long nomID , long tipusDocumentBaseID , java.lang.String descripcio , java.lang.String usuariAplicacioID) {
     this.tipusDocumentID=tipusDocumentID;
     this.nomID=nomID;
+    this.tipusDocumentBaseID=tipusDocumentBaseID;
     this.descripcio=descripcio;
     this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor dels valors Not Null */
-  public TipusDocumentJPA(long tipusDocumentID , long nomID) {
+  public TipusDocumentJPA(long tipusDocumentID , long nomID , long tipusDocumentBaseID) {
     this.tipusDocumentID=tipusDocumentID;
     this.nomID=nomID;
+    this.tipusDocumentBaseID=tipusDocumentBaseID;
 }
   public TipusDocumentJPA(TipusDocument __bean) {
     this.setTipusDocumentID(__bean.getTipusDocumentID());
     this.setNomID(__bean.getNomID());
+    this.setTipusDocumentBaseID(__bean.getTipusDocumentBaseID());
     this.setDescripcio(__bean.getDescripcio());
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
@@ -80,6 +87,13 @@ private static final long serialVersionUID = -1473284441L;
 	};
 	public void setNomID(long _nomID_) {
 		this.nomID = _nomID_;
+	};
+
+	public long getTipusDocumentBaseID() {
+		return(tipusDocumentBaseID);
+	};
+	public void setTipusDocumentBaseID(long _tipusDocumentBaseID_) {
+		this.tipusDocumentBaseID = _tipusDocumentBaseID_;
 	};
 
 	public java.lang.String getDescripcio() {
@@ -197,6 +211,7 @@ private static final long serialVersionUID = -1473284441L;
     TipusDocumentJPA __tmp = new TipusDocumentJPA();
     __tmp.setTipusDocumentID(__bean.getTipusDocumentID());
     __tmp.setNomID(__bean.getNomID());
+    __tmp.setTipusDocumentBaseID(__bean.getTipusDocumentBaseID());
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;

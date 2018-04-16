@@ -274,6 +274,39 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
+  private java.lang.String motiu;
+
+  public java.lang.String getMotiu() {
+    return this.motiu;
+  }
+
+  public void setMotiu(java.lang.String motiu) {
+    this.motiu = motiu;
+  }
+
+
+  private java.lang.Integer minimDeRevisorsDesde;
+
+  public java.lang.Integer getMinimDeRevisorsDesde() {
+    return this.minimDeRevisorsDesde;
+  }
+
+  public void setMinimDeRevisorsDesde(java.lang.Integer minimDeRevisorsDesde) {
+    this.minimDeRevisorsDesde = minimDeRevisorsDesde;
+  }
+
+
+  private java.lang.Integer minimDeRevisorsFins;
+
+  public java.lang.Integer getMinimDeRevisorsFins() {
+    return this.minimDeRevisorsFins;
+  }
+
+  public void setMinimDeRevisorsFins(java.lang.Integer minimDeRevisorsFins) {
+    this.minimDeRevisorsFins = minimDeRevisorsFins;
+  }
+
+
   public FirmaFilterForm() {
   }
   
@@ -302,6 +335,9 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.nomCertificat = __toClone.nomCertificat;
     this.tipusEstatDeFirmaFinalIDDesde = __toClone.tipusEstatDeFirmaFinalIDDesde;
     this.tipusEstatDeFirmaFinalIDFins = __toClone.tipusEstatDeFirmaFinalIDFins;
+    this.motiu = __toClone.motiu;
+    this.minimDeRevisorsDesde = __toClone.minimDeRevisorsDesde;
+    this.minimDeRevisorsFins = __toClone.minimDeRevisorsFins;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
     this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = __toClone.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;

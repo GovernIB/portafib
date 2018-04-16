@@ -51,6 +51,14 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new BooleanField(getQueryPath(), UsuariEntitatFields.POTCUSTODIAR);
   }
 
+  public IntegerField POLITICACUSTODIA() {
+    return new IntegerField(getQueryPath(), UsuariEntitatFields.POLITICACUSTODIA);
+  }
+
+  public IntegerField POLITICADEPLUGINFIRMAWEB() {
+    return new IntegerField(getQueryPath(), UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB);
+  }
+
 
 
   @Override
@@ -205,6 +213,20 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public PluginFirmaWebPerUsuariEntitatQueryPath PLUGINFIRMAWEBPERUSUARIENTITATS() {
+    return new PluginFirmaWebPerUsuariEntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "pluginFirmaWebPerUsuariEntitats" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public RebreAvisQueryPath REBREAVISS() {
     return new RebreAvisQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -251,6 +273,20 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new UsuariEntitatFavoritQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_origenids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariEntitatRevisorQueryPath USUARIENTITATREVISORS() {
+    return new UsuariEntitatRevisorQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatRevisors" + ".";
       }
     });
   }

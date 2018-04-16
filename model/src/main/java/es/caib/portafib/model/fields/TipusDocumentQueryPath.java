@@ -19,6 +19,10 @@ public class TipusDocumentQueryPath extends org.fundaciobit.genapp.common.query.
     return new LongField(getQueryPath(), TipusDocumentFields.NOMID);
   }
 
+  public LongField TIPUSDOCUMENTBASEID() {
+    return new LongField(getQueryPath(), TipusDocumentFields.TIPUSDOCUMENTBASEID);
+  }
+
   public StringField DESCRIPCIO() {
     return new StringField(getQueryPath(), TipusDocumentFields.DESCRIPCIO);
   }

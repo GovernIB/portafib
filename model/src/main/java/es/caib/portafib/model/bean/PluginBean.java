@@ -11,14 +11,18 @@ public class PluginBean implements Plugin {
 private static final long serialVersionUID = 1605894563L;
 
 	long pluginID;// PK
+	java.lang.String codi;
 	long nomID;
 	long descripcioCurtaID;
 	java.lang.String classe;
+	java.lang.Integer ordre;
 	int tipus;
 	java.lang.String propertiesAdmin;
 	java.lang.String propertiesEntitat;
+	int politicadeus;
 	java.lang.String entitatID;
 	boolean actiu;
+	int politicaMostrarPropietats;
 
 
   /** Constructor Buit */
@@ -26,47 +30,62 @@ private static final long serialVersionUID = 1605894563L;
   }
 
   /** Constructor amb tots els camps  */
-  public PluginBean(long pluginID , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , java.lang.String entitatID , boolean actiu) {
+  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicadeus , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
     this.pluginID=pluginID;
+    this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
     this.classe=classe;
+    this.ordre=ordre;
     this.tipus=tipus;
     this.propertiesAdmin=propertiesAdmin;
     this.propertiesEntitat=propertiesEntitat;
+    this.politicadeus=politicadeus;
     this.entitatID=entitatID;
     this.actiu=actiu;
+    this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
   /** Constructor sense valors autoincrementals */
-  public PluginBean(long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , java.lang.String entitatID , boolean actiu) {
+  public PluginBean(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicadeus , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+    this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
     this.classe=classe;
+    this.ordre=ordre;
     this.tipus=tipus;
     this.propertiesAdmin=propertiesAdmin;
     this.propertiesEntitat=propertiesEntitat;
+    this.politicadeus=politicadeus;
     this.entitatID=entitatID;
     this.actiu=actiu;
+    this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
   /** Constructor dels valors Not Null */
-  public PluginBean(long pluginID , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , boolean actiu) {
+  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , int politicadeus , boolean actiu , int politicaMostrarPropietats) {
     this.pluginID=pluginID;
+    this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
     this.classe=classe;
     this.tipus=tipus;
+    this.politicadeus=politicadeus;
     this.actiu=actiu;
+    this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
   public PluginBean(Plugin __bean) {
     this.setPluginID(__bean.getPluginID());
+    this.setCodi(__bean.getCodi());
     this.setNomID(__bean.getNomID());
     this.setDescripcioCurtaID(__bean.getDescripcioCurtaID());
     this.setClasse(__bean.getClasse());
+    this.setOrdre(__bean.getOrdre());
     this.setTipus(__bean.getTipus());
     this.setPropertiesAdmin(__bean.getPropertiesAdmin());
     this.setPropertiesEntitat(__bean.getPropertiesEntitat());
+    this.setPoliticadeus(__bean.getPoliticadeus());
     this.setEntitatID(__bean.getEntitatID());
     this.setActiu(__bean.isActiu());
+    this.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
 	}
 
 	public long getPluginID() {
@@ -74,6 +93,13 @@ private static final long serialVersionUID = 1605894563L;
 	};
 	public void setPluginID(long _pluginID_) {
 		this.pluginID = _pluginID_;
+	};
+
+	public java.lang.String getCodi() {
+		return(codi);
+	};
+	public void setCodi(java.lang.String _codi_) {
+		this.codi = _codi_;
 	};
 
 	public long getNomID() {
@@ -97,6 +123,13 @@ private static final long serialVersionUID = 1605894563L;
 		this.classe = _classe_;
 	};
 
+	public java.lang.Integer getOrdre() {
+		return(ordre);
+	};
+	public void setOrdre(java.lang.Integer _ordre_) {
+		this.ordre = _ordre_;
+	};
+
 	public int getTipus() {
 		return(tipus);
 	};
@@ -118,6 +151,13 @@ private static final long serialVersionUID = 1605894563L;
 		this.propertiesEntitat = _propertiesEntitat_;
 	};
 
+	public int getPoliticadeus() {
+		return(politicadeus);
+	};
+	public void setPoliticadeus(int _politicadeus_) {
+		this.politicadeus = _politicadeus_;
+	};
+
 	public java.lang.String getEntitatID() {
 		return(entitatID);
 	};
@@ -132,6 +172,13 @@ private static final long serialVersionUID = 1605894563L;
 		this.actiu = _actiu_;
 	};
 
+	public int getPoliticaMostrarPropietats() {
+		return(politicaMostrarPropietats);
+	};
+	public void setPoliticaMostrarPropietats(int _politicaMostrarPropietats_) {
+		this.politicaMostrarPropietats = _politicaMostrarPropietats_;
+	};
+
 
 
   // ======================================
@@ -140,14 +187,18 @@ private static final long serialVersionUID = 1605894563L;
     if (__bean == null) { return null;}
     PluginBean __tmp = new PluginBean();
     __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setCodi(__bean.getCodi());
     __tmp.setNomID(__bean.getNomID());
     __tmp.setDescripcioCurtaID(__bean.getDescripcioCurtaID());
     __tmp.setClasse(__bean.getClasse());
+    __tmp.setOrdre(__bean.getOrdre());
     __tmp.setTipus(__bean.getTipus());
     __tmp.setPropertiesAdmin(__bean.getPropertiesAdmin());
     __tmp.setPropertiesEntitat(__bean.getPropertiesEntitat());
+    __tmp.setPoliticadeus(__bean.getPoliticadeus());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setActiu(__bean.isActiu());
+    __tmp.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
 		return __tmp;
 	}
 

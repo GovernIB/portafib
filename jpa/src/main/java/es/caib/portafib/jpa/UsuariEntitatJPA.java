@@ -67,6 +67,14 @@ private static final long serialVersionUID = 2031334771L;
 	@Column(name="potcustodiar",length = 1)
 	java.lang.Boolean potCustodiar;
 
+  /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */
+	@Column(name="politicacustodia",nullable = false,length = 10)
+	java.lang.Integer politicaCustodia;
+
+  /**  0 - Només plugins de l''entitat, 1 - Plugins de l''entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir)' */
+	@Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
+	int politicaDePluginFirmaWeb;
+
 
 
   /** Constructor Buit */
@@ -74,7 +82,7 @@ private static final long serialVersionUID = 2031334771L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar) {
+  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.carrec=carrec;
     this.usuariPersonaID=usuariPersonaID;
@@ -85,15 +93,19 @@ private static final long serialVersionUID = 2031334771L;
     this.predeterminat=predeterminat;
     this.rebreTotsElsAvisos=rebreTotsElsAvisos;
     this.potCustodiar=potCustodiar;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos) {
+  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.usuariPersonaID=usuariPersonaID;
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.predeterminat=predeterminat;
     this.rebreTotsElsAvisos=rebreTotsElsAvisos;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   public UsuariEntitatJPA(UsuariEntitat __bean) {
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
@@ -106,6 +118,8 @@ private static final long serialVersionUID = 2031334771L;
     this.setPredeterminat(__bean.isPredeterminat());
     this.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
     this.setPotCustodiar(__bean.getPotCustodiar());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 	}
@@ -178,6 +192,20 @@ private static final long serialVersionUID = 2031334771L;
 	};
 	public void setPotCustodiar(java.lang.Boolean _potCustodiar_) {
 		this.potCustodiar = _potCustodiar_;
+	};
+
+	public java.lang.Integer getPoliticaCustodia() {
+		return(politicaCustodia);
+	};
+	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
+	};
+
+	public int getPoliticaDePluginFirmaWeb() {
+		return(politicaDePluginFirmaWeb);
+	};
+	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_) {
+		this.politicaDePluginFirmaWeb = _politicaDePluginFirmaWeb_;
 	};
 
 
@@ -330,6 +358,19 @@ private static final long serialVersionUID = 2031334771L;
 	}
 
 
+// EXP  Field:usuarientitatid | Table: pfi_pluginfirmawebperusrent | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
+	private Set<PluginFirmaWebPerUsuariEntitatJPA> pluginFirmaWebPerUsuariEntitats = new HashSet<PluginFirmaWebPerUsuariEntitatJPA>(0);
+	public  Set<PluginFirmaWebPerUsuariEntitatJPA> getPluginFirmaWebPerUsuariEntitats() {
+    return this.pluginFirmaWebPerUsuariEntitats;
+  }
+
+	public void setPluginFirmaWebPerUsuariEntitats(Set<PluginFirmaWebPerUsuariEntitatJPA> pluginFirmaWebPerUsuariEntitats) {
+	  this.pluginFirmaWebPerUsuariEntitats = pluginFirmaWebPerUsuariEntitats;
+	}
+
+
 // EXP  Field:usuarientitatid | Table: pfi_rebreavis | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
@@ -379,6 +420,19 @@ private static final long serialVersionUID = 2031334771L;
 
 	public void setUsuariEntitatFavorit_origenids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids) {
 	  this.usuariEntitatFavorit_origenids = usuariEntitatFavorit_origenids;
+	}
+
+
+// EXP  Field:usuarientitatid | Table: pfi_usuarientitatrevisor | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
+	private Set<UsuariEntitatRevisorJPA> usuariEntitatRevisors = new HashSet<UsuariEntitatRevisorJPA>(0);
+	public  Set<UsuariEntitatRevisorJPA> getUsuariEntitatRevisors() {
+    return this.usuariEntitatRevisors;
+  }
+
+	public void setUsuariEntitatRevisors(Set<UsuariEntitatRevisorJPA> usuariEntitatRevisors) {
+	  this.usuariEntitatRevisors = usuariEntitatRevisors;
 	}
 
 
@@ -442,6 +496,8 @@ private static final long serialVersionUID = 2031334771L;
     __tmp.setPredeterminat(__bean.isPredeterminat());
     __tmp.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
     __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
 		return __tmp;
@@ -476,6 +532,10 @@ private static final long serialVersionUID = 2031334771L;
     if(!"BitacolaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.bitacolas) || org.hibernate.Hibernate.isInitialized(__jpa.getBitacolas())) ) {
       __tmp.setBitacolas(BitacolaJPA.copyJPA(__jpa.getBitacolas(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"UsuariEntitatRevisorJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatRevisors) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatRevisors())) ) {
+      __tmp.setUsuariEntitatRevisors(UsuariEntitatRevisorJPA.copyJPA(__jpa.getUsuariEntitatRevisors(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio_colaboradordelegatids) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio_colaboradordelegatids())) ) {
@@ -528,6 +588,10 @@ private static final long serialVersionUID = 2031334771L;
     if(!"CustodiaInfoJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
       __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"PluginFirmaWebPerUsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariEntitats())) ) {
+      __tmp.setPluginFirmaWebPerUsuariEntitats(PluginFirmaWebPerUsuariEntitatJPA.copyJPA(__jpa.getPluginFirmaWebPerUsuariEntitats(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     // Copia de beans complexes (IMP)
     if(!"EntitatJPA".equals(origenJPA) && 

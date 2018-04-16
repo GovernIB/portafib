@@ -248,8 +248,15 @@ public class EntitatController
       };
     }
 
-
-      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
+    // Field politicaCustodia
+    {
+      _listSKV = getReferenceListForPoliticaCustodia(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaCustodia(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICACUSTODIA)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICACUSTODIA, false);
+      };
+    }
 
     // Field custodiaInfoID
     {
@@ -258,6 +265,36 @@ public class EntitatController
       filterForm.setMapOfCustodiaInfoForCustodiaInfoID(_tmp);
       if (filterForm.getGroupByFields().contains(CUSTODIAINFOID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, CUSTODIAINFOID, false);
+      };
+    }
+
+    // Field segellDeTempsViaWeb
+    {
+      _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForSegellDeTempsViaWeb(_tmp);
+      if (filterForm.getGroupByFields().contains(SEGELLDETEMPSVIAWEB)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SEGELLDETEMPSVIAWEB, false);
+      };
+    }
+
+    // Field politicaTaulaFirmes
+    {
+      _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaTaulaFirmes(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICATAULAFIRMES)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICATAULAFIRMES, false);
+      };
+    }
+
+    // Field posicioTaulaFirmes
+    {
+      _listSKV = getReferenceListForPosicioTaulaFirmes(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPosicioTaulaFirmes(_tmp);
+      if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMES)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMES, false);
       };
     }
 
@@ -271,13 +308,39 @@ public class EntitatController
       };
     }
 
-    // Field segellDeTempsViaWeb
+    // Field pluginRubricaID
     {
-      _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForPluginRubricaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfValuesForSegellDeTempsViaWeb(_tmp);
-      if (filterForm.getGroupByFields().contains(SEGELLDETEMPSVIAWEB)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, SEGELLDETEMPSVIAWEB, false);
+      filterForm.setMapOfPluginForPluginRubricaID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINRUBRICAID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINRUBRICAID, false);
+      };
+    }
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, COMPROVARNIFFIRMA);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CHECKCANVIATDOCFIRMAT);
+
+    // Field pluginValidaFirmesID
+    {
+      _listSKV = getReferenceListForPluginValidaFirmesID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfPluginForPluginValidaFirmesID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINVALIDAFIRMESID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINVALIDAFIRMESID, false);
+      };
+    }
+
+    // Field pluginValidaCertificatID
+    {
+      _listSKV = getReferenceListForPluginValidaCertificatID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfPluginForPluginValidaCertificatID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINVALIDACERTIFICATID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINVALIDACERTIFICATID, false);
       };
     }
 
@@ -300,9 +363,15 @@ public class EntitatController
     __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
+    __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
-    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
     __mapping.put(SEGELLDETEMPSVIAWEB, filterForm.getMapOfValuesForSegellDeTempsViaWeb());
+    __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
+    __mapping.put(POSICIOTAULAFIRMES, filterForm.getMapOfValuesForPosicioTaulaFirmes());
+    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
+    __mapping.put(PLUGINRUBRICAID, filterForm.getMapOfPluginForPluginRubricaID());
+    __mapping.put(PLUGINVALIDAFIRMESID, filterForm.getMapOfPluginForPluginValidaFirmesID());
+    __mapping.put(PLUGINVALIDACERTIFICATID, filterForm.getMapOfPluginForPluginValidaCertificatID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -384,11 +453,39 @@ public class EntitatController
       entitatForm.setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForPoliticaCustodia() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForPoliticaCustodia(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, entitatForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       entitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForSegellDeTempsViaWeb() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForSegellDeTempsViaWeb(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForPoliticaTaulaFirmes() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForPoliticaTaulaFirmes(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForPosicioTaulaFirmes() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmes(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForPosicioTaulaFirmes(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginID() == null) {
@@ -398,11 +495,25 @@ public class EntitatController
       entitatForm.setListOfPluginForPluginID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (entitatForm.getListOfValuesForSegellDeTempsViaWeb() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, entitatForm, null);
+    if (entitatForm.getListOfPluginForPluginRubricaID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginRubricaID(request, mav, entitatForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      entitatForm.setListOfValuesForSegellDeTempsViaWeb(_listSKV);
+      entitatForm.setListOfPluginForPluginRubricaID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfPluginForPluginValidaFirmesID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginValidaFirmesID(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfPluginForPluginValidaFirmesID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfPluginForPluginValidaCertificatID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginValidaCertificatID(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfPluginForPluginValidaCertificatID(_listSKV);
     }
     
   }
@@ -915,6 +1026,40 @@ public java.lang.String stringToPK(String value) {
   }
 
 
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaCustodia(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(POLITICACUSTODIA)
+      && !entitatFilterForm.isGroupByField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    return __tmp;
+  }
+
+
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(CUSTODIAINFOID)) {
@@ -952,6 +1097,101 @@ public java.lang.String stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return custodiaInfoRefList.getReferenceList(CustodiaInfoFields.CUSTODIAINFOID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(SEGELLDETEMPSVIAWEB)
+      && !entitatFilterForm.isGroupByField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(POLITICATAULAFIRMES)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaTaulaFirmes(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(POLITICATAULAFIRMES)
+      && !entitatFilterForm.isGroupByField(POLITICATAULAFIRMES)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaTaulaFirmes(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(POSICIOTAULAFIRMES)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPosicioTaulaFirmes(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(POSICIOTAULAFIRMES)
+      && !entitatFilterForm.isGroupByField(POSICIOTAULAFIRMES)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPosicioTaulaFirmes(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmes(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    return __tmp;
   }
 
 
@@ -995,35 +1235,123 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginRubricaID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
-    if (entitatForm.isHiddenField(SEGELLDETEMPSVIAWEB)) {
+    if (entitatForm.isHiddenField(PLUGINRUBRICAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    return getReferenceListForSegellDeTempsViaWeb(request, mav, where);
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(PLUGINRUBRICAID)) {
+      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginRubricaID());
+    }
+    return getReferenceListForPluginRubricaID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginRubricaID(HttpServletRequest request,
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (entitatFilterForm.isHiddenField(SEGELLDETEMPSVIAWEB)
-      && !entitatFilterForm.isGroupByField(SEGELLDETEMPSVIAWEB)) {
+    if (entitatFilterForm.isHiddenField(PLUGINRUBRICAID)
+      && !entitatFilterForm.isGroupByField(PLUGINRUBRICAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    return getReferenceListForSegellDeTempsViaWeb(request, mav, Where.AND(where,_w));
+    if (!_groupByItemsMap.containsKey(PLUGINRUBRICAID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getPluginRubricaID() == null) { continue; };
+        _pkList.add(_item.getPluginRubricaID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginRubricaID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginRubricaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    __tmp.add(new StringKeyValue("3" , "3"));
-    return __tmp;
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(PLUGINVALIDAFIRMESID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(PLUGINVALIDAFIRMESID)) {
+      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginValidaFirmesID());
+    }
+    return getReferenceListForPluginValidaFirmesID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(PLUGINVALIDAFIRMESID)
+      && !entitatFilterForm.isGroupByField(PLUGINVALIDAFIRMESID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(PLUGINVALIDAFIRMESID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getPluginValidaFirmesID() == null) { continue; };
+        _pkList.add(_item.getPluginValidaFirmesID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginValidaFirmesID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaCertificatID(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(PLUGINVALIDACERTIFICATID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (entitatForm.isReadOnlyField(PLUGINVALIDACERTIFICATID)) {
+      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginValidaCertificatID());
+    }
+    return getReferenceListForPluginValidaCertificatID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaCertificatID(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(PLUGINVALIDACERTIFICATID)
+      && !entitatFilterForm.isGroupByField(PLUGINVALIDACERTIFICATID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(PLUGINVALIDACERTIFICATID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (Entitat _item : list) {
+        if(_item.getPluginValidaCertificatID() == null) { continue; };
+        _pkList.add(_item.getPluginValidaCertificatID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginValidaCertificatID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPluginValidaCertificatID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
   }
 
 

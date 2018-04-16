@@ -21,6 +21,8 @@ private static final long serialVersionUID = 1703005582L;
 	java.lang.String descripcio;
 	java.lang.Long logoSegellID;
 	java.lang.Boolean potCustodiar;
+	java.lang.Integer politicaCustodia;
+	int politicaDePluginFirmaWeb;
 
 
   /** Constructor Buit */
@@ -28,7 +30,7 @@ private static final long serialVersionUID = 1703005582L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -40,9 +42,11 @@ private static final long serialVersionUID = 1703005582L;
     this.descripcio=descripcio;
     this.logoSegellID=logoSegellID;
     this.potCustodiar=potCustodiar;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -50,6 +54,8 @@ private static final long serialVersionUID = 1703005582L;
     this.callbackURL=callbackURL;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
+    this.politicaCustodia=politicaCustodia;
+    this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   public UsuariAplicacioBean(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
@@ -63,6 +69,8 @@ private static final long serialVersionUID = 1703005582L;
     this.setDescripcio(__bean.getDescripcio());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setPotCustodiar(__bean.getPotCustodiar());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -144,6 +152,20 @@ private static final long serialVersionUID = 1703005582L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
+	public java.lang.Integer getPoliticaCustodia() {
+		return(politicaCustodia);
+	};
+	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
+	};
+
+	public int getPoliticaDePluginFirmaWeb() {
+		return(politicaDePluginFirmaWeb);
+	};
+	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_) {
+		this.politicaDePluginFirmaWeb = _politicaDePluginFirmaWeb_;
+	};
+
 
 
   // ======================================
@@ -162,6 +184,8 @@ private static final long serialVersionUID = 1703005582L;
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

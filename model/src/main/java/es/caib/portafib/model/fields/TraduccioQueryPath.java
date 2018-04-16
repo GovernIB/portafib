@@ -57,20 +57,6 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PluginQueryPath PLUGIN_NOMIDS() {
-    return new PluginQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return TraduccioQueryPath.this.getQueryPath() + "plugin_nomids" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
   public PluginQueryPath PLUGIN_DESCRIPCIOCURTAIDS() {
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -85,10 +71,52 @@ public class TraduccioQueryPath extends org.fundaciobit.genapp.common.query.Quer
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public PluginQueryPath PLUGIN_NOMIDS() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return TraduccioQueryPath.this.getQueryPath() + "plugin_nomids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public TipusDocumentQueryPath TIPUSDOCUMENTS() {
     return new TipusDocumentQueryPath(new QueryPath() {
       public String getQueryPath() {
           return TraduccioQueryPath.this.getQueryPath() + "tipusDocuments" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_MOTIUDELEGACIOIDS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_motiudelegacioids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO_FIRMATPERFORMATIDS() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return TraduccioQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio_firmatperformatids" + ".";
       }
     });
   }

@@ -220,6 +220,16 @@ public class PluginController
       };
     }
 
+    // Field politicadeus
+    {
+      _listSKV = getReferenceListForPoliticadeus(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticadeus(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICADEUS)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICADEUS, false);
+      };
+    }
+
     // Field entitatID
     {
       _listSKV = getReferenceListForEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
@@ -232,6 +242,16 @@ public class PluginController
 
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, ACTIU);
+
+    // Field politicaMostrarPropietats
+    {
+      _listSKV = getReferenceListForPoliticaMostrarPropietats(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaMostrarPropietats(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICAMOSTRARPROPIETATS)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICAMOSTRARPROPIETATS, false);
+      };
+    }
 
 
     return groupByItemsMap;
@@ -251,7 +271,9 @@ public class PluginController
     __mapping.put(NOMID, filterForm.getMapOfTraduccioForNomID());
     __mapping.put(DESCRIPCIOCURTAID, filterForm.getMapOfTraduccioForDescripcioCurtaID());
     __mapping.put(TIPUS, filterForm.getMapOfValuesForTipus());
+    __mapping.put(POLITICADEUS, filterForm.getMapOfValuesForPoliticadeus());
     __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
+    __mapping.put(POLITICAMOSTRARPROPIETATS, filterForm.getMapOfValuesForPoliticaMostrarPropietats());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -326,11 +348,25 @@ public class PluginController
       pluginForm.setListOfValuesForTipus(_listSKV);
     }
     // Comprovam si ja esta definida la llista
+    if (pluginForm.getListOfValuesForPoliticadeus() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticadeus(request, mav, pluginForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      pluginForm.setListOfValuesForPoliticadeus(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
     if (pluginForm.getListOfEntitatForEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, pluginForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       pluginForm.setListOfEntitatForEntitatID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (pluginForm.getListOfValuesForPoliticaMostrarPropietats() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaMostrarPropietats(request, mav, pluginForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      pluginForm.setListOfValuesForPoliticaMostrarPropietats(_listSKV);
     }
     
   }
@@ -722,6 +758,37 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
+  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+       ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
+    if (pluginForm.isHiddenField(POLITICADEUS)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticadeus(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+       ModelAndView mav, PluginFilterForm pluginFilterForm,
+       List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (pluginFilterForm.isHiddenField(POLITICADEUS)
+      && !pluginFilterForm.isGroupByField(POLITICADEUS)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticadeus(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
+  }
+
+
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(ENTITATID)) {
@@ -759,6 +826,38 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return entitatRefList.getReferenceList(EntitatFields.ENTITATID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaMostrarPropietats(HttpServletRequest request,
+       ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
+    if (pluginForm.isHiddenField(POLITICAMOSTRARPROPIETATS)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaMostrarPropietats(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaMostrarPropietats(HttpServletRequest request,
+       ModelAndView mav, PluginFilterForm pluginFilterForm,
+       List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (pluginFilterForm.isHiddenField(POLITICAMOSTRARPROPIETATS)
+      && !pluginFilterForm.isGroupByField(POLITICAMOSTRARPROPIETATS)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaMostrarPropietats(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaMostrarPropietats(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
   }
 
 
