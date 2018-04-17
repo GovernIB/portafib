@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.SeleccioUsuariForm;
@@ -257,7 +258,11 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       }
       
     }
-      
+    
+    // XYZ ZZZ Es quedaran així fins que no s'implementi #165
+    usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
+    // XYZ ZZZ Es quedaran així fins que no s'implementi #173
+    usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
     // Ocultam camps del formulari
     usuariEntitatForm.addHiddenField(CARREC);
@@ -348,8 +353,11 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     ue.setUsuariPersonaID(usuariPersonaID);
     ue.setEntitatID(entitatID);
     ue.setActiu(true);
+    // XYZ ZZZ
     ue.setPotCustodiar(false);
     ue.setUsuariEntitatID(entitatID+ "_" +usuariPersonaID);
+    ue.setPoliticaCustodia(Constants.POLITICA_CUSTODIA_NO_PERMETRE);
+    ue.setPoliticaDePluginFirmaWeb(Constants.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
   }
 
    
@@ -448,5 +456,24 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     return (UsuariEntitatJPA) usuariEntitatLogicaEjb.createFull(usuariEntitat);
   }
 
+  /**
+   * #165
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
+  }
+
+  /**
+   * #173
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaDePluginFirmaWeb();
+  }
 
 }

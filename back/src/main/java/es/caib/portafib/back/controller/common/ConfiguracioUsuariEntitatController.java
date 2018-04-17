@@ -12,6 +12,7 @@ import es.caib.portafib.utils.Constants;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,6 +78,8 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     usuariEntitatForm.addHiddenField(ACTIU);
     usuariEntitatForm.addHiddenField(CARREC);
     usuariEntitatForm.addReadOnlyField(POTCUSTODIAR);
+    usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
+    usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
     if (!propietatEjb.getBooleanProperty(
         Constants.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
@@ -133,4 +136,47 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     return "redirect:" + getContextWeb() + "/"
         + usuariEntitatForm.getUsuariEntitat().getUsuariEntitatID() + "/edit";
   }
+
+  /**
+   * #165
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    return staticGetReferenceListForPoliticaCustodia();
+  }
+
+  
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaCustodia() {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    for (int i = 0; i < Constants.POLITICA_CUSTODIA.length; i++) {
+      __tmp.add(new StringKeyValue(String.valueOf(Constants.POLITICA_CUSTODIA[i]), I18NUtils
+          .tradueix("usuarientitat.politicacustodia." + Constants.POLITICA_CUSTODIA[i])));
+    }
+    return __tmp;
+  }
+
+  /**
+   * #173
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    return staticGetReferenceListForPoliticaDePluginFirmaWeb();
+  }
+
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaDePluginFirmaWeb() {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    
+    for (int i = 0; i < Constants.POLITICA_PLUGIN_FIRMA_WEB.length; i++) {
+      __tmp.add(new StringKeyValue(String.valueOf(Constants.POLITICA_PLUGIN_FIRMA_WEB[i]),
+          I18NUtils.tradueix("usuarientitat.politicapluginfirmaweb." + Constants.POLITICA_PLUGIN_FIRMA_WEB[i])));
+    }
+
+    return __tmp;
+  }
+  
+  
 }

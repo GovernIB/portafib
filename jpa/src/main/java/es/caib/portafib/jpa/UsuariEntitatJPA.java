@@ -69,7 +69,7 @@ private static final long serialVersionUID = 2031334771L;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1:Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us) */
 	@Column(name="politicacustodia",nullable = false,length = 10)
-	java.lang.Integer politicaCustodia;
+	int politicaCustodia;
 
   /**  0 - Només plugins de l''entitat, 1 - Plugins de l''entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir)' */
 	@Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
@@ -82,7 +82,7 @@ private static final long serialVersionUID = 2031334771L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.carrec=carrec;
     this.usuariPersonaID=usuariPersonaID;
@@ -97,7 +97,7 @@ private static final long serialVersionUID = 2031334771L;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariEntitatJPA(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.usuariPersonaID=usuariPersonaID;
     this.entitatID=entitatID;
@@ -194,10 +194,10 @@ private static final long serialVersionUID = 2031334771L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
-	public java.lang.Integer getPoliticaCustodia() {
+	public int getPoliticaCustodia() {
 		return(politicaCustodia);
 	};
-	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+	public void setPoliticaCustodia(int _politicaCustodia_) {
 		this.politicaCustodia = _politicaCustodia_;
 	};
 

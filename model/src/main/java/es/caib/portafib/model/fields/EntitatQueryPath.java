@@ -123,16 +123,16 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new LongField(getQueryPath(), EntitatFields.CUSTODIAINFOID);
   }
 
-  public IntegerField SEGELLDETEMPSVIAWEB() {
-    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
-  }
-
   public IntegerField POLITICATAULAFIRMES() {
     return new IntegerField(getQueryPath(), EntitatFields.POLITICATAULAFIRMES);
   }
 
   public IntegerField POSICIOTAULAFIRMES() {
     return new IntegerField(getQueryPath(), EntitatFields.POSICIOTAULAFIRMES);
+  }
+
+  public IntegerField SEGELLDETEMPSVIAWEB() {
+    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
   }
 
   public LongField PLUGINID() {

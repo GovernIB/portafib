@@ -21,7 +21,7 @@ private static final long serialVersionUID = 1703005582L;
 	java.lang.String descripcio;
 	java.lang.Long logoSegellID;
 	java.lang.Boolean potCustodiar;
-	java.lang.Integer politicaCustodia;
+	int politicaCustodia;
 	int politicaDePluginFirmaWeb;
 
 
@@ -30,7 +30,7 @@ private static final long serialVersionUID = 1703005582L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -46,7 +46,7 @@ private static final long serialVersionUID = 1703005582L;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -152,10 +152,10 @@ private static final long serialVersionUID = 1703005582L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
-	public java.lang.Integer getPoliticaCustodia() {
+	public int getPoliticaCustodia() {
 		return(politicaCustodia);
 	};
-	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+	public void setPoliticaCustodia(int _politicaCustodia_) {
 		this.politicaCustodia = _politicaCustodia_;
 	};
 

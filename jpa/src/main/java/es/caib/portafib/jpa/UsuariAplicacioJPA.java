@@ -75,7 +75,7 @@ private static final long serialVersionUID = -360699331L;
 
   /** -1: el que digui l'entitat, 0: No permetre, 1: Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio */
 	@Column(name="politicacustodia",nullable = false,length = 10)
-	java.lang.Integer politicaCustodia;
+	int politicaCustodia;
 
   /** 0 - Només plugins de l'entitat, 1 - Plugins de l'entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir) */
 	@Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
@@ -88,7 +88,7 @@ private static final long serialVersionUID = -360699331L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -104,7 +104,7 @@ private static final long serialVersionUID = -360699331L;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -210,10 +210,10 @@ private static final long serialVersionUID = -360699331L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
-	public java.lang.Integer getPoliticaCustodia() {
+	public int getPoliticaCustodia() {
 		return(politicaCustodia);
 	};
-	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+	public void setPoliticaCustodia(int _politicaCustodia_) {
 		this.politicaCustodia = _politicaCustodia_;
 	};
 

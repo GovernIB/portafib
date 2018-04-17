@@ -195,14 +195,6 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-          <td>
-          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
-          </c:if>
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
           <td>
           <c:set var="tmp">${entitat.politicaTaulaFirmes}</c:set>
@@ -216,6 +208,14 @@
           <c:set var="tmp">${entitat.posicioTaulaFirmes}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPosicioTaulaFirmes[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+          <td>
+          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
           </c:if>
           </td>
         </c:if>

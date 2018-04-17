@@ -16,6 +16,7 @@ public interface Constants {
 
   public static final String MAIL_QUEUE = "jms/es.caib.portafib.PortaFIBMailsQueue";
 
+  // XYZ ZZZ 
   public static final String NOTIFICACIONS_QUEUE = "jms/es.caib.portafib.PortaFIBNotificacionsQueue";
   
   public static final String PDF_MIME_TYPE = "application/pdf";
@@ -228,6 +229,67 @@ public interface Constants {
   public static final int CUSTODIA_TOTALMENT_EDITABLE = 4;
 
   
+  
+  
+  //========================================================
+  // ----- POLITICA DE CUSTODIA - PORTAFIB v2.0 #165 ------
+  // ========================================================
+  
+  // El que s´hagi definit dins l´entitat
+  public static final int POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT = -1;
+  
+  // No permetre
+  public static final int POLITICA_CUSTODIA_NO_PERMETRE = 0;
+  
+  // Només Plantilles de l´Entitat (No editables)
+  public static final int POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT = 1;
+  
+  // Obligatori Plantilla Entitat
+  public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT = 2;
+  
+  // Opcional plantilla Entitat (Per defecte Actiu)
+  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_ACTIU = 3;
+  
+  // Opcional plantilla Entitat (Per defecte NO Actiu)
+  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_NO_ACTIU = 4;
+  
+  // Llibertat Total (selecció, edició i us)
+  public static final int POLITICA_CUSTODIA_LLIBERTAT_TOTAL = 5;
+  
+  // TOTES
+  public static final int[] POLITICA_CUSTODIA = new int[] { 
+    POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT,
+    POLITICA_CUSTODIA_NO_PERMETRE,
+    POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT,
+    POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT,
+    POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_ACTIU,
+    POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_NO_ACTIU,
+    POLITICA_CUSTODIA_LLIBERTAT_TOTAL 
+  };
+  
+  
+
+  // ==============================================================
+  // --- POLITICA DE PLUGIN DE FIRMA WEB - PORTAFIB v2.0 #173 -----
+  // ==============================================================
+      
+  // Només plugins de l´entitat
+  public static final int POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT = 0;
+  
+  // Plugins de l´entitat més plugins addicionals (afegir o llevar)
+  public static final int POLITICA_PLUGIN_FIRMA_WEB_ENTITAT_I_ADDICIONALS = 1;
+
+  // Només plugins addicionals (Només els que tenguin marcat afegir)
+  public static final int POLITICA_PLUGIN_FIRMA_WEB_NOMES_ADDICIONALS = 2;
+  
+  
+  public static final int[] POLITICA_PLUGIN_FIRMA_WEB = new int[] {
+    POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT,
+    POLITICA_PLUGIN_FIRMA_WEB_ENTITAT_I_ADDICIONALS,
+    POLITICA_PLUGIN_FIRMA_WEB_NOMES_ADDICIONALS
+  };
+  
+
   // ========================================================
   // ----- CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================

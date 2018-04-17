@@ -2147,13 +2147,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         if (!unlockPeticioDeFirma(peticioDeFirmaID, token)) {
           log.error("No s'ha pogut desbloquejar la petició " + peticioDeFirmaID
               + " amb token " + token);
-          for (Long peticioID : this.locks.keySet()) {
-            Token tok = this.locks.get(peticioID);
+          for (Long peticioID : PeticioDeFirmaLogicaEJB.locks.keySet()) {
+            Token tok = PeticioDeFirmaLogicaEJB.locks.get(peticioID);
             log.error("LOCKS: " + peticioID + " --> T(ms): " + tok.getTimeInMs() + " | U: "
                 + tok.usuariEntitatID);
           }
           log.error("Forcing to unlock peticioDeFirmaID = " + peticioDeFirmaID);
-          this.locks.remove(peticioDeFirmaID);
+          PeticioDeFirmaLogicaEJB.locks.remove(peticioDeFirmaID);
         }
       } catch (Exception e) {
         log.error(e.getMessage(), e);

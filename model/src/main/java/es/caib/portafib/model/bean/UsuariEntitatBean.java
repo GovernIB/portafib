@@ -20,7 +20,7 @@ private static final long serialVersionUID = -1453348584L;
 	boolean predeterminat;
 	boolean rebreTotsElsAvisos;
 	java.lang.Boolean potCustodiar;
-	java.lang.Integer politicaCustodia;
+	int politicaCustodia;
 	int politicaDePluginFirmaWeb;
 
 
@@ -29,7 +29,7 @@ private static final long serialVersionUID = -1453348584L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String carrec , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , java.lang.String email , java.lang.Long logoSegellID , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Boolean potCustodiar , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.carrec=carrec;
     this.usuariPersonaID=usuariPersonaID;
@@ -44,7 +44,7 @@ private static final long serialVersionUID = -1453348584L;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , java.lang.Integer politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariEntitatBean(java.lang.String usuariEntitatID , java.lang.String usuariPersonaID , java.lang.String entitatID , boolean actiu , boolean predeterminat , boolean rebreTotsElsAvisos , int politicaCustodia , int politicaDePluginFirmaWeb) {
     this.usuariEntitatID=usuariEntitatID;
     this.usuariPersonaID=usuariPersonaID;
     this.entitatID=entitatID;
@@ -141,10 +141,10 @@ private static final long serialVersionUID = -1453348584L;
 		this.potCustodiar = _potCustodiar_;
 	};
 
-	public java.lang.Integer getPoliticaCustodia() {
+	public int getPoliticaCustodia() {
 		return(politicaCustodia);
 	};
-	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_) {
+	public void setPoliticaCustodia(int _politicaCustodia_) {
 		this.politicaCustodia = _politicaCustodia_;
 	};
 

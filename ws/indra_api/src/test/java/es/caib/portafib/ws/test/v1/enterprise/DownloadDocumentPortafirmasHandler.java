@@ -78,6 +78,8 @@ public class DownloadDocumentPortafirmasHandler {
   
           read = in.read(b);
         }
+        
+        System.out.println("blockCounter = " +  blockCounter);
   
       } catch (Exception e) {
         throw e;

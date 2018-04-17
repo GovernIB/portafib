@@ -268,16 +268,6 @@ public class EntitatController
       };
     }
 
-    // Field segellDeTempsViaWeb
-    {
-      _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfValuesForSegellDeTempsViaWeb(_tmp);
-      if (filterForm.getGroupByFields().contains(SEGELLDETEMPSVIAWEB)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, SEGELLDETEMPSVIAWEB, false);
-      };
-    }
-
     // Field politicaTaulaFirmes
     {
       _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, filterForm, list, groupByItemsMap, null);
@@ -295,6 +285,16 @@ public class EntitatController
       filterForm.setMapOfValuesForPosicioTaulaFirmes(_tmp);
       if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMES)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMES, false);
+      };
+    }
+
+    // Field segellDeTempsViaWeb
+    {
+      _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForSegellDeTempsViaWeb(_tmp);
+      if (filterForm.getGroupByFields().contains(SEGELLDETEMPSVIAWEB)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SEGELLDETEMPSVIAWEB, false);
       };
     }
 
@@ -365,9 +365,9 @@ public class EntitatController
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
     __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
-    __mapping.put(SEGELLDETEMPSVIAWEB, filterForm.getMapOfValuesForSegellDeTempsViaWeb());
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
     __mapping.put(POSICIOTAULAFIRMES, filterForm.getMapOfValuesForPosicioTaulaFirmes());
+    __mapping.put(SEGELLDETEMPSVIAWEB, filterForm.getMapOfValuesForSegellDeTempsViaWeb());
     __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
     __mapping.put(PLUGINRUBRICAID, filterForm.getMapOfPluginForPluginRubricaID());
     __mapping.put(PLUGINVALIDAFIRMESID, filterForm.getMapOfPluginForPluginValidaFirmesID());
@@ -467,13 +467,6 @@ public class EntitatController
       entitatForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (entitatForm.getListOfValuesForSegellDeTempsViaWeb() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, entitatForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      entitatForm.setListOfValuesForSegellDeTempsViaWeb(_listSKV);
-    }
-    // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPoliticaTaulaFirmes() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPoliticaTaulaFirmes(request, mav, entitatForm, null);
 
@@ -486,6 +479,13 @@ public class EntitatController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       entitatForm.setListOfValuesForPosicioTaulaFirmes(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (entitatForm.getListOfValuesForSegellDeTempsViaWeb() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSegellDeTempsViaWeb(request, mav, entitatForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      entitatForm.setListOfValuesForSegellDeTempsViaWeb(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginID() == null) {
@@ -1100,38 +1100,6 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
-       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
-    if (entitatForm.isHiddenField(SEGELLDETEMPSVIAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    return getReferenceListForSegellDeTempsViaWeb(request, mav, where);
-  }
-
-
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
-       ModelAndView mav, EntitatFilterForm entitatFilterForm,
-       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (entitatFilterForm.isHiddenField(SEGELLDETEMPSVIAWEB)
-      && !entitatFilterForm.isGroupByField(SEGELLDETEMPSVIAWEB)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    return getReferenceListForSegellDeTempsViaWeb(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    __tmp.add(new StringKeyValue("3" , "3"));
-    return __tmp;
-  }
-
-
   public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
     if (entitatForm.isHiddenField(POLITICATAULAFIRMES)) {
@@ -1191,6 +1159,38 @@ public java.lang.String stringToPK(String value) {
     __tmp.add(new StringKeyValue("0" , "0"));
     __tmp.add(new StringKeyValue("1" , "1"));
     __tmp.add(new StringKeyValue("-1" , "-1"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    if (entitatForm.isHiddenField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, EntitatFilterForm entitatFilterForm,
+       List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (entitatFilterForm.isHiddenField(SEGELLDETEMPSVIAWEB)
+      && !entitatFilterForm.isGroupByField(SEGELLDETEMPSVIAWEB)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForSegellDeTempsViaWeb(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
     return __tmp;
   }
 

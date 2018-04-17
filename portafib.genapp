@@ -5537,54 +5537,6 @@ opcional incluso cuando se genera una firma EPES.</string>
         <void index="28"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
-           <string>0</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
-           <string>segellDeTempsViaWeb</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>int</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Segell de temps via web</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Sello de tiempo via web</string> 
-           </void> 
-          </void> 
-          <void property="minAllowedValue"> 
-           <string>0,1,2,3</string> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="size"> 
-           <int>10</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>segelldetempsviaweb</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>4</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>16</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="29"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="defaultValue"> 
            <string>2</string> 
           </void> 
           <void property="descripcio"> 
@@ -5633,7 +5585,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="30"> 
+        <void index="29"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>1</string> 
@@ -5671,6 +5623,54 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="sqlName"> 
            <string>posiciotaulafirmes</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>4</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>16</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="30"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>0</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>segellDeTempsViaWeb</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>int</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Segell de temps via web</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Sello de tiempo via web</string> 
+           </void> 
+          </void> 
+          <void property="minAllowedValue"> 
+           <string>0,1,2,3</string> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>10</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>segelldetempsviaweb</string> 
           </void> 
           <void property="sqlType"> 
            <int>4</int> 
@@ -5970,11 +5970,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Plugin Validació de Firmes</string> 
+            <string>Plugin de Validació de Firmes</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Plugin Validación de Firmas</string> 
+            <string>Plugin de Validación de Firmas</string> 
            </void> 
           </void> 
           <void property="size"> 
@@ -21747,7 +21747,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <string>politicaCustodia</string> 
           </void> 
           <void property="javaType"> 
-           <class>java.lang.Integer</class> 
+           <class>int</class> 
           </void> 
           <void property="labels"> 
            <void method="put"> 
@@ -24151,7 +24151,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <string>politicaCustodia</string> 
           </void> 
           <void property="javaType"> 
-           <class>java.lang.Integer</class> 
+           <class>int</class> 
           </void> 
           <void property="labels"> 
            <void method="put"> 

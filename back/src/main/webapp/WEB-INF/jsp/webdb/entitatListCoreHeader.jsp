@@ -96,14 +96,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.CUSTODIAINFOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.CUSTODIAINFOID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICATAULAFIRMES)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POSICIOTAULAFIRMES)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINID)}</th>

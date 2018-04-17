@@ -66,7 +66,7 @@ public class UsuariEntitatJPAManager
 		return list.toArray(new UsuariEntitat[list.size()]);
 	};
 
-	public synchronized UsuariEntitat create( java.lang.String _usuariEntitatID_, java.lang.String _carrec_, java.lang.String _usuariPersonaID_, java.lang.String _entitatID_, boolean _actiu_, java.lang.String _email_, java.lang.Long _logoSegellID_, boolean _predeterminat_, boolean _rebreTotsElsAvisos_, java.lang.Boolean _potCustodiar_, java.lang.Integer _politicaCustodia_, int _politicaDePluginFirmaWeb_) throws I18NException {
+	public synchronized UsuariEntitat create( java.lang.String _usuariEntitatID_, java.lang.String _carrec_, java.lang.String _usuariPersonaID_, java.lang.String _entitatID_, boolean _actiu_, java.lang.String _email_, java.lang.Long _logoSegellID_, boolean _predeterminat_, boolean _rebreTotsElsAvisos_, java.lang.Boolean _potCustodiar_, int _politicaCustodia_, int _politicaDePluginFirmaWeb_) throws I18NException {
 		UsuariEntitatJPA __bean =  new UsuariEntitatJPA(_usuariEntitatID_,_carrec_,_usuariPersonaID_,_entitatID_,_actiu_,_email_,_logoSegellID_,_predeterminat_,_rebreTotsElsAvisos_,_potCustodiar_,_politicaCustodia_,_politicaDePluginFirmaWeb_);
 		return create(__bean);
 	}

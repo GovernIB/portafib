@@ -46,9 +46,9 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
     this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
-    this.listOfValuesForSegellDeTempsViaWeb = __toClone.listOfValuesForSegellDeTempsViaWeb;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmes = __toClone.listOfValuesForPosicioTaulaFirmes;
+    this.listOfValuesForSegellDeTempsViaWeb = __toClone.listOfValuesForSegellDeTempsViaWeb;
     this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
     this.listOfPluginForPluginRubricaID = __toClone.listOfPluginForPluginRubricaID;
     this.listOfPluginForPluginValidaFirmesID = __toClone.listOfPluginForPluginValidaFirmesID;
@@ -219,18 +219,6 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
-
-  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
-    return this.listOfValuesForSegellDeTempsViaWeb;
-  }
-
-  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
-    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
-  }
-
-
-
   private List<StringKeyValue> listOfValuesForPoliticaTaulaFirmes;
 
   public List<StringKeyValue> getListOfValuesForPoliticaTaulaFirmes() {
@@ -251,6 +239,18 @@ public class EntitatForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForPosicioTaulaFirmes(List<StringKeyValue> listOfValuesForPosicioTaulaFirmes) {
     this.listOfValuesForPosicioTaulaFirmes = listOfValuesForPosicioTaulaFirmes;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
+
+  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
+    return this.listOfValuesForSegellDeTempsViaWeb;
+  }
+
+  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
+    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
   }
 
 

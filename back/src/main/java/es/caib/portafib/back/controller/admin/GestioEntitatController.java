@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
@@ -108,6 +109,11 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.addHelpToField(FILTRECERTIFICATS, I18NUtils.tradueix("manualfiltrescertificats.ajuda"));
        entitatForm.addHelpToField(MOTIUDELEGACIOID, I18NUtils.tradueix("motiudelegacio.help"));
        entitatForm.addHelpToField(FIRMATPERFORMATID, I18NUtils.tradueix("firmatperformat.help"));
+       
+       // #165 Pentent de que s'implementi XYZ ZZZ
+       entitatForm.getEntitat().setPoliticaCustodia(Constants.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT);
+       entitatForm.addReadOnlyField(POLITICACUSTODIA);
+
        
        /*
        entitatForm.addAdditionalButton(new AdditionalButton(
@@ -286,6 +292,28 @@ public class GestioEntitatController extends EntitatController implements Consta
    __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO)));
    return __tmp;
  }
+  
+  
+  /**
+   * #165
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    
+    List<StringKeyValue> kvList = ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
+    
+    for (StringKeyValue skv : kvList) {
+      if (skv.getKey().equals(String.valueOf(Constants.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT))) {
+        kvList.remove(skv);
+        break;
+      }
+    }
+    
+    
+    return kvList;
+  }
   
   @Override
   public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)

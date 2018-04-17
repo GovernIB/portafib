@@ -35,8 +35,8 @@ public interface UsuariAplicacio extends org.fundaciobit.genapp.common.IGenAppEn
 	public java.lang.Boolean getPotCustodiar();
 	public void setPotCustodiar(java.lang.Boolean _potCustodiar_);
 
-	public java.lang.Integer getPoliticaCustodia();
-	public void setPoliticaCustodia(java.lang.Integer _politicaCustodia_);
+	public int getPoliticaCustodia();
+	public void setPoliticaCustodia(int _politicaCustodia_);
 
 	public int getPoliticaDePluginFirmaWeb();
 	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_);

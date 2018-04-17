@@ -94,7 +94,7 @@ public class PortaFIBCallBackTest extends PortaFIBTestUtils {
     try {
       PortaFIBCallBackTest test = new PortaFIBCallBackTest();
       
-      test.setUpBeforeClass();
+      PortaFIBCallBackTest.setUpBeforeClass();
       
       System.out.println(" Versio: " + callBackApi.getVersionWs());
       

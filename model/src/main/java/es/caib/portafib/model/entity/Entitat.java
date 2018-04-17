@@ -86,14 +86,14 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.Long getCustodiaInfoID();
 	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
-	public int getSegellDeTempsViaWeb();
-	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_);
-
 	public int getPoliticaTaulaFirmes();
 	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_);
 
 	public int getPosicioTaulaFirmes();
 	public void setPosicioTaulaFirmes(int _posicioTaulaFirmes_);
+
+	public int getSegellDeTempsViaWeb();
+	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_);
 
 	public java.lang.Long getPluginID();
 	public void setPluginID(java.lang.Long _pluginID_);

@@ -712,33 +712,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <tr id="entitat_segellDeTempsViaWeb_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:hidden path="entitat.segellDeTempsViaWeb"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
-            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICATAULAFIRMES)}">
         <tr id="entitat_politicaTaulaFirmes_rowid">
           <td>
@@ -785,6 +758,33 @@
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POSICIOTAULAFIRMES)}" >
           <form:select id="entitat_posicioTaulaFirmes"  onchange="if(typeof onChangePosicioTaulaFirmes == 'function') {  onChangePosicioTaulaFirmes(this); };"  cssClass="input-xxlarge" path="entitat.posicioTaulaFirmes">
             <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmes}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <tr id="entitat_segellDeTempsViaWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:hidden path="entitat.segellDeTempsViaWeb"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
+          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
+            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

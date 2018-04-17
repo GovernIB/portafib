@@ -19,8 +19,9 @@ import es.caib.portafib.back.form.webdb.UsuariEntitatFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
 
 /**
- * 
+ * Càrrecs que ocupa en aquesta entitat
  * @author dboerner
+ * @author anadal
  *
  */
 @Controller
@@ -56,6 +57,7 @@ public class CarrecsController extends UsuariEntitatController {
 		  Set<Field<?>> hiddenFields = usuariEntitatFilterForm.getHiddenFields();
 		  hiddenFields.addAll(Arrays.asList(ALL_USUARIENTITAT_FIELDS));
 		  hiddenFields.remove(CARREC);
+		  hiddenFields.remove(ACTIU);
 
 			// ocultam botons d'accions
 			usuariEntitatFilterForm.setAddButtonVisible(false);
@@ -69,7 +71,10 @@ public class CarrecsController extends UsuariEntitatController {
 			usuariEntitatFilterForm.setFilterByFields(new ArrayList<Field<?>>());
 			// ocultar seleccio multiple
 			usuariEntitatFilterForm.setVisibleMultipleSelection(false);
+			
+			usuariEntitatFilterForm.setAttachedAdditionalJspCode(true);
 		}
+
 		return usuariEntitatFilterForm;
 	}
 
@@ -93,10 +98,12 @@ public class CarrecsController extends UsuariEntitatController {
     return false;
   }
 	
+	@Override
   public String getEntityNameCode() {
     return "carrec";
   }
 
+	@Override
   public String getEntityNameCodePlural() {
     return "carrec.plural";
   }

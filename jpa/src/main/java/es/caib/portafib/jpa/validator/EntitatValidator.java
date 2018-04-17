@@ -70,10 +70,6 @@ public class EntitatValidator<T> implements EntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLDETEMPSVIAWEB, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLDETEMPSVIAWEB)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICATAULAFIRMES, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICATAULAFIRMES)));
@@ -81,6 +77,10 @@ public class EntitatValidator<T> implements EntitatFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,POSICIOTAULAFIRMES, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POSICIOTAULAFIRMES)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLDETEMPSVIAWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLDETEMPSVIAWEB)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,COMPROVARNIFFIRMA, 
         "genapp.validation.required",

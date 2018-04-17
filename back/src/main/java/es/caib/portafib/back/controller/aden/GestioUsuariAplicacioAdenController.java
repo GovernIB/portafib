@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.webdb.UsuariAplicacioController;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioForm;
@@ -136,6 +137,11 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.addReadOnlyField(ACTIU);
     }
     
+    // XYZ ZZZ Es quedaran així fins que no s'implementi #165
+    usuariAplicacioForm.addReadOnlyField(POLITICACUSTODIA);
+    // XYZ ZZZ Es quedaran així fins que no s'implementi #173
+    usuariAplicacioForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
+    
     usuariAplicacioForm.setAttachedAdditionalJspCode(true);
 
     // Ocultam camps
@@ -219,8 +225,13 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           usuariAplicacioFilterForm.addHiddenField(IDIOMAID);
           usuariAplicacioFilterForm.addHiddenField(EMAILADMIN);
           usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
-          usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
           usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
+          
+          // XYZ ZZZ
+          usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
+          
+          usuariAplicacioFilterForm.addHiddenField(POLITICACUSTODIA);
+          usuariAplicacioFilterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
           
 
           usuariAplicacioFilterForm.setTitleCode("usuariaplicacio.llistat");
@@ -545,6 +556,27 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       throws Exception,I18NException, I18NValidationException {
       return usuariAplicacioLogicaEjb.createFull(usuariAplicacio, 
          LoginInfo.getInstance().getEntitatID());
+    }
+    
+    
+    /**
+     * #165
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForPoliticaCustodia(
+        HttpServletRequest request, ModelAndView mav, Where where)
+        throws I18NException {
+      return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
+    }
+
+    /**
+     * #173
+     */
+    @Override
+    public List<StringKeyValue> getReferenceListForPoliticaDePluginFirmaWeb(
+        HttpServletRequest request, ModelAndView mav, Where where)
+        throws I18NException {
+      return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaDePluginFirmaWeb();
     }
     
 

@@ -117,7 +117,7 @@ public abstract class AbstractPluginAdenController<I> extends AbstractPluginAdmi
        PluginJPA moduldefirma = getPluginEjb().findByPrimaryKey(plantillamoduldefirmaid);
        
        
-       PluginJPA clone = moduldefirma.toJPA(moduldefirma);
+       PluginJPA clone = PluginJPA.toJPA(moduldefirma);
        clone.setPluginID(0);
        
        clone.setNomID(0);
