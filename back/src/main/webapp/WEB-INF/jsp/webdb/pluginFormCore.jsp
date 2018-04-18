@@ -200,24 +200,24 @@
         </c:if>
         
         <c:if test="${!gen:contains(__theForm.hiddenFields,PluginFields.POLITICADEUS)}">
-        <tr id="plugin_politicadeus_rowid">
+        <tr id="plugin_politicaDeUs_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICADEUS])?'plugin.politicadeus':__theForm.labels[PluginFields.POLITICADEUS]}" /> &nbsp;(*)
+              <fmt:message key="${(empty __theForm.labels[PluginFields.POLITICADEUS])?'plugin.politicaDeUs':__theForm.labels[PluginFields.POLITICADEUS]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[PluginFields.POLITICADEUS]}">
               <i class="icon-info-sign" title="${__theForm.help[PluginFields.POLITICADEUS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="plugin.politicadeus" cssClass="errorField alert alert-error" />
+          <form:errors path="plugin.politicaDeUs" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
-          <form:hidden path="plugin.politicadeus"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicadeus,__theForm.listOfValuesForPoliticadeus)}"  />
+          <form:hidden path="plugin.politicaDeUs"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.plugin.politicaDeUs,__theForm.listOfValuesForPoliticaDeUs)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PluginFields.POLITICADEUS)}" >
-          <form:select id="plugin_politicadeus"  onchange="if(typeof onChangePoliticadeus == 'function') {  onChangePoliticadeus(this); };"  cssClass="input-xxlarge" path="plugin.politicadeus">
-            <c:forEach items="${__theForm.listOfValuesForPoliticadeus}" var="tmp">
+          <form:select id="plugin_politicaDeUs"  onchange="if(typeof onChangePoliticaDeUs == 'function') {  onChangePoliticaDeUs(this); };"  cssClass="input-xxlarge" path="plugin.politicaDeUs">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaDeUs}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

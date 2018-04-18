@@ -29,8 +29,8 @@ public interface Plugin extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.String getPropertiesEntitat();
 	public void setPropertiesEntitat(java.lang.String _propertiesEntitat_);
 
-	public int getPoliticadeus();
-	public void setPoliticadeus(int _politicadeus_);
+	public int getPoliticaDeUs();
+	public void setPoliticaDeUs(int _politicaDeUs_);
 
 	public java.lang.String getEntitatID();
 	public void setEntitatID(java.lang.String _entitatID_);

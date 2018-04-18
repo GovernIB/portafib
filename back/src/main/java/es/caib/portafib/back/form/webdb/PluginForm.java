@@ -22,7 +22,7 @@ public class PluginForm extends PortaFIBBaseForm {
     this.listOfTraduccioForNomID = __toClone.listOfTraduccioForNomID;
     this.listOfTraduccioForDescripcioCurtaID = __toClone.listOfTraduccioForDescripcioCurtaID;
     this.listOfValuesForTipus = __toClone.listOfValuesForTipus;
-    this.listOfValuesForPoliticadeus = __toClone.listOfValuesForPoliticadeus;
+    this.listOfValuesForPoliticaDeUs = __toClone.listOfValuesForPoliticaDeUs;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
     this.listOfValuesForPoliticaMostrarPropietats = __toClone.listOfValuesForPoliticaMostrarPropietats;
   }
@@ -85,14 +85,14 @@ public class PluginForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForPoliticadeus;
+  private List<StringKeyValue> listOfValuesForPoliticaDeUs;
 
-  public List<StringKeyValue> getListOfValuesForPoliticadeus() {
-    return this.listOfValuesForPoliticadeus;
+  public List<StringKeyValue> getListOfValuesForPoliticaDeUs() {
+    return this.listOfValuesForPoliticaDeUs;
   }
 
-  public void setListOfValuesForPoliticadeus(List<StringKeyValue> listOfValuesForPoliticadeus) {
-    this.listOfValuesForPoliticadeus = listOfValuesForPoliticadeus;
+  public void setListOfValuesForPoliticaDeUs(List<StringKeyValue> listOfValuesForPoliticaDeUs) {
+    this.listOfValuesForPoliticaDeUs = listOfValuesForPoliticaDeUs;
   }
 
 

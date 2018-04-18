@@ -220,11 +220,11 @@ public class PluginController
       };
     }
 
-    // Field politicadeus
+    // Field politicaDeUs
     {
-      _listSKV = getReferenceListForPoliticadeus(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForPoliticaDeUs(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfValuesForPoliticadeus(_tmp);
+      filterForm.setMapOfValuesForPoliticaDeUs(_tmp);
       if (filterForm.getGroupByFields().contains(POLITICADEUS)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICADEUS, false);
       };
@@ -271,7 +271,7 @@ public class PluginController
     __mapping.put(NOMID, filterForm.getMapOfTraduccioForNomID());
     __mapping.put(DESCRIPCIOCURTAID, filterForm.getMapOfTraduccioForDescripcioCurtaID());
     __mapping.put(TIPUS, filterForm.getMapOfValuesForTipus());
-    __mapping.put(POLITICADEUS, filterForm.getMapOfValuesForPoliticadeus());
+    __mapping.put(POLITICADEUS, filterForm.getMapOfValuesForPoliticaDeUs());
     __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
     __mapping.put(POLITICAMOSTRARPROPIETATS, filterForm.getMapOfValuesForPoliticaMostrarPropietats());
     exportData(request, response, dataExporterID, filterForm,
@@ -348,11 +348,11 @@ public class PluginController
       pluginForm.setListOfValuesForTipus(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (pluginForm.getListOfValuesForPoliticadeus() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPoliticadeus(request, mav, pluginForm, null);
+    if (pluginForm.getListOfValuesForPoliticaDeUs() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaDeUs(request, mav, pluginForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      pluginForm.setListOfValuesForPoliticadeus(_listSKV);
+      pluginForm.setListOfValuesForPoliticaDeUs(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (pluginForm.getListOfEntitatForEntitatID() == null) {
@@ -758,16 +758,16 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPoliticaDeUs(HttpServletRequest request,
        ModelAndView mav, PluginForm pluginForm, Where where)  throws I18NException {
     if (pluginForm.isHiddenField(POLITICADEUS)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    return getReferenceListForPoliticadeus(request, mav, where);
+    return getReferenceListForPoliticaDeUs(request, mav, where);
   }
 
 
-  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPoliticaDeUs(HttpServletRequest request,
        ModelAndView mav, PluginFilterForm pluginFilterForm,
        List<Plugin> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
     if (pluginFilterForm.isHiddenField(POLITICADEUS)
@@ -775,11 +775,11 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    return getReferenceListForPoliticadeus(request, mav, Where.AND(where,_w));
+    return getReferenceListForPoliticaDeUs(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForPoliticadeus(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPoliticaDeUs(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
     __tmp.add(new StringKeyValue("0" , "0"));

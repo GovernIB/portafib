@@ -80,9 +80,9 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginFields.POLITICADEUS)}">
           <td>
-          <c:set var="tmp">${plugin.politicadeus}</c:set>
+          <c:set var="tmp">${plugin.politicaDeUs}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForPoliticadeus[tmp]}
+          ${__theFilterForm.mapOfValuesForPoliticaDeUs[tmp]}
           </c:if>
           </td>
         </c:if>

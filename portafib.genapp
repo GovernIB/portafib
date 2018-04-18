@@ -14789,7 +14789,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>politicadeus</string> 
+           <string>politicaDeUs</string> 
           </void> 
           <void property="javaType"> 
            <class>int</class> 

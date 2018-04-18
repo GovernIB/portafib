@@ -19,7 +19,7 @@ private static final long serialVersionUID = 1605894563L;
 	int tipus;
 	java.lang.String propertiesAdmin;
 	java.lang.String propertiesEntitat;
-	int politicadeus;
+	int politicaDeUs;
 	java.lang.String entitatID;
 	boolean actiu;
 	int politicaMostrarPropietats;
@@ -30,7 +30,7 @@ private static final long serialVersionUID = 1605894563L;
   }
 
   /** Constructor amb tots els camps  */
-  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicadeus , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
     this.pluginID=pluginID;
     this.codi=codi;
     this.nomID=nomID;
@@ -40,13 +40,13 @@ private static final long serialVersionUID = 1605894563L;
     this.tipus=tipus;
     this.propertiesAdmin=propertiesAdmin;
     this.propertiesEntitat=propertiesEntitat;
-    this.politicadeus=politicadeus;
+    this.politicaDeUs=politicaDeUs;
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
   /** Constructor sense valors autoincrementals */
-  public PluginBean(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicadeus , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
+  public PluginBean(java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , java.lang.Integer ordre , int tipus , java.lang.String propertiesAdmin , java.lang.String propertiesEntitat , int politicaDeUs , java.lang.String entitatID , boolean actiu , int politicaMostrarPropietats) {
     this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
@@ -55,20 +55,20 @@ private static final long serialVersionUID = 1605894563L;
     this.tipus=tipus;
     this.propertiesAdmin=propertiesAdmin;
     this.propertiesEntitat=propertiesEntitat;
-    this.politicadeus=politicadeus;
+    this.politicaDeUs=politicaDeUs;
     this.entitatID=entitatID;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
   /** Constructor dels valors Not Null */
-  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , int politicadeus , boolean actiu , int politicaMostrarPropietats) {
+  public PluginBean(long pluginID , java.lang.String codi , long nomID , long descripcioCurtaID , java.lang.String classe , int tipus , int politicaDeUs , boolean actiu , int politicaMostrarPropietats) {
     this.pluginID=pluginID;
     this.codi=codi;
     this.nomID=nomID;
     this.descripcioCurtaID=descripcioCurtaID;
     this.classe=classe;
     this.tipus=tipus;
-    this.politicadeus=politicadeus;
+    this.politicaDeUs=politicaDeUs;
     this.actiu=actiu;
     this.politicaMostrarPropietats=politicaMostrarPropietats;
 }
@@ -82,7 +82,7 @@ private static final long serialVersionUID = 1605894563L;
     this.setTipus(__bean.getTipus());
     this.setPropertiesAdmin(__bean.getPropertiesAdmin());
     this.setPropertiesEntitat(__bean.getPropertiesEntitat());
-    this.setPoliticadeus(__bean.getPoliticadeus());
+    this.setPoliticaDeUs(__bean.getPoliticaDeUs());
     this.setEntitatID(__bean.getEntitatID());
     this.setActiu(__bean.isActiu());
     this.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());
@@ -151,11 +151,11 @@ private static final long serialVersionUID = 1605894563L;
 		this.propertiesEntitat = _propertiesEntitat_;
 	};
 
-	public int getPoliticadeus() {
-		return(politicadeus);
+	public int getPoliticaDeUs() {
+		return(politicaDeUs);
 	};
-	public void setPoliticadeus(int _politicadeus_) {
-		this.politicadeus = _politicadeus_;
+	public void setPoliticaDeUs(int _politicaDeUs_) {
+		this.politicaDeUs = _politicaDeUs_;
 	};
 
 	public java.lang.String getEntitatID() {
@@ -195,7 +195,7 @@ private static final long serialVersionUID = 1605894563L;
     __tmp.setTipus(__bean.getTipus());
     __tmp.setPropertiesAdmin(__bean.getPropertiesAdmin());
     __tmp.setPropertiesEntitat(__bean.getPropertiesEntitat());
-    __tmp.setPoliticadeus(__bean.getPoliticadeus());
+    __tmp.setPoliticaDeUs(__bean.getPoliticaDeUs());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setActiu(__bean.isActiu());
     __tmp.setPoliticaMostrarPropietats(__bean.getPoliticaMostrarPropietats());

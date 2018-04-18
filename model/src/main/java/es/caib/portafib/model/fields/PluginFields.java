@@ -21,7 +21,7 @@ public interface PluginFields extends java.io.Serializable {
 	 public static final IntegerField TIPUS = new IntegerField(_TABLE_MODEL, "tipus", "tipus");
 	 public static final StringField PROPERTIESADMIN = new StringField(_TABLE_MODEL, "propertiesAdmin", "propertiesadmin");
 	 public static final StringField PROPERTIESENTITAT = new StringField(_TABLE_MODEL, "propertiesEntitat", "propertiesentitat");
-	 public static final IntegerField POLITICADEUS = new IntegerField(_TABLE_MODEL, "politicadeus", "politicadeus");
+	 public static final IntegerField POLITICADEUS = new IntegerField(_TABLE_MODEL, "politicaDeUs", "politicadeus");
 	 public static final StringField ENTITATID = new StringField(_TABLE_MODEL, "entitatID", "entitatid");
 	 public static final BooleanField ACTIU = new BooleanField(_TABLE_MODEL, "actiu", "actiu");
 	 public static final IntegerField POLITICAMOSTRARPROPIETATS = new IntegerField(_TABLE_MODEL, "politicaMostrarPropietats", "politicamostrarpropietats");

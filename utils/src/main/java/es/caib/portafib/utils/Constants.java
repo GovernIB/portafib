@@ -290,6 +290,54 @@ public interface Constants {
   };
   
 
+  
+ //==============================================================
+ // --- POLITICA DE MOSTRAR PROPIETATS EN PLUGIN - PORTAFIB v2.0 #160 -----
+ // ==============================================================
+   
+  // No mostrar ni propietats d´administrador ni propietats entitat
+  public static final int PLUGIN_POLITICA_MOSTRAR_PROPIETATS_NO_MOSTRAR_RES=0;
+  
+  // Permetre editar propietats entitat però no mostrar propietats administrador
+  public static final int PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_OCULTAR_ADMIN=1;
+  
+  // Permetre editar propietats entitat i mostrar propietats administrador
+  public static final int PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN=2;
+  
+  // Permetre editar propietats entitat i editar propietats administrador
+  public static final int PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_EDIT_ADMIN=3;
+  
+  
+  public static final int[] PLUGIN_POLITICA_MOSTRAR_PROPIETATS = new int[] {
+    PLUGIN_POLITICA_MOSTRAR_PROPIETATS_NO_MOSTRAR_RES,
+    PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_OCULTAR_ADMIN,    
+    PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN,
+    PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_EDIT_ADMIN
+  };
+
+  
+  //==============================================================
+  // --- POLITICA DE DE US DEL PLUGIN - PORTAFIB v2.0 #160 -----
+  // ==============================================================
+  
+  // Plantilla
+  public static final int PLUGIN_POLITICA_DE_US_PLANTILLA = 0;
+  
+  // Només entitat
+  public static final int PLUGIN_POLITICA_DE_US_NOMES_ENTITAT = 1;
+  
+  // Ho poden usar totes les entitats
+  public static final int PLUGIN_POLITICA_DE_US_USAR_TOTHOM = 2;
+
+  
+  public static final int[] PLUGIN_POLITICA_DE_US = {
+    PLUGIN_POLITICA_DE_US_PLANTILLA ,
+    PLUGIN_POLITICA_DE_US_NOMES_ENTITAT,
+    PLUGIN_POLITICA_DE_US_USAR_TOTHOM
+  };
+  
+  
+  
   // ========================================================
   // ----- CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================

@@ -175,25 +175,25 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
   }
 
 
-  private java.lang.Integer politicadeusDesde;
+  private java.lang.Integer politicaDeUsDesde;
 
-  public java.lang.Integer getPoliticadeusDesde() {
-    return this.politicadeusDesde;
+  public java.lang.Integer getPoliticaDeUsDesde() {
+    return this.politicaDeUsDesde;
   }
 
-  public void setPoliticadeusDesde(java.lang.Integer politicadeusDesde) {
-    this.politicadeusDesde = politicadeusDesde;
+  public void setPoliticaDeUsDesde(java.lang.Integer politicaDeUsDesde) {
+    this.politicaDeUsDesde = politicaDeUsDesde;
   }
 
 
-  private java.lang.Integer politicadeusFins;
+  private java.lang.Integer politicaDeUsFins;
 
-  public java.lang.Integer getPoliticadeusFins() {
-    return this.politicadeusFins;
+  public java.lang.Integer getPoliticaDeUsFins() {
+    return this.politicaDeUsFins;
   }
 
-  public void setPoliticadeusFins(java.lang.Integer politicadeusFins) {
-    this.politicadeusFins = politicadeusFins;
+  public void setPoliticaDeUsFins(java.lang.Integer politicaDeUsFins) {
+    this.politicaDeUsFins = politicaDeUsFins;
   }
 
 
@@ -249,15 +249,15 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
     this.tipusFins = __toClone.tipusFins;
     this.propertiesAdmin = __toClone.propertiesAdmin;
     this.propertiesEntitat = __toClone.propertiesEntitat;
-    this.politicadeusDesde = __toClone.politicadeusDesde;
-    this.politicadeusFins = __toClone.politicadeusFins;
+    this.politicaDeUsDesde = __toClone.politicaDeUsDesde;
+    this.politicaDeUsFins = __toClone.politicaDeUsFins;
     this.entitatID = __toClone.entitatID;
     this.politicaMostrarPropietatsDesde = __toClone.politicaMostrarPropietatsDesde;
     this.politicaMostrarPropietatsFins = __toClone.politicaMostrarPropietatsFins;
     this.mapOfTraduccioForNomID = __toClone.mapOfTraduccioForNomID;
     this.mapOfTraduccioForDescripcioCurtaID = __toClone.mapOfTraduccioForDescripcioCurtaID;
     this.mapOfValuesForTipus = __toClone.mapOfValuesForTipus;
-    this.mapOfValuesForPoliticadeus = __toClone.mapOfValuesForPoliticadeus;
+    this.mapOfValuesForPoliticaDeUs = __toClone.mapOfValuesForPoliticaDeUs;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
     this.mapOfValuesForPoliticaMostrarPropietats = __toClone.mapOfValuesForPoliticaMostrarPropietats;
   }
@@ -330,14 +330,14 @@ public class PluginFilterForm extends PortaFIBBaseFilterForm implements PluginFi
 
 
 
-  private Map<String, String> mapOfValuesForPoliticadeus;
+  private Map<String, String> mapOfValuesForPoliticaDeUs;
 
-  public Map<String, String> getMapOfValuesForPoliticadeus() {
-    return this.mapOfValuesForPoliticadeus;
+  public Map<String, String> getMapOfValuesForPoliticaDeUs() {
+    return this.mapOfValuesForPoliticaDeUs;
   }
 
-  public void setMapOfValuesForPoliticadeus(Map<String, String> mapOfValuesForPoliticadeus) {
-    this.mapOfValuesForPoliticadeus = mapOfValuesForPoliticadeus;
+  public void setMapOfValuesForPoliticaDeUs(Map<String, String> mapOfValuesForPoliticaDeUs) {
+    this.mapOfValuesForPoliticaDeUs = mapOfValuesForPoliticaDeUs;
   }
 
 
