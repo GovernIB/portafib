@@ -163,6 +163,12 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 			tipusDocumentForm.getTipusDocument().setUsuariAplicacioID(LoginInfo.getInstance().getEntitat().getUsuariAplicacioID());
 			
 		}
+		
+		if (tipusDocumentForm.isNou()) {
+		  tipusDocumentForm.getTipusDocument().setTipusDocumentBaseID(99); // Altres: TD99
+		}
+		
+		tipusDocumentForm.addReadOnlyField(TIPUSDOCUMENTBASEID);
 
 		return tipusDocumentForm;
 	}
@@ -285,6 +291,31 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
   public String getEntityNameCodePlural() {
     return "tipusdocument.plural";
   }
+  
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForTipusDocumentBaseID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+    
+    List<TipusDocument> tipusDocumentBase = tipusDocumentEjb.select(
+        TipusDocumentFields.TIPUSDOCUMENTID.between(1L, 99L),
+        new OrderBy(TipusDocumentFields.TIPUSDOCUMENTID));
+    
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    
+    for (TipusDocument tipusDocument : tipusDocumentBase) {
+      
+      long valNum = tipusDocument.getTipusDocumentID();
+      String val = String.valueOf(tipusDocument.getTipusDocumentID());
+      
+      TipusDocumentJPA tdJPA = (TipusDocumentJPA)tipusDocument;
+      
+      __tmp.add(new StringKeyValue(val , "TD" + String.format("%02d", valNum)  
+          + " - " + tdJPA.getNom().getTraduccio(I18NUtils.getLocale().getLanguage()).getValor()));
+    }
+    
+   return __tmp;
+ }
   
 
 /*

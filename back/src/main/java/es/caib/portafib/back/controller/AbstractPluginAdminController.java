@@ -103,9 +103,6 @@ public abstract class AbstractPluginAdminController extends PluginController {
        p.setTipus(getTipusDePlugin());
        // XYZ ZZZ #160
        p.setPoliticaMostrarPropietats(Constants.PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN);
-       
-       
-
      }
      
      if (!isAdmin()) {
