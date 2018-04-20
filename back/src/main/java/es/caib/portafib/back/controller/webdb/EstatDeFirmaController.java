@@ -1,42 +1,55 @@
 package es.caib.portafib.back.controller.webdb;
 
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.utils.Utils;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.web.validation.ValidationWebUtils;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.genapp.common.web.validation.ValidationWebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.back.form.webdb.ColaboracioDelegacioRefList;
+import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaForm;
-
+import es.caib.portafib.back.form.webdb.EstatDeFirmaRefList;
+import es.caib.portafib.back.form.webdb.FirmaRefList;
+import es.caib.portafib.back.form.webdb.TipusEstatDeFirmaFinalRefList;
+import es.caib.portafib.back.form.webdb.TipusEstatDeFirmaInicialRefList;
+import es.caib.portafib.back.form.webdb.UsuariEntitatRefList;
 import es.caib.portafib.back.validator.webdb.EstatDeFirmaWebValidator;
-
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.model.fields.*;
+import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
+import es.caib.portafib.model.fields.EstatDeFirmaFields;
+import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.TipusEstatDeFirmaFinalFields;
+import es.caib.portafib.model.fields.TipusEstatDeFirmaInicialFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 /**
  * Controller per gestionar un EstatDeFirma
@@ -102,8 +115,29 @@ public class EstatDeFirmaController
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       return null;
     }
-    ModelAndView mav = new ModelAndView(getTileList());
-    llistat(mav, request, getEstatDeFirmaFilterForm(pagina, mav, request));
+    
+    /**detectar dispositiu**/
+	Boolean esDispositiuMobil = false;
+	if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+		esDispositiuMobil = true;
+	Boolean canviPantalla = esDispositiuMobil != (Boolean)request.getSession().getAttribute("esDispositiuMobil");
+	request.getSession().setAttribute("canviPantalla", canviPantalla);
+	request.getSession().setAttribute("esDispositiuMobil", esDispositiuMobil);
+	/*********************/
+    
+    ModelAndView mav;
+    if (esDispositiuMobil) {
+    	mav = new ModelAndView(getTileListMobil());
+    	mav.addObject("requestReferer", request.getHeader("referer"));
+    } else {
+    	mav = new ModelAndView(getTileList());
+    }
+    
+    EstatDeFirmaFilterForm filterForm = getEstatDeFirmaFilterForm(pagina, mav, request);
+    if (esDispositiuMobil)
+    	filterForm.setItemsPerPage(-1);
+    
+    llistat(mav, request, filterForm);
     return mav;
   }
 
@@ -142,13 +176,28 @@ public class EstatDeFirmaController
       return null;
     }
 
-    ModelAndView mav = new ModelAndView(getTileList());
+    /**detectar dispositiu**/
+	Boolean esDispositiuMobil = false;
+	if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+		esDispositiuMobil = true;
+	Boolean canviPantalla = esDispositiuMobil != (Boolean)request.getSession().getAttribute("esDispositiuMobil");
+	request.getSession().setAttribute("canviPantalla", canviPantalla);
+	request.getSession().setAttribute("esDispositiuMobil", esDispositiuMobil);
+	/*********************/
+    
+    ModelAndView mav;
+    if (esDispositiuMobil)
+    	mav = new ModelAndView(getTileListMobil());
+    else
+    	mav = new ModelAndView(getTileList());
 
     filterForm.setPage(pagina == null ? 1 : pagina);
     // Actualitza el filter form
 
     request.getSession().setAttribute(getSessionAttributeFilterForm(), filterForm);
     filterForm = getEstatDeFirmaFilterForm(pagina, mav, request);
+    if (esDispositiuMobil)
+    	filterForm.setItemsPerPage(-1);
 
     llistat(mav, request, filterForm);
     return mav;
@@ -887,6 +936,10 @@ public java.lang.Long stringToPK(String value) {
 
   public String getTileList() {
     return "estatDeFirmaListWebDB";
+  }
+  
+  public String getTileListMobil() {
+	  return "estatDeFirmaListMobileWebDB";
   }
 
   @Override

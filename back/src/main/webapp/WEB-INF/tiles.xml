@@ -27,6 +27,10 @@
         <put-attribute name="contingut" value="base.contingutbuit"  />       
         <put-attribute name="peu" value="base.peu" />
     </definition>
+    
+    <definition name="base.definition.mobile" template="/WEB-INF/jsp/layout/layoutMobile.jsp" preparer="basePreparer">
+        <put-attribute name="contingut" value="base.contingutbuit"  />       
+    </definition>
 
     <!--  ===========  PRINCIPAL ================== -->
 
@@ -82,6 +86,14 @@
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
+    
+    
+    
+    <definition name="PluginDeFirmaContenidorMobile_AutoFirma" extends="role_dest_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
+    </definition>
+    
+    
     
     <definition name="PluginDeFirmaContenidor_Passarela" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
         <put-attribute name="titol" value="SignatureWebContainer" />
@@ -513,14 +525,31 @@
         <put-attribute name="pipella" value="ROLE_DEST" />
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" />
     </definition>
+    
+    <definition name="role_dest_mobile" extends="base.definition.mobile">
+        <put-attribute name="pipella" value="ROLE_DEST" />
+<!--         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" /> -->
+    </definition>
 
     <definition name="PluginDeFirmaContenidor_ROLE_DEST" extends="role_dest">
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
+
+
+    
+    <definition name="PluginDeFirmaContenidorMobile_ROLE_DEST" extends="role_dest_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
+    </definition>
+
+    
     
     <definition name="estatFirmaList_ROLE_DEST" extends="role_dest">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaListMobile_ROLE_DEST" extends="role_dest_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaListMobile.jsp" />
     </definition>
     
     <definition name="viewDocumentsFullView_ROLE_DEST" extends="role_dest">
@@ -529,6 +558,10 @@
     
     <definition name="estatFirmaFullView_ROLE_DEST" extends="role_dest">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaFullViewMobile_ROLE_DEST" extends="role_dest_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewMobile.jsp" />
     </definition>
 
    <definition name="colaboracioDelegacioDestForm" extends="role_dest">
@@ -710,6 +743,9 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
 
+	<definition name="estatDeFirmaListMobileWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaListMobile.jsp" />
+    </definition>
 
     <definition name="firmaFormWebDB" extends="webdb">
         <put-attribute name="titol" value="firma.firma" />

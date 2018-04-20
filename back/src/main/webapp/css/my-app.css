@@ -1,0 +1,124 @@
+/*.bg-lightamber {
+    background-color: #F5DA81 !important;
+}
+.bg-lightgreen {
+    background-color: #D0F5A9 !important;
+}
+.bg-lightred {
+    background-color: #F5A9A9 !important;
+}*/
+
+
+.bg-lightamber {
+    background-color: #faa732 !important;
+}
+.bg-lightgreen {
+    background-color: #5bb75b !important;
+}
+.bg-lightred {
+    background-color: #da4f49 !important;
+}
+
+.addapted-icon {
+	padding-top: 3px;
+}
+.text-icon {
+	float: right;
+    margin-right: 15px;
+}
+
+.center {
+    text-align: center;
+}
+
+.priority-div {
+	float: left;
+    height: 100%;
+    width: 7px;
+    margin-right: 4px;
+}
+
+.toolbar.thin {
+	height: 21px;
+    font-size: x-small;
+}
+
+/* Base class */
+ .bs-docs-example {
+   position: relative;
+   margin: 15px 0;
+   padding: 39px 19px 14px;
+   *padding-top: 19px;
+   background-color: #fff;
+   border: 1px solid #ddd;
+   -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+           border-radius: 4px;
+ }
+ 
+ /* Echo out a label for the example */
+ .bs-docs-example:after {
+   content: "Example";
+   position: absolute;
+   top: -1px;
+   left: -1px;
+   padding: 3px 7px;
+   font-size: 12px;
+   font-weight: bold;
+   background-color: #f5f5f5;
+   border: 1px solid #ddd;
+   color: #9da0a4;
+   -webkit-border-radius: 4px 0 4px 0;
+   -moz-border-radius: 4px 0 4px 0;
+   border-radius: 4px 0 4px 0;
+ }
+ 
+ /* Remove spacing between an example and it's code */
+ .bs-docs-example + .prettyprint {
+   margin-top: -20px;
+   padding-top: 15px;
+ }
+ 
+ .margins {
+ 	padding-top: 3px !important;
+ 	padding-bottom: 3px !important;
+ }
+ 
+ .small-vert-margins {
+ 	margin-top: 2px;
+ 	margin-bottom: 2px;
+ }
+ 
+ .second-toolbar {
+ 	margin-bottom: 20px !important;
+ }
+ 
+ .selected-row {
+ 	background-color: #fff1c3 !important;
+ }
+ 
+ tbody.mobile-list tr {
+ 	background-color: white;
+ 	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+ }
+ 
+ tbody.mobile-list td {
+ 	padding-top: 3px !important;
+ 	padding-bottom: 3px !important;
+ 	padding-left: 2px;
+    padding-right: 10px;
+ }
+ 
+ tbody.mobile-list td.first-child {
+ 	padding-top: 0px !important;
+ 	padding-bottom: 0px !important;
+ 	padding-left: 0px !important;
+ }
+ 
+ [class^="icon-"],
+ [class*=" icon-"] {
+    margin-left: 3px !important;
+    margin-top: 0px !important;
+ }

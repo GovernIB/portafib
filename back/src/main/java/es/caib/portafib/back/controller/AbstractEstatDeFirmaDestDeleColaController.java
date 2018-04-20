@@ -1,12 +1,25 @@
 package es.caib.portafib.back.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.utils.Utils;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -22,6 +35,11 @@ import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.StringField;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
@@ -38,34 +56,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
-import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -77,15 +76,14 @@ import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.utils.Constants;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -105,6 +103,7 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.Constants;
 
   /**
    * Controller per gestionar un EstatDeFirma
@@ -238,9 +237,11 @@ import es.caib.portafib.utils.Configuracio;
     public EstatDeFirmaFilterForm getEstatDeFirmaFilterForm(Integer pagina, ModelAndView mav,
         HttpServletRequest request) throws I18NException {
 
+      boolean esDispositiuMobil = (Boolean)request.getSession().getAttribute("esDispositiuMobil");
       EstatDeFirmaFilterForm ff = super.getEstatDeFirmaFilterForm(pagina, mav, request);
 
-      if (ff.isNou()) {
+//      if (ff.isNou() || (Boolean)request.getSession().getAttribute("canviPantalla")) {
+    	  if (true) {
 
         if (!Configuracio.isDesenvolupament()) {
           ff.addHiddenField(ESTATDEFIRMAID);
@@ -338,7 +339,7 @@ import es.caib.portafib.utils.Configuracio;
 
         
         // ===================  tipus de document 
-        {
+        if(!esDispositiuMobil) {
           AdditionalField<String,String> adfieldTD = new AdditionalField<String,String>(); 
           adfieldTD.setCodeName("tipus");
           adfieldTD.setPosition(COLUMN_PETICIODEFIRMA_TIPUSDOC);
@@ -347,6 +348,8 @@ import es.caib.portafib.utils.Configuracio;
           adfieldTD.setOrderBy(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD);
           
           ff.addAdditionalField(adfieldTD);
+        } else {
+        	ff.getAdditionalFields().remove(COLUMN_PETICIODEFIRMA_TIPUSDOC);
         }
         
         // =================== 
@@ -420,7 +423,7 @@ import es.caib.portafib.utils.Configuracio;
         // NOVES COLUMNES ESTAT DE FIRMA
         
         // ===================  data inici (small)
-        {
+        if (!esDispositiuMobil || getFilterType() == FILTRAR_PER_PENDENT) {
           AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
           adfieldDI.setCodeName("datainici.short");
           adfieldDI.setPosition(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL);
@@ -432,7 +435,7 @@ import es.caib.portafib.utils.Configuracio;
         }
         
         // ===================  data fi (small)
-        if (getFilterType() != FILTRAR_PER_PENDENT) {
+        if ((!esDispositiuMobil && getFilterType() != FILTRAR_PER_PENDENT) || (esDispositiuMobil && (getFilterType() == FILTRAR_PER_ACCEPTAT || getFilterType() == FILTRAR_PER_NODEFINIT))) {
           AdditionalField<String,String> adfieldDF = new AdditionalField<String,String>(); 
           adfieldDF.setCodeName("datafi.short");
           adfieldDF.setPosition(COLUMN_ESTATDEFIRMA_DATAFI_SMALL);
@@ -462,16 +465,20 @@ import es.caib.portafib.utils.Configuracio;
         // =========================
 
         // NOVA COLUMNA: Prioritat
-        AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
-        adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\"" 
-            + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
-        adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
-        adfieldPR.setEscapeXml(false);
-        // Els valors s'ompliran al mètode postList()
-        adfieldPR.setValueMap(new HashMap<String, String>());
-        adfieldPR.setOrderBy(COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD);
-        
-        ff.addAdditionalField(adfieldPR);
+        if(!esDispositiuMobil) {
+	        AdditionalField<String,String> adfieldPR = new AdditionalField<String,String>(); 
+	        adfieldPR.setCodeName("=<i class=\"icon-warning-sign\" title=\"" 
+	            + I18NUtils.tradueix(PeticioDeFirmaFields.PRIORITATID.fullName) + "\"></i>");
+	        adfieldPR.setPosition(COLUMN_PETICIODEFIRMA_PRIORITAT);
+	        adfieldPR.setEscapeXml(false);
+	        // Els valors s'ompliran al mètode postList()
+	        adfieldPR.setValueMap(new HashMap<String, String>());
+	        adfieldPR.setOrderBy(COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD);
+	        
+	        ff.addAdditionalField(adfieldPR);
+        } else {
+        	ff.getAdditionalFields().remove(COLUMN_PETICIODEFIRMA_PRIORITAT);
+        }
         
         // ===================== BOTONS =================
         
@@ -707,10 +714,17 @@ import es.caib.portafib.utils.Configuracio;
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
+        final String view;
+        if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+        	view = "PluginDeFirmaContenidorMobile_" + getRole();
+        else
+        	view = "PluginDeFirmaContenidor_" + getRole();
         
-        final String view = "PluginDeFirmaContenidor_" + getRole();
         ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
         
+        if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+        	mav.addObject("requestReferer", request.getHeader("referer"));
+ 
         
         // Només quan #peticions > 3 activar thread
         // Posar en marxa un thread que vagi mirant les entrades i les processi 
@@ -892,9 +906,17 @@ import es.caib.portafib.utils.Configuracio;
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
-      final String view = "PluginDeFirmaContenidor_AutoFirma";
+      final String view; 
+      if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+    	  view = "PluginDeFirmaContenidorMobile_AutoFirma";
+      else
+    	  view = "PluginDeFirmaContenidor_AutoFirma";
+      
       ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
 
+      if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+      	mav.addObject("requestReferer", request.getHeader("referer"));
+      
       return mav;
     }
     
@@ -1707,9 +1729,11 @@ import es.caib.portafib.utils.Configuracio;
         mapPF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TITOL).getValueMap();
         mapPF.clear();
         
-        Map<Long, String> mapTD;
-        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
-        mapTD.clear();
+        Map<Long, String> mapTD = null;
+        if (filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC) != null) {
+	        mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
+	        mapTD.clear();
+        }
         
         final boolean remitent = role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE);
         Map<Long, String> mapCR = null;
@@ -1722,7 +1746,8 @@ import es.caib.portafib.utils.Configuracio;
            PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA)peticionsByEstat.get(estatDeFirmaId);
            
            mapPF.put(estatDeFirmaId, pf.getTitol());
-           mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
+           if (mapTD != null)
+        	   mapTD.put(estatDeFirmaId, pf.getTipusDocument().getNomTraduccions().get("ca").getValor());
            
            if (remitent) {
              StringBuffer str = new StringBuffer();
@@ -1748,7 +1773,7 @@ import es.caib.portafib.utils.Configuracio;
       dateTimeFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat();
       
       // DATA INICI
-      {
+      if (filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL) != null) {
         Map<Long, String> mapDI;
         mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL).getValueMap();
         mapDI.clear();
@@ -1761,7 +1786,7 @@ import es.caib.portafib.utils.Configuracio;
       
       
       // DATA FI
-      if (getFilterType() != FILTRAR_PER_PENDENT) {
+      if (filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAFI_SMALL) != null && getFilterType() != FILTRAR_PER_PENDENT) {
 
         Map<Long, String> mapDF;
         mapDF = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAFI_SMALL).getValueMap();
@@ -1945,7 +1970,7 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       
-      {
+      if (filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_PRIORITAT) != null) {
         
         Map<Long, String> mapPR;
         mapPR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_PRIORITAT).getValueMap();
@@ -2212,6 +2237,11 @@ import es.caib.portafib.utils.Configuracio;
       // No modificar: aquests noms estan definits dins els tiles.xml
       return "estatFirmaList_" + getRole();
     }
+    
+    @Override
+    public String getTileListMobil() {
+    	return "estatFirmaListMobile_" + getRole();
+    }
 
     @Override
     public final String getSessionAttributeFilterForm() {
@@ -2354,6 +2384,9 @@ import es.caib.portafib.utils.Configuracio;
     @RequestMapping(value = "/fullView/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView fullView(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+    	
+      if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+    	  return fullViewMobile(request, response, estatDeFirmaID, peticioDeFirmaID);
 
       String view = getFullViewTile();
       
@@ -2429,6 +2462,86 @@ import es.caib.portafib.utils.Configuracio;
 
       return mav;
     }
+    
+    @RequestMapping(value = "/fullViewMobile/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public ModelAndView fullViewMobile(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+
+      String view = getFullViewMobileTile();
+      
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
+          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+      if (check == null) {
+        // S'ha produit un error i retornam el control al llistat
+        return llistatPaginat(request, response, null);
+      }
+
+      EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
+      FirmaJPA firma = check.firma;
+      PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
+
+      ModelAndView mav = new ModelAndView(view);
+
+      mav.addObject("peticioDeFirma", peticioDeFirma);
+
+      mav.addObject("estatDeFirma", estatDeFirma);
+
+      mav.addObject("firma", firma);
+
+      String contexte = getContextWeb();
+
+      mav.addObject("contexte", contexte);
+
+      mav.addObject("rolecontext", contexte.substring(1, contexte.indexOf('/', 2)));
+
+      {
+        List<EstatDeFirma> estats;
+        estats = estatDeFirmaEjb.select(EstatDeFirmaFields.FIRMAID.equal(estatDeFirma
+            .getFirmaID()));
+
+        List<EstatDeFirmaJPA> fullList = usuariEntitatLogicaEjb.fillUsuariEntitatFull(estats);
+
+        List<EstatDeFirmaJPA> estatsDeDelegats = new ArrayList<EstatDeFirmaJPA>();
+        List<EstatDeFirmaJPA> estatsColaboradors = new ArrayList<EstatDeFirmaJPA>();
+
+        for (EstatDeFirmaJPA estat : fullList) {
+
+          if (estat.getColaboracioDelegacioID() == null) {
+            mav.addObject("destinatari", estat);
+          } else {
+            if (estat.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+              estatsDeDelegats.add(estat);
+            } else {
+              estatsColaboradors.add(estat);
+            }
+          }
+
+        }
+
+        mav.addObject("colaboradors", estatsColaboradors);
+        mav.addObject("delegats", estatsDeDelegats);
+      }
+
+      // 1.- Fitxers a visualitzar
+      procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
+
+
+      // Traduccions
+      // Estats Finals d'un EstatDeFirma
+      Map<Long, String> traduccions = new HashMap<Long, String>();
+
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_VALIDAT, "tipusestatdefirmafinal.VALIDAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_INVALIDAT, "tipusestatdefirmafinal.INVALIDAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.FIRMAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.REBUTJAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.DESCARTAT");
+      traduccions.put(null, "pendent");
+
+      mav.addObject("traduccions", traduccions);
+      mav.addObject("requestReferer", request.getHeader("referer"));
+
+      return mav;
+    }
 
     private void procesFitxersAVeure(ModelAndView mav, Long peticioDeFirmaID,
         PeticioDeFirmaJPA peticioDeFirma) throws I18NException {
@@ -2492,6 +2605,9 @@ import es.caib.portafib.utils.Configuracio;
     public String getFullViewTile() {
       return "estatFirmaFullView_" + getRole();
     }
+    public String getFullViewMobileTile() {
+        return "estatFirmaFullViewMobile_" + getRole();
+      }
 
     @RequestMapping(value = "/docfirmat/{peticioDeFirmaID}", method = RequestMethod.GET)
     public void docfirmat(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)

@@ -15,26 +15,6 @@
 
 <br/>
 <br/>
-<fmt:message key="portada" />
-
-<br/>
-<br/>
-<table border="0" >
-<tr>
-<td valign="top">
-<a href="http://dgtic.caib.es/" target="_blank">
-<img src="<c:url value="/img/dgidt.jpg"/>"  alt="DGIDT" title="DGIDT"/>
-</a>
-</td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td valign="top">
-<a href="http://blog.fundaciobit.org/category/admindigital/" target="_blank">
-<img src="<c:url value="/img/fundaciobit.jpg"/>"  alt="Fundaci&oacute; Bit" title="Fundaci&oacute; Bit"/>
-</a>
-</td>
-</tr>
-</table>
-<br/>
 </center>
 
 </div>

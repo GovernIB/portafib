@@ -18,6 +18,7 @@
     <sec:intercept-url pattern="/doc/**" access="permitAll"/>
     <sec:intercept-url pattern="/img/**" access="permitAll"/>
     <sec:intercept-url pattern="/css/**" access="permitAll"/>
+    <sec:intercept-url pattern="/fonts/**" access="permitAll"/>
     <sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
     <sec:intercept-url pattern="/index.jsp" access="permitAll"/>
     <!-- Plugins de Firma -->
