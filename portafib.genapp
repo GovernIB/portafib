@@ -5802,11 +5802,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Plugin generador de Rúbrica</string> 
+            <string>Plugin Generador de Rúbrica</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Plugin generador de Rúbrica</string> 
+            <string>Plugin Generador de Rúbrica</string> 
            </void> 
           </void> 
           <void property="size"> 

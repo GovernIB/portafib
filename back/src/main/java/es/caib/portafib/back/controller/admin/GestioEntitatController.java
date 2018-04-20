@@ -115,6 +115,10 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.addReadOnlyField(POLITICACUSTODIA);
 
        
+       // #172 Pentent de que s'implementi XYZ ZZZ
+       entitatForm.addReadOnlyField(PLUGINRUBRICAID);
+       
+       
        /*
        entitatForm.addAdditionalButton(new AdditionalButton(
            "icon-info-sign icon-white", "manualfiltrescertificats", 
@@ -397,5 +401,5 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
       
   }
   
-  
+
 }
