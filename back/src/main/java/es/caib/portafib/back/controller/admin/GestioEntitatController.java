@@ -129,6 +129,13 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.addReadOnlyField(POLITICATAULAFIRMES);
        entitatForm.addReadOnlyField(POSICIOTAULAFIRMES);
        
+       // #171 Pentent de que s'implementi XYZ ZZZ
+       entitatForm.addReadOnlyField(PLUGINVALIDACERTIFICATID);
+       entitatForm.addReadOnlyField(PLUGINVALIDAFIRMESID);
+       entitatForm.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
+       if(entitatForm.isNou()) {
+         entitatForm.getEntitat().setCheckCanviatDocFirmat(true);
+       }
        
        /*
        entitatForm.addAdditionalButton(new AdditionalButton(

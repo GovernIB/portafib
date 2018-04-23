@@ -5905,11 +5905,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Comprovar si el document s&apos;ha modificat durant la firma</string> 
+            <string>Comprovar que no s&apos;hagi modificat durant la firma</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Comprobar si el documento se ha modificado durante la firma</string> 
+            <string>Comprobar que no se haya modificado durante la firma</string> 
            </void> 
           </void> 
           <void property="notNullable"> 
