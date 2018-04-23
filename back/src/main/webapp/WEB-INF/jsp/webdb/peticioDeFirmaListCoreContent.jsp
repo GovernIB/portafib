@@ -95,6 +95,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.DATACADUCITAT)}">
           <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${peticioDeFirma.dataCaducitat}" /></td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.tipusOperacioFirma}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForTipusOperacioFirma[tmp]}
+          </c:if>
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TIPUSFIRMAID)}">
           <td>
           <c:set var="tmp">${peticioDeFirma.tipusFirmaID}</c:set>
@@ -206,14 +214,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
           <td>
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${peticioDeFirma.segellatDeTemps?'success':'error'}.png"/>">
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
-          <td>
-          <c:set var="tmp">${peticioDeFirma.tipusOperacioFirma}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForTipusOperacioFirma[tmp]}
-          </c:if>
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTCODI)}">

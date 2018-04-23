@@ -82,7 +82,7 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
   
   @Override
   public boolean isActiveFormEdit() {
-    return true;
+    return false;
   }
   
   @Override

@@ -70,6 +70,10 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DATACADUCITAT)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIOFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOPERACIOFIRMA)));
+
     __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSFIRMAID, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSFIRMAID)));
@@ -113,10 +117,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLATDETEMPS, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLATDETEMPS)));
-
-    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIOFIRMA, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOPERACIOFIRMA)));
 
     // Check size
     if (__vr.getFieldErrorCount(TITOL) == 0) {

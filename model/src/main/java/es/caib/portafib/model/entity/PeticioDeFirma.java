@@ -41,6 +41,9 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.sql.Timestamp getDataCaducitat();
 	public void setDataCaducitat(java.sql.Timestamp _dataCaducitat_);
 
+	public int getTipusOperacioFirma();
+	public void setTipusOperacioFirma(int _tipusOperacioFirma_);
+
 	public int getTipusFirmaID();
 	public void setTipusFirmaID(int _tipusFirmaID_);
 
@@ -91,9 +94,6 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 
 	public boolean isSegellatDeTemps();
 	public void setSegellatDeTemps(boolean _segellatDeTemps_);
-
-	public int getTipusOperacioFirma();
-	public void setTipusOperacioFirma(int _tipusOperacioFirma_);
 
 	public java.lang.String getExpedientCodi();
 	public void setExpedientCodi(java.lang.String _expedientCodi_);

@@ -25,6 +25,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final TimestampField DATASOLICITUD = new TimestampField(_TABLE_MODEL, "dataSolicitud", "datasolicitud");
 	 public static final TimestampField DATAFINAL = new TimestampField(_TABLE_MODEL, "dataFinal", "datafinal");
 	 public static final TimestampField DATACADUCITAT = new TimestampField(_TABLE_MODEL, "dataCaducitat", "datacaducitat");
+	 public static final IntegerField TIPUSOPERACIOFIRMA = new IntegerField(_TABLE_MODEL, "tipusOperacioFirma", "tipusoperaciofirma");
 	 public static final IntegerField TIPUSFIRMAID = new IntegerField(_TABLE_MODEL, "tipusFirmaID", "tipusfirmaid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
 	 public static final BooleanField MODEDEFIRMA = new BooleanField(_TABLE_MODEL, "modeDeFirma", "modedefirma");
@@ -42,7 +43,6 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
 	 public static final BooleanField AVISWEB = new BooleanField(_TABLE_MODEL, "avisWeb", "avisweb");
 	 public static final BooleanField SEGELLATDETEMPS = new BooleanField(_TABLE_MODEL, "segellatDeTemps", "segellatdetemps");
-	 public static final IntegerField TIPUSOPERACIOFIRMA = new IntegerField(_TABLE_MODEL, "tipusOperacioFirma", "tipusoperaciofirma");
 	 public static final StringField EXPEDIENTCODI = new StringField(_TABLE_MODEL, "expedientCodi", "expedientcodi");
 	 public static final StringField EXPEDIENTNOM = new StringField(_TABLE_MODEL, "expedientNom", "expedientnom");
 	 public static final StringField EXPEDIENTURL = new StringField(_TABLE_MODEL, "expedientUrl", "expedienturl");
@@ -64,6 +64,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     DATASOLICITUD,
     DATAFINAL,
     DATACADUCITAT,
+    TIPUSOPERACIOFIRMA,
     TIPUSFIRMAID,
     ALGORISMEDEFIRMAID,
     MODEDEFIRMA,
@@ -81,7 +82,6 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     USUARIENTITATID,
     AVISWEB,
     SEGELLATDETEMPS,
-    TIPUSOPERACIOFIRMA,
     EXPEDIENTCODI,
     EXPEDIENTNOM,
     EXPEDIENTURL,

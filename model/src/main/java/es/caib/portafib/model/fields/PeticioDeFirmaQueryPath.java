@@ -63,6 +63,10 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new TimestampField(getQueryPath(), PeticioDeFirmaFields.DATACADUCITAT);
   }
 
+  public IntegerField TIPUSOPERACIOFIRMA() {
+    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.TIPUSOPERACIOFIRMA);
+  }
+
   public IntegerField TIPUSFIRMAID() {
     return new IntegerField(getQueryPath(), PeticioDeFirmaFields.TIPUSFIRMAID);
   }
@@ -129,10 +133,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
 
   public BooleanField SEGELLATDETEMPS() {
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.SEGELLATDETEMPS);
-  }
-
-  public IntegerField TIPUSOPERACIOFIRMA() {
-    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.TIPUSOPERACIOFIRMA);
   }
 
   public StringField EXPEDIENTCODI() {

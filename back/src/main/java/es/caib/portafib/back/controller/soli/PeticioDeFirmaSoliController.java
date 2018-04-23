@@ -951,6 +951,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirmaForm.addHiddenField(REMITENTNOM);
       peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
+      
+      // XYZ ZZZ #164 Aquest Camp s'utilitzava com a info de l'expedient
+      // però ja existeix el camp codi, nom i url d'expedient
       if (Configuracio.isCAIB()) {
         peticioDeFirmaForm.addHiddenField(INFORMACIOADICIONAL);
       } else {
@@ -959,17 +962,29 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     } else {
       peticioDeFirmaForm.addReadOnlyField(USUARIAPLICACIOID);
     }
-    
-    
+
+    // XYZ ZZZ #164 Quan es posi en marxa
+    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTCODI);
+    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTNOM);
+    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTURL);
+    peticioDeFirmaForm.addReadOnlyField(PROCEDIMENTCODI);
+    peticioDeFirmaForm.addReadOnlyField(PROCEDIMENTNOM);
+
+    // XYZ ZZZ #164
+    peticioDeFirmaForm.addHiddenField(FIRMAORIGINALDETACHEDID);
+
+    // XYZ ZZZ #164
+    peticioDeFirmaForm.addHiddenField(TIPUSOPERACIOFIRMA);
+    peticioDeFirma.setTipusOperacioFirma(Constants.TIPUS_OPERACIO_FIRMA_FIRMAR);
+
     peticioDeFirmaForm.addHiddenField(TIPUSFIRMAID);
     peticioDeFirmaForm.addHiddenField(ALGORISMEDEFIRMAID);
     peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
-    
+
     peticioDeFirmaForm.addHiddenField(USUARIENTITATID);
     peticioDeFirmaForm.addHiddenField(AVISWEB);
-   
+
     peticioDeFirmaForm.addHiddenField(CUSTODIAINFOID);
-    
 
     return peticioDeFirmaForm;
   }

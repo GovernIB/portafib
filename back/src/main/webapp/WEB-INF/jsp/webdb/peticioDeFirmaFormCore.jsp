@@ -371,6 +371,33 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
+        <tr id="peticioDeFirma_tipusOperacioFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA])?'peticioDeFirma.tipusOperacioFirma':__theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.tipusOperacioFirma" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
+          <form:hidden path="peticioDeFirma.tipusOperacioFirma"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusOperacioFirma,__theForm.listOfValuesForTipusOperacioFirma)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
+          <form:select id="peticioDeFirma_tipusOperacioFirma"  onchange="if(typeof onChangeTipusOperacioFirma == 'function') {  onChangeTipusOperacioFirma(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.tipusOperacioFirma">
+            <c:forEach items="${__theForm.listOfValuesForTipusOperacioFirma}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSFIRMAID)}">
         <tr id="peticioDeFirma_tipusFirmaID_rowid">
           <td>
@@ -812,33 +839,6 @@
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SEGELLATDETEMPS)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.peticioDeFirma.segellatDeTemps}" />
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}">
-        <tr id="peticioDeFirma_tipusOperacioFirma_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA])?'peticioDeFirma.tipusOperacioFirma':__theForm.labels[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}">
-              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.TIPUSOPERACIOFIRMA]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="peticioDeFirma.tipusOperacioFirma" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
-          <form:hidden path="peticioDeFirma.tipusOperacioFirma"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusOperacioFirma,__theForm.listOfValuesForTipusOperacioFirma)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSOPERACIOFIRMA)}" >
-          <form:select id="peticioDeFirma_tipusOperacioFirma"  onchange="if(typeof onChangeTipusOperacioFirma == 'function') {  onChangeTipusOperacioFirma(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.tipusOperacioFirma">
-            <c:forEach items="${__theForm.listOfValuesForTipusOperacioFirma}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
           </c:if>
            </td>
         </tr>

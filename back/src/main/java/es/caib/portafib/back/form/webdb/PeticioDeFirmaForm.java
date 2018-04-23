@@ -38,6 +38,7 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
       this.peticioDeFirma = __toClone.peticioDeFirma;
     this.listOfTipusDocumentForTipusDocumentID = __toClone.listOfTipusDocumentForTipusDocumentID;
     this.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID = __toClone.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+    this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfTipusFirmaForTipusFirmaID = __toClone.listOfTipusFirmaForTipusFirmaID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
     this.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID = __toClone.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
@@ -47,7 +48,6 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
-    this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
   }
   
   public PeticioDeFirmaForm(PeticioDeFirmaJPA peticioDeFirma, boolean nou) {
@@ -139,6 +139,18 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfPosicioTaulaFirmesForPosicioTaulaFirmesID(List<StringKeyValue> listOfPosicioTaulaFirmesForPosicioTaulaFirmesID) {
     this.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID = listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForTipusOperacioFirma;
+
+  public List<StringKeyValue> getListOfValuesForTipusOperacioFirma() {
+    return this.listOfValuesForTipusOperacioFirma;
+  }
+
+  public void setListOfValuesForTipusOperacioFirma(List<StringKeyValue> listOfValuesForTipusOperacioFirma) {
+    this.listOfValuesForTipusOperacioFirma = listOfValuesForTipusOperacioFirma;
   }
 
 
@@ -247,18 +259,6 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfUsuariEntitatForUsuariEntitatID(List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
     this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
-  }
-
-
-
-  private List<StringKeyValue> listOfValuesForTipusOperacioFirma;
-
-  public List<StringKeyValue> getListOfValuesForTipusOperacioFirma() {
-    return this.listOfValuesForTipusOperacioFirma;
-  }
-
-  public void setListOfValuesForTipusOperacioFirma(List<StringKeyValue> listOfValuesForTipusOperacioFirma) {
-    this.listOfValuesForTipusOperacioFirma = listOfValuesForTipusOperacioFirma;
   }
 
 

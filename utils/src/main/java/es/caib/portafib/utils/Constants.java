@@ -135,6 +135,11 @@ public interface Constants {
   
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
 
+  // #164 Operació de Firma
+  public static final int TIPUS_OPERACIO_FIRMA_FIRMAR = 0;
+  public static final int TIPUS_OPERACIO_FIRMA_COFIRMAR = 1;
+  public static final int TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR = 2;
+  
   
   public static final int TIPUSFIRMA_PADES = 0;
   public static final int TIPUSFIRMA_XADES = 1;
