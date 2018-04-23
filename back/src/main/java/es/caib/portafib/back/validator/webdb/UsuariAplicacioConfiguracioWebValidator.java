@@ -35,9 +35,6 @@ public class UsuariAplicacioConfiguracioWebValidator  implements Validator, Usua
   @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
   protected es.caib.portafib.ejb.PluginLocal pluginEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PosicioTaulaFirmesEJB/local")
-  protected es.caib.portafib.ejb.PosicioTaulaFirmesLocal posicioTaulaFirmesEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/TipusFirmaEJB/local")
   protected es.caib.portafib.ejb.TipusFirmaLocal tipusFirmaEjb;
 
@@ -172,7 +169,7 @@ _ignoreFields.add(FIRMATPERFORMATID);
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, pluginEjb, posicioTaulaFirmesEjb, tipusFirmaEjb, traduccioEjb, usuariAplicacioEjb, usuariAplicacioConfiguracioEjb);
+      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, pluginEjb, tipusFirmaEjb, traduccioEjb, usuariAplicacioEjb, usuariAplicacioConfiguracioEjb);
 
   } // Final de metode
 

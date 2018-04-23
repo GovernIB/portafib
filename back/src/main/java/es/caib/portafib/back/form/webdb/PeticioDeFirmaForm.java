@@ -37,7 +37,7 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     super(__toClone);
       this.peticioDeFirma = __toClone.peticioDeFirma;
     this.listOfTipusDocumentForTipusDocumentID = __toClone.listOfTipusDocumentForTipusDocumentID;
-    this.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID = __toClone.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+    this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfTipusFirmaForTipusFirmaID = __toClone.listOfTipusFirmaForTipusFirmaID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
@@ -131,14 +131,14 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  private List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID;
 
-  public List<StringKeyValue> getListOfPosicioTaulaFirmesForPosicioTaulaFirmesID() {
-    return this.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public List<StringKeyValue> getListOfValuesForPosicioTaulaFirmesID() {
+    return this.listOfValuesForPosicioTaulaFirmesID;
   }
 
-  public void setListOfPosicioTaulaFirmesForPosicioTaulaFirmesID(List<StringKeyValue> listOfPosicioTaulaFirmesForPosicioTaulaFirmesID) {
-    this.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID = listOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public void setListOfValuesForPosicioTaulaFirmesID(List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID) {
+    this.listOfValuesForPosicioTaulaFirmesID = listOfValuesForPosicioTaulaFirmesID;
   }
 
 

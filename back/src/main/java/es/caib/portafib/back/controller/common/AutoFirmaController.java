@@ -56,11 +56,11 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.admin.GestioEntitatController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
-import es.caib.portafib.back.form.webdb.PosicioTaulaFirmesRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
@@ -77,7 +77,6 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -105,12 +104,7 @@ public class AutoFirmaController extends FitxerController
   protected SegellDeTempsLogicaLocal segellDeTempsEjb;
 
   @Autowired
-  protected AutoFirmaValidator autoFirmaValidator;
-
-  // References 
-  @Autowired
-  protected PosicioTaulaFirmesRefList posicioTaulaFirmesRefList;
-  
+  protected AutoFirmaValidator autoFirmaValidator; 
  
   /**
    * 
@@ -135,8 +129,8 @@ public class AutoFirmaController extends FitxerController
     form.setLogoSegell(entitat.getLogoSegell());
     form.setIdioma(loginInfo.getUsuariPersona().getIdiomaID());
     
-    Where w = PosicioTaulaFirmesFields.SUPORTADA.equal(true); 
-    form.setListOfPosicioTaulaFirmes(posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID,w));
+    // #166 XYZ ZZZ S'ha de veure si deixam llibertat o limitam segons el que digui l'entitat
+    form.setListOfPosicioTaulaFirmes(GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes());
 
     form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
 

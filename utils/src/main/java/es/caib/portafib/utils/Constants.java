@@ -158,15 +158,53 @@ public interface Constants {
   public static final int PRIORITAT_ALTA = 9;
 
 
-  public static final int TAULADEFIRMES_SENSETAULA = 0;
-  public static final int TAULADEFIRMES_PRIMERAPAGINA = 1;
-  public static final int TAULADEFIRMES_DARRERAPAGINA = -1;
+  
   
   public static final String BARCODE_PDF417_PLUGIN = "org.fundaciobit.plugins.barcode.pdf417.Pdf417Plugin";
   
   public static final String BARCODE_QR_PLUGIN = "org.fundaciobit.plugins.barcode.qrcode.QrCodePlugin";
   
   public static final String BARCODE_128_PLUGIN = "org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin";
+  
+  //==============================================================
+  // --- POLITICA DE TAULA DE FIRMES - PORTAFIB v2.0 #166 -----
+  // =============================================================
+  
+  // 0 no es permet taules de firmes
+  public static final int POLITICA_TAULA_FIRMES_NO_ES_PERMET = 0;
+  
+  // 1 definit en l'entitat,
+  public static final int POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT = 1;
+
+  // 2 opcional, per defecte el definit a l'entitat
+  public static final int POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT = 2;
+  
+  // 3 opcional, per defecte sense taula de firmes
+  public static final int POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_SENSE_TAULA = 3;
+
+  public static final int[] POLITICA_TAULA_FIRMES = {
+    POLITICA_TAULA_FIRMES_NO_ES_PERMET,
+    POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT,
+    POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT,
+    POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_SENSE_TAULA 
+  };
+  
+  //==============================================================
+  // --- POSICIO DE TAULA DE FIRMES - PORTAFIB v2.0 #166 -----
+  // =============================================================
+
+  public static final int TAULADEFIRMES_SENSETAULA = 0;
+  public static final int TAULADEFIRMES_PRIMERAPAGINA = 1;
+  public static final int TAULADEFIRMES_DARRERAPAGINA = -1;
+  public static final int TAULADEFIRMES_RUBRICA_EN_FIRMA = 2;
+  
+  public static final int[] TAULADEFIRMES = {
+    TAULADEFIRMES_SENSETAULA,
+    TAULADEFIRMES_PRIMERAPAGINA,
+    TAULADEFIRMES_DARRERAPAGINA
+    // TAULADEFIRMES_RUBRICA_EN_FIRMA no disponible fins que s'imple,menti en #73
+  };
+  
  
   // ----------- POSICIO PAGINA 
   
@@ -322,7 +360,7 @@ public interface Constants {
 
   
   //==============================================================
-  // --- POLITICA DE DE US DEL PLUGIN - PORTAFIB v2.0 #160 -----
+  // --- POLITICA DE US DEL PLUGIN - PORTAFIB v2.0 #160 -----
   // ==============================================================
   
   // Plantilla
@@ -340,9 +378,8 @@ public interface Constants {
     PLUGIN_POLITICA_DE_US_NOMES_ENTITAT,
     PLUGIN_POLITICA_DE_US_USAR_TOTHOM
   };
-  
-  
-  
+
+
   // ========================================================
   // ----- CONSTANTS ESPECIFIQUES DE CADA FIRMA ------
   // ========================================================

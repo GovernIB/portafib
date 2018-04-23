@@ -143,7 +143,7 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="politicataulafirmes",nullable = false,length = 10)
 	int politicaTaulaFirmes;
 
-  /** SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1; */
+  /** SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
 	@Column(name="posiciotaulafirmes",nullable = false,length = 10)
 	int posicioTaulaFirmes;
 

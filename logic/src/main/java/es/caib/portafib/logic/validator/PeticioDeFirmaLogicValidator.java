@@ -30,7 +30,6 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
       ,es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager
       ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
       ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
-      ,es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager
       ,es.caib.portafib.model.dao.IPrioritatManager __prioritatManager
       ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
       ,es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager
@@ -44,7 +43,6 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
         ,__fluxDeFirmesManager
         ,__idiomaManager
         ,__peticioDeFirmaManager
-        ,__posicioTaulaFirmesManager
         ,__prioritatManager
         ,__tipusDocumentManager
         ,__tipusEstatPeticioDeFirmaManager

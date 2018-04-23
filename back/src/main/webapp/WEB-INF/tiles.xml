@@ -901,16 +901,6 @@
     </definition>
 
 
-    <definition name="posicioTaulaFirmesFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="posicioTaulaFirmes.posicioTaulaFirmes" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioTaulaFirmesForm.jsp" />
-    </definition>
-    
-    <definition name="posicioTaulaFirmesListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioTaulaFirmesList.jsp" />
-    </definition>
-
-
     <definition name="prioritatFormWebDB" extends="webdb">
         <put-attribute name="titol" value="prioritat.prioritat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/prioritatForm.jsp" />

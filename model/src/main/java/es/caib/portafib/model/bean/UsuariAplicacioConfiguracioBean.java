@@ -94,14 +94,13 @@ private static final long serialVersionUID = 333534165L;
     this.validarCertificat=validarCertificat;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String usuariAplicacioID , int usPoliticaDeTirma , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int posicioTaulaFirmesID) {
+  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String usuariAplicacioID , int usPoliticaDeTirma , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.usuariAplicacioID=usuariAplicacioID;
     this.usPoliticaDeTirma=usPoliticaDeTirma;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.modeDeFirma=modeDeFirma;
-    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
 }
   public UsuariAplicacioConfiguracioBean(UsuariAplicacioConfiguracio __bean) {
     this.setUsuariAplicacioConfigID(__bean.getUsuariAplicacioConfigID());

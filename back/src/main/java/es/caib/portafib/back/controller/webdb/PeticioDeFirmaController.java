@@ -68,10 +68,6 @@ public class PeticioDeFirmaController
 
   // References 
   @Autowired
-  protected PosicioTaulaFirmesRefList posicioTaulaFirmesRefList;
-
-  // References 
-  @Autowired
   protected TipusFirmaRefList tipusFirmaRefList;
 
   // References 
@@ -240,7 +236,7 @@ public class PeticioDeFirmaController
     {
       _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID(_tmp);
+      filterForm.setMapOfValuesForPosicioTaulaFirmesID(_tmp);
       if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMESID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMESID, false);
       };
@@ -371,7 +367,7 @@ public class PeticioDeFirmaController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(TIPUSDOCUMENTID, filterForm.getMapOfTipusDocumentForTipusDocumentID());
-    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID());
+    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfValuesForPosicioTaulaFirmesID());
     __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
     __mapping.put(TIPUSFIRMAID, filterForm.getMapOfTipusFirmaForTipusFirmaID());
     __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
@@ -437,11 +433,11 @@ public class PeticioDeFirmaController
       peticioDeFirmaForm.setListOfTipusDocumentForTipusDocumentID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (peticioDeFirmaForm.getListOfPosicioTaulaFirmesForPosicioTaulaFirmesID() == null) {
+    if (peticioDeFirmaForm.getListOfValuesForPosicioTaulaFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, peticioDeFirmaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      peticioDeFirmaForm.setListOfPosicioTaulaFirmesForPosicioTaulaFirmesID(_listSKV);
+      peticioDeFirmaForm.setListOfValuesForPosicioTaulaFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (peticioDeFirmaForm.getListOfValuesForTipusOperacioFirma() == null) {
@@ -925,11 +921,7 @@ public java.lang.Long stringToPK(String value) {
     if (peticioDeFirmaForm.isHiddenField(POSICIOTAULAFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(POSICIOTAULAFIRMESID)) {
-      _where = PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.equal(peticioDeFirmaForm.getPeticioDeFirma().getPosicioTaulaFirmesID());
-    }
-    return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where, _where));
+    return getReferenceListForPosicioTaulaFirmesID(request, mav, where);
   }
 
 
@@ -941,21 +933,18 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(POSICIOTAULAFIRMESID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (PeticioDeFirma _item : list) {
-        _pkList.add(_item.getPosicioTaulaFirmesID());
-        }
-        _w = PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.in(_pkList);
-      }
     return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
   }
 
 

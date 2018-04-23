@@ -8,7 +8,6 @@ import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.IdiomaFields;
-import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.model.fields.PrioritatFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.TipusEstatPeticioDeFirmaFields;
@@ -41,7 +40,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     ,es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager
     ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
     ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
-    ,es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager
     ,es.caib.portafib.model.dao.IPrioritatManager __prioritatManager
     ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
     ,es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager
@@ -295,18 +293,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusDocument.tipusDocument"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusDocument.tipusDocumentID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusdocumentid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(POSICIOTAULAFIRMESID) == 0) {
-      java.lang.Integer __posiciotaulafirmesid = (java.lang.Integer)__vr.getFieldValue(__target__,POSICIOTAULAFIRMESID);
-      Long __count_ = null;
-      try { __count_ = __posicioTaulaFirmesManager.count(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.equal(__posiciotaulafirmesid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(POSICIOTAULAFIRMESID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioTaulaFirmes.posicioTaulaFirmes"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioTaulaFirmes.posicioTaulaFirmesID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__posiciotaulafirmesid)));
       }
     }
 

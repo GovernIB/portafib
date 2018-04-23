@@ -75,7 +75,14 @@ ALTER TABLE pfi_entitat ADD COLUMN politicataulafirmes integer NOT NULL DEFAULT 
 COMMENT ON COLUMN pfi_entitat.politicataulafirmes IS '0 no es permet taules de firmes, 1 definit en l''entitat, 2 opcional per defecte el definit a l''entitat, 3 opcional per defecte sense taula de firmes';
 
 ALTER TABLE pfi_entitat ADD COLUMN posiciotaulafirmes integer NOT NULL DEFAULT 1;
-COMMENT ON COLUMN pfi_entitat.posiciotaulafirmes IS 'SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;';
+COMMENT ON COLUMN pfi_entitat.posiciotaulafirmes IS 'SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1; DEFINIT_EN_FIRMA(RUBRICA)=2';
+
+DROP INDEX pfi_petifirma_postaulaid_fk_i;
+
+ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_postaufir_fk;
+
+DROP TABLE pfi_posiciotaulafirmes;
+
 
 -- ===========================================
 -- 2018/04/10 Estadístiques #168
@@ -200,7 +207,7 @@ CREATE TABLE pfi_usuariaplicacioconfig
   motiudelegacioid bigint,
   firmatperformatid bigint,
   custodiainfoid bigint,
-  posiciotaulafirmesid bigint NOT NULL,
+  posiciotaulafirmesid integer,
   pluginsegellatid bigint,
   comprovarniffirma boolean, -- Null => Valor definit a l'entitat
   checkcanviatdocfirmat boolean, -- Null => Valor definit a l'entitat
@@ -225,9 +232,6 @@ CREATE TABLE pfi_usuariaplicacioconfig
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT pfi_confapp_plugin_seg_fk FOREIGN KEY (pluginsegellatid)
       REFERENCES pfi_plugin (pluginid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT pfi_confapp_postaufir_fk FOREIGN KEY (posiciotaulafirmesid)
-      REFERENCES pfi_posiciotaulafirmes (posiciotaulafirmesid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT pfi_confapp_tipusfirma_fk FOREIGN KEY (tipusfirmaid)
       REFERENCES pfi_tipusfirma (tipusfirmaid) MATCH SIMPLE
@@ -267,8 +271,6 @@ COMMENT ON COLUMN pfi_usuariaplicacioconfig.validarfirma IS 'Indica si validar l
  create index pfi_confapp_firmatper_fk_i on pfi_usuariaplicacioconfig (firmatperformatid);
 
  create index pfi_confapp_custinfo_fk_i on pfi_usuariaplicacioconfig (custodiainfoid);
-
- create index pfi_confapp_postaula_fk_i on pfi_usuariaplicacioconfig (posiciotaulafirmesid);
 
  create index pfi_confapp_plugsegell_fk_i on pfi_usuariaplicacioconfig (pluginsegellatid);
 

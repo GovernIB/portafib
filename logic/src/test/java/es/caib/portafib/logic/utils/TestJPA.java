@@ -749,7 +749,7 @@ public class TestJPA {
       
       log.info("FITXER = " + peticio.getFitxerAFirmar());
       
-      log.info("POSICIO = " + peticio.getPosicioTaulaFirmes());
+      log.info("POSICIO = " + peticio.getPosicioTaulaFirmesID());
 
       
     }

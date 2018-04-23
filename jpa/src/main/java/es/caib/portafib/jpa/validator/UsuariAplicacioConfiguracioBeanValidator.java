@@ -23,8 +23,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
 
   protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
 
-  protected final es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager;
-
   protected final es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager;
 
   protected final es.caib.portafib.model.dao.ITraduccioManager __traduccioManager;
@@ -40,7 +38,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
   public UsuariAplicacioConfiguracioBeanValidator(es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
-     es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager,
      es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
@@ -48,7 +45,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
     this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__pluginManager = __pluginManager;
-    this.__posicioTaulaFirmesManager = __posicioTaulaFirmesManager;
     this.__tipusFirmaManager = __tipusFirmaManager;
     this.__traduccioManager = __traduccioManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
@@ -60,7 +56,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
      es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
-     es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager,
      es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
@@ -68,7 +63,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
     this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__pluginManager = __pluginManager;
-    this.__posicioTaulaFirmesManager = __posicioTaulaFirmesManager;
     this.__tipusFirmaManager = __tipusFirmaManager;
     this.__traduccioManager = __traduccioManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
@@ -79,7 +73,7 @@ public class UsuariAplicacioConfiguracioBeanValidator
   @Override
   public List<I18NFieldError> validate(UsuariAplicacioConfiguracioJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<UsuariAplicacioConfiguracioJPA> _bvr_ = new BeanValidatorResult<UsuariAplicacioConfiguracioJPA>();
-    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __custodiaInfoManager, __pluginManager, __posicioTaulaFirmesManager, __tipusFirmaManager, __traduccioManager, __usuariAplicacioManager, __usuariAplicacioConfiguracioManager);
+    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __custodiaInfoManager, __pluginManager, __tipusFirmaManager, __traduccioManager, __usuariAplicacioManager, __usuariAplicacioConfiguracioManager);
     return _bvr_.getErrors();
   }
 }

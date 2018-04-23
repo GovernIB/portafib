@@ -382,7 +382,7 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
-    this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID = __toClone.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+    this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfPluginForPluginSegellatID = __toClone.mapOfPluginForPluginSegellatID;
     this.mapOfPluginForPluginFirmaServidorID = __toClone.mapOfPluginForPluginFirmaServidorID;
   }
@@ -515,14 +515,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
-  private Map<String, String> mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  private Map<String, String> mapOfValuesForPosicioTaulaFirmesID;
 
-  public Map<String, String> getMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID() {
-    return this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public Map<String, String> getMapOfValuesForPosicioTaulaFirmesID() {
+    return this.mapOfValuesForPosicioTaulaFirmesID;
   }
 
-  public void setMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID(Map<String, String> mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID) {
-    this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID = mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public void setMapOfValuesForPosicioTaulaFirmesID(Map<String, String> mapOfValuesForPosicioTaulaFirmesID) {
+    this.mapOfValuesForPosicioTaulaFirmesID = mapOfValuesForPosicioTaulaFirmesID;
   }
 
 
@@ -559,7 +559,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(POSICIOTAULAFIRMESID.javaName);
    };
 
 }

@@ -93,9 +93,9 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="custodiainfoid",length = 19)
 	java.lang.Long custodiaInfoID;
 
-  /** Si val null s'utilitza la info de l'entitat */
+  /** Si val null s'utilitza la info de l'entitat. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
 	@Index(name="pfi_confapp_postaula_fk_i")
-	@Column(name="posiciotaulafirmesid",nullable = false,length = 19)
+	@Column(name="posiciotaulafirmesid",length = 10)
 	int posicioTaulaFirmesID;
 
 	@Index(name="pfi_confapp_plugsegell_fk_i")
@@ -190,14 +190,13 @@ opcional incluso cuando se genera una firma EPES. */
     this.validarCertificat=validarCertificat;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String usuariAplicacioID , int usPoliticaDeTirma , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int posicioTaulaFirmesID) {
+  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String usuariAplicacioID , int usPoliticaDeTirma , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.usuariAplicacioID=usuariAplicacioID;
     this.usPoliticaDeTirma=usPoliticaDeTirma;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.modeDeFirma=modeDeFirma;
-    this.posicioTaulaFirmesID=posicioTaulaFirmesID;
 }
   public UsuariAplicacioConfiguracioJPA(UsuariAplicacioConfiguracio __bean) {
     this.setUsuariAplicacioConfigID(__bean.getUsuariAplicacioConfigID());
@@ -521,21 +520,6 @@ opcional incluso cuando se genera una firma EPES. */
     this.custodiaInfo = custodiaInfo;
   }
 
-// IMP Field:posiciotaulafirmesid | Table: pfi_posiciotaulafirmes | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_confapp_postaufir_fk")
-	@JoinColumn(name = "posiciotaulafirmesid", referencedColumnName ="posicioTaulaFirmesID", nullable = false, insertable=false, updatable=false)
-	private PosicioTaulaFirmesJPA posicioTaulaFirmes;
-
-	public PosicioTaulaFirmesJPA getPosicioTaulaFirmes() {
-    return this.posicioTaulaFirmes;
-  }
-
-	public  void setPosicioTaulaFirmes(PosicioTaulaFirmesJPA posicioTaulaFirmes) {
-    this.posicioTaulaFirmes = posicioTaulaFirmes;
-  }
-
 // IMP Field:pluginid | Table: pfi_plugin | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -657,10 +641,6 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
-    }
-    if(!"PosicioTaulaFirmesJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.posicioTaulaFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPosicioTaulaFirmes()) ) ) {
-      __tmp.setPosicioTaulaFirmes(PosicioTaulaFirmesJPA.copyJPA(__jpa.getPosicioTaulaFirmes(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaServidor) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaServidor()) ) ) {

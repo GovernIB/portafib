@@ -205,9 +205,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @EJB(mappedName = es.caib.portafib.ejb.PrioritatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PrioritatLocal prioritatEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.PosicioTaulaFirmesLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PosicioTaulaFirmesLocal posicioTaulaFirmesEjb;
-  
   @EJB(mappedName = es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal tipusEstatPeticioDeFirmaEjb;
   
@@ -260,7 +257,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         algorismeDeFirmaEjb, custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
-        this, posicioTaulaFirmesEjb, prioritatEjb, 
+        this, prioritatEjb, 
         tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb,  tipusFirmaEjb,
         usuariAplicacioEjb, usuariEntitatEjb);
     
@@ -303,7 +300,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         algorismeDeFirmaEjb, custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
-        this, posicioTaulaFirmesEjb, prioritatEjb, 
+        this, prioritatEjb, 
         tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb,  tipusFirmaEjb,
         usuariAplicacioEjb, usuariEntitatEjb);
 

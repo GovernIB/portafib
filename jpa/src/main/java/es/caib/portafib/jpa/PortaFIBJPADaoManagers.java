@@ -35,7 +35,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final PluginFirmaWebPerUsuariAplicacioJPAManager pfi_pluginfirmawebperusrapp;
    private final PluginFirmaWebPerUsuariEntitatJPAManager pfi_pluginfirmawebperusrent;
    private final PosicioPaginaJPAManager pfi_posiciopagina;
-   private final PosicioTaulaFirmesJPAManager pfi_posiciotaulafirmes;
    private final PrioritatJPAManager pfi_prioritat;
    private final PropietatGlobalJPAManager pfi_propietatglobal;
    private final RebreAvisJPAManager pfi_rebreavis;
@@ -89,7 +88,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_pluginfirmawebperusrapp = new PluginFirmaWebPerUsuariAplicacioJPAManager(__em);
     this.pfi_pluginfirmawebperusrent = new PluginFirmaWebPerUsuariEntitatJPAManager(__em);
     this.pfi_posiciopagina = new PosicioPaginaJPAManager(__em);
-    this.pfi_posiciotaulafirmes = new PosicioTaulaFirmesJPAManager(__em);
     this.pfi_prioritat = new PrioritatJPAManager(__em);
     this.pfi_propietatglobal = new PropietatGlobalJPAManager(__em);
     this.pfi_rebreavis = new RebreAvisJPAManager(__em);
@@ -228,10 +226,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IPosicioPaginaManager getPosicioPaginaManager() {
 	  return this.pfi_posiciopagina;
-	};
-
-	public IPosicioTaulaFirmesManager getPosicioTaulaFirmesManager() {
-	  return this.pfi_posiciotaulafirmes;
 	};
 
 	public IPrioritatManager getPrioritatManager() {

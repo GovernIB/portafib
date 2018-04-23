@@ -250,11 +250,11 @@
           <form:errors path="peticioDeFirma.posicioTaulaFirmesID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
           <form:hidden path="peticioDeFirma.posicioTaulaFirmesID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.posicioTaulaFirmesID,__theForm.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.posicioTaulaFirmesID,__theForm.listOfValuesForPosicioTaulaFirmesID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.POSICIOTAULAFIRMESID)}" >
           <form:select id="peticioDeFirma_posicioTaulaFirmesID"  onchange="if(typeof onChangePosicioTaulaFirmesID == 'function') {  onChangePosicioTaulaFirmesID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.posicioTaulaFirmesID">
-            <c:forEach items="${__theForm.listOfPosicioTaulaFirmesForPosicioTaulaFirmesID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmesID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

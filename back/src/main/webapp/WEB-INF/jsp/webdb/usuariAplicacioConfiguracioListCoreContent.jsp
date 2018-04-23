@@ -126,7 +126,7 @@
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.posicioTaulaFirmesID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID[tmp]}
+          ${__theFilterForm.mapOfValuesForPosicioTaulaFirmesID[tmp]}
           </c:if>
           </td>
         </c:if>

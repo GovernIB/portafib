@@ -64,8 +64,7 @@ private static final long serialVersionUID = -940591816L;
 	@Column(name="descripciotipusdocument",length = 255)
 	java.lang.String descripcioTipusDocument;
 
-  /** Indica la posicio de taula de firmes així com si es vol emprar o no */
-	@Index(name="pfi_petifirma_postaulaid_fk_i")
+  /** Indica la posicio de taula de firmes així com si es vol emprar o no. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
 	@Column(name="posiciotaulafirmesid",nullable = false,length = 19)
 	int posicioTaulaFirmesID;
 
@@ -694,21 +693,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.tipusDocument = tipusDocument;
   }
 
-// IMP Field:posiciotaulafirmesid | Table: pfi_posiciotaulafirmes | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_petifirma_postaufir_fk")
-	@JoinColumn(name = "posiciotaulafirmesid", referencedColumnName ="posicioTaulaFirmesID", nullable = false, insertable=false, updatable=false)
-	private PosicioTaulaFirmesJPA posicioTaulaFirmes;
-
-	public PosicioTaulaFirmesJPA getPosicioTaulaFirmes() {
-    return this.posicioTaulaFirmes;
-  }
-
-	public  void setPosicioTaulaFirmes(PosicioTaulaFirmesJPA posicioTaulaFirmes) {
-    this.posicioTaulaFirmes = posicioTaulaFirmes;
-  }
-
 // IMP Field:tipusfirmaid | Table: pfi_tipusfirma | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -973,10 +957,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"PosicioTaulaFirmesJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.posicioTaulaFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getPosicioTaulaFirmes()) ) ) {
-      __tmp.setPosicioTaulaFirmes(PosicioTaulaFirmesJPA.copyJPA(__jpa.getPosicioTaulaFirmes(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
     if(!"FluxDeFirmesJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {

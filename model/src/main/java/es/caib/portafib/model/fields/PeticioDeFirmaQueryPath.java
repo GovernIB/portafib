@@ -252,14 +252,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     });
   }
 
-  public PosicioTaulaFirmesQueryPath POSICIOTAULAFIRMES() {
-    return new PosicioTaulaFirmesQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "posicioTaulaFirmes" + ".";
-      }
-    });
-  }
-
   public TipusFirmaQueryPath TIPUSFIRMA() {
     return new TipusFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {

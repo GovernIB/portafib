@@ -105,7 +105,6 @@ import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
-import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.TipusFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -784,6 +783,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
       
+      // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
       peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
       
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
@@ -994,18 +994,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     List<Annex> annex = annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
     return annex;
   }
-  
-  
-  @Override
-  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
-      ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
-    
-    final Where _w = PosicioTaulaFirmesFields.SUPORTADA.equal(true);
-    
-    return super.getReferenceListForPosicioTaulaFirmesID(request, mav, peticioDeFirmaForm, Where.AND(where, _w));
-  }
-  
-  
+ 
   
   @Override
   public List<StringKeyValue> getReferenceListForTipusDocumentID(HttpServletRequest request,

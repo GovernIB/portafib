@@ -531,7 +531,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.procedimentCodi = __toClone.procedimentCodi;
     this.procedimentnom = __toClone.procedimentnom;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
-    this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID = __toClone.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+    this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfTipusFirmaForTipusFirmaID = __toClone.mapOfTipusFirmaForTipusFirmaID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
@@ -588,14 +588,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
 
 
-  private Map<String, String> mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  private Map<String, String> mapOfValuesForPosicioTaulaFirmesID;
 
-  public Map<String, String> getMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID() {
-    return this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public Map<String, String> getMapOfValuesForPosicioTaulaFirmesID() {
+    return this.mapOfValuesForPosicioTaulaFirmesID;
   }
 
-  public void setMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID(Map<String, String> mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID) {
-    this.mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID = mapOfPosicioTaulaFirmesForPosicioTaulaFirmesID;
+  public void setMapOfValuesForPosicioTaulaFirmesID(Map<String, String> mapOfValuesForPosicioTaulaFirmesID) {
+    this.mapOfValuesForPosicioTaulaFirmesID = mapOfValuesForPosicioTaulaFirmesID;
   }
 
 
@@ -728,7 +728,6 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(POSICIOTAULAFIRMESID.javaName);
    traduibles.add(TIPUSESTATPETICIODEFIRMAID.javaName);
    traduibles.add(PRIORITATID.javaName);
    };

@@ -38,7 +38,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariAplicacioJPA</class>
 		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.PosicioPaginaJPA</class>
-		<class>es.caib.portafib.jpa.PosicioTaulaFirmesJPA</class>
 		<class>es.caib.portafib.jpa.PrioritatJPA</class>
 		<class>es.caib.portafib.jpa.PropietatGlobalJPA</class>
 		<class>es.caib.portafib.jpa.RebreAvisJPA</class>

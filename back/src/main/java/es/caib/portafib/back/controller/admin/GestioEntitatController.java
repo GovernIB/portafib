@@ -100,6 +100,12 @@ public class GestioEntitatController extends EntitatController implements Consta
          entitatForm.addHiddenField(PLUGINID); // Segell de temps
          entitatForm.addHiddenField(SEGELLDETEMPSVIAWEB);
          entitatForm.getEntitat().setSegellDeTempsViaWeb(SEGELLDETEMPSVIAWEB_NOUSAR);
+         
+         if(entitatForm.isNou()) {
+           entitatForm.getEntitat().setPoliticaTaulaFirmes(Constants.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT);
+           entitatForm.getEntitat().setPosicioTaulaFirmes(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+         }
+         
        } else {
          // TODO S'ha d'ocultar només si te usuarisEntitat o usuarisAplicacio associats (veure mètode delete)         
          entitatForm.addHiddenField(ENTITATID);           
@@ -117,6 +123,11 @@ public class GestioEntitatController extends EntitatController implements Consta
        
        // #172 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINRUBRICAID);
+       
+       
+       // #166 Pentent de que s'implementi XYZ ZZZ
+       entitatForm.addReadOnlyField(POLITICATAULAFIRMES);
+       entitatForm.addReadOnlyField(POSICIOTAULAFIRMES);
        
        
        /*
@@ -314,9 +325,47 @@ public class GestioEntitatController extends EntitatController implements Consta
         break;
       }
     }
-    
-    
     return kvList;
+  }
+  
+  
+  
+  /**
+   * #166
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+
+    for (int i = 0; i < Constants.POLITICA_TAULA_FIRMES.length; i++) {
+      int val = Constants.POLITICA_TAULA_FIRMES[i];
+      __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils.tradueix("politicataulafirmes." + val)));
+    }
+
+    return __tmp;
+  }
+
+  /**
+   * #166
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPosicioTaulaFirmes(
+      HttpServletRequest request, ModelAndView mav, Where where)
+      throws I18NException {
+    
+    return staticGetReferenceListForPosicioTaulaFirmes();
+  }
+
+  public static List<StringKeyValue> staticGetReferenceListForPosicioTaulaFirmes() {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    
+    for (int i = 0; i < Constants.TAULADEFIRMES.length; i++) {
+      int val = Constants.TAULADEFIRMES[i];
+      __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils.tradueix("tauladefirmes." + val) ));
+    }
+    return __tmp;
   }
   
   @Override

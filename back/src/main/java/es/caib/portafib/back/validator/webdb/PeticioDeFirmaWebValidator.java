@@ -41,9 +41,6 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
   @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PosicioTaulaFirmesEJB/local")
-  protected es.caib.portafib.ejb.PosicioTaulaFirmesLocal posicioTaulaFirmesEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/PrioritatEJB/local")
   protected es.caib.portafib.ejb.PrioritatLocal prioritatEjb;
 
@@ -94,7 +91,7 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, posicioTaulaFirmesEjb, prioritatEjb, tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb, tipusFirmaEjb, usuariAplicacioEjb, usuariEntitatEjb);
+      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, prioritatEjb, tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb, tipusFirmaEjb, usuariAplicacioEjb, usuariEntitatEjb);
 
   } // Final de metode
 

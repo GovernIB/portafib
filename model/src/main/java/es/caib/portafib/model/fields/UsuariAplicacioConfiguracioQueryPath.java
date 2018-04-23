@@ -164,14 +164,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     });
   }
 
-  public PosicioTaulaFirmesQueryPath POSICIOTAULAFIRMES() {
-    return new PosicioTaulaFirmesQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "posicioTaulaFirmes" + ".";
-      }
-    });
-  }
-
   public PluginQueryPath PLUGINSEGELLAT() {
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {

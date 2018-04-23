@@ -87,10 +87,6 @@ public class UsuariAplicacioConfiguracioController
 
   // References 
   @Autowired
-  protected PosicioTaulaFirmesRefList posicioTaulaFirmesRefList;
-
-  // References 
-  @Autowired
   protected PluginRefList pluginRefList;
 
   /**
@@ -300,7 +296,7 @@ public class UsuariAplicacioConfiguracioController
     {
       _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID(_tmp);
+      filterForm.setMapOfValuesForPosicioTaulaFirmesID(_tmp);
       if (filterForm.getGroupByFields().contains(POSICIOTAULAFIRMESID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, POSICIOTAULAFIRMESID, false);
       };
@@ -361,7 +357,7 @@ public class UsuariAplicacioConfiguracioController
     __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
-    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfPosicioTaulaFirmesForPosicioTaulaFirmesID());
+    __mapping.put(POSICIOTAULAFIRMESID, filterForm.getMapOfValuesForPosicioTaulaFirmesID());
     __mapping.put(PLUGINSEGELLATID, filterForm.getMapOfPluginForPluginSegellatID());
     __mapping.put(PLUGINFIRMASERVIDORID, filterForm.getMapOfPluginForPluginFirmaServidorID());
     exportData(request, response, dataExporterID, filterForm,
@@ -473,11 +469,11 @@ public class UsuariAplicacioConfiguracioController
       usuariAplicacioConfiguracioForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (usuariAplicacioConfiguracioForm.getListOfPosicioTaulaFirmesForPosicioTaulaFirmesID() == null) {
+    if (usuariAplicacioConfiguracioForm.getListOfValuesForPosicioTaulaFirmesID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForPosicioTaulaFirmesID(request, mav, usuariAplicacioConfiguracioForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      usuariAplicacioConfiguracioForm.setListOfPosicioTaulaFirmesForPosicioTaulaFirmesID(_listSKV);
+      usuariAplicacioConfiguracioForm.setListOfValuesForPosicioTaulaFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioConfiguracioForm.getListOfPluginForPluginSegellatID() == null) {
@@ -1112,11 +1108,7 @@ public java.lang.Long stringToPK(String value) {
     if (usuariAplicacioConfiguracioForm.isHiddenField(POSICIOTAULAFIRMESID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (usuariAplicacioConfiguracioForm.isReadOnlyField(POSICIOTAULAFIRMESID)) {
-      _where = PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.equal(usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getPosicioTaulaFirmesID());
-    }
-    return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where, _where));
+    return getReferenceListForPosicioTaulaFirmesID(request, mav, where);
   }
 
 
@@ -1128,21 +1120,18 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(POSICIOTAULAFIRMESID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (UsuariAplicacioConfiguracio _item : list) {
-        _pkList.add(_item.getPosicioTaulaFirmesID());
-        }
-        _w = PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.in(_pkList);
-      }
     return getReferenceListForPosicioTaulaFirmesID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    return __tmp;
   }
 
 

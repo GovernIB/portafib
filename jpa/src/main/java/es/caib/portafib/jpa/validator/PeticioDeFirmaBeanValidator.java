@@ -27,8 +27,6 @@ public class PeticioDeFirmaBeanValidator
 
   protected final es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager;
 
-  protected final es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager;
-
   protected final es.caib.portafib.model.dao.IPrioritatManager __prioritatManager;
 
   protected final es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager;
@@ -50,7 +48,6 @@ public class PeticioDeFirmaBeanValidator
      es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager,
      es.caib.portafib.model.dao.IIdiomaManager __idiomaManager,
      es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
-     es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager,
      es.caib.portafib.model.dao.IPrioritatManager __prioritatManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager,
      es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager,
@@ -62,7 +59,6 @@ public class PeticioDeFirmaBeanValidator
     this.__fluxDeFirmesManager = __fluxDeFirmesManager;
     this.__idiomaManager = __idiomaManager;
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
-    this.__posicioTaulaFirmesManager = __posicioTaulaFirmesManager;
     this.__prioritatManager = __prioritatManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     this.__tipusEstatPeticioDeFirmaManager = __tipusEstatPeticioDeFirmaManager;
@@ -78,7 +74,6 @@ public class PeticioDeFirmaBeanValidator
      es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager,
      es.caib.portafib.model.dao.IIdiomaManager __idiomaManager,
      es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
-     es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager,
      es.caib.portafib.model.dao.IPrioritatManager __prioritatManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager,
      es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager,
@@ -90,7 +85,6 @@ public class PeticioDeFirmaBeanValidator
     this.__fluxDeFirmesManager = __fluxDeFirmesManager;
     this.__idiomaManager = __idiomaManager;
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
-    this.__posicioTaulaFirmesManager = __posicioTaulaFirmesManager;
     this.__prioritatManager = __prioritatManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     this.__tipusEstatPeticioDeFirmaManager = __tipusEstatPeticioDeFirmaManager;
@@ -103,7 +97,7 @@ public class PeticioDeFirmaBeanValidator
   @Override
   public List<I18NFieldError> validate(PeticioDeFirmaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<PeticioDeFirmaJPA> _bvr_ = new BeanValidatorResult<PeticioDeFirmaJPA>();
-    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __custodiaInfoManager, __fluxDeFirmesManager, __idiomaManager, __peticioDeFirmaManager, __posicioTaulaFirmesManager, __prioritatManager, __tipusDocumentManager, __tipusEstatPeticioDeFirmaManager, __tipusFirmaManager, __usuariAplicacioManager, __usuariEntitatManager);
+    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __custodiaInfoManager, __fluxDeFirmesManager, __idiomaManager, __peticioDeFirmaManager, __prioritatManager, __tipusDocumentManager, __tipusEstatPeticioDeFirmaManager, __tipusFirmaManager, __usuariAplicacioManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

@@ -7,7 +7,6 @@ import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.model.fields.PosicioTaulaFirmesFields;
 import es.caib.portafib.model.fields.TipusFirmaFields;
 import es.caib.portafib.model.fields.TraduccioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -35,7 +34,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
-    ,es.caib.portafib.model.dao.IPosicioTaulaFirmesManager __posicioTaulaFirmesManager
     ,es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
@@ -61,10 +59,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     __vr.rejectIfEmptyOrWhitespace(__target__,MODEDEFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODEDEFIRMA)));
-
-    __vr.rejectIfEmptyOrWhitespace(__target__,POSICIOTAULAFIRMESID, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POSICIOTAULAFIRMESID)));
 
     // Check size
     if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
@@ -239,18 +233,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
         }
-      }
-    }
-
-    if (__vr.getFieldErrorCount(POSICIOTAULAFIRMESID) == 0) {
-      java.lang.Integer __posiciotaulafirmesid = (java.lang.Integer)__vr.getFieldValue(__target__,POSICIOTAULAFIRMESID);
-      Long __count_ = null;
-      try { __count_ = __posicioTaulaFirmesManager.count(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID.equal(__posiciotaulafirmesid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(POSICIOTAULAFIRMESID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioTaulaFirmes.posicioTaulaFirmes"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioTaulaFirmes.posicioTaulaFirmesID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__posiciotaulafirmesid)));
       }
     }
 
