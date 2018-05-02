@@ -17,13 +17,14 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 
 
+
 import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
@@ -32,9 +33,6 @@ import es.caib.portafib.utils.Constants;
  * @param <T>
  */
 public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
-  
-  
-  
 
   protected final Logger log = Logger.getLogger(getClass());
 
@@ -247,16 +245,16 @@ public class SignaturesSetValidator<T extends PassarelaSignaturesSet> {
           politicaSegellTemps = passarelaDeFirmaEjb.getTimeStampPolicy(entitatID);
         } catch (I18NException e) {
           log.error(I18NLogicUtils.getMessage(e, new Locale("ca")));
-          politicaSegellTemps = Constants.SEGELLDETEMPSVIAWEB_NOUSAR;
+          politicaSegellTemps = ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR;
         }
         if (pfis.isUseTimeStamp()) {
-          if (politicaSegellTemps == Constants.SEGELLDETEMPSVIAWEB_NOUSAR) {
+          if (politicaSegellTemps == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
             // Segellat de Temps en l´entitat {0} està deshabilitat.
             __vr.rejectValue(getF("fileInfoSignatureArray.useTimeStamp"),
                 "error.passarela.segelltemps.noespotusar", new I18NArgumentString(entitatID));
           }
         } else {
-          if (politicaSegellTemps == Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR) {
+          if (politicaSegellTemps == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI) {
             // Segellat de Temps és obligatori dins l´entitat {0}.
             __vr.rejectValue(getF("fileInfoSignatureArray.useTimeStamp"),
                 "error.passarela.segelltemps.obligatori", new I18NArgumentString(entitatID));

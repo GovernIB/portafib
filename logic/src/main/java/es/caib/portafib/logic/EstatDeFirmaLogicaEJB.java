@@ -18,7 +18,7 @@ import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.NotificacioWSQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless(name = "EstatDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
 public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
-  implements EstatDeFirmaLogicaLocal, Constants {
+  implements EstatDeFirmaLogicaLocal, ConstantsV2 {
 
   @EJB(mappedName = "portafib/FirmaEJB/local")
   private FirmaLocal firmaEjb;
@@ -78,7 +78,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
     
     Where w2;
-    if (Constants.ROLE_DEST.equals(rol)) {
+    if (ConstantsV2.ROLE_DEST.equals(rol)) {
       // DESTINATARI
       w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull();
     } else {

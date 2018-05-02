@@ -47,14 +47,14 @@ public class SignBoxRectangle {
   public static SignBoxRectangle getPositionOfVisibleSignature(int num_firma) {
     final float width = 482 - 30;
     final int marge = (int)(0.51f * 72f);
-    int alt = marge + Constants.SIGNBOX_START + Constants.SIGNBOX_HEIGHT * (num_firma -1);
+    int alt = marge + ConstantsV2.SIGNBOX_START + ConstantsV2.SIGNBOX_HEIGHT * (num_firma -1);
     final float top = -1.0f * alt;
     final float left = 76 + 30;
 
-    final float height = Constants.SIGNBOX_HEIGHT;
+    final float height = ConstantsV2.SIGNBOX_HEIGHT;
     
     float llx = left;  // llx - the lower left x corner
-    float lly = /*rect.getHeight()*/ Constants.A4_ALT + top  - Constants.SIGNBOX_HEIGHT;  // lly - the lower left y corner
+    float lly = /*rect.getHeight()*/ ConstantsV2.A4_ALT + top  - ConstantsV2.SIGNBOX_HEIGHT;  // lly - the lower left y corner
 
     float urx = llx + width - 3;  // urx - the upper right x corner
     float ury = lly + height - 3;  // ury - the upper right y corner

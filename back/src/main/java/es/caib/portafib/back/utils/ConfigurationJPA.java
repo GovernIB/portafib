@@ -20,7 +20,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 @Configuration
 @EnableTransactionManagement
@@ -56,8 +56,8 @@ public class ConfigurationJPA {
   private Properties additionalProperties() {
 
     Properties sysProp = System.getProperties();
-    final String hibernateProp = Constants.PORTAFIB_PROPERTY_BASE + "hibernate.";
-    final int cutIndex = Constants.PORTAFIB_PROPERTY_BASE.length();
+    final String hibernateProp = ConstantsV2.PORTAFIB_PROPERTY_BASE + "hibernate.";
+    final int cutIndex = ConstantsV2.PORTAFIB_PROPERTY_BASE.length();
     Properties properties = new Properties();
     for (Object keyObj : sysProp.keySet()) {
       String key = (String) keyObj;

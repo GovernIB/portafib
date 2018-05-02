@@ -23,7 +23,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -102,7 +102,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
        p.setActiu(true);
        p.setTipus(getTipusDePlugin());
        // XYZ ZZZ #160
-       p.setPoliticaMostrarPropietats(Constants.PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN);
+       p.setPoliticaMostrarPropietats(ConstantsV2.PLUGIN_POLITICA_MOSTRAR_PROPIETATS_EDIT_ENTITAT_MOSTRAR_ADMIN);
      }
      
      if (!isAdmin()) {
@@ -125,9 +125,9 @@ public abstract class AbstractPluginAdminController extends PluginController {
   
     // XYZ ZZZ #160
     if (pluginForm.getPlugin().getEntitatID() == null) {
-      pluginForm.getPlugin().setPoliticaDeUs(Constants.PLUGIN_POLITICA_DE_US_PLANTILLA);  
+      pluginForm.getPlugin().setPoliticaDeUs(ConstantsV2.PLUGIN_POLITICA_DE_US_PLANTILLA);  
     } else {
-      pluginForm.getPlugin().setPoliticaDeUs(Constants.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT);
+      pluginForm.getPlugin().setPoliticaDeUs(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT);
     }
   }
   
@@ -160,10 +160,10 @@ public abstract class AbstractPluginAdminController extends PluginController {
   public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
       ModelAndView mav, Where where)  throws I18NException {
    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB , "PLUGIN MODUL DE FIRMA WEB"));
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
-   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
+   __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB , "PLUGIN MODUL DE FIRMA WEB"));
+   __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
+   __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
+   __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
    return __tmp;
  }
   
@@ -176,8 +176,8 @@ public abstract class AbstractPluginAdminController extends PluginController {
       throws I18NException {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
-    for (int i = 0; i < Constants.PLUGIN_POLITICA_MOSTRAR_PROPIETATS.length; i++) {
-      int val = Constants.PLUGIN_POLITICA_MOSTRAR_PROPIETATS[i];
+    for (int i = 0; i < ConstantsV2.PLUGIN_POLITICA_MOSTRAR_PROPIETATS.length; i++) {
+      int val = ConstantsV2.PLUGIN_POLITICA_MOSTRAR_PROPIETATS[i];
       __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils
           .tradueix("plugin.politicamostrarpropietats." + val)));
 
@@ -193,8 +193,8 @@ public abstract class AbstractPluginAdminController extends PluginController {
 
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
-    for (int i = 0; i < Constants.PLUGIN_POLITICA_DE_US.length; i++) {
-      int val = Constants.PLUGIN_POLITICA_DE_US[i];
+    for (int i = 0; i < ConstantsV2.PLUGIN_POLITICA_DE_US.length; i++) {
+      int val = ConstantsV2.PLUGIN_POLITICA_DE_US[i];
       __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils
           .tradueix("plugin.politicadeus." + val)));
     }

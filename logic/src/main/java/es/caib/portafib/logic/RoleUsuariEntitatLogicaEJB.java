@@ -23,7 +23,7 @@ import es.caib.portafib.logic.validator.RoleUsuariEntitatLogicValidator;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -33,7 +33,7 @@ import es.caib.portafib.utils.Constants;
 @Stateless(name = "RoleUsuariEntitatLogicaEJB")
 @SecurityDomain("seycon")
 public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
-		implements RoleUsuariEntitatLogicaLocal, Constants {
+		implements RoleUsuariEntitatLogicaLocal, ConstantsV2 {
 
 	@EJB(mappedName = "portafib/UsuariEntitatEJB/local")
 	protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
@@ -106,7 +106,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
     instance = (RoleUsuariEntitatJPA)list.get(0);
 		
 
-		if (Constants.ROLE_ADEN.equals(roleID)) {
+		if (ConstantsV2.ROLE_ADEN.equals(roleID)) {
 		  // NO es pot borrar el role ADEN si és el darrer administrador d'entitat d'una entitat
 			
 			// 1. recuperar de usuarientitat la entrada con usuarientitatid == instance.getUsuariEntitatID()
@@ -120,7 +120,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 			// 3.1 Columna USUARIENTITATID
 			Where w1 = USUARIENTITATID.in(subQ);
 			// 3.2 Columna ROLEID
-			Where w2 = ROLEID.equal(Constants.ROLE_ADEN);
+			Where w2 = ROLEID.equal(ConstantsV2.ROLE_ADEN);
 			// 3.3 Combinamos las condiciones anteriores
 			Where w = Where.AND(w1, w2);
 			
@@ -131,7 +131,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 			}						
 		}
 		
-		if (Constants.ROLE_SOLI.equals(roleID)) {
+		if (ConstantsV2.ROLE_SOLI.equals(roleID)) {
 		  // No es pot borrar el role SOLI si l'usuari té solicituds de firma associades
 		  Long count = peticioDeFirmaEjb.count(
 		      es.caib.portafib.model.fields.PeticioDeFirmaFields.USUARIENTITATID.equal(instance.getUsuariEntitatID()));

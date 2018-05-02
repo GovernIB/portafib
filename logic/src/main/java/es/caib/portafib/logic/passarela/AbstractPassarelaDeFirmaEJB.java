@@ -20,7 +20,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
@@ -51,11 +51,11 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
   @Override
   public int getTimeStampPolicy(String entitatID) throws I18NException {
 
-    Integer segellDeTemps = entitatEjb.executeQueryOne(EntitatFields.SEGELLDETEMPSVIAWEB,
+    Integer segellDeTemps = entitatEjb.executeQueryOne(EntitatFields.POLITICASEGELLATDETEMPS,
         EntitatFields.ENTITATID.equal(entitatID));
 
     if (segellDeTemps == null) {
-      return Constants.SEGELLDETEMPSVIAWEB_NOUSAR;
+      return ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR;
     } else {
       return segellDeTemps;
     }

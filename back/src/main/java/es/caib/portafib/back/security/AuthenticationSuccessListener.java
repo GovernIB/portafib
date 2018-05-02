@@ -39,7 +39,7 @@ import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -84,10 +84,10 @@ public class AuthenticationSuccessListener implements
       if (isDebug) { 
         log.debug("Rol SEYCON : " + rol);
       }
-      if (Constants.ROLE_USER.equals(rol)) {
+      if (ConstantsV2.ROLE_USER.equals(rol)) {
         containsRoleUser = true;
       }
-      if (Constants.ROLE_ADMIN.equals(rol)) {
+      if (ConstantsV2.ROLE_ADMIN.equals(rol)) {
         containsRoleAdmin = true;
       }
     }
@@ -154,7 +154,7 @@ public class AuthenticationSuccessListener implements
               if (Configuracio.isCAIB()) {
                 defaultEntity = PropietatGlobalUtil.getEntitatIDForAgentsSQL();
                 virtualRoles = new HashSet<String>();
-                virtualRoles.add(Constants.ROLE_DEST);
+                virtualRoles.add(ConstantsV2.ROLE_DEST);
               } else {
                 defaultEntity = PropietatGlobalUtil.getDefaultEntity();
                 String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
@@ -393,13 +393,13 @@ public class AuthenticationSuccessListener implements
         for (RoleUsuariEntitat roleUsuariEntitat : rolesEntitat) {
           String roleName = roleUsuariEntitat.getRoleID();
           if (usuariAplicacioPerPerticionsIsNull && 
-              Constants.ROLE_SOLI.equals(roleName) ) {
+              ConstantsV2.ROLE_SOLI.equals(roleName) ) {
             log.warn("No afegim el role " + roleName + " ja que aquesta entitat no té definit " +
                 " usuariAplicacio per les peticions de firma dels usuaris.");
-          } else if (Constants.ROLE_ADMIN.equals(roleName)) {
+          } else if (ConstantsV2.ROLE_ADMIN.equals(roleName)) {
             // TODO enviar un correu a l'administrador del sistema
             log.warn("Error de seguretat: L'usuari " + name + " té el role virtual "
-                + Constants.ROLE_ADMIN 
+                + ConstantsV2.ROLE_ADMIN 
                 + " però aquest rol s'ha d'obtenir dels rols de JBOSS." + 
                 " Eliminar aquest rol de la BBDD !!!!!",
                 new Exception() );

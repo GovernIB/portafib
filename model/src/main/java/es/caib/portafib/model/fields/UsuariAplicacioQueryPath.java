@@ -55,10 +55,6 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new BooleanField(getQueryPath(), UsuariAplicacioFields.POTCUSTODIAR);
   }
 
-  public IntegerField POLITICACUSTODIA() {
-    return new IntegerField(getQueryPath(), UsuariAplicacioFields.POLITICACUSTODIA);
-  }
-
   public IntegerField POLITICADEPLUGINFIRMAWEB() {
     return new IntegerField(getQueryPath(), UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB);
   }

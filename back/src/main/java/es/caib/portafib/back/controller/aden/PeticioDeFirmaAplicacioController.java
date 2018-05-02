@@ -11,7 +11,7 @@ import es.caib.portafib.back.form.webdb.AnnexFilterForm;
 import es.caib.portafib.back.form.webdb.AnnexForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * Gestiona les peticions de firma dels Usuaris Aplicació de la meva entitat
@@ -19,11 +19,11 @@ import es.caib.portafib.utils.Constants;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = Constants.CONTEXT_ADEN_PETICIOFIRMA)
+@RequestMapping(value = ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA)
 @SessionAttributes(types = {SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
 public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliController
-    implements Constants {
+    implements ConstantsV2 {
 
   @Override
   public boolean isSolicitantUsuariEntitat() {

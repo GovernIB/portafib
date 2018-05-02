@@ -34,7 +34,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFavoritFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -69,7 +69,7 @@ import java.util.Set;
 @SecurityDomain("seycon")
 @Startup
 public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
-    UsuariEntitatLogicaLocal, Constants {
+    UsuariEntitatLogicaLocal, ConstantsV2 {
 
   @EJB(mappedName = "portafib/UsuariEntitatFavoritEJB/local")
   private UsuariEntitatFavoritLocal usuariEntitatFavoritEjb;
@@ -190,8 +190,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
         
         for (String vrol : virtualRoles) {
           vrol = vrol.trim();
-          if (Constants.ROLE_SOLI.equals(vrol) || Constants.ROLE_DEST.equals(vrol) ||
-              Constants.ROLE_DELE.equals(vrol) || Constants.ROLE_COLA.equals(vrol) ) {
+          if (ConstantsV2.ROLE_SOLI.equals(vrol) || ConstantsV2.ROLE_DEST.equals(vrol) ||
+              ConstantsV2.ROLE_DELE.equals(vrol) || ConstantsV2.ROLE_COLA.equals(vrol) ) {
             roleUsuariEntitats.add((RoleUsuariEntitatJPA)roleUsuariEntitatEjb.
                 create(vrol, usuariEntitatJPA.getUsuariEntitatID()));
           } else {
@@ -315,8 +315,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // Peticions de Firma en marxa o pasades
       Where w1 = PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.in(
             new Integer[]{
-                Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-                Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT
+                ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+                ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
              });
       
       
@@ -685,8 +685,8 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
        FirmaFields.DESTINATARIID.equal(usuariEntitatID),
        FirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
        TIPUSESTATPETICIODEFIRMAID.in(new Integer[]{
-         Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-         Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT
+         ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+         ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
         })
     ));
 
@@ -776,7 +776,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     List<String> correusAdEn = roleUsuariEntitatEjb.executeQuery(
         usuariEntitatQueryPath.USUARIPERSONA().EMAIL(),
         Where.AND(
-            RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_ADEN),
+            RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_ADEN),
             usuariEntitatQueryPath.ENTITATID().equal(entitatID),
             usuariEntitatQueryPath.ACTIU().equal(true)
         )

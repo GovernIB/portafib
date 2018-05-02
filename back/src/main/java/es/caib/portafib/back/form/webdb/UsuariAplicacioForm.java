@@ -27,7 +27,6 @@ public class UsuariAplicacioForm extends PortaFIBBaseForm {
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
     this.listOfValuesForCallbackVersio = __toClone.listOfValuesForCallbackVersio;
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
-    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfValuesForPoliticaDePluginFirmaWeb = __toClone.listOfValuesForPoliticaDePluginFirmaWeb;
   }
   
@@ -90,18 +89,6 @@ public class UsuariAplicacioForm extends PortaFIBBaseForm {
 
   public void setListOfIdiomaForIdiomaID(List<StringKeyValue> listOfIdiomaForIdiomaID) {
     this.listOfIdiomaForIdiomaID = listOfIdiomaForIdiomaID;
-  }
-
-
-
-  private List<StringKeyValue> listOfValuesForPoliticaCustodia;
-
-  public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
-    return this.listOfValuesForPoliticaCustodia;
-  }
-
-  public void setListOfValuesForPoliticaCustodia(List<StringKeyValue> listOfValuesForPoliticaCustodia) {
-    this.listOfValuesForPoliticaCustodia = listOfValuesForPoliticaCustodia;
   }
 
 

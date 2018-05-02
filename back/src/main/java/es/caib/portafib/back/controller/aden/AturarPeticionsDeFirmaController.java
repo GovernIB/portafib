@@ -41,7 +41,7 @@ import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -88,7 +88,7 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaCont
 
       seleccioUsuariForm.setTitol("aturarpeticionsdefirma");
       seleccioUsuariForm.setSubtitol("aturarpeticionsdefirma.nif.subtitol");
-      seleccioUsuariForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
       seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
 
       try { 
@@ -187,8 +187,8 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaCont
         // Peticions actives o pausades
         peticio.PETICIODEFIRMAID().isNotNull(),
         peticio.TIPUSESTATPETICIODEFIRMAID().in(new Integer[]{
-            Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-            Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT
+            ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+            ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
            }),
         // Associam al usuariEntitatID
         firmaQueryPath.USUARIENTITAT().USUARIENTITATID().equal(usuariEntitatID),

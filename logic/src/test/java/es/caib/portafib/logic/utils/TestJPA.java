@@ -57,7 +57,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 
@@ -488,7 +488,7 @@ public class TestJPA {
       String entitatID = pg.getEntitatID();
 
       Where where = Where.AND(
-          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
+          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
           new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
       List<PeticioDeFirma> peticions = peticioDeFirmaEjb.select(where);
 
@@ -556,7 +556,7 @@ public class TestJPA {
               new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMESID()
                   .equal(peticioDeFirma.getFluxDeFirmesID()),
               FirmaFields.TIPUSESTATDEFIRMAFINALID
-                  .equal(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT));
+                  .equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT));
           firmesRealitzades = firmaEjb.count(wf);
           System.out.println(" ---------------------- ");
           System.out.println("firmesRealitzades = " + firmesRealitzades);
@@ -600,7 +600,7 @@ public class TestJPA {
         Where wf = Where.AND(new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES()
             .FLUXDEFIRMESID().equal(pf.getFluxDeFirmesID()),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+                .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
 
         List<String> avisarusuaris = estatDeFirmaEjb.executeQuery(

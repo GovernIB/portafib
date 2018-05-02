@@ -14,7 +14,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 
 	 public static final LongField USUARIAPLICACIOCONFIGID = new LongField(_TABLE_MODEL, "usuariAplicacioConfigID", "usuariaplicacioconfigid");  // PK
 	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
-	 public static final IntegerField USPOLITICADETIRMA = new IntegerField(_TABLE_MODEL, "usPoliticaDeTirma", "uspoliticadefirma");
+	 public static final IntegerField USPOLITICADEFIRMA = new IntegerField(_TABLE_MODEL, "usPoliticaDeFirma", "uspoliticadefirma");
 	 public static final StringField POLICYIDENTIFIER = new StringField(_TABLE_MODEL, "policyIdentifier", "policyidentifier");
 	 public static final StringField POLICYIDENTIFIERHASH = new StringField(_TABLE_MODEL, "policyIdentifierHash", "policyidentifierhash");
 	 public static final StringField POLICYIDENTIFIERHASHALGORITHM = new StringField(_TABLE_MODEL, "policyIdentifierHashAlgorithm", "policyidentifierhashalgorithm");
@@ -26,11 +26,14 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final BooleanField MODEDEFIRMA = new BooleanField(_TABLE_MODEL, "modeDeFirma", "modedefirma");
 	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
 	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
+	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
+	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
 	 public static final IntegerField POSICIOTAULAFIRMESID = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmesID", "posiciotaulafirmesid");
+	 public static final IntegerField POLITICASEGELLATDETEMPS = new IntegerField(_TABLE_MODEL, "politicaSegellatDeTemps", "politicasegellatdetemps");
 	 public static final LongField PLUGINSEGELLATID = new LongField(_TABLE_MODEL, "pluginSegellatID", "pluginsegellatid");
-	 public static final LongField PLUGINFIRMASERVIDORID = new LongField(_TABLE_MODEL, "pluginFirmaServidorID", "pluginfirmaservidorid");
 	 public static final StringField HTMLPERLLISTARPLUGINSFIRMAWEB = new StringField(_TABLE_MODEL, "htmlPerLlistarPluginsFirmaWeb", "htmlperllistarpluginsfirmaweb");
+	 public static final LongField PLUGINFIRMASERVIDORID = new LongField(_TABLE_MODEL, "pluginFirmaServidorID", "pluginfirmaservidorid");
 	 public static final LongField LOGINCERTIFICATEID = new LongField(_TABLE_MODEL, "loginCertificateID", "logincertificateid");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
@@ -41,7 +44,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
   public static final Field<?>[] ALL_USUARIAPLICACIOCONFIGURACIO_FIELDS = {
     USUARIAPLICACIOCONFIGID,
     USUARIAPLICACIOID,
-    USPOLITICADETIRMA,
+    USPOLITICADEFIRMA,
     POLICYIDENTIFIER,
     POLICYIDENTIFIERHASH,
     POLICYIDENTIFIERHASHALGORITHM,
@@ -53,11 +56,14 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     MODEDEFIRMA,
     MOTIUDELEGACIOID,
     FIRMATPERFORMATID,
+    POLITICACUSTODIA,
     CUSTODIAINFOID,
+    POLITICATAULAFIRMES,
     POSICIOTAULAFIRMESID,
+    POLITICASEGELLATDETEMPS,
     PLUGINSEGELLATID,
-    PLUGINFIRMASERVIDORID,
     HTMLPERLLISTARPLUGINSFIRMAWEB,
+    PLUGINFIRMASERVIDORID,
     LOGINCERTIFICATEID,
     COMPROVARNIFFIRMA,
     CHECKCANVIATDOCFIRMAT,

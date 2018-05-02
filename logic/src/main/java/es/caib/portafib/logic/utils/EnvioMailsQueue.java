@@ -14,15 +14,15 @@ import org.apache.log4j.Logger;
 import es.caib.portafib.logic.RebreAvisLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsUtils;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * @author anadal
  * 
  */
-@MessageDriven(name = Constants.MAIL_QUEUE, activationConfig = {
+@MessageDriven(name = ConstantsV2.MAIL_QUEUE, activationConfig = {
 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-@ActivationConfigProperty(propertyName = "destination", propertyValue = Constants.MAIL_QUEUE) })
+@ActivationConfigProperty(propertyName = "destination", propertyValue = ConstantsV2.MAIL_QUEUE) })
 public class EnvioMailsQueue implements MessageListener {
 
   protected final Logger log = Logger.getLogger(getClass());

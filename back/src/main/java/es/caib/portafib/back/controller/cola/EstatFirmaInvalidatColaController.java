@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -13,7 +13,7 @@ import es.caib.portafib.utils.Constants;
  *
  */
 @Controller
-@RequestMapping(value = Constants.CONTEXT_COLA_ESTATFIRMA_INVALIDAT )
+@RequestMapping(value = ConstantsV2.CONTEXT_COLA_ESTATFIRMA_INVALIDAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaInvalidatColaController extends EstatFirmaAbstractColaController {
 

@@ -7,7 +7,7 @@ import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 import es.caib.portafib.jpa.validator.CustodiaInfoValidator;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class CustodiaInfoLogicValidator<T> extends CustodiaInfoValidator<T> {
     if (__vr.getFieldErrorCount(PAGINES) == 0) {
       String pagines = (String) __vr.getFieldValue(__target__, PAGINES);
       final int lastPage = 100;
-      final int posicioTaulaDeFirmes = Constants.TAULADEFIRMES_SENSETAULA;
+      final int posicioTaulaDeFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
       try {
         PdfUtils.processarPagines(pagines, posicioTaulaDeFirmes, lastPage);
       } catch(I18NException i18ne) {

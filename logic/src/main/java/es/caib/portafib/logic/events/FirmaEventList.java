@@ -7,14 +7,14 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 /**
  * Classe emprada per guardar els events a llançar, i realitzar-los 
  * al final de cert process de forma conjunta.
  * 
  * @author anadal
  */
-public class FirmaEventList implements IFirmaEventListener, Constants {
+public class FirmaEventList implements IFirmaEventListener, ConstantsV2 {
 
 
   

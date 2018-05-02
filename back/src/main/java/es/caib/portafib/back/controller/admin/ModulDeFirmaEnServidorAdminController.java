@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 /**
@@ -35,7 +35,7 @@ public class ModulDeFirmaEnServidorAdminController extends AbstractPluginAdminCo
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR;
+    return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR;
   }
 
   @Override

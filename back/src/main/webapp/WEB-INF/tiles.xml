@@ -267,8 +267,7 @@
     <definition name="generarFiltreCaib" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/aden/generarfiltrecaib.jsp" />
     </definition>
-    
-    
+
     <definition name="grupEntitatForm_aden" extends="role_aden">
         <put-attribute name="titol" value="grupEntitat.grupEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatForm.jsp" />
@@ -333,12 +332,17 @@
     <definition name="propietatGlobalListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
     </definition>
-    
-                      
+             
     <definition name="peticionsDeFirmaNetejarEsborrarList" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>
-   
+    
+    <definition name="usuariAplicacioConfiguracioFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariAplicacioConfiguracio.usuariAplicacioConfiguracio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp" />
+    </definition>
+    
+
 
     <!--  ===========  ADMINISTRADOR ================== -->
     

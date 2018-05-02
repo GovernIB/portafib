@@ -59,6 +59,9 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.Integer getMaxFilesToSignAtSameTime();
 	public void setMaxFilesToSignAtSameTime(java.lang.Integer _maxFilesToSignAtSameTime_);
 
+	public int getUsPoliticaDeFirma();
+	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_);
+
 	public java.lang.String getPolicyIdentifier();
 	public void setPolicyIdentifier(java.lang.String _policyIdentifier_);
 
@@ -92,8 +95,8 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getPosicioTaulaFirmes();
 	public void setPosicioTaulaFirmes(int _posicioTaulaFirmes_);
 
-	public int getSegellDeTempsViaWeb();
-	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_);
+	public int getPoliticaSegellatDeTemps();
+	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);
 
 	public java.lang.Long getPluginID();
 	public void setPluginID(java.lang.Long _pluginID_);

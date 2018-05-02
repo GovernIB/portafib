@@ -31,6 +31,7 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final LongField MAXUPLOADSIZE = new LongField(_TABLE_MODEL, "maxUploadSize", "maxuploadsize");
 	 public static final LongField MAXSIZEFITXERADAPTAT = new LongField(_TABLE_MODEL, "maxSizeFitxerAdaptat", "maxsizefitxeradaptat");
 	 public static final IntegerField MAXFILESTOSIGNATSAMETIME = new IntegerField(_TABLE_MODEL, "maxFilesToSignAtSameTime", "maxfilestosignatsametime");
+	 public static final IntegerField USPOLITICADEFIRMA = new IntegerField(_TABLE_MODEL, "usPoliticaDeFirma", "uspoliticadefirma");
 	 public static final StringField POLICYIDENTIFIER = new StringField(_TABLE_MODEL, "policyIdentifier", "policyidentifier");
 	 public static final StringField POLICYIDENTIFIERHASH = new StringField(_TABLE_MODEL, "policyIdentifierHash", "policyidentifierhash");
 	 public static final StringField POLICYIDENTIFIERHASHALGORITHM = new StringField(_TABLE_MODEL, "policyIdentifierHashAlgorithm", "policyidentifierhashalgorithm");
@@ -42,7 +43,7 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
 	 public static final IntegerField POSICIOTAULAFIRMES = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmes", "posiciotaulafirmes");
-	 public static final IntegerField SEGELLDETEMPSVIAWEB = new IntegerField(_TABLE_MODEL, "segellDeTempsViaWeb", "segelldetempsviaweb");
+	 public static final IntegerField POLITICASEGELLATDETEMPS = new IntegerField(_TABLE_MODEL, "politicaSegellatDeTemps", "segelldetempsviaweb");
 	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
 	 public static final LongField PLUGINRUBRICAID = new LongField(_TABLE_MODEL, "pluginRubricaID", "pluginrubricaid");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
@@ -71,6 +72,7 @@ public interface EntitatFields extends java.io.Serializable {
     MAXUPLOADSIZE,
     MAXSIZEFITXERADAPTAT,
     MAXFILESTOSIGNATSAMETIME,
+    USPOLITICADEFIRMA,
     POLICYIDENTIFIER,
     POLICYIDENTIFIERHASH,
     POLICYIDENTIFIERHASHALGORITHM,
@@ -82,7 +84,7 @@ public interface EntitatFields extends java.io.Serializable {
     CUSTODIAINFOID,
     POLITICATAULAFIRMES,
     POSICIOTAULAFIRMES,
-    SEGELLDETEMPSVIAWEB,
+    POLITICASEGELLATDETEMPS,
     PLUGINID,
     PLUGINRUBRICAID,
     COMPROVARNIFFIRMA,

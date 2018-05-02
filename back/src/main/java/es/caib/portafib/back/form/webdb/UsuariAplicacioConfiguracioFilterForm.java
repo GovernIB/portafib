@@ -54,25 +54,25 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer usPoliticaDeTirmaDesde;
+  private java.lang.Integer usPoliticaDeFirmaDesde;
 
-  public java.lang.Integer getUsPoliticaDeTirmaDesde() {
-    return this.usPoliticaDeTirmaDesde;
+  public java.lang.Integer getUsPoliticaDeFirmaDesde() {
+    return this.usPoliticaDeFirmaDesde;
   }
 
-  public void setUsPoliticaDeTirmaDesde(java.lang.Integer usPoliticaDeTirmaDesde) {
-    this.usPoliticaDeTirmaDesde = usPoliticaDeTirmaDesde;
+  public void setUsPoliticaDeFirmaDesde(java.lang.Integer usPoliticaDeFirmaDesde) {
+    this.usPoliticaDeFirmaDesde = usPoliticaDeFirmaDesde;
   }
 
 
-  private java.lang.Integer usPoliticaDeTirmaFins;
+  private java.lang.Integer usPoliticaDeFirmaFins;
 
-  public java.lang.Integer getUsPoliticaDeTirmaFins() {
-    return this.usPoliticaDeTirmaFins;
+  public java.lang.Integer getUsPoliticaDeFirmaFins() {
+    return this.usPoliticaDeFirmaFins;
   }
 
-  public void setUsPoliticaDeTirmaFins(java.lang.Integer usPoliticaDeTirmaFins) {
-    this.usPoliticaDeTirmaFins = usPoliticaDeTirmaFins;
+  public void setUsPoliticaDeFirmaFins(java.lang.Integer usPoliticaDeFirmaFins) {
+    this.usPoliticaDeFirmaFins = usPoliticaDeFirmaFins;
   }
 
 
@@ -241,6 +241,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.Integer politicaCustodiaDesde;
+
+  public java.lang.Integer getPoliticaCustodiaDesde() {
+    return this.politicaCustodiaDesde;
+  }
+
+  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
+    this.politicaCustodiaDesde = politicaCustodiaDesde;
+  }
+
+
+  private java.lang.Integer politicaCustodiaFins;
+
+  public java.lang.Integer getPoliticaCustodiaFins() {
+    return this.politicaCustodiaFins;
+  }
+
+  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
+    this.politicaCustodiaFins = politicaCustodiaFins;
+  }
+
+
   private java.lang.Long custodiaInfoIDDesde;
 
   public java.lang.Long getCustodiaInfoIDDesde() {
@@ -260,6 +282,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
     this.custodiaInfoIDFins = custodiaInfoIDFins;
+  }
+
+
+  private java.lang.Integer politicaTaulaFirmesDesde;
+
+  public java.lang.Integer getPoliticaTaulaFirmesDesde() {
+    return this.politicaTaulaFirmesDesde;
+  }
+
+  public void setPoliticaTaulaFirmesDesde(java.lang.Integer politicaTaulaFirmesDesde) {
+    this.politicaTaulaFirmesDesde = politicaTaulaFirmesDesde;
+  }
+
+
+  private java.lang.Integer politicaTaulaFirmesFins;
+
+  public java.lang.Integer getPoliticaTaulaFirmesFins() {
+    return this.politicaTaulaFirmesFins;
+  }
+
+  public void setPoliticaTaulaFirmesFins(java.lang.Integer politicaTaulaFirmesFins) {
+    this.politicaTaulaFirmesFins = politicaTaulaFirmesFins;
   }
 
 
@@ -285,6 +329,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.Integer politicaSegellatDeTempsDesde;
+
+  public java.lang.Integer getPoliticaSegellatDeTempsDesde() {
+    return this.politicaSegellatDeTempsDesde;
+  }
+
+  public void setPoliticaSegellatDeTempsDesde(java.lang.Integer politicaSegellatDeTempsDesde) {
+    this.politicaSegellatDeTempsDesde = politicaSegellatDeTempsDesde;
+  }
+
+
+  private java.lang.Integer politicaSegellatDeTempsFins;
+
+  public java.lang.Integer getPoliticaSegellatDeTempsFins() {
+    return this.politicaSegellatDeTempsFins;
+  }
+
+  public void setPoliticaSegellatDeTempsFins(java.lang.Integer politicaSegellatDeTempsFins) {
+    this.politicaSegellatDeTempsFins = politicaSegellatDeTempsFins;
+  }
+
+
   private java.lang.Long pluginSegellatIDDesde;
 
   public java.lang.Long getPluginSegellatIDDesde() {
@@ -304,6 +370,17 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setPluginSegellatIDFins(java.lang.Long pluginSegellatIDFins) {
     this.pluginSegellatIDFins = pluginSegellatIDFins;
+  }
+
+
+  private java.lang.String htmlPerLlistarPluginsFirmaWeb;
+
+  public java.lang.String getHtmlPerLlistarPluginsFirmaWeb() {
+    return this.htmlPerLlistarPluginsFirmaWeb;
+  }
+
+  public void setHtmlPerLlistarPluginsFirmaWeb(java.lang.String htmlPerLlistarPluginsFirmaWeb) {
+    this.htmlPerLlistarPluginsFirmaWeb = htmlPerLlistarPluginsFirmaWeb;
   }
 
 
@@ -329,17 +406,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.String htmlPerLlistarPluginsFirmaWeb;
-
-  public java.lang.String getHtmlPerLlistarPluginsFirmaWeb() {
-    return this.htmlPerLlistarPluginsFirmaWeb;
-  }
-
-  public void setHtmlPerLlistarPluginsFirmaWeb(java.lang.String htmlPerLlistarPluginsFirmaWeb) {
-    this.htmlPerLlistarPluginsFirmaWeb = htmlPerLlistarPluginsFirmaWeb;
-  }
-
-
   public UsuariAplicacioConfiguracioFilterForm() {
   }
   
@@ -348,8 +414,8 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.usuariAplicacioConfigIDDesde = __toClone.usuariAplicacioConfigIDDesde;
     this.usuariAplicacioConfigIDFins = __toClone.usuariAplicacioConfigIDFins;
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
-    this.usPoliticaDeTirmaDesde = __toClone.usPoliticaDeTirmaDesde;
-    this.usPoliticaDeTirmaFins = __toClone.usPoliticaDeTirmaFins;
+    this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
+    this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
     this.policyIdentifier = __toClone.policyIdentifier;
     this.policyIdentifierHash = __toClone.policyIdentifierHash;
     this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
@@ -365,24 +431,33 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
     this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
+    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
+    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
+    this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
+    this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
     this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
+    this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
+    this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
     this.pluginSegellatIDDesde = __toClone.pluginSegellatIDDesde;
     this.pluginSegellatIDFins = __toClone.pluginSegellatIDFins;
+    this.htmlPerLlistarPluginsFirmaWeb = __toClone.htmlPerLlistarPluginsFirmaWeb;
     this.pluginFirmaServidorIDDesde = __toClone.pluginFirmaServidorIDDesde;
     this.pluginFirmaServidorIDFins = __toClone.pluginFirmaServidorIDFins;
-    this.htmlPerLlistarPluginsFirmaWeb = __toClone.htmlPerLlistarPluginsFirmaWeb;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
-    this.mapOfValuesForUsPoliticaDeTirma = __toClone.mapOfValuesForUsPoliticaDeTirma;
+    this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfTipusFirmaForTipusFirmaID = __toClone.mapOfTipusFirmaForTipusFirmaID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
+    this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
+    this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
+    this.mapOfValuesForPoliticaSegellatDeTemps = __toClone.mapOfValuesForPoliticaSegellatDeTemps;
     this.mapOfPluginForPluginSegellatID = __toClone.mapOfPluginForPluginSegellatID;
     this.mapOfPluginForPluginFirmaServidorID = __toClone.mapOfPluginForPluginFirmaServidorID;
   }
@@ -431,14 +506,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
-  private Map<String, String> mapOfValuesForUsPoliticaDeTirma;
+  private Map<String, String> mapOfValuesForUsPoliticaDeFirma;
 
-  public Map<String, String> getMapOfValuesForUsPoliticaDeTirma() {
-    return this.mapOfValuesForUsPoliticaDeTirma;
+  public Map<String, String> getMapOfValuesForUsPoliticaDeFirma() {
+    return this.mapOfValuesForUsPoliticaDeFirma;
   }
 
-  public void setMapOfValuesForUsPoliticaDeTirma(Map<String, String> mapOfValuesForUsPoliticaDeTirma) {
-    this.mapOfValuesForUsPoliticaDeTirma = mapOfValuesForUsPoliticaDeTirma;
+  public void setMapOfValuesForUsPoliticaDeFirma(Map<String, String> mapOfValuesForUsPoliticaDeFirma) {
+    this.mapOfValuesForUsPoliticaDeFirma = mapOfValuesForUsPoliticaDeFirma;
   }
 
 
@@ -503,6 +578,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
+  private Map<String, String> mapOfValuesForPoliticaCustodia;
+
+  public Map<String, String> getMapOfValuesForPoliticaCustodia() {
+    return this.mapOfValuesForPoliticaCustodia;
+  }
+
+  public void setMapOfValuesForPoliticaCustodia(Map<String, String> mapOfValuesForPoliticaCustodia) {
+    this.mapOfValuesForPoliticaCustodia = mapOfValuesForPoliticaCustodia;
+  }
+
+
+
   private Map<String, String> mapOfCustodiaInfoForCustodiaInfoID;
 
   public Map<String, String> getMapOfCustodiaInfoForCustodiaInfoID() {
@@ -515,6 +602,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
+  private Map<String, String> mapOfValuesForPoliticaTaulaFirmes;
+
+  public Map<String, String> getMapOfValuesForPoliticaTaulaFirmes() {
+    return this.mapOfValuesForPoliticaTaulaFirmes;
+  }
+
+  public void setMapOfValuesForPoliticaTaulaFirmes(Map<String, String> mapOfValuesForPoliticaTaulaFirmes) {
+    this.mapOfValuesForPoliticaTaulaFirmes = mapOfValuesForPoliticaTaulaFirmes;
+  }
+
+
+
   private Map<String, String> mapOfValuesForPosicioTaulaFirmesID;
 
   public Map<String, String> getMapOfValuesForPosicioTaulaFirmesID() {
@@ -523,6 +622,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMapOfValuesForPosicioTaulaFirmesID(Map<String, String> mapOfValuesForPosicioTaulaFirmesID) {
     this.mapOfValuesForPosicioTaulaFirmesID = mapOfValuesForPosicioTaulaFirmesID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForPoliticaSegellatDeTemps;
+
+  public Map<String, String> getMapOfValuesForPoliticaSegellatDeTemps() {
+    return this.mapOfValuesForPoliticaSegellatDeTemps;
+  }
+
+  public void setMapOfValuesForPoliticaSegellatDeTemps(Map<String, String> mapOfValuesForPoliticaSegellatDeTemps) {
+    this.mapOfValuesForPoliticaSegellatDeTemps = mapOfValuesForPoliticaSegellatDeTemps;
   }
 
 

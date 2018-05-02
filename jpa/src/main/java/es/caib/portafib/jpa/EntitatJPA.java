@@ -95,6 +95,10 @@ private static final long serialVersionUID = 489209138L;
 	@Column(name="maxfilestosignatsametime",length = 10)
 	java.lang.Integer maxFilesToSignAtSameTime;
 
+  /** -1=> usar politica de firma de l'entitat, 0 => no usar politica de firma,  1=> usar politica d'aquesta configuracio, 2 => L'usuari web o usuari-app elegeixen la politica de firma */
+	@Column(name="uspoliticadefirma",nullable = false,length = 10)
+	int usPoliticaDeFirma;
+
   /** Identificador de la política de firma. Si es defineix aquest valors llavorses generaran 
 firmes PAdES-EPES,CAdES-EPES y XAdES-EPES. */
 	@Column(name="policyidentifier",length = 100)
@@ -148,7 +152,7 @@ opcional incluso cuando se genera una firma EPES. */
 	int posicioTaulaFirmes;
 
 	@Column(name="segelldetempsviaweb",nullable = false,length = 10)
-	int segellDeTempsViaWeb;
+	int politicaSegellatDeTemps;
 
   /** Plugin de segellat de temps */
 	@Index(name="pfi_entitat_segelltemps_fk_i")
@@ -180,7 +184,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , int politicaCustodia , java.lang.Long custodiaInfoID , int politicaTaulaFirmes , int posicioTaulaFirmes , int segellDeTempsViaWeb , java.lang.Long pluginID , java.lang.Long pluginRubricaID , boolean comprovarNifFirma , boolean checkCanviatDocFirmat , java.lang.Long pluginValidaFirmesID , java.lang.Long pluginValidaCertificatID) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , int politicaCustodia , java.lang.Long custodiaInfoID , int politicaTaulaFirmes , int posicioTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginID , java.lang.Long pluginRubricaID , boolean comprovarNifFirma , boolean checkCanviatDocFirmat , java.lang.Long pluginValidaFirmesID , java.lang.Long pluginValidaCertificatID) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -200,6 +204,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.maxUploadSize=maxUploadSize;
     this.maxSizeFitxerAdaptat=maxSizeFitxerAdaptat;
     this.maxFilesToSignAtSameTime=maxFilesToSignAtSameTime;
+    this.usPoliticaDeFirma=usPoliticaDeFirma;
     this.policyIdentifier=policyIdentifier;
     this.policyIdentifierHash=policyIdentifierHash;
     this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
@@ -211,7 +216,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.custodiaInfoID=custodiaInfoID;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmes=posicioTaulaFirmes;
-    this.segellDeTempsViaWeb=segellDeTempsViaWeb;
+    this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.pluginID=pluginID;
     this.pluginRubricaID=pluginRubricaID;
     this.comprovarNifFirma=comprovarNifFirma;
@@ -220,7 +225,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.pluginValidaCertificatID=pluginValidaCertificatID;
 }
   /** Constructor dels valors Not Null */
-  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int algorismeDeFirmaID , int politicaCustodia , int politicaTaulaFirmes , int posicioTaulaFirmes , int segellDeTempsViaWeb , boolean comprovarNifFirma , boolean checkCanviatDocFirmat) {
+  public EntitatJPA(java.lang.String entitatID , java.lang.String nom , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , int usPoliticaDeFirma , int algorismeDeFirmaID , int politicaCustodia , int politicaTaulaFirmes , int posicioTaulaFirmes , int politicaSegellatDeTemps , boolean comprovarNifFirma , boolean checkCanviatDocFirmat) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.activa=activa;
@@ -232,11 +237,12 @@ opcional incluso cuando se genera una firma EPES. */
     this.adrezaHtml=adrezaHtml;
     this.filtreCertificats=filtreCertificats;
     this.pdfAutoritzacioDelegacioID=pdfAutoritzacioDelegacioID;
+    this.usPoliticaDeFirma=usPoliticaDeFirma;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.politicaCustodia=politicaCustodia;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmes=posicioTaulaFirmes;
-    this.segellDeTempsViaWeb=segellDeTempsViaWeb;
+    this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.comprovarNifFirma=comprovarNifFirma;
     this.checkCanviatDocFirmat=checkCanviatDocFirmat;
 }
@@ -260,6 +266,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.setMaxUploadSize(__bean.getMaxUploadSize());
     this.setMaxSizeFitxerAdaptat(__bean.getMaxSizeFitxerAdaptat());
     this.setMaxFilesToSignAtSameTime(__bean.getMaxFilesToSignAtSameTime());
+    this.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
     this.setPolicyIdentifier(__bean.getPolicyIdentifier());
     this.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     this.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
@@ -271,7 +278,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     this.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
-    this.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
+    this.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     this.setPluginID(__bean.getPluginID());
     this.setPluginRubricaID(__bean.getPluginRubricaID());
     this.setComprovarNifFirma(__bean.isComprovarNifFirma());
@@ -423,6 +430,13 @@ opcional incluso cuando se genera una firma EPES. */
 		this.maxFilesToSignAtSameTime = _maxFilesToSignAtSameTime_;
 	};
 
+	public int getUsPoliticaDeFirma() {
+		return(usPoliticaDeFirma);
+	};
+	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_) {
+		this.usPoliticaDeFirma = _usPoliticaDeFirma_;
+	};
+
 	public java.lang.String getPolicyIdentifier() {
 		return(policyIdentifier);
 	};
@@ -500,11 +514,11 @@ opcional incluso cuando se genera una firma EPES. */
 		this.posicioTaulaFirmes = _posicioTaulaFirmes_;
 	};
 
-	public int getSegellDeTempsViaWeb() {
-		return(segellDeTempsViaWeb);
+	public int getPoliticaSegellatDeTemps() {
+		return(politicaSegellatDeTemps);
 	};
-	public void setSegellDeTempsViaWeb(int _segellDeTempsViaWeb_) {
-		this.segellDeTempsViaWeb = _segellDeTempsViaWeb_;
+	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_) {
+		this.politicaSegellatDeTemps = _politicaSegellatDeTemps_;
 	};
 
 	public java.lang.Long getPluginID() {
@@ -927,6 +941,7 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setMaxUploadSize(__bean.getMaxUploadSize());
     __tmp.setMaxSizeFitxerAdaptat(__bean.getMaxSizeFitxerAdaptat());
     __tmp.setMaxFilesToSignAtSameTime(__bean.getMaxFilesToSignAtSameTime());
+    __tmp.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
     __tmp.setPolicyIdentifier(__bean.getPolicyIdentifier());
     __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
     __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
@@ -938,7 +953,7 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     __tmp.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
-    __tmp.setSegellDeTempsViaWeb(__bean.getSegellDeTempsViaWeb());
+    __tmp.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     __tmp.setPluginID(__bean.getPluginID());
     __tmp.setPluginRubricaID(__bean.getPluginRubricaID());
     __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());

@@ -472,6 +472,33 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.USPOLITICADEFIRMA)}">
+        <tr id="entitat_usPoliticaDeFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.USPOLITICADEFIRMA])?'entitat.usPoliticaDeFirma':__theForm.labels[EntitatFields.USPOLITICADEFIRMA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.USPOLITICADEFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.USPOLITICADEFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="entitat.usPoliticaDeFirma" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.USPOLITICADEFIRMA)}" >
+          <form:hidden path="entitat.usPoliticaDeFirma"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.usPoliticaDeFirma,__theForm.listOfValuesForUsPoliticaDeFirma)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.USPOLITICADEFIRMA)}" >
+          <form:select id="entitat_usPoliticaDeFirma"  onchange="if(typeof onChangeUsPoliticaDeFirma == 'function') {  onChangeUsPoliticaDeFirma(this); };"  cssClass="input-xxlarge" path="entitat.usPoliticaDeFirma">
+            <c:forEach items="${__theForm.listOfValuesForUsPoliticaDeFirma}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
         <tr id="entitat_policyIdentifier_rowid">
           <td>
@@ -766,25 +793,25 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <tr id="entitat_segellDeTempsViaWeb_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
+        <tr id="entitat_politicaSegellatDeTemps_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB])?'entitat.segellDeTempsViaWeb':__theForm.labels[EntitatFields.SEGELLDETEMPSVIAWEB]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.SEGELLDETEMPSVIAWEB]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.POLITICASEGELLATDETEMPS])?'entitat.politicaSegellatDeTemps':__theForm.labels[EntitatFields.POLITICASEGELLATDETEMPS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EntitatFields.POLITICASEGELLATDETEMPS]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.POLITICASEGELLATDETEMPS]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="entitat.segellDeTempsViaWeb" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:hidden path="entitat.segellDeTempsViaWeb"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.segellDeTempsViaWeb,__theForm.listOfValuesForSegellDeTempsViaWeb)}"  />
+          <form:errors path="entitat.politicaSegellatDeTemps" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICASEGELLATDETEMPS)}" >
+          <form:hidden path="entitat.politicaSegellatDeTemps"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.politicaSegellatDeTemps,__theForm.listOfValuesForPoliticaSegellatDeTemps)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}" >
-          <form:select id="entitat_segellDeTempsViaWeb"  onchange="if(typeof onChangeSegellDeTempsViaWeb == 'function') {  onChangeSegellDeTempsViaWeb(this); };"  cssClass="input-xxlarge" path="entitat.segellDeTempsViaWeb">
-            <c:forEach items="${__theForm.listOfValuesForSegellDeTempsViaWeb}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.POLITICASEGELLATDETEMPS)}" >
+          <form:select id="entitat_politicaSegellatDeTemps"  onchange="if(typeof onChangePoliticaSegellatDeTemps == 'function') {  onChangePoliticaSegellatDeTemps(this); };"  cssClass="input-xxlarge" path="entitat.politicaSegellatDeTemps">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaSegellatDeTemps}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

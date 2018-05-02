@@ -25,7 +25,7 @@ import es.caib.portafib.model.fields.RoleUsuariAplicacioFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.RoleUsuariAplicacioEnum;
 
 import javax.annotation.Resource;
@@ -100,24 +100,24 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
 
     _usuariAplicacio_ = (UsuariAplicacioJPA)create(_usuariAplicacio_);
     
-    roleUsuariAplicacioEjb.create(Constants.PFI_USER, _usuariAplicacio_.getUsuariAplicacioID() );
+    roleUsuariAplicacioEjb.create(ConstantsV2.PFI_USER, _usuariAplicacio_.getUsuariAplicacioID() );
     
     return _usuariAplicacio_;
   }
   
   
   @Override
-  @RolesAllowed({Constants.PFI_ADMIN})
+  @RolesAllowed({ConstantsV2.PFI_ADMIN})
   public boolean afegirRolAdmin(String usuariAplicacioID)
     throws I18NException ,Exception {
 
     if (log.isDebugEnabled()) {
       log.info(" ----- Cridant a EJB::afegirRolAdmin()");
 
-      if (ctx.isCallerInRole(Constants.PFI_ADMIN)) {
+      if (ctx.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
         log.info("          * Te rol: PFI_ADMIN");     
       }
-      if (ctx.isCallerInRole(Constants.PFI_USER)) {
+      if (ctx.isCallerInRole(ConstantsV2.PFI_USER)) {
         log.info("          * Te rol: PFI_USER");     
       }
     }
@@ -126,7 +126,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   }
   
   @Override
-  @RolesAllowed({Constants.PFI_ADMIN, Constants.PFI_USER})
+  @RolesAllowed({ConstantsV2.PFI_ADMIN, ConstantsV2.PFI_USER})
   public boolean afegirRolUser(String usuariAplicacioID)
     throws I18NException ,Exception {
     return afegirRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_USER);
@@ -157,14 +157,14 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   }
 
   @Override
-  @RolesAllowed({Constants.PFI_ADMIN})
+  @RolesAllowed({ConstantsV2.PFI_ADMIN})
   public boolean eliminarRolAdmin(String usuariAplicacioID)
     throws I18NException ,Exception {
     return eliminarRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_ADMIN);
   }
 
   @Override
-  @RolesAllowed({Constants.PFI_ADMIN, Constants.PFI_USER})
+  @RolesAllowed({ConstantsV2.PFI_ADMIN, ConstantsV2.PFI_USER})
   public boolean eliminarRolUser(String usuariAplicacioID)
     throws I18NException ,Exception {
     return eliminarRol(usuariAplicacioID, RoleUsuariAplicacioEnum.PFI_USER);
@@ -261,8 +261,8 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
             PeticioDeFirmaFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.in(
               new Integer[]{
-                  Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-                  Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT
+                  ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+                  ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT
                })
          ));
       if (peticions != null && peticions.size() != 0) {

@@ -12,7 +12,7 @@ import es.caib.portafib.back.controller.AbstractPluginAdminController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.jpa.PluginJPA;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class PluginDeCustodiaAdminController extends AbstractPluginAdminControll
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_CUSTODIA;
+    return ConstantsV2.TIPUS_PLUGIN_CUSTODIA;
   }
 
   @Override

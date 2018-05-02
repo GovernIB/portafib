@@ -8,14 +8,14 @@ import org.fundaciobit.plugins.utils.PluginsManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
  * @author anadal
  * 
  */
-public class PortaFIBPluginsManager implements Constants {
+public class PortaFIBPluginsManager implements ConstantsV2 {
 
   protected static Logger log = Logger.getLogger(PortaFIBPluginsManager.class);
 
@@ -40,7 +40,7 @@ public class PortaFIBPluginsManager implements Constants {
 
     if (documentConverterPlugin == null) {
       final String propertyPlugin = DOCUMENTCONVERTER_PLUGIN_KEY;
-      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, Constants.PORTAFIB_PROPERTY_BASE);
+      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
       documentConverterPlugin = (IDocumentConverterPlugin) pluginInstance;
     }
     return documentConverterPlugin;
@@ -49,7 +49,7 @@ public class PortaFIBPluginsManager implements Constants {
   public static IUserInformationPlugin getUserInformationPluginInstance() throws I18NException {
     if (loginPlugin == null) {
       final String propertyPlugin = LOGIN_PLUGIN_KEY;
-      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, Constants.PORTAFIB_PROPERTY_BASE);
+      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
       if (pluginInstance == null) {
         throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.userinfo"));
       }
@@ -62,7 +62,7 @@ public class PortaFIBPluginsManager implements Constants {
 
     if (certificatePlugin == null) {
       final String propertyPlugin = CERTIFICATE_PLUGIN_KEY;
-      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, Constants.PORTAFIB_PROPERTY_BASE);
+      Object pluginInstance = PluginsManager.instancePluginByProperty(propertyPlugin, ConstantsV2.PORTAFIB_PROPERTY_BASE);
       if (pluginInstance == null) {
         throw new I18NException("plugin.donotinstantiateplugin", new I18NArgumentCode("plugin.certificat"));
       }

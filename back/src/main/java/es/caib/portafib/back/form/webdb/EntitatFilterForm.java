@@ -197,6 +197,28 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.Integer usPoliticaDeFirmaDesde;
+
+  public java.lang.Integer getUsPoliticaDeFirmaDesde() {
+    return this.usPoliticaDeFirmaDesde;
+  }
+
+  public void setUsPoliticaDeFirmaDesde(java.lang.Integer usPoliticaDeFirmaDesde) {
+    this.usPoliticaDeFirmaDesde = usPoliticaDeFirmaDesde;
+  }
+
+
+  private java.lang.Integer usPoliticaDeFirmaFins;
+
+  public java.lang.Integer getUsPoliticaDeFirmaFins() {
+    return this.usPoliticaDeFirmaFins;
+  }
+
+  public void setUsPoliticaDeFirmaFins(java.lang.Integer usPoliticaDeFirmaFins) {
+    this.usPoliticaDeFirmaFins = usPoliticaDeFirmaFins;
+  }
+
+
   private java.lang.String policyIdentifier;
 
   public java.lang.String getPolicyIdentifier() {
@@ -395,25 +417,25 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
-  private java.lang.Integer segellDeTempsViaWebDesde;
+  private java.lang.Integer politicaSegellatDeTempsDesde;
 
-  public java.lang.Integer getSegellDeTempsViaWebDesde() {
-    return this.segellDeTempsViaWebDesde;
+  public java.lang.Integer getPoliticaSegellatDeTempsDesde() {
+    return this.politicaSegellatDeTempsDesde;
   }
 
-  public void setSegellDeTempsViaWebDesde(java.lang.Integer segellDeTempsViaWebDesde) {
-    this.segellDeTempsViaWebDesde = segellDeTempsViaWebDesde;
+  public void setPoliticaSegellatDeTempsDesde(java.lang.Integer politicaSegellatDeTempsDesde) {
+    this.politicaSegellatDeTempsDesde = politicaSegellatDeTempsDesde;
   }
 
 
-  private java.lang.Integer segellDeTempsViaWebFins;
+  private java.lang.Integer politicaSegellatDeTempsFins;
 
-  public java.lang.Integer getSegellDeTempsViaWebFins() {
-    return this.segellDeTempsViaWebFins;
+  public java.lang.Integer getPoliticaSegellatDeTempsFins() {
+    return this.politicaSegellatDeTempsFins;
   }
 
-  public void setSegellDeTempsViaWebFins(java.lang.Integer segellDeTempsViaWebFins) {
-    this.segellDeTempsViaWebFins = segellDeTempsViaWebFins;
+  public void setPoliticaSegellatDeTempsFins(java.lang.Integer politicaSegellatDeTempsFins) {
+    this.politicaSegellatDeTempsFins = politicaSegellatDeTempsFins;
   }
 
 
@@ -526,6 +548,8 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.maxSizeFitxerAdaptatFins = __toClone.maxSizeFitxerAdaptatFins;
     this.maxFilesToSignAtSameTimeDesde = __toClone.maxFilesToSignAtSameTimeDesde;
     this.maxFilesToSignAtSameTimeFins = __toClone.maxFilesToSignAtSameTimeFins;
+    this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
+    this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
     this.policyIdentifier = __toClone.policyIdentifier;
     this.policyIdentifierHash = __toClone.policyIdentifierHash;
     this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
@@ -544,8 +568,8 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesDesde = __toClone.posicioTaulaFirmesDesde;
     this.posicioTaulaFirmesFins = __toClone.posicioTaulaFirmesFins;
-    this.segellDeTempsViaWebDesde = __toClone.segellDeTempsViaWebDesde;
-    this.segellDeTempsViaWebFins = __toClone.segellDeTempsViaWebFins;
+    this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
+    this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
     this.pluginIDDesde = __toClone.pluginIDDesde;
     this.pluginIDFins = __toClone.pluginIDFins;
     this.pluginRubricaIDDesde = __toClone.pluginRubricaIDDesde;
@@ -555,6 +579,7 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.pluginValidaCertificatIDDesde = __toClone.pluginValidaCertificatIDDesde;
     this.pluginValidaCertificatIDFins = __toClone.pluginValidaCertificatIDFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
+    this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
     this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
@@ -562,7 +587,7 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmes = __toClone.mapOfValuesForPosicioTaulaFirmes;
-    this.mapOfValuesForSegellDeTempsViaWeb = __toClone.mapOfValuesForSegellDeTempsViaWeb;
+    this.mapOfValuesForPoliticaSegellatDeTemps = __toClone.mapOfValuesForPoliticaSegellatDeTemps;
     this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
     this.mapOfPluginForPluginRubricaID = __toClone.mapOfPluginForPluginRubricaID;
     this.mapOfPluginForPluginValidaFirmesID = __toClone.mapOfPluginForPluginValidaFirmesID;
@@ -609,6 +634,18 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
   public void setMapOfUsuariAplicacioForUsuariAplicacioID(Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID) {
     this.mapOfUsuariAplicacioForUsuariAplicacioID = mapOfUsuariAplicacioForUsuariAplicacioID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForUsPoliticaDeFirma;
+
+  public Map<String, String> getMapOfValuesForUsPoliticaDeFirma() {
+    return this.mapOfValuesForUsPoliticaDeFirma;
+  }
+
+  public void setMapOfValuesForUsPoliticaDeFirma(Map<String, String> mapOfValuesForUsPoliticaDeFirma) {
+    this.mapOfValuesForUsPoliticaDeFirma = mapOfValuesForUsPoliticaDeFirma;
   }
 
 
@@ -697,14 +734,14 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
 
 
-  private Map<String, String> mapOfValuesForSegellDeTempsViaWeb;
+  private Map<String, String> mapOfValuesForPoliticaSegellatDeTemps;
 
-  public Map<String, String> getMapOfValuesForSegellDeTempsViaWeb() {
-    return this.mapOfValuesForSegellDeTempsViaWeb;
+  public Map<String, String> getMapOfValuesForPoliticaSegellatDeTemps() {
+    return this.mapOfValuesForPoliticaSegellatDeTemps;
   }
 
-  public void setMapOfValuesForSegellDeTempsViaWeb(Map<String, String> mapOfValuesForSegellDeTempsViaWeb) {
-    this.mapOfValuesForSegellDeTempsViaWeb = mapOfValuesForSegellDeTempsViaWeb;
+  public void setMapOfValuesForPoliticaSegellatDeTemps(Map<String, String> mapOfValuesForPoliticaSegellatDeTemps) {
+    this.mapOfValuesForPoliticaSegellatDeTemps = mapOfValuesForPoliticaSegellatDeTemps;
   }
 
 

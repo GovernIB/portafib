@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.common;
 
+import es.caib.portafib.back.controller.admin.GestioEntitatController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
@@ -8,7 +9,7 @@ import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -82,7 +83,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
     if (!propietatEjb.getBooleanProperty(
-        Constants.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
+        ConstantsV2.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
       
       usuariEntitatForm.addReadOnlyField(EMAIL);
       usuariEntitatForm.addReadOnlyField(LOGOSEGELLID);
@@ -144,18 +145,12 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    return staticGetReferenceListForPoliticaCustodia();
+    final boolean isEntitat = false;
+    return GestioEntitatController.staticGetReferenceListForPoliticaCustodia(isEntitat);
   }
 
   
-  public static List<StringKeyValue> staticGetReferenceListForPoliticaCustodia() {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    for (int i = 0; i < Constants.POLITICA_CUSTODIA.length; i++) {
-      __tmp.add(new StringKeyValue(String.valueOf(Constants.POLITICA_CUSTODIA[i]), I18NUtils
-          .tradueix("usuarientitat.politicacustodia." + Constants.POLITICA_CUSTODIA[i])));
-    }
-    return __tmp;
-  }
+
 
   /**
    * #173
@@ -170,9 +165,9 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   public static List<StringKeyValue> staticGetReferenceListForPoliticaDePluginFirmaWeb() {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
     
-    for (int i = 0; i < Constants.POLITICA_PLUGIN_FIRMA_WEB.length; i++) {
-      __tmp.add(new StringKeyValue(String.valueOf(Constants.POLITICA_PLUGIN_FIRMA_WEB[i]),
-          I18NUtils.tradueix("usuarientitat.politicapluginfirmaweb." + Constants.POLITICA_PLUGIN_FIRMA_WEB[i])));
+    for (int i = 0; i < ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB.length; i++) {
+      __tmp.add(new StringKeyValue(String.valueOf(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB[i]),
+          I18NUtils.tradueix("usuarientitat.politicapluginfirmaweb." + ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB[i])));
     }
 
     return __tmp;

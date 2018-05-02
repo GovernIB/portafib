@@ -44,9 +44,9 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,USPOLITICADETIRMA, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USPOLITICADEFIRMA, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USPOLITICADETIRMA)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USPOLITICADEFIRMA)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIOFIRMA, 
         "genapp.validation.required",
@@ -59,6 +59,22 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     __vr.rejectIfEmptyOrWhitespace(__target__,MODEDEFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODEDEFIRMA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICATAULAFIRMES, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICATAULAFIRMES)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POSICIOTAULAFIRMESID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POSICIOTAULAFIRMESID)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICASEGELLATDETEMPS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICASEGELLATDETEMPS)));
 
     // Check size
     if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {

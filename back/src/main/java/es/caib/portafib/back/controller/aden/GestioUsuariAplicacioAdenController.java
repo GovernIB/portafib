@@ -13,14 +13,17 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.entity.RoleUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -53,10 +56,12 @@ import java.util.Set;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = "/aden/usuariAplicacio")
+@RequestMapping(value = GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB )
 @SessionAttributes(types = { UsuariAplicacioForm.class, UsuariAplicacioFilterForm.class })
 public class GestioUsuariAplicacioAdenController extends UsuariAplicacioController {
 
+  public static final String GESTIO_USUARI_APLICACIO_CONTEXTWEB = "/aden/usuariAplicacio";
+  
   protected static final int PERMISOS = 1;
   
   @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
@@ -64,10 +69,13 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
   
   @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
 
   @Autowired
   private UsuariAplicacioWebLogicValidator usuariAplicacioWebLogicValidator;
-  
+
   /**
    * Indica si es admin o aden
    * @return
@@ -137,8 +145,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.addReadOnlyField(ACTIU);
     }
     
-    // XYZ ZZZ Es quedaran així fins que no s'implementi #165
-    usuariAplicacioForm.addReadOnlyField(POLITICACUSTODIA);
+
     // XYZ ZZZ Es quedaran així fins que no s'implementi #173
     usuariAplicacioForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
@@ -227,10 +234,9 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
           usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
           usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
           
-          // XYZ ZZZ
+          // XYZ ZZZ pendent d'eliminar
           usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
           
-          usuariAplicacioFilterForm.addHiddenField(POLITICACUSTODIA);
           usuariAplicacioFilterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
           
 
@@ -354,55 +360,108 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     @Override
     public void postList(HttpServletRequest request, ModelAndView mav, UsuariAplicacioFilterForm filterForm,  List<UsuariAplicacio> list) throws I18NException {
       
-       if (Configuracio.isCAIB()) {
-         return;
-       }
       
+      List<String> usuariAplicacioIds = new ArrayList<String>(list.size());
+      for (UsuariAplicacio usuariAplicacio : list) {
+        usuariAplicacioIds.add(usuariAplicacio.getUsuariAplicacioID());
+      }
+    
+      
+       // ROLES
+       if (!Configuracio.isCAIB()) {
 
-       List<String> usuariAplicacioIds = new ArrayList<String>(list.size());
-       for (UsuariAplicacio usuariAplicacio : list) {
-         usuariAplicacioIds.add(usuariAplicacio.getUsuariAplicacioID());
+         List<RoleUsuariAplicacio> rols;
+         rols = roleUsuariAplicacioEjb.select(USUARIAPLICACIOID.in(usuariAplicacioIds));
+         
+         Map<String, String> map;
+         map = (Map<String, String>)filterForm.getAdditionalField(PERMISOS).getValueMap(); 
+         map.clear();
+         String key, value;
+         for (RoleUsuariAplicacio roleUsuariAplicacio : rols) {
+          key = roleUsuariAplicacio.getUsuariAplicacioID();
+          value = map.get(key);
+          if (value == null) {
+            map.put(key, roleUsuariAplicacio.getRoleID());
+          } else {
+            map.put(key, value + "," + roleUsuariAplicacio.getRoleID());
+          }
+         }
+         
+         filterForm.getAdditionalButtonsByPK().clear();
+         
+         final String suffix = isAdmin()? "admin" : "user";
+         final String rol = isAdmin()? ConstantsV2.PFI_ADMIN : ConstantsV2.PFI_USER;
+         
+         
+         for (String id : usuariAplicacioIds) {
+           String roles = map.get(id);
+           if (roles == null || roles.trim().isEmpty() || roles.indexOf(rol) == -1) {
+             filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
+                 "icon-plus-sign", "usuariaplicacio.addrol" + suffix,  getContextWeb() + "/addrol" + suffix + "/{0}",
+                 "btn-success"));
+           } else {
+             filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
+                 "icon-minus-sign", "usuariaplicacio.removerol" + suffix,  getContextWeb() + "/removerol" + suffix+ "/{0}",
+                 "btn-warning"));
+           }
+         }
        }
        
        
-       List<RoleUsuariAplicacio> rols;
-       rols = roleUsuariAplicacioEjb.select(USUARIAPLICACIOID.in(usuariAplicacioIds));
+
+       // CONFIG
+       SelectMultipleKeyValue<Long> selectMultiple;
+           selectMultiple = new SelectMultipleKeyValue<Long>(
+               UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.select,
+           UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID.select);
        
-       Map<String, String> map;
-       map = (Map<String, String>)filterForm.getAdditionalField(PERMISOS).getValueMap(); 
-       map.clear();
-       String key, value;
-       for (RoleUsuariAplicacio roleUsuariAplicacio : rols) {
-        key = roleUsuariAplicacio.getUsuariAplicacioID();
-        value = map.get(key);
-        if (value == null) {
-          map.put(key, roleUsuariAplicacio.getRoleID());
-        } else {
-          map.put(key, value + "," + roleUsuariAplicacio.getRoleID());
-        }
+       List<KeyValue<Long>> listUAC = usuariAplicacioConfiguracioEjb.executeQuery(selectMultiple,
+           UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID.in(usuariAplicacioIds));
+       
+       Map<String, Long> mapUAC = new HashMap<String, Long>();
+       for (KeyValue<Long> kv : listUAC) {
+          mapUAC.put(kv.getValue(), kv.getKey());
        }
-       
-       filterForm.getAdditionalButtonsByPK().clear();
-       
-       final String suffix = isAdmin()? "admin" : "user";
-       final String rol = isAdmin()? Constants.PFI_ADMIN : Constants.PFI_USER;
-       
        
        for (String id : usuariAplicacioIds) {
-         String roles = map.get(id);
-         if (roles == null || roles.trim().isEmpty() || roles.indexOf(rol) == -1) {
+         Long configid = mapUAC.get(id);
+         if (configid == null) {
            filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
-               "icon-plus-sign", "usuariaplicacio.addrol" + suffix,  getContextWeb() + "/addrol" + suffix + "/{0}",
+               "/img/config_add.png", "usuariaplicacio.config.new",  
+               getContextWeb() + "/newconfig/{0}",
                "btn-success"));
          } else {
            filterForm.addAdditionalButtonByPK(id, new AdditionalButton(
-               "icon-minus-sign", "usuariaplicacio.removerol" + suffix,  getContextWeb() + "/removerol" + suffix+ "/{0}",
+               "/img/config.png", "usuariaplicacio.config.edit", 
+               getContextWeb() + "/editconfig/{0}/" + configid,
                "btn-warning"));
          }
        }
-
     }
     
+    
+    
+    
+    
+    @RequestMapping(value = "/newconfig/{usuariAplicacioID}", method = RequestMethod.GET)
+    public String newConfiguracioUsuariAplicacio(
+        @PathVariable("usuariAplicacioID") String usuariAplicacioID, 
+        HttpServletRequest request,  HttpServletResponse response) throws Exception {
+
+      request.getSession().setAttribute(ConfiguracioUsuariAplicacioAdenController.SESSION_USUARIAPLICACIOID, usuariAplicacioID);
+      return "redirect:" + ConfiguracioUsuariAplicacioAdenController.CONTEXT_WEB + "/new";
+    }
+    
+    
+    @RequestMapping(value = "/editconfig/{usuariAplicacioID}/{usuariAplicacioConfigID}", method = RequestMethod.GET)
+    public String configConfiguracioUsuariAplicacio(
+        @PathVariable("usuariAplicacioID") String usuariAplicacioID,
+        @PathVariable("usuariAplicacioConfigID") long usuariAplicacioConfigID,
+        HttpServletRequest request,  HttpServletResponse response) throws Exception {
+
+      request.getSession().setAttribute(ConfiguracioUsuariAplicacioAdenController.SESSION_USUARIAPLICACIOID, usuariAplicacioID);
+      return "redirect:" + ConfiguracioUsuariAplicacioAdenController.CONTEXT_WEB + "/" + usuariAplicacioConfigID + "/edit";
+    }
     
     
     
@@ -559,15 +618,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     }
     
     
-    /**
-     * #165
-     */
-    @Override
-    public List<StringKeyValue> getReferenceListForPoliticaCustodia(
-        HttpServletRequest request, ModelAndView mav, Where where)
-        throws I18NException {
-      return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
-    }
+
 
     /**
      * #173

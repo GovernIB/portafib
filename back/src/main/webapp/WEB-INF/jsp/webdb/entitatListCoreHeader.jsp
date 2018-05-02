@@ -69,6 +69,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.MAXFILESTOSIGNATSAMETIME)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.MAXFILESTOSIGNATSAMETIME)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.USPOLITICADEFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.USPOLITICADEFIRMA)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLICYIDENTIFIER)}</th>
         </c:if>
@@ -102,8 +105,8 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POSICIOTAULAFIRMES)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.SEGELLDETEMPSVIAWEB)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICASEGELLATDETEMPS)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINID)}</th>

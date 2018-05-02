@@ -29,25 +29,25 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA)}">
-        <tr id="usuariAplicacioConfiguracio_usPoliticaDeTirma_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
+        <tr id="usuariAplicacioConfiguracio_usPoliticaDeFirma_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA])?'usuariAplicacioConfiguracio.usPoliticaDeTirma':__theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA])?'usuariAplicacioConfiguracio.usPoliticaDeFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="usuariAplicacioConfiguracio.usPoliticaDeTirma" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA)}" >
-          <form:hidden path="usuariAplicacioConfiguracio.usPoliticaDeTirma"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.usPoliticaDeTirma,__theForm.listOfValuesForUsPoliticaDeTirma)}"  />
+          <form:errors path="usuariAplicacioConfiguracio.usPoliticaDeFirma" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.usPoliticaDeFirma"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.usPoliticaDeFirma,__theForm.listOfValuesForUsPoliticaDeFirma)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA)}" >
-          <form:select id="usuariAplicacioConfiguracio_usPoliticaDeTirma"  onchange="if(typeof onChangeUsPoliticaDeTirma == 'function') {  onChangeUsPoliticaDeTirma(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.usPoliticaDeTirma">
-            <c:forEach items="${__theForm.listOfValuesForUsPoliticaDeTirma}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}" >
+          <form:select id="usuariAplicacioConfiguracio_usPoliticaDeFirma"  onchange="if(typeof onChangeUsPoliticaDeFirma == 'function') {  onChangeUsPoliticaDeFirma(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.usPoliticaDeFirma">
+            <c:forEach items="${__theForm.listOfValuesForUsPoliticaDeFirma}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -326,6 +326,33 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
+        <tr id="usuariAplicacioConfiguracio_politicaCustodia_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA])?'usuariAplicacioConfiguracio.politicaCustodia':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacioConfiguracio.politicaCustodia" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.politicaCustodia"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}" >
+          <form:select id="usuariAplicacioConfiguracio_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.politicaCustodia">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.CUSTODIAINFOID)}">
         <tr id="usuariAplicacioConfiguracio_custodiaInfoID_rowid">
           <td>
@@ -355,11 +382,38 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
+        <tr id="usuariAplicacioConfiguracio_politicaTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES])?'usuariAplicacioConfiguracio.politicaTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacioConfiguracio.politicaTaulaFirmes" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.politicaTaulaFirmes"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.politicaTaulaFirmes,__theForm.listOfValuesForPoliticaTaulaFirmes)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}" >
+          <form:select id="usuariAplicacioConfiguracio_politicaTaulaFirmes"  onchange="if(typeof onChangePoliticaTaulaFirmes == 'function') {  onChangePoliticaTaulaFirmes(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.politicaTaulaFirmes">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaTaulaFirmes}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID)}">
         <tr id="usuariAplicacioConfiguracio_posicioTaulaFirmesID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID])?'usuariAplicacioConfiguracio.posicioTaulaFirmesID':__theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}" />
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID])?'usuariAplicacioConfiguracio.posicioTaulaFirmesID':__theForm.labels[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}">
               <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID]}" ></i>
               </c:if>
@@ -373,9 +427,34 @@
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID)}" >
           <form:select id="usuariAplicacioConfiguracio_posicioTaulaFirmesID"  onchange="if(typeof onChangePosicioTaulaFirmesID == 'function') {  onChangePosicioTaulaFirmesID(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.posicioTaulaFirmesID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
             <c:forEach items="${__theForm.listOfValuesForPosicioTaulaFirmesID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
+        <tr id="usuariAplicacioConfiguracio_politicaSegellatDeTemps_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS])?'usuariAplicacioConfiguracio.politicaSegellatDeTemps':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacioConfiguracio.politicaSegellatDeTemps" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.politicaSegellatDeTemps"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.politicaSegellatDeTemps,__theForm.listOfValuesForPoliticaSegellatDeTemps)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}" >
+          <form:select id="usuariAplicacioConfiguracio_politicaSegellatDeTemps"  onchange="if(typeof onChangePoliticaSegellatDeTemps == 'function') {  onChangePoliticaSegellatDeTemps(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.politicaSegellatDeTemps">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaSegellatDeTemps}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -413,6 +492,31 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)}">
+        <tr id="usuariAplicacioConfiguracio_htmlPerLlistarPluginsFirmaWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB])?'usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+              <form:errors path="usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb" cssClass="errorField alert alert-error" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)? 'true' : 'false'}" path="usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}">
         <tr id="usuariAplicacioConfiguracio_pluginFirmaServidorID_rowid">
           <td>
@@ -438,31 +542,6 @@
             </c:forEach>
           </form:select>
           </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)}">
-        <tr id="usuariAplicacioConfiguracio_htmlPerLlistarPluginsFirmaWeb_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB])?'usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-              <form:errors path="usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB)? 'true' : 'false'}" path="usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.htmlPerLlistarPluginsFirmaWeb'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
            </td>
         </tr>
         </c:if>

@@ -6,7 +6,7 @@ package es.caib.portafib.utils;
  * @author anadal
  *
  */
-public interface Constants {
+public interface ConstantsV2 {
 
   public static final String PORTAFIB_PROPERTY_BASE = "es.caib.portafib.";
 
@@ -66,9 +66,6 @@ public interface Constants {
   public static final String PFI_ADMIN = "PFI_ADMIN";
   // Rol USER: Admin. d'Entitat, Sol·licitant, Destinatari, Delegat i Col·laborador
   public static final String PFI_USER = "PFI_USER"; 
-  
-
-  
 
   // ------------------ ROLES VIRTUALS
   // Administrador PortaFIB
@@ -135,7 +132,10 @@ public interface Constants {
   
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
 
-  // #164 Operació de Firma
+  
+  //==============================================================
+  // ---   Operació de Firma - PORTAFIB v2.0 #164 -----
+  // =============================================================
   public static final int TIPUS_OPERACIO_FIRMA_FIRMAR = 0;
   public static final int TIPUS_OPERACIO_FIRMA_COFIRMAR = 1;
   public static final int TIPUS_OPERACIO_FIRMA_CONTRAFIRMAR = 2;
@@ -166,28 +166,7 @@ public interface Constants {
   
   public static final String BARCODE_128_PLUGIN = "org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin";
   
-  //==============================================================
-  // --- POLITICA DE TAULA DE FIRMES - PORTAFIB v2.0 #166 -----
-  // =============================================================
-  
-  // 0 no es permet taules de firmes
-  public static final int POLITICA_TAULA_FIRMES_NO_ES_PERMET = 0;
-  
-  // 1 definit en l'entitat,
-  public static final int POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT = 1;
 
-  // 2 opcional, per defecte el definit a l'entitat
-  public static final int POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT = 2;
-  
-  // 3 opcional, per defecte sense taula de firmes
-  public static final int POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_SENSE_TAULA = 3;
-
-  public static final int[] POLITICA_TAULA_FIRMES = {
-    POLITICA_TAULA_FIRMES_NO_ES_PERMET,
-    POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT,
-    POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT,
-    POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_SENSE_TAULA 
-  };
   
   //==============================================================
   // --- POSICIO DE TAULA DE FIRMES - PORTAFIB v2.0 #166 -----
@@ -202,7 +181,7 @@ public interface Constants {
     TAULADEFIRMES_SENSETAULA,
     TAULADEFIRMES_PRIMERAPAGINA,
     TAULADEFIRMES_DARRERAPAGINA
-    // TAULADEFIRMES_RUBRICA_EN_FIRMA no disponible fins que s'imple,menti en #73
+    // TAULADEFIRMES_RUBRICA_EN_FIRMA no disponible fins que s'implementi en #73
   };
   
  
@@ -234,14 +213,7 @@ public interface Constants {
   public static final int POSICIO_PAGINA_CAP = 0;
   
   
-  // ========================================================
-  // ----- POLITICA DE SEGELLAT DE TEMPS ------
-  // ========================================================
 
-  public static final int SEGELLDETEMPSVIAWEB_NOUSAR=0;
-  public static final int SEGELLDETEMPSVIAWEB_SEMPREUSAR=1;
-  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI=2;
-  public static final int SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO=3;
   
  //========================================================
  // ----- POLITICA DE CUSTODIA ------
@@ -276,9 +248,9 @@ public interface Constants {
   
   //========================================================
   // ----- POLITICA DE CUSTODIA - PORTAFIB v2.0 #165 ------
-  // ========================================================
+  // =======================================================
   
-  // El que s´hagi definit dins l´entitat
+  // [USR_APP_CONFIG] El que s´hagi definit dins l´Entitat
   public static final int POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT = -1;
   
   // No permetre
@@ -287,28 +259,21 @@ public interface Constants {
   // Només Plantilles de l´Entitat (No editables)
   public static final int POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT = 1;
   
-  // Obligatori Plantilla Entitat
-  public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT = 2;
+  // Obligatori Plantilla definida en Entitat o Config. usuari Aplicació.
+  public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA = 2;
   
-  // Opcional plantilla Entitat (Per defecte Actiu)
-  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_ACTIU = 3;
+  // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
+  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU = 3;
   
-  // Opcional plantilla Entitat (Per defecte NO Actiu)
-  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_NO_ACTIU = 4;
+  // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
+  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU = 4;
   
   // Llibertat Total (selecció, edició i us)
   public static final int POLITICA_CUSTODIA_LLIBERTAT_TOTAL = 5;
   
-  // TOTES
-  public static final int[] POLITICA_CUSTODIA = new int[] { 
-    POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT,
-    POLITICA_CUSTODIA_NO_PERMETRE,
-    POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT,
-    POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT,
-    POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_ACTIU,
-    POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_ENTITAT_DEFECTE_NO_ACTIU,
-    POLITICA_CUSTODIA_LLIBERTAT_TOTAL 
-  };
+
+  
+
   
   
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * Controller per gestionar els EstatDeFirma Rebutjat
@@ -13,7 +13,7 @@ import es.caib.portafib.utils.Constants;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA_REBUTJAT )
+@RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT )
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaRebutjatDestController extends  EstatFirmaAbstractDestController {
   

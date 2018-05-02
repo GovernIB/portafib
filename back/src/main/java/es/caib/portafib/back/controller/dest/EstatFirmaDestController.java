@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 /**
@@ -13,7 +13,7 @@ import es.caib.portafib.utils.Constants;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = Constants.CONTEXT_DEST_ESTATFIRMA)
+@RequestMapping(value = ConstantsV2.CONTEXT_DEST_ESTATFIRMA)
 @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
 public class EstatFirmaDestController extends EstatFirmaAbstractDestController {
 

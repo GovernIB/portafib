@@ -41,6 +41,7 @@ public class EntitatForm extends PortaFIBBaseForm {
     super(__toClone);
       this.entitat = __toClone.entitat;
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
+    this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
@@ -48,7 +49,7 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmes = __toClone.listOfValuesForPosicioTaulaFirmes;
-    this.listOfValuesForSegellDeTempsViaWeb = __toClone.listOfValuesForSegellDeTempsViaWeb;
+    this.listOfValuesForPoliticaSegellatDeTemps = __toClone.listOfValuesForPoliticaSegellatDeTemps;
     this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
     this.listOfPluginForPluginRubricaID = __toClone.listOfPluginForPluginRubricaID;
     this.listOfPluginForPluginValidaFirmesID = __toClone.listOfPluginForPluginValidaFirmesID;
@@ -159,6 +160,18 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
+  private List<StringKeyValue> listOfValuesForUsPoliticaDeFirma;
+
+  public List<StringKeyValue> getListOfValuesForUsPoliticaDeFirma() {
+    return this.listOfValuesForUsPoliticaDeFirma;
+  }
+
+  public void setListOfValuesForUsPoliticaDeFirma(List<StringKeyValue> listOfValuesForUsPoliticaDeFirma) {
+    this.listOfValuesForUsPoliticaDeFirma = listOfValuesForUsPoliticaDeFirma;
+  }
+
+
+
   private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
 
   public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
@@ -243,14 +256,14 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb;
+  private List<StringKeyValue> listOfValuesForPoliticaSegellatDeTemps;
 
-  public List<StringKeyValue> getListOfValuesForSegellDeTempsViaWeb() {
-    return this.listOfValuesForSegellDeTempsViaWeb;
+  public List<StringKeyValue> getListOfValuesForPoliticaSegellatDeTemps() {
+    return this.listOfValuesForPoliticaSegellatDeTemps;
   }
 
-  public void setListOfValuesForSegellDeTempsViaWeb(List<StringKeyValue> listOfValuesForSegellDeTempsViaWeb) {
-    this.listOfValuesForSegellDeTempsViaWeb = listOfValuesForSegellDeTempsViaWeb;
+  public void setListOfValuesForPoliticaSegellatDeTemps(List<StringKeyValue> listOfValuesForPoliticaSegellatDeTemps) {
+    this.listOfValuesForPoliticaSegellatDeTemps = listOfValuesForPoliticaSegellatDeTemps;
   }
 
 

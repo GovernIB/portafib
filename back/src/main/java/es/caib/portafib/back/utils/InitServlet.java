@@ -26,7 +26,7 @@ import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 /**
@@ -101,7 +101,7 @@ public class InitServlet extends HttpServlet {
     try {
       String pkgsTxt =  Configuracio.getExportDataPlugins();
       if (pkgsTxt == null) {
-        log.warn("No s'ha definit la propietat " + Constants.PORTAFIB_PROPERTY_BASE + "exportdataplugins" + " !!!!!");
+        log.warn("No s'ha definit la propietat " + ConstantsV2.PORTAFIB_PROPERTY_BASE + "exportdataplugins" + " !!!!!");
       } else {
         String[] plugins = pkgsTxt.replace(" ", "").split(",");
         

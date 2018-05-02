@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.admin.GestioEntitatController;
 import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
@@ -17,7 +18,7 @@ import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -144,7 +145,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       
       seleccioUsuariForm.setTitol("usuarientitat.gestio");
       seleccioUsuariForm.setSubtitol("usuarientitat.seleccionarpersona");
-      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADMIN);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADMIN);
       seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
       
       seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
@@ -238,7 +239,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       
       Long count = roleUsuariEntitatLogicaEjb.count(Where.AND(
            RoleUsuariEntitatFields.USUARIENTITATID.equal(ue.getUsuariEntitatID()),
-           RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_SOLI)
+           RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_SOLI)
         ) );
       
       if (count == 0) {
@@ -293,7 +294,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       return getRedirectWhenCancel(request, usuariEntitatID);
     }
     RoleUsuariEntitatJPA rue = new RoleUsuariEntitatJPA(); 
-    rue.setRoleID(Constants.ROLE_SOLI);
+    rue.setRoleID(ConstantsV2.ROLE_SOLI);
     rue.setUsuariEntitatID(usuariEntitatID);
 
     try {
@@ -356,8 +357,8 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     // XYZ ZZZ
     ue.setPotCustodiar(false);
     ue.setUsuariEntitatID(entitatID+ "_" +usuariPersonaID);
-    ue.setPoliticaCustodia(Constants.POLITICA_CUSTODIA_NO_PERMETRE);
-    ue.setPoliticaDePluginFirmaWeb(Constants.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
+    ue.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+    ue.setPoliticaDePluginFirmaWeb(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
   }
 
    
@@ -384,7 +385,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
    @Override
    public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariEntitatID) {
-     return "redirect:/canviarPipella/"+ Constants.ROLE_ADEN;
+     return "redirect:/canviarPipella/"+ ConstantsV2.ROLE_ADEN;
    }
 
 
@@ -463,7 +464,8 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
+    final boolean isEntitat = false;
+    return GestioEntitatController.staticGetReferenceListForPoliticaCustodia(isEntitat);
   }
 
   /**

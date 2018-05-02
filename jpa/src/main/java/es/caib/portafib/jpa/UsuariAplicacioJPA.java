@@ -73,10 +73,6 @@ private static final long serialVersionUID = -360699331L;
 	@Column(name="potcustodiar",length = 1)
 	java.lang.Boolean potCustodiar;
 
-  /** -1: el que digui l'entitat, 0: No permetre, 1: Només Plantilles de l''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio */
-	@Column(name="politicacustodia",nullable = false,length = 10)
-	int politicaCustodia;
-
   /** 0 - Només plugins de l'entitat, 1 - Plugins de l'entitat més plugins addicionals (afegir o llevar), 2 - Només plugins addicionals (Només els que tenguin marcat afegir) */
 	@Column(name="politicadepluginfirmaweb",nullable = false,length = 10)
 	int politicaDePluginFirmaWeb;
@@ -88,7 +84,7 @@ private static final long serialVersionUID = -360699331L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , int politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -100,11 +96,10 @@ private static final long serialVersionUID = -360699331L;
     this.descripcio=descripcio;
     this.logoSegellID=logoSegellID;
     this.potCustodiar=potCustodiar;
-    this.politicaCustodia=politicaCustodia;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaCustodia , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioJPA(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -112,7 +107,6 @@ private static final long serialVersionUID = -360699331L;
     this.callbackURL=callbackURL;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
-    this.politicaCustodia=politicaCustodia;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
 }
   public UsuariAplicacioJPA(UsuariAplicacio __bean) {
@@ -127,7 +121,6 @@ private static final long serialVersionUID = -360699331L;
     this.setDescripcio(__bean.getDescripcio());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setPotCustodiar(__bean.getPotCustodiar());
-    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
     this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     this.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));
@@ -208,13 +201,6 @@ private static final long serialVersionUID = -360699331L;
 	};
 	public void setPotCustodiar(java.lang.Boolean _potCustodiar_) {
 		this.potCustodiar = _potCustodiar_;
-	};
-
-	public int getPoliticaCustodia() {
-		return(politicaCustodia);
-	};
-	public void setPoliticaCustodia(int _politicaCustodia_) {
-		this.politicaCustodia = _politicaCustodia_;
 	};
 
 	public int getPoliticaDePluginFirmaWeb() {
@@ -409,7 +395,6 @@ private static final long serialVersionUID = -360699331L;
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setPotCustodiar(__bean.getPotCustodiar());
-    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
     __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
     // Fitxer
     __tmp.setLogoSegell(FitxerJPA.toJPA(__bean.getLogoSegell()));

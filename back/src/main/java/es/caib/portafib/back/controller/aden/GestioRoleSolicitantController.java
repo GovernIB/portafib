@@ -25,7 +25,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 /**
@@ -41,7 +41,7 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
 
   @Override
   public String getRoleGestionat() {
-    return Constants.ROLE_SOLI;
+    return ConstantsV2.ROLE_SOLI;
   }
   
   @Override
@@ -72,7 +72,7 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
      
      seleccioUsuariForm.setTitol("solicitant.gestio");
      seleccioUsuariForm.setSubtitol("solicitant.gestio.subtitol");
-     seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADEN);
+     seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADEN);
      seleccioUsuariForm.setUrlData("/common/json/usuaripersonaentitat");
      
      List<StringKeyValue> skvList;
@@ -111,7 +111,7 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
     
     
     // Esbrinam si aquest ususrientitat ja té el rol de solicitant o no
-    Where w1 = ROLEID.equal(Constants.ROLE_SOLI);
+    Where w1 = ROLEID.equal(ConstantsV2.ROLE_SOLI);
     Where w2 = USUARIENTITATID.equal(ue.getUsuariEntitatID());
     List<Long> list = roleUsuariEntitatEjb.executeQuery(ID, Where.AND(w1,w2));
 
@@ -175,7 +175,7 @@ public class GestioRoleSolicitantController extends AbstractGestioRoleUsuariEnti
 
   @Override
   public String getRedirectWhenCancel(HttpServletRequest request,java.lang.Long id) {
-    return "redirect:/canviarPipella/" + Constants.ROLE_ADEN;
+    return "redirect:/canviarPipella/" + ConstantsV2.ROLE_ADEN;
   }
   
   @Override

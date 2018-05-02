@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
 import es.caib.portafib.back.form.webdb.*;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 
 /**
@@ -22,7 +22,7 @@ import es.caib.portafib.utils.Constants;
  * @author anadal
  */
 @Controller
-@RequestMapping(value = Constants.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA)
+@RequestMapping(value = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA)
 @SessionAttributes(types = { SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
 public class PeticioDeFirmaFirmadaSoliController extends PeticioDeFirmaSoliController {

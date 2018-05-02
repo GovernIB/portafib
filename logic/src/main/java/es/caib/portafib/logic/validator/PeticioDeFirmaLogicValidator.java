@@ -12,7 +12,7 @@ import org.fundaciobit.genapp.common.validation.IValidatorResult;
 import com.itextpdf.text.pdf.PdfReader;
 
 import es.caib.portafib.jpa.validator.PeticioDeFirmaValidator;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
     if (__vr.getFieldErrorCount(FITXERAFIRMARID) == 0 
         && __vr.getFieldErrorCount(TIPUSFIRMAID) == 0) {
       int tipus  = (java.lang.Integer)__vr.getFieldValue(__target__,TIPUSFIRMAID);
-      if (tipus == Constants.TIPUSFIRMA_PADES) {
+      if (tipus == ConstantsV2.TIPUSFIRMA_PADES) {
     
         try {
           long fitxerID = (Long) __vr.getFieldValue(__target__,FITXERAFIRMARID);

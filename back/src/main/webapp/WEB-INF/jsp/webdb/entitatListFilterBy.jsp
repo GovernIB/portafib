@@ -242,6 +242,24 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.USPOLITICADEFIRMA)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="entitat.usPoliticaDeFirma" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usPoliticaDeFirmaDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usPoliticaDeFirmaFins" />
+
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.POLICYIDENTIFIER)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
@@ -420,19 +438,19 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.POLITICASEGELLATDETEMPS)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="entitat.segellDeTempsViaWeb" />:</span>
+              <span class="add-on"><fmt:message key="entitat.politicaSegellatDeTemps" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="segellDeTempsViaWebDesde" />
+              <form:input cssClass="input-append input-small" path="politicaSegellatDeTempsDesde" />
 
 
               <span class="add-on"><fmt:message key="genapp.to" /></span>
 
-              <form:input cssClass="input-append input-small search-query" path="segellDeTempsViaWebFins" />
+              <form:input cssClass="input-append input-small search-query" path="politicaSegellatDeTempsFins" />
 
             </div>
 

@@ -16,7 +16,7 @@ import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.plugins.userinformation.UserInfo;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -104,7 +104,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     SeleccioNifForm seleccioNifForm = new SeleccioNifForm();
     seleccioNifForm.setTitol("usuaripersona.alta");
     seleccioNifForm.setSubtitol("usuaripersona.alta.introduirnifousername");
-    seleccioNifForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
+    seleccioNifForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
     mav.addObject(seleccioNifForm);
     return mav;
   }
@@ -198,7 +198,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
       
       seleccioUsuariForm.setTitol("usuaripersona.modificar");
       seleccioUsuariForm.setSubtitol("usuaripersona.modificar.selecciousuari");
-      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_ADMIN);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_ADMIN);
       seleccioUsuariForm.setUrlData(getUrlDataJsonSearch());
       
       seleccioUsuariForm.setUsuarisFavorits(getUsuarisFavorits());
@@ -360,7 +360,7 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
 
   @Override
   public String getRedirectWhenCancel(HttpServletRequest request, java.lang.String usuariPersonaID) {
-    return "redirect:/canviarPipella/" + (isAden()? Constants.ROLE_ADEN : Constants.ROLE_ADMIN);
+    return "redirect:/canviarPipella/" + (isAden()? ConstantsV2.ROLE_ADEN : ConstantsV2.ROLE_ADMIN);
   }
 
   @Override

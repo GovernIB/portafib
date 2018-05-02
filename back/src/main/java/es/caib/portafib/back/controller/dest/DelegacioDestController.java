@@ -101,7 +101,8 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
@@ -114,7 +115,7 @@ import es.caib.portafib.utils.Constants;
 @SessionAttributes(types = { ColaboracioDelegacioDestForm.class,
     ColaboracioDelegacioForm.class, ColaboracioDelegacioFilterForm.class, SeleccioUsuariForm.class })
 public class DelegacioDestController extends ColaboracioDelegacioController implements
-    Constants {
+    ConstantsV2 {
 
   
   public static final String SELECTION_DELE_COLA_USUARI_ENTITAT = "SELECTION_DELE_COLA_USUARI_ENTITAT_ID";
@@ -251,7 +252,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       String subtitol = esDeCarrec()? "colaboradordecarrec.subtitol" : (type + ".seleccio.subtitol");
       seleccioUsuariForm.setTitol(titol);
       seleccioUsuariForm.setSubtitol(subtitol);
-      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+Constants.ROLE_DEST);
+      seleccioUsuariForm.setCancelUrl("/canviarPipella/"+ConstantsV2.ROLE_DEST);
       seleccioUsuariForm.setUrlData("/common/json/usuarientitat");
       try {
         seleccioUsuariForm.setUsuarisFavorits(
@@ -299,7 +300,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   
 
   public final String getRole() {
-    return esDelegat() ? Constants.ROLE_DELE : Constants.ROLE_COLA;
+    return esDelegat() ? ConstantsV2.ROLE_DELE : ConstantsV2.ROLE_COLA;
   }
 
   @Override
@@ -1221,7 +1222,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     final String idname = plantilla.getNom();
 
-    final long location_sign_table = Constants.TAULADEFIRMES_SENSETAULA;
+    final long location_sign_table = ConstantsV2.TAULADEFIRMES_SENSETAULA;
     final String reason = I18NUtils.tradueix("delegacio.autoritzar");
     // XYZ TODO FALTA
     final String location = null;
@@ -1242,7 +1243,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     // Per les delegacions si es posible empram TimeStamp
     EntitatJPA entitat = loginInfo.getEntitat();
     boolean userRequiresTimeStamp;
-    if (entitat.getSegellDeTempsViaWeb() == Constants.SEGELLDETEMPSVIAWEB_NOUSAR) {
+    if (entitat.getPoliticaSegellatDeTemps() == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
       userRequiresTimeStamp = false;
     } else {
       userRequiresTimeStamp = true;
@@ -1254,8 +1255,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         dstPDF, FileInfoSignature.PDF_MIME_TYPE, idname,
         (int)location_sign_table,  reason, location, signerEmail,  sign_number, 
-        langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
-        Constants.SIGN_MODE_IMPLICIT,
+        langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
+        ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
@@ -1427,7 +1428,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     File dstPDF = new File(base, FITXER_AUTORITZACIO_PREFIX + id + ".pdf");
     dstPDF.deleteOnExit();
 
-    response.setContentType(Constants.PDF_MIME_TYPE);
+    response.setContentType(ConstantsV2.PDF_MIME_TYPE);
     response.setHeader("Content-Disposition", "inline; filename=\"" + dstPDF.getName() + "\"");
     response.setContentLength((int) dstPDF.length());
 

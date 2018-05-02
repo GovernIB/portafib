@@ -20,7 +20,7 @@ import es.caib.portafib.callback.beans.v1.Actor;
 import es.caib.portafib.callback.beans.v1.PortaFIBEvent;
 import es.caib.portafib.callback.beans.v1.Sign;
 import es.caib.portafib.callback.beans.v1.SigningRequest;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -131,7 +131,7 @@ public class TestCallbackRestV1 {
 
     event.setEventDate(new Timestamp(new Date().getTime()));
 
-    event.setEventTypeID((int) Constants.NOTIFICACIOAVIS_PETICIO_EN_PROCES);
+    event.setEventTypeID((int) ConstantsV2.NOTIFICACIOAVIS_PETICIO_EN_PROCES);
 
     Sign sign = new Sign();
 
@@ -146,7 +146,7 @@ public class TestCallbackRestV1 {
 
     signingRequest.setID(1234L);
     signingRequest.setTitle("Titol peticio");
-    signingRequest.setState(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
+    signingRequest.setState(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES);
     signingRequest.setAdditionalInformation("additiona info REST");
     signingRequest.setRejectionReason("Rebutjar per ...");
     signingRequest.setCustodyURL("http://vd.caib.es/holacaracola/12345");

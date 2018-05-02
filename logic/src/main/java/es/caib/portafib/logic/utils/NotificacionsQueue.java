@@ -37,7 +37,7 @@ import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.XMLGregorianCalendarConverter;
 import es.caib.portafib.ws.callback.api.v1.Actor;
 import es.caib.portafib.ws.callback.api.v1.CallBackException;
@@ -228,7 +228,7 @@ public class NotificacionsQueue {
                String dest = usuariAplicacio.getEmailAdmin();
                final String from = PropietatGlobalUtil.getAppEmail();
                final boolean isHtml = true;
-               final String url = PropietatGlobalUtil.getAppUrl() + Constants.CONTEXT_ADEN_NOTIFICACIONSWS + "/list";
+               final String url = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_ADEN_NOTIFICACIONSWS + "/list";
                Locale loc = new Locale(usuariAplicacio.getIdiomaID());
                String subject = I18NLogicUtils.tradueix(loc, "notificacioerrorcallback.subject");
                String message =  I18NLogicUtils.tradueix(loc, "notificacioerrorcallback.message",
@@ -487,7 +487,7 @@ public class NotificacionsQueue {
       event.setActor(actor);
     }
 
-    if (fe.getEventID() == Constants.NOTIFICACIOAVIS_FIRMA_PARCIAL) {
+    if (fe.getEventID() == ConstantsV2.NOTIFICACIOAVIS_FIRMA_PARCIAL) {
 
       Long firmaID = fe.getFirmaID();
       if (firmaID != null) {
@@ -521,20 +521,20 @@ public class NotificacionsQueue {
     long eventID = fe.getEventID();
     switch ((int) eventID) {
 
-    case (int) Constants.NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR:
-    case (int) Constants.NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR:
-    case (int) Constants.NOTIFICACIOAVIS_REQUERIT_PER_FIRMAR:
-    case (int) Constants.NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR:
-    case (int) Constants.NOTIFICACIOAVIS_VALIDAT:
-    case (int) Constants.NOTIFICACIOAVIS_INVALIDAT:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_REQUERIT_PER_FIRMAR:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_VALIDAT:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_INVALIDAT:
       // No feim res
       return;
 
-    case (int) Constants.NOTIFICACIOAVIS_PETICIO_EN_PROCES:
-    case (int) Constants.NOTIFICACIOAVIS_PETICIO_PAUSADA:
-    case (int) Constants.NOTIFICACIOAVIS_FIRMA_PARCIAL:
-    case (int) Constants.NOTIFICACIOAVIS_PETICIO_FIRMADA:
-    case (int) Constants.NOTIFICACIOAVIS_PETICIO_REBUTJADA:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_PETICIO_EN_PROCES:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_PETICIO_PAUSADA:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_FIRMA_PARCIAL:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJADA:
       // Ok continuam executant el codi
       break;
 
@@ -658,7 +658,7 @@ public class NotificacionsQueue {
 
       Certificate certificate = null;
 
-      if (eventID == Constants.NOTIFICACIOAVIS_FIRMA_PARCIAL) {
+      if (eventID == ConstantsV2.NOTIFICACIOAVIS_FIRMA_PARCIAL) {
         
         
         long firmaID = fe.getFirmaID();
@@ -698,7 +698,7 @@ public class NotificacionsQueue {
       signer.setId(extractAdministrationID(firma.getDestinatariID()));
     }
 
-    if (eventID == Constants.NOTIFICACIOAVIS_PETICIO_REBUTJADA) {
+    if (eventID == ConstantsV2.NOTIFICACIOAVIS_PETICIO_REBUTJADA) {
 
       if (signer == null) {
         signer = new Signer();

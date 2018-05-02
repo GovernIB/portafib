@@ -85,7 +85,7 @@ import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -114,7 +114,7 @@ import es.caib.portafib.utils.Configuracio;
   @Controller  
   @SessionAttributes(types = { EstatDeFirmaFilterForm.class })
   public abstract class AbstractEstatDeFirmaDestDeleColaController extends EstatDeFirmaController implements
-      EstatDeFirmaFields, Constants {
+      EstatDeFirmaFields, ConstantsV2 {
 
     @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
     protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -145,10 +145,10 @@ import es.caib.portafib.utils.Configuracio;
 
 
     final Long[] ESTATS_INICIALS_COLA = new Long[] {
-        Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-        Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
+        ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+        ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
 
-    final Long[] ESTATS_INICIALS_DELE = new Long[] { Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
+    final Long[] ESTATS_INICIALS_DELE = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
 
     // References
 
@@ -271,7 +271,7 @@ import es.caib.portafib.utils.Configuracio;
         });
 
         ff.addGroupByField(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD); // Propietat de Peticio De Firma
-        if (getRole().equals(Constants.ROLE_COLA)) {
+        if (getRole().equals(ConstantsV2.ROLE_COLA)) {
           // Propietat de Col.laboracio-Delegacio
           ff.addGroupByField(DESTINATARIID);
         }
@@ -351,7 +351,7 @@ import es.caib.portafib.utils.Configuracio;
         
         // =================== 
         final String role = getRole();
-        if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
 
           // NOVA COLUMNA PETICIO DE FIRMA
           AdditionalField<String,String> adfieldRN = new AdditionalField<String,String>(); 
@@ -402,7 +402,7 @@ import es.caib.portafib.utils.Configuracio;
           ff.addHiddenField(COLUMN_PETICIODEFIRMA_MOTIU_FIELD);
         }
         
-        if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
           AdditionalField<String,String> addfieldREMIDESC = new AdditionalField<String,String>(); 
           addfieldREMIDESC.setCodeName("peticioDeFirma.remitentDescripcio");
           addfieldREMIDESC.setPosition(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO);
@@ -446,7 +446,7 @@ import es.caib.portafib.utils.Configuracio;
 
         // ======================
 
-        if (role.equals(Constants.ROLE_COLA)) {
+        if (role.equals(ConstantsV2.ROLE_COLA)) {
 
           // NOVA COLUMNA
           AdditionalField<String,String> adfieldDC = new AdditionalField<String,String>(); 
@@ -501,7 +501,7 @@ import es.caib.portafib.utils.Configuracio;
       List<StringKeyValue> _listSKV;
 
       // Field tipusDocumentID
-      if (getRole().equals(Constants.ROLE_COLA)) {
+      if (getRole().equals(ConstantsV2.ROLE_COLA)) {
 
         _listSKV = this.usuariPersonaRefList.getReferenceList(
             UsuariPersonaFields.USUARIPERSONAID, null);
@@ -775,8 +775,8 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       Where w2 = Where.OR(
-          TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
-          TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
+          TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
+          TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
         );
       if (isDebug) {
         log.debug("C2 = " + estatDeFirmaEjb.count(Where.AND(w1,w2)));
@@ -784,7 +784,7 @@ import es.caib.portafib.utils.Configuracio;
       
       Where w3 = Where.OR(
           TIPUSESTATDEFIRMAFINALID.isNull(),
-          TIPUSESTATDEFIRMAFINALID.notEqual(Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT)
+          TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT)
           );
       if (isDebug) {
         log.debug("C3 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3)));
@@ -1154,7 +1154,7 @@ import es.caib.portafib.utils.Configuracio;
         String entitatID) throws I18NException {
 
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-            Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+            ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
         if (check == null) {
           // S'ha produit un error i retornam el control al llistat
           return null;
@@ -1180,7 +1180,7 @@ import es.caib.portafib.utils.Configuracio;
             Long countFirmants = estatDeFirmaEjb.count(Where.AND(
                 EstatDeFirmaFields.FIRMAID.equal(firma.getFirmaID()),
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(
-                    Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
+                    ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
                 ));
             if (isDebug) {
               log.debug(" countFirmants = " + countFirmants);
@@ -1333,7 +1333,7 @@ import es.caib.portafib.utils.Configuracio;
 
 
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -1445,8 +1445,8 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-          Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -1471,8 +1471,8 @@ import es.caib.portafib.utils.Configuracio;
       // checkRole(request, "invalidar");
 
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-          Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -1507,8 +1507,8 @@ import es.caib.portafib.utils.Configuracio;
 
       try {
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-            Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
-            Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
+            ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+            ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
         if (check != null) {
           EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
           FirmaJPA firma = check.firma;
@@ -1606,8 +1606,8 @@ import es.caib.portafib.utils.Configuracio;
       }
       if (checkEstat) {
         int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
-        if ((estat != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES)
-            && (estat != Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT)) {
+        if ((estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES)
+            && (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT)) {
           new PeticioDeFirmaController().createMessageError(request, "error.peticionoenprogres",
               peticioDeFirmaID);
           return null;
@@ -1711,7 +1711,7 @@ import es.caib.portafib.utils.Configuracio;
         mapTD = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_TIPUSDOC).getValueMap();
         mapTD.clear();
         
-        final boolean remitent = role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE);
+        final boolean remitent = role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE);
         Map<Long, String> mapCR = null;
         if (remitent) {          
           mapCR = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_REMITENT).getValueMap();
@@ -1774,7 +1774,7 @@ import es.caib.portafib.utils.Configuracio;
 
 
       List<Long> estatsID = new ArrayList<Long>();
-      if (role.equals(Constants.ROLE_COLA) || role.equals(Constants.ROLE_DELE)) {
+      if (role.equals(ConstantsV2.ROLE_COLA) || role.equals(ConstantsV2.ROLE_DELE)) {
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
           // Crec que aquest if es innecesari !!!
           if (estatDeFirma.getColaboracioDelegacioID() != null) {
@@ -1785,7 +1785,7 @@ import es.caib.portafib.utils.Configuracio;
       
       
       // Delegat de Colaborador
-      if (role.equals(Constants.ROLE_COLA)) { 
+      if (role.equals(ConstantsV2.ROLE_COLA)) { 
         UsuariPersonaQueryPath upqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO()
             .DESTINATARI().USUARIPERSONA();
     
@@ -1806,7 +1806,7 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       //  Delegats
-      if (role.equals(Constants.ROLE_DEST)) {
+      if (role.equals(ConstantsV2.ROLE_DEST)) {
         
         Map<Long, String> mapDD = new HashMap<Long, String>();
         Map<Long, int[]> infoDelegatsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
@@ -1818,17 +1818,17 @@ import es.caib.portafib.utils.Configuracio;
       
           int[] valors = infoDelegatsByEstat.get(estatDeFirmaId);
           StringBuffer str = new StringBuffer();
-          if (valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
+          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.FIRMAT")
-                 + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
-          if (valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
+          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.REBUTJAT")
-                + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
+                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
-          if (valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {             
+          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {             
             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.DESCARTAT")
-                + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0] + "</small><br/>\n");
+                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
           if (valors[1] != 0) {
             str.append("<small>" + I18NUtils.tradueix("pendent") 
@@ -1872,7 +1872,7 @@ import es.caib.portafib.utils.Configuracio;
       // Col·laboradors
       boolean ocultarColumnaColaboradors = filterForm.getHiddenFields().contains(ColaboracioDelegacioFields.DESTINATARIID); 
 
-      if ((role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) 
+      if ((role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) 
           // Es la forma d'indicar que el doc s'ha rebutjar i que no importa veure els col·laboradors
           && !ocultarColumnaColaboradors) {
         
@@ -1889,17 +1889,17 @@ import es.caib.portafib.utils.Configuracio;
         
            int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
            StringBuffer str = new StringBuffer();
-           if(valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
+           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2] != 0) {
              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.VALIDAT") 
-                 + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
            }
-           if(valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] != 0) {
+           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] != 0) {
              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.INVALIDAT")
-                 + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
            }
-           if(valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {           
+           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {           
              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.DESCARTAT")
-                 + ": " + valors[(int)Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT+ 2] + "/" + valors[0] + "</small><br/>\n");
            }
            if(valors[1] != 0) {
              str.append("<small>" + I18NUtils.tradueix("pendent") 
@@ -1974,7 +1974,7 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       // TODO Només mostrar en les pantalles Pendents
-      if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+      if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
 
 
         Map<Long, String> rebuigDescriptionByEstat = getRebuigDescriptionByEstat(estatDeFirmaList);
@@ -2020,7 +2020,7 @@ import es.caib.portafib.utils.Configuracio;
       
        // Full view
        for (EstatDeFirma ef : estatDeFirmaList) {
-            if (ef.getTipusEstatDeFirmaInicialID() ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+            if (ef.getTipusEstatDeFirmaInicialID() ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
               long peticioID =  peticionsByEstat.get(ef.getEstatDeFirmaID()).getPeticioDeFirmaID();
               filterForm.addAdditionalButtonByPK(ef.getEstatDeFirmaID(),
                   new AdditionalButton("icon-eye-open",     "vistacompleta",
@@ -2036,7 +2036,7 @@ import es.caib.portafib.utils.Configuracio;
          if (ef.getTipusEstatDeFirmaFinalID() == null) {
    
            final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
-           if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+           if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
              
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-edit", "firmar",
@@ -2052,7 +2052,7 @@ import es.caib.portafib.utils.Configuracio;
            }
         
            
-           if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR) {
+           if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR) {
              // TODO Indicar la descripció d'aquest botó: traducció marcarrevisant.desc
              filterForm.addAdditionalButtonByPK(estatId,
                  new AdditionalButton("icon-flag", "marcarrevisant",
@@ -2060,8 +2060,8 @@ import es.caib.portafib.utils.Configuracio;
                   "btn-warning"));
            }
         
-           if (estatInicial ==  Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR 
-               || estatInicial == Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR) {
+           if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR 
+               || estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR) {
                
              
              filterForm.addAdditionalButtonByPK(estatId,
@@ -2097,12 +2097,12 @@ import es.caib.portafib.utils.Configuracio;
          // Per defecte
          filterForm.setVisibleMultipleSelection(false);
   
-         if (role.equals(Constants.ROLE_DEST) || role.equals(Constants.ROLE_DELE)) {
+         if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
            if (this.getFilterType() == FILTRAR_PER_PENDENT) {
              filterForm.setVisibleMultipleSelection(true);
            } else if (getFilterType() == FILTRAR_PER_RES) {
              for (EstatDeFirma ef : estatDeFirmaList) {
-               if (ef.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR
+               if (ef.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR
                    && ef.getTipusEstatDeFirmaFinalID() == null) {
                  filterForm.setVisibleMultipleSelection(true);
                  break;
@@ -2224,32 +2224,32 @@ import es.caib.portafib.utils.Configuracio;
       String role = getRole();
 
       Where roleWhere;
-      if (role.equals(Constants.ROLE_DEST)) {
+      if (role.equals(ConstantsV2.ROLE_DEST)) {
         // Els estats de firma de destinatari són aquells que:
         // (1) estat inicial es ASSIGNAT PER FIRMAR
         // (2) COLABORACIODELEGACIOID es null
         roleWhere = Where.AND(EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-            .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+            .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
             EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull());
 
       } else {
-        if (role.equals(Constants.ROLE_DELE)) {
+        if (role.equals(ConstantsV2.ROLE_DELE)) {
           // Els estats de firma de delegat són aquells que:
           // (1) estat inicial es ASSIGNAT PER FIRMAR
           // (2) COLABORACIODELEGACIOID es not null
           roleWhere = Where.AND(EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-              .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+              .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
               EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
         } else {
-          if (role.equals(Constants.ROLE_COLA)) {
+          if (role.equals(ConstantsV2.ROLE_COLA)) {
             // Els estats de firma de colaborador són aquells que:
             // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o
             // REVISANT_PER_VALIDAR
             // (2) COLABORACIODELEGACIOID es not null
             roleWhere = Where.AND(Where.OR(EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
+                .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                    .equal(Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)),
+                    .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)),
                 EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
           } else {
             // TODO Traduir
@@ -2267,7 +2267,7 @@ import es.caib.portafib.utils.Configuracio;
         
         case FILTRAR_PER_ACCEPTAT: // Firmat o validat
           if (role.equals(ROLE_COLA)) {
-            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT);
+            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT);
           } else {
             estatWhere = Where.OR(
               // El propi usuari (destinatari o delegat) ha firmat el document
@@ -2282,7 +2282,7 @@ import es.caib.portafib.utils.Configuracio;
         
         case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
           if (role.equals(ROLE_COLA)) {
-            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+            estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
           } else {
             estatWhere = Where.OR(
                 // El propi usuari (destinatari o delegat) ha rebutjat el document
@@ -2317,7 +2317,7 @@ import es.caib.portafib.utils.Configuracio;
       String view = "viewDocumentsFullView_" + getRole();
       
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
-          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -2358,7 +2358,7 @@ import es.caib.portafib.utils.Configuracio;
       String view = getFullViewTile();
       
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, false,
-          Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -2397,7 +2397,7 @@ import es.caib.portafib.utils.Configuracio;
           if (estat.getColaboracioDelegacioID() == null) {
             mav.addObject("destinatari", estat);
           } else {
-            if (estat.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+            if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
               estatsDeDelegats.add(estat);
             } else {
               estatsColaboradors.add(estat);
@@ -2439,16 +2439,16 @@ import es.caib.portafib.utils.Configuracio;
         List<KeyValue<FitxerJPA>> fitxers = new ArrayList<KeyValue<FitxerJPA>>();
         // 1.1.- Fitxer principal
         int tipusFirmaID = peticioDeFirma.getTipusFirmaID();
-        if (tipusFirmaID == Constants.TIPUSFIRMA_PADES) {
+        if (tipusFirmaID == ConstantsV2.TIPUSFIRMA_PADES) {
           FitxerJPA f;
           f = peticioDeFirmaLogicaEjb.getLastSignedFileOfPeticioDeFirma(peticioDeFirmaID);
 
           f.setNom(peticioDeFirma.getFitxerAFirmar().getNom());
           
-          fitxers.add(new KeyValue<FitxerJPA>(f, String.valueOf(Constants.DOC_PDF)));
+          fitxers.add(new KeyValue<FitxerJPA>(f, String.valueOf(ConstantsV2.DOC_PDF)));
         } else {
           FitxerJPA f;
-          if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
             f = peticioDeFirma.getFitxerAFirmar();
           } else {
             f = peticioDeFirma.getFitxerAdaptat();
@@ -2473,19 +2473,19 @@ import es.caib.portafib.utils.Configuracio;
 
       String mime = f.getMime();
 
-      if (mime.equals(Constants.PDF_MIME_TYPE)) {
-        return String.valueOf(Constants.DOC_PDF);
+      if (mime.equals(ConstantsV2.PDF_MIME_TYPE)) {
+        return String.valueOf(ConstantsV2.DOC_PDF);
       }
 
       if (mime.startsWith("image/")) {
-        return String.valueOf(Constants.DOC_IMG);
+        return String.valueOf(ConstantsV2.DOC_IMG);
       }
 
       if (mime.startsWith("text/") || mime.equals("application/xml")) {
-        return String.valueOf(Constants.DOC_TXT);
+        return String.valueOf(ConstantsV2.DOC_TXT);
       }
 
-      return String.valueOf(Constants.DOC_BIN);
+      return String.valueOf(ConstantsV2.DOC_BIN);
 
     }
 

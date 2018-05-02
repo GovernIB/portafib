@@ -9,7 +9,7 @@ import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
 
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.model.entity.Entitat;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
@@ -33,17 +33,17 @@ public class PortaFIBTimeStampGenerator implements ITimeStampGenerator {
       return null;
     }
 
-    switch (entitat.getSegellDeTempsViaWeb()) {
-    case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
+    switch (entitat.getPoliticaSegellatDeTemps()) {
+    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
       return null;
 
-    case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
-    case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
+    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
+    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
       if (!userRequiresTimeStamp) {
         return null;
       }
 
-    case Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR:
+    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
       if (entitat.getPluginID() == null) {
         // TODO Traduir com toca
         throw new I18NException("error.unknown",

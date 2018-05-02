@@ -35,7 +35,7 @@ import es.caib.portafib.logic.validator.CustodiaInfoLogicValidator;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -112,9 +112,9 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
 
   protected String getPeticioDeFirmaContext() {
     if (isUsuariEntitat()) {
-      return Constants.CONTEXT_SOLI_PETICIOFIRMA;
+      return ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA;
     } else {
-      return Constants.CONTEXT_ADEN_PETICIOFIRMA;
+      return ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA;
     }
   }
 
@@ -165,7 +165,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       
       Long existeixPeticio = peticioDeFirmaLogicaEjb.count(Where.AND(
              PeticioDeFirmaFields.CUSTODIAINFOID.equal(custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID()),
-             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT)
+             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT)
           ));
       
       if (existeixPeticio == 0) {
@@ -266,7 +266,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       // Només les finalitzades
       CUSTODIAINFOID.in(
         peticioDeFirmaLogicaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID,
-            PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT))),
+            PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT))),
       // Les que ja no tenen peticio de firma
       CUSTODIAINFOID.notIn(peticioDeFirmaLogicaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID, PeticioDeFirmaFields.CUSTODIAINFOID.isNotNull()))
     );

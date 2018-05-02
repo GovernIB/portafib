@@ -1,6 +1,6 @@
 package es.caib.portafib.logic;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.Stateless;
 
@@ -19,7 +19,7 @@ public class ModulDeFirmaWebLogicaEJB extends AbstractPluginLogicaEJB<ISignature
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
+    return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
   }
 
   @Override

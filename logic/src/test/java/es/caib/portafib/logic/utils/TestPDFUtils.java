@@ -34,7 +34,7 @@ import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
 
 /**
@@ -42,7 +42,7 @@ import es.caib.portafib.utils.SignBoxRectangle;
  * @author anadal
  * 
  */
-public class TestPDFUtils implements Constants {
+public class TestPDFUtils implements ConstantsV2 {
 
   public static final Logger log = Logger.getLogger(TestPDFUtils.class);
 
@@ -395,7 +395,7 @@ public class TestPDFUtils implements Constants {
         
         StampCustodiaInfo custodiaInfo = getCustodyInfo(barcodes[i]);
         
-        int posicioTaulaDeFirmes = Constants.TAULADEFIRMES_DARRERAPAGINA;
+        int posicioTaulaDeFirmes = ConstantsV2.TAULADEFIRMES_DARRERAPAGINA;
         
 
         // IBarcodePlugin barcode = new PDF417IText();
@@ -465,7 +465,7 @@ public class TestPDFUtils implements Constants {
     //File parent = new File("C:\\Documents and Settings\\anadal\\Escritorio\\PortaSIB\\proves");
     //File srcPDF = new File(parent, "hola.pdf");
     try {
-      log.info(" Constants.MAX FIRMES = " + Constants.MAX_FIRMES_PER_TAULA);
+      log.info(" Constants.MAX FIRMES = " + ConstantsV2.MAX_FIRMES_PER_TAULA);
       
     File srcPDF = getFileFromResource("test.pdf");
     

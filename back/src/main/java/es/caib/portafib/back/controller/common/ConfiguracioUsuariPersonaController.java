@@ -9,7 +9,7 @@ import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.springframework.stereotype.Controller;
@@ -68,7 +68,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       form.addReadOnlyField(NIF);
       form.addReadOnlyField(USUARIPERSONAID);
      
-      if (Configuracio.isCAIB() || request.isUserInRole(Constants.ROLE_ADMIN)
+      if (Configuracio.isCAIB() || request.isUserInRole(ConstantsV2.ROLE_ADMIN)
           || PropietatGlobalUtil.getDefaultEntity() != null) {
         // Podem modificar el nom i llinatge
       } else {
@@ -79,7 +79,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       form.addHiddenField(RUBRICAID);
 
       if(up.getEmail()!=null && !propietatEjb.getBooleanProperty(
-          Constants.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
+          ConstantsV2.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {
           form.addReadOnlyField(EMAIL);
       }
 

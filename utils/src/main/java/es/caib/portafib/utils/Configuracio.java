@@ -7,7 +7,7 @@ import java.io.File;
  * @author anadal
  * 
  */
-public class Configuracio implements Constants {
+public class Configuracio implements ConstantsV2 {
 
 
   public static boolean isCAIB() {

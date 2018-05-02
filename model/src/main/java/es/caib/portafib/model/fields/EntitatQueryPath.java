@@ -87,6 +87,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.MAXFILESTOSIGNATSAMETIME);
   }
 
+  public IntegerField USPOLITICADEFIRMA() {
+    return new IntegerField(getQueryPath(), EntitatFields.USPOLITICADEFIRMA);
+  }
+
   public StringField POLICYIDENTIFIER() {
     return new StringField(getQueryPath(), EntitatFields.POLICYIDENTIFIER);
   }
@@ -131,8 +135,8 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.POSICIOTAULAFIRMES);
   }
 
-  public IntegerField SEGELLDETEMPSVIAWEB() {
-    return new IntegerField(getQueryPath(), EntitatFields.SEGELLDETEMPSVIAWEB);
+  public IntegerField POLITICASEGELLATDETEMPS() {
+    return new IntegerField(getQueryPath(), EntitatFields.POLITICASEGELLATDETEMPS);
   }
 
   public LongField PLUGINID() {

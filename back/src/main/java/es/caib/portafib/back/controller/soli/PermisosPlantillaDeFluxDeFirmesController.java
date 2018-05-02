@@ -43,7 +43,7 @@ import es.caib.portafib.model.entity.PermisGrupPlantilla;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -77,8 +77,8 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
       HttpServletRequest request, HttpServletResponse response, boolean __isView)
       throws I18NException {
 
-    if (!LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN)
-        && !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
+    if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN)
+        && !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
       // Accés no autoritzat, farem que falli
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       return null;

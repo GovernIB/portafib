@@ -23,7 +23,7 @@ import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.fields.CodiBarresFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -220,7 +220,7 @@ public class PassarelaDeFirmaWebEJB
  
         FitxerBean signedFile = new FitxerBean();
         signedFile.setNom("signed_" + pfis.getFileToSign().getNom());
-        signedFile.setMime(Constants.PDF_MIME_TYPE);
+        signedFile.setMime(ConstantsV2.PDF_MIME_TYPE);
         signedFile.setTamany(ss.getFitxerFirmat().length());
         signedFile.setData(new DataHandler(fds));
         signedFile.setDescripcio("Signed Document");

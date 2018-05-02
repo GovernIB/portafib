@@ -34,7 +34,7 @@ import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -99,7 +99,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     
     // Assignam el ROLE DESTINATARI/COLA>BORADOR si no el té
     {
-      String newRole =  jpa.isEsDelegat()? Constants.ROLE_DELE : Constants.ROLE_COLA;
+      String newRole =  jpa.isEsDelegat()? ConstantsV2.ROLE_DELE : ConstantsV2.ROLE_COLA;
       
       String ususriEntitatID = colaboracioDelegacio.getColaboradorDelegatID();
       
@@ -250,7 +250,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     // Crear fitxer en BBDD
     Fitxer fitxer = new FitxerJPA();
     fitxer.setDescripcio("");
-    fitxer.setMime(Constants.PDF_MIME_TYPE);
+    fitxer.setMime(ConstantsV2.PDF_MIME_TYPE);
     fitxer.setNom(nom);
     fitxer.setTamany(firmat.length());
     fitxer = fitxerEjb.create(fitxer);

@@ -7,14 +7,14 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
  * @author anadal
  *
  */
-public class PropietatGlobalUtil implements Constants {
+public class PropietatGlobalUtil implements ConstantsV2 {
 
   protected static final Logger log = Logger.getLogger(PropietatGlobalUtil.class);
   

@@ -5,7 +5,7 @@ import java.util.Map;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -79,8 +79,8 @@ public class PrincipalController {
     HtmlUtils.saveMessageSuccess(request, "Prova SUCCES 22");
     */
     
-    if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(Constants.ROLE_DEST)) {
-      return new ModelAndView(new RedirectView(Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+    if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(ConstantsV2.ROLE_DEST)) {
+      return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
     } else {
       return new ModelAndView("principal");
     }
@@ -113,18 +113,18 @@ public class PrincipalController {
       }
       if ("ROLE_COLA".equals(pipella)) {
         //return new ModelAndView("role_cola");
-        return new ModelAndView(new RedirectView(Constants.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list", true));
+        return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list", true));
       }
       if ("ROLE_DELE".equals(pipella)) {
         //return new ModelAndView("role_dele");
-        return new ModelAndView(new RedirectView(Constants.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list", true));
+        return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list", true));
       }
       if ("ROLE_DEST".equals(pipella)) {
-        return new ModelAndView(new RedirectView(Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+        return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
       }
       if ("ROLE_SOLI".equals(pipella)) {
         //return new ModelAndView("role_soli");
-        return new ModelAndView(new RedirectView(Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
+        return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
       }
       if (Configuracio.isDesenvolupament() && "desenvolupament".equals(pipella)) {
         return new ModelAndView("desenvolupament");

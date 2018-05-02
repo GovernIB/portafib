@@ -42,7 +42,7 @@ import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.RebreAvisFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -51,7 +51,7 @@ import es.caib.portafib.utils.Constants;
  */
 @Stateless(name = "FirmaEventManagerEJB")
 @RunAs("PFI_USER")
-public class FirmaEventManagerEJB implements Constants,
+public class FirmaEventManagerEJB implements ConstantsV2,
      UsuariEntitatFields, FirmaEventManagerLocal {
 
   @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
@@ -206,7 +206,7 @@ public class FirmaEventManagerEJB implements Constants,
           List<EstatDeFirma> destdeleDeFirma = estatDeFirmaEjb.select(Where.AND(
                EstatDeFirmaFields.FIRMAID.equal(firmaEvent.getFirmaID()),
                EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
-               EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
+               EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR)
                ) );
           firmaEvent.setActorUsuariEntitatID(firmaEvent.getEstatDeFirmaUsuariEntitatID());
           for (EstatDeFirma estatDeFirma : destdeleDeFirma) {

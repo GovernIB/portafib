@@ -7,7 +7,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
 import es.caib.portafib.jpa.validator.EntitatValidator;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
@@ -30,8 +30,8 @@ public class EntitatLogicValidator<T> extends EntitatValidator<T>{
         __traduccioManager, __usuariAplicacioManager);
     
     
-    Integer segellatWeb = (Integer)__vr.getFieldValue(__target__, SEGELLDETEMPSVIAWEB);
-    if (segellatWeb != Constants.SEGELLDETEMPSVIAWEB_NOUSAR) {
+    Integer segellatWeb = (Integer)__vr.getFieldValue(__target__, POLITICASEGELLATDETEMPS);
+    if (segellatWeb != ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
       // Requerim un plugin de segellat definit
       Long pluginSegellatID = (Long)__vr.getFieldValue(__target__, PLUGINID);
       if (pluginSegellatID == null) {

@@ -26,7 +26,7 @@ import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -267,7 +267,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
         // Això depen del tipus de firma !!!!!
         final String signType = pfis.getSignType();
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-          signedFile.setMime(Constants.PDF_MIME_TYPE);
+          signedFile.setMime(ConstantsV2.PDF_MIME_TYPE);
           String nom = signedFile.getNom();
           if (!nom.trim().toLowerCase().endsWith(".pdf")) {
             signedFile.setNom(nom.trim() + ".pdf");

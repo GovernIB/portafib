@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -87,7 +87,7 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         }
       } 
         pluginInstance = (IPlugin) PluginsManager.instancePluginByClassName(
-            plugin.getClasse(), Constants.PORTAFIB_PROPERTY_BASE, prop);
+            plugin.getClasse(), ConstantsV2.PORTAFIB_PROPERTY_BASE, prop);
         
         
         if (pluginInstance == null) {

@@ -114,6 +114,8 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
     return new Date(properaExecucio);
   }
 
+
+  //@TransactionAttribute(TransactionAttributeType.NEVER) or TransactionAttribute(TransactionAttributeType.MANDATORY)"
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Override
   public void executeTask() {

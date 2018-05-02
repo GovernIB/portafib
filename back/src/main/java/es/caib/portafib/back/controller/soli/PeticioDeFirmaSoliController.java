@@ -82,7 +82,8 @@ import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -120,10 +121,10 @@ import org.springframework.validation.FieldError;
  */
 
 @Controller
-@RequestMapping(value = Constants.CONTEXT_SOLI_PETICIOFIRMA)
+@RequestMapping(value = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA)
 @SessionAttributes(types = {SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
-public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaController implements Constants {
+public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaController implements ConstantsV2 {
   
   public static final String SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES = 
        "SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES";
@@ -628,7 +629,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         return llistat(request, response);
       }
       if (isSolicitantUsuariEntitat()) {
-        return "redirect:" +  Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
+        return "redirect:" +  ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
       } else {
         return "redirect:" +  CONTEXT_ADEN_PETICIOFIRMA + "/" + peticioDeFirmaID + "/edit";
       }
@@ -731,9 +732,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
       
       
-      peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES);
+      peticioDeFirma.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES);
       peticioDeFirma.setAlgorismeDeFirmaID(entitat.getAlgorismeDeFirmaID());
-      peticioDeFirma.setModeDeFirma(Constants.SIGN_MODE_IMPLICIT);
+      peticioDeFirma.setModeDeFirma(ConstantsV2.SIGN_MODE_IMPLICIT);
 
       peticioDeFirma.setTitol(nomPeticio);
       peticioDeFirma.setDescripcio(nomPeticio);
@@ -747,7 +748,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirma.setDataCaducitat(new Timestamp(cal.getTimeInMillis()));
 
       peticioDeFirma.setIdiomaID(loginInfo.getUsuariPersona().getIdiomaID());
-      peticioDeFirma.setTipusFirmaID(Constants.TIPUSFIRMA_PADES); // PADES
+      peticioDeFirma.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES); // PADES
       
 
       //LoginInfo li = LoginInfo.getInstance();
@@ -784,7 +785,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
       
       // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
-      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+      peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
       
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
@@ -821,7 +822,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
       
       switch(tipusFirma) {
-        case Constants.TIPUSFIRMA_PADES:
+        case ConstantsV2.TIPUSFIRMA_PADES:
           //annexFilterForm.addHiddenField(AnnexFields.ADJUNTAR);
           //annexFilterForm.addHiddenField(AnnexFields.FIRMAR);
         break;
@@ -831,7 +832,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           throw new I18NException("error.unknown", "Tipus de Firma no suportada " + tipusFirma);
       }
 
-      if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+      if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
         annexFilterForm.setDeleteButtonVisible(true);   
       } else {
         annexFilterForm.setDeleteButtonVisible(false);
@@ -848,7 +849,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
       mav.addObject("annexFilterForm", annexFilterForm);
       
-      if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+      if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
       
         // Crear formulari per afegir Annex
         AnnexForm annexForm = new AnnexForm(newAnnexJPA(peticioDeFirma.getPeticioDeFirmaID()), true);      
@@ -857,7 +858,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         //annexForm.addReadOnlyField(AnnexFields.ADJUNTAR);
         
         switch(tipusFirma) {
-          case Constants.TIPUSFIRMA_PADES:
+          case ConstantsV2.TIPUSFIRMA_PADES:
             //annexForm.addHiddenField(AnnexFields.ADJUNTAR);
             //annexForm.addHiddenField(AnnexFields.FIRMAR);
           break;
@@ -884,24 +885,24 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     
     
 
-    switch (entitat.getSegellDeTempsViaWeb()) {
-      case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
+    switch (entitat.getPoliticaSegellatDeTemps()) {
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
         peticioDeFirmaForm.addReadOnlyField(SEGELLATDETEMPS);
         peticioDeFirma.setSegellatDeTemps(false);
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
         peticioDeFirmaForm.addReadOnlyField(SEGELLATDETEMPS);
         peticioDeFirma.setSegellatDeTemps(true);
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
         if (peticioDeFirmaForm.isNou()) {
           peticioDeFirma.setSegellatDeTemps(false);
         }
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
         if (peticioDeFirmaForm.isNou()) {
           peticioDeFirma.setSegellatDeTemps(true);
         }
@@ -912,7 +913,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
     
     // TODO quan hi hagi més tipus disponibles llavors això s'ha de llevar
-    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
   
       peticioDeFirmaForm.addHiddenField(DATASOLICITUD);
       peticioDeFirmaForm.addHiddenField(DATAFINAL);
@@ -975,7 +976,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
     // XYZ ZZZ #164
     peticioDeFirmaForm.addHiddenField(TIPUSOPERACIOFIRMA);
-    peticioDeFirma.setTipusOperacioFirma(Constants.TIPUS_OPERACIO_FIRMA_FIRMAR);
+    peticioDeFirma.setTipusOperacioFirma(ConstantsV2.TIPUS_OPERACIO_FIRMA_FIRMAR);
 
     peticioDeFirmaForm.addHiddenField(TIPUSFIRMAID);
     peticioDeFirmaForm.addHiddenField(ALGORISMEDEFIRMAID);
@@ -1416,19 +1417,19 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       } else {
 
         switch((int)estat) {
-          case Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
-          case Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT:
+          case ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
+          case ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT:
               botomenu = ""; //  BLANC 
           break;
-          case Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES:
+          case ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES:
               botomenu = "btn-primary"; //  BLAU 
           break;
            
-          case Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT:
+          case ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT:
               botomenu = "btn-danger"; // Vermell
           break;
            
-          case Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT:
+          case ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT:
                botomenu = "btn-success";  // Verd
           break;
        
@@ -1463,7 +1464,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
            "javascript:var win = window.open('" + request.getContextPath() + getContextWeb() + "/docfirmat/descarregar/" + peticioDeFirmaID +"', '_blank'); win.focus();",
            "btn-info") );
 
-        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+        if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           /* PETICIO EDITAR */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pencil icon-white", "peticiodefirma.editar",  
@@ -1481,7 +1482,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
        
       if(potCustodiar.containsKey(peticioDeFirmaID)) {            
             
-        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+        if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() != null) {
             /* VEURE CUSTODIA */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
@@ -1492,7 +1493,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           }
         }
           
-        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+        if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() == null) {
              /* CREAR CUSTODIA */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
@@ -1516,7 +1517,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         //  <%-- FINAL CUSTODIA --%>
 
 
-        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+        if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           /* FLUXDEFIRMES */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-eye-open icon-white", "peticiodefirma.veuredetalls",
@@ -1529,8 +1530,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               "btn-info"));
         }
 
-        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT 
-            || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+        if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT 
+            || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
           /* INICIAR  */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-play icon-white", "iniciar",  
@@ -1539,7 +1540,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
         }
 
-        if (estat == Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+        if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
           /* PAUSAR   */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-pause icon-white", "pausar",  
@@ -1549,7 +1550,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           pausarCount++;
         }
 
-        if (estat != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+        if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
           /* Borrar */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-trash icon-white", "genapp.delete",  
@@ -1568,9 +1569,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/clonar/" + peticioDeFirmaID + "')",
               ""));
   
-          if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT 
-              || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
-              || estat == Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
+          if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT 
+              || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT 
+              || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT) {
             
             /** REINICIALITZAR  */
             filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
@@ -1578,7 +1579,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
                 "javascript:goTo('" + request.getContextPath() + getContextWeb() + "/reinicialitzar/" + peticioDeFirmaID + "')",
                 "btn-danger"));
             
-            if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+            if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
               firmatCount++;
             }
             
@@ -1882,7 +1883,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     
     switch(tipusFirma) {
       
-      case Constants.TIPUSFIRMA_PADES:
+      case ConstantsV2.TIPUSFIRMA_PADES:
         if ((!annex.isAdjuntar() && annex.isFirmar()) 
             || (annex.isAdjuntar() && !annex.isFirmar()) ) {
           result.rejectValue(AnnexFields.ADJUNTAR.fullName,
@@ -1893,8 +1894,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       break;
       
       // TODO 
-      case Constants.TIPUSFIRMA_XADES:
-      case Constants.TIPUSFIRMA_CADES:
+      case ConstantsV2.TIPUSFIRMA_XADES:
+      case ConstantsV2.TIPUSFIRMA_CADES:
       default:
         throw new I18NException("error.unknown","Tipus de Firma no suportada !!!!");
     }
@@ -2219,7 +2220,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
   
   @Override
   public String getRedirectWhenCreated(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm) {
-    if (getContextWeb().equals(Constants.CONTEXT_SOLI_PETICIOFIRMA)) {
+    if (getContextWeb().equals(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA)) {
       return "redirect:/soli/firma/peticioActiva/list/1";
     } else {
       return super.getRedirectWhenCreated(request, peticioDeFirmaForm);

@@ -132,6 +132,14 @@
           ${entitat.maxFilesToSignAtSameTime}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.USPOLITICADEFIRMA)}">
+          <td>
+          <c:set var="tmp">${entitat.usPoliticaDeFirma}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForUsPoliticaDeFirma[tmp]}
+          </c:if>
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLICYIDENTIFIER)}">
           <td>
           ${entitat.policyIdentifier}
@@ -211,11 +219,11 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.SEGELLDETEMPSVIAWEB)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
           <td>
-          <c:set var="tmp">${entitat.segellDeTempsViaWeb}</c:set>
+          <c:set var="tmp">${entitat.politicaSegellatDeTemps}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForSegellDeTempsViaWeb[tmp]}
+          ${__theFilterForm.mapOfValuesForPoliticaSegellatDeTemps[tmp]}
           </c:if>
           </td>
         </c:if>

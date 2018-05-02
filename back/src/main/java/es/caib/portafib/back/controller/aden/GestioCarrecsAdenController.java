@@ -21,7 +21,7 @@ import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.*;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -138,7 +138,7 @@ public class GestioCarrecsAdenController extends UsuariEntitatController {
       seleccioCarrecForm.setTitol("carrec.alta");
       seleccioCarrecForm.setEntitatID(LoginInfo.getInstance().getEntitatID());
 
-      seleccioCarrecForm.setCancelUrl("/canviarPipella/" + Constants.ROLE_ADEN);
+      seleccioCarrecForm.setCancelUrl("/canviarPipella/" + ConstantsV2.ROLE_ADEN);
       seleccioCarrecForm.setUrlData("/common/json/usuarientitat");
      
       try {

@@ -20,7 +20,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.ModulDeFirmaPerTipusDeDocumentJPA;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -94,7 +94,7 @@ public class ModulFirmaWebTipusDocAdenController extends
     
     Where w = Where.AND(where,
         PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-        PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB),
+        PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB),
         PluginFields.ACTIU.equal(true));
    return super.getReferenceListForPluginID(request, mav, w );
  }

@@ -6,7 +6,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -65,7 +65,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     smskv = new SelectMultipleStringKeyValue(PETICIODEFIRMAID.select, TITOL.select);
 
     Where where = Where.AND(USUARIENTITATID.equal(loginInfo.getUsuariEntitatID()),
-        TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT));
+        TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT));
 
     List<StringKeyValue> peticionsBase = peticioDeFirmaLogicaEjb.executeQuery(smskv, where);
 
@@ -201,7 +201,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     request.getSession().setAttribute(PeticioDeFirmaActivaSoliController.FILTER_BY_TITOL_KEY,
         MessageFormat.format(titolPeticio, "%", "%"));
 
-    return "redirect:" + Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list/1";
+    return "redirect:" + ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list/1";
 
   }
 

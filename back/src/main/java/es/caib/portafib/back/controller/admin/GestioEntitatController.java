@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
@@ -18,7 +17,8 @@ import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/admin/entitat")
-public class GestioEntitatController extends EntitatController implements Constants {
+public class GestioEntitatController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -98,12 +98,12 @@ public class GestioEntitatController extends EntitatController implements Consta
          entitatForm.addHiddenField(USUARIAPLICACIOID);
          entitatForm.addHiddenField(CUSTODIAINFOID); // Plantilla de custòdia
          entitatForm.addHiddenField(PLUGINID); // Segell de temps
-         entitatForm.addHiddenField(SEGELLDETEMPSVIAWEB);
-         entitatForm.getEntitat().setSegellDeTempsViaWeb(SEGELLDETEMPSVIAWEB_NOUSAR);
+         entitatForm.addHiddenField(POLITICASEGELLATDETEMPS);
+         entitatForm.getEntitat().setPoliticaSegellatDeTemps(POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
          
          if(entitatForm.isNou()) {
-           entitatForm.getEntitat().setPoliticaTaulaFirmes(Constants.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_ENTITAT);
-           entitatForm.getEntitat().setPosicioTaulaFirmes(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+           entitatForm.getEntitat().setPoliticaTaulaFirmes(ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF);
+           entitatForm.getEntitat().setPosicioTaulaFirmes(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
          }
          
        } else {
@@ -117,7 +117,7 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.addHelpToField(FIRMATPERFORMATID, I18NUtils.tradueix("firmatperformat.help"));
        
        // #165 Pentent de que s'implementi XYZ ZZZ
-       entitatForm.getEntitat().setPoliticaCustodia(Constants.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_ENTITAT);
+       entitatForm.getEntitat().setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA);
        entitatForm.addReadOnlyField(POLITICACUSTODIA);
 
        
@@ -136,6 +136,11 @@ public class GestioEntitatController extends EntitatController implements Consta
        if(entitatForm.isNou()) {
          entitatForm.getEntitat().setCheckCanviatDocFirmat(true);
        }
+       
+       // #148 Pendent fins que s'implementi
+       entitatForm.addReadOnlyField(USPOLITICADEFIRMA);
+       
+       entitatForm.setAttachedAdditionalJspCode(true);
        
        /*
        entitatForm.addAdditionalButton(new AdditionalButton(
@@ -294,7 +299,7 @@ public class GestioEntitatController extends EntitatController implements Consta
       where2 = Where.AND(
           where,
           PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()),
-          PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_SEGELLDETEMPS)
+          PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS)
           );
     }
 
@@ -305,15 +310,40 @@ public class GestioEntitatController extends EntitatController implements Consta
   
   
   @Override
-  public List<StringKeyValue> getReferenceListForSegellDeTempsViaWeb(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPoliticaSegellatDeTemps(HttpServletRequest request,
       ModelAndView mav, Where where)  throws I18NException {
-   List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_NOUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_NOUSAR)));
-   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_SEMPREUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_SEMPREUSAR)));
-   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI)));
-   __tmp.add(new StringKeyValue("" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO , I18NUtils.tradueix("segelldetempsviaweb_" + SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO)));
-   return __tmp;
+    final boolean isEntitat = true;
+   return staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
  }
+
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaSegellatDeTemps(boolean isEntitat) {
+    
+    final int[] myArray;
+    if (isEntitat) {
+      myArray = ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_EN_ENTITAT;
+    } else {
+      myArray = ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_EN_USR_APP_CONFIG;
+    }
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    for (int i = 0; i < myArray.length; i++) {
+      String val = String.valueOf(myArray[i]);
+      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("politicadesegellatdetemps." + val)));
+    }
+    return __tmp;
+    
+    /* XYZ ZZZ 
+    
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR)));
+     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)));
+     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI)));
+     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO)));
+     return __tmp;
+     */
+  }
+  
+  
+  
   
   
   /**
@@ -324,16 +354,36 @@ public class GestioEntitatController extends EntitatController implements Consta
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
     
-    List<StringKeyValue> kvList = ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaCustodia();
-    
+    final boolean isEntitat = true;
+    List<StringKeyValue> kvList = staticGetReferenceListForPoliticaCustodia(isEntitat);
+    /* XYZ ZZZ
     for (StringKeyValue skv : kvList) {
       if (skv.getKey().equals(String.valueOf(Constants.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT))) {
         kvList.remove(skv);
         break;
       }
     }
-    return kvList;
+    */
+    return kvList;    
   }
+  
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaCustodia(boolean isEntitat) {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    
+    final int[] myArray;
+    if (isEntitat) {
+      myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_EN_ENTITAT;
+    } else {
+      myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_EN_USR_APP_CONFIG;
+    }
+    
+    for (int i = 0; i < myArray.length; i++) {
+      String val = String.valueOf(myArray[i]);
+      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("usuarientitat.politicacustodia." + val)));
+    }
+    return __tmp;
+  }
+  
   
   
   
@@ -344,13 +394,27 @@ public class GestioEntitatController extends EntitatController implements Consta
   public List<StringKeyValue> getReferenceListForPoliticaTaulaFirmes(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    
+    boolean isEntitat = true;
+    
+    return staticGetReferenceListForPoliticaTaulaFirmes(isEntitat);
+    
+   
+  }
 
-    for (int i = 0; i < Constants.POLITICA_TAULA_FIRMES.length; i++) {
-      int val = Constants.POLITICA_TAULA_FIRMES[i];
-      __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils.tradueix("politicataulafirmes." + val)));
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaTaulaFirmes(boolean isEntitat) {
+    final int[] myArray;
+    if (isEntitat) {
+      myArray = ConstantsPortaFIB.POLITICA_TAULA_FIRMES_EN_ENTITAT;
+    } else {
+      myArray = ConstantsPortaFIB.POLITICA_TAULA_FIRMES_EN_USR_APP_CONFIG;
     }
-
+    
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    for (int i = 0; i < myArray.length; i++) {
+      String val = String.valueOf(myArray[i]);
+      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("politicataulafirmes." + val)));
+    }
     return __tmp;
   }
 
@@ -368,12 +432,41 @@ public class GestioEntitatController extends EntitatController implements Consta
   public static List<StringKeyValue> staticGetReferenceListForPosicioTaulaFirmes() {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
     
-    for (int i = 0; i < Constants.TAULADEFIRMES.length; i++) {
-      int val = Constants.TAULADEFIRMES[i];
+    for (int i = 0; i < ConstantsV2.TAULADEFIRMES.length; i++) {
+      int val = ConstantsV2.TAULADEFIRMES[i];
       __tmp.add(new StringKeyValue(String.valueOf(val), I18NUtils.tradueix("tauladefirmes." + val) ));
     }
     return __tmp;
   }
+  
+
+  @Override
+  public List<StringKeyValue> getReferenceListForUsPoliticaDeFirma(HttpServletRequest request,
+      ModelAndView mav, Where where) throws I18NException {
+    final boolean isEntitat = true;
+    return staticGetReferenceListForUsPoliticaDeFirma(isEntitat);
+  }
+
+  
+  
+  
+  public static List<StringKeyValue> staticGetReferenceListForUsPoliticaDeFirma(boolean isEntitat) {
+    final int[] myArray;
+    if (isEntitat) {
+      myArray = ConstantsPortaFIB.US_POLITICA_DE_FIRMA_EN_ENTITAT;
+    } else {
+      myArray = ConstantsPortaFIB.US_POLITICA_DE_FIRMA_EN_USR_APP_CONFIG;
+    }
+    
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    for (int i = 0; i < myArray.length; i++) {
+      String val = String.valueOf(myArray[i]);
+      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("usuariaplicacioconfig.uspoliticafirma." + val)));
+    }
+    return __tmp;
+  }
+  
+  
   
   @Override
   public EntitatJPA update(HttpServletRequest request, EntitatJPA entitat)

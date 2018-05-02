@@ -40,7 +40,7 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
 
 /**
@@ -102,24 +102,24 @@ public class SignatureUtils {
 
      PdfVisibleSignature pdfInfoSignature = null;
 
-     final int signMode = ((signModeBool == Constants.SIGN_MODE_IMPLICIT) ? 
+     final int signMode = ((signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? 
             FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
 
      String signType;
 
      int locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
      switch((int)signTypeID) {
-       case Constants.TIPUSFIRMA_PADES:
+       case ConstantsV2.TIPUSFIRMA_PADES:
          signType = FileInfoSignature.SIGN_TYPE_PADES;
 
          switch((int)locationSignTableID) { 
-            case Constants.TAULADEFIRMES_SENSETAULA:
+            case ConstantsV2.TAULADEFIRMES_SENSETAULA:
               locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
             break;
-            case Constants.TAULADEFIRMES_PRIMERAPAGINA:
+            case ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA:
               locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_FIRSTPAGE;
             break;
-            case Constants.TAULADEFIRMES_DARRERAPAGINA:
+            case ConstantsV2.TAULADEFIRMES_DARRERAPAGINA:
               locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
             break;
             default:
@@ -153,15 +153,15 @@ public class SignatureUtils {
          
        break;
        
-       case Constants.TIPUSFIRMA_CADES:
+       case ConstantsV2.TIPUSFIRMA_CADES:
          signType = FileInfoSignature.SIGN_TYPE_CADES;
        break;
        
-       case Constants.TIPUSFIRMA_SMIME:
+       case ConstantsV2.TIPUSFIRMA_SMIME:
          signType = FileInfoSignature.SIGN_TYPE_SMIME;
        break;
          
-       case Constants.TIPUSFIRMA_XADES:
+       case ConstantsV2.TIPUSFIRMA_XADES:
          signType = FileInfoSignature.SIGN_TYPE_XADES;
        break;
        
@@ -189,16 +189,16 @@ public class SignatureUtils {
   public static String convertSignAlgorithmID(long signAlgorithmID) throws I18NException {
     String signAlgorithm;
      switch((int)signAlgorithmID) {
-       case Constants.SIGN_ALGORITHM_SHA1WITHRSA:
+       case ConstantsV2.SIGN_ALGORITHM_SHA1WITHRSA:
          signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
          break;
-       case Constants.SIGN_ALGORITHM_SHA256WITHRSA:
+       case ConstantsV2.SIGN_ALGORITHM_SHA256WITHRSA:
          signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA256;
          break;
-       case Constants.SIGN_ALGORITHM_SHA384WITHRSA:
+       case ConstantsV2.SIGN_ALGORITHM_SHA384WITHRSA:
          signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA384;
          break;
-       case Constants.SIGN_ALGORITHM_SHA512WITHRSA:
+       case ConstantsV2.SIGN_ALGORITHM_SHA512WITHRSA:
          signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA512;
          break;
 
@@ -253,7 +253,7 @@ public class SignatureUtils {
          int signTypeID = getSignTypeToPortaFIB(pfis.getSignType());
          
          final String mime;
-         if (signTypeID == Constants.TIPUSFIRMA_PADES) {
+         if (signTypeID == ConstantsV2.TIPUSFIRMA_PADES) {
            // NOTA Convertir Document a PDF i Afegir Taula de Firmes ja s'ha fet durant 
            // l'startTransacction via WS
            mime = FileInfoSignature.PDF_MIME_TYPE;
@@ -322,13 +322,13 @@ public class SignatureUtils {
    public static int getSignTypeToPortaFIB(String signType) throws I18NException {
      
      if(FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-       return  Constants.TIPUSFIRMA_PADES;
+       return  ConstantsV2.TIPUSFIRMA_PADES;
      } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-       return Constants.TIPUSFIRMA_CADES;
+       return ConstantsV2.TIPUSFIRMA_CADES;
      } else if (FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
-       return Constants.TIPUSFIRMA_SMIME;
+       return ConstantsV2.TIPUSFIRMA_SMIME;
      } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-       return Constants.TIPUSFIRMA_XADES;
+       return ConstantsV2.TIPUSFIRMA_XADES;
      } else {
        // TODO Traduir
        throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signType);
@@ -337,13 +337,13 @@ public class SignatureUtils {
 
    public static int getSignAlgorithmToPortaFIB(String signAlgorithm) throws I18NException {
      if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(signAlgorithm)) {
-       return Constants.SIGN_ALGORITHM_SHA1WITHRSA;
+       return ConstantsV2.SIGN_ALGORITHM_SHA1WITHRSA;
      } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(signAlgorithm)) {
-       return Constants.SIGN_ALGORITHM_SHA256WITHRSA;
+       return ConstantsV2.SIGN_ALGORITHM_SHA256WITHRSA;
      } else if ( FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(signAlgorithm)) {
-         return Constants.SIGN_ALGORITHM_SHA384WITHRSA;
+         return ConstantsV2.SIGN_ALGORITHM_SHA384WITHRSA;
      } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(signAlgorithm)) {
-         return Constants.SIGN_ALGORITHM_SHA512WITHRSA;
+         return ConstantsV2.SIGN_ALGORITHM_SHA512WITHRSA;
      } else {
        throw new I18NException("error.unknown", "Tipus d'algorisme no suportat " + signAlgorithm);
      }
@@ -352,9 +352,9 @@ public class SignatureUtils {
    
    public static boolean getSignModeToPortaFIB(int signMode) throws I18NException{
      if (FileInfoSignature.SIGN_MODE_IMPLICIT == signMode) {
-       return Constants.SIGN_MODE_IMPLICIT;
+       return ConstantsV2.SIGN_MODE_IMPLICIT;
      } else if (FileInfoSignature.SIGN_MODE_EXPLICIT == signMode) {
-       return Constants.SIGN_MODE_EXPLICIT;
+       return ConstantsV2.SIGN_MODE_EXPLICIT;
      } else {
        throw new I18NException("error.unknown", "Tipus de mode de firma no suportat " + signMode);
      } 

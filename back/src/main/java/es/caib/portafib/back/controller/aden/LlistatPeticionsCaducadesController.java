@@ -28,7 +28,7 @@ import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -69,8 +69,8 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
         UsuariAplicacioFields.USUARIAPLICACIOID, UsuariAplicacioFields.ENTITATID.equal(entitatID)));
     */
     Where w3 = TIPUSESTATPETICIODEFIRMAID.in(new Integer[]{        
-        Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-        Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT,
+        ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+        ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT,
     });
     return Where.AND(w1,w2, w3);
   }

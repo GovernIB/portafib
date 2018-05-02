@@ -33,7 +33,7 @@ import es.caib.portafib.jpa.CustodiaInfoJPA;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -117,11 +117,11 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
       custodiaInfo.setEditable(true);
 
       custodiaInfo.setPagines("*");
-      custodiaInfo.setCodiBarresPosicioPaginaID(Constants.POSICIO_PAGINA_ESQUERRA);
+      custodiaInfo.setCodiBarresPosicioPaginaID(ConstantsV2.POSICIO_PAGINA_ESQUERRA);
       custodiaInfo.setCodiBarresText("{0}");
-      custodiaInfo.setCodiBarresID(Constants.BARCODE_PDF417_PLUGIN);
+      custodiaInfo.setCodiBarresID(ConstantsV2.BARCODE_PDF417_PLUGIN);
 
-      custodiaInfo.setMissatgePosicioPaginaID(Constants.POSICIO_PAGINA_ESQUERRA);
+      custodiaInfo.setMissatgePosicioPaginaID(ConstantsV2.POSICIO_PAGINA_ESQUERRA);
 
       Properties prop = new Properties();
       prop.put("ca", "Document custodiat amb el sistema {2}. Identificador {1}. Data:{3} URL de validació:{0}. Valor especial: {4}");
@@ -241,7 +241,7 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
                PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
                PluginFields.ENTITATID.isNull()
                ),
-             PluginFields.TIPUS.equal(Constants.TIPUS_PLUGIN_CUSTODIA)
+             PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_CUSTODIA)
              ));
   }
 

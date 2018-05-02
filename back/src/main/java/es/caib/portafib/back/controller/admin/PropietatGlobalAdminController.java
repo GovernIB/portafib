@@ -16,7 +16,7 @@ import es.caib.portafib.back.controller.webdb.PropietatGlobalController;
 import es.caib.portafib.back.form.webdb.PropietatGlobalFilterForm;
 import es.caib.portafib.back.form.webdb.PropietatGlobalForm;
 import es.caib.portafib.jpa.PropietatGlobalJPA;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  *
@@ -76,7 +76,7 @@ public class PropietatGlobalAdminController extends PropietatGlobalController {
       boolean __isView, HttpServletRequest request, ModelAndView mav) throws I18NException {
    PropietatGlobalForm propietatGlobalForm = super.getPropietatGlobalForm(_jpa, __isView, request, mav);
    if(propietatGlobalForm.isNou()) {
-     propietatGlobalForm.getPropietatGlobal().setClau(Constants.PORTAFIB_PROPERTY_BASE);
+     propietatGlobalForm.getPropietatGlobal().setClau(ConstantsV2.PORTAFIB_PROPERTY_BASE);
    }
    
    propietatGlobalForm.addHiddenField(ENTITATID);

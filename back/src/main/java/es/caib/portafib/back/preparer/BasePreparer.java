@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * @author anadal
@@ -34,7 +34,7 @@ import es.caib.portafib.utils.Constants;
  */
 @RunAs("PFI_USER")
 @Component
-public class BasePreparer extends ViewPreparerSupport implements Constants {
+public class BasePreparer extends ViewPreparerSupport implements ConstantsV2 {
 
   public static Map<String,I18NTranslation> loginErrorMessage = new HashMap<String,I18NTranslation>();
 
@@ -115,7 +115,7 @@ public class BasePreparer extends ViewPreparerSupport implements Constants {
     for (GrantedAuthority ga : rolesSeycon) {
       String rol = ga.getAuthority();
       //log.info("     Seycon = " + rol);
-      if (Constants.ROLE_USER.equals(rol)) {
+      if (ConstantsV2.ROLE_USER.equals(rol)) {
         containsRoleUser = true;
       }
     }

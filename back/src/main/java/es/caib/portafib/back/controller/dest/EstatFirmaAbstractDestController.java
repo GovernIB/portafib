@@ -1,7 +1,7 @@
 package es.caib.portafib.back.controller.dest;
 
 import es.caib.portafib.back.controller.AbstractEstatDeFirmaDestDeleColaController;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * @author anadal
@@ -16,7 +16,7 @@ public abstract class EstatFirmaAbstractDestController extends
 
   @Override
   public final String getRole() {
-    return Constants.ROLE_DEST;
+    return ConstantsV2.ROLE_DEST;
   }
 
 } // Final de Classe

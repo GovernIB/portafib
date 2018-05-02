@@ -14,7 +14,7 @@ import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -143,7 +143,7 @@ public class FirmaEvent implements Cloneable, Serializable {
     this.peticioDeFirmaUsuariEntitatID = peticioDeFirma.getUsuariEntitatID();
     this.tipusEstatPeticioDeFirmaID = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     
-    if (eventID == Constants.NOTIFICACIOAVIS_PETICIO_FIRMADA) {
+    if (eventID == ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA) {
       CustodiaInfo custodia = peticioDeFirma.getCustodiaInfo();
       if (custodia != null) {
         this.custodyURL = custodia.getUrlFitxerCustodiat();

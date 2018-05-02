@@ -72,12 +72,6 @@
 
               <filters>
                 <filter>
-                  <artifact>es.caib.portafib:portafib-utils</artifact>
-                  <includes>
-                    <include>es/caib/portafib/utils/Constants.*</include>
-                  </includes>
-                </filter>
-                <filter>
                   <artifact>org.fundaciobit.genapp:genapp-core</artifact>
                   <includes>
                     <include>org/fundaciobit/genapp/common/i18n/I18N*.*</include>
@@ -245,13 +239,6 @@
       <version>4.1.1.Final</version>  
       <scope>provided</scope>  
     </dependency> 
-
-    <dependency>
-      <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-utils</artifactId>
-      <version>${portafib.version}</version>
-      <scope>compile</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.genapp</groupId>

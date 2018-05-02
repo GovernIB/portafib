@@ -77,7 +77,8 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  *
@@ -132,27 +133,27 @@ public class AutoFirmaController extends FitxerController
     // #166 XYZ ZZZ S'ha de veure si deixam llibertat o limitam segons el que digui l'entitat
     form.setListOfPosicioTaulaFirmes(GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes());
 
-    form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+    form.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
 
     
-    switch (entitat.getSegellDeTempsViaWeb()) {
-      case Constants.SEGELLDETEMPSVIAWEB_NOUSAR:
+    switch (entitat.getPoliticaSegellatDeTemps()) {
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
         form.setSegellDeTempsReadOnly(true);
         form.setSegellDeTemps(false);
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_SEMPREUSAR:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
         form.setSegellDeTempsReadOnly(true);
         form.setSegellDeTemps(true);
       break;
       
-      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_SI:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
         form.setSegellDeTempsReadOnly(false);
         form.setSegellDeTemps(true);
       break; 
       
       default:
-      case Constants.SEGELLDETEMPSVIAWEB_USUARIELEGEIX_PER_DEFECTE_NO:
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
         form.setSegellDeTempsReadOnly(false);
         form.setSegellDeTemps(false);
       break;
@@ -270,8 +271,8 @@ public class AutoFirmaController extends FitxerController
     FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
-        langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
-        Constants.SIGN_MODE_IMPLICIT,
+        langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
+        ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
     
     CommonInfoSignature commonInfoSignature;
@@ -596,7 +597,7 @@ public class AutoFirmaController extends FitxerController
 
     {
 
-      response.setContentType(Constants.PDF_MIME_TYPE);
+      response.setContentType(ConstantsV2.PDF_MIME_TYPE);
 
       response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
       response.setContentLength((int)fafirmar.length());
@@ -689,7 +690,7 @@ public class AutoFirmaController extends FitxerController
     
     
     {
-      response.setContentType(Constants.PDF_MIME_TYPE);
+      response.setContentType(ConstantsV2.PDF_MIME_TYPE);
       response.setHeader("Content-Disposition", "inline; filename=\"" +filename + "\"");
       response.setContentLength((int)ffirmat.length());
   

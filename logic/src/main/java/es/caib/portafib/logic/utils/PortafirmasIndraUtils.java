@@ -1,6 +1,6 @@
 package es.caib.portafib.logic.utils;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -32,13 +32,13 @@ public final class PortafirmasIndraUtils {
 
     switch ( estatPeticio) {
 
-    case (int) Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES:
+    case (int) ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES:
       estatIndra = DOCUMENTO_PENDIENTE;
       break;
-    case (int) Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT:
+    case (int) ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT:
       estatIndra = DOCUMENTO_RECHAZADO;
       break;
-    case (int) Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT:
+    case (int) ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT:
       if (estatDeFirmaUsuariEntitatID == null) {
         estatIndra = DOCUMENTO_FINALIZADO;
       } else {
@@ -47,8 +47,8 @@ public final class PortafirmasIndraUtils {
       break;
 
     default:
-    case (int) Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
-    case (int) Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT:
+    case (int) ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT:
+    case (int) ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT:
       estatIndra = DOCUMENTO_BLOQUEADO;
       break;
     }

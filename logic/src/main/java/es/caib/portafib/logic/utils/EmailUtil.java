@@ -20,7 +20,7 @@ import javax.naming.InitialContext;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -52,7 +52,7 @@ public class EmailUtil {
       String from, String ... recipients) throws Exception {
 
     Context ctx = new InitialContext();
-    Session session = (javax.mail.Session) ctx.lookup(Constants.MAIL_SERVICE);
+    Session session = (javax.mail.Session) ctx.lookup(ConstantsV2.MAIL_SERVICE);
 
     // Creamos el mensaje
     MimeMessage msg = new MimeMessage(session);
@@ -104,7 +104,7 @@ public class EmailUtil {
       long date = new Date().getTime() + emailInfos.size() * 500;
   
       InitialContext ic = new InitialContext();
-      final Queue queue = (Queue) ic.lookup(Constants.MAIL_QUEUE);
+      final Queue queue = (Queue) ic.lookup(ConstantsV2.MAIL_QUEUE);
       final QueueConnectionFactory factory;
       factory = (QueueConnectionFactory) ic.lookup("java:/ConnectionFactory");
       final QueueConnection connection = factory.createQueueConnection();

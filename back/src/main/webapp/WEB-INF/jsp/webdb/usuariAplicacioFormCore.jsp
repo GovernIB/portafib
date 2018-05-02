@@ -272,33 +272,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
-        <tr id="usuariAplicacio_politicaCustodia_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA])?'usuariAplicacio.politicaCustodia':__theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="usuariAplicacio.politicaCustodia" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
-          <form:hidden path="usuariAplicacio.politicaCustodia"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
-          <form:select id="usuariAplicacio_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="input-xxlarge" path="usuariAplicacio.politicaCustodia">
-            <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
         <tr id="usuariAplicacio_politicaDePluginFirmaWeb_rowid">
           <td>

@@ -13,7 +13,7 @@ import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class ModulDeFirmaWebAdenController extends AbstractPluginAdenController<
 
   @Override
   public int getTipusDePlugin() {
-    return Constants.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
+    return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_WEB;
   }
 
   @Override

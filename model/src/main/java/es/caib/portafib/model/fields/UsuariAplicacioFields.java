@@ -23,7 +23,6 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
 	 public static final LongField LOGOSEGELLID = new LongField(_TABLE_MODEL, "logoSegellID", "logosegellid");
 	 public static final BooleanField POTCUSTODIAR = new BooleanField(_TABLE_MODEL, "potCustodiar", "potcustodiar");
-	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final IntegerField POLITICADEPLUGINFIRMAWEB = new IntegerField(_TABLE_MODEL, "politicaDePluginFirmaWeb", "politicadepluginfirmaweb");
 
 
@@ -39,7 +38,6 @@ public interface UsuariAplicacioFields extends java.io.Serializable {
     DESCRIPCIO,
     LOGOSEGELLID,
     POTCUSTODIAR,
-    POLITICACUSTODIA,
     POLITICADEPLUGINFIRMAWEB
   };
 

@@ -19,8 +19,8 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID);
   }
 
-  public IntegerField USPOLITICADETIRMA() {
-    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.USPOLITICADETIRMA);
+  public IntegerField USPOLITICADEFIRMA() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA);
   }
 
   public StringField POLICYIDENTIFIER() {
@@ -67,24 +67,36 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
   }
 
+  public IntegerField POLITICACUSTODIA() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICACUSTODIA);
+  }
+
   public LongField CUSTODIAINFOID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.CUSTODIAINFOID);
+  }
+
+  public IntegerField POLITICATAULAFIRMES() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES);
   }
 
   public IntegerField POSICIOTAULAFIRMESID() {
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID);
   }
 
+  public IntegerField POLITICASEGELLATDETEMPS() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS);
+  }
+
   public LongField PLUGINSEGELLATID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID);
   }
 
-  public LongField PLUGINFIRMASERVIDORID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID);
-  }
-
   public StringField HTMLPERLLISTARPLUGINSFIRMAWEB() {
     return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB);
+  }
+
+  public LongField PLUGINFIRMASERVIDORID() {
+    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID);
   }
 
   public LongField LOGINCERTIFICATEID() {

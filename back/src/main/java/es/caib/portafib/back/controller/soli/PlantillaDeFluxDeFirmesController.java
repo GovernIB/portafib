@@ -85,7 +85,7 @@ import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  * 
@@ -98,7 +98,7 @@ import es.caib.portafib.utils.Constants;
     PlantillaDeFluxDeFirmesFilterForm.class, PlantillaDeFluxDeFirmesForm.class,
     FluxDeFirmesForm.class, FluxDeFirmesFilterForm.class, SeleccioUsuariForm.class })
 public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
-   implements Constants {
+   implements ConstantsV2 {
   
   
   public static final StringField USUARIAPLICACIOID;
@@ -335,8 +335,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
         fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.FLUXDEFIRMESID);
         
-        if (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN) ||
-            LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
+        if (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) ||
+            LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
           fluxDeFirmesFilterForm.addGroupByField(COMPARTIR_PLANTILLA);
         } else {
           fluxDeFirmesFilterForm.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);          
@@ -372,8 +372,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     String parentContext = isUsuariEntitat()?"soli":"aden";
     
     // Mostrar boto per editar usuaris que poden veure les meves plantilles
-    if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN) ||
-        !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN) )) {
+    if (isUsuariEntitat() && (LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) ||
+        !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN) )) {
       
       
       filterForm.getAdditionalButtonsByPK().clear();
@@ -546,8 +546,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     }; // Final mode edició
     
-    if (!LoginInfo.getInstance().hasRole(Constants.ROLE_ADMIN) &&
-        !LoginInfo.getInstance().hasRole(Constants.ROLE_ADEN)) {
+    if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) &&
+        !LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADEN)) {
       form.addHiddenField(PlantillaFluxDeFirmesFields.COMPARTIR);
     }
 
@@ -596,7 +596,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       //  (2) Tots els càrrecs actius de la meva entitat 
       SubQuery<RoleUsuariEntitat, String> sq;
       sq = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
-          RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST));
+          RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST));
       
       Where w = Where.AND(
           UsuariEntitatFields.ENTITATID.equal(entitatID), // de la meva entitat

@@ -19,7 +19,7 @@ import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
@@ -236,8 +236,8 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           FirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(),
           BLOC.DATAFINALITZACIO().isNull(),
           TIPUSESTATPETICIODEFIRMAID.in(new Integer[] {
-              Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES,
-              Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT })));
+              ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
+              ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT })));
  
       List<Firma> firmesEnBlocActiu = new ArrayList<Firma>();
       // final FirmaQueryPath firmaQueryPath = new
@@ -345,7 +345,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           Set<String> virtualRoles = null;
           if (Configuracio.isCAIB()) {
             virtualRoles = new HashSet<String>();
-            virtualRoles.add(Constants.ROLE_DEST);
+            virtualRoles.add(ConstantsV2.ROLE_DEST);
           } else {              
             String defRolesStr = PropietatGlobalUtil.getDefaultRolesInCreation();
             //log.info("defRolesStr = " + defRolesStr);

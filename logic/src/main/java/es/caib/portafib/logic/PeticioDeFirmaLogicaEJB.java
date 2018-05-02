@@ -69,7 +69,7 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,7 +140,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @Stateless(name = "PeticioDeFirmaLogicaEJB")
 @SecurityDomain("seycon")
 public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
-    PeticioDeFirmaLogicaLocal, Constants {
+    PeticioDeFirmaLogicaLocal, ConstantsV2 {
 
   @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
   protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
@@ -535,16 +535,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioDeFirma.setDataSolicitud(new Timestamp(new Date().getTime()));
       
       peticioDeFirma
-          .setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES);
+          .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES);
 
       FluxDeFirmesJPA flux = peticioDeFirma.getFluxDeFirmes();
 
       if (log.isDebugEnabled()) {
         log.debug("Current State = " + currentState);
-        log.debug("State NO INICIAT = " + Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
+        log.debug("State NO INICIAT = " + ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
       }
 
-      if (Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT == currentState) {
+      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT == currentState) {
         
         // Reserva de ID de custodia
         CustodiaInfo custodiaInfo = null;
@@ -587,10 +587,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           numFirmes = numFirmes + blocDeFirmesJPA.getMinimDeFirmes();
         }
 
-        if (numFirmes > Constants.MAX_FIRMES_PER_TAULA) {
+        if (numFirmes > ConstantsV2.MAX_FIRMES_PER_TAULA) {
           // TODO TRADUIR per quan es passin els missatges a Logica
           throw new Exception("Una peticio de firma pot tenir com a màxim "
-              + Constants.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
+              + ConstantsV2.MAX_FIRMES_PER_TAULA + " firmes obligatories.");
         }
 
         // Posar ROLE DEST als firmants del flux de firmes
@@ -601,15 +601,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         switch (tipusFirma) {
 
-        case Constants.TIPUSFIRMA_PADES:
+        case ConstantsV2.TIPUSFIRMA_PADES:
           fitxerFinalAFirmarID = thingsToDoInPADES(peticioDeFirma,
             numFirmes, custodiaInfo, plugin);
           dstPDF = FileSystemManager.getFile(fitxerFinalAFirmarID);
           break;
 
         // TODO
-        case Constants.TIPUSFIRMA_XADES:
-        case Constants.TIPUSFIRMA_CADES:
+        case ConstantsV2.TIPUSFIRMA_XADES:
+        case ConstantsV2.TIPUSFIRMA_CADES:
         default:
           throw new Exception("Tipus de Firma no suportada !!!!");
         }
@@ -638,7 +638,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
       
-      if (Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState
+      if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT != currentState
           && custodyID != null && plugin != null) {
         try {          
           plugin.deleteCustody(custodyID);
@@ -756,7 +756,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // ==== TAULA DE FIRMES
     final int posicio = (int) peticioDeFirma.getPosicioTaulaFirmesID();
     StampTaulaDeFirmes taulaDeFirmes = null;
-    if (posicio != Constants.TAULADEFIRMES_SENSETAULA) {
+    if (posicio != ConstantsV2.TAULADEFIRMES_SENSETAULA) {
     
       final String desc = peticioDeFirma.getDescripcio();
       final String titol = peticioDeFirma.getTitol();
@@ -846,7 +846,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       FitxerJPA f = new FitxerJPA();
       f.setDescripcio("");
-      f.setMime(Constants.PDF_MIME_TYPE);
+      f.setMime(ConstantsV2.PDF_MIME_TYPE);
       f.setNom("TaulaDeFirmesDePeticio_" + peticioDeFirma.getPeticioDeFirmaID() + ".pdf");
       f.setTamany(dstPDF.length());
 
@@ -955,7 +955,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     // Assignam permis de ROLE_DEST als firmants de la peticio que no el
     // tenguin.
-    Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(Constants.ROLE_DEST),
+    Where where = Where.AND(RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_DEST),
         RoleUsuariEntitatFields.USUARIENTITATID.in(destinatarisUsuari));
     List<String> destAmbPermis = roleUsuariEntitatEjb.executeQuery(
         RoleUsuariEntitatFields.USUARIENTITATID, where);
@@ -970,7 +970,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (isDebug) {
         log.info("Afegint ROLE_DEST a l'usuari-entitat (persona) " + sensePermis);
       }
-      roleUsuariEntitatEjb.create(Constants.ROLE_DEST, sensePermis);
+      roleUsuariEntitatEjb.create(ConstantsV2.ROLE_DEST, sensePermis);
     }
 
   }
@@ -1227,7 +1227,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKey(peticioDeFirmaID);
     if (peticioDeFirma != null) {
 
-      peticioDeFirma.setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_PAUSAT);
+      peticioDeFirma.setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_PAUSAT);
       update(peticioDeFirma);
 
       try {
@@ -1260,7 +1260,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   protected boolean startNextSign(PeticioDeFirmaJPA peticioDeFirma, FluxDeFirmesJPA flux,
       EstatDeFirmaJPA estatDeFirma, FirmaEventList events) throws I18NException {
 
-    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
+    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
       log.error("S'esta cercant un nou bloc de firmes disponible per la petició "
           + peticioDeFirma.getPeticioDeFirmaID() + " però aquesta no esta en progres. ");
       return false;
@@ -1397,7 +1397,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             estatDeFirmaDest.setDescripcio("");
             estatDeFirmaDest.setFirmaID(firmaJPA.getFirmaID());
             estatDeFirmaDest
-                .setTipusEstatDeFirmaInicialID(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+                .setTipusEstatDeFirmaInicialID(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
             estatDeFirmaDest.setUsuariEntitatID(destinatariReal);
             estatDeFirmaDest = (EstatDeFirmaJPA) estatDeFirmaLogicaEjb
                 .createFull(estatDeFirmaDest);
@@ -1472,9 +1472,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               estatDeFirmaColaDele.setFirmaID(firmaJPA.getFirmaID());
               long tipusEstat;
               if (colaboracioDelegacio.isEsDelegat()) {
-                tipusEstat = Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
+                tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
               } else {
-                tipusEstat = Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
+                tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR;
               }
               estatDeFirmaColaDele.setTipusEstatDeFirmaInicialID(tipusEstat);
               estatDeFirmaColaDele.setUsuariEntitatID(colaboracioDelegacio
@@ -1482,7 +1482,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               estatDeFirmaColaDele.setColaboracioDelegacioID(colaboracioDelegacio
                   .getColaboracioDelegacioID());
               estatDeFirmaColaDele = estatDeFirmaLogicaEjb.createFull(estatDeFirmaColaDele);
-              if (tipusEstat == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+              if (tipusEstat == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
                 events.requerit_per_firmar(peticioDeFirma, estatDeFirmaColaDele);
               } else {
                 events.requerit_per_validar(peticioDeFirma, estatDeFirmaColaDele);
@@ -1508,7 +1508,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     log.debug("   == JA NO HI HA MÉS BLOCS: marcam la peticio con finalitzada");
     // Marcam la petició com Firmada
-    peticioDeFirma.setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT);
+    peticioDeFirma.setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT);
     peticioDeFirma.setDataFinal(now);
     this.update(peticioDeFirma);
 
@@ -1525,10 +1525,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     for (EstatDeFirma estat : estatsDeFirma) {
       estat.setDataFi(now);
-      estat.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+      estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
       estat.setDescripcio(msg);
       estat = estatDeFirmaLogicaEjb.update(estat);
-      if (estat.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+      if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
         events.descartat_per_firmar(peticioDeFirma, estat);
       } else {
         events.descartat_per_validar(peticioDeFirma, estat);
@@ -1538,7 +1538,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     // Actualitzam Firmes a estat Descartat
     List<Firma> actualitzarFirmes = firmaLogicaEjb.select(FirmaFields.FIRMAID.in(firmaIDs));
     for (Firma firmaADescartar : actualitzarFirmes) {
-      firmaADescartar.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+      firmaADescartar.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
     }
 
   }
@@ -1643,7 +1643,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       // Borram la reserva de Custòdia en cas de no haver finalitzat
       if (pf.getCustodiaInfoID() != null 
-          && pf.getTipusEstatPeticioDeFirmaID() != Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+          && pf.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
         
         // Borram la reserva de custòdia
         CustodiaInfoJPA custInfo = custodiaInfoEjb.findByPrimaryKey(pf.getCustodiaInfoID());
@@ -1704,7 +1704,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     long estat = peticio.getTipusEstatPeticioDeFirmaID();
 
     FitxerJPA f;
-    if (estat == Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+    if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
       f = peticio.getFitxerAFirmar();
     } else {
 
@@ -1867,9 +1867,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       String extension;
       String nifFirmant;
       switch (tipusFirma) {
-      case Constants.TIPUSFIRMA_PADES:
+      case ConstantsV2.TIPUSFIRMA_PADES:
         extension = "pdf";
-        mime = Constants.PDF_MIME_TYPE;
+        mime = ConstantsV2.PDF_MIME_TYPE;
 
         Map<Integer, Long> fitxersByNumFirma = null;
         if (numFirmaPortaFIB != 1) {
@@ -1943,7 +1943,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // 2.- Tancar l'estat de firma
       final Timestamp now = new Timestamp(System.currentTimeMillis());
 
-      estatDeFirma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT);
+      estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT);
       estatDeFirma.setDataFi(now);
       estatDeFirma = (EstatDeFirmaJPA) estatDeFirmaLogicaEjb.update(estatDeFirma);
       events.firma_parcial(peticioDeFirma, estatDeFirma);
@@ -1951,7 +1951,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // 3.- Associar Fitxer a la Firma i guardar
       firma.setNumFirmaDocument(numFirmaPortaFIB);
       firma.setFitxerFirmatID(fitxer.getFitxerID());
-      firma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT);
+      firma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT);
       firmaLogicaEjb.update(firma);
 
       // 4.- Descartar tots els EstatDeFirma associats a la firma
@@ -1969,10 +1969,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
       for (EstatDeFirma estat : estatsDeFirma) {
         estat.setDataFi(now);
-        estat.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+        estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
         estat.setDescripcio("Alguna altra persona ja ha firmat la peticio");
         estat = estatDeFirmaLogicaEjb.update(estat);
-        if (estat.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+        if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
           events.descartat_per_firmar(peticioDeFirma, estat);
         } else {
           events.descartat_per_validar(peticioDeFirma, estat);
@@ -2050,8 +2050,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           
           // Si la firma es DETACHED (o sigui EXPLICID) s'ha de definir DocumentCustody
           DocumentCustody dc = null;
-          if (tipusFirma != Constants.TIPUSFIRMA_PADES 
-              && peticioDeFirma.getModeDeFirma() == Constants.SIGN_MODE_EXPLICIT) { 
+          if (tipusFirma != ConstantsV2.TIPUSFIRMA_PADES 
+              && peticioDeFirma.getModeDeFirma() == ConstantsV2.SIGN_MODE_EXPLICIT) { 
             
             FitxerJPA fitxerAFirmar = peticioDeFirma.getFitxerAFirmar();
             
@@ -2065,7 +2065,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
 
           switch (tipusFirma) {
-            case Constants.TIPUSFIRMA_PADES:
+            case ConstantsV2.TIPUSFIRMA_PADES:
             {
               SignatureCustody sc = new SignatureCustody();
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
@@ -2074,7 +2074,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, null, sc, null);
             }
               break;
-            case Constants.TIPUSFIRMA_XADES:
+            case ConstantsV2.TIPUSFIRMA_XADES:
             {
               SignatureCustody sc = new SignatureCustody();
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
@@ -2083,7 +2083,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               plugin.saveAll(custInfo.getCustodiaDocumentID(), additionParameters, dc , sc, null);
             }
               break;
-            case Constants.TIPUSFIRMA_CADES:
+            case ConstantsV2.TIPUSFIRMA_CADES:
             {
               SignatureCustody sc = new SignatureCustody();
               sc.setName(peticioDeFirma.getFitxerAFirmar().getNom());
@@ -2170,7 +2170,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
     
     // L'únic estat en que es pot fer neteja d'originals és l'estat Firmat
-    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+    if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
       // Les peticions no iniciades no es poden netejar
       throw new I18NException("peticiodefirma.error.neteja.nofirmat",
           peticioDeFirma.getTitol() + "(" + peticioDeFirma.getPeticioDeFirmaID() + ")");
@@ -2217,8 +2217,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     // L'únic estat en que es pot fer neteja d'originals és l'estat Firmat
     int estat = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
-    if (estat == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT
-        || estat == Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
+    if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT
+        || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
       // -----  FER NETEJA DEL FITXER ADAPTAT I FIRMES INTERMITGES
       FirmaJPA firmaJPA = getLastSignOfPeticioDeFirma(peticioDeFirmaID);
       ferNetejaPeticioFinalitzadaRebutjada(peticioDeFirma, firmaJPA);
@@ -2302,7 +2302,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     Where w1 = Where.AND(
       EstatDeFirmaFields.FIRMAID.equal(firma.getFirmaID()),
       EstatDeFirmaFields.DATAFI.isNull(), // No tancat
-      EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR)
+      EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR)
     );
     Where w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull();
     ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
@@ -2323,7 +2323,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     Timestamp now = new Timestamp(System.currentTimeMillis());
     estatDeFirma.setDataFi(now);
     estatDeFirma
-        .setTipusEstatDeFirmaInicialID(Constants.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
+        .setTipusEstatDeFirmaInicialID(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR);
     estatDeFirma.setDescripcio("El document ha sigut marcat per revisar");
     estatDeFirmaLogicaEjb.update(estatDeFirma);
     
@@ -2332,7 +2332,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     for (EstatDeFirma estat : estatsDeFirma) {
       estat.setDataFi(now);
-      estat.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+      estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
       estat.setDescripcio("De la validació d'aquest document s´encarregarà"
           + " l´usuari-entitat " + estatDeFirma.getUsuariEntitatID());
       estatDeFirmaLogicaEjb.update(estat);
@@ -2346,7 +2346,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
     estatDeFirma.setDataFi(now);
-    estatDeFirma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_VALIDAT);
+    estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT);
     estatDeFirma.setDescripcio("El document ha sigut validat");
     estatDeFirmaLogicaEjb.update(estatDeFirma);
   }
@@ -2362,7 +2362,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
     estatDeFirma.setDataFi(now);
-    estatDeFirma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
+    estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT);
     estatDeFirma.setDescripcio(motiuInvalidacio);
     estatDeFirmaLogicaEjb.update(estatDeFirma);
   }
@@ -2378,7 +2378,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     List<EstatDeFirma> estatsPendentsDeFirma = estatDeFirmaLogicaEjb.select(Where.AND(
         EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-            .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+            .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
         EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull(), PETICIODEFIRMAID
             .equal(peticioDeFirma.getPeticioDeFirmaID())));
 
@@ -2391,7 +2391,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // marcar la peticio de firma com rebutjat
       peticioDeFirma.setMotiuDeRebuig(motiuDeRebuig);
       peticioDeFirma
-          .setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
+          .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
       this.update(peticioDeFirma);
 
@@ -2443,11 +2443,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     try {
       // Marcar l'Estat de Firma com a rebutjat
       estatDeFirma.setDataFi(now);
-      estatDeFirma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
+      estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
       estatDeFirma.setDescripcio(motiuDeRebuig);
       estatDeFirma = estatDeFirmaLogicaEjb.update(estatDeFirma);
 
-      firma.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
+      firma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT);
 
       // Descartar tots els estat de firma actius associats al flux
       Long fluxDeFirmesID = peticioDeFirma.getFluxDeFirmesID();
@@ -2457,13 +2457,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       for (EstatDeFirma estat : estatsDeFirma) {
         // Actualitzam estat
         estat.setDataFi(now);
-        estat.setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+        estat.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
         // TODO MISSATGE
         estat.setDescripcio("La petició ha sigut rebutjada per un altre usuari");
         estatDeFirmaLogicaEjb.update(estat);
 
         // Events
-        if (estat.getTipusEstatDeFirmaInicialID() == Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+        if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
           events.descartat_per_firmar(peticioDeFirma, estatDeFirma);
         } else {
           events.descartat_per_validar(peticioDeFirma, estatDeFirma);
@@ -2476,7 +2476,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       List<Firma> actualitzarFirmes = firmaLogicaEjb.select(FirmaFields.FIRMAID.in(firmes));
       for (Firma firmaADescartar : actualitzarFirmes) {
         firmaADescartar
-            .setTipusEstatDeFirmaFinalID(Constants.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
+            .setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT);
       }
 
       // Posar data de finalitzacio al Bloc
@@ -2488,7 +2488,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // marcar la peticio de firma com rebutjat
       peticioDeFirma.setMotiuDeRebuig(motiuDeRebuig);
       peticioDeFirma
-          .setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
+          .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
       if (peticioDeFirma.getUsuariEntitatID() != null) {
         peticioDeFirma.setAvisWeb(true);
@@ -2636,7 +2636,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           // OK No fer res
         } else {
           // CAS 2: Ara no hi ha custodia i abans si n'hi havia
-          if (peticio.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+          if (peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
             // CAS 2.a  Si la petició ha finalitzat, deslligam la custodiaactual de la peticio
             peticio.setCustodiaInfoID(null);
             peticio.setCustodiaInfo(null);
@@ -2666,7 +2666,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         } else {
           
           // Cas 4: Ara hi ha custodia default i la petició també en tenia
-          if (peticio.getTipusEstatPeticioDeFirmaID() == Constants.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
+          if (peticio.getTipusEstatPeticioDeFirmaID() == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
             
             if (custodiaInfo_Entitat_Default.isEditable()) {
               // Feim una còpia de l'actual
@@ -2700,7 +2700,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
 
       // Canviam estat
-      peticio.setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
+      peticio.setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
 
       // Actualitzam petició
       peticio = (PeticioDeFirmaJPA) update(peticio);
@@ -2893,7 +2893,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       peticio.setMotiuDeRebuig(null);
 
-      peticio.setTipusEstatPeticioDeFirmaID(Constants.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
+      peticio.setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
 
       if (peticioOrig.getLogoSegellID() != null) {
         FitxerJPA fitxerClonat = cloneFitxer(fitxers, peticioOrig.getLogoSegell());
@@ -3361,7 +3361,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
 
       Where where = Where.AND(
-          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(Constants.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
+          PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES), 
           new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
       List<PeticioDeFirma> peticions = this.select(where);
 
@@ -3410,7 +3410,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMESID()
                   .equal(peticioDeFirma.getFluxDeFirmesID()),
               FirmaFields.TIPUSESTATDEFIRMAFINALID
-                  .equal(Constants.TIPUSESTATDEFIRMAFINAL_FIRMAT));
+                  .equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT));
           firmesRealitzades = firmaLogicaEjb.count(wf);
           if(isDebug) {
              log.debug(" ---------------------- ");
@@ -3459,7 +3459,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         Where wf = Where.AND(new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES()
             .FLUXDEFIRMESID().equal(pf.getFluxDeFirmesID()),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
-                .equal(Constants.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
+                .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
             EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.isNull());
 
         List<String> avisarusuaris = estatDeFirmaLogicaEjb.executeQuery(
@@ -3526,7 +3526,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       String nomEntitat = entitatEjb.executeQueryOne(EntitatFields.NOM, EntitatFields.ENTITATID.equal(entitatID));
       
       // Muntar mails 
-      String url = PropietatGlobalUtil.getAppUrl() + Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list";
+      String url = PropietatGlobalUtil.getAppUrl() + ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list";
       List<EmailInfo> emailsEntitat = new ArrayList<EmailInfo>();
       for(String ue : allUsuariEntitat.keySet()) {
 

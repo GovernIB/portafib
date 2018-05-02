@@ -7,9 +7,9 @@ package es.caib.portafib.utils;
  */
 public enum RoleUsuariAplicacioEnum {
 
-  PFI_ADMIN(Constants.PFI_ADMIN),
+  PFI_ADMIN(ConstantsV2.PFI_ADMIN),
 
-  PFI_USER(Constants.PFI_USER);
+  PFI_USER(ConstantsV2.PFI_USER);
 
   String value;
 

@@ -8,19 +8,26 @@
 
   <modules>
     <!-- Llibreries de Firma Web i En Servidor -->
+    <!--    -->
     <module>apifirmasimple</module>
     <module>plugins-signatureserver</module>
     <module>plugins-signatureweb</module>
+
     <!-- PortaFIB -->
     <module>utils</module>
+    <!--   --> 
+    
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
     <module>ejb</module>
     <module>logic</module>
+
     <module>back</module>
+    <!-- -->
     <module>ws</module>
     <module>scripts</module>
+
     <module>ear</module>
   </modules>
 

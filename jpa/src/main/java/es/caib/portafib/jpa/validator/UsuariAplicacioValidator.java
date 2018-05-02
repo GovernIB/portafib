@@ -60,10 +60,6 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(IDIOMAID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICADEPLUGINFIRMAWEB, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICADEPLUGINFIRMAWEB)));

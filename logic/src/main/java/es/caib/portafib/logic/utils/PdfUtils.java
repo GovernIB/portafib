@@ -61,7 +61,7 @@ import com.itextpdf.text.pdf.security.PdfPKCS7;
 
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.versio.Versio;
 
 /**
@@ -69,7 +69,7 @@ import es.caib.portafib.versio.Versio;
  * @author anadal
  * 
  */
-public class PdfUtils implements Constants {
+public class PdfUtils implements ConstantsV2 {
 
   protected static Logger log = Logger.getLogger(PdfUtils.class);
 
@@ -85,7 +85,7 @@ public class PdfUtils implements Constants {
     EOF_PDF = tmp;
 
     log.info("Numero màxim de firmants per taula de firmes: "
-        + Constants.MAX_FIRMES_PER_TAULA);
+        + ConstantsV2.MAX_FIRMES_PER_TAULA);
   }
 
 
@@ -183,12 +183,9 @@ public class PdfUtils implements Constants {
       int numFirmesOriginals, boolean ignoreChecks)
       throws I18NException, FileNotFoundException, IOException, Exception {
 
-    
     final boolean isDebug = log.isDebugEnabled();
-    
+
     long start = isDebug? System.currentTimeMillis() : 0;
-    
-    
 
     byte[] signedPDFData;
     {
@@ -215,15 +212,14 @@ public class PdfUtils implements Constants {
         throw new Exception("S´esperaven " + (numFirmaPortaFIB + numFirmesOriginals)
             + " firmes, però el document pujat conté " + names.size() + " firmes");
       }
-  
+
       // TODO fields.getTotalRevisions()
       if (isDebug) {
         long now = System.currentTimeMillis();
         log.debug("checkCertificatePADES - Final init: " + (now - start));
         start = now;
       }
-      
-  
+
       // === Comprovar que el fitxer no s'ha modificat ===
       if (fitxerOriginalID != null) {
         if (numFirmaPortaFIB == 1) {
@@ -234,7 +230,6 @@ public class PdfUtils implements Constants {
           isOK = checkDocumentWhenFirstSign(originalData, signedPDFData, numFirmesOriginals);
           
           if (!isOK) {
-    
             // TODO traduir
             Exception e = new Exception(
                 "El document original s'ha modificat durant el procés de firma.");
@@ -636,7 +631,7 @@ public class PdfUtils implements Constants {
       attachments.addAll(attachmentsOriginalPDF);
 
       // 1.1.- Afegir taula de firmes (si escau)
-      int posicioTaulaFirmes = Constants.TAULADEFIRMES_SENSETAULA;
+      int posicioTaulaFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
       if (taulaDeFirmesInfo != null) {
         addTaulaDeFirmes(reader, stamper, taulaDeFirmesInfo);
         posicioTaulaFirmes = taulaDeFirmesInfo.getPosicioTaulaDeFirmes();

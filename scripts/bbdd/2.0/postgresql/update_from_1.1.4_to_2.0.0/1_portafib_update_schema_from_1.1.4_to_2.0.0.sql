@@ -63,8 +63,6 @@ COMMENT ON COLUMN pfi_entitat.politicacustodia IS '0: No permetre, 1:Només Plan
 ALTER TABLE pfi_usuarientitat ADD COLUMN politicacustodia integer NOT NULL DEFAULT 0;
 COMMENT ON COLUMN pfi_usuarientitat.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1:Només Plantilles de l''''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us)';
 
-ALTER TABLE pfi_usuariaplicacio ADD COLUMN politicacustodia integer NOT NULL DEFAULT 0;
-COMMENT ON COLUMN pfi_usuariaplicacio.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1: Només Plantilles de l''''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio';
 
 
 -- ===========================================
@@ -194,7 +192,7 @@ CREATE TABLE pfi_usuariaplicacioconfig
 (
   usuariaplicacioconfigid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'),
   usuariaplicacioid character varying(101) NOT NULL,
-  uspoliticadefirma integer NOT NULL DEFAULT 0, -- 0 => no usar politica de firma, 1=> usar politica de firma de l'entitat, 2=> usar politica d'aquesta configuracio
+  uspoliticadefirma integer NOT NULL DEFAULT 0, 
   policyidentifier character varying(100),
   policyidentifierhash character varying(256),
   policyidentifierhashalgorithm character varying(50),
@@ -206,8 +204,11 @@ CREATE TABLE pfi_usuariaplicacioconfig
   modedefirma boolean NOT NULL,
   motiudelegacioid bigint,
   firmatperformatid bigint,
+  politicacustodia integer NOT NULL DEFAULT 0,
   custodiainfoid bigint,
-  posiciotaulafirmesid integer,
+  politicataulafirmes integer NOT NULL DEFAULT 0,
+  posiciotaulafirmesid integer NOT NULL DEFAULT 0,
+  politicasegellatdetemps integer NOT NULL DEFAULT 0
   pluginsegellatid bigint,
   comprovarniffirma boolean, -- Null => Valor definit a l'entitat
   checkcanviatdocfirmat boolean, -- Null => Valor definit a l'entitat
@@ -251,8 +252,11 @@ WITH (
   OIDS=FALSE
 );
 
+COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicataulafirmes IS '-1 definit en l''entitat, 0 no es permet taules de firmes, 1  obligatori politica definida en la configuració d''usuari aplicació o entitat, 2 opcional, per defecte el definit a l''entitat';
+COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicasegellatdetemps IS 'DEFINIT_EN_ENTITAT=-1;NOUSAR=0;US_OBLIGATORI=1;USUARI_ELEGEIX_PER_DEFECTE_SI=2;USUARI_ELEGEIX_PER_DEFECTE_NO=3;';
+COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1: Només Plantilles de l''''Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.validarcertificat IS 'NULL => Lo que digui l''entitat';
-COMMENT ON COLUMN pfi_usuariaplicacioconfig.uspoliticadefirma IS '0 => no usar politica de firma, 1=> usar politica de firma de l''entitat, 2=> usar politica d''aquesta configuracio ';
+COMMENT ON COLUMN pfi_usuariaplicacioconfig.uspoliticadefirma IS '-1=> usar politica de firma de l''entitat, 0 => no usar politica de firma,  1=> usar politica d''aquesta configuracio, 2 => L''usuari web o usuari-app elegeixen la politica de firma';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.tipusoperaciofirma IS '0 firma, 1 contrafirma 2, cofirma';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.comprovarniffirma IS 'Null => Valor definit a l''entitat';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.checkcanviatdocfirmat IS '-- Null => Valor definit a l''entitat';
@@ -278,6 +282,8 @@ COMMENT ON COLUMN pfi_usuariaplicacioconfig.validarfirma IS 'Indica si validar l
 
  create index pfi_confapp_logincert_fk_i on pfi_usuariaplicacioconfig (logincertificateid);
 
+
+ 
 
 -- ======================================================================
 -- 2018/04/13 Afegir política de plugins de firma web #173
@@ -358,5 +364,12 @@ COMMENT ON COLUMN pfi_plugincridada.tempsexecucio IS 'milisegons execucio';
 
 create index pfi_plugincridada_pk_i on pfi_plugincridada (plugincridadaid);
 create index pfi_plugcrida_entitatid_fk_i on pfi_plugincridada (entitatid);
+
+-- ======================================================================
+-- 2018/05/01 Configuració de Firma de UsuariApp (Us política de Firma) #148
+-- ======================================================================
+ 
+ ALTER TABLE pfi_entitat ADD COLUMN uspoliticadefirma integer NOT NULL DEFAULT 0;
+ COMMENT ON COLUMN pfi_entitat.uspoliticadefirma IS '-1=> usar politica de firma de l''entitat, 0 => no usar politica de firma,  1=> usar politica d''aquesta configuracio, 2 => L''usuari web o usuari-app elegeixen la politica de firma';
 
     
