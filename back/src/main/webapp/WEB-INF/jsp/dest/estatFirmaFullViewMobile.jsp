@@ -40,9 +40,10 @@
 			    <c:forEach var="fitxer" items="${fitxers}" varStatus="theCount">
 			    	 <c:url var="urlfile" value="${pfi:fileUrl(fitxer.key)}"/>
    					 <c:set var="nomfile" value="${fitxer.key.nom}"/>
+   					 <c:set var="idFile" value="${fitxer.key.fitxerID}"/>
    					 
-   					 <p class="row mall-vert-margins">
-					    <a href="${urlfile}" target="_blank" class="col-80 button button-fill color-orange">${nomfile}</a>
+   					 <p class="row mall-vert-margins" onclick="javascript:var win = window.open('<c:url value="${contexte}/docVista/${idFile}"/>', '_blank'); win.focus();">
+					    <a href="#" target="_blank" class="col-80 button button-fill color-orange">${nomfile}</a>
 					 </p>
    					 
 			    </c:forEach>

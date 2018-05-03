@@ -122,3 +122,8 @@
     margin-left: 3px !important;
     margin-top: 0px !important;
  }
+ 
+ .alert-mobile {
+ 	margin-bottom: 0px;
+    margin-top: 44px;
+ }

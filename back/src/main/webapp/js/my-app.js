@@ -6,6 +6,13 @@ var myApp = new Framework7({
 // We need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
+//Create notification with close button
+//var notificationWithButton = myApp.notification.create({
+//  title: 'Framework7',
+//  subtitle: 'Notification with close button',
+//  closeButton: true,
+//});
+
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
@@ -141,3 +148,5 @@ function rebutjarseleccionats() {
 function goBack() {
     window.history.back();
 }
+
+

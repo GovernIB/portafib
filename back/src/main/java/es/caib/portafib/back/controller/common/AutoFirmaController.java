@@ -304,7 +304,12 @@ public class AutoFirmaController extends FitxerController
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
 
-    final String view = "PluginDeFirmaContenidor_AutoFirma";
+    final String view;
+    if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+    	view = "PluginDeFirmaContenidorMobile_AutoFirma";
+    else
+    	view = "PluginDeFirmaContenidor_AutoFirma";
+    
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
     
     return mav;

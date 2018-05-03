@@ -65,6 +65,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * @throws Exception
    */
   public FitxerJPA getLastSignedFileOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
+  
+  public FitxerJPA getFileOfPeticioDeFirmaById(Long fitxerID) throws I18NException;
 
   public FirmaJPA getLastSignOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
 

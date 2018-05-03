@@ -111,8 +111,11 @@ public class PassarelaDeFirmaController  {
     // No tenim cap restricció de plugins per tipus de document
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
-    final String view = "PluginDeFirmaContenidor_Passarela";
-    
+    final String view;
+    if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+    	view = "PluginDeFirmaContenidorMobile_Passarela";
+    else
+    	view = "PluginDeFirmaContenidor_Passarela";
 
     ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
 

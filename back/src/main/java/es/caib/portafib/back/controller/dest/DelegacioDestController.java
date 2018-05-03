@@ -1290,7 +1290,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     //"<b>Firmar Autorització</b> Ara ha de firmar l´autorització de delegació. Sense aquest pas no es completarà aquesta delegació. Si vol, pot deixar aquest pas per més endavant però fins que no firmi aquesta delegació, aquesta no s´activarà.");
 
 
-    final String view = "PluginDeFirmaContenidor_ROLE_DEST";
+    final String view;
+    if(request.getHeader("User-Agent").indexOf("Mobile") != -1)
+    	view = "PluginDeFirmaContenidorMobile_ROLE_DEST";
+    else
+    	view = "PluginDeFirmaContenidor_ROLE_DEST";
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
 
     return mav;

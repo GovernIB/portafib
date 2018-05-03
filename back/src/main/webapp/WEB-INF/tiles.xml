@@ -82,16 +82,16 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/autoFirmaFinal.jsp" />
     </definition>
 
+
+
     <definition name="PluginDeFirmaContenidor_AutoFirma" extends="principal">
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
-    
-    
-    
     <definition name="PluginDeFirmaContenidorMobile_AutoFirma" extends="role_dest_mobile">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
     </definition>
+    
     
     
     
@@ -99,6 +99,12 @@
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
+    <definition name="PluginDeFirmaContenidorMobile_Passarela" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
+    </definition>
+    
+    
+    
     
     <!--  Generic de Firma (passarela, autofirma, firma dest. i firma delegat) -->
     <definition name="PluginFirmaSeleccio" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp" >
@@ -493,14 +499,31 @@
         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dele.jsp" />
     </definition>
     
+    <definition name="role_dele_mobile" extends="base.definition.mobile">
+        <put-attribute name="pipella" value="ROLE_DEST" />
+<!-- 		<put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" /> -->
+    </definition>
+    
     <definition name="estatFirmaList_ROLE_DELE" extends="role_dele">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
     </definition>
+    
+    <definition name="estatFirmaListMobile_ROLE_DELE" extends="role_dele_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaListMobile.jsp" />
+    </definition>
+    
+    
     
     <definition name="PluginDeFirmaContenidor_ROLE_DELE" extends="role_dele">
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
+    <definition name="PluginDeFirmaContenidorMobile_ROLE_DELE" extends="role_dele_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
+    </definition>
+    
+    
+    
 
     <definition name="viewDocumentsFullView_ROLE_DELE" extends="role_dele">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
@@ -508,6 +531,9 @@
 
     <definition name="estatFirmaFullView_ROLE_DELE" extends="role_dele">
         <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    <definition name="estatFirmaFullViewMobile_ROLE_DELE" extends="role_dele_mobile">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewMobile.jsp" />
     </definition>
     
     <definition name="delegacions_List_ROLE_DELE" extends="role_dele">
@@ -531,13 +557,12 @@
 <!--         <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_dest.jsp" /> -->
     </definition>
 
+
+
     <definition name="PluginDeFirmaContenidor_ROLE_DEST" extends="role_dest">
         <put-attribute name="titol" value="SignatureWebContainer" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
     </definition>
-
-
-    
     <definition name="PluginDeFirmaContenidorMobile_ROLE_DEST" extends="role_dest_mobile">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor_mobile.jsp" />
     </definition>

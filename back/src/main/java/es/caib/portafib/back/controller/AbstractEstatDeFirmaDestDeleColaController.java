@@ -2659,6 +2659,19 @@ import es.caib.portafib.utils.Constants;
       final boolean attachment = true;
       FileDownloadController.fullDownload(f.getFitxerID(), f.getNom(), f.getMime(), response, attachment);
     }
+    
+    @RequestMapping(value = "/docVista/{fitxerID}", method = RequestMethod.GET)
+    public void docVista(HttpServletResponse response, @PathVariable Long fitxerID)
+        throws I18NException {
+
+      Fitxer f;
+      f = peticioDeFirmaLogicaEjb.getFileOfPeticioDeFirmaById(fitxerID);
+      
+      final boolean attachment = false;
+      FileDownloadController.fullDownload(f.getFitxerID(),
+          f.getNom(), f.getMime(), response, attachment); 
+
+    }
 
     @Override
     public boolean isActiveFormNew() {

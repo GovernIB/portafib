@@ -62,7 +62,7 @@ session.setAttribute("mapping", mapping);
         <div class="list-block">
             <ul>
                 <li>
-                    <a data-href="<c:url value="/"/>" class="item-link out-link">
+                    <a data-href="<c:url value="/canviarPipella"/>" class="item-link out-link">
                         <div class="item-content">
                             <div class="item-media"><i class="f7-icons">home</i></div>
                             <div class="item-inner">
@@ -142,7 +142,7 @@ session.setAttribute("mapping", mapping);
       <div class="view view-main">
         
         <!-- YIELD CONTINGUT -->
-        <jsp:include page="/WEB-INF/jsp/moduls/missatges.jsp" />
+        <jsp:include page="/WEB-INF/jsp/moduls/missatges_mobile.jsp" />
 	    <tiles:insertAttribute name="contingut">
 	    	<tiles:putAttribute name="contingut_title" value="${contingut_tile}"  />
 	    </tiles:insertAttribute>

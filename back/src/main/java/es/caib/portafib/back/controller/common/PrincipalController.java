@@ -81,7 +81,9 @@ public class PrincipalController {
     
     if (initialized == null && Configuracio.isCAIB() && request.isUserInRole(Constants.ROLE_DEST)) {
       return new ModelAndView(new RedirectView(Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
-    } else {
+    } else if (request.getHeader("User-Agent").indexOf("Mobile") != -1){
+      return new ModelAndView(new RedirectView(Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
+    }else{
       return new ModelAndView("principal");
     }
 
