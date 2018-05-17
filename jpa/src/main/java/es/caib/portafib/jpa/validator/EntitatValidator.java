@@ -229,6 +229,14 @@ public class EntitatValidator<T> implements EntitatFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(PROPIETATSTAULAFIRMES) == 0) {
+      java.lang.String __propietatstaulafirmes = (java.lang.String)__vr.getFieldValue(__target__,PROPIETATSTAULAFIRMES);
+      if (__propietatstaulafirmes!= null && __propietatstaulafirmes.length() > 2147483647) {
+        __vr.rejectValue(PROPIETATSTAULAFIRMES, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROPIETATSTAULAFIRMES)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 

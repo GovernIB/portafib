@@ -417,6 +417,17 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
+  private java.lang.String propietatsTaulaFirmes;
+
+  public java.lang.String getPropietatsTaulaFirmes() {
+    return this.propietatsTaulaFirmes;
+  }
+
+  public void setPropietatsTaulaFirmes(java.lang.String propietatsTaulaFirmes) {
+    this.propietatsTaulaFirmes = propietatsTaulaFirmes;
+  }
+
+
   private java.lang.Integer politicaSegellatDeTempsDesde;
 
   public java.lang.Integer getPoliticaSegellatDeTempsDesde() {
@@ -568,6 +579,7 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesDesde = __toClone.posicioTaulaFirmesDesde;
     this.posicioTaulaFirmesFins = __toClone.posicioTaulaFirmesFins;
+    this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
     this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
     this.pluginIDDesde = __toClone.pluginIDDesde;

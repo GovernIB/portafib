@@ -14,8 +14,6 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
 
   // Nom de les operacions en constants
 
-  // Nom de les operacions en constants
-
   public static final String SIGNDOCUMENTS = "signDocuments";
   
   public static final String GETMAXNUMBEROFSIGNATURESBYTRANSACTION = "getMaxNumberOfSignaturesByTransaction";

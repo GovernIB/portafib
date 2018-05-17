@@ -43,6 +43,7 @@ public interface EntitatFields extends java.io.Serializable {
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
 	 public static final IntegerField POSICIOTAULAFIRMES = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmes", "posiciotaulafirmes");
+	 public static final StringField PROPIETATSTAULAFIRMES = new StringField(_TABLE_MODEL, "propietatsTaulaFirmes", "propietatstaulafirmes");
 	 public static final IntegerField POLITICASEGELLATDETEMPS = new IntegerField(_TABLE_MODEL, "politicaSegellatDeTemps", "segelldetempsviaweb");
 	 public static final LongField PLUGINID = new LongField(_TABLE_MODEL, "pluginID", "pluginid");
 	 public static final LongField PLUGINRUBRICAID = new LongField(_TABLE_MODEL, "pluginRubricaID", "pluginrubricaid");
@@ -84,6 +85,7 @@ public interface EntitatFields extends java.io.Serializable {
     CUSTODIAINFOID,
     POLITICATAULAFIRMES,
     POSICIOTAULAFIRMES,
+    PROPIETATSTAULAFIRMES,
     POLITICASEGELLATDETEMPS,
     PLUGINID,
     PLUGINRUBRICAID,

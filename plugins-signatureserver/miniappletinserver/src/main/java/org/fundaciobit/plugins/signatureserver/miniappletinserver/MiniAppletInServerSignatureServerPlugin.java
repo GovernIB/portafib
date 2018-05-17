@@ -3,6 +3,8 @@ package org.fundaciobit.plugins.signatureserver.miniappletinserver;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyStore;
@@ -354,6 +356,12 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
             if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
   
               AbstractTriFaseSigner cloudSign = new MiniAppletInServerPAdESSigner(privateKey);
+              
+              if (isDebug()) {
+                StringWriter writer = new StringWriter();
+                info.getProperties().list(new PrintWriter(writer));
+                log.info("Propietats Firma MiniApplet:\n" +  writer.getBuffer().toString() + "\n");
+              }
   
               signedData = cloudSign.fullSign(info.getDataToSign(), algorithm,
                   new Certificate[] { info.getCertificate() }, info.getProperties());

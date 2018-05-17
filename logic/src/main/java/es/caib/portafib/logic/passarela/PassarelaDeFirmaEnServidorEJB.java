@@ -24,8 +24,7 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.model.entity.Plugin;
-import es.caib.portafib.model.fields.PluginFields;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.activation.DataHandler;
@@ -38,7 +37,6 @@ import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -73,7 +71,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
   @Override
   public PassarelaFullResults signDocuments(
       PassarelaSignaturesSet passarelaSignaturesSet, EntitatJPA entitat,
-      UsuariAplicacioJPA usrApp) {
+      UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config) throws NoCompatibleSignaturePluginException {
 
     Locale locale;
 
@@ -100,9 +98,10 @@ public class PassarelaDeFirmaEnServidorEJB extends
       // storeSignaturesSet(new PassarelaSignaturesSetFull(entitatID,
       // signaturesSet));
 
-      if (passarelaSignaturesSet.getCommonInfoSignature().getUsername() == null) {
-        passarelaSignaturesSet.getCommonInfoSignature().setUsername(usrApp.getUsuariAplicacioID());
-      }
+      // XYZ ZZZ Ja s'ha mogut a passarela
+//      if (passarelaSignaturesSet.getCommonInfoSignature().getUsername() == null) {
+//        passarelaSignaturesSet.getCommonInfoSignature().setUsername(usrApp.getUsuariAplicacioID());
+//      }
       
       PassarelaFileInfoSignature[] fisArray =  passarelaSignaturesSet.getFileInfoSignatureArray();
       int[] originalNumberOfSignsArray2 = new int[fisArray.length];
@@ -116,7 +115,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
 
-        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis, original, adaptat);
+        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis,
+            original, adaptat, usrApp);
 
       } // Final de For
 
@@ -125,45 +125,74 @@ public class PassarelaDeFirmaEnServidorEJB extends
           segellDeTempsPublicEjb, signaturesSetID, passarelaSignaturesSet, entitat);
 
       // 2.- Cercar Plugin associats als IDs
-      List<Plugin> moduls;
-      {
-        List<Long> filterPluginsByIDs = passarelaSignaturesSet.getCommonInfoSignature()
-            .getAcceptedPlugins();
-        final Where where = modulDeFirmaServidorEjb.getWhere(entitatID);
-        if (filterPluginsByIDs == null || filterPluginsByIDs.size() == 0) {
-          // Cercam tots els plugins disponibles
-          moduls = modulDeFirmaServidorEjb.select(where);
-        } else {
-
-          moduls = modulDeFirmaServidorEjb.select(Where.AND(where,
-              PluginFields.PLUGINID.in(filterPluginsByIDs)));
+      
+      
+      Long pluginId = config.getPluginFirmaServidorID();
+      
+      
+      
+      PluginJPA modulDeFirmaJPA = modulDeFirmaServidorEjb.findByPrimaryKey(pluginId);
+      
+      ISignatureServerPlugin signaturePlugin;
+      signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(modulDeFirmaJPA
+          .getPluginID());
+      
+      if (!signaturePlugin.filter(ss)) {
+        throw new NoCompatibleSignaturePluginException();
+      }
+      
+      /*  XYZ ZZZ
+      if (signaturePlugin != null) {
+        
+      } else {
+      
+      
+        ****   S'ha de consultar a l'usuari aplicació
+        
+        List<Plugin> moduls;
+        {
+          List<Long> filterPluginsByIDs = passarelaSignaturesSet.getCommonInfoSignature()
+              .getAcceptedPlugins();
+          final Where where = modulDeFirmaServidorEjb.getWhere(entitatID);
+          if (filterPluginsByIDs == null || filterPluginsByIDs.size() == 0) {
+            // Cercam tots els plugins disponibles
+            moduls = modulDeFirmaServidorEjb.select(where);
+          } else {
+  
+            moduls = modulDeFirmaServidorEjb.select(Where.AND(where,
+                PluginFields.PLUGINID.in(filterPluginsByIDs)));
+          }
+        }
+  
+        // 3.- Elegim el primer que passi el filtre
+        PluginJPA modulFiltered = null;
+        ISignatureServerPlugin signaturePlugin = null;
+  
+        for (Plugin modulDeFirmaJPA : moduls) {
+          signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(modulDeFirmaJPA
+              .getPluginID());
+  
+          if (signaturePlugin == null) {
+            throw new I18NException("plugin.signatureserver.noexist",
+                String.valueOf(modulDeFirmaJPA.getPluginID()));
+          }
+  
+          ****+ 
+          
+          if (signaturePlugin.filter(ss)) {
+            modulFiltered = (PluginJPA) modulDeFirmaJPA;
+            break;
+          }
+  
         }
       }
-
-      // 3.- Elegim el primer que passi el filtre
-      PluginJPA modulFiltered = null;
-      ISignatureServerPlugin signaturePlugin = null;
-
-      for (Plugin modulDeFirmaJPA : moduls) {
-        signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(modulDeFirmaJPA
-            .getPluginID());
-
-        if (signaturePlugin == null) {
-          throw new I18NException("plugin.signatureserver.noexist",
-              String.valueOf(modulDeFirmaJPA.getPluginID()));
-        }
-
-        if (signaturePlugin.filter(ss)) {
-          modulFiltered = (PluginJPA) modulDeFirmaJPA;
-          break;
-        }
-
-      }
+     
 
       if (modulFiltered == null || signaturePlugin == null) {
         I18NException i18ne = new I18NException("signaturemodule.notfound");
         throw i18ne;
       }
+       */
 
       // Cridar al plugin per a que firmi
       // XYZ hauria de cridar a l'altre
@@ -175,7 +204,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
       // Segellat de temps
       String timestampUrlBase = SignatureUtils.
           getAbsoluteURLToTimeStampGeneratorPerFirmaEnServidor(absoluteURL,
-               modulFiltered.getPluginID());
+              modulDeFirmaJPA.getPluginID());
       
       // FIRMAR
       ss = signaturePlugin.signDocuments(ss, timestampUrlBase);

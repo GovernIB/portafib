@@ -109,6 +109,11 @@ public class ConfiguracioUsuariAplicacioAdenController extends
       uac.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
       uac.setPoliticaSegellatDeTemps(ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
       uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
+      
+      
+      uac.setPluginFirmaServidorID(null);
+      uac.setMaxFirmesEnServidor(5);
+      
 
     }
 
@@ -139,6 +144,11 @@ public class ConfiguracioUsuariAplicacioAdenController extends
 
     // XYZ ZZZ Pendent de Implementar
     form.addReadOnlyField(HTMLPERLLISTARPLUGINSFIRMAWEB);
+    
+    
+    // Pentent de que s'implementi XYZ ZZZ
+    // #176 Configuració etiquetes de la Taula de Firmes 
+    form.addReadOnlyField(PROPIETATSTAULAFIRMES);
 
     if (!__isView) {
       form.setAttachedAdditionalJspCode(true);

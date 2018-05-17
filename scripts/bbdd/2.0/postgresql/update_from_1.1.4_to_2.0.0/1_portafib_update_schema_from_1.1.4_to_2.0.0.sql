@@ -69,6 +69,8 @@ COMMENT ON COLUMN pfi_usuarientitat.politicacustodia IS '-1: el que digui l''ent
 -- 2018/03/27 Política de Taula de Firmes #166
 -- ===========================================
 
+ALTER TABLE pfi_entitat ADD COLUMN propietatstaulafirmes text;
+
 ALTER TABLE pfi_entitat ADD COLUMN politicataulafirmes integer NOT NULL DEFAULT 2;
 COMMENT ON COLUMN pfi_entitat.politicataulafirmes IS '0 no es permet taules de firmes, 1 definit en l''entitat, 2 opcional per defecte el definit a l''entitat, 3 opcional per defecte sense taula de firmes';
 
@@ -80,6 +82,8 @@ DROP INDEX pfi_petifirma_postaulaid_fk_i;
 ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_postaufir_fk;
 
 DROP TABLE pfi_posiciotaulafirmes;
+
+
 
 
 -- ===========================================
@@ -208,6 +212,7 @@ CREATE TABLE pfi_usuariaplicacioconfig
   custodiainfoid bigint,
   politicataulafirmes integer NOT NULL DEFAULT 0,
   posiciotaulafirmesid integer NOT NULL DEFAULT 0,
+  propietatstaulafirmes text,
   politicasegellatdetemps integer NOT NULL DEFAULT 0
   pluginsegellatid bigint,
   comprovarniffirma boolean, -- Null => Valor definit a l'entitat
@@ -215,6 +220,7 @@ CREATE TABLE pfi_usuariaplicacioconfig
   validarfirma boolean, -- Indica si validar la firma amb el Plugin de validació definit a l'entitat
   validarcertificat boolean -- Null => Valor definit a l'entitat
   pluginfirmaservidorid bigint,
+  maxfirmesenservidor integer,
   htmlperllistarpluginsfirmaweb text,
   logincertificateid bigint,
 
@@ -251,6 +257,8 @@ CREATE TABLE pfi_usuariaplicacioconfig
 WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE pfi_usuariaplicacioconfig   ADD COLUMN ;
 
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicataulafirmes IS '-1 definit en l''entitat, 0 no es permet taules de firmes, 1  obligatori politica definida en la configuració d''usuari aplicació o entitat, 2 opcional, per defecte el definit a l''entitat';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicasegellatdetemps IS 'DEFINIT_EN_ENTITAT=-1;NOUSAR=0;US_OBLIGATORI=1;USUARI_ELEGEIX_PER_DEFECTE_SI=2;USUARI_ELEGEIX_PER_DEFECTE_NO=3;';

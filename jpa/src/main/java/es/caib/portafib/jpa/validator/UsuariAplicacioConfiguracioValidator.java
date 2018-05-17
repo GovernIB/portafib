@@ -125,6 +125,14 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       }
     }
     
+    if (__vr.getFieldErrorCount(PROPIETATSTAULAFIRMES) == 0) {
+      java.lang.String __propietatstaulafirmes = (java.lang.String)__vr.getFieldValue(__target__,PROPIETATSTAULAFIRMES);
+      if (__propietatstaulafirmes!= null && __propietatstaulafirmes.length() > 2147483647) {
+        __vr.rejectValue(PROPIETATSTAULAFIRMES, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROPIETATSTAULAFIRMES)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
+      }
+    }
+    
     if (__vr.getFieldErrorCount(HTMLPERLLISTARPLUGINSFIRMAWEB) == 0) {
       java.lang.String __htmlperllistarpluginsfirmaweb = (java.lang.String)__vr.getFieldValue(__target__,HTMLPERLLISTARPLUGINSFIRMAWEB);
       if (__htmlperllistarpluginsfirmaweb!= null && __htmlperllistarpluginsfirmaweb.length() > 2147483647) {
@@ -210,16 +218,16 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       }
     }
 
-    if (__vr.getFieldErrorCount(MOTIUDELEGACIOID) == 0) {
-      java.lang.Long __motiudelegacioid = (java.lang.Long)__vr.getFieldValue(__target__,MOTIUDELEGACIOID);
-      if (__motiudelegacioid != null ) {
+    if (__vr.getFieldErrorCount(CUSTODIAINFOID) == 0) {
+      java.lang.Long __custodiainfoid = (java.lang.Long)__vr.getFieldValue(__target__,CUSTODIAINFOID);
+      if (__custodiainfoid != null ) {
         Long __count_ = null;
-        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__motiudelegacioid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __custodiaInfoManager.count(CustodiaInfoFields.CUSTODIAINFOID.equal(__custodiainfoid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(MOTIUDELEGACIOID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__motiudelegacioid)));
+          __vr.rejectValue(CUSTODIAINFOID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
         }
       }
     }
@@ -238,16 +246,16 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       }
     }
 
-    if (__vr.getFieldErrorCount(CUSTODIAINFOID) == 0) {
-      java.lang.Long __custodiainfoid = (java.lang.Long)__vr.getFieldValue(__target__,CUSTODIAINFOID);
-      if (__custodiainfoid != null ) {
+    if (__vr.getFieldErrorCount(MOTIUDELEGACIOID) == 0) {
+      java.lang.Long __motiudelegacioid = (java.lang.Long)__vr.getFieldValue(__target__,MOTIUDELEGACIOID);
+      if (__motiudelegacioid != null ) {
         Long __count_ = null;
-        try { __count_ = __custodiaInfoManager.count(CustodiaInfoFields.CUSTODIAINFOID.equal(__custodiainfoid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __traduccioManager.count(TraduccioFields.TRADUCCIOID.equal(__motiudelegacioid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(CUSTODIAINFOID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
+          __vr.rejectValue(MOTIUDELEGACIOID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__motiudelegacioid)));
         }
       }
     }

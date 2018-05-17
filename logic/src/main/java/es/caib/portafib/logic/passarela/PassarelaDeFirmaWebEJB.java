@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.ejb.EntitatLocal;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -71,7 +72,8 @@ public class PassarelaDeFirmaWebEJB
   
   
   @Override
-  public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView)
+  public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, 
+      boolean fullView, UsuariAplicacioJPA usuariAplicacio)
       throws I18NException, I18NValidationException {
 
     // Validar
@@ -115,7 +117,8 @@ public class PassarelaDeFirmaWebEJB
 
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
-        originalNumberOfSignsArray[count] = processFileToSign(locale, entitatID, pfis, original, adaptat);
+        originalNumberOfSignsArray[count] = processFileToSign(locale, entitatID, pfis,
+            original, adaptat, usuariAplicacio);
         count++;
       }
       

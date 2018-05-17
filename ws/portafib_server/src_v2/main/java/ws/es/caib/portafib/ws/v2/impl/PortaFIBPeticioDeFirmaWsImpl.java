@@ -294,6 +294,31 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       @WebParam(name = "usuariEntitatID") String usuariEntitatID,
       @WebParam(name = "compartirFilter") List<Boolean> compartirFilter
     ) throws WsI18NException, Throwable {
+    
+    if (usuariEntitatID == null || usuariEntitatID.trim().length() == 0) {
+      throw new I18NException("error.unknown",
+          "El parametre usuariEntitatID ha d´estar definit");
+    }
+    
+    return internalListPlantillesDeFluxDeFirmes(usuariEntitatID, compartirFilter);
+    
+  } 
+
+  //Nou a v2
+  @RolesAllowed({ PFI_USER })
+  @WebMethod
+  @Override
+  public List<PlantillaFluxDeFirmesWs> listPlantillesDeFluxDeFirmes(
+      List<Boolean> compartirFilter) throws WsI18NException, Throwable {
+
+    return internalListPlantillesDeFluxDeFirmes(null, compartirFilter);
+  }
+
+  
+  List<PlantillaFluxDeFirmesWs> internalListPlantillesDeFluxDeFirmes(
+      @WebParam(name = "usuariEntitatID") String usuariEntitatID,
+      @WebParam(name = "compartirFilter") List<Boolean> compartirFilter
+    ) throws WsI18NException, Throwable {
 
     // Usuari Entitat o UsuariAplicacio
     Where where;
@@ -352,6 +377,10 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
   }
 
+  
+  
+
+  
   
   
 
@@ -774,5 +803,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       }
     }
   }
+
+
+
 
 }

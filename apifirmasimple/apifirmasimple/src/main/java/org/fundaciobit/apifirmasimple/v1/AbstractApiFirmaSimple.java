@@ -1,5 +1,14 @@
 package org.fundaciobit.apifirmasimple.v1;
 
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apifirmasimple.v1.exceptions.AbstractFirmaSimpleException;
@@ -12,7 +21,10 @@ import org.fundaciobit.apifirmasimple.v1.exceptions.TimeOutException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.client.urlconnection.HTTPSProperties;
 
 /**
  * 
@@ -26,6 +38,8 @@ abstract class AbstractApiFirmaSimple {
   protected String username = null;
 
   protected String password = null;
+  
+  protected boolean ignoreServerCertificates = false;
   
   /**
    * @param endPointBase
@@ -41,14 +55,17 @@ abstract class AbstractApiFirmaSimple {
    * @param password
    */
   public AbstractApiFirmaSimple(String endPointBase, String username, String password) {
-    super();
-    this.endPointBase = endPointBase;
+    this(endPointBase);
     this.username = username;
     this.password = password;
   }
 
-  // TODO XYZ ZZZ Fer constructor per comunicació HTTPS
-  // https://stackoverflow.com/questions/2145431/https-using-jersey-client
+
+  public AbstractApiFirmaSimple(String endPointBase, String username, String password,
+      boolean ignoreServerCertificates) {
+    this(endPointBase, username, password);
+    this.ignoreServerCertificates = ignoreServerCertificates;
+  }
 
   /**
    * 
@@ -81,11 +98,20 @@ abstract class AbstractApiFirmaSimple {
     ClientResponse response;
     try {
       String endPoint = endPointBase + (endPointBase.endsWith("/") ? "" : "/") + method;
-
-      Client client = Client.create();
-
-      // TODO XYZ ZZZ Fer constructor per comunicació HTTPS
-      // https://stackoverflow.com/questions/2145431/https-using-jersey-client
+      
+      final Client client;
+      if (endPoint.toLowerCase().startsWith("https") && ignoreServerCertificates) {
+        // Ignorar Certificats de la part servidora
+        HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+        ClientConfig config = new DefaultClientConfig();
+        SSLContext ctx = SSLContext.getInstance("SSL");
+        ctx.init(null, new TrustManager[] {  new InsecureTrustManager() }, null);
+        config.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
+      
+        client = Client.create(config);
+      } else {
+        client = Client.create();
+      }
 
       if (this.username != null) {
         client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
@@ -151,6 +177,37 @@ abstract class AbstractApiFirmaSimple {
 
     }
 
+  }
+  
+  /**
+   * 
+   * @author anadal
+   *
+   */
+  public class InsecureTrustManager implements X509TrustManager {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void checkClientTrusted(final java.security.cert.X509Certificate[] chain, final String authType) throws CertificateException {
+        // Everyone is trusted!
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void checkServerTrusted(final java.security.cert.X509Certificate[] chain, final String authType) throws CertificateException {
+        // Everyone is trusted!
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return new X509Certificate[0];
+    }
   }
 
 }

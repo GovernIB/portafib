@@ -260,72 +260,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-        <tr id="usuariAplicacioConfiguracio_motiuDelegacioID_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID])?'usuariAplicacioConfiguracio.motiuDelegacioID':__theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-       <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio" cssClass="errorField alert alert-error" />
-       <div class="tabbable">
-         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
-             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
-           </c:forEach>
-           
-         </ul>
-         <div class="tab-content">
-           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}">
-               <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
-               <form:input path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
-           </div>
-           </c:forEach>
-         </div>
-       </div>
-
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
-        <tr id="usuariAplicacioConfiguracio_firmatPerFormatID_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID])?'usuariAplicacioConfiguracio.firmatPerFormatID':__theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-       <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat" cssClass="errorField alert alert-error" />
-       <div class="tabbable">
-         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
-             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
-           </c:forEach>
-           
-         </ul>
-         <div class="tab-content">
-           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
-           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}">
-               <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
-               <form:input path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
-           </div>
-           </c:forEach>
-         </div>
-       </div>
-
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
         <tr id="usuariAplicacioConfiguracio_politicaCustodia_rowid">
           <td>
@@ -436,6 +370,97 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
+        <tr id="usuariAplicacioConfiguracio_firmatPerFormatID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID])?'usuariAplicacioConfiguracio.firmatPerFormatID':__theForm.labels[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+       <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat" cssClass="errorField alert alert-error" />
+       <div class="tabbable">
+         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
+           </c:forEach>
+           
+         </ul>
+         <div class="tab-content">
+           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_firmatPerFormat_${idioma.idiomaID}">
+               <form:errors path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
+               <form:input path="usuariAplicacioConfiguracio.firmatPerFormat.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+           </div>
+           </c:forEach>
+         </div>
+       </div>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
+        <tr id="usuariAplicacioConfiguracio_motiuDelegacioID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID])?'usuariAplicacioConfiguracio.motiuDelegacioID':__theForm.labels[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+       <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio" cssClass="errorField alert alert-error" />
+       <div class="tabbable">
+         <ul class="nav nav-tabs" style="margin-bottom: 3px;">
+             <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+               <li class="${(counter.index == 0)? 'active':''}"  ><a href="#${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}" data-toggle="tab">${idioma.nom}</a></li>
+           </c:forEach>
+           
+         </ul>
+         <div class="tab-content">
+           <c:forEach items="${__theForm.idiomesTraduccio}" var="idioma" varStatus="counter">
+           <div class="tab-pane ${(counter.index == 0)? 'active':'' }" id="${counter.index}_tab_motiuDelegacio_${idioma.idiomaID}">
+               <form:errors path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" cssClass="errorField alert alert-error"/>
+               <form:input path="usuariAplicacioConfiguracio.motiuDelegacio.traduccions['${idioma.idiomaID}'].valor" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="4000" />
+           </div>
+           </c:forEach>
+         </div>
+       </div>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+        <tr id="usuariAplicacioConfiguracio_propietatsTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES])?'usuariAplicacioConfiguracio.propietatsTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+              <form:errors path="usuariAplicacioConfiguracio.propietatsTaulaFirmes" cssClass="errorField alert alert-error" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="usuariAplicacioConfiguracio.propietatsTaulaFirmes"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
         <tr id="usuariAplicacioConfiguracio_politicaSegellatDeTemps_rowid">
           <td>
@@ -542,6 +567,24 @@
             </c:forEach>
           </form:select>
           </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
+        <tr id="usuariAplicacioConfiguracio_maxFirmesEnServidor_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR])?'usuariAplicacioConfiguracio.maxFirmesEnServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="usuariAplicacioConfiguracio.maxFirmesEnServidor" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)? 'input-mini uneditable-input' : 'input-mini'}"   path="usuariAplicacioConfiguracio.maxFirmesEnServidor"   />
+
            </td>
         </tr>
         </c:if>

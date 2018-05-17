@@ -98,22 +98,6 @@
           <td>
             <fmt:message key="modefirma.${usuariAplicacioConfiguracio.modeDeFirma}" />          </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
-          </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.firmatPerFormatID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${usuariAplicacioConfiguracio.firmatPerFormat.traduccions[lang].valor}
-          </c:if>
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaCustodia}</c:set>
@@ -146,6 +130,27 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.firmatPerFormatID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${usuariAplicacioConfiguracio.firmatPerFormat.traduccions[lang].valor}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+          <td>
+          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaSegellatDeTemps}</c:set>
@@ -173,6 +178,11 @@
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfPluginForPluginFirmaServidorID[tmp]}
           </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
+          <td>
+          ${usuariAplicacioConfiguracio.maxFirmesEnServidor}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">

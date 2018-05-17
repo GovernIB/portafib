@@ -72,10 +72,9 @@ public class ApiFirmaEnServidorSimpleTester {
       fileInfoSignatureArray = new FirmaSimpleFileInfoSignature[] { fileInfoSignature };
 
       String languageUI = "ca";
-      String username = "anadal";
-      String administrationID = "43096845C";
+      String username = "anadal"; // null; // Es la configuració del Servidor (deixam el valor per defecte)
+      String administrationID = null;
 
-      
 
       FirmaSimpleCommonInfo commonInfo;
       commonInfo = new FirmaSimpleCommonInfo(languageUI, username, administrationID);

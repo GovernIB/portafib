@@ -48,12 +48,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}</th>
         </c:if>
@@ -66,6 +60,15 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}</th>
         </c:if>
@@ -77,6 +80,9 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}</th>

@@ -38,12 +38,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public boolean isModeDeFirma();
 	public void setModeDeFirma(boolean _modeDeFirma_);
 
-	public java.lang.Long getMotiuDelegacioID();
-	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
-
-	public java.lang.Long getFirmatPerFormatID();
-	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
-
 	public int getPoliticaCustodia();
 	public void setPoliticaCustodia(int _politicaCustodia_);
 
@@ -56,6 +50,15 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public int getPosicioTaulaFirmesID();
 	public void setPosicioTaulaFirmesID(int _posicioTaulaFirmesID_);
 
+	public java.lang.Long getFirmatPerFormatID();
+	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
+
+	public java.lang.Long getMotiuDelegacioID();
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
+
+	public java.lang.String getPropietatsTaulaFirmes();
+	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
+
 	public int getPoliticaSegellatDeTemps();
 	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);
 
@@ -67,6 +70,9 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 
 	public java.lang.Long getPluginFirmaServidorID();
 	public void setPluginFirmaServidorID(java.lang.Long _pluginFirmaServidorID_);
+
+	public java.lang.Integer getMaxFirmesEnServidor();
+	public void setMaxFirmesEnServidor(java.lang.Integer _maxFirmesEnServidor_);
 
 	public java.lang.Long getLoginCertificateID();
 	public void setLoginCertificateID(java.lang.Long _loginCertificateID_);

@@ -126,8 +126,9 @@ public class PassarelaConversion {
         fisWs.getSignNumber(), fisWs.getLanguageSign(), fisWs.getSignType(),
         fisWs.getSignAlgorithm(), fisWs.getSignMode(), fisWs.getSignaturesTableLocation(),
         convert(fisWs.getSignaturesTableHeader()),
-        convert(fisWs.getSecureVerificationCodeStampInfo()), fisWs.isUseTimeStamp(),
-        convert(fisWs.getCustodiaInfo()));
+        convert(fisWs.getSecureVerificationCodeStampInfo()), fisWs.isUseTimeStamp()
+        //,    convert(fisWs.getCustodiaInfo())
+        );
 
   }
 

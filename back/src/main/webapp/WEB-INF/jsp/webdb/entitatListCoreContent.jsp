@@ -219,6 +219,11 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PROPIETATSTAULAFIRMES)}">
+          <td>
+          ${entitat.propietatsTaulaFirmes}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
           <td>
           <c:set var="tmp">${entitat.politicaSegellatDeTemps}</c:set>

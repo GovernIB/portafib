@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
@@ -262,7 +263,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
           new PassarelaFileInfoSignature(fileToSign, signID, name, reason, location,
               signerEmail, signNumber, languageSign, signType, signAlgorithm, signMode,
               signaturesTableLocation, signaturesTableHeader, secureVerificationCodeStampInfo,
-              useTimeStamp, custodiaInfo));
+              useTimeStamp));
       // Actualitzar Data expriracio
       ti.setStartTime(new Date());
       log.info(" XYZ ZZZ addFileToSign::afegida firma [" + signID + " | " + name
@@ -355,7 +356,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       }
 
       // Checks usuari aplicacio
-      log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
+      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacio);
 
       EntitatJPA entitatJPA = loginInfo.getEntitat();
 
@@ -435,7 +437,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       // CRIDAR A START TRANSACION
       final boolean fullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN
           .equals(startTransactionRequest.getView());
-      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView);
+      String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView,usuariAplicacio );
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);

@@ -66,8 +66,8 @@ public class UsuariAplicacioConfiguracioJPAManager
 		return list.toArray(new UsuariAplicacioConfiguracio[list.size()]);
 	};
 
-	public synchronized UsuariAplicacioConfiguracio create( java.lang.String _usuariAplicacioID_, int _usPoliticaDeFirma_, java.lang.String _policyIdentifier_, java.lang.String _policyIdentifierHash_, java.lang.String _policyIdentifierHashAlgorithm_, java.lang.String _policyUrlDocument_, java.lang.String _filtreCertificats_, int _tipusOperacioFirma_, int _tipusFirmaID_, java.lang.Integer _algorismeDeFirmaID_, boolean _modeDeFirma_, java.lang.Long _motiuDelegacioID_, java.lang.Long _firmatPerFormatID_, int _politicaCustodia_, java.lang.Long _custodiaInfoID_, int _politicaTaulaFirmes_, int _posicioTaulaFirmesID_, int _politicaSegellatDeTemps_, java.lang.Long _pluginSegellatID_, java.lang.String _htmlPerLlistarPluginsFirmaWeb_, java.lang.Long _pluginFirmaServidorID_, java.lang.Long _loginCertificateID_, java.lang.Boolean _comprovarNifFirma_, java.lang.Boolean _checkCanviatDocFirmat_, java.lang.Boolean _validarFirma_, java.lang.Boolean _validarCertificat_) throws I18NException {
-		UsuariAplicacioConfiguracioJPA __bean =  new UsuariAplicacioConfiguracioJPA(_usuariAplicacioID_,_usPoliticaDeFirma_,_policyIdentifier_,_policyIdentifierHash_,_policyIdentifierHashAlgorithm_,_policyUrlDocument_,_filtreCertificats_,_tipusOperacioFirma_,_tipusFirmaID_,_algorismeDeFirmaID_,_modeDeFirma_,_motiuDelegacioID_,_firmatPerFormatID_,_politicaCustodia_,_custodiaInfoID_,_politicaTaulaFirmes_,_posicioTaulaFirmesID_,_politicaSegellatDeTemps_,_pluginSegellatID_,_htmlPerLlistarPluginsFirmaWeb_,_pluginFirmaServidorID_,_loginCertificateID_,_comprovarNifFirma_,_checkCanviatDocFirmat_,_validarFirma_,_validarCertificat_);
+	public synchronized UsuariAplicacioConfiguracio create( java.lang.String _usuariAplicacioID_, int _usPoliticaDeFirma_, java.lang.String _policyIdentifier_, java.lang.String _policyIdentifierHash_, java.lang.String _policyIdentifierHashAlgorithm_, java.lang.String _policyUrlDocument_, java.lang.String _filtreCertificats_, int _tipusOperacioFirma_, int _tipusFirmaID_, java.lang.Integer _algorismeDeFirmaID_, boolean _modeDeFirma_, int _politicaCustodia_, java.lang.Long _custodiaInfoID_, int _politicaTaulaFirmes_, int _posicioTaulaFirmesID_, java.lang.Long _firmatPerFormatID_, java.lang.Long _motiuDelegacioID_, java.lang.String _propietatsTaulaFirmes_, int _politicaSegellatDeTemps_, java.lang.Long _pluginSegellatID_, java.lang.String _htmlPerLlistarPluginsFirmaWeb_, java.lang.Long _pluginFirmaServidorID_, java.lang.Integer _maxFirmesEnServidor_, java.lang.Long _loginCertificateID_, java.lang.Boolean _comprovarNifFirma_, java.lang.Boolean _checkCanviatDocFirmat_, java.lang.Boolean _validarFirma_, java.lang.Boolean _validarCertificat_) throws I18NException {
+		UsuariAplicacioConfiguracioJPA __bean =  new UsuariAplicacioConfiguracioJPA(_usuariAplicacioID_,_usPoliticaDeFirma_,_policyIdentifier_,_policyIdentifierHash_,_policyIdentifierHashAlgorithm_,_policyUrlDocument_,_filtreCertificats_,_tipusOperacioFirma_,_tipusFirmaID_,_algorismeDeFirmaID_,_modeDeFirma_,_politicaCustodia_,_custodiaInfoID_,_politicaTaulaFirmes_,_posicioTaulaFirmesID_,_firmatPerFormatID_,_motiuDelegacioID_,_propietatsTaulaFirmes_,_politicaSegellatDeTemps_,_pluginSegellatID_,_htmlPerLlistarPluginsFirmaWeb_,_pluginFirmaServidorID_,_maxFirmesEnServidor_,_loginCertificateID_,_comprovarNifFirma_,_checkCanviatDocFirmat_,_validarFirma_,_validarCertificat_);
 		return create(__bean);
 	}
 
@@ -116,18 +116,6 @@ public class UsuariAplicacioConfiguracioJPAManager
 
   private void processTranslations(UsuariAplicacioConfiguracio transientInstance) {
     if (transientInstance != null) {
-      if (transientInstance.getMotiuDelegacioID() == null) {
-        if (transientInstance instanceof UsuariAplicacioConfiguracioJPA) {
-          UsuariAplicacioConfiguracioJPA _jpa = (UsuariAplicacioConfiguracioJPA)transientInstance;
-          TraduccioJPA _trad = _jpa.getMotiuDelegacio();
-           if (_trad != null) {
-            if (_trad.getTraduccioID() == 0) {
-              getEntityManager().persist(_trad);
-            } 
-            transientInstance.setMotiuDelegacioID(_trad.getTraduccioID());
-          }
-        }
-      }
       if (transientInstance.getFirmatPerFormatID() == null) {
         if (transientInstance instanceof UsuariAplicacioConfiguracioJPA) {
           UsuariAplicacioConfiguracioJPA _jpa = (UsuariAplicacioConfiguracioJPA)transientInstance;
@@ -137,6 +125,18 @@ public class UsuariAplicacioConfiguracioJPAManager
               getEntityManager().persist(_trad);
             } 
             transientInstance.setFirmatPerFormatID(_trad.getTraduccioID());
+          }
+        }
+      }
+      if (transientInstance.getMotiuDelegacioID() == null) {
+        if (transientInstance instanceof UsuariAplicacioConfiguracioJPA) {
+          UsuariAplicacioConfiguracioJPA _jpa = (UsuariAplicacioConfiguracioJPA)transientInstance;
+          TraduccioJPA _trad = _jpa.getMotiuDelegacio();
+           if (_trad != null) {
+            if (_trad.getTraduccioID() == 0) {
+              getEntityManager().persist(_trad);
+            } 
+            transientInstance.setMotiuDelegacioID(_trad.getTraduccioID());
           }
         }
       }

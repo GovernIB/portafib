@@ -28,13 +28,13 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.plugins.utils.XTrustProvider;
 import org.fundaciobit.plugins.utils.cxf.CXFUtils;
 import org.fundaciobit.plugins.utils.cxf.ClientHandler;
 import org.w3c.dom.Element;
@@ -91,7 +91,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public static final String ENDPOINT_SIGN = AFIRMASERVER_BASE_PROPERTIES + "endpoint";
   
   public static final String ENDPOINT_UPGRADE = AFIRMASERVER_BASE_PROPERTIES + "endpoint_upgrade";
- 
+
+  public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES + "ignoreservercertificates";  
+
   
   /**
    * 
@@ -114,6 +116,16 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
+  
+  protected boolean isIgnoreServerCertificates() {
+	  String val = getProperty(IGNORE_SERVER_CERTIFICATES);
+	  if ("true".equalsIgnoreCase(val)) {
+		  return true;		  
+	  } else {
+		  return false;
+	  }
+  }
+  
 
   /**
    * 
@@ -148,21 +160,30 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public boolean providesTimeStampGenerator(String signType) {
     // TODO AQUI HEM DE VEURE SI l'applicationID de @FIRMA permet estampador
     // de segell de temps
+	  
+	log.info("AfirmaServerSignatureServerPlugin::providesTimeStampGenerator() => ENTRA");
 
     String applicationID_TS = getProperty(APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY);
-    if (applicationID_TS != null) {
+    if (applicationID_TS == null || applicationID_TS.trim().length() == 0) {
+    	log.warn("La propietat " + APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY 
+    			+ " està buida: No suportam Segellat de temps");
+    } else {
 
       // NOTA: Amb aplication amb suport de firma només he aconseguit
       // que es generin firmes Xades amb segell de temps
       if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
           || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
           || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)
-          //|| FileInfoSignature.SIGN_TYPE_PADES.equals(signType)  // XYZ ZZZ PADES NO PAREIX QUE AFEGEIX EL SEGELL DE TEMPS
-          ) {
+          //|| FileInfoSignature.SIGN_TYPE_PADES.equals(signType)  
+          ) {    	
         return true;
+      } else {
+    	if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+    	  log.warn("No sabem per quina raó el plugin [" + getName(new Locale("ca")) 
+    		+ "] no afegeix Segell de Temps en les firmes PAdES");
+    	}
       }
     }
-
     return false;
   }
 
@@ -242,6 +263,15 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public boolean filter(SignaturesSet signaturesSet) {
 
     final boolean suportXAdES_T = true;
+    
+	final boolean isc = isIgnoreServerCertificates();
+	log.info("+ IgnoreServerCertificates = " + isc);
+	if (/*endpoint.toLowerCase().startsWith("https") &&*/ isc) {
+	  XTrustProvider.install();
+	}
+
+    
+    
     if (checkFilter(this, signaturesSet, suportXAdES_T, this.log)) {
       return checkConnection();
     }
@@ -293,6 +323,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
 
       try {
+    	final boolean debug = isDebug();
 
         byte[] bytesToSign = FileUtils.readFromFile(fileInfo.getFileToSign());
 
@@ -301,18 +332,24 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
         ss.setStatus(StatusSignature.STATUS_IN_PROGRESS);
 
-        final String algorithm = fileInfo.getSignAlgorithm();
         String algorisme;
-        if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(algorithm)) {
-          algorisme = AlgorithmTypes.SHA1;
-        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(algorithm)) {
-          algorisme = AlgorithmTypes.SHA256;
-        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(algorithm)) {
-          algorisme = AlgorithmTypes.SHA384;
-        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(algorithm)) {
-          algorisme = AlgorithmTypes.SHA512;
-        } else {
-          throw new Exception("Algoritme no supportat: " + algorithm);
+        {
+	        final String algorithm = fileInfo.getSignAlgorithm();
+	        if (debug) {
+	          log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO PRE [algorithm] = " + algorithm);
+	        }
+	        if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(algorithm)) {
+	          algorisme = AlgorithmTypes.SHA1;
+	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(algorithm)) {
+	          algorisme = AlgorithmTypes.SHA256;
+	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(algorithm)) {
+	          algorisme = AlgorithmTypes.SHA384;
+	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(algorithm)) {
+	          algorisme = AlgorithmTypes.SHA512;
+	        } else {
+	          throw new Exception("Algorisme no suportat: " + algorithm);
+	        }
+	        log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO POST [algorisme] = " + algorisme);
         }
 
         final String tipusFirma = fileInfo.getSignType();
@@ -359,7 +396,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           }
         }
 
-        final boolean debug = isDebug();
+        
 
         // Instanciamos un mapa con los parámetros de entrada
         Map<String, Object> inParams = new HashMap<String, Object>();
@@ -434,6 +471,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             //inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
             //inParams.put(DSSTagsRequest.SIGPOL_SIGNATURE_POLICY_IDENTIFIER,"2.16.724.1.3.1.1.2.1.9");
           }
+
         } else {
 
           // TODO XYZ ZZZ Que passa amb CADES I XADES !!!!!
@@ -454,9 +492,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 + pis.getPolicyIdentifierHashAlgorithm());
           }
 
-          inParams.put(DSSTagsRequest.HASH_ALGORITHM, algHash);
+          // AQUEST ALGORISME ES DE LA FIRMA NO DE LA POLITICA !!!!!!!!
+          //inParams.put(DSSTagsRequest.HASH_ALGORITHM, algHash);
 
-          // TODO XYZ XYZ FALTA URL i HASH inParams.put(DSSTagsRequest., );
+          // TODO XYZ XYZ FALTA ALGO URL i HASH inParams.put(DSSTagsRequest., );
         }
 
         TransformersFacade transformersFacade = getTransformersFacade();
@@ -887,6 +926,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       if (debug) {
         log.info("ENDPOINT = " + endPoint);
       }
+      
+	  if (isIgnoreServerCertificates()) {
+		XTrustProvider.install();
+	  }
 
       final ClientHandler clientHandler;
       clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
@@ -904,7 +947,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
       clientHandler.addSecureHeader(apiSign);
-
+      
     }
 
     String xmlResposta = apiSign.sign(inputXml);
@@ -973,6 +1016,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       String endpoint = getPropertyRequired(ENDPOINT_SIGN);
       try {
+    	log.info(" EndPoint = " + endpoint);
+    	  
+    	  
         URL url = new URL(endpoint + "?wsdl");
         URLConnection conn = url.openConnection();
         conn.connect();
@@ -981,6 +1027,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         log.warn(" Error connectant amb " + endpoint + ":" + e.getMessage(), e);
         return false;
       }
+
+    } catch (Throwable e) {
+      log.error("Error provant comunicació amb servidor: " + e.getMessage(), e);
+      return false;
+    }
 
       /**
        * VerifyCertificateRequest verCerReq = new VerifyCertificateRequest();
@@ -1058,10 +1109,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
        * return false; }
        */
 
-    } catch (Throwable e) {
-      log.error(Language.getFormatResIntegra("IFWS043", new Object[] { e.getMessage() }), e);
-      return false;
-    }
   }
 
 }

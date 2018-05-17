@@ -28,6 +28,7 @@ import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.TraduccioJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.passarela.AbstractPassarelaDeFirmaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -102,72 +103,55 @@ public class SignatureUtils {
 
      PdfVisibleSignature pdfInfoSignature = null;
 
-     final int signMode = ((signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? 
-            FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT); 
+     final int signMode = portafibModeSign2ApiModeSign(signModeBool); 
 
-     String signType;
-
+     final String signType = portafibSignTypeToApiSignType(signTypeID);
+     if (signType == null) {
+       throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
+     }
+     
+     
+     // TAULA DE FIRMES (NOMÉS EN PADES)
      int locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-     switch((int)signTypeID) {
-       case ConstantsV2.TIPUSFIRMA_PADES:
-         signType = FileInfoSignature.SIGN_TYPE_PADES;
+     if ((int)signTypeID == ConstantsV2.TIPUSFIRMA_PADES) {
 
-         switch((int)locationSignTableID) { 
-            case ConstantsV2.TAULADEFIRMES_SENSETAULA:
-              locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-            break;
-            case ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA:
-              locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_FIRSTPAGE;
-            break;
-            case ConstantsV2.TAULADEFIRMES_DARRERAPAGINA:
-              locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
-            break;
-            default:
-               // TODO Traduir
-               throw new I18NException("error.unknown", 
-                   "Posicio de taula de firmes desconeguda: " + locationSignTableID);
-         }
+       switch((int)locationSignTableID) { 
+          case ConstantsV2.TAULADEFIRMES_SENSETAULA:
+            locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+          break;
+          case ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA:
+            locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_FIRSTPAGE;
+          break;
+          case ConstantsV2.TAULADEFIRMES_DARRERAPAGINA:
+            locationSignTable = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
+          break;
+          default:
+             // TODO Traduir
+             throw new I18NException("error.unknown", 
+                 "Posicio de taula de firmes desconeguda: " + locationSignTableID);
+       }
 
-         
-         if (locationSignTable != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
-           
-           // PDF Visible
-           pdfInfoSignature = new PdfVisibleSignature();
-
-           SignBoxRectangle signBoxRectangle = SignBoxRectangle.getPositionOfVisibleSignature(signNumber);
-           
-           PdfRubricRectangle prr = new PdfRubricRectangle();
-           prr.setLowerLeftX(signBoxRectangle.llx);
-           prr.setLowerLeftY(signBoxRectangle.lly);
-           prr.setUpperRightX(signBoxRectangle.urx);
-           prr.setUpperRightY(signBoxRectangle.ury);
-
-           IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(
-               languageSign, firmatPerFormat, reason, prr);
-
-           pdfInfoSignature.setRubricGenerator(rubricGenerator);
-           pdfInfoSignature.setPdfRubricRectangle(prr);
-           
-         }
-         
-         
-       break;
        
-       case ConstantsV2.TIPUSFIRMA_CADES:
-         signType = FileInfoSignature.SIGN_TYPE_CADES;
-       break;
-       
-       case ConstantsV2.TIPUSFIRMA_SMIME:
-         signType = FileInfoSignature.SIGN_TYPE_SMIME;
-       break;
+       if (locationSignTable != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
          
-       case ConstantsV2.TIPUSFIRMA_XADES:
-         signType = FileInfoSignature.SIGN_TYPE_XADES;
-       break;
-       
-       default:
-         // TODO Traduir
-         throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
+         // PDF Visible
+         pdfInfoSignature = new PdfVisibleSignature();
+
+         SignBoxRectangle signBoxRectangle = SignBoxRectangle.getPositionOfVisibleSignature(signNumber);
+         
+         PdfRubricRectangle prr = new PdfRubricRectangle();
+         prr.setLowerLeftX(signBoxRectangle.llx);
+         prr.setLowerLeftY(signBoxRectangle.lly);
+         prr.setUpperRightX(signBoxRectangle.urx);
+         prr.setUpperRightY(signBoxRectangle.ury);
+
+         IRubricGenerator rubricGenerator = new PortaFIBRubricGenerator(
+             languageSign, firmatPerFormat, reason, prr);
+
+         pdfInfoSignature.setRubricGenerator(rubricGenerator);
+         pdfInfoSignature.setPdfRubricRectangle(prr);
+         
+       }
      }
 
      
@@ -184,6 +168,38 @@ public class SignatureUtils {
      
      return fis;
    }
+
+
+  public static int portafibModeSign2ApiModeSign(boolean signModeBool) {
+    return (signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? 
+            FileInfoSignature.SIGN_MODE_IMPLICIT : FileInfoSignature.SIGN_MODE_EXPLICIT;
+  }
+
+
+  public static String portafibSignTypeToApiSignType(long signTypeID) throws I18NException {
+    final String signType;
+     switch((int)signTypeID) {
+       case ConstantsV2.TIPUSFIRMA_PADES:
+         signType = FileInfoSignature.SIGN_TYPE_PADES;
+       break;
+       
+       case ConstantsV2.TIPUSFIRMA_CADES:
+         signType = FileInfoSignature.SIGN_TYPE_CADES;
+       break;
+       
+       case ConstantsV2.TIPUSFIRMA_SMIME:
+         signType = FileInfoSignature.SIGN_TYPE_SMIME;
+       break;
+         
+       case ConstantsV2.TIPUSFIRMA_XADES:
+         signType = FileInfoSignature.SIGN_TYPE_XADES;
+       break;
+       
+       default:
+         signType = null;
+     }
+    return signType;
+  }
 
 
   public static String convertSignAlgorithmID(long signAlgorithmID) throws I18NException {
@@ -263,7 +279,12 @@ public class SignatureUtils {
          
          File pdfAdaptat = passarelaDeFirmaEjb.getFitxerAdaptatPath(signaturesSetID, signID);
          
+         
+         log.info(" XYZ ZZZ SIGNUTILS :: SIGN_ALGO{" + count + "} [pfis.getSignAlgorithm()] = " + pfis.getSignAlgorithm());
+         
          int signAlgorithm = getSignAlgorithmToPortaFIB(pfis.getSignAlgorithm());
+         
+         log.info(" XYZ ZZZ SIGNUTILS :: SIGN_ALGO{" + count + "} [int signAlgorithm] = " + signAlgorithm);
          
          boolean signMode = getSignModeToPortaFIB(pfis.getSignMode());
                
@@ -287,21 +308,33 @@ public class SignatureUtils {
          final String username = cis.getUsername();
          final String administrationID = cis.getAdministrationID();
          final String langUI = cis.getLanguageUI();
-         commonInfoSignature = getCommonInfoSignature(entitat, 
-             langUI, username, administrationID);
-         if (!cis.isUsePortafibCertificateFilter()) {
-           commonInfoSignature.setFiltreCertificats(cis.getFiltreCertificats());
-         }
          
+         // XYZ ZZZ
+         //if (usrApp == null) {
+           // Ve de passarela
+         //  commonInfoSignature = getCommonInfoSignature(entitat, 
+         //     langUI, username, administrationID);
+         //} else 
+         {           
+           commonInfoSignature = new CommonInfoSignature(langUI,
+               cis.getFiltreCertificats(),
+               username, administrationID, null);
+         }
+
          PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
-         if (ppis != null) {
+         if (ppis == null) {
            
-           if (commonInfoSignature.getPolicyInfoSignature() != null) {
-             log.warn("Ja s'ha definit una politica de Firma de l'entitat, "
-                 + " però la firma via passarel·la  n'ha definida una altra !!!. "
-                 + "S'utilitzarà la de la Passarel·la");
-             
-           }
+           log.info(" PassarelaPolicyInfoSignature = NULL");
+           
+         } else {
+           
+           // XYZ ZZZ
+//           if (commonInfoSignature.getPolicyInfoSignature() != null) {
+//             log.warn("Ja s'ha definit una politica de Firma de l'entitat, "
+//                 + " però la firma via passarel·la  n'ha definida una altra !!!. "
+//                 + "S'utilitzarà la de la Passarel·la");
+//             
+//           }
    
            commonInfoSignature.setPolicyInfoSignature(
                new PolicyInfoSignature(ppis.getPolicyIdentifier(), ppis.getPolicyIdentifierHash(),
@@ -501,11 +534,9 @@ public class SignatureUtils {
     */
    public static int processFileToSign(Locale locale, String entitatID,
        PassarelaFileInfoSignature pfis, File original, File adaptat, 
-       EntitatLocal entitatEjb, CodiBarresLocal codiBarresEjb)
+       EntitatLocal entitatEjb, CodiBarresLocal codiBarresEjb, UsuariAplicacioJPA usrApp)
        throws I18NException {
-     
-     
-     
+
      
      // (1) Moure FitxerBean (datasource en memòria) a Fitxer en el Sistema
      // d'arxius
@@ -552,8 +583,11 @@ public class SignatureUtils {
 
          if (tableHeader == null) {
 
-           final Long logoSegellID = entitatEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
+           Long logoSegellID = usrApp.getLogoSegellID();
+           if(logoSegellID == null) {
+             logoSegellID = entitatEjb.executeQueryOne(EntitatFields.LOGOSEGELLID,
                EntitatFields.ENTITATID.equal(entitatID));
+           }
            try {
              logoSegellJpeg = FileUtils.readFileToByteArray(FileSystemManager
                  .getFile(logoSegellID));

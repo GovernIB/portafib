@@ -110,12 +110,13 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
     }
 
     nextExecution = properaExecucio;
-    
+
     return new Date(properaExecucio);
   }
 
 
-  //@TransactionAttribute(TransactionAttributeType.NEVER) or TransactionAttribute(TransactionAttributeType.MANDATORY)"
+  // @TransactionAttribute(TransactionAttributeType.NEVER) or TransactionAttribute(TransactionAttributeType.MANDATORY)"
+  // @TransactionAttribute(TransactionAttributeType.MANDATORY)
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Override
   public void executeTask() {

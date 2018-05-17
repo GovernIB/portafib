@@ -105,6 +105,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POSICIOTAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POSICIOTAULAFIRMES)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PROPIETATSTAULAFIRMES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PROPIETATSTAULAFIRMES)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICASEGELLATDETEMPS)}</th>
         </c:if>

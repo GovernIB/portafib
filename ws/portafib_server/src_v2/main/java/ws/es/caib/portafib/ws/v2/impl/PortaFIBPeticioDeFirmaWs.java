@@ -113,6 +113,19 @@ public interface PortaFIBPeticioDeFirmaWs extends IBaseAutenticatedWs {
       @WebParam(name = "compartirFilter") List<Boolean> compartirFilter
     ) throws WsI18NException, Throwable;
   
+  /**
+   * 
+   * @param compartirFilter
+   * @return
+   * @throws WsI18NException
+   * @throws Throwable
+   */
+  //Nou a v2
+  @RolesAllowed({ Constants.PFI_USER })
+  @WebMethod
+  public List<PlantillaFluxDeFirmesWs> listPlantillesDeFluxDeFirmes(
+     @WebParam(name = "compartirFilter") List<Boolean> compartirFilter
+   ) throws WsI18NException, Throwable;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------

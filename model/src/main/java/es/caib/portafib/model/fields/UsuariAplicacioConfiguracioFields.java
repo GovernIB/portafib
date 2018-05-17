@@ -24,16 +24,18 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final IntegerField TIPUSFIRMAID = new IntegerField(_TABLE_MODEL, "tipusFirmaID", "tipusfirmaid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
 	 public static final BooleanField MODEDEFIRMA = new BooleanField(_TABLE_MODEL, "modeDeFirma", "modedefirma");
-	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
-	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
 	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
 	 public static final IntegerField POSICIOTAULAFIRMESID = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmesID", "posiciotaulafirmesid");
+	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
+	 public static final LongField MOTIUDELEGACIOID = new LongField(_TABLE_MODEL, "motiuDelegacioID", "motiudelegacioid");
+	 public static final StringField PROPIETATSTAULAFIRMES = new StringField(_TABLE_MODEL, "propietatsTaulaFirmes", "propietatstaulafirmes");
 	 public static final IntegerField POLITICASEGELLATDETEMPS = new IntegerField(_TABLE_MODEL, "politicaSegellatDeTemps", "politicasegellatdetemps");
 	 public static final LongField PLUGINSEGELLATID = new LongField(_TABLE_MODEL, "pluginSegellatID", "pluginsegellatid");
 	 public static final StringField HTMLPERLLISTARPLUGINSFIRMAWEB = new StringField(_TABLE_MODEL, "htmlPerLlistarPluginsFirmaWeb", "htmlperllistarpluginsfirmaweb");
 	 public static final LongField PLUGINFIRMASERVIDORID = new LongField(_TABLE_MODEL, "pluginFirmaServidorID", "pluginfirmaservidorid");
+	 public static final IntegerField MAXFIRMESENSERVIDOR = new IntegerField(_TABLE_MODEL, "maxFirmesEnServidor", "maxfirmesenservidor");
 	 public static final LongField LOGINCERTIFICATEID = new LongField(_TABLE_MODEL, "loginCertificateID", "logincertificateid");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
@@ -54,16 +56,18 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     TIPUSFIRMAID,
     ALGORISMEDEFIRMAID,
     MODEDEFIRMA,
-    MOTIUDELEGACIOID,
-    FIRMATPERFORMATID,
     POLITICACUSTODIA,
     CUSTODIAINFOID,
     POLITICATAULAFIRMES,
     POSICIOTAULAFIRMESID,
+    FIRMATPERFORMATID,
+    MOTIUDELEGACIOID,
+    PROPIETATSTAULAFIRMES,
     POLITICASEGELLATDETEMPS,
     PLUGINSEGELLATID,
     HTMLPERLLISTARPLUGINSFIRMAWEB,
     PLUGINFIRMASERVIDORID,
+    MAXFIRMESENSERVIDOR,
     LOGINCERTIFICATEID,
     COMPROVARNIFFIRMA,
     CHECKCANVIATDOCFIRMAT,

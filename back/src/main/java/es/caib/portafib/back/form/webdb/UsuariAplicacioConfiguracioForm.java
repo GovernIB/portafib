@@ -29,12 +29,12 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfTipusFirmaForTipusFirmaID = __toClone.listOfTipusFirmaForTipusFirmaID;
     this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-    this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
-    this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
     this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
+    this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
+    this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfValuesForPoliticaSegellatDeTemps = __toClone.listOfValuesForPoliticaSegellatDeTemps;
     this.listOfPluginForPluginSegellatID = __toClone.listOfPluginForPluginSegellatID;
     this.listOfPluginForPluginFirmaServidorID = __toClone.listOfPluginForPluginFirmaServidorID;
@@ -136,30 +136,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
-
-  public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
-    return this.listOfTraduccioForMotiuDelegacioID;
-  }
-
-  public void setListOfTraduccioForMotiuDelegacioID(List<StringKeyValue> listOfTraduccioForMotiuDelegacioID) {
-    this.listOfTraduccioForMotiuDelegacioID = listOfTraduccioForMotiuDelegacioID;
-  }
-
-
-
-  private List<StringKeyValue> listOfTraduccioForFirmatPerFormatID;
-
-  public List<StringKeyValue> getListOfTraduccioForFirmatPerFormatID() {
-    return this.listOfTraduccioForFirmatPerFormatID;
-  }
-
-  public void setListOfTraduccioForFirmatPerFormatID(List<StringKeyValue> listOfTraduccioForFirmatPerFormatID) {
-    this.listOfTraduccioForFirmatPerFormatID = listOfTraduccioForFirmatPerFormatID;
-  }
-
-
-
   private List<StringKeyValue> listOfValuesForPoliticaCustodia;
 
   public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
@@ -204,6 +180,30 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForPosicioTaulaFirmesID(List<StringKeyValue> listOfValuesForPosicioTaulaFirmesID) {
     this.listOfValuesForPosicioTaulaFirmesID = listOfValuesForPosicioTaulaFirmesID;
+  }
+
+
+
+  private List<StringKeyValue> listOfTraduccioForFirmatPerFormatID;
+
+  public List<StringKeyValue> getListOfTraduccioForFirmatPerFormatID() {
+    return this.listOfTraduccioForFirmatPerFormatID;
+  }
+
+  public void setListOfTraduccioForFirmatPerFormatID(List<StringKeyValue> listOfTraduccioForFirmatPerFormatID) {
+    this.listOfTraduccioForFirmatPerFormatID = listOfTraduccioForFirmatPerFormatID;
+  }
+
+
+
+  private List<StringKeyValue> listOfTraduccioForMotiuDelegacioID;
+
+  public List<StringKeyValue> getListOfTraduccioForMotiuDelegacioID() {
+    return this.listOfTraduccioForMotiuDelegacioID;
+  }
+
+  public void setListOfTraduccioForMotiuDelegacioID(List<StringKeyValue> listOfTraduccioForMotiuDelegacioID) {
+    this.listOfTraduccioForMotiuDelegacioID = listOfTraduccioForMotiuDelegacioID;
   }
 
 

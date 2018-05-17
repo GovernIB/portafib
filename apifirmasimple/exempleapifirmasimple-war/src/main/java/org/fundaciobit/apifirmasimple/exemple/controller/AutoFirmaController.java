@@ -450,8 +450,11 @@ public class AutoFirmaController {
           FirmaSimpleFile signedFile;
           signedFile = api.getSignatureResult(new FirmaSimpleGetSignatureResultRequest(
               transactionID, signID));
+          
+          java.lang.String custodyFileID = null;
+          java.lang.String custodyFileURL = null;
 
-          infoGlobal.setResultat(new FirmaSimpleSignatureResult(signID, fss, signedFile));
+          infoGlobal.setResultat(new FirmaSimpleSignatureResult(signID, fss, signedFile, custodyFileID, custodyFileURL));
 
         } // Final for de fitxers firmats
 

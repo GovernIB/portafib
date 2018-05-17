@@ -438,6 +438,19 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PROPIETATSTAULAFIRMES)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="entitat.propietatsTaulaFirmes" var="propietatsTaulaFirmes" />
+              <fmt:message key="genapp.form.searchby" var="cercaperpropietatsTaulaFirmes" >                
+                 <fmt:param value="${propietatsTaulaFirmes}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${propietatsTaulaFirmes}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperpropietatsTaulaFirmes}" path="propietatsTaulaFirmes" />
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.POLITICASEGELLATDETEMPS)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">

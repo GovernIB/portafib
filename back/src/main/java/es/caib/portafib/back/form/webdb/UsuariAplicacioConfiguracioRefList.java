@@ -38,8 +38,8 @@ public class UsuariAplicacioConfiguracioRefList extends RefListBase
   }
   public UsuariAplicacioConfiguracioRefList() {
     setSelects(new Select<?>[] { USUARIAPLICACIOID.select });
-    addCampTraduible(MOTIUDELEGACIOID.select);
     addCampTraduible(FIRMATPERFORMATID.select);
+    addCampTraduible(MOTIUDELEGACIOID.select);
   }
   public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
     Select<Long> _transSelect = checkTranslationFields();

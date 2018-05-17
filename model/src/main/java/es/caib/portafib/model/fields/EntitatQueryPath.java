@@ -135,6 +135,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.POSICIOTAULAFIRMES);
   }
 
+  public StringField PROPIETATSTAULAFIRMES() {
+    return new StringField(getQueryPath(), EntitatFields.PROPIETATSTAULAFIRMES);
+  }
+
   public IntegerField POLITICASEGELLATDETEMPS() {
     return new IntegerField(getQueryPath(), EntitatFields.POLITICASEGELLATDETEMPS);
   }

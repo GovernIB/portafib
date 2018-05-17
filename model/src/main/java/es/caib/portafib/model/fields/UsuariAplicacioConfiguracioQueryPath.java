@@ -59,14 +59,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.MODEDEFIRMA);
   }
 
-  public LongField MOTIUDELEGACIOID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
-  }
-
-  public LongField FIRMATPERFORMATID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
-  }
-
   public IntegerField POLITICACUSTODIA() {
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICACUSTODIA);
   }
@@ -83,6 +75,18 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID);
   }
 
+  public LongField FIRMATPERFORMATID() {
+    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
+  }
+
+  public LongField MOTIUDELEGACIOID() {
+    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
+  }
+
+  public StringField PROPIETATSTAULAFIRMES() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES);
+  }
+
   public IntegerField POLITICASEGELLATDETEMPS() {
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS);
   }
@@ -97,6 +101,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
 
   public LongField PLUGINFIRMASERVIDORID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID);
+  }
+
+  public IntegerField MAXFIRMESENSERVIDOR() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR);
   }
 
   public LongField LOGINCERTIFICATEID() {
@@ -152,10 +160,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     });
   }
 
-  public TraduccioQueryPath MOTIUDELEGACIO() {
-    return new TraduccioQueryPath(new QueryPath() {
+  public CustodiaInfoQueryPath CUSTODIAINFO() {
+    return new CustodiaInfoQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "motiuDelegacio" + ".";
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
       }
     });
   }
@@ -168,10 +176,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     });
   }
 
-  public CustodiaInfoQueryPath CUSTODIAINFO() {
-    return new CustodiaInfoQueryPath(new QueryPath() {
+  public TraduccioQueryPath MOTIUDELEGACIO() {
+    return new TraduccioQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "motiuDelegacio" + ".";
       }
     });
   }

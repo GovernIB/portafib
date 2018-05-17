@@ -52,10 +52,12 @@
  function onChangePoliticaTaulaFirmes(combo) {
      var value = combo.options[combo.selectedIndex].value;
      if (value == <%=ConstantsPortaFIB.POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT%>
-        || value == <%=ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE%>) { 
+        || value == <%=ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET%>) { 
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      } else {
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = '';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = '';
      }
  }
 
@@ -84,15 +86,48 @@
     }
  }
  
+ 
+ onChangePluginFirmaServidorID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID.fullName.replace('.', '_') %>"));
+
+ function onChangePluginFirmaServidorID(combo) {
+   var value = combo.options[combo.selectedIndex].value;
+   if (value == '') {
+     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+   } else {
+     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = '';
+   }
+ }
+ 
+ 
+ 
  // Tipus Firma i Mode de Firma
  onChangeTipusFirmaID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.TIPUSFIRMAID.fullName.replace('.', '_') %>"));
-
+ <%
+ final Field<?>[] tipusFirma = {
+     
+     UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES,
+     UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
+     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES,
+     UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
+     UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID
+  };
+ %>
+ 
  function onChangeTipusFirmaID(combo) {
    var value = combo.options[combo.selectedIndex].value;
    if (value == <%=ConstantsV2.TIPUSFIRMA_PADES%>) {
-     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = 'none';    
+     
+     <% for(int c=0;c < tipusFirma.length ;c++) { %>
+     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = '';
+     <% } %>
+     
+     
    } else {
      document.getElementById("<%=UsuariAplicacioConfiguracioFields.MODEDEFIRMA.fullName.replace('.', '_') %>_rowid").style.display = '';
+     <% for(int c=0;c < tipusFirma.length ;c++) { %>
+     document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = 'none';
+     <% } %>
    }
  }
 

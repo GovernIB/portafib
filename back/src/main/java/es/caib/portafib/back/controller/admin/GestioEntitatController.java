@@ -120,15 +120,17 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.getEntitat().setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA);
        entitatForm.addReadOnlyField(POLITICACUSTODIA);
 
-       
        // #172 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINRUBRICAID);
-       
-       
+
        // #166 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(POLITICATAULAFIRMES);
        entitatForm.addReadOnlyField(POSICIOTAULAFIRMES);
-       
+
+       // Pentent de que s'implementi XYZ ZZZ
+       // #176 Configuració etiquetes de la Taula de Firmes 
+       entitatForm.addReadOnlyField(PROPIETATSTAULAFIRMES);
+
        // #171 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINVALIDACERTIFICATID);
        entitatForm.addReadOnlyField(PLUGINVALIDAFIRMESID);

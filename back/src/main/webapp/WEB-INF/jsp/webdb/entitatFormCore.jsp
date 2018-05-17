@@ -793,6 +793,31 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PROPIETATSTAULAFIRMES)}">
+        <tr id="entitat_propietatsTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PROPIETATSTAULAFIRMES])?'entitat.propietatsTaulaFirmes':__theForm.labels[EntitatFields.PROPIETATSTAULAFIRMES]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PROPIETATSTAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PROPIETATSTAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+              <form:errors path="entitat.propietatsTaulaFirmes" cssClass="errorField alert alert-error" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,EntitatFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="entitat.propietatsTaulaFirmes"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('entitat.propietatsTaulaFirmes'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
         <tr id="entitat_politicaSegellatDeTemps_rowid">
           <td>

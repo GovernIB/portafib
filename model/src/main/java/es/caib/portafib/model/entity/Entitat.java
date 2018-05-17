@@ -95,6 +95,9 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getPosicioTaulaFirmes();
 	public void setPosicioTaulaFirmes(int _posicioTaulaFirmes_);
 
+	public java.lang.String getPropietatsTaulaFirmes();
+	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
+
 	public int getPoliticaSegellatDeTemps();
 	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);
 

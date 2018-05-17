@@ -129,8 +129,6 @@ public abstract class AbstractSignatureServerPlugin
        
        
        // 1.- Comprovacions generals i recolecció de dades
-
-       
        for(int i = 0; i < aFirmar.length; i++) {
          final FileInfoSignature fis = aFirmar[i];
          String signType = fis.getSignType();
@@ -148,24 +146,58 @@ public abstract class AbstractSignatureServerPlugin
            }
            
          
-           // 1.1.2.- Hem de comprovar que el plugin ofereixi internament gestió de
-           // segellat de temps ja que el FileInfoSignature no conté el generador
-           boolean anySignatureRequireTimeStampAndNotProvidesGenerator = false;
-           if (fis.getTimeStampGenerator() == null) {
-             anySignatureRequireTimeStampAndNotProvidesGenerator = true;
+           // 1.1.2.- Hem de comprovar si plugin ofereix internament gestió de
+           // segellat de temps o el FileInfoSignature conté el generador
+           
+            
+           final boolean canDoTimestamp;
+           if (plugin.providesTimeStampGenerator(signType)) {
+             // OK: plugin no té generador intern
+             canDoTimestamp = true;
+           } else {
+             
+             final boolean acceptExternalTimeStamper = plugin.acceptExternalTimeStampGenerator(signType);
+             if (fis.getTimeStampGenerator() != null && acceptExternalTimeStamper) {
+               // OK: la firma proveeix generador i plugin suporta generadors externs
+               canDoTimestamp = true;
+             } else {
+               // Informam dels problemes
+               log.info("Plugin NO proveeix de generador de segell de temps");
+               
+               if (fis.getTimeStampGenerator() == null) {
+                 log.info("Firma ["+ i + "] NO conté generador de segell de temps");
+               }
+               if (!acceptExternalTimeStamper) {
+                 log.info("Plugin no accepta generadors de segell de temps externs");
+               }
+               canDoTimestamp = false;
+             }
+             
            }
+           
+           if (!canDoTimestamp) {
+             log.info("Exclos plugin [" + plugin.getName(new Locale("ca")) 
+                 + "]: NO POT CREAR SEGELL DE TEMPS PER TIPUS DE FIRMA "
+                 + signType);
+           }
+           
+    
+           /* XYZ ZZZ 
            if (
              // Cas 1: alguna firma no conte generador i plugin no té generador intern
-             (anySignatureRequireTimeStampAndNotProvidesGenerator && !plugin.providesTimeStampGenerator(signType))
+             (signatureRequireTimeStampAndNotProvidesGenerator && !plugin.providesTimeStampGenerator(signType))
              // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
-           || (!anySignatureRequireTimeStampAndNotProvidesGenerator && !plugin.acceptExternalTimeStampGenerator(signType)) ) {
+           || (!signatureRequireTimeStampAndNotProvidesGenerator && !plugin.acceptExternalTimeStampGenerator(signType)) ) {
              // Exclude Plugin
+             
+             log.info(" XYZ ZZZ anySignatureRequireTimeStampAndNotProvidesGenerator = " + signatureRequireTimeStampAndNotProvidesGenerator);
+                          
              log.info("Exclos plugin [" + plugin.getName(new Locale("ca")) 
                  + "]: NO TE GENERADOR SEGELLAT DE TEMPS PER TIPUS DE FIRMA "
                  + signType);
              return false;
            }
-           
+           */
          }
 
          // 1.2- Taula de Firmes
