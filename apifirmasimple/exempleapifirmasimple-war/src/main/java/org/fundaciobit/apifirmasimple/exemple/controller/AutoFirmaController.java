@@ -97,7 +97,11 @@ public class AutoFirmaController {
     form.setVisualitzacio(AutoFirmaForm.VISUALITZACIO_FULLVIEW);
 
     // TODO XYZ Això s'ha de fer a la part CLIENT !!!!!
-    form.setLocation(urlToText(new URL("http://ip-api.com/line/?fields=city")));
+    String city = urlToText(new URL("http://ip-api.com/line/?fields=city"));
+    byte ptext[] = city.getBytes();
+    String location = new String(ptext, "UTF-8");
+    
+    form.setLocation(location);
 
     ModelAndView mav = new ModelAndView("autoFirmaForm");
     mav.addObject(form);

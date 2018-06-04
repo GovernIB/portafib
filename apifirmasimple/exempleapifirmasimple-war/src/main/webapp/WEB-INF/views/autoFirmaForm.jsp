@@ -1,4 +1,7 @@
-<%@ include file="/WEB-INF/views/html_header.jsp"%>
+<%@ include file="/WEB-INF/views/html_header.jsp"
+%><%@page language="java" pageEncoding="UTF-8"
+%><%@page language="java" contentType="text/html;charset=UTF-8" 
+%>
 
 <h3 class="tabs_involved">
     &nbsp;&nbsp;&nbsp;
