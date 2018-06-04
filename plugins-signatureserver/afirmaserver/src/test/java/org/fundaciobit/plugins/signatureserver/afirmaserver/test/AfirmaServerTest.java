@@ -192,7 +192,7 @@ public class AfirmaServerTest extends TestCase {
       final boolean epes = false;
 
       // PADES SIGN
-      /* XYZ ZZZ */
+      /* XYZ ZZZ 
       {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
         int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
@@ -200,8 +200,8 @@ public class AfirmaServerTest extends TestCase {
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
             userRequiresTimeStamp, epes, rubricGenerator, plugin, username, "PAdES"));
       }
-
-      /*
+*/
+      
       // PADES SIGN TS
       if (TS_APPID != null) {
         String signType = FileInfoSignature.SIGN_TYPE_PADES;
@@ -211,7 +211,7 @@ public class AfirmaServerTest extends TestCase {
         results.add(signFile(testFileBySignType.get(signType), signType, signMode,
             userRequiresTimeStamp,epes, rubricGenerator, plugin, username, "PAdES-TS"));
       }
-      */
+     
       /* XYZ ZZZ
       // XADES ATACHED
        {

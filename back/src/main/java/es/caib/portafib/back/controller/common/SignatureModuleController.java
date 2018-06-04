@@ -491,6 +491,10 @@ public class SignatureModuleController extends HttpServlet {
       }
     }
     synchronized (portaFIBSignaturesSets) {
+      
+      log.info(" XYZ ZZZ ZZZ SignatureModuleController::closeSignaturesSet() "
+          + "=> Esborrant signaturesSetID = " + signaturesSetID, new Exception());
+      
       portaFIBSignaturesSets.remove(signaturesSetID);
     }
   }
@@ -653,6 +657,8 @@ public class SignatureModuleController extends HttpServlet {
         log.info("startSignatureProcess(" + signaturesSetID + "): " + signaturesSet);
         log.warn("startSignatureProcess(" + signaturesSetID + "): ALREADY CONTAINS KEY !!!!");
       }
+      log.info("XYZ ZZZ  SignatureModuleController::startSignatureProcess() "
+          + "=> Afegint signaturesSetID=" + signaturesSetID);
       portaFIBSignaturesSets.put(signaturesSetID, signaturesSet);
     }
 

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -16,6 +17,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import es.caib.portafib.logic.NotificacioWSLogicaEJB;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
 import es.caib.portafib.logic.utils.NotificacioInfo;
 import es.caib.portafib.logic.utils.NotificacionsQueue;
@@ -56,6 +58,16 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   //@EJB(mappedName = "portafib/NotificacioLogicaEJB/local")
   //protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
+  //@EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
+  //protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
+//  
+//  
+//  public NotificacionsCallBackTimerEJB() {
+//    
+//    log.info("\n>>>>>>>>>>>>>>>>>>  CONSTRUCTOR " + this.toString() + "\n");
+//    
+//  }
+  
 
   @Override
   public String getTimerName() {
@@ -84,7 +96,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   public void wakeUp() {
 
     // Despertam el timer per processar una petició URGENT
-    log.debug("NotificacionsCallBackTimerEJB::wakeUp =>> ENTRA ");
+    log.info("XYZ ZZZ NotificacionsCallBackTimerEJB::wakeUp =>> ENTRA ");
     // No volem aturar mentre estam executant
     synchronized (log) {
 
@@ -94,14 +106,15 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
       this.startScheduler();
     }
     
-    log.debug("NotificacionsCallBackTimerEJB::wakeUp =>> SURT ");
+    log.info("XYZ ZZZ NotificacionsCallBackTimerEJB::wakeUp =>> SURT ");
   }
 
   @Override
-  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+  //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   protected java.util.Date computeNextExecution() throws ParseException {
 
     long properaExecucio;
+  
     if (forceExecutionNow) {
       properaExecucio =  System.currentTimeMillis() + 2000;
     } else {
@@ -115,12 +128,12 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   }
 
 
-  // @TransactionAttribute(TransactionAttributeType.NEVER) or TransactionAttribute(TransactionAttributeType.MANDATORY)"
+  // @TransactionAttribute(TransactionAttributeType.NEVER)
   // @TransactionAttribute(TransactionAttributeType.MANDATORY)
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Override
   public void executeTask() {
-    
+
     final boolean debug = log.isDebugEnabled();
      
     // No volem que ens aturin mentre estam executant
@@ -210,6 +223,9 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
 
         final long maxTempsNotificant = Math.min(notificacionTimeLapse, 45000);
         
+        
+        UsuariAplicacioLogicaLocal usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
+        
         // Processam les notificacions
         for (NotificacioWS notificacioWS : notificacions) {
 
@@ -229,7 +245,7 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
             notificacioInfo = NotificacioWSLogicaEJB
                 .getNotificacioInfoFromNotificacioJPA(notificacioWS);
 
-            NotificacionsQueue.processNotificacio(notificacioInfo);
+            NotificacionsQueue.processNotificacio(usuariAplicacioEjb, notificacioLogicaEjb, notificacioInfo);
 
           } catch (Exception e) {
             log.error(

@@ -37,7 +37,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 public class NotificacioWSLogicaEJB extends NotificacioWSEJB 
   implements NotificacioWSLogicaLocal {
   
-  
   @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
   private NotificacionsCallBackTimerLocal notifCallback;
   
@@ -147,7 +146,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
       //log.info("XYZ ZZZ notifCallback = " + notifCallback);
 
       // Despertar per processar
-      notifCallback.wakeUp();
+      // XYZ ZZZ notifCallback.wakeUp();
       
       //NotificacionsQueue.enviarNotificacions(Arrays.asList(notifInfo));
     }
@@ -191,6 +190,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
 
   }
 
+  
   @Override
   public boolean isTimerRunning() {
     return notifCallback.isTimerRunning();
@@ -219,7 +219,7 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
   public long[] getExecutionsInfo() {
     return notifCallback.getExecutionsInfo();
   }
-  
+
 
   /**
    * 

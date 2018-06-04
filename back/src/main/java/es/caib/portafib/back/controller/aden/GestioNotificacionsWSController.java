@@ -63,9 +63,9 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @Autowired
   protected UsuariAplicacioRefList usuariAplicacioRefList;
 
-  @EJB(mappedName = "portafib/NotificacioLogicaEJB/local")
+  @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)  //"portafib/NotificacioLogicaEJB/local")
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
-
+  
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 

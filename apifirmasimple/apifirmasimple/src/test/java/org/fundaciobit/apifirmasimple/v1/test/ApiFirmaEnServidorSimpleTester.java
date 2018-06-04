@@ -156,6 +156,15 @@ public class ApiFirmaEnServidorSimpleTester {
             fos.write(fsf.getData());
             fos.flush();
             System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+            
+            String custID = fssr.getCustodyFileID();
+            String custURL = fssr.getCustodyFileURL();
+            if (custID != null || custURL != null) {
+              System.out.println("  CustodiaID = " + custID);
+              System.out.println("  CustodiaURL = " + custURL);
+            }
+            
+            
             break;
           }
 

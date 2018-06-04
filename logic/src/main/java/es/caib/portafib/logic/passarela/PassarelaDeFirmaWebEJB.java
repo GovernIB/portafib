@@ -319,9 +319,32 @@ public class PassarelaDeFirmaWebEJB
   protected PassarelaSignaturesSetWebInternalUse readSignaturesSet(String transactionID) {
 
     checkExpiredSignaturesSet();
+    
+    log.info("XYZ ZZZ  Calling readSignaturesSet("  + transactionID + ")");
 
     synchronized (passarelaSignaturesSets) {
-      return passarelaSignaturesSets.get(transactionID);
+      PassarelaSignaturesSetWebInternalUse pss = passarelaSignaturesSets.get(transactionID);
+      if (pss == null) {
+        
+        log.info("XYZ ZZZ  La transacció "  + transactionID + " no existeix !!!!!");
+        
+        
+        if (passarelaSignaturesSets.size() == 0) {
+          log.info("XYZ ZZZ  passarelaSignaturesSets ESTA BUIT  !!!!!");
+        } else {
+          log.info("XYZ ZZZ Contingut de  passarelaSignaturesSets:");
+          for(String id: passarelaSignaturesSets.keySet()) {
+            log.info("          XYZ ZZZ  EXISTEIX ID :  "  + id );
+          }
+        }
+        
+        
+        
+        
+      }
+          
+          
+      return pss;
     }
   }
 
@@ -355,8 +378,12 @@ public class PassarelaDeFirmaWebEJB
       FileUtils.deleteDirectory(basePath);
     } catch (IOException e) {
       log.error(
-          "Error eliminant directori " + basePath + "(S'ha de borrar manualment): "
+          "Error eliminant directori " + basePath + "(S'ha d'esborrar manualment): "
               + e.getMessage(), e);
+    }
+    
+    if (log.isDebugEnabled()) {
+      log.debug("Eliminant transacció WEB ]" +  signaturesSetID + "[");
     }
 
     passarelaSignaturesSets.remove(signaturesSetID);

@@ -2,9 +2,9 @@ package org.fundaciobit.apifirmasimple.v1;
 
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -118,12 +118,12 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
    * @return
    * @throws Exception
    */
-  public FirmaSimpleFile getSignatureResult(FirmaSimpleGetSignatureResultRequest transactionID)
+  public FirmaSimpleSignatureResult getSignatureResult(FirmaSimpleGetSignatureResultRequest transactionID)
       throws Exception {
 
     ClientResponse response = commonCall(transactionID, ApiFirmaWebSimple.SIGNATURERESULT);
 
-    FirmaSimpleFile result = response.getEntity(FirmaSimpleFile.class);
+    FirmaSimpleSignatureResult result = response.getEntity(FirmaSimpleSignatureResult.class);
 
     return result;
   }

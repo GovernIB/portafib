@@ -1,5 +1,7 @@
-<%@page import="org.fundaciobit.plugins.signature.api.FileInfoSignature"%>
-<%@ include file="/WEB-INF/views/html_header.jsp"%>
+﻿<%@page import="org.fundaciobit.plugins.signature.api.FileInfoSignature"
+%><%@page language="java" pageEncoding="UTF-8"
+%><%@page language="java" contentType="text/html;charset=UTF-8" 
+%><%@ include file="/WEB-INF/views/html_header.jsp"%>
 
 <h3 class="tabs_involved">
   &nbsp;&nbsp;&nbsp;<fmt:message key="autofirma" />

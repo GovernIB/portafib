@@ -288,6 +288,11 @@ public class PassarelaDeFirmaController  {
     // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la 
     // informació dins la capa EJB
     SignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
+    
+    final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
+    
+    log.info(" XYZ ZZZ PassarelaDeFirmaController::finlaProcessDeFirma(); => URL redirect = "
+        + url);
 
     return new ModelAndView(new RedirectView(ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal()));
     

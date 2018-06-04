@@ -443,18 +443,13 @@ public class AutoFirmaController {
             log.debug(" ------ WEB SIGNID ]" + signID + "[");
           }
 
-          FirmaSimpleStatus fss = signatureStatus.getStatus();
-
           InfoGlobal infoGlobal = peticions.get(signID);
 
-          FirmaSimpleFile signedFile;
-          signedFile = api.getSignatureResult(new FirmaSimpleGetSignatureResultRequest(
+          FirmaSimpleSignatureResult fssr;
+          fssr = api.getSignatureResult(new FirmaSimpleGetSignatureResultRequest(
               transactionID, signID));
-          
-          java.lang.String custodyFileID = null;
-          java.lang.String custodyFileURL = null;
 
-          infoGlobal.setResultat(new FirmaSimpleSignatureResult(signID, fss, signedFile, custodyFileID, custodyFileURL));
+          infoGlobal.setResultat(fssr);
 
         } // Final for de fitxers firmats
 

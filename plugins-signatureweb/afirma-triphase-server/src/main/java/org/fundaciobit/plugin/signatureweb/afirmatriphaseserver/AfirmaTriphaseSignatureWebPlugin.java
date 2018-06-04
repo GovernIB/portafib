@@ -922,6 +922,28 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
     
     final boolean debugWeb = "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
+
+    
+    final String hostURLBase = HOST + request.getContextPath();
+    final String cargarAppAfirma;
+    
+    final String firefoxInWindowsUseOSKeystore = getProperty(AUTOFIRMA_BASE_PROPERTIES + "firefoxinwindowsuseoskeystore");
+    if ("true".equals(firefoxInWindowsUseOSKeystore)) {
+      // Si estam a Windows i Firefox llavors usar KeyStore de Certificats del SO
+      cargarAppAfirma = 
+          " var isFirefox =  (navigator.userAgent.toUpperCase().indexOf(\"FIREFOX\") != -1);\n"
+          + (debugWeb?"    showLog(' Is Firefox: ' + isFirefox + '| isWindows=' + (navigator.appVersion.indexOf(\"Win\") != -1));\n":"")
+          + "    if (isFirefox && (navigator.appVersion.indexOf(\"Win\") != -1)) {\n"    
+          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\", MiniApplet.KEYSTORE_WINDOWS);\n"
+          + "    } else {\n" 
+          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n" 
+          + "    };\n"; 
+          
+    } else {
+      // KeyStore de Certificats per defecte
+      cargarAppAfirma = "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n";
+    }
+    
     
 
     String javascriptCode =    
@@ -1031,9 +1053,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Pre_doSign()');":"")
       + "   doSign();\n"
       + (debugWeb?"        showLog('Cridant a doSignAndroidChrome_Post_doSign()');":"")
-      + "}\n\n"
-      + "  window.onload = function(e) { \n"
+      + "}"
+      + "\n\n"
+      + "  window.onload = function(e) {\n"
       + "    try {\n"
+      + "      inicialitzarAutoFirma();"
       + "      var C1 = (navigator.userAgent.toUpperCase().indexOf(\"CHROME\") != -1);\n"
       + "      var C2 = (navigator.userAgent.toUpperCase().indexOf(\"CHROMIUM\") != -1);\n"
       + "      var casAC = ( C1 || C2) && MiniApplet.isAndroid();\n"
@@ -1045,13 +1069,24 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + "        mostrar('msgNoAndroidChrome');\n"
       + "        ocultar('msgAndroidChrome');\n"
       + (debugWeb?"        showLog('Cridant a cridaOutPre_doSign()');":"")
+      + "        MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
       + "        doSign();\n"
       + (debugWeb?"        showLog('Cridant a cridaOutPost_doSign()');":"")
       + "      }\n"
       + "    } catch (e) { alert(e); };\n" 
       + "    // Iniciar Timer\n"
       + "    myTimer = setInterval(function () {closeWhenSign()}, 5000);\n"
-      + " } // Final window.onload\n"
+      + " } // Final window.onload"
+      + "\n\n"
+      + "  function inicialitzarAutoFirma() {\n"
+      + "    NUM_MAX_ITERATIONS = "+ (15 + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
+      + "    MiniApplet.setForceWSMode(true);\n"
+      + cargarAppAfirma + "\n"
+      + (debugWeb?"    showLog('Cridant a MiniApplet.setServlets()');":"") + "\n"
+      + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
+      + "\n"
+      + "  }"
+      + "\n\n"
       + "</script>\n";
    
       
@@ -1065,35 +1100,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
           relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
       
 
-    final String hostURLBase = HOST + request.getContextPath();
-    final String cargarAppAfirma;
-    
-    final String firefoxInWindowsUseOSKeystore = getProperty(AUTOFIRMA_BASE_PROPERTIES + "firefoxinwindowsuseoskeystore");
-    if ("true".equals(firefoxInWindowsUseOSKeystore)) {
-      // Si estam a Windows i Firefox llavors usar KeyStore de Certificats del SO
-      cargarAppAfirma = 
-          " var isFirefox =  (navigator.userAgent.toUpperCase().indexOf(\"FIREFOX\") != -1);\n"
-          + (debugWeb?"    showLog(' Is Firefox: ' + isFirefox + '| isWindows=' + (navigator.appVersion.indexOf(\"Win\") != -1));\n":"")
-          + "    if (isFirefox && (navigator.appVersion.indexOf(\"Win\") != -1)) {\n"    
-          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\", MiniApplet.KEYSTORE_WINDOWS);\n"
-          + "    } else {\n" 
-          + "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n" 
-          + "    };\n"; 
-          
-    } else {
-      // KeyStore de Certificats per defecte
-      cargarAppAfirma = "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n";
-    }
-    
+   
 
     out.println(
-      "  <script type=\"text/javascript\">\n"
-      + "    NUM_MAX_ITERATIONS = "+ (15 + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
-      + "    MiniApplet.setForceWSMode(true);\n"
-      + cargarAppAfirma + "\n"
-      + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
-      + "\n"
-      + "</script>\n\n"
+      "\n\n"
       + "<div id=\"ajaxloader\" style=\"width:100%;height:100%;\">\n"
       + "  <table style=\"min-height:200px;width:100%;height:100%;\">\n"
       + "    <tr valign=\"middle\">\n"

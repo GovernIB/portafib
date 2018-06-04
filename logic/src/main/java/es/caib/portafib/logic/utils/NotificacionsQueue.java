@@ -72,19 +72,21 @@ public class NotificacionsQueue {
   protected static final Logger log = Logger.getLogger(NotificacionsQueue.class);
 
   
-  public static void processNotificacio(NotificacioInfo notificacioInfo) {
+  //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+  public static void processNotificacio(UsuariAplicacioLogicaLocal usuariAplicacioEjb,
+      final NotificacioWSLogicaLocal notificacioLogicaEjb, NotificacioInfo notificacioInfo) {
     
     // XYZ ZZZ Quan lo de Notificacions funcioni correctament llavors descomentar
     final boolean isDebug = true; // log.isDebugEnabled() 
   
     NotificacioWSJPA notificacioJPA = null;
 
-    NotificacioWSLogicaLocal notificacioLogicaEjb = null;
+    //NotificacioWSLogicaLocal notificacioLogicaEjb = null;
 
     UsuariAplicacio usuariAplicacio = null;
     try {
 
-      notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
+      //notificacioLogicaEjb = EjbManager.getNotificacioLogicaEJB();
 
       long notificacioID = notificacioInfo.getNotificacioID();
 
@@ -124,7 +126,7 @@ public class NotificacionsQueue {
 
       String usuariAplicacioID = fe.getDestinatariUsuariAplicacioID();
 
-      UsuariAplicacioLogicaLocal usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
+      //UsuariAplicacioLogicaLocal usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
 
       usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
       if (usuariAplicacio == null) {

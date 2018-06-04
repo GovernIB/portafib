@@ -17,6 +17,8 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
  */
 @Local
 public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
+  
+  public static final String JNDI_NAME = "portafib/NotificacioLogicaEJB/local";
 
   public NotificacioWSJPA findByPrimaryKeyForNotificacioQueue(long notificacioID);
 
@@ -28,11 +30,7 @@ public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
 
   public NotificacioWSJPA desbloquejarNotificacio(java.lang.Long notificacioID) throws I18NException;
 
-  public boolean isTimerRunning();
-  
-  public void startTimer();
-  
-  public void stopTimer();
+
   
   /**
    * Retorna un array de informació de les execucions:
@@ -40,8 +38,17 @@ public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
    *     [2] => darrera execució
    *     [3] => propera execució
    * @return
-   */
+   */  
   public long[] getExecutionsInfo();
+  
+  
+  public boolean isTimerRunning();
+  
+  public void startTimer();
+  
+  
+  public void stopTimer();
+
   
 }
 

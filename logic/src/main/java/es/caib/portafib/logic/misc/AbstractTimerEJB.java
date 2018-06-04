@@ -43,6 +43,7 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Timeout
   public void timeOutHandler(Timer timer) {
+
     try {
       long timeRemaining = timer.getTimeRemaining();
 
@@ -64,11 +65,12 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
     } catch (Throwable e) {
       log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
     }
-
   }
 
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   protected Date nextExecution() throws ParseException {
 
+   
     Date nextFireAt = computeNextExecution();
     
     if (nextFireAt == null) {
@@ -77,16 +79,27 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
       return null;
     }
 
+
     TimerService timerService = context.getTimerService();
+
+    
+    // 10:57:35,613 WARN  [loggerI18N] [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning]
+    // [com.arjuna.ats.internal.jta.transaction.arjunacore.lastResource.multipleWarning] 
+    // Multiple last resources have been added to the current transaction. This is transactionally unsafe and
+    // should not be relied upon. Current resource is 
+    // org.jboss.resource.connectionmanager.TxConnectionManager$LocalXAResource@5e7a92ad
     Timer timer2 = timerService.createTimer(nextFireAt, getTimerName());
+
 
     if (log.isDebugEnabled()) {
       log.debug("[" + getTimerName() + "] timeoutHandler : " + timer2.getInfo());
     }
+
     return nextFireAt;
 
   }
 
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   protected Date computeNextExecution() throws ParseException {
     String cronExpression = getCronExpression();
 

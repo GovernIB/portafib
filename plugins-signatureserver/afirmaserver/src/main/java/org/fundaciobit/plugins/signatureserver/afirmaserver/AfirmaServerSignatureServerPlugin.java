@@ -61,8 +61,8 @@ import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
  * @author anadal
  *
  */
-public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin
-  implements ValidateSignatureConstants {
+public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin implements
+    ValidateSignatureConstants {
 
   protected static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
 
@@ -89,12 +89,13 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       + "TransformersTemplatesPath";
 
   public static final String ENDPOINT_SIGN = AFIRMASERVER_BASE_PROPERTIES + "endpoint";
-  
-  public static final String ENDPOINT_UPGRADE = AFIRMASERVER_BASE_PROPERTIES + "endpoint_upgrade";
 
-  public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES + "ignoreservercertificates";  
+  public static final String ENDPOINT_UPGRADE = AFIRMASERVER_BASE_PROPERTIES
+      + "endpoint_upgrade";
 
-  
+  public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES
+      + "ignoreservercertificates";
+
   /**
    * 
    */
@@ -116,21 +117,20 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
-  
+
   protected boolean isIgnoreServerCertificates() {
-	  String val = getProperty(IGNORE_SERVER_CERTIFICATES);
-	  if ("true".equalsIgnoreCase(val)) {
-		  return true;		  
-	  } else {
-		  return false;
-	  }
+    String val = getProperty(IGNORE_SERVER_CERTIFICATES);
+    if ("true".equalsIgnoreCase(val)) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  
 
   /**
    * 
-   * @return true true indica que el plugin accepta generadors de Segell de
-   *         Temps definits dins FileInfoSignature.timeStampGenerator
+   * @return true true indica que el plugin accepta generadors de Segell de Temps definits dins
+   *         FileInfoSignature.timeStampGenerator
    */
   @Override
   public boolean acceptExternalTimeStampGenerator(String signType) {
@@ -138,35 +138,34 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return false;
     /*
      * if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType) ||
-     * FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) { return true; } else
-     * { return false; }
+     * FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) { return true; } else { return
+     * false; }
      */
     /*
-     * if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) { return true; }
-     * else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) { // Per ara
-     * MiniApplet no suporta firma de XadesT return false; } else {
-     * log.warn("S'ha cridat a " + this.getClass().getName() +
-     * "::acceptExternalTimeStampGenerator amb un tipus de firma no controlat:"
-     * + signType); return false; }
+     * if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) { return true; } else if
+     * (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) { // Per ara MiniApplet no suporta
+     * firma de XadesT return false; } else { log.warn("S'ha cridat a " +
+     * this.getClass().getName() +
+     * "::acceptExternalTimeStampGenerator amb un tipus de firma no controlat:" + signType);
+     * return false; }
      */
   }
 
   /**
    * 
-   * @return true, indica que el plugin internament ofereix un generador de
-   *         segellat de temps.
+   * @return true, indica que el plugin internament ofereix un generador de segellat de temps.
    */
   @Override
   public boolean providesTimeStampGenerator(String signType) {
     // TODO AQUI HEM DE VEURE SI l'applicationID de @FIRMA permet estampador
     // de segell de temps
-	  
-	log.info("AfirmaServerSignatureServerPlugin::providesTimeStampGenerator() => ENTRA");
+
+    log.info("AfirmaServerSignatureServerPlugin::providesTimeStampGenerator() => ENTRA");
 
     String applicationID_TS = getProperty(APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY);
     if (applicationID_TS == null || applicationID_TS.trim().length() == 0) {
-    	log.warn("La propietat " + APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY 
-    			+ " està buida: No suportam Segellat de temps");
+      log.warn("La propietat " + APPLICATIONID_AMB_SEGELLLAT_DE_TEMPS_PROPERTY
+          + " està buida: No suportam Segellat de temps");
     } else {
 
       // NOTA: Amb aplication amb suport de firma només he aconseguit
@@ -174,14 +173,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
           || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
           || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)
-          //|| FileInfoSignature.SIGN_TYPE_PADES.equals(signType)  
-          ) {    	
+      // || FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
+      ) {
         return true;
       } else {
-    	if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-    	  log.warn("No sabem per quina raó el plugin [" + getName(new Locale("ca")) 
-    		+ "] no afegeix Segell de Temps en les firmes PAdES");
-    	}
+        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+          log.warn("No sabem per quina raó el plugin [" + getName(new Locale("ca"))
+              + "] no afegeix Segell de Temps en les firmes PAdES");
+        }
       }
     }
     return false;
@@ -189,19 +188,18 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
   /**
    * 
-   * @return true indica que el plugin accepta generadors del imatges de la
-   *         Firma Visible PDF definits dins
-   *         FileInfoSignature.pdfInfoSignature.rubricGenerator.
+   * @return true indica que el plugin accepta generadors del imatges de la Firma Visible PDF
+   *         definits dins FileInfoSignature.pdfInfoSignature.rubricGenerator.
    */
   @Override
   public boolean acceptExternalRubricGenerator() {
-    return false; 
+    return false;
   }
 
   /**
    * 
-   * @return true, indica que el plugin internament ofereix un generador de
-   *         imatges de la Firma Visible PDF.
+   * @return true, indica que el plugin internament ofereix un generador de imatges de la Firma
+   *         Visible PDF.
    */
   @Override
   public boolean providesRubricGenerator() {
@@ -263,15 +261,13 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public boolean filter(SignaturesSet signaturesSet) {
 
     final boolean suportXAdES_T = true;
-    
-	final boolean isc = isIgnoreServerCertificates();
-	log.info("+ IgnoreServerCertificates = " + isc);
-	if (/*endpoint.toLowerCase().startsWith("https") &&*/ isc) {
-	  XTrustProvider.install();
-	}
 
-    
-    
+    final boolean isc = isIgnoreServerCertificates();
+    log.info("+ IgnoreServerCertificates = " + isc);
+    if (/* endpoint.toLowerCase().startsWith("https") && */isc) {
+      XTrustProvider.install();
+    }
+
     if (checkFilter(this, signaturesSet, suportXAdES_T, this.log)) {
       return checkConnection();
     }
@@ -305,7 +301,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   @Override
   public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase) {
 
-
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
     FileInfoSignature[] fileInfoArray = signaturesSet.getFileInfoSignatureArray();
@@ -321,9 +316,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       start = System.currentTimeMillis();
       FileInfoSignature fileInfo = fileInfoArray[i];
 
-
       try {
-    	final boolean debug = isDebug();
+        final boolean debug = isDebug();
 
         byte[] bytesToSign = FileUtils.readFromFile(fileInfo.getFileToSign());
 
@@ -334,42 +328,42 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
         String algorisme;
         {
-	        final String algorithm = fileInfo.getSignAlgorithm();
-	        if (debug) {
-	          log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO PRE [algorithm] = " + algorithm);
-	        }
-	        if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(algorithm)) {
-	          algorisme = AlgorithmTypes.SHA1;
-	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(algorithm)) {
-	          algorisme = AlgorithmTypes.SHA256;
-	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(algorithm)) {
-	          algorisme = AlgorithmTypes.SHA384;
-	        } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(algorithm)) {
-	          algorisme = AlgorithmTypes.SHA512;
-	        } else {
-	          throw new Exception("Algorisme no suportat: " + algorithm);
-	        }
-	        log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO POST [algorisme] = " + algorisme);
+          final String algorithm = fileInfo.getSignAlgorithm();
+          if (debug) {
+            log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO PRE [algorithm] = " + algorithm);
+          }
+          if (FileInfoSignature.SIGN_ALGORITHM_SHA1.equals(algorithm)) {
+            algorisme = AlgorithmTypes.SHA1;
+          } else if (FileInfoSignature.SIGN_ALGORITHM_SHA256.equals(algorithm)) {
+            algorisme = AlgorithmTypes.SHA256;
+          } else if (FileInfoSignature.SIGN_ALGORITHM_SHA384.equals(algorithm)) {
+            algorisme = AlgorithmTypes.SHA384;
+          } else if (FileInfoSignature.SIGN_ALGORITHM_SHA512.equals(algorithm)) {
+            algorisme = AlgorithmTypes.SHA512;
+          } else {
+            throw new Exception("Algorisme no suportat: " + algorithm);
+          }
+          log.info(" XYZ ZZZ @FIRMA SERVER: SIGN_ALGO POST [algorisme] = " + algorisme);
         }
 
+        // Instanciamos un mapa con los parámetros de entrada
+        Map<String, Object> inParams = new HashMap<String, Object>();
+        
         final String tipusFirma = fileInfo.getSignType();
         String signType;
         String signMode = null;
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
-          signType = SignTypesURIs.PADES;
-
+          signType = SignTypesURIs.PADES;          
         } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(fileInfo.getSignType())) {
           signType = SignTypesURIs.XADES_V_1_3_2;
-
         } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(fileInfo.getSignType())
             || FileInfoSignature.SIGN_TYPE_SMIME.equals(fileInfo.getSignType())) {
-
           signType = SignTypesURIs.CADES;
-
         } else {
           // TODO Falta CADes,
 
-          // "Tipus de Firma amb ID {0} no està suportat pel plugin `{1}`
+          // "Tipus de Firma amb ID {0} no està suportat pel plugin
+          // `{1}`
           String msg = getTraduccio("tipusfirma.desconegut", locale, fileInfo.getSignType(),
               this.getName(locale));
 
@@ -396,10 +390,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           }
         }
 
-        
 
-        // Instanciamos un mapa con los parámetros de entrada
-        Map<String, Object> inParams = new HashMap<String, Object>();
 
         // Indicamos los datos a firmar
 
@@ -442,7 +433,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         // Indicamos el tipo del documento a firmar
         inParams.put(DSSTagsRequest.ADDITIONAL_DOCUMENT_TYPE, fileInfo.getMimeType());
 
-        // Indicamos el alias del certificado que usar para generar la firma
+        // Indicamos el alias del certificado que usar para generar la
+        // firma
         inParams.put(DSSTagsRequest.KEY_SELECTOR, getAliasCertificate(signaturesSet));
 
         // Indicamos el identificador de aplicación cliente definida en
@@ -462,16 +454,25 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         // Indicamos el formato de la firma a generar
         PolicyInfoSignature pis = commonInfoSignature.getPolicyInfoSignature();
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
-
-          if (pis != null) {
-            inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
+          
+          if (fileInfo.isUserRequiresTimeStamp()) {
+            // https://ssweb.seap.minhap.es/ayuda/seguimiento
+            // identificador de consulta: 426066
+            // número de seguimiento: 553439
+            //inParams.put(DSSTagsRequest.SIGNATURE_FORM, "urn:afirma:dss:1.0:profile:XSS:PAdES:1.1.2:forms:LTV");
+            inParams.put(DSSTagsRequest.SIGNATURE_FORM, "urn:afirma:dss:1.0:profile:XSS:AdES:forms:T-Level");
           } else {
-            inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_BES);
-            
-            //inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
-            //inParams.put(DSSTagsRequest.SIGPOL_SIGNATURE_POLICY_IDENTIFIER,"2.16.724.1.3.1.1.2.1.9");
-          }
 
+            if (pis != null) {
+              inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_EPES);
+            } else {
+              inParams.put(DSSTagsRequest.SIGNATURE_FORM, SignatureForm.PADES_BES);
+  
+              // inParams.put(DSSTagsRequest.SIGNATURE_FORM,
+              // SignatureForm.PADES_EPES);
+              // inParams.put(DSSTagsRequest.SIGPOL_SIGNATURE_POLICY_IDENTIFIER,"2.16.724.1.3.1.1.2.1.9");
+            }
+          }
         } else {
 
           // TODO XYZ ZZZ Que passa amb CADES I XADES !!!!!
@@ -492,46 +493,45 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
                 + pis.getPolicyIdentifierHashAlgorithm());
           }
 
-          // AQUEST ALGORISME ES DE LA FIRMA NO DE LA POLITICA !!!!!!!!
-          //inParams.put(DSSTagsRequest.HASH_ALGORITHM, algHash);
+          // AQUEST ALGORISME ES DE LA FIRMA NO DE LA POLITICA
+          // !!!!!!!!
+          // inParams.put(DSSTagsRequest.HASH_ALGORITHM, algHash);
 
-          // TODO XYZ XYZ FALTA ALGO URL i HASH inParams.put(DSSTagsRequest., );
+          // TODO XYZ XYZ FALTA ALGO URL i HASH
+          // inParams.put(DSSTagsRequest., );
         }
 
         TransformersFacade transformersFacade = getTransformersFacade();
-        
+
         if (debug) {
-          
+
           StringBuffer inputProperties = new StringBuffer();
-          
-          for(String key : inParams.keySet()) {
-            
+
+          for (String key : inParams.keySet()) {
+
             inputProperties.append(key + " => ");
             Object obj = inParams.get(key);
             if (obj instanceof String) {
-              inputProperties.append((String)obj);
+              inputProperties.append((String) obj);
             } else {
               inputProperties.append(" [ BINARY VALUE]");
             }
             inputProperties.append("\n");
-            
+
           }
-          
+
           log.info(" ============ INPUT PROPERTIES ==============\n" + inputProperties + "\n");
-          
+
         }
-        
 
         // Construimos el XML que constituye la petici�n
         String xmlInput = transformersFacade.generateXml(inParams,
             GeneralConstants.DSS_AFIRMA_SIGN_REQUEST, GeneralConstants.DSS_AFIRMA_SIGN_METHOD,
             TransformersConstants.VERSION_10);
 
-
         if (debug) {
           log.info(" XML_INPUT\n" + xmlInput);
         }
-
 
         String xmlOutput = cridadaWsSign(xmlInput);
 
@@ -561,7 +561,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             if (signedData == null) {
               // BUG del generateServerSignerResponse()
 
-              // SIGNATURE_DS = "dss:SignatureObject/ds:Signature";
+              // SIGNATURE_DS =
+              // "dss:SignatureObject/ds:Signature";
               signedData = propertiesResult.get(DSSTagsRequest.SIGNATURE_DS).toString()
                   .getBytes();
             }
@@ -657,114 +658,124 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return signaturesSet;
 
   }
-  
-  
+
   /**
-   * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i supportUpgradeSignature() #167
-   * https://github.com/GovernIB/portafib/issues/167
+   * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i
+   * supportUpgradeSignature() #167 https://github.com/GovernIB/portafib/issues/167
+   * 
    * @param upgSigReq
    * @return
    * @throws Exception
    */
-  public ServerSignerResponse upgradeSignature(UpgradeSignatureRequest upgSigReq) throws Exception {
-      ServerSignerResponse serSigRes = new ServerSignerResponse();
-      String resultValidate = ValidateRequest.validateUpgradeSignatureRequest(upgSigReq);
-      
-      TransformersFacade transformersFacade = getTransformersFacade();
-      
-      //try {
-          if (resultValidate != null) {
-              throw new Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020", new Object[]{resultValidate}));
-          }
-          Map<String, Object> inputParameters = generateUpgradeSignatureRequest(upgSigReq);
-          if (inputParameters != null) {
-              String xmlInput = transformersFacade.generateXml(inputParameters, "DSSAfirmaVerify", "verify", "1_0");
-              
-              
-              //String xmlOutput = Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput, "DSSAfirmaVerify", "verify", upgSigReq.getApplicationId());
+  public ServerSignerResponse upgradeSignature(UpgradeSignatureRequest upgSigReq)
+      throws Exception {
+    ServerSignerResponse serSigRes = new ServerSignerResponse();
+    String resultValidate = ValidateRequest.validateUpgradeSignatureRequest(upgSigReq);
 
-              String xmlOutput = cridadaWsUpgrade(xmlInput);
-              
-              
-              Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput, "DSSAfirmaVerify", "verify", "1_0");
-              if (propertiesResult != null) {
-                  GenerateMessageResponse.generateServerSignerResponse(propertiesResult, serSigRes);
-              }
-          }
-          /*
+    TransformersFacade transformersFacade = getTransformersFacade();
+
+    // try {
+    if (resultValidate != null) {
+      throw new Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020",
+          new Object[] { resultValidate }));
+    }
+    Map<String, Object> inputParameters = generateUpgradeSignatureRequest(upgSigReq);
+    if (inputParameters != null) {
+      String xmlInput = transformersFacade.generateXml(inputParameters, "DSSAfirmaVerify",
+          "verify", "1_0");
+
+      // String xmlOutput =
+      // Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
+      // "DSSAfirmaVerify", "verify", upgSigReq.getApplicationId());
+
+      String xmlOutput = cridadaWsUpgrade(xmlInput);
+
+      Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput,
+          "DSSAfirmaVerify", "verify", "1_0");
+      if (propertiesResult != null) {
+        GenerateMessageResponse.generateServerSignerResponse(propertiesResult, serSigRes);
       }
-      catch (Exception e) {
-          log.error((Object)Language.getFormatResIntegra("IFWS031", new Object[]{e.getMessage()}));
-      }
-      */
-      return serSigRes;
+    }
+    /*
+     * } catch (Exception e) { log.error((Object)Language.getFormatResIntegra("IFWS031", new
+     * Object[]{e.getMessage()})); }
+     */
+    return serSigRes;
   }
-  
-  
-  
-  public static Map<String, Object> generateUpgradeSignatureRequest(UpgradeSignatureRequest upgSigReq) {
-      HashMap<String, Object> inputParameters = new HashMap<String, Object>();
-      if (upgSigReq.getSignature() != null) {
-          incorporateSignatureImplicit(inputParameters, upgSigReq.getSignature());
-      } else {
-          inputParameters.put("dss:SignatureObject/dss:Other/afxp:SignatureArchiveId", upgSigReq.getTransactionId());
-          inputParameters.put("dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:repositoryId", upgSigReq.getSignatureRepository().getId());
-          inputParameters.put("dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:objectId", upgSigReq.getSignatureRepository().getObject());
-      }
-      inputParameters.put("dss:OptionalInputs/dss:ClaimedIdentity/dss:Name", upgSigReq.getApplicationId());
-      if (upgSigReq.getSignatureFormat() != null) {
-          inputParameters.put("dss:OptionalInputs/dss:ReturnUpdatedSignature@Type", upgSigReq.getSignatureFormat().getUriFormat());
-      }
-      if (upgSigReq.getTargetSigner() != null) {
-          String encodedTargetSigner = null;
-          try {
-              encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
-          }
-          catch (Exception e) {
-        	  // XYZ ZZZ 
-              e.printStackTrace();
-          }
-          inputParameters.put("dss:OptionalInputs/afxp:TargetSigner", encodedTargetSigner);
-      }
-      if (upgSigReq.isIgnoreGracePeriod()) {
-          inputParameters.put("dss:OptionalInputs/afxp:IgnoreGracePeriod", "");
-      }
-      return inputParameters;
-  }
-  
-  
-  private static void incorporateSignatureImplicit(Map<String, Object> inputParameters, byte[] signature) {
+
+  public static Map<String, Object> generateUpgradeSignatureRequest(
+      UpgradeSignatureRequest upgSigReq) {
+    HashMap<String, Object> inputParameters = new HashMap<String, Object>();
+    if (upgSigReq.getSignature() != null) {
+      incorporateSignatureImplicit(inputParameters, upgSigReq.getSignature());
+    } else {
+      inputParameters.put("dss:SignatureObject/dss:Other/afxp:SignatureArchiveId",
+          upgSigReq.getTransactionId());
+      inputParameters.put(
+          "dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:repositoryId", upgSigReq
+              .getSignatureRepository().getId());
+      inputParameters.put(
+          "dss:SignatureObject/dss:Other/cmism:getContentStream/cmism:objectId", upgSigReq
+              .getSignatureRepository().getObject());
+    }
+    inputParameters.put("dss:OptionalInputs/dss:ClaimedIdentity/dss:Name",
+        upgSigReq.getApplicationId());
+    if (upgSigReq.getSignatureFormat() != null) {
+      inputParameters.put("dss:OptionalInputs/dss:ReturnUpdatedSignature@Type", upgSigReq
+          .getSignatureFormat().getUriFormat());
+    }
+    if (upgSigReq.getTargetSigner() != null) {
+      String encodedTargetSigner = null;
       try {
-          if (!CXFUtils.isXMLFormat(signature)) {
-              inputParameters.put("dss:SignatureObject/dss:Base64Signature", new String(Base64Coder.encodeBase64(signature)));
-          } else {
-
-              String typeOfESignature =  getXAdESFormat(signature);
-              if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
-                  inputParameters.put("dss:SignatureObject", new String(signature));
-              } else if ("XAdES Enveloped".equals(typeOfESignature) || "XAdES Detached".equals(typeOfESignature)) {
-                  String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
-                  inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument", idSignaturePtr);
-                  inputParameters.put("dss:InputDocuments/dss:Document@ID", idSignaturePtr);
-                  inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", new String(Base64.encode((byte[])signature)));
-              }
-          }
+        encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
+      } catch (Exception e) {
+        // XYZ ZZZ
+        e.printStackTrace();
       }
-      catch (Exception e) {
-         // XYZ ZZZ
-    	  e.printStackTrace();
-      }
+      inputParameters.put("dss:OptionalInputs/afxp:TargetSigner", encodedTargetSigner);
+    }
+    if (upgSigReq.isIgnoreGracePeriod()) {
+      inputParameters.put("dss:OptionalInputs/afxp:IgnoreGracePeriod", "");
+    }
+    return inputParameters;
   }
-  
-  
+
+  private static void incorporateSignatureImplicit(Map<String, Object> inputParameters,
+      byte[] signature) {
+    try {
+      if (!CXFUtils.isXMLFormat(signature)) {
+        inputParameters.put("dss:SignatureObject/dss:Base64Signature",
+            new String(Base64Coder.encodeBase64(signature)));
+      } else {
+
+        String typeOfESignature = getXAdESFormat(signature);
+        if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
+          inputParameters.put("dss:SignatureObject", new String(signature));
+        } else if ("XAdES Enveloped".equals(typeOfESignature)
+            || "XAdES Detached".equals(typeOfESignature)) {
+          String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
+          inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument",
+              idSignaturePtr);
+          inputParameters.put("dss:InputDocuments/dss:Document@ID", idSignaturePtr);
+          inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", new String(
+              Base64.encode((byte[]) signature)));
+        }
+      }
+    } catch (Exception e) {
+      // XYZ ZZZ
+      e.printStackTrace();
+    }
+  }
+
   /**
-   * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@ 
+   * AQUEST MÈTODE ESTA DUPLICAT AL PLUGIN-INTEGR@
+   * 
    * @param eSignature
    * @return
    * @throws SigningException
    */
   public static String getXAdESFormat(byte[] signature) throws Exception {
-    
+
     DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
     dBFactory.setNamespaceAware(true);
 
@@ -774,12 +785,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     XMLSignature xmlSignature;
     String rootName = eSignature.getDocumentElement().getNodeName();
     if (rootName.equalsIgnoreCase("ds:Signature") || rootName.equals("ROOT_COSIGNATURES")) {
-      //  "XAdES Enveloping"
+      // "XAdES Enveloping"
       return SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED;
     }
     NodeList signatureNodeLs = eSignature.getElementsByTagName("ds:Manifest");
     if (signatureNodeLs.getLength() > 0) {
-      //  "XAdES Externally Detached
+      // "XAdES Externally Detached
       return SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED;
     }
     NodeList signsList = eSignature.getElementsByTagNameNS(
@@ -797,53 +808,40 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     for (int i = 0; i < references.size(); ++i) {
       if (!"".equals(((Reference) references.get(i)).getURI()))
         continue;
-      //  "XAdES Enveloped"
+      // "XAdES Enveloped"
       return SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED;
     }
-    //  "XAdES Detached"
+    // "XAdES Detached"
     return SIGNFORMAT_EXPLICIT_DETACHED;
   }
-  
-  
 
   /*
-   * Al utilitzar import net.java.xades.util.XMLUtils.isXMLFormat(bytesToSign);
-   * tal i com fa la capa de FACADE llavors llança aquest error.
+   * Al utilitzar import net.java.xades.util.XMLUtils.isXMLFormat(bytesToSign); tal i com fa la
+   * capa de FACADE llavors llança aquest error.
    * 
    * 
    * java.lang.VerifyError: (class: es/gob/afirma/utils/UtilsSignature, method:
-   * validatePAdESEnhancedOptionalAttributes signature:
-   * (Les/gob/afirma/signature
+   * validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
    * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V)
-   * Incompatible argument to function at
-   * net.java.xades.util.XMLUtils.isXMLFormat(XMLUtils.java:535) at
-   * org.fundaciobit
-   * .plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
-   * .signDocuments(AfirmaServerSignatureServerPlugin.java:376) at
-   * org.fundaciobit
+   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
+   * to function at net.java.xades.util.XMLUtils.isXMLFormat(XMLUtils.java:535) at
+   * org.fundaciobit .plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+   * .signDocuments(AfirmaServerSignatureServerPlugin.java:376) at org.fundaciobit
    * .plugins.signatureserver.afirmaserver.test.AfirmaServerTest.signFile
-   * (AfirmaServerTest.java:199) at
-   * org.fundaciobit.plugins.signatureserver.afirmaserver
-   * .test.AfirmaServerTest.main(AfirmaServerTest.java:105) Error Firma 1. MSG =
-   * Error firmant document hola.pdf (0)[java.lang.VerifyError]:(class:
-   * es/gob/afirma/utils/UtilsSignature, method:
-   * validatePAdESEnhancedOptionalAttributes signature:
-   * (Les/gob/afirma/signature
+   * (AfirmaServerTest.java:199) at org.fundaciobit.plugins.signatureserver.afirmaserver
+   * .test.AfirmaServerTest.main(AfirmaServerTest.java:105) Error Firma 1. MSG = Error firmant
+   * document hola.pdf (0)[java.lang.VerifyError]:(class: es/gob/afirma/utils/UtilsSignature,
+   * method: validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
    * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V)
-   * Incompatible argument to function java.lang.Exception: Error firmant
-   * document hola.pdf (0)[java.lang.VerifyError]:(class:
-   * es/gob/afirma/utils/UtilsSignature, method:
-   * validatePAdESEnhancedOptionalAttributes signature:
-   * (Les/gob/afirma/signature
+   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
+   * to function java.lang.Exception: Error firmant document hola.pdf
+   * (0)[java.lang.VerifyError]:(class: es/gob/afirma/utils/UtilsSignature, method:
+   * validatePAdESEnhancedOptionalAttributes signature: (Les/gob/afirma/signature
    * /pades/PDFSignatureDictionary;Lorg/bouncycastle/asn1
-   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V)
-   * Incompatible argument to function at
-   * org.fundaciobit.plugins.signatureserver
-   * .afirmaserver.test.AfirmaServerTest.signFile(AfirmaServerTest.java:216) at
-   * org
-   * .fundaciobit.plugins.signatureserver.afirmaserver.test.AfirmaServerTest.main
+   * /cms/AttributeTable;Lorg/bouncycastle/asn1/cms/AttributeTable;Z)V) Incompatible argument
+   * to function at org.fundaciobit.plugins.signatureserver
+   * .afirmaserver.test.AfirmaServerTest.signFile(AfirmaServerTest.java:216) at org
+   * .fundaciobit.plugins.signatureserver.afirmaserver.test.AfirmaServerTest .main
    * (AfirmaServerTest.java:105)
    */
 
@@ -853,7 +851,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
     // No Acceptam EXTERNAL TIMESTAMPER ?????
     throw new Exception("NO SUPORTAT");
-    
+
   }
 
   // ----------------------------------------------------------------------------
@@ -926,10 +924,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       if (debug) {
         log.info("ENDPOINT = " + endPoint);
       }
-      
-	  if (isIgnoreServerCertificates()) {
-		XTrustProvider.install();
-	  }
+
+      if (isIgnoreServerCertificates()) {
+        XTrustProvider.install();
+      }
 
       final ClientHandler clientHandler;
       clientHandler = CXFUtils.getClientHandler(this, AFIRMASERVER_BASE_PROPERTIES);
@@ -939,15 +937,15 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       }
 
       org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService service;
-      service= new org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService(new java.net.URL(endPoint
-          + "?wsdl"));
+      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.apiws.DSSSignatureService(
+          new java.net.URL(endPoint + "?wsdl"));
       apiSign = service.getDSSAfirmaSign();
 
       Map<String, Object> reqContext = ((BindingProvider) apiSign).getRequestContext();
       reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPoint);
 
       clientHandler.addSecureHeader(apiSign);
-      
+
     }
 
     String xmlResposta = apiSign.sign(inputXml);
@@ -955,9 +953,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return xmlResposta;
 
   }
-  
-  
-  
+
   protected org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignature apiUpgrade = null;
 
   protected long lastConnectionUpgrade = 0;
@@ -987,7 +983,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       }
 
       org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService service;
-      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(new java.net.URL(endPoint + "?wsdl"));
+      service = new org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignatureService(
+          new java.net.URL(endPoint + "?wsdl"));
       apiUpgrade = service.getDSSAfirmaVerify();
 
       Map<String, Object> reqContext = ((BindingProvider) apiUpgrade).getRequestContext();
@@ -1002,8 +999,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return xmlResposta;
 
   }
-  
-  
 
   /**
    * Aquets mètode servirà per validar la comunicació amb el Servidor
@@ -1016,9 +1011,8 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
 
       String endpoint = getPropertyRequired(ENDPOINT_SIGN);
       try {
-    	log.info(" EndPoint = " + endpoint);
-    	  
-    	  
+        log.info(" EndPoint = " + endpoint);
+
         URL url = new URL(endpoint + "?wsdl");
         URLConnection conn = url.openConnection();
         conn.connect();
@@ -1033,81 +1027,68 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       return false;
     }
 
-      /**
-       * VerifyCertificateRequest verCerReq = new VerifyCertificateRequest();
-       * 
-       * verCerReq.setApplicationId(applicationID);
-       * 
-       * InputStream is = org.fundaciobit.plugins.utils.FileUtils.readResource(
-       * AfirmaServerSignatureServerPlugin.class,
-       * "check/usedtocheckconnection.cer");
-       * 
-       * if (is == null) {
-       * log.error("No puc llegir recurs 'check/usedtocheckconnection.cer'");
-       * return false; }
-       * 
-       * // Indicamos el certificado que validar
-       * verCerReq.setCertificate(FileUtils.toByteArray(is));
-       * 
-       * // Indicamos que queremos recuperar informaci�n del certificado en //
-       * lo que a campos mapeados se refiere
-       * verCerReq.setReturnReadableCertificateInfo(false);
-       * 
-       * // Instanciamos el objeto que se encarga de a�adir opciones de //
-       * verificaci�n a la petici�n VerificationReport verRep = new
-       * VerificationReport();
-       * 
-       * // Indicamos que queremos incluir la cadena de certificaci�n en la //
-       * respuesta verRep.setIncludeCertificateValues(false);
-       * 
-       * // Indicamos que queremos verificar el estado de cada uno de los //
-       * certificados de la cadena de certificaci�n
-       * verRep.setCheckCertificateStatus(false);
-       * 
-       * // Indicamos que queremos incluir informaci�n del estado de //
-       * revocaci�n de la cadena de certificaci�n en la // respuesta
-       * verRep.setIncludeRevocationValues(false);
-       * 
-       * verRep.setReportDetailLevel(DetailLevelEnum.NO_DETAILS);
-       * 
-       * verCerReq.setReturnVerificationReport(verRep);
-       * 
-       * String resultValidate =
-       * ValidateRequest.validateVerifyCertificateRequest(verCerReq);
-       * 
-       * if (resultValidate != null) { throw new
-       * Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020",
-       * new Object[] { resultValidate })); }
-       * 
-       * Map<String, Object> inputParameters = GenerateMessageRequest
-       * .generateVerifyCertificateRequest(verCerReq);
-       * 
-       * if (inputParameters == null) { log.error(" inputParameters val null");
-       * return false; }
-       * 
-       * TransformersFacade transformersFacade = getTransformersFacade(); String
-       * xmlInput = transformersFacade.generateXml(inputParameters,
-       * "DSSAfirmaVerifyCertificate", "verify", "1_0");
-       * 
-       * String xmlOutput =
-       * Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
-       * "DSSAfirmaVerifyCertificate", "verify", connectionProperties); //
-       * verCerReq.getApplicationId());
-       * 
-       * Map<String, Object> propertiesResult =
-       * transformersFacade.parseResponse(xmlOutput,
-       * "DSSAfirmaVerifyCertificate", "verify", "1_0");
-       * 
-       * if (propertiesResult == null) { }
-       * 
-       * VerifyCertificateResponse verCerRes = new VerifyCertificateResponse();
-       * GenerateMessageResponse
-       * .generateVerifyCertificateResponse(propertiesResult, verCerRes);
-       * 
-       * if (verCerRes.getResult() != null &&
-       * verCerRes.getResult().getResultMajor() != null) { return true; } else {
-       * return false; }
-       */
+    /**
+     * VerifyCertificateRequest verCerReq = new VerifyCertificateRequest();
+     * 
+     * verCerReq.setApplicationId(applicationID);
+     * 
+     * InputStream is = org.fundaciobit.plugins.utils.FileUtils.readResource(
+     * AfirmaServerSignatureServerPlugin.class, "check/usedtocheckconnection.cer");
+     * 
+     * if (is == null) { log.error("No puc llegir recurs 'check/usedtocheckconnection.cer'");
+     * return false; }
+     * 
+     * // Indicamos el certificado que validar
+     * verCerReq.setCertificate(FileUtils.toByteArray(is));
+     * 
+     * // Indicamos que queremos recuperar informaci�n del certificado en // lo que a campos
+     * mapeados se refiere verCerReq.setReturnReadableCertificateInfo(false);
+     * 
+     * // Instanciamos el objeto que se encarga de a�adir opciones de // verificaci�n a la
+     * petici�n VerificationReport verRep = new VerificationReport();
+     * 
+     * // Indicamos que queremos incluir la cadena de certificaci�n en la // respuesta
+     * verRep.setIncludeCertificateValues(false);
+     * 
+     * // Indicamos que queremos verificar el estado de cada uno de los // certificados de la
+     * cadena de certificaci�n verRep.setCheckCertificateStatus(false);
+     * 
+     * // Indicamos que queremos incluir informaci�n del estado de // revocaci�n de la cadena
+     * de certificaci�n en la // respuesta verRep.setIncludeRevocationValues(false);
+     * 
+     * verRep.setReportDetailLevel(DetailLevelEnum.NO_DETAILS);
+     * 
+     * verCerReq.setReturnVerificationReport(verRep);
+     * 
+     * String resultValidate = ValidateRequest.validateVerifyCertificateRequest(verCerReq);
+     * 
+     * if (resultValidate != null) { throw new Afirma5ServiceInvokerException
+     * (Language.getFormatResIntegra("IFWS020", new Object[] { resultValidate })); }
+     * 
+     * Map<String, Object> inputParameters = GenerateMessageRequest
+     * .generateVerifyCertificateRequest(verCerReq);
+     * 
+     * if (inputParameters == null) { log.error(" inputParameters val null"); return false; }
+     * 
+     * TransformersFacade transformersFacade = getTransformersFacade(); String xmlInput =
+     * transformersFacade.generateXml(inputParameters, "DSSAfirmaVerifyCertificate", "verify",
+     * "1_0");
+     * 
+     * String xmlOutput = Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
+     * "DSSAfirmaVerifyCertificate", "verify", connectionProperties); //
+     * verCerReq.getApplicationId());
+     * 
+     * Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput,
+     * "DSSAfirmaVerifyCertificate", "verify", "1_0");
+     * 
+     * if (propertiesResult == null) { }
+     * 
+     * VerifyCertificateResponse verCerRes = new VerifyCertificateResponse();
+     * GenerateMessageResponse .generateVerifyCertificateResponse(propertiesResult, verCerRes);
+     * 
+     * if (verCerRes.getResult() != null && verCerRes.getResult().getResultMajor() != null) {
+     * return true; } else { return false; }
+     */
 
   }
 

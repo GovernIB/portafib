@@ -1,5 +1,6 @@
 package org.fundaciobit.apifirmasimple.v1.test;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -12,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URI;
 import java.util.List;
 import java.util.Properties;
 
@@ -22,6 +24,7 @@ import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
@@ -103,6 +106,13 @@ public class ApiFirmaWebSimpleTester {
       String redirectUrl = api.startTransaction(startTransactionInfo);
 
       System.out.println("RedirectUrl = " + redirectUrl);
+      
+      if (Desktop.isDesktopSupported()) {
+        Desktop.getDesktop().browse(new URI(redirectUrl));
+      } else {
+        System.out.println("Per favor obri un Navegador i copia-li la URL anterior ...");
+      }
+      
 
       readFromSocket(port);
 
@@ -180,14 +190,27 @@ public class ApiFirmaWebSimpleTester {
 
           case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
 
-            FirmaSimpleFile fsf = api
+            FirmaSimpleSignatureResult fssr = api
                 .getSignatureResult(new FirmaSimpleGetSignatureResultRequest(transactionID,
                     signID));
+            FirmaSimpleFile fsf = fssr.getSignedFile();
+            
             FileOutputStream fos = new FileOutputStream(fsf.getNom());
             fos.write(fsf.getData());
             fos.flush();
-            System.gc();
+
             System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+            System.gc();
+
+            // XYZ ZZZ 
+            // Falta guardar en un fitxer a part o com a mínim imprimir informació de custòdia
+            String custID = fssr.getCustodyFileID();
+            String custURL = fssr.getCustodyFileURL();
+            if (custID != null || custURL != null) {
+              System.out.println("CustodiaID = " + custID);
+              System.out.println("CustodiaURL = " + custURL);
+            }
+
             break;
           }
 

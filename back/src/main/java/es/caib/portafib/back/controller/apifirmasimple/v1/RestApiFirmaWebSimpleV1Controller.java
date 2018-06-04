@@ -3,23 +3,17 @@ package es.caib.portafib.back.controller.apifirmasimple.v1;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
-import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
-import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,18 +27,12 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +44,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +61,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
   public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
 
-  protected static final String type = "WEB";
+  
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -107,9 +94,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     if (commonInfo == null) {
       return generateServerError("El parametre d'entrada de tipus FirmaSimpleCommonInfo no pot ser null.");
     }
-
+    
     String lang = commonInfo.getLanguageUI();
     if (lang == null || lang.trim().length() == 0) {
+      
       return generateServerError("El camp LanguageUI del tipus FirmaSimpleCommonInfo no pot ser null o buit.");
     }
 
@@ -196,8 +184,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       // Checks usuari aplicacio
       log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
 
-      EntitatJPA entitatJPA = loginInfo.getEntitat();
-
+      //EntitatJPA entitatJPA = loginInfo.getEntitat();
+      
+      String signID = sfis.getSignID();
+      String name = sfis.getName();
+      
+/*
       // String entitatID = entitatJPA.getEntitatID();
 
 
@@ -217,12 +209,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
       // XYZ ZZZ FALTA ENCARA NO SUPORTAT
       // sfis.getPreviusSignatureDetachedFile()
-      String signID = sfis.getSignID();
+      
 
-      FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type,
+      FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), TIPUS_WEB,
           transactionID, signID);
 
-      String name = sfis.getName();
+      
       // TODO XYZ ZZZ CHECK que sigui FIRMA sfis.getOperationSign()
       String reason = sfis.getReason();
       String location = sfis.getLocation();
@@ -264,6 +256,11 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
               signerEmail, signNumber, languageSign, signType, signAlgorithm, signMode,
               signaturesTableLocation, signaturesTableHeader, secureVerificationCodeStampInfo,
               useTimeStamp));
+      */
+      
+      ti.getFirmaSimpleFileList().add(sfis);
+      
+      
       // Actualitzar Data expriracio
       ti.setStartTime(new Date());
       log.info(" XYZ ZZZ addFileToSign::afegida firma [" + signID + " | " + name
@@ -272,6 +269,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<String>(headers, HttpStatus.OK);
       return re;
+      /*
     } catch (I18NException i18ne) {
       String idioma = ti.getCommonInfo().getLanguageUI();
 
@@ -280,7 +278,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       log.error(msg, i18ne);
 
       return generateServerError(msg);
-
+   */
     } catch (Throwable th) {
 
       String msg = "Error desconegut afegint fitxer per Firmar a transacció [" + transactionID
@@ -331,8 +329,13 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       return generateServerError("La transacció " + transactionID
           + " es troba en un estat que no accepta més documents per firmar");
     }
+    
+    // XYZ ZZZ TODO
+    // Falta verificar estructura de 
+    
 
-    final String languageUI = ti.getCommonInfo().getLanguageUI();
+
+    // XYZ ZZZ final String languageUI = ti.getCommonInfo().getLanguageUI();
 
     Date dataCreacio = ti.getStartTime();
 
@@ -358,10 +361,45 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       // Checks usuari aplicacio
       UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
       log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacio);
+      String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+      log.info(" XYZ ZZZ Usuari-APP ID = " + usuariAplicacio);
 
       EntitatJPA entitatJPA = loginInfo.getEntitat();
 
       String entitatID = entitatJPA.getEntitatID();
+      
+      final boolean esFirmaEnServidor= false;
+      
+      final String virtualTransactionID = internalGetTransacction();
+      
+      // Cercam que tengui configuracio
+      final UsuariAplicacioConfiguracio config;
+      config = configuracioUsuariAplicacioLogicaLocalEjb
+          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
+      
+      
+      FirmaSimpleSignDocumentsRequest simpleSignaturesSet;
+
+      FirmaSimpleFileInfoSignature[] fileInfoSignatureArray = ti.getFirmaSimpleFileList().toArray(
+          new FirmaSimpleFileInfoSignature[ti.getFirmaSimpleFileList().size()]
+          );
+      
+      
+      simpleSignaturesSet = new FirmaSimpleSignDocumentsRequest(ti.getCommonInfo(), fileInfoSignatureArray);
+      
+      
+      PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,simpleSignaturesSet, virtualTransactionID,
+          esFirmaEnServidor, loginInfo, usuariAplicacioID, config,
+          codiBarresEjb, custodiaInfoEjb);
+      
+      
+      String urlFinal = startTransactionRequest.getReturnUrl();
+      pss.getCommonInfoSignature().setUrlFinal(urlFinal);
+      
+            
+      
+      /*
+      
 
       List<PassarelaFileInfoSignature> listFileToSign = ti.getFileInfoSignatureList();
 
@@ -433,6 +471,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
           return generateNoAvailablePlugin(languageUI);
         }
       }
+      */
 
       // CRIDAR A START TRANSACION
       final boolean fullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN
@@ -450,11 +489,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     } catch (I18NValidationException i18nve) {
 
       String idioma = ti.getCommonInfo().getLanguageUI();
-
       String msg = I18NLogicUtils.getMessage(i18nve, new Locale(idioma));
-
       log.error(msg, i18nve);
-
       return generateServerError(msg);
 
     } catch (I18NException i18ne) {
@@ -870,10 +906,13 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
         return generateServerError(msg);
       }
 
-      FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
+      //FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
+      FirmaSimpleSignatureResult fssr;
+      fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result);
+      
 
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleFile>(fsf, headers, HttpStatus.OK);
+      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers, HttpStatus.OK);
       log.info(" XYZ ZZZ getSignaturesStatus => FINAL OK");
       return re;
 
@@ -922,7 +961,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     currentTransactions.remove(transactionID);
 
     try {
-      File transactionFolder = getTransactionFolder(type, transactionID);
+      File transactionFolder = getTransactionFolder(TIPUS_WEB, transactionID);
       FileUtils.deleteDirectory(transactionFolder);
     } catch (Exception e) {
       log.error("Error desconegut fent neteja dels fitxers "
@@ -954,15 +993,16 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
    * @author anadal
    *
    */
+  /*
   public class VirtualSignaturePlugin implements ISignaturePlugin {
 
     protected String entitatID;
 
     protected List<Long> filterByPluginIDList;
 
-    /**
-     * @param entitatID
-     */
+   
+
+     
     public VirtualSignaturePlugin(String entitatID) {
       super();
       this.entitatID = entitatID;
@@ -1001,20 +1041,20 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       }
     }
 
-    /**
+    *
      * @return true true indica que el plugin accepta generadors de Segell de
      *         Temps definits dins FileInfoSignature.timeStampGenerator
-     */
+     *
     @Override
     public boolean acceptExternalTimeStampGenerator(String signType) {
       return false;
     }
 
-    /**
+    *
      * 
      * @return true, indica que el plugin internament ofereix un generador de
      *         segellat de temps.
-     */
+     *
     @Override
     public boolean providesTimeStampGenerator(String signType) {
 
@@ -1052,6 +1092,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       return true;
     }
   }
+  */
 
   /**
    * 
@@ -1071,8 +1112,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
     final FirmaSimpleCommonInfo commonInfo;
 
-    final List<PassarelaFileInfoSignature> fileInfoSignatureList = new ArrayList<PassarelaFileInfoSignature>();
+    @Deprecated
+    final List<PassarelaFileInfoSignature> fileInfoSignatureList
+    = new ArrayList<PassarelaFileInfoSignature>();
 
+    final List<FirmaSimpleFileInfoSignature> firmaSimpleFileList = new ArrayList<FirmaSimpleFileInfoSignature>();
+    
     Date startTime;
 
     int status;
@@ -1110,6 +1155,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       return commonInfo;
     }
 
+    @Deprecated // XYZ ZZZ
     public List<PassarelaFileInfoSignature> getFileInfoSignatureList() {
       return fileInfoSignatureList;
     }
@@ -1117,6 +1163,12 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     public void setStartTime(Date startTime) {
       this.startTime = startTime;
     }
+
+    public List<FirmaSimpleFileInfoSignature> getFirmaSimpleFileList() {
+      return firmaSimpleFileList;
+    }
+    
+    
 
   }
 

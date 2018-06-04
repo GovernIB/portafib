@@ -115,6 +115,7 @@ public class PropietatGlobalUtil implements ConstantsV2 {
    */
   public static long getNotificacionsTimeLapse() {
     final String partialPropertyName = "notificationtimelapse";
+    
     Long val = getLong(partialPropertyName);
 
     if (val == null || val < 15000L) {

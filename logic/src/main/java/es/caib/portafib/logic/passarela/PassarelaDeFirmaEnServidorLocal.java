@@ -2,8 +2,6 @@ package es.caib.portafib.logic.passarela;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
