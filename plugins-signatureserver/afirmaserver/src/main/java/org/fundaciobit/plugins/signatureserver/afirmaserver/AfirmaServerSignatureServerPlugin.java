@@ -30,6 +30,7 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.plugins.utils.XTrustProvider;
 import org.fundaciobit.plugins.utils.cxf.CXFUtils;
 import org.fundaciobit.plugins.utils.cxf.ClientHandler;
 
@@ -77,6 +78,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       + "TransformersTemplatesPath";
 
   public static final String ENDPOINT = AFIRMASERVER_BASE_PROPERTIES + "endpoint";
+  
+  public static final String IGNORE_SERVER_CERTIFICATES = AFIRMASERVER_BASE_PROPERTIES
+      + "ignoreservercertificates";
 
   /**
    * 
@@ -99,6 +103,17 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public AfirmaServerSignatureServerPlugin(String propertyKeyBase) {
     super(propertyKeyBase);
   }
+  
+  
+  protected boolean isIgnoreServerCertificates() {
+    String val = getProperty(IGNORE_SERVER_CERTIFICATES);
+    if ("true".equalsIgnoreCase(val)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   /**
    * 
@@ -227,6 +242,13 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public boolean filter(SignaturesSet signaturesSet) {
 
     final boolean suportXAdES_T = true;
+    
+    final boolean isc = isIgnoreServerCertificates();
+    log.info("+ IgnoreServerCertificates = " + isc);
+    if (/* endpoint.toLowerCase().startsWith("https") && */isc) {
+      XTrustProvider.install();
+    }
+    
     if (checkFilter(this, signaturesSet, suportXAdES_T, this.log)) {
       return checkConnection();
     }
@@ -722,6 +744,11 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       boolean debug = isDebug();
       if (debug) {
         log.info("ENDPOINT = " + endPoint);
+      }
+      
+
+      if (isIgnoreServerCertificates()) {
+        XTrustProvider.install();
       }
 
       final ClientHandler clientHandler;
