@@ -38,6 +38,7 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
@@ -267,7 +268,17 @@ public class PassarelaDeFirmaEnServidorEJB extends
       throw new NoCompatibleSignaturePluginException();
     }
     
-    return signaturePlugin.upgradeSignature(signature, signTypeForm);
+    
+    ITimeStampGenerator timestampGenerator = null;
+    
+    if (signaturePlugin.isRequiredExternalTimeStampForUpgradeSignature()) {
+       // XYZ ZZZZ TODO fa falta cercar en propietats d'aplicació
+       // el Segellador de Temps seleccionat i instanciar-ho
+       // timestampGenerator = << INSTANCIAR-HO >>
+    }
+    
+    
+    return signaturePlugin.upgradeSignature(signature, signTypeForm, timestampGenerator);
     
     
   }

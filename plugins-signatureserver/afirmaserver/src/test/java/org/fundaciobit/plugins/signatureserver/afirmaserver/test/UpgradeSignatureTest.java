@@ -104,7 +104,7 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
     byte[] signature = baos.toByteArray();
 
     byte[] upgradeData = ((AfirmaServerSignatureServerPlugin) plugin).upgradeSignature(
-        signature, upgradeSignFormatProfile);
+        signature, upgradeSignFormatProfile, null);
 
     FileOutputStream fos = new FileOutputStream(new File(resDst));
     fos.write(upgradeData);

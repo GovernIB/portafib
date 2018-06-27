@@ -22,6 +22,7 @@ import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
@@ -733,20 +734,26 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
 
   @Override
   public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
-    // XYZ ZZZ
+    // XYZ ZZZZ Afegir mètodes a API WS
     return false;
   }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform)
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+      ITimeStampGenerator timestampGenerator)
       throws Exception {
-    // XYZ ZZZZ
+    // XYZ ZZZZ Afegir mètodes a API WS
     throw new Exception("No suportat");
   }
 
   @Override
   public void resetAndClean() throws Exception {
     
+  }
+
+  @Override
+  public boolean isRequiredExternalTimeStampForUpgradeSignature() {
+    return false;
   }
 
 }

@@ -25,6 +25,7 @@ import net.java.xades.security.xml.XMLSignatureElement;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
@@ -668,9 +669,14 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return true;
   }
   
+  @Override
+  public boolean isRequiredExternalTimeStampForUpgradeSignature() {
+    return false;
+  }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform) throws Exception {
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+     ITimeStampGenerator timestampGenerator) throws Exception {
 
     
     if(signature == null || signature.length == 0){

@@ -770,6 +770,11 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   }
 
 
+  @Override
+  public boolean isRequiredExternalTimeStampForUpgradeSignature() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
   @Override
   public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
@@ -777,7 +782,8 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform)
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+      ITimeStampGenerator externalTimestamp)
       throws Exception {
     // XYZ ZZZ
     throw new Exception("No suportat");
@@ -789,6 +795,10 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
     memoryInfoCertificate.clear();
     miniappletInServerBasePath = null;
   }
+
+
+
+
 
   
 

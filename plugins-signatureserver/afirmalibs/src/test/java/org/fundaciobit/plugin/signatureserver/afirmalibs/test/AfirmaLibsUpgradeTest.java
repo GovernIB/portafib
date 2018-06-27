@@ -4,37 +4,16 @@ package org.fundaciobit.plugin.signatureserver.afirmalibs.test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Properties;
 
 import org.fundaciobit.plugin.signatureserver.afirmalibs.AfirmaLibsSignatureServerPlugin;
-import org.fundaciobit.plugin.signatureserver.afirmalibs.PdfTimeStamper;
-import org.fundaciobit.plugin.signatureserver.afirmalibs.integra.PadesSigner;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletConstants;
 import org.fundaciobit.plugins.utils.FileUtils;
 
-
-
-
-
-
-
-
-
-
-
-
-
-import com.aowagie.text.DocumentException;
-import com.aowagie.text.pdf.PdfPKCS7;
-import com.aowagie.text.pdf.PdfReader;
-import com.aowagie.text.pdf.PdfStamper;
 
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
@@ -49,14 +28,14 @@ public class AfirmaLibsUpgradeTest {
       byte[] fileToSign = getSimpleFileFromResource("hola_signat.pdf");
       
 
-      /*
+      
       
       CatCertTimeStampGenerator externalTimestamp =  new CatCertTimeStampGenerator();
     
       byte[] pdf_t = new AfirmaLibsSignatureServerPlugin().upgradeSignature(fileToSign, 
           SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL, externalTimestamp);
           
-      */
+      
       
       
 
@@ -73,7 +52,7 @@ public class AfirmaLibsUpgradeTest {
     
   }
   
-  
+  /*
   
   public void addLtv(byte[] src, String dest, OcspClient ocsp, CrlClient crl, TSAClient tsa)
       throws IOException, DocumentException, GeneralSecurityException {
@@ -103,7 +82,7 @@ public class AfirmaLibsUpgradeTest {
       LtvTimestamp.timestamp(sap, tsa, null);
   }
   
-  
+  */
   
   
   
