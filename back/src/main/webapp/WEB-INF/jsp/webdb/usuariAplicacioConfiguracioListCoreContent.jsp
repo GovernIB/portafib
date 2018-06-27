@@ -185,6 +185,14 @@
           ${usuariAplicacioConfiguracio.maxFirmesEnServidor}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.upgradeSignFormat}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForUpgradeSignFormat[tmp]}
+          </c:if>
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
           <td>
             <c:if test="${not empty usuariAplicacioConfiguracio.loginCertificate}">

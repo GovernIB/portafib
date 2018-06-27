@@ -795,5 +795,15 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
     return "portafib";
   }
 
+  @Override
+  public int getActiveTransactions() throws Exception {
+    return internalGetActiveTransactions();
+  }
+
+  @Override
+  public void resetAndClean(HttpServletRequest request) throws Exception {
+    internalResetAndClean(request);    
+  }
+
 
 }

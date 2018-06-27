@@ -296,7 +296,7 @@ public class SignatureSIAwithIText {
       MiniAppletInServerSIASignatureWebPlugin plugin;
       plugin = new MiniAppletInServerSIASignatureWebPlugin("es.ibsalut.example.", properties);
 
-      final String filter = "";
+      //final String filter = "";
       boolean filtered = true; // (plugin.filter(username, administrationID, filter) != 0);
 
       if (!filtered) {

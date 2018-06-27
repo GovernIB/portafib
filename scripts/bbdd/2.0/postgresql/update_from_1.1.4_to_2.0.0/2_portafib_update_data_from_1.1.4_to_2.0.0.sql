@@ -31,7 +31,7 @@ UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar=false;
 UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 
 -- ======================================================================
--- 2018/05/01 Configuració de Firma de UsuariApp (Us política de Firma) #148
+-- 2018/05/01 Configuració de Firma de UsuariApp 	Us política de Firma) #148
 -- ======================================================================
 
 UPDATE pfi_entitat SET uspoliticadefirma=1 where policyidentifier is not NULL;

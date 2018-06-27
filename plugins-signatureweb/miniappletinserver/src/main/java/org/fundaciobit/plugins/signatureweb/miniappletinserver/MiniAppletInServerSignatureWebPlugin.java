@@ -905,5 +905,19 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
     }
   }
 
+    
+  @Override
+  public int getActiveTransactions() throws Exception {
+    return internalGetActiveTransactions();
+  }
+
+  @Override
+  public void resetAndClean(HttpServletRequest request) throws Exception {
+      
+    miniappletInServerBasePath = null;
+    internalResetAndClean(request);
+  }
+  
+
   
 }

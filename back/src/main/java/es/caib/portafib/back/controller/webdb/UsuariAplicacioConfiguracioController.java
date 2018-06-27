@@ -352,6 +352,16 @@ public class UsuariAplicacioConfiguracioController
       };
     }
 
+    // Field upgradeSignFormat
+    {
+      _listSKV = getReferenceListForUpgradeSignFormat(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForUpgradeSignFormat(_tmp);
+      if (filterForm.getGroupByFields().contains(UPGRADESIGNFORMAT)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, UPGRADESIGNFORMAT, false);
+      };
+    }
+
 
       fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, COMPROVARNIFFIRMA);
 
@@ -393,6 +403,7 @@ public class UsuariAplicacioConfiguracioController
     __mapping.put(POLITICASEGELLATDETEMPS, filterForm.getMapOfValuesForPoliticaSegellatDeTemps());
     __mapping.put(PLUGINSEGELLATID, filterForm.getMapOfPluginForPluginSegellatID());
     __mapping.put(PLUGINFIRMASERVIDORID, filterForm.getMapOfPluginForPluginFirmaServidorID());
+    __mapping.put(UPGRADESIGNFORMAT, filterForm.getMapOfValuesForUpgradeSignFormat());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -542,6 +553,13 @@ public class UsuariAplicacioConfiguracioController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       usuariAplicacioConfiguracioForm.setListOfPluginForPluginFirmaServidorID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariAplicacioConfiguracioForm.getListOfValuesForUpgradeSignFormat() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForUpgradeSignFormat(request, mav, usuariAplicacioConfiguracioForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      usuariAplicacioConfiguracioForm.setListOfValuesForUpgradeSignFormat(_listSKV);
     }
     
   }
@@ -1368,6 +1386,79 @@ public java.lang.Long stringToPK(String value) {
   public List<StringKeyValue> getReferenceListForPluginFirmaServidorID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, Where where)  throws I18NException {
+    if (usuariAplicacioConfiguracioForm.isHiddenField(UPGRADESIGNFORMAT)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForUpgradeSignFormat(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
+       List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(UPGRADESIGNFORMAT)
+      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(UPGRADESIGNFORMAT)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForUpgradeSignFormat(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    __tmp.add(new StringKeyValue("6" , "6"));
+    __tmp.add(new StringKeyValue("7" , "7"));
+    __tmp.add(new StringKeyValue("8" , "8"));
+    __tmp.add(new StringKeyValue("9" , "9"));
+    __tmp.add(new StringKeyValue("10" , "10"));
+    __tmp.add(new StringKeyValue("11" , "11"));
+    __tmp.add(new StringKeyValue("12" , "12"));
+    __tmp.add(new StringKeyValue("13" , "13"));
+    __tmp.add(new StringKeyValue("14" , "14"));
+    __tmp.add(new StringKeyValue("15" , "15"));
+    __tmp.add(new StringKeyValue("16" , "16"));
+    __tmp.add(new StringKeyValue("17" , "17"));
+    __tmp.add(new StringKeyValue("18" , "18"));
+    __tmp.add(new StringKeyValue("19" , "19"));
+    __tmp.add(new StringKeyValue("20" , "20"));
+    __tmp.add(new StringKeyValue("21" , "21"));
+    __tmp.add(new StringKeyValue("22" , "22"));
+    __tmp.add(new StringKeyValue("23" , "23"));
+    __tmp.add(new StringKeyValue("24" , "24"));
+    __tmp.add(new StringKeyValue("25" , "25"));
+    __tmp.add(new StringKeyValue("26" , "26"));
+    __tmp.add(new StringKeyValue("27" , "27"));
+    __tmp.add(new StringKeyValue("28" , "28"));
+    __tmp.add(new StringKeyValue("29" , "29"));
+    __tmp.add(new StringKeyValue("30" , "30"));
+    __tmp.add(new StringKeyValue("31" , "31"));
+    __tmp.add(new StringKeyValue("32" , "32"));
+    __tmp.add(new StringKeyValue("33" , "33"));
+    __tmp.add(new StringKeyValue("34" , "34"));
+    __tmp.add(new StringKeyValue("35" , "35"));
+    __tmp.add(new StringKeyValue("36" , "36"));
+    __tmp.add(new StringKeyValue("37" , "37"));
+    __tmp.add(new StringKeyValue("38" , "38"));
+    __tmp.add(new StringKeyValue("39" , "39"));
+    __tmp.add(new StringKeyValue("40" , "40"));
+    __tmp.add(new StringKeyValue("41" , "41"));
+    __tmp.add(new StringKeyValue("42" , "42"));
+    __tmp.add(new StringKeyValue("43" , "43"));
+    __tmp.add(new StringKeyValue("44" , "44"));
+    __tmp.add(new StringKeyValue("45" , "45"));
+    return __tmp;
   }
 
 

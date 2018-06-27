@@ -589,6 +589,35 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
+        <tr id="usuariAplicacioConfiguracio_upgradeSignFormat_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT])?'usuariAplicacioConfiguracio.upgradeSignFormat':__theForm.labels[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacioConfiguracio.upgradeSignFormat" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.upgradeSignFormat"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.upgradeSignFormat,__theForm.listOfValuesForUpgradeSignFormat)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}" >
+          <form:select id="usuariAplicacioConfiguracio_upgradeSignFormat"  onchange="if(typeof onChangeUpgradeSignFormat == 'function') {  onChangeUpgradeSignFormat(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.upgradeSignFormat">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfValuesForUpgradeSignFormat}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
         <tr id="usuariAplicacioConfiguracio_loginCertificateID_rowid">
           <td>

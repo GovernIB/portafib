@@ -26,6 +26,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerCAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
@@ -766,6 +767,27 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
             + ")no conté Clau Privada");
       }
     }
+  }
+
+
+
+  @Override
+  public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
+    return false;
+  }
+
+  @Override
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform)
+      throws Exception {
+    // XYZ ZZZ
+    throw new Exception("No suportat");
+  }
+
+  @Override
+  public void resetAndClean() throws Exception {
+    tmpCache.clear();
+    memoryInfoCertificate.clear();
+    miniappletInServerBasePath = null;
   }
 
   

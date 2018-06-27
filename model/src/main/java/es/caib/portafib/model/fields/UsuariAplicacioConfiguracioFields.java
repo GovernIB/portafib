@@ -36,6 +36,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final StringField HTMLPERLLISTARPLUGINSFIRMAWEB = new StringField(_TABLE_MODEL, "htmlPerLlistarPluginsFirmaWeb", "htmlperllistarpluginsfirmaweb");
 	 public static final LongField PLUGINFIRMASERVIDORID = new LongField(_TABLE_MODEL, "pluginFirmaServidorID", "pluginfirmaservidorid");
 	 public static final IntegerField MAXFIRMESENSERVIDOR = new IntegerField(_TABLE_MODEL, "maxFirmesEnServidor", "maxfirmesenservidor");
+	 public static final IntegerField UPGRADESIGNFORMAT = new IntegerField(_TABLE_MODEL, "upgradeSignFormat", "upgradesignformat");
 	 public static final LongField LOGINCERTIFICATEID = new LongField(_TABLE_MODEL, "loginCertificateID", "logincertificateid");
 	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
@@ -68,6 +69,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     HTMLPERLLISTARPLUGINSFIRMAWEB,
     PLUGINFIRMASERVIDORID,
     MAXFIRMESENSERVIDOR,
+    UPGRADESIGNFORMAT,
     LOGINCERTIFICATEID,
     COMPROVARNIFFIRMA,
     CHECKCANVIATDOCFIRMAT,

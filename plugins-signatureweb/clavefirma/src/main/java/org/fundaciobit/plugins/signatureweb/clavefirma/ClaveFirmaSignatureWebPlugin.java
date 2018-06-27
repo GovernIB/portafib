@@ -1873,4 +1873,14 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
   }
 
+  @Override
+  public int getActiveTransactions() throws Exception {
+    return internalGetActiveTransactions();
+  }
+
+  @Override
+  public void resetAndClean(HttpServletRequest request) throws Exception {
+    internalResetAndClean(request);
+  }
+
 }

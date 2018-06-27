@@ -38,6 +38,7 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfValuesForPoliticaSegellatDeTemps = __toClone.listOfValuesForPoliticaSegellatDeTemps;
     this.listOfPluginForPluginSegellatID = __toClone.listOfPluginForPluginSegellatID;
     this.listOfPluginForPluginFirmaServidorID = __toClone.listOfPluginForPluginFirmaServidorID;
+    this.listOfValuesForUpgradeSignFormat = __toClone.listOfValuesForUpgradeSignFormat;
   }
   
   public UsuariAplicacioConfiguracioForm(UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio, boolean nou) {
@@ -240,6 +241,18 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfPluginForPluginFirmaServidorID(List<StringKeyValue> listOfPluginForPluginFirmaServidorID) {
     this.listOfPluginForPluginFirmaServidorID = listOfPluginForPluginFirmaServidorID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForUpgradeSignFormat;
+
+  public List<StringKeyValue> getListOfValuesForUpgradeSignFormat() {
+    return this.listOfValuesForUpgradeSignFormat;
+  }
+
+  public void setListOfValuesForUpgradeSignFormat(List<StringKeyValue> listOfValuesForUpgradeSignFormat) {
+    this.listOfValuesForUpgradeSignFormat = listOfValuesForUpgradeSignFormat;
   }
 
 

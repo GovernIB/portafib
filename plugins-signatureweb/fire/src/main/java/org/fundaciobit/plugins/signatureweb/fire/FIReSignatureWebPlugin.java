@@ -2064,5 +2064,23 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     return newUser;
 
   }
+  
+  
+  @Override
+  public int getActiveTransactions() throws Exception {
+    return internalGetActiveTransactions();
+  }
+
+  @Override
+  public void resetAndClean(HttpServletRequest request) throws Exception {
+    internalResetAndClean(request);
+
+    transactions.clear();
+
+    generateCertificateTransactions.clear();
+
+    timeStampCache.clear();
+    
+  }
 
 }

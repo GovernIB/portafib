@@ -76,7 +76,8 @@
  }
 
 
- // Plugin Firma en Servidor   
+ // Plugin Firma en Servidor
+ {
  var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID.fullName.replace('.', '_') %>").options;
  var i;
  for (i = 0; i < sel.length; i++) {
@@ -85,7 +86,20 @@
       break;
     }
  }
+ }
  
+ 
+ // Tipus-format de Upgrade de Firma
+ {
+ var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT.fullName.replace('.', '_') %>").options;
+ var i;
+ for (i = 0; i < sel.length; i++) {
+    if (sel[i].value == '') {
+      sel[i].innerHTML='--<fmt:message key="usuariaplicacioconfig.noupgradesignature"/>--';
+      break;
+    }
+ }
+ }
  
  onChangePluginFirmaServidorID(document.getElementById("<%=UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID.fullName.replace('.', '_') %>"));
 
@@ -93,8 +107,10 @@
    var value = combo.options[combo.selectedIndex].value;
    if (value == '') {
      document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+     document.getElementById("<%=UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT.fullName.replace('.', '_') %>_rowid").style.display = 'none';
    } else {
      document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = '';
+     document.getElementById("<%=UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT.fullName.replace('.', '_') %>_rowid").style.display = '';
    }
  }
  

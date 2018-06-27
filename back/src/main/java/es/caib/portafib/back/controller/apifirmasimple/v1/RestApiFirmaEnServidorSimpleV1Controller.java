@@ -2,9 +2,11 @@ package es.caib.portafib.back.controller.apifirmasimple.v1;
 
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
@@ -125,6 +126,95 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
+  
+  @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.UPGRADESIGNATURE, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> upgradeSignature(HttpServletRequest request,
+      @RequestBody byte[] signature) {
+    
+    log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
+
+    String error = autenticate(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+    
+    
+    try {
+      
+      final boolean esFirmaEnServidor = true;
+      RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor);
+      
+      Integer upgradeID = restLoginInfo.config.getUpgradeSignFormat();
+      
+      if (upgradeID == null) {
+        // XYZ ZZZ Traduir
+        return generateServerError("L´usuari aplicació "
+          + restLoginInfo.loginInfo.getUsuariAplicacio().getUsuariAplicacioID() 
+          + " no té definida configuració d´Extensió de Firma");
+      }
+      
+      SignatureTypeFormEnumForUpgrade singTypeForm = null;
+      
+      for (SignatureTypeFormEnumForUpgrade up : SignatureTypeFormEnumForUpgrade.values()) {
+        if (upgradeID == up.getId()) {
+          singTypeForm = up;
+          break;
+        }
+      }
+
+      if (singTypeForm == null) {
+        // XYZ ZZZ Traduir
+        return generateServerError("El identificador d'Extensió de Firma " +
+          + upgradeID + " no existeix.");
+      }
+
+
+      byte[] upgraded;
+      upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature, singTypeForm,
+          restLoginInfo.loginInfo.getUsuariAplicacio(), restLoginInfo.config);
+
+      FirmaSimpleFile fsf = new FirmaSimpleFile(null, null, upgraded);
+      
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleFile>(fsf, headers, HttpStatus.OK);
+      log.info(" XYZ ZZZ Surt de upgradeSignature => FINAL OK");
+  
+      return re;
+    } catch (RestException re) {
+      
+      return generateServerError(re.getMessage());
+     
+    } catch (NoCompatibleSignaturePluginException nape) {
+      
+      // XYZ ZZZ 
+      String idioma = "ca";
+ 
+      return generateNoAvailablePlugin(idioma, false);
+  
+    } catch (I18NException i18ne) {
+
+      // XYZ ZZZ 
+      String idioma = "ca";
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(idioma));
+  
+      log.error(msg, i18ne);
+  
+      return generateServerError(msg);
+  
+    } catch (Throwable th) {
+  
+      String msg = "Error desconegut durant el procés d'actualització de firma: " + th.getMessage();
+  
+      log.error(msg, th);
+  
+      return generateServerError(msg, th);
+    }
+    
+  }
+  
 
 
   @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.SIGNDOCUMENTS, method = RequestMethod.POST)
@@ -140,9 +230,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
-    
 
-    
     final String virtualTransactionID = internalGetTransacction();
     
     try {
@@ -150,44 +238,18 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       // / XYZ ZZZ
       final boolean esFirmaEnServidor = true;
 
-      LoginInfo loginInfo = LoginInfo.getInstance();
-
-      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-      // Checks Globals
-      if (loginInfo.getUsuariEntitat() != null) {
-        // TODO XYZ ZZZ Traduir
-        return generateServerError("Aquest servei només el poden fer servir els usuari-aplicació");
-      }
-
-      // Checks usuari aplicacio
-      final UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
-
-      // Cercam que tengui configuracio
-      final UsuariAplicacioConfiguracio config;
-      config = configuracioUsuariAplicacioLogicaLocalEjb
-          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
-
-      if (esFirmaEnServidor) {
-        Long pluginId = config.getPluginFirmaServidorID();
-        if (pluginId == null) {
-          // XYZ ZZZ Traduir
-          return generateServerError("No es permeten firmes en servidor a través de l'usuari aplicació "
-              + usuariAplicacioID + "(Consulti amb l'administrador de PortaFIB)");
-        }
-      }
       
+      RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor);
       
-      
+      LoginInfo loginInfo = restLoginInfo.loginInfo;
 
       // ================== CODI COMU ==============
       String transactionID = "" + System.currentTimeMillis();
       PassarelaSignaturesSet pss;
       pss = convertRestBean2PassarelaBean(transactionID,simpleSignaturesSet, 
           virtualTransactionID, esFirmaEnServidor, loginInfo, 
-          usuariAplicacioID, config, codiBarresEjb, custodiaInfoEjb);
+          loginInfo.getUsuariAplicacio().getUsuariAplicacioID(),
+          restLoginInfo.config, codiBarresEjb, custodiaInfoEjb);
 
       // FALTA PASSAR FILTRE
       /*
@@ -206,9 +268,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       PassarelaFullResults fullResults;
       try {
         fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss,
-          loginInfo.getEntitat(), loginInfo.getUsuariAplicacio(), config);
+          loginInfo.getEntitat(), loginInfo.getUsuariAplicacio(), restLoginInfo.config);
       } catch (NoCompatibleSignaturePluginException nape) {
-        return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI());
+        return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
       }
 
       FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults);
@@ -261,7 +323,67 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
+  
+  
+  protected RestLoginInfo commonChecks(boolean esFirmaEnServidor) 
+      throws RestException, I18NException {
+    
+    
+      LoginInfo loginInfo = LoginInfo.getInstance();
+      
+      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
 
+      // Checks Globals
+      if (loginInfo.getUsuariEntitat() != null) {
+        // TODO XYZ ZZZ Traduir
+        throw new RestException("Aquest servei només el poden fer servir els usuari-aplicació");
+      }
+
+      // Checks usuari aplicacio
+      final UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
+      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
+
+      // Cercam que tengui configuracio
+      final UsuariAplicacioConfiguracio config;
+      config = configuracioUsuariAplicacioLogicaLocalEjb
+          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
+
+      if (esFirmaEnServidor) {
+        Long pluginId = config.getPluginFirmaServidorID();
+        if (pluginId == null) {
+          // XYZ ZZZ Traduir
+          throw new RestException("No es permeten firmes en servidor a través de l'usuari aplicació "
+              + usuariAplicacioID + "(Consulti amb l'administrador de PortaFIB)");
+        }
+      }
+      
+      
+     return new RestLoginInfo(loginInfo, config);
+    
+    
+  }
+  
+  
+  /**
+   * 
+   * @author anadal
+   *
+   */
+  public class RestLoginInfo {
+    
+    public final LoginInfo loginInfo;
+    
+    public final UsuariAplicacioConfiguracio config;
+
+    public RestLoginInfo(LoginInfo loginInfo,
+        UsuariAplicacioConfiguracio config) {
+      super();
+      this.loginInfo = loginInfo;
+      this.config = config;
+    }
+
+  }
 
   
 

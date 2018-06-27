@@ -1158,7 +1158,15 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     return newUser;
 
   }
- 
-  
 
+  @Override
+  public int getActiveTransactions() throws Exception {
+    return internalGetActiveTransactions();
+  }
+
+  @Override
+  public void resetAndClean(HttpServletRequest request) throws Exception {
+    internalResetAndClean(request);    
+  }
+ 
 }

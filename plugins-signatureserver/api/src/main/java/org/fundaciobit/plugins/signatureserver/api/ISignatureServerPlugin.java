@@ -1,7 +1,9 @@
 package org.fundaciobit.plugins.signatureserver.api;
 
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 
 
 /**
@@ -53,5 +55,43 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    */
   public byte[] generateTimeStamp(String signaturesSetID,
       int signatureIndex, byte[] inputRequest) throws Exception;
+  
+  
+  /**
+   * Informa si aquest plugin suporta actualització de firmes
+   * @param typeform
+   * @return
+   */
+  public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform);
+  
+  
+  /**
+   * Indica si el Plugin requereix d'un Segellador extern per realitzar la firma.
+   * En cas afirmatiu el camp ITimeStampGenerator del mètode upgradeSignature
+   * no pot vale null.
+   * 
+   * @return
+   */
+  public boolean isRequiredExternalTimeStampForUpgradeSignature();
+
+
+  /**
+   * Realitza una actualització de la firma (upgrade de la firma)
+   * @param signature
+   * @param typeform
+   * @return
+   * @throws Exception
+   */
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+      ITimeStampGenerator externalTimestamp) throws Exception;
+
+  
+  /**
+   * Reseteja les transaccions dels Plugin i fa neteja
+   * @return
+   * @throws Exception
+   */
+  public void resetAndClean() throws Exception;
+  
 
 }

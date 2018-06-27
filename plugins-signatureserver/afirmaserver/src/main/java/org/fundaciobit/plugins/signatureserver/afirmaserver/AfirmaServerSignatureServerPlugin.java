@@ -32,6 +32,7 @@ import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin
 import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.utils.Base64;
 import org.fundaciobit.plugins.utils.FileUtils;
 import org.fundaciobit.plugins.utils.XTrustProvider;
@@ -45,6 +46,7 @@ import es.gob.afirma.i18n.Language;
 import es.gob.afirma.integraFacade.GenerateMessageResponse;
 import es.gob.afirma.integraFacade.ValidateRequest;
 import es.gob.afirma.integraFacade.pojo.ServerSignerResponse;
+import es.gob.afirma.integraFacade.pojo.SignatureFormatEnum;
 import es.gob.afirma.integraFacade.pojo.UpgradeSignatureRequest;
 import es.gob.afirma.transformers.TransformersConstants;
 import es.gob.afirma.transformers.TransformersFacade;
@@ -658,6 +660,196 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return signaturesSet;
 
   }
+  
+  
+  @Override
+  public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
+    // SignatureTypeFormEnumForUpgrade.PAdES_LTV
+    return true;
+  }
+  
+
+  @Override
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform) throws Exception {
+
+    
+    if(signature == null || signature.length == 0){
+      throw new Exception("Evolución de firma electrónica: Firma electrónica nula o vacía.");
+    }
+    
+    if(typeform == null){
+      throw new Exception("Tipo formato a actualizar la firma vale null");
+    }
+    
+    SignatureFormatEnum dssSignatureFormat = convertEnum(typeform);
+
+    //dssSignatureFormat = SignatureFormatEnum.PAdES_LTV;    
+    if(dssSignatureFormat == null){
+      throw new Exception("Formato para actualizacion desconocido " + typeform.getType() + " - " + typeform.getFormat() + " no soportado en este plugin.");
+    }
+    
+    String appID = getPropertyRequired(AfirmaServerSignatureServerPlugin.APPLICATIONID_SENSE_SEGELLLAT_DE_TEMPS_PROPERTY);
+    
+    UpgradeSignatureRequest upgSigReq;
+    upgSigReq = new UpgradeSignatureRequest();
+    upgSigReq.setSignature(signature);
+    upgSigReq.setIgnoreGracePeriod(true);
+    upgSigReq.setApplicationId(appID);
+    upgSigReq.setSignatureFormat(dssSignatureFormat);
+    
+    // XYZ ZZZ 
+    ServerSignerResponse serSigRes = internalUpgradeSignature(upgSigReq);
+
+    log.debug("Resultado evolución firma:");
+    if (serSigRes == null) {
+      throw new Exception("No se obtuvo respuesta en la invocación del servicio "
+          + "DSSAfirmaVerify de la plataforma @firma para evolucionar una firma "
+          + "electrónica al formato " + typeform.getType() + " - " 
+          + typeform.getFormat() + ".");
+    }
+    if (log.isDebugEnabled()) {
+      log.debug("SersigRes asyncResponse: " + serSigRes.getAsyncResponse());
+      log.debug("SersigRes transactionId: " + serSigRes.getIdTransaction());
+      log.debug("SersigRes signatureFormat: " + serSigRes.getSignatureFormat());
+    }
+    if (serSigRes.getResult() == null) {
+      throw new Exception("La respuesta retornada por el servicio DSSAfirmaVerify"
+          + " de la plataforma @firma no incluye el resultado de la operación para"
+          + " evolucionar una firma electrónica al formato " + typeform.getType() 
+          + " - " + typeform.getFormat() + ".");
+    }
+    
+    if (log.isDebugEnabled()) {
+      log.debug("SersigRes Result major: " + serSigRes.getResult().getResultMajor());
+      log.debug("SersigRes Result minor: " + serSigRes.getResult().getResultMinor());
+      log.debug("SersigRes Result message: " + serSigRes.getResult().getResultMessage());
+    }
+    
+    if (!"urn:oasis:names:tc:dss:1.0:resultmajor:Success".equals(serSigRes.getResult().getResultMajor())) {
+      throw new Exception("Se obtuvo una respuesta erréonea en la invocación del "
+          + "servicio DSSAfirmaSign de la plataforma @firma para evolucionar una "
+          + "firma electrónica al formato " + typeform.getType() + " - " + typeform.getFormat() 
+          + ". \n\t Código (Major): " + serSigRes.getResult().getResultMajor() 
+          + " \n\t Código (Minor): " +  serSigRes.getResult().getResultMinor() 
+          + "\n\t Observaciones: " + serSigRes.getResult().getResultMessage() + ".");
+    }
+
+    if (serSigRes.getSignature() == null) {
+      throw new Exception("La respuesta retornada por el servicio DSSAfirmaVerify de la"
+          + " plataforma @firma no incluye la firma electrónica evolucionada al "
+          + "formato " + typeform.getType() + " - " + typeform.getFormat()  + ".");
+    }
+
+    return serSigRes.getSignature();
+  }
+  
+  
+  
+  
+  
+  public SignatureFormatEnum convertEnum(SignatureTypeFormEnumForUpgrade typeForm) {
+    switch(typeForm) {
+    
+        case PAdES_LTV: return SignatureFormatEnum.PAdES_LTV;
+        case ODF: return SignatureFormatEnum.ODF;
+        case PDF: return SignatureFormatEnum.PDF;
+        case PAdES: return SignatureFormatEnum.PAdES;
+        case PAdES_BES: return SignatureFormatEnum.PAdES_BES;
+        case PAdES_EPES: return SignatureFormatEnum.PAdES_EPES;
+
+        case CMS: return SignatureFormatEnum.CMS;
+        case CAdES: return SignatureFormatEnum.CAdES;
+        case CAdES_BES: return SignatureFormatEnum.CAdES_BES;
+        case CAdES_EPES: return SignatureFormatEnum.CAdES_EPES;
+        case CAdES_T: return SignatureFormatEnum.CAdES_T;
+        case CAdES_X: return SignatureFormatEnum.CAdES_X;
+        case CAdES_X1: return SignatureFormatEnum.CAdES_X1;
+        case CAdES_X2: return SignatureFormatEnum.CAdES_X2;
+        case CAdES_XL: return SignatureFormatEnum.CAdes_XL;
+        case CAdES_XL1: return SignatureFormatEnum.CAdES_XL1;
+        case CAdES_XL2: return SignatureFormatEnum.CAdES_XL2;
+        case CAdES_A: return SignatureFormatEnum.CAdES_A;
+
+        case XAdES: return SignatureFormatEnum.XAdES;
+        case XAdES_BES: return SignatureFormatEnum.XAdES_BES;
+        case XAdES_EPES: return SignatureFormatEnum.XAdES_EPES;
+        case XAdES_T: return SignatureFormatEnum.XAdES_T;
+        case XAdES_X: return SignatureFormatEnum.XAdES_X;
+        case XAdES_X1: return SignatureFormatEnum.XAdES_X1;
+        case XAdES_X2: return SignatureFormatEnum.XAdES_X2;
+        case XAdES_XL: return SignatureFormatEnum.XAdES_XL;
+        case XAdES_XL1: return SignatureFormatEnum.XAdES_XL1;
+        case XAdES_XL2: return SignatureFormatEnum.XAdES_XL2;
+        case XAdES_A: return SignatureFormatEnum.XAdES_A;
+
+
+
+        
+        
+        // FORMATS ADAPTATS
+        // TODO Eliminar quan s'actualitzi la llibreria de Integr@
+        
+        case PAdES_BASELINE: return SignatureFormatEnum.PAdES_BES;
+        case PAdES_B_LEVEL: return SignatureFormatEnum.PAdES_BES;
+        case PAdES_T_LEVEL: return SignatureFormatEnum.PAdES_BES; // PAdES_T_LEVEL;
+        case PAdES_LT_LEVEL: return SignatureFormatEnum.PAdES_BES;
+        case PAdES_LTA_LEVEL: return SignatureFormatEnum.PAdES_LTV;
+        
+        case CAdES_BASELINE: return SignatureFormatEnum.CAdES_BES;
+        case CAdES_B_LEVEL: return SignatureFormatEnum.CAdES_BES;
+        case CAdES_T_LEVEL: return SignatureFormatEnum.CAdES_T;
+        case CAdES_LT_LEVEL: return SignatureFormatEnum.CAdes_XL;
+        case CAdES_LTA_LEVEL: return SignatureFormatEnum.CAdES_A;
+        
+        
+        case XAdES_C: return SignatureFormatEnum.XAdES_T; // XAdES_C;
+        case XAdES_BASELINE: return SignatureFormatEnum.XAdES_BES;
+        case XAdES_B_LEVEL: return SignatureFormatEnum.XAdES_BES;
+        case XAdES_T_LEVEL: return SignatureFormatEnum.XAdES_T;
+        case XAdES_LT_LEVEL: return SignatureFormatEnum.XAdES_XL;
+        case XAdES_LTA_LEVEL: return SignatureFormatEnum.XAdES_A;
+        
+        
+
+        
+        
+        
+        // TODO NOUS FORMATS Per quan s'actualitzi la llibreria de Integr@ 
+        /*
+        
+        case PAdES_BASELINE: return SignatureFormatEnum.PAdES_BASELINE;
+        case PAdES_B_LEVEL: return SignatureFormatEnum.PAdES_B_LEVEL;
+        case PAdES_T_LEVEL: return SignatureFormatEnum.PAdES_T_LEVEL;
+        case PAdES_LT_LEVEL: return SignatureFormatEnum.PAdES_LT_LEVEL;
+        case PAdES_LTA_LEVEL: return SignatureFormatEnum.PAdES_LTA_LEVEL; 
+          
+         
+        case CAdES_BASELINE: return SignatureFormatEnum.CAdES_BASELINE;
+        case CAdES_B_LEVEL: return SignatureFormatEnum.CAdES_B_LEVEL;
+        case CAdES_T_LEVEL: return SignatureFormatEnum.CAdES_T_LEVEL;
+        case CAdES_LT_LEVEL: return SignatureFormatEnum.CAdES_LT_LEVEL;
+        case CAdES_LTA_LEVEL: return SignatureFormatEnum.CAdES_LTA_LEVEL;
+
+        case XAdES_C: return SignatureFormatEnum.XAdES_C;
+        case XAdES_BASELINE: return SignatureFormatEnum.XAdES_BASELINE;
+        case XAdES_B_LEVEL: return SignatureFormatEnum.XAdES_B_LEVEL;
+        case XAdES_T_LEVEL: return SignatureFormatEnum.XAdES_T_LEVEL;
+        case XAdES_LT_LEVEL: return SignatureFormatEnum.XAdES_LT_LEVEL;
+        case XAdES_LTA_LEVEL: return SignatureFormatEnum.XAdES_LTA_LEVEL;
+
+         
+       */
+        
+    default:
+        return null;
+        
+    }
+    
+    
+    
+  }
+  
+  
 
   /**
    * Tiquet (a.10) Afegir mètodes d'extensió de firma: upgradeSignature() i
@@ -667,7 +859,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    * @return
    * @throws Exception
    */
-  public ServerSignerResponse upgradeSignature(UpgradeSignatureRequest upgSigReq)
+  private ServerSignerResponse internalUpgradeSignature(UpgradeSignatureRequest upgSigReq)
       throws Exception {
     ServerSignerResponse serSigRes = new ServerSignerResponse();
     String resultValidate = ValidateRequest.validateUpgradeSignatureRequest(upgSigReq);
@@ -703,7 +895,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     return serSigRes;
   }
 
-  public static Map<String, Object> generateUpgradeSignatureRequest(
+  private static Map<String, Object> generateUpgradeSignatureRequest(
       UpgradeSignatureRequest upgSigReq) {
     HashMap<String, Object> inputParameters = new HashMap<String, Object>();
     if (upgSigReq.getSignature() != null) {
@@ -951,7 +1143,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     String xmlResposta = apiSign.sign(inputXml);
 
     return xmlResposta;
-
   }
 
   protected org.fundaciobit.plugins.signatureserver.afirmaserver.validarfirmaapi.DSSSignature apiUpgrade = null;
@@ -973,6 +1164,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       boolean debug = isDebug();
       if (debug) {
         log.info("ENDPOINT = " + endPoint);
+      }
+      
+      if (isIgnoreServerCertificates()) {
+        XTrustProvider.install();
       }
 
       final ClientHandler clientHandler;
@@ -1090,6 +1285,16 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
      * return true; } else { return false; }
      */
 
+  }
+
+  @Override
+  public void resetAndClean() throws Exception {
+    lastConnectionSign = 0;
+    lastConnectionUpgrade = 0;
+    
+    apiSign = null;
+    apiUpgrade = null;
+    
   }
 
 }

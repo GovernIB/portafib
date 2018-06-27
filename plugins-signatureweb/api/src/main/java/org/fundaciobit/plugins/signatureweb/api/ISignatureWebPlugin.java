@@ -130,5 +130,21 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
   public StatusSignature getStatusSignature(String signatureSetID, int signatureIndex);
   
 
+  
+  /**
+   * Retorna el numero de transaccions en marxa 
+   * @throws Exception
+   */
+  public int getActiveTransactions() throws Exception;
+  
+  
+  /**
+   * Reseteja les transaccions dels Plugin i fa neteja
+   * @return
+   * @throws Exception
+   */
+  public void resetAndClean(HttpServletRequest request) throws Exception;
+  
+  
 
 }

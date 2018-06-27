@@ -28,6 +28,7 @@ import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.FitxerBean;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.PassarelaCommonInfoSignature;
@@ -728,6 +729,24 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
       byte[] inputRequest) throws Exception {
     // No ofereix generador de timestamp sino que internament en proveeix un
     return null;
+  }
+
+  @Override
+  public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
+    // XYZ ZZZ
+    return false;
+  }
+
+  @Override
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform)
+      throws Exception {
+    // XYZ ZZZZ
+    throw new Exception("No suportat");
+  }
+
+  @Override
+  public void resetAndClean() throws Exception {
+    
   }
 
 }

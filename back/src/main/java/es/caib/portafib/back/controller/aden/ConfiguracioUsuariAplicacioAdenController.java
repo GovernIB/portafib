@@ -11,6 +11,7 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -358,5 +359,18 @@ public class ConfiguracioUsuariAplicacioAdenController extends
     return "redirect:"
         + GestioUsuariAplicacioAdenController.GESTIO_USUARI_APLICACIO_CONTEXTWEB + "/list";
   }
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForUpgradeSignFormat(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+   
+   for (SignatureTypeFormEnumForUpgrade up : SignatureTypeFormEnumForUpgrade.values()) {
+     __tmp.add(new StringKeyValue(String.valueOf(up.getId()) , up.getName()));
+   }
+
+   return __tmp;
+ }
+  
 
 }

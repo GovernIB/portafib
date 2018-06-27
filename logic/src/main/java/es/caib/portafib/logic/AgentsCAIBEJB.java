@@ -277,7 +277,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     
     String[] recipients = recipientsList.toArray(new String[recipientsList.size()]);
     if (log.isDebugEnabled()) {
-      log.info("Enviat correu a " +  Arrays.toString(recipients)+ " amb el missatge: " + message);
+      log.info("Enviarà correu a " +  Arrays.toString(recipients)+ " amb el missatge: " + message);
     }
     
     final boolean isHtml = false;
@@ -403,12 +403,12 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
               + "\n    * NIF:" + usuariPersona.getNif()
               + "\n    * Username:" + usuariPersona.getUsuariPersonaID()
               + "\n    * Email:" + usuariPersona.getEmail()
-              + "\n    * Idiona:" + usuariPersona.getIdiomaID()
+              + "\n    * Idioma:" + usuariPersona.getIdiomaID()
               + "\n    * Llinatges: " + usuariPersona.getLlinatges()
               + "\n    * Nom: " + usuariPersona.getNom();
           
           if (usuariEntitatActiu) {
-            
+            // XYZ ZZZ Fer propietat per enviar sempre missatge.
             enviarCorreuAdmistradors( msgBase 
                + "\n L´usuari-entitat JA està actiu, però si troba que alguna dada no està correcte,"
                + " llavors accedeixi a la Gestió d'Usuaris-Entitat per modificar la informació errònia."

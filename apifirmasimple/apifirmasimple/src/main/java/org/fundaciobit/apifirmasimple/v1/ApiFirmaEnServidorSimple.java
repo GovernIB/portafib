@@ -1,5 +1,7 @@
 package org.fundaciobit.apifirmasimple.v1;
 
+
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 
@@ -13,6 +15,7 @@ import com.sun.jersey.api.client.ClientResponse;
 public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
 
   // Nom de les operacions en constants
+  public static final String UPGRADESIGNATURE = "upgradeSignature";
 
   public static final String SIGNDOCUMENTS = "signDocuments";
   
@@ -65,6 +68,32 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
 
     return Integer.parseInt(result);
   }
+  
+  
+  
+  public FirmaSimpleFile upgradeSignature(byte[] signature) throws Exception {
+    ClientResponse response = commonCall(signature, ApiFirmaEnServidorSimple.UPGRADESIGNATURE);
+
+    FirmaSimpleFile result = response.getEntity(FirmaSimpleFile.class);
+
+    return result;
+    
+    /* XYZ ZZZ
+    InputStream is = response.getEntityInputStream();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    int n;
+    byte[] buffer = new byte[1024];
+    while ((n = is.read(buffer)) > -1) {
+        os.write(buffer, 0, n);   // Don't allow any extra bytes to creep in, final write
+    }
+    os.close();
+
+    return os.toByteArray();
+    */
+  }
+  
+  
+  
   
 
 }

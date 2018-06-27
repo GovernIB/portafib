@@ -118,9 +118,14 @@ public class RestApiFirmaUtils {
         ServerException.class.getName(), sStackTrace), status);
   }
 
-  public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language) {
+  public ResponseEntity<FirmaSimpleError> generateNoAvailablePlugin(String language, boolean firma) {
     // TODO XYZ ZZZ Traduir
-    String msg = "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.";
+    String msg;
+    if (firma) {
+      msg = "No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.";
+    } else {
+      msg = "El plugin seleccionat no suporta el proces d'actualització de firma.";
+    }
     return new ResponseEntity<FirmaSimpleError>(new FirmaSimpleError(msg,
         NoAvailablePluginException.class.getName()), HttpStatus.INTERNAL_SERVER_ERROR);
   }

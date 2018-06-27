@@ -41,6 +41,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -126,16 +127,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
       // 2.- Cercar Plugin associats als IDs
       
-      
-      Long pluginId = config.getPluginFirmaServidorID();
-      
-      
-      
-      PluginJPA modulDeFirmaJPA = modulDeFirmaServidorEjb.findByPrimaryKey(pluginId);
-      
       ISignatureServerPlugin signaturePlugin;
-      signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(modulDeFirmaJPA
-          .getPluginID());
+      signaturePlugin = instantitatePluginDeFirmaEnServidor(config);
       
       if (!signaturePlugin.filter(ss)) {
         throw new NoCompatibleSignaturePluginException();
@@ -204,7 +197,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
       // Segellat de temps
       String timestampUrlBase = SignatureUtils.
           getAbsoluteURLToTimeStampGeneratorPerFirmaEnServidor(absoluteURL,
-              modulDeFirmaJPA.getPluginID());
+              config.getPluginFirmaServidorID());
       
       // FIRMAR
       ss = signaturePlugin.signDocuments(ss, timestampUrlBase);
@@ -237,7 +230,47 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
   }
 
+
+
+  private ISignatureServerPlugin instantitatePluginDeFirmaEnServidor(
+      UsuariAplicacioConfiguracio config) throws I18NException {
+    ISignatureServerPlugin signaturePlugin;
+    {
+    
+    Long pluginId = config.getPluginFirmaServidorID();
+
+    PluginJPA modulDeFirmaJPA = modulDeFirmaServidorEjb.findByPrimaryKey(pluginId);
+    
+    
+    signaturePlugin = modulDeFirmaServidorEjb.getInstanceByPluginID(modulDeFirmaJPA
+        .getPluginID());
+    }
+    return signaturePlugin;
+  }
+
   
+  
+  @Override
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade signTypeForm,   
+      UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config) 
+          throws NoCompatibleSignaturePluginException, I18NException, Exception {
+  
+    
+    // 1.- Cercar Plugin associats als IDs
+    
+    ISignatureServerPlugin signaturePlugin;
+    signaturePlugin = instantitatePluginDeFirmaEnServidor(config);
+    
+    
+    if (!signaturePlugin.isUpgradeSignatureSupported(signTypeForm)) {
+      log.warn("El plugin " + signaturePlugin.getName(new Locale("ca")) + " no suporta extensió de firma.");
+      throw new NoCompatibleSignaturePluginException();
+    }
+    
+    return signaturePlugin.upgradeSignature(signature, signTypeForm);
+    
+    
+  }
 
   /**
    * 

@@ -439,6 +439,28 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.Integer upgradeSignFormatDesde;
+
+  public java.lang.Integer getUpgradeSignFormatDesde() {
+    return this.upgradeSignFormatDesde;
+  }
+
+  public void setUpgradeSignFormatDesde(java.lang.Integer upgradeSignFormatDesde) {
+    this.upgradeSignFormatDesde = upgradeSignFormatDesde;
+  }
+
+
+  private java.lang.Integer upgradeSignFormatFins;
+
+  public java.lang.Integer getUpgradeSignFormatFins() {
+    return this.upgradeSignFormatFins;
+  }
+
+  public void setUpgradeSignFormatFins(java.lang.Integer upgradeSignFormatFins) {
+    this.upgradeSignFormatFins = upgradeSignFormatFins;
+  }
+
+
   public UsuariAplicacioConfiguracioFilterForm() {
   }
   
@@ -482,6 +504,8 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.pluginFirmaServidorIDFins = __toClone.pluginFirmaServidorIDFins;
     this.maxFirmesEnServidorDesde = __toClone.maxFirmesEnServidorDesde;
     this.maxFirmesEnServidorFins = __toClone.maxFirmesEnServidorFins;
+    this.upgradeSignFormatDesde = __toClone.upgradeSignFormatDesde;
+    this.upgradeSignFormatFins = __toClone.upgradeSignFormatFins;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
@@ -496,6 +520,7 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.mapOfValuesForPoliticaSegellatDeTemps = __toClone.mapOfValuesForPoliticaSegellatDeTemps;
     this.mapOfPluginForPluginSegellatID = __toClone.mapOfPluginForPluginSegellatID;
     this.mapOfPluginForPluginFirmaServidorID = __toClone.mapOfPluginForPluginFirmaServidorID;
+    this.mapOfValuesForUpgradeSignFormat = __toClone.mapOfValuesForUpgradeSignFormat;
   }
   
   /* ========= UTILS ========== */
@@ -694,6 +719,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMapOfPluginForPluginFirmaServidorID(Map<String, String> mapOfPluginForPluginFirmaServidorID) {
     this.mapOfPluginForPluginFirmaServidorID = mapOfPluginForPluginFirmaServidorID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForUpgradeSignFormat;
+
+  public Map<String, String> getMapOfValuesForUpgradeSignFormat() {
+    return this.mapOfValuesForUpgradeSignFormat;
+  }
+
+  public void setMapOfValuesForUpgradeSignFormat(Map<String, String> mapOfValuesForUpgradeSignFormat) {
+    this.mapOfValuesForUpgradeSignFormat = mapOfValuesForUpgradeSignFormat;
   }
 
 

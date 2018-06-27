@@ -292,7 +292,10 @@ public abstract class AbstractSignatureServerPlugin
   
  
   
-
+  /**
+   * 
+   * @return
+   */
   protected abstract String getSimpleName();
   
   

@@ -2,6 +2,9 @@ package es.caib.portafib.logic.passarela;
 
 import javax.ejb.Local;
 
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
@@ -30,5 +33,15 @@ public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirm
       PassarelaSignaturesSet signaturesSet, EntitatJPA entitat, 
       UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config) throws NoCompatibleSignaturePluginException;
   
+  
+  /**
+   * 
+   * @param signature
+   * @param signTypeForm
+   * @return
+   */
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade signTypeForm,     
+      UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config)
+          throws NoCompatibleSignaturePluginException, I18NException, Exception;
 
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.bouncycastle.tsp.TimeStampRequest;
+import org.fundaciobit.plugin.signatureserver.afirmalibs.integra.PadesSigner;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
@@ -24,15 +25,15 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
-
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-
 import org.fundaciobit.plugins.utils.CertificateUtils;
 import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
 
 import es.gob.afirma.signers.cades.AOCAdESSigner;
 import es.gob.afirma.signers.pades.AOPDFSigner;
+import es.gob.afirma.signers.pades.PdfTimestamper;
 import es.gob.afirma.signers.xades.AOXAdESSigner;
 
 /**
@@ -747,5 +748,36 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
       }
     }
   }
+
+  @Override
+  public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
+    // XYZ ZZZ 
+    if (SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL.equals(typeform)) {
+      return true;
+    }
+    return false;
+  }
+  
+  @Override
+  public boolean isRequiredExternalTimeStampForUpgradeSignature() {
+    return true;
+  }
+
+  @Override
+  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+      ITimeStampGenerator externalTimestamp) throws Exception {
+
+    byte[] pdfltv = new PadesSigner().upgrade(signature, externalTimestamp);
+
+    return pdfltv;
+
+  }
+
+  @Override
+  public void resetAndClean() throws Exception {
+    afirmaLibsBasePath = null;
+  }
+
+
 
 }

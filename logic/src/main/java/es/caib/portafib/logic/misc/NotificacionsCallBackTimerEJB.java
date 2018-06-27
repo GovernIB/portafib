@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;

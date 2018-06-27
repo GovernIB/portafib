@@ -74,6 +74,9 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Integer getMaxFirmesEnServidor();
 	public void setMaxFirmesEnServidor(java.lang.Integer _maxFirmesEnServidor_);
 
+	public java.lang.Integer getUpgradeSignFormat();
+	public void setUpgradeSignFormat(java.lang.Integer _upgradeSignFormat_);
+
 	public java.lang.Long getLoginCertificateID();
 	public void setLoginCertificateID(java.lang.Long _loginCertificateID_);
 

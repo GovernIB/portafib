@@ -107,6 +107,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR);
   }
 
+  public IntegerField UPGRADESIGNFORMAT() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT);
+  }
+
   public LongField LOGINCERTIFICATEID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID);
   }

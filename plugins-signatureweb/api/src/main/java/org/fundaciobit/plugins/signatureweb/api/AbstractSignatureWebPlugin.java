@@ -5,9 +5,11 @@ import java.io.StringWriter;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -530,5 +532,29 @@ public abstract class AbstractSignatureWebPlugin
 
   }
   
+  
+  
+  protected void internalResetAndClean(HttpServletRequest request) {
+    
+    log.info(" XYZ ZZZZ PRE AbstractSignatureWebPlugin::internalResetAndClean()");
+    synchronized (infoSign) {
+      
+      Set<String> clone = new HashSet<String>(infoSign.keySet());
+      
+      for (String id : clone) {
+        try {
+          closeSignaturesSet(request, id);
+        } catch (Exception e) {
+           log.error("Esborrant transacció WEb amb id " + id + ": " + e.getMessage(), e);
+        }
+      }
+    }
+    log.info(" XYZ ZZZZ POST AbstractSignatureWebPlugin::internalResetAndClean()");
+  }
+  
+  
+  protected int internalGetActiveTransactions() throws Exception {
+    return this.infoSign.size();
+  }
 
 }
