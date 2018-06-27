@@ -19,11 +19,11 @@
     
     
     <module>utils</module>
-    <!-- XYZ ZZZ    
+    <!-- XYZ ZZZ    -->
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
-    <module>ejb</module>   -->
+    <module>ejb</module>   
     <module>logic</module>
 
     <module>back</module>
@@ -71,7 +71,7 @@
     <repository>
        <id>github-governib-maven</id>
        <name>GitHub GovernIB Maven Repository</name>
-       <url>https://GovernIB.github.io/maven/maven/</url>
+       <url>https://governib.github.io/maven/maven/</url>
     </repository>
 
   </repositories>
