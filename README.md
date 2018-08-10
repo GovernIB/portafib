@@ -70,7 +70,7 @@ Vista Completa de Petició de Firma en Destinatari
 | plugin-signatureserver-miniappletutils | 2.0.1  |
 | plugin-signatureweb-miniappletutils | 2.0.1 |
 | - | - |
-| plugin-signatureserver-afirmaserver | 2.0.2 |
+| plugin-signatureserver-afirmaserver | 2.0.4 |
 | plugin-signatureserver-miniappletinserver | 2.0.3 |
 | plugin-signatureserver-portafib | 2.0.0 |
 | - | - |
