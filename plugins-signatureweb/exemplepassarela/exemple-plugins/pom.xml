@@ -1,23 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>plugin-signatureweb-exemplepassarela-plugins</artifactId>
-  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>pluginsib-signatureweb-signaturetester-plugins</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
   <packaging>ear</packaging>
 
-  <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - Plugins</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - Signature Tester - Plugins</name>
 
   <parent>
-    <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <artifactId>pluginsib-signatureweb-signaturetester</artifactId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
     <version>3.0.0</version>
   </parent>
 
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -29,29 +29,29 @@
     <!-- ============================================== -->
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>                    
-      <artifactId>plugin-signatureweb-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>                    
+      <artifactId>pluginsib-signatureweb-api</artifactId>
       <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-miniappletinserver</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-miniappletinclient</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
-      <version>${plugins.signatureweb.autofirma.version}</version>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
+      <version>3.0.0</version>
     </dependency>
 
     <!--  Plugin de firma web en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
@@ -65,27 +65,27 @@
     <!-- ============================================== -->
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>                    
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>                    
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>${plugins.signatureserver.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-afirmalibs</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-afirmalibs</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-miniappletinserver</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-afirmaserver</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
       <version>3.0.0</version>
       <exclusions>
         <exclusion>
@@ -154,8 +154,8 @@
       <id>sia</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-miniappletinserversia</artifactId>
           <version>3.0.0</version>
           <exclusions>
             <exclusion>
@@ -177,8 +177,8 @@
       <id>passarelaweb-v1</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-portafib</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-portafib</artifactId>
           <version>${plugins.signatureweb.version}</version>
         </dependency>
       </dependencies>
@@ -196,8 +196,8 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-fire</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-fire</artifactId>
           <version>3.0.0</version>
         </dependency>
       </dependencies>
@@ -214,8 +214,8 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-clavefirma</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-clavefirma</artifactId>
           <version>3.0.0</version>
         </dependency>
       </dependencies>
@@ -233,8 +233,8 @@
       <id>passarelaserver-v1</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureserver-portafib</artifactId>  
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+          <artifactId>pluginsib-signatureserver-portafib</artifactId>  
           <version>${plugins.signatureserver.version}</version>
         </dependency>
       </dependencies>
@@ -259,7 +259,7 @@
 
           <jboss>
             <version>5</version>
-            <loader-repository>org.fundaciobit.plugins:loader=passarela_plugins.ear</loader-repository> 
+            <loader-repository>org.fundaciobit.plugins.signatureweb.signaturetester:loader=passarela_plugins.ear</loader-repository> 
             <loader-repository-config>java2ParentDelegation=false</loader-repository-config> 
           </jboss>
 
@@ -272,20 +272,20 @@
             <!-- ============================================== -->
 
             <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+              <artifactId>pluginsib-signatureweb-miniappletinserver</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
 
             <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+              <artifactId>pluginsib-signatureweb-miniappletinclient</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
 
             <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+              <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
 
@@ -296,8 +296,8 @@
             <!-- ============================================== -->
 
             <jarModule>
-              <groupId>org.fundaciobit.plugins</groupId>
-              <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+              <artifactId>pluginsib-signatureserver-miniappletinserver</artifactId>
               <includeInApplicationXml>true</includeInApplicationXml>
             </jarModule>
 

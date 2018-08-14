@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureweb-api</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+  <artifactId>pluginsib-signatureweb-api</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureWeb - API</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - API</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureweb</artifactId>
+    <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
   <repositories>
@@ -38,21 +38,21 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
-      <version>1.0.0</version>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-webutils</artifactId>
-      <version>1.0.0</version>
+      <groupId>org.fundaciobit.pluginsib.utils</groupId>
+      <artifactId>pluginsib-utils-webutils</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>

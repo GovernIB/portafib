@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureweb-miniappletutils</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+  <artifactId>pluginsib-signatureweb-miniappletutils</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureWeb - MiniAppletUtils</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - MiniAppletUtils</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureweb</artifactId>
+    <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>
@@ -22,8 +22,8 @@
       <id>miniappletui</id>
       <dependencies>
         <dependency>
-          <artifactId>plugin-signatureweb-miniappletui</artifactId>
-          <groupId>es.caib.portafib</groupId>
+          <artifactId>pluginsib-signatureweb-miniappletui</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
           <version>${plugins.signatureweb.version}</version>
           <scope>compile</scope>
         </dependency>
@@ -34,26 +34,26 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
-      <version>${plugins.version}</version>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-api</artifactId>
       <version>${plugins.signatureweb.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>${plugins.signatureserver.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>      
-      <artifactId>plugin-signatureserver-miniappletutils</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>      
+      <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
       <version>3.0.0</version>
     </dependency>
 
@@ -142,8 +142,8 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <artifactId>plugin-signatureweb-miniappletui-signed</artifactId>
-                  <groupId>es.caib.portafib</groupId>
+                  <artifactId>pluginsib-signatureweb-miniappletui-signed</artifactId>
+                  <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
                   <version>${plugins.signatureweb.version}</version>
                   <type>jar</type>
                   <overWrite>true</overWrite>

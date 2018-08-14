@@ -1,0 +1,128 @@
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	Id="Signature-BFBDIFAJIHJJB526">
+	<ds:SignedInfo Id="SignedInfo-BFBDIFAJIHJJB526">
+		<ds:CanonicalizationMethod
+			Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+		<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+		<ds:Reference Id="SignedProperties-Reference-BFBDIFAJIHJJB526"
+			Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-BFBDIFAJIHJJB526">
+			<ds:Transforms>
+				<ds:Transform
+					Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+			</ds:Transforms>
+			<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+			<ds:DigestValue>K0hnOf2WQBgDkbqDQs1E8h3/Crw=</ds:DigestValue>
+		</ds:Reference>
+		<ds:Reference Id="SignedDataObject-Reference-BFBDIFAJIHJJB526"
+			URI="#SignedDataObject-BFBDIFAJIHJJB526">
+			<ds:Transforms>
+				<ds:Transform
+					Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+			</ds:Transforms>
+			<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+			<ds:DigestValue>EjG/6yIiBbMExSqvlgIvt7jaX60=</ds:DigestValue>
+		</ds:Reference>
+		<ds:Reference URI="#keyInfo-BFBDIFAJIHJJB526">
+			<ds:Transforms>
+				<ds:Transform
+					Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+			</ds:Transforms>
+			<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+			<ds:DigestValue>9i0zmsPMzU4D6Vb/DpXCqViB7U8=</ds:DigestValue>
+		</ds:Reference>
+	</ds:SignedInfo>
+	<ds:SignatureValue Id="SignatureValue-BFBDIFAJIHJJB526">Mn9oG50hRfnD5BqQ6nQVyGOIAjhQFHLHbs1Z1rbpjNUGhJ0mYZMN5uBiSnp0p2sX
+		QmMroElFtYaTMAO3zdWBXrtL9oRg601UYMP2kzYDFdd0b3ENAf1yuoRV/LlCHV2g
+		WkBT9Bjb7buDQabEMMcMPE6Cas8pHOHNAoe8OotiSlZYVtbjUQ2Is8PcS628KGjZ
+		uEwbccP5+LFYDbuUHzSLhH41dbJOz4FUQWYFjG7MbmNtnPRZg5lGS7gWMEduMPJI
+		DbwhyOipBj52z7ENDfc7bN79vQRIC2rZiziLIjKT/tlPNQh6s0dgY47KwFHN7SaT
+		2K0QrOchM4GokD3lVQO/vg==</ds:SignatureValue>
+	<ds:KeyInfo Id="keyInfo-BFBDIFAJIHJJB526">
+		<ds:KeyValue>
+			<ds:RSAKeyValue>
+				<ds:Modulus>gdtFh+XQ/RSONufOTE9RQSP5OQQKD0xsnjU06i0fOKLn5Cta3HjXx3bxM4HZJUEn
+					Glm98rkVTR+wztE4vWOSiCbxMXZyoiTE2P6CqMmNFYlil3xLhfOHzsmVPhnlaNnX
+					b9Lu287/2BITHCOKRPoij/Qs1apanB+DYaaRtbrpym2sLRxFiUg2hJ85bCt6ei7l
+					o94GPmHTCRVLwHItn+UTVu0P8myDVYgOWSEPHy64W+DEYwpkD05pdSj95WiwvGNf
+					XSCWTNP/vxlxsrQslvrkyqc9X9zFi3oQjNrHs7XXvO/M2jY6WJiuNB1eD2JfPfH6
+					3MY6f+YLmfYOYasQKgYzTw==</ds:Modulus>
+				<ds:Exponent>AQAB</ds:Exponent>
+			</ds:RSAKeyValue>
+		</ds:KeyValue>
+		<ds:X509Data>
+			<ds:X509Certificate>MIIGGzCCBQOgAwIBAgIIEPAU3MYXH7UwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNV
+				BAYTAkVTMTMwMQYDVQQKDCpDT05TT1JDSSBBRE1JTklTVFJBQ0lPIE9CRVJUQSBE
+				RSBDQVRBTFVOWUExKjAoBgNVBAsMIVNlcnZlaXMgUMO6YmxpY3MgZGUgQ2VydGlm
+				aWNhY2nDszEYMBYGA1UEAwwPRUMtU2VjdG9yUHVibGljMB4XDTE1MDIxMDEyMTA1
+				NFoXDTE5MDIxMDEyMTA1NFowgbUxCzAJBgNVBAYTAkVTMR8wHQYDVQQKDBZPcmdh
+				bml0emFjacOzIGRlIHByb3ZhMR0wGwYDVQQLDBREZXBhcnRhbWVudCBkZSBwcm92
+				YTE0MDIGA1UECwwrVmVnZXUgaHR0cHM6Ly93d3cuYW9jLmNhdC9DQVRDZXJ0L1Jl
+				Z3VsYWNpbzERMA8GA1UEBRMIMTIzNDU2NzgxHTAbBgNVBAMMFHd3dy5vcmdhbml0
+				emFjaW8uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgdtFh+XQ
+				/RSONufOTE9RQSP5OQQKD0xsnjU06i0fOKLn5Cta3HjXx3bxM4HZJUEnGlm98rkV
+				TR+wztE4vWOSiCbxMXZyoiTE2P6CqMmNFYlil3xLhfOHzsmVPhnlaNnXb9Lu287/
+				2BITHCOKRPoij/Qs1apanB+DYaaRtbrpym2sLRxFiUg2hJ85bCt6ei7lo94GPmHT
+				CRVLwHItn+UTVu0P8myDVYgOWSEPHy64W+DEYwpkD05pdSj95WiwvGNfXSCWTNP/
+				vxlxsrQslvrkyqc9X9zFi3oQjNrHs7XXvO/M2jY6WJiuNB1eD2JfPfH63MY6f+YL
+				mfYOYasQKgYzTwIDAQABo4ICWDCCAlQwdgYIKwYBBQUHAQEEajBoMEEGCCsGAQUF
+				BzAChjVodHRwOi8vd3d3LmNhdGNlcnQuY2F0L2Rlc2NhcnJlZ2EvZWMtc2VjdG9y
+				cHVibGljLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29jc3AuY2F0Y2VydC5jYXQw
+				HQYDVR0OBBYEFH65bRtKz6stHBuDaY3m0HMVTOeLMAwGA1UdEwEB/wQCMAAwHwYD
+				VR0jBBgwFoAURzzeFHe7ak9HkakC/9QG4XPc4tkwgekGA1UdIASB4TCB3jCB2wYL
+				KwYBBAH1eAEDAVswgcswMQYIKwYBBQUHAgEWJWh0dHBzOi8vd3d3LmFvYy5jYXQv
+				Q0FUQ2VydC9SZWd1bGFjaW8wgZUGCCsGAQUFBwICMIGIDIGFQ2VydGlmaWNhdCBk
+				ZSBkaXNwb3NpdGl1IGQnYXBsaWNhY2nDsyBhc3NlZ3VyYWRhLCBkZSBjbGFzc2Ug
+				MS4gQWRyZcOnYSBpIE5JRiBkZWwgcHJlc3RhZG9yOiBWaWEgTGFpZXRhbmEgMjYg
+				MDgwMDMgQmFyY2Vsb25hIFEwODAxMTc1QTBBBgNVHR8EOjA4MDagNKAyhjBodHRw
+				Oi8vZXBzY2QuY2F0Y2VydC5uZXQvY3JsL2VjLXNlY3RvcnB1YmxpYy5jcmwwDgYD
+				VR0PAQH/BAQDAgP4MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDBDAuBgNV
+				HREEJzAlgQtzY2RAYW9jLmNhdKQWMBQxEjAQBgNVBAUTCVEwMDAwMDAwSzANBgkq
+				hkiG9w0BAQUFAAOCAQEAXh39cbHWHy5eKHL/SbXwU1gpJ659qJNjAFwb5T/t/al2
+				cysFegTDJs4Pr54AteI7NccNVncq9xODLHNyedJLhHhG8sBMvqSRR28DO6TxzMAa
+				AZD02lp4rj9IDKYgJFc2PyNx0932enG38Twi7BQl4jTq48r2WfecRaIe1JeU2wPW
+				pNM+e3IqA/eoguljfhdQVq/A9c3xzgdsH5FSduBiC2bg7E+21AnBWTx70y3R/xND
+				0R7ibBUq38WLeKPc5mIYifJKQEimxcwK21KrrL7zAAgwayoIByF1v/Jys5Gx9IBM
+				xAlfmn+HoZ3kA2nBrUOU3Vir68xe/OquQJoZGfMUnQ==</ds:X509Certificate>
+			<ds:X509IssuerSerial>
+				<ds:X509IssuerName>CN=EC-SectorPublic,OU=Serveis P\C3\BAblics de
+					Certificaci\C3\B3,O=CONSORCI ADMINISTRACIO OBERTA DE CATALUNYA,C=ES</ds:X509IssuerName>
+				<ds:X509SerialNumber>1220498437466169269</ds:X509SerialNumber>
+			</ds:X509IssuerSerial>
+		</ds:X509Data>
+	</ds:KeyInfo>
+	<ds:Object>
+		<xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"
+			Target="#Signature-BFBDIFAJIHJJB526">
+			<xades:SignedProperties Id="SignedProperties-BFBDIFAJIHJJB526">
+				<xades:SignedSignatureProperties>
+					<xades:SigningTime>2017-12-21T11:09:47+01:00</xades:SigningTime>
+					<xades:SigningCertificate>
+						<xades:Cert>
+							<xades:CertDigest>
+								<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+								<ds:DigestValue>szbWNy1UQQq3fXz+v7AOgors4Rs=</ds:DigestValue>
+							</xades:CertDigest>
+							<xades:IssuerSerial>
+								<ds:X509IssuerName>CN=EC-SectorPublic,OU=Serveis P\C3\BAblics de
+									Certificaci\C3\B3,O=CONSORCI ADMINISTRACIO OBERTA DE
+									CATALUNYA,C=ES</ds:X509IssuerName>
+								<ds:X509SerialNumber>1220498437466169269</ds:X509SerialNumber>
+							</xades:IssuerSerial>
+						</xades:Cert>
+					</xades:SigningCertificate>
+				</xades:SignedSignatureProperties>
+			</xades:SignedProperties>
+		</xades:QualifyingProperties>
+	</ds:Object>
+	<ds:Object Id="SignedDataObject-BFBDIFAJIHJJB526">&lt;?xml version="1.0"?&gt;
+		&lt;catalog&gt;
+		&lt;book id="bk101"&gt;
+		&lt;author&gt;Gambardella, Matthew&lt;/author&gt;
+		&lt;title&gt;XML Developer's Guide&lt;/title&gt;
+		&lt;genre&gt;Computer&lt;/genre&gt;
+		&lt;price&gt;44.95&lt;/price&gt;
+		&lt;publish_date&gt;2000-10-01&lt;/publish_date&gt;
+		&lt;description&gt;An in-depth look at creating applications with XML.&lt;/description&gt;
+		&lt;/book&gt;
+		&lt;/catalog&gt;</ds:Object>
+</ds:Signature>

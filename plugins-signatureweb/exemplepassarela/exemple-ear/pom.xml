@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>plugin-signatureweb-exemplepassarela-ear</artifactId>
-  <groupId>org.fundaciobit.plugins</groupId>
+  <artifactId>pluginsib-signatureweb-signaturetester-ear</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
   <packaging>ear</packaging>
 
-  <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - EAR</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - SignatureTester - EAR</name>
 
   <parent>
-    <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <artifactId>pluginsib-signatureweb-signaturetester</artifactId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
     <version>3.0.0</version>
   </parent>
 
@@ -17,15 +17,15 @@
 
     <!-- Internes -->
     <dependency>
-      <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
-      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>pluginsib-signatureweb-signaturetester-ejb</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
       <version>${project.version}</version>
       <type>ejb</type>
     </dependency>
 
     <dependency>
-      <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
-      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>pluginsib-signatureweb-signaturetester-war</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
@@ -49,14 +49,14 @@
     <!-- ====================================== -->
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>                    
-      <artifactId>plugin-signatureweb-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>                    
+      <artifactId>pluginsib-signatureweb-api</artifactId>
       <version>3.0.0</version>
     </dependency>
 
@@ -93,21 +93,21 @@
 
           <jboss>
             <version>5</version>
-            <loader-repository>org.fundaciobit.plugins:loader=passarela.ear</loader-repository>
+            <loader-repository>org.fundaciobit.pluginsib.signatureweb.signaturetester:loader=passarela.ear</loader-repository>
             <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
           </jboss>
 
           <modules>
 
             <webModule>
-              <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
-              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>pluginsib-signatureweb-signaturetester-war</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
               <contextRoot>passarela</contextRoot>
             </webModule>
 
             <ejbModule>
-              <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
-              <groupId>org.fundaciobit.plugins</groupId>
+              <artifactId>pluginsib-signatureweb-signaturetester-ejb</artifactId>
+              <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
             </ejbModule>
 
 

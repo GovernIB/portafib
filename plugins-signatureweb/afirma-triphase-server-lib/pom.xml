@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureweb-afirma_triphase_server_lib</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+  <artifactId>pluginsib-signatureweb-afirma_triphase_server_lib</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureWeb - @firma Triphase Server Lib</name>
+  <name>FundacioBit - PluginsIB - SignatureWeb - @firma Triphase Server Lib</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureweb</artifactId>
+    <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>

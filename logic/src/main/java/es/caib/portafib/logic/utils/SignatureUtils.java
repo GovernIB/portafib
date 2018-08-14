@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -22,6 +21,7 @@ import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.utils.PluginsManager;
+import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 
 import es.caib.portafib.ejb.CodiBarresLocal;
 import es.caib.portafib.ejb.EntitatLocal;

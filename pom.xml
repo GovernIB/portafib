@@ -71,7 +71,7 @@
     <repository>
        <id>github-governib-maven</id>
        <name>GitHub GovernIB Maven Repository</name>
-       <url>https://governib.github.io/maven/maven/</url>
+       <url>https://GovernIB.github.io/maven/maven/</url>
     </repository>
 
   </repositories>
@@ -98,7 +98,7 @@
     <version_txt_file>./versio.txt</version_txt_file>
     <portafib.version>2.0.0</portafib.version>
 
-    <plugins.version>1.0.0</plugins.version>
+    <plugins.version>2.0.0</plugins.version>
     <plugins.signatureserver.version>3.0.0</plugins.signatureserver.version>
     <plugins.signatureweb.version>3.0.0</plugins.signatureweb.version>
     <plugins.signatureweb.autofirma.version>3.0.0</plugins.signatureweb.autofirma.version>

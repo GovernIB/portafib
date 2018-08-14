@@ -59,22 +59,36 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-
+    
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
+      <artifactId>pluginsib-validatecertificate-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
+      <artifactId>pluginsib-exportdata-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-api</artifactId>
       <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-timestamp-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+      <artifactId>pluginsib-timestamp-api</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>

@@ -41,11 +41,13 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
 
       //XTrustProvider.install();
 
-      upgradePDF2PDF_LTV(plugin);
+      //upgradePDF2PDF_LTV(plugin);
 
-      upgradeCADES2CADES_T(plugin);
+      //upgradeCADES2CADES_T(plugin);
 
-      upgradeCADES2CADES_LTA(plugin);
+      //upgradeCADES2CADES_LTA(plugin);
+      
+      upgradeXADEES2XADES_LTA(plugin);
 
       System.out.println("Final OK");
 
@@ -55,6 +57,22 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
     }
 
   }
+  
+  
+  public static void upgradeXADEES2XADES_LTA(ISignatureServerPlugin plugin) throws IOException,
+    Exception, FileNotFoundException {
+
+    final String resSrc = "testfiles/ORVE_firma0.xsig";
+    
+    //final String resSrc = "testfiles/sample_xades_attached_firmat.xml";
+    final String resDst = "ORVE_firma0_extends_XAdES_LTA.xsig";
+    
+    SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
+    upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.XAdES_XL;
+    
+    upgrade(plugin, resSrc, resDst, upgradeSignFormatProfile);
+  }
+
 
   public static void upgradeCADES2CADES_LTA(ISignatureServerPlugin plugin) throws IOException,
       Exception, FileNotFoundException {

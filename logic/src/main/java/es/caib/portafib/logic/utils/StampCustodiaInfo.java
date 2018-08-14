@@ -1,6 +1,8 @@
 package es.caib.portafib.logic.utils;
 
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
+import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
+
+
 
 /**
  * 

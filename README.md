@@ -67,16 +67,16 @@ Vista Completa de Petició de Firma en Destinatari
 
 | Plugin  | Versió |
 | ------------- | ------------- |
-| plugin-signatureserver-miniappletutils | 2.0.1  |
-| plugin-signatureweb-miniappletutils | 2.0.1 |
+| plugin-signatureserver-miniappletutils | 3.0.0  |
+| plugin-signatureweb-miniappletutils | 3.0.0|
 | - | - |
-| plugin-signatureserver-afirmaserver | 2.0.2 |
-| plugin-signatureserver-miniappletinserver | 2.0.3 |
-| plugin-signatureserver-portafib | 2.0.0 |
+| plugin-signatureserver-afirmaserver | 3.0.0 |
+| plugin-signatureserver-miniappletinserver | 3.0.0 |
+| plugin-signatureserver-portafib | 3.0.0 |
 | - | - |
-| plugin-signatureweb-miniappletinserver | 2.0.1 |
-| plugin-signatureweb-miniappletinserversia | 2.0.1 |
-| plugin-signatureweb-miniappletinclient | 2.0.1 |
-| plugin-signatureweb-clavefirma | 2.0.3 |
-| plugin-signatureweb-afirma_triphase_server | 2.0.2 |
-| plugin-signatureweb-portafib | 2.0.0 |
+| plugin-signatureweb-miniappletinserver | 3.0.0 |
+| plugin-signatureweb-miniappletinserversia | 3.0.0 |
+| plugin-signatureweb-miniappletinclient | 3.0.0 |
+| plugin-signatureweb-clavefirma | 3.0.0 |
+| plugin-signatureweb-afirma_triphase_server | 3.0.0 |
+| plugin-signatureweb-portafib | 3.0.0 |

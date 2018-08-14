@@ -15,9 +15,9 @@
 	</parent>
     -->
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureweb</artifactId>
+    <artifactId>pluginsib-signatureweb</artifactId>
   </parent>
 
 	<dependencies>

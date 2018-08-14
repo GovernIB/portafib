@@ -26,6 +26,8 @@ import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+
 import org.fundaciobit.plugins.certificate.ICertificatePlugin;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.certificate.ResultatValidacio;

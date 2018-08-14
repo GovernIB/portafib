@@ -39,50 +39,70 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-
+    
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-documentcustody-api</artifactId>
-      <version>3.0.0</version>
+      <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
+      <artifactId>pluginsib-validatecertificate-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+      <artifactId>pluginsib-documentcustody-api</artifactId>
+      <version>4.0.0</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureweb-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.documentconverter</groupId>
+      <artifactId>pluginsib-documentconverter-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-api</artifactId>
       <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-timestamp-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+      <artifactId>pluginsib-timestamp-api</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+      <artifactId>pluginsib-barcode-api</artifactId>
+      <version>${plugins.version}</version>
+    </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-barcode-pdf417</artifactId>
+      <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+      <artifactId>pluginsib-barcode-pdf417</artifactId>
       <version>${plugins.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-barcode-qr</artifactId>
+      <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+      <artifactId>pluginsib-barcode-qr</artifactId>
       <version>${plugins.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-barcode-barcode128</artifactId>
+      <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+      <artifactId>pluginsib-barcode-barcode128</artifactId>
       <version>${plugins.version}</version>
       <scope>test</scope>
     </dependency>

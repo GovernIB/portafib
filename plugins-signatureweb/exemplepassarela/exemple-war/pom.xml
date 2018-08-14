@@ -2,17 +2,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>plugin-signatureweb-exemplepassarela-war</artifactId>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <artifactId>pluginsib-signatureweb-signaturetester-war</artifactId>
+    <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
     <version>3.0.0</version>
     <packaging>war</packaging>
 
 
-    <name>FundacioBit Plugins - SignatureWeb - Exemple Passarela - WAR</name>
+    <name>FundacioBit - PluginsIB - SignatureWeb - Signature Tester - WAR</name>
 
     <parent>
-        <artifactId>plugin-signatureweb-exemplepassarela</artifactId>
-        <groupId>org.fundaciobit.plugins</groupId>
+        <artifactId>pluginsib-signatureweb-signaturetester</artifactId>
+        <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
         <version>3.0.0</version>
     </parent>
 
@@ -27,8 +27,8 @@
 
 
         <dependency>
-            <artifactId>plugin-signatureweb-exemplepassarela-ejb</artifactId>
-            <groupId>org.fundaciobit.plugins</groupId>
+            <artifactId>pluginsib-signatureweb-signaturetester-ejb</artifactId>
+            <groupId>org.fundaciobit.pluginsib.signatureweb.signaturetester</groupId>
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
@@ -44,8 +44,8 @@
         <!-- ================  PLUGINS ======================== -->
 
         <dependency>
-            <groupId>org.fundaciobit.plugins</groupId>
-            <artifactId>plugin-signatureweb-api</artifactId>
+            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+            <artifactId>pluginsib-signatureweb-api</artifactId>
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>

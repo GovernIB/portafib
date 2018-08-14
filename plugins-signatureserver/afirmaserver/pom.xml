@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureserver-afirmaserver</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+  <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureServer - @firma Server</name>
+  <name>FundacioBit - PluginsIB - SignatureServer - @firma Server</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureserver</artifactId>
+    <artifactId>pluginsib-signatureserver</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>
@@ -20,23 +20,23 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
-      <version>1.0.0</version>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>2.0.0</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>${plugins.signatureweb.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-utils-cxf</artifactId>
-      <version>1.0.1</version>
+      <groupId>org.fundaciobit.pluginsib.utils</groupId>
+      <artifactId>pluginsib-utils-cxf</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
 
@@ -123,8 +123,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-miniappletutils</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
       <version>3.0.0</version>
     </dependency>
 

@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureserver-exempleapp</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+  <artifactId>plugin-signatureserver-exampleapp</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureServer - Exemple App</name>
+  <name>FundacioBit - PluginsIB - SignatureServer - Exemple App</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureserver</artifactId>
+    <artifactId>pluginsib-signatureserver</artifactId>
   </parent>
 
   <repositories>
@@ -38,14 +38,14 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
-      <version>1.0.0</version>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>2.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>3.0.0</version>
     </dependency>
 
@@ -58,14 +58,14 @@
     <!-- ===============  PLUGINS ================== -->
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-miniappletinserver</artifactId>
       <version>3.0.0</version>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-afirmaserver</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
       <version>3.0.0</version>
     </dependency>
 
@@ -86,8 +86,8 @@
       <id>passarelaserver-v1</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureserver-portafib</artifactId>  
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+          <artifactId>pluginsib-signatureserver-portafib</artifactId>  
           <version>${plugins.signatureserver.version}</version>
         </dependency>
       </dependencies>

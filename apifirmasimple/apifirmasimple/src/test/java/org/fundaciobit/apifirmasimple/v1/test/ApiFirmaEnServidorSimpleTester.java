@@ -91,6 +91,26 @@ public class ApiFirmaEnServidorSimpleTester {
 
   }
   
+  
+  public static void testUpgradeSignatureXAdES(ApiFirmaEnServidorSimple api) throws Exception,
+  FileNotFoundException, IOException {
+
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("ORVE_firma0.xsig", "application/xml");
+
+      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+
+      File f = new File("ORVE_firma0_upgraded.xsig");
+      FileOutputStream fos = new FileOutputStream(f);
+      fos.write(upgraded.getData());
+      fos.flush();
+      fos.close();
+
+      System.out.println("Guardat ");
+
+  }
+  
+  
+  
   /**
    * 
    * @param api

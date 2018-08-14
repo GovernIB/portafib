@@ -101,7 +101,6 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import org.apache.commons.io.FileUtils;
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.documentcustody.api.CustodyException;
 import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
@@ -109,6 +108,7 @@ import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
 import org.fundaciobit.plugins.utils.PluginsManager;
+import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;

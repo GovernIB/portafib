@@ -221,7 +221,7 @@ public class PadesSigner {
                   continue;
               }
               CMSSignedData signedData = UtilsSignature.getCMSSignature(pdfSignatureDictionary);
-              SignerInformation signerInformation = (SignerInformation)((List)signedData.getSignerInfos().getSigners()).iterator().next();
+              SignerInformation signerInformation = (SignerInformation)((List<?>)signedData.getSignerInfos().getSigners()).iterator().next();
               X509CertificateHolder x509CertificateHolder = UtilsSignature.getX509CertificateHolderBySignerId(signedData.getCertificates(), signerInformation.getSID());
               //errorMsg = Language.getFormatResIntegra("PS023", new Object[]{signatureName});
               signingCertificate = new JcaX509CertificateConverter().setProvider(BouncyCastleProvider.PROVIDER_NAME).getCertificate(x509CertificateHolder);

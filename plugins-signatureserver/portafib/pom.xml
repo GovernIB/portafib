@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fundaciobit.plugins</groupId>
-  <artifactId>plugin-signatureserver-portafib</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+  <artifactId>pluginsib-signatureserver-portafib</artifactId>
   <packaging>jar</packaging>
   <version>3.0.0</version>
 
-  <name>FundacioBit Plugins - SignatureServer - Passarel.la PortaFIB</name>
+  <name>FundacioBit - PluginsIB - SignatureServer - Passarel.la PortaFIB</name>
 
   <parent>
-    <groupId>org.fundaciobit.plugins</groupId>
+    <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
     <version>3.0.0</version>
-    <artifactId>plugins-signatureserver</artifactId>
+    <artifactId>pluginsib-signatureserver</artifactId>
   </parent>
 
   <url>http://maven.apache.org</url>
@@ -19,15 +19,15 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugin-signatureserver-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+      <artifactId>pluginsib-signatureserver-api</artifactId>
       <version>${plugins.signatureserver.version}</version>
       <scope>provided</scope>
     </dependency>

@@ -73,8 +73,8 @@
     <!--  Plugins API -->
 
     <dependency>
-      <groupId>org.fundaciobit.plugins</groupId>
-      <artifactId>plugins-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
       <version>${plugins.version}</version>
       <type>jar</type>
     </dependency>
@@ -154,11 +154,18 @@
         <!-- ============================================ -->
         <!-- ========== PLUGINS DE DATAEXPORT =========== -->
         <!-- ============================================ -->
+        
+        <!-- API -->
+        <dependency>
+          <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
+          <artifactId>pluginsib-exportdata-api</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
 
         <!-- Excel Plugin -->
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-exportdata-excel</artifactId>
+          <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
+          <artifactId>pluginsib-exportdata-excel</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
@@ -170,8 +177,8 @@
 
         <!-- ODS Plugin -->
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-exportdata-ods</artifactId>
+          <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
+          <artifactId>pluginsib-exportdata-ods</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
@@ -183,29 +190,36 @@
 
         <!-- CSV Plugin -->
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-exportdata-csv</artifactId>
+          <groupId>org.fundaciobit.pluginsib.exportdata</groupId>
+          <artifactId>pluginsib-exportdata-csv</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
         <!-- ============================================ -->
         <!-- ============= PLUGINS DE BARCODE =========== -->
         <!-- ============================================ -->
+        
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-barcode-pdf417</artifactId>
+          <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+          <artifactId>pluginsib-barcode-api</artifactId>
+          <version>${plugins.version}</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+          <artifactId>pluginsib-barcode-pdf417</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-barcode-qr</artifactId>
+          <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+          <artifactId>pluginsib-barcode-qr</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-barcode-barcode128</artifactId>
+          <groupId>org.fundaciobit.pluginsib.barcode</groupId>
+          <artifactId>pluginsib-barcode-barcode128</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
@@ -215,15 +229,15 @@
         <!-- ============================================ -->
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-documentcustody-api</artifactId>
-          <version>3.0.0</version>
+          <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+          <artifactId>pluginsib-documentcustody-api</artifactId>
+          <version>4.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-documentcustody-filesystem</artifactId>
-          <version>3.0.0</version>
+          <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+          <artifactId>pluginsib-documentcustody-filesystem</artifactId>
+          <version>4.0.0</version>
         </dependency>
 
         
@@ -233,8 +247,8 @@
         <!-- ===== PLUGIN DE CONVERSIO DE DOCUMENTS ===== -->
         <!-- ============================================ -->
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-documentconverter-openoffice</artifactId>
+          <groupId>org.fundaciobit.pluginsib.documentconverter</groupId>
+          <artifactId>pluginsib-documentconverter-openoffice</artifactId>
           <version>${plugins.version}</version>
           <exclusions>
             <exclusion>
@@ -249,15 +263,15 @@
         <!-- ============================================ -->
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-certificate-afirmacxf</artifactId>				  
-          <version>1.0.1</version>
+          <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
+          <artifactId>pluginsib-validatecertificate-afirmacxf</artifactId>				  
+          <version>2.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-certificate-fake</artifactId>
-          <version>1.0.1</version>
+          <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
+          <artifactId>pluginsib-validatecertificate-fake</artifactId>
+          <version>2.0.0</version>
         </dependency>
 
 
@@ -266,15 +280,15 @@
         <!-- ====================================== -->
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-userinformation-database</artifactId>				  
+          <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
+          <artifactId>pluginsib-userinformation-database</artifactId>				  
           <version>${plugins.version}</version>
         </dependency>
 
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-userinformation-ldap</artifactId>				  
+          <groupId>org.fundaciobit.pluginsib.userinformation</groupId>
+          <artifactId>pluginsib-userinformation-ldap</artifactId>				  
           <version>${plugins.version}</version>
         </dependency>
 
@@ -284,26 +298,26 @@
         <!-- ====================================== -->
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>                    
-          <artifactId>plugin-signatureweb-api</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>                    
+          <artifactId>pluginsib-signatureweb-api</artifactId>
           <version>${plugins.signatureweb.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-miniappletinserver</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-miniappletinserver</artifactId>
           <version>3.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-miniappletinclient</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-miniappletinclient</artifactId>
           <version>3.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-afirma_triphase_server</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
           <version>${plugins.signatureweb.autofirma.version}</version>
         </dependency>
 
@@ -316,26 +330,26 @@
         <!-- ====================================== -->
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>                    
-          <artifactId>plugin-signatureserver-api</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>                    
+          <artifactId>pluginsib-signatureserver-api</artifactId>
           <version>${plugins.signatureserver.version}</version>
         </dependency>
         
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureserver-afirmalibs</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+          <artifactId>pluginsib-signatureserver-afirmalibs</artifactId>
           <version>3.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureserver-miniappletinserver</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+          <artifactId>pluginsib-signatureserver-miniappletinserver</artifactId>
           <version>3.0.0</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureserver-afirmaserver</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+          <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
           <version>3.0.0</version>
           <exclusions>
             <exclusion>  
@@ -383,21 +397,21 @@
 
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-timestamp-api</artifactId>
+          <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+          <artifactId>pluginsib-timestamp-api</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-timestamp-catcertrfc</artifactId>
+          <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+          <artifactId>pluginsib-timestamp-catcertrfc</artifactId>
           <version>${plugins.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-timestamp-afirmarfc</artifactId>
-          <version>1.0.1</version>
+          <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+          <artifactId>pluginsib-timestamp-afirmarfc</artifactId>
+          <version>${plugins.version}</version>
         </dependency>
 
       </dependencies>
@@ -412,9 +426,9 @@
       <id>arxiudigitalcaib</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-documentcustody-arxiudigitalcaib</artifactId>
-          <version>3.0.7</version>
+          <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+          <artifactId>pluginsib-documentcustody-arxiudigitalcaib</artifactId>
+          <version>4.0.0</version>
         </dependency>
       </dependencies>
     </profile>
@@ -424,9 +438,9 @@
       <id>alfresco</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-documentcustody-alfresco</artifactId>
-          <version>3.0.0</version>
+          <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
+          <artifactId>pluginsib-documentcustody-alfresco</artifactId>
+          <version>4.0.0</version>
           <exclusions>
             <exclusion>
               <groupId>org.slf4j</groupId>
@@ -455,8 +469,8 @@
       <id>sia</id>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-miniappletinserversia</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-miniappletinserversia</artifactId>
           <version>3.0.0</version>
           <exclusions>
             <exclusion>
@@ -484,8 +498,8 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-fire</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-fire</artifactId>
           <version>3.0.0</version>
         </dependency>
       </dependencies>
@@ -502,8 +516,8 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>org.fundaciobit.plugins</groupId>
-          <artifactId>plugin-signatureweb-clavefirma</artifactId>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-clavefirma</artifactId>
           <version>3.0.0</version>
         </dependency>
       </dependencies>

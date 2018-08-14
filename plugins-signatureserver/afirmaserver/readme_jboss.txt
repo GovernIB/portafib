@@ -1,5 +1,5 @@
 
-Dependència a usar en JBOSS 5.x :
+Dependï¿½ncia a usar en JBOSS 5.x :
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
@@ -36,10 +36,11 @@ Dependència a usar en JBOSS 5.x :
           <groupId>org.apache.ws.security</groupId>
           <artifactId>wss4j</artifactId>
         </exclusion>
-        
+        <!--
         <exclusion>  
           <groupId>org.apache.santuario</groupId>
           <artifactId>xmlsec</artifactId>
         </exclusion>
+        -->
       </exclusions> 
     </dependency>
