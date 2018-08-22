@@ -112,10 +112,11 @@ public abstract class AbstractPluginAdminController extends PluginController {
      pluginForm.addHiddenField(TIPUS);
      
      // XYZ ZZZ pendent implementacio noves dades plugin #160
-     pluginForm.addHiddenField(POLITICADEUS);
+     pluginForm.addReadOnlyField(POLITICADEUS);
      pluginForm.addReadOnlyField(POLITICAMOSTRARPROPIETATS);
      pluginForm.addReadOnlyField(CODI);
      pluginForm.addReadOnlyField(ORDRE);
+     
    
      return pluginForm;
    }

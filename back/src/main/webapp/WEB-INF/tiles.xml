@@ -431,6 +431,15 @@
     <definition name="segellDeTempsListAdmin" extends="role_admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
     </definition>
+    
+   <definition name="validacioFirmesFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
+    </definition>
+    
+    <definition name="validacioFirmesListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
+    </definition>
 
     <definition name="pluginCustodiaFormAdmin" extends="role_admin">
         <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />

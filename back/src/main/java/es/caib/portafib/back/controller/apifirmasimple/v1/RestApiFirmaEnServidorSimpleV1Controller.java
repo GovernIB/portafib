@@ -171,6 +171,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
           + upgradeID + " no existeix.");
       }
 
+      log.info("XYZ ZZZ Fent UPGRADE a " + singTypeForm);
 
       byte[] upgraded;
       upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature, singTypeForm,
