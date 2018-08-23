@@ -39,11 +39,19 @@ public class ApiFirmaEnServidorSimpleTester {
       
       ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
       
-      testGetMaxSignByTransaction(api);
+      //testGetMaxSignByTransaction(api);
 
-      testSignatureServer(api);
+      //testSignatureServer(api);
       
-      testUpgradeSignature(api);
+ //     testUpgradeSignaturePAdES(api);
+      
+      testUpgradeSignatureCAdES(api);
+      
+//      testUpgradeSignatureXAdESOfBinary(api);
+//      
+//      testUpgradeSignatureXAdESOfXML(api);
+//      
+//      testUpgradeSignatureXAdESManifest(api);
       
     } catch (NoAvailablePluginException nape) {
 
@@ -74,40 +82,93 @@ public class ApiFirmaEnServidorSimpleTester {
     }
   }
 
-  public static void testUpgradeSignature(ApiFirmaEnServidorSimple api) throws Exception,
-  FileNotFoundException, IOException {
+
+  
+  
+  
+  public static void testUpgradeSignatureCAdES(ApiFirmaEnServidorSimple api) throws Exception,
+    FileNotFoundException, IOException {
+  
+     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg_cades_detached.csig", "application/octet-stream");
+  
+     FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+     
+     String fileName = "foto.jpg_cades_detached-upgraded.csig";
+     
+     guardarFitxer(upgraded, fileName);
+  
+  }
+  
+  
+  
+  public static void testUpgradeSignaturePAdES(ApiFirmaEnServidorSimple api) throws Exception,
+     FileNotFoundException, IOException {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola_signed.pdf", "application/pdf");
 
       FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
-
-      File f = new File("hola-signed-upgraded.pdf");
-      FileOutputStream fos = new FileOutputStream(f);
-      fos.write(upgraded.getData());
-      fos.flush();
-      fos.close();
-
-      System.out.println("Guardat ");
+      
+      String fileName = "hola-signed-upgraded.pdf";
+      
+      guardarFitxer(upgraded, fileName);
 
   }
   
   
-  public static void testUpgradeSignatureXAdES(ApiFirmaEnServidorSimple api) throws Exception,
+  
+  public static void testUpgradeSignatureXAdESOfBinary(ApiFirmaEnServidorSimple api) throws Exception,
+  FileNotFoundException, IOException {
+
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto_xades_attached_firmat.xsig", "application/xml");
+
+      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+
+      String fileName = "foto_xades_attached_firmat_upgraded.xsig";
+      
+      guardarFitxer(upgraded, fileName);
+  }
+  
+  public static void testUpgradeSignatureXAdESOfXML(ApiFirmaEnServidorSimple api) throws Exception,
+  FileNotFoundException, IOException {
+
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml_signed.xsig", "application/xml");
+
+      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+
+      String fileName = "sample.xml_signed_upgraded.xsig";
+      
+      guardarFitxer(upgraded, fileName);
+  }
+ 
+  
+  
+  public static void testUpgradeSignatureXAdESManifest(ApiFirmaEnServidorSimple api) throws Exception,
   FileNotFoundException, IOException {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("ORVE_firma0.xsig", "application/xml");
 
       FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
-
-      File f = new File("ORVE_firma0_upgraded.xsig");
-      FileOutputStream fos = new FileOutputStream(f);
-      fos.write(upgraded.getData());
-      fos.flush();
-      fos.close();
-
-      System.out.println("Guardat ");
-
+      
+      String fileName = "ORVE_firma0_upgraded.xsig";
+      
+      guardarFitxer(upgraded, fileName);
   }
+
+  private static void guardarFitxer(FirmaSimpleFile upgraded, String fileName)
+      throws FileNotFoundException, IOException {
+    File parent = new File("results");
+    parent.mkdirs();
+    
+    File f = new File(parent, fileName);
+    FileOutputStream fos = new FileOutputStream(f);
+    fos.write(upgraded.getData());
+    fos.flush();
+    fos.close();
+
+    System.out.println("Guardat " + fileName);
+  }
+  
+  
   
   
   

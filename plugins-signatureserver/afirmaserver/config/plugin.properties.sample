@@ -19,6 +19,7 @@ org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmas
 org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.ignoreservercertificates=true
 
 org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.debug=true
+org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.prinxml=false
 
 #Propiedades de comunicacion con el repositorio de servicios
 org.fundaciobit.exemple.signatureserverplugins.3.plugins.signatureserver.afirmaserver.ignoreservercertificates=true

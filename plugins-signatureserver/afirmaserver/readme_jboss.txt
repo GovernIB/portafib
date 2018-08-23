@@ -1,10 +1,15 @@
 
-Depend�ncia a usar en JBOSS 5.x :
+Dependències a usar en JBOSS 5.x :
+    <dependency>
+      <groupId>org.apache.santuario</groupId>
+      <artifactId>xmlsec</artifactId>
+      <version>1.5.5</version>
+    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>
       <artifactId>plugin-signatureserver-afirmaserver</artifactId>
-      <version>2.0.1</version>
+      <version>${version}</version>
       
       <exclusions> 
         <exclusion>  

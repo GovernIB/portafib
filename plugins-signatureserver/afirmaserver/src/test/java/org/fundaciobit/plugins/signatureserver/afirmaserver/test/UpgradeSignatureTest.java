@@ -12,7 +12,6 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin;
-import org.fundaciobit.plugins.signatureserver.afirmaserver.ValidateSignatureConstants;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.utils.FileUtils;
 
@@ -23,7 +22,7 @@ import org.fundaciobit.plugins.utils.FileUtils;
  * @author anadal
  *
  */
-public class UpgradeSignatureTest implements ValidateSignatureConstants {
+public class UpgradeSignatureTest  {
 
   Logger log = Logger.getLogger(UpgradeSignatureTest.class);
 
@@ -31,7 +30,7 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
     try {
 
       Properties pluginProperties = new Properties();
-      pluginProperties.load(new FileInputStream(new File("./config/plugin.properties.caib")));
+      pluginProperties.load(new FileInputStream(new File("./config/plugin.properties")));
 
       final String propertyKeyBase = "org.fundaciobit.exemple.signatureserverplugins.3.";
 
@@ -41,13 +40,17 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
 
       //XTrustProvider.install();
 
-      //upgradePDF2PDF_LTV(plugin);
-
-      //upgradeCADES2CADES_T(plugin);
-
-      //upgradeCADES2CADES_LTA(plugin);
+//      upgradePDF2PDF_LTV(plugin);
+//
+      upgradeCADES2CADES_T(plugin);
+//
+      upgradeCADES2CADES_LTA(plugin);
+//      
+//      upgradeXADEES_XML2XADES_LTA(plugin);
+//      
+//      upgradeXADEES_Binary2XADES_XL(plugin);
       
-      upgradeXADEES2XADES_LTA(plugin);
+//      upgradeXADEESManifest2XADES_LTA(plugin);
 
       System.out.println("Final OK");
 
@@ -59,7 +62,38 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
   }
   
   
-  public static void upgradeXADEES2XADES_LTA(ISignatureServerPlugin plugin) throws IOException,
+  public static void upgradeXADEES_XML2XADES_LTA(ISignatureServerPlugin plugin) throws IOException,
+  Exception, FileNotFoundException {
+
+    final String resSrc = "testfiles/sample.xml_signed.xsig";
+    
+    //final String resSrc = "testfiles/sample_xades_attached_firmat.xml";
+    final String resDst = "sample.xml_signed.xsig_extends_XAdES_LTA.xsig";
+    
+    SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
+    upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.XAdES_LTA_LEVEL;
+    
+    upgrade(plugin, resSrc, resDst, upgradeSignFormatProfile);
+  }
+  
+  
+  public static void upgradeXADEES_Binary2XADES_XL(ISignatureServerPlugin plugin) throws IOException,
+  Exception, FileNotFoundException {
+
+    final String resSrc = "testfiles/foto_xades_attached_firmat.xsig";
+    
+    //final String resSrc = "testfiles/sample_xades_attached_firmat.xml";
+    final String resDst = "foto_xades_attached_firmat_extends_XAdES_XL.xsig";
+    
+    SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
+    upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.XAdES_XL;
+    
+    upgrade(plugin, resSrc, resDst, upgradeSignFormatProfile);
+  }
+
+  
+  
+  public static void upgradeXADEESManifest2XADES_LTA(ISignatureServerPlugin plugin) throws IOException,
     Exception, FileNotFoundException {
 
     final String resSrc = "testfiles/ORVE_firma0.xsig";
@@ -68,7 +102,7 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
     final String resDst = "ORVE_firma0_extends_XAdES_LTA.xsig";
     
     SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
-    upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.XAdES_XL;
+    upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.XAdES_LTA_LEVEL;
     
     upgrade(plugin, resSrc, resDst, upgradeSignFormatProfile);
   }
@@ -77,8 +111,8 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
   public static void upgradeCADES2CADES_LTA(ISignatureServerPlugin plugin) throws IOException,
       Exception, FileNotFoundException {
 
-    final String resSrc = "testfiles/foto.jpg_cades_attached.csig";
-    final String resDst = "foto.jpg_cades_LTA_attached.csig";
+    final String resSrc = "testfiles/foto.jpg_cades_detached.csig";
+    final String resDst = "foto.jpg_cades_LTA_detached.csig";
 
     SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
     upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.CAdES_LTA_LEVEL;
@@ -89,8 +123,8 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
   public static void upgradeCADES2CADES_T(ISignatureServerPlugin plugin) throws IOException,
       Exception, FileNotFoundException {
 
-    final String resSrc = "testfiles/foto.jpg_cades_attached.csig";
-    final String resDst = "foto.jpg_cades_T_attached.csig";
+    final String resSrc = "testfiles/foto.jpg_cades_detached.csig";
+    final String resDst = "foto.jpg_cades_T_detached.csig";
 
     SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
     upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.CAdES_T;
@@ -102,7 +136,7 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
       Exception, FileNotFoundException {
 
     final String resSrc = "testfiles/hola_signat.pdf";
-    final String resDst = "hola_upgraded.pdf";
+    final String resDst = "hola.pdf_upgraded_to_PADES_LTV.pdf";
 
     SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile;
     upgradeSignFormatProfile = SignatureTypeFormEnumForUpgrade.PAdES_LTV;
@@ -114,17 +148,23 @@ public class UpgradeSignatureTest implements ValidateSignatureConstants {
       final String resDst, SignatureTypeFormEnumForUpgrade upgradeSignFormatProfile)
       throws IOException, Exception, FileNotFoundException {
     InputStream is = FileUtils.readResource(UpgradeSignatureTest.class, resSrc);
-
+    
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     FileUtils.copy(is, baos);
 
     byte[] signature = baos.toByteArray();
+    
+    //System.out.println(" XYZ ZZZ SIGNATURE = " + signature);
+    //System.out.println(" XYZ ZZZ SIGNATURE = " + signature.length);
 
     byte[] upgradeData = ((AfirmaServerSignatureServerPlugin) plugin).upgradeSignature(
         signature, upgradeSignFormatProfile, null);
+    
+    File resultsDir = new File("results");
+    resultsDir.mkdirs();
 
-    FileOutputStream fos = new FileOutputStream(new File(resDst));
+    FileOutputStream fos = new FileOutputStream(new File(resultsDir,resDst));
     fos.write(upgradeData);
     fos.flush();
     fos.close();

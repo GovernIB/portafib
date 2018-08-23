@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -59,14 +63,32 @@ import es.gob.afirma.utils.DSSConstants.DSSTagsRequest;
 import es.gob.afirma.utils.DSSConstants.SignTypesURIs;
 import es.gob.afirma.utils.DSSConstants.SignatureForm;
 import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  *
  * @author anadal
  *
  */
-public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin implements
-    ValidateSignatureConstants {
+public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPlugin  {
+  
+
+  /** La firma està continguda dins del document: PADES, ODT, OOXML */
+  public static final String SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED = "implicit_enveloped/attached";
+
+  /** La firma conté al document: Xades ATTACHED */
+  public static final String SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED = "implicit_enveloping/attached";
+
+  /**
+   * El documetn està forà de la firma: xades detached i cades detached
+   */
+  public static final String SIGNFORMAT_EXPLICIT_DETACHED = "explicit/detached";
+
+  /**
+   * Cas específic de Xades externally detached
+   */
+  public static final String SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED = "explicit/externally_detached";
 
   protected static final Map<String, String> hashAlgorithmMap = new HashMap<String, String>();
 
@@ -538,7 +560,12 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
             inputProperties.append(key + " => ");
             Object obj = inParams.get(key);
             if (obj instanceof String) {
-              inputProperties.append((String) obj);
+              String str = (String) obj;
+              if (str.length() > 80) {
+                inputProperties.append(str.subSequence(0, 80)  + " ...");
+              } else {
+                inputProperties.append(str);
+              }
             } else {
               inputProperties.append(" [ BINARY VALUE]");
             }
@@ -733,8 +760,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         
     upgSigReq.setSignatureFormat(dssSignatureFormat);
    
-    
-    // XYZ ZZZ 
+
     ServerSignerResponse serSigRes = internalUpgradeSignature(upgSigReq);
 
     log.debug("Resultado evolución firma:");
@@ -908,15 +934,97 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       throw new Afirma5ServiceInvokerException(Language.getFormatResIntegra("IFWS020",
           new Object[] { resultValidate }));
     }
-    Map<String, Object> inputParameters = generateUpgradeSignatureRequest(upgSigReq);
-    if (inputParameters != null) {
-      String xmlInput = transformersFacade.generateXml(inputParameters, "DSSAfirmaVerify",
+    HashMap<String, Object> inputParameters = new HashMap<String, Object>();
+    final Boolean isXAdESObj = generateUpgradeSignatureRequest(upgSigReq, inputParameters);
+    if (inputParameters.isEmpty()) {
+      throw new Exception("L´estructura UpgradeSignatureRequest està incompleta.");
+    }
+    
+    final boolean isXAdES = ((isXAdESObj == null)? false:isXAdESObj);
+
+    boolean debug = isDebug();
+
+    if (debug) {
+      log.info(" ========== IN PARAMS =========== ");
+
+      for (String b : inputParameters.keySet()) {
+        String str = (String)inputParameters.get(b);
+        if (str.length() > 80) {
+          log.info(b + " => " + str.subSequence(0, 80) + " ...");
+        } else {
+          log.info(b + " => " + str);
+        }
+      }
+      log.info(" ================================= ");
+    }
+
+
+    String xmlInput;
+   
+    if (debug) {
+      log.info("IS XADES: " + isXAdES);
+    }
+    
+    
+    if (!isXAdES) {
+    //if (true) {
+    
+      xmlInput = transformersFacade.generateXml(inputParameters, "DSSAfirmaVerify",
           "verify", "1_0");
       
       if (isPrintXML()) {
-        log.info("XMLInput:\n" + xmlInput);
+        log.info("XMLInput:\n" + xmlInput);        
       }
+
+      //new FileOutputStream("c:\\tmp\\esborrar_input.xml").write(xmlInput.getBytes());
+    } else {
       
+      InputStream is = FileUtils.readResource(this.getClass(), "template_afirma_upgrade/xades_input_template.xml");
+      String templateStr = new String(FileUtils.toByteArray(is));
+      
+      
+      Map<String,Object> keys = new HashMap<String, Object>();
+      
+      for(String key : inputParameters.keySet()) {
+
+        String value = (String)inputParameters.get(key);
+        
+        if (key.equals("dss:SignatureObject")) {
+          
+          final String xmlUtf = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          
+          if (value.trim().startsWith(xmlUtf)) {
+            value = "\t" + value.trim().substring(xmlUtf.length());
+          }
+
+          if (value.startsWith("\r") || value.startsWith("\n")) {
+             value = value.substring(1); 
+          }
+          
+          if (value.startsWith("\r") || value.startsWith("\n")) {
+            value = value.substring(1); 
+         }
+          
+        }
+        
+        keys.put(key.replace(":", "_").replace("/", "_").replace("@", "_"), value);
+      }
+
+      String result = processExpressionLanguage(templateStr, keys);
+
+
+//      File fileGen = new File("D:\\dades\\dades\\CarpetesPersonals\\Programacio\\pluginsib-1.0\\plugins-validatesignature\\afirmacxf\\ORVE_firma0.xsig-XML_GENERATED.xml");
+//      FileOutputStream fos = new FileOutputStream(fileGen);
+//      fos.write(result.getBytes());
+//      fos.close();
+      
+      xmlInput = result;
+      
+
+      //new FileOutputStream("c:\\tmp\\esborrar_input_manual.xml").write(xmlInput.getBytes());
+      
+      
+    }
 
       // String xmlOutput =
       // Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
@@ -926,37 +1034,52 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       
       if (isPrintXML()) {
         log.info("XMLOutput:\n" + xmlOutput);
-        // XYZ ZZZ 
-        //new FileOutputStream("c:\\tmp\\esborrar.xml").write(xmlOutput.getBytes());
+       
       }
-      
-      // XYZ ZZZ
-      //System.out.println("XXX");
+
+
+      //new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
       
       //boolean isXades = xadesFormats.contains(upgSigReq.getSignatureFormat());
       
       Map<String, Object> propertiesResult;
       
-//      if (isXades) {
-//      
-//        System.out.println("XXX XYZ Passa per manual - PARSE XML");
-//        
-//        propertiesResult = ManualXAdESParserOfResponse.parseXAdES(xmlOutput);
-//        
-//      } else 
-      {
+      if (isXAdES) {
+      
+        //System.out.println("Passa per manual - PARSE XML");
+        
+        propertiesResult = ManualXAdESParserOfResponse.parseXAdES(xmlOutput);
+        
+      } else {
 
         propertiesResult = transformersFacade.parseResponse(xmlOutput,
           "DSSAfirmaVerify", "verify", "1_0");
       }
       
-      //System.out.println("XXX XYZ propertiesResult = " + propertiesResult);
+      
+      if (debug) {
+        log.info(" ========== OUT PARAMS =========== ");
+
+        for (String b : propertiesResult.keySet()) {
+          
+          String str = (String)propertiesResult.get(b);
+          if (str.length() > 80) {
+            log.info(b + " => " + str.subSequence(0, 80)  + " ...");
+          } else {
+            log.info(b + " => " + str);
+          }
+        }
+        log.info(" ================================= ");
+      }
+      
+      
+      //System.out.println(" propertiesResult = " + propertiesResult);
       
       if (propertiesResult == null) {
         throw new Exception("No s'ha obtingut cap propietat de la resposta xml:\n" + xmlOutput);
       }
       
-       Object obj = propertiesResult.get("dss:OptionalOutputs/dss:UpdatedSignature/dss:SignatureObject/ds:Signature");
+       Object obj = propertiesResult.get("dss:SignatureObject/ds:Signature");
       
        if(obj != null) {
          propertiesResult.put("dss:SignatureObject/dss:Signature", obj);
@@ -964,38 +1087,18 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
        
        
       
-      // XYZ 
-//      for(String key : propertiesResult.keySet()) {
-//        
-//        System.err.println(key);
-//        
-//      }
-      
-      
-      
- //     System.out.println("XXX XYZ Abans de generateServerSignerResponse");
-      
-//      if (isXades) {
-//        System.out.println("XXX XYZ Passa per manual - PARSE PROPERTIES TO BEAN");
-//        GenerateMessageResponseManual.generateServerSignerResponse(propertiesResult, serSigRes);
-//      } else 
-      {
+
         GenerateMessageResponse.generateServerSignerResponse(propertiesResult, serSigRes);
-      }
-      
-    }
-    /*
-     * } catch (Exception e) { log.error((Object)Language.getFormatResIntegra("IFWS031", new
-     * Object[]{e.getMessage()})); }
-     */
+
+
     return serSigRes;
   }
 
-  private static Map<String, Object> generateUpgradeSignatureRequest(
-      UpgradeSignatureRequest upgSigReq) throws Exception {
-    HashMap<String, Object> inputParameters = new HashMap<String, Object>();
+  private static Boolean generateUpgradeSignatureRequest(
+      UpgradeSignatureRequest upgSigReq, HashMap<String, Object> inputParameters) throws Exception {
+    Boolean isXAdES = null;
     if (upgSigReq.getSignature() != null) {
-      incorporateSignatureImplicit(inputParameters, upgSigReq.getSignature());
+      isXAdES = incorporateSignatureImplicit(inputParameters, upgSigReq.getSignature());
     } else {
       inputParameters.put("dss:SignatureObject/dss:Other/afxp:SignatureArchiveId",
           upgSigReq.getTransactionId());
@@ -1014,37 +1117,39 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     }
     if (upgSigReq.getTargetSigner() != null) {
       String encodedTargetSigner = null;
-      try {
-        encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
-      } catch (Exception e) {
-        // XYZ ZZZ
-        e.printStackTrace();
-      }
+      encodedTargetSigner = new String(Base64Coder.encodeBase64(upgSigReq.getTargetSigner()));
       inputParameters.put("dss:OptionalInputs/afxp:TargetSigner", encodedTargetSigner);
     }
     if (upgSigReq.isIgnoreGracePeriod()) {
       inputParameters.put("dss:OptionalInputs/afxp:IgnoreGracePeriod", "");
     }
-    return inputParameters;
+    return isXAdES;
   }
   
   
   public static final Charset UTF_8 = Charset.forName("UTF-8"); 
   
 
-  private static void incorporateSignatureImplicit(Map<String, Object> inputParameters,
+  private static boolean incorporateSignatureImplicit(Map<String, Object> inputParameters,
       byte[] signature) throws Exception {
 
       if (!CXFUtils.isXMLFormat(signature)) {
         inputParameters.put("dss:SignatureObject/dss:Base64Signature",
             new String(Base64Coder.encodeBase64(signature)));
+        return false;
       } else {
 
+        // NOTA: Si aquí posam  UTF_8 llavors en el JBOSS es produeix:
+        // java.lang.Exception: Error en los parámetros de entrada.
         String typeOfESignature = getXAdESFormat(signature);
+        
+        //System.out.println("typeOfESignature = " + typeOfESignature);
+        
         if (SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED.equals(typeOfESignature)) {
-          inputParameters.put("dss:SignatureObject", new String(signature));
+          inputParameters.put("dss:SignatureObject", new String(signature, UTF_8));
         } else if ("XAdES Enveloped".equals(typeOfESignature)
-            || "XAdES Detached".equals(typeOfESignature)) {
+            || "XAdES Detached".equals(typeOfESignature)
+            || "explicit/detached".equals(typeOfESignature)) {
           String idSignaturePtr = String.valueOf(Math.random() * 9999.0);
           inputParameters.put("dss:SignatureObject/dss:SignaturePtr@WhichDocument",
               idSignaturePtr);
@@ -1052,6 +1157,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           inputParameters.put("dss:InputDocuments/dss:Document/dss:Base64XML", new String(
               Base64.encode((byte[]) signature)));
         }
+        return true;
       }
 
   }
@@ -1394,4 +1500,41 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     
   }
 
+  
+  public static String processExpressionLanguage(String plantilla,
+      Map<String, Object> custodyParameters) throws Exception {
+    return processExpressionLanguage(plantilla, custodyParameters, null);
+  }
+  
+  public static String processExpressionLanguage(String plantilla,
+      Map<String, Object> custodyParameters,  Locale locale) throws Exception {
+    try {
+    if (custodyParameters == null) {
+      custodyParameters = new  HashMap<String, Object>();
+    }
+    
+    Configuration configuration;
+
+    configuration = new Configuration(Configuration.VERSION_2_3_23);
+    configuration.setDefaultEncoding("UTF-8");
+    if (locale!= null) {
+      configuration.setLocale(locale);
+    }
+    Template template;
+    template = new Template("exampleTemplate", new StringReader(plantilla),
+        configuration);
+
+    Writer out = new StringWriter();
+    template.process(custodyParameters, out);
+    
+    String res = out.toString();
+    return res;
+    } catch(Exception e) {
+      final String msg = "No s'ha pogut processar l'Expression Language " + plantilla 
+        + ":" + e.getMessage();
+      throw new Exception(msg, e);
+    }
+  }
+  
+  
 }
