@@ -1,4 +1,6 @@
 
+2018-08-27 Afegida nova propietat "timeoutbase" #179
+
 2017-11-08 Solucionat el mal funcionament del filtre de Certificats #143
 
 2017-11-08 Afegida propietat firefoxinwindowsuseoskeystore. Si val false, quan s'arranca AutoFirma

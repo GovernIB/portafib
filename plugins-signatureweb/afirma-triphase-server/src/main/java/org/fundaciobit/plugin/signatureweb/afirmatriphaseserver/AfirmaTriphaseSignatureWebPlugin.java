@@ -47,8 +47,8 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 import com.handinteractive.mobile.UAgentInfo;
 
@@ -111,6 +111,25 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   protected boolean isDebug() {
     return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
   }
+  
+  
+  protected Integer getTimeOutBase() {
+    String timeoutbase = getProperty(AUTOFIRMA_BASE_PROPERTIES + "timeoutbase");
+    
+
+    if (timeoutbase == null || timeoutbase.trim().length() == 0) {
+      return null;
+    }
+
+    try {
+      return Integer.valueOf(timeoutbase);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      return null;
+    }
+    
+  }
+  
   
 //  protected boolean rubricUsingText() {
 //    return "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "rubricusingtext"));
@@ -944,6 +963,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       cargarAppAfirma = "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n";
     }
     
+    int timeoutbase = 15; // 60 /4 = 15
+    Integer timeout = getTimeOutBase();
+    
+    //System.out.println("TIMEOUT = " + timeout);
+    
+    if (timeout != null) {
+      if (timeout > 60) {
+        timeoutbase =(int)(timeout.intValue() / 4);
+      } else {
+        log.warn("AutofirmaPlugin:: Ha elegit un Timeout inferior a 60. !!!!!");
+      }
+
+    }
+    
+    //System.out.println("TIMEOUTBASE = " + timeoutbase);
     
 
     String javascriptCode =    
@@ -1079,7 +1113,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       + " } // Final window.onload"
       + "\n\n"
       + "  function inicialitzarAutoFirma() {\n"
-      + "    NUM_MAX_ITERATIONS = "+ (15 + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
+      + "    NUM_MAX_ITERATIONS = "+ (timeoutbase + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
       + "    MiniApplet.setForceWSMode(true);\n"
       + cargarAppAfirma + "\n"
       + (debugWeb?"    showLog('Cridant a MiniApplet.setServlets()');":"") + "\n"
