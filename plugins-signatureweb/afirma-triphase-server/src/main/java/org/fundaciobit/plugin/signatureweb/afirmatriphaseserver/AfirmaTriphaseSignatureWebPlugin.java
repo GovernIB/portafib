@@ -111,6 +111,26 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   protected boolean isDebug() {
     return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
   }
+
+    
+  protected Integer getTimeOutBase() {
+    String timeoutbase = getProperty(AUTOFIRMA_BASE_PROPERTIES + "timeoutbase");
+    
+
+    if (timeoutbase == null || timeoutbase.trim().length() == 0) {
+      return null;
+    }
+
+    try {
+      return Integer.valueOf(timeoutbase);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      return null;
+    }
+    
+  }
+  
+  
   
 //  protected boolean rubricUsingText() {
 //    return "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "rubricusingtext"));
@@ -1085,10 +1105,21 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       cargarAppAfirma = "      MiniApplet.cargarAppAfirma(\"" + hostURLBase + "\");\n";
     }
     
+    int timeoutbase = 15; // 60 /4 = 15
+    Integer timeout = getTimeOutBase();
+
+    if (timeout != null) {
+      if (timeout > 60) {
+        timeoutbase =(int)(timeout.intValue() / 4);
+      } else {
+        log.warn("AutofirmaPlugin:: Ha elegit un Timeout inferior a 60. !!!!!");
+      }
+
+    }
 
     out.println(
       "  <script type=\"text/javascript\">\n"
-      + "    NUM_MAX_ITERATIONS = "+ (15 + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
+      + "    NUM_MAX_ITERATIONS = "+ (timeoutbase + signaturesSet.getFileInfoSignatureArray().length) + ";\n"
       + "    MiniApplet.setForceWSMode(true);\n"
       + cargarAppAfirma + "\n"
       + "    MiniApplet.setServlets(\"" + HOST + PATH + "/" + STORAGESERVICE + "\", \"" + HOST + PATH + "/" + RETRIEVESERVICE + "\");"
