@@ -58,6 +58,7 @@ import es.gob.afirma.signers.batch.server.BatchPostsigner;
 import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
+import es.gob.afirma.signfolder.server.proxy.RetrieveConfig;
 import es.gob.afirma.signfolder.server.proxy.RetrieveService;
 import es.gob.afirma.signfolder.server.proxy.StorageService;
 import es.gob.afirma.triphase.server.SignatureService;
@@ -2589,8 +2590,8 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   private void init() {
 
-    Field configField;
     try {
+      Field configField;
       configField = SignatureService.class.getDeclaredField("config");
       configField.setAccessible(true);
 
@@ -2620,6 +2621,38 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     } catch (Exception e) {
       log.error("Error inicialitzant DocumentManager: " + e.getMessage(), e);
+    }
+    
+    try {
+      
+      // Es per inicialitzar els camps estatics
+      new RetrieveService(); 
+      
+      // Llegir el Retrieve Config
+      Field retrieveConfigField;
+      retrieveConfigField = RetrieveService.class.getDeclaredField("CONFIG");
+      retrieveConfigField.setAccessible(true);
+      
+      RetrieveConfig retrieveConfig = (RetrieveConfig) retrieveConfigField.get(null);
+      
+      // Modificam les Propietats del camp config de RetrieveConfig
+      Field configField;
+      configField =  RetrieveConfig.class.getDeclaredField("config");
+      configField.setAccessible(true);
+
+      
+      // Valors NO REALS, nomes per inicialitzar el sistema !!!!
+      Properties config = (Properties) configField.get(retrieveConfig);
+
+      // Posam 10 minuts a pinyo fix
+      config.put("expTime", "600000");
+
+      
+      log.info("RetrieveConfig::getExpirationTime() ==> " + retrieveConfig.getExpirationTime() );
+
+
+    } catch (Exception e) {
+      log.error("Error inicialitzant expTime de RetrieveService: " + e.getMessage(), e);
     }
 
   }
