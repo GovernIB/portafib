@@ -324,6 +324,15 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/modulDeFirmaPerTipusDeDocumentList.jsp" />
     </definition>
     
+   <definition name="validacioFirmesFormAden" extends="role_aden">
+        <put-attribute name="titol" value="modulDeFirma.modulDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginForm.jsp" />
+    </definition>
+    
+    <definition name="validacioFirmesListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/pluginList.jsp" />
+    </definition>
+    
     <definition name="propietatGlobalFormAden" extends="role_aden">
         <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
