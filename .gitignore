@@ -197,3 +197,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /plugins-signatureserver/afirmaserver/foto.jpg_cades_LTA_attached.csig
 /plugins-signatureserver/afirmaserver/foto.jpg_cades_T_attached.csig
 /plugins-signatureserver/afirmaserver/justificant_registre3.pdf
+/apifirmasimple/apifirmasimple/results
+/apifirmasimple/apifirmasimple/CAID_MADRID
+/apifirmasimple/apifirmasimple/src/test/java/org/fundaciobit/apifirmasimple/v1/test/Esborrar.java
+/plugins-signatureserver/afirmaserver/example.log

@@ -33,8 +33,8 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServe
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
 
 /**
  *

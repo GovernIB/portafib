@@ -104,6 +104,7 @@ public interface ConstantsV2 {
   public static final int TIPUS_PLUGIN_SEGELLDETEMPS = 1;
   public static final int TIPUS_PLUGIN_CUSTODIA = 2;
   public static final int TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR = 3;
+  public static final int TIPUS_PLUGIN_VALIDACIOFIRMES = 4;
   
 
   // Contextes WEB per enllaços dels mails.

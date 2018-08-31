@@ -10,24 +10,25 @@
     <!-- Llibreries de Firma Web i En Servidor -->
       
     <module>apifirmasimple</module>
-    <!--  -->
-    <module>plugins-signatureserver</module> 
-    <module>plugins-signatureweb</module>
     
+    <module>plugins-signatureserver</module> 
+ 
+    <module>plugins-signatureweb</module>
+        <!-- -->
  
     <!-- PortaFIB -->
     
     
     <module>utils</module>
-    <!-- XYZ ZZZ    -->
+    <!-- XYZ ZZZ   -->
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
-    <module>ejb</module>   
+    <module>ejb</module>    
     <module>logic</module>
 
     <module>back</module>
-    <!-- XYZ ZZZ -->
+ <!--    XYZ ZZZ -->
     <module>ws</module>
     <module>scripts</module>
 

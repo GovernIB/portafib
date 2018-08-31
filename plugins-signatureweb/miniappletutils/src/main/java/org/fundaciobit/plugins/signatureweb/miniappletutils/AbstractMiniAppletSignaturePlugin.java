@@ -18,7 +18,7 @@ import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 /**
  * 

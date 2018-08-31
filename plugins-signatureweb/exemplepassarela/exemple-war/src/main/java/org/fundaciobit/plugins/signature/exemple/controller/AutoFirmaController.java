@@ -34,7 +34,7 @@ import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.exemple.controller.SignatureWebModuleController;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.SignatureWebModuleLocal;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;

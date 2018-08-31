@@ -81,6 +81,13 @@
     </dependency>
     
     <dependency>
+      <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
+      <artifactId>pluginsib-validatesignature-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
       <groupId>org.fundaciobit.pluginsib.barcode</groupId>
       <artifactId>pluginsib-barcode-api</artifactId>
       <version>${plugins.version}</version>

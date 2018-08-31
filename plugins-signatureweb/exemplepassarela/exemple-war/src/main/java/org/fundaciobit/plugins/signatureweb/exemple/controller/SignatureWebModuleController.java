@@ -17,7 +17,7 @@ import org.fundaciobit.plugins.signature.exemple.utils.HtmlUtils;
 import org.fundaciobit.plugins.signature.utils.Plugin;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.SignatureWebModuleLocal;
 import org.fundaciobit.plugins.signatureweb.exemple.ejb.utils.ExempleSignaturesSet;
-import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
+import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

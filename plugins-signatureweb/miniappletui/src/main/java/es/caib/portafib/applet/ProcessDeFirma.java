@@ -24,7 +24,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.DefaultBoundedRangeModel;
 
-import org.fundaciobit.plugins.utils.XTrustProvider;
+import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
 
 
 /**

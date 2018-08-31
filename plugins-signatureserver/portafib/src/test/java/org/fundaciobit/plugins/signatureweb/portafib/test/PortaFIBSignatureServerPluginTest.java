@@ -22,7 +22,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.portafib.PortaFIBSignatureServerPlugin;
-import org.fundaciobit.plugins.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.Base64;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

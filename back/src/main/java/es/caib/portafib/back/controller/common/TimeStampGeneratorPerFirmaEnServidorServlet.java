@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-import org.fundaciobit.plugins.utils.FileUtils;
-import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 import org.springframework.stereotype.Controller;
 
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;

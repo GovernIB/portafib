@@ -17,8 +17,8 @@ import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
 import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.utils.Base64;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 /**
  * 

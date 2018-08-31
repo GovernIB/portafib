@@ -11,8 +11,8 @@ import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.IPlugin;
-import org.fundaciobit.plugins.utils.PluginsManager;
+import org.fundaciobit.pluginsib.core.IPlugin;
+import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
 /**
  *

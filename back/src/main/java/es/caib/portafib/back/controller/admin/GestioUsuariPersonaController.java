@@ -18,7 +18,7 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
-import org.fundaciobit.plugins.userinformation.UserInfo;
+import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;

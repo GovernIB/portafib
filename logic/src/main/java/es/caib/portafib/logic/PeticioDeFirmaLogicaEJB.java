@@ -107,7 +107,7 @@ import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
-import org.fundaciobit.plugins.utils.PluginsManager;
+import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.KeyValue;
@@ -1704,7 +1704,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     long estat = peticio.getTipusEstatPeticioDeFirmaID();
 
     FitxerJPA f;
-    if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+    if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
       f = peticio.getFitxerAFirmar();
     } else {
 

@@ -28,7 +28,7 @@ import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 /**
  * 

@@ -21,7 +21,7 @@ import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apifirmasimple.v1.exceptions.ClientException;
 import org.fundaciobit.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apifirmasimple.v1.exceptions.ServerException;
-import org.fundaciobit.plugins.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 /**
  * 

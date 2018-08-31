@@ -32,7 +32,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Created 06/02/18 10:10
@@ -44,6 +46,29 @@ import java.util.Locale;
 public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils {
 
   public static final String CONTEXT = "/common/rest/apifirmaenservidorsimple/v1";
+  
+  
+  public static final Set<SignatureTypeFormEnumForUpgrade> xadesTypes = new HashSet<SignatureTypeFormEnumForUpgrade>(); 
+  
+  static {
+//    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES);
+//    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_BES);
+//    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_EPES);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_T);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_C);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_X);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_X1);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_X2);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_XL);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_XL1);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_XL2);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_A);
+//    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_BASELINE);
+//    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_B_LEVEL);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_T_LEVEL);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_LT_LEVEL);
+    xadesTypes.add(SignatureTypeFormEnumForUpgrade.XAdES_LTA_LEVEL);
+  }
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -177,7 +202,16 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature, singTypeForm,
           restLoginInfo.loginInfo.getUsuariAplicacio(), restLoginInfo.config);
 
-      FirmaSimpleFile fsf = new FirmaSimpleFile(null, null, upgraded);
+      
+      final boolean isXAdES = xadesTypes.contains(singTypeForm);
+      
+      String mime = null;
+      if (isXAdES) {
+        mime = "application/xml";
+      }
+      
+      
+      FirmaSimpleFile fsf = new FirmaSimpleFile(null, mime, upgraded);
       
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<FirmaSimpleFile>(fsf, headers, HttpStatus.OK);

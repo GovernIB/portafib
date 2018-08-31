@@ -34,8 +34,8 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInf
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.plugins.utils.Base64;
-import org.fundaciobit.plugins.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
 import com.openlandsw.rss.gateway.CertificateInfo;
 import com.openlandsw.rss.gateway.constants.ConstantsGateWay;

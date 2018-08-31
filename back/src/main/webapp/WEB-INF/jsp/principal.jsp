@@ -1,5 +1,5 @@
-<%@page import="org.fundaciobit.plugins.webutils.AbstractWebPlugin"%>
-<%@page import="org.springframework.security.core.Authentication"
+<%@page import="org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin"
+%><%@page import="org.springframework.security.core.Authentication"
 %><%@page import="org.springframework.security.core.context.SecurityContext"
 %><%@page import="org.springframework.security.core.context.SecurityContextHolder"
 %><%@ page language="java" 

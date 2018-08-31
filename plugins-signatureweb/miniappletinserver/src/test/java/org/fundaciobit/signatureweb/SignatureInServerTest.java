@@ -19,9 +19,9 @@ import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerPAdESSigner;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.utils.Base64;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

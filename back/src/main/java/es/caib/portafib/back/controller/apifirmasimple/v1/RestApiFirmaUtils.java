@@ -33,7 +33,7 @@ import org.fundaciobit.apifirmasimple.v1.exceptions.ServerException;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.jboss.web.tomcat.security.login.WebAuthentication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -325,7 +325,7 @@ public class RestApiFirmaUtils {
       }
 
       transactionID = System.currentTimeMillis() + "" + System.nanoTime();
-      transactionID = org.fundaciobit.plugins.utils.Base64.encode(transactionID).toLowerCase();
+      transactionID = org.fundaciobit.pluginsib.core.utils.Base64.encode(transactionID).toLowerCase();
       transactionID = transactionID.replaceAll("=", "");
 
     }

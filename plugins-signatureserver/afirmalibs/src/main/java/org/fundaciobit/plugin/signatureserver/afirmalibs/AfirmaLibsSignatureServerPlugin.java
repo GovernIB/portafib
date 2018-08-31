@@ -16,6 +16,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+
 import org.bouncycastle.tsp.TimeStampRequest;
 import org.fundaciobit.plugin.signatureserver.afirmalibs.integra.PadesSigner;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
@@ -28,12 +30,11 @@ import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.utils.PublicCertificatePrivateKeyPair;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
 
 import es.gob.afirma.signers.cades.AOCAdESSigner;
 import es.gob.afirma.signers.pades.AOPDFSigner;
-import es.gob.afirma.signers.pades.PdfTimestamper;
 import es.gob.afirma.signers.xades.AOXAdESSigner;
 
 /**
@@ -767,6 +768,7 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
   public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
       ITimeStampGenerator externalTimestamp) throws Exception {
 
+    
     byte[] pdfltv = new PadesSigner().upgrade(signature, externalTimestamp);
 
     return pdfltv;

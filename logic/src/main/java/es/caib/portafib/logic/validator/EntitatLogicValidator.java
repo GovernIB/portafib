@@ -1,6 +1,6 @@
 package es.caib.portafib.logic.validator;
 
-import org.fundaciobit.plugins.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.query.Field;

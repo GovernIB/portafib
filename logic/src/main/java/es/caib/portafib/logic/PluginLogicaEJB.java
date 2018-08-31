@@ -13,7 +13,7 @@ import es.caib.portafib.model.entity.Plugin;
 
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.IPlugin;
+import org.fundaciobit.pluginsib.core.IPlugin;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**

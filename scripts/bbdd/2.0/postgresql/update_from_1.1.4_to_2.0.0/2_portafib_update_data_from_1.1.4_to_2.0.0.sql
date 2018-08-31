@@ -35,3 +35,11 @@ UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 -- ======================================================================
 
 UPDATE pfi_entitat SET uspoliticadefirma=1 where policyidentifier is not NULL;
+
+-- ======================================================================
+-- 2018/08/24 Actualització dels packages de pluginsib a versió 2.0
+-- ======================================================================
+
+UPDATE pfi_tipusmetadada SET descripcio='org.fundaciobit.pluginsib.core.utils.Base64' WHERE tipusmetadadaid=4;
+UPDATE pfi_tipusmetadada SET descripcio='org.fundaciobit.pluginsib.core.utils.ISO8601' WHERE tipusmetadadaid=5;
+

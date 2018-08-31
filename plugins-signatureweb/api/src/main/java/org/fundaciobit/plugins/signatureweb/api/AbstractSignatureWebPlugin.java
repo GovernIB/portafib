@@ -20,8 +20,8 @@ import org.fundaciobit.plugins.signature.api.IRubricGenerator;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
-import org.fundaciobit.plugins.utils.CertificateUtils;
-import org.fundaciobit.plugins.webutils.AbstractWebPlugin;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 
 /**
  * 

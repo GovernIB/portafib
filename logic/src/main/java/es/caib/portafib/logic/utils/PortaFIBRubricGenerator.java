@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
 import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
-import org.fundaciobit.plugins.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
 
 // --------------------------------------------------------------------------

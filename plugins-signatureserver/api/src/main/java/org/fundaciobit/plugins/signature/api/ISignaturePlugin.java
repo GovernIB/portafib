@@ -3,8 +3,7 @@ package org.fundaciobit.plugins.signature.api;
 import java.util.List;
 import java.util.Locale;
 
-
-import org.fundaciobit.plugins.IPlugin;
+import org.fundaciobit.pluginsib.core.IPlugin;
 
 /**
  * 

@@ -39,11 +39,11 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
-import org.fundaciobit.plugins.utils.Base64;
-import org.fundaciobit.plugins.utils.FileUtils;
-import org.fundaciobit.plugins.utils.XTrustProvider;
-import org.fundaciobit.plugins.utils.cxf.CXFUtils;
-import org.fundaciobit.plugins.utils.cxf.ClientHandler;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
+import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
+import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -635,7 +635,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
               SMIMEInputStream smis = new SMIMEInputStream(signedData, fis, mimeType);
 
               FileOutputStream fos = new FileOutputStream(firmat);
-              org.fundaciobit.plugins.utils.FileUtils.copy(smis, fos);
+              FileUtils.copy(smis, fos);
 
               smis.close();
               fis.close();
@@ -715,7 +715,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   
   @Override
   public boolean isUpgradeSignatureSupported(SignatureTypeFormEnumForUpgrade typeform) {
-    // SignatureTypeFormEnumForUpgrade.PAdES_LTV
+    if (SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL.equals(typeform)) {
+      return false;
+    }
     return true;
   }
   
@@ -813,17 +815,19 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public SignatureFormatEnum convertEnum(SignatureTypeFormEnumForUpgrade typeForm) {
     switch(typeForm) {
     
+        
+        //case ODF: return SignatureFormatEnum.ODF;
+        
+        //case PDF: return SignatureFormatEnum.PDF;
+        //case PAdES: return SignatureFormatEnum.PAdES;
+        //case PAdES_BES: return SignatureFormatEnum.PAdES_BES;
+        //case PAdES_EPES: return SignatureFormatEnum.PAdES_EPES;
         case PAdES_LTV: return SignatureFormatEnum.PAdES_LTV;
-        case ODF: return SignatureFormatEnum.ODF;
-        case PDF: return SignatureFormatEnum.PDF;
-        case PAdES: return SignatureFormatEnum.PAdES;
-        case PAdES_BES: return SignatureFormatEnum.PAdES_BES;
-        case PAdES_EPES: return SignatureFormatEnum.PAdES_EPES;
 
-        case CMS: return SignatureFormatEnum.CMS;
-        case CAdES: return SignatureFormatEnum.CAdES;
-        case CAdES_BES: return SignatureFormatEnum.CAdES_BES;
-        case CAdES_EPES: return SignatureFormatEnum.CAdES_EPES;
+        //case CMS: return SignatureFormatEnum.CMS;
+        //case CAdES: return SignatureFormatEnum.CAdES;
+        //case CAdES_BES: return SignatureFormatEnum.CAdES_BES;
+        //case CAdES_EPES: return SignatureFormatEnum.CAdES_EPES;
         case CAdES_T: return SignatureFormatEnum.CAdES_T;
         case CAdES_X: return SignatureFormatEnum.CAdES_X;
         case CAdES_X1: return SignatureFormatEnum.CAdES_X1;
@@ -833,9 +837,9 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         case CAdES_XL2: return SignatureFormatEnum.CAdES_XL2;
         case CAdES_A: return SignatureFormatEnum.CAdES_A;
 
-        case XAdES: return SignatureFormatEnum.XAdES;
-        case XAdES_BES: return SignatureFormatEnum.XAdES_BES;
-        case XAdES_EPES: return SignatureFormatEnum.XAdES_EPES;
+        //case XAdES: return SignatureFormatEnum.XAdES;
+        //case XAdES_BES: return SignatureFormatEnum.XAdES_BES;
+        //case XAdES_EPES: return SignatureFormatEnum.XAdES_EPES;
         case XAdES_T: return SignatureFormatEnum.XAdES_T;
         case XAdES_X: return SignatureFormatEnum.XAdES_X;
         case XAdES_X1: return SignatureFormatEnum.XAdES_X1;
@@ -846,36 +850,29 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         case XAdES_A: return SignatureFormatEnum.XAdES_A;
 
 
-
-        
-        
         // FORMATS ADAPTATS
         // TODO Eliminar quan s'actualitzi la llibreria de Integr@
         
-        case PAdES_BASELINE: return SignatureFormatEnum.PAdES_BES;
-        case PAdES_B_LEVEL: return SignatureFormatEnum.PAdES_BES;
-        case PAdES_T_LEVEL: return SignatureFormatEnum.PAdES_BES; // PAdES_T_LEVEL;
-        case PAdES_LT_LEVEL: return SignatureFormatEnum.PAdES_BES;
+        //case PAdES_BASELINE: return SignatureFormatEnum.PAdES_BES;
+        //case PAdES_B_LEVEL: return SignatureFormatEnum.PAdES_BES;
+        //case PAdES_T_LEVEL: return SignatureFormatEnum.PAdES_BES; // PAdES_T_LEVEL;
+        case PAdES_LT_LEVEL: return SignatureFormatEnum.PAdES_LTV;
         case PAdES_LTA_LEVEL: return SignatureFormatEnum.PAdES_LTV;
         
-        case CAdES_BASELINE: return SignatureFormatEnum.CAdES_BES;
-        case CAdES_B_LEVEL: return SignatureFormatEnum.CAdES_BES;
+        //case CAdES_BASELINE: return SignatureFormatEnum.CAdES_BES;
+        //case CAdES_B_LEVEL: return SignatureFormatEnum.CAdES_BES;
         case CAdES_T_LEVEL: return SignatureFormatEnum.CAdES_T;
         case CAdES_LT_LEVEL: return SignatureFormatEnum.CAdes_XL;
         case CAdES_LTA_LEVEL: return SignatureFormatEnum.CAdES_A;
         
         
         case XAdES_C: return SignatureFormatEnum.XAdES_T; // XAdES_C;
-        case XAdES_BASELINE: return SignatureFormatEnum.XAdES_BES;
-        case XAdES_B_LEVEL: return SignatureFormatEnum.XAdES_BES;
+        //case XAdES_BASELINE: return SignatureFormatEnum.XAdES_BES;
+        //case XAdES_B_LEVEL: return SignatureFormatEnum.XAdES_BES;
         case XAdES_T_LEVEL: return SignatureFormatEnum.XAdES_T;
         case XAdES_LT_LEVEL: return SignatureFormatEnum.XAdES_XL;
         case XAdES_LTA_LEVEL: return SignatureFormatEnum.XAdES_A;
-        
-        
 
-        
-        
         
         // TODO NOUS FORMATS Per quan s'actualitzi la llibreria de Integr@ 
         /*
@@ -1038,7 +1035,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       }
 
 
-      //new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
+      new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
       
       //boolean isXades = xadesFormats.contains(upgSigReq.getSignatureFormat());
       
@@ -1424,69 +1421,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       log.error("Error provant comunicació amb servidor: " + e.getMessage(), e);
       return false;
     }
-
-    /**
-     * VerifyCertificateRequest verCerReq = new VerifyCertificateRequest();
-     * 
-     * verCerReq.setApplicationId(applicationID);
-     * 
-     * InputStream is = org.fundaciobit.plugins.utils.FileUtils.readResource(
-     * AfirmaServerSignatureServerPlugin.class, "check/usedtocheckconnection.cer");
-     * 
-     * if (is == null) { log.error("No puc llegir recurs 'check/usedtocheckconnection.cer'");
-     * return false; }
-     * 
-     * // Indicamos el certificado que validar
-     * verCerReq.setCertificate(FileUtils.toByteArray(is));
-     * 
-     * // Indicamos que queremos recuperar informaci�n del certificado en // lo que a campos
-     * mapeados se refiere verCerReq.setReturnReadableCertificateInfo(false);
-     * 
-     * // Instanciamos el objeto que se encarga de a�adir opciones de // verificaci�n a la
-     * petici�n VerificationReport verRep = new VerificationReport();
-     * 
-     * // Indicamos que queremos incluir la cadena de certificaci�n en la // respuesta
-     * verRep.setIncludeCertificateValues(false);
-     * 
-     * // Indicamos que queremos verificar el estado de cada uno de los // certificados de la
-     * cadena de certificaci�n verRep.setCheckCertificateStatus(false);
-     * 
-     * // Indicamos que queremos incluir informaci�n del estado de // revocaci�n de la cadena
-     * de certificaci�n en la // respuesta verRep.setIncludeRevocationValues(false);
-     * 
-     * verRep.setReportDetailLevel(DetailLevelEnum.NO_DETAILS);
-     * 
-     * verCerReq.setReturnVerificationReport(verRep);
-     * 
-     * String resultValidate = ValidateRequest.validateVerifyCertificateRequest(verCerReq);
-     * 
-     * if (resultValidate != null) { throw new Afirma5ServiceInvokerException
-     * (Language.getFormatResIntegra("IFWS020", new Object[] { resultValidate })); }
-     * 
-     * Map<String, Object> inputParameters = GenerateMessageRequest
-     * .generateVerifyCertificateRequest(verCerReq);
-     * 
-     * if (inputParameters == null) { log.error(" inputParameters val null"); return false; }
-     * 
-     * TransformersFacade transformersFacade = getTransformersFacade(); String xmlInput =
-     * transformersFacade.generateXml(inputParameters, "DSSAfirmaVerifyCertificate", "verify",
-     * "1_0");
-     * 
-     * String xmlOutput = Afirma5ServiceInvokerFacade.getInstance().invokeService(xmlInput,
-     * "DSSAfirmaVerifyCertificate", "verify", connectionProperties); //
-     * verCerReq.getApplicationId());
-     * 
-     * Map<String, Object> propertiesResult = transformersFacade.parseResponse(xmlOutput,
-     * "DSSAfirmaVerifyCertificate", "verify", "1_0");
-     * 
-     * if (propertiesResult == null) { }
-     * 
-     * VerifyCertificateResponse verCerRes = new VerifyCertificateResponse();
-     * GenerateMessageResponse .generateVerifyCertificateResponse(propertiesResult, verCerRes);
-     * 
-     * if (verCerRes.getResult() != null && verCerRes.getResult().getResultMajor() != null) {
-     * return true; } else { return false; }
-     */
 
   }
 

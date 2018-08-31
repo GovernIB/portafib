@@ -2,9 +2,9 @@ package es.caib.portafib.logic.utils;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.certificate.ICertificatePlugin;
-import org.fundaciobit.plugins.documentconverter.IDocumentConverterPlugin;
-import org.fundaciobit.plugins.userinformation.IUserInformationPlugin;
-import org.fundaciobit.plugins.utils.PluginsManager;
+import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
+import org.fundaciobit.pluginsib.userinformation.IUserInformationPlugin;
+import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 

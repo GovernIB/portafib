@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.security.cert.X509Certificate;
 
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

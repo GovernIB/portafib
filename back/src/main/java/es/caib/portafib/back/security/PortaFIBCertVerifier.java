@@ -4,7 +4,7 @@ import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.plugins.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.jboss.security.auth.certs.X509CertificateVerifier;
 
 

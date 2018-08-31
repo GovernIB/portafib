@@ -7,7 +7,7 @@ import es.caib.portafib.jpa.UsuariPersonaJPA;
 
 import javax.ejb.Local;
 
-import org.fundaciobit.plugins.userinformation.UserInfo;
+import org.fundaciobit.pluginsib.userinformation.UserInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
