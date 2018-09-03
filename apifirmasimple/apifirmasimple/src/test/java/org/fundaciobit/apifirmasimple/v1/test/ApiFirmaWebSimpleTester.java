@@ -77,7 +77,7 @@ public class ApiFirmaWebSimpleTester {
       }
 
       String languageUI = "ca";
-      String username = "anadal";
+      String username = null; //"anadal";
       String administrationID = "12345678C";
 
       int port = 1989;

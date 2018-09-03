@@ -16,6 +16,7 @@ import java.nio.charset.CharsetDecoder;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -83,8 +84,8 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   
   
   
-  public FirmaSimpleFile upgradeSignature(byte[] signature) throws Exception {
-    ClientResponse response = commonCall(signature, ApiFirmaEnServidorSimple.UPGRADESIGNATURE);
+  public FirmaSimpleFile upgradeSignature(FirmaSimpleUpgradeRequest fsur) throws Exception {
+    ClientResponse response = commonCall(fsur, ApiFirmaEnServidorSimple.UPGRADESIGNATURE);
 
     FirmaSimpleFile result = response.getEntity(FirmaSimpleFile.class);
 

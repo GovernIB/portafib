@@ -310,7 +310,7 @@ public class UpgradeSignatureTest {
     // System.out.println(" XYZ ZZZ SIGNATURE = " + signature.length);
 
     byte[] upgradeData = ((AfirmaServerSignatureServerPlugin) plugin).upgradeSignature(
-        signature, upgradeSignFormatProfile, null);
+        signature, null,  upgradeSignFormatProfile, null);
 
    
 

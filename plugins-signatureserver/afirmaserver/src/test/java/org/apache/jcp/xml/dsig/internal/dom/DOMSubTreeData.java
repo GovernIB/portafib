@@ -25,11 +25,13 @@
 package org.apache.jcp.xml.dsig.internal.dom;
 
 import javax.xml.crypto.NodeSetData;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -50,6 +52,7 @@ public class DOMSubTreeData implements NodeSetData {
         this.excludeComments = excludeComments;
     }
 
+    @SuppressWarnings("rawtypes")
     public Iterator iterator() {
         return new DelayedNodeIterator(root, excludeComments);
     }

@@ -252,7 +252,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
   
   
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade signTypeForm,   
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, 
+      SignatureTypeFormEnumForUpgrade signTypeForm,   
       UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config) 
           throws NoCompatibleSignaturePluginException, I18NException, Exception {
   
@@ -278,7 +279,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
     }
     
     
-    return signaturePlugin.upgradeSignature(signature, signTypeForm, timestampGenerator);
+    return signaturePlugin.upgradeSignature(signature, null, signTypeForm, timestampGenerator);
     
     
   }

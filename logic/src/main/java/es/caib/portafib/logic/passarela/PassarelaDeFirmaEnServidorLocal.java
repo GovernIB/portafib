@@ -40,7 +40,8 @@ public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirm
    * @param signTypeForm
    * @return
    */
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade signTypeForm,     
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, 
+      SignatureTypeFormEnumForUpgrade signTypeForm,     
       UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config)
           throws NoCompatibleSignaturePluginException, I18NException, Exception;
 

@@ -725,9 +725,18 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   public boolean isRequiredExternalTimeStampForUpgradeSignature() {
     return false;
   }
+  
+  
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+  public boolean isTargetCertificateSupportedForUpgradeSignature() {
+    return true;
+  }
+  
+
+  @Override
+  public byte[] upgradeSignature(byte[] signature,  byte[] targetCertificate, 
+      SignatureTypeFormEnumForUpgrade typeform,
      ITimeStampGenerator timestampGenerator) throws Exception {
 
     
@@ -761,7 +770,10 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     upgSigReq.setSignature(signature);
         
     upgSigReq.setSignatureFormat(dssSignatureFormat);
-   
+    
+    upgSigReq.setTargetSigner(targetCertificate);
+    
+  
 
     ServerSignerResponse serSigRes = internalUpgradeSignature(upgSigReq);
 
@@ -1035,7 +1047,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       }
 
 
-      new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
+      //new FileOutputStream("c:\\tmp\\esborrar_output.xml").write(xmlOutput.getBytes());
       
       //boolean isXades = xadesFormats.contains(upgSigReq.getSignatureFormat());
       
@@ -1081,9 +1093,6 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
        if(obj != null) {
          propertiesResult.put("dss:SignatureObject/dss:Signature", obj);
        }
-       
-       
-      
 
         GenerateMessageResponse.generateServerSignerResponse(propertiesResult, serSigRes);
 
@@ -1469,6 +1478,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       throw new Exception(msg, e);
     }
   }
+
   
   
 }

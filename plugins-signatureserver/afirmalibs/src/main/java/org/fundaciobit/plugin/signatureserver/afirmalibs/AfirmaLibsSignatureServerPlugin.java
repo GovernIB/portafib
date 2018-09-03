@@ -16,8 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-
 import org.bouncycastle.tsp.TimeStampRequest;
 import org.fundaciobit.plugin.signatureserver.afirmalibs.integra.PadesSigner;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
@@ -765,7 +763,13 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
   }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+  public boolean isTargetCertificateSupportedForUpgradeSignature() {
+    return false;
+  }
+  
+  @Override
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate,
+      SignatureTypeFormEnumForUpgrade typeform,
       ITimeStampGenerator externalTimestamp) throws Exception {
 
     
@@ -779,7 +783,6 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
   public void resetAndClean() throws Exception {
     afirmaLibsBasePath = null;
   }
-
 
 
 }

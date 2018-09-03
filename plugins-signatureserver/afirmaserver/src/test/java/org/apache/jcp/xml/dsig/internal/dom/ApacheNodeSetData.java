@@ -29,7 +29,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.xml.crypto.NodeSetData;
+
 import org.w3c.dom.Node;
 import org.apache.xml.security.signature.NodeFilter;
 import org.apache.xml.security.signature.XMLSignatureInput;
@@ -43,6 +45,7 @@ public class ApacheNodeSetData implements ApacheData, NodeSetData {
         this.xi = xi;
     }
 
+    @SuppressWarnings("rawtypes")
     public Iterator iterator() {
         // If nodefilters are set, must execute them first to create node-set
         if (xi.getNodeFilters() != null) {

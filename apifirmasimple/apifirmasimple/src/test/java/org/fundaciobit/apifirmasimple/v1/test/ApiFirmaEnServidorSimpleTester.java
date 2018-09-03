@@ -18,6 +18,7 @@ import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apifirmasimple.v1.exceptions.ClientException;
 import org.fundaciobit.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apifirmasimple.v1.exceptions.ServerException;
@@ -39,13 +40,13 @@ public class ApiFirmaEnServidorSimpleTester {
       
       ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
       
-      //testGetMaxSignByTransaction(api);
+      testGetMaxSignByTransaction(api);
 
-      //testSignatureServer(api);
+      testSignatureServer(api);
       
  //     testUpgradeSignaturePAdES(api);
       
-      testUpgradeSignatureCAdES(api);
+//      testUpgradeSignatureCAdES(api);
       
 //      testUpgradeSignatureXAdESOfBinary(api);
 //      
@@ -91,7 +92,7 @@ public class ApiFirmaEnServidorSimpleTester {
   
      FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg_cades_detached.csig", "application/octet-stream");
   
-     FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+     FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
      
      String fileName = "foto.jpg_cades_detached-upgraded.csig";
      
@@ -106,7 +107,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola_signed.pdf", "application/pdf");
 
-      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+      FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(),null));
       
       String fileName = "hola-signed-upgraded.pdf";
       
@@ -121,7 +122,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto_xades_attached_firmat.xsig", "application/xml");
 
-      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+      FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(),null));
 
       String fileName = "foto_xades_attached_firmat_upgraded.xsig";
       
@@ -133,7 +134,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml_signed.xsig", "application/xml");
 
-      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+      FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(),null));
 
       String fileName = "sample.xml_signed_upgraded.xsig";
       
@@ -147,7 +148,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("ORVE_firma0.xsig", "application/xml");
 
-      FirmaSimpleFile upgraded = api.upgradeSignature(fileToSign.getData());
+      FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(),null));
       
       String fileName = "ORVE_firma0_upgraded.xsig";
       
@@ -198,7 +199,7 @@ public class ApiFirmaEnServidorSimpleTester {
     fileInfoSignatureArray = new FirmaSimpleFileInfoSignature[] { fileInfoSignature };
 
     String languageUI = "ca";
-    String username = "anadal"; // null; // Es la configuració del Servidor (deixam el valor per defecte)
+    String username = null; // "anadal"; //  Es la configuració del Servidor (deixam el valor per defecte)
     String administrationID = null;
 
 

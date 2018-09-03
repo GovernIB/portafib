@@ -5,6 +5,7 @@ import org.fundaciobit.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.springframework.http.HttpHeaders;
@@ -157,7 +158,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> upgradeSignature(HttpServletRequest request,
-      @RequestBody byte[] signature) {
+      @RequestBody FirmaSimpleUpgradeRequest fsur) {
+    
+    
+    byte[] signature = fsur.getSignature();
     
     log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
 
@@ -199,7 +203,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       log.info("XYZ ZZZ Fent UPGRADE a " + singTypeForm);
 
       byte[] upgraded;
-      upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature, singTypeForm,
+      upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature,
+          fsur.getTargetCertificate(),singTypeForm,
           restLoginInfo.loginInfo.getUsuariAplicacio(), restLoginInfo.config);
 
       

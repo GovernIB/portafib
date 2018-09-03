@@ -74,6 +74,15 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    */
   public boolean isRequiredExternalTimeStampForUpgradeSignature();
 
+  /**
+   * Indica si en firmes XADES i CADES podem indicar la firma (el certificat)
+   * sobre el que fer l'upgrade
+   * @return
+   */
+  public boolean isTargetCertificateSupportedForUpgradeSignature();
+  
+  
+  
 
   /**
    * Realitza una actualització de la firma (upgrade de la firma)
@@ -82,7 +91,8 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    * @return
    * @throws Exception
    */
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, 
+      SignatureTypeFormEnumForUpgrade typeform,
       ITimeStampGenerator externalTimestamp) throws Exception;
 
   

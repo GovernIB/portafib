@@ -739,7 +739,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, SignatureTypeFormEnumForUpgrade typeform,
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, SignatureTypeFormEnumForUpgrade typeform,
       ITimeStampGenerator timestampGenerator)
       throws Exception {
     // XYZ ZZZZ Afegir mètodes a API WS
@@ -755,5 +755,13 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   public boolean isRequiredExternalTimeStampForUpgradeSignature() {
     return false;
   }
+
+  @Override
+  public boolean isTargetCertificateSupportedForUpgradeSignature() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
 
 }

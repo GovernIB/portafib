@@ -28,9 +28,9 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.transforms.Transform;
 
@@ -143,7 +143,8 @@ public abstract class ApacheTransform extends TransformService {
                 in = new XMLSignatureInput(subTree.getRoot());
 		in.setExcludeComments(subTree.excludeComments());
 	    } else {
-		Set nodeSet = 
+		@SuppressWarnings("rawtypes")
+    Set nodeSet = 
 		    Utils.toNodeSet(((NodeSetData) data).iterator());
                 in = new XMLSignatureInput(nodeSet);
 	    }
