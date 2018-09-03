@@ -199,7 +199,7 @@ public class ApiFirmaEnServidorSimpleTester {
     fileInfoSignatureArray = new FirmaSimpleFileInfoSignature[] { fileInfoSignature };
 
     String languageUI = "ca";
-    String username = null; // "anadal"; //  Es la configuració del Servidor (deixam el valor per defecte)
+    String username = "anadal"; //  Es la configuració del Servidor (deixam el valor per defecte)
     String administrationID = null;
 
 
