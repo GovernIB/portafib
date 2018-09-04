@@ -36,7 +36,7 @@ public class ExempleApp {
 
   public static void main(String[] args) {
 
-    String def = "../../plugins-signatureweb/exemplepassarela/plugins_server.properties";
+    String def = "../../pluginsib-signatureweb/exemplepassarela/plugins_server.properties";
 
     File propertiesFile;
 

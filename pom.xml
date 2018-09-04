@@ -9,11 +9,11 @@
   <modules>
     <!-- Llibreries de Firma Simple, Firma Web i En Servidor -->
       
-    <module>apifirmasimple</module>
+    <module>pluginsib-signaturesimple</module>
     
-    <module>plugins-signatureserver</module> 
+    <module>pluginsib-signatureserver</module> 
  
-    <module>plugins-signatureweb</module>
+    <module>pluginsib-signatureweb</module>
     <!--    -->
  
     <!-- PortaFIB -->
