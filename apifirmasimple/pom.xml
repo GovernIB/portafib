@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>firmasimple</artifactId>
-  <groupId>org.fundaciobit.apifirmasimple</groupId>
+  <groupId>org.fundaciobit.pluginsib.signature.firmasimple</groupId>
   <version>1.0</version>  
   <packaging>pom</packaging>
 
@@ -37,7 +37,9 @@
 
   <modules>
     <module>apifirmasimple</module>
+    <!-- XYZ ZZZ -->
     <module>exempleapifirmasimple-war</module>
+    
   </modules>
 
   <build>

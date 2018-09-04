@@ -53,8 +53,8 @@
     <!-- Externas -->
 
     <dependency>
-      <artifactId>apifirmasimple</artifactId>
-      <groupId>org.fundaciobit.apifirmasimple</groupId>
+      <artifactId>firmasimple-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signature.firmasimple</groupId>
       <version>1.0</version>
     </dependency>
 

@@ -2,16 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>apifirmasimple-exemple-war</artifactId>
-  <groupId>org.fundaciobit.apifirmasimple</groupId>
+  <artifactId>firmasimple-exemple-war</artifactId>
+  <groupId>org.fundaciobit.pluginsib.signature.firmasimple</groupId>
   <version>1.0</version>
   <packaging>war</packaging>
 
-  <name>Firma Simple - Exemple WebApp</name>
+  <name>Firma Simple - Exemple Firma Simple WebApp</name>
 
   <parent>
     <artifactId>firmasimple</artifactId>
-    <groupId>org.fundaciobit.apifirmasimple</groupId>
+    <groupId>org.fundaciobit.pluginsib.signature.firmasimple</groupId>
     <version>1.0</version>
   </parent>
 
@@ -26,8 +26,8 @@
     <!-- ================  API ======================== -->
 
     <dependency>
-      <artifactId>apifirmasimple</artifactId>
-      <groupId>org.fundaciobit.apifirmasimple</groupId>
+      <artifactId>firmasimple-api</artifactId>
+      <groupId>org.fundaciobit.pluginsib.signature.firmasimple</groupId>
       <version>1.0</version>
     </dependency>
 

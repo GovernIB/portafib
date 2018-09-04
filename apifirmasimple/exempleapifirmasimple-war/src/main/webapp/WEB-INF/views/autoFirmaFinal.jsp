@@ -1,8 +1,8 @@
-﻿<%@ include file="/WEB-INF/views/include.jsp"%>
+<%@ include file="/WEB-INF/views/include.jsp"%>
 
 <%@ include file="/WEB-INF/views/html_header.jsp"%>
 
-<un:useConstants var="StatusFirma" className="org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleStatus" />
+<un:useConstants var="StatusFirma" className="org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStatus" />
 
 <div style="margin:40px;">
 <br>
@@ -44,7 +44,7 @@
                         ERROR
                      </c:when>
                      <c:when test = "${result.status.status == StatusFirma.STATUS_CANCELLED}">
-                        CANCEL·LAT
+                        CANCEL�LAT
                      </c:when>
                      <c:otherwise>
                         Estat Desconegut

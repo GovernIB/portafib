@@ -1,13 +1,13 @@
 package es.caib.portafib.back.controller.apifirmasimple.v1;
 
 import org.apache.commons.io.FileUtils;
-import org.fundaciobit.apifirmasimple.v1.ApiFirmaEnServidorSimple;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleFile;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
-import org.fundaciobit.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

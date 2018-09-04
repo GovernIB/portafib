@@ -201,3 +201,5 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /apifirmasimple/apifirmasimple/CAID_MADRID
 /apifirmasimple/apifirmasimple/src/test/java/org/fundaciobit/apifirmasimple/v1/test/Esborrar.java
 /plugins-signatureserver/afirmaserver/example.log
+/apifirmasimple/apifirmasimple/apifirmaenservidorsimple.properties
+/apifirmasimple/apifirmasimple/apifirmawebsimple.properties

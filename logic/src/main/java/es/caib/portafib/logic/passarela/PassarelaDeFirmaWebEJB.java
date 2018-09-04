@@ -132,6 +132,8 @@ public class PassarelaDeFirmaWebEJB
     }
 
     // URL on Iniciar el proces de firma
+    // XYZ ZZZ TODO Això ho ha de collir de la propietat URL PortaFIB de UsuariApplicacioConfig
+    // XYZ ZZZ TODO Configurar que si getAppUrl val null llavors llanci excepció
     final String absoluteURL = PropietatGlobalUtil.getAppUrl() + PASSARELA_CONTEXTPATH
         + "/start/" + signaturesSetID;
     if (log.isDebugEnabled()) {
