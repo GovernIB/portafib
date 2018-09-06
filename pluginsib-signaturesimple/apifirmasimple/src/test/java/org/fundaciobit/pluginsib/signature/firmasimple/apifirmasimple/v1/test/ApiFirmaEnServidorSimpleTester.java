@@ -40,15 +40,15 @@ public class ApiFirmaEnServidorSimpleTester {
       
       ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
       
-   //   testGetMaxSignByTransaction(api);
+      testGetMaxSignByTransaction(api);
 
-  //    testSignatureServer(api);
+      testSignatureServer(api);
       
-//     testUpgradeSignaturePAdES(api);
+      testUpgradeSignaturePAdES(api);
       
 //      testUpgradeSignatureCAdES(api);
       
-      testUpgradeSignatureXAdESOfBinary(api);
+//      testUpgradeSignatureXAdESOfBinary(api);
 //      
 //      testUpgradeSignatureXAdESOfXML(api);
 //      
@@ -199,7 +199,7 @@ public class ApiFirmaEnServidorSimpleTester {
     fileInfoSignatureArray = new FirmaSimpleFileInfoSignature[] { fileInfoSignature };
 
     String languageUI = "ca";
-    String username = "anadal"; //  Es la configuració del Servidor (deixam el valor per defecte)
+    String username = null; //"anadal"; //  Es la configuració del Servidor (deixam el valor per defecte)
     String administrationID = null;
 
 
