@@ -101,10 +101,8 @@ public class GestioEntitatController extends EntitatController implements Consta
          entitatForm.addHiddenField(POLITICASEGELLATDETEMPS);
          entitatForm.getEntitat().setPoliticaSegellatDeTemps(POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
          
-         if(entitatForm.isNou()) {
-           entitatForm.getEntitat().setPoliticaTaulaFirmes(ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF);
-           entitatForm.getEntitat().setPosicioTaulaFirmes(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
-         }
+         entitatForm.getEntitat().setPoliticaTaulaFirmes(ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF);
+         entitatForm.getEntitat().setPosicioTaulaFirmes(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
          
        } else {
          // TODO S'ha d'ocultar només si te usuarisEntitat o usuarisAplicacio associats (veure mètode delete)         
@@ -133,7 +131,7 @@ public class GestioEntitatController extends EntitatController implements Consta
 
        // #171 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINVALIDACERTIFICATID);
-       entitatForm.addReadOnlyField(PLUGINVALIDAFIRMESID);
+       //entitatForm.addReadOnlyField(PLUGINVALIDAFIRMESID);
        entitatForm.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
        if(entitatForm.isNou()) {
          entitatForm.getEntitat().setCheckCanviatDocFirmat(true);
@@ -293,22 +291,13 @@ public class GestioEntitatController extends EntitatController implements Consta
   public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
       ModelAndView mav, EntitatForm entitatForm, Where where) throws I18NException {
 
-    Where where2;
-    if (entitatForm.isNou()) {
-      where2 = where;
-    } else {
-
-      where2 = Where.AND(
-          where,
-          PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()),
-          PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS)
-          );
-    }
+    Where where2 = Where.AND(
+        where,
+        PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS),
+        PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()));
 
     return super.getReferenceListForPluginID(request, mav, entitatForm, where2);
   }
-  
-
   
   
   @Override
@@ -466,6 +455,26 @@ public class GestioEntitatController extends EntitatController implements Consta
       __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("usuariaplicacioconfig.uspoliticafirma." + val)));
     }
     return __tmp;
+  }
+  
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
+      ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
+    
+   
+    Where where2;
+    where2 = Where.AND(where, 
+        PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES),
+        PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()));
+     
+
+    return super.getReferenceListForPluginValidaFirmesID(request,
+        mav, entitatForm,  where2 );
+    
+    
+    
+   
   }
   
   

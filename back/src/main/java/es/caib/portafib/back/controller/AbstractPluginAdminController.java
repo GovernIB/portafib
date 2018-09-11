@@ -23,6 +23,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.PluginLogicaLocal;
 import es.caib.portafib.model.entity.Plugin;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -114,8 +115,10 @@ public abstract class AbstractPluginAdminController extends PluginController {
      // XYZ ZZZ pendent implementacio noves dades plugin #160
      pluginForm.addReadOnlyField(POLITICADEUS);
      pluginForm.addReadOnlyField(POLITICAMOSTRARPROPIETATS);
-     pluginForm.addReadOnlyField(CODI);
-     pluginForm.addReadOnlyField(ORDRE);
+     if (!isAdmin()) {
+       pluginForm.addReadOnlyField(CODI);
+       pluginForm.addReadOnlyField(ORDRE);
+     }
      
    
      return pluginForm;
@@ -130,6 +133,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
     } else {
       pluginForm.getPlugin().setPoliticaDeUs(ConstantsV2.PLUGIN_POLITICA_DE_US_NOMES_ENTITAT);
     }
+    
   }
   
 
@@ -165,6 +169,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
    __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
+   __tmp.add(new StringKeyValue("" + ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES , "PLUGIN VALIDACIO FIRMES"));
    return __tmp;
  }
   
@@ -202,6 +207,21 @@ public abstract class AbstractPluginAdminController extends PluginController {
 
     return __tmp;
   }
+  
+  
+  
+  
+  public List<StringKeyValue> getReferenceListForPluginValidaFirmesID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+    
+   Where where2 =Where.AND(where, PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES));
+   
+   if (!isAdmin()) {
+     where2 = Where.AND(where2, PluginFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
+   }
+    
+   return pluginRefList.getReferenceList(PluginFields.PLUGINID, where2 );
+ }
 
   
 }

@@ -72,7 +72,9 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -222,6 +224,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  
+  @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
+  protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
 
   private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
      new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
@@ -1823,7 +1828,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public void nouFitxerFirmat(File file, Long estatDeFirmaID, Long peticioDeFirmaID,
+  public void nouFitxerFirmat(File signatureFile, Long estatDeFirmaID, Long peticioDeFirmaID,
       String token, int numFirmaPortaFIB, int numFirmesOriginals) throws I18NException {
 
     Long fileID = null;
@@ -1838,13 +1843,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // CAS 3: false esta bloquejat per un altre usuari
       Boolean check = checkPeticioDeFirmaByToken(peticioDeFirmaID, token);
       if (check == null) {
-        // TODO traduir
+        // TODO XYZ ZZZ traduir
         String msg = "Ha tardat massa temps en firmar la petició " + peticioDeFirmaID
             + " i ha expirat el temps. Tornau-ho a intentar (" + token + ")";
         throw new Exception(msg, new Exception());
       } else {
         if (check == false) {
-          // TODO traduir
+          // TODO XYZ ZZZ traduir
           String msg = "Aquesta petició de firma (" + peticioDeFirmaID
               + ") esta bloquejada per un altre usuari."
               + " Tornau-ho a intentar en un parell de minuts (" + token + ")";
@@ -1860,9 +1865,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FirmaJPA firma = firmaLogicaEjb.findByPrimaryKey(firmaID);
 
       // Checks
+      final String languageUI;
+      final String entitatID;
+      if (peticioDeFirma.getUsuariEntitat() != null) {
+        entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariEntitat().getUsuariPersona().getIdiomaID();
+      } else {
+        entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
+      }
 
       // (a) Verificar que el certificat emprat en la firma es correcte (vàlid)
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
+      String tipusFirmaNom;
       String mime;
       String extension;
       String nifFirmant;
@@ -1870,6 +1885,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       case ConstantsV2.TIPUSFIRMA_PADES:
         extension = "pdf";
         mime = ConstantsV2.PDF_MIME_TYPE;
+        
+        tipusFirmaNom = "PAdES";
 
         Map<Integer, Long> fitxersByNumFirma = null;
         if (numFirmaPortaFIB != 1) {
@@ -1878,18 +1895,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
 
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
-        
-        
-        final String entitatID;
-        if (peticioDeFirma.getUsuariEntitat() != null) {
-          entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
-        } else {
-          entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
-        }
+
         final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
 
         InformacioCertificat info;
-        info = PdfUtils.checkCertificatePADES(fitxerOriginalID, fitxersByNumFirma, file,
+        info = PdfUtils.checkCertificatePADES(fitxerOriginalID, fitxersByNumFirma, signatureFile,
             numFirmaPortaFIB, numFirmesOriginals, ignoreCheckPostSign);
 
         // Obtenir informació del certificat
@@ -1916,17 +1926,44 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // (b) Verificar que el NIF del certificat correspon amb qui tenia que
       // firmar
       
-      Boolean comprovarFirma = usuariEntitatEjb.executeQueryOne(
+      Boolean comprovarNifFirma = usuariEntitatEjb.executeQueryOne(
           new UsuariEntitatQueryPath().ENTITAT().COMPROVARNIFFIRMA(),
           UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
 
       // Obtenir informació del certificat
-      if (comprovarFirma != null && comprovarFirma == true) {
+      if (comprovarNifFirma != null && comprovarNifFirma == true) {
         final StringField NIF = new UsuariEntitatQueryPath().USUARIPERSONA().NIF();
         final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
             .getUsuariEntitatID());
         String expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
         LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
+      }
+      
+      
+      // (c) // Validar la Firma
+      {  
+        Long pluginValidateSignatureID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
+            EntitatFields.ENTITATID.equal(entitatID));
+
+        InputStream documentDetachedFile = null;
+        try {
+          Long firmaOriginalDetached = peticioDeFirma.getFirmaOriginalDetachedID(); 
+          if (firmaOriginalDetached != null) {
+            documentDetachedFile = new FileInputStream(FileSystemManager.getFile(firmaOriginalDetached));
+          } else {
+            documentDetachedFile = null;
+          }
+        
+          validacioFirmesEjb.validateSignature(tipusFirmaNom, pluginValidateSignatureID, documentDetachedFile,
+            signatureFile, languageUI);
+        } finally {
+          
+          if (documentDetachedFile != null) {
+            try {  documentDetachedFile.close();  } catch (Exception e) {         }
+          }
+          
+        }
+      
       }
 
       // Guardar EN BBDD
@@ -1936,7 +1973,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       fitxer.setDescripcio("");
       fitxer.setMime(mime);
       fitxer.setNom("PeticioFirma_" + peticioDeFirmaID + "." + extension);
-      fitxer.setTamany(file.length());
+      fitxer.setTamany(signatureFile.length());
 
       fitxer = fitxerLogicaEjb.createFull(fitxer);
 
@@ -2031,7 +2068,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // IMPORTATNT: Això ha de ser lo darrer per si hi hagues algun error en
       // les passes anteriors
       // 8.- Guardar Fitxer en Sistema de Fitxers
-      FileSystemManager.sobreescriureFitxer(file, fitxer.getFitxerID());
+      FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
       fileID = fitxer.getFitxerID();
       
       // 9.- PeticióFinalitzada:
@@ -2039,7 +2076,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (peticioFinalitzada && peticioDeFirma.getCustodiaInfoID() != null) {
 
         CustodiaInfo custInfo = custodiaInfoEjb.findByPrimaryKey(peticioDeFirma.getCustodiaInfoID());
-        if (custInfo != null && custInfo.isCustodiar() && file != null ) {
+        if (custInfo != null && custInfo.isCustodiar() && signatureFile != null ) {
 
           IDocumentCustodyPlugin plugin = pluginDeCustodiaLogicaEjb.getInstanceByPluginID(custInfo.getPluginID());
           
@@ -2137,7 +2174,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         throw (I18NException) error;
       }
 
-
       throw new I18NException(error, "error.unknown",  new I18NArgumentString(error.getMessage()));
     } finally {
       try {
@@ -2157,6 +2193,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
     }
   }
+
 
   @Override
   public void cleanOriginalFilesOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException {

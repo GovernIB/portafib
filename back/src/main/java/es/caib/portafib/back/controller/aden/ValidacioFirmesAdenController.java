@@ -50,17 +50,17 @@ public class ValidacioFirmesAdenController extends AbstractPluginAdenController<
 
   @Override
   public int getTipusDePlugin() {
-    return ConstantsV2.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR;
+    return ConstantsV2.TIPUS_PLUGIN_VALIDACIOFIRMES;
   }
 
   @Override
   public String getCodeName() {
-    return "moduldefirmaenservidor";
+    return "validaciodefirmes";
   }
 
   @Override
   public String getTitolModalCode() {
-    return "moduldefirmaenservidor.titolmodal";
+    return "validaciodefirmes.titolmodal";
   }
 
   

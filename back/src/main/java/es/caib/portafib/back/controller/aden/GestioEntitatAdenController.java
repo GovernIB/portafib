@@ -71,7 +71,5 @@ public class GestioEntitatAdenController extends GestioEntitatController {
   public boolean isActiveFormNew() {
     return false;
   }
-
-  
   
 }

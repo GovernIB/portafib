@@ -44,7 +44,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       testSignatureServer(api);
       
-      testUpgradeSignaturePAdES(api);
+//      testUpgradeSignaturePAdES(api);
       
 //      testUpgradeSignatureCAdES(api);
       

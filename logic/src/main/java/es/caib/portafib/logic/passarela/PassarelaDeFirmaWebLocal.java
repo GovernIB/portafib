@@ -1,6 +1,7 @@
 package es.caib.portafib.logic.passarela;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
@@ -12,6 +13,7 @@ import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
 
 /**
@@ -44,6 +46,9 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
   public File getFitxerOriginalPath(String transactionID,String signID);
 
   public File getFitxerFirmatPath(String transactionID,String signID);
+
+  public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID,
+      SignaturesSetWeb ss) throws I18NException, IOException;
 
   public void closeTransaction(String transactionID);
 

@@ -141,12 +141,11 @@ public class ConfiguracioUsuariAplicacioAdenController extends
     form.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
     form.addReadOnlyField(COMPROVARNIFFIRMA);
     form.addReadOnlyField(VALIDARCERTIFICAT);
-    form.addReadOnlyField(VALIDARFIRMA);
-
+    //form.addReadOnlyField(VALIDARFIRMA);
+    
     // XYZ ZZZ Pendent de Implementar
     form.addReadOnlyField(HTMLPERLLISTARPLUGINSFIRMAWEB);
-    
-    
+
     // Pentent de que s'implementi XYZ ZZZ
     // #176 Configuració etiquetes de la Taula de Firmes 
     form.addReadOnlyField(PROPIETATSTAULAFIRMES);

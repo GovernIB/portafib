@@ -168,24 +168,28 @@ public class ApiFirmaWebSimpleTester {
           FirmaSimpleStatus fss = signatureStatus.getStatus();
 
           int statusSign = fss.getStatus();
-          System.out.println("  STATUS = " + statusSign);
+          
 
           switch (statusSign) {
 
           case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
-            System.out.println("  RESULT: STATUS_INITIALIZING => Incoherent Status");
+            System.err.println("  STATUS = " + statusSign +  " (STATUS_INITIALIZING)");
+            System.err.println("  ESULT: Incoherent Status");
             break;
 
           case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
-            System.out.println("  RESULT: STATUS_IN_PROGRESS => Incoherent Status");
+            System.err.println("  STATUS = " + statusSign +  " (STATUS_IN_PROGRESS)");
+            System.err.println("  RESULT: Incoherent Status");
             break;
 
           case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+            System.err.println("  STATUS = " + statusSign +  " (STATUS_ERROR)");
             System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
             break;
 
           case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
-            System.err.println("  RESULT: L'usuari ha cancelat la firma.");
+            System.err.println("  STATUS = " + statusSign +  " (STATUS_CANCELLED)");
+            System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
             break;
 
           case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
@@ -258,7 +262,7 @@ public class ApiFirmaWebSimpleTester {
       out.println("HTTP/1.0 200 OK");
       out.println("Content-Type: text/html");
       out.println("\r\n");
-      out.println("<html><body>OK</body></html>");
+      out.println("<html><body>OK (Revisi consola per saber l'estat final del proc&eacute;s de Firma)</body></html>");
 
       System.err.println("Connexio amb el client finalitzada.");
       out.flush();

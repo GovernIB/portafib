@@ -18,19 +18,19 @@
  
     <!-- PortaFIB -->
     
-    <!-- XYZ ZZZ  -->
+    <!-- XYZ ZZZ  -->  
     <module>utils</module>
     
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
-    <module>ejb</module>    
+    <module>ejb</module>  
     <module>logic</module>
 
     <module>back</module> 
     <!--    XYZ ZZZ -->
     <module>ws</module>
-    <module>scripts</module>
+    <module>scripts</module> 
 
     <module>ear</module>
   </modules>
