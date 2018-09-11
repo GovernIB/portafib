@@ -2,7 +2,7 @@
  *Portafirmes Digital de les Illes Balears*
 
 Versió Estable: __portafib-1.1.4 (branca [portafib-1.1](https://github.com/GovernIB/portafib/tree/portafib-1.1))__<br/>
-Versió Desenvolupament: portafib-2.0.0 (branca portafib-2.0)
+Versió Desenvolupament: portafib-2.0.0 (branca [portafib-2.0](https://github.com/GovernIB/portafib/tree/portafib-2.0))
 
 **Descripció**
 
