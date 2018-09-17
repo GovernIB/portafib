@@ -250,7 +250,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
     }
     
     if (checkFilter(this, signaturesSet, suportXAdES_T, this.log)) {
-      return checkConnection();
+      return true; //checkConnection();
     }
 
     return false;

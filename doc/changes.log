@@ -1,8 +1,14 @@
 
-PortaFIB 1.1.4
-==============
+PortaFIB 1.1.5
+
+
+2018-09-17 Eliminar accent del jnlp del Plugin de MiniApplet #184
 
 2018-08-02 Actualitzar signatura dels jars de miniapplet i miniappletui #177
+
+
+PortaFIB 1.1.4
+==============
 
 2018-03-08 Tancar versió PortaFIB 1.1.4
 

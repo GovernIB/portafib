@@ -997,7 +997,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
     out.println("        <title>PortaFIB Applet</title>");
     out.println("        <vendor>PortaFIB</vendor>");
     out.println("        <homepage href=\"http://www.fundaciobit.org/\" />");
-      out.println("        <description>Aplicaci\u00F3 de Firma JavaWebStart basat en el MiniApplet de @firma</description>");
+      out.println("        <description>Aplicacio de Firma JavaWebStart basat en el MiniApplet de @firma</description>");
     out.println("         <icon href=\"" + absolutePluginRequestPath + "/img/portafib.ico" + "\" />");
     out.println("    </information>");
     out.println("    <security>");
@@ -1005,7 +1005,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
     out.println("    </security>");
     out.println("    <resources>");
     out.println("        <j2se version=\"1.6+\" java-vm-args=\"-Xmx1024m\" />");
-    
     out.println("        <jar href=\"" + appletUrl + "/miniappletui.jar" + "\" main=\"true\" />");
     out.println("        <jar href=\"" + appletUrl + "/miniapplet.jar\" />");
     out.println("    </resources>");
