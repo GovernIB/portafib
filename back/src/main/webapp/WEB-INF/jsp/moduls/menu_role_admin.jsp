@@ -39,6 +39,7 @@ final String[] menu = {
   "moduldefirmaenservidor.plantilla.plural", // /admin/modulDeFirma
   "segelldetemps.plantilla.plural", // /admin/segelldetemps
   "plugincustodia.gestio", // admin/plugincustodia
+  "validaciodefirmes.gestio",
   "",
   Configuracio.isCAIB()? "" : "usuariaplicacio.gestio",
   //"",
@@ -74,6 +75,8 @@ static {
   mapping.put("segelldetemps.plantilla.plural", "/admin/segelldetemps/list");
 
   mapping.put("plugincustodia.gestio", "/admin/plugincustodia/list");
+  
+  mapping.put("validaciodefirmes.gestio", "/admin/validaciofirmes/list");
   
   mapping.put("propietatglobal.gestio", "/admin/propietatglobal/list");
 

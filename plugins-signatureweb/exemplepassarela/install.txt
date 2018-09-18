@@ -9,6 +9,6 @@
       (3.2) exemple-plugins\target\passarela_plugins.ear
 (4) Copiar fitxers de configuració
       (4.1) passarela-properties-service.xml (adaptar ruta)
-      (4.2) plugins.properties (adaptar rutes i propietats)
+      (4.2) plugins_web.properties (adaptar rutes i propietats)
       (4.3) plugins_server.properties (adaptar rutes i propietats)
 (5) Accedir a http://localhost:8080/passarela

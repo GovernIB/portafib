@@ -142,6 +142,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
    __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_SEGELLDETEMPS , "TIPUS PLUGIN SEGELLDETEMPS"));
    __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_CUSTODIA , "TIPUS PLUGIN CUSTODIA"));
    __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR , "PLUGIN MODUL DE FIRMA EN SERVIDOR"));
+   __tmp.add(new StringKeyValue("" + Constants.TIPUS_PLUGIN_VALIDACIOFIRMES , "PLUGIN VALIDACIO DE FIRMES"));
    return __tmp;
  }
 

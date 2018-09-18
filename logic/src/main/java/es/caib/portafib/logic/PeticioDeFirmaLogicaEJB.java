@@ -62,6 +62,7 @@ import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
@@ -73,6 +74,7 @@ import es.caib.portafib.utils.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -225,6 +227,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  
+  @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
+  protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
 
   private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
      new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
@@ -1863,16 +1868,27 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FirmaJPA firma = firmaLogicaEjb.findByPrimaryKey(firmaID);
 
       // Checks
+      final String languageUI;
+      final String entitatID;
+      if (peticioDeFirma.getUsuariEntitat() != null) {
+        entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariEntitat().getUsuariPersona().getIdiomaID();
+      } else {
+        entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
+      }
 
       // (a) Verificar que el certificat emprat en la firma es correcte (vàlid)
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
       String mime;
       String extension;
       String nifFirmant;
+      String tipusFirmaNom;
       switch (tipusFirma) {
       case Constants.TIPUSFIRMA_PADES:
         extension = "pdf";
         mime = Constants.PDF_MIME_TYPE;
+        tipusFirmaNom = "PAdES";
 
         Map<Integer, Long> fitxersByNumFirma = null;
         if (numFirmaPortaFIB != 1) {
@@ -1883,12 +1899,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
         
         
-        final String entitatID;
-        if (peticioDeFirma.getUsuariEntitat() != null) {
-          entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
-        } else {
-          entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
-        }
         final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
 
         InformacioCertificat info;
@@ -1930,6 +1940,23 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             .getUsuariEntitatID());
         String expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
         LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
+      }
+
+      
+      // (c) // Validar la Firma
+      {  
+        // Collim el primer plugin actiu per l'entitat
+        Where where = validacioFirmesEjb.getWhere(entitatID);
+            
+        Long pluginValidateSignatureID = validacioFirmesEjb.executeQueryOne(PluginFields.PLUGINID, where);
+
+        InputStream documentDetachedFile = null;
+        
+                
+          validacioFirmesEjb.validateSignature(tipusFirmaNom, pluginValidateSignatureID, documentDetachedFile,
+            file, languageUI);
+
+      
       }
 
       // Guardar EN BBDD

@@ -82,7 +82,7 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
 
     final boolean fullView = false;
     return passarelaDeFirmaWebEjb.startTransaction(
-        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID(), fullView);
+        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID(), fullView, userapp);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
