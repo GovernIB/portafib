@@ -38,9 +38,12 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
@@ -340,6 +343,9 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
+      
+
+
       FitxerBean fileToConvertInfo = peticioDeFirmaWs.getFitxerAFirmar();
       
       log.info(" XYZ ZZZ  fileToConvertInfo = " + fileToConvertInfo );

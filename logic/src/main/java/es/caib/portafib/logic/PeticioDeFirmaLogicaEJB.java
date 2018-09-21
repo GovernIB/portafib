@@ -293,7 +293,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
     
    
-    
     // Crear Flux si és necessari
     long fluxID = peticioDeFirma.getFluxDeFirmesID();
 
@@ -331,6 +330,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
       UsuariAplicacioJPA usrApp = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
       entitatID = usrApp.getEntitatID();
+      
+     //  #186
+     if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
+       if (peticioDeFirma != null) {
+         peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA); // = 0
+       }
+     }
+
+      
     } else {
       // Peticio de usuari web
       

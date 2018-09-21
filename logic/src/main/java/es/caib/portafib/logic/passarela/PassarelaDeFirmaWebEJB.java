@@ -104,6 +104,20 @@ public class PassarelaDeFirmaWebEJB
     
     
     String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+    
+    // Tiquet # 186
+    if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
+      if (signaturesSet != null) {
+
+        PassarelaFileInfoSignature[] files = signaturesSet.getFileInfoSignatureArray();
+
+        for (PassarelaFileInfoSignature passarelaFileInfoSignature : files) {
+          passarelaFileInfoSignature.setSignaturesTableLocation(Constants.TAULADEFIRMES_SENSETAULA); // = 0
+          passarelaFileInfoSignature.setSignaturesTableHeader(null);
+        }
+
+      }
+    }
 
 
     // Canviar llista buida per NULL

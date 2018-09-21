@@ -14,15 +14,18 @@ import javax.xml.ws.WebServiceContext;
 
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 
@@ -83,6 +86,7 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
     final boolean fullView = false;
+
     return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, userapp.getEntitatID(), fullView, userapp);
   }
 

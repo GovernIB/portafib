@@ -21,7 +21,15 @@ public class PropietatGlobalUtil implements Constants {
   
   public static final String PROPERTY_BYENTITY_AVISOS_FIRMES_PENDENTS_DIESABANS =  PORTAFIB_PROPERTY_BASE + "avisosfirmespendents.diesabans";
   
-  
+  /**
+   * 
+   * @return
+   */
+  public static boolean isDisabledSignaturesTable() {
+    final String partialname = "disablesignaturestable";
+    Boolean val = getBoolean(partialname);
+    return (val == null)? false: val;  
+  }
   
   /**
    * 
