@@ -2624,32 +2624,30 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
     
     try {
-      
+
       // Es per inicialitzar els camps estatics
       new RetrieveService(); 
-      
+
       // Llegir el Retrieve Config
       Field retrieveConfigField;
       retrieveConfigField = RetrieveService.class.getDeclaredField("CONFIG");
       retrieveConfigField.setAccessible(true);
-      
+
       RetrieveConfig retrieveConfig = (RetrieveConfig) retrieveConfigField.get(null);
-      
+
       // Modificam les Propietats del camp config de RetrieveConfig
       Field configField;
       configField =  RetrieveConfig.class.getDeclaredField("config");
       configField.setAccessible(true);
 
-      
+
       // Valors NO REALS, nomes per inicialitzar el sistema !!!!
       Properties config = (Properties) configField.get(retrieveConfig);
 
       // Posam 10 minuts a pinyo fix
       config.put("expTime", "600000");
 
-      
       log.info("RetrieveConfig::getExpirationTime() ==> " + retrieveConfig.getExpirationTime() );
-
 
     } catch (Exception e) {
       log.error("Error inicialitzant expTime de RetrieveService: " + e.getMessage(), e);

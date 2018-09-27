@@ -241,6 +241,20 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public RevisorDeFirmaQueryPath REVISORDEFIRMAS() {
+    return new RevisorDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "revisorDeFirmas" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public RoleUsuariEntitatQueryPath ROLEUSUARIENTITATS() {
     return new RoleUsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
@@ -273,20 +287,6 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new UsuariEntitatFavoritQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_origenids" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
-  public UsuariEntitatRevisorQueryPath USUARIENTITATREVISORS() {
-    return new UsuariEntitatRevisorQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatRevisors" + ".";
       }
     });
   }

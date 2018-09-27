@@ -219,6 +219,11 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
     </definition>
     
+    <definition name="gestioRoleRevisorForm" extends="role_aden">
+        <put-attribute name="titol" value="roleUsuariEntitat.roleUsuariEntitat" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/roleUsuariEntitatForm.jsp" />
+    </definition>
+    
     <definition name="aturarPeticionsDeFirma" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/peticioDeFirmaList.jsp" />
     </definition>  
@@ -528,6 +533,32 @@
         <put-attribute name="titol" value="colaboracioDelegacio.colaboracioDelegacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/dest/colaboracioDelegacioForm.jsp" />
     </definition>
+    
+    
+    <!--  ===========  REVISOR ================== -->
+    
+    <definition name="role_revi" extends="base.definition">
+        <put-attribute name="pipella" value="ROLE_REVI" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/moduls/menu_role_revi.jsp" />
+    </definition>
+    
+    <definition name="estatFirmaList_ROLE_REVI" extends="role_revi">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estatDeFirmaList.jsp" />
+    </definition>
+    
+    <definition name="PluginDeFirmaContenidor_ROLE_REVI" extends="role_revi">
+        <put-attribute name="titol" value="SignatureWebContainer" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_contenidor.jsp" />
+    </definition>
+
+    <definition name="viewDocumentsFullView_ROLE_REVI" extends="role_revi">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullViewDocuments.jsp" />
+    </definition>
+
+    <definition name="estatFirmaFullView_ROLE_REVI" extends="role_revi">
+        <put-attribute name="menu_i_contingut" value="/WEB-INF/jsp/dest/estatFirmaFullView.jsp" />
+    </definition>
+    
   
     <!--  ===========  DESTINATARI ================== -->
     
@@ -1120,16 +1151,6 @@
     
     <definition name="usuariEntitatFavoritListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatFavoritList.jsp" />
-    </definition>
-
-
-    <definition name="usuariEntitatRevisorFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="usuariEntitatRevisor.usuariEntitatRevisor" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatRevisorForm.jsp" />
-    </definition>
-    
-    <definition name="usuariEntitatRevisorListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatRevisorList.jsp" />
     </definition>
 
 

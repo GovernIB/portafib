@@ -52,7 +52,6 @@ public interface IPortaFIBDaoManagers {
 	public IUsuariAplicacioConfiguracioManager getUsuariAplicacioConfiguracioManager();
 	public IUsuariEntitatManager getUsuariEntitatManager();
 	public IUsuariEntitatFavoritManager getUsuariEntitatFavoritManager();
-	public IUsuariEntitatRevisorManager getUsuariEntitatRevisorManager();
 	public IUsuariPersonaManager getUsuariPersonaManager();
 
 }

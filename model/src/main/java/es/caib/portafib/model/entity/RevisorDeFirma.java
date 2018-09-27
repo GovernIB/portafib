@@ -5,8 +5,8 @@ public interface RevisorDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public long getRevisorDeFirmaID();
 	public void setRevisorDeFirmaID(long _revisorDeFirmaID_);
 
-	public long getUsuariEntitatRevisorID();
-	public void setUsuariEntitatRevisorID(long _usuariEntitatRevisorID_);
+	public java.lang.String getUsuariEntitatID();
+	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_);
 
 	public long getFirmaID();
 	public void setFirmaID(long _firmaID_);

@@ -10,9 +10,9 @@
 <c:set var="contexte" value="${fluxDeFirmesForm.contexte}" />
 
 <%--                  VARIABLE 'usuariEntitat'                         --%>
-<%-- BooleÃ : + True  : indica que Ã©s una plantilla de usuari-entitat   --%>
-<%--         + False : indica que Ã©s una plantilla de usuari-aplicacio --%>
-<%--         + null  : indica que no Ã©s una plantilla                  --%>
+<%-- Booleà: + True  : indica que és una plantilla de usuari-entitat   --%>
+<%--         + False : indica que és una plantilla de usuari-aplicacio --%>
+<%--         + null  : indica que no és una plantilla                  --%>
 <c:if test="${not empty fluxDeFirmesForm.plantillaFluxDeFirmes}">
 
   <c:if test="${empty fluxDeFirmesForm.plantillaFluxDeFirmes.usuariEntitatID}">
@@ -57,7 +57,9 @@
     <input type="hidden" name="minimDeFirmes" id="minimDeFirmes" />
 
     <input type="hidden" name="firmaID" id="firmaID" />
-
+    
+    <input type="hidden" name="revisorID" id="revisorID" />
+    
     <%@include file="../webdb/fluxDeFirmesFormTitle.jsp" %>
 
   </c:if>
@@ -178,9 +180,7 @@
                                 style="float: right; border: 2px solid #0000ff; margin: 4px; padding: 8px;text-align: center;">
 
                                   <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirFirmaSelectUser('${bloc.blocDeFirmesID}')" title="<fmt:message key="firma.nova"/>">
-                                    <i class="icon-plus-sign icon-white"></i>
-                                    &nbsp;
-                                    <fmt:message key="firma.nova" />                        
+                                    <i class="icon-plus-sign icon-white"></i> <fmt:message key="firma.nova" />                        
                                   </button>
 
                                   <br />
@@ -272,33 +272,63 @@
                                   </c:if>
 
                                   <table style="text-align: left">
-                                    <tr>
 
-                                    <c:if test="${(fn:length(bloc.firmas) > 1) && readOnly == false}">
+                                    <tr>
                                     <td>
-                                    <button class="btn btn-danger btn-mini"
-                                      title="<fmt:message key="eliminar.firma"/>"
-                                      onclick="eliminarFirma('${bloc.blocDeFirmesID}','${firma.firmaID}')">
-                                      <fmt:message key="genapp.delete.item" >
-                                      <fmt:param><fmt:message key="firma"/></fmt:param>
-                                      </fmt:message>
-                                    </button>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    </c:if>
                                     
-                                    <td>                       
                                     <label class="checkbox inline">
                                       <input type="checkbox"
                                       ${firma.obligatori? 'checked="checked" ': ''}
                                       ${readOnly? 'disabled="disabled"' : ''} 
                                       onclick="ferFirmaObligatoria('${bloc.blocDeFirmesID}','${firma.firmaID}')" />
-                                        <fmt:message key="firma.obligatori" />
+                                      <fmt:message key="firma.obligatori" />
                                     </label>
-                                    </td>
+                                    
+                                    <c:if test="${(fn:length(bloc.firmas) > 1) && readOnly == false}">
+                                    <button class="btn btn-danger btn-mini"
+                                      title="<fmt:message key="genapp.delete.item" ><fmt:param><fmt:message key="firma.firma"/></fmt:param></fmt:message>"
+                                      onclick="eliminarFirma('${bloc.blocDeFirmesID}','${firma.firmaID}')">
+                                      &nbsp;<i class="icon-trash icon-white"></i>&nbsp;
+                                    </button>
+                                    </c:if>
+                                    
+                                    <c:if test="${readOnly == false}">
+                                    <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.afegirrevisor"/>">
+                                       &nbsp;<i class="icon-plus-sign icon-white"></i>&nbsp;
+                                       <%-- XYZ  <fmt:message key="firma.afegirrevisor" /> --%>                        
+                                    </button>
+                                    </c:if>
 
+                                    </td>
                                     </tr>
+
                                   </table>
+                                  
+                                  <c:forEach var="revisor" items="${firma.revisorDeFirmas}">
+                                  <%-- XYZ ZZZ FALTA BACKGROUND segons estat --%>
+                                  <div class="radius" style="${background} ${backgroundimage} float:right; border: 2px solid #ff0000; margin: 4px; padding: 8px; text-align: left">
+                                     <%-- XYZ ZZZ --%>
+                                     <label class="checkbox inline" style="padding-left: 0px;padding-top: 0px;">
+                                    <center><b>Revisor</b>
+                                    
+                                    </center>
+                                    <i>${revisor.usuariEntitat.usuariPersona.nom}&nbsp${revisor.usuariEntitat.usuariPersona.llinatges}<br/>
+                                    ${revisor.usuariEntitat.usuariPersona.nif}</i>
+                                    
+                                    <c:if test="${readOnly == false}">
+                                    <button class="btn btn-danger btn-mini"
+                                        title="<fmt:message key="genapp.delete.item" ><fmt:param><fmt:message key="revisorDeFirma.revisorDeFirma"/></fmt:param></fmt:message>"
+                                        onclick="eliminarRevisor('${revisor.revisorDeFirmaID}')">
+                                        &nbsp;<i class="icon-trash icon-white"></i>&nbsp;
+                                      </button>
+                                    </c:if>
+                                    <%--
+                                    <br/> 
+                                    Obligatori: ${revisor.obligatori}<br/>
+                                    --%>                                    
+                                    </label>
+                                  </div>
+                                  </c:forEach>
 
                                 </div>
                               </c:forEach>
@@ -374,6 +404,15 @@
   <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
 
 
+  <%-- FORMULARI MODAL DE SELECCIO DE REVISORS D'UNA FIRMA  --%>
+  <%-- REQUERIT:  Assignar un valor qualsevol com a valor inicial --%>
+  <c:url var="theURL" value="${contexte}/afegirBlocDesDeModal"/>
+
+  <c:set var="usuarimodalconfig" value="Revisor" />
+  <c:set var="seleccioUsuariForm" value="${seleccioUsuariRevisorForm}" />
+  <%@ include file="/WEB-INF/jsp/common/seleccioUsuariModal.jsp"%>
+
+
   <script type="text/javascript">
     
     
@@ -396,6 +435,23 @@
       
       return false;
   }
+  
+  function afegirRevisorDeFirma(firmaID) {
+    <%-- alert("FirmaID = " + firmaID); --%>
+    document.getElementById("seleccioUsuariRevisorForm").action='<c:url value="${contexte}/afegirRevisorDesDeModal"/>';
+    document.getElementById("param1").value = firmaID;
+    openSelectUserRevisorDialog();
+    return false;
+  }
+  
+  
+  function eliminarRevisor(revisorID) {
+    document.getElementById('revisorID').value = revisorID;
+    document.fluxDeFirmesForm.action = "<c:url value="${contexte}/eliminarRevisor" />";
+    document.fluxDeFirmesForm.submit();
+  }
+  
+  
 
   function changeMinimDeFirmesNum(blocID, minimDeFirmes) {
 	    	    
@@ -430,6 +486,7 @@
     document.fluxDeFirmesForm.action = "<c:url value="${contexte}/eliminarBloc" />";
     document.fluxDeFirmesForm.submit();
   }
+ 
   
   </script>
 
@@ -457,7 +514,7 @@
         return;
       }
 
-      if (value == 'false') { // nomÃ©s jo
+      if (value == 'false') { // només jo
     	$('#avis_true_false').modal('show');
         return;
       }

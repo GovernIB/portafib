@@ -11,6 +11,9 @@ int minchars=PropietatGlobalUtil.getMinCharsToStartAutocomplete(entitatID);
 int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 
 %>
+<c:if test="${ usuarimodalconfig == null }">
+  <c:set var="usuarimodalconfig" value="" />
+</c:if>
 <script src="<c:url value="/js/bootstrap-typeahead.js"/>"></script>
 
 <form:hidden path="id" id="id" />
@@ -23,10 +26,10 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
 <div class="input-append">
 </c:if>
-  <input id="search" class="input-xxlarge" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
+  <input id="search${usuarimodalconfig}" class="input-xxlarge" autocomplete="off"  type="text" placeholder="<fmt:message key="${placeholder}"/>">
 <c:if test="${not empty seleccioUsuariForm.usuarisFavorits }">
   <div class="btn-group">
-    <button id="searchfavorit" class="btn dropdown-toggle" data-toggle="dropdown">
+    <button id="search${usuarimodalconfig}favorit" class="btn dropdown-toggle" data-toggle="dropdown">
         <i class="icon-star"></i>
         <span class="caret"></span>
     </button>
@@ -39,7 +42,7 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
             <li class="divider"></li>
          </c:if>
          <c:set var="lastItem" value="${tmpNom}" />
-         <li><a href="javascript:selectItem('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a></li>
+         <li><a href="javascript:selectItem${usuarimodalconfig}('${favorit.key}','${pfi:escapeJavaScript(tmpNom)}')">${tmpNom}</a></li>
       </c:forEach>
     </ul>
   </div>
@@ -55,13 +58,13 @@ int maxitems=PropietatGlobalUtil.getMaxItemsToShowInAutocomplete(entitatID);
         
 <script type="text/javascript">
 
- function selectItem(id,nom) {
+ function selectItem${usuarimodalconfig}(id,nom) {
      $('#id').val(id);
-     $('#search').val(nom);
+     $('#search${usuarimodalconfig}').val(nom);
  }
 
 <%-- http://tatiyants.com/how-to-use-json-objects-with-twitter-bootstrap-typeahead/ --%> 
-$('#search').typeahead({
+$('#search${usuarimodalconfig}').typeahead({
     items:<%=maxitems %>,    
     minLength:<%= minchars %>,
     source: function (query, process) {

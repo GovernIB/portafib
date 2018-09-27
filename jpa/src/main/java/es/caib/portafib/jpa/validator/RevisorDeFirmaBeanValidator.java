@@ -21,7 +21,7 @@ public class RevisorDeFirmaBeanValidator
 
   protected final es.caib.portafib.model.dao.IRevisorDeFirmaManager __revisorDeFirmaManager;
 
-  protected final es.caib.portafib.model.dao.IUsuariEntitatRevisorManager __usuariEntitatRevisorManager;
+  protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
 
 
   public final RevisorDeFirmaValidator<RevisorDeFirmaJPA> _validator;
@@ -29,27 +29,27 @@ public class RevisorDeFirmaBeanValidator
 
   public RevisorDeFirmaBeanValidator(es.caib.portafib.model.dao.IFirmaManager __firmaManager,
      es.caib.portafib.model.dao.IRevisorDeFirmaManager __revisorDeFirmaManager,
-     es.caib.portafib.model.dao.IUsuariEntitatRevisorManager __usuariEntitatRevisorManager) { 
+     es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) { 
     this.__firmaManager = __firmaManager;
     this.__revisorDeFirmaManager = __revisorDeFirmaManager;
-    this.__usuariEntitatRevisorManager = __usuariEntitatRevisorManager;
+    this.__usuariEntitatManager = __usuariEntitatManager;
     _validator = new RevisorDeFirmaValidator<RevisorDeFirmaJPA>();
   }
 
   public RevisorDeFirmaBeanValidator(RevisorDeFirmaValidator<RevisorDeFirmaJPA> _validator,
      es.caib.portafib.model.dao.IFirmaManager __firmaManager,
      es.caib.portafib.model.dao.IRevisorDeFirmaManager __revisorDeFirmaManager,
-     es.caib.portafib.model.dao.IUsuariEntitatRevisorManager __usuariEntitatRevisorManager) {
+     es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     this.__firmaManager = __firmaManager;
     this.__revisorDeFirmaManager = __revisorDeFirmaManager;
-    this.__usuariEntitatRevisorManager = __usuariEntitatRevisorManager;
+    this.__usuariEntitatManager = __usuariEntitatManager;
     this._validator = _validator;
   }
 
   @Override
   public List<I18NFieldError> validate(RevisorDeFirmaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<RevisorDeFirmaJPA> _bvr_ = new BeanValidatorResult<RevisorDeFirmaJPA>();
-    _validator.validate(_bvr_, target, isNou, __firmaManager, __revisorDeFirmaManager, __usuariEntitatRevisorManager);
+    _validator.validate(_bvr_, target, isNou, __firmaManager, __revisorDeFirmaManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

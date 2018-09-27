@@ -15,9 +15,17 @@
   <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
   
   <div style="text-align: center">
-    <a class="btn btn-success" href="#"
+    <c:if test="${ rolecontext eq 'revi' }" >
+       <a class="btn btn-success" href="#"
+      onclick="goTo('<c:url value="${contexte}/acceptar/${estatID}/${peticioID}"/>')"> <i
+      class="icon-check"></i> <fmt:message key="revisor.acceptar" /> </a> &nbsp;&nbsp; 
+    </c:if>
+    <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' }" >
+      <a class="btn btn-success" href="#"
       onclick="goTo('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
       class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
+    </c:if>
+    
     <a class="btn btn-danger" href="#"
       onclick="rebutjar('<c:url value="${contexte}/rebutjar/${estatID}/${peticioID}"/>')">
       <i class="icon-remove"></i> <fmt:message key="rebutjar" /> </a>
@@ -184,6 +192,46 @@
         
       </form>
       
+    </c:if>
+    
+    
+    <c:if test="${not empty revisors}">
+
+      <style>
+          .bs-docs-example-revi:after {
+            content: "<fmt:message key="ROLE_REVI.plural" />";
+          }
+      </style>
+
+      <form class="bs-docs-example-revi bs-docs-example form-inline" style="margin-bottom: 5px;">
+        
+        <ul style="list-style-type:square;">
+          <c:forEach var="estat" items="${revisors}">
+          <li> 
+          <small> 
+             ${pfi:getNom(estat.usuariEntitat.usuariPersona)} 
+             &nbsp;<img src="<c:url value="/img/fletxa.gif" />"/>&nbsp;
+             <b>               
+             <c:choose>
+               <c:when test="${empty estat.tipusEstatDeFirmaFinalID}">
+                  <fmt:message key="pendent" />
+               </c:when>
+               
+               <c:when test="${estat.tipusEstatDeFirmaFinalID == Constants.TIPUSESTATDEFIRMAFINAL_REBUTJAT }">
+                    <fmt:message key="${traduccions[estat.tipusEstatDeFirmaFinalID]}" />
+                    &nbsp; (<small style="color: red;">${estat.descripcio}</small>)
+               </c:when>
+               
+               <c:otherwise>
+                  <fmt:message key="${traduccions[estat.tipusEstatDeFirmaFinalID]}" /> 
+               </c:otherwise>
+             </c:choose>
+             </b>
+            </small>
+            </li>
+          </c:forEach>
+          </ul>
+      </form>
     </c:if>
 
   </div>

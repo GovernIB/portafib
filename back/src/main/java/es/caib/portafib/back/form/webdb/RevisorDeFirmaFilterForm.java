@@ -43,25 +43,14 @@ public class RevisorDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.Long usuariEntitatRevisorIDDesde;
+  private java.lang.String usuariEntitatID;
 
-  public java.lang.Long getUsuariEntitatRevisorIDDesde() {
-    return this.usuariEntitatRevisorIDDesde;
+  public java.lang.String getUsuariEntitatID() {
+    return this.usuariEntitatID;
   }
 
-  public void setUsuariEntitatRevisorIDDesde(java.lang.Long usuariEntitatRevisorIDDesde) {
-    this.usuariEntitatRevisorIDDesde = usuariEntitatRevisorIDDesde;
-  }
-
-
-  private java.lang.Long usuariEntitatRevisorIDFins;
-
-  public java.lang.Long getUsuariEntitatRevisorIDFins() {
-    return this.usuariEntitatRevisorIDFins;
-  }
-
-  public void setUsuariEntitatRevisorIDFins(java.lang.Long usuariEntitatRevisorIDFins) {
-    this.usuariEntitatRevisorIDFins = usuariEntitatRevisorIDFins;
+  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
   }
 
 
@@ -94,11 +83,10 @@ public class RevisorDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     super(__toClone);
     this.revisorDeFirmaIDDesde = __toClone.revisorDeFirmaIDDesde;
     this.revisorDeFirmaIDFins = __toClone.revisorDeFirmaIDFins;
-    this.usuariEntitatRevisorIDDesde = __toClone.usuariEntitatRevisorIDDesde;
-    this.usuariEntitatRevisorIDFins = __toClone.usuariEntitatRevisorIDFins;
+    this.usuariEntitatID = __toClone.usuariEntitatID;
     this.firmaIDDesde = __toClone.firmaIDDesde;
     this.firmaIDFins = __toClone.firmaIDFins;
-    this.mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID = __toClone.mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+    this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
     this.mapOfFirmaForFirmaID = __toClone.mapOfFirmaForFirmaID;
   }
   
@@ -134,14 +122,14 @@ public class RevisorDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  private Map<String, String> mapOfUsuariEntitatForUsuariEntitatID;
 
-  public Map<String, String> getMapOfUsuariEntitatRevisorForUsuariEntitatRevisorID() {
-    return this.mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  public Map<String, String> getMapOfUsuariEntitatForUsuariEntitatID() {
+    return this.mapOfUsuariEntitatForUsuariEntitatID;
   }
 
-  public void setMapOfUsuariEntitatRevisorForUsuariEntitatRevisorID(Map<String, String> mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID) {
-    this.mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID = mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  public void setMapOfUsuariEntitatForUsuariEntitatID(Map<String, String> mapOfUsuariEntitatForUsuariEntitatID) {
+    this.mapOfUsuariEntitatForUsuariEntitatID = mapOfUsuariEntitatForUsuariEntitatID;
   }
 
 

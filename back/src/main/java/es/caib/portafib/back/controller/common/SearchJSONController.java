@@ -32,11 +32,14 @@ import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
+import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -60,6 +63,9 @@ public class SearchJSONController {
  
   @EJB(mappedName = UsuariPersonaLogicaLocal.JNDI_NAME)
   protected UsuariPersonaLogicaLocal usuariPersonaLogicaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariEntitatLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 
 
   @Autowired
@@ -86,6 +92,77 @@ public class SearchJSONController {
       this.usuariPersonaRefList.setSeparator("");
     }
   }
+  
+  
+  
+  /**
+   * Filtre totes els usuari-entitat que son revisors de l'entitat
+   * @param request
+   * @param response
+   * @throws Exception
+   */
+  @RequestMapping(value = "/usuarientitatrevisor", method = RequestMethod.POST)
+  public void usuarientitatrevisor(HttpServletRequest request, HttpServletResponse response
+     ) throws Exception {
+    
+    
+    SubQuery<RoleUsuariEntitat, String> subqueryrevisor;
+    try {
+    subqueryrevisor = roleUsuariEntitatEjb.getSubQuery(RoleUsuariEntitatFields.USUARIENTITATID,
+        RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI) );
+    } catch (I18NException e) {
+      log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(1)", e);
+      subqueryrevisor = null;
+    }
+    
+    String queryFull = request.getParameter("query");
+    
+    final UsuariPersonaQueryPath personaQueryPath = new UsuariEntitatQueryPath().USUARIPERSONA();
+ 
+    Where additionalWhere = Where.AND(
+        UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        UsuariEntitatFields.CARREC.isNull(),
+        UsuariEntitatFields.ACTIU.equal(true),
+        UsuariEntitatFields.USUARIENTITATID.in(subqueryrevisor)
+        );
+    
+    StringField keyField = UsuariEntitatFields.USUARIENTITATID;
+    
+    String json = genericSearch(queryFull, personaQueryPath, usuariEntitatLogicaEjb,
+        additionalWhere, keyField, usuariEntitatRefList);
+    
+    
+    PrintWriter pw= response.getWriter();
+    
+    pw.write(json);
+    pw.flush();
+    
+
+    /* XYZ ZZZ
+    SubQuery<UsuariEntitat, String> subquery;
+    
+    try {
+      subquery = usuariEntitatLogicaEjb.getSubQuery(UsuariEntitatFields.USUARIPERSONAID,
+          Where.AND(
+            UsuariEntitatFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+            UsuariEntitatFields.CARREC.isNull(),
+            UsuariEntitatFields.ACTIU.equal(true),
+            UsuariEntitatFields.USUARIENTITATID.in(subqueryrevisor)
+            ) 
+          );
+    } catch (I18NException e) {
+      log.error("Error cercant usuaris dins del mètode usuaripersonarevisor(2)", e);
+      subquery = null;
+    }
+    
+    Where additionalWhere = UsuariPersonaFields.USUARIPERSONAID.in(subquery);
+    
+    
+    processUsuariPersonaRequest(request, response, additionalWhere);
+    */
+    
+  }
+  
   
  
   

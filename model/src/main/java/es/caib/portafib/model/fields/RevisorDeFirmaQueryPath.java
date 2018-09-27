@@ -15,8 +15,8 @@ public class RevisorDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new LongField(getQueryPath(), RevisorDeFirmaFields.REVISORDEFIRMAID);
   }
 
-  public LongField USUARIENTITATREVISORID() {
-    return new LongField(getQueryPath(), RevisorDeFirmaFields.USUARIENTITATREVISORID);
+  public StringField USUARIENTITATID() {
+    return new StringField(getQueryPath(), RevisorDeFirmaFields.USUARIENTITATID);
   }
 
   public LongField FIRMAID() {
@@ -36,10 +36,10 @@ public class RevisorDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
   }
 
 
-  public UsuariEntitatRevisorQueryPath USUARIENTITATREVISOR() {
-    return new UsuariEntitatRevisorQueryPath(new QueryPath() {
+  public UsuariEntitatQueryPath USUARIENTITAT() {
+    return new UsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return RevisorDeFirmaQueryPath.this.getQueryPath() + "usuariEntitatRevisor" + ".";
+          return RevisorDeFirmaQueryPath.this.getQueryPath() + "usuariEntitat" + ".";
       }
     });
   }

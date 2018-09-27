@@ -1,6 +1,6 @@
 <%@page import="es.caib.portafib.utils.Configuracio"%>
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-<%--  ======  AQUI COMENÃ‡A MODAL DE SELECCIÃ“ D'USUARI ============ --%>
+<%--  ======  AQUI COMENÇA MODAL DE SELECCIÓ D'USUARI ============ --%>
 
 <style type="text/css">
 .modal-body{overflow-y: inherit;}
@@ -10,8 +10,13 @@
 }
 </style>
 
-<div id="selectUserModal" class="modal hide fade" style="width:640px;">
-  <form:form modelAttribute="seleccioUsuariForm" action="${theURL}" method="${method}" name="seleccioUsuariForm">
+<c:if test="${ usuarimodalconfig == null }">
+  <c:set var="usuarimodalconfig" value="" />
+</c:if>
+
+
+<div id="selectUser${usuarimodalconfig}Modal" class="modal hide fade" style="width:640px;">
+  <form:form modelAttribute="seleccioUsuariForm" action="${theURL}" method="${method}" name="seleccioUsuari${usuarimodalconfig}Form" id="seleccioUsuari${usuarimodalconfig}Form">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h3><fmt:message key="${seleccioUsuariForm.titol}"></fmt:message></h3>
@@ -21,7 +26,7 @@
        <%@ include file="/WEB-INF/jsp/common/seleccioUsuariField.jsp"%>
        <br/>
        <div align="center">
-       <button id="afegirUsuariModal" type="button" class="btn btn-primary" onclick="selectedUserFromModal()" title="<fmt:message key="afegir" />" >
+       <button id="afegirUsuari${usuarimodalconfig}Modal" type="button" class="btn btn-primary" onclick="selectedUser${usuarimodalconfig}FromModal()" title="<fmt:message key="afegir" />" >
           <i class="icon-plus-sign icon-white"></i>
           <fmt:message key="afegir"/>
       </button>
@@ -32,8 +37,8 @@
 </div>
 <script type="text/javascript">
 
-  function openSelectUserDialog() {
-      $('#selectUserModal').modal('show');
+  function openSelectUser${usuarimodalconfig}Dialog() {
+      $('#selectUser${usuarimodalconfig}Modal').modal('show');
   }
   
 </script>
@@ -41,12 +46,18 @@
 
 <script type="text/javascript">
 
-function selectedUserFromModal() {
-    var id = $('#id').val();
-    <%-- alert(" PRESUBMIT Valor de ID ]" + id + "[") --%>
+function selectedUser${usuarimodalconfig}FromModal() {
+    var id = $('#seleccioUsuariForm #id').val();
+    <%-- alert(" seleccioUsuari${usuarimodalconfig}Form PRESUBMIT Valor de ID ]" + id + "["); --%>
+    
+    var param1 = $('#seleccioUsuariForm #param1').val();
+    <%-- alert(" seleccioUsuari${usuarimodalconfig}Form PRESUBMIT Valor de ID ]" + param1 + "[");--%>
+    
+    $('#seleccioUsuari${usuarimodalconfig}Form #id').val(id);
+    $('#seleccioUsuari${usuarimodalconfig}Form #param1').val(param1);
     
     if (id) {
-      document.getElementById("seleccioUsuariForm").submit();
+      document.getElementById("seleccioUsuari${usuarimodalconfig}Form").submit();
     } else {
       alert("<fmt:message key="formselectionby.error.emptyid"/>");
     }

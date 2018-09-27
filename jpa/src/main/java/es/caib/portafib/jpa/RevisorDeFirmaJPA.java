@@ -31,9 +31,9 @@ private static final long serialVersionUID = -234707383L;
 	@Column(name="revisordefirmaid",nullable = false,length = 19)
 	long revisorDeFirmaID;
 
-	@Index(name="pfi_revfirma_usuentrev_fk_i")
-	@Column(name="usuarientitatrevisorid",nullable = false,length = 19)
-	long usuariEntitatRevisorID;
+	@Index(name="pfi_revfirma_usrentitat_fk_i")
+	@Column(name="usuarientitatid",nullable = false,length = 101)
+	java.lang.String usuariEntitatID;
 
 	@Index(name="pfi_revfirma_firmaid_fk_i")
 	@Column(name="firmaid",nullable = false,length = 19)
@@ -49,21 +49,21 @@ private static final long serialVersionUID = -234707383L;
   }
 
   /** Constructor amb tots els camps  */
-  public RevisorDeFirmaJPA(long revisorDeFirmaID , long usuariEntitatRevisorID , long firmaID , boolean obligatori) {
+  public RevisorDeFirmaJPA(long revisorDeFirmaID , java.lang.String usuariEntitatID , long firmaID , boolean obligatori) {
     this.revisorDeFirmaID=revisorDeFirmaID;
-    this.usuariEntitatRevisorID=usuariEntitatRevisorID;
+    this.usuariEntitatID=usuariEntitatID;
     this.firmaID=firmaID;
     this.obligatori=obligatori;
 }
   /** Constructor sense valors autoincrementals */
-  public RevisorDeFirmaJPA(long usuariEntitatRevisorID , long firmaID , boolean obligatori) {
-    this.usuariEntitatRevisorID=usuariEntitatRevisorID;
+  public RevisorDeFirmaJPA(java.lang.String usuariEntitatID , long firmaID , boolean obligatori) {
+    this.usuariEntitatID=usuariEntitatID;
     this.firmaID=firmaID;
     this.obligatori=obligatori;
 }
   public RevisorDeFirmaJPA(RevisorDeFirma __bean) {
     this.setRevisorDeFirmaID(__bean.getRevisorDeFirmaID());
-    this.setUsuariEntitatRevisorID(__bean.getUsuariEntitatRevisorID());
+    this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setFirmaID(__bean.getFirmaID());
     this.setObligatori(__bean.isObligatori());
 	}
@@ -75,11 +75,11 @@ private static final long serialVersionUID = -234707383L;
 		this.revisorDeFirmaID = _revisorDeFirmaID_;
 	};
 
-	public long getUsuariEntitatRevisorID() {
-		return(usuariEntitatRevisorID);
+	public java.lang.String getUsuariEntitatID() {
+		return(usuariEntitatID);
 	};
-	public void setUsuariEntitatRevisorID(long _usuariEntitatRevisorID_) {
-		this.usuariEntitatRevisorID = _usuariEntitatRevisorID_;
+	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_) {
+		this.usuariEntitatID = _usuariEntitatID_;
 	};
 
 	public long getFirmaID() {
@@ -111,19 +111,19 @@ private static final long serialVersionUID = -234707383L;
     return __result;
   }
 
-// IMP Field:usuarientitatrevisorid | Table: pfi_usuarientitatrevisor | Type: 1  
+// IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_revfirma_usuentrev_fk")
-	@JoinColumn(name = "usuarientitatrevisorid", referencedColumnName ="usuariEntitatRevisorId", nullable = false, insertable=false, updatable=false)
-	private UsuariEntitatRevisorJPA usuariEntitatRevisor;
+	@ForeignKey(name="pfi_revfirma_usrentitat_fk")
+	@JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+	private UsuariEntitatJPA usuariEntitat;
 
-	public UsuariEntitatRevisorJPA getUsuariEntitatRevisor() {
-    return this.usuariEntitatRevisor;
+	public UsuariEntitatJPA getUsuariEntitat() {
+    return this.usuariEntitat;
   }
 
-	public  void setUsuariEntitatRevisor(UsuariEntitatRevisorJPA usuariEntitatRevisor) {
-    this.usuariEntitatRevisor = usuariEntitatRevisor;
+	public  void setUsuariEntitat(UsuariEntitatJPA usuariEntitat) {
+    this.usuariEntitat = usuariEntitat;
   }
 
 // IMP Field:firmaid | Table: pfi_firma | Type: 1  
@@ -147,7 +147,7 @@ private static final long serialVersionUID = -234707383L;
     if (__bean == null) { return null;}
     RevisorDeFirmaJPA __tmp = new RevisorDeFirmaJPA();
     __tmp.setRevisorDeFirmaID(__bean.getRevisorDeFirmaID());
-    __tmp.setUsuariEntitatRevisorID(__bean.getUsuariEntitatRevisorID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setFirmaID(__bean.getFirmaID());
     __tmp.setObligatori(__bean.isObligatori());
 		return __tmp;
@@ -180,9 +180,9 @@ private static final long serialVersionUID = -234707383L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"UsuariEntitatRevisorJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatRevisor) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatRevisor()) ) ) {
-      __tmp.setUsuariEntitatRevisor(UsuariEntitatRevisorJPA.copyJPA(__jpa.getUsuariEntitatRevisor(), __alreadyCopied,"RevisorDeFirmaJPA"));
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"RevisorDeFirmaJPA"));
     }
     if(!"FirmaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {

@@ -197,7 +197,7 @@
 
             case '3':
                 var id = $('#id').val();
-                // alert(" PRESUBMIT Valor de ID ]" + id + "[")
+                <%-- alert(" PRESUBMIT Valor de ID ]" + id + "["); --%>
                 
                 if (!id) {
                   alert("<fmt:message key="formselectionby.error.emptyid"/>");

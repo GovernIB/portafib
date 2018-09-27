@@ -1,11 +1,10 @@
-<%@page import="es.caib.portafib.back.controller.soli.PeticioFirmaMassivaController"%>
-<%@page import="es.caib.portafib.utils.Constants"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
-
-
+<%@page import="es.caib.portafib.back.controller.soli.PeticioFirmaMassivaController"
+%><%@page import="es.caib.portafib.utils.ConstantsV2"
+%><%@page import="java.util.HashMap"
+%><%@page import="java.util.Map"
+%><%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include file="/WEB-INF/jsp/moduls/includes.jsp"
+%>
 <sec:authorize access="hasRole('ROLE_SOLI')">
 <div>
   <h5><fmt:message key="ROLE_SOLI.menu" /></h5>
@@ -48,14 +47,14 @@ public static final Map<String, String> mapping;
 static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
-  mapping.put("peticiodefirma.crear", Constants.CONTEXT_SOLI_PETICIOFIRMA + "/selectflux");
+  mapping.put("peticiodefirma.crear", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA + "/selectflux");
   
   mapping.put("peticioFirmaMassiva.titol", PeticioFirmaMassivaController.CONTEXTWEB);
 
   
-  mapping.put("peticiodefirma.activa.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list");
-  mapping.put("peticiodefirma.firmada.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA + "/list");
-  mapping.put("peticiodefirma.rebutjada.plural", Constants.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/list");
+  mapping.put("peticiodefirma.activa.plural", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list");
+  mapping.put("peticiodefirma.firmada.plural", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_FIRMADA + "/list");
+  mapping.put("peticiodefirma.rebutjada.plural", ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA + "/list");
 
   
   mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/soli/plantilla/list");

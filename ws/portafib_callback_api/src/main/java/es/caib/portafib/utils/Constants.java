@@ -108,28 +108,6 @@ public interface Constants {
   public static final int TIPUS_PLUGIN_MODULDEFIRMA_SERVIDOR = 3;
   
 
-  // Contextes WEB per enllaços dels mails.
-  public static final String CONTEXT_SOLI_PETICIOFIRMA = "/soli/firma/peticio";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_ACTIVA = CONTEXT_SOLI_PETICIOFIRMA + "Activa";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_FIRMADA = CONTEXT_SOLI_PETICIOFIRMA + "Firmada";
-  public static final String CONTEXT_SOLI_PETICIOFIRMA_REBUTJADA = CONTEXT_SOLI_PETICIOFIRMA + "Rebutjada";
-
-  public static final String CONTEXT_DEST_ESTATFIRMA = "/dest/estatDeFirma";  
-  public static final String CONTEXT_DEST_ESTATFIRMA_PENDENT = CONTEXT_DEST_ESTATFIRMA + "Pendent";
-  public static final String CONTEXT_DEST_ESTATFIRMA_FIRMAT = CONTEXT_DEST_ESTATFIRMA + "Firmada";
-  public static final String CONTEXT_DEST_ESTATFIRMA_REBUTJAT = CONTEXT_DEST_ESTATFIRMA + "Rebutjada";
-  
-  public static final String CONTEXT_DELE_ESTATFIRMA = "/dele/estatDeFirma";
-  public static final String CONTEXT_DELE_ESTATFIRMA_PENDENT = CONTEXT_DELE_ESTATFIRMA + "Pendent";
-  public static final String CONTEXT_DELE_ESTATFIRMA_FIRMAT = CONTEXT_DELE_ESTATFIRMA + "Firmada";
-  public static final String CONTEXT_DELE_ESTATFIRMA_REBUTJAT = CONTEXT_DELE_ESTATFIRMA + "Rebutjada";
-
-  public static final String CONTEXT_COLA_ESTATFIRMA = "/cola/estatDeFirma";
-  public static final String CONTEXT_COLA_ESTATFIRMA_PENDENT = CONTEXT_COLA_ESTATFIRMA + "Pendent";
-  public static final String CONTEXT_COLA_ESTATFIRMA_VALIDAT = CONTEXT_COLA_ESTATFIRMA + "Validat";
-  public static final String CONTEXT_COLA_ESTATFIRMA_INVALIDAT = CONTEXT_COLA_ESTATFIRMA + "Invalidat";
-  public static final String CONTEXT_COLA_ESTATFIRMA_DESCARTAT = CONTEXT_COLA_ESTATFIRMA + "Descartat";
-
   public static final String CONTEXT_ADEN_PETICIOFIRMA = "/aden/peticiofirmaaplicacio";
   
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";

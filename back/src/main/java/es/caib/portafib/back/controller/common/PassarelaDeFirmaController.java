@@ -177,7 +177,7 @@ public class PassarelaDeFirmaController  {
     log.info(" XYZ ZZZ PassarelaDeFirmaController::finlaProcessDeFirma(); => URL redirect = "
         + url);
 
-    return new ModelAndView(new RedirectView(ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal()));
+    return new ModelAndView(new RedirectView(url));
     
   }
 

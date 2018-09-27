@@ -101,6 +101,8 @@ import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentFields;
 import es.caib.portafib.model.fields.ModulDeFirmaPerTipusDeDocumentQueryPath;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.RevisorDeFirmaFields;
+import es.caib.portafib.model.fields.RevisorDeFirmaQueryPath;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
@@ -142,6 +144,9 @@ import es.caib.portafib.utils.Configuracio;
     
     @EJB(mappedName = es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal.JNDI_NAME)
     protected es.caib.portafib.ejb.ModulDeFirmaPerTipusDeDocumentLocal modulDeFirmaPerTipusDeDocumentEjb;
+    
+    @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
+    protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
 
 
     final Long[] ESTATS_INICIALS_COLA = new Long[] {
@@ -149,6 +154,8 @@ import es.caib.portafib.utils.Configuracio;
         ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR };
 
     final Long[] ESTATS_INICIALS_DELE = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR };
+    
+    final Long[] ESTATS_INICIALS_REVI = new Long[] { ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR };
 
     // References
 
@@ -190,7 +197,9 @@ import es.caib.portafib.utils.Configuracio;
     
     private static final int COLUMN_COLABORADORS = 5;
     
-    private static final int COLUMN_PETICIODEFIRMA_PRIORITAT = 6;
+    private static final int COLUMN_REVISORS = 6;    
+
+    private static final int COLUMN_PETICIODEFIRMA_PRIORITAT = 7;
     
     private static final IntegerField COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD;
     
@@ -730,16 +739,17 @@ import es.caib.portafib.utils.Configuracio;
     public abstract String getBaseEntityNameCode();
     
     
-    //              ID    DEST/DELE      COLA
-    // -----------------------------------------------
-    // ALL          -1    tots_estats    tots_estats 
-    // PENDENT       1    pendent        pendent
-    // ACCEPTAT      2    firmat         validat
-    // NOACCEPTAT    4    rebutjat       invalidat
-    // NODEFINIT     8    descartat(*)   descartat
+    //              ID    DEST/DELE      COLA           REVI
+    // -----------------------------------------------------
+    // ALL          -1    tots_estats    tots_estats    tots_estats
+    // PENDENT       1    pendent        pendent        pendent       
+    // ACCEPTAT      2    firmat         validat        acceptat  
+    // NOACCEPTAT    4    rebutjat       invalidat      rebutjar
+    // NODEFINIT     8    descartat(*)   descartat(**)  -
     // TODO (*) En un futur el valor descartat per dest i dele no tindran sentit i les 
     //          delegacions firmades per un dest o les destinacions firmades per un delegat 
     //          serna tractades com l'estat final del la sol3licitud: firmada o rebutjada
+    //  (**) En el cas de col3laborador-revisor no  pot ser l'estat DESCARTAT.
     
     public static final int FILTRAR_PER_RES = -1;
     
@@ -765,61 +775,128 @@ import es.caib.portafib.utils.Configuracio;
       final boolean isDebug = log.isDebugEnabled();
       
       if (isDebug) {
-        log.debug(" ---------- " + peticioDeFirmaID + " -----------");
+        log.debug(" ---------- checkCanSignPeticioDeFirma:: peticioID =>" + peticioDeFirmaID + " -----------");
       }
+
+      // Colaboradors-revisors o Revisors de Firmes
+      List<StringKeyValue> fullusuaris = new ArrayList<StringKeyValue>();
       
+      // ================  
+      // CHECK 1  REVISORS de FIRMA
+      {
+        // Revisors de Firmes
+        List<StringKeyValue> usuaris;
+        
+        final Where specificRole = Where.AND(
+            FIRMAID.equal(firmaId),
+            TIPUSESTATDEFIRMAFINALID.isNull(),        
+            TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR)
+            );
+        
+        if (isDebug) {
+          log.debug("RV1 = " + estatDeFirmaEjb.count(specificRole));
+        }
+
+        
+        Long count = estatDeFirmaEjb.count(specificRole);
+        
+        if (count != null && count != 0) {
+          
+          // CONSULTA
+          RevisorDeFirmaQueryPath rfqp = new RevisorDeFirmaQueryPath();
+          final Select<?>[] nomcomplet = new Select<?>[] {
+              rfqp.USUARIENTITAT().USUARIPERSONA().NOM().select,
+              rfqp.USUARIENTITAT().USUARIPERSONA().LLINATGES().select,
+              rfqp.USUARIENTITAT().USUARIPERSONA().NIF().select
+          };
+          
+          SelectMultipleStringKeyValue smskv;
+          smskv = new SelectMultipleStringKeyValue(RevisorDeFirmaFields.REVISORDEFIRMAID.select, nomcomplet);
+          
+          usuaris = revisorDeFirmaEjb.executeQuery(smskv, RevisorDeFirmaFields.FIRMAID.equal(firmaId));
+          
+          if (usuaris != null) {
+            fullusuaris.addAll(usuaris);
+          }
+        }
+
+      } 
+
+      // =========== COLABORADOR-REVISOR
       // Cercar colaboradors-revisors que no han donat el vist i plau a la firma
-      Where w1 = FIRMAID.equal(firmaId);
-      if (isDebug) {
-        log.debug("C1 = " + estatDeFirmaEjb.count(w1));
-      }
-      
-      Where w2 = Where.OR(
-          TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
-          TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
-        );
-      if (isDebug) {
-        log.debug("C2 = " + estatDeFirmaEjb.count(Where.AND(w1,w2)));
-      }
-      
-      Where w3 = Where.OR(
-          TIPUSESTATDEFIRMAFINALID.isNull(),
-          TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT)
+      {
+
+        
+        Where wColaRevi0 = Where.OR(
+            TIPUSESTATDEFIRMAFINALID.isNull(),
+            TIPUSESTATDEFIRMAFINALID.notEqual(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT)
+            );
+        if (isDebug) {
+          log.debug("CR0 = " + estatDeFirmaEjb.count(wColaRevi0));
+        }
+        
+            
+        Where wColaRevi1 = Where.OR(
+            TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR),
+            TIPUSESTATDEFIRMAINICIALID.equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)
           );
-      if (isDebug) {
-        log.debug("C3 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3)));
-      }
-      
-      Where w4 = COLABORACIODELEGACIOID.isNotNull();
-      if (isDebug) {
-        log.debug("C4 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4)));
-      }
-      
-      ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
-      Where w5 = Where.AND(
-          cdqp.REVISOR().equal(true),
-          cdqp.ACTIVA().equal(true),
-          cdqp.ESDELEGAT().equal(false) // Es col·laborador
-        );
-      if (isDebug) {
-        log.debug("C5 = " + estatDeFirmaEjb.count(Where.AND(w1,w2,w3,w4,w5)));
+        if (isDebug) {
+          log.debug("CR1 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0,wColaRevi1)));
+        }
+  
+        
+        // 
+        Where wColaRevi2 = COLABORACIODELEGACIOID.isNotNull();
+        if (isDebug) {
+          log.debug("CR2 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0, wColaRevi1, wColaRevi2)));
+        }
+        
+        // 
+        ColaboracioDelegacioQueryPath cdqp = new EstatDeFirmaQueryPath().COLABORACIODELEGACIO();
+        
+        Where wColaRevi3 = Where.AND(
+            cdqp.REVISOR().equal(true),
+            cdqp.ACTIVA().equal(true),
+            cdqp.ESDELEGAT().equal(false) // Es col·laborador
+          );
+        
+        if (isDebug) {
+          log.debug("CR3 = " + estatDeFirmaEjb.count(Where.AND(wColaRevi0, wColaRevi1, wColaRevi2, wColaRevi3)));
+        }
+        
+        // 
+        Where wColaRevi4 = FIRMAID.equal(firmaId);
+        final Where specificRole = Where.AND(wColaRevi0, wColaRevi1,wColaRevi2,wColaRevi3, wColaRevi4);
+        if (isDebug) {
+          log.debug("CR4 = " + estatDeFirmaEjb.count(specificRole));
+        }
+
+        
+        // CONSULTA
+        final Select<?>[] nomcomplet = new Select<?>[] {
+            cdqp.COLABORADORDELEGAT().USUARIPERSONA().NOM().select,
+            cdqp.COLABORADORDELEGAT().USUARIPERSONA().LLINATGES().select,
+            cdqp.COLABORADORDELEGAT().USUARIPERSONA().NIF().select
+        };
+        
+        SelectMultipleStringKeyValue smskv;
+        smskv = new SelectMultipleStringKeyValue(COLABORACIODELEGACIOID.select, nomcomplet);
+        
+        // Colaboradors-revisors 
+        List<StringKeyValue> usuaris;
+        usuaris = estatDeFirmaEjb.executeQuery(smskv,specificRole);
+        
+        if (usuaris != null) {
+          fullusuaris.addAll(usuaris);
+        }
+        
       }
       
 
-      final Select<?>[] nomcomplet = new Select<?>[] {
-          cdqp.COLABORADORDELEGAT().USUARIPERSONA().NOM().select,
-          cdqp.COLABORADORDELEGAT().USUARIPERSONA().LLINATGES().select,
-          cdqp.COLABORADORDELEGAT().USUARIPERSONA().NIF().select
-      };
-      SelectMultipleStringKeyValue smskv;
-      smskv = new SelectMultipleStringKeyValue(COLABORACIODELEGACIOID.select, nomcomplet);
       
-      List<StringKeyValue> colaboracions;
-      colaboracions = estatDeFirmaEjb.executeQuery(smskv, Where.AND(w1,w2,w3, w4, w5));
-      
-      if (!colaboracions.isEmpty()) {
+      if (!fullusuaris.isEmpty()) {
         StringBuffer str = new StringBuffer();
-        for (StringKeyValue colaID : colaboracions) {
+        for (StringKeyValue colaID : fullusuaris) {
 
           String nom_i_dni = colaID.getValue() + ")";
           int index = nom_i_dni.lastIndexOf(' ');
@@ -833,6 +910,29 @@ import es.caib.portafib.utils.Configuracio;
             peticio.getTitol(), str.toString());
       }
     }
+
+    
+    @RequestMapping(value = "/acceptar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
+    public ModelAndView acceptar(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
+          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR);
+      if (check == null) {
+        // S'ha produit un error i retornam el control al llistat
+        return llistatPaginat(request, response, null);
+      }
+
+      EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
+      FirmaJPA firma = check.firma;
+      PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
+
+      peticioDeFirmaLogicaEjb.acceptar(estatDeFirma, firma, peticioDeFirma);
+
+      // TODO falta missatge de tot OK
+
+      return llistatPaginat(request, response, null);
+    }
     
 
     @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
@@ -843,8 +943,6 @@ import es.caib.portafib.utils.Configuracio;
       mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID);
       return mav;
     }
-    
-   
 
     private ModelAndView commonFirma(HttpServletRequest request, HttpServletResponse response,
         Long estatDeFirmaID, Long peticioDeFirmaID) throws I18NException {
@@ -1332,8 +1430,14 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
 
-      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
-          ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
+      final long estatFirmaInicial;
+      if (ConstantsV2.ROLE_REVI.equals(getRole())) {
+        estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
+      } else {
+        estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
+      }
+      
+      CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,estatFirmaInicial);
       if (check == null) {
         // S'ha produit un error i retornam el control al llistat
         return llistatPaginat(request, response, null);
@@ -1668,7 +1772,7 @@ import es.caib.portafib.utils.Configuracio;
         }
 
         if (!conteEstat) {
-          log.error("L'estat de firma no te el tipus correcte: "
+          log.error("L'estat de firma no te el tipus inicial correcte: "
               + estatDeFirma.getTipusEstatDeFirmaInicialID());
           super.createMessageError(request, "error.nofirmar", estatDeFirmaID);
           return null;
@@ -1822,6 +1926,12 @@ import es.caib.portafib.utils.Configuracio;
              str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.FIRMAT")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
+          
+          if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
+            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.ACCEPTAT")
+                + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0] + "</small><br/>\n");
+          }
+          
           if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.REBUTJAT")
                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
@@ -1945,6 +2055,80 @@ import es.caib.portafib.utils.Configuracio;
       }
       
       
+      
+      
+      // Revisors
+      if (role.equals(ConstantsV2.ROLE_REVI)) {
+        
+        Map<Long, String> mapCC = new HashMap<Long, String>();
+
+        boolean existeixenRevisors = false;
+        
+        
+        Map<Long, int[]> infoColaboradorsByEstat = infoColaboradorsDelegats(estatDeFirmaList,
+            ESTATS_INICIALS_REVI);
+        //mav.addObject("infoColaboradorsByEstat", infoColaboradorsByEstat);
+        
+        for(Long estatDeFirmaId :  infoColaboradorsByEstat.keySet()) {
+        
+           int[] valors=infoColaboradorsByEstat.get(estatDeFirmaId);
+           StringBuffer str = new StringBuffer();
+          
+           
+           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.VALIDAT") 
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT + 2]  + "/" + valors[0] + "</small><br/>\n");
+           }
+           if(valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT+ 2] != 0) {
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.INVALIDAT")
+                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_INVALIDAT+ 2] + "/" + valors[0] + "</small><br/>\n");
+           }
+           if(valors[1] != 0) {
+             str.append("<small>" + I18NUtils.tradueix("pendent") 
+                 + ": " + valors[1] + "/" + valors[0]  + "</small><br/>\n");
+           }
+           
+           if (str.length() != 0) {
+             existeixenRevisors = true;
+           }
+           
+           mapCC.put(estatDeFirmaId, str.toString());
+        }
+        
+
+        // Ocultar columna si esta buida
+        if (!existeixenRevisors) {
+          filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
+        } else {
+
+          AdditionalField<Long,String> adfieldDD;
+          adfieldDD = (AdditionalField<Long,String>)filterForm.getAdditionalFields().get(COLUMN_REVISORS);
+          
+          if (adfieldDD == null) {
+            // NOVA COLUMNA si no esta creada
+
+            adfieldDD = new AdditionalField<Long,String>(); 
+            adfieldDD.setCodeName("revisor.short");
+            adfieldDD.setPosition(COLUMN_REVISORS);
+            // Els valors s'ompliran al mètode postList()
+            adfieldDD.setEscapeXml(false);
+            
+            filterForm.addAdditionalField(adfieldDD);
+          }
+          
+          adfieldDD.setValueMap(mapCC);
+
+        }
+
+      } else {
+        if (ocultarColumnaColaboradors) {
+          filterForm.getAdditionalFields().remove(COLUMN_REVISORS);
+        }
+      }
+      
+      
+      
+      
       {
         
         Map<Long, String> mapPR;
@@ -2020,7 +2204,9 @@ import es.caib.portafib.utils.Configuracio;
       
        // Full view
        for (EstatDeFirma ef : estatDeFirmaList) {
-            if (ef.getTipusEstatDeFirmaInicialID() ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+            final long estatInicial = ef.getTipusEstatDeFirmaInicialID(); 
+            if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR
+                || estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
               long peticioID =  peticionsByEstat.get(ef.getEstatDeFirmaID()).getPeticioDeFirmaID();
               filterForm.addAdditionalButtonByPK(ef.getEstatDeFirmaID(),
                   new AdditionalButton("icon-eye-open",     "vistacompleta",
@@ -2036,6 +2222,27 @@ import es.caib.portafib.utils.Configuracio;
          if (ef.getTipusEstatDeFirmaFinalID() == null) {
    
            final long estatInicial = ef.getTipusEstatDeFirmaInicialID();
+           
+           
+           if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
+             
+             filterForm.addAdditionalButtonByPK(estatId,
+                 new AdditionalButton("icon-check", "revisor.acceptar",
+                  "javascript:acceptar('" + request.getContextPath() + getContextWeb() + "/acceptar/" + estatId + "/" + peticioID + "', {0})" ,
+                  "btn-success"));
+             
+          
+             filterForm.addAdditionalButtonByPK(estatId,
+                 new AdditionalButton("icon-remove", "rebutjar",
+                 "javascript:rebutjar('" + request.getContextPath() +  getContextWeb() + "/rebutjar/" + estatId + "/" + peticioID + "'," + estatId + ")" ,
+                  "btn-danger"));
+
+           }
+           
+           
+           
+           
+           
            if (estatInicial ==  ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
              
              filterForm.addAdditionalButtonByPK(estatId,
@@ -2240,8 +2447,7 @@ import es.caib.portafib.utils.Configuracio;
           roleWhere = Where.AND(EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
               .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
               EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
-        } else {
-          if (role.equals(ConstantsV2.ROLE_COLA)) {
+        } else if (role.equals(ConstantsV2.ROLE_COLA)) {
             // Els estats de firma de colaborador són aquells que:
             // (1) Els estats inicials poden ser ASSIGNAT_PER_VALIDAR o
             // REVISANT_PER_VALIDAR
@@ -2251,11 +2457,20 @@ import es.caib.portafib.utils.Configuracio;
                 EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
                     .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR)),
                 EstatDeFirmaFields.COLABORACIODELEGACIOID.isNotNull());
-          } else {
+        } else if (role.equals(ConstantsV2.ROLE_REVI)) {
+          // Els estats de firma de REVISOR són aquells que:
+          // (1) L'estat inicial pot ser ASSIGNAT_PER_REVISAR
+          // (2) COLABORACIODELEGACIOID es null
+          roleWhere = Where.AND(
+              EstatDeFirmaFields.TIPUSESTATDEFIRMAINICIALID
+              .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR),
+              EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull());
+          
+        } else {
             // TODO Traduir
             throw new I18NException("error.unknown","No hi ha gestió de EstatDeFirma pel role " + role);
-          }
         }
+        
 
       }
       
@@ -2268,16 +2483,20 @@ import es.caib.portafib.utils.Configuracio;
         case FILTRAR_PER_ACCEPTAT: // Firmat o validat
           if (role.equals(ROLE_COLA)) {
             estatWhere = TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_VALIDAT);
+          } else if (role.equals(ROLE_REVI)) {
+              // Revisor Acceptat
+              estatWhere = TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_ACCEPTAT);
           } else {
-            estatWhere = Where.OR(
-              // El propi usuari (destinatari o delegat) ha firmat el document
-              TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT),
-              // Alguna altra persona (delegat o destinatari) ha firmat el document
-              Where.AND(
+              estatWhere = Where.OR(
+                // El propi usuari (destinatari o delegat) ha firmat el document
+                TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_FIRMAT),
+                // Alguna altra persona (delegat o destinatari) ha firmat el document
+                Where.AND(
                   TIPUSESTATDEFIRMAFINALID.equal(TIPUSESTATDEFIRMAFINAL_DESCARTAT),
                   new EstatDeFirmaQueryPath().FIRMA().FITXERFIRMATID().isNotNull() )
                   );
           }
+          
         break;
         
         case FILTRAR_PER_NOACCEPTAT: // Rebutjat o invalidat
@@ -2391,13 +2610,18 @@ import es.caib.portafib.utils.Configuracio;
 
         List<EstatDeFirmaJPA> estatsDeDelegats = new ArrayList<EstatDeFirmaJPA>();
         List<EstatDeFirmaJPA> estatsColaboradors = new ArrayList<EstatDeFirmaJPA>();
+        List<EstatDeFirmaJPA> estatsRevisors = new ArrayList<EstatDeFirmaJPA>();
 
         for (EstatDeFirmaJPA estat : fullList) {
+          
+          final long estatInicial = estat.getTipusEstatDeFirmaInicialID();
 
-          if (estat.getColaboracioDelegacioID() == null) {
+          if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR) {
+            estatsRevisors.add(estat);
+          } else if (estat.getColaboracioDelegacioID() == null) {
             mav.addObject("destinatari", estat);
           } else {
-            if (estat.getTipusEstatDeFirmaInicialID() == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
+            if (estatInicial == ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR) {
               estatsDeDelegats.add(estat);
             } else {
               estatsColaboradors.add(estat);
@@ -2408,7 +2632,9 @@ import es.caib.portafib.utils.Configuracio;
 
         mav.addObject("colaboradors", estatsColaboradors);
         mav.addObject("delegats", estatsDeDelegats);
+        mav.addObject("revisors", estatsRevisors);
       }
+      
 
       // 1.- Fitxers a visualitzar
       procesFitxersAVeure(mav, peticioDeFirmaID, peticioDeFirma);
@@ -2423,6 +2649,7 @@ import es.caib.portafib.utils.Configuracio;
       traduccions.put(TIPUSESTATDEFIRMAFINAL_FIRMAT, "tipusestatdefirmafinal.FIRMAT");
       traduccions.put(TIPUSESTATDEFIRMAFINAL_REBUTJAT, "tipusestatdefirmafinal.REBUTJAT");
       traduccions.put(TIPUSESTATDEFIRMAFINAL_DESCARTAT, "tipusestatdefirmafinal.DESCARTAT");
+      traduccions.put(TIPUSESTATDEFIRMAFINAL_ACCEPTAT, "tipusestatdefirmafinal.ACCEPTAT");
       traduccions.put(null, "pendent");
 
       mav.addObject("traduccions", traduccions);

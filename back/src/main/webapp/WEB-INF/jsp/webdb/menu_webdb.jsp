@@ -939,25 +939,6 @@
       </ul>
     </li>
 
-    <%-- UsuariEntitatRevisor --%>
-    <li>
-      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'usuariEntitatRevisor/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'usuariEntitatRevisor/')? "font-weight: bold;" : ""}"><fmt:message key="usuariEntitatRevisor.usuariEntitatRevisor"/></span></a>
-      <ul class="${fn:contains(url, 'usuariEntitatRevisor/')? "branch in" : "branch"}">
-        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/usuariEntitatRevisor/new"/>" ><span style="${(fn:contains(url, 'usuariEntitatRevisor/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
-       <fmt:message var="entityname" key="usuariEntitatRevisor.usuariEntitatRevisor"/>
-       <fmt:message key="genapp.createtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-       </span></a></li>
-        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/usuariEntitatRevisor/list/1"/>" ><span style="${(fn:contains(url, 'usuariEntitatRevisor/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
-        <fmt:message key="genapp.listtitle" >
-         <fmt:param value="${entityname}"/>
-       </fmt:message>
-        </span></a>
-        </li>
-      </ul>
-    </li>
-
     <%-- UsuariPersona --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'usuariPersona/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'usuariPersona/')? "font-weight: bold;" : ""}"><fmt:message key="usuariPersona.usuariPersona"/></span></a>

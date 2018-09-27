@@ -34,6 +34,11 @@ public class FirmaEventList implements IFirmaEventListener, ConstantsV2 {
   public void requerit_per_firmar(PeticioDeFirmaJPA peticioDeFirma, EstatDeFirma estatDeFirma) throws I18NException {    
     list.add(new FirmaEvent(NOTIFICACIOAVIS_REQUERIT_PER_FIRMAR, FirmaEvent.PRIORITAT_NORMAL, peticioDeFirma, estatDeFirma));    
   }
+  
+  public void requerit_per_revisar(PeticioDeFirmaJPA peticioDeFirma, EstatDeFirma estatDeFirma) throws I18NException {    
+    list.add(new FirmaEvent(NOTIFICACIOAVIS_REQUERIT_PER_REVISAR, FirmaEvent.PRIORITAT_NORMAL, peticioDeFirma, estatDeFirma));    
+  }
+
 
 
   public void descartat_per_firmar(PeticioDeFirmaJPA peticioDeFirma,EstatDeFirma estatDeFirma) throws I18NException{

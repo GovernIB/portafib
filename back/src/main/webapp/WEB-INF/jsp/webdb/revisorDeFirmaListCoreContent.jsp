@@ -29,11 +29,11 @@
           ${revisorDeFirma.revisorDeFirmaID}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATREVISORID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATID)}">
           <td>
-          <c:set var="tmp">${revisorDeFirma.usuariEntitatRevisorID}</c:set>
+          <c:set var="tmp">${revisorDeFirma.usuariEntitatID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfUsuariEntitatRevisorForUsuariEntitatRevisorID[tmp]}
+          ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
           </c:if>
           </td>
         </c:if>

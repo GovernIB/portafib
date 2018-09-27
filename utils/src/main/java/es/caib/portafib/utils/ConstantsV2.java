@@ -23,7 +23,7 @@ public interface ConstantsV2 {
   
   public static final String PDF_FILE_EXTENSION = "pdf";
   
-
+ 
   public static final int TIPUSESTATPETICIODEFIRMA_NOINICIAT = 0;
   public static final int TIPUSESTATPETICIODEFIRMA_ENPROCES = 1;
   public static final int TIPUSESTATPETICIODEFIRMA_PAUSAT = 2;
@@ -32,11 +32,12 @@ public interface ConstantsV2 {
 
   // Estat Inicials d'un EstatDeFirma
   public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR = 0L;
+  public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR = 1L;
   // Indica que el colaborador ha indicat als altres possible colaboradors
-  // que ell ja s'ho mira per la qual coas el sistema descarta la tasca
+  // que ell ja s'ho mira per la qual cosa el sistema descarta la tasca
   // de la resta de colaboradors
   public static final long TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR = 2L;
-  public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR = 1L;
+  public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR = 3L;
 
   // Estats Finals d'un EstatDeFirma
   public static final long TIPUSESTATDEFIRMAFINAL_VALIDAT = 0L;
@@ -46,11 +47,13 @@ public interface ConstantsV2 {
   // Es passa a aquest estat quan la tasca encomanada ha sigut realitzada
   // per un altra persona
   public static final long TIPUSESTATDEFIRMAFINAL_DESCARTAT = 4L;
+  // Revisor
+  public static final long TIPUSESTATDEFIRMAFINAL_ACCEPTAT = 5L;
 
   public static final long[] TIPUSESTATDEFIRMAFINAL = new long[] {
       TIPUSESTATDEFIRMAFINAL_VALIDAT, TIPUSESTATDEFIRMAFINAL_INVALIDAT,
       TIPUSESTATDEFIRMAFINAL_FIRMAT, TIPUSESTATDEFIRMAFINAL_REBUTJAT,
-      TIPUSESTATDEFIRMAFINAL_DESCARTAT };
+      TIPUSESTATDEFIRMAFINAL_DESCARTAT, TIPUSESTATDEFIRMAFINAL_ACCEPTAT };
 
   // TIPUS DE METADADA
   public static final int TIPUSMETADADA_STRING = 0;
@@ -82,6 +85,8 @@ public interface ConstantsV2 {
   public static final String ROLE_ADEN = "ROLE_ADEN";
   // Sol·licitant
   public static final String ROLE_SOLI = "ROLE_SOLI";
+  // Revisor
+  public static final String ROLE_REVI = "ROLE_REVI";
 
   // TIPUS NOTIFICACIO-AVIS
 
@@ -96,6 +101,7 @@ public interface ConstantsV2 {
   public static final long NOTIFICACIOAVIS_PETICIO_FIRMADA = 60;
   public static final long NOTIFICACIOAVIS_PETICIO_REBUTJADA = 70;
   public static final long NOTIFICACIOAVIS_PETICIO_PAUSADA = 80;
+  public static final long NOTIFICACIOAVIS_REQUERIT_PER_REVISAR = 90;
   
   
   // TIPUS PLUGINS
@@ -128,6 +134,13 @@ public interface ConstantsV2 {
   public static final String CONTEXT_COLA_ESTATFIRMA_VALIDAT = CONTEXT_COLA_ESTATFIRMA + "Validat";
   public static final String CONTEXT_COLA_ESTATFIRMA_INVALIDAT = CONTEXT_COLA_ESTATFIRMA + "Invalidat";
   public static final String CONTEXT_COLA_ESTATFIRMA_DESCARTAT = CONTEXT_COLA_ESTATFIRMA + "Descartat";
+  
+  
+  public static final String CONTEXT_REVI_ESTATFIRMA = "/revi/estatDeFirma";
+  public static final String CONTEXT_REVI_ESTATFIRMA_PENDENT = CONTEXT_REVI_ESTATFIRMA + "Pendent";
+  public static final String CONTEXT_REVI_ESTATFIRMA_ACCEPTADA = CONTEXT_REVI_ESTATFIRMA + "Acceptada";
+  public static final String CONTEXT_REVI_ESTATFIRMA_REBUTJAT = CONTEXT_REVI_ESTATFIRMA + "Rebutjada";
+  
 
   public static final String CONTEXT_ADEN_PETICIOFIRMA = "/aden/peticiofirmaaplicacio";
   

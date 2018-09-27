@@ -1,5 +1,5 @@
 <%@page import="es.caib.portafib.utils.Configuracio"
-%><%@page import="es.caib.portafib.utils.Constants"
+%><%@page import="es.caib.portafib.utils.ConstantsV2"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
 %><%@page contentType="text/html;charset=UTF-8" language="java"
@@ -29,11 +29,11 @@ static {
   mapping = new HashMap<String, String>();
   
 
-  mapping.put("solicituddefirma.llistat.totes.plural", Constants.CONTEXT_DEST_ESTATFIRMA + "/list");
+  mapping.put("solicituddefirma.llistat.totes.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA + "/list");
   
-  mapping.put("solicituddefirma.llistat.pendent.plural", Constants.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list");
-  mapping.put("solicituddefirma.llistat.acceptada.plural", Constants.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list");
-  mapping.put("solicituddefirma.llistat.noacceptada.plural", Constants.CONTEXT_DEST_ESTATFIRMA_REBUTJAT + "/list");
+  mapping.put("solicituddefirma.llistat.pendent.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list");
+  mapping.put("solicituddefirma.llistat.acceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_FIRMAT + "/list");
+  mapping.put("solicituddefirma.llistat.noacceptada.plural", ConstantsV2.CONTEXT_DEST_ESTATFIRMA_REBUTJAT + "/list");
 
   mapping.put("colaboracio.gestio", "/dest/colaborador/list"); //Llistat de Col·laboradors
 

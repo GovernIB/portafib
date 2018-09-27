@@ -66,8 +66,8 @@ public class RevisorDeFirmaJPAManager
 		return list.toArray(new RevisorDeFirma[list.size()]);
 	};
 
-	public synchronized RevisorDeFirma create( long _usuariEntitatRevisorID_, long _firmaID_, boolean _obligatori_) throws I18NException {
-		RevisorDeFirmaJPA __bean =  new RevisorDeFirmaJPA(_usuariEntitatRevisorID_,_firmaID_,_obligatori_);
+	public synchronized RevisorDeFirma create( java.lang.String _usuariEntitatID_, long _firmaID_, boolean _obligatori_) throws I18NException {
+		RevisorDeFirmaJPA __bean =  new RevisorDeFirmaJPA(_usuariEntitatID_,_firmaID_,_obligatori_);
 		return create(__bean);
 	}
 

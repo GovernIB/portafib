@@ -78,8 +78,8 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     Where w1 = EstatDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
     
     Where w2;
-    if (ConstantsV2.ROLE_DEST.equals(rol)) {
-      // DESTINATARI
+    if (ConstantsV2.ROLE_REVI.equals(rol) || ConstantsV2.ROLE_DEST.equals(rol)) {
+      // DESTINATARI o REVISOR DE FIRMA
       w2 = EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull();
     } else {
       // DELEGAT o SOLICITANT
@@ -230,9 +230,13 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       // ROLS DESTINATARI, DELEGAT i COLABORADOR
       if (ROLE_DEST.equals(rol) 
           || ROLE_DELE.equals(rol)
-          || ROLE_COLA.equals(rol)) {
+          || ROLE_COLA.equals(rol)
+          || ROLE_REVI.equals(rol)) {
         Long[] estatsDeFirma;
-        if (ROLE_COLA.equals(rol)) {
+        
+        if (ROLE_REVI.equals(rol)) {
+          estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR };
+        } else if (ROLE_COLA.equals(rol)) {
           estatsDeFirma = new Long[] { TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
               TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR};
         } else {

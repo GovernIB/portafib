@@ -107,6 +107,9 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   public void marcarRevisant(EstatDeFirma estatDeFirma,Firma firma,
       PeticioDeFirma peticioDeFirma) throws I18NException;
 
+  public void acceptar(EstatDeFirma estatDeFirma,Firma firma,
+      PeticioDeFirma peticioDeFirma) throws I18NException;
+  
   public void validar(EstatDeFirma estatDeFirma,Firma firma,
       PeticioDeFirma peticioDeFirma) throws I18NException;
 

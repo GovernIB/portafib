@@ -1,6 +1,5 @@
 package es.caib.portafib.back.controller.common;
 
-import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.caib.portafib.back.controller.common.rest.RestUtils;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
@@ -38,9 +38,7 @@ import java.util.Locale;
  */
 @Controller
 @RequestMapping(value = "/public/rest")
-public class RestController {
-
-  protected final Logger log = Logger.getLogger(getClass());
+public class RestController extends RestUtils {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
@@ -138,11 +136,6 @@ public class RestController {
     }
   }
 
-  private HttpHeaders addAccessControllAllowOrigin() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Access-Control-Allow-Origin", "*");
-    return headers;
-  }
 
   /**
    * 

@@ -108,41 +108,30 @@ create index pfi_estadistica_pk_i on pfi_estadistica 	(estadisticaid);
 create index pfi_estadistica_entitatid_fk_i on pfi_estadistica 	(entitatid);
 
 
--- ===========================================
--- 2018/04/10 Revisor de Firma #169
--- ===========================================
+-- =================================================
+-- 2018/04/10 (& 2018/09/13) Revisor de Firma #169
+-- =================================================
 
 ALTER TABLE pfi_firma
   ADD COLUMN minimderevisors integer NOT NULL DEFAULT 0;
 
-CREATE TABLE pfi_usuarientitatrevisor (
-   usuarientitatrevisorid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
-   usuarientitatid character varying (50)  NOT NULL, 
-   actiu boolean NOT NULL DEFAULT true, 
-   CONSTRAINT pfi_usuarientitatrevisor_pk PRIMARY KEY 	(usuarientitatrevisorid), 
-   CONSTRAINT pfi_usuentrev_usrentitat_fk FOREIGN KEY 	(usuarientitatid) REFERENCES pfi_usuarientitat 	(usuarientitatid) ON UPDATE NO ACTION ON DELETE NO ACTION
-);
- 
-create index pfi_usuarientitatrevisor_pk_i on pfi_usuarientitatrevisor 	(usuarientitatrevisorid);
-
-create index pfi_usuentrev_usrentitat_fk_i on pfi_usuarientitatrevisor 	(usuarientitatid);
-
 
 CREATE TABLE pfi_revisordefirma (
    revisordefirmaid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
-   usuarientitatrevisorid bigint NOT NULL, 
-   firmaid bigint NOT NULL, 
+   usuarientitatid character varying(101) NOT NULL,   
+   firmaid bigint NOT NULL,
    obligatori boolean NOT NULL, 
    CONSTRAINT pfi_revisordefirma_pk PRIMARY KEY (revisordefirmaid), 
-   CONSTRAINT pfi_revfirma_usuentrev_fk FOREIGN KEY 	(usuarientitatrevisorid) REFERENCES pfi_usuarientitatrevisor 	(usuarientitatrevisorid) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT pfi_revfirma_usrentitat_fk FOREIGN KEY (usuarientitatid) REFERENCES pfi_usuarientitat (usuarientitatid) ON UPDATE NO ACTION ON DELETE NO ACTION,
    CONSTRAINT pfi_revfirma_firma_fk FOREIGN KEY 	(firmaid) REFERENCES pfi_firma 	(firmaid) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+
 create index pfi_revisordefirma_pk_i on pfi_revisordefirma (revisordefirmaid);
 
-create index pfi_revfirma_usuentrev_fk_i on pfi_revisordefirma 	(usuarientitatrevisorid);
+create index pfi_revfirma_usrentitat_fk_i on pfi_revisordefirma (usuarientitatid);
 
-create index pfi_revfirma_firmaid_fk_i on pfi_revisordefirma 	(firmaid);
+create index pfi_revfirma_firmaid_fk_i on pfi_revisordefirma (firmaid);
 
 -- ===============================================================
 -- 2018/04/11 Incorporar en Entitat camps per validar Firmes #171

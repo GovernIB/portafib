@@ -44,6 +44,7 @@ import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PropietatGlobal;
+import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -63,6 +64,7 @@ import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
+import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
@@ -224,6 +226,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
   
   @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
   protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
@@ -1500,6 +1505,38 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
             // TODO Falten avisos
           }
+          
+          // ================================================
+          // - - - - - -   REQUERIT PER REVISAR   - - - - - -
+          // ================================================
+          {
+            
+            List<RevisorDeFirma> revisors = revisorDeFirmaEjb.select(RevisorDeFirmaFields.FIRMAID.in(firmaIDs));
+            
+            for (RevisorDeFirma revisorDeFirma : revisors) {
+              EstatDeFirmaJPA estatDeFirmaRevisor = new EstatDeFirmaJPA();
+              estatDeFirmaRevisor.setDataInici(new Timestamp(System.currentTimeMillis()));
+              estatDeFirmaRevisor.setDescripcio("");
+              estatDeFirmaRevisor.setFirmaID(revisorDeFirma.getFirmaID());
+              long tipusEstat = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
+
+              estatDeFirmaRevisor.setTipusEstatDeFirmaInicialID(tipusEstat);
+              // XYZ ZZZ Falten càrrecs
+              estatDeFirmaRevisor.setUsuariEntitatID(revisorDeFirma.getUsuariEntitatID());
+              estatDeFirmaRevisor.setColaboracioDelegacioID(null);
+              estatDeFirmaRevisor = estatDeFirmaLogicaEjb.createFull(estatDeFirmaRevisor);
+              
+              events.requerit_per_revisar(peticioDeFirma, estatDeFirmaRevisor);
+              
+              if (debug) {
+                log.debug("   == Nou estat per REVISOR "
+                    + revisorDeFirma.getUsuariEntitatID() + " (" + revisorDeFirma.getRevisorDeFirmaID() + ")");
+              }
+            }
+          }
+          
+          
+          
           log.debug("   == FINAL BLOC VERGE");
           return false;
         }
@@ -2351,7 +2388,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     if (estatDeFirmaLogicaEjb.count(Where.AND(w1, w2, w3)) != 0) {
       // Existeixen col·laboradors-revisors per la qual cosa un col·laborador
-      // no es pot apropir d'uan col3laboració
+      // no es pot apropir d'una col·laboració
       throw new I18NException("estatdefirma.marcarrevisant.colaboradorrevisor");
     }
     
@@ -2376,6 +2413,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
   }
+  
+  
+  @Override
+  public void acceptar(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirma peticioDeFirma)
+      throws I18NException {
+
+    Timestamp now = new Timestamp(System.currentTimeMillis());
+    estatDeFirma.setDataFi(now);
+    estatDeFirma.setTipusEstatDeFirmaFinalID(ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT); 
+    estatDeFirma.setDescripcio("El document ha sigut acceptat pel revisor de Firmes");
+    estatDeFirmaLogicaEjb.update(estatDeFirma);
+  }
+  
 
   @Override
   public void validar(EstatDeFirma estatDeFirma, Firma firma, PeticioDeFirma peticioDeFirma)

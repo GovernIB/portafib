@@ -82,12 +82,13 @@ public class ValidacioFirmesLogicaEJB extends
        }
      }
 
-     if (!validator.filter(vsr)) {
-       // XYZ ZZZ Falta error missatge
+     String error = validator.filter(vsr);
+     if (error != null) {
+       // XYZ ZZZ Falta Traduir missatge TODO
        PluginJPA plugin = findByPrimaryKey(pluginValidateSignatureID);
        throw new I18NException("genapp.comodi", "El validador de firmes " 
          + plugin.getNom().getTraduccio(languageUI) + " no suporta validar fitxers del tipus " 
-         + tipusFirmaNom + " o hi ha algun problema amb el validador: << XYZ ZZZ >> ");
+         + tipusFirmaNom + " o hi ha algun problema amb el validador: " + error);
      }
      ValidateSignatureResponse vsresp;
      try {

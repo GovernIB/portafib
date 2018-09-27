@@ -19,7 +19,7 @@ public class RevisorDeFirmaForm extends PortaFIBBaseForm {
   public RevisorDeFirmaForm(RevisorDeFirmaForm __toClone) {
     super(__toClone);
       this.revisorDeFirma = __toClone.revisorDeFirma;
-    this.listOfUsuariEntitatRevisorForUsuariEntitatRevisorID = __toClone.listOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+    this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
     this.listOfFirmaForFirmaID = __toClone.listOfFirmaForFirmaID;
   }
   
@@ -36,14 +36,14 @@ public class RevisorDeFirmaForm extends PortaFIBBaseForm {
   }
   
   
-  private List<StringKeyValue> listOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  private List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID;
 
-  public List<StringKeyValue> getListOfUsuariEntitatRevisorForUsuariEntitatRevisorID() {
-    return this.listOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  public List<StringKeyValue> getListOfUsuariEntitatForUsuariEntitatID() {
+    return this.listOfUsuariEntitatForUsuariEntitatID;
   }
 
-  public void setListOfUsuariEntitatRevisorForUsuariEntitatRevisorID(List<StringKeyValue> listOfUsuariEntitatRevisorForUsuariEntitatRevisorID) {
-    this.listOfUsuariEntitatRevisorForUsuariEntitatRevisorID = listOfUsuariEntitatRevisorForUsuariEntitatRevisorID;
+  public void setListOfUsuariEntitatForUsuariEntitatID(List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
+    this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
   }
 
 

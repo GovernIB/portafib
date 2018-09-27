@@ -59,7 +59,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA</class>
 		<class>es.caib.portafib.jpa.UsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.UsuariEntitatFavoritJPA</class>
-		<class>es.caib.portafib.jpa.UsuariEntitatRevisorJPA</class>
 		<class>es.caib.portafib.jpa.UsuariPersonaJPA</class>
 
         <properties>

@@ -1,5 +1,5 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@page import="es.caib.portafib.utils.Constants"
+<%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.utils.ConstantsV2"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
 %><%@ page contentType="text/html;charset=UTF-8" language="java"
@@ -32,12 +32,12 @@ static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
 
-  mapping.put("colaboracio.totes.plural", Constants.CONTEXT_COLA_ESTATFIRMA  + "/list");
+  mapping.put("colaboracio.totes.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA  + "/list");
   
-  mapping.put("colaboracio.pendent.plural", Constants.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list");
-  mapping.put("colaboracio.acceptada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_VALIDAT + "/list");
-  mapping.put("colaboracio.noacceptada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_INVALIDAT + "/list");
-  mapping.put("colaboracio.ignorada.plural", Constants.CONTEXT_COLA_ESTATFIRMA_DESCARTAT + "/list");
+  mapping.put("colaboracio.pendent.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list");
+  mapping.put("colaboracio.acceptada.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA_VALIDAT + "/list");
+  mapping.put("colaboracio.noacceptada.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA_INVALIDAT + "/list");
+  mapping.put("colaboracio.ignorada.plural", ConstantsV2.CONTEXT_COLA_ESTATFIRMA_DESCARTAT + "/list");
   
   mapping.put("colaboradorde.menu", "/cola/colaboradorde/list");
   

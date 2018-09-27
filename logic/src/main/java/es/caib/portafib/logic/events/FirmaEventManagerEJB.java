@@ -92,6 +92,8 @@ public class FirmaEventManagerEJB implements ConstantsV2,
   
   public static String HREF_COLA = CONTEXT_COLA_ESTATFIRMA_PENDENT + LIST_APENDIX;
   
+  public static String HREF_REVI = CONTEXT_REVI_ESTATFIRMA_PENDENT + LIST_APENDIX;
+  
 
   public Map<FirmaEvent, Throwable> processList(FirmaEventList felist) throws I18NException {
 
@@ -229,19 +231,25 @@ public class FirmaEventManagerEJB implements ConstantsV2,
       case (int) NOTIFICACIOAVIS_REQUERIT_PER_FIRMAR:      
       case (int) NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR:
       case (int) NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR:
-      
+      case (int) NOTIFICACIOAVIS_REQUERIT_PER_REVISAR:
 
       case (int) NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR:
         // Aquest tipus d'event només van directe a la persona interessada
         UsuariEntitatJPA usuariEntitat = getUsuariEntitat(firmaEvent);
         if (debug) {
-          log.debug("NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR => USUARI ENTITAT = " + usuariEntitat );
+          log.debug("NOTIFICACIOAVIS (DESCARTAT_PER_FIRMAR|REQUERIT_PER_FIRMAR|"
+              + "REQUERIT_PER_VALIDAR|DESCARTAT_PER_VALIDAR|"
+              + "REQUERIT_PER_REVISAR => USUARI ENTITAT = " + usuariEntitat );
         }
         if (usuariEntitat != null) {
           firmaEvent.setDestinatariUsuariEntitatID(usuariEntitat.getUsuariEntitatID());
           
-          if (eventID == NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR 
+          if (eventID == NOTIFICACIOAVIS_REQUERIT_PER_REVISAR) {
+            // És revisor
+            href = HREF_REVI;
+          } else if (eventID == NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR 
             || eventID == NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR) {
+            // Es colaborador
             href = HREF_COLA;
           } else {
             // Es delegat o destinatari

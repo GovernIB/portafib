@@ -32,8 +32,8 @@ public class RevisorDeFirmaWebValidator  implements Validator, RevisorDeFirmaFie
   @javax.ejb.EJB(mappedName = "portafib/RevisorDeFirmaEJB/local")
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatRevisorEJB/local")
-  protected es.caib.portafib.ejb.UsuariEntitatRevisorLocal usuariEntitatRevisorEjb;
+  @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
+  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
 
 
@@ -63,7 +63,7 @@ public class RevisorDeFirmaWebValidator  implements Validator, RevisorDeFirmaFie
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, firmaEjb, revisorDeFirmaEjb, usuariEntitatRevisorEjb);
+      isNou, firmaEjb, revisorDeFirmaEjb, usuariEntitatEjb);
 
   } // Final de metode
 

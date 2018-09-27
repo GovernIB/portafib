@@ -126,6 +126,10 @@ public class PrincipalController {
         //return new ModelAndView("role_soli");
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
       }
+      if ("ROLE_REVI".equals(pipella)) {
+        //return new ModelAndView("role_soli");
+        return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list", true));
+      }
       if (Configuracio.isDesenvolupament() && "desenvolupament".equals(pipella)) {
         return new ModelAndView("desenvolupament");
       }

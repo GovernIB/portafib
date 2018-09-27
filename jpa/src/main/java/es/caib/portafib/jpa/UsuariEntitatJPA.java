@@ -384,6 +384,19 @@ private static final long serialVersionUID = 2031334771L;
 	}
 
 
+// EXP  Field:usuarientitatid | Table: pfi_revisordefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
+	private Set<RevisorDeFirmaJPA> revisorDeFirmas = new HashSet<RevisorDeFirmaJPA>(0);
+	public  Set<RevisorDeFirmaJPA> getRevisorDeFirmas() {
+    return this.revisorDeFirmas;
+  }
+
+	public void setRevisorDeFirmas(Set<RevisorDeFirmaJPA> revisorDeFirmas) {
+	  this.revisorDeFirmas = revisorDeFirmas;
+	}
+
+
 // EXP  Field:usuarientitatid | Table: pfi_roleusuarientitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
@@ -420,19 +433,6 @@ private static final long serialVersionUID = 2031334771L;
 
 	public void setUsuariEntitatFavorit_origenids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids) {
 	  this.usuariEntitatFavorit_origenids = usuariEntitatFavorit_origenids;
-	}
-
-
-// EXP  Field:usuarientitatid | Table: pfi_usuarientitatrevisor | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
-	private Set<UsuariEntitatRevisorJPA> usuariEntitatRevisors = new HashSet<UsuariEntitatRevisorJPA>(0);
-	public  Set<UsuariEntitatRevisorJPA> getUsuariEntitatRevisors() {
-    return this.usuariEntitatRevisors;
-  }
-
-	public void setUsuariEntitatRevisors(Set<UsuariEntitatRevisorJPA> usuariEntitatRevisors) {
-	  this.usuariEntitatRevisors = usuariEntitatRevisors;
 	}
 
 
@@ -533,9 +533,9 @@ private static final long serialVersionUID = 2031334771L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.bitacolas) || org.hibernate.Hibernate.isInitialized(__jpa.getBitacolas())) ) {
       __tmp.setBitacolas(BitacolaJPA.copyJPA(__jpa.getBitacolas(), __alreadyCopied,"UsuariEntitatJPA"));
     }
-    if(!"UsuariEntitatRevisorJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatRevisors) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatRevisors())) ) {
-      __tmp.setUsuariEntitatRevisors(UsuariEntitatRevisorJPA.copyJPA(__jpa.getUsuariEntitatRevisors(), __alreadyCopied,"UsuariEntitatJPA"));
+    if(!"RevisorDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeFirmas())) ) {
+      __tmp.setRevisorDeFirmas(RevisorDeFirmaJPA.copyJPA(__jpa.getRevisorDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio_colaboradordelegatids) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio_colaboradordelegatids())) ) {
@@ -545,13 +545,13 @@ private static final long serialVersionUID = 2031334771L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
       __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
     }
-    if(!"EstatDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
-      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
-    }
     if(!"RoleUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariEntitats())) ) {
       __tmp.setRoleUsuariEntitats(RoleUsuariEntitatJPA.copyJPA(__jpa.getRoleUsuariEntitats(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"EstatDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
+      __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"UsuariEntitatFavoritJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatFavorit_favoritids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatFavorit_favoritids())) ) {

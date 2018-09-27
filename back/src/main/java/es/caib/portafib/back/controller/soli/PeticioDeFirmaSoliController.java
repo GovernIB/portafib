@@ -955,6 +955,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
       // XYZ ZZZ #164 Aquest Camp s'utilitzava com a info de l'expedient
       // però ja existeix el camp codi, nom i url d'expedient
+      // ELIMINAR COMPLETAMENT
       if (Configuracio.isCAIB()) {
         peticioDeFirmaForm.addHiddenField(INFORMACIOADICIONAL);
       } else {

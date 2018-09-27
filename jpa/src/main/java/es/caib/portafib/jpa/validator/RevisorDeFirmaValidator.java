@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.FirmaFields;
-import es.caib.portafib.model.fields.UsuariEntitatRevisorFields;
+import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
@@ -29,12 +29,12 @@ public class RevisorDeFirmaValidator<T> implements RevisorDeFirmaFields {
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.IFirmaManager __firmaManager
     ,es.caib.portafib.model.dao.IRevisorDeFirmaManager __revisorDeFirmaManager
-    ,es.caib.portafib.model.dao.IUsuariEntitatRevisorManager __usuariEntitatRevisorManager) {
+    ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
     // Valors Not Null
-    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIENTITATREVISORID, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIENTITATID, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATREVISORID)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,FIRMAID, 
         "genapp.validation.required",
@@ -45,6 +45,14 @@ public class RevisorDeFirmaValidator<T> implements RevisorDeFirmaFields {
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(OBLIGATORI)));
 
     // Check size
+    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
+      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
+      if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
+        __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 
@@ -61,15 +69,15 @@ public class RevisorDeFirmaValidator<T> implements RevisorDeFirmaFields {
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(USUARIENTITATREVISORID) == 0) {
-      java.lang.Long __usuarientitatrevisorid = (java.lang.Long)__vr.getFieldValue(__target__,USUARIENTITATREVISORID);
+    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
+      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
       Long __count_ = null;
-      try { __count_ = __usuariEntitatRevisorManager.count(UsuariEntitatRevisorFields.USUARIENTITATREVISORID.equal(__usuarientitatrevisorid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+      try { __count_ = __usuariEntitatManager.count(UsuariEntitatFields.USUARIENTITATID.equal(__usuarientitatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
       if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(USUARIENTITATREVISORID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitatRevisor.usuariEntitatRevisor"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitatRevisor.usuariEntitatRevisorId"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuarientitatrevisorid)));
+        __vr.rejectValue(USUARIENTITATID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitat"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitatID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuarientitatid)));
       }
     }
 

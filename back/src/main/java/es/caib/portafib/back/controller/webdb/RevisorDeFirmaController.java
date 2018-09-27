@@ -61,7 +61,7 @@ public class RevisorDeFirmaController
 
   // References 
   @Autowired
-  protected UsuariEntitatRevisorRefList usuariEntitatRevisorRefList;
+  protected UsuariEntitatRefList usuariEntitatRefList;
 
   // References 
   @Autowired
@@ -187,13 +187,13 @@ public class RevisorDeFirmaController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
-    // Field usuariEntitatRevisorID
+    // Field usuariEntitatID
     {
-      _listSKV = getReferenceListForUsuariEntitatRevisorID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForUsuariEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfUsuariEntitatRevisorForUsuariEntitatRevisorID(_tmp);
-      if (filterForm.getGroupByFields().contains(USUARIENTITATREVISORID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIENTITATREVISORID, false);
+      filterForm.setMapOfUsuariEntitatForUsuariEntitatID(_tmp);
+      if (filterForm.getGroupByFields().contains(USUARIENTITATID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIENTITATID, false);
       };
     }
 
@@ -225,7 +225,7 @@ public class RevisorDeFirmaController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(USUARIENTITATREVISORID, filterForm.getMapOfUsuariEntitatRevisorForUsuariEntitatRevisorID());
+    __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
     __mapping.put(FIRMAID, filterForm.getMapOfFirmaForFirmaID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
@@ -275,11 +275,11 @@ public class RevisorDeFirmaController
   public void fillReferencesForForm(RevisorDeFirmaForm revisorDeFirmaForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
     // Comprovam si ja esta definida la llista
-    if (revisorDeFirmaForm.getListOfUsuariEntitatRevisorForUsuariEntitatRevisorID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatRevisorID(request, mav, revisorDeFirmaForm, null);
+    if (revisorDeFirmaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, revisorDeFirmaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      revisorDeFirmaForm.setListOfUsuariEntitatRevisorForUsuariEntitatRevisorID(_listSKV);
+      revisorDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (revisorDeFirmaForm.getListOfFirmaForFirmaID() == null) {
@@ -589,42 +589,42 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatRevisorID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaForm revisorDeFirmaForm, Where where)  throws I18NException {
-    if (revisorDeFirmaForm.isHiddenField(USUARIENTITATREVISORID)) {
+    if (revisorDeFirmaForm.isHiddenField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
-    if (revisorDeFirmaForm.isReadOnlyField(USUARIENTITATREVISORID)) {
-      _where = UsuariEntitatRevisorFields.USUARIENTITATREVISORID.equal(revisorDeFirmaForm.getRevisorDeFirma().getUsuariEntitatRevisorID());
+    if (revisorDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
+      _where = UsuariEntitatFields.USUARIENTITATID.equal(revisorDeFirmaForm.getRevisorDeFirma().getUsuariEntitatID());
     }
-    return getReferenceListForUsuariEntitatRevisorID(request, mav, Where.AND(where, _where));
+    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatRevisorID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, RevisorDeFirmaFilterForm revisorDeFirmaFilterForm,
        List<RevisorDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (revisorDeFirmaFilterForm.isHiddenField(USUARIENTITATREVISORID)
-      && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATREVISORID)) {
+    if (revisorDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
+      && !revisorDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(USUARIENTITATREVISORID)) {
+    if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
       for (RevisorDeFirma _item : list) {
-        _pkList.add(_item.getUsuariEntitatRevisorID());
+        _pkList.add(_item.getUsuariEntitatID());
         }
-        _w = UsuariEntitatRevisorFields.USUARIENTITATREVISORID.in(_pkList);
+        _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);
       }
-    return getReferenceListForUsuariEntitatRevisorID(request, mav, Where.AND(where,_w));
+    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatRevisorID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return usuariEntitatRevisorRefList.getReferenceList(UsuariEntitatRevisorFields.USUARIENTITATREVISORID, where );
+    return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
   }
 
 

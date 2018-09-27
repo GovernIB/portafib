@@ -11,7 +11,7 @@ public class RevisorDeFirmaBean implements RevisorDeFirma {
 private static final long serialVersionUID = 1313788674L;
 
 	long revisorDeFirmaID;// PK
-	long usuariEntitatRevisorID;
+	java.lang.String usuariEntitatID;
 	long firmaID;
 	boolean obligatori;
 
@@ -21,21 +21,21 @@ private static final long serialVersionUID = 1313788674L;
   }
 
   /** Constructor amb tots els camps  */
-  public RevisorDeFirmaBean(long revisorDeFirmaID , long usuariEntitatRevisorID , long firmaID , boolean obligatori) {
+  public RevisorDeFirmaBean(long revisorDeFirmaID , java.lang.String usuariEntitatID , long firmaID , boolean obligatori) {
     this.revisorDeFirmaID=revisorDeFirmaID;
-    this.usuariEntitatRevisorID=usuariEntitatRevisorID;
+    this.usuariEntitatID=usuariEntitatID;
     this.firmaID=firmaID;
     this.obligatori=obligatori;
 }
   /** Constructor sense valors autoincrementals */
-  public RevisorDeFirmaBean(long usuariEntitatRevisorID , long firmaID , boolean obligatori) {
-    this.usuariEntitatRevisorID=usuariEntitatRevisorID;
+  public RevisorDeFirmaBean(java.lang.String usuariEntitatID , long firmaID , boolean obligatori) {
+    this.usuariEntitatID=usuariEntitatID;
     this.firmaID=firmaID;
     this.obligatori=obligatori;
 }
   public RevisorDeFirmaBean(RevisorDeFirma __bean) {
     this.setRevisorDeFirmaID(__bean.getRevisorDeFirmaID());
-    this.setUsuariEntitatRevisorID(__bean.getUsuariEntitatRevisorID());
+    this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setFirmaID(__bean.getFirmaID());
     this.setObligatori(__bean.isObligatori());
 	}
@@ -47,11 +47,11 @@ private static final long serialVersionUID = 1313788674L;
 		this.revisorDeFirmaID = _revisorDeFirmaID_;
 	};
 
-	public long getUsuariEntitatRevisorID() {
-		return(usuariEntitatRevisorID);
+	public java.lang.String getUsuariEntitatID() {
+		return(usuariEntitatID);
 	};
-	public void setUsuariEntitatRevisorID(long _usuariEntitatRevisorID_) {
-		this.usuariEntitatRevisorID = _usuariEntitatRevisorID_;
+	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_) {
+		this.usuariEntitatID = _usuariEntitatID_;
 	};
 
 	public long getFirmaID() {
@@ -76,7 +76,7 @@ private static final long serialVersionUID = 1313788674L;
     if (__bean == null) { return null;}
     RevisorDeFirmaBean __tmp = new RevisorDeFirmaBean();
     __tmp.setRevisorDeFirmaID(__bean.getRevisorDeFirmaID());
-    __tmp.setUsuariEntitatRevisorID(__bean.getUsuariEntitatRevisorID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setFirmaID(__bean.getFirmaID());
     __tmp.setObligatori(__bean.isObligatori());
 		return __tmp;

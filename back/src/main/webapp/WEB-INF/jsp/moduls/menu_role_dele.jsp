@@ -1,5 +1,5 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@page import="es.caib.portafib.utils.Constants"
+<%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.utils.ConstantsV2"
 %><%@page import="java.util.HashMap"
 %><%@page import="java.util.Map"
 %><%@ page contentType="text/html;charset=UTF-8" language="java"
@@ -22,10 +22,10 @@ public static final Map<String, String> mapping;
 static {
   //Mapping to existent path
   mapping = new HashMap<String, String>();
-  mapping.put("solicituddefirma.llistat", Constants.CONTEXT_DELE_ESTATFIRMA + "/list");
-  mapping.put("delegacio.pendent.plural", Constants.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list");
-  mapping.put("delegacio.acceptada.plural", Constants.CONTEXT_DELE_ESTATFIRMA_FIRMAT + "/list");
-  mapping.put("delegacio.noacceptada.plural", Constants.CONTEXT_DELE_ESTATFIRMA_REBUTJAT + "/list");
+  mapping.put("solicituddefirma.llistat", ConstantsV2.CONTEXT_DELE_ESTATFIRMA + "/list");
+  mapping.put("delegacio.pendent.plural", ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list");
+  mapping.put("delegacio.acceptada.plural", ConstantsV2.CONTEXT_DELE_ESTATFIRMA_FIRMAT + "/list");
+  mapping.put("delegacio.noacceptada.plural", ConstantsV2.CONTEXT_DELE_ESTATFIRMA_REBUTJAT + "/list");
   mapping.put("delegatde.menu", "/dele/delegatde/list");
 
 }

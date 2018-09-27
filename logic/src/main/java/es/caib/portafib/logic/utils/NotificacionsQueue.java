@@ -524,6 +524,7 @@ public class NotificacionsQueue {
     switch ((int) eventID) {
 
     case (int) ConstantsV2.NOTIFICACIOAVIS_REQUERIT_PER_VALIDAR:
+    case (int) ConstantsV2.NOTIFICACIOAVIS_REQUERIT_PER_REVISAR:
     case (int) ConstantsV2.NOTIFICACIOAVIS_DESCARTAT_PER_VALIDAR:
     case (int) ConstantsV2.NOTIFICACIOAVIS_REQUERIT_PER_FIRMAR:
     case (int) ConstantsV2.NOTIFICACIOAVIS_DESCARTAT_PER_FIRMAR:

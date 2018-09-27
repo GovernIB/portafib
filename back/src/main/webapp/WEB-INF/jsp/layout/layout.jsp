@@ -64,18 +64,7 @@
          --%>
        </a>
         
-       <%-- MMMENU  
-       <c:if test="${rol eq 'ROLE_COLA' }">
-         <ul class="dropdown-menu">
-         
-            <li><a href="#" onclick="javascript:goTo('<c:url value="${Constants.CONTEXT_COLA_ESTATFIRMA_PENDENT}/list"/>');" data-toggle="tab"><fmt:message key="colaboracio.pendent.plural" /></a></li>
-            
-            <li><a href="#" onclick="javascript:goTo('<c:url value="${Constants.CONTEXT_COLA_ESTATFIRMA_VALIDAT}/list"/>');" data-toggle="tab"><fmt:message key="colaboracio.acceptada.plural" /></a></li>
-            <li><a href="#" onclick="javascript:goTo('<c:url value="${Constants.CONTEXT_COLA_ESTATFIRMA_INVALIDAT}/list"/>');" data-toggle="tab"><fmt:message key="colaboracio.noacceptada.plural" /></a></li>
-            <li><a href="#" onclick="javascript:goTo('<c:url value="${Constants.CONTEXT_COLA_ESTATFIRMA_DESCARTAT}/list"/>');" data-toggle="tab"><fmt:message key="colaboracio.ignorada.plural" /></a></li>
-         </ul>
-       </c:if>
-       --%>
+
        
     </li>
     </c:if>  

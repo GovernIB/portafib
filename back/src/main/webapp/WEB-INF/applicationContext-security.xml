@@ -29,6 +29,7 @@
     <!--  REST Autenticació per Codi -->
     <sec:intercept-url pattern="/common/rest/apifirmaenservidorsimple/v1/**" access="permitAll"/>
     <sec:intercept-url pattern="/common/rest/apifirmawebsimple/v1/**" access="permitAll"/>
+    <sec:intercept-url pattern="/common/rest/revisordefirma/**" access="permitAll"/>
 
     <sec:intercept-url pattern="/common/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
 
@@ -39,6 +40,8 @@
     <sec:intercept-url pattern="/dele/**" access="hasRole('ROLE_DELE')"/>
     
     <sec:intercept-url pattern="/cola/**" access="hasRole('ROLE_COLA')"/>
+    
+    <sec:intercept-url pattern="/revi/**" access="hasRole('ROLE_REVI')"/>
     
     <sec:intercept-url pattern="/aden/**" access="hasRole('ROLE_ADEN')"/>
 
@@ -78,12 +81,12 @@
   <bean id="attributes2GrantedAuthoritiesMapper" class="es.caib.portafib.back.security.RolesBasedAttributes2GrantedAuthoritiesMapper">
     <property name="baseRoleMapping">
       <map>
-                <entry key="PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
+        <entry key="PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
         <entry key="PFI_USER" value="ROLE_USER"/>
         <entry key="PFI_ADMIN" value="ROLE_ADMIN"/>
-                <entry key="@PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
+        <entry key="@PFI_AUTOFIRMA" value="ROLE_AUTOFIRMA"/>
         <entry key="@PFI_USER" value="ROLE_USER"/>
-                <entry key="@PFI_ADMIN" value="ROLE_ADMIN"/>
+        <entry key="@PFI_ADMIN" value="ROLE_ADMIN"/>
       </map>
     </property>
   </bean>
@@ -93,7 +96,7 @@
       <set>
         <value>PFI_USER</value>
         <value>PFI_ADMIN</value>
-                <value>PFI_AUTOFIRMA</value>
+        <value>PFI_AUTOFIRMA</value>
       </set>
     </property>
   </bean>

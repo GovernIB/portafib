@@ -10,6 +10,7 @@ import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
+import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,6 +36,9 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
   @EJB(mappedName = "portafib/AnnexFirmatEJB/local")
   protected es.caib.portafib.ejb.AnnexFirmatLocal annexFirmatEjb;
   
+  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
+  
 
   public Set<Long> deleteFull(long firmaID) throws I18NException {
     FirmaJPA firma = (FirmaJPA)findByPrimaryKey(firmaID);
@@ -50,10 +54,13 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
       return files;
     }
 
-    // Borrar EstatsDeFirma
+    // Esborrar EstatsDeFirma
     estatDeFirmaEjb.delete(FIRMAID.equal(firma.getFirmaID()));
+    
+    // Esborrar RevisorsDeFirma
+    revisorDeFirmaEjb.delete(RevisorDeFirmaFields.FIRMAID.equal(firma.getFirmaID()));
 
-    // Borrar Anexes amb deleteFull ja que tenen arxius
+    // Esborrar Anexes amb deleteFull ja que tenen arxius
     List<AnnexFirmat> annexFirmats = annexFirmatEjb.select(AnnexFirmatFields.FIRMAID
         .equal(firma.getFirmaID()));
     if (annexFirmats != null && annexFirmats.size() != 0) {
@@ -64,16 +71,14 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
       annexFirmatEjb.delete(AnnexFirmatFields.FIRMAID
           .equal(firma.getFirmaID()));
     }
-    
 
-
-    // Borrar Firma
+    // Esborrar Firma
     if (log.isDebugEnabled()) {
       log.info("Borrant FIRMA amb ID = " + firma.getFirmaID());
     }
     delete(firma);
     
-    // Borrar Fitxer Firmat
+    // Esborrar Fitxer Firmat
     final Long fitxerFirmatID = firma.getFitxerFirmatID(); 
     if (fitxerFirmatID != null) {      
       files.add(fitxerFirmatID);

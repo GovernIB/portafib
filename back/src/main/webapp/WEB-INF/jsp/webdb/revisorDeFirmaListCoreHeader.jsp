@@ -15,8 +15,8 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.REVISORDEFIRMAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,RevisorDeFirmaFields.REVISORDEFIRMAID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATREVISORID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,RevisorDeFirmaFields.USUARIENTITATREVISORID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.USUARIENTITATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,RevisorDeFirmaFields.USUARIENTITATID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,RevisorDeFirmaFields.FIRMAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,RevisorDeFirmaFields.FIRMAID)}</th>

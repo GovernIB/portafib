@@ -21,6 +21,7 @@ final String[] menu1 = {
     "carrec.gestio",
     "colaboradordecarrec.plural",
     "solicitant.gestio",
+    "revisor.gestio",
     "grups.gestio",
     "",
     "moduldefirmaenservidor.gestio",
@@ -79,6 +80,7 @@ static {
   mapping.put("grups.gestio", "/aden/grup/list");
   
   mapping.put("solicitant.gestio", "/aden/solicitant/selecciousuari");
+  mapping.put("revisor.gestio", "/aden/revisor/selecciousuari");
   
   
   mapping.put("peticionscaducades.llistat", "/aden/peticionscaducades/list");

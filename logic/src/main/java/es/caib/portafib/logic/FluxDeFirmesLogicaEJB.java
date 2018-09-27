@@ -271,6 +271,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
             Hibernate.initialize(firmaJPA.getUsuariEntitat());
             Hibernate.initialize(firmaJPA.getUsuariEntitat().getUsuariPersona());
             Hibernate.initialize(firmaJPA.getEstatDeFirmas());
+            Hibernate.initialize(firmaJPA.getRevisorDeFirmas());
           }
         }
       }

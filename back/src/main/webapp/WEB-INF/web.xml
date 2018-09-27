@@ -5,6 +5,8 @@
 
 	<display-name>PortaFIB</display-name>
 	<description>Back&amp;Front Office PortaFIB</description>
+  
+
 	
 	<!--  LISTENER -->
 	<!-- 
@@ -188,6 +190,7 @@
             <!--  REST Autenticació per Codi -->
             <url-pattern>/common/rest/apifirmaenservidorsimple/v1/*</url-pattern>
             <url-pattern>/common/rest/apifirmawebsimple/v1/*</url-pattern>
+            <url-pattern>/common/rest/revisordefirma/*</url-pattern>
             
         </web-resource-collection>
         <!-- No auth-constraint means everybody has access! -->
@@ -211,6 +214,7 @@
             <url-pattern>/dest/*</url-pattern>
             <url-pattern>/dele/*</url-pattern>
             <url-pattern>/cola/*</url-pattern>
+            <url-pattern>/revi/*</url-pattern>
             <url-pattern>/aden/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

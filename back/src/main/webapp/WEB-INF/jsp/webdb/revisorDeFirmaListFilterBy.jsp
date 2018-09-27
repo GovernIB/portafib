@@ -58,20 +58,15 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,RevisorDeFirmaFields.USUARIENTITATREVISORID)}">
-            <%-- FILTRE NUMERO --%>      
-            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="revisorDeFirma.usuariEntitatRevisorID" />:</span>
-
-              <span class="add-on"><fmt:message key="genapp.from" /></span>
-              
-              <form:input cssClass="input-append input-small" path="usuariEntitatRevisorIDDesde" />
-
-
-              <span class="add-on"><fmt:message key="genapp.to" /></span>
-
-              <form:input cssClass="input-append input-small search-query" path="usuariEntitatRevisorIDFins" />
-
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,RevisorDeFirmaFields.USUARIENTITATID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="revisorDeFirma.usuariEntitatID" var="usuariEntitatID" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariEntitatID" >                
+                 <fmt:param value="${usuariEntitatID}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariEntitatID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariEntitatID}" path="usuariEntitatID" />
             </div>
 
 

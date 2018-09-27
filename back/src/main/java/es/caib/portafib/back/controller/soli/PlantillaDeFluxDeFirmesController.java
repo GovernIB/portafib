@@ -60,7 +60,6 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.MappingOrder;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.webdb.PlantillaFluxDeFirmesWebValidator;
-import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
@@ -69,12 +68,15 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.BlocDeFirmesLogicaLocal;
+import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
+import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.RoleUsuariEntitat;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariPersona;
@@ -121,8 +123,8 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected UsuariAplicacioLocal usuariAplicacioEjb;
 
-  @EJB(mappedName = "portafib/FirmaEJB/local")
-  protected FirmaLocal firmaEjb;
+  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  protected FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")
   protected FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
@@ -135,6 +137,9 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+
+  @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
 
   @Autowired
   protected PlantillaFluxDeFirmesWebValidator plantillaFluxDeFirmesValidator;
@@ -641,16 +646,29 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     request.getSession().setAttribute("fluxDeFirmesForm", form);
 
     // FORMULARI SELECCIO USUARI Cada vegada s'ha de calcular
-    SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
-    seleccioUsuariForm.setTitol("selectflux.selectuser");
-    seleccioUsuariForm.setUrlData(getContextWeb() + "/selecciousuarisjsonperflux");
-      
-    seleccioUsuariForm.setUsuarisFavorits(
-          Utils.sortStringKeyValueList(
-          SearchJSONController.favoritsToUsuariEntitat( users)));
-
-    mav.addObject(seleccioUsuariForm);
-    request.getSession().setAttribute("seleccioUsuariForm", seleccioUsuariForm);
+    {
+      SeleccioUsuariForm seleccioUsuariForm = new SeleccioUsuariForm();
+      seleccioUsuariForm.setTitol("selectflux.selectuser");
+      seleccioUsuariForm.setUrlData(getContextWeb() + "/selecciousuarisjsonperflux");
+        
+      seleccioUsuariForm.setUsuarisFavorits(
+            Utils.sortStringKeyValueList(
+            SearchJSONController.favoritsToUsuariEntitat( users)));
+  
+      mav.addObject("seleccioUsuariForm", seleccioUsuariForm);
+      request.getSession().setAttribute("seleccioUsuariForm", seleccioUsuariForm);
+    }
+    
+    // FORMULARI SELECCIO USUARI-REVISOR
+    {
+      SeleccioUsuariForm seleccioUsuariRevisorForm = new SeleccioUsuariForm();
+      seleccioUsuariRevisorForm.setTitol("selectflux.selectuserrevisor");
+      seleccioUsuariRevisorForm.setUrlData("/common/json/usuarientitatrevisor");
+      seleccioUsuariRevisorForm.setUsuarisFavorits(null);
+  
+      mav.addObject("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
+      request.getSession().setAttribute("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
+    }
 
    
     return form;
@@ -757,6 +775,153 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
   
   
+  
+  
+  
+  @RequestMapping(value = "/afegirRevisorDesDeModal", method = RequestMethod.POST)
+  public String afegirRevisorDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid  SeleccioUsuariForm seleccioUsuariForm, 
+       HttpServletRequest request) {
+
+    String usuariEntitatID = seleccioUsuariForm.getId();
+    String firmaIDStr = seleccioUsuariForm.getParam1();
+    
+    log.info("\n\n  --------- XYZ ZZZ afegirRevisorDesDeModal ----------");
+    log.info("    usuariEntitatID = |" +usuariEntitatID + "|");
+    log.info("    firmaIDStr = |" +firmaIDStr + "|");
+    
+    
+    long firmaID = Integer.parseInt(firmaIDStr);
+    try {
+      // TODO Moure tot aquest mètode a EJB
+  
+      //log.error("afegirFirma: usuariEntitatID: " + usuariEntitatID + " \\  blocID: " + blocID);
+  
+      UsuariEntitatJPA usuariEntitat = usuariEntitatLogicaEjb
+          .findByPrimaryKeyFull(usuariEntitatID);
+      if (usuariEntitat == null) {
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
+            new String[] {
+            I18NUtils.tradueix("usuariEntitat.usuariEntitat"),
+            I18NUtils.tradueix("usuariEntitat.usuariEntitatID"),
+            String .valueOf(usuariEntitatID)
+             }));
+        return getTileForm();
+      }
+      
+      Long count = roleUsuariEntitatEjb.count(Where.AND(
+          RoleUsuariEntitatFields.ROLEID.equal(ConstantsV2.ROLE_REVI),
+          RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID)   ));
+      
+      if (count == null || count.longValue() != 1) {
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.noesrevisor", usuariEntitatID));
+        return getTileForm();
+      }
+  
+      // revisar si firma existeix !!!
+  
+      FirmaJPA firma = (FirmaJPA)firmaLogicaEjb.findByPrimaryKey(firmaID);
+  
+      if (firma == null) {
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
+            new String[] {
+            I18NUtils.tradueix("firma.firma"),
+            I18NUtils.tradueix("firma.firmaID"),
+            String .valueOf(firmaID)
+             }));
+        return getTileForm();
+        
+      }
+      
+      long blocID = firma.getBlocDeFirmaID();
+      BlocDeFirmesJPA bloc = searchBloc(fluxDeFirmesForm, blocID);
+
+      if (bloc == null) {
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
+            new String[] {
+            I18NUtils.tradueix("blocDeFirmes.blocDeFirmes"),
+            I18NUtils.tradueix("blocDeFirmes.blocDeFirmesID"),
+            String .valueOf(blocID)
+             }));
+        return getTileForm();
+      }
+
+      
+      RevisorDeFirmaJPA rev = new RevisorDeFirmaJPA();
+
+      rev.setFirmaID(firmaID);
+      rev.setObligatori(true);
+      rev.setUsuariEntitatID(usuariEntitatID);
+    
+      rev = (RevisorDeFirmaJPA)revisorDeFirmaEjb.create(rev);
+
+      rev.setUsuariEntitat(usuariEntitat);
+
+      // Afegim el nou revisor a la firma
+      for(FirmaJPA firmaitem : bloc.getFirmas()) {
+        
+        if(firmaitem.getFirmaID() == firmaID) {
+          firmaitem.getRevisorDeFirmas().add((RevisorDeFirmaJPA)rev);
+        }
+        
+      }
+         
+    
+    } catch(I18NException e) {
+      HtmlUtils.saveMessageError(request, I18NUtils.getMessage(e));
+    }
+    
+    
+    return getTileForm();
+  }
+  
+  
+  @RequestMapping(value = "/eliminarRevisor", method = RequestMethod.POST)
+  public String eliminarRevisor(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
+      @RequestParam("revisorID") long revisorID, HttpServletRequest request) throws I18NException {
+
+    
+    RevisorDeFirma rev =  revisorDeFirmaEjb.findByPrimaryKey(revisorID);
+
+    if (rev == null) {
+      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("error.notfound",
+          new String[] {
+          I18NUtils.tradueix("revisorDeFirma.revisorDeFirma"),
+          I18NUtils.tradueix("revisorDeFirma.revisorDeFirmaID"),
+          String .valueOf(revisorID)
+           }));
+      return getTileForm();
+    }
+
+    revisorDeFirmaEjb.delete(revisorID);
+
+    long firmaID = rev.getFirmaID();
+
+    for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
+      for(FirmaJPA firmaitem : bloc.getFirmas()) {
+        if(firmaitem.getFirmaID() == firmaID) {
+          for(RevisorDeFirma revisor : firmaitem.getRevisorDeFirmas()) {
+              if (revisor.getRevisorDeFirmaID() == revisorID) {
+                firmaitem.getRevisorDeFirmas().remove(revisor);
+                return getTileForm();
+              }
+          }
+        }
+      }
+    }
+    
+    log.warn("\n\nNo he trobat revisor de firma amb ID " + revisorID 
+        + " dins de la firma amb id " + firmaID + "\n\n");
+
+    return getTileForm();
+  }
+
+  
+  
+  
+  
+  
   @RequestMapping(value = "/afegirFirmaDesDeModal", method = RequestMethod.POST)
   public String afegirFirmaDesDeModal(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
       @ModelAttribute @Valid  SeleccioUsuariForm seleccioUsuariForm, 
@@ -800,7 +965,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       firma.setUsuariEntitat(usuariEntitat);
       firma.setObligatori(true);
   
-      firma = (FirmaJPA) firmaEjb.create(firma);
+      firma = (FirmaJPA) firmaLogicaEjb.create(firma);
   
       if (bloc.getMinimDeFirmes() == bloc.getFirmas().size()) {
         bloc.getFirmas().add(firma);
@@ -1055,7 +1220,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
     
     firma.setObligatori(nouObligatori);
-    firmaEjb.update(firma);
+    firmaLogicaEjb.update(firma);
 
 
     return getTileForm();
@@ -1108,7 +1273,7 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
 
     // TODO s'ha de passar a EJB
 
-    firmaEjb.delete(firma);
+    firmaLogicaEjb.deleteFull(firma);
     bloc.getFirmas().remove(firma);
     
     boolean update =false;
@@ -1184,6 +1349,11 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
     }
     return bloc;
   }
+  
+  
+  
+  
+  
 
 
   @Override

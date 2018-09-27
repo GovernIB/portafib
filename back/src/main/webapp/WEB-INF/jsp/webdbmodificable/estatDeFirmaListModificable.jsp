@@ -21,6 +21,12 @@
   </c:if>
 
   <c:if test="${pipella ne 'ROLE_COLA'}">
+  
+  <%--  Revisor --%>
+  function acceptar(url, firmaid) {
+    goTo(url);
+  }
+  
 
   function firmar(url, firmaid) {
       goTo(url);

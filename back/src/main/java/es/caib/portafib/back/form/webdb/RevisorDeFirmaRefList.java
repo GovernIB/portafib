@@ -33,7 +33,7 @@ public class RevisorDeFirmaRefList extends RefListBase
     this.revisorDeFirmaEjb = __clone.revisorDeFirmaEjb;
   }
   public RevisorDeFirmaRefList() {
-    setSelects(new Select<?>[] { USUARIENTITATREVISORID.select });
+    setSelects(new Select<?>[] { USUARIENTITATID.select, FIRMAID.select });
   }
   public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
     Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());

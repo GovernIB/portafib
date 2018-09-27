@@ -55,7 +55,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final UsuariAplicacioConfiguracioJPAManager pfi_usuariaplicacioconfig;
    private final UsuariEntitatJPAManager pfi_usuarientitat;
    private final UsuariEntitatFavoritJPAManager pfi_usuarientitatfavorit;
-   private final UsuariEntitatRevisorJPAManager pfi_usuarientitatrevisor;
    private final UsuariPersonaJPAManager pfi_usuaripersona;
 
   public  PortaFIBJPADaoManagers(EntityManager __em) {
@@ -108,7 +107,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_usuariaplicacioconfig = new UsuariAplicacioConfiguracioJPAManager(__em);
     this.pfi_usuarientitat = new UsuariEntitatJPAManager(__em);
     this.pfi_usuarientitatfavorit = new UsuariEntitatFavoritJPAManager(__em);
-    this.pfi_usuarientitatrevisor = new UsuariEntitatRevisorJPAManager(__em);
     this.pfi_usuaripersona = new UsuariPersonaJPAManager(__em);
   }
 
@@ -306,10 +304,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public IUsuariEntitatFavoritManager getUsuariEntitatFavoritManager() {
 	  return this.pfi_usuarientitatfavorit;
-	};
-
-	public IUsuariEntitatRevisorManager getUsuariEntitatRevisorManager() {
-	  return this.pfi_usuarientitatrevisor;
 	};
 
 	public IUsuariPersonaManager getUsuariPersonaManager() {
