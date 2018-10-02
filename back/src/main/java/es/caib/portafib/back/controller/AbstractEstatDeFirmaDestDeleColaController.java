@@ -2439,8 +2439,7 @@ import es.caib.portafib.utils.Configuracio;
             .equal(ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR),
             EstatDeFirmaFields.COLABORACIODELEGACIOID.isNull());
 
-      } else {
-        if (role.equals(ConstantsV2.ROLE_DELE)) {
+      } else  if (role.equals(ConstantsV2.ROLE_DELE)) {
           // Els estats de firma de delegat són aquells que:
           // (1) estat inicial es ASSIGNAT PER FIRMAR
           // (2) COLABORACIODELEGACIOID es not null
@@ -2472,7 +2471,7 @@ import es.caib.portafib.utils.Configuracio;
         }
         
 
-      }
+      
       
       Where estatWhere;
       switch(getFilterType()) {
@@ -2523,8 +2522,10 @@ import es.caib.portafib.utils.Configuracio;
           estatWhere = null;
       }
 
-      return Where.AND(roleWhere, estatWhere, super.getAdditionalCondition(request),
-              EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()));
+      Where full = Where.AND(roleWhere, estatWhere, super.getAdditionalCondition(request),
+          EstatDeFirmaFields.USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID())); 
+
+      return full;
     }
 
     

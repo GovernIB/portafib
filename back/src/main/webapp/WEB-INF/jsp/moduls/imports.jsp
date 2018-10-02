@@ -94,12 +94,18 @@
     }
 
 	function goTo(url) {
+
+	  $("body").css("cursor", "progress");
+
 		document.location.href = url;
 	}
 
 	function submitTo(formName, url) {
       var __theForm = document.forms[formName]; 
       __theForm.action = url;
+
+      $("body").css("cursor", "progress");
+
       __theForm.submit();
     }
 

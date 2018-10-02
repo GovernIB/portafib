@@ -7,24 +7,24 @@
   <name>PortaFIB</name>
 
   <modules>
-    <!-- Llibreries de Firma Simple, Firma Web i En Servidor-->
+    <!-- Llibreries de Firma Simple, Firma Web i En Servidor
       
     <module>pluginsib-signaturesimple</module>
     
     <module>pluginsib-signatureserver</module> 
  
     <module>pluginsib-signatureweb</module> 
-  
+  -->
  
     <!-- PortaFIB -->
     
     
     <module>utils</module>
-    <!-- XYZ ZZZ   --> 
+    <!-- XYZ ZZZ   
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
-    <module>ejb</module> 
+    <module>ejb</module> --> 
     <module>logic</module> 
 
     <module>back</module> 

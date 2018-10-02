@@ -219,10 +219,12 @@ public final class PdfPreProcessor
 //----------------------------------
 //------ PORTAFIB: NOU CODI  -------
 //----------------------------------
+// 2018-09-28 Llançar excepcions si alguna cosa no va bé. 
 
+public static Image getImage(final String imagebase64Encoded, X509Certificate certificate)
+    throws IOException {
 
-public static Image getImage(final String imagebase64Encoded, X509Certificate certificate) {
-  if (imagebase64Encoded == null || "".equals(imagebase64Encoded)) { //$NON-NLS-1$
+  if (imagebase64Encoded == null || "".equals(imagebase64Encoded))  { //$NON-NLS-1$
     return null;
   }
   final byte[] image;
@@ -232,22 +234,21 @@ public static Image getImage(final String imagebase64Encoded, X509Certificate ce
     try {
       image = downloadImage(url, certificate.getEncoded());
     } catch (final Exception e) {
-      // XYZ
-      LOGGER
-      .severe("Se ha producido un error durante la descarga de la imagen de rubrica"
-          + " desde la URL " + url + ": " + e.getMessage()); //$NON-NLS-1$
-      // TODO Aqui hay que lanzar una excepción !!!!1
+      String msg = "Se ha producido un error durante la descarga de la imagen de rubrica"
+          + " desde la URL " + url + ": " + e.getMessage(); 
+      LOGGER.severe(msg); //$NON-NLS-1$
+      // TODO Aqui hay que lanzar una excepción !!!!
       // No podemos firmar con una rubrica incorrecta !!!!!
-      return null;
+      throw new IOException(msg);
     }
     
   } else {
     try {
       image = Base64.decode(imagebase64Encoded);
     } catch (final Exception e) {
-      LOGGER
-          .severe("Se ha proporcionado una imagen de rubrica que no esta codificada en Base64: " + e); //$NON-NLS-1$
-      return null;
+      String msg = "Se ha proporcionado una imagen de rubrica que no esta codificada en Base64: " + e; 
+      LOGGER.severe(msg); //$NON-NLS-1$
+      throw new IOException(msg);
     }
   }
   
@@ -255,10 +256,11 @@ public static Image getImage(final String imagebase64Encoded, X509Certificate ce
   try {
     return new Jpeg(image);
   } catch (final Exception e) {
-    LOGGER
-        .info("Se ha proporcionado una imagen de rubrica que no esta codificada en JPEG: " + e); //$NON-NLS-1$
+    String msg = "Se ha proporcionado una imagen de rubrica que no esta codificada en JPEG: " + e; 
+    LOGGER.severe(msg); //$NON-NLS-1$
+    throw new IOException(msg);
   }
-  return null;
+  
 }
 
 

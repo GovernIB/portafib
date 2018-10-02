@@ -9,6 +9,7 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
+import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
@@ -16,6 +17,7 @@ import es.caib.portafib.jpa.validator.FluxDeFirmesValidator;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
+import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.FluxDeFirmesQueryPath;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
@@ -25,14 +27,19 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesQueryPath;
 
 
+
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
+
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
 import org.hibernate.Hibernate;
 import org.hibernate.LazyInitializationException;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -272,6 +279,11 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
             Hibernate.initialize(firmaJPA.getUsuariEntitat().getUsuariPersona());
             Hibernate.initialize(firmaJPA.getEstatDeFirmas());
             Hibernate.initialize(firmaJPA.getRevisorDeFirmas());
+            for (RevisorDeFirma rev : firmaJPA.getRevisorDeFirmas()) {
+              Hibernate.initialize(((RevisorDeFirmaJPA)rev).getUsuariEntitat()); 
+              Hibernate.initialize(((RevisorDeFirmaJPA)rev).getUsuariEntitat().getUsuariPersona());
+            }
+            
           }
         }
       }

@@ -514,6 +514,55 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
     return llistat(request, response);
   }
+  
+  
+  
+  
+  @RequestMapping(value = "/iniciarseleccionats", method = RequestMethod.POST)
+  public String iniciarSeleccionats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws I18NException, IOException {
+
+    // seleccionats conté les peticioIDs
+    String[] seleccionatsStr = filterForm.getSelectedItems();
+
+    if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request,
+          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+
+    } else {
+
+      for (int i = 0; i < seleccionatsStr.length; i++) {
+        Long peticioDeFirmaID;
+
+        try {
+          peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
+
+        } catch (Throwable e) {
+          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+          continue;
+        }
+        
+        try {
+          this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID);
+          //createMessageSuccess(request, "success.iniciat", peticioDeFirmaID);
+        } catch(I18NException error) {
+          HtmlUtils.saveMessageError(request, I18NUtils.getMessage(error));
+        } catch(Exception error) {
+          // TODO posar-ho un poc guapo: Error desconegut
+          HtmlUtils.saveMessageError(request, error.getMessage());
+        }
+
+      }
+
+    }
+    return llistat(request, response);
+
+  }
+  
+  
+  
+  
 
   @RequestMapping(value = "/pausar/{peticioDeFirmaID}", method = RequestMethod.GET)
   public String pausar(HttpServletRequest request, HttpServletResponse response,
@@ -647,6 +696,56 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     }
     
     
+  }
+  
+  
+  
+  @RequestMapping(value = "/resetseleccionats", method = RequestMethod.POST)
+  public String resetSeleccionats(HttpServletRequest request, HttpServletResponse response,
+      @ModelAttribute PeticioDeFirmaFilterForm filterForm) throws I18NException, IOException {
+
+    // seleccionats conté les peticioIDs
+    String[] seleccionatsStr = filterForm.getSelectedItems();
+
+    if (seleccionatsStr == null || seleccionatsStr.length == 0) {
+
+      HtmlUtils.saveMessageWarning(request,
+          I18NUtils.tradueix("peticiodefirma.capseleccionat"));
+
+    } else {
+
+      for (int i = 0; i < seleccionatsStr.length; i++) {
+        Long peticioDeFirmaID;
+
+        try {
+          peticioDeFirmaID = Long.parseLong(seleccionatsStr[i]);
+
+        } catch (Throwable e) {
+          log.error("Error parsejant numero ]" + seleccionatsStr[i] + "[", e);
+          continue;
+        }
+        try {
+          PeticioDeFirmaJPA peticio;
+          peticio = this.peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID);
+          if (peticio == null) {
+            this.createMessageError(request, "error.notfound", peticioDeFirmaID);
+          }
+        } catch (Throwable e) {
+          log.error(e);
+
+          if (e instanceof I18NException) {
+            String msg = I18NUtils.getMessage((I18NException) e);
+            HtmlUtils.saveMessageError(request, msg);
+          } else {
+            createMessageError(request, "error.modification", peticioDeFirmaID);
+          }
+        }
+
+      }
+
+    }
+    return llistat(request, response);
+
   }
   
 
@@ -1379,9 +1478,11 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     filterForm.getAdditionalButtonsByPK().clear();
     filterForm.getAdditionalInfoForActionsRendererByPK().clear();
     
+    int noIniciat = 0;
     int deleteCount = 0;
     int pausarCount = 0;
     int firmatCount = 0;
+    int reiniciableCount = 0;
     int marcarRevisatCount = 0;
 
     for(PeticioDeFirma pf: list) {
@@ -1539,6 +1640,10 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               "javascript:goTo('" + request.getContextPath() +  getContextWeb() + "/iniciar/" + peticioDeFirmaID + "')",
               "btn-success"));
 
+          if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+            noIniciat++;
+          }
+          
         }
 
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
@@ -1584,6 +1689,16 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
               firmatCount++;
             }
             
+            
+            if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT 
+                || estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT) {
+              reiniciableCount++;
+            }
+            
+          } else {
+            if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+              reiniciableCount++;
+            }
           }
         }
     
@@ -1599,34 +1714,48 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     
     final int size = list.size();
     
+    System.out.println("\n\n XYZ ZZZ NOINICIAT  " + size + " | " + noIniciat);
+    
+    
+    final boolean noIniciatMultiple = (size == noIniciat && size != 0);
+    
     final boolean deleteMultiple = (size == deleteCount && size != 0);
     
     final boolean pausarMultiple = (size == pausarCount  && size != 0);
     
     final boolean downloadMassiu =  (size == firmatCount  && size != 0);
     
+    final boolean reiniciable = (size == reiniciableCount  && size != 0);
+    
     final boolean marcarRevisat = ( marcarRevisatCount > 1);
     
-    if (deleteMultiple || pausarMultiple || marcarRevisat) {
+    if (deleteMultiple || pausarMultiple || marcarRevisat || downloadMassiu
+        || noIniciatMultiple || reiniciable) {
+
       filterForm.setVisibleMultipleSelection(true);
-    
-    
+
       if (deleteMultiple) {
         filterForm.setDeleteSelectedButtonVisible(true);
       } else {
         filterForm.setDeleteSelectedButtonVisible(false);
       }
-      
+
       if (pausarMultiple) {
         filterForm.addAdditionalButton(new  AdditionalButton("icon-pause icon-white",
           "pausar", "javascript:submitTo('peticioDeFirmaFilterForm',"
               + " '" + request.getContextPath() + getContextWeb() + "/pausarseleccionats');" , "btn-warning"));
       }
-      
+
       if (downloadMassiu) {
         filterForm.addAdditionalButton(new  AdditionalButton("icon-download-alt icon-white",
           "descarregar.firmes", "javascript:submitTo('peticioDeFirmaFilterForm',"
               + " '" + request.getContextPath() + getContextWeb() + "/downloadseleccionats');" , "btn-success"));
+      }
+      
+      if (reiniciable) {
+        filterForm.addAdditionalButton(new  AdditionalButton("icon-repeat icon-white",
+            "reinicialitzar", "javascript:submitTo('peticioDeFirmaFilterForm',"
+                + " '" + request.getContextPath() + getContextWeb() + "/resetseleccionats');" , "btn-danger"));        
       }
       
       if (marcarRevisat) {
@@ -1634,6 +1763,13 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
             "icon-check icon-white", "revisat",  "javascript:submitTo('peticioDeFirmaFilterForm',"
                 + " '" + request.getContextPath() + getContextWeb() + "/marcarrevisatseleccionats');",
             "btn-warning"));
+      }
+      
+      if (noIniciatMultiple) {
+        filterForm.addAdditionalButton(new AdditionalButton(
+            "icon-play icon-white", "iniciar",  
+            "javascript:submitTo('peticioDeFirmaFilterForm','" + request.getContextPath() +  getContextWeb() + "/iniciarseleccionats')",
+            "btn-success"));
       }
       
     }

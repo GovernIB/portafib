@@ -17,6 +17,7 @@
     <module>indra_callback_api</module>
     <module>portafib_callback_api</module>
     <module>portafib_client_rest_example</module>
+    <module>portafib_revisordefirma_rest_api</module>
 
     <!-- NOTA: El mòdul 'portafib_server' conté tant l'API v1 com l'API v2, que 
          s'activen segons els profiles seleccionats. S'ha tengut que fer en un
