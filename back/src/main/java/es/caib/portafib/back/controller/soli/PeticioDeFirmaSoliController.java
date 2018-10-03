@@ -503,7 +503,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       throws Exception, I18NException {
 
     try {
-      this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID);
+      this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true);
       createMessageSuccess(request, "success.iniciat", peticioDeFirmaID);
     } catch(I18NException error) {
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(error));
@@ -544,7 +544,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         }
         
         try {
-          this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID);
+          this.peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, false);
           //createMessageSuccess(request, "success.iniciat", peticioDeFirmaID);
         } catch(I18NException error) {
           HtmlUtils.saveMessageError(request, I18NUtils.getMessage(error));

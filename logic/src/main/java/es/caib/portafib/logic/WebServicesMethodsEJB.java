@@ -43,7 +43,7 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB  implements W
     
     peticioDeFirma = /*peticioDeFirmaLogicaEjb.*/createFull(peticioDeFirma);
     
-    /*peticioDeFirmaLogicaEjb.*/start(peticioDeFirma.getPeticioDeFirmaID());
+    /*peticioDeFirmaLogicaEjb.*/start(peticioDeFirma.getPeticioDeFirmaID(), true);
     return peticioDeFirma;
   }
   

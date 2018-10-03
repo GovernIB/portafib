@@ -51,7 +51,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   
   public Set<Long> deleteFullUsingUsuariAplicacio(Long peticioDeFirmaID, String usuariAplicacioID) throws I18NException;
 
-  public void start(Long peticioDeFirmaID) throws I18NException;
+  public void start(Long peticioDeFirmaID, boolean wakeupTimer) throws I18NException;
 
   public boolean pause(Long peticioDeFirmaID) throws I18NException;
 

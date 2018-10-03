@@ -95,7 +95,7 @@ public class FirmaEventManagerEJB implements ConstantsV2,
   public static String HREF_REVI = CONTEXT_REVI_ESTATFIRMA_PENDENT + LIST_APENDIX;
   
 
-  public Map<FirmaEvent, Throwable> processList(FirmaEventList felist) throws I18NException {
+  public Map<FirmaEvent, Throwable> processList(FirmaEventList felist, boolean wakeUpTimer) throws I18NException {
 
     Map<FirmaEvent, Throwable> map = new HashMap<FirmaEvent, Throwable>();
 
@@ -361,7 +361,9 @@ public class FirmaEventManagerEJB implements ConstantsV2,
     
     EmailUtil.enviarMails(avisos);
 
-    notifCallback.wakeUp();
+    if (wakeUpTimer) {
+      notifCallback.wakeUp();
+    }
 
     return map;
 

@@ -415,7 +415,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     peticioCreada = createPeticioDeFirma(peticioDeFirmaWs);
 
     try {
-      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID());
+      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID(), true);
     } catch (Throwable th) {
       deletePeticioDeFirma(peticioCreada.getPeticioDeFirmaID());
       throw th;
@@ -432,7 +432,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     // Check propietari
     checkIfPeticioDeFirmaIsPropertyOfUsrApp(peticioDeFirmaID);
 
-    peticioDeFirmaLogicaEjb.start(peticioDeFirmaID);
+    peticioDeFirmaLogicaEjb.start(peticioDeFirmaID, true);
   }
 
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })

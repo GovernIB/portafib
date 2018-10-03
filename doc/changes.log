@@ -1,7 +1,9 @@
 PortaFIB 2.0.0
 ==============
 
-2018-08-29 Revisors a nivell de Capsa de Firma (o sigui per Petició) #169
+2018-10-03 Problemes amb AUTOFIRMA i firmes massives: firma corrupta #187
+
+2018-09-29 Revisors a nivell de Capsa de Firma (o sigui per Petició) #169
 
 2018-08-14 Actualitzar Plugins de Firma Web i en Servidor a PluginsIB v2.0  #178
 

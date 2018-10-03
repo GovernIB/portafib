@@ -520,7 +520,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * Inicia una peticio de firma
    */
   @Override
-  public void start(Long peticioDeFirmaID) throws I18NException {
+  public void start(Long peticioDeFirmaID, boolean wakeupTimer) throws I18NException {
+    
+   
 
     PeticioDeFirmaJPA peticioDeFirma = findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
     
@@ -638,7 +640,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       events.peticio_en_proces(peticioDeFirma);
 
       // Avisos
-      firmaEventManagerEjb.processList(events);
+      firmaEventManagerEjb.processList(events,  wakeupTimer);
 
     } catch (Throwable error) {
       log.error("Error arrancant peticio de firma " + peticioDeFirmaID, error);
@@ -1246,7 +1248,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         events.peticio_pausada(peticioDeFirma);
         
         // Avisos
-        firmaEventManagerEjb.processList(events);
+        firmaEventManagerEjb.processList(events, true);
       } catch(I18NException e) {
         log.error(I18NLogicUtils.getMessage(e, new Locale(Configuracio.getDefaultLanguage())), new Exception());
       }
@@ -2100,7 +2102,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioFinalitzada = startNextSign(peticioDeFirma, flux, estatDeFirma, events);
 
       // 7.- Enviar Avisos
-      firmaEventManagerEjb.processList(events);
+      firmaEventManagerEjb.processList(events, true);
 
       // IMPORTATNT: Això ha de ser lo darrer per si hi hagues algun error en
       // les passes anteriors
@@ -2485,7 +2487,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       events.peticio_rebutjada(peticioDeFirma, null);
 
       // Avisar del rebuig
-      firmaEventManagerEjb.processList(events);
+      firmaEventManagerEjb.processList(events, true);
 
     } else {
 
@@ -2584,7 +2586,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       events.peticio_rebutjada(peticioDeFirma, estatDeFirma);
 
       // Avisar del rebuig
-      firmaEventManagerEjb.processList(events);
+      firmaEventManagerEjb.processList(events, true);
 
       // Fer neteja de tots els fitxers firmats i del fitxer adaptat
       // No és una acció crítica, d'aqui el try-catch: només es per alliberar espai

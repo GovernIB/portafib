@@ -167,7 +167,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
         peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID,
             t, d, m, arxiuActual);
 
-        peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID());
+        peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false);
 
         countOK++;
 
