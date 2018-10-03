@@ -225,3 +225,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /pluginsib-signatureserver/miniappletinserver/foto.jpg
 /pluginsib-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadaljks/cert.properties
 /pluginsib-signatureserver/afirmalibs/AFIRMALIBS_CERTS/anadaljks/anadal.jks
+/pluginsib-signatureserver/miniappletutils/src/main/resources/applet/miniapplet.jar
+/pluginsib-signatureweb/miniappletutils/src/main/resources/applet/miniappletui.jar
+/pluginsib-signatureweb/compil.bat
