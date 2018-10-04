@@ -48,6 +48,8 @@ public interface NotificacioWSLogicaLocal extends NotificacioWSLocal {
   
   
   public void stopTimer();
+  
+  public void wakeupTimer();
 
   
 }

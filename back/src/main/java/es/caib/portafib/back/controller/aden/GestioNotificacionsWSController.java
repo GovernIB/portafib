@@ -172,6 +172,9 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
       notificacioFilterForm.addAdditionalButton(new AdditionalButton(
           "icon-stop icon-white", "notificaciows.timer.aturar", getContextWeb() + "/stopTimer", "btn-danger"));
       
+      notificacioFilterForm.addAdditionalButton(new AdditionalButton(
+          "icon-bell icon-white", "notificaciows.timer.despertar", getContextWeb() + "/wakeupTimer", "btn-warning"));
+      
     } else {
 
       HtmlUtils.saveMessageError(request, I18NUtils.tradueix("notificaciows.timer.estaaturat"));
@@ -537,6 +540,17 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
     return "redirect:" + getContextWeb() + "/list/";
   }
+  
+  
+  @RequestMapping(value = "/wakeupTimer", method = RequestMethod.GET)
+  public String wakeupNotificacioCallBackTimer(HttpServletRequest request,
+      HttpServletResponse response) throws Exception {
+
+    notificacioLogicaEjb.wakeupTimer();
+
+    return "redirect:" + getContextWeb() + "/list/";
+  }
+  
 
   @Override
   public Map<Field<?>, GroupByItem> fillReferencesForList(NotificacioWSFilterForm filterForm,

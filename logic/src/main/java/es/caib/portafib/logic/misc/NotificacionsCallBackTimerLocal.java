@@ -8,7 +8,7 @@ import javax.ejb.Local;
  *
  */
 @Local
-public interface NotificacionsCallBackTimerLocal extends AbstractTimerLocal {
+public interface NotificacionsCallBackTimerLocal /* extends AbstractTimerLocal */ {
 
   public static final String JNDI_NAME = "portafib/NotificacionsCallBackTimerEJB/local";
 
@@ -20,11 +20,19 @@ public interface NotificacionsCallBackTimerLocal extends AbstractTimerLocal {
 
   /**
    * Retorna un array de informació de les execucions:
-   *     [1] => darrra execució completa
+   *     [1] => darrera execució completa
    *     [2] => darrera execució
    *     [3] => propera execució
    * @return
    */
   public long[] getExecutionsInfo(); 
+  
+  
+  public void startScheduler();
+
+
+  public void stopScheduler();
+  
+  public boolean isTimerRunning();
   
 }

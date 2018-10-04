@@ -7,7 +7,7 @@
   <name>PortaFIB</name>
 
   <modules>
-    <!-- Llibreries de Firma Simple, Firma Web i En Servidor-->
+    <!-- Llibreries de Firma Simple, Firma Web i En Servidor -->
       
     <module>pluginsib-signaturesimple</module>
     

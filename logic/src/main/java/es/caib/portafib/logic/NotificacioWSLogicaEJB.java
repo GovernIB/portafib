@@ -207,6 +207,12 @@ public class NotificacioWSLogicaEJB extends NotificacioWSEJB
   }
   
   
+  @Override
+  public void wakeupTimer() {
+    notifCallback.wakeUp();
+  }
+  
+  
   
   /**
    * Retorna un array de informació de les execucions:
