@@ -1,0 +1,23 @@
+
+
+50 fitxers - SEQUENCIAL BATCH & VALIDACIO - FIRMA TARGETA
+=========================================================
+
+TEST 1   =>  00:02:27.212      0 ERRORS
+TEST 2   =>  00:02:24.847      0 ERRORS
+TEST 3   =>  00:02:25.649      0 ERRORS
+
+TEST 4   => 00:02:24.296       0 ERRORS
+TEST 5   => 00:02:19.221       0 ERRORS
+
+
+
+
+50 fitxers - PARAL.LEL BATCH & VALIDACIO - FIRMA TARGETA
+========================================================
+
+TEST 1  =>  00:02:25.461    5 ERRORS
+TEST 2  =>  00:02:21.824    4 ERRORS
+TEST 3  =>  00:02:21.696    0 ERRORS
+TEST 4  =>  00:02:19.489    4 ERRORS
+
