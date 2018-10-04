@@ -640,6 +640,7 @@ import es.caib.portafib.utils.Configuracio;
         Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
 
         final boolean debug = log.isDebugEnabled();
+        final int numberTotalOfSignatures = seleccionats.size();
         for (StringKeyValue skv: listIds ) {
           if (debug) {
             log.info("firmarSeleccionats::SELECCIONAT = " + skv.getKey() + " / "
@@ -662,7 +663,8 @@ import es.caib.portafib.utils.Configuracio;
 
             FileInfoFull fileInfoFull;
             fileInfoFull = prepareFirmaItem(request, estatDeFirmaID, peticioDeFirmaID,
-                langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
+                langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID(),
+                numberTotalOfSignatures);
 
             if (fileInfoFull != null) {
               fileInfoFullArray.add(fileInfoFull);
@@ -940,12 +942,14 @@ import es.caib.portafib.utils.Configuracio;
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
       ModelAndView mav;
-      mav = commonFirma(request, response, estatDeFirmaID, peticioDeFirmaID);
+      final int numberTotalOfSignatures = 1;
+      mav = commonFirma(request, response, estatDeFirmaID,
+                 peticioDeFirmaID, numberTotalOfSignatures);
       return mav;
     }
 
     private ModelAndView commonFirma(HttpServletRequest request, HttpServletResponse response,
-        Long estatDeFirmaID, Long peticioDeFirmaID) throws I18NException {
+        Long estatDeFirmaID, Long peticioDeFirmaID, int numberTotalOfSignatures) throws I18NException {
       log.info("Entra a firmar Peticio = " + peticioDeFirmaID + " | EstatDeFirma = " + estatDeFirmaID);
       
       try {
@@ -961,7 +965,8 @@ import es.caib.portafib.utils.Configuracio;
       
       Map<String, List<Long>> pluginsFirmaBySignatureID = new HashMap<String, List<Long>>();
       FileInfoFull fif = prepareFirmaItem(request, estatDeFirmaID, 
-          peticioDeFirmaID, langUI, pluginsFirmaBySignatureID, loginInfo.getEntitatID());
+          peticioDeFirmaID, langUI, pluginsFirmaBySignatureID,
+          loginInfo.getEntitatID(), numberTotalOfSignatures);
 
 
       EntitatJPA entitat = loginInfo.getEntitat();
@@ -1249,7 +1254,7 @@ import es.caib.portafib.utils.Configuracio;
 
     protected FileInfoFull prepareFirmaItem(HttpServletRequest request, Long estatDeFirmaID,
         Long peticioDeFirmaID, String langUI, Map<String, List<Long>> pluginsFirmaBySignatureID,
-        String entitatID) throws I18NException {
+        String entitatID, int numberTotalOfSignatures) throws I18NException {
 
         CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,
             ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR);
@@ -1295,6 +1300,8 @@ import es.caib.portafib.utils.Configuracio;
           if (timeAliveToken == -1) {
             timeAliveToken = PropietatGlobalUtil.getMaxTimeLockedSignInMs(entitatID);
           }
+          // Afegim 5 segons per cada firma de les peticions seleccionades
+          timeAliveToken = timeAliveToken + numberTotalOfSignatures * 5000;
         }
 
         LoginInfo loginInfo = LoginInfo.getInstance();
