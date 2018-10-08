@@ -104,16 +104,6 @@ static {
 }
 
 %><%
-if (Configuracio.isCAIB()) {
-%>
-   <li style="list-style-type: disc; list-style-position: inside;">
-    <a href="<c:url value="/aden/generarfiltrecaib/new"/>">
-      <span style="${(fn:contains(urlActual, '/aden/generarfiltrecaib/new'))? 'font-weight: bold;' : ''} ">Filtre CAIB</span>
-    </a>
-   </li>
-   <hr  style="margin-top: 6px;  margin-bottom: 6px;" />   
-<%
-}
 
 session.setAttribute("mapping", mapping);
 

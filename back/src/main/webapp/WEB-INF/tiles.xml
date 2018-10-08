@@ -269,10 +269,6 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/custodiaInfoList.jsp" />
     </definition>
     
-    <definition name="generarFiltreCaib" extends="role_aden">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/generarfiltrecaib.jsp" />
-    </definition>
-
     <definition name="grupEntitatForm_aden" extends="role_aden">
         <put-attribute name="titol" value="grupEntitat.grupEntitat" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/grupEntitatForm.jsp" />

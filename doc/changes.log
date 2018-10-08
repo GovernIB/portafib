@@ -1,6 +1,8 @@
 PortaFIB 2.0.0
 ==============
 
+2018-10-08 Eliminar Filtre CAIB quan l'entorn és CAIB #182
+
 2018-10-08 Afegir propietat per desactivar taula de firmes en peticions de WS i Passarel·la #186
 
 2018-10-03 Problemes amb AUTOFIRMA i firmes massives: firma corrupta #187
