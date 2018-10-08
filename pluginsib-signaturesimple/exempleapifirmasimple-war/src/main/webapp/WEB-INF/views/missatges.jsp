@@ -1,7 +1,8 @@
-﻿<%@page import="org.fundaciobit.apifirmasimple.exemple.utils.HtmlUtils"%>
+<%@page import="org.fundaciobit.pluginsib.signature.firmasimple.firmasimpleexemple.utils.HtmlUtils"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
+
 
 <c:if test="${not empty missatges}">
   

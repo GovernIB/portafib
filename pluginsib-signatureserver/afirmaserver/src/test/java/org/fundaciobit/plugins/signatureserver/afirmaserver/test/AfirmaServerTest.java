@@ -367,12 +367,28 @@ public class AfirmaServerTest extends TestCase {
     // Valors per defcte
     final SignaturesTableHeader signaturesTableHeader = null;
     final SecureVerificationCodeStampInfo csvStampInfo = null;
+    
+    final  File previusSignatureDetachedFile = null;
+    final  int signOperation = FileInfoSignature.SIGN_OPERATION_SIGN;
+    
+    final String expedientCode = null;
+    final String expedientName= null;
+    final String expedientUrl = null;
+    final String procedureCode = null;
+    final String procedureName = null;
 
     File source = testFile.getSrcFile();
-    FileInfoSignature fileInfo = new FileInfoSignature(signID, source, testFile.mime, name,
+    FileInfoSignature fileInfo = new FileInfoSignature(signID, source, previusSignatureDetachedFile,
+        FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
+        languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
+        signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
+        timeStampGenerator,
+        expedientCode, expedientName,
+        expedientUrl, procedureCode, procedureName);
+        /*new FileInfoSignature(signID, source, testFile.mime, name,
         reason, location, signerEmail, signNumber, languageSign, signType, signAlgorithm,
         signMode, signaturesTableLocation, signaturesTableHeader, pdfInfoSignature,
-        csvStampInfo, userRequiresTimeStamp, timeStampGenerator);
+        csvStampInfo, userRequiresTimeStamp, timeStampGenerator); */
 
     final String signaturesSetID = String.valueOf(System.currentTimeMillis());
     SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, commonInfoSignature,
@@ -380,13 +396,16 @@ public class AfirmaServerTest extends TestCase {
 
     String timestampUrlBase = null;
 
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    
     // TODO Check si passa filtre
-    if (!plugin.filter(signaturesSet)) {
-      return new TestResult(title, "No passa filtre", TestStatus.NO_SUPORTAT, null);
+    String error = plugin.filter(signaturesSet, parameters); 
+    if (error != null) {
+      return new TestResult(title, "No passa filtre: " + error, TestStatus.NO_SUPORTAT, null);
     }
     
 
-    signaturesSet = plugin.signDocuments(signaturesSet, timestampUrlBase);
+    signaturesSet = plugin.signDocuments(signaturesSet, timestampUrlBase, parameters);
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
 
     if (sss.getStatus() != StatusSignaturesSet.STATUS_FINAL_OK) {

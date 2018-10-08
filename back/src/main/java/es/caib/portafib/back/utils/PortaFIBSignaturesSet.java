@@ -26,9 +26,9 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
   protected final EntitatJPA entitat;
 
   protected Long pluginID = null;
-  
+
   protected boolean redirectToParentWindow;
-  
+
   protected final int[] originalNumberOfSignsArray;
 
   /**

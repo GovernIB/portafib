@@ -90,12 +90,13 @@ public class SignatureServerModuleEjb implements SignatureServerModuleLocal {
 
 
       // 2.- Passa el filtre ...
-      
-      if (signaturePlugin.filter(signaturesSet)) {
+      final Map<String, Object> parameters = new HashMap<String, Object>();
+      String error = signaturePlugin.filter(signaturesSet, parameters); 
+      if (error == null) {
           pluginsFiltered.add(pluginDeFirma);
       } else {
           // Exclude Plugin
-          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO PASSA FILTRE");
+          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: " + error);
       }
       
     }
@@ -124,8 +125,8 @@ public class SignatureServerModuleEjb implements SignatureServerModuleLocal {
     }
 
     final String timeStampUrlBase = null;
-
-    signaturesSet = signaturePlugin.signDocuments(signaturesSet, timeStampUrlBase);
+    final Map<String, Object> parameters = new HashMap<String, Object>();
+    signaturesSet = signaturePlugin.signDocuments(signaturesSet, timeStampUrlBase, parameters);
     
     
 

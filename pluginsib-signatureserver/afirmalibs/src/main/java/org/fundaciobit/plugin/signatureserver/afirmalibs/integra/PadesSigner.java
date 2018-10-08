@@ -37,9 +37,10 @@ import es.gob.afirma.utils.UtilsTimestamp;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.security.cert.X509Certificate;
 import java.util.Calendar;
+
+
 
 
 import org.apache.log4j.Logger;
@@ -57,9 +58,10 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-
 import org.bouncycastle.cms.SignerInformation;
 /*
 import org.bouncycastle.cms.SignerInformationStore;
@@ -189,6 +191,7 @@ public class PadesSigner {
   
   
 
+  @SuppressWarnings("unused")
   private PdfReader validatePDFDocumentBeforeToUpgrade(byte[] pdfDocument) throws Exception {
       PdfReader reader = null;
       //String errorMsg = null;

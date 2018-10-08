@@ -116,13 +116,13 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   }
 
   @Override
-  public boolean filter(SignaturesSet signaturesSet) {
+  public String filter(SignaturesSet signaturesSet, Map<String, Object> parameters ) {
 
     // Per ara no aplicam cap filtre ja que tota la informació la té PortaFIB
     // Feim una cridada a l'API per testejar si existeix el servidor
     try {
       getPassarelaDeFirmaEnServidorApi().getVersion();
-      return super.filter(signaturesSet);
+      
     } catch (Throwable th) {
 
       String msg = "Filtre del plugin de SignatureServer PortaFIB no es poc connectar"
@@ -133,8 +133,10 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
         log.warn(msg);
       }
 
-      return false;
+      return msg;
     }
+    
+    return super.filter(signaturesSet, parameters);
 
   }
 
@@ -280,7 +282,7 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   }
 
   @Override
-  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase) {
+  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase, Map<String, Object> parameters) {
 
     // Cridar A API
 

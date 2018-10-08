@@ -74,7 +74,7 @@ public class RestUtils {
       String password = credentials.substring(p + 1).trim();
 
       log.info("XYZ ZZZ autenticate::username: |" + username + "|");
-      log.info("XYZ ZZZ autenticate::password: |" + password + "|");
+      //log.info("XYZ ZZZ autenticate::password: |" + password + "|");
       log.info("XYZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
       
       boolean autenticat;

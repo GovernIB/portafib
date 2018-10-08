@@ -20,6 +20,15 @@ public interface ISignaturePlugin extends IPlugin {
    * @return Nom del plugin
    */
   public String getName(Locale locale);
+  
+  /**
+   * @return Le soperacions de firma suportades segons el tipus de firma
+   * @param signType Tipus de Firma
+   * @see FileInfoSignature.SIGNATURE_OPERATION_SIGN = FIRMA
+   * @see FileInfoSignature.SIGNATURE_OPERATION_COSIGN = COFIRMA
+   * @see FileInfoSignature.SIGNATURE_OPERATION_COUNTERSIGN = CONTRAFIRMA
+   */
+  public int[] getSupportedOperationsBySignType(String signType);
 
   /**
    * @return Els tipus de firma suportats. Actualment només es suporta PAdES.
@@ -47,6 +56,13 @@ public interface ISignaturePlugin extends IPlugin {
    */
   public List<String> getSupportedBarCodeTypes();
   
+  
+  /**
+   * 
+   * @return null si no hi ha límit. Sinó el numero màxim de firmes per transacció.
+   */
+  public Integer getSupportedNumberOfSignaturesInBatch();
+
 
   /**
    * @param signType

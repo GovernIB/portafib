@@ -162,12 +162,23 @@ public class SignatureInServerTest extends TestCase {
     // Valors per defcte
     final SignaturesTableHeader signaturesTableHeader = null;
     final SecureVerificationCodeStampInfo csvStampInfo = null;
+    
+    final  File previusSignatureDetachedFile = null;
+    final  int signOperation = FileInfoSignature.SIGN_OPERATION_SIGN;
+    
+    final String expedientCode = null;
+    final String expedientName= null;
+    final String expedientUrl = null;
+    final String procedureCode = null;
+    final String procedureName = null;
 
-    FileInfoSignature fileInfo = new FileInfoSignature(signID, source,
-        FileInfoSignature.PDF_MIME_TYPE, name, reason,
-        location, signerEmail, signNumber, languageSign, signType, signAlgorithm, signMode,
-        signaturesTableLocation, signaturesTableHeader, pdfInfoSignature,
-        csvStampInfo,userRequiresTimeStamp,timeStampGenerator);
+    FileInfoSignature fileInfo = new FileInfoSignature(signID, source, previusSignatureDetachedFile,
+        FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
+        languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
+        signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
+        timeStampGenerator,
+        expedientCode, expedientName,
+        expedientUrl, procedureCode, procedureName);
 
     MiniAppletSignInfo info = MiniAppletUtils.convertLocalSignature(commonInfoSignature,
         fileInfo, null, pair.getPublicCertificate());

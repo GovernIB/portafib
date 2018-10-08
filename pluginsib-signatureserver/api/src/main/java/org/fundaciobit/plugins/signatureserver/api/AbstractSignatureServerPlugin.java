@@ -1,21 +1,12 @@
 package org.fundaciobit.plugins.signatureserver.api;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.MessageFormat;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -24,7 +15,7 @@ import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
+import org.fundaciobit.pluginsib.core.utils.AbstractPluginPropertiesTranslations;
 
 /**
  * 
@@ -32,7 +23,7 @@ import org.fundaciobit.pluginsib.core.utils.AbstractPluginProperties;
  *
  */
 public abstract class AbstractSignatureServerPlugin  
-    extends AbstractPluginProperties implements ISignatureServerPlugin {
+    extends AbstractPluginPropertiesTranslations implements ISignatureServerPlugin {
 
   // ------------------------------------
   
@@ -79,7 +70,7 @@ public abstract class AbstractSignatureServerPlugin
   }
   
   @Override
-  public boolean filter(SignaturesSet signaturesSet) {
+  public String filter(SignaturesSet signaturesSet, Map<String,Object> parameters) {
     final  boolean suportXAdES_T = false;
     return checkFilter(this, signaturesSet, suportXAdES_T,  this.log);
   }
@@ -92,28 +83,39 @@ public abstract class AbstractSignatureServerPlugin
    * @param log
    * @return
    */
-  public static boolean checkFilter(ISignaturePlugin plugin,
+  public static String checkFilter(ISignaturePlugin plugin,
       SignaturesSet signaturesSet, boolean suportXAdES_T, Logger log) {
 
     if (signaturesSet == null) {
-      return false;
+      // XYZ ZZ TODO FALTA TRADUIR
+      return "La variable SignaturesSet val null";
     }
 
     
     final FileInfoSignature[] aFirmar = signaturesSet.getFileInfoSignatureArray();
     if (aFirmar == null) {
-      return false;
+      //  XYZ ZZ TODO FALTA TRADUIR
+      return "El llistat de informació de signatures està buit";
     }
     
     
     return checkFilter(plugin, aFirmar, suportXAdES_T, log);
   }
 
-  public static boolean checkFilter(ISignaturePlugin plugin,
+  public static String checkFilter(ISignaturePlugin plugin,
       final FileInfoSignature[] aFirmar, boolean suportXAdES_T, Logger log) {
     Set<String> tipusFirmaSuportats;
     tipusFirmaSuportats = new HashSet<String>(Arrays.asList(plugin.getSupportedSignatureTypes()));
 
+       Integer numberMax = plugin.getSupportedNumberOfSignaturesInBatch();
+       if (numberMax != null) {
+         if (aFirmar.length > numberMax) {
+           //         XYZ ZZ TODO FALTA TRADUIR
+           return "Aquets plugin només pot processar " + numberMax 
+               + " firmes per transacció i se n'han rebut " + aFirmar.length;
+         }
+       }
+    
 
     // Miram si alguna signatura requerix de rubrica o segellat de temps
        // i el SignatureSet no ofereix el generadors. Ens servirà per més endavant
@@ -141,7 +143,9 @@ public abstract class AbstractSignatureServerPlugin
                log.info("Exclos plugin [" + plugin.getName(new Locale("ca")) 
                    + "]: XAdES no suporta segellat de temps "
                    + signType);
-               return false;
+               return "Exclos plugin [" + plugin.getName(new Locale("ca")) 
+                   + "]: XAdES no suporta segellat de temps "
+                   + signType;
              }
            }
            
@@ -179,6 +183,10 @@ public abstract class AbstractSignatureServerPlugin
              log.info("Exclos plugin [" + plugin.getName(new Locale("ca")) 
                  + "]: NO POT CREAR SEGELL DE TEMPS PER TIPUS DE FIRMA "
                  + signType);
+             // TODO XYZ ZZZ Traduir
+             return "Exclos plugin [" + plugin.getName(new Locale("ca")) 
+                 + "]: NO POT CREAR SEGELL DE TEMPS PER TIPUS DE FIRMA "
+                 + signType;
            }
            
     
@@ -221,23 +229,57 @@ public abstract class AbstractSignatureServerPlugin
            requiredBarCodeTypes.add(csvStamp.getBarCodeType());
          }
          
-         // 1.4.- Comprovar tipus Firma i Algorisme
+         // 1.4.- Comprovar tipus Operacio,  tipus Firma i Algorisme
          if (!tipusFirmaSuportats.contains(signType)) {
            log.warn("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
                + "]: NO SUPORTA TIPUS FIRMA " + signType);
-           return false;
+           // TODO XYZ ZZZ Traduir
+           return "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
+               + "]: NO SUPORTA TIPUS FIRMA " + signType;
          }
          
+         
+         int[] operationsArray = plugin.getSupportedOperationsBySignType(signType);
+         if (operationsArray == null || operationsArray.length == 0) {
+           // TODO XYZ ZZZ Traduir
+          String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
+              + "]: NO SUPORTA CAP OPERACIO DE FIRMA PEL TIPUS " + signType;
+          log.warn(msg);
+          return msg;
+        } else {
+          
+          Set<Integer> operacionsSuportades;
+          operacionsSuportades = new HashSet<Integer>();
+          for (int oper : operationsArray) {
+            operacionsSuportades.add(oper);
+          }
+          
+          if (!operacionsSuportades.contains(fis.getSignOperation())) {
+            // TODO XYZ ZZZ Traduir
+            String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
+                + "]: NO SUPORTA L'OPERACIO DE FIRMA " + fis.getSignOperation()
+                + " PEL TIPUS DE FIRMA " + signType; 
+            log.warn(msg);
+            return msg;
+          }
+        }
+
          final String[] supAlgArray = plugin.getSupportedSignatureAlgorithms(signType);
          if (supAlgArray == null || supAlgArray.length == 0) {
-           return false;
+            // TODO XYZ ZZZ Traduir
+           String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
+               + "]: NO SUPORTA CAP ALGORISME DE FIRMA PEL TIPUS " + signType;
+           log.warn(msg);
+           return msg;
          } else {
            Set<String> algorismesSuportats;
            algorismesSuportats = new HashSet<String>(Arrays.asList(supAlgArray));
            if (!algorismesSuportats.contains(fis.getSignAlgorithm())) {
-             log.warn("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
-                 + "]: NO SUPORTA ALGORISME DE FIRMA " + signType);
-             return false;
+             // TODO XYZ ZZZ Traduir
+             String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]::FIRMA[" + i 
+                 + "]: NO SUPORTA ALGORISME DE FIRMA " + signType; 
+             log.warn(msg);
+             return msg;
            }
          }
        }
@@ -250,8 +292,10 @@ public abstract class AbstractSignatureServerPlugin
          (anySignatureRequireRubricAndNotProvidesGenerator && !plugin.providesRubricGenerator())
          || (!anySignatureRequireRubricAndNotProvidesGenerator && !plugin.acceptExternalRubricGenerator())) {
          // Exclude Plugin
-         log.info("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: NO TE GENERADOR DE RUBRIQUES ");
-         return false;
+         // TODO XYZ ZZZ Traduir
+         String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: NO TE GENERADOR DE RUBRIQUES ";
+         log.info(msg);
+         return msg;
        }
      }
      
@@ -265,29 +309,35 @@ public abstract class AbstractSignatureServerPlugin
            // Cas 2: totes les firmes proveeixen generador i plugin no suporta generadors externs
          || (!anySignatureRequireCSVStampAndNotProvidesGenerator && !plugin.acceptExternalSecureVerificationCodeStamper()) ) {
            // Exclude Plugin
-           log.info("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: NO TE GENERADOR ESTAMPACIO CSV ");
-           return false;
+           // TODO XYZ ZZZ Traduir
+           String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: NO TE GENERADOR ESTAMPACIO CSV ";
+           log.info(msg);
+           return msg;
          }
        
        // 3.2.- Els tipus de codi de barres són suportats
        List<String> supportedBarCodeTypes = plugin.getSupportedBarCodeTypes();
        if (supportedBarCodeTypes == null) {
          // Exclude Plugin
-         log.info("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 1111");
-         return false;
+      // TODO XYZ ZZZ Traduir
+         String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 1111"; 
+         log.info(msg);
+         return msg;
        } else {
          Set<String> intersection = new HashSet<String>(supportedBarCodeTypes); // use the copy constructor
          intersection.retainAll(requiredBarCodeTypes);
          if (intersection.size() != requiredBarCodeTypes.size()) {
            // Exclude Plugin
-           log.info("Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 222222");
-           return false;
+        // TODO XYZ ZZZ Traduir
+           String msg = "Exclos plugin [" + plugin.getName(new Locale("ca"))  + "]: ESTAMPADOR CSV NO SUPORTA CODI DE BARRES 222222"; 
+           log.info(msg);
+           return msg;
          }
        }
        
      }
 
-    return true;
+    return null;
   }
   
  
@@ -299,13 +349,29 @@ public abstract class AbstractSignatureServerPlugin
   protected abstract String getSimpleName();
   
   
-  
+
+  @Override
+  public int[] getSupportedOperationsBySignType(String signType) {
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType) 
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+      return new int[] { FileInfoSignature.SIGN_OPERATION_SIGN};
+    } else {
+      return new int[0];
+    }
+  }
+
+  @Override
+  public Integer getSupportedNumberOfSignaturesInBatch() {
+    // Null indica qualsevol numero de firmes per transacció.
+    return null;
+  }
 
 
   // ---------------------------------------------------------
   // ------------------- I18N Utils ------------------------
   // ---------------------------------------------------------
-
+/* XYZ ZZZ
   public abstract String getResourceBundleName();
 
   public final String getTraduccio(String key, Locale locale, Object... params) {
@@ -372,25 +438,12 @@ public abstract class AbstractSignatureServerPlugin
   }
   
   
-
+*/
  //---------------------------------------------------------
  // ------------------- Utils ------------------------
  // ---------------------------------------------------------
 
- public static Properties readPropertiesFromFile(File props) throws FileNotFoundException,
-     IOException {
 
-   Properties prop = null;
-   if (props.exists()) {
-
-     prop = new Properties();
-
-     FileInputStream fis = new FileInputStream(props);
-     prop.load(fis);
-     fis.close();
-   }
-   return prop;
- }
  
 
 }

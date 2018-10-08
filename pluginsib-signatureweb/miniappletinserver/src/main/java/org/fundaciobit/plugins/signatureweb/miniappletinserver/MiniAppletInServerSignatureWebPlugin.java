@@ -125,17 +125,18 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet ) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
     // Per ara esta un poc complicat revisar els certificats, ja que sempre s'ha de
     // mostrar ja que l'usuari sempre te l'opció d'afegir Certificats
     
     // Requerim un username
-    if (signaturesSet.getCommonInfoSignature().getUsername() != null) {
-      return super.filter(request, signaturesSet);
+    if (signaturesSet.getCommonInfoSignature().getUsername() == null) {
+      // XYZ ZZZ TODO Traduir
+      return "Aquest plugin requereix que informi del camp username (signaturesSet.commonInfoSignature.username)";
     }
     
-    return false;
+    return super.filter(request, signaturesSet, parameters);
   }
 
   @Override
@@ -146,7 +147,7 @@ public class MiniAppletInServerSignatureWebPlugin extends AbstractMiniAppletSign
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet)
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters)
       throws Exception {
 
     addSignaturesSet(signaturesSet);

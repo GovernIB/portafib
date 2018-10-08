@@ -1,6 +1,8 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,9 +27,12 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
    *
    * @param request  Petició de l'API Servlet
    * @param signaturesSet Informació de les firmes a realitzar
-   * @return true, si aquest plugin es compatible per realitzar la firma.
+   * @param parameters Mapa de parameters configurables des de l'exterior
+   * @return null, si aquest plugin es compatible per realitzar la firma.
+   *            En altre cas retorna un missatge de l aincompatibilitat
    */
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet);
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet,
+      Map<String, Object> parameters );
 
   /**
    * 
@@ -50,12 +55,14 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
    *          Base de la Ruta relativa a aquest plugin
    * @param signaturesSet
    *          Informació completa del que s'ha de firmar i com
+   * @param parameters Mapa de parameters configurables des de l'exterior
    * @return La URL on s'ha de redireccionar per iniciar el proces de firma
    * @throws Exception
    *           Si hi ha errors
    */
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception;
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet,
+        Map<String, Object> parameters) throws Exception;
 
   /**
    * Peticio GET

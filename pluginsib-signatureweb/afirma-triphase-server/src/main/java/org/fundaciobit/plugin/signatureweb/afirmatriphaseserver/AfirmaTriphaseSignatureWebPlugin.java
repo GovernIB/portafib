@@ -209,7 +209,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
     addSignaturesSet(signaturesSet);
     
     if (debugMemory) {

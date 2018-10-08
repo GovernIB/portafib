@@ -267,13 +267,21 @@ public class AutoFirmaController extends FitxerController
     timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, 
         entitat, userRequiresTimeStamp );
 
+    //  #174 TODO XYZ ZZZ
+    final String expedientCode = null;
+    final String expedientName = null;
+    final String expedientUrl = null;
+    final String procedureCode = null;
+    final String procedureName = null;
+        
     
     FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
         langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
-        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator,
+        expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
     
     CommonInfoSignature commonInfoSignature;
     {

@@ -34,6 +34,7 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInf
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletInServerXAdESSigner;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
 
 /**
@@ -212,29 +213,31 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   }
 
   @Override
-  public boolean filter(SignaturesSet signaturesSet) {
+  public String filter(SignaturesSet signaturesSet, Map<String, Object> parameters) {
 
     // Requerim un username
     String username = signaturesSet.getCommonInfoSignature().getUsername();
 
     if (username == null && getProperty(DEFAULT_ALIAS_CERTIFICATE) == null) {
+      String msg = "No s'ha definit username en signaturesSet i el DEFAULT_ALIAS_CERTIFICATE val null"; 
       if (isDebug()) {
-        log.warn("No s'ha definit username en signaturesSet i el DEFAULT_ALIAS_CERTIFICATE val null"); 
+        log.warn(msg);
       }
-      return false;
+      return msg;
     }
 
     try {
       getCertificateOfUser(username, signaturesSet.getCommonInfoSignature().getLanguageUI());
     } catch (Exception e) {
+      String msg = "No s'ha pogut obtenir el certificat en la ruta definida en la configuració: "
+          + e.getMessage();
       if (isDebug()) {
-        log.warn("No s'ha pogut obtenir el certificat en la ruta definida en la configuració: "
-           + e.getMessage(), e); 
+        log.warn(msg, e); 
       }
-      return false;
+      return msg;
     }
 
-    return super.filter(signaturesSet);
+    return super.filter(signaturesSet, parameters);
   }
 
   // ----------------------------------------------------------------------------
@@ -247,7 +250,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
   public static final Map<String, SignaturesSet> tmpCache = new HashMap<String, SignaturesSet>();
 
   @Override
-  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase) {
+  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase, Map<String, Object> parameters) {
     
     try {
       // Guardam dins la cache pel tema del Segellat de Temps
@@ -551,7 +554,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
           propsFile.getAbsolutePath()));
     }
 
-    Properties prop = readPropertiesFromFile(propsFile);
+    Properties prop = FileUtils.readPropertiesFromFile(propsFile);
 
     if (prop == null) {
       // "No s'han pogut llegir les propietats del fitxer "

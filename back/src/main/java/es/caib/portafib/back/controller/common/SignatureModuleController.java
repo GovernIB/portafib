@@ -67,6 +67,8 @@ public class SignatureModuleController extends HttpServlet {
      @PathVariable("signaturesSetID") String signaturesSetID) throws Exception, I18NException {
 
     PortaFIBSignaturesSet signaturesSet = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
+    
+    
 
     // TODO CHECK signature Set
 
@@ -120,6 +122,11 @@ public class SignatureModuleController extends HttpServlet {
       moduls = modulDeFirmaEjb.select(PluginFields.PLUGINID.in(pluginsID));
     }
     
+    
+    
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("signaturesSet", signaturesSet);
+    
 
     List<PluginJPA> modulsFiltered = new ArrayList<PluginJPA>();
     ISignatureWebPlugin signaturePlugin;
@@ -140,7 +147,8 @@ public class SignatureModuleController extends HttpServlet {
         return generateErrorMAV(request, signaturesSetID, msg, null);
       }
 
-      if (signaturePlugin.filter(request, signaturesSet)) {
+      String error = signaturePlugin.filter(request, signaturesSet, parameters);       
+      if (error == null) {
         modulsFiltered.add((PluginJPA)modulDeFirmaJPA);
       };
     }
@@ -275,11 +283,13 @@ public class SignatureModuleController extends HttpServlet {
 
     // Substituim l'altre final URL pel NOU
     signaturesSet.setUrlFinal(newFinalUrl);
+    
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("signaturesSet", signaturesSet);
 
     String urlToPluginWebPage;
     urlToPluginWebPage = signaturePlugin.signDocuments(request, absoluteRequestPluginBasePath,
-        relativeRequestPluginBasePath, signaturesSet);
-
+        relativeRequestPluginBasePath, signaturesSet, parameters);
 
     return new ModelAndView(new RedirectView(urlToPluginWebPage, false));
 

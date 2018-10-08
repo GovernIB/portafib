@@ -317,7 +317,7 @@ create index pfi_pfwpua_plugin_fk_i on pfi_pluginfirmawebperusrapp 	(pluginfirma
 
 
 -- ======================================================================
--- 2018/04/16 Taula de Cridades a Plugins 	bitàcola de cridades) #170
+-- 2018/04/16 Taula de Cridades a Plugins 	(bitàcola de cridades) #170
 -- ======================================================================
 
 CREATE TABLE pfi_plugincridada (

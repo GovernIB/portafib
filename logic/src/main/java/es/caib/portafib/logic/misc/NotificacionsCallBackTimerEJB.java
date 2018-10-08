@@ -162,6 +162,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         }
 
       }
+      
+      nextExecution = System.currentTimeMillis() + duration;
 
       // Si han passat més de 30segons de l'hora prevista d'execució
       // llavors no l'executam.

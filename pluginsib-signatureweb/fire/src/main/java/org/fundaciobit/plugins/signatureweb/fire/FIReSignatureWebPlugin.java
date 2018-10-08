@@ -180,12 +180,13 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   }
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
     // FIRe és incompatible amb ClaveFirma
     try {
 
       Class.forName("es.gob.clavefirma.client.ConfigManager");
+      // XYZ ZZZ TODO Traduir
       log.warn("\n\n\n"
           + " ------------------------------------------------------------------------\n"
           + " |  El Plugin de Cl@veFirma i el Plugin de FIRe son incompatibles !!!!  |\n"
@@ -193,12 +194,18 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
           + " ------------------------------------------------------------------------\n"
           + "\n\n\n");
 
-      return false;
+      return "El Plugin de Cl@veFirma i el Plugin de FIRe son incompatibles."
+          + "S'ha d'eliminar el jar d'un d'aquest dos plugins de lib.";
     } catch (ClassNotFoundException cnfe) {
       // OK
     } catch (Exception e) {
-      log.warn("No puc descobrir si esta instal·lat el plugin de ClaveFirma."
-          + " Continuarem. Error llançat: " + e.getMessage(), e);
+      // XYZ ZZZ TODO Traduir
+      String msg = "No puc descobrir si esta instal·lat el plugin de ClaveFirma."
+          + " Continuarem. Error llançat: " + e.getMessage();
+      log.warn(msg, e);
+      
+      return msg;
+      
     }
 
     final String certOrigin = getCertOrigin();
@@ -211,12 +218,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
       for (int i = 0; i < signatures.length; i++) {
         if (signatures[i].getSignaturesTableLocation() != FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT) {
+          // XYZ ZZZ TODO Traduir
+          String msg = "La signatura de la posició " + i
+              + " requereix taula de firmes però només es posible si la propietat "
+              + getPropertyName(FIRE_BASE_PROPERTIES + "certOrigin") + " val 'clavefirma'";
           if (isDebug()) {
-            log.warn("La signatura de la posició " + i
-                + " requereix taula de firmes però només es posible si la propietat "
-                + getPropertyName(FIRE_BASE_PROPERTIES + "certOrigin") + " val 'clavefirma'");
+            log.warn(msg);
           }
-          return false;
+          return msg;
         }
       }
     }
@@ -233,14 +242,16 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
       String errorFilter = checkCertificates(username, administrationID, filter);
       if (errorFilter != null) {
+        // XYZ ZZZ TODO Traduir
+        String msg = "Filtre FIRe no passa: " + errorFilter;
         if (isDebug()) {
-          log.warn("Filtre FIRe no passa: " + errorFilter);
+          log.warn(msg);
         }
-        return false;
+        return msg;
       }
     }
 
-    return super.filter(request, signaturesSet);
+    return super.filter(request, signaturesSet,  parameters);
   }
 
   /**
@@ -436,7 +447,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
    */
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
     String certOrigin = getCertOrigin();
 

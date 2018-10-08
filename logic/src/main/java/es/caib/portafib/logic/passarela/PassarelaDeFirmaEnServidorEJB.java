@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
@@ -131,8 +133,13 @@ public class PassarelaDeFirmaEnServidorEJB extends
       ISignatureServerPlugin signaturePlugin;
       signaturePlugin = instantitatePluginDeFirmaEnServidor(config);
       
-      if (!signaturePlugin.filter(ss)) {
-        throw new NoCompatibleSignaturePluginException();
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      parameters.put("signaturesSet", ss);
+      
+      
+      String error = signaturePlugin.filter(ss, parameters); 
+      if (error != null) {
+        throw new NoCompatibleSignaturePluginException(error);
       }
       
       /*  XYZ ZZZ
@@ -201,7 +208,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
               config.getPluginFirmaServidorID());
       
       // FIRMAR
-      ss = signaturePlugin.signDocuments(ss, timestampUrlBase);
+      ss = signaturePlugin.signDocuments(ss, timestampUrlBase, parameters);
 
       // Convertir a Status i Results
       return getSignatureStatusAndResults(ss);

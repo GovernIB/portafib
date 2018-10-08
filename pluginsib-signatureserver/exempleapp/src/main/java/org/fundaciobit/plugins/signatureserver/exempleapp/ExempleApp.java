@@ -197,19 +197,30 @@ public class ExempleApp {
     // Valors per defcte
     final SignaturesTableHeader signaturesTableHeader = null;
     final SecureVerificationCodeStampInfo csvStampInfo = null;
+    final File previusSignatureDetachedFile = null;
+    final int signOperation = FileInfoSignature.SIGN_OPERATION_SIGN;
+    final String expedientCode=null;
+    final String expedientName=null;
+    final String expedientUrl=null;
+    final String procedureCode=null;
+    final String procedureName=null;
+    
 
     FileInfoSignature fileInfo = new FileInfoSignature(signID, source,
+        previusSignatureDetachedFile, 
         FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
-        languageSign, signType, signAlgorithm, signMode, signaturesTableLocation,
+        languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
-        timeStampGenerator);
+        timeStampGenerator, expedientCode, expedientName,
+        expedientUrl, procedureCode, procedureName);
 
     final String signaturesSetID = String.valueOf(System.currentTimeMillis());
     SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, commonInfoSignature,
         new FileInfoSignature[] { fileInfo });
 
     String timestampUrlBase = null;
-    signaturesSet = plugin.signDocuments(signaturesSet, timestampUrlBase);
+    final Map<String, Object> parameters = new HashMap<String, Object>();
+    signaturesSet = plugin.signDocuments(signaturesSet, timestampUrlBase, parameters);
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
 
     if (sss.getStatus() != StatusSignaturesSet.STATUS_FINAL_OK) {

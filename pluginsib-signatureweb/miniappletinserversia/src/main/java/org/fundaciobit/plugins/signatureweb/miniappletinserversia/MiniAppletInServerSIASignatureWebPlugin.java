@@ -113,7 +113,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
    
     // Revisar si l'usuari està registrar a SIA i si té certificats
     // de firma en aquest entorn. 
@@ -125,11 +125,13 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
     int certificatsDisponibles = filter(username, administrationID, filter);
     
-    if (certificatsDisponibles != 0) {
-      return super.filter(request, signaturesSet);
+    if (certificatsDisponibles == 0) {
+      // TODO TRADUIR XYZ ZZZ 
+      return "No hi ha certificats que passin el filtre de la consulta.";
+      
     };
     
-    return false;
+    return super.filter(request, signaturesSet, parameters);
   }
 
   public int filter(String username, String administrationID, String filter) {
@@ -196,7 +198,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, 
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet)
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters)
       throws Exception {
 
     addSignaturesSet(signaturesSet);

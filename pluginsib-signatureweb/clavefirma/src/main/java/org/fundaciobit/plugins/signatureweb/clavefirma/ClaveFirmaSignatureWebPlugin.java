@@ -172,7 +172,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   }
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
     // Revisar si l'usuari està registrar a ClaveFirma i si té certificats
     // de firma en aquest entorn.
@@ -182,11 +182,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
     String administrationID = common.getAdministrationID();
     String filter = common.getFiltreCertificats();
 
-    if (checkCertificates(username, administrationID, filter)) {
-      return super.filter(request, signaturesSet);
-    } else {
-      return false;
+    String error = checkCertificates(username, administrationID, filter); 
+    if (error != null) {
+      return error;
     }
+    
+    return super.filter(request, signaturesSet, parameters);
+    
   }
 
   /**
@@ -196,16 +198,18 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
    * @param filter
    * @return
    */
-  private boolean checkCertificates(String username, String administrationID, String filter) {
+  private String checkCertificates(String username, String administrationID, String filter) {
 
     try {
 
       List<X509Certificate> map = listCertificates(username, administrationID);
       if (map == null || map.size() == 0) {
         if (permetreGeneracioDeCertificat()) {
-          return true;
+          return null; // OK
         } else {
-          return false;
+          // XYZ ZZZ Traduir TODO 
+          return "L'usuari " + username + "(" + administrationID 
+              + ") no te certificats i no es permet la generació";
         }
 
       }
@@ -232,18 +236,27 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           }
         }
       }
-      return certificatsDisponibles != 0;
+      if (certificatsDisponibles == 0) {
+        // XYZ ZZZ Traduir TODO 
+        return "Els certificats disponibles per l'usuari " + username + "(" + administrationID 
+            + ") no han passat els Filtres de Certificats";
+      }
+      
+      return null;
 
     } catch (HttpCertificateBlockedException se) {
+      
       if (passFilterWhenUserCertificateBlocked()) {
         log.info("filter:: L'usuari " + username + "(" + administrationID + ") té el "
             + "certificat bloquejat però la propietat passfilterwhenusercertificateblocked"
             + " = true (" + se.getClass() + ")");
-        return true;
+        return null;
       } else {
-        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ")  té el"
-            + " certificat bloquejat: " + se.getMessage(), se);
-        return false;
+        // XYZ ZZZ Traduir TODO 
+        String msg = "filter:: L'usuari  " + username + "(" + administrationID + ")  té el"
+            + " certificat bloquejat: " + se.getMessage(); 
+        log.warn(msg, se);
+        return msg;
       }
     } catch (HttpNoUserException se) {
 
@@ -251,11 +264,13 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         log.info("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
             + "donat d'alta en el sistema ClaveFirma però la propietat "
             + "passfilterwhennonregistereduser = true: " + se.getClass());
-        return true;
+        return null;
       } else {
-        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
-            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)", se);
-        return false;
+        // XYZ ZZZ Traduir TODO 
+        String msg = "filter:: L'usuari  " + username + "(" + administrationID + ") no està "
+            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)"; 
+        log.warn(msg, se);
+        return msg;
       }
     } catch (HttpWeakRegistryException we) {
 
@@ -263,17 +278,21 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
         log.info("filter:: L'usuari  " + username + "(" + administrationID + ") està "
             + "registrat a ClaveFirma amb un registre dèbil "
             + "(passfilterwhenuserhasweakregistry = true): " + we.getClass());
-        return true;
+        return null;
       } else {
-        log.warn("filter:: L'usuari  " + username + "(" + administrationID + ") està "
+        // XYZ ZZZ Traduir TODO 
+        String msg = "filter:: L'usuari  " + username + "(" + administrationID + ") està "
             + "registrat a ClaveFirma amb un registre dèbil "
-            + "(passfilterwhenuserhasweakregistry = false)", we);
-        return false;
+            + "(passfilterwhenuserhasweakregistry = false)"; 
+        log.warn(msg, we);
+        return msg;
       }
 
     } catch (Throwable e) {
-      log.error("filter:: Unknown Error " + e.getMessage(), e);
-      return false;
+      // XYZ ZZZ Traduir TODO
+      String msg = "filter:: Unknown Error " + e.getMessage(); 
+      log.error(msg, e);
+      return msg;
     }
   }
 
@@ -368,7 +387,7 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
    */
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
     List<X509Certificate> certificates;
     // En principi això ja no ha de llançar errors a no ser de usuari no
@@ -1881,6 +1900,11 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
   @Override
   public void resetAndClean(HttpServletRequest request) throws Exception {
     internalResetAndClean(request);
+  }
+  
+  @Override
+  public Integer getSupportedNumberOfSignaturesInBatch() {
+    return 1;
   }
 
 }

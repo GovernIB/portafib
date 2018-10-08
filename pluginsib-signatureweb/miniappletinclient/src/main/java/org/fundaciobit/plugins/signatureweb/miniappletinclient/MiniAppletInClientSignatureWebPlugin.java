@@ -86,7 +86,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath, String relativePluginRequestPath,
-      SignaturesSetWeb signaturesSet) throws Exception {
+      SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
     addSignaturesSet(signaturesSet);
 
@@ -732,7 +732,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
     // Descartar tablets i mobils 
     String userAgent = request.getHeader("User-Agent");
@@ -741,10 +741,11 @@ public class MiniAppletInClientSignatureWebPlugin extends
     UAgentInfo uai = new UAgentInfo(userAgent, accept);
     
     if (uai.detectTierIphone() || uai.detectTierTablet()) {
-       return false;  
+      // TODO XYZ ZZZ Traduir
+       return "Aquest plugin no suporta ni IPhones ni Tablets";  
     }
 
-    return super.filter(request, signaturesSet);
+    return super.filter(request, signaturesSet, parameters);
 
   }
 

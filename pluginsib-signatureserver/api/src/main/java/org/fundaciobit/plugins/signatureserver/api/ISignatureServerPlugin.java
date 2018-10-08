@@ -1,5 +1,7 @@
 package org.fundaciobit.plugins.signatureserver.api;
 
+import java.util.Map;
+
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
@@ -25,9 +27,11 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    *
    * @param request  Petició de l'API Servlet
    * @param signaturesSet Informació de les firmes a realitzar
-   * @return true, si aquest plugin es compatible per realitzar la firma.
+   * @param parameters Mapa de parameters configurables des de l'exterior
+   * @return null, si aquest plugin es compatible per realitzar la firma.
+   *            En altre cas retorna un missatge de l aincompatibilitat 
    */
-  public boolean filter(SignaturesSet signaturesSet);
+  public String filter(SignaturesSet signaturesSet, Map<String, Object> parameters);
 
 
   /**
@@ -39,10 +43,11 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    *        se li afegira el SignatureSetID i l'index. 
    *        Per exemple si timestampUrlBase=http://exemple.com/ts/, les cridades seran a 
    *        http://exemple.com/ts/{signaturesSetID}/{index} (http://exemple.com/ts/123456/0) 
+   * @param parameters Mapa de parameters configurables des de l'exterior
    * @return El mateix parametre d'entrada però amb informació d'estat final
    * 
    */
-  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase);
+  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase, Map<String, Object> parameters);
   
   
   /**

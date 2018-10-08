@@ -117,15 +117,15 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   }
 
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
     // Per ara no aplicam cap filtre ja que tota la informació la té PortaFIB
     // Feim una cridada a l'API per testejar si existeix el servidor
     try {
       getPassarelaDeFirmaApi().getVersion();
-      return super.filter(request, signaturesSet);
+      
     } catch (Throwable th) {
-
+      // XYZ ZZZ TODO Traduir
       String msg = "Filtre del plugin de SignatureWeb PortaFIB no es poc connectar"
           + " amb l'API: " + th.getMessage();
       if (log.isDebugEnabled()) {
@@ -134,8 +134,10 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
         log.warn(msg);
       }
 
-      return false;
+      return msg;
     }
+    
+    return super.filter(request, signaturesSet, parameters);
 
   }
 
@@ -305,7 +307,7 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
 
   @Override
   public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-      String relativePluginRequestPath, SignaturesSetWeb signaturesSet) throws Exception {
+      String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) throws Exception {
 
     // Cridar A API
     PortaFIBPassarelaDeFirmaWebWs api = getPassarelaDeFirmaApi();
@@ -804,6 +806,5 @@ public class PortaFIBSignatureWebPlugin extends AbstractSignatureWebPlugin imple
   public void resetAndClean(HttpServletRequest request) throws Exception {
     internalResetAndClean(request);    
   }
-
 
 }

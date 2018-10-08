@@ -99,7 +99,9 @@ public class SignatureUtils {
        String mimeType, String idname, long locationSignTableID, String reason,
        String location, String signerEmail,  int signNumber, String languageSign, long signTypeID, 
        long signAlgorithmID, boolean signModeBool, String firmatPerFormat,
-       ITimeStampGenerator timeStampGenerator) throws I18NException {
+       ITimeStampGenerator timeStampGenerator, String expedientCode,
+       String expedientName,String expedientUrl,String procedureCode,
+       String procedureName) throws I18NException {
 
      PdfVisibleSignature pdfInfoSignature = null;
 
@@ -161,10 +163,19 @@ public class SignatureUtils {
      // Ja s'ha arreglat abans
      final SecureVerificationCodeStampInfo csvStampInfo = null;
      
-     FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, mimeType , idname,  reason,
-         location, signerEmail,  signNumber, languageSign, signType, signAlgorithm,
+     //  #174 TODO XYZ ZZZ
+     final  File previusSignatureDetachedFile = null;
+     final  int signOperation = FileInfoSignature.SIGN_OPERATION_SIGN;
+     
+     
+     
+     FileInfoSignature fis = new FileInfoSignature(signatureID, fileToSign, previusSignatureDetachedFile,
+         mimeType , idname,  reason,
+         location, signerEmail,  signNumber, languageSign, signOperation, signType, signAlgorithm,
          signMode, locationSignTable, signaturesTableHeader, pdfInfoSignature,
-         csvStampInfo,  timeStampGenerator != null, timeStampGenerator);
+         csvStampInfo,  timeStampGenerator != null, timeStampGenerator,
+         expedientCode, expedientName,
+         expedientUrl, procedureCode, procedureName);
      
      return fis;
    }
@@ -293,7 +304,9 @@ public class SignatureUtils {
              posicioTaulaFirmesID, reason, location, signerEmail, sign_number, 
              langDoc, signTypeID, signAlgorithm,
              signMode,
-             getFirmatPerFormat(entitat, langDoc), timeStampGenerator);
+             getFirmatPerFormat(entitat, langDoc), timeStampGenerator,
+             pfis.getExpedientCodi(),pfis.getExpedientNom(), pfis.getExpedientUrl(),
+             pfis.getProcedimentCodi(), pfis.getProcedimentNom());
          
          
          fileInfoSignatureArray[count] = fis;

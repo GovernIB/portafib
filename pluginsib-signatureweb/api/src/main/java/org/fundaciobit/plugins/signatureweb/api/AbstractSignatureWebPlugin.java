@@ -123,7 +123,7 @@ public abstract class AbstractSignatureWebPlugin
   }
   
   @Override
-  public boolean filter(HttpServletRequest request, SignaturesSetWeb signaturesSet) {
+  public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String,Object> parameters) {
     final  boolean suportXAdES_T = false;
     return AbstractSignatureServerPlugin.checkFilter(this, signaturesSet, suportXAdES_T, log);
   }
@@ -556,5 +556,24 @@ public abstract class AbstractSignatureWebPlugin
   protected int internalGetActiveTransactions() throws Exception {
     return this.infoSign.size();
   }
+  
+  
+  @Override
+  public int[] getSupportedOperationsBySignType(String signType) {
+    if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType) 
+        || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+      return new int[] { FileInfoSignature.SIGN_OPERATION_SIGN};
+    } else {
+      return new int[0];
+    }
+  }
+
+  @Override
+  public Integer getSupportedNumberOfSignaturesInBatch() {
+    // Null indica qualsevol numero de firmes per transacció.
+    return null;
+  }
+
 
 }

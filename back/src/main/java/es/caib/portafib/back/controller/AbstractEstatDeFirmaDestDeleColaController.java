@@ -1422,13 +1422,19 @@ import es.caib.portafib.utils.Configuracio;
        File originalDoc = FileSystemManager.getFile(peticioDeFirma.getFitxerAdaptatID());
        final int originalNumberOfSigns = PdfUtils.getNumberOfSignaturesInPDF(originalDoc);
        
+       //  #174 TODO XYZ ZZZ
+       final String expedientCode = null;
+       final String expedientName = null;
+       final String expedientUrl = null;
+       final String procedureCode = null;
+       final String procedureName = null;
 
        return new FileInfoFull(SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
-            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator),
+            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator,
+            expedientCode, expedientName, expedientUrl, procedureCode, procedureName),
             originalNumberOfSigns);
-
     }
 
 

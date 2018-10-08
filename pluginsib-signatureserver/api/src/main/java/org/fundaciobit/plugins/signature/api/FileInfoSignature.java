@@ -2,6 +2,7 @@ package org.fundaciobit.plugins.signature.api;
 
 import java.io.File;
 
+
 /**
  * 
  * @author anadal
@@ -52,10 +53,22 @@ public class FileInfoSignature {
   public static final int SIGNATURESTABLELOCATION_WITHOUT = 0;
   public static final int SIGNATURESTABLELOCATION_FIRSTPAGE = 1;
   public static final int SIGNATURESTABLELOCATION_LASTPAGE = -1;
+  
+  // FIRMA
+  public static final int SIGN_OPERATION_SIGN = 0;
+  // COFIRMA
+  public static final int SIGN_OPERATION_COSIGN = 1;
+  // CONTRAFIRMA
+  public static final int SIGN_OPERATION_COUNTERSIGN = 2;
 
   String signID;
 
   File fileToSign;
+  
+  /**
+   * Només per CAdES i XAdEs Detached amb firma prèvia
+   */
+  protected File previusSignatureDetachedFile = null;
 
   String mimeType;
 
@@ -70,6 +83,8 @@ public class FileInfoSignature {
   int signNumber;
 
   String languageSign;
+  
+  int signOperation;
 
   String signType;
 
@@ -93,6 +108,12 @@ public class FileInfoSignature {
   SecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
   
   StatusSignature statusSignature = new StatusSignature();
+
+  String expedientCode;
+  String expedientName;
+  String expedientUrl;
+  String procedureCode;
+  String procedureName;
 
   /**
    * 
@@ -121,6 +142,7 @@ public class FileInfoSignature {
    * @param timeStampGenerator
    * @param statusSignature
    */
+  @Deprecated
   public FileInfoSignature(String signID, File fileToSign, String mimeType, String name,
       String reason, String location, String signerEmail, int signNumber, String languageSign,
       String signType, String signAlgorithm, int signMode,
@@ -149,6 +171,71 @@ public class FileInfoSignature {
   }
 
 
+  /**
+   * 
+   * @param signID
+   * @param fileToSign
+   * @param previusSignatureDetachedFile
+   * @param mimeType
+   * @param name
+   * @param reason
+   * @param location
+   * @param signerEmail
+   * @param signNumber
+   * @param languageSign
+   * @param signOperation
+   * @param signType
+   * @param signAlgorithm
+   * @param signMode
+   * @param signaturesTableLocation
+   * @param signaturesTableHeader
+   * @param pdfVisibleSignature
+   * @param userRequiresTimeStamp
+   * @param timeStampGenerator
+   * @param secureVerificationCodeStampInfo
+   * @param statusSignature
+   * @param expedientCode
+   * @param expedientName
+   * @param expedientUrl
+   * @param procedureCode
+   * @param procedureName
+   */
+  public FileInfoSignature(String signID, File fileToSign, File previusSignatureDetachedFile,
+      String mimeType, String name, String reason, String location, String signerEmail,
+      int signNumber, String languageSign, int signOperation, String signType,
+      String signAlgorithm, int signMode, int signaturesTableLocation,
+      SignaturesTableHeader signaturesTableHeader, PdfVisibleSignature pdfVisibleSignature,      
+      SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
+      boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator,
+      String expedientCode, String expedientName,
+      String expedientUrl, String procedureCode, String procedureName) {
+    super();
+    this.signID = signID;
+    this.fileToSign = fileToSign;
+    this.previusSignatureDetachedFile = previusSignatureDetachedFile;
+    this.mimeType = mimeType;
+    this.name = name;
+    this.reason = reason;
+    this.location = location;
+    this.signerEmail = signerEmail;
+    this.signNumber = signNumber;
+    this.languageSign = languageSign;
+    this.signOperation = signOperation;
+    this.signType = signType;
+    this.signAlgorithm = signAlgorithm;
+    this.signMode = signMode;
+    this.signaturesTableLocation = signaturesTableLocation;
+    this.signaturesTableHeader = signaturesTableHeader;
+    this.pdfVisibleSignature = pdfVisibleSignature;
+    this.userRequiresTimeStamp = userRequiresTimeStamp;
+    this.timeStampGenerator = timeStampGenerator;
+    this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
+    this.expedientCode = expedientCode;
+    this.expedientName = expedientName;
+    this.expedientUrl = expedientUrl;
+    this.procedureCode = procedureCode;
+    this.procedureName = procedureName;
+  }
 
   public String getSignID() {
     return signID;
@@ -156,6 +243,14 @@ public class FileInfoSignature {
 
   public void setSignID(String signID) {
     this.signID = signID;
+  }
+
+  public File getPreviusSignatureDetachedFile() {
+    return previusSignatureDetachedFile;
+  }
+
+  public void setPreviusSignatureDetachedFile(File previusSignatureDetachedFile) {
+    this.previusSignatureDetachedFile = previusSignatureDetachedFile;
   }
 
   public File getFileToSign() {
@@ -220,6 +315,14 @@ public class FileInfoSignature {
 
   public void setLanguageSign(String languageSign) {
     this.languageSign = languageSign;
+  }
+
+  public int getSignOperation() {
+    return signOperation;
+  }
+
+  public void setSignOperation(int signOperation) {
+    this.signOperation = signOperation;
   }
 
   public String getSignType() {
@@ -303,6 +406,48 @@ public class FileInfoSignature {
     this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
   }
 
-  
-  
+
+
+  public String getExpedientCode() {
+    return expedientCode;
+  }
+
+  public void setExpedientCode(String expedientCode) {
+    this.expedientCode = expedientCode;
+  }
+
+  public String getExpedientName() {
+    return expedientName;
+  }
+
+  public void setExpedientName(String expedientName) {
+    this.expedientName = expedientName;
+  }
+
+  public String getExpedientUrl() {
+    return expedientUrl;
+  }
+
+  public void setExpedientUrl(String expedientUrl) {
+    this.expedientUrl = expedientUrl;
+  }
+
+  public String getProcedureCode() {
+    return procedureCode;
+  }
+
+  public void setProcedureCode(String procedureCode) {
+    this.procedureCode = procedureCode;
+  }
+
+  public String getProcedureName() {
+    return procedureName;
+  }
+
+  public void setProcedureName(String procedureName) {
+    this.procedureName = procedureName;
+  }
+
+
+
 }

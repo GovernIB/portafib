@@ -46,22 +46,21 @@ public class SignatureWebModuleEjb implements SignatureWebModuleLocal {
 
 
     ExempleSignaturesSet signaturesSet = getSignaturesSet(request, signaturesSetID);
-    
- 
 
-    
     Map<Plugin, ISignatureWebPlugin> allPlugins = getAllPlugins();
 
 
     // 2.- Passa el filtre ...
+    final Map<String, Object> parameters = new HashMap<String, Object>();
     List<Plugin> pluginsFiltered = new ArrayList<Plugin>();  
     for (Plugin pluginDeFirma : allPlugins.keySet()) {
       ISignatureWebPlugin signaturePlugin =  allPlugins.get(pluginDeFirma);
-      if (signaturePlugin.filter(request, signaturesSet)) {
+      String error = signaturePlugin.filter(request, signaturesSet, parameters);
+      if (error == null) {
           pluginsFiltered.add(pluginDeFirma);
       } else {
           // Exclude Plugin
-          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: NO PASSA FILTRE");
+          log.info("Exclos plugin [" + pluginDeFirma.getNom() + "]: " + error);
       }
       
     }
@@ -158,8 +157,9 @@ public class SignatureWebModuleEjb implements SignatureWebModuleLocal {
     }
 
     String urlToPluginWebPage;
+    final Map<String, Object> parameters = new HashMap<String, Object>();
     urlToPluginWebPage = signaturePlugin.signDocuments(request, absoluteRequestPluginBasePath,
-        relativeRequestPluginBasePath, signaturesSet);
+        relativeRequestPluginBasePath, signaturesSet, parameters);
 
     return urlToPluginWebPage;
    

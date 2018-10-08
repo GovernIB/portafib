@@ -302,7 +302,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   }
 
   @Override
-  public boolean filter(SignaturesSet signaturesSet) {
+  public String filter(SignaturesSet signaturesSet, Map<String, Object> parameters) {
 
     final boolean suportXAdES_T = true;
 
@@ -312,11 +312,17 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
       XTrustProvider.install();
     }
 
-    if (checkFilter(this, signaturesSet, suportXAdES_T, this.log)) {
-      return checkConnection();
+    String error = checkFilter(this, signaturesSet, suportXAdES_T, this.log); 
+    if (error != null) {
+      return error;
     }
 
-    return false;
+    error = checkConnection(); 
+    if (error != null) {
+      return error; 
+    };
+    
+    return null; // OK
   }
 
   public String getAliasCertificate(SignaturesSet signaturesSet) throws Exception {
@@ -347,7 +353,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    * 
    */
   @Override
-  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase) {
+  public SignaturesSet signDocuments(SignaturesSet signaturesSet, String timestampUrlBase,Map<String, Object> parameters) {
 
     final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
 
@@ -1409,7 +1415,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
    * 
    * @return
    */
-  protected boolean checkConnection() {
+  protected String checkConnection() {
 
     try {
 
@@ -1420,15 +1426,19 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         URL url = new URL(endpoint + "?wsdl");
         URLConnection conn = url.openConnection();
         conn.connect();
-        return true;
+        return null; // OK
       } catch (Exception e) {
-        log.warn(" Error connectant amb " + endpoint + ":" + e.getMessage(), e);
-        return false;
+        // XYZ ZZZ TODO traduir
+        String msg = "Error connectant amb " + endpoint + ":" + e.getMessage(); 
+        log.warn(msg, e);
+        return msg;
       }
 
     } catch (Throwable e) {
-      log.error("Error provant comunicació amb servidor: " + e.getMessage(), e);
-      return false;
+      // XYZ ZZZ TODO traduir
+      String msg = "Error provant comunicació amb servidor: " + e.getMessage();
+      log.error(msg, e);
+      return msg;
     }
 
   }
