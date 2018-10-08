@@ -1,9 +1,11 @@
 PortaFIB 2.0.0
 ==============
 
+2018-10-08 Afegir propietat per desactivar taula de firmes en peticions de WS i PassarelÂ·la #186
+
 2018-10-03 Problemes amb AUTOFIRMA i firmes massives: firma corrupta #187
 
-2018-09-29 Revisors a nivell de Capsa de Firma (o sigui per Petició) #169
+2018-09-29 Revisors a nivell de Capsa de Firma (o sigui per PeticiÃ³) #169
 
 2018-08-14 Actualitzar Plugins de Firma Web i en Servidor a PluginsIB v2.0  #178
 
@@ -11,7 +13,7 @@ PortaFIB 2.0.0
 
 2018-05-17 API de Firma SIMPLE en Servidor  #148
 
-2018-03-13 Nova Versió de PortaFIB 2.0.0 #118
+2018-03-13 Nova VersiÃ³ de PortaFIB 2.0.0 #118
 
 2018-04-16 Canvis de BBDD #118 #148 #160 #161 #162 #163 #164 #165 #166 #168 #169 #170 #171 #173
 
@@ -19,7 +21,7 @@ PortaFIB 2.0.0
 PortaFIB 1.1.4
 ==============
 
-2018-03-08 Tancar versió PortaFIB 1.1.4
+2018-03-08 Tancar versiÃ³ PortaFIB 1.1.4
 
 2018-03-08 ApiFirmaSimple: Optimitzar ApiFirmaWebSimple i implementar ApiFirmaEnServidorSimple #148
 
@@ -29,39 +31,39 @@ PortaFIB 1.1.4
 
 2018-03-02 Eliminar Coa JBoss de Notificacions Ws i substituir-la per un Timer #157
 
-2018-02-23 Problemes amb les notificacions WS 	pèrdua de la transacció) #155
+2018-02-23 Problemes amb les notificacions WS 	pÃ¨rdua de la transacciÃ³) #155
 
 2018-02-22 Plugin de Firma en Servidor que utilitzi llibreries de @firma #154
 
-2018-02-20 API de Firma Web Simple: Exemple WebApp d'ús d'aquesta API #148
+2018-02-20 API de Firma Web Simple: Exemple WebApp d'Ãºs d'aquesta API #148
 
 2018-02-14 Actualitzar API de Document Custody a PortaFIB #153
 
-2018-02-14 Nou Manual de Migració de Versions de PortaFIB
+2018-02-14 Nou Manual de MigraciÃ³ de Versions de PortaFIB
 
 2018-02-13 API de Firma Web Simple: Simplificar el Model de API de Firma Web emprant Cridades REST i Servidor Intermedi 	Prototipus) #148
 
 2018-02-13 Nou versionat de les API's del Directori WS de PortaFIB #152
 
-2018-02-13 Nova Versió de PortaFIB 1.1.4 #152
+2018-02-13 Nova VersiÃ³ de PortaFIB 1.1.4 #152
 
 
 PortaFIB 1.1.3
 ==============
 
-2018-02-06 Nova Versió Plugin Autofirma 2.0.5:
+2018-02-06 Nova VersiÃ³ Plugin Autofirma 2.0.5:
           * Timeout en Firmes Batch i Repositori de Certificats Firefox en Windows #151
           * Acentos en Reason no aparecen bien al firmar #144
 
-2018-01-31 Nova Versió Plugin Autofirma 2.0.4 	Cache de rubriques en disc #150)
+2018-01-31 Nova VersiÃ³ Plugin Autofirma 2.0.4 	Cache de rubriques en disc #150)
 
 2018-01-26 Plugin de Firma WEB FIRe. #146
 
-2018-01-22 Autofirma + Taula de Firmes +Cert.En.Targeta => Error Validació PDF 	Error en firmes múltiples) #138
+2018-01-22 Autofirma + Taula de Firmes +Cert.En.Targeta => Error ValidaciÃ³ PDF 	Error en firmes mÃºltiples) #138
 
 2017-12-13 Actualitzar Plugin de Segellat de Temps de TS@ 	suportar jdk 1.7)
 
-2017-11-13 No es marca com a pendent de revisió una Petició REBUTJADA #145
+2017-11-13 No es marca com a pendent de revisiÃ³ una PeticiÃ³ REBUTJADA #145
 
 2017-11-08 Plugin Web Autofirma: Solucionat el mal funcionament del filtre de Certificats #143
 
@@ -69,23 +71,23 @@ PortaFIB 1.1.3
 
 2017-11-07 Actualitzar Plugin de Certificat FAKE per suportar certificats "IDCES-" de la FNMT
 
-2017-11-06 Millores en Plugin Autofirma, Proves i lògica de l'opció "Firma un Document" #141
+2017-11-06 Millores en Plugin Autofirma, Proves i lÃ²gica de l'opciÃ³ "Firma un Document" #141
 
 2017-10-19 Eliminar repositoris locals 	local-repo) de PortaFIB 	MiniApplet i SIA). #140
 
-2017-10-18 Plugin Web Autofirma: No descarregava rúbrica en entorns HTTPS. #140
+2017-10-18 Plugin Web Autofirma: No descarregava rÃºbrica en entorns HTTPS. #140
 
-2017-10-10 Plugin Web Autofirma: Nova versió 2.0.3. Solucionat problema de PDF corrupte
+2017-10-10 Plugin Web Autofirma: Nova versiÃ³ 2.0.3. Solucionat problema de PDF corrupte
            quan es firmava un PDF amb taula de firmes
            	Veure detalls https://github.com/GovernIB/portafib/issues/138)
 
-2017-09-27 Afegir botó per testejar URL de CallBack en llistat d'Usuaris-Aplicació #135
+2017-09-27 Afegir botÃ³ per testejar URL de CallBack en llistat d'Usuaris-AplicaciÃ³ #135
 
 2017-09-25 Actualitzar Plugin de Firma Web Cl@veFirma a v2.0.3 	Noves propietats, veure Manual d'Usuari) #134
 
-2017-09-15 Afegir Boto de "Marcar com revisat" de items seleccionats en Peticions de Sol·licitant #132
+2017-09-15 Afegir Boto de "Marcar com revisat" de items seleccionats en Peticions de SolÂ·licitant #132
 
-2017-09-21 Millores plugin de Autofirma quan expira el temps i quan cancel·la l'usuari #133
+2017-09-21 Millores plugin de Autofirma quan expira el temps i quan cancelÂ·la l'usuari #133
 
 2017-09-11 Solucionar Bug que no permetia esborrar peticions amb fitxers netejats #130
 
@@ -96,7 +98,7 @@ PortaFIB 1.1.3
                  - Manual_de_CallBack_de_PortaFIB.odt
                  - Manual_de_RESTServices_de_PortaFIB.odt
 
-2017-09-04 Afegit servei REST autenticat pel llistat d'avisos d'un usuari-entitat i mètode echo 	Veure Manual de RESTServices)
+2017-09-04 Afegit servei REST autenticat pel llistat d'avisos d'un usuari-entitat i mÃ¨tode echo 	Veure Manual de RESTServices)
 
 2017-08-24 Afegit servei REST pel llistat de Tipus de Documents 	Veure Manual de WebServices)
 
@@ -104,57 +106,57 @@ PortaFIB 1.1.3
 
 2017-08-04 Afegides propietats newjavascripturl i newcssurl als plugins de Firma Web AutoFirma i MiniAppletInClient
 
-2017-08-04 Revisió global del Plugin de Firma Web de Cl@veFirma 	Formulari Alta MINHAP)
+2017-08-04 RevisiÃ³ global del Plugin de Firma Web de Cl@veFirma 	Formulari Alta MINHAP)
 
-2017-07-24 Pantalla per realitzar neteges de fitxers de peticions de firmes 	Menú AdEn) #113
+2017-07-24 Pantalla per realitzar neteges de fitxers de peticions de firmes 	MenÃº AdEn) #113
 
-2017-06-26 Neteja de fitxer adaptat i firmes intermèdies després de Finalitzada o Rebutjada una petició de firma #109
+2017-06-26 Neteja de fitxer adaptat i firmes intermÃ¨dies desprÃ©s de Finalitzada o Rebutjada una peticiÃ³ de firma #109
 
-2017-06-23 Actualitzar Plugin de Firma Web Cl@veFirma a la versió 1.1 
+2017-06-23 Actualitzar Plugin de Firma Web Cl@veFirma a la versiÃ³ 1.1 
 
-2017-06-21 Només mostrar camp de Descripció de Tipus Documental de la Petició de Firma si Tipus Documental val 99 	Altres documents) #108
+2017-06-21 NomÃ©s mostrar camp de DescripciÃ³ de Tipus Documental de la PeticiÃ³ de Firma si Tipus Documental val 99 	Altres documents) #108
 
-2017-06-20 Afegir Filtres de Cerca de Petició dins pantalles de Destinatari, Delegat i Col·laborador, així com millorar llistats  #107
+2017-06-20 Afegir Filtres de Cerca de PeticiÃ³ dins pantalles de Destinatari, Delegat i ColÂ·laborador, aixÃ­ com millorar llistats  #107
 
-2017-06-19 Afegir informació d'expedient dins el camp informacioAddicional de PeticioDeFirma #106 
+2017-06-19 Afegir informaciÃ³ d'expedient dins el camp informacioAddicional de PeticioDeFirma #106 
 
-2017-06-19 Afegir botó de descarrega directe de fitxers #105
+2017-06-19 Afegir botÃ³ de descarrega directe de fitxers #105
 
 2017-06-16 Suportar firmes CADES en Plugin de MiniAppletInServer 	Web i En Servidor)
 
 2017-06-15 Permetre firmar PDFs amb firmes preexitens	Nova propietat es.caib.portafib.ignorecheckpostsign per indicar si verificar PDF rebut del plugin de firma). #103
 
-2017-06-12 Obrir versió de PortaFIB 1.1.3
+2017-06-12 Obrir versiÃ³ de PortaFIB 1.1.3
 
 
 
 PortaFIB 1.1.2
 ==============
 
-2017-06-13 Alliberar versió de PortaFIB 1.1.2
+2017-06-13 Alliberar versiÃ³ de PortaFIB 1.1.2
 
 2017-02-21 Afegir suport de JKS en Plugin de MiniApplet en Servidor.
 
-2017-02-17 Solucionat Bug en la generació de firmes EPES  #94
+2017-02-17 Solucionat Bug en la generaciÃ³ de firmes EPES  #94
 
-2017-02-16 Suportar firmes múltiples am Autofirma, Android i IOS amb el plugin de Firma
-           Web "Cliente Móvil @firma" 	actualitzar a la versió 1.5 de firma trifàsica)
+2017-02-16 Suportar firmes mÃºltiples am Autofirma, Android i IOS amb el plugin de Firma
+           Web "Cliente MÃ³vil @firma" 	actualitzar a la versiÃ³ 1.5 de firma trifÃ sica)
 
-2017-02-03 Suportar Chrome amb Android i IOS amb el plugin de Firma Web "Cliente Móvil @firma"
+2017-02-03 Suportar Chrome amb Android i IOS amb el plugin de Firma Web "Cliente MÃ³vil @firma"
 
 2016-12-30 Implementar Plugin de Firma en Servidor emprant @firma federat #91
 
 2016-12-01 Fer que Plugin de Firma Web de AutoFirma, funcionin els certificats
 
-2016-11-30 Eliminar transferència CHUNKED de plugin de CheckCertificate de @firma
+2016-11-30 Eliminar transferÃ¨ncia CHUNKED de plugin de CheckCertificate de @firma
 
-2016-11-28 Pàgina dins exemple de Plugins de Firma Web per mostrar les funcionalitats dels plugins.
+2016-11-28 PÃ gina dins exemple de Plugins de Firma Web per mostrar les funcionalitats dels plugins.
  
 2016-11-23 Implementat Plugin de Firma Web emprant Cl@aveFirma
 
 2016-11-04 Suportar Segellat de Temps en firmes CAdES i SMIME en el Plugin AutoFirma de @Firma #85
 
-2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven múltiples fitxers
+2016-11-02 Bug en Plugin de MiniApplet en Client quan es firmaven mÃºltiples fitxers
            emprant un certificat dins d'una targeta. #84
 
 2016-10-13 Afegir propietat es.caib.portafib.activeusuarientitatafteragentseyconcreation  #83
@@ -165,42 +167,42 @@ PortaFIB 1.1.2
 
 2016-10-07 Suportar SMIME en Plugin de Autofirma de @firma #21
 
-2016-09-29 Obrir versió de PortaFIB 1.1.2
+2016-09-29 Obrir versiÃ³ de PortaFIB 1.1.2
 
 
 PortaFIB 1.1.1
 ==============
 
-2016-09-29 Alliberar versió de PortaFIB 1.1.1
+2016-09-29 Alliberar versiÃ³ de PortaFIB 1.1.1
 
 2016-09-27 Unificar respositoris maven en un de sol 	https://github.com/GovernIB/maven)
 
 2016-09-20 Nova propietat d'entitat "es.caib.portafib.autofirmaallowed", utilitzada
-           per forçar la visibilitat de l'opció "Gestió d'AutoFirmes" del Menú d'Inici.
+           per forÃ§ar la visibilitat de l'opciÃ³ "GestiÃ³ d'AutoFirmes" del MenÃº d'Inici.
 
 2016-09-01 Implementar API de Firma en Servidor. Plugin de Firma en Servidor de MiniApplet
-           i Plugin de Firma en Servidor emprant PortaFIB 	passarel·la de firma en servidor)
+           i Plugin de Firma en Servidor emprant PortaFIB 	passarelÂ·la de firma en servidor)
 
 2016-08-12 DAV Afegides propietats es.caib.portafib.avisosfirmespendents.diesabans i
            es.caib.portafib.avisosfirmespendents.cron que serveixen per enviar correus
            a la gent que te peticions de firma pendents aprop de la data de caducitat
 
 2016-08-09 Nova propietat global es.caib.portafib.notificationwhencreatedelegaciocolaboracio
-           que indica si s’han d’enviar avisos via correu electrònic als delegats o 
-           col·laboradors quan són assignats per un destinatari.
+           que indica si sâ€™han dâ€™enviar avisos via correu electrÃ²nic als delegats o 
+           colÂ·laboradors quan sÃ³n assignats per un destinatari.
 
-2016-08-08 Delegats i Col·laboradors poden saber de qui són Delegats i Col·laboradors
+2016-08-08 Delegats i ColÂ·laboradors poden saber de qui sÃ³n Delegats i ColÂ·laboradors
 
-2016-08-04 Afegir suport de Taula de Firmes al Mòdul de Firma  @firma AutoFirma 
+2016-08-04 Afegir suport de Taula de Firmes al MÃ²dul de Firma  @firma AutoFirma 
 
-2016-08-02 Solucionat Bug en col·laboradors/delegats: no es podia filtrar per tipus de document.
+2016-08-02 Solucionat Bug en colÂ·laboradors/delegats: no es podia filtrar per tipus de document.
 
 PortaFIB 1.1.0
 ==============
 
-2016-08-03 Gestió de Versions. Creat tag de la versió PortaFIB 1.1.0
+2016-08-03 GestiÃ³ de Versions. Creat tag de la versiÃ³ PortaFIB 1.1.0
 
-2016-06-10 Nou mòdul de Firma  @firma AutoFirma i Clients Mòbils @Firma amb suport per PAdES, CAdES i XAdES.
+2016-06-10 Nou mÃ²dul de Firma  @firma AutoFirma i Clients MÃ²bils @Firma amb suport per PAdES, CAdES i XAdES.
 
 2016-05-25 Actualitzar-se a API de Document Custody 2.0.0
 
@@ -211,49 +213,49 @@ PortaFIB 1.1.0
                   - Incloure filtre dins del propi plugin
 
 2016-05-09 Sist: Afegir propietat global de bbdd "es.caib.portafib.logouturl"
-           AdEn: Separar opcions d'uauri aplicacio en un menú especific
+           AdEn: Separar opcions d'uauri aplicacio en un menÃº especific
            Soli: Descarrega massiva de documents firmats           
 
-2016-04-06 Afegir Passarel·la de Firma a les funcionalitats de PortaFIB
+2016-04-06 Afegir PassarelÂ·la de Firma a les funcionalitats de PortaFIB
 
-2016-03-11 Actualitzar MiniApplet de la versió 1.3 a la 1.4.
+2016-03-11 Actualitzar MiniApplet de la versiÃ³ 1.3 a la 1.4.
 
 2016-02-22 Fusionar Plugins de Firma MiniApplet com Applet i JavaWebstart en MiniApplet en Client
 
-2016-01-12 Migració de propietats del fitxer de properties a Propietats Global i d'Entitat de la Web
+2016-01-12 MigraciÃ³ de propietats del fitxer de properties a Propietats Global i d'Entitat de la Web
 
-2015-12-22 Afegir Mòdul de Firma SIA
+2015-12-22 Afegir MÃ²dul de Firma SIA
 
 2015-12-15 Optimitzacions:
-         + Optimitzar tamany de la rubrica en PDF 	Reducció a un 17% del tamany original)
-         + Optimitzar gestió de Mòduls de Firma emprant fitxers enlloc de byte[]
-         + Optimitzar firmes múltiples emprant threads per processar documents firmats a mesura que arriben.
+         + Optimitzar tamany de la rubrica en PDF 	ReducciÃ³ a un 17% del tamany original)
+         + Optimitzar gestiÃ³ de MÃ²duls de Firma emprant fitxers enlloc de byte[]
+         + Optimitzar firmes mÃºltiples emprant threads per processar documents firmats a mesura que arriben.
 
-2015-12-11 Migració de propietats de l'entitat del fitxer de properties a camps de l'Entitat a BBDD
+2015-12-11 MigraciÃ³ de propietats de l'entitat del fitxer de properties a camps de l'Entitat a BBDD
 
-2015-12-04 Gestió de ús de Mòduls de Firma específics segons el Tipus de Documents d'una petició de Firma.
+2015-12-04 GestiÃ³ de Ãºs de MÃ²duls de Firma especÃ­fics segons el Tipus de Documents d'una peticiÃ³ de Firma.
 
 2015-12-01 Afegir Taula de BBDD de Propietats Globals
 
-2015-12-01 Gestió de Plugins de Custòdia	ADMIN) i Plantilles de Custòdia	ADEN)
+2015-12-01 GestiÃ³ de Plugins de CustÃ²dia	ADMIN) i Plantilles de CustÃ²dia	ADEN)
 
-2015-11-25 Gestió de Plugins de Segellat de Temps i Segellat de Temps en els Mòduls de Firma
+2015-11-25 GestiÃ³ de Plugins de Segellat de Temps i Segellat de Temps en els MÃ²duls de Firma
 
-2015-11-19 Gestió de Moduls de Firma
+2015-11-19 GestiÃ³ de Moduls de Firma
 
-2015-11-13 Noves entrades de taules i camps de BBDD per preparar futures millores: 	Requereix actualització de BBDD)
-                 	1) Relació entre Modul de Firma i Tipus de Document
+2015-11-13 Noves entrades de taules i camps de BBDD per preparar futures millores: 	Requereix actualitzaciÃ³ de BBDD)
+                 	1) RelaciÃ³ entre Modul de Firma i Tipus de Document
                  	2) Incrementar tamany de camp mime de Fitxer
                  	3) Nous camps a la Taula d'Entitat:
-                      	3.1) Format del camp ´Motiu Delegació´
-                      	3.2) Format del camp ´Firmat per´
+                      	3.1) Format del camp Â´Motiu DelegaciÃ³Â´
+                      	3.2) Format del camp Â´Firmat perÂ´
 	                  	3.3) Algorisme de firma
 	                  	3.4) Comprovar certificat en ClientCert
-	                  	3.5) Comprovar NIF després de firmar
-                      	3.6) Plantilla de Custòdia per defecte
+	                  	3.5) Comprovar NIF desprÃ©s de firmar
+                      	3.6) Plantilla de CustÃ²dia per defecte
                  	4) Taula de Plugins
                  	5) Taula rebreavis afegir boolea per agrupar
 
-2015-11-12 Gestió web dels Mòdul de Firma 
+2015-11-12 GestiÃ³ web dels MÃ²dul de Firma 
 
 2015-11-10 Moduls de Firma com a Sistema de Firma

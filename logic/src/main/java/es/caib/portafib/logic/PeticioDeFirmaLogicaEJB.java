@@ -333,6 +333,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
       UsuariAplicacioJPA usrApp = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
       entitatID = usrApp.getEntitatID();
+      
+      //  #186
+      if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
+        if (peticioDeFirma != null) {
+          peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
+        }
+      }
+      
     } else {
       // Peticio de usuari web
       
