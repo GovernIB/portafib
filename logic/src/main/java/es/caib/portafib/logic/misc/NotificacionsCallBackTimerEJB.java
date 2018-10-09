@@ -124,7 +124,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   }
 
   private boolean isDebug() {
-    return log.isDebugEnabled();
+    // XYZ ZZZ ZZZ Llevar
+    return log.isDebugEnabled() || true;
   }
 
   @Timeout
@@ -140,7 +141,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     long duration = getDuration();
 
     try {
-      long timeRemaining = timer.getTimeRemaining();
+      
 
       if (lastDuration != duration) {
 
@@ -159,19 +160,32 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
           timer.cancel();
 
           createTimer(duration);
+          
+          return;
         }
 
       }
       
-      nextExecution = System.currentTimeMillis() + duration;
+      final long now = System.currentTimeMillis();
+      
+      long diffExpectedNow = now - nextExecution;
+      
+      if (debug) {
+        log.info("            Now: " + now  + "    " + SDF.format(new Date(now)) );
+        log.info("  nextExecution: " + nextExecution + "    " + SDF.format(new Date(nextExecution)) );
+        log.info("diffExpectedNow: " + diffExpectedNow);
+      }
+ 
+      nextExecution = now + duration;
 
-      // Si han passat més de 30segons de l'hora prevista d'execució
-      // llavors no l'executam.
-      if (timeRemaining > -30000) {
+      if (diffExpectedNow < 30000) {
         executeTask(duration);
       } else {
-        log.warn("[" + getTimerName() + "] Timer programat per "
-            + new Date(System.currentTimeMillis() + timeRemaining) + " no s'executara.");
+        log.warn("[" + getTimerName() + "] Timer programat no s'executara:"
+             + "\n                 Ara: " +   SDF.format(new Date(now))
+             + "\n        diffExpected: " +   diffExpectedNow
+             + "\n       Hora prevista: " +    SDF.format(new Date(now + diffExpectedNow))
+             );
       }
 
     } catch (Throwable e) {
