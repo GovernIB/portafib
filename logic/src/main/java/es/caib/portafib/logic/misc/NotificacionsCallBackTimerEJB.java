@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
@@ -13,6 +14,8 @@ import javax.ejb.TransactionAttributeType;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+
 
 import es.caib.portafib.logic.NotificacioWSLogicaEJB;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
@@ -46,16 +49,15 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   protected static long lastExecution = System.currentTimeMillis() - 900000;
   
   protected static long nextExecution = System.currentTimeMillis() + 900000;
+  
+  protected static Semaphore semaphore = new Semaphore(1);
 
   /**
    * Utilitzat enviar les notificacions en el mateix moment (al cap de 2 segons)
    * 
    */
   protected static boolean forceExecutionNow = false;
-  
-  //@EJB(mappedName = "portafib/NotificacioLogicaEJB/local")
-  //protected NotificacioWSLogicaLocal notificacioLogicaEjb;
-  
+ 
 
   @Override
   public String getTimerName() {
@@ -84,17 +86,21 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   public void wakeUp() {
 
     // Despertam el timer per processar una petició URGENT
-    log.debug("NotificacionsCallBackTimerEJB::wakeUp =>> ENTRA ");
+    log.info("NotificacionsCallBackTimerEJB::wakeUp =>> ENTRA ");
     // No volem aturar mentre estam executant
-    synchronized (log) {
-
-      this.stopScheduler();
-      forceExecutionNow = true;
-
-      this.startScheduler();
+    if (semaphore.tryAcquire()) {
+       try {
+        this.stopScheduler();
+        forceExecutionNow = true;
+        this.startScheduler();
+      } finally {
+        semaphore.release();
+      }
+    } else {
+      log.info("wakeUp():: S'esta fent feina en aquest moment. No feim wakeup.");
     }
     
-    log.debug("NotificacionsCallBackTimerEJB::wakeUp =>> SURT ");
+    log.info("NotificacionsCallBackTimerEJB::wakeUp =>> SURT ");
   }
 
   @Override
@@ -118,10 +124,10 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
   @Override
   public void executeTask() {
     
-    final boolean debug = log.isDebugEnabled();
+    final boolean debug = log.isDebugEnabled() || true; // XYZ ZZZ ZZZ
      
     // No volem que ens aturin mentre estam executant
-    synchronized (log) {
+    if (semaphore.tryAcquire()) {
       try {
 
         final long now = System.currentTimeMillis();
@@ -244,14 +250,18 @@ public class NotificacionsCallBackTimerEJB extends AbstractTimerEJB implements
           }
 
         }
+        
 
       } catch (Throwable e) {
         log.error("Error general processant notificacions de callback: " + e.getMessage(), e);
       } finally {
+        semaphore.release();
         if (debug) {
           log.info("\n\n");
         }
       }
+    } else {
+      log.info("executeTask() :: No ho executam ja que esta esta en proces el wakeUp.");
     }
 
   }
