@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RunAs;
@@ -64,6 +65,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   protected static long lastExecution = System.currentTimeMillis() - 900000;
 
   protected static long nextExecution = System.currentTimeMillis() + 900000;
+  
+  protected static Semaphore semaphore = new Semaphore(1);
 
   /**
    * Utilitzat enviar les notificacions en el mateix moment (al cap de 2 segons)
@@ -110,13 +113,19 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     if (debug) {
       log.info("NotificacionsCallBackTimerEJB::wakeUp =>> ENTRA ");
     }
+    
     // No volem aturar mentre estam executant
-    synchronized (log) {
-
-      this.stopScheduler();
-      forceExecutionNow = true;
-
-      this.startScheduler();
+    if (semaphore.tryAcquire()) {
+      try {
+        this.stopScheduler();
+        forceExecutionNow = true;
+  
+        this.startScheduler();
+      } finally {
+        semaphore.release();
+      }
+    } else {
+      log.info("wakeUp():: S'esta fent feina en aquest moment. No feim wakeup.");
     }
     if (debug) {
       log.info("NotificacionsCallBackTimerEJB::wakeUp =>> SURT ");
@@ -139,71 +148,86 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
     }
 
     long duration = getDuration();
+    
+    if (semaphore.tryAcquire()) {
 
-    try {
-      
-
-      if (lastDuration != duration) {
-
-        if (lastDuration == -1) {
-          lastDuration = duration;
-        } else {
-
-          if (debug) {
-            log.info("\n\n" + " =========================\n" 
-              + "   NOU TIMER !!!!!!!!\n"
-              + " =========================\n");
+      try {
+        
+  
+        if (lastDuration != duration) {
+  
+          if (lastDuration == -1) {
+            lastDuration = duration;
+          } else {
+  
+            if (debug) {
+              log.info("\n\n" + " =========================\n" 
+                + "   NOU TIMER !!!!!!!!\n"
+                + " =========================\n");
+            }
+  
+            lastDuration = duration;
+  
+            timer.cancel();
+  
+            createTimer(duration);
+            
+            return;
           }
-
-          lastDuration = duration;
-
-          timer.cancel();
-
-          createTimer(duration);
-          
-          return;
+  
         }
-
+        
+        final long now = System.currentTimeMillis();
+        
+        long diffExpectedNow = now - nextExecution;
+        
+        if (debug) {
+          log.info("            Now: " + now  + "    " + SDF.format(new Date(now)) );
+          log.info("  nextExecution: " + nextExecution + "    " + SDF.format(new Date(nextExecution)) );
+          log.info("diffExpectedNow: " + diffExpectedNow);
+        }
+   
+        nextExecution = now + duration;
+  
+        if (diffExpectedNow < 30000) {
+          executeTask(duration);
+        } else {
+          log.warn("[" + getTimerName() + "] Timer programat no s'executara:"
+               + "\n                 Ara: " +   SDF.format(new Date(now))
+               + "\n        diffExpected: " +   diffExpectedNow
+               + "\n       Hora prevista: " +    SDF.format(new Date(now + diffExpectedNow))
+               );
+        }
+  
+      } catch (Throwable e) {
+  
+        Throwable cause = e.getCause();
+  
+        log.error("CAUSE ===" + cause + "\n\n");
+  
+        if (cause != null && cause instanceof javax.naming.NameNotFoundException) {
+          //
+  
+          log.error("XYZ ZZZ\n\n ERA UNA TASCA GUARDADA EN MEMORIA ===" + cause + "\n\n");
+  
+          
+        } else {
+           log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
+        }
+      } finally {
+        semaphore.release();
       }
-      
-      final long now = System.currentTimeMillis();
-      
-      long diffExpectedNow = now - nextExecution;
-      
-      if (debug) {
-        log.info("            Now: " + now  + "    " + SDF.format(new Date(now)) );
-        log.info("  nextExecution: " + nextExecution + "    " + SDF.format(new Date(nextExecution)) );
-        log.info("diffExpectedNow: " + diffExpectedNow);
-      }
- 
-      nextExecution = now + duration;
-
-      if (diffExpectedNow < 30000) {
-        executeTask(duration);
-      } else {
-        log.warn("[" + getTimerName() + "] Timer programat no s'executara:"
-             + "\n                 Ara: " +   SDF.format(new Date(now))
-             + "\n        diffExpected: " +   diffExpectedNow
-             + "\n       Hora prevista: " +    SDF.format(new Date(now + diffExpectedNow))
-             );
-      }
-
-    } catch (Throwable e) {
-
-      Throwable cause = e.getCause();
-
-      log.error("CAUSE ===" + cause + "\n\n");
-
-      if (cause != null && cause instanceof javax.naming.NameNotFoundException) {
-        //
-
-        log.error("XYZ ZZZ\n\n ERA UNA TASCA GUARDADA EN MEMORIA ===" + cause + "\n\n");
-
-        return;
-      }
-
-      log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
+    } else {
+      log.info("timeOutHandler() :: No ho executam ja que esta en proces el wakeUp.");
     }
+    
+    
+    if (debug) {
+      log.info("\n\n" + " =========================\n" 
+        + "   Surt de timeOutHandler\n"
+        + " =========================\n");
+    }
+    
 
   }
 
@@ -231,14 +255,17 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   }
 
   protected void removeTimer(String name) {
-    Timer timer = searchTimerByName(name);
-    if (timer != null) {
-      if (isDebug()) {
-        log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
-          + timer.getNextTimeout() + ")");
+    Timer timer;
+    do {
+      timer = searchTimerByName(name);
+      if (timer != null) {
+        if (isDebug()) {
+          log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
+            + timer.getNextTimeout() + ")");
+        }
+        timer.cancel();
       }
-      timer.cancel();
-    }
+    } while (timer != null);
   }
 
   @Override
@@ -249,7 +276,6 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   @Override
   public void stopScheduler() {
     removeTimer(getTimerName());
-
   }
 
   protected Timer searchTimerByName(String name) {
