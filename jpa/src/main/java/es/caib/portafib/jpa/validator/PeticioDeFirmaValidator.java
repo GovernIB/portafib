@@ -189,22 +189,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
       }
     }
     
-    if (__vr.getFieldErrorCount(INFORMACIOADICIONAL) == 0) {
-      java.lang.String __informacioadicional = (java.lang.String)__vr.getFieldValue(__target__,INFORMACIOADICIONAL);
-      if (__informacioadicional!= null && __informacioadicional.length() > 500) {
-        __vr.rejectValue(INFORMACIOADICIONAL, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(INFORMACIOADICIONAL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
-      }
-    }
-    
-    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
-      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
-      if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
-        __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
-      }
-    }
-    
     if (__vr.getFieldErrorCount(EXPEDIENTCODI) == 0) {
       java.lang.String __expedientcodi = (java.lang.String)__vr.getFieldValue(__target__,EXPEDIENTCODI);
       if (__expedientcodi!= null && __expedientcodi.length() > 255) {
@@ -242,6 +226,22 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
       if (__procedimentnom!= null && __procedimentnom.length() > 255) {
         __vr.rejectValue(PROCEDIMENTNOM, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROCEDIMENTNOM)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(INFORMACIOADDICIONAL) == 0) {
+      java.lang.String __informacioaddicional = (java.lang.String)__vr.getFieldValue(__target__,INFORMACIOADDICIONAL);
+      if (__informacioaddicional!= null && __informacioaddicional.length() > 500) {
+        __vr.rejectValue(INFORMACIOADDICIONAL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(INFORMACIOADDICIONAL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
+      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
+      if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
+        __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
       }
     }
     

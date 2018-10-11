@@ -272,7 +272,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(user);
     if (usuariAplicacio == null) {
       MessageContext mctx = wsContext.getMessageContext();
-      HttpServletRequest request = (HttpServletRequest)mctx.get(mctx.SERVLET_REQUEST);
+      HttpServletRequest request = (HttpServletRequest)mctx.get(MessageContext.SERVLET_REQUEST);
       log.error("Usuari incorrecte ]" + user + "[. Remote address: " + request.getRemoteHost());
       throw createFaultNoAutenticat();
     }
@@ -334,7 +334,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       }
     } else {
       MessageContext mctx = wsContext.getMessageContext();
-      HttpServletRequest request = (HttpServletRequest)mctx.get(mctx.SERVLET_REQUEST);
+      HttpServletRequest request = (HttpServletRequest)mctx.get(MessageContext.SERVLET_REQUEST);
       final String msg = "Contrasenya no vàlida per l'usuari ]" + user 
         + "[ o no té rols assignats per les operacions requerides."
         +	"Remote address: " + request.getRemoteHost();
@@ -2298,7 +2298,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       log.debug("Indra Server ExternalData: ]" + attributes.getExternalData() + "[");
     }
 
-    peticioDeFirma.setInformacioAdicional(attributes.getExternalData());
+    peticioDeFirma.setInformacioAddicional(attributes.getExternalData());
     
     
     //attributes.getExternalIds().getValue()
@@ -2432,7 +2432,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     attributes.setExtension(getExtensioDeDocument(peticioDeFirma.getFitxerAFirmar().getNom()));
     
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
-    attributes.setExternalData(peticioDeFirma.getInformacioAdicional());
+    attributes.setExternalData(peticioDeFirma.getInformacioAddicional());
 
     
     // attributes.setGenerateVisuals() No implementat

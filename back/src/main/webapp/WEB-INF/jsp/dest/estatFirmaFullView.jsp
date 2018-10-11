@@ -52,15 +52,13 @@
 
        <b> <fmt:message key="peticioDeFirma.remitentNom" />:</b>
            <c:out  value="${peticioDeFirma.remitentNom}" /><br />
-       <c:if test="${not empty peticioDeFirma.informacioAdicional}">
+
+       <c:if test="${not empty peticioDeFirma.remitentDescripcio}">
        <b> <fmt:message key="peticioDeFirma.remitentDescripcio" />:</b>
            ${pfi:processEmailURL(peticioDeFirma.remitentDescripcio)}<br />
-       </c:if>  
-       <c:if test="${not empty peticioDeFirma.informacioAdicional}">
-         <b> <fmt:message key="expedient.informacio" />:</b>
-           ${pfi:processEmailURL(peticioDeFirma.informacioAdicional)}<br />      
-        </c:if> 
-        <c:choose>
+       </c:if>
+         
+       <c:choose>
           <c:when test="${peticioDeFirma.prioritatID <= 2}">
              <c:set var="title_priority" value="prioritat.baixa"/>
           </c:when>
@@ -70,10 +68,45 @@
           <c:otherwise>
               <c:set var="title_priority" value="prioritat.normal"/>
           </c:otherwise>
-         </c:choose>
-         <b><fmt:message key="peticioDeFirma.prioritatID" />:</b>
-               <fmt:message key="${title_priority}" />
+       </c:choose>
+       <b><fmt:message key="peticioDeFirma.prioritatID" />:</b>
+               <fmt:message key="${title_priority}" /><br />
 
+       <c:if test="${not empty peticioDeFirma.expedientCodi}">
+           <b> <fmt:message key="peticioDeFirma.expedientCodi" />:</b>
+             ${peticioDeFirma.expedientCodi}<br />
+       </c:if>
+         
+       <c:if test="${not empty peticioDeFirma.expedientNom}">
+           <b> <fmt:message key="peticioDeFirma.expedientNom" />:</b>
+             ${peticioDeFirma.expedientNom}<br />
+       </c:if>
+
+       <c:if test="${not empty peticioDeFirma.expedientUrl}">
+           <b> <fmt:message key="peticioDeFirma.expedientUrl" />:</b>
+             ${pfi:processEmailURL(peticioDeFirma.expedientUrl)}<br />
+       </c:if>
+         
+       <c:if test="${not empty peticioDeFirma.procedimentCodi}">
+           <b> <fmt:message key="peticioDeFirma.procedimentCodi" />:</b>
+             ${peticioDeFirma.procedimentCodi}<br />
+       </c:if>
+         
+       <c:if test="${not empty peticioDeFirma.procedimentNom}">
+           <b> <fmt:message key="peticioDeFirma.procedimentNom" />:</b>
+             ${peticioDeFirma.procedimentNom}<br />
+       </c:if>
+       
+       <c:if test="${not empty peticioDeFirma.informacioAddicional}">
+         <b> <fmt:message key="peticioDeFirma.informacioAddicional" />:</b>
+           ${pfi:processEmailURL(peticioDeFirma.informacioAddicional)}<br />      
+       </c:if>
+       
+       <c:if test="${not empty peticioDeFirma.informacioAddicionalAvaluable}">
+         <b> <fmt:message key="peticioDeFirma.informacioAddicionalAvaluable" />:</b>
+           ${pfi:processEmailURL(peticioDeFirma.informacioAddicionalAvaluable)}<br />      
+       </c:if>
+         
      </small>
     </form>
   </div>

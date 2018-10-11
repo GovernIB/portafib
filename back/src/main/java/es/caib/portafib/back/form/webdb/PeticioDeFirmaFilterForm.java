@@ -384,50 +384,6 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.String informacioAdicional;
-
-  public java.lang.String getInformacioAdicional() {
-    return this.informacioAdicional;
-  }
-
-  public void setInformacioAdicional(java.lang.String informacioAdicional) {
-    this.informacioAdicional = informacioAdicional;
-  }
-
-
-  private java.lang.Long custodiaInfoIDDesde;
-
-  public java.lang.Long getCustodiaInfoIDDesde() {
-    return this.custodiaInfoIDDesde;
-  }
-
-  public void setCustodiaInfoIDDesde(java.lang.Long custodiaInfoIDDesde) {
-    this.custodiaInfoIDDesde = custodiaInfoIDDesde;
-  }
-
-
-  private java.lang.Long custodiaInfoIDFins;
-
-  public java.lang.Long getCustodiaInfoIDFins() {
-    return this.custodiaInfoIDFins;
-  }
-
-  public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
-    this.custodiaInfoIDFins = custodiaInfoIDFins;
-  }
-
-
-  private java.lang.String usuariEntitatID;
-
-  public java.lang.String getUsuariEntitatID() {
-    return this.usuariEntitatID;
-  }
-
-  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
-    this.usuariEntitatID = usuariEntitatID;
-  }
-
-
   private java.lang.String expedientCodi;
 
   public java.lang.String getExpedientCodi() {
@@ -472,14 +428,80 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.String procedimentnom;
+  private java.lang.String procedimentNom;
 
-  public java.lang.String getProcedimentnom() {
-    return this.procedimentnom;
+  public java.lang.String getProcedimentNom() {
+    return this.procedimentNom;
   }
 
-  public void setProcedimentnom(java.lang.String procedimentnom) {
-    this.procedimentnom = procedimentnom;
+  public void setProcedimentNom(java.lang.String procedimentNom) {
+    this.procedimentNom = procedimentNom;
+  }
+
+
+  private java.lang.String informacioAddicional;
+
+  public java.lang.String getInformacioAddicional() {
+    return this.informacioAddicional;
+  }
+
+  public void setInformacioAddicional(java.lang.String informacioAddicional) {
+    this.informacioAddicional = informacioAddicional;
+  }
+
+
+  private java.lang.Double informacioAddicionalAvaluableDesde;
+
+  public java.lang.Double getInformacioAddicionalAvaluableDesde() {
+    return this.informacioAddicionalAvaluableDesde;
+  }
+
+  public void setInformacioAddicionalAvaluableDesde(java.lang.Double informacioAddicionalAvaluableDesde) {
+    this.informacioAddicionalAvaluableDesde = informacioAddicionalAvaluableDesde;
+  }
+
+
+  private java.lang.Double informacioAddicionalAvaluableFins;
+
+  public java.lang.Double getInformacioAddicionalAvaluableFins() {
+    return this.informacioAddicionalAvaluableFins;
+  }
+
+  public void setInformacioAddicionalAvaluableFins(java.lang.Double informacioAddicionalAvaluableFins) {
+    this.informacioAddicionalAvaluableFins = informacioAddicionalAvaluableFins;
+  }
+
+
+  private java.lang.Long custodiaInfoIDDesde;
+
+  public java.lang.Long getCustodiaInfoIDDesde() {
+    return this.custodiaInfoIDDesde;
+  }
+
+  public void setCustodiaInfoIDDesde(java.lang.Long custodiaInfoIDDesde) {
+    this.custodiaInfoIDDesde = custodiaInfoIDDesde;
+  }
+
+
+  private java.lang.Long custodiaInfoIDFins;
+
+  public java.lang.Long getCustodiaInfoIDFins() {
+    return this.custodiaInfoIDFins;
+  }
+
+  public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
+    this.custodiaInfoIDFins = custodiaInfoIDFins;
+  }
+
+
+  private java.lang.String usuariEntitatID;
+
+  public java.lang.String getUsuariEntitatID() {
+    return this.usuariEntitatID;
+  }
+
+  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
   }
 
 
@@ -521,15 +543,17 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.remitentNom = __toClone.remitentNom;
     this.remitentDescripcio = __toClone.remitentDescripcio;
-    this.informacioAdicional = __toClone.informacioAdicional;
-    this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
-    this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
-    this.usuariEntitatID = __toClone.usuariEntitatID;
     this.expedientCodi = __toClone.expedientCodi;
     this.expedientNom = __toClone.expedientNom;
     this.expedientUrl = __toClone.expedientUrl;
     this.procedimentCodi = __toClone.procedimentCodi;
-    this.procedimentnom = __toClone.procedimentnom;
+    this.procedimentNom = __toClone.procedimentNom;
+    this.informacioAddicional = __toClone.informacioAddicional;
+    this.informacioAddicionalAvaluableDesde = __toClone.informacioAddicionalAvaluableDesde;
+    this.informacioAddicionalAvaluableFins = __toClone.informacioAddicionalAvaluableFins;
+    this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
+    this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
+    this.usuariEntitatID = __toClone.usuariEntitatID;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
@@ -548,12 +572,12 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TITOL ,DESCRIPCIO ,MOTIU ,DATASOLICITUD ,DATAFINAL ,DATACADUCITAT ,USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TITOL ,DESCRIPCIO ,MOTIU ,DATASOLICITUD ,DATAFINAL ,DATACADUCITAT ,USUARIAPLICACIOID ,EXPEDIENTCODI ,EXPEDIENTNOM ,PROCEDIMENTCODI ,PROCEDIMENTNOM ,INFORMACIOADDICIONAL ,INFORMACIOADDICIONALAVALUABLE }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,ALGORISMEDEFIRMAID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,USUARIAPLICACIOID ,AVISWEB }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,ALGORISMEDEFIRMAID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,USUARIAPLICACIOID ,EXPEDIENTCODI ,PROCEDIMENTCODI ,INFORMACIOADDICIONALAVALUABLE ,AVISWEB }));
   }
 
 

@@ -125,8 +125,26 @@ private static final long serialVersionUID = -940591816L;
 	@Column(name="remitentdescripcio",length = 500)
 	java.lang.String remitentDescripcio;
 
+	@Column(name="expedientcodi",length = 255)
+	java.lang.String expedientCodi;
+
+	@Column(name="expedientnom",length = 255)
+	java.lang.String expedientNom;
+
+	@Column(name="expedienturl",length = 255)
+	java.lang.String expedientUrl;
+
+	@Column(name="procedimentcodi",length = 255)
+	java.lang.String procedimentCodi;
+
+	@Column(name="procedimentnom",length = 255)
+	java.lang.String procedimentNom;
+
 	@Column(name="informacioaddicional",length = 500)
-	java.lang.String informacioAdicional;
+	java.lang.String informacioAddicional;
+
+	@Column(name="informacioaddicionalavaluable",length = 17,precision = 17)
+	java.lang.Double informacioAddicionalAvaluable;
 
 	@Index(name="pfi_petifirma_logosegid_fk_i")
 	@Column(name="logosegellid",length = 19)
@@ -148,21 +166,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	@Column(name="segellatdetemps",nullable = false,length = 1)
 	boolean segellatDeTemps;
 
-	@Column(name="expedientcodi",length = 255)
-	java.lang.String expedientCodi;
-
-	@Column(name="expedientnom",length = 255)
-	java.lang.String expedientNom;
-
-	@Column(name="expedienturl",length = 255)
-	java.lang.String expedientUrl;
-
-	@Column(name="procedimentcodi",length = 255)
-	java.lang.String procedimentCodi;
-
-	@Column(name="procedimentnom",length = 255)
-	java.lang.String procedimentnom;
-
 
 
   /** Constructor Buit */
@@ -170,7 +173,7 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentnom) {
+  public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -196,20 +199,21 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.usuariAplicacioID=usuariAplicacioID;
     this.remitentNom=remitentNom;
     this.remitentDescripcio=remitentDescripcio;
-    this.informacioAdicional=informacioAdicional;
+    this.expedientCodi=expedientCodi;
+    this.expedientNom=expedientNom;
+    this.expedientUrl=expedientUrl;
+    this.procedimentCodi=procedimentCodi;
+    this.procedimentNom=procedimentNom;
+    this.informacioAddicional=informacioAddicional;
+    this.informacioAddicionalAvaluable=informacioAddicionalAvaluable;
     this.logoSegellID=logoSegellID;
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
     this.segellatDeTemps=segellatDeTemps;
-    this.expedientCodi=expedientCodi;
-    this.expedientNom=expedientNom;
-    this.expedientUrl=expedientUrl;
-    this.procedimentCodi=procedimentCodi;
-    this.procedimentnom=procedimentnom;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String informacioAdicional , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentnom) {
+  public PeticioDeFirmaJPA(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -234,17 +238,18 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.usuariAplicacioID=usuariAplicacioID;
     this.remitentNom=remitentNom;
     this.remitentDescripcio=remitentDescripcio;
-    this.informacioAdicional=informacioAdicional;
+    this.expedientCodi=expedientCodi;
+    this.expedientNom=expedientNom;
+    this.expedientUrl=expedientUrl;
+    this.procedimentCodi=procedimentCodi;
+    this.procedimentNom=procedimentNom;
+    this.informacioAddicional=informacioAddicional;
+    this.informacioAddicionalAvaluable=informacioAddicionalAvaluable;
     this.logoSegellID=logoSegellID;
     this.custodiaInfoID=custodiaInfoID;
     this.usuariEntitatID=usuariEntitatID;
     this.avisWeb=avisWeb;
     this.segellatDeTemps=segellatDeTemps;
-    this.expedientCodi=expedientCodi;
-    this.expedientNom=expedientNom;
-    this.expedientUrl=expedientUrl;
-    this.procedimentCodi=procedimentCodi;
-    this.procedimentnom=procedimentnom;
 }
   /** Constructor dels valors Not Null */
   public PeticioDeFirmaJPA(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
@@ -293,17 +298,18 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     this.setRemitentNom(__bean.getRemitentNom());
     this.setRemitentDescripcio(__bean.getRemitentDescripcio());
-    this.setInformacioAdicional(__bean.getInformacioAdicional());
+    this.setExpedientCodi(__bean.getExpedientCodi());
+    this.setExpedientNom(__bean.getExpedientNom());
+    this.setExpedientUrl(__bean.getExpedientUrl());
+    this.setProcedimentCodi(__bean.getProcedimentCodi());
+    this.setProcedimentNom(__bean.getProcedimentNom());
+    this.setInformacioAddicional(__bean.getInformacioAddicional());
+    this.setInformacioAddicionalAvaluable(__bean.getInformacioAddicionalAvaluable());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setAvisWeb(__bean.isAvisWeb());
     this.setSegellatDeTemps(__bean.isSegellatDeTemps());
-    this.setExpedientCodi(__bean.getExpedientCodi());
-    this.setExpedientNom(__bean.getExpedientNom());
-    this.setExpedientUrl(__bean.getExpedientUrl());
-    this.setProcedimentCodi(__bean.getProcedimentCodi());
-    this.setProcedimentnom(__bean.getProcedimentnom());
     // Fitxer
     this.setFitxerAFirmar(FitxerJPA.toJPA(__bean.getFitxerAFirmar()));
     // Fitxer
@@ -489,11 +495,53 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 		this.remitentDescripcio = _remitentDescripcio_;
 	};
 
-	public java.lang.String getInformacioAdicional() {
-		return(informacioAdicional);
+	public java.lang.String getExpedientCodi() {
+		return(expedientCodi);
 	};
-	public void setInformacioAdicional(java.lang.String _informacioAdicional_) {
-		this.informacioAdicional = _informacioAdicional_;
+	public void setExpedientCodi(java.lang.String _expedientCodi_) {
+		this.expedientCodi = _expedientCodi_;
+	};
+
+	public java.lang.String getExpedientNom() {
+		return(expedientNom);
+	};
+	public void setExpedientNom(java.lang.String _expedientNom_) {
+		this.expedientNom = _expedientNom_;
+	};
+
+	public java.lang.String getExpedientUrl() {
+		return(expedientUrl);
+	};
+	public void setExpedientUrl(java.lang.String _expedientUrl_) {
+		this.expedientUrl = _expedientUrl_;
+	};
+
+	public java.lang.String getProcedimentCodi() {
+		return(procedimentCodi);
+	};
+	public void setProcedimentCodi(java.lang.String _procedimentCodi_) {
+		this.procedimentCodi = _procedimentCodi_;
+	};
+
+	public java.lang.String getProcedimentNom() {
+		return(procedimentNom);
+	};
+	public void setProcedimentNom(java.lang.String _procedimentNom_) {
+		this.procedimentNom = _procedimentNom_;
+	};
+
+	public java.lang.String getInformacioAddicional() {
+		return(informacioAddicional);
+	};
+	public void setInformacioAddicional(java.lang.String _informacioAddicional_) {
+		this.informacioAddicional = _informacioAddicional_;
+	};
+
+	public java.lang.Double getInformacioAddicionalAvaluable() {
+		return(informacioAddicionalAvaluable);
+	};
+	public void setInformacioAddicionalAvaluable(java.lang.Double _informacioAddicionalAvaluable_) {
+		this.informacioAddicionalAvaluable = _informacioAddicionalAvaluable_;
 	};
 
 	public java.lang.Long getLogoSegellID() {
@@ -529,41 +577,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	};
 	public void setSegellatDeTemps(boolean _segellatDeTemps_) {
 		this.segellatDeTemps = _segellatDeTemps_;
-	};
-
-	public java.lang.String getExpedientCodi() {
-		return(expedientCodi);
-	};
-	public void setExpedientCodi(java.lang.String _expedientCodi_) {
-		this.expedientCodi = _expedientCodi_;
-	};
-
-	public java.lang.String getExpedientNom() {
-		return(expedientNom);
-	};
-	public void setExpedientNom(java.lang.String _expedientNom_) {
-		this.expedientNom = _expedientNom_;
-	};
-
-	public java.lang.String getExpedientUrl() {
-		return(expedientUrl);
-	};
-	public void setExpedientUrl(java.lang.String _expedientUrl_) {
-		this.expedientUrl = _expedientUrl_;
-	};
-
-	public java.lang.String getProcedimentCodi() {
-		return(procedimentCodi);
-	};
-	public void setProcedimentCodi(java.lang.String _procedimentCodi_) {
-		this.procedimentCodi = _procedimentCodi_;
-	};
-
-	public java.lang.String getProcedimentnom() {
-		return(procedimentnom);
-	};
-	public void setProcedimentnom(java.lang.String _procedimentnom_) {
-		this.procedimentnom = _procedimentnom_;
 	};
 
 
@@ -873,17 +886,18 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setRemitentNom(__bean.getRemitentNom());
     __tmp.setRemitentDescripcio(__bean.getRemitentDescripcio());
-    __tmp.setInformacioAdicional(__bean.getInformacioAdicional());
+    __tmp.setExpedientCodi(__bean.getExpedientCodi());
+    __tmp.setExpedientNom(__bean.getExpedientNom());
+    __tmp.setExpedientUrl(__bean.getExpedientUrl());
+    __tmp.setProcedimentCodi(__bean.getProcedimentCodi());
+    __tmp.setProcedimentNom(__bean.getProcedimentNom());
+    __tmp.setInformacioAddicional(__bean.getInformacioAddicional());
+    __tmp.setInformacioAddicionalAvaluable(__bean.getInformacioAddicionalAvaluable());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setAvisWeb(__bean.isAvisWeb());
     __tmp.setSegellatDeTemps(__bean.isSegellatDeTemps());
-    __tmp.setExpedientCodi(__bean.getExpedientCodi());
-    __tmp.setExpedientNom(__bean.getExpedientNom());
-    __tmp.setExpedientUrl(__bean.getExpedientUrl());
-    __tmp.setProcedimentCodi(__bean.getProcedimentCodi());
-    __tmp.setProcedimentnom(__bean.getProcedimentnom());
     // Fitxer
     __tmp.setFitxerAFirmar(FitxerJPA.toJPA(__bean.getFitxerAFirmar()));
     // Fitxer

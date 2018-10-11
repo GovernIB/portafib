@@ -899,8 +899,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
 
     } else {
-      
-
 
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
@@ -1052,24 +1050,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirmaForm.addHiddenField(REMITENTNOM);
       peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
       
-      // XYZ ZZZ #164 Aquest Camp s'utilitzava com a info de l'expedient
-      // però ja existeix el camp codi, nom i url d'expedient
-      // ELIMINAR COMPLETAMENT
-      if (Configuracio.isCAIB()) {
-        peticioDeFirmaForm.addHiddenField(INFORMACIOADICIONAL);
-      } else {
-        peticioDeFirmaForm.addLabel(INFORMACIOADICIONAL, "expedient.informacio");
-      }
     } else {
       peticioDeFirmaForm.addReadOnlyField(USUARIAPLICACIOID);
     }
-
-    // XYZ ZZZ #164 Quan es posi en marxa
-    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTCODI);
-    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTNOM);
-    peticioDeFirmaForm.addReadOnlyField(EXPEDIENTURL);
-    peticioDeFirmaForm.addReadOnlyField(PROCEDIMENTCODI);
-    peticioDeFirmaForm.addReadOnlyField(PROCEDIMENTNOM);
 
     // XYZ ZZZ #164
     peticioDeFirmaForm.addHiddenField(FIRMAORIGINALDETACHEDID);
@@ -1180,30 +1163,31 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         hiddenFields.remove(REMITENTNOM);
       }
 
-
-
       // Agegir agrupacions
       peticioDeFirmaFilterForm.addGroupByField(TIPUSDOCUMENTID);
       peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
       peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
       peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
+      peticioDeFirmaFilterForm.addGroupByField(INFORMACIOADDICIONALAVALUABLE);
+      peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
+      peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
       if (!isSolicitantUsuariEntitat()) {
         peticioDeFirmaFilterForm.addGroupByField(USUARIAPLICACIOID);
       }
-      
+
       // Filtres
       List<Field<?>> filtres = new ArrayList<Field<?>>(peticioDeFirmaFilterForm.getDefaultFilterByFields());
       filtres.remove(USUARIAPLICACIOID);
-      
+
       peticioDeFirmaFilterForm.setFilterByFields(filtres);
-      
+
       // Ocultar selecció multiple
       peticioDeFirmaFilterForm.setVisibleMultipleSelection(false);
-      
+
       // Ocultar columna d'accions
       peticioDeFirmaFilterForm.setEditButtonVisible(false);
       peticioDeFirmaFilterForm.setDeleteButtonVisible(false);
-      
+
       // Ocultar boto de crear
       peticioDeFirmaFilterForm.setAddButtonVisible(false);
       

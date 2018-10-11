@@ -66,7 +66,6 @@
         <function-signature>java.lang.String getNom(es.caib.portafib.model.entity.UsuariPersona)</function-signature>
 </function>
 
-
 <function>
         <name>escapeJavaScript</name>
         <description>escapeJavaScript</description>
@@ -81,14 +80,12 @@
         <function-signature>java.lang.String encode(java.lang.String)</function-signature>
 </function>
 
-
 <function>
         <name>encodeHTML</name>
         <description>Codificar URL o text en HTML</description>
         <function-class>java.net.URLEncoder</function-class>
         <function-signature>java.lang.String encode(java.lang.String)</function-signature>
 </function>
-
 
 <function>
         <name>getLlinatgeNom</name>
@@ -103,5 +100,6 @@
         <function-class>es.caib.portafib.utils.Configuracio</function-class>
         <function-signature>boolean isDesenvolupament()</function-signature>
 </function>
+
 
 </taglib>

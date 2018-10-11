@@ -147,85 +147,87 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         + " =========================\n");
     }
 
-    long duration = getDuration();
-    
-    if (semaphore.tryAcquire()) {
-
-      try {
-        
+    try {
+      long duration = getDuration();
+      
+      if (semaphore.tryAcquire()) {
   
-        if (lastDuration != duration) {
-  
-          if (lastDuration == -1) {
-            lastDuration = duration;
-          } else {
-  
-            if (debug) {
-              log.info("\n\n" + " =========================\n" 
-                + "   NOU TIMER !!!!!!!!\n"
-                + " =========================\n");
-            }
-  
-            lastDuration = duration;
-  
-            timer.cancel();
-  
-            createTimer(duration);
-            
-            return;
-          }
-  
-        }
-        
-        final long now = System.currentTimeMillis();
-        
-        long diffExpectedNow = now - nextExecution;
-        
-        if (debug) {
-          log.info("            Now: " + now  + "    " + SDF.format(new Date(now)) );
-          log.info("  nextExecution: " + nextExecution + "    " + SDF.format(new Date(nextExecution)) );
-          log.info("diffExpectedNow: " + diffExpectedNow);
-        }
-   
-        nextExecution = now + duration;
-  
-        if (diffExpectedNow < 30000) {
-          executeTask(duration);
-        } else {
-          log.warn("[" + getTimerName() + "] Timer programat no s'executara:"
-               + "\n                 Ara: " +   SDF.format(new Date(now))
-               + "\n        diffExpected: " +   diffExpectedNow
-               + "\n       Hora prevista: " +    SDF.format(new Date(now + diffExpectedNow))
-               );
-        }
-  
-      } catch (Throwable e) {
-  
-        Throwable cause = e.getCause();
-  
-        log.error("CAUSE ===" + cause + "\n\n");
-  
-        if (cause != null && cause instanceof javax.naming.NameNotFoundException) {
-          //
-  
-          log.error("XYZ ZZZ\n\n ERA UNA TASCA GUARDADA EN MEMORIA ===" + cause + "\n\n");
-  
+        try {
           
-        } else {
-           log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
+    
+          if (lastDuration != duration) {
+    
+            if (lastDuration == -1) {
+              lastDuration = duration;
+            } else {
+    
+              if (debug) {
+                log.info("\n\n" + " =========================\n" 
+                  + "   NOU TIMER !!!!!!!!\n"
+                  + " =========================\n");
+              }
+    
+              lastDuration = duration;
+    
+              timer.cancel();
+    
+              createTimer(duration);
+              
+              return;
+            }
+    
+          }
+          
+          final long now = System.currentTimeMillis();
+          
+          long diffExpectedNow = now - nextExecution;
+          
+          if (debug) {
+            log.info("            Now: " + now  + "    " + SDF.format(new Date(now)) );
+            log.info("  nextExecution: " + nextExecution + "    " + SDF.format(new Date(nextExecution)) );
+            log.info("diffExpectedNow: " + diffExpectedNow);
+          }
+     
+          nextExecution = now + duration;
+    
+          if (diffExpectedNow < 30000) {
+            executeTask(duration);
+          } else {
+            log.warn("[" + getTimerName() + "] Timer programat no s'executara:"
+                 + "\n                 Ara: " +   SDF.format(new Date(now))
+                 + "\n        diffExpected: " +   diffExpectedNow
+                 + "\n       Hora prevista: " +    SDF.format(new Date(now + diffExpectedNow))
+                 );
+          }
+    
+        } catch (Throwable e) {
+    
+          Throwable cause = e.getCause();
+    
+          log.error("CAUSE ===" + cause + "\n\n");
+    
+          if (cause != null && cause instanceof javax.naming.NameNotFoundException) {
+            //
+    
+            log.error("XYZ ZZZ\n\n ERA UNA TASCA GUARDADA EN MEMORIA ===" + cause + "\n\n");
+    
+            
+          } else {
+             log.error("[" + getTimerName() + "] Error executant tasca: " + e.getMessage(), e);
+          }
+        } finally {
+          semaphore.release();
         }
-      } finally {
-        semaphore.release();
+      } else {
+        log.info("timeOutHandler() :: No ho executam ja que esta en proces el wakeUp.");
       }
-    } else {
-      log.info("timeOutHandler() :: No ho executam ja que esta en proces el wakeUp.");
-    }
     
-    
-    if (debug) {
-      log.info("\n\n" + " =========================\n" 
-        + "   Surt de timeOutHandler\n"
-        + " =========================\n");
+    } finally {
+      if (debug) {
+        log.info("\n\n" + " =========================\n" 
+          + "   Surt de timeOutHandler\n"
+          + " =========================\n");
+      }
     }
     
 

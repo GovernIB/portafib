@@ -77,8 +77,26 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.lang.String getRemitentDescripcio();
 	public void setRemitentDescripcio(java.lang.String _remitentDescripcio_);
 
-	public java.lang.String getInformacioAdicional();
-	public void setInformacioAdicional(java.lang.String _informacioAdicional_);
+	public java.lang.String getExpedientCodi();
+	public void setExpedientCodi(java.lang.String _expedientCodi_);
+
+	public java.lang.String getExpedientNom();
+	public void setExpedientNom(java.lang.String _expedientNom_);
+
+	public java.lang.String getExpedientUrl();
+	public void setExpedientUrl(java.lang.String _expedientUrl_);
+
+	public java.lang.String getProcedimentCodi();
+	public void setProcedimentCodi(java.lang.String _procedimentCodi_);
+
+	public java.lang.String getProcedimentNom();
+	public void setProcedimentNom(java.lang.String _procedimentNom_);
+
+	public java.lang.String getInformacioAddicional();
+	public void setInformacioAddicional(java.lang.String _informacioAddicional_);
+
+	public java.lang.Double getInformacioAddicionalAvaluable();
+	public void setInformacioAddicionalAvaluable(java.lang.Double _informacioAddicionalAvaluable_);
 
 	public java.lang.Long getLogoSegellID();
 	public void setLogoSegellID(java.lang.Long _logoSegellID_);
@@ -94,21 +112,6 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 
 	public boolean isSegellatDeTemps();
 	public void setSegellatDeTemps(boolean _segellatDeTemps_);
-
-	public java.lang.String getExpedientCodi();
-	public void setExpedientCodi(java.lang.String _expedientCodi_);
-
-	public java.lang.String getExpedientNom();
-	public void setExpedientNom(java.lang.String _expedientNom_);
-
-	public java.lang.String getExpedientUrl();
-	public void setExpedientUrl(java.lang.String _expedientUrl_);
-
-	public java.lang.String getProcedimentCodi();
-	public void setProcedimentCodi(java.lang.String _procedimentCodi_);
-
-	public java.lang.String getProcedimentnom();
-	public void setProcedimentnom(java.lang.String _procedimentnom_);
 
   // Fitxer
   public <F extends Fitxer> F getFitxerAFirmar();

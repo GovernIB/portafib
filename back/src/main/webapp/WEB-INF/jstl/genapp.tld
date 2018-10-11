@@ -94,4 +94,11 @@
     <function-signature>boolean hasProperty(java.lang.Object, java.lang.String)</function-signature>
 </function>
 
+<function>
+        <name>isFieldSearchInRange</name>
+        <description>Retorna true si la cerca del Field es fa en rang (from,to). Un exemple serien Integer, Double, Short, Byte, BigDecimal i BigInteger)</description>
+        <function-class>org.fundaciobit.genapp.common.web.controller.CommonBaseController</function-class>
+        <function-signature>boolean isFieldSearchInRange(org.fundaciobit.genapp.common.query.Field)</function-signature>
+</function>
+
 </taglib>

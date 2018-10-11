@@ -57,7 +57,7 @@ public class AutoFirmaForm {
   boolean segellDeTemps;
   
   boolean segellDeTempsReadOnly;
-
+  
   public AutoFirmaForm() {
   }
 
@@ -213,6 +213,7 @@ public class AutoFirmaForm {
   public void setSegellDeTempsReadOnly(boolean segellDeTempsReadOnly) {
     this.segellDeTempsReadOnly = segellDeTempsReadOnly;
   }
+
 
   @Override
   protected void finalize() throws Throwable {

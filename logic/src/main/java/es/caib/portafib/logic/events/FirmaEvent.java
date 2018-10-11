@@ -138,7 +138,7 @@ public class FirmaEvent implements Cloneable, Serializable {
     this.peticioDeFirmaTitol = peticioDeFirma.getTitol();
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
     // Tiquet pendent #130
-    this.peticioDeFirmaInfoAdicional = peticioDeFirma.getInformacioAdicional();
+    this.peticioDeFirmaInfoAdicional = peticioDeFirma.getInformacioAddicional();
     this.peticioDeFirmaUsuariAplicacioID = peticioDeFirma.getUsuariAplicacioID();
     this.peticioDeFirmaUsuariEntitatID = peticioDeFirma.getUsuariEntitatID();
     this.tipusEstatPeticioDeFirmaID = peticioDeFirma.getTipusEstatPeticioDeFirmaID();

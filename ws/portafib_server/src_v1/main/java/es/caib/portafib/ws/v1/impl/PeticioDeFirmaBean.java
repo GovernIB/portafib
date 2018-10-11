@@ -159,7 +159,7 @@ public class PeticioDeFirmaBean  {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     this.setRemitentNom(__bean.getRemitentNom());
     this.setRemitentDescripcio(__bean.getRemitentDescripcio());
-    this.setInformacioAdicional(__bean.getInformacioAdicional());
+    this.setInformacioAdicional(__bean.getInformacioAddicional());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
@@ -412,7 +412,7 @@ public class PeticioDeFirmaBean  {
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setRemitentNom(__bean.getRemitentNom());
     __tmp.setRemitentDescripcio(__bean.getRemitentDescripcio());
-    __tmp.setInformacioAdicional(__bean.getInformacioAdicional());
+    __tmp.setInformacioAdicional(__bean.getInformacioAddicional());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());

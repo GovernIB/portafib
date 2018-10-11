@@ -111,8 +111,32 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new StringField(getQueryPath(), PeticioDeFirmaFields.REMITENTDESCRIPCIO);
   }
 
-  public StringField INFORMACIOADICIONAL() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.INFORMACIOADICIONAL);
+  public StringField EXPEDIENTCODI() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTCODI);
+  }
+
+  public StringField EXPEDIENTNOM() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTNOM);
+  }
+
+  public StringField EXPEDIENTURL() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTURL);
+  }
+
+  public StringField PROCEDIMENTCODI() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTCODI);
+  }
+
+  public StringField PROCEDIMENTNOM() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTNOM);
+  }
+
+  public StringField INFORMACIOADDICIONAL() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.INFORMACIOADDICIONAL);
+  }
+
+  public DoubleField INFORMACIOADDICIONALAVALUABLE() {
+    return new DoubleField(getQueryPath(), PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE);
   }
 
   public LongField LOGOSEGELLID() {
@@ -133,26 +157,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
 
   public BooleanField SEGELLATDETEMPS() {
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.SEGELLATDETEMPS);
-  }
-
-  public StringField EXPEDIENTCODI() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTCODI);
-  }
-
-  public StringField EXPEDIENTNOM() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTNOM);
-  }
-
-  public StringField EXPEDIENTURL() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.EXPEDIENTURL);
-  }
-
-  public StringField PROCEDIMENTCODI() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTCODI);
-  }
-
-  public StringField PROCEDIMENTNOM() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.PROCEDIMENTNOM);
   }
 
 

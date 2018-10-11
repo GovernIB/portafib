@@ -224,6 +224,8 @@ public class Utils {
 
   }
   
+ 
+  
   public static void printRequestInfo(HttpServletRequest request) {
     log.info(" +++++++++++++++++ PRINT REQUEST INFO ++++++++++++++++++++++");
     log.info(" ++++ Scheme: " + request.getScheme());

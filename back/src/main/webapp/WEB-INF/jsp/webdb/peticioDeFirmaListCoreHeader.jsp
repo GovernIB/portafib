@@ -87,8 +87,26 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.REMITENTDESCRIPCIO)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.REMITENTDESCRIPCIO)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADICIONAL)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.INFORMACIOADICIONAL)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTCODI)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTCODI)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTNOM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTNOM)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTURL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTURL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTCODI)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.PROCEDIMENTCODI)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTNOM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.PROCEDIMENTNOM)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADDICIONAL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.INFORMACIOADDICIONAL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.LOGOSEGELLID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.LOGOSEGELLID)}</th>
@@ -104,21 +122,6 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SEGELLATDETEMPS)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTCODI)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTCODI)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTNOM)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTNOM)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.EXPEDIENTURL)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.EXPEDIENTURL)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTCODI)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.PROCEDIMENTCODI)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.PROCEDIMENTNOM)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.PROCEDIMENTNOM)}</th>
         </c:if>
 
 

@@ -211,7 +211,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setRemitentNom(__bean.getRemitentNom());
     __tmp.setRemitentDescripcio(__bean.getRemitentDescripcio());
-    __tmp.setInformacioAdicional(__bean.getInformacioAdicional());
+    __tmp.setInformacioAddicional(__bean.getInformacioAdicional());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());

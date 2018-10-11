@@ -9,6 +9,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.DoubleField;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.GroupByValueItem;
@@ -203,7 +204,9 @@ import es.caib.portafib.utils.Configuracio;
     
     private static final IntegerField COLUMN_PETICIODEFIRMA_PRIORITAT_FIELD;
     
-
+    private static final int COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE = 8;
+    
+    private static final DoubleField COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD;
     
     
     // Propietat de Col.laboracio-Delegacio
@@ -217,6 +220,8 @@ import es.caib.portafib.utils.Configuracio;
       COLUMN_PETICIODEFIRMA_TITOL_FIELD = pfqp.TITOL();
 
       COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD = pfqp.TIPUSDOCUMENTID();
+      
+      COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD = pfqp.INFORMACIOADDICIONALAVALUABLE();
 
       COLUMN_PETICIODEFIRMA_REMITENT_FIELD = pfqp.REMITENTNOM();
           
@@ -280,6 +285,9 @@ import es.caib.portafib.utils.Configuracio;
         });
 
         ff.addGroupByField(COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD); // Propietat de Peticio De Firma
+        ff.addGroupByField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+        
+        
         if (getRole().equals(ConstantsV2.ROLE_COLA)) {
           // Propietat de Col.laboracio-Delegacio
           ff.addGroupByField(DESTINATARIID);
@@ -411,6 +419,7 @@ import es.caib.portafib.utils.Configuracio;
           ff.addHiddenField(COLUMN_PETICIODEFIRMA_MOTIU_FIELD);
         }
         
+        // ===================  Cerca per remitent descripcio
         if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
           AdditionalField<String,String> addfieldREMIDESC = new AdditionalField<String,String>(); 
           addfieldREMIDESC.setCodeName("peticioDeFirma.remitentDescripcio");
@@ -425,9 +434,31 @@ import es.caib.portafib.utils.Configuracio;
           ff.addHiddenField(COLUMN_PETICIODEFIRMA_REMITENTDESCRIPCIO_FIELD);
         }
         
-        
+        // ===================  Cerca per informacio addicional avaluable
+        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+          AdditionalField<String,String> addfieldInfoAddicAval = new AdditionalField<String,String>();
+
+          addfieldInfoAddicAval.setCodeName(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName);
+          addfieldInfoAddicAval.setPosition(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE);
+          addfieldInfoAddicAval.setCodeName("informacioaddicionalavaluable.short");
+              /*
+              "=<i class=\"icon-info-sign\" title=\"" 
+              + I18NUtils.tradueix(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName) + "\"></i>"*/
+          
+          // No omplirem els valors
+          addfieldInfoAddicAval.setValueMap(new HashMap<String, String>());
+
+          addfieldInfoAddicAval.setSearchBy(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+          
+          addfieldInfoAddicAval.setOrderBy(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+
+          ff.addAdditionalField(addfieldInfoAddicAval);
+
+          ff.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+        }
+
+
         // NOVES COLUMNES ESTAT DE FIRMA
-        
         // ===================  data inici (small)
         {
           AdditionalField<String,String> adfieldDI = new AdditionalField<String,String>(); 
@@ -526,6 +557,23 @@ import es.caib.portafib.utils.Configuracio;
             TipusDocumentFields.TIPUSDOCUMENTID, null);
         _tmp = Utils.listToMap(_listSKV);
         fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_TIPUSDOC_FIELD, false);
+      }
+      
+      {
+//        List<Long> values = new ArrayList<Long>();
+//        for (EstatDeFirma ef : list) {
+//             values.add(ef.getEstatDeFirmaID());          
+//        }
+//          
+//        EstatDeFirmaFields.ESTATDEFIRMAID.in(values);
+        
+        _listSKV = estatDeFirmaEjb.executeQuery(
+             new SelectMultipleStringKeyValue(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select,
+                 COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD.select), getAdditionalCondition(request) );
+        
+        //_listSKV = this.tipusDocumentRefList.getReferenceList(TipusDocumentFields.TIPUSDOCUMENTID, null);
+        _tmp = Utils.listToMap(_listSKV);
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD, false);
       }
 
       return groupByItemsMap;
@@ -1864,17 +1912,59 @@ import es.caib.portafib.utils.Configuracio;
       org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat dateTimeFormat;
       dateTimeFormat = new org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat();
       
-      // DATA INICI
+      
+
+      
+      List<Long> estatFirmaIDs = new ArrayList<Long>();
+      
+      // DATA INICI 
       {
         Map<Long, String> mapDI;
         mapDI = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_ESTATDEFIRMA_DATAINICI_SMALL).getValueMap();
         mapDI.clear();
+
         for (EstatDeFirma estatDeFirma : estatDeFirmaList) {
           mapDI.put(estatDeFirma.getEstatDeFirmaID(), 
               "<small>" + dateTimeFormat.format(estatDeFirma.getDataInici()).replace(" ", "<br/>") + "</small>");
+          estatFirmaIDs.add(estatDeFirma.getEstatDeFirmaID());
         }
       }
-      
+
+
+      // Informacio Addicional Avaluable
+      {
+
+        DoubleField df = new EstatDeFirmaQueryPath().FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().INFORMACIOADDICIONALAVALUABLE();
+   
+        SelectMultipleStringKeyValue smskv = new SelectMultipleStringKeyValue(EstatDeFirmaFields.ESTATDEFIRMAID.select,
+            df.select);
+        
+        //Long count = estatDeFirmaEjb.count(Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull()));
+        
+        Where w = Where.AND(EstatDeFirmaFields.ESTATDEFIRMAID.in(estatFirmaIDs),df.isNotNull());
+        
+        List<StringKeyValue> list = estatDeFirmaEjb.executeQuery(smskv, w);
+        
+        
+        if (list != null && list.size() > 0) {
+          // Si hi elements llevam la columna del items a OCULTAR
+          filterForm.getHiddenFields().remove(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+
+          Map<Long, String> mapIAA;
+          mapIAA = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE).getValueMap();
+          mapIAA.clear();
+          
+          for (StringKeyValue skv : list) {
+            mapIAA.put(new Long(skv.getKey()), skv.getValue());
+          }
+          
+          
+        } else {
+          // Si no hiha elments, l'afegim alf items a ocultar
+          filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
+        }
+        
+      }
       
       
       // DATA FI
