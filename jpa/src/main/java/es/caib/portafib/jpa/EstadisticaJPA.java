@@ -31,12 +31,15 @@ private static final long serialVersionUID = -2066559243L;
 	@Column(name="estadisticaid",nullable = false,length = 19)
 	long estadisticaID;
 
+	@Column(name="data",nullable = false,length = 29,precision = 6)
+	java.sql.Timestamp data;
+
   /** Ha de ser combobox */
 	@Column(name="tipus",nullable = false,length = 10)
 	int tipus;
 
-	@Column(name="data",nullable = false,length = 29,precision = 6)
-	java.sql.Timestamp data;
+	@Column(name="subtipus",length = 19)
+	java.lang.Long subtipus;
 
 	@Index(name="pfi_estadistica_entitatid_fk_i")
 	@Column(name="entitatid",length = 50)
@@ -55,32 +58,35 @@ private static final long serialVersionUID = -2066559243L;
   }
 
   /** Constructor amb tots els camps  */
-  public EstadisticaJPA(long estadisticaID , int tipus , java.sql.Timestamp data , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
+  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
     this.estadisticaID=estadisticaID;
-    this.tipus=tipus;
     this.data=data;
+    this.tipus=tipus;
+    this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
     this.parametres=parametres;
 }
   /** Constructor sense valors autoincrementals */
-  public EstadisticaJPA(int tipus , java.sql.Timestamp data , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
-    this.tipus=tipus;
+  public EstadisticaJPA(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
     this.data=data;
+    this.tipus=tipus;
+    this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
     this.parametres=parametres;
 }
   /** Constructor dels valors Not Null */
-  public EstadisticaJPA(long estadisticaID , int tipus , java.sql.Timestamp data) {
+  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus) {
     this.estadisticaID=estadisticaID;
-    this.tipus=tipus;
     this.data=data;
+    this.tipus=tipus;
 }
   public EstadisticaJPA(Estadistica __bean) {
     this.setEstadisticaID(__bean.getEstadisticaID());
-    this.setTipus(__bean.getTipus());
     this.setData(__bean.getData());
+    this.setTipus(__bean.getTipus());
+    this.setSubtipus(__bean.getSubtipus());
     this.setEntitatID(__bean.getEntitatID());
     this.setValor(__bean.getValor());
     this.setParametres(__bean.getParametres());
@@ -93,6 +99,13 @@ private static final long serialVersionUID = -2066559243L;
 		this.estadisticaID = _estadisticaID_;
 	};
 
+	public java.sql.Timestamp getData() {
+		return(data);
+	};
+	public void setData(java.sql.Timestamp _data_) {
+		this.data = _data_;
+	};
+
 	public int getTipus() {
 		return(tipus);
 	};
@@ -100,11 +113,11 @@ private static final long serialVersionUID = -2066559243L;
 		this.tipus = _tipus_;
 	};
 
-	public java.sql.Timestamp getData() {
-		return(data);
+	public java.lang.Long getSubtipus() {
+		return(subtipus);
 	};
-	public void setData(java.sql.Timestamp _data_) {
-		this.data = _data_;
+	public void setSubtipus(java.lang.Long _subtipus_) {
+		this.subtipus = _subtipus_;
 	};
 
 	public java.lang.String getEntitatID() {
@@ -164,8 +177,9 @@ private static final long serialVersionUID = -2066559243L;
     if (__bean == null) { return null;}
     EstadisticaJPA __tmp = new EstadisticaJPA();
     __tmp.setEstadisticaID(__bean.getEstadisticaID());
-    __tmp.setTipus(__bean.getTipus());
     __tmp.setData(__bean.getData());
+    __tmp.setTipus(__bean.getTipus());
+    __tmp.setSubtipus(__bean.getSubtipus());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setValor(__bean.getValor());
     __tmp.setParametres(__bean.getParametres());

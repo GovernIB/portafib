@@ -30,13 +30,13 @@ public class EstadisticaValidator<T> implements EstadisticaFields {
     ,es.caib.portafib.model.dao.IEstadisticaManager __estadisticaManager) {
 
     // Valors Not Null
-    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUS, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUS)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,DATA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DATA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,TIPUS, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUS)));
 
     // Check size
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {

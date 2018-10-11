@@ -15,12 +15,16 @@ public class EstadisticaQueryPath extends org.fundaciobit.genapp.common.query.Qu
     return new LongField(getQueryPath(), EstadisticaFields.ESTADISTICAID);
   }
 
+  public TimestampField DATA() {
+    return new TimestampField(getQueryPath(), EstadisticaFields.DATA);
+  }
+
   public IntegerField TIPUS() {
     return new IntegerField(getQueryPath(), EstadisticaFields.TIPUS);
   }
 
-  public TimestampField DATA() {
-    return new TimestampField(getQueryPath(), EstadisticaFields.DATA);
+  public LongField SUBTIPUS() {
+    return new LongField(getQueryPath(), EstadisticaFields.SUBTIPUS);
   }
 
   public StringField ENTITATID() {

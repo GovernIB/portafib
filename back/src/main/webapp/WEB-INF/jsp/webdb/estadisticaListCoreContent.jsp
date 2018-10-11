@@ -29,6 +29,9 @@
           ${estadistica.estadisticaID}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
+          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estadistica.data}" /></td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.TIPUS)}">
           <td>
           <c:set var="tmp">${estadistica.tipus}</c:set>
@@ -37,8 +40,10 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
-          <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${estadistica.data}" /></td>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.SUBTIPUS)}">
+          <td>
+          ${estadistica.subtipus}
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ENTITATID)}">
           <td>

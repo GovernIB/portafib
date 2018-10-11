@@ -43,6 +43,28 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
   }
 
 
+  private java.sql.Timestamp dataDesde;
+
+  public java.sql.Timestamp getDataDesde() {
+    return this.dataDesde;
+  }
+
+  public void setDataDesde(java.sql.Timestamp dataDesde) {
+    this.dataDesde = dataDesde;
+  }
+
+
+  private java.sql.Timestamp dataFins;
+
+  public java.sql.Timestamp getDataFins() {
+    return this.dataFins;
+  }
+
+  public void setDataFins(java.sql.Timestamp dataFins) {
+    this.dataFins = dataFins;
+  }
+
+
   private java.lang.Integer tipusDesde;
 
   public java.lang.Integer getTipusDesde() {
@@ -65,25 +87,25 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
   }
 
 
-  private java.sql.Timestamp dataDesde;
+  private java.lang.Long subtipusDesde;
 
-  public java.sql.Timestamp getDataDesde() {
-    return this.dataDesde;
+  public java.lang.Long getSubtipusDesde() {
+    return this.subtipusDesde;
   }
 
-  public void setDataDesde(java.sql.Timestamp dataDesde) {
-    this.dataDesde = dataDesde;
+  public void setSubtipusDesde(java.lang.Long subtipusDesde) {
+    this.subtipusDesde = subtipusDesde;
   }
 
 
-  private java.sql.Timestamp dataFins;
+  private java.lang.Long subtipusFins;
 
-  public java.sql.Timestamp getDataFins() {
-    return this.dataFins;
+  public java.lang.Long getSubtipusFins() {
+    return this.subtipusFins;
   }
 
-  public void setDataFins(java.sql.Timestamp dataFins) {
-    this.dataFins = dataFins;
+  public void setSubtipusFins(java.lang.Long subtipusFins) {
+    this.subtipusFins = subtipusFins;
   }
 
 
@@ -138,10 +160,12 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
     super(__toClone);
     this.estadisticaIDDesde = __toClone.estadisticaIDDesde;
     this.estadisticaIDFins = __toClone.estadisticaIDFins;
-    this.tipusDesde = __toClone.tipusDesde;
-    this.tipusFins = __toClone.tipusFins;
     this.dataDesde = __toClone.dataDesde;
     this.dataFins = __toClone.dataFins;
+    this.tipusDesde = __toClone.tipusDesde;
+    this.tipusFins = __toClone.tipusFins;
+    this.subtipusDesde = __toClone.subtipusDesde;
+    this.subtipusFins = __toClone.subtipusFins;
     this.entitatID = __toClone.entitatID;
     this.valorDesde = __toClone.valorDesde;
     this.valorFins = __toClone.valorFins;
@@ -159,7 +183,7 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUS ,DATA ,ENTITATID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,TIPUS ,ENTITATID }));
   }
 
 

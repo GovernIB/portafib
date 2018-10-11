@@ -2,33 +2,6 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="EstadisticaFields" className="es.caib.portafib.model.fields.EstadisticaFields"/>
   
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.TIPUS)}">
-        <tr id="estadistica_tipus_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.TIPUS])?'estadistica.tipus':__theForm.labels[EstadisticaFields.TIPUS]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[EstadisticaFields.TIPUS]}">
-              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.TIPUS]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="estadistica.tipus" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.TIPUS)}" >
-          <form:hidden path="estadistica.tipus"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estadistica.tipus,__theForm.listOfValuesForTipus)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstadisticaFields.TIPUS)}" >
-          <form:select id="estadistica_tipus"  onchange="if(typeof onChangeTipus == 'function') {  onChangeTipus(this); };"  cssClass="input-xxlarge" path="estadistica.tipus">
-            <c:forEach items="${__theForm.listOfValuesForTipus}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.DATA)}">
         <tr id="estadistica_data_rowid">
           <td>
@@ -61,6 +34,51 @@
                   });
                 });
               </script>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.TIPUS)}">
+        <tr id="estadistica_tipus_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.TIPUS])?'estadistica.tipus':__theForm.labels[EstadisticaFields.TIPUS]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[EstadisticaFields.TIPUS]}">
+              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.TIPUS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="estadistica.tipus" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.TIPUS)}" >
+          <form:hidden path="estadistica.tipus"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.estadistica.tipus,__theForm.listOfValuesForTipus)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EstadisticaFields.TIPUS)}" >
+          <form:select id="estadistica_tipus"  onchange="if(typeof onChangeTipus == 'function') {  onChangeTipus(this); };"  cssClass="input-xxlarge" path="estadistica.tipus">
+            <c:forEach items="${__theForm.listOfValuesForTipus}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.SUBTIPUS)}">
+        <tr id="estadistica_subtipus_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.SUBTIPUS])?'estadistica.subtipus':__theForm.labels[EstadisticaFields.SUBTIPUS]}" />
+              <c:if test="${not empty __theForm.help[EstadisticaFields.SUBTIPUS]}">
+              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.SUBTIPUS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="estadistica.subtipus" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.SUBTIPUS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.SUBTIPUS)? 'input-mini uneditable-input' : 'input-mini'}"   path="estadistica.subtipus"   />
+
            </td>
         </tr>
         </c:if>

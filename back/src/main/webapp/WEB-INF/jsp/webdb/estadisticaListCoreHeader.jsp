@@ -15,11 +15,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ESTADISTICAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.ESTADISTICAID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.DATA)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.TIPUS)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.TIPUS)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.DATA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.DATA)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.SUBTIPUS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.SUBTIPUS)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ENTITATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.ENTITATID)}</th>
