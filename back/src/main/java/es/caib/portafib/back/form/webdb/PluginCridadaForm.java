@@ -2,6 +2,7 @@ package es.caib.portafib.back.form.webdb;
 
 import java.util.List;
 import org.fundaciobit.genapp.common.StringKeyValue;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
 import es.caib.portafib.jpa.PluginCridadaJPA;
 
@@ -13,6 +14,14 @@ public class PluginCridadaForm extends PortaFIBBaseForm {
   
   private PluginCridadaJPA pluginCridada;
   
+  
+  private CommonsMultipartFile parametresFitxerID;
+  private boolean parametresFitxerIDDelete;
+  
+  
+  private CommonsMultipartFile retornFitxerID;
+  private boolean retornFitxerIDDelete;
+  
   public PluginCridadaForm() {
   }
   
@@ -20,7 +29,7 @@ public class PluginCridadaForm extends PortaFIBBaseForm {
     super(__toClone);
       this.pluginCridada = __toClone.pluginCridada;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
-    this.listOfValuesForTipusPlugin = __toClone.listOfValuesForTipusPlugin;
+    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
   }
   
   public PluginCridadaForm(PluginCridadaJPA pluginCridada, boolean nou) {
@@ -36,6 +45,34 @@ public class PluginCridadaForm extends PortaFIBBaseForm {
   }
   
   
+  public CommonsMultipartFile getParametresFitxerID() {
+    return parametresFitxerID;
+  }
+  
+   public void setParametresFitxerID(CommonsMultipartFile parametresFitxerID) {
+    this.parametresFitxerID = parametresFitxerID;
+  }
+  public boolean isParametresFitxerIDDelete() {
+    return parametresFitxerIDDelete;
+  }
+  
+  public void setParametresFitxerIDDelete(boolean parametresFitxerIDDelete) {
+    this.parametresFitxerIDDelete = parametresFitxerIDDelete;
+   }
+  public CommonsMultipartFile getRetornFitxerID() {
+    return retornFitxerID;
+  }
+  
+   public void setRetornFitxerID(CommonsMultipartFile retornFitxerID) {
+    this.retornFitxerID = retornFitxerID;
+  }
+  public boolean isRetornFitxerIDDelete() {
+    return retornFitxerIDDelete;
+  }
+  
+  public void setRetornFitxerIDDelete(boolean retornFitxerIDDelete) {
+    this.retornFitxerIDDelete = retornFitxerIDDelete;
+   }
   private List<StringKeyValue> listOfEntitatForEntitatID;
 
   public List<StringKeyValue> getListOfEntitatForEntitatID() {
@@ -48,14 +85,14 @@ public class PluginCridadaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForTipusPlugin;
+  private List<StringKeyValue> listOfPluginForPluginID;
 
-  public List<StringKeyValue> getListOfValuesForTipusPlugin() {
-    return this.listOfValuesForTipusPlugin;
+  public List<StringKeyValue> getListOfPluginForPluginID() {
+    return this.listOfPluginForPluginID;
   }
 
-  public void setListOfValuesForTipusPlugin(List<StringKeyValue> listOfValuesForTipusPlugin) {
-    this.listOfValuesForTipusPlugin = listOfValuesForTipusPlugin;
+  public void setListOfPluginForPluginID(List<StringKeyValue> listOfPluginForPluginID) {
+    this.listOfPluginForPluginID = listOfPluginForPluginID;
   }
 
 

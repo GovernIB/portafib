@@ -328,13 +328,17 @@ CREATE TABLE pfi_plugincridada (
    plugincridadaid bigint NOT NULL DEFAULT nextval	('pfi_portafib_seq'), 
    entitatid character varying	(50), 
    data timestamp with time zone NOT NULL, 
-   tipusplugin integer NOT NULL, 
-   dadesplugin character varying	(255), 
+   pluginid bigint NOT NULL,
    metodeplugin character varying	(100) NOT NULL, 
-   dadescridada character varying	(3000) NOT NULL, 
+   parametrestext text,
+   parametresfitxerid bigint,
+   retorntext text,
+   retornfitxerid bigint,
    tipusresultat integer NOT NULL, 
-   resultat text NOT NULL, 
    tempsexecucio bigint, 
+   CONSTRAINT pfi_plugcrida_fitxer_retor_fk FOREIGN KEY (retornfitxerid) REFERENCES pfi_fitxer (fitxerid) ON UPDATE NO ACTION ON DELETE NO ACTION,
+   CONSTRAINT pfi_plugcrida_fitxer_param_fk FOREIGN KEY (parametresfitxerid) REFERENCES pfi_fitxer (fitxerid) ON UPDATE NO ACTION ON DELETE NO ACTION,
+   CONSTRAINT pfi_plugcrida_plugin_fk FOREIGN KEY (pluginid) REFERENCES pfi_plugin (pluginid) ON UPDATE NO ACTION ON DELETE NO ACTION,
    CONSTRAINT pfi_plugincridada_pk PRIMARY KEY 	(plugincridadaid), 
    CONSTRAINT pfi_plugcrida_entitat_fk FOREIGN KEY 	(entitatid) REFERENCES pfi_entitat 	(entitatid) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -344,6 +348,9 @@ COMMENT ON COLUMN pfi_plugincridada.tempsexecucio IS 'milisegons execucio';
 
 create index pfi_plugincridada_pk_i on pfi_plugincridada 	(plugincridadaid);
 create index pfi_plugcrida_entitatid_fk_i on pfi_plugincridada 	(entitatid);
+create index pfi_plugcrida_pluginid_fk_i on pfi_plugincridada (pluginid);
+create index pfi_plugcrida_paramfitxer_fk_i on pfi_plugincridada (parametresfitxerid);
+create index pfi_plugcrida_retorfitxer_fk_i on pfi_plugincridada (retornfitxerid);
 
 -- ======================================================================
 -- 2018/05/01 Configuració de Firma de UsuariApp 	Us política de Firma) #148

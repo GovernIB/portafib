@@ -165,19 +165,6 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
-	private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
-	public  Set<EntitatJPA> getEntitat_logowebpeuids() {
-    return this.entitat_logowebpeuids;
-  }
-
-	public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
-	  this.entitat_logowebpeuids = entitat_logowebpeuids;
-	}
-
-
 // EXP  Field:logosegellid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
@@ -204,6 +191,19 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
+// EXP  Field:logowebid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebID")
+	private Set<EntitatJPA> entitat_logowebids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_logowebids() {
+    return this.entitat_logowebids;
+  }
+
+	public void setEntitat_logowebids(Set<EntitatJPA> entitat_logowebids) {
+	  this.entitat_logowebids = entitat_logowebids;
+	}
+
+
 // EXP  Field:faviconid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "faviconID")
@@ -217,16 +217,16 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:logowebid | Table: pfi_entitat | Type: 0  
+// EXP  Field:logowebpeuid | Table: pfi_entitat | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebID")
-	private Set<EntitatJPA> entitat_logowebids = new HashSet<EntitatJPA>(0);
-	public  Set<EntitatJPA> getEntitat_logowebids() {
-    return this.entitat_logowebids;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoWebPeuID")
+	private Set<EntitatJPA> entitat_logowebpeuids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_logowebpeuids() {
+    return this.entitat_logowebpeuids;
   }
 
-	public void setEntitat_logowebids(Set<EntitatJPA> entitat_logowebids) {
-	  this.entitat_logowebids = entitat_logowebids;
+	public void setEntitat_logowebpeuids(Set<EntitatJPA> entitat_logowebpeuids) {
+	  this.entitat_logowebpeuids = entitat_logowebpeuids;
 	}
 
 
@@ -243,16 +243,16 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:firmaoriginaldetachedid | Table: pfi_peticiodefirma | Type: 0  
+// EXP  Field:logosegellid | Table: pfi_peticiodefirma | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmaOriginalDetachedID")
-	private Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids = new HashSet<PeticioDeFirmaJPA>(0);
-	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_firmaoriginaldetachedids() {
-    return this.peticioDeFirma_firmaoriginaldetachedids;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_logosegellids() {
+    return this.peticioDeFirma_logosegellids;
   }
 
-	public void setPeticioDeFirma_firmaoriginaldetachedids(Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids) {
-	  this.peticioDeFirma_firmaoriginaldetachedids = peticioDeFirma_firmaoriginaldetachedids;
+	public void setPeticioDeFirma_logosegellids(Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids) {
+	  this.peticioDeFirma_logosegellids = peticioDeFirma_logosegellids;
 	}
 
 
@@ -282,16 +282,42 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:logosegellid | Table: pfi_peticiodefirma | Type: 0  
+// EXP  Field:firmaoriginaldetachedid | Table: pfi_peticiodefirma | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
-	private Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids = new HashSet<PeticioDeFirmaJPA>(0);
-	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_logosegellids() {
-    return this.peticioDeFirma_logosegellids;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmaOriginalDetachedID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_firmaoriginaldetachedids() {
+    return this.peticioDeFirma_firmaoriginaldetachedids;
   }
 
-	public void setPeticioDeFirma_logosegellids(Set<PeticioDeFirmaJPA> peticioDeFirma_logosegellids) {
-	  this.peticioDeFirma_logosegellids = peticioDeFirma_logosegellids;
+	public void setPeticioDeFirma_firmaoriginaldetachedids(Set<PeticioDeFirmaJPA> peticioDeFirma_firmaoriginaldetachedids) {
+	  this.peticioDeFirma_firmaoriginaldetachedids = peticioDeFirma_firmaoriginaldetachedids;
+	}
+
+
+// EXP  Field:retornfitxerid | Table: pfi_plugincridada | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "retornFitxerID")
+	private Set<PluginCridadaJPA> pluginCridada_retornfitxerids = new HashSet<PluginCridadaJPA>(0);
+	public  Set<PluginCridadaJPA> getPluginCridada_retornfitxerids() {
+    return this.pluginCridada_retornfitxerids;
+  }
+
+	public void setPluginCridada_retornfitxerids(Set<PluginCridadaJPA> pluginCridada_retornfitxerids) {
+	  this.pluginCridada_retornfitxerids = pluginCridada_retornfitxerids;
+	}
+
+
+// EXP  Field:parametresfitxerid | Table: pfi_plugincridada | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parametresFitxerID")
+	private Set<PluginCridadaJPA> pluginCridada_parametresfitxerids = new HashSet<PluginCridadaJPA>(0);
+	public  Set<PluginCridadaJPA> getPluginCridada_parametresfitxerids() {
+    return this.pluginCridada_parametresfitxerids;
+  }
+
+	public void setPluginCridada_parametresfitxerids(Set<PluginCridadaJPA> pluginCridada_parametresfitxerids) {
+	  this.pluginCridada_parametresfitxerids = pluginCridada_parametresfitxerids;
 	}
 
 
@@ -432,6 +458,10 @@ private static final long serialVersionUID = -252813913L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridada_retornfitxerids) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridada_retornfitxerids())) ) {
+      __tmp.setPluginCridada_retornfitxerids(PluginCridadaJPA.copyJPA(__jpa.getPluginCridada_retornfitxerids(), __alreadyCopied,"FitxerJPA"));
+    }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_firmaoriginaldetachedids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_firmaoriginaldetachedids())) ) {
       __tmp.setPeticioDeFirma_firmaoriginaldetachedids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_firmaoriginaldetachedids(), __alreadyCopied,"FitxerJPA"));
@@ -459,6 +489,10 @@ private static final long serialVersionUID = -252813913L;
     if(!"FirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firmas) || org.hibernate.Hibernate.isInitialized(__jpa.getFirmas())) ) {
       __tmp.setFirmas(FirmaJPA.copyJPA(__jpa.getFirmas(), __alreadyCopied,"FitxerJPA"));
+    }
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridada_parametresfitxerids) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridada_parametresfitxerids())) ) {
+      __tmp.setPluginCridada_parametresfitxerids(PluginCridadaJPA.copyJPA(__jpa.getPluginCridada_parametresfitxerids(), __alreadyCopied,"FitxerJPA"));
     }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_fitxerafirmarids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_fitxerafirmarids())) ) {

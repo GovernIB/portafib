@@ -23,28 +23,32 @@ public class PluginCridadaQueryPath extends org.fundaciobit.genapp.common.query.
     return new TimestampField(getQueryPath(), PluginCridadaFields.DATA);
   }
 
-  public IntegerField TIPUSPLUGIN() {
-    return new IntegerField(getQueryPath(), PluginCridadaFields.TIPUSPLUGIN);
-  }
-
-  public StringField DADESPLUGIN() {
-    return new StringField(getQueryPath(), PluginCridadaFields.DADESPLUGIN);
+  public LongField PLUGINID() {
+    return new LongField(getQueryPath(), PluginCridadaFields.PLUGINID);
   }
 
   public StringField METODEPLUGIN() {
     return new StringField(getQueryPath(), PluginCridadaFields.METODEPLUGIN);
   }
 
-  public StringField DADESCRIDADA() {
-    return new StringField(getQueryPath(), PluginCridadaFields.DADESCRIDADA);
+  public StringField PARAMETRESTEXT() {
+    return new StringField(getQueryPath(), PluginCridadaFields.PARAMETRESTEXT);
+  }
+
+  public LongField PARAMETRESFITXERID() {
+    return new LongField(getQueryPath(), PluginCridadaFields.PARAMETRESFITXERID);
+  }
+
+  public StringField RETORNTEXT() {
+    return new StringField(getQueryPath(), PluginCridadaFields.RETORNTEXT);
+  }
+
+  public LongField RETORNFITXERID() {
+    return new LongField(getQueryPath(), PluginCridadaFields.RETORNFITXERID);
   }
 
   public IntegerField TIPUSTESULTAT() {
     return new IntegerField(getQueryPath(), PluginCridadaFields.TIPUSTESULTAT);
-  }
-
-  public StringField RESULTAT() {
-    return new StringField(getQueryPath(), PluginCridadaFields.RESULTAT);
   }
 
   public LongField TEMPSEXECUCIO() {
@@ -64,6 +68,30 @@ public class PluginCridadaQueryPath extends org.fundaciobit.genapp.common.query.
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PluginCridadaQueryPath.this.getQueryPath() + "entitat" + ".";
+      }
+    });
+  }
+
+  public PluginQueryPath PLUGIN() {
+    return new PluginQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginCridadaQueryPath.this.getQueryPath() + "plugin" + ".";
+      }
+    });
+  }
+
+  public FitxerQueryPath PARAMETRESFITXER() {
+    return new FitxerQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginCridadaQueryPath.this.getQueryPath() + "parametresFitxer" + ".";
+      }
+    });
+  }
+
+  public FitxerQueryPath RETORNFITXER() {
+    return new FitxerQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PluginCridadaQueryPath.this.getQueryPath() + "retornFitxer" + ".";
       }
     });
   }

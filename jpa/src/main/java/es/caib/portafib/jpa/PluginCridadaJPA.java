@@ -39,26 +39,32 @@ private static final long serialVersionUID = -1618108326L;
 	@Column(name="data",nullable = false,length = 35,precision = 6)
 	java.sql.Timestamp data;
 
-	@Column(name="tipusplugin",nullable = false,length = 10)
-	int tipusPlugin;
-
-	@Column(name="dadesplugin",length = 255)
-	java.lang.String dadesPlugin;
+	@Index(name="pfi_plugcrida_pluginid_fk_i")
+	@Column(name="pluginid",nullable = false,length = 19)
+	long pluginID;
 
 	@Column(name="metodeplugin",nullable = false,length = 100)
 	java.lang.String metodePlugin;
 
-	@Column(name="dadescridada",nullable = false,length = 3000)
-	java.lang.String dadesCridada;
+	@Column(name="parametrestext",length = 2147483647)
+  @Lob
+	java.lang.String parametresText;
+
+	@Index(name="pfi_plugcrida_paramfitxer_fk_i")
+	@Column(name="parametresfitxerid",length = 19)
+	java.lang.Long parametresFitxerID;
+
+	@Column(name="retorntext",length = 2147483647)
+  @Lob
+	java.lang.String retornText;
+
+	@Index(name="pfi_plugcrida_retorfitxer_fk_i")
+	@Column(name="retornfitxerid",length = 19)
+	java.lang.Long retornFitxerID;
 
   /** 0 => error, 1 => ok */
 	@Column(name="tipusresultat",nullable = false,length = 10)
 	int tipusTesultat;
-
-  /** conte error si falla i dades resultat si va bé. */
-	@Column(name="resultat",nullable = false,length = 2147483647)
-  @Lob
-	java.lang.String resultat;
 
   /** milisegons execucio */
 	@Column(name="tempsexecucio",nullable = false,length = 19)
@@ -71,52 +77,57 @@ private static final long serialVersionUID = -1618108326L;
   }
 
   /** Constructor amb tots els camps  */
-  public PluginCridadaJPA(long pluginCridadaID , java.lang.String entitatID , java.sql.Timestamp data , int tipusPlugin , java.lang.String dadesPlugin , java.lang.String metodePlugin , java.lang.String dadesCridada , int tipusTesultat , java.lang.String resultat , long tempsExecucio) {
+  public PluginCridadaJPA(long pluginCridadaID , java.lang.String entitatID , java.sql.Timestamp data , long pluginID , java.lang.String metodePlugin , java.lang.String parametresText , java.lang.Long parametresFitxerID , java.lang.String retornText , java.lang.Long retornFitxerID , int tipusTesultat , long tempsExecucio) {
     this.pluginCridadaID=pluginCridadaID;
     this.entitatID=entitatID;
     this.data=data;
-    this.tipusPlugin=tipusPlugin;
-    this.dadesPlugin=dadesPlugin;
+    this.pluginID=pluginID;
     this.metodePlugin=metodePlugin;
-    this.dadesCridada=dadesCridada;
+    this.parametresText=parametresText;
+    this.parametresFitxerID=parametresFitxerID;
+    this.retornText=retornText;
+    this.retornFitxerID=retornFitxerID;
     this.tipusTesultat=tipusTesultat;
-    this.resultat=resultat;
     this.tempsExecucio=tempsExecucio;
 }
   /** Constructor sense valors autoincrementals */
-  public PluginCridadaJPA(java.lang.String entitatID , java.sql.Timestamp data , int tipusPlugin , java.lang.String dadesPlugin , java.lang.String metodePlugin , java.lang.String dadesCridada , int tipusTesultat , java.lang.String resultat , long tempsExecucio) {
+  public PluginCridadaJPA(java.lang.String entitatID , java.sql.Timestamp data , long pluginID , java.lang.String metodePlugin , java.lang.String parametresText , java.lang.Long parametresFitxerID , java.lang.String retornText , java.lang.Long retornFitxerID , int tipusTesultat , long tempsExecucio) {
     this.entitatID=entitatID;
     this.data=data;
-    this.tipusPlugin=tipusPlugin;
-    this.dadesPlugin=dadesPlugin;
+    this.pluginID=pluginID;
     this.metodePlugin=metodePlugin;
-    this.dadesCridada=dadesCridada;
+    this.parametresText=parametresText;
+    this.parametresFitxerID=parametresFitxerID;
+    this.retornText=retornText;
+    this.retornFitxerID=retornFitxerID;
     this.tipusTesultat=tipusTesultat;
-    this.resultat=resultat;
     this.tempsExecucio=tempsExecucio;
 }
   /** Constructor dels valors Not Null */
-  public PluginCridadaJPA(long pluginCridadaID , java.sql.Timestamp data , int tipusPlugin , java.lang.String metodePlugin , java.lang.String dadesCridada , int tipusTesultat , java.lang.String resultat , long tempsExecucio) {
+  public PluginCridadaJPA(long pluginCridadaID , java.sql.Timestamp data , long pluginID , java.lang.String metodePlugin , int tipusTesultat , long tempsExecucio) {
     this.pluginCridadaID=pluginCridadaID;
     this.data=data;
-    this.tipusPlugin=tipusPlugin;
+    this.pluginID=pluginID;
     this.metodePlugin=metodePlugin;
-    this.dadesCridada=dadesCridada;
     this.tipusTesultat=tipusTesultat;
-    this.resultat=resultat;
     this.tempsExecucio=tempsExecucio;
 }
   public PluginCridadaJPA(PluginCridada __bean) {
     this.setPluginCridadaID(__bean.getPluginCridadaID());
     this.setEntitatID(__bean.getEntitatID());
     this.setData(__bean.getData());
-    this.setTipusPlugin(__bean.getTipusPlugin());
-    this.setDadesPlugin(__bean.getDadesPlugin());
+    this.setPluginID(__bean.getPluginID());
     this.setMetodePlugin(__bean.getMetodePlugin());
-    this.setDadesCridada(__bean.getDadesCridada());
+    this.setParametresText(__bean.getParametresText());
+    this.setParametresFitxerID(__bean.getParametresFitxerID());
+    this.setRetornText(__bean.getRetornText());
+    this.setRetornFitxerID(__bean.getRetornFitxerID());
     this.setTipusTesultat(__bean.getTipusTesultat());
-    this.setResultat(__bean.getResultat());
     this.setTempsExecucio(__bean.getTempsExecucio());
+    // Fitxer
+    this.setParametresFitxer(FitxerJPA.toJPA(__bean.getParametresFitxer()));
+    // Fitxer
+    this.setRetornFitxer(FitxerJPA.toJPA(__bean.getRetornFitxer()));
 	}
 
 	public long getPluginCridadaID() {
@@ -140,18 +151,11 @@ private static final long serialVersionUID = -1618108326L;
 		this.data = _data_;
 	};
 
-	public int getTipusPlugin() {
-		return(tipusPlugin);
+	public long getPluginID() {
+		return(pluginID);
 	};
-	public void setTipusPlugin(int _tipusPlugin_) {
-		this.tipusPlugin = _tipusPlugin_;
-	};
-
-	public java.lang.String getDadesPlugin() {
-		return(dadesPlugin);
-	};
-	public void setDadesPlugin(java.lang.String _dadesPlugin_) {
-		this.dadesPlugin = _dadesPlugin_;
+	public void setPluginID(long _pluginID_) {
+		this.pluginID = _pluginID_;
 	};
 
 	public java.lang.String getMetodePlugin() {
@@ -161,11 +165,32 @@ private static final long serialVersionUID = -1618108326L;
 		this.metodePlugin = _metodePlugin_;
 	};
 
-	public java.lang.String getDadesCridada() {
-		return(dadesCridada);
+	public java.lang.String getParametresText() {
+		return(parametresText);
 	};
-	public void setDadesCridada(java.lang.String _dadesCridada_) {
-		this.dadesCridada = _dadesCridada_;
+	public void setParametresText(java.lang.String _parametresText_) {
+		this.parametresText = _parametresText_;
+	};
+
+	public java.lang.Long getParametresFitxerID() {
+		return(parametresFitxerID);
+	};
+	public void setParametresFitxerID(java.lang.Long _parametresFitxerID_) {
+		this.parametresFitxerID = _parametresFitxerID_;
+	};
+
+	public java.lang.String getRetornText() {
+		return(retornText);
+	};
+	public void setRetornText(java.lang.String _retornText_) {
+		this.retornText = _retornText_;
+	};
+
+	public java.lang.Long getRetornFitxerID() {
+		return(retornFitxerID);
+	};
+	public void setRetornFitxerID(java.lang.Long _retornFitxerID_) {
+		this.retornFitxerID = _retornFitxerID_;
 	};
 
 	public int getTipusTesultat() {
@@ -173,13 +198,6 @@ private static final long serialVersionUID = -1618108326L;
 	};
 	public void setTipusTesultat(int _tipusTesultat_) {
 		this.tipusTesultat = _tipusTesultat_;
-	};
-
-	public java.lang.String getResultat() {
-		return(resultat);
-	};
-	public void setResultat(java.lang.String _resultat_) {
-		this.resultat = _resultat_;
 	};
 
 	public long getTempsExecucio() {
@@ -219,6 +237,51 @@ private static final long serialVersionUID = -1618108326L;
     this.entitat = entitat;
   }
 
+// IMP Field:pluginid | Table: pfi_plugin | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_plugcrida_plugin_fk")
+	@JoinColumn(name = "pluginid", referencedColumnName ="pluginID", nullable = false, insertable=false, updatable=false)
+	private PluginJPA plugin;
+
+	public PluginJPA getPlugin() {
+    return this.plugin;
+  }
+
+	public  void setPlugin(PluginJPA plugin) {
+    this.plugin = plugin;
+  }
+
+// IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@ForeignKey(name="pfi_plugcrida_fitxer_param_fk")
+	@JoinColumn(name = "parametresfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+	private FitxerJPA parametresFitxer;
+
+	public FitxerJPA getParametresFitxer() {
+    return this.parametresFitxer;
+  }
+
+	public  void setParametresFitxer(FitxerJPA parametresFitxer) {
+    this.parametresFitxer = parametresFitxer;
+  }
+
+// IMP Field:fitxerid | Table: pfi_fitxer | Type: 1  
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@ForeignKey(name="pfi_plugcrida_fitxer_retor_fk")
+	@JoinColumn(name = "retornfitxerid", referencedColumnName ="fitxerID", nullable = true, insertable=false, updatable=false)
+	private FitxerJPA retornFitxer;
+
+	public FitxerJPA getRetornFitxer() {
+    return this.retornFitxer;
+  }
+
+	public  void setRetornFitxer(FitxerJPA retornFitxer) {
+    this.retornFitxer = retornFitxer;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static PluginCridadaJPA toJPA(PluginCridada __bean) {
@@ -227,13 +290,18 @@ private static final long serialVersionUID = -1618108326L;
     __tmp.setPluginCridadaID(__bean.getPluginCridadaID());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setData(__bean.getData());
-    __tmp.setTipusPlugin(__bean.getTipusPlugin());
-    __tmp.setDadesPlugin(__bean.getDadesPlugin());
+    __tmp.setPluginID(__bean.getPluginID());
     __tmp.setMetodePlugin(__bean.getMetodePlugin());
-    __tmp.setDadesCridada(__bean.getDadesCridada());
+    __tmp.setParametresText(__bean.getParametresText());
+    __tmp.setParametresFitxerID(__bean.getParametresFitxerID());
+    __tmp.setRetornText(__bean.getRetornText());
+    __tmp.setRetornFitxerID(__bean.getRetornFitxerID());
     __tmp.setTipusTesultat(__bean.getTipusTesultat());
-    __tmp.setResultat(__bean.getResultat());
     __tmp.setTempsExecucio(__bean.getTempsExecucio());
+    // Fitxer
+    __tmp.setParametresFitxer(FitxerJPA.toJPA(__bean.getParametresFitxer()));
+    // Fitxer
+    __tmp.setRetornFitxer(FitxerJPA.toJPA(__bean.getRetornFitxer()));
 		return __tmp;
 	}
 
@@ -267,6 +335,10 @@ private static final long serialVersionUID = -1618108326L;
     if(!"EntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
       __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"PluginCridadaJPA"));
+    }
+    if(!"PluginJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
+      __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"PluginCridadaJPA"));
     }
 
     return __tmp;

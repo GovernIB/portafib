@@ -29,6 +29,9 @@ public class PluginCridadaWebValidator  implements Validator, PluginCridadaField
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
+  @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
+  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/PluginCridadaEJB/local")
   protected es.caib.portafib.ejb.PluginCridadaLocal pluginCridadaEjb;
 
@@ -59,8 +62,12 @@ public class PluginCridadaWebValidator  implements Validator, PluginCridadaField
   public void validate(Object target, Errors errors,
     WebValidationResult<Object> wvr, boolean isNou) {
 
+    if (isNou) { // Creacio
+      // ================ CREATION
+      // Fitxers 
+    }
     validator.validate(wvr, target,
-      isNou, entitatEjb, pluginCridadaEjb);
+      isNou, entitatEjb, pluginEjb, pluginCridadaEjb);
 
   } // Final de metode
 

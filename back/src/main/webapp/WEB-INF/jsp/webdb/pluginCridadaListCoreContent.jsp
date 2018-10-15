@@ -40,17 +40,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DATA)}">
           <td> <fmt:formatDate pattern="${gen:getDateTimePattern()}" value="${pluginCridada.data}" /></td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSPLUGIN)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PLUGINID)}">
           <td>
-          <c:set var="tmp">${pluginCridada.tipusPlugin}</c:set>
+          <c:set var="tmp">${pluginCridada.pluginID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForTipusPlugin[tmp]}
+          ${__theFilterForm.mapOfPluginForPluginID[tmp]}
           </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DADESPLUGIN)}">
-          <td>
-          ${pluginCridada.dadesPlugin}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.METODEPLUGIN)}">
@@ -58,19 +53,33 @@
           ${pluginCridada.metodePlugin}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DADESCRIDADA)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESTEXT)}">
           <td>
-          ${pluginCridada.dadesCridada}
+          ${pluginCridada.parametresText}
           </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESFITXERID)}">
+          <td>
+            <c:if test="${not empty pluginCridada.parametresFitxer}">
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(pluginCridada.parametresFitxer)}"/>">${pluginCridada.parametresFitxer.nom}</a>
+            </c:if>
+           </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNTEXT)}">
+          <td>
+          ${pluginCridada.retornText}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNFITXERID)}">
+          <td>
+            <c:if test="${not empty pluginCridada.retornFitxer}">
+              <a target="_blank" href="<c:url value="${pfi:fileUrl(pluginCridada.retornFitxer)}"/>">${pluginCridada.retornFitxer.nom}</a>
+            </c:if>
+           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSTESULTAT)}">
           <td>
           ${pluginCridada.tipusTesultat}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RESULTAT)}">
-          <td>
-          ${pluginCridada.resultat}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TEMPSEXECUCIO)}">

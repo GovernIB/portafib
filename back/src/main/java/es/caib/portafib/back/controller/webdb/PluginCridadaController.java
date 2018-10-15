@@ -34,6 +34,9 @@ import es.caib.portafib.back.form.webdb.PluginCridadaForm;
 
 import es.caib.portafib.back.validator.webdb.PluginCridadaWebValidator;
 
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.jpa.FitxerJPA;
+import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.jpa.PluginCridadaJPA;
 import es.caib.portafib.model.entity.PluginCridada;
 import es.caib.portafib.model.fields.*;
@@ -48,7 +51,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/pluginCridada")
 @SessionAttributes(types = { PluginCridadaForm.class, PluginCridadaFilterForm.class })
 public class PluginCridadaController
-    extends es.caib.portafib.back.controller.PortaFIBBaseController<PluginCridada, java.lang.Long> implements PluginCridadaFields {
+    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<PluginCridada, java.lang.Long, PluginCridadaForm> implements PluginCridadaFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.PluginCridadaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PluginCridadaLocal pluginCridadaEjb;
@@ -62,6 +65,10 @@ public class PluginCridadaController
   // References 
   @Autowired
   protected EntitatRefList entitatRefList;
+
+  // References 
+  @Autowired
+  protected PluginRefList pluginRefList;
 
   /**
    * Llistat de totes PluginCridada
@@ -193,13 +200,13 @@ public class PluginCridadaController
       };
     }
 
-    // Field tipusPlugin
+    // Field pluginID
     {
-      _listSKV = getReferenceListForTipusPlugin(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForPluginID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfValuesForTipusPlugin(_tmp);
-      if (filterForm.getGroupByFields().contains(TIPUSPLUGIN)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSPLUGIN, false);
+      filterForm.setMapOfPluginForPluginID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINID, false);
       };
     }
 
@@ -219,7 +226,7 @@ public class PluginCridadaController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
-    __mapping.put(TIPUSPLUGIN, filterForm.getMapOfValuesForTipusPlugin());
+    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -275,11 +282,11 @@ public class PluginCridadaController
       pluginCridadaForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (pluginCridadaForm.getListOfValuesForTipusPlugin() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForTipusPlugin(request, mav, pluginCridadaForm, null);
+    if (pluginCridadaForm.getListOfPluginForPluginID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, pluginCridadaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      pluginCridadaForm.setListOfValuesForTipusPlugin(_listSKV);
+      pluginCridadaForm.setListOfPluginForPluginID(_listSKV);
     }
     
   }
@@ -298,20 +305,26 @@ public class PluginCridadaController
 
     PluginCridadaJPA pluginCridada = pluginCridadaForm.getPluginCridada();
 
+    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
+
     try {
+      this.setFilesFormToEntity(afm, pluginCridada, pluginCridadaForm); // FILE
       preValidate(request, pluginCridadaForm, result);
       getWebValidator().validate(pluginCridadaForm, result);
       postValidate(request,pluginCridadaForm, result);
 
       if (result.hasErrors()) {
+        afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
         pluginCridada = create(request, pluginCridada);
+        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", pluginCridada.getPluginCridadaID());
         pluginCridadaForm.setPluginCridada(pluginCridada);
         return getRedirectWhenCreated(request, pluginCridadaForm);
       }
     } catch (Throwable __e) {
+      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -392,20 +405,25 @@ public class PluginCridadaController
     }
     PluginCridadaJPA pluginCridada = pluginCridadaForm.getPluginCridada();
 
+    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
+      this.setFilesFormToEntity(afm, pluginCridada, pluginCridadaForm); // FILE
       preValidate(request, pluginCridadaForm, result);
       getWebValidator().validate(pluginCridada, result);
       postValidate(request, pluginCridadaForm, result);
 
       if (result.hasErrors()) {
+        afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
         pluginCridada = update(request, pluginCridada);
+        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", pluginCridada.getPluginCridadaID());
         status.setComplete();
         return getRedirectWhenModified(request, pluginCridadaForm, null);
       }
     } catch (Throwable __e) {
+      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -555,6 +573,40 @@ public java.lang.Long stringToPK(String value) {
     return _TABLE_MODEL;
   }
 
+  // FILE
+  @Override
+  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, PluginCridada pluginCridada,
+      PluginCridadaForm form) throws I18NException {
+
+    FitxerJPA f;
+    f = (FitxerJPA)afm.preProcessFile(form.getParametresFitxerID(), form.isParametresFitxerIDDelete(),
+        form.isNou()? null : pluginCridada.getParametresFitxer());
+    ((PluginCridadaJPA)pluginCridada).setParametresFitxer(f);
+    if (f != null) { 
+      pluginCridada.setParametresFitxerID(f.getFitxerID());
+    } else {
+      pluginCridada.setParametresFitxerID(null);
+    }
+
+
+    f = (FitxerJPA)afm.preProcessFile(form.getRetornFitxerID(), form.isRetornFitxerIDDelete(),
+        form.isNou()? null : pluginCridada.getRetornFitxer());
+    ((PluginCridadaJPA)pluginCridada).setRetornFitxer(f);
+    if (f != null) { 
+      pluginCridada.setRetornFitxerID(f.getFitxerID());
+    } else {
+      pluginCridada.setRetornFitxerID(null);
+    }
+
+
+  }
+
+  // FILE
+  @Override
+  public void deleteFiles(PluginCridada pluginCridada) {
+    deleteFile(pluginCridada.getParametresFitxerID());
+    deleteFile(pluginCridada.getRetornFitxerID());
+  }
   // Mètodes a sobreescriure 
 
   public boolean isActiveList() {
@@ -622,35 +674,42 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForTipusPlugin(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, PluginCridadaForm pluginCridadaForm, Where where)  throws I18NException {
-    if (pluginCridadaForm.isHiddenField(TIPUSPLUGIN)) {
+    if (pluginCridadaForm.isHiddenField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    return getReferenceListForTipusPlugin(request, mav, where);
+    Where _where = null;
+    if (pluginCridadaForm.isReadOnlyField(PLUGINID)) {
+      _where = PluginFields.PLUGINID.equal(pluginCridadaForm.getPluginCridada().getPluginID());
+    }
+    return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForTipusPlugin(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, PluginCridadaFilterForm pluginCridadaFilterForm,
        List<PluginCridada> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (pluginCridadaFilterForm.isHiddenField(TIPUSPLUGIN)
-      && !pluginCridadaFilterForm.isGroupByField(TIPUSPLUGIN)) {
+    if (pluginCridadaFilterForm.isHiddenField(PLUGINID)
+      && !pluginCridadaFilterForm.isGroupByField(PLUGINID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    return getReferenceListForTipusPlugin(request, mav, Where.AND(where,_w));
+    if (!_groupByItemsMap.containsKey(PLUGINID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (PluginCridada _item : list) {
+        _pkList.add(_item.getPluginID());
+        }
+        _w = PluginFields.PLUGINID.in(_pkList);
+      }
+    return getReferenceListForPluginID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForTipusPlugin(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0" , "0"));
-    __tmp.add(new StringKeyValue("1" , "1"));
-    __tmp.add(new StringKeyValue("2" , "2"));
-    __tmp.add(new StringKeyValue("3" , "3"));
-    return __tmp;
+    return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
   }
 
 

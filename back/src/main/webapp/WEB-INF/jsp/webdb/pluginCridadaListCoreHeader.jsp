@@ -21,23 +21,26 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DATA)}">
         <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.DATA)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSPLUGIN)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.TIPUSPLUGIN)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DADESPLUGIN)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.DADESPLUGIN)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PLUGINID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.PLUGINID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.METODEPLUGIN)}">
         <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.METODEPLUGIN)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.DADESCRIDADA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.DADESCRIDADA)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESTEXT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.PARAMETRESTEXT)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.PARAMETRESFITXERID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.PARAMETRESFITXERID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNTEXT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.RETORNTEXT)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RETORNFITXERID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.RETORNFITXERID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TIPUSTESULTAT)}">
         <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.TIPUSTESULTAT)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.RESULTAT)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.RESULTAT)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PluginCridadaFields.TEMPSEXECUCIO)}">
         <th>${pfi:getSortIcons(__theFilterForm,PluginCridadaFields.TEMPSEXECUCIO)}</th>

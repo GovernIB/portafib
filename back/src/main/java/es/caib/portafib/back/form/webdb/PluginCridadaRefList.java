@@ -33,7 +33,7 @@ public class PluginCridadaRefList extends RefListBase
     this.pluginCridadaEjb = __clone.pluginCridadaEjb;
   }
   public PluginCridadaRefList() {
-    setSelects(new Select<?>[] { TIPUSPLUGIN.select, METODEPLUGIN.select });
+    setSelects(new Select<?>[] { METODEPLUGIN.select });
   }
   public List<StringKeyValue> getReferenceList(Field<?> keyField, Where where, OrderBy ... orderBy) throws I18NException {
     Select<StringKeyValue> select =  new org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue(keyField.select, getSeparator(), getSelects());

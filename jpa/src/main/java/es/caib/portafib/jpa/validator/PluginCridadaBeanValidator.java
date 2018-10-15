@@ -19,6 +19,8 @@ public class PluginCridadaBeanValidator
   // EJB's
   protected final es.caib.portafib.model.dao.IEntitatManager __entitatManager;
 
+  protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
+
   protected final es.caib.portafib.model.dao.IPluginCridadaManager __pluginCridadaManager;
 
 
@@ -26,16 +28,20 @@ public class PluginCridadaBeanValidator
 
 
   public PluginCridadaBeanValidator(es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.IPluginCridadaManager __pluginCridadaManager) { 
     this.__entitatManager = __entitatManager;
+    this.__pluginManager = __pluginManager;
     this.__pluginCridadaManager = __pluginCridadaManager;
     _validator = new PluginCridadaValidator<PluginCridadaJPA>();
   }
 
   public PluginCridadaBeanValidator(PluginCridadaValidator<PluginCridadaJPA> _validator,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+     es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.IPluginCridadaManager __pluginCridadaManager) {
     this.__entitatManager = __entitatManager;
+    this.__pluginManager = __pluginManager;
     this.__pluginCridadaManager = __pluginCridadaManager;
     this._validator = _validator;
   }
@@ -43,7 +49,7 @@ public class PluginCridadaBeanValidator
   @Override
   public List<I18NFieldError> validate(PluginCridadaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<PluginCridadaJPA> _bvr_ = new BeanValidatorResult<PluginCridadaJPA>();
-    _validator.validate(_bvr_, target, isNou, __entitatManager, __pluginCridadaManager);
+    _validator.validate(_bvr_, target, isNou, __entitatManager, __pluginManager, __pluginCridadaManager);
     return _bvr_.getErrors();
   }
 }

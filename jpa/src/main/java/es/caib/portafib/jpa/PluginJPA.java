@@ -331,6 +331,19 @@ private static final long serialVersionUID = 190357384L;
 	}
 
 
+// EXP  Field:pluginid | Table: pfi_plugincridada | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
+	private Set<PluginCridadaJPA> pluginCridadas = new HashSet<PluginCridadaJPA>(0);
+	public  Set<PluginCridadaJPA> getPluginCridadas() {
+    return this.pluginCridadas;
+  }
+
+	public void setPluginCridadas(Set<PluginCridadaJPA> pluginCridadas) {
+	  this.pluginCridadas = pluginCridadas;
+	}
+
+
 // EXP  Field:pluginfirmawebid | Table: pfi_pluginfirmawebperusrapp | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "plugin")
@@ -530,6 +543,10 @@ private static final long serialVersionUID = 190357384L;
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat_pluginids) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat_pluginids())) ) {
       __tmp.setEntitat_pluginids(EntitatJPA.copyJPA(__jpa.getEntitat_pluginids(), __alreadyCopied,"PluginJPA"));
+    }
+    if(!"PluginCridadaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginCridadas) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginCridadas())) ) {
+      __tmp.setPluginCridadas(PluginCridadaJPA.copyJPA(__jpa.getPluginCridadas(), __alreadyCopied,"PluginJPA"));
     }
     if(!"PluginFirmaWebPerUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariEntitats())) ) {

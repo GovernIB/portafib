@@ -76,36 +76,25 @@ public class PluginCridadaFilterForm extends PortaFIBBaseFilterForm implements P
   }
 
 
-  private java.lang.Integer tipusPluginDesde;
+  private java.lang.Long pluginIDDesde;
 
-  public java.lang.Integer getTipusPluginDesde() {
-    return this.tipusPluginDesde;
+  public java.lang.Long getPluginIDDesde() {
+    return this.pluginIDDesde;
   }
 
-  public void setTipusPluginDesde(java.lang.Integer tipusPluginDesde) {
-    this.tipusPluginDesde = tipusPluginDesde;
-  }
-
-
-  private java.lang.Integer tipusPluginFins;
-
-  public java.lang.Integer getTipusPluginFins() {
-    return this.tipusPluginFins;
-  }
-
-  public void setTipusPluginFins(java.lang.Integer tipusPluginFins) {
-    this.tipusPluginFins = tipusPluginFins;
+  public void setPluginIDDesde(java.lang.Long pluginIDDesde) {
+    this.pluginIDDesde = pluginIDDesde;
   }
 
 
-  private java.lang.String dadesPlugin;
+  private java.lang.Long pluginIDFins;
 
-  public java.lang.String getDadesPlugin() {
-    return this.dadesPlugin;
+  public java.lang.Long getPluginIDFins() {
+    return this.pluginIDFins;
   }
 
-  public void setDadesPlugin(java.lang.String dadesPlugin) {
-    this.dadesPlugin = dadesPlugin;
+  public void setPluginIDFins(java.lang.Long pluginIDFins) {
+    this.pluginIDFins = pluginIDFins;
   }
 
 
@@ -120,14 +109,25 @@ public class PluginCridadaFilterForm extends PortaFIBBaseFilterForm implements P
   }
 
 
-  private java.lang.String dadesCridada;
+  private java.lang.String parametresText;
 
-  public java.lang.String getDadesCridada() {
-    return this.dadesCridada;
+  public java.lang.String getParametresText() {
+    return this.parametresText;
   }
 
-  public void setDadesCridada(java.lang.String dadesCridada) {
-    this.dadesCridada = dadesCridada;
+  public void setParametresText(java.lang.String parametresText) {
+    this.parametresText = parametresText;
+  }
+
+
+  private java.lang.String retornText;
+
+  public java.lang.String getRetornText() {
+    return this.retornText;
+  }
+
+  public void setRetornText(java.lang.String retornText) {
+    this.retornText = retornText;
   }
 
 
@@ -150,17 +150,6 @@ public class PluginCridadaFilterForm extends PortaFIBBaseFilterForm implements P
 
   public void setTipusTesultatFins(java.lang.Integer tipusTesultatFins) {
     this.tipusTesultatFins = tipusTesultatFins;
-  }
-
-
-  private java.lang.String resultat;
-
-  public java.lang.String getResultat() {
-    return this.resultat;
-  }
-
-  public void setResultat(java.lang.String resultat) {
-    this.resultat = resultat;
   }
 
 
@@ -196,34 +185,33 @@ public class PluginCridadaFilterForm extends PortaFIBBaseFilterForm implements P
     this.entitatID = __toClone.entitatID;
     this.dataDesde = __toClone.dataDesde;
     this.dataFins = __toClone.dataFins;
-    this.tipusPluginDesde = __toClone.tipusPluginDesde;
-    this.tipusPluginFins = __toClone.tipusPluginFins;
-    this.dadesPlugin = __toClone.dadesPlugin;
+    this.pluginIDDesde = __toClone.pluginIDDesde;
+    this.pluginIDFins = __toClone.pluginIDFins;
     this.metodePlugin = __toClone.metodePlugin;
-    this.dadesCridada = __toClone.dadesCridada;
+    this.parametresText = __toClone.parametresText;
+    this.retornText = __toClone.retornText;
     this.tipusTesultatDesde = __toClone.tipusTesultatDesde;
     this.tipusTesultatFins = __toClone.tipusTesultatFins;
-    this.resultat = __toClone.resultat;
     this.tempsExecucioDesde = __toClone.tempsExecucioDesde;
     this.tempsExecucioFins = __toClone.tempsExecucioFins;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
-    this.mapOfValuesForTipusPlugin = __toClone.mapOfValuesForTipusPlugin;
+    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
   }
   
   /* ========= UTILS ========== */
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DADESPLUGIN ,METODEPLUGIN ,DADESCRIDADA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { METODEPLUGIN ,PARAMETRESTEXT ,RETORNTEXT }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSPLUGIN ,TIPUSTESULTAT }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,PLUGINID ,TIPUSTESULTAT }));
   }
 
 
-  protected OrderBy[] defaultOrderBy = null;
+  protected OrderBy[] defaultOrderBy = new OrderBy[] {new OrderBy(DATA, org.fundaciobit.genapp.common.query.OrderType.DESC )};
 
 
   public OrderBy[] getDefaultOrderBy() {
@@ -254,14 +242,14 @@ public class PluginCridadaFilterForm extends PortaFIBBaseFilterForm implements P
 
 
 
-  private Map<String, String> mapOfValuesForTipusPlugin;
+  private Map<String, String> mapOfPluginForPluginID;
 
-  public Map<String, String> getMapOfValuesForTipusPlugin() {
-    return this.mapOfValuesForTipusPlugin;
+  public Map<String, String> getMapOfPluginForPluginID() {
+    return this.mapOfPluginForPluginID;
   }
 
-  public void setMapOfValuesForTipusPlugin(Map<String, String> mapOfValuesForTipusPlugin) {
-    this.mapOfValuesForTipusPlugin = mapOfValuesForTipusPlugin;
+  public void setMapOfPluginForPluginID(Map<String, String> mapOfPluginForPluginID) {
+    this.mapOfPluginForPluginID = mapOfPluginForPluginID;
   }
 
 
