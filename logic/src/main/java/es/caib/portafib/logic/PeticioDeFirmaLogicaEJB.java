@@ -35,7 +35,6 @@ import es.caib.portafib.logic.utils.StampCustodiaInfo;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.bean.EstadisticaBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;

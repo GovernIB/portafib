@@ -1,14 +1,11 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -265,7 +262,7 @@ public class EstadisticaAdenController extends EstadisticaController {
 
       Double valor = estadistica.getValor();
 
-      Calendar cal = Calendar.getInstance(new Locale("es")); // locale-specific
+      Calendar cal = Calendar.getInstance(); // locale-specific
       cal.setTime(new Date(estadistica.getData().getTime()));
       cal.set(Calendar.HOUR_OF_DAY, 0);
       cal.set(Calendar.MINUTE, 0);
