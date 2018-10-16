@@ -11,6 +11,7 @@ import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.EstadisticaJPA;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
@@ -34,11 +35,13 @@ import es.caib.portafib.logic.utils.StampCustodiaInfo;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
+import es.caib.portafib.model.bean.EstadisticaBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.CustodiaInfo;
+import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -78,6 +81,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -229,7 +233,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.RevisorDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RevisorDeFirmaLocal revisorDeFirmaEjb;
-  
+
+  @EJB(mappedName = es.caib.portafib.ejb.EstadisticaLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.EstadisticaLocal estadisticaEjb;
+
   @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
   protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
 
@@ -564,6 +571,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         log.debug("State NO INICIAT = " + ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT);
       }
 
+      boolean esInici;
       if (ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT == currentState) {
         
         // Reserva de ID de custodia
@@ -636,7 +644,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
         peticioDeFirma.setFitxerAdaptatID(fitxerFinalAFirmarID);
         
+        esInici = true;
 
+      } else {
+        // Es restart
+        esInici = false;
       }
 
       // Cercar següent firma
@@ -649,6 +661,40 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Avisos
       firmaEventManagerEjb.processList(events,  wakeupTimer);
+      
+      // Estadistiques
+      if (esInici) {
+        try {
+          String entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+          
+          Estadistica est = new EstadisticaJPA();
+
+          est.setValor(1.0);
+          est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+          est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI);
+          est.setSubtipus(null);
+          {
+            Properties params = new Properties();
+            params.setProperty("entitatID", entitatID);
+            params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+            params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
+            params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
+            String usrent = peticioDeFirma.getUsuariEntitatID();
+            if (usrent != null) {
+              params.setProperty("usuariEntitatID", usrent);
+            }
+            est.setParametres(getPropertiesAsString(params));
+          }
+          est.setEntitatID(entitatID);
+          est.setData(new Timestamp(System.currentTimeMillis()));
+
+          estadisticaEjb.create(est);
+        } catch(Throwable th) {
+          log.error("Error afegint estadistiques de Peticio Iniciada: " + th.getMessage(), th);
+        }
+      }
+      
+      
 
     } catch (Throwable error) {
       log.error("Error arrancant peticio de firma " + peticioDeFirmaID, error);
@@ -2200,6 +2246,38 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           log.error("Error greu netejant peticio de firma finalitzada o rebutjada " 
              + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
         }
+        
+        
+        // Estadistiques
+        try {
+          
+          Estadistica est = new EstadisticaJPA();
+
+          est.setValor(1.0);
+          est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+          est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
+          est.setSubtipus(null);
+          {
+            Properties params = new Properties();
+            params.setProperty("entitatID", entitatID);
+            params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+            params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
+            params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
+            String usrent = peticioDeFirma.getUsuariEntitatID();
+            if (usrent != null) {
+              params.setProperty("usuariEntitatID", usrent);
+            }
+            est.setParametres(getPropertiesAsString(params));
+          }
+          est.setEntitatID(entitatID);
+          est.setData(new Timestamp(System.currentTimeMillis()));
+
+          estadisticaEjb.create(est);
+        } catch(Throwable th) {
+          log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
+        }
+
+        
       }
       
 
@@ -3718,5 +3796,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
   }
   
+  
+  protected String getPropertiesAsString(Properties prop) { 
+    StringWriter writer = new StringWriter();
+    try {
+        prop.store(writer, "");
+    } catch (Exception e) {
+        log.error("Error passant properties a String", e);
+    }
+    return writer.getBuffer().toString();
+}
 
 }

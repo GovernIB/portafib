@@ -45,8 +45,12 @@ private static final long serialVersionUID = -2066559243L;
 	@Column(name="entitatid",length = 50)
 	java.lang.String entitatID;
 
-	@Column(name="valor",length = 17,precision = 17)
+	@Column(name="valor",nullable = false,length = 17,precision = 17)
 	java.lang.Double valor;
+
+  /** No te la clau forània amb pfi_usuariaplicacio ja que si s'esborra l'usuari aplicació, haurien de quedar les estadistiques. */
+	@Column(name="usuariaplicacioid",length = 101)
+	java.lang.String usuariAplicacioID;
 
 	@Column(name="parametres",length = 3000)
 	java.lang.String parametres;
@@ -58,29 +62,32 @@ private static final long serialVersionUID = -2066559243L;
   }
 
   /** Constructor amb tots els camps  */
-  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
+  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
     this.estadisticaID=estadisticaID;
     this.data=data;
     this.tipus=tipus;
     this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
+    this.usuariAplicacioID=usuariAplicacioID;
     this.parametres=parametres;
 }
   /** Constructor sense valors autoincrementals */
-  public EstadisticaJPA(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
+  public EstadisticaJPA(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
     this.data=data;
     this.tipus=tipus;
     this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
+    this.usuariAplicacioID=usuariAplicacioID;
     this.parametres=parametres;
 }
   /** Constructor dels valors Not Null */
-  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus) {
+  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Double valor) {
     this.estadisticaID=estadisticaID;
     this.data=data;
     this.tipus=tipus;
+    this.valor=valor;
 }
   public EstadisticaJPA(Estadistica __bean) {
     this.setEstadisticaID(__bean.getEstadisticaID());
@@ -89,6 +96,7 @@ private static final long serialVersionUID = -2066559243L;
     this.setSubtipus(__bean.getSubtipus());
     this.setEntitatID(__bean.getEntitatID());
     this.setValor(__bean.getValor());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     this.setParametres(__bean.getParametres());
 	}
 
@@ -132,6 +140,13 @@ private static final long serialVersionUID = -2066559243L;
 	};
 	public void setValor(java.lang.Double _valor_) {
 		this.valor = _valor_;
+	};
+
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
+	};
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
 	};
 
 	public java.lang.String getParametres() {
@@ -182,6 +197,7 @@ private static final long serialVersionUID = -2066559243L;
     __tmp.setSubtipus(__bean.getSubtipus());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setValor(__bean.getValor());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setParametres(__bean.getParametres());
 		return __tmp;
 	}

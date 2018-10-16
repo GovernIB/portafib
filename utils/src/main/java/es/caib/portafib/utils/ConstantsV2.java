@@ -227,6 +227,14 @@ public interface ConstantsV2 {
   public static final int POSICIO_PAGINA_CAP = 0;
   
   
+  //========================================================
+  // ----- ESTADISTICA #168 ------
+  // ========================================================
+
+  public static final int ESTADISTICA_TIPUS_PETICIO_INICI = 0;
+  
+  public static final int ESTADISTICA_TIPUS_PETICIO_FINAL = 1;
+  
 
   
  //========================================================

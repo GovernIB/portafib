@@ -142,6 +142,17 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
   }
 
 
+  private java.lang.String usuariAplicacioID;
+
+  public java.lang.String getUsuariAplicacioID() {
+    return this.usuariAplicacioID;
+  }
+
+  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
+    this.usuariAplicacioID = usuariAplicacioID;
+  }
+
+
   private java.lang.String parametres;
 
   public java.lang.String getParametres() {
@@ -169,6 +180,7 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
     this.entitatID = __toClone.entitatID;
     this.valorDesde = __toClone.valorDesde;
     this.valorFins = __toClone.valorFins;
+    this.usuariAplicacioID = __toClone.usuariAplicacioID;
     this.parametres = __toClone.parametres;
     this.mapOfValuesForTipus = __toClone.mapOfValuesForTipus;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
@@ -178,12 +190,12 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { VALOR ,PARAMETRES }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,VALOR ,USUARIAPLICACIOID ,PARAMETRES }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,TIPUS ,ENTITATID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUS ,USUARIAPLICACIOID }));
   }
 
 

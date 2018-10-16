@@ -6218,7 +6218,7 @@ opcional incluso cuando se genera una firma EPES.</string>
     <void index="9"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="7"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="8"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -6277,7 +6277,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="digits"> 
            <int>6</int> 
           </void> 
-          <void property="groupBy"> 
+          <void property="filter"> 
            <boolean>true</boolean> 
           </void> 
           <void property="javaName"> 
@@ -6438,9 +6438,6 @@ opcional incluso cuando se genera una firma EPES.</string>
             </void> 
            </array> 
           </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
-          </void> 
           <void property="index"> 
            <string>pfi_estadistica_entitatid_fk_i</string> 
           </void> 
@@ -6518,6 +6515,9 @@ opcional incluso cuando se genera una firma EPES.</string>
             <string>Valor</string> 
            </void> 
           </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
           <void property="size"> 
            <int>17</int> 
           </void> 
@@ -6537,6 +6537,54 @@ opcional incluso cuando se genera una firma EPES.</string>
          </object> 
         </void> 
         <void index="6"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>No te la clau forània amb pfi_usuariaplicacio ja que si s&apos;esborra l&apos;usuari aplicació, haurien de quedar les estadistiques.</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="filter"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="groupBy"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="javaName"> 
+           <string>usuariAplicacioID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Usuari Aplicació</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Usuario Aplicación</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>101</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usuariaplicacioid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="7"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 

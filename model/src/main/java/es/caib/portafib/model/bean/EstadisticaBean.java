@@ -16,6 +16,7 @@ private static final long serialVersionUID = 360955862L;
 	java.lang.Long subtipus;
 	java.lang.String entitatID;
 	java.lang.Double valor;
+	java.lang.String usuariAplicacioID;
 	java.lang.String parametres;
 
 
@@ -24,29 +25,32 @@ private static final long serialVersionUID = 360955862L;
   }
 
   /** Constructor amb tots els camps  */
-  public EstadisticaBean(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
+  public EstadisticaBean(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
     this.estadisticaID=estadisticaID;
     this.data=data;
     this.tipus=tipus;
     this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
+    this.usuariAplicacioID=usuariAplicacioID;
     this.parametres=parametres;
 }
   /** Constructor sense valors autoincrementals */
-  public EstadisticaBean(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String parametres) {
+  public EstadisticaBean(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
     this.data=data;
     this.tipus=tipus;
     this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
+    this.usuariAplicacioID=usuariAplicacioID;
     this.parametres=parametres;
 }
   /** Constructor dels valors Not Null */
-  public EstadisticaBean(long estadisticaID , java.sql.Timestamp data , int tipus) {
+  public EstadisticaBean(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Double valor) {
     this.estadisticaID=estadisticaID;
     this.data=data;
     this.tipus=tipus;
+    this.valor=valor;
 }
   public EstadisticaBean(Estadistica __bean) {
     this.setEstadisticaID(__bean.getEstadisticaID());
@@ -55,6 +59,7 @@ private static final long serialVersionUID = 360955862L;
     this.setSubtipus(__bean.getSubtipus());
     this.setEntitatID(__bean.getEntitatID());
     this.setValor(__bean.getValor());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     this.setParametres(__bean.getParametres());
 	}
 
@@ -100,6 +105,13 @@ private static final long serialVersionUID = 360955862L;
 		this.valor = _valor_;
 	};
 
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
+	};
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
+	};
+
 	public java.lang.String getParametres() {
 		return(parametres);
 	};
@@ -120,6 +132,7 @@ private static final long serialVersionUID = 360955862L;
     __tmp.setSubtipus(__bean.getSubtipus());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setValor(__bean.getValor());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setParametres(__bean.getParametres());
 		return __tmp;
 	}

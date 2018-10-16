@@ -116,7 +116,7 @@
         <tr id="estadistica_valor_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.VALOR])?'estadistica.valor':__theForm.labels[EstadisticaFields.VALOR]}" />
+              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.VALOR])?'estadistica.valor':__theForm.labels[EstadisticaFields.VALOR]}" /> &nbsp;(*)
               <c:if test="${not empty __theForm.help[EstadisticaFields.VALOR]}">
               <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.VALOR]}" ></i>
               </c:if>
@@ -125,6 +125,24 @@
             <td>
             <form:errors path="estadistica.valor" cssClass="errorField alert alert-error" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.VALOR)? 'input-medium uneditable-input' : 'input-medium'}"   path="estadistica.valor"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
+        <tr id="estadistica_usuariAplicacioID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.USUARIAPLICACIOID])?'estadistica.usuariAplicacioID':__theForm.labels[EstadisticaFields.USUARIAPLICACIOID]}" />
+              <c:if test="${not empty __theForm.help[EstadisticaFields.USUARIAPLICACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.USUARIAPLICACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="estadistica.usuariAplicacioID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="estadistica.usuariAplicacioID"   />
 
            </td>
         </tr>

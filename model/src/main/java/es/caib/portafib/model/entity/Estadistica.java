@@ -20,6 +20,9 @@ public interface Estadistica extends org.fundaciobit.genapp.common.IGenAppEntity
 	public java.lang.Double getValor();
 	public void setValor(java.lang.Double _valor_);
 
+	public java.lang.String getUsuariAplicacioID();
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
+
 	public java.lang.String getParametres();
 	public void setParametres(java.lang.String _parametres_);
 

@@ -36,7 +36,9 @@ final String[] menu1 = {
     "",
     "peticionscaducades.llistat", // Llistar peticions de firma caducades
     "aturarpeticionsdefirma",
-    "peticiodefirma.netejaesborrat"
+    "peticiodefirma.netejaesborrat",
+    "",
+    "estadistica.estadistica.plural"
 };
 
 final String[] menu2 = {
@@ -101,6 +103,7 @@ static {
   
   mapping.put("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list");
   
+  mapping.put("estadistica.estadistica.plural", "/aden/estadistica/list");
 }
 
 %><%

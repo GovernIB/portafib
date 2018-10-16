@@ -18,6 +18,7 @@ public interface EstadisticaFields extends java.io.Serializable {
 	 public static final LongField SUBTIPUS = new LongField(_TABLE_MODEL, "subtipus", "subtipus");
 	 public static final StringField ENTITATID = new StringField(_TABLE_MODEL, "entitatID", "entitatid");
 	 public static final DoubleField VALOR = new DoubleField(_TABLE_MODEL, "valor", "valor");
+	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
 	 public static final StringField PARAMETRES = new StringField(_TABLE_MODEL, "parametres", "parametres");
 
 
@@ -28,6 +29,7 @@ public interface EstadisticaFields extends java.io.Serializable {
     SUBTIPUS,
     ENTITATID,
     VALOR,
+    USUARIAPLICACIOID,
     PARAMETRES
   };
 

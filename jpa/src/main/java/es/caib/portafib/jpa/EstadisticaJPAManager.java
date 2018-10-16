@@ -66,8 +66,8 @@ public class EstadisticaJPAManager
 		return list.toArray(new Estadistica[list.size()]);
 	};
 
-	public synchronized Estadistica create( java.sql.Timestamp _data_, int _tipus_, java.lang.Long _subtipus_, java.lang.String _entitatID_, java.lang.Double _valor_, java.lang.String _parametres_) throws I18NException {
-		EstadisticaJPA __bean =  new EstadisticaJPA(_data_,_tipus_,_subtipus_,_entitatID_,_valor_,_parametres_);
+	public synchronized Estadistica create( java.sql.Timestamp _data_, int _tipus_, java.lang.Long _subtipus_, java.lang.String _entitatID_, java.lang.Double _valor_, java.lang.String _usuariAplicacioID_, java.lang.String _parametres_) throws I18NException {
+		EstadisticaJPA __bean =  new EstadisticaJPA(_data_,_tipus_,_subtipus_,_entitatID_,_valor_,_usuariAplicacioID_,_parametres_);
 		return create(__bean);
 	}
 

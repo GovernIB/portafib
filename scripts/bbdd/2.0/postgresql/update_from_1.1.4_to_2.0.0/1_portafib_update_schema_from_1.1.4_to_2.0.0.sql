@@ -96,6 +96,7 @@ CREATE TABLE pfi_estadistica (
    estadisticaid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
    tipus integer NOT NULL,
    subtipus bigint,
+   usuariaplicacioid character varying(101);
    data timestamp without time zone NOT NULL, 
    entitatid character varying (50),
    valor double precision, 
@@ -105,6 +106,8 @@ CREATE TABLE pfi_estadistica (
 );
 
 COMMENT ON COLUMN pfi_estadistica.tipus IS 'Ha de ser combobox';
+
+COMMENT ON COLUMN pfi_estadistica.usuariaplicacioid IS 'No te la clau forània amb pfi_usuariaplicacio ja que si s''esborra l''usuari aplicació, haurien de quedar les estadistiques.';
 
 create index pfi_estadistica_pk_i on pfi_estadistica 	(estadisticaid);
 

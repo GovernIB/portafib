@@ -30,6 +30,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.VALOR)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.VALOR)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.USUARIAPLICACIOID)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.PARAMETRES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.PARAMETRES)}</th>
         </c:if>

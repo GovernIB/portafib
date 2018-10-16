@@ -58,6 +58,11 @@
           ${estadistica.valor}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
+          <td>
+          ${estadistica.usuariAplicacioID}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.PARAMETRES)}">
           <td>
           ${estadistica.parametres}

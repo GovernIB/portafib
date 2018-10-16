@@ -352,6 +352,9 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp" />
     </definition>
     
+        <definition name="estadisticaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estadisticaList.jsp" />
+    </definition>
 
 
     <!--  ===========  ADMINISTRADOR ================== -->

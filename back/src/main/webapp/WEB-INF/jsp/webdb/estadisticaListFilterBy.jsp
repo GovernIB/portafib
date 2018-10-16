@@ -181,6 +181,19 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EstadisticaFields.USUARIAPLICACIOID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="estadistica.usuariAplicacioID" var="usuariAplicacioID" />
+              <fmt:message key="genapp.form.searchby" var="cercaperusuariAplicacioID" >                
+                 <fmt:param value="${usuariAplicacioID}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${usuariAplicacioID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariAplicacioID}" path="usuariAplicacioID" />
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,EstadisticaFields.PARAMETRES)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">

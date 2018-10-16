@@ -38,12 +38,24 @@ public class EstadisticaValidator<T> implements EstadisticaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUS)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,VALOR, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(VALOR)));
+
     // Check size
     if (__vr.getFieldErrorCount(ENTITATID) == 0) {
       java.lang.String __entitatid = (java.lang.String)__vr.getFieldValue(__target__,ENTITATID);
       if (__entitatid!= null && __entitatid.length() > 50) {
         __vr.rejectValue(ENTITATID, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
+      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
+      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
+        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
       }
     }
     
