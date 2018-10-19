@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -135,25 +137,31 @@ public class FitxersOrfesController extends FitxerController {
   public void postList(HttpServletRequest request, ModelAndView mav, FitxerFilterForm filterForm,
       List<Fitxer> list) throws I18NException {
     
-    File path = FileSystemManager.getFilesPath();
-    List<String> fitxersFisics = new ArrayList<String>(Arrays.asList(path.list(new FilenameFilter() {
-      /**
-       * No volem directoris
-       */
-      @Override
-      public boolean accept(File dir, String name) {
-        return new File(dir, name).isFile();
-      }
-    })));
+
     
-    fitxersFisics.remove(AutoFirmaController.AUTOFIRMA);
+    Map<Long, File> fitxersFisics = FileSystemManager.getAllFiles();
+    
+//    File path = FileSystemManager.getFilesPath();
+//    List<String> fitxersFisics = new ArrayList<String>(Arrays.asList(path.list(new FilenameFilter() {
+//      /**
+//       * No volem directoris
+//       */
+//      @Override
+//      public boolean accept(File dir, String name) {
+//        return new File(dir, name).isFile();
+//      }
+//    })));
+    
+//    fitxersFisics.remove(AutoFirmaController.AUTOFIRMA);
     
     List<Long> fitxersBBDD = fitxerEjb.executeQuery(FITXERID, null, new OrderBy(FITXERID));
     
     // Fitxers que existeixen en BBDD però no fisicament
     for (Long fID : fitxersBBDD) {
       //File f = FileSystemManager.getFile(fID);
-      if (!fitxersFisics.contains(String.valueOf(fID))) {
+      //  fitxersFisics.contains(String.valueOf(fID))
+      if (!fitxersFisics.containsKey(fID)) {
+        // TODO XYZ ZZZ TRADUIR
         HtmlUtils.saveMessageError(request, "Fitxer amb ID="
             + fID + " existeix en BBDD però no existeix físicament !!!" );
       }
@@ -161,14 +169,14 @@ public class FitxersOrfesController extends FitxerController {
 
     // Fitxers que existeixen fisicament però no en BBDD
     for (Long fBDID : fitxersBBDD) {
-      String str = String.valueOf(fBDID);
-      if (fitxersFisics.contains(str)) {
-        fitxersFisics.remove(str);
+      
+      if (fitxersFisics.containsKey(fBDID)) {
+        fitxersFisics.remove(fBDID);
       }
     }
-    for (String fFisic : fitxersFisics) {
-      HtmlUtils.saveMessageError(request, "Fitxer Fisic amb nom ]"
-          + fFisic + "[ no existeix en la BBDD !!!" );  
+    for (Map.Entry<Long, File> fFisic : fitxersFisics.entrySet()) {
+      HtmlUtils.saveMessageError(request, "Fitxer Fisic amb id ]"
+          + fFisic.getKey() + "[ (" + fFisic.getValue().getAbsolutePath() +") no existeix en la BBDD !!!" );  
     }
     
 

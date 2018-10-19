@@ -133,8 +133,7 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
   }
 
   private boolean isDebug() {
-    // XYZ ZZZ ZZZ Llevar
-    return log.isDebugEnabled() || true;
+    return log.isDebugEnabled();
   }
 
   @Timeout

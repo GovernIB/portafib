@@ -14,9 +14,12 @@ public class Configuracio implements ConstantsV2 {
     return Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "iscaib");
   }
 
-  public static File getFilesDirectory() {
-    String path = System.getProperty(PORTAFIB_PROPERTY_BASE + "filesdirectory");
-    return new File(path);
+  public static String getFilesDirectory() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "filesdirectory");
+  }
+  
+  public static String getFileSystemManagerClass() {
+    return System.getProperty(PORTAFIB_PROPERTY_BASE + "filesystemmanagerclass");
   }
   
   public static boolean isDesenvolupament() {
