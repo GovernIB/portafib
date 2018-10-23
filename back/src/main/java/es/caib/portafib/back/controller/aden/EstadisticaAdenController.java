@@ -310,6 +310,8 @@ public class EstadisticaAdenController extends EstadisticaController {
     String[] titles = new String[dates.size() + 1]; // 1 columna per afegir noms de usuaris
 
     ExportItem[][] tableItems = new ExportItem[usuaris.size()][titles.length];
+    
+    tableItems[0][0] = new ExportItem("", "");
 
     for (int u = 0; u < usuaris.size(); u++) {
       String usr = usuaris.get(u);
