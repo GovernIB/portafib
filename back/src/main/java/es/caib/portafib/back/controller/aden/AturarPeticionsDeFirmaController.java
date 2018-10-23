@@ -300,7 +300,8 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaCont
             "aturarpeticionsdefirma.motiurebuig",
             Utils.getNom(LoginInfo.getInstance().getUsuariPersona()));
       
-        peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma, motiuDeRebuig);
+        peticioDeFirmaLogicaEjb.rebutjarADEN(peticioDeFirma,
+            LoginInfo.getInstance().getUsuariEntitatID(),  motiuDeRebuig);
 
       }
 

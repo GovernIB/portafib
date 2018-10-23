@@ -87,28 +87,6 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
   }
 
 
-  private java.lang.Long subtipusDesde;
-
-  public java.lang.Long getSubtipusDesde() {
-    return this.subtipusDesde;
-  }
-
-  public void setSubtipusDesde(java.lang.Long subtipusDesde) {
-    this.subtipusDesde = subtipusDesde;
-  }
-
-
-  private java.lang.Long subtipusFins;
-
-  public java.lang.Long getSubtipusFins() {
-    return this.subtipusFins;
-  }
-
-  public void setSubtipusFins(java.lang.Long subtipusFins) {
-    this.subtipusFins = subtipusFins;
-  }
-
-
   private java.lang.String entitatID;
 
   public java.lang.String getEntitatID() {
@@ -153,6 +131,17 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
   }
 
 
+  private java.lang.String usuariEntitatID;
+
+  public java.lang.String getUsuariEntitatID() {
+    return this.usuariEntitatID;
+  }
+
+  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
+    this.usuariEntitatID = usuariEntitatID;
+  }
+
+
   private java.lang.String parametres;
 
   public java.lang.String getParametres() {
@@ -175,12 +164,11 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
     this.dataFins = __toClone.dataFins;
     this.tipusDesde = __toClone.tipusDesde;
     this.tipusFins = __toClone.tipusFins;
-    this.subtipusDesde = __toClone.subtipusDesde;
-    this.subtipusFins = __toClone.subtipusFins;
     this.entitatID = __toClone.entitatID;
     this.valorDesde = __toClone.valorDesde;
     this.valorFins = __toClone.valorFins;
     this.usuariAplicacioID = __toClone.usuariAplicacioID;
+    this.usuariEntitatID = __toClone.usuariEntitatID;
     this.parametres = __toClone.parametres;
     this.mapOfValuesForTipus = __toClone.mapOfValuesForTipus;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
@@ -190,12 +178,12 @@ public class EstadisticaFilterForm extends PortaFIBBaseFilterForm implements Est
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,VALOR ,USUARIAPLICACIOID ,PARAMETRES }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,VALOR ,PARAMETRES }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUS ,USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUS }));
   }
 
 

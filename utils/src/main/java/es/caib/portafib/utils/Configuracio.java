@@ -1,7 +1,5 @@
 package es.caib.portafib.utils;
 
-import java.io.File;
-
 /**
  * 
  * @author anadal

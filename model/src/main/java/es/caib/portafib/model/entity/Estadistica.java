@@ -11,9 +11,6 @@ public interface Estadistica extends org.fundaciobit.genapp.common.IGenAppEntity
 	public int getTipus();
 	public void setTipus(int _tipus_);
 
-	public java.lang.Long getSubtipus();
-	public void setSubtipus(java.lang.Long _subtipus_);
-
 	public java.lang.String getEntitatID();
 	public void setEntitatID(java.lang.String _entitatID_);
 
@@ -22,6 +19,9 @@ public interface Estadistica extends org.fundaciobit.genapp.common.IGenAppEntity
 
 	public java.lang.String getUsuariAplicacioID();
 	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
+
+	public java.lang.String getUsuariEntitatID();
+	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_);
 
 	public java.lang.String getParametres();
 	public void setParametres(java.lang.String _parametres_);

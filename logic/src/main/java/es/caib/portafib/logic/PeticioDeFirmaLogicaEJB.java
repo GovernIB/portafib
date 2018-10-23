@@ -671,14 +671,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           est.setValor(1.0);
           est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI);
-          est.setSubtipus(null);
+          est.setUsuariEntitatID(peticioDeFirma.getUsuariEntitatID());
+          String usrent = peticioDeFirma.getUsuariEntitatID();
           {
             Properties params = new Properties();
             params.setProperty("entitatID", entitatID);
             params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
             params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
             params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-            String usrent = peticioDeFirma.getUsuariEntitatID();
+            
             if (usrent != null) {
               params.setProperty("usuariEntitatID", usrent);
             }
@@ -686,8 +687,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           }
           est.setEntitatID(entitatID);
           est.setData(new Timestamp(System.currentTimeMillis()));
-
+          
           estadisticaEjb.create(est);
+
         } catch(Throwable th) {
           log.error("Error afegint estadistiques de Peticio Iniciada: " + th.getMessage(), th);
         }
@@ -2255,7 +2257,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           est.setValor(1.0);
           est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
-          est.setSubtipus(null);
+          est.setUsuariEntitatID(null);
           {
             Properties params = new Properties();
             params.setProperty("entitatID", entitatID);
@@ -2540,10 +2542,44 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     estatDeFirma.setDescripcio(motiuInvalidacio);
     estatDeFirmaLogicaEjb.update(estatDeFirma);
   }
+  
+  
+  protected void rebutjarEstadistica(String usuariEntitatIDQueRebutja, String entitatID, 
+      PeticioDeFirmaJPA peticioDeFirma) {
+    // Estadistiques
+    try {
+      
+      Estadistica est = new EstadisticaJPA();
+
+      est.setValor(1.0);
+      est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+      est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA);
+      est.setUsuariEntitatID(usuariEntitatIDQueRebutja);
+      {
+        Properties params = new Properties();
+        params.setProperty("entitatID", entitatID);
+        params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
+        params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
+        params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
+        String usrent = peticioDeFirma.getUsuariEntitatID();
+        if (usrent != null) {
+          params.setProperty("usuariEntitatID", usrent);
+        }
+        est.setParametres(getPropertiesAsString(params));
+      }
+      est.setEntitatID(entitatID);
+      est.setData(new Timestamp(System.currentTimeMillis()));
+
+      estadisticaEjb.create(est);
+    } catch(Throwable th) {
+      log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(), th);
+    }
+  }
+  
 
   @Override
-  public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma, String motiuDeRebuig)
-    throws I18NException {
+  public void rebutjarADEN(PeticioDeFirmaJPA peticioDeFirma,
+      String usuariEntitatAden, String motiuDeRebuig)  throws I18NException {
 
     EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
 
@@ -2573,6 +2609,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Avisar del rebuig
       firmaEventManagerEjb.processList(events, true);
+      
+      rebutjarEstadistica(usuariEntitatAden, peticioDeFirma.getUsuariAplicacio().getEntitatID(), peticioDeFirma );
 
     } else {
 
@@ -2689,6 +2727,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         log.error("Error greu netejant peticio de firma finalitzada o rebutjada " 
            + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
       }
+      
+      rebutjarEstadistica(estatDeFirma.getUsuariEntitatID(),
+          peticioDeFirma.getUsuariAplicacio().getEntitatID(), peticioDeFirma);
 
 
     } finally {

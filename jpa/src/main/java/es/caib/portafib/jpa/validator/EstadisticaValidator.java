@@ -59,6 +59,14 @@ public class EstadisticaValidator<T> implements EstadisticaFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
+      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
+      if (__usuarientitatid!= null && __usuarientitatid.length() > 101) {
+        __vr.rejectValue(USUARIENTITATID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+      }
+    }
+    
     if (__vr.getFieldErrorCount(PARAMETRES) == 0) {
       java.lang.String __parametres = (java.lang.String)__vr.getFieldValue(__target__,PARAMETRES);
       if (__parametres!= null && __parametres.length() > 3000) {

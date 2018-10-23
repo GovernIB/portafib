@@ -32,7 +32,7 @@ public interface ConstantsV2 {
 
   // Estat Inicials d'un EstatDeFirma
   public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR = 0L;
-  public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR = 1L;
+  public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR = 1L;  
   // Indica que el colaborador ha indicat als altres possible colaboradors
   // que ell ja s'ho mira per la qual cosa el sistema descarta la tasca
   // de la resta de colaboradors
@@ -235,6 +235,8 @@ public interface ConstantsV2 {
   
   public static final int ESTADISTICA_TIPUS_PETICIO_FINAL = 1;
   
+  public static final int ESTADISTICA_TIPUS_PETICIO_REBUTJADA = 2;
+
 
   
  //========================================================

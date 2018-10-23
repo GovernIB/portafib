@@ -23,10 +23,6 @@ public class EstadisticaQueryPath extends org.fundaciobit.genapp.common.query.Qu
     return new IntegerField(getQueryPath(), EstadisticaFields.TIPUS);
   }
 
-  public LongField SUBTIPUS() {
-    return new LongField(getQueryPath(), EstadisticaFields.SUBTIPUS);
-  }
-
   public StringField ENTITATID() {
     return new StringField(getQueryPath(), EstadisticaFields.ENTITATID);
   }
@@ -37,6 +33,10 @@ public class EstadisticaQueryPath extends org.fundaciobit.genapp.common.query.Qu
 
   public StringField USUARIAPLICACIOID() {
     return new StringField(getQueryPath(), EstadisticaFields.USUARIAPLICACIOID);
+  }
+
+  public StringField USUARIENTITATID() {
+    return new StringField(getQueryPath(), EstadisticaFields.USUARIENTITATID);
   }
 
   public StringField PARAMETRES() {

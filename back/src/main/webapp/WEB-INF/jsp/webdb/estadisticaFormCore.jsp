@@ -65,24 +65,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.SUBTIPUS)}">
-        <tr id="estadistica_subtipus_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.SUBTIPUS])?'estadistica.subtipus':__theForm.labels[EstadisticaFields.SUBTIPUS]}" />
-              <c:if test="${not empty __theForm.help[EstadisticaFields.SUBTIPUS]}">
-              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.SUBTIPUS]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-            <form:errors path="estadistica.subtipus" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.SUBTIPUS)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.SUBTIPUS)? 'input-mini uneditable-input' : 'input-mini'}"   path="estadistica.subtipus"   />
-
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.ENTITATID)}">
         <tr id="estadistica_entitatID_rowid">
           <td>
@@ -143,6 +125,24 @@
             <td>
             <form:errors path="estadistica.usuariAplicacioID" cssClass="errorField alert alert-error" />
             <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIAPLICACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="estadistica.usuariAplicacioID"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EstadisticaFields.USUARIENTITATID)}">
+        <tr id="estadistica_usuariEntitatID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[EstadisticaFields.USUARIENTITATID])?'estadistica.usuariEntitatID':__theForm.labels[EstadisticaFields.USUARIENTITATID]}" />
+              <c:if test="${not empty __theForm.help[EstadisticaFields.USUARIENTITATID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EstadisticaFields.USUARIENTITATID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="estadistica.usuariEntitatID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,EstadisticaFields.USUARIENTITATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="estadistica.usuariEntitatID"   />
 
            </td>
         </tr>

@@ -6379,45 +6379,6 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="javaName"> 
-           <string>subtipus</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Long</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Subtipus</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Subtipo</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>19</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>subtipus</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-5</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>14</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="4"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
           <void property="foreignKeys"> 
            <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
             <void index="0"> 
@@ -6491,8 +6452,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="5"> 
+        <void index="4"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>1</string> 
+          </void> 
           <void property="digits"> 
            <int>17</int> 
           </void> 
@@ -6536,19 +6500,13 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="6"> 
+        <void index="5"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>No te la clau forània amb pfi_usuariaplicacio ja que si s&apos;esborra l&apos;usuari aplicació, haurien de quedar les estadistiques.</string> 
           </void> 
           <void property="digits"> 
            <int>0</int> 
-          </void> 
-          <void property="filter"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
           </void> 
           <void property="javaName"> 
            <string>usuariAplicacioID</string> 
@@ -6571,6 +6529,45 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
           <void property="sqlName"> 
            <string>usuariaplicacioid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="6"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>usuariEntitatID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Usuari Entitat</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Usuario Entidad</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>101</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usuarientitatid</string> 
           </void> 
           <void property="sqlType"> 
            <int>12</int> 

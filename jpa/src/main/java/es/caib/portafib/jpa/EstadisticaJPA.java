@@ -38,9 +38,6 @@ private static final long serialVersionUID = -2066559243L;
 	@Column(name="tipus",nullable = false,length = 10)
 	int tipus;
 
-	@Column(name="subtipus",length = 19)
-	java.lang.Long subtipus;
-
 	@Index(name="pfi_estadistica_entitatid_fk_i")
 	@Column(name="entitatid",length = 50)
 	java.lang.String entitatID;
@@ -52,6 +49,9 @@ private static final long serialVersionUID = -2066559243L;
 	@Column(name="usuariaplicacioid",length = 101)
 	java.lang.String usuariAplicacioID;
 
+	@Column(name="usuarientitatid",length = 101)
+	java.lang.String usuariEntitatID;
+
 	@Column(name="parametres",length = 3000)
 	java.lang.String parametres;
 
@@ -62,24 +62,24 @@ private static final long serialVersionUID = -2066559243L;
   }
 
   /** Constructor amb tots els camps  */
-  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
+  public EstadisticaJPA(long estadisticaID , java.sql.Timestamp data , int tipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String usuariEntitatID , java.lang.String parametres) {
     this.estadisticaID=estadisticaID;
     this.data=data;
     this.tipus=tipus;
-    this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
     this.usuariAplicacioID=usuariAplicacioID;
+    this.usuariEntitatID=usuariEntitatID;
     this.parametres=parametres;
 }
   /** Constructor sense valors autoincrementals */
-  public EstadisticaJPA(java.sql.Timestamp data , int tipus , java.lang.Long subtipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String parametres) {
+  public EstadisticaJPA(java.sql.Timestamp data , int tipus , java.lang.String entitatID , java.lang.Double valor , java.lang.String usuariAplicacioID , java.lang.String usuariEntitatID , java.lang.String parametres) {
     this.data=data;
     this.tipus=tipus;
-    this.subtipus=subtipus;
     this.entitatID=entitatID;
     this.valor=valor;
     this.usuariAplicacioID=usuariAplicacioID;
+    this.usuariEntitatID=usuariEntitatID;
     this.parametres=parametres;
 }
   /** Constructor dels valors Not Null */
@@ -93,10 +93,10 @@ private static final long serialVersionUID = -2066559243L;
     this.setEstadisticaID(__bean.getEstadisticaID());
     this.setData(__bean.getData());
     this.setTipus(__bean.getTipus());
-    this.setSubtipus(__bean.getSubtipus());
     this.setEntitatID(__bean.getEntitatID());
     this.setValor(__bean.getValor());
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    this.setUsuariEntitatID(__bean.getUsuariEntitatID());
     this.setParametres(__bean.getParametres());
 	}
 
@@ -121,13 +121,6 @@ private static final long serialVersionUID = -2066559243L;
 		this.tipus = _tipus_;
 	};
 
-	public java.lang.Long getSubtipus() {
-		return(subtipus);
-	};
-	public void setSubtipus(java.lang.Long _subtipus_) {
-		this.subtipus = _subtipus_;
-	};
-
 	public java.lang.String getEntitatID() {
 		return(entitatID);
 	};
@@ -147,6 +140,13 @@ private static final long serialVersionUID = -2066559243L;
 	};
 	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
 		this.usuariAplicacioID = _usuariAplicacioID_;
+	};
+
+	public java.lang.String getUsuariEntitatID() {
+		return(usuariEntitatID);
+	};
+	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_) {
+		this.usuariEntitatID = _usuariEntitatID_;
 	};
 
 	public java.lang.String getParametres() {
@@ -194,10 +194,10 @@ private static final long serialVersionUID = -2066559243L;
     __tmp.setEstadisticaID(__bean.getEstadisticaID());
     __tmp.setData(__bean.getData());
     __tmp.setTipus(__bean.getTipus());
-    __tmp.setSubtipus(__bean.getSubtipus());
     __tmp.setEntitatID(__bean.getEntitatID());
     __tmp.setValor(__bean.getValor());
     __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
     __tmp.setParametres(__bean.getParametres());
 		return __tmp;
 	}

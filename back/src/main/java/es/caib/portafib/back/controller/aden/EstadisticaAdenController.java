@@ -1,23 +1,29 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.sql.Timestamp;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.i18n.I18NCommonDateFormat;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.exportdata.DataExporterManager;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.pluginsib.exportdata.ExportData;
+import org.fundaciobit.pluginsib.exportdata.ExportFile;
+import org.fundaciobit.pluginsib.exportdata.ExportItem;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -37,9 +43,11 @@ import es.caib.portafib.back.controller.webdb.EstadisticaController;
 import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.DataExporterPortaFIB;
 import es.caib.portafib.jpa.EstadisticaJPA;
 import es.caib.portafib.model.entity.Estadistica;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.utils.ConstantsV2;
 
 /**
  *
@@ -50,6 +58,8 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 @RequestMapping(value = "/aden/estadistica")
 @SessionAttributes(types = { EstadisticaForm.class, EstadisticaFilterForm.class })
 public class EstadisticaAdenController extends EstadisticaController {
+
+  public static String SESSION_ESTADISTIQUES_PER = "SESSION_ESTADISTIQUES_PER";
 
   @Override
   public String getTileList() {
@@ -63,7 +73,12 @@ public class EstadisticaAdenController extends EstadisticaController {
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    return ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+    Where w = ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+    if (isEstadistiquesPerUsrApp(request)) {
+      return w;
+    } else {
+      return Where.AND(w, USUARIENTITATID.isNotNull());
+    }
   }
 
   @Override
@@ -96,7 +111,6 @@ public class EstadisticaAdenController extends EstadisticaController {
 
       filterForm.setVisibleExportList(true);
 
-      filterForm.addHiddenField(SUBTIPUS);
       filterForm.addHiddenField(PARAMETRES);
       filterForm.addHiddenField(ENTITATID);
       filterForm.addHiddenField(ESTADISTICAID);
@@ -108,119 +122,157 @@ public class EstadisticaAdenController extends EstadisticaController {
       filterForm.setDeleteButtonVisible(false);
 
       filterForm.setEditButtonVisible(false);
-      
+
       filterForm.setItemsPerPage(5);
 
-      filterForm.addAdditionalButton(new AdditionalButton("icon-signal", "estadistica.grafica",
-          "javascript:submitForm('" + request.getContextPath() + getContextWeb() + "/grafic', true)", "btn-info"));
-      
-      
-      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign", "genapp.viewtitle",
-           getContextWeb() + "/view/{0}", "btn-info"));
+      setEstadistiquesPerUsrApp(request, true);
 
+      /*
+       * filterForm.addAdditionalButton(new AdditionalButton("icon-signal",
+       * "estadistica.grafica", "javascript:submitForm('" + request.getContextPath() +
+       * getContextWeb() + "/grafic', true)", "btn-info"));
+       */
+
+      filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
+          "genapp.viewtitle", getContextWeb() + "/view/{0}", "btn-info"));
+
+    }
+
+    String groupBy = filterForm.getGroupBy();
+    if (groupBy == null) {
+      filterForm.setVisibleExportList(false);
+      HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("estadistiques.info"));
+    } else {
+      filterForm.setVisibleExportList(true);
+    }
+
+    filterForm.getAdditionalButtons().clear();
+    if (isEstadistiquesPerUsrApp(request)) {
+      filterForm.setTitleCode("estadistiques.per.aplicacio");
+      filterForm.addAdditionalButton(new AdditionalButton("icon-user",
+          "estadistiques.per.persona", getContextWeb() + "/canvipersonaaplicacio/false",
+          "btn-info"));
+
+      filterForm.addHiddenField(USUARIENTITATID);
+      filterForm.getHiddenFields().remove(USUARIAPLICACIOID);
+
+    } else {
+      filterForm.setTitleCode("estadistiques.per.persona");
+
+      filterForm.addAdditionalButton(new AdditionalButton("icon-hdd",
+          "estadistiques.per.aplicacio", getContextWeb() + "/canvipersonaaplicacio/true",
+          "btn-info"));
+
+      filterForm.addHiddenField(USUARIAPLICACIOID);
+      filterForm.getHiddenFields().remove(USUARIENTITATID);
     }
 
     return filterForm;
   }
 
-  @RequestMapping(value = "/grafic", method = RequestMethod.POST)
-  public void grafic(HttpServletRequest request, HttpServletResponse response,
-      EstadisticaFilterForm filterForm) throws Exception, I18NException {
+  @RequestMapping(value = "/canvipersonaaplicacio/{isAplicacio}", method = RequestMethod.GET)
+  public String canvipersonaaplicacio(HttpServletRequest request,
+      HttpServletResponse response, @PathVariable("isAplicacio") java.lang.Boolean isAplicacio)
+      throws Exception, I18NException {
 
-    ModelAndView mav = new ModelAndView(getTileList());
+    setEstadistiquesPerUsrApp(request, isAplicacio);
+    return "redirect:" + getContextWeb() + "/list/";
+  }
 
-    List<Estadistica> list = llistat(mav, request, filterForm);
+  protected boolean isEstadistiquesPerUsrApp(HttpServletRequest request) {
+    Boolean value = (Boolean) request.getSession().getAttribute(SESSION_ESTADISTIQUES_PER);
 
-    Map<Date, Double> valorsPerData = agruparPerDia(list);
-
-//    XYDataset line_chart_dataset = new XYDataset();
-//    
-//    XYDataset
-//
-//    for (Map.Entry<Date, Double> entry : valorsPerData.entrySet()) {
-//      line_chart_dataset.addValue(entry.getValue(), "items", entry.getKey());
-//    }
-
-    //JFreeChart chart = ChartFactory.createTimeSeriesChart("", "Data", "Items",
-    //    line_chart_dataset, PlotOrientation.VERTICAL, false, false, false);
-    
-    
-    TimeSeries series = new TimeSeries("Random Data");
-    
-    for (Map.Entry<Date, Double> entry : valorsPerData.entrySet()) {
-      //line_chart_dataset.addValue(entry.getValue(), "items", entry.getKey());
-      series.add(new org.jfree.data.time.Day(entry.getKey()), entry.getValue());
+    if (value == null) {
+      return true;
     }
-    
-    
-    String groupBy = filterForm.getGroupBy();
-    String titol;
-    if (groupBy == null) {
-      titol = "Estadistiques";
-    } else {
-      
-      // GROUP BY
-      String value = filterForm.getGroupValue();
-      
-      if (TIPUS.javaName.equals(groupBy)) {
-        
-        if ("0".equals(value)) {
-          titol = I18NUtils.tradueix("estadistica.peticiofirma.inici");
-        } else if( "1".equals(value)) {
-          titol = I18NUtils.tradueix("estadistica.peticiofirma.final");
-        } else {
-          titol = "Valor desconegut(" + value +") per l'agrupació " + TIPUS.javaName;
-        }
-        
-      } else if (USUARIAPLICACIOID.javaName.equals(groupBy)) {
-        
-        titol = I18NUtils.tradueix(UsuariAplicacioFields._TABLE_MODEL + "." + UsuariAplicacioFields._TABLE_MODEL)
-            + ": " + value;
-        
-      } else {
-        log.info("\n\n  GROUPBY => " + filterForm.getGroupBy() + "\n\n");
-        log.info("\n\n  GROUPBY VALUE => " + filterForm.getGroupValue() + "\n\n");
-        titol = "Valor de filter desconegut ["+ groupBy+"]";
-        log.warn(titol, new Exception());
-      }
-      
-      // FILTER
-      String filterUsrApp = filterForm.getUsuariAplicacioID();
-      if (filterUsrApp != null) {
-        titol = titol + " / " + I18NUtils.tradueix(UsuariAplicacioFields._TABLE_MODEL + "." + UsuariAplicacioFields._TABLE_MODEL)
-            + ": " + filterUsrApp;
-      }
-    }
-    
-    
-    
-    
 
-    TimeSeriesCollection data = new TimeSeriesCollection(series);
-    JFreeChart chart = ChartFactory.createScatterPlot(titol, "Data", "Items", data,
-                                                      PlotOrientation.VERTICAL, 
-                                                      false, false, false);
-    
-    
-    //final String dateFormat = "yyyy/MM/dd";
-    
-    
-    I18NCommonDateFormat df = new I18NCommonDateFormat(I18NUtils.getLocale());
-    
-    XYPlot plot = (XYPlot) chart.getPlot();
-    DateAxis axis = new DateAxis();
-    axis.setDateFormatOverride(df.getSimpleDateFormat(I18NUtils.getLocale())); //.toPattern()new SimpleDateFormat(dateFormat));
-    plot.setDomainAxis(axis);
-    
-    //DateAxis axis = (DateAxis) plot.getDomainAxis();
-    //axis.setDateFormatOverride(new SimpleDateFormat(dateFormat));
-
-    response.setContentType("image/jpeg");
-    response.setHeader("Content-Disposition", "attachment; filename=\"grafic.jpeg\"");
-
-    ChartUtilities.writeChartAsJPEG(response.getOutputStream(), chart, 700, 400);
+    return value.booleanValue();
 
   }
+
+  protected void setEstadistiquesPerUsrApp(HttpServletRequest request, boolean value) {
+    request.getSession().setAttribute(SESSION_ESTADISTIQUES_PER, new Boolean(value));
+  }
+
+  /*
+   * @RequestMapping(value = "/grafic", method = RequestMethod.POST) public void
+   * grafic(HttpServletRequest request, HttpServletResponse response, EstadisticaFilterForm
+   * filterForm) throws Exception, I18NException {
+   * 
+   * ModelAndView mav = new ModelAndView(getTileList());
+   * 
+   * List<Estadistica> list = llistat(mav, request, filterForm);
+   * 
+   * Map<Date, Double> valorsPerData = agruparPerDia(list);
+   * 
+   * // XYDataset line_chart_dataset = new XYDataset(); // // XYDataset // // for
+   * (Map.Entry<Date, Double> entry : valorsPerData.entrySet()) { //
+   * line_chart_dataset.addValue(entry.getValue(), "items", entry.getKey()); // }
+   * 
+   * //JFreeChart chart = ChartFactory.createTimeSeriesChart("", "Data", "Items", //
+   * line_chart_dataset, PlotOrientation.VERTICAL, false, false, false);
+   * 
+   * 
+   * TimeSeries series = new TimeSeries("Random Data");
+   * 
+   * for (Map.Entry<Date, Double> entry : valorsPerData.entrySet()) {
+   * //line_chart_dataset.addValue(entry.getValue(), "items", entry.getKey()); series.add(new
+   * org.jfree.data.time.Day(entry.getKey()), entry.getValue()); }
+   * 
+   * 
+   * String groupBy = filterForm.getGroupBy(); String titol; if (groupBy == null) { titol =
+   * "Estadistiques"; } else {
+   * 
+   * // GROUP BY String value = filterForm.getGroupValue();
+   * 
+   * if (TIPUS.javaName.equals(groupBy)) {
+   * 
+   * if ("0".equals(value)) { titol = I18NUtils.tradueix("estadistica.peticiofirma.inici"); }
+   * else if( "1".equals(value)) { titol =
+   * I18NUtils.tradueix("estadistica.peticiofirma.final"); } else { titol = "Valor desconegut("
+   * + value +") per l'agrupació " + TIPUS.javaName; }
+   * 
+   * } else if (USUARIAPLICACIOID.javaName.equals(groupBy)) {
+   * 
+   * titol = I18NUtils.tradueix(UsuariAplicacioFields._TABLE_MODEL + "." +
+   * UsuariAplicacioFields._TABLE_MODEL) + ": " + value;
+   * 
+   * } else { log.info("\n\n  GROUPBY => " + filterForm.getGroupBy() + "\n\n");
+   * log.info("\n\n  GROUPBY VALUE => " + filterForm.getGroupValue() + "\n\n"); titol =
+   * "Valor de filter desconegut ["+ groupBy+"]"; log.warn(titol, new Exception()); }
+   * 
+   * // FILTER String filterUsrApp = filterForm.getUsuariAplicacioID(); if (filterUsrApp !=
+   * null) { titol = titol + " / " + I18NUtils.tradueix(UsuariAplicacioFields._TABLE_MODEL +
+   * "." + UsuariAplicacioFields._TABLE_MODEL) + ": " + filterUsrApp; } }
+   * 
+   * 
+   * 
+   * 
+   * 
+   * TimeSeriesCollection data = new TimeSeriesCollection(series); JFreeChart chart =
+   * ChartFactory.createScatterPlot(titol, "Data", "Items", data, PlotOrientation.VERTICAL,
+   * false, false, false);
+   * 
+   * 
+   * //final String dateFormat = "yyyy/MM/dd";
+   * 
+   * 
+   * I18NCommonDateFormat df = new I18NCommonDateFormat(I18NUtils.getLocale());
+   * 
+   * XYPlot plot = (XYPlot) chart.getPlot(); DateAxis axis = new DateAxis();
+   * axis.setDateFormatOverride(df.getSimpleDateFormat(I18NUtils.getLocale()));
+   * //.toPattern()new SimpleDateFormat(dateFormat)); plot.setDomainAxis(axis);
+   * 
+   * //DateAxis axis = (DateAxis) plot.getDomainAxis(); //axis.setDateFormatOverride(new
+   * SimpleDateFormat(dateFormat));
+   * 
+   * response.setContentType("image/jpeg"); response.setHeader("Content-Disposition",
+   * "attachment; filename=\"grafic.jpeg\"");
+   * 
+   * ChartUtilities.writeChartAsJPEG(response.getOutputStream(), chart, 700, 400);
+   * 
+   * }
+   */
 
   @Override
   @RequestMapping(value = "/export/{dataExporterID}", method = RequestMethod.POST)
@@ -228,55 +280,122 @@ public class EstadisticaAdenController extends EstadisticaController {
       HttpServletRequest request, HttpServletResponse response,
       EstadisticaFilterForm filterForm) throws Exception, I18NException {
 
+    int itemsInicials = filterForm.getItemsPerPage();
+    
+    filterForm.setItemsPerPage(-1);
+
     ModelAndView mav = new ModelAndView(getTileList());
 
-    List<Estadistica> list = llistat(mav, request, filterForm);
+    List<Estadistica> estadistiques = llistat(mav, request, filterForm);
+    
+    filterForm.setItemsPerPage(itemsInicials);
 
-    Field<?>[] allFields = { DATA, VALOR }; // ALL_ESTADISTICA_FIELDS;
+    // CHECK que existeix
+    // int tipus = Integer.parseInt(filterForm.getGroupValue());
 
-    java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
-    __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    // __mapping.put(TIPUS, filterForm.getMapOfValuesForTipus());
-    // __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
+    boolean isUsrApp = isEstadistiquesPerUsrApp(request);
 
-    Map<Date, Double> valorsPerData = agruparPerDia(list);
+    Set<String> usuarisSet = new TreeSet<String>();
 
-    List<Estadistica> listExport;
-    listExport = new ArrayList<Estadistica>();
-    for (Date onlyDate : valorsPerData.keySet()) {
-      Estadistica e = new EstadisticaJPA();
-      e.setData(new Timestamp(onlyDate.getTime()));
-      e.setValor(valorsPerData.get(onlyDate));
-      listExport.add(e);
+    Map<String, Map<String, Double>> agrupades = agruparPerMes(estadistiques, usuarisSet,
+        isUsrApp);
+
+    List<String> usuaris = new ArrayList<String>(usuarisSet);
+
+    Set<String> dates = agrupades.keySet();
+
+    DataExporterPortaFIB dataExporter = (DataExporterPortaFIB) DataExporterManager
+        .getByID(dataExporterID);
+
+    String[] titles = new String[dates.size() + 1]; // 1 columna per afegir noms de usuaris
+
+    ExportItem[][] tableItems = new ExportItem[usuaris.size()][titles.length];
+
+    for (int u = 0; u < usuaris.size(); u++) {
+      String usr = usuaris.get(u);
+      tableItems[u][0] = new ExportItem(usr, usr);
     }
 
-    exportData(request, response, dataExporterID, filterForm, listExport, allFields,
-        __mapping, PRIMARYKEY_FIELDS);
+    int titlePos = 1;
+    for (String mes : dates) {
+      titles[titlePos] = mes;
+
+      Map<String, Double> valorsPerUsuari = agrupades.get(mes);
+
+      for (int u = 0; u < usuaris.size(); u++) {
+        String usr = usuaris.get(u);
+
+        Double valor = valorsPerUsuari.get(usr);
+
+        if (valor == null) {
+          valor = 0.0;
+        }
+
+        tableItems[u][titlePos] = new ExportItem(String.valueOf(valor), valor);
+      }
+
+      titlePos++;
+    }
+
+    ExportData data = new ExportData(titles, tableItems);
+
+    ExportFile exportFile = dataExporter.getExportDataPlugin().getExportFile(data);
+
+    response.setContentType(exportFile.getContentType());
+    response.setHeader("Content-Disposition", "inline; filename=\"" + exportFile.getFilename()
+        + "\"");
+    response.setContentLength((int) exportFile.getData().length);
+
+    OutputStream output = response.getOutputStream();
+
+    output.write(exportFile.getData());
+
+    output.flush();
+
+    output.close();
+
   }
 
-  private Map<Date, Double> agruparPerDia(List<Estadistica> list) {
+  // Map<MES-ANY, Map<USUARI, Double>>
+  private Map<String, Map<String, Double>> agruparPerMes(List<Estadistica> list,
+      Set<String> usuaris, boolean isUsrApp) {
 
-    Map<Date, Double> valorsPerData = new HashMap<Date, Double>();
+    Map<String, Map<String, Double>> valorsPerData = new TreeMap<String, Map<String, Double>>();
 
+    String usuari;
     for (Estadistica estadistica : list) {
 
-      Double valor = estadistica.getValor();
+      if (isUsrApp) {
+        usuari = estadistica.getUsuariAplicacioID();
+      } else {
+        if (estadistica.getUsuariEntitatID() == null) {
+          continue;
+        } else {
+          usuari = estadistica.getUsuariEntitatID();
+        }
+      }
+      usuaris.add(usuari);
 
-      Calendar cal = Calendar.getInstance(); // locale-specific
+      Calendar cal = Calendar.getInstance();
       cal.setTime(new Date(estadistica.getData().getTime()));
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
+      int year = cal.get(Calendar.YEAR);
+      int month = cal.get(Calendar.MONTH) + 1;
 
-      Date onlyDate = cal.getTime();
+      String onlyDate = year + "-" + String.format("%02d", month);
 
-      Double sum = valorsPerData.get(onlyDate);
+      Map<String, Double> estPerMes = valorsPerData.get(onlyDate);
+
+      if (estPerMes == null) {
+        estPerMes = new HashMap<String, Double>();
+        valorsPerData.put(onlyDate, estPerMes);
+      }
+
+      Double sum = estPerMes.get(usuari);
 
       if (sum == null) {
-        valorsPerData.put(onlyDate, valor);
+        estPerMes.put(usuari, estadistica.getValor());
       } else {
-        valorsPerData.put(onlyDate, sum + valor);
+        estPerMes.put(usuari, sum + estadistica.getValor());
       }
 
     }
@@ -287,9 +406,18 @@ public class EstadisticaAdenController extends EstadisticaController {
   @Override
   public List<StringKeyValue> getReferenceListForTipus(HttpServletRequest request,
       ModelAndView mav, Where where) throws I18NException {
+
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-    __tmp.add(new StringKeyValue("0", I18NUtils.tradueix("estadistica.peticiofirma.inici")));
-    __tmp.add(new StringKeyValue("1", I18NUtils.tradueix("estadistica.peticiofirma.final")));
+
+    final int[] tipus = { ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI,
+        ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL,
+        ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA, };
+
+    for (int i = 0; i < tipus.length; i++) {
+      __tmp.add(new StringKeyValue(String.valueOf(tipus[i]), I18NUtils
+          .tradueix("estadistica.peticiofirma." + tipus[i])));
+    }
+
     return __tmp;
   }
 

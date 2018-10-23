@@ -30,6 +30,8 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 public class DataExporterPortaFIB implements IDataExporter {
   private IExportDataPlugin exportDataPlugin;
   
+  
+  
   protected final Logger log = Logger.getLogger(getClass());
   
   /**
@@ -37,7 +39,7 @@ public class DataExporterPortaFIB implements IDataExporter {
    */
   public DataExporterPortaFIB(IExportDataPlugin exportDataPlugin) {
     super();
-    this.exportDataPlugin = exportDataPlugin;
+    this.exportDataPlugin = exportDataPlugin;   
   }
   
 
@@ -50,6 +52,7 @@ public class DataExporterPortaFIB implements IDataExporter {
   public String getName() {
     return exportDataPlugin.getName();
   }
+
 
   @Override
   public DataExported getIcon() {
@@ -94,6 +97,17 @@ public class DataExporterPortaFIB implements IDataExporter {
         return new DataExported(exportFile.getContentType(), exportFile.getFilename(), exportFile.getData());
       }
       
+  }
+
+  
+
+  public IExportDataPlugin getExportDataPlugin() {
+    return exportDataPlugin;
+  }
+
+
+  public void setExportDataPlugin(IExportDataPlugin exportDataPlugin) {
+    this.exportDataPlugin = exportDataPlugin;
   }
 
 

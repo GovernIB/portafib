@@ -95,8 +95,8 @@ DROP TABLE pfi_posiciotaulafirmes;
 CREATE TABLE pfi_estadistica (
    estadisticaid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
    tipus integer NOT NULL,
-   subtipus bigint,
-   usuariaplicacioid character varying(101);
+   usuariaplicacioid character varying(101),
+   usuarientitatid character varying(101),
    data timestamp without time zone NOT NULL, 
    entitatid character varying (50),
    valor double precision, 

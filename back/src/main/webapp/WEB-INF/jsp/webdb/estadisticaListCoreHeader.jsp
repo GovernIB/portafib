@@ -21,9 +21,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.TIPUS)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.TIPUS)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.SUBTIPUS)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.SUBTIPUS)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.ENTITATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.ENTITATID)}</th>
         </c:if>
@@ -32,6 +29,9 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIAPLICACIOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.USUARIAPLICACIOID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.USUARIENTITATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.USUARIENTITATID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EstadisticaFields.PARAMETRES)}">
         <th>${pfi:getSortIcons(__theFilterForm,EstadisticaFields.PARAMETRES)}</th>
