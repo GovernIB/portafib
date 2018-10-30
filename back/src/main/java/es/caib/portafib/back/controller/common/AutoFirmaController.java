@@ -133,7 +133,7 @@ public class AutoFirmaController extends FitxerController
     // #166 XYZ ZZZ S'ha de veure si deixam llibertat o limitam segons el que digui l'entitat
     form.setListOfPosicioTaulaFirmes(GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes());
 
-    form.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
+    form.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
     
     switch (entitat.getPoliticaSegellatDeTemps()) {
@@ -187,8 +187,6 @@ public class AutoFirmaController extends FitxerController
 
     autoFirmaValidator.validate(form, result);
 
-    
-    
     if (result.hasErrors()) {
       ModelAndView mav = new ModelAndView("autoFirmaForm");
       mav.addObject(form);
@@ -231,12 +229,15 @@ public class AutoFirmaController extends FitxerController
     
     form.setAttachments(attachments);
     
+    final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+    final String langSign = form.getIdioma();
+    
     
     File fitxerPDF = form.getFitxerAFirmarIDFile();
     File pdfAdaptat = getFitxerAdaptatPath(form.getUsuariEntitatID(), id);
     // XYZ ZZZ Això NOMES S'HA DE CRIDAR SI ÉS PDF
     final int originalNumberOfSigns = generaFitxerAdaptat(fitxerPDF, pdfAdaptat, 
-        form.getIdioma(), form.getLogoSegell().getFitxerID(), form.getAttachments(),
+        langSign, form.getLogoSegell().getFitxerID(), form.getAttachments(),
         (int) form.getPosicioTaulaFirmesID(), form.getTitol(), form.getDescripcio());
     
 
@@ -251,7 +252,10 @@ public class AutoFirmaController extends FitxerController
     
     final int sign_number = 1;
 
-    final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+
+    
+    log.info("XYZ ZZZ langSign = " + langSign);
+    
     
     final String signaturesSetID= String.valueOf(id);
     // Posam el mateix id ja que només es firma un sol fitxer
@@ -278,9 +282,9 @@ public class AutoFirmaController extends FitxerController
     FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
-        langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
+        langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
-        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator,
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langSign), timeStampGenerator,
         expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
     
     CommonInfoSignature commonInfoSignature;

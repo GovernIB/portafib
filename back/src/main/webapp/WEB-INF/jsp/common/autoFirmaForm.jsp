@@ -73,6 +73,19 @@
            </td>
          </tr>
          <tr>
+          <td>
+            <label>
+              <fmt:message key="autofirma.idiomadocument" /> &nbsp;(*)
+              </label>
+            </td>
+            <td>
+              <form:select path="idioma"> 
+                <form:option value="es">Castellano</form:option>
+                <form:option value="ca">Català</form:option>
+              </form:select>
+            </td>
+         </tr>
+         <tr>
             <td><label><fmt:message key="peticioDeFirma.segellatDeTemps" /> &nbsp;</label></td>
             <td> 
                 <c:choose>

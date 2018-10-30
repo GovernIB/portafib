@@ -1231,7 +1231,6 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     final int sign_number = 1;
     final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
-    
 
     final String signaturesSetID = "" + SignatureModuleController.generateUniqueSignaturesSetID();
 

@@ -884,7 +884,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
       
       // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
-      peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
+      peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
       
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
