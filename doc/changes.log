@@ -1,6 +1,9 @@
 
 PortaFIB 1.1.5
 ==============
+
+2018-10-30 Bug: Firmat per, data i motiu utilitza idioma de UserInterface #205
+
 2018-10-10 NotificacionCallBackTimerEJB es bloqueja #195
 
 2018-10-03 Problemes amb AUTOFIRMA i firmes massives: firma corrupta #187

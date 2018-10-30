@@ -138,7 +138,7 @@ public class AutoFirmaController extends FitxerController
     Where w = PosicioTaulaFirmesFields.SUPORTADA.equal(true); 
     form.setListOfPosicioTaulaFirmes(posicioTaulaFirmesRefList.getReferenceList(PosicioTaulaFirmesFields.POSICIOTAULAFIRMESID,w));
 
-    form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+    form.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
 
     
     switch (entitat.getSegellDeTempsViaWeb()) {
@@ -164,10 +164,7 @@ public class AutoFirmaController extends FitxerController
       break;
 
  }
-    
-    
-    
-    
+
     long id;
     id = SignatureModuleController.generateUniqueSignaturesSetID();
     form.setId(id);
@@ -179,10 +176,7 @@ public class AutoFirmaController extends FitxerController
 
   }
 
-  
-  
-  
-  
+
   
   @RequestMapping(value = "", method = RequestMethod.POST)
   public ModelAndView autofirmaPost(HttpServletRequest request, HttpServletResponse response,
@@ -236,14 +230,15 @@ public class AutoFirmaController extends FitxerController
     
     form.setAttachments(attachments);
     
+    final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
+    final String langSign = form.getIdioma();
     
     File fitxerPDF = form.getFitxerAFirmarIDFile();
     File pdfAdaptat = getFitxerAdaptatPath(form.getUsuariEntitatID(), id);
     // XYZ ZZZ Això NOMES S'HA DE CRIDAR SI ÉS PDF
     final int originalNumberOfSigns = generaFitxerAdaptat(fitxerPDF, pdfAdaptat, 
-        form.getIdioma(), form.getLogoSegell().getFitxerID(), form.getAttachments(),
+        langSign, form.getLogoSegell().getFitxerID(), form.getAttachments(),
         (int) form.getPosicioTaulaFirmesID(), form.getTitol(), form.getDescripcio());
-    
 
     // Preparar pàgina
     final String idname = form.getFitxerAFirmarID().getOriginalFilename();
@@ -255,8 +250,6 @@ public class AutoFirmaController extends FitxerController
     
     
     final int sign_number = 1;
-
-    final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
     
     final String signaturesSetID= String.valueOf(id);
     // Posam el mateix id ja que només es firma un sol fitxer
@@ -276,7 +269,7 @@ public class AutoFirmaController extends FitxerController
     FileInfoSignature fis = SignatureUtils.getFileInfoSignature(signatureID,
         pdfAdaptat, FileInfoSignature.PDF_MIME_TYPE,  idname,
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
-        langUI, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
+        langSign, Constants.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         Constants.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator);
     

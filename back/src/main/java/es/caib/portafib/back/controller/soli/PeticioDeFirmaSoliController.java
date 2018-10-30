@@ -784,7 +784,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
       
-      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
       
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 

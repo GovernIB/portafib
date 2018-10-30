@@ -1241,12 +1241,12 @@ import es.caib.portafib.utils.Configuracio;
 
         // Cercar el motiu segons si es DELEGACIO o DESTINATARI
         final String reason;
-        Locale loc = new Locale(peticioDeFirma.getIdiomaID());
+        Locale locSign = new Locale(langSign);
         Long colaDeleID = estatDeFirma.getColaboracioDelegacioID();
         UsuariPersona up = loginInfo.getUsuariPersona();
         if (colaDeleID == null) {
           // Destinatari
-          reason = I18NUtils.tradueix(loc, "motiupeticiodirecta");
+          reason = I18NUtils.tradueix(locSign, "motiupeticiodirecta");
         } else {
           // Delegat
           // Firma {0} (NIF {1}) per delegació de {2} (NIF {3}).Motiu: {4}
@@ -1320,7 +1320,7 @@ import es.caib.portafib.utils.Configuracio;
 
        return new FileInfoFull(SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
-            langUI, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
+            langSign, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
             peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator),
             originalNumberOfSigns);
 
