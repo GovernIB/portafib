@@ -445,7 +445,14 @@ public class SignatureWebModuleEjb implements SignatureWebModuleLocal {
 
       ISignatureWebPlugin instancia = map.get(plugin);
 
-      List<String> allTypes = Arrays.asList(instancia.getSupportedSignatureTypes());
+      String[] types = instancia.getSupportedSignatureTypes();
+      
+      List<String> allTypes;
+      if (types == null) {
+        allTypes = new ArrayList<String>(); 
+      } else {
+        allTypes = Arrays.asList(types);
+      }
 
       Map<Column, String> valors = new HashMap<SignatureWebModuleEjb.Column, String>();
 
@@ -482,7 +489,12 @@ public class SignatureWebModuleEjb implements SignatureWebModuleLocal {
           //valors.put(c, estampat_i ? CHECK : NOCHECK);
           
           if (estampat_i) {
-            String cb = Arrays.toString(instancia.getSupportedBarCodeTypes().toArray());
+            List<String> bctypes = instancia.getSupportedBarCodeTypes();
+            if (bctypes == null) {
+              bctypes = new ArrayList<String>();
+            }
+
+            String cb = Arrays.toString(bctypes.toArray());
             cb = cb.replace("[", "").replace("]", "").replace(",", "<br/>");
             valors.put(c, CHECK + "<br/><small>("+ cb + ")</small>");
           } else {

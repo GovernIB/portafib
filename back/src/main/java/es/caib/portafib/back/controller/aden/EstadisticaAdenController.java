@@ -24,14 +24,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.exportdata.ExportData;
 import org.fundaciobit.pluginsib.exportdata.ExportFile;
 import org.fundaciobit.pluginsib.exportdata.ExportItem;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +37,8 @@ import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.DataExporterPortaFIB;
-import es.caib.portafib.jpa.EstadisticaJPA;
+
 import es.caib.portafib.model.entity.Estadistica;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**

@@ -21,5 +21,5 @@ INSERT INTO pfi_estadistica(estadisticaid, tipus, data, entitatid, valor, parame
  CONCAT('firmaID=', firmaid, chr(10), 'datainici=', datainici),
  'unknown', usuarientitatid
  FROM pfi_estatdefirma
- where tipusestatdefirmafinalid = 3 ;--TIPUSESTATDEFIRMAFINAL_REBUTJAT;
+ where tipusestatdefirmafinalid = 3; --TIPUSESTATDEFIRMAFINAL_REBUTJAT;
  

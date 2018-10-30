@@ -53,6 +53,12 @@
       <artifactId>pluginsib-signatureweb-afirma_triphase_server</artifactId>
       <version>3.0.0</version>
     </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+      <artifactId>pluginsib-signatureweb-fnmtcloud</artifactId>
+      <version>3.0.0</version>
+    </dependency>
 
     <!--  Plugin de firma web en servidor de SIA s'ha definit en un Profile (Veure més abaix) -->
 

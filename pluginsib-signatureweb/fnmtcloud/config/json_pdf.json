@@ -1,0 +1,116 @@
+{
+	"process_type" : "string",
+	"signer" : {
+		"id" : "string",
+		"self" : "string",
+		"signature_policy_id" : "string",
+		"parameters" : {
+			"type" : "string",
+			"certificate" : "string",
+			"default_digest_algorithm" : "string",
+			"estimated_signature_size" : 666,
+			"certification_level" : 666,
+			"contact_info" : "string",
+			"location" : "string",
+			"reason" : "string",
+			"signature_field" : {
+				"name" : "string",
+				"location" : {
+					"page" : {
+						"number" : "string"
+					},
+					"rectangle" : {
+						"x" : 666,
+						"y" : 666,
+						"height" : 666,
+						"width" : 666
+					}
+				},
+				"appearance" : {
+					"background_image" : {
+						"file" : "string",
+						"binary" : "string"
+					},
+					"foreground_image" : {
+						"file" : "string",
+						"binary" : "string"
+					},
+					"signature_details" : {
+						"font" : {
+							"name" : "string",
+							"size" : 666,
+							"style" : "string",
+							"color" : {
+								"r" : 666,
+								"g" : 666,
+								"b" : 666
+							},
+							"encoding" : "string",
+							"embed" : true
+						},
+						"details" : [{
+								"type" : "string",
+								"title" : "string",
+								"timezone" : "string",
+								"format" : "string",
+								"value" : "string"
+							}
+						]
+					}
+				}
+			},
+			"policy_identifier" : {
+				"policy_id" : {
+					"oid" : "string"
+				},
+				"policy_hash" : {
+					"digest_algorithm_identifier" : {
+						"id" : "string"
+					},
+					"digest_value" : "string"
+				},
+				"policy_qualifiers" : [{
+						"type" : "string",
+						"uri" : "string"
+					}
+				]
+			},
+			"commitments" : [{
+					"type" : "string",
+					"oid" : "string"
+				}
+			]
+		},
+		"to_be_signed" : {
+			"digest" : {
+				"algorithm" : "string",
+				"value" : "string"
+			}
+		},
+		"signature" : "string",
+		"to_be_timestamped" : {
+			"type" : "string",
+			"digest_algorithm" : "string",
+
+			"digest_value" : "string"
+		},
+
+		"timestamps" : ["string"]
+	},
+	"labels" : [["string"
+		]],
+	"ui_locales" : ["string"
+	],
+	"finish_callback_url" : "string",
+	"views" : {
+		"document_agreement" : {
+			"skip_server_id" : true,
+			"document_info" : {
+				"html_body_content" : "string"
+			}
+		}
+	},
+	"timestamp" : {
+		"provider_id" : "string"
+	}
+}

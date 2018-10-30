@@ -321,6 +321,14 @@
           <version>${plugins.signatureweb.autofirma.version}</version>
         </dependency>
 
+
+        <dependency>
+          <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+          <artifactId>pluginsib-signatureweb-fnmtcloud</artifactId>
+          <version>3.0.0</version>
+        </dependency>
+
+
         <!--  Els Plugins de firma en web SIA, Cl@veFirma i FIRe s'han -->
         <!--  definit en l'apartat de profiles (Veure més abaix)       -->
 

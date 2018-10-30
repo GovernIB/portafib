@@ -1,0 +1,2550 @@
+{
+	"info": {
+		"name": "Ceres eIDAS Welcome Kit v1.0.2",
+		"_postman_id": "e7b3769f-645e-8345-4e79-06dd0a3309de",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employees Use Cases",
+			"item": [
+				{
+					"name": "Authenticating a User to Obtain Attributes Info Flow",
+					"item": [
+						{
+							"name": "Step 1 (User Web Browser): User IdP Login to Obtain User AuthZ Code to Get User Info (step 1 ACG Flow - OAuth API)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}?client_id={{appClientID}}&response_type=code&redirect_uri={{redirect_uri}}&state={{state}}&acr_values={{acr_values}}&scope={{scope_related_to_user_info_as_1}}",
+									"protocol": "https",
+									"host": [
+										"{{trustedx}}"
+									],
+									"port": "{{userPort}}",
+									"path": [
+										"trustedx-authserver",
+										"oauth",
+										"{{as_1}}"
+									],
+									"query": [
+										{
+											"key": "client_id",
+											"value": "{{appClientID}}",
+											"equals": true
+										},
+										{
+											"key": "response_type",
+											"value": "code",
+											"equals": true
+										},
+										{
+											"key": "redirect_uri",
+											"value": "{{redirect_uri}}",
+											"equals": true
+										},
+										{
+											"key": "state",
+											"value": "{{state}}",
+											"equals": true
+										},
+										{
+											"key": "acr_values",
+											"value": "{{acr_values}}",
+											"equals": true
+										},
+										{
+											"key": "scope",
+											"value": "{{scope_related_to_user_info_as_1}}",
+											"equals": true
+										}
+									]
+								},
+								"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización asociado al dominio\r\n * identificador de la aplicación cliente\r\n * uri de redirección\r\n * state\r\n * el contexto de autenticación que cumple con los requisitos del aplicativo (acr)\r\n * scope que representa el recurso de los atributos del usuario.\r\n\r\n\r\nTrustedX eIDAS autenticará al usuario (de acuerdo con el acr solicitado) y le pedirá consentimiento para obtener el código de autorización de manera que el aplicativo en cuestión actúe en nombre de dicho usuario sobre el recurso de su propiedad y que está representado por el scope:\r\n * urn:fnmt:employee (atributos del usuario verificados por Ceres)\r\n\r\nEste es el primer paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\nSi la autenticación es satisfactoria el sistema redirigirá al usuario a la uri de redirección con un code.\r\n\r\nDeberemos copiar su valor para incluirlo en el siguiente paso de manera manual."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 2: Obtain access token to Get User Info (step 2 ACG flow-OAuth API)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+										]
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{appClientID}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{appClientIDPassword}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"type": "any"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "{{redirect_uri}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "changeit",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+									"protocol": "https",
+									"host": [
+										"{{trustedx}}"
+									],
+									"port": "{{userPort}}",
+									"path": [
+										"trustedx-authserver",
+										"oauth",
+										"{{as_1}}",
+										"token"
+									]
+								},
+								"description": "Obtener el token de acceso para acceder a la información del usuario.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior (valor changeit)\r\n * la uri de redirección\r\n\r\nEs el segundo paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+							},
+							"response": []
+						},
+						{
+							"name": "Step 3: Obtain eIDAS Account User Info (ACG access - User Info API)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "834ba398-0085-47ed-b19c-35dcf4ed35cb",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/openid/v1/users/me",
+									"protocol": "https",
+									"host": [
+										"{{trustedx}}"
+									],
+									"port": "{{userPort}}",
+									"path": [
+										"trustedx-resources",
+										"openid",
+										"v1",
+										"users",
+										"me"
+									]
+								},
+								"description": "Obtener información sobre los atributos de la cuenta usuario del scope autorizado para el aplicativo en cuestión\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * token de acceso ACG (valor incluido automáticamente gracias a la variable global creada en el paso anterior)"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Obtaining Document Signatures",
+					"item": [
+						{
+							"name": "One Document Signature Flow",
+							"item": [
+								{
+									"name": "Step 2: Create a doc signature process (CCG access - Electronic Document Signing API)",
+									"item": [
+										{
+											"name": "PAdES-BES with appearance",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"type": "text/javascript",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"postman.setGlobalVariable(\"signerProcessId\", jsonData.id);\r",
+															"postman.setGlobalVariable(\"signedDocumentContentURL\", jsonData.documents[0].url + \"/content\");"
+														]
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "process",
+															"value": "{\"process_type\":\"{{process_type}}\",\"signer\":{\"signature_policy_id\":\"{{signature_policy_id}}\",\"parameters\":{\"type\":\"pades-bes\",\"default_digest_algorithm\":\"sha256\",\"location\":\"Madrid, Spain\",\"signature_field\":{\"name\":\"user_signature\",\"location\":{\"page\":{\"number\":\"last\"},\"rectangle\":{\"x\":100,\"y\":110,\"height\":150,\"width\":400}},\"appearance\":{\"signature_details\":{\"details\":[{\"type\":\"subject\",\"title\":\"Signer Distinguished Name: \"},{\"type\":\"location\",\"title\":\"Signature Location: \"},{\"type\":\"date\",\"title\":\"Signature date: \"}]}}}}},\"labels\":[[\"{{signing_identities_labels}}\"]],\"views\":{\"document_agreement\":{\"document_info\":{\"html_body_content\":\"PGgxPkRvY3VtZW50b3MgZGUgcHJ1ZWJhPC9oMT48cD5LaXQgZGUgQmllbnZlbmlkYTwvcD4=\"}}},\"finish_callback_url\":\"http://localhost\"}",
+															"type": "text"
+														},
+														{
+															"key": "document",
+															"type": "file",
+															"value": ""
+														}
+													]
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"signer_processes"
+													]
+												},
+												"description": "Creación del proceso de firma de un documento\r\n\r\nMediante la API de firma electrónica de documentos y gracias al token de acceso CCG obtenido anteriormente.\r\n\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior\r\n * json con el tipo de proceso, definición del tipo de firma requerida, identificador de la política de firma, filtro para indicar las labels de las identidades de firma deseadas, información para el usuario, url de callback, etc.\r\n\r\nse incluyen ejemplos para firmas PAdES-BES y PAdES-EPES con apariencia.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar los parámetros de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática. \r\n * el identificador del proceso de firma creado\r\n * la url donde podremos acceder al contenido del documento firmado"
+											},
+											"response": []
+										},
+										{
+											"name": "PAdES-EPES with appearance",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"type": "text/javascript",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"postman.setGlobalVariable(\"signerProcessId\", jsonData.id);\r",
+															"postman.setGlobalVariable(\"signedDocumentContentURL\", jsonData.documents[0].url + \"/content\");"
+														]
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "process",
+															"value": "{\"process_type\":\"{{process_type}}\",\"signer\":{\"signature_policy_id\":\"{{signature_policy_id}}\",\"parameters\":{\"type\":\"pades-epes\",\"default_digest_algorithm\":\"sha256\",\"location\":\"Madrid, Spain\",\"signature_field\":{\"name\":\"user_signature\",\"location\":{\"page\":{\"number\":\"last\"},\"rectangle\":{\"x\":100,\"y\":110,\"height\":150,\"width\":400}},\"appearance\":{\"signature_details\":{\"details\":[{\"type\":\"subject\",\"title\":\"Signer Distinguished Name: \"},{\"type\":\"location\",\"title\":\"Signature Location: \"},{\"type\":\"date\",\"title\":\"Signature date: \"}]}}},\"policy_identifier\":{\"policy_id\":{\"oid\":\"2.16.724.1.3.1.1.2.1.9\"},\"policy_hash\":{\"digest_algorithm_identifier\":{\"id\":\"sha1\"},\"digest_value\":\"G7roucf600+f03r/o0bAOQ6WAs0=\"},\"policy_qualifiers\":[{\"type\":\"spuri\",\"uri\":\"https://sede.060.gob.es/politica_de_firma_anexo_1.pdf\"}]}}},\"labels\":[[\"{{signing_identities_labels}}\"]],\"views\":{\"document_agreement\":{\"document_info\":{\"html_body_content\":\"PGgxPkRvY3VtZW50b3MgZGUgcHJ1ZWJhPC9oMT48cD5LaXQgZGUgQmllbnZlbmlkYTwvcD4=\"}}},\"finish_callback_url\":\"http://localhost\"}\n",
+															"type": "text"
+														},
+														{
+															"key": "document",
+															"type": "file",
+															"value": ""
+														}
+													]
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"signer_processes"
+													]
+												},
+												"description": "Creación del proceso de firma de un documento\r\n\r\nMediante la API de firma electrónica de documentos y gracias al token de acceso CCG obtenido anteriormente.\r\n\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior\r\n * json con el tipo de proceso, definición del tipo de firma requerida, identificador de la política de firma, filtro para indicar las labels de las identidades de firma deseadas, información para el usuario, url de callback, etc.\r\n\r\nse incluyen ejemplos para firmas PAdES-BES y PAdES-EPES con apariencia.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar los parámetros de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática. \r\n * el identificador del proceso de firma creado\r\n * la url donde podremos acceder al contenido del documento firmado"
+											},
+											"response": []
+										},
+										{
+											"name": "PAdES-BES with appearance with background - (B64)",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"type": "text/javascript",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"postman.setGlobalVariable(\"signerProcessId\", jsonData.id);\r",
+															"postman.setGlobalVariable(\"signedDocumentContentURL\", jsonData.documents[0].url + \"/content\");"
+														]
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "process",
+															"value": "{\n\t\"process_type\": \"{{process_type}}\",\n\t\"signer\": {\n\t\t\"signature_policy_id\": \"{{signature_policy_id}}\",\n\t\t\"parameters\": {\n\t\t\t\"type\": \"pades-bes\",\n\t\t\t\"default_digest_algorithm\": \"sha256\",\n\t\t\t\"location\": \"Madrid, Spain\",\n\t\t\t\"signature_field\": {\n\t\t\t\t\"name\": \"user_signature\",\n\t\t\t\t\"location\": {\n\t\t\t\t\t\"page\": {\n\t\t\t\t\t\t\"number\": \"last\"\n\t\t\t\t\t},\n\t\t\t\t\t\"rectangle\": {\n\t\t\t\t\t\t\"x\": 100,\n\t\t\t\t\t\t\"y\": 110,\n\t\t\t\t\t\t\"height\": 150,\n\t\t\t\t\t\t\"width\": 400\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t\"appearance\": {\n\t\t\t\t\t\"background_image\" : {\n\t\t\t\t\t\t\"binary\" : \"iVBORw0KGgoAAAANSUhEUgAAA/YAAABYCAIAAADQhPsAAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKQSURBVHhe7dahEQNBEMTAyz9pmwguejZV3VgB6AEAAAAAAAAAAAAAAN/9AACANd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzZ9KAACAHd38qQQAANjRzQMAAAAAAAAAAAAAAF+89wewT7jHjhMaFgAAAABJRU5ErkJggg==\"\n\t\t\t\t\t},\n\t\t\t\t\t\"signature_details\": {\n\t\t\t\t\t\t\"details\": [{\n\t\t\t\t\t\t\t\"type\": \"subject\",\n\t\t\t\t\t\t\t\"title\": \"Signer Distinguished Name: \"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"location\",\n\t\t\t\t\t\t\t\"title\": \"Signature Location: \"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"type\": \"date\",\n\t\t\t\t\t\t\t\"title\": \"Signature date: \"\n\t\t\t\t\t\t}]\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t},\n\t\"labels\": [[\"{{signing_identities_labels}}\"]],\n\t\"views\": {\n\t\t\"document_agreement\": {\n\t\t\t\"document_info\": {\n\t\t\t\t\"html_body_content\": \"PGgxPkRvY3VtZW50b3MgZGUgcHJ1ZWJhPC9oMT48cD5LaXQgZGUgQmllbnZlbmlkYTwvcD4=\"\n\t\t\t}\n\t\t}\n\t},\n\t\"finish_callback_url\": \"http://localhost\"\n}",
+															"type": "text"
+														},
+														{
+															"key": "document",
+															"type": "file",
+															"value": ""
+														}
+													]
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"signer_processes"
+													]
+												},
+												"description": "Creación del proceso de firma de un documento\r\n\r\nMediante la API de firma electrónica de documentos y gracias al token de acceso CCG obtenido anteriormente.\r\n\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior\r\n * json con el tipo de proceso, definición del tipo de firma requerida, identificador de la política de firma, filtro para indicar las labels de las identidades de firma deseadas, información para el usuario, url de callback, etc.\r\n\r\nse incluyen ejemplos para firmas PAdES-BES y PAdES-EPES con apariencia.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar los parámetros de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática. \r\n * el identificador del proceso de firma creado\r\n * la url donde podremos acceder al contenido del documento firmado"
+											},
+											"response": []
+										},
+										{
+											"name": "XAdES-EPES internally detached",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"type": "text/javascript",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"postman.setGlobalVariable(\"signerProcessId\", jsonData.id);\r",
+															"postman.setGlobalVariable(\"signedDocumentContentURL\", jsonData.documents[0].url + \"/content\");"
+														]
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "formdata",
+													"formdata": [
+														{
+															"key": "process",
+															"value": "{\"process_type\":\"{{process_type}}\",\"signer\":{\"signature_policy_id\":\"{{xades_signature_policy_id}}\",\"parameters\":{\"type\":\"xades-epes\",\"default_digest_algorithm\":\"sha256\",\"signature_target\":{\"signature_packaging\":\"detached\",\"nodes_to_sign\":[{\"type\":\"document_reference\",\"xpath\":\"document/originalDocument\"}],\"signature_placement\":{\"type\":\"last_child_of\",\"xpath\":\"/\"}},\"include_data_object_format\":true,\"policy_identifier\":{\"policy_id\":{\"identifier\":{\"uri\":\"urn:oid:2.16.724.1.3.1.1.2.1.9\"}},\"policy_hash\":{\"digest_algorithm_identifier\":{\"id\":\"sha1\"},\"digest_value\":\"G7roucf600+f03r/o0bAOQ6WAs0=\"},\"policy_qualifiers\":[{\"type\":\"spuri\",\"uri\":\"http://administracionelectronica.gob.es/es/ctt/politicafirma/politica_firma_AGE_v1_9.pdf\"}]}}},\"labels\":[[\"{{signing_identities_labels}}\"]],\"views\":{\"document_agreement\":{\"document_info\":{\"html_body_content\":\"PGgxPkRvY3VtZW50b3MgZGUgcHJ1ZWJhPC9oMT48cD5LaXQgZGUgQmllbnZlbmlkYTwvcD4=\"}}},\"finish_callback_url\":\"http://localhost\"}",
+															"type": "text"
+														},
+														{
+															"key": "document",
+															"type": "file",
+															"src": "welcomeKit-txt.xml"
+														}
+													]
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"signer_processes"
+													]
+												},
+												"description": "Creación del proceso de firma de un documento\r\n\r\nMediante la API de firma electrónica de documentos y gracias al token de acceso CCG obtenido anteriormente.\r\n\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior\r\n * json con el tipo de proceso, definición del tipo de firma requerida, identificador de la política de firma, filtro para indicar las labels de las identidades de firma deseadas, información para el usuario, url de callback, etc.\r\n\r\nse incluyen ejemplos para firmas PAdES-BES y PAdES-EPES con apariencia.\r\n\r\nNota: el json debe estar codificado en UTF-8\r\nAsí mismo el fichero firmado se recibe en ese mismo formato.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar los parámetros de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática. \r\n * el identificador del proceso de firma creado\r\n * la url donde podremos acceder al contenido del documento firmado\r\n \r\n## Ejemplo de xml a firmar\r\n``\r\n<document>\r\n\t<originalDocument Encoding=\"http://www.w3.org/2000/09/xmldsig#base64\" Id=\"123456789\" MimeType=\"text/plain\" fileName=\"welcomeKit.txt\">V2VsY29tZSBLaXQ=</originalDocument>\r\n</document>\r\n``"
+											},
+											"response": []
+										}
+									],
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Step 1: Obtain access token to Manage Doc Signature Process (CCG flow-OAuth API )",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "client_credentials",
+													"type": "text"
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_doc_sig_process}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtenemos un token de autorización para el scope propiedad del sistema:\r\n * urn:safelayer:eidas:sign:process:document\r\n\r\nmediante el flujo CCG de la API OAuth de TrustedX eIDAS.\r\n\r\nParámetros:\r\n * host y puerto de trustedx eIDAS.\r\n * identificador del servidor de autorización asociado al dominio.\r\n * username y password del aplicativo cliente.\r\n * scope que representa el recurso proceso de firma de documentos.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 3 (User Web Browser): Executing the document signature process",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/ui?signerProcessId={{signerProcessId}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esignsp",
+												"v2",
+												"ui"
+											],
+											"query": [
+												{
+													"key": "signerProcessId",
+													"value": "{{signerProcessId}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de trustedx eIDAS\r\n * identificador del proceso de firma\r\n\r\nTrustedX eIDAS gestionará la ejecución del proceso de firma del documento, autenticando al usuario, mostrándole el documento a firmar, solicitándole al usuario el pin de firma, etc.\r\n\r\nCuando el proceso de firma termine se redireccionará al usuario a la url de callback con el parámetro status finished y el identificador del proceso de firma."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 4: Obtaining the signed document (CCG access - Electronic doc Signing API)",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{signedDocumentContentURL}}",
+											"host": [
+												"{{signedDocumentContentURL}}"
+											]
+										},
+										"description": "La aplicación cliente puede obtener el documento firmado mediante una petición a la url almacenada como variable global en el segundo paso.\r\n\r\nDebe incluir el token de acceso CCG para el scope:\r\n * urn:safelayer:eidas:sign:process:document\r\n\r\n obtenido en el paso 1 o solicitar uno nuevo si dicho token ha expirado."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 5: Delete document signature process (CCG access - Electronic doc Signing API)",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes/{{signerProcessId}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esignsp",
+												"v2",
+												"signer_processes",
+												"{{signerProcessId}}"
+											]
+										},
+										"description": "Finalmente la aplicación cliente debe eliminar el proceso de firma en el sistema.\r\n\r\nParámetros:\r\n * host y puerto de trustedx eIDAS\r\n * identificador del proceso de firma\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document \r\n\r\n\t(obtenido en el paso 1 o solicitar uno nuevo si dicho token ha expirado)"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Batch of Server Document Signatures Flow",
+							"item": [
+								{
+									"name": "Step 2: Create Document Resources  (CCG access - Electronic Document Signing API)",
+									"item": [
+										{
+											"name": "Each doc with a signature definition",
+											"item": [
+												{
+													"name": "PAdES-BES with appearance",
+													"item": [
+														{
+															"name": "document1",
+															"event": [
+																{
+																	"listen": "test",
+																	"script": {
+																		"type": "text/javascript",
+																		"exec": [
+																			"var jsonData = JSON.parse(responseBody);\r",
+																			"postman.setGlobalVariable(\"batch_document_1\", jsonData.id);"
+																		]
+																	}
+																}
+															],
+															"request": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Authorization",
+																		"value": "Bearer {{access_token}}"
+																	},
+																	{
+																		"key": "Content-Type",
+																		"value": "application/pdf"
+																	}
+																],
+																"body": {
+																	"mode": "formdata",
+																	"formdata": [
+																		{
+																			"key": "signers",
+																			"value": "[{\"signature_policy_id\":\"urn:safelayer:eidas:policies:sign:document:pdf\",\"parameters\":{\"type\":\"pades-bes\",\"default_digest_algorithm\":\"sha256\",\"location\":\"Madrid, Spain\",\"signature_field\":{\"name\":\"user_signature\",\"location\":{\"page\":{\"number\":\"last\"},\"rectangle\":{\"x\":100,\"y\":110,\"height\":150,\"width\":400}},\"appearance\":{\"signature_details\":{\"details\":[{\"type\":\"subject\",\"title\":\"Signer Distinguished Name: \"},{\"type\":\"location\",\"title\":\"Signature Location: \"},{\"type\":\"date\",\"title\":\"Signature date: \"}]}}}}}]",
+																			"type": "text"
+																		},
+																		{
+																			"key": "document",
+																			"type": "file",
+																			"value": ""
+																		}
+																	]
+																},
+																"url": {
+																	"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents",
+																	"protocol": "https",
+																	"host": [
+																		"{{trustedx}}"
+																	],
+																	"port": "{{userPort}}",
+																	"path": [
+																		"trustedx-resources",
+																		"esignsp",
+																		"v2",
+																		"documents"
+																	]
+																},
+																"description": "Creación de los recursos con los documentos a firmar mediante la API de firma electrónica de documentos.\r\n\r\nCaso en el que existe una configuración de firma distinta para cada documento (tres en el ejemplo)\r\n\r\nPor cada documento se envía una petición con los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  (obtenido en el paso 1)\r\n * la configuración de firma requerida en formato json\r\n   * se incluye un ejemplo para firma PAdES-BES con apariencia\r\n * el documento en binario\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador del documento de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+															},
+															"response": []
+														},
+														{
+															"name": "document2",
+															"event": [
+																{
+																	"listen": "test",
+																	"script": {
+																		"type": "text/javascript",
+																		"exec": [
+																			"var jsonData = JSON.parse(responseBody);\r",
+																			"postman.setGlobalVariable(\"batch_document_2\", jsonData.id);"
+																		]
+																	}
+																}
+															],
+															"request": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Authorization",
+																		"value": "Bearer {{access_token}}"
+																	},
+																	{
+																		"key": "Content-Type",
+																		"value": "application/pdf"
+																	}
+																],
+																"body": {
+																	"mode": "formdata",
+																	"formdata": [
+																		{
+																			"key": "signers",
+																			"value": "[{\"signature_policy_id\":\"urn:safelayer:eidas:policies:sign:document:pdf\",\"parameters\":{\"type\":\"pades-bes\",\"default_digest_algorithm\":\"sha256\",\"location\":\"Madrid, Spain\",\"signature_field\":{\"name\":\"user_signature\",\"location\":{\"page\":{\"number\":\"last\"},\"rectangle\":{\"x\":100,\"y\":110,\"height\":150,\"width\":400}},\"appearance\":{\"signature_details\":{\"details\":[{\"type\":\"subject\",\"title\":\"Signer Distinguished Name: \"},{\"type\":\"location\",\"title\":\"Signature Location: \"},{\"type\":\"date\",\"title\":\"Signature date: \"}]}}}}}]",
+																			"type": "text"
+																		},
+																		{
+																			"key": "document",
+																			"type": "file",
+																			"value": ""
+																		}
+																	]
+																},
+																"url": {
+																	"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents",
+																	"protocol": "https",
+																	"host": [
+																		"{{trustedx}}"
+																	],
+																	"port": "{{userPort}}",
+																	"path": [
+																		"trustedx-resources",
+																		"esignsp",
+																		"v2",
+																		"documents"
+																	]
+																},
+																"description": "Creación de los recursos con los documentos a firmar mediante la API de firma electrónica de documentos.\r\n\r\nCaso en el que existe una configuración de firma distinta para cada documento (tres en el ejemplo)\r\n\r\nPor cada documento se envía una petición con los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  (obtenido en el paso 1)\r\n * la configuración de firma requerida en formato json\r\n   * se incluye un ejemplo para firma PAdES-BES con apariencia\r\n * el documento en binario\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador del documento de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+															},
+															"response": []
+														},
+														{
+															"name": "document3",
+															"event": [
+																{
+																	"listen": "test",
+																	"script": {
+																		"type": "text/javascript",
+																		"exec": [
+																			"var jsonData = JSON.parse(responseBody);\r",
+																			"postman.setGlobalVariable(\"batch_document_3\", jsonData.id);"
+																		]
+																	}
+																}
+															],
+															"request": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Authorization",
+																		"value": "Bearer {{access_token}}"
+																	},
+																	{
+																		"key": "Content-Type",
+																		"value": "application/pdf"
+																	}
+																],
+																"body": {
+																	"mode": "formdata",
+																	"formdata": [
+																		{
+																			"key": "signers",
+																			"value": "[{\"signature_policy_id\":\"urn:safelayer:eidas:policies:sign:document:pdf\",\"parameters\":{\"type\":\"pades-bes\",\"default_digest_algorithm\":\"sha256\",\"location\":\"Madrid, Spain\",\"signature_field\":{\"name\":\"user_signature\",\"location\":{\"page\":{\"number\":\"last\"},\"rectangle\":{\"x\":100,\"y\":110,\"height\":150,\"width\":400}},\"appearance\":{\"signature_details\":{\"details\":[{\"type\":\"subject\",\"title\":\"Signer Distinguished Name: \"},{\"type\":\"location\",\"title\":\"Signature Location: \"},{\"type\":\"date\",\"title\":\"Signature date: \"}]}}}}}]",
+																			"type": "text"
+																		},
+																		{
+																			"key": "document",
+																			"type": "file",
+																			"value": ""
+																		}
+																	]
+																},
+																"url": {
+																	"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents",
+																	"protocol": "https",
+																	"host": [
+																		"{{trustedx}}"
+																	],
+																	"port": "{{userPort}}",
+																	"path": [
+																		"trustedx-resources",
+																		"esignsp",
+																		"v2",
+																		"documents"
+																	]
+																},
+																"description": "Creación de los recursos con los documentos a firmar mediante la API de firma electrónica de documentos.\r\n\r\nCaso en el que existe una configuración de firma distinta para cada documento (tres en el ejemplo)\r\n\r\nPor cada documento se envía una petición con los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  (obtenido en el paso 1)\r\n * la configuración de firma requerida en formato json\r\n   * se incluye un ejemplo para firma PAdES-BES con apariencia\r\n * el documento en binario\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador del documento de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+															},
+															"response": []
+														}
+													],
+													"_postman_isSubFolder": true
+												}
+											],
+											"_postman_isSubFolder": true
+										}
+									],
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Step 3: Creating the Batch Signature Process (CCG access - Electronic Document Signing API)",
+									"item": [
+										{
+											"name": "Each doc with a signature definition",
+											"item": [
+												{
+													"name": "Batch process without common signature config",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"type": "text/javascript",
+																"exec": [
+																	"var jsonData = JSON.parse(responseBody);\r",
+																	"postman.setGlobalVariable(\"signerProcessId\", jsonData.id);"
+																]
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Authorization",
+																"value": "Bearer {{access_token}}"
+															},
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n   \"process_type\": \"{{process_type}}\",\r\n   \"labels\": [[\"{{signing_identities_labels}}\"]],\r\n   \"documents\": [\r\n      {\r\n         \"id\": \"{{batch_document_1}}\"\r\n      },\r\n      {\r\n         \"id\": \"{{batch_document_2}}\"\r\n      },\r\n      {\r\n         \"id\": \"{{batch_document_3}}\"\r\n      }\r\n   ],\r\n   \"ui_locales\": [\r\n      \"en_US\"\r\n   ],\r\n   \"finish_callback_url\": \"https://localhost\"\r\n}"
+														},
+														"url": {
+															"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes",
+															"protocol": "https",
+															"host": [
+																"{{trustedx}}"
+															],
+															"port": "{{userPort}}",
+															"path": [
+																"trustedx-resources",
+																"esignsp",
+																"v2",
+																"signer_processes"
+															]
+														},
+														"description": "Creación del proceso de firma del lote de documentos mediante la API de firma electrónica de documentos.\n\nCaso en el que una configuración de firma distinta para cada documento (tres en el ejemplo)\n\nPor cada documento se envía una petición con los parámetros:\n * host y puerto de Trustedx eIDAS\n * el token de acceso CCG para el scope:\n\t* urn:safelayer:eidas:sign:process:document  \n   (obtenido en el paso 1)\n * json de configuración del proceso de firma con el tipo de proceso, identificador de la política de firma, las labels que permiten filtrar las identidades de firma requeridas y los identificadores de los documentos del lote, la url de callback, etc.\n\n\n## Variables globales de Postman\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador del documento de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+													},
+													"response": []
+												}
+											],
+											"_postman_isSubFolder": true
+										}
+									],
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Step 6: Obtaining signed documents (CCG access - Electronic Document Signing API)",
+									"item": [
+										{
+											"name": "Obtaining signed document 1 (CCG access - Electronic Document Signing API)",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{signedDocumentContentURL_1}}",
+													"host": [
+														"{{signedDocumentContentURL_1}}"
+													]
+												},
+												"description": "La aplicación cliente realiza peticiones para obtener cada uno de los documentos firmados del lote.\r\n\r\nA cada URL de las almacenadas en el paso anterior se le añade el token de acceso CCG para el scope:\r\n * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										},
+										{
+											"name": "Obtaining signed document 2 (CCG access - Electronic Document Signing API)",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{signedDocumentContentURL_2}}",
+													"host": [
+														"{{signedDocumentContentURL_2}}"
+													]
+												},
+												"description": "La aplicación cliente realiza peticiones para obtener cada uno de los documentos firmados del lote.\r\n\r\nA cada URL de las almacenadas en el paso anterior se le añade el token de acceso CCG para el scope:\r\n * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										},
+										{
+											"name": "Obtaining signed document 3 (CCG access - Electronic Document Signing API)",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{signedDocumentContentURL_3}}",
+													"host": [
+														"{{signedDocumentContentURL_3}}"
+													]
+												},
+												"description": "La aplicación cliente realiza peticiones para obtener cada uno de los documentos firmados del lote.\r\n\r\nA cada URL de las almacenadas en el paso anterior se le añade el token de acceso CCG para el scope:\r\n * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										}
+									],
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Step 7: Delete documents (CCG access - Electronic Document Signing API)",
+									"item": [
+										{
+											"name": "Delete document 1",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents/{{batch_document_1}}",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"documents",
+														"{{batch_document_1}}"
+													]
+												},
+												"description": "La aplicación cliente elimina cada uno de los recursos documento que creó mediante la API de firma electrónica de documentos.\r\n\r\nPara cada uno de los tres documentos la petición incluye los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el identificador del documento\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										},
+										{
+											"name": "Delete document 2",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents/{{batch_document_2}}",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"documents",
+														"{{batch_document_2}}"
+													]
+												},
+												"description": "La aplicación cliente elimina cada uno de los recursos documento que creó mediante la API de firma electrónica de documentos.\r\n\r\nPara cada uno de los tres documentos la petición incluye los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el identificador del documento\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										},
+										{
+											"name": "Delete document 3",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/documents/{{batch_document_3}}",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esignsp",
+														"v2",
+														"documents",
+														"{{batch_document_3}}"
+													]
+												},
+												"description": "La aplicación cliente elimina cada uno de los recursos documento que creó mediante la API de firma electrónica de documentos.\r\n\r\nPara cada uno de los tres documentos la petición incluye los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el identificador del documento\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  \r\n (obtenido en el paso 1)"
+											},
+											"response": []
+										}
+									],
+									"_postman_isSubFolder": true
+								},
+								{
+									"name": "Step 1: Obtain access token to Manage Document Signature Process (CCG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "client_credentials",
+													"type": "text"
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_doc_sig_process}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtenemos un token de autorización para el scope propiedad del sistema:\r\n * urn:safelayer:eidas:sign:process:document\r\n\r\nmediante el flujo CCG de la API OAuth de TrustedX eIDAS.\r\n\r\nParámetros:\r\n * host y puerto de trustedx eIDAS.\r\n * identificador del servidor de autorización asociado al dominio.\r\n * username y password del aplicativo cliente.\r\n * scope que representa el recurso proceso de firma de documentos.\r\n\r\n> En caso de que se produzca un error  en el resto de pasos del flujo que requieran este token debido a la expiración del mismo deberá solicitarse de nuevo.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 4 (User Web Browser): Executing the document signature process",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/ui?signerProcessId={{signerProcessId}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esignsp",
+												"v2",
+												"ui"
+											],
+											"query": [
+												{
+													"key": "signerProcessId",
+													"value": "{{signerProcessId}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de trustedx eIDAS\r\n * identificador del proceso de firma\r\n\r\nTrustedX eIDAS gestionará la ejecución del proceso de firma del lote de documentos, autenticando al usuario, mostrándole los documentos a firmar, solicitándole al usuario el pin de firma, etc.\r\n\r\nCuando el proceso de firma termine se redireccionará al usuario a la url de callback con el parámetro status finished y el identificador del proceso de firma del lote."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 5: Obtaining info about the signed document (CCG access - Electronic Document Signing API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"signedDocumentContentURL_1\", jsonData.documents[0].url + \"/content\");\r",
+													"postman.setGlobalVariable(\"signedDocumentContentURL_2\", jsonData.documents[1].url + \"/content\");\r",
+													"postman.setGlobalVariable(\"signedDocumentContentURL_3\", jsonData.documents[2].url + \"/content\");"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes/{{signerProcessId}}/documents",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esignsp",
+												"v2",
+												"signer_processes",
+												"{{signerProcessId}}",
+												"documents"
+											]
+										},
+										"description": "La aplicación cliente solicita información sobre los documentos mediante la API de firma electrónica de documentos.\r\n\r\nLa petición incluye los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el identificador del proceso de firma\r\n * el token de acceso CCG para el scope:\r\n\t* urn:safelayer:eidas:sign:process:document  \r\n\t(obtenido en el paso 1)\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar las URLs que permiten obtener cada uno los tres documentos firmados del ejemplo en variables globales, de manera que puedan utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 8: Delete Document Signature Process (CCG access - Electronic Document Signing API)",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esignsp/v2/signer_processes/{{signerProcessId}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esignsp",
+												"v2",
+												"signer_processes",
+												"{{signerProcessId}}"
+											]
+										},
+										"description": "La aplicación cliente borra el proceso de firma del lote de documentos mediante la API de firma electrónica de documentos.\r\n\r\nLa petición incluye los parámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * el identificador del proceso de firma\r\n * el token de acceso CCG para el scope:\r\n   * urn:safelayer:eidas:sign:process:document  \r\n  (obtenido en el paso 1)"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Obtaining Raw Signatures",
+					"item": [
+						{
+							"name": "One Raw Signature Flow",
+							"item": [
+								{
+									"name": "Step 1 (User Web Browser): User IdP Login to Obtain User AuthZ Code to Get User Info (step 1 ACG Flow - OAuth API)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}?client_id={{appClientID}}&response_type=code&redirect_uri={{redirect_uri}}&state={{state}}&acr_values={{acr_values}}&scope={{scope_related_to_user_info_as_1}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}"
+											],
+											"query": [
+												{
+													"key": "client_id",
+													"value": "{{appClientID}}",
+													"equals": true
+												},
+												{
+													"key": "response_type",
+													"value": "code",
+													"equals": true
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"equals": true
+												},
+												{
+													"key": "state",
+													"value": "{{state}}",
+													"equals": true
+												},
+												{
+													"key": "acr_values",
+													"value": "{{acr_values}}",
+													"equals": true
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_user_info_as_1}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización asociado al dominio.\r\n * identificador de la aplicación cliente\r\n * uri de redirección\r\n * state\r\n * el contexto de autenticación que cumple con los requisitos del aplicativo (acr)\r\n * scope que representa el recurso de los atributos del usuario.\r\n\r\nTrustedX eIDAS autenticará al usuario (de acuerdo con el acr solicitado) y le pedirá consentimiento para obtener el código de autorización de manera que el aplicativo en cuestión actúe en nombre de dicho usuario sobre el recurso de su propiedad y que está representado por el scope:\r\n * urn:fnmt:employee: los atributos del usuario verificados por Ceres.\r\n\r\nEste es el primer paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\nSi la autenticación es satisfactoria el sistema redirigirá al usuario a la uri de redirección con un code.\r\n\r\nDeberemos copiar su valor para incluirlo en el siguiente paso de manera manual."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 2: Obtain access token to Get User Info (step 2 ACG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"type": "text"
+												},
+												{
+													"key": "code",
+													"value": "changeit",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtener el token de acceso para acceder a la información del usuario.\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior (valor changeit)\r\n * la uri de redirección\r\n\r\nEs el segundo paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 3: Obtain eIDAS Account User ID from User Info (ACG access - User Info API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"account_user_id\", jsonData.sub);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/openid/v1/users/me",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"openid",
+												"v1",
+												"users",
+												"me"
+											]
+										},
+										"description": "Obtener información sobre los atributos de la cuenta usuario del scope autorizado para el aplicativo en cuestión.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * token de acceso ACG (valor incluido automáticamente gracias a la variable global creada en el paso anterior)\r\n\r\nEn particular para el resto de pasos es necesario recuperar el identificador de la cuenta del usuario en el sistema TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador de la cuenta del usuario como variable global, de manera que pueda utilizarse en el resto de pasos que lo requieran."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 4: Obtain access token to List User Signing Identities & Obtain Signing Identity Info (CCG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "client_credentials",
+													"type": "text"
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_user_signing_identities}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtenemos un token de autorización para el scope propiedad del sistema:\r\n * urn:safelayer:eidas:sign:identity:profile\r\n\r\nmediante el flujo CCG de la API OAuth de TrustedX eIDAS.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador del servidor de autorización asociado al dominio.\r\n * username y password del aplicativo cliente.\r\n * scope que representa el perfil de las identidades de firma.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 5: Obtain User Signing Identities (CCG access - Signing Identity Mgmt API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"first_sign_identity_id\", jsonData.sign_identities[0].id);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/sign_identities?user_id={{account_user_id}}&labels={{signing_identities_labels}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"sign_identities"
+											],
+											"query": [
+												{
+													"key": "user_id",
+													"value": "{{account_user_id}}",
+													"equals": true
+												},
+												{
+													"key": "labels",
+													"value": "{{signing_identities_labels}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "El aplicativo cliente solicita las identidades de firma del usuario mediante la API de Gestión de Identidades de Firma.\r\n\r\nDebe incluir el token de acceso CCG obtenido en el paso anterior.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador de la cuenta de usuario.\r\n * filtro para indicar las labels de las identidades de firma deseadas.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador de la primera identidad de firma del usuario como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 6: Obtain Identity Signature Certificate (CCG access - Signing Identity Mgmt API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"sign_identity_certificate\", jsonData.identity.details.certificate);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/sign_identities/{{first_sign_identity_id}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"sign_identities",
+												"{{first_sign_identity_id}}"
+											]
+										},
+										"description": "El aplicativo cliente solicita el certificado de la identidad de firma del usuario que se utilizará para firmar mediante la API de Gestión de Identidades de Firma.\r\n\r\nDebe incluir el token de acceso CCG obtenido en el cuarto paso.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * el identificador de la identidad de firma\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar (como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática):\r\n * el certificado de la identidad de firma del usuario especificada.\r\n * un digest value a modo de ejemplo que será firmado por el sistema, en formato raw y con la autorización del usuario."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 7 (User Web Browser): Obtain User AuthZ Code to Use ServerID (step 1 ACG Flow - OAuth API)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}?client_id={{appClientID}}&response_type=code&redirect_uri={{redirect_uri}}&state={{state}}&acr_values={{acr_values}}&scope={{scope_related_to_server_identity_use}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}"
+											],
+											"query": [
+												{
+													"key": "client_id",
+													"value": "{{appClientID}}",
+													"equals": true
+												},
+												{
+													"key": "response_type",
+													"value": "code",
+													"equals": true
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"equals": true
+												},
+												{
+													"key": "state",
+													"value": "{{state}}",
+													"equals": true
+												},
+												{
+													"key": "acr_values",
+													"value": "{{acr_values}}",
+													"equals": true
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_server_identity_use}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización asociado al dominio.\r\n * identificador de la aplicación cliente\r\n * uri de redirección\r\n * state\r\n * el contexto de autenticación que cumple con los requisitos del aplicativo (acr)\r\n * scope que representa el recurso con la claves del usuario.\r\n\r\nTrustedX eIDAS autenticará al usuario (de acuerdo con el acr solicitado) y le pedirá consentimiento para obtener el código de autorización de manera que el aplicativo en cuestión actúe en nombre de dicho usuario sobre el recurso de su propiedad y que está representado por el scope:\r\n * urn:safelayer:eidas:sign:identity:use:server\r\n\r\nEste es el primer paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\nSi la autenticación es satisfactoria el sistema redirigirá al usuario a la uri de redirección con un code.\r\n\r\nDeberemos copiar su valor para incluirlo en el siguiente paso de manera manual."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 8: Obtain access token to sign with user server id (step 2 ACG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"type": "text"
+												},
+												{
+													"key": "code",
+													"value": "changeit",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtener el token de acceso para el acceso a las claves del usuario.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador del servidor de autorización.\r\n * username y password del aplicativo cliente.\r\n * el código de autorización resultado del paso anterior (valor changeit)\r\n * la uri de redirección.\r\n\r\nEs el segundo paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 9: RAW signature with server id (CCG access - Digital Signing API)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"digest_value\" : \"{{digest_value}}\",\r\n\t\"signature_algorithm\" : \"rsa-sha256\",\r\n\t\"sign_identity_id\" : \"{{first_sign_identity_id}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/signatures/server/raw",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"signatures",
+												"server",
+												"raw"
+											]
+										},
+										"description": "Finalmente la aplicación cliente solicita la firma raw con la identidad de firma del usuario, mediante la API de Firma Digital\r\n\r\nPara ello debe incluir en la petición el token de acceso ACG obtenido en el paso anterior.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * digest a firmar.\r\n * algoritmo de firma requerido.\r\n * identificador de la identidad de firma del usuario con la que se quiere firmar."
+									},
+									"response": [
+										{
+											"id": "6299a11f-96b0-4979-9ac7-d01c005799f9",
+											"name": "Step 13: RAW signature with server id (CCG access - Digital Signing API)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"digest_value\" : \"{{digest_value}}\",\r\n\t\"signature_algorithm\" : \"rsa-sha256\",\r\n\t\"sign_identity_id\" : \"{{first_sign_identity_id}}\"\r\n}\r\n"
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/signatures/server/raw",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esigp",
+														"v1",
+														"signatures",
+														"server",
+														"raw"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "raw",
+											"_postman_previewtype": "application",
+											"header": [
+												{
+													"key": "Content-Length",
+													"value": "128",
+													"name": "Content-Length",
+													"description": "The length of the response body in octets (8-bit bytes)"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/octet-stream",
+													"name": "Content-Type",
+													"description": "The mime type of this content"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 27 Nov 2017 07:50:24 GMT",
+													"name": "Date",
+													"description": "The date and time that the message was sent"
+												},
+												{
+													"key": "Server",
+													"value": "Apache-Coyote/1.1",
+													"name": "Server",
+													"description": "A name for the server"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date",
+													"httpOnly": true,
+													"domain": "eidas-dev.localdomain",
+													"path": "/trustedx-authserver/main/",
+													"secure": true,
+													"value": "D065C883622AF1F223E5E3F9A62386B7",
+													"key": "JSESSIONID"
+												}
+											],
+											"responseTime": 618,
+											"body": "���_Z�\t\u0011a�����_\u001b�y~�Lq�t�\"@�����x�/\u001b\f\u001b\u0015z�ڙ�q%��\u0019?�\u0017\u0012jMˬw\u001d�\u0007F�����\u0019L\u0011�\\\\5�\u0004��I�\u0001�'yE\u001cv��S��x��\u0000�yk͕�G�{=�]b`�<�\u0005.����k/�l\u0003����"
+										}
+									]
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Batch of Raw Signatures Flow",
+							"item": [
+								{
+									"name": "Step 1 (User Web Browser): User IdP Login to Obtain User AuthZ Code to Get User Info (step 1 ACG Flow - OAuth API)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}?client_id={{appClientID}}&response_type=code&redirect_uri={{redirect_uri}}&state={{state}}&acr_values={{acr_values}}&scope={{scope_related_to_user_info_as_1}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}"
+											],
+											"query": [
+												{
+													"key": "client_id",
+													"value": "{{appClientID}}",
+													"equals": true
+												},
+												{
+													"key": "response_type",
+													"value": "code",
+													"equals": true
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"equals": true
+												},
+												{
+													"key": "state",
+													"value": "{{state}}",
+													"equals": true
+												},
+												{
+													"key": "acr_values",
+													"value": "{{acr_values}}",
+													"equals": true
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_user_info_as_1}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización asociado al dominio.\r\n * identificador de la aplicación cliente\r\n * uri de redirección\r\n * state\r\n * el contexto de autenticación que cumple con los requisitos del aplicativo (acr)\r\n * scope que representa el recurso de los atributos del usuario.\r\n\r\nTrustedX eIDAS autenticará al usuario (de acuerdo con el acr solicitado) y le pedirá consentimiento para obtener el código de autorización de manera que el aplicativo en cuestión actúe en nombre de dicho usuario sobre el recurso de su propiedad y que está representado por el scope:\r\n * urn:fnmt:employee: los atributos del usuario verificados por Ceres.\r\n\r\nEste es el primer paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\nSi la autenticación es satisfactoria el sistema redirigirá al usuario a la uri de redirección con un code.\r\n\r\nDeberemos copiar su valor para incluirlo en el siguiente paso de manera manual."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 2: Obtain access token to Get User Info (step 2 ACG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"type": "text"
+												},
+												{
+													"key": "code",
+													"value": "changeit",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtener el token de acceso para acceder a la información del usuario.\r\nParámetros:\r\n * host y puerto de Trustedx eIDAS\r\n * identificador del servidor de autorización\r\n * el código de autorización resultado del paso anterior (valor changeit)\r\n * la uri de redirección\r\n\r\nEs el segundo paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n>En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 3: Obtain eIDAS Account User ID from User Info (ACG access - User Info API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"account_user_id\", jsonData.sub);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/openid/v1/users/me",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"openid",
+												"v1",
+												"users",
+												"me"
+											]
+										},
+										"description": "Obtener información sobre los atributos de la cuenta usuario del scope autorizado para el aplicativo en cuestión.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * token de acceso ACG (valor incluido automáticamente gracias a la variable global creada en el paso anterior)\r\n\r\nEn particular para el resto de pasos es necesario recuperar el identificador de la cuenta del usuario en el sistema TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador de la cuenta del usuario como variable global, de manera que pueda utilizarse en el resto de pasos que lo requieran."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 4: Obtain access token to List User Signing Identities & Obtain Signing Identity Info (CCG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "client_credentials",
+													"type": "text"
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_user_signing_identities}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtenemos un token de autorización para el scope propiedad del sistema:\r\n * urn:safelayer:eidas:sign:identity:profile\r\n\r\n mediante el flujo CCG de la API OAuth de TrustedX eIDAS.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador del servidor de autorización asociado al dominio.\r\n * username y password del aplicativo cliente.\r\n * scope que representa el perfil de las identidades de firma.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 5: Obtain User Signing Identities (CCG access - Signing Identity Mgmt API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"first_sign_identity_id\", jsonData.sign_identities[0].id);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/sign_identities?user_id={{account_user_id}}&labels={{signing_identities_labels}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"sign_identities"
+											],
+											"query": [
+												{
+													"key": "user_id",
+													"value": "{{account_user_id}}",
+													"equals": true
+												},
+												{
+													"key": "labels",
+													"value": "{{signing_identities_labels}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "El aplicativo cliente solicita las identidades de firma del usuario mediante la API de Gestión de Identidades de Firma.\r\n\r\nDebe incluir el token de acceso CCG obtenido en el paso anterior.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador de la cuenta de usuario.\r\n * filtro para indicar las labels de las identidades de firma deseadas.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el identificador de la primera identidad de firma del usuario como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 6: Obtain Identity Signature Certificate (CCG access - Signing Identity Mgmt API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"sign_identity_certificate\", jsonData.identity.details.certificate);\r",
+													"\r",
+													"postman.setGlobalVariable(\"digest_value\", \"adlm3iKgFKH+o7PQ0T3cTaHsuXZBiL3VGodLa09sESU=\");"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/sign_identities/{{first_sign_identity_id}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"sign_identities",
+												"{{first_sign_identity_id}}"
+											]
+										},
+										"description": "El aplicativo cliente solicita el certificado de la identidad de firma del usuario que se utilizará para firmar mediante la API de Gestión de Identidades de Firma.\r\n\r\nDebe incluir el token de acceso CCG obtenido en el cuarto paso.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * el identificador de la identidad de firma\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar (como variable global, de manera que pueda utilizarse en el siguiente paso de forma automática):\r\n * el certificado de la identidad de firma del usuario especificada.\r\n * un digest value a modo de ejemplo que será firmado por el sistema, en formato raw y con la autorización del usuario."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 7 (User Web Browser): Obtain User AuthZ Code to Use ServerID (step 1 ACG Flow - OAuth API)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}?client_id={{appClientID}}&response_type=code&redirect_uri={{redirect_uri}}&state={{state}}&acr_values={{acr_values}}&scope={{scope_related_to_server_identity_use}}",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}"
+											],
+											"query": [
+												{
+													"key": "client_id",
+													"value": "{{appClientID}}",
+													"equals": true
+												},
+												{
+													"key": "response_type",
+													"value": "code",
+													"equals": true
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"equals": true
+												},
+												{
+													"key": "state",
+													"value": "{{state}}",
+													"equals": true
+												},
+												{
+													"key": "acr_values",
+													"value": "{{acr_values}}",
+													"equals": true
+												},
+												{
+													"key": "scope",
+													"value": "{{scope_related_to_server_identity_use}}",
+													"equals": true
+												}
+											]
+										},
+										"description": "En el navegador, copiamos la url resultado de pulsar la opción Code de Postman.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS\r\n * identificador del servidor de autorización asociado al dominio.\r\n * identificador de la aplicación cliente\r\n * uri de redirección\r\n * state\r\n * el contexto de autenticación que cumple con los requisitos del aplicativo (acr)\r\n * scope que representa el recurso con la claves del usuario.\r\n\r\nTrustedX eIDAS autenticará al usuario (de acuerdo con el acr solicitado) y le pedirá consentimiento para obtener el código de autorización de manera que el aplicativo en cuestión actúe en nombre de dicho usuario sobre el recurso de su propiedad y que está representado por el scope:\r\n * urn:safelayer:eidas:sign:identity:use:server\r\n\r\nEste es el primer paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\nSi la autenticación es satisfactoria el sistema redirigirá al usuario a la uri de redirección con un code.\r\n\r\nDeberemos copiar su valor para incluirlo en el siguiente paso de manera manual."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 8: Obtain access token to sign with user server id (step 2 ACG flow-OAuth API)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setGlobalVariable(\"access_token\", jsonData.access_token);"
+												]
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{appClientID}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{appClientIDPassword}}",
+													"type": "string"
+												},
+												{
+													"key": "saveHelperData",
+													"type": "any"
+												},
+												{
+													"key": "showPassword",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "{{redirect_uri}}",
+													"type": "text"
+												},
+												{
+													"key": "code",
+													"value": "changeit",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-authserver/oauth/{{as_1}}/token",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-authserver",
+												"oauth",
+												"{{as_1}}",
+												"token"
+											]
+										},
+										"description": "Obtener el token de acceso para el acceso a las claves del usuario.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * identificador del servidor de autorización.\r\n * username y password del aplicativo cliente.\r\n * el código de autorización resultado del paso anterior (valor changeit).\r\n * la uri de redirección.\r\n\r\nEs el segundo paso del flujo ACG de la API OAuth de TrustedX eIDAS.\r\n\r\n## Variables globales de Postman\r\n> En la opción Tests de Postman se incluye el código necesario para almacenar el token de acceso de la respuesta como variable global de manera que pueda utilizarse en el siguiente paso de forma automática."
+									},
+									"response": []
+								},
+								{
+									"name": "Step 9: Batch RAW signatures with server id (CCG access - Digital Signing API)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"sign_identity_id\" : \"{{first_sign_identity_id}}\",\r\n\t\"signature_algorithm\" : \"rsa-sha256\",\r\n\t\"requests\" : [\r\n\t\t{\r\n\t\t\t\"digest_value\" : \"{{digest_value}}\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"digest_value\" : \"{{digest_value}}\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"digest_value\" : \"{{digest_value}}\"\r\n\t\t}\r\n\t]\r\n}\r\n"
+										},
+										"url": {
+											"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/signatures/server/raw/batch",
+											"protocol": "https",
+											"host": [
+												"{{trustedx}}"
+											],
+											"port": "{{userPort}}",
+											"path": [
+												"trustedx-resources",
+												"esigp",
+												"v1",
+												"signatures",
+												"server",
+												"raw",
+												"batch"
+											]
+										},
+										"description": "Finalmente la aplicación cliente solicita la firma raw de un lote de digests con la identidad de firma del usuario, mediante la API de Firma Digital.\r\n\r\nPara ello debe incluir en la petición el token de acceso ACG obtenido en el paso anterior.\r\n\r\nParámetros:\r\n * host y puerto de TrustedX eIDAS.\r\n * json de configuración de la petición con:•identificador de la identidad de firma del usuario con la que se quiere firmar.\r\n * algoritmo de firma requerido.\r\n * lista de digests a firmar."
+									},
+									"response": [
+										{
+											"id": "d7697a74-13d3-404e-8586-d80814003b5f",
+											"name": "Step 13: RAW signature with server id (CCG access - Digital Signing API)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer {{access_token}}"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\t\"digest_value\" : \"{{digest_value}}\",\r\n\t\"signature_algorithm\" : \"rsa-sha256\",\r\n\t\"sign_identity_id\" : \"{{first_sign_identity_id}}\"\r\n}\r\n"
+												},
+												"url": {
+													"raw": "https://{{trustedx}}:{{userPort}}/trustedx-resources/esigp/v1/signatures/server/raw",
+													"protocol": "https",
+													"host": [
+														"{{trustedx}}"
+													],
+													"port": "{{userPort}}",
+													"path": [
+														"trustedx-resources",
+														"esigp",
+														"v1",
+														"signatures",
+														"server",
+														"raw"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "raw",
+											"_postman_previewtype": "application",
+											"header": [
+												{
+													"key": "Content-Length",
+													"value": "128",
+													"name": "Content-Length",
+													"description": "The length of the response body in octets (8-bit bytes)"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/octet-stream",
+													"name": "Content-Type",
+													"description": "The mime type of this content"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 27 Nov 2017 07:50:24 GMT",
+													"name": "Date",
+													"description": "The date and time that the message was sent"
+												},
+												{
+													"key": "Server",
+													"value": "Apache-Coyote/1.1",
+													"name": "Server",
+													"description": "A name for the server"
+												}
+											],
+											"cookie": [
+												{
+													"expires": "Invalid Date",
+													"httpOnly": true,
+													"domain": "eidas-dev.localdomain",
+													"path": "/trustedx-authserver/main/",
+													"secure": true,
+													"value": "D065C883622AF1F223E5E3F9A62386B7",
+													"key": "JSESSIONID"
+												}
+											],
+											"responseTime": 618,
+											"body": "���_Z�\t\u0011a�����_\u001b�y~�Lq�t�\"@�����x�/\u001b\f\u001b\u0015z�ڙ�q%��\u0019?�\u0017\u0012jMˬw\u001d�\u0007F�����\u0019L\u0011�\\\\5�\u0004��I�\u0001�'yE\u001cv��S��x��\u0000�yk͕�G�{=�]b`�<�\u0005.����k/�l\u0003����"
+										}
+									]
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}

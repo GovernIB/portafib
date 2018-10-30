@@ -1,0 +1,43 @@
+
+
+# CLASS: org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
+
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.debug=false
+
+# TrustedX base URL, as https://trustedx:8082
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.trustedxURL=https://cloudid.demo.ceres.fnmt.es
+
+# Per jdk1.6 es SSLv3 i per altres TLSv1.2
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.ssl.protocol=SSLv3
+
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.ssl.truststore=D:\\dades\\dades\\CarpetesPersonals\\ProgramacioPortaFIB2\\portafib-2.0\\pluginsib-signatureweb\\fnmtcloud\\config\\trustedx-demos.truststore
+
+# Fitxer d'usuaris donats d'alta al FNMT i als quals només es dona permis d'execució a aquests
+# es.caib.portafib.pluginsib.signatureweb.fnmtcloud.usernamelist=D:\\dades\\dades\\CarpetesPersonals\\ProgramacioPortaFIB2\\portafib-2.0\\pluginsib-signatureweb\\fnmtcloud\\config\\usernamelist.properties
+
+# authServer identifier Endpoint
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.authAuthorizationServer=as-employee
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.signAuthorizationServer=as-employee
+# idp identifier Endpoint
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.idp=idp-employee
+
+# appOAuthFlowSelection: Autentication flow prefered by the application
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.appOAuthFlowSelection=urn:safelayer:tws:policies:authentication:level:low
+
+# appOAuthClientId and appOAuthClientSecret: client application's credentials (client_id and client_secret), as in Relying Party configuration
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.appOAuthClientId=MY_CLIENT_ID
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.apiKey=MY_API_KEY
+
+# appOAuthScopes: List of requested scopes as urn:safelayer:eidas:full_identity 
+# Sign scopes are associated to XML and PDF signatures, and Raw to digital signature (PKCS #1) of data from hash
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.appSignScopes=urn:safelayer:eidas:sign:process:document
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.appRawSignScopes=urn:safelayer:eidas:sign:identity:use:server
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.appOAuthScopes=urn:safelayer:eidas:authn_details urn:fnmt:employee
+
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.htmlbodycontent=<h1>Documentos de prueba XXXXX</h1><p>Kit de Bienvenida</p>
+
+# proxyEnable must be set to true if you need a proxy to access to Internet
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.proxyEnable=false
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.proxyIp=
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.proxyPort=
+es.caib.portafib.pluginsib.signatureweb.fnmtcloud.proxyScheme=http

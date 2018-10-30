@@ -18,6 +18,9 @@ public interface ISignatureWebPlugin extends ISignaturePlugin {
 
   public static final String SIGNATUREWEB_BASE_PROPERTY = IPLUGIN_BASE_PROPERTIES
       + "signatureweb.";
+  
+  public static final String PLUGINSIB_SIGNATUREWEB_BASE_PROPERTY = IPLUGINSIB_BASE_PROPERTIES
+      + "signatureweb.";
 
   /**
    * Filtre que s'ha de cridar per esbrinar si aquest plugin pot realitzar la
