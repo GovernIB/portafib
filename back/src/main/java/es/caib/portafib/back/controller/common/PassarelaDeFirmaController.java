@@ -1,23 +1,14 @@
 package es.caib.portafib.back.controller.common;
 
-import java.io.File;
-import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,13 +25,10 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
-import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.Configuracio;
-
 
 /**
  *
@@ -143,9 +131,8 @@ public class PassarelaDeFirmaController  {
       log.debug(" ===startPublicSignatureProcess() ==> signaturesSetID: " + signaturesSetID);
       log.debug(" ===startPublicSignatureProcess() ==> urlFinal: " + signaturesSet.getUrlFinal());
     }
-    
+
     // En passarela de firma requerim dins d'un frame
-    // 
     mav.addObject("fullView", ssf.isFullView());
     
     return mav;
@@ -182,118 +169,21 @@ public class PassarelaDeFirmaController  {
     }
     
 
-    StatusSignaturesSet sss = ss.getStatusSignaturesSet();
-    
-    StatusSignaturesSet statusFinal = null;
-
-    Map<String, File> fitxersFirmatsBySignID = new HashMap<String, File>();
-    
-    PassarelaSignaturesSetWebInternalUse ssf;
-    ssf = passarelaDeFirmaEjb.getSignaturesSetFullByTransactionID(transactionID);
-    if (ssf == null) {
-      //  "Ha tardat massa temps en firmar. Torni a intentar-ho."
-      throw new I18NException("firmar.tempsexcedit");
-    }
-        
-    Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
-    
-    
-    switch(sss.getStatus()) {
-    
-      case StatusSignaturesSet.STATUS_FINAL_OK:
-        {
-          // Revisam les firma
-          
-          statusFinal = sss;
-          for(FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
-             // TODO check null
-            StatusSignature status = fis.getStatusSignature();
-            final String signID = fis.getSignID();
-            
-            if (status.getStatus() == StatusSignature.STATUS_FINAL_OK) {
-              PassarelaSignatureStatusWebInternalUse pss = statusBySignID.get(signID);
-              // Check que status.getSignedData() != null
-              if (status.getSignedData() == null || !status.getSignedData().exists()) {
-                status.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-                // TODO traduir
-                String msg = "L'estat indica que ha finalitzat correctament però en la signatura amb ID "
-                  + signID + "(" + fis.getName() + ")"
-                  + ", el fitxer firmat o no s'ha definit o no existeix";
-                status.setErrorMsg(msg);
-                statusFinal = status;
-                
-                // Copiar estat
-                pss.setErrorMessage(msg);
-                pss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-                pss.setErrorStackTrace(null);
-                
-              } else {
-                File firmat = passarelaDeFirmaEjb.getFitxerFirmatPath(transactionID, signID);
-                FileUtils.moveFile(status.getSignedData(), firmat);
-                fitxersFirmatsBySignID.put(signID, firmat);
-                // Copiar estat
-                pss.setErrorMessage(status.getErrorMsg());
-                pss.setStatus(status.getStatus());
-                pss.setFitxerFirmat(firmat);
-                
-              }
-              status.setProcessed(true);
-            }
-          }
-        }
-        
-      
-      break;
-      
-      case StatusSignaturesSet.STATUS_FINAL_ERROR:
-
-        if (sss.getErrorException() == null) {
-          log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg());
-        } else {
-          log.error("ERROR EN PASSARELA PORTAFIB" + sss.getErrorMsg(), sss.getErrorException());
-        }
-
-        statusFinal = sss;
-      break;
-      
-      
-      case StatusSignaturesSet.STATUS_CANCELLED:
-        if (sss.getErrorMsg() == null) {
-          sss.setErrorMsg(I18NLogicUtils.tradueix(
-              new Locale(ss.getCommonInfoSignature().getLanguageUI()), "plugindefirma.cancelat"));
-        }
-        statusFinal = sss;
-      break;
-        
-      default:
-        String inconsistentState = "El mòdul de firma ha finalitzat inesperadament "
-            + "(no ha establit l'estat final del procés de firma)";
-        sss.setErrorMsg(inconsistentState);
-        sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-        statusFinal = sss;
-        log.error(inconsistentState, new Exception());
-    
-    }
-    
-    
-    
-    
-    // Copiar Estat General
-    ssf.setStatus(statusFinal.getStatus());
-    ssf.setErrorMessage(statusFinal.getErrorMsg());
-    
-    if (statusFinal.getErrorException() != null) {
-      StringWriter trace= new StringWriter();
-      statusFinal.getErrorException().printStackTrace(new java.io.PrintWriter(trace));
-      ssf.setErrorStackTrace(trace.toString());
-    }
+    PassarelaSignaturesSetWebInternalUse ssf = passarelaDeFirmaEjb.finalProcesDeFirma(transactionID, ss);
     
     // Eliminam la informació dins SignatureModuleController ja que tenim gurardada la 
     // informació dins la capa EJB
     SignatureModuleController.closeSignaturesSet(request, transactionID, modulDeFirmaPublicEjb);
+    
+    final String url = ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal();
+    
+    log.info(" XYZ ZZZ PassarelaDeFirmaController::finlaProcessDeFirma(); => URL redirect = "
+        + url);
 
     return new ModelAndView(new RedirectView(ssf.getSignaturesSet().getCommonInfoSignature().getUrlFinal()));
     
   }
 
+
+  
 }

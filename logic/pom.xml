@@ -4,13 +4,13 @@
 
   <groupId>es.caib.portafib</groupId>
   <artifactId>portafib-logic</artifactId>
-  <version>1.1.4</version>
+  <version>1.1.5</version>
   <packaging>ejb</packaging>
 
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
   </parent>
 
   <name>PortaFIB Logica</name>
@@ -65,6 +65,14 @@
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.plugins</groupId>
+      <artifactId>plugin-validatesignature-api</artifactId>
+      <version>${plugins.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
 
     <dependency>
       <groupId>org.fundaciobit.plugins</groupId>

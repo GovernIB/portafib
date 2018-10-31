@@ -70,6 +70,11 @@ implements Constants {
     return true;
   }
   
+  @Override
+  public boolean esDestinatari() {
+    return false;
+  }
+  
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -110,7 +115,7 @@ implements Constants {
         if (esDelegat()) {
           colaboracioDelegacioFilterForm.addHiddenField(REVISOR);
         }
-        
+
         colaboracioDelegacioFilterForm.setVisibleMultipleSelection(false);
 
         // Ocultam botó creació i borrat
@@ -120,7 +125,7 @@ implements Constants {
         colaboracioDelegacioFilterForm.setEditButtonVisible(false);
         
         colaboracioDelegacioFilterForm.addLabel(DESTINATARIID, esDelegat()?"delegatde.menu":"colaboradorde.menu");
-        
+        colaboracioDelegacioFilterForm.getHiddenFields().remove(DESTINATARIID);
         
         colaboracioDelegacioFilterForm.addAdditionalButtonForEachItem(
             new AdditionalButton("icon-eye-open","genapp.viewtitle", getContextWeb() + "/view/{0}","btn-info"));
@@ -166,6 +171,7 @@ implements Constants {
    }
    
    colaboracioDelegacioForm.addLabel(DESTINATARIID, esDelegat()?"delegatde.menu":"colaboradorde.menu");
+   colaboracioDelegacioForm.getHiddenFields().remove(DESTINATARIID);
 
    colaboracioDelegacioForm.addHiddenField(COLABORACIODELEGACIOID);
    colaboracioDelegacioForm.addHiddenField(COLABORADORDELEGATID);

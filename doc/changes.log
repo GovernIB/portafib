@@ -1,4 +1,26 @@
 
+PortaFIB 1.1.5
+==============
+
+2018-10-31 Falta destinatari en col·laboracions i delegacions #206
+
+2018-10-30 Bug: Firmat per, data i motiu utilitza idioma de UserInterface #205
+
+2018-10-10 NotificacionCallBackTimerEJB es bloqueja #195
+
+2018-10-03 Problemes amb AUTOFIRMA i firmes massives: firma corrupta #187
+
+2018-09-20 Afegir propietat per desactivar taula de firmes en peticions de WS i Passarel·la #186
+
+2018-09-18 Validar Firmes generades via Web PortaIFB i a traves de Passarel·la de Firma #171
+ 
+2018-09-17 Plugin Firma Web Autofirma: Afegir propietat per configurar el timeout #179
+
+2018-09-17 Eliminar accent del jnlp del Plugin de MiniApplet #184
+
+2018-08-02 Actualitzar signatura dels jars de miniapplet i miniappletui #177
+
+
 PortaFIB 1.1.4
 ==============
 

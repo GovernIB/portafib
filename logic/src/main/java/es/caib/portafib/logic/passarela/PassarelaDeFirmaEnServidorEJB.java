@@ -116,7 +116,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
         // obtenir ruta on guardar fitxer adaptat
         File adaptat = getFitxerAdaptatPath(signaturesSetID, signID);
 
-        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis, original, adaptat);
+        originalNumberOfSignsArray2[i] = processFileToSign(locale, entitatID, pfis,
+            original, adaptat, usrApp.getUsuariAplicacioID());
 
       } // Final de For
 

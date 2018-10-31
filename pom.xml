@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.caib.portafib</groupId>
-  <version>1.1.4</version>
+  <version>1.1.5</version>
   <artifactId>portafib</artifactId>
   <packaging>pom</packaging>
   <name>PortaFIB</name>
@@ -16,7 +16,7 @@
     <module>persistence</module>
     <module>model</module> 
     <module>jpa</module>
-    <module>ejb</module> 
+    <module>ejb</module>
     <module>logic</module>
     <module>back</module>
     <module>ws</module>
@@ -61,7 +61,7 @@
     <repository>
        <id>github-governib-maven</id>
        <name>GitHub GovernIB Maven Repository</name>
-       <url>https://GovernIB.github.io/maven/maven/</url>
+       <url>http://governib.github.io/maven/maven/</url>
     </repository>
 
   </repositories>
@@ -86,11 +86,11 @@
   <properties>
     <version_txt_template_file>./scripts/templates/versio.txt.template</version_txt_template_file>
     <version_txt_file>./versio.txt</version_txt_file>
-    <portafib.version>1.1.4</portafib.version>
+    <portafib.version>1.1.5</portafib.version>
     <plugins.version>1.0.0</plugins.version>
     <plugins.signatureserver.version>2.0.0</plugins.signatureserver.version>
     <plugins.signatureweb.version>2.0.0</plugins.signatureweb.version>
-    <plugins.signatureweb.autofirma.version>2.0.5</plugins.signatureweb.autofirma.version>
+    <plugins.signatureweb.autofirma.version>2.0.8</plugins.signatureweb.autofirma.version>
     <spring.version>3.1.2.RELEASE</spring.version>
     <springsecurity.version>3.1.2.RELEASE</springsecurity.version>
     <cxf.version>2.2.12</cxf.version>
@@ -222,7 +222,7 @@
            <repository>
              <id>github-governib-maven-repos</id>
              <name>GitHub GovernIB Maven Repository</name>
-             <url>http://GovernIB.github.io/maven/maven/</url>
+             <url>http://governib.github.io/maven/maven/</url>
            </repository>
         </repositories>
   -->

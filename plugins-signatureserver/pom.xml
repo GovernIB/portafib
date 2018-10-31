@@ -10,11 +10,11 @@
   <parent>
     <groupId>es.caib.portafib</groupId>
     <artifactId>portafib</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
   </parent>
 
   <properties>
-    <miniapplet.version>1.4</miniapplet.version>
+    <miniapplet.version>1.4.1</miniapplet.version>
     <miniapplet.artifactid>afirma-ui-miniapplet_1_4</miniapplet.artifactid>
   </properties>
 

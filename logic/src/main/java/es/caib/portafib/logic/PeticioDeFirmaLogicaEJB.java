@@ -1,67 +1,6 @@
 package es.caib.portafib.logic;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-
-import org.apache.commons.io.FileUtils;
-import org.fundaciobit.genapp.common.KeyValue;
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.LongConstantField;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SelectCount;
-import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.SelectSum;
-import org.fundaciobit.genapp.common.query.StringField;
-import org.fundaciobit.genapp.common.query.SubQuery;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.barcode.IBarcodePlugin;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
-import org.fundaciobit.plugins.documentcustody.api.CustodyException;
-import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
-import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
-import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
-import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
-import org.fundaciobit.plugins.utils.PluginsManager;
-import org.hibernate.Hibernate;
-import org.jboss.ejb3.annotation.SecurityDomain;
-
 import es.caib.portafib.ejb.BlocDeFirmesLocal;
 import es.caib.portafib.ejb.ColaboracioDelegacioLocal;
 import es.caib.portafib.ejb.PeticioDeFirmaEJB;
@@ -123,6 +62,7 @@ import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
@@ -131,6 +71,68 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+
+import org.apache.commons.io.FileUtils;
+import org.fundaciobit.plugins.barcode.IBarcodePlugin;
+import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.plugins.documentcustody.api.CustodyException;
+import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
+import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
+import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
+import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
+import org.fundaciobit.plugins.utils.PluginsManager;
+import org.hibernate.Hibernate;
+import org.fundaciobit.genapp.common.KeyValue;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SelectCount;
+import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.SelectSum;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.SubQuery;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.query.LongConstantField;
+import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  *
@@ -225,6 +227,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
+  
+  @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
+  protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
 
   private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator =
      new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
@@ -288,7 +293,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
     
    
-    
     // Crear Flux si és necessari
     long fluxID = peticioDeFirma.getFluxDeFirmesID();
 
@@ -326,6 +330,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       }
       UsuariAplicacioJPA usrApp = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
       entitatID = usrApp.getEntitatID();
+      
+     //  #186
+     if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
+       if (peticioDeFirma != null) {
+         peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA); // = 0
+       }
+     }
+
+      
     } else {
       // Peticio de usuari web
       
@@ -1721,16 +1734,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     return f;
   }
-  
-  @Override
-  public FitxerJPA getFileOfPeticioDeFirmaById(Long fitxerID) throws I18NException {
-	  if (fitxerID == null) {
-		  return null;
-	  }
-	  FitxerJPA f = fitxerLogicaEjb.findByPrimaryKey(fitxerID);
-	  
-	  return f;
-  }
 
   /**
    * 
@@ -1873,16 +1876,27 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       FirmaJPA firma = firmaLogicaEjb.findByPrimaryKey(firmaID);
 
       // Checks
+      final String languageUI;
+      final String entitatID;
+      if (peticioDeFirma.getUsuariEntitat() != null) {
+        entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariEntitat().getUsuariPersona().getIdiomaID();
+      } else {
+        entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
+        languageUI = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
+      }
 
       // (a) Verificar que el certificat emprat en la firma es correcte (vàlid)
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
       String mime;
       String extension;
       String nifFirmant;
+      String tipusFirmaNom;
       switch (tipusFirma) {
       case Constants.TIPUSFIRMA_PADES:
         extension = "pdf";
         mime = Constants.PDF_MIME_TYPE;
+        tipusFirmaNom = "PAdES";
 
         Map<Integer, Long> fitxersByNumFirma = null;
         if (numFirmaPortaFIB != 1) {
@@ -1893,12 +1907,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
         
         
-        final String entitatID;
-        if (peticioDeFirma.getUsuariEntitat() != null) {
-          entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
-        } else {
-          entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
-        }
         final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
 
         InformacioCertificat info;
@@ -1940,6 +1948,23 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             .getUsuariEntitatID());
         String expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
         LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
+      }
+
+      
+      // (c) // Validar la Firma
+      {  
+        // Collim el primer plugin actiu per l'entitat
+        Where where = validacioFirmesEjb.getWhere(entitatID);
+            
+        Long pluginValidateSignatureID = validacioFirmesEjb.executeQueryOne(PluginFields.PLUGINID, where);
+
+        InputStream documentDetachedFile = null;
+        
+                
+          validacioFirmesEjb.validateSignature(tipusFirmaNom, pluginValidateSignatureID, documentDetachedFile,
+            file, languageUI);
+
+      
       }
 
       // Guardar EN BBDD

@@ -20,6 +20,8 @@ import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
@@ -82,7 +84,7 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
 
     final boolean fullView = false;
     return passarelaDeFirmaWebEjb.startTransaction(
-        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID(), fullView);
+        PassarelaConversion.convert(signaturesSet), userapp.getEntitatID(), fullView, userapp);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

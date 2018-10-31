@@ -220,6 +220,11 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   }
   
   
+  public boolean esDestinatari() {
+    return true;
+  }
+  
+  
   /**
    * 
    * @return true indica que gestiona delegacions/colaboracions sobre persones fisiques, en canvi
@@ -413,15 +418,16 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     }
     
     
-    
-    if (esDeCarrec()) {
-      // (1.a) Destinatari s'elegirà entre una llista de Càrrecs de l'entitat
-    } else {
-      // (2.a) Destinatari es l'usuari loguejat
-      colaboracioDelegacioJPA.setDestinatariID(LoginInfo.getInstance().getUsuariEntitatID());
-      colaboracioDelegacioForm.addHiddenField(DESTINATARIID);
+    if (esDestinatari()) {
+      if (esDeCarrec()) {
+        // (1.a) Destinatari s'elegirà entre una llista de Càrrecs de l'entitat
+      } else {
+        // (2.a) Destinatari es l'usuari loguejat
+        colaboracioDelegacioJPA.setDestinatariID(LoginInfo.getInstance().getUsuariEntitatID());
+        colaboracioDelegacioForm.addHiddenField(DESTINATARIID);
+      }
+      colaboracioDelegacioJPA.setEsDelegat(esDelegat());
     }
-    colaboracioDelegacioJPA.setEsDelegat(esDelegat());
     
     // camps read only
     colaboracioDelegacioForm.addReadOnlyField(ACTIVA);

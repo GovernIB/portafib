@@ -137,12 +137,15 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
   
   
   protected void removeTimer(String name) {
-    Timer timer = searchTimerByName(name);
-    if (timer != null) {
-      log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
-          + timer.getNextTimeout() + ")");
-      timer.cancel();
-    }
+    Timer timer;
+    do {
+      timer= searchTimerByName(name);
+      if (timer != null) {
+        log.info("Removing old timer(" + getTimerName() + ") : " + name + "("
+            + timer.getNextTimeout() + ")");
+        timer.cancel();
+      }
+    } while(timer != null);
   }
 
 

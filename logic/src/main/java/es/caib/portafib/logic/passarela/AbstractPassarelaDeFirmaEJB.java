@@ -180,7 +180,7 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
    * @throws I18NException
    */
   public int processFileToSign(Locale locale, String entitatID,
-      PassarelaFileInfoSignature pfis, File original, File adaptat)
+      PassarelaFileInfoSignature pfis, File original, File adaptat, String aplicacioID)
       throws I18NException {
     return SignatureUtils.processFileToSign(locale, entitatID, pfis, original, adaptat,
         this.entitatEjb, this.codiBarresEjb);

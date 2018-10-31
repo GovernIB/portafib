@@ -6,5 +6,5 @@ package es.caib.portafib.utils;
 * l'opcio -Pbuild durant la compilació
 */
 public interface Build {
-  public static final String BUILD="20180803";
+  public static final String BUILD="20181031";
 }

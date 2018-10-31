@@ -546,19 +546,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
   }
   
-  @RequestMapping(value = "/docVista/{fitxerID}", method = RequestMethod.GET)
-  public void docVista(HttpServletResponse response, @PathVariable Long fitxerID)
-      throws I18NException {
-
-    Fitxer f;
-    f = peticioDeFirmaLogicaEjb.getFileOfPeticioDeFirmaById(fitxerID);
-    
-    final boolean attachment = false;
-    FileDownloadController.fullDownload(f.getFitxerID(),
-        f.getNom(), f.getMime(), response, attachment); 
-
-  }
-  
   
   @RequestMapping(value = "/docfirmat/descarregar/{peticioDeFirmaID}", method = RequestMethod.GET)
   public void docfirmatDescarregar(HttpServletResponse response, @PathVariable Long peticioDeFirmaID)
@@ -797,7 +784,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
       
-      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_PRIMERAPAGINA);
+      peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
       
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 

@@ -21,6 +21,8 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
   protected final PassarelaSignaturesSet signaturesSet;
 
   protected final int[] originalNumberOfSignsArray;
+  
+  protected final String applicationID;
 
   protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID 
     = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
@@ -29,12 +31,13 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
    * @param signaturesSet
    */
   public PassarelaSignaturesSetWebInternalUse(String entitatID, int[] originalNumberOfSignsArray,
-      boolean fullView, PassarelaSignaturesSet signaturesSet) {
+      boolean fullView, PassarelaSignaturesSet signaturesSet, String applicationID) {
     super();
     this.originalNumberOfSignsArray= originalNumberOfSignsArray;
     this.signaturesSet = signaturesSet;
     this.entitatID = entitatID;
     this.fullView = fullView;
+    this.applicationID = applicationID;
 
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
@@ -69,6 +72,10 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   public boolean isFullView() {
     return fullView;
+  }
+  
+  public String getApplicationID() {
+    return applicationID;
   }
 
 }
