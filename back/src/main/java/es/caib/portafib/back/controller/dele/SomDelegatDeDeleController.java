@@ -69,7 +69,11 @@ implements ConstantsV2 {
   public boolean esDelegat() {
     return true;
   }
-  
+
+  @Override
+  public boolean esDestinatari() {
+    return false;
+  }
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
@@ -120,6 +124,7 @@ implements ConstantsV2 {
         colaboracioDelegacioFilterForm.setEditButtonVisible(false);
         
         colaboracioDelegacioFilterForm.addLabel(DESTINATARIID, esDelegat()?"delegatde.menu":"colaboradorde.menu");
+        colaboracioDelegacioFilterForm.getHiddenFields().remove(DESTINATARIID);
         
         
         colaboracioDelegacioFilterForm.addAdditionalButtonForEachItem(
@@ -166,6 +171,7 @@ implements ConstantsV2 {
    }
    
    colaboracioDelegacioForm.addLabel(DESTINATARIID, esDelegat()?"delegatde.menu":"colaboradorde.menu");
+   colaboracioDelegacioForm.getHiddenFields().remove(DESTINATARIID);
 
    colaboracioDelegacioForm.addHiddenField(COLABORACIODELEGACIOID);
    colaboracioDelegacioForm.addHiddenField(COLABORADORDELEGATID);
