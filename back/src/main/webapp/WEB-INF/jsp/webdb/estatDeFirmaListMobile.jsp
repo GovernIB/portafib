@@ -159,15 +159,13 @@
 							 <c:if test="${ __entry.key < 0  && ((empty __entry.value.searchBy)? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.searchBy)) && ((empty __entry.value.groupBy )? true : !gen:contains(__theFilterForm.hiddenFields, __entry.value.groupBy ))}">
 							   <c:choose>
 								   <c:when test="${status.first}">
-								   	<td class="first-child">
+								   	<td class="first-child ${prioritatStyle}">
 								   </c:when>
 								   <c:otherwise>
 								   	<td>
 								   </c:otherwise>
 							   </c:choose>
 							   	  <c:if test="${status.first}">
-							   	  	<div class="priority-div ${prioritatStyle}">
-							   	  	</div>
 							   	  	<div class="margins">
 							   	  </c:if>
 							      <c:if test="${not empty __entry.value.valueMap }">

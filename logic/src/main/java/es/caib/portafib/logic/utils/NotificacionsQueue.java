@@ -75,7 +75,7 @@ public class NotificacionsQueue {
   public static void processNotificacio(NotificacioInfo notificacioInfo) {
     
     // XYZ ZZZ Quan lo de Notificacions funcioni correctament llavors descomentar
-    final boolean isDebug = true; // log.isDebugEnabled() 
+    final boolean isDebug = false; // log.isDebugEnabled() 
   
     NotificacioWSJPA notificacioJPA = null;
 
@@ -188,13 +188,14 @@ public class NotificacionsQueue {
         msgError = th.getMessage();
       }
       
-      if (usuariAplicacio != null) {
+      if (isDebug && usuariAplicacio != null) {
         log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
         log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
         log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
+        
+        log.error("Error en la notificacio amb ID=" + notifID + ": " + msgError); // ,
       }
 
-      log.error("Error en la notificacio amb ID=" + notifID + ": " + msgError); // ,
 
       if (notificacioLogicaEjb != null && notificacioJPA != null) {
 

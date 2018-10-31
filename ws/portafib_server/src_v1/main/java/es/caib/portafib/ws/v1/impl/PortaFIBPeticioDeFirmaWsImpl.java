@@ -411,17 +411,30 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       @WebParam(name = "peticioDeFirmaWs") PeticioDeFirmaWs peticioDeFirmaWs)
       throws WsI18NException, WsValidationException, Throwable {
 
-    PeticioDeFirmaWs peticioCreada;
-    peticioCreada = createPeticioDeFirma(peticioDeFirmaWs);
+//    PeticioDeFirmaWs peticioCreada;
+//    peticioCreada = createPeticioDeFirma(peticioDeFirmaWs);
+//
+//    try {
+//      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID());
+//    } catch (Throwable th) {
+//      deletePeticioDeFirma(peticioCreada.getPeticioDeFirmaID());
+//      throw th;
+//    }
+	  
+	  
+	  PeticioDeFirmaWs peticioCreada = createPeticioDeFirma(peticioDeFirmaWs);
+	  long peticioDeFirmaID = peticioCreada.getPeticioDeFirmaID();
+	  log.info("Creada peticio amb ID = " + peticioDeFirmaID);
+	
+	  try {
+		  startPeticioDeFirma(peticioDeFirmaID);
+	  } catch (Throwable th) {
+	    deletePeticioDeFirma(peticioDeFirmaID);
+	    throw th;
+	  }
+	  
 
-    try {
-      peticioDeFirmaLogicaEjb.start(peticioCreada.getPeticioDeFirmaID());
-    } catch (Throwable th) {
-      deletePeticioDeFirma(peticioCreada.getPeticioDeFirmaID());
-      throw th;
-    }
-
-    return peticioCreada;
+	  return peticioCreada;
   }
 
   @RolesAllowed({ PFI_ADMIN ,PFI_USER })

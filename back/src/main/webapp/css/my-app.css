@@ -10,13 +10,13 @@
 
 
 .bg-lightamber {
-    background-color: #faa732 !important;
+    border-left: #faa732 !important;
 }
 .bg-lightgreen {
-    background-color: #5bb75b !important;
+    border-left: #5bb75b !important;
 }
 .bg-lightred {
-    background-color: #da4f49 !important;
+    border-left: #da4f49 !important;
 }
 
 .addapted-icon {
@@ -82,6 +82,7 @@
  .margins {
  	padding-top: 3px !important;
  	padding-bottom: 3px !important;
+ 	margin-left: 4px;
  }
  
  .small-vert-margins {
@@ -115,6 +116,8 @@
  	padding-top: 0px !important;
  	padding-bottom: 0px !important;
  	padding-left: 0px !important;
+ 	border-left-style: solid !important;
+    border-left-width: 14px !important;
  }
  
  [class^="icon-"],

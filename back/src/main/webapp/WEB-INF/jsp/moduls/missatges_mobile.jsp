@@ -10,7 +10,7 @@
     
       <c:forEach items="${tipusList.value}" var="msg" >
       <div class="alert alert-mobile alert-${tipusList.key}">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
+<!--       <button type="button" class="close" data-dismiss="alert">&times;</button> -->
       ${msg}
       </div>
       </c:forEach>
