@@ -1,7 +1,7 @@
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
  *Portafirmes Digital de les Illes Balears*
 
-Versió Estable: __portafib-1.1.4__ (branca [portafib-1.1](https://github.com/GovernIB/portafib/tree/portafib-1.1))<br/>
+Versió Estable: __portafib-1.1.5__ (branca [portafib-1.1](https://github.com/GovernIB/portafib/tree/portafib-1.1))<br/>
 Versió Desenvolupament: portafib-2.0.0 (branca [portafib-2.0](https://github.com/GovernIB/portafib/tree/portafib-2.0))
 
 **Descripció**
