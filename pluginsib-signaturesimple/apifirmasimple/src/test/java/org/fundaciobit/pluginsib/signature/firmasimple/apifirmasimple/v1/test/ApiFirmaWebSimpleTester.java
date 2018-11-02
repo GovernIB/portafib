@@ -85,7 +85,7 @@ public class ApiFirmaWebSimpleTester {
       api = getApiFirmaWebSimple();
 
       FirmaSimpleCommonInfo commonInfo;
-      commonInfo = new FirmaSimpleCommonInfo(languageUI, username, administrationID);
+      commonInfo = new FirmaSimpleCommonInfo("PDF", languageUI, username, administrationID);
 
       // Enviam la part comu de la transacció
       transactionID = api.getTransactionID(commonInfo);
@@ -206,14 +206,9 @@ public class ApiFirmaWebSimpleTester {
             System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
             System.gc();
 
-            // XYZ ZZZ 
-            // Falta guardar en un fitxer a part o com a mínim imprimir informació de custòdia
-            String custID = fssr.getCustodyFileID();
-            String custURL = fssr.getCustodyFileURL();
-            if (custID != null || custURL != null) {
-              System.out.println("CustodiaID = " + custID);
-              System.out.println("CustodiaURL = " + custURL);
-            }
+            ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
+            
+
 
             break;
           }

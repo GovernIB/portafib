@@ -10,12 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class FirmaSimpleCommonInfo {
 
+  // Perfil de Firma definit en el servidor intermig
+  String signProfile;
+
   String languageUI;
 
   String username;
 
   String administrationID;
-
 
   /**
    * 
@@ -23,13 +25,10 @@ public class FirmaSimpleCommonInfo {
   public FirmaSimpleCommonInfo() {
   }
 
-  /**
-   * @param languageUI
-   * @param username
-   * @param administrationID
-   */
-  public FirmaSimpleCommonInfo(String languageUI, String username, String administrationID) {
+  public FirmaSimpleCommonInfo(String signProfile, String languageUI, String username,
+      String administrationID) {
     super();
+    this.signProfile = signProfile;
     this.languageUI = languageUI;
     this.username = username;
     this.administrationID = administrationID;
@@ -57,6 +56,14 @@ public class FirmaSimpleCommonInfo {
 
   public void setAdministrationID(String administrationID) {
     this.administrationID = administrationID;
+  }
+
+  public String getSignProfile() {
+    return signProfile;
+  }
+
+  public void setSignProfile(String signProfile) {
+    this.signProfile = signProfile;
   }
 
 }

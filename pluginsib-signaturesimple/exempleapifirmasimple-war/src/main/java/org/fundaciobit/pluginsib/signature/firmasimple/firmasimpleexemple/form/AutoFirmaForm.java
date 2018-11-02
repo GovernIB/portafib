@@ -1,5 +1,8 @@
 package org.fundaciobit.pluginsib.signature.firmasimple.firmasimpleexemple.form;
 
+import java.util.List;
+
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
@@ -13,7 +16,15 @@ public class AutoFirmaForm {
 
   public static final String VISUALITZACIO_IFRAME = "iframe";
 
-  protected java.lang.String motiu;
+  protected String profileServer;
+
+  protected String profileWeb;
+
+  protected List<FirmaSimpleAvailableProfile> profilesServer;
+
+  protected List<FirmaSimpleAvailableProfile> profilesWeb;
+
+  protected String motiu;
 
   protected String langUI;
 
@@ -32,9 +43,9 @@ public class AutoFirmaForm {
   protected CommonsMultipartFile fitxerAFirmarID;
 
   protected CommonsMultipartFile fitxerAFirmarID2;
-  
+
   protected CommonsMultipartFile fitxerAFirmarID3;
-  
+
   protected CommonsMultipartFile fitxerAFirmarID4;
 
   public AutoFirmaForm() {
@@ -55,8 +66,6 @@ public class AutoFirmaForm {
   public void setFitxerAFirmarID2(CommonsMultipartFile fitxerAFirmarID2) {
     this.fitxerAFirmarID2 = fitxerAFirmarID2;
   }
-  
-  
 
   public CommonsMultipartFile getFitxerAFirmarID3() {
     return fitxerAFirmarID3;
@@ -137,5 +146,39 @@ public class AutoFirmaForm {
   public void setVisualitzacio(String visualitzacio) {
     this.visualitzacio = visualitzacio;
   }
+
+  public String getProfileServer() {
+    return profileServer;
+  }
+
+  public void setProfileServer(String profileServer) {
+    this.profileServer = profileServer;
+  }
+
+  public String getProfileWeb() {
+    return profileWeb;
+  }
+
+  public void setProfileWeb(String profileWeb) {
+    this.profileWeb = profileWeb;
+  }
+
+  public List<FirmaSimpleAvailableProfile> getProfilesServer() {
+    return profilesServer;
+  }
+
+  public void setProfilesServer(List<FirmaSimpleAvailableProfile> profilesServer) {
+    this.profilesServer = profilesServer;
+  }
+
+  public List<FirmaSimpleAvailableProfile> getProfilesWeb() {
+    return profilesWeb;
+  }
+
+  public void setProfilesWeb(List<FirmaSimpleAvailableProfile> profilesWeb) {
+    this.profilesWeb = profilesWeb;
+  }
+
+
 
 }

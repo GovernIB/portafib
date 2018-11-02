@@ -13,6 +13,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
@@ -33,6 +34,8 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   public static final String SIGNDOCUMENTS = "signDocuments";
   
   public static final String GETMAXNUMBEROFSIGNATURESBYTRANSACTION = "getMaxNumberOfSignaturesByTransaction";
+  
+  public static final String AVAILABLEPROFILES = "getAvailableProfiles";
 
   /**
    * @param endPointBase
@@ -59,7 +62,7 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   public FirmaSimpleSignDocumentsResponse signDocuments(
       FirmaSimpleSignDocumentsRequest signaturesSet) throws Exception {
 
-    ClientResponse response = commonCall(signaturesSet, ApiFirmaEnServidorSimple.SIGNDOCUMENTS);
+    ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENTS);
 
     FirmaSimpleSignDocumentsResponse result = response
         .getEntity(FirmaSimpleSignDocumentsResponse.class);
@@ -69,7 +72,7 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   
   
   public Integer getMaxNumberOfSignaturesByTransaction() throws Exception {
-    ClientResponse response = commonCall(null, ApiFirmaEnServidorSimple.GETMAXNUMBEROFSIGNATURESBYTRANSACTION);
+    ClientResponse response = commonCall(null, GETMAXNUMBEROFSIGNATURESBYTRANSACTION);
 
     String result = response.getEntity(String.class);
 
@@ -85,7 +88,7 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   
   
   public FirmaSimpleFile upgradeSignature(FirmaSimpleUpgradeRequest fsur) throws Exception {
-    ClientResponse response = commonCall(fsur, ApiFirmaEnServidorSimple.UPGRADESIGNATURE);
+    ClientResponse response = commonCall(fsur, UPGRADESIGNATURE);
 
     FirmaSimpleFile result = response.getEntity(FirmaSimpleFile.class);
 
@@ -115,6 +118,23 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
     return os.toByteArray();
     */
   }
+  
+  
+  
+  /**
+   * 
+   * @return
+   * @throws Exception
+   */
+  public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception {
+    
+    ClientResponse response = commonCall(locale, AVAILABLEPROFILES);
+
+    FirmaSimpleAvailableProfiles result = response.getEntity(FirmaSimpleAvailableProfiles.class);
+
+    return result;
+  }
+  
   
   
   // XYZ Moure a Utils

@@ -1,6 +1,8 @@
 PortaFIB 2.0.0
 ==============
 
+2018-11-02 ApiFirmaSimple: Afegir informació de perfil i informació del format del fitxer retornat #207
+
 2018-10-31 Falta destinatari en col·laboracions i delegacions #206
 
 2018-10-30 Bug: Firmat per, data i motiu utilitza idioma de UserInterface #205

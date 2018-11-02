@@ -27,6 +27,7 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
@@ -60,8 +61,6 @@ import java.util.Map;
 public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
   public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
-
-  
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
@@ -115,6 +114,23 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
   }
 
+
+    
+  @RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody String locale) {
+
+    final boolean esFirmaEnServidor = false;
+    
+    return internalGetAvailableProfiles(request, locale, esFirmaEnServidor);
+  
+  }
+
+
+  
+  
   @RequestMapping(value = "/" + ApiFirmaWebSimple.ADDFILETOSIGN, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
@@ -129,7 +145,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     
 
     if (holder == null) {
-      return generateServerError("Aquest mètode requereix que el parametre no siguin NULL");
+      return generateServerError("Aquest mètode requereix que el parametre no sigui NULL");
     }
 
     String transactionID = holder.getTransactionID();
@@ -877,7 +893,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getSignatureResult(
-      @RequestBody FirmaSimpleGetSignatureResultRequest signtureResultRequest,
+      @RequestBody FirmaSimpleGetSignatureResultRequest signatureResultRequest,
       HttpServletRequest request) {
 
     log.info(" XYZ ZZZ getSignaturesResult => ENTRA");
@@ -892,23 +908,38 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
     // XYZ ZZZ
     // Revisar que existeix currentTransaccitions
+    
+    String signID = signatureResultRequest.getSignID();
+    String transactionID = signatureResultRequest.getTransactionID();
 
     try {
-      PassarelaSignatureResult result;
-      result = passarelaDeFirmaWebEjb.getSignatureResult(
-          signtureResultRequest.getTransactionID(), signtureResultRequest.getSignID());
 
+      PassarelaSignatureResult result;
+      result = passarelaDeFirmaWebEjb.getSignatureResult(transactionID, signID );
+      
       if (result == null) {
         // XYZ ZZZ Traduir
         String msg = "No s'ha pogut trobar informació de la firma ["
-            + signtureResultRequest.getSignID() + "] de la transacció: "
-            + signtureResultRequest.getTransactionID();
+            + signID + "] de la transacció: "
+            + transactionID;
         return generateServerError(msg);
+      }
+      
+      
+      PassarelaSignaturesSetWebInternalUse pss = passarelaDeFirmaWebEjb.getSignaturesSetFullByTransactionID(transactionID);
+      PassarelaFileInfoSignature infoSign = null;
+      for(PassarelaFileInfoSignature pfis : pss.getSignaturesSet().getFileInfoSignatureArray()) {
+          
+        if (signID.equals(pfis.getSignID())) {
+          infoSign = pfis;
+          break;
+        }
       }
 
       //FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
       FirmaSimpleSignatureResult fssr;
-      fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result);
+      fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
+          pss.getSignaturesSet().getCommonInfoSignature(), infoSign);
       
 
       HttpHeaders headers = addAccessControllAllowOrigin();
@@ -920,8 +951,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
       // TRADUIR
       final String msg = "Error desconegut intentant recuperar resultat de la firma ["
-          + signtureResultRequest.getSignID() + "] de la transacció: "
-          + signtureResultRequest.getTransactionID() + ": " + th.getMessage();
+          + signID + "] de la transacció: "
+          + transactionID + ": " + th.getMessage();
 
       log.error(msg, th);
 

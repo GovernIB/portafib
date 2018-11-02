@@ -7,17 +7,22 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleFile;
@@ -26,19 +31,20 @@ import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.F
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.exceptions.ServerException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-
 
 import es.caib.portafib.back.controller.common.rest.RestUtils;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.ejb.CodiBarresLocal;
 import es.caib.portafib.ejb.CustodiaInfoLocal;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -64,7 +70,7 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal
  *
  */
-public class RestApiFirmaUtils extends RestUtils {
+public abstract class RestApiFirmaUtils extends RestUtils {
 
   protected static final String TIPUS_WEB = "WEB";
   
@@ -202,7 +208,7 @@ public class RestApiFirmaUtils extends RestUtils {
   
 
   protected FirmaSimpleSignDocumentsResponse processPassarelaResults(
-      PassarelaFullResults fullResults) throws Exception {
+      PassarelaFullResults fullResults, PassarelaSignaturesSet pss) throws Exception {
     PassarelaSignatureStatus passarelaSS = fullResults.getSignaturesSetStatus();
 
     FirmaSimpleStatus statusSignatureProcess = new FirmaSimpleStatus(
@@ -212,6 +218,17 @@ public class RestApiFirmaUtils extends RestUtils {
     List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
 
     List<FirmaSimpleSignatureResult> results = new ArrayList<FirmaSimpleSignatureResult>();
+    
+
+    
+    Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
+    for(PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
+      
+      infoBySignID.put(pfis.getSignID(), pfis);
+      
+    }
+ 
+    
 
     for (PassarelaSignatureResult psr : passarelaSR) {
 
@@ -219,8 +236,11 @@ public class RestApiFirmaUtils extends RestUtils {
       // al SISTEMA DE CUSTODIA I retornar informacio al respecte
       //java.lang.String custodyFileID = ;
       //java.lang.String custodyFileURL = ;
+      
+      
 
-      results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr));
+      results.add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+          pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID())));
     }
 
     FirmaSimpleSignDocumentsResponse fssfr;
@@ -229,11 +249,29 @@ public class RestApiFirmaUtils extends RestUtils {
   }
 
   public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
-      PassarelaSignatureResult psr) throws Exception {
-    return new FirmaSimpleSignatureResult(psr.getSignID(), new FirmaSimpleStatus(psr
-        .getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace()),
-        convertFitxerBeanToFirmaSimpleFile(psr.getSignedFile()), psr.getCustodyFileID(),
-        psr.getCustodyFileURL());
+      PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
+      PassarelaFileInfoSignature infoSignature) throws Exception {
+    
+    FirmaSimpleStatus status = new FirmaSimpleStatus(psr
+        .getStatus(), psr.getErrorMessage(), psr.getErrorStackTrace());
+    
+    FirmaSimpleFile file = convertFitxerBeanToFirmaSimpleFile(psr.getSignedFile());
+
+    final int signOperation = infoSignature.getSignOperation();
+    final String signType = infoSignature.getSignType();
+    final String signAlgorithm = infoSignature.getSignAlgorithm();
+    final int signMode = infoSignature.getSignMode();
+    final int signaturesTableLocation = infoSignature.getSignaturesTableLocation();
+    final boolean timeStampIncluded = infoSignature.isUseTimeStamp();
+    boolean policyIncluded = (commonInfo.getPolicyInfoSignature() != null);
+
+    FirmaSimpleSignedFileInfo sfi = new FirmaSimpleSignedFileInfo(
+        signOperation, signType, signAlgorithm,
+        signMode, signaturesTableLocation, timeStampIncluded,
+        policyIncluded, psr.getCustodyFileID(),  psr.getCustodyFileURL());
+    
+    return new FirmaSimpleSignatureResult(psr.getSignID(), status, file,sfi); 
+        
   }
 
 
@@ -310,55 +348,8 @@ public class RestApiFirmaUtils extends RestUtils {
   
       // ========== POLITICA DE FIRMA
       // Cercar l'ús de la politica de firma i actuar al respecte
-      final PassarelaPolicyInfoSignature policyInfoSignature;
-      {
-        int usPoliticaDeFirma = config.getUsPoliticaDeFirma();
-        boolean obtenirDeEntitat = false;
-        if (usPoliticaDeFirma == ConstantsPortaFIB.US_POLITICA_DE_FIRMA_DEFINIT_EN_ENTITAT) {
-          usPoliticaDeFirma = entitatJPA.getUsPoliticaDeFirma();
-          obtenirDeEntitat = true;
-        }
-  
-        switch (usPoliticaDeFirma) {
-  
-        // 0 => no usar politica de firma,
-        case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_NO_USAR:
-          policyInfoSignature = null;
-          break;
-  
-        // 1=> usar politica d'aquesta configuracio
-        case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT:
-          if (obtenirDeEntitat) {
-            policyInfoSignature = new PassarelaPolicyInfoSignature(
-                entitatJPA.getPolicyIdentifier(), entitatJPA.getPolicyIdentifierHash(),
-                entitatJPA.getPolicyIdentifierHashAlgorithm(),
-                entitatJPA.getPolicyUrlDocument());
-          } else {
-            policyInfoSignature = new PassarelaPolicyInfoSignature(
-                config.getPolicyIdentifier(), config.getPolicyIdentifierHash(),
-                config.getPolicyIdentifierHashAlgorithm(), config.getPolicyUrlDocument());
-          }
-          break;
-  
-        // 2 => L'usuari web o usuari-app elegeixen la politica de firma
-        case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
-          // XYZ ZZZ Traduir
-          throw new RestException("Ús de Politica de Firma no suportada en API Firma Simple ("
-              + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
-  
-        default:
-          // XYZ ZZZ Traduir
-          throw new RestException("Ús de Politica de Firma desconeguda ("
-              + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
-  
-        }
-      }
-      if (policyInfoSignature == null) {
-        log.info("No usam politica de firma");
-      } else {
-        log.info("Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
-            + policyInfoSignature.getPolicyUrlDocument() + ")");
-      }
+      final PassarelaPolicyInfoSignature policyInfoSignature = getPoliticaFirmaOfConfig(
+          usuariAplicacioID, config, entitatJPA);
   
       final String username = commonInfo.getUsername();
       final String administrationID = commonInfo.getAdministrationID();
@@ -429,17 +420,9 @@ public class RestApiFirmaUtils extends RestUtils {
         // TIPUS DE FIRMA
         final String signType = SignatureUtils.portafibSignTypeToApiSignType(config
             .getTipusFirmaID());
-        Integer signAlgorithmID = config.getAlgorismeDeFirmaID();
-        if (signAlgorithmID == null) {
-          // Si val null cercar-ho a les DADES DE l'ENTITAT
-          signAlgorithmID = entitatJPA.getAlgorismeDeFirmaID();
-        }
-  
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
-        
-        // ALGORISME DE FIRMA
-        String signAlgorithm = SignatureUtils.convertSignAlgorithmID(signAlgorithmID);
-        log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithm] = " + signAlgorithm);
+
+        // Algorisme de Firma
+        String signAlgorithm = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
   
         // Mode de Firma
         final int signMode;
@@ -451,49 +434,8 @@ public class RestApiFirmaUtils extends RestUtils {
         }
   
         // TAULA DE FIRMES
-        final int signaturesTableLocation; // =
-                                           // FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-        if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
-          int politicaTaulaDeFirmes = config.getPoliticaTaulaFirmes();
-          boolean obtenirDeEntitat = false;
-          if (politicaTaulaDeFirmes == ConstantsPortaFIB.POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT) {
-            politicaTaulaDeFirmes = entitatJPA.getPoliticaTaulaFirmes();
-            obtenirDeEntitat = true;
-          }
-  
-          switch (politicaTaulaDeFirmes) {
-          // 0 no es permet taules de firmes
-  
-          case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET:
-            signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-            break;
-  
-          // 1 obligatori politica definida en la configuració d'usuari aplicació o entitat
-          case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OBLIGATORI_DEFINIT:
-            if (obtenirDeEntitat) {
-              signaturesTableLocation = entitatJPA.getPosicioTaulaFirmes();
-            } else {
-              signaturesTableLocation = config.getPosicioTaulaFirmesID();
-            }
-            break;
-  
-          // 2 opcional, per defecte el definit a l'entitat o conf. de usuari aplicacio
-          case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF:
-            // XYZ ZZZ Que faig: sense taula de firmes o llançar una excepció indicant
-            // que aquest valor no es vàlid per API Firma Simple ??
-            signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-            break;
-  
-          default:
-            // XYZ ZZZ Traduir
-            throw new RestException("Politica de Taules de Firmes desconeguda ("
-                + politicaTaulaDeFirmes + ") en usuari aplicació " + usuariAplicacioID);
-          }
-  
-        } else {
-          // XADES, CADES, ...
-          signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
-        }
+        final int signaturesTableLocation = getSignaturesTableLocationOfConfig(
+            usuariAplicacioID, config, entitatJPA);
   
         // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. #
         // PENDENT: Configuració etiquetes de la Taula de Firmes #176
@@ -502,115 +444,14 @@ public class RestApiFirmaUtils extends RestUtils {
   
         // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les
         // DADES DE l'ENTITAT
-        final boolean useTimeStamp;
-        {
-          int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
-  
-          boolean obtenirDeEntitat = false;
-  
-          if (politicaSegellatDeTemps == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_DEFINIT_EN_ENTITAT) {
-            obtenirDeEntitat = true;
-            politicaSegellatDeTemps = entitatJPA.getPoliticaSegellatDeTemps();
-          }
-  
-          switch (politicaSegellatDeTemps) {
-          case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
-            useTimeStamp = false;
-            break;
-  
-          case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
-            useTimeStamp = true;
-            break;
-  
-          case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
-            useTimeStamp = true;
-            break;
-          case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
-            useTimeStamp = false;
-            break;
-  
-          default:
-            // XYZ ZZZ Traduir
-            throw new RestException("Politica de segellat de temps desconeguda ("
-                + politicaSegellatDeTemps + ") en usuari aplicació " + usuariAplicacioID);
-          }
-        }
+        final boolean useTimeStamp = getUseTimestampOfConfig(usuariAplicacioID, config,
+            entitatJPA);
   
         // TODO #165 De la configuracio de usr-app s'ha obtenir un
         // "CustodiaInfoBean custodiaInfo" i convertir-lo a
         // secureVerificationCodeStampInfo
         final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
-        {
-          // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID()
-          int politicaCustodia = config.getPoliticaCustodia();
-          boolean obtenirDeEntitat = false;
-          if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT) {
-            obtenirDeEntitat = true;
-            politicaCustodia = entitatJPA.getPoliticaCustodia();
-          }
-  
-          switch (politicaCustodia) {
-  
-          case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
-            secureVerificationCodeStampInfo = null;
-            break;
-          case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
-            // XYZ ZZZ Traduir #165
-            throw new RestException("Politica de Custodia no suportada per PortaFIB (Usuari aplicació "
-                + usuariAplicacioID + ")");
-  
-          case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU:
-          case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA:
-            long custodiaInfoID = entitatJPA.getCustodiaInfoID();
-            if (obtenirDeEntitat) {
-              custodiaInfoID = entitatJPA.getCustodiaInfoID();
-            } else {
-              custodiaInfoID = config.getCustodiaInfoID();
-            }
-  
-            CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
-  
-            secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
-  
-            secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
-                .getCodiBarresPosicioPaginaID());
-            secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
-  
-            String codiBarresID = custodiaInfo.getCodiBarresID();
-  
-            String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
-                CodiBarresFields.CODIBARRESID.equal(codiBarresID));
-  
-            if (codiBarresNom == null) {
-              // TODO Traduir XYZ ZZZ
-              String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom "
-                  + codiBarresNom;
-              throw new I18NException("error.unknown", msg);
-            }
-  
-            secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
-  
-            long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
-            secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
-            secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
-            secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
-            break;
-  
-          case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU:
-            secureVerificationCodeStampInfo = null;
-            break;
-  
-          case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
-            throw new RestException("Politica de Custodia no suportada per API FIRMA SIMPLE "
-                + "(Usuari aplicació " + usuariAplicacioID + ")");
-  
-          default:
-            // XYZ ZZZ Traduir
-            throw new RestException("Politica de Custòdia desconeguda (" + politicaCustodia
-                + ") en usuari aplicació " + usuariAplicacioID);
-          }
-  
-        }
+        secureVerificationCodeStampInfo = getCustodiaOfConfig(usuariAplicacioID, config, entitatJPA);
   
         fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign,
             signID, name, reason, location, signerEmail, signNumber, languageSign,
@@ -654,6 +495,408 @@ public class RestApiFirmaUtils extends RestUtils {
       throw new RestException(e.getMessage());
     }
     
+  }
+
+  
+  public PassarelaSecureVerificationCodeStampInfo getCustodiaOfConfig(
+      final String usuariAplicacioID, final UsuariAplicacioConfiguracio config,
+      EntitatJPA entitatJPA) throws RestException, I18NException {
+    final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
+    {
+      // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID()
+      int politicaCustodia = config.getPoliticaCustodia();
+      boolean obtenirDeEntitat = false;
+      if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT) {
+        obtenirDeEntitat = true;
+        politicaCustodia = entitatJPA.getPoliticaCustodia();
+      }
+
+      switch (politicaCustodia) {
+
+        case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
+          secureVerificationCodeStampInfo = null;
+          break;
+        case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
+          // XYZ ZZZ Traduir #165
+          throw new RestException("Politica de Custodia no suportada per PortaFIB (Usuari aplicació "
+              + usuariAplicacioID + ")");
+
+        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU:
+        case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA:
+          long custodiaInfoID = entitatJPA.getCustodiaInfoID();
+          if (obtenirDeEntitat) {
+            custodiaInfoID = entitatJPA.getCustodiaInfoID();
+          } else {
+            custodiaInfoID = config.getCustodiaInfoID();
+          }
+
+          CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
+
+          secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
+
+          secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
+              .getCodiBarresPosicioPaginaID());
+          secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
+
+          String codiBarresID = custodiaInfo.getCodiBarresID();
+
+          String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
+              CodiBarresFields.CODIBARRESID.equal(codiBarresID));
+
+          if (codiBarresNom == null) {
+            // TODO Traduir XYZ ZZZ
+            String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom "
+                + codiBarresNom;
+            throw new I18NException("error.unknown", msg);
+          }
+
+          secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
+
+          long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
+          secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
+          secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
+          secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
+          break;
+
+        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU:
+          secureVerificationCodeStampInfo = null;
+          break;
+
+        case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
+          throw new RestException("Politica de Custodia no suportada per API FIRMA SIMPLE "
+              + "(Usuari aplicació " + usuariAplicacioID + ")");
+
+        default:
+          // XYZ ZZZ Traduir
+          throw new RestException("Politica de Custòdia desconeguda (" + politicaCustodia
+              + ") en usuari aplicació " + usuariAplicacioID);
+      }
+
+    }
+    
+    return secureVerificationCodeStampInfo;
+  }
+  
+  
+  public String getAlgorismeDeFirmaOfConfig(final UsuariAplicacioConfiguracio config,
+      EntitatJPA entitatJPA) throws I18NException {
+    Integer signAlgorithmID = config.getAlgorismeDeFirmaID();
+    if (signAlgorithmID == null) {
+      // Si val null cercar-ho a les DADES DE l'ENTITAT
+      signAlgorithmID = entitatJPA.getAlgorismeDeFirmaID();
+    }
+ 
+    log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
+    
+    // ALGORISME DE FIRMA
+    String signAlgorithm = SignatureUtils.convertSignAlgorithmID(signAlgorithmID);
+    log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithm] = " + signAlgorithm);
+    return signAlgorithm;
+  }
+
+  public boolean getUseTimestampOfConfig(final String usuariAplicacioID,
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+    final boolean useTimeStamp;
+    {
+      int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
+ 
+      boolean obtenirDeEntitat = false;
+ 
+      if (politicaSegellatDeTemps == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_DEFINIT_EN_ENTITAT) {
+        obtenirDeEntitat = true;
+        politicaSegellatDeTemps = entitatJPA.getPoliticaSegellatDeTemps();
+      }
+ 
+      switch (politicaSegellatDeTemps) {
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
+        useTimeStamp = false;
+        break;
+ 
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
+        useTimeStamp = true;
+        break;
+ 
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
+        useTimeStamp = true;
+        break;
+      case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
+        useTimeStamp = false;
+        break;
+ 
+      default:
+        // XYZ ZZZ Traduir
+        throw new RestException("Politica de segellat de temps desconeguda ("
+            + politicaSegellatDeTemps + ") en usuari aplicació " + usuariAplicacioID);
+      }
+    }
+    return useTimeStamp;
+  }
+
+  public PassarelaPolicyInfoSignature getPoliticaFirmaOfConfig(final String usuariAplicacioID,
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+    final PassarelaPolicyInfoSignature policyInfoSignature;
+    {
+      int usPoliticaDeFirma = config.getUsPoliticaDeFirma();
+      boolean obtenirDeEntitat = false;
+      if (usPoliticaDeFirma == ConstantsPortaFIB.US_POLITICA_DE_FIRMA_DEFINIT_EN_ENTITAT) {
+        usPoliticaDeFirma = entitatJPA.getUsPoliticaDeFirma();
+        obtenirDeEntitat = true;
+      }
+ 
+      switch (usPoliticaDeFirma) {
+ 
+      // 0 => no usar politica de firma,
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_NO_USAR:
+        policyInfoSignature = null;
+        break;
+ 
+      // 1=> usar politica d'aquesta configuracio
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT:
+        if (obtenirDeEntitat) {
+          policyInfoSignature = new PassarelaPolicyInfoSignature(
+              entitatJPA.getPolicyIdentifier(), entitatJPA.getPolicyIdentifierHash(),
+              entitatJPA.getPolicyIdentifierHashAlgorithm(),
+              entitatJPA.getPolicyUrlDocument());
+        } else {
+          policyInfoSignature = new PassarelaPolicyInfoSignature(
+              config.getPolicyIdentifier(), config.getPolicyIdentifierHash(),
+              config.getPolicyIdentifierHashAlgorithm(), config.getPolicyUrlDocument());
+        }
+        break;
+ 
+      // 2 => L'usuari web o usuari-app elegeixen la politica de firma
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
+        // XYZ ZZZ Traduir
+        throw new RestException("Ús de Politica de Firma no suportada en API Firma Simple ("
+            + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
+ 
+      default:
+        // XYZ ZZZ Traduir
+        throw new RestException("Ús de Politica de Firma desconeguda ("
+            + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
+ 
+      }
+    }
+    if (policyInfoSignature == null) {
+      log.info("No usam politica de firma");
+    } else {
+      log.info("Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
+          + policyInfoSignature.getPolicyUrlDocument() + ")");
+    }
+    return policyInfoSignature;
+  }
+
+  public static int getSignaturesTableLocationOfConfig(final String usuariAplicacioID,
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+    final int signaturesTableLocation; // =
+                                       // FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+    if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
+      int politicaTaulaDeFirmes = config.getPoliticaTaulaFirmes();
+      boolean obtenirDeEntitat = false;
+      if (politicaTaulaDeFirmes == ConstantsPortaFIB.POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT) {
+        politicaTaulaDeFirmes = entitatJPA.getPoliticaTaulaFirmes();
+        obtenirDeEntitat = true;
+      }
+ 
+      switch (politicaTaulaDeFirmes) {
+      // 0 no es permet taules de firmes
+ 
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET:
+        signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+        break;
+ 
+      // 1 obligatori politica definida en la configuració d'usuari aplicació o entitat
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OBLIGATORI_DEFINIT:
+        if (obtenirDeEntitat) {
+          signaturesTableLocation = entitatJPA.getPosicioTaulaFirmes();
+        } else {
+          signaturesTableLocation = config.getPosicioTaulaFirmesID();
+        }
+        break;
+ 
+      // 2 opcional, per defecte el definit a l'entitat o conf. de usuari aplicacio
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF:
+        // XYZ ZZZ Que faig: sense taula de firmes o llançar una excepció indicant
+        // que aquest valor no es vàlid per API Firma Simple ??
+        signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+        break;
+ 
+      default:
+        // XYZ ZZZ Traduir
+        throw new RestException("Politica de Taules de Firmes desconeguda ("
+            + politicaTaulaDeFirmes + ") en usuari aplicació " + usuariAplicacioID);
+      }
+ 
+    } else {
+      // XADES, CADES, ...
+      signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+    }
+    return signaturesTableLocation;
+  }
+  
+  
+  /**
+   *
+   * @param esFirmaEnServidor
+   * @return
+   * @throws RestException
+   * @throws I18NException
+   */
+  protected RestLoginInfo commonChecks(boolean esFirmaEnServidor) 
+      throws RestException, I18NException {
+
+      LoginInfo loginInfo = LoginInfo.getInstance();
+
+      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+
+      // Checks Globals
+      if (loginInfo.getUsuariEntitat() != null) {
+        // TODO XYZ ZZZ Traduir
+        throw new RestException("Aquest servei només el poden fer servir els usuari-aplicació");
+      }
+
+      // Checks usuari aplicacio
+      final UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
+      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
+
+      // Cercam que tengui configuracio
+      final UsuariAplicacioConfiguracio config;
+      config = configuracioUsuariAplicacioLogicaLocalEjb
+          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
+
+      if (esFirmaEnServidor) {
+        Long pluginId = config.getPluginFirmaServidorID();
+        if (pluginId == null) {
+          // XYZ ZZZ Traduir
+          throw new RestException("No es permeten firmes en servidor a través de l'usuari aplicació "
+              + usuariAplicacioID + "(Consulti amb l'administrador de PortaFIB)");
+        }
+      }
+
+     return new RestLoginInfo(loginInfo, config);
+
+  }
+  
+  
+
+
+  public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request,
+      String locale, final boolean esFirmaEnServidor) {
+    String error = autenticate(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+
+      
+      RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor);
+      
+      
+
+      LoginInfo loginInfo = restLoginInfo.loginInfo;
+
+      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
+
+      // Checks Globals
+      if (loginInfo.getUsuariEntitat() != null) {
+        throw new Exception("Aquest servei només el poden fer servir el usuariAPP XYZ ZZZ");
+      }
+
+      // Checks usuari aplicacio
+      log.info(" XYZ ZZZ Usuari-APP = " + loginInfo.getUsuariAplicacio());
+      EntitatJPA entitatJPA = loginInfo.getUsuariAplicacio().getEntitat();
+      UsuariAplicacioConfiguracio config = restLoginInfo.config;
+      String usuariAplicacioID = config.getUsuariAplicacioID();
+      
+      Locale loc = new Locale(locale);
+      
+      StringBuffer str = new StringBuffer();
+      // Tipus Firma i Politica
+      String signType;
+      {
+        signType = SignatureUtils.portafibSignTypeToApiSignType(config.getTipusFirmaID());
+        
+        String politica;
+        if (getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA) == null) {
+          politica = "BES";
+        } else {
+          politica = "EPES";
+        }
+        str.append(I18NLogicUtils.tradueix(loc,"profile.tipusfirma", signType,politica));
+      }
+      // Algorisme de Firma
+      {
+        String algorismeDeFirma = getAlgorismeDeFirmaOfConfig(config, entitatJPA);
+        str.append(I18NLogicUtils.tradueix(loc,"profile.algorisme", algorismeDeFirma));
+      }
+      // taula de firmes
+      {
+        int postaulaFirmes = getSignaturesTableLocationOfConfig(usuariAplicacioID,
+            config,  entitatJPA);
+        str.append(I18NLogicUtils.tradueix(loc,"profile.tauladefirmes", 
+            I18NLogicUtils.tradueix(loc, "tauladefirmes." + postaulaFirmes)));
+      }
+      // Segell de temps
+      {
+        if (getUseTimestampOfConfig(usuariAplicacioID, config, entitatJPA)) {
+          str.append(I18NLogicUtils.tradueix(loc,"profile.segelldetemps"));
+        }
+      }
+      // Custòdia
+      {
+        if (getCustodiaOfConfig(usuariAplicacioID, config, entitatJPA) != null) {
+          str.append(I18NLogicUtils.tradueix(loc,"profile.custodia"));
+        }
+      }
+      
+
+      // XYZ ZZZ ZZZ Falta llegir-ho de la BBDD
+      FirmaSimpleAvailableProfile ap = new FirmaSimpleAvailableProfile();
+      ap.setName(signType);
+      ap.setDescription(str.toString()); 
+
+      List<FirmaSimpleAvailableProfile> list = new ArrayList<FirmaSimpleAvailableProfile>();
+      list.add(ap);
+      
+      FirmaSimpleAvailableProfiles fsap = new FirmaSimpleAvailableProfiles(list);
+      
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleAvailableProfiles>(fsap, headers, HttpStatus.OK);
+
+      return re;
+  
+    } catch (Throwable th) {
+  
+      // XYZ ZZZ Traduir
+      String msg = "Error desconegut retornant el perfils d'un usuari aplicacio: " + th.getMessage();
+  
+      log.error(msg, th);
+  
+      return generateServerError(msg, th);
+    }
+  }
+  
+  
+  /**
+   * 
+   * @author anadal
+   *
+   */
+  public class RestLoginInfo {
+    
+    public final LoginInfo loginInfo;
+    
+    public final UsuariAplicacioConfiguracio config;
+
+    public RestLoginInfo(LoginInfo loginInfo,
+        UsuariAplicacioConfiguracio config) {
+      super();
+      this.loginInfo = loginInfo;
+      this.config = config;
+    }
+
   }
 
 }

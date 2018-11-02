@@ -313,7 +313,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
         return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
       }
 
-      FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults);
+      FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults, pss);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignDocumentsResponse>(fssfr,
@@ -363,173 +363,16 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
+  @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request, @RequestBody String locale) {
+
+    final boolean esFirmaEnServidor = true;
+    
+    return internalGetAvailableProfiles(request, locale, esFirmaEnServidor);
   
-  
-  protected RestLoginInfo commonChecks(boolean esFirmaEnServidor) 
-      throws RestException, I18NException {
-    
-    
-      LoginInfo loginInfo = LoginInfo.getInstance();
-      
-      log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-      // Checks Globals
-      if (loginInfo.getUsuariEntitat() != null) {
-        // TODO XYZ ZZZ Traduir
-        throw new RestException("Aquest servei només el poden fer servir els usuari-aplicació");
-      }
-
-      // Checks usuari aplicacio
-      final UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
-
-      // Cercam que tengui configuracio
-      final UsuariAplicacioConfiguracio config;
-      config = configuracioUsuariAplicacioLogicaLocalEjb
-          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
-
-      if (esFirmaEnServidor) {
-        Long pluginId = config.getPluginFirmaServidorID();
-        if (pluginId == null) {
-          // XYZ ZZZ Traduir
-          throw new RestException("No es permeten firmes en servidor a través de l'usuari aplicació "
-              + usuariAplicacioID + "(Consulti amb l'administrador de PortaFIB)");
-        }
-      }
-      
-      
-     return new RestLoginInfo(loginInfo, config);
-    
-    
   }
-  
-  
-  /**
-   * 
-   * @author anadal
-   *
-   */
-  public class RestLoginInfo {
-    
-    public final LoginInfo loginInfo;
-    
-    public final UsuariAplicacioConfiguracio config;
-
-    public RestLoginInfo(LoginInfo loginInfo,
-        UsuariAplicacioConfiguracio config) {
-      super();
-      this.loginInfo = loginInfo;
-      this.config = config;
-    }
-
-  }
-
-  
-
-  /**
-   * XYZ ZZZ Eliminar
-   * 
-   * @author anadal
-   *
-   */
-//  public class VirtualSignaturePlugin implements ISignaturePlugin {
-//
-//    protected String entitatID;
-//
-//    protected List<Long> filterByPluginIDList;
-//
-//    /**
-//     * @param entitatID
-//     */
-//    public VirtualSignaturePlugin(String entitatID) {
-//      super();
-//      this.entitatID = entitatID;
-//    }
-//
-//    @Override
-//    public String getName(Locale locale) {
-//      return "VirtualSignaturePlugin";
-//    }
-//
-//    public List<Long> getFilterByPluginIDList() {
-//      return this.filterByPluginIDList;
-//    }
-//
-//    @Override
-//    public String[] getSupportedSignatureTypes() {
-//      return passarelaDeFirmaEnServidorEjb.getSupportedSignatureTypes(entitatID,
-//          getFilterByPluginIDList(), null);
-//    }
-//
-//    @Override
-//    public String[] getSupportedSignatureAlgorithms(String signType) {
-//      return passarelaDeFirmaEnServidorEjb.getSupportedSignatureAlgorithms(signType,
-//          entitatID, getFilterByPluginIDList(), null);
-//    }
-//
-//    @Override
-//    public List<String> getSupportedBarCodeTypes() {
-//      try {
-//        return passarelaDeFirmaEnServidorEjb.getSupportedBarCodeTypes();
-//      } catch (I18NException e) {
-//        log.error(
-//            " Error cridant a passarelaDeFirmaWebEjb.getSupportedBarCodeTypes(): "
-//                + e.getMessage(), e);
-//        return null;
-//      }
-//    }
-//
-//    /**
-//     * @return true true indica que el plugin accepta generadors de Segell de Temps definits
-//     *         dins FileInfoSignature.timeStampGenerator
-//     */
-//    @Override
-//    public boolean acceptExternalTimeStampGenerator(String signType) {
-//      return false;
-//    }
-//
-//    /**
-//     * 
-//     * @return true, indica que el plugin internament ofereix un generador de segellat de
-//     *         temps.
-//     */
-//    @Override
-//    public boolean providesTimeStampGenerator(String signType) {
-//
-//      // S'ha de fer una cridada a PortaFIB per a que passi per tots
-//      // els plugins a veure si suporten estampació de segellat de temps per
-//      // aquest tipus
-//      try {
-//        return passarelaDeFirmaEnServidorEjb.providesTimeStampGenerator(signType, entitatID,
-//            getFilterByPluginIDList(), null);
-//      } catch (Exception e) {
-//        log.error(e.getMessage(), e);
-//      }
-//
-//      return false;
-//
-//    }
-//
-//    @Override
-//    public boolean acceptExternalRubricGenerator() {
-//      return false;
-//    }
-//
-//    @Override
-//    public boolean providesRubricGenerator() {
-//      return true;
-//    }
-//
-//    @Override
-//    public boolean acceptExternalSecureVerificationCodeStamper() {
-//      return false;
-//    }
-//
-//    @Override
-//    public boolean providesSecureVerificationCodeStamper() {
-//      return true;
-//    }
-//  }
 
 }

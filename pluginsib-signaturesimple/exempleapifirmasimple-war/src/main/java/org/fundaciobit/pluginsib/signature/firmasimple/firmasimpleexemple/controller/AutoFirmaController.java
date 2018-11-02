@@ -86,6 +86,12 @@ public class AutoFirmaController {
     request.removeAttribute("peticions");
 
     AutoFirmaForm form = new AutoFirmaForm();
+    
+    ApiFirmaWebSimple apiWeb = ApiFirmaWebCache.getApiFirmaWebSimple();
+    form.setProfilesWeb(apiWeb.getAvailableProfiles("ca").getAvailableProfiles());
+    ApiFirmaEnServidorSimple apiServidor = ApiFirmaEnServidorCache.getApiFirmaEnServidorSimple();
+    form.setProfilesServer(apiServidor.getAvailableProfiles("ca").getAvailableProfiles());
+
     final String txt = "Per petició de firma pròpia";
     // form.setTitol(txt);
     // form.setDescripcio(txt);
@@ -102,6 +108,9 @@ public class AutoFirmaController {
     String location = new String(ptext, "UTF-8");
     
     form.setLocation(location);
+    
+    
+    
 
     ModelAndView mav = new ModelAndView("autoFirmaForm");
     mav.addObject(form);
@@ -156,7 +165,8 @@ public class AutoFirmaController {
       final String langDoc = form.getLangDoc();
 
       FirmaSimpleCommonInfo commonInfoSignature;
-      commonInfoSignature = new FirmaSimpleCommonInfo(langUI, username, administrationID);
+      commonInfoSignature = new FirmaSimpleCommonInfo(esWeb?form.getProfileWeb():form.getProfileServer(),
+          langUI, username, administrationID);
       
       
       if (esWeb) {

@@ -1,6 +1,7 @@
 package org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1;
 
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
@@ -29,6 +30,8 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
   public static final String SIGNATURERESULT = "getSignatureResult";
 
   public static final String CLOSETRANSACTION = "closeTransaction";
+  
+  public static final String AVAILABLEPROFILES = "getAvailableProfiles";
 
   /**
    * @param endPointBase
@@ -55,7 +58,7 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
    */
   public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws Exception {
 
-    ClientResponse response = commonCall(commonInfo, ApiFirmaWebSimple.GETTRANSACTIONID);
+    ClientResponse response = commonCall(commonInfo, GETTRANSACTIONID);
 
     String result = response.getEntity(String.class);
 
@@ -71,7 +74,7 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
    */
   public void addFileToSign(FirmaSimpleAddFileToSignRequest fileInfoSignatureHolder) throws Exception {
 
-    commonCall(fileInfoSignatureHolder, ApiFirmaWebSimple.ADDFILETOSIGN);
+    commonCall(fileInfoSignatureHolder, ADDFILETOSIGN);
 
   }
   
@@ -84,7 +87,7 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
    */
   public String startTransaction(FirmaSimpleStartTransactionRequest startTransactionInfo) throws Exception {
 
-    ClientResponse response = commonCall(startTransactionInfo, ApiFirmaWebSimple.STARTTRANSACTION);
+    ClientResponse response = commonCall(startTransactionInfo, STARTTRANSACTION);
 
     String result = response.getEntity(String.class);
 
@@ -104,7 +107,7 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
   public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(String transactionID)
       throws Exception {
 
-    ClientResponse response = commonCall(transactionID, ApiFirmaWebSimple.TRANSACTIONSTATUS);
+    ClientResponse response = commonCall(transactionID, TRANSACTIONSTATUS);
 
     FirmaSimpleGetTransactionStatusResponse result = response.getEntity(FirmaSimpleGetTransactionStatusResponse.class);
 
@@ -121,7 +124,7 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
   public FirmaSimpleSignatureResult getSignatureResult(FirmaSimpleGetSignatureResultRequest transactionID)
       throws Exception {
 
-    ClientResponse response = commonCall(transactionID, ApiFirmaWebSimple.SIGNATURERESULT);
+    ClientResponse response = commonCall(transactionID, SIGNATURERESULT);
 
     FirmaSimpleSignatureResult result = response.getEntity(FirmaSimpleSignatureResult.class);
 
@@ -136,8 +139,22 @@ public class ApiFirmaWebSimple extends AbstractApiFirmaSimple {
    */
   public void closeTransaction(String transactionID) throws Exception {
 
-    commonCall(transactionID, ApiFirmaWebSimple.CLOSETRANSACTION);
+    commonCall(transactionID, CLOSETRANSACTION);
 
+  }
+  
+  /**
+   * 
+   * @return
+   * @throws Exception
+   */
+  public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception {
+    
+    ClientResponse response = commonCall(locale, AVAILABLEPROFILES);
+
+    FirmaSimpleAvailableProfiles result = response.getEntity(FirmaSimpleAvailableProfiles.class);
+
+    return result;
   }
 
 }

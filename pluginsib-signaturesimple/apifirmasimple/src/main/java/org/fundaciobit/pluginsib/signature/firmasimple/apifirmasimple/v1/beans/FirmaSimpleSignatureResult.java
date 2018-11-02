@@ -17,9 +17,7 @@ public class FirmaSimpleSignatureResult {
 
   protected FirmaSimpleFile signedFile;
 
-  protected java.lang.String custodyFileID;
-
-  protected java.lang.String custodyFileURL;
+  protected FirmaSimpleSignedFileInfo signedFileInfo;
 
   /**
    * 
@@ -28,19 +26,14 @@ public class FirmaSimpleSignatureResult {
     super();
   }
 
-  
-  
   public FirmaSimpleSignatureResult(String signID, FirmaSimpleStatus status,
-      FirmaSimpleFile signedFile, String custodyFileID, String custodyFileURL) {
+      FirmaSimpleFile signedFile, FirmaSimpleSignedFileInfo signedFileInfo) {
     super();
     this.signID = signID;
     this.status = status;
     this.signedFile = signedFile;
-    this.custodyFileID = custodyFileID;
-    this.custodyFileURL = custodyFileURL;
+    this.signedFileInfo = signedFileInfo;
   }
-
-
 
   public FirmaSimpleFile getSignedFile() {
     return signedFile;
@@ -66,20 +59,12 @@ public class FirmaSimpleSignatureResult {
     this.status = status;
   }
 
-  public java.lang.String getCustodyFileURL() {
-    return custodyFileURL;
+  public FirmaSimpleSignedFileInfo getSignedFileInfo() {
+    return signedFileInfo;
   }
 
-  public void setCustodyFileURL(java.lang.String custodyFileURL) {
-    this.custodyFileURL = custodyFileURL;
-  }
-
-  public java.lang.String getCustodyFileID() {
-    return custodyFileID;
-  }
-
-  public void setCustodyFileID(java.lang.String custodyFileID) {
-    this.custodyFileID = custodyFileID;
+  public void setSignedFileInfo(FirmaSimpleSignedFileInfo signedFileInfo) {
+    this.signedFileInfo = signedFileInfo;
   }
 
 }

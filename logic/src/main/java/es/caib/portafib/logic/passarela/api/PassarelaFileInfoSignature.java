@@ -41,7 +41,7 @@ public class PassarelaFileInfoSignature {
   protected int signNumber;
 
   protected String languageSign;
-  
+
   protected int signOperation;
 
   protected String signType;
@@ -82,7 +82,6 @@ public class PassarelaFileInfoSignature {
     super();
   }
 
-  
   /**
    * 
    * @param fileToSign
@@ -113,13 +112,13 @@ public class PassarelaFileInfoSignature {
   public PassarelaFileInfoSignature(FitxerBean fileToSign,
       FitxerBean previusSignatureDetachedFile, String signID, String name, String reason,
       String location, String signerEmail, int signNumber, String languageSign,
-      int signOperation,
-      String signType, String signAlgorithm, int signMode, int signaturesTableLocation,
-      PassarelaSignaturesTableHeader signaturesTableHeader,
+      int signOperation, String signType, String signAlgorithm, int signMode,
+      int signaturesTableLocation, PassarelaSignaturesTableHeader signaturesTableHeader,
       PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
       boolean useTimeStamp, String expedientCodi, String expedientNom, String expedientUrl,
       String procedimentCodi, String procedimentNom,
-      List<PassarelaKeyValue> additionalInformation) { // XYZ ZZZ , CustodiaInfoBean custodiaInfo) {
+      List<PassarelaKeyValue> additionalInformation) { // XYZ ZZZ , CustodiaInfoBean
+                                                       // custodiaInfo) {
     super();
     this.fileToSign = fileToSign;
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
@@ -146,8 +145,6 @@ public class PassarelaFileInfoSignature {
     this.additionalInformation = additionalInformation;
     // XYZ ZZZ this.custodiaInfo = custodiaInfo;
   }
-
-
 
   /**
    * @param fileToSign
@@ -313,15 +310,13 @@ public class PassarelaFileInfoSignature {
   public void setUseTimeStamp(boolean useTimeStamp) {
     this.useTimeStamp = useTimeStamp;
   }
-/* XYZ ZZZ
-  public CustodiaInfoBean getCustodiaInfo() {
-    return custodiaInfo;
-  }
 
-  public void setCustodiaInfo(CustodiaInfoBean custodiaInfo) {
-    this.custodiaInfo = custodiaInfo;
-  }
-*/
+  /*
+   * XYZ ZZZ public CustodiaInfoBean getCustodiaInfo() { return custodiaInfo; }
+   * 
+   * public void setCustodiaInfo(CustodiaInfoBean custodiaInfo) { this.custodiaInfo =
+   * custodiaInfo; }
+   */
   public FitxerBean getPreviusSignatureDetachedFile() {
     return previusSignatureDetachedFile;
   }
@@ -376,6 +371,14 @@ public class PassarelaFileInfoSignature {
 
   public void setAdditionalInformation(List<PassarelaKeyValue> additionalInformation) {
     this.additionalInformation = additionalInformation;
+  }
+
+  public int getSignOperation() {
+    return signOperation;
+  }
+
+  public void setSignOperation(int signOperation) {
+    this.signOperation = signOperation;
   }
 
 }

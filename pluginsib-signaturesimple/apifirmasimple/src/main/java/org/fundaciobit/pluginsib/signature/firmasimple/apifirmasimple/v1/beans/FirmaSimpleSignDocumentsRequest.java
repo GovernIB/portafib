@@ -2,7 +2,6 @@ package org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 /**
  * 
  * @author anadal
@@ -22,10 +21,6 @@ public class FirmaSimpleSignDocumentsRequest {
     super();
   }
 
-  /**
-   * @param commonInfo
-   * @param fileInfoSignatureArray
-   */
   public FirmaSimpleSignDocumentsRequest(FirmaSimpleCommonInfo commonInfo,
       FirmaSimpleFileInfoSignature[] fileInfoSignatureArray) {
     super();
@@ -48,5 +43,7 @@ public class FirmaSimpleSignDocumentsRequest {
   public void setCommonInfo(FirmaSimpleCommonInfo commonInfo) {
     this.commonInfo = commonInfo;
   }
+
+
 
 }

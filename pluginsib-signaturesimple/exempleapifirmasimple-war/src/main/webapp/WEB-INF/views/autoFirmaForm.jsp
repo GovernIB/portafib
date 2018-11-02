@@ -56,6 +56,18 @@
                         </tr>
 
                         <tr>
+                            <td><label>Perfils de Firma en Servidor</label></td>
+                            <td><form:errors path="profileServer"
+                                    cssClass="errorField alert alert-error" />
+                                <form:select path="profileServer">
+                                  <c:forEach items="${profilesServer}" var="profile"> 
+                                  <form:option value="${profile.name}">${profile.name} - ${profile.description}</form:option>
+                                  </c:forEach>
+                                </form:select>
+                             </td>
+                        </tr>
+
+                        <tr>
                             <td><label>Idioma UI &nbsp;(*)</label></td>
                             <td><form:errors path="langUI"
                                     cssClass="errorField alert alert-error" /> <form:select
