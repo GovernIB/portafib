@@ -364,7 +364,7 @@ create index pfi_plugcrida_retorfitxer_fk_i on pfi_plugincridada (retornfitxerid
 
  
 -- ======================================================================
--- 2018/11/02 Neteja de taules de BBDD #199
+-- 2018/11/08 Neteja de taules de BBDD #199
 -- ======================================================================
 
 ALTER TABLE pfi_usuariaplicacioconfig DROP CONSTRAINT pfi_confapp_tipusfirma_fk;

@@ -54,7 +54,7 @@ INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) V
 
 
 -- ======================================================================
--- 2018/11/02 Neteja de taules de BBDD #199
+-- 2018/11/08 Neteja de taules de BBDD #199
 -- ======================================================================
 
 UPDATE pfi_peticiodefirma SET prioritatid=3 WHERE prioritatid <3;
