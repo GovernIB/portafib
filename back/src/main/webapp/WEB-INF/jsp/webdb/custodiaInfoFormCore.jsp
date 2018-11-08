@@ -199,11 +199,11 @@
           <form:errors path="custodiaInfo.missatgePosicioPaginaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.missatgePosicioPaginaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfPosicioPaginaForMissatgePosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.missatgePosicioPaginaID,__theForm.listOfValuesForMissatgePosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.MISSATGEPOSICIOPAGINAID)}" >
           <form:select id="custodiaInfo_missatgePosicioPaginaID"  onchange="if(typeof onChangeMissatgePosicioPaginaID == 'function') {  onChangeMissatgePosicioPaginaID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.missatgePosicioPaginaID">
-            <c:forEach items="${__theForm.listOfPosicioPaginaForMissatgePosicioPaginaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForMissatgePosicioPaginaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -253,11 +253,11 @@
           <form:errors path="custodiaInfo.codiBarresPosicioPaginaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
           <form:hidden path="custodiaInfo.codiBarresPosicioPaginaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfPosicioPaginaForCodiBarresPosicioPaginaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.custodiaInfo.codiBarresPosicioPaginaID,__theForm.listOfValuesForCodiBarresPosicioPaginaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CODIBARRESPOSICIOPAGINAID)}" >
           <form:select id="custodiaInfo_codiBarresPosicioPaginaID"  onchange="if(typeof onChangeCodiBarresPosicioPaginaID == 'function') {  onChangeCodiBarresPosicioPaginaID(this); };"  cssClass="input-xxlarge" path="custodiaInfo.codiBarresPosicioPaginaID">
-            <c:forEach items="${__theForm.listOfPosicioPaginaForCodiBarresPosicioPaginaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForCodiBarresPosicioPaginaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

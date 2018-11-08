@@ -412,21 +412,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
     this.plugin = plugin;
   }
 
-// IMP Field:posiciopaginaid | Table: pfi_posiciopagina | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_custodia_pospagina_msg_fk")
-	@JoinColumn(name = "missatgeposiciopaginaid", referencedColumnName ="posicioPaginaID", nullable = false, insertable=false, updatable=false)
-	private PosicioPaginaJPA missatgePosicioPagina;
-
-	public PosicioPaginaJPA getMissatgePosicioPagina() {
-    return this.missatgePosicioPagina;
-  }
-
-	public  void setMissatgePosicioPagina(PosicioPaginaJPA missatgePosicioPagina) {
-    this.missatgePosicioPagina = missatgePosicioPagina;
-  }
-
 // IMP Field:codibarresid | Table: pfi_codibarres | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -440,21 +425,6 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 
 	public  void setCodiBarres(CodiBarresJPA codiBarres) {
     this.codiBarres = codiBarres;
-  }
-
-// IMP Field:posiciopaginaid | Table: pfi_posiciopagina | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_custodia_pospagina_bar_fk")
-	@JoinColumn(name = "codibarresposiciopaginaid", referencedColumnName ="posicioPaginaID", nullable = false, insertable=false, updatable=false)
-	private PosicioPaginaJPA codiBarresPosicioPagina;
-
-	public PosicioPaginaJPA getCodiBarresPosicioPagina() {
-    return this.codiBarresPosicioPagina;
-  }
-
-	public  void setCodiBarresPosicioPagina(PosicioPaginaJPA codiBarresPosicioPagina) {
-    this.codiBarresPosicioPagina = codiBarresPosicioPagina;
   }
 
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
@@ -572,17 +542,9 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
       __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
     }
-    if(!"PosicioPaginaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarresPosicioPagina) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarresPosicioPagina()) ) ) {
-      __tmp.setCodiBarresPosicioPagina(PosicioPaginaJPA.copyJPA(__jpa.getCodiBarresPosicioPagina(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
     if(!"EntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
       __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
-    if(!"PosicioPaginaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.missatgePosicioPagina) || org.hibernate.Hibernate.isInitialized(__jpa.getMissatgePosicioPagina()) ) ) {
-      __tmp.setMissatgePosicioPagina(PosicioPaginaJPA.copyJPA(__jpa.getMissatgePosicioPagina(), __alreadyCopied,"CustodiaInfoJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {

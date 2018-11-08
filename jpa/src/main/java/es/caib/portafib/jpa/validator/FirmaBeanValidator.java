@@ -21,8 +21,6 @@ public class FirmaBeanValidator
 
   protected final es.caib.portafib.model.dao.IFirmaManager __firmaManager;
 
-  protected final es.caib.portafib.model.dao.ITipusEstatDeFirmaFinalManager __tipusEstatDeFirmaFinalManager;
-
   protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
 
 
@@ -31,11 +29,9 @@ public class FirmaBeanValidator
 
   public FirmaBeanValidator(es.caib.portafib.model.dao.IBlocDeFirmesManager __blocDeFirmesManager,
      es.caib.portafib.model.dao.IFirmaManager __firmaManager,
-     es.caib.portafib.model.dao.ITipusEstatDeFirmaFinalManager __tipusEstatDeFirmaFinalManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) { 
     this.__blocDeFirmesManager = __blocDeFirmesManager;
     this.__firmaManager = __firmaManager;
-    this.__tipusEstatDeFirmaFinalManager = __tipusEstatDeFirmaFinalManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     _validator = new FirmaValidator<FirmaJPA>();
   }
@@ -43,11 +39,9 @@ public class FirmaBeanValidator
   public FirmaBeanValidator(FirmaValidator<FirmaJPA> _validator,
      es.caib.portafib.model.dao.IBlocDeFirmesManager __blocDeFirmesManager,
      es.caib.portafib.model.dao.IFirmaManager __firmaManager,
-     es.caib.portafib.model.dao.ITipusEstatDeFirmaFinalManager __tipusEstatDeFirmaFinalManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     this.__blocDeFirmesManager = __blocDeFirmesManager;
     this.__firmaManager = __firmaManager;
-    this.__tipusEstatDeFirmaFinalManager = __tipusEstatDeFirmaFinalManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this._validator = _validator;
   }
@@ -55,7 +49,7 @@ public class FirmaBeanValidator
   @Override
   public List<I18NFieldError> validate(FirmaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<FirmaJPA> _bvr_ = new BeanValidatorResult<FirmaJPA>();
-    _validator.validate(_bvr_, target, isNou, __blocDeFirmesManager, __firmaManager, __tipusEstatDeFirmaFinalManager, __usuariEntitatManager);
+    _validator.validate(_bvr_, target, isNou, __blocDeFirmesManager, __firmaManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

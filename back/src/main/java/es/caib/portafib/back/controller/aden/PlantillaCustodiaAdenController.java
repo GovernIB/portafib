@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import es.caib.portafib.back.controller.soli.CustodiaInfoSoliController;
 import es.caib.portafib.back.controller.webdb.CustodiaInfoController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
@@ -245,4 +246,18 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
              ));
   }
 
+  
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForMissatgePosicioPaginaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+    return CustodiaInfoSoliController.internalReferenceListForPosicioPagina();
+  }
+  
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForCodiBarresPosicioPaginaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   return CustodiaInfoSoliController.internalReferenceListForPosicioPagina();
+  }
 }

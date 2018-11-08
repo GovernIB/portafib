@@ -20,9 +20,9 @@ public class CustodiaInfoForm extends PortaFIBBaseForm {
     super(__toClone);
       this.custodiaInfo = __toClone.custodiaInfo;
     this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
-    this.listOfPosicioPaginaForMissatgePosicioPaginaID = __toClone.listOfPosicioPaginaForMissatgePosicioPaginaID;
+    this.listOfValuesForMissatgePosicioPaginaID = __toClone.listOfValuesForMissatgePosicioPaginaID;
     this.listOfCodiBarresForCodiBarresID = __toClone.listOfCodiBarresForCodiBarresID;
-    this.listOfPosicioPaginaForCodiBarresPosicioPaginaID = __toClone.listOfPosicioPaginaForCodiBarresPosicioPaginaID;
+    this.listOfValuesForCodiBarresPosicioPaginaID = __toClone.listOfValuesForCodiBarresPosicioPaginaID;
     this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
@@ -53,14 +53,14 @@ public class CustodiaInfoForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfPosicioPaginaForMissatgePosicioPaginaID;
+  private List<StringKeyValue> listOfValuesForMissatgePosicioPaginaID;
 
-  public List<StringKeyValue> getListOfPosicioPaginaForMissatgePosicioPaginaID() {
-    return this.listOfPosicioPaginaForMissatgePosicioPaginaID;
+  public List<StringKeyValue> getListOfValuesForMissatgePosicioPaginaID() {
+    return this.listOfValuesForMissatgePosicioPaginaID;
   }
 
-  public void setListOfPosicioPaginaForMissatgePosicioPaginaID(List<StringKeyValue> listOfPosicioPaginaForMissatgePosicioPaginaID) {
-    this.listOfPosicioPaginaForMissatgePosicioPaginaID = listOfPosicioPaginaForMissatgePosicioPaginaID;
+  public void setListOfValuesForMissatgePosicioPaginaID(List<StringKeyValue> listOfValuesForMissatgePosicioPaginaID) {
+    this.listOfValuesForMissatgePosicioPaginaID = listOfValuesForMissatgePosicioPaginaID;
   }
 
 
@@ -77,14 +77,14 @@ public class CustodiaInfoForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  private List<StringKeyValue> listOfValuesForCodiBarresPosicioPaginaID;
 
-  public List<StringKeyValue> getListOfPosicioPaginaForCodiBarresPosicioPaginaID() {
-    return this.listOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  public List<StringKeyValue> getListOfValuesForCodiBarresPosicioPaginaID() {
+    return this.listOfValuesForCodiBarresPosicioPaginaID;
   }
 
-  public void setListOfPosicioPaginaForCodiBarresPosicioPaginaID(List<StringKeyValue> listOfPosicioPaginaForCodiBarresPosicioPaginaID) {
-    this.listOfPosicioPaginaForCodiBarresPosicioPaginaID = listOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  public void setListOfValuesForCodiBarresPosicioPaginaID(List<StringKeyValue> listOfValuesForCodiBarresPosicioPaginaID) {
+    this.listOfValuesForCodiBarresPosicioPaginaID = listOfValuesForCodiBarresPosicioPaginaID;
   }
 
 

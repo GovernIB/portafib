@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -15,6 +16,7 @@ import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,7 +29,6 @@ import es.caib.portafib.back.controller.webdb.CustodiaInfoController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
-import es.caib.portafib.back.reflist.PosicioPaginaTraduibleRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -66,9 +67,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
 
   @PostConstruct
   public void init() {
-    // Traduccions especials per Tipus de Documents
-    this.posicioPaginaRefList = new PosicioPaginaTraduibleRefList(this.posicioPaginaRefList);
-    
+
     // Configura com es mostra l'usuari aplicació
     this.usuariAplicacioRefList = new UsuariAplicacioRefList(
         usuariAplicacioRefList);
@@ -324,5 +323,27 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
 
   }
   
+  
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForMissatgePosicioPaginaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+    return internalReferenceListForPosicioPagina();
+  }
+  
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForCodiBarresPosicioPaginaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   return internalReferenceListForPosicioPagina();
+  }
+
+  public static List<StringKeyValue> internalReferenceListForPosicioPagina() {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+     for (int i = 0; i < 5; i++) {
+       __tmp.add(new StringKeyValue(String.valueOf(i) , I18NUtils.tradueix("posiciopagina." + i)));
+     }
+     return __tmp;
+  }
 
 }

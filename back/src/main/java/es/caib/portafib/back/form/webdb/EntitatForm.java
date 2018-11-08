@@ -44,7 +44,7 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfTraduccioForMotiuDelegacioID = __toClone.listOfTraduccioForMotiuDelegacioID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
     this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
@@ -196,14 +196,14 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  private List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID;
 
-  public List<StringKeyValue> getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public List<StringKeyValue> getListOfValuesForAlgorismeDeFirmaID() {
+    return this.listOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
+    this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
   }
 
 

@@ -107,7 +107,6 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.TipusFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
@@ -837,6 +836,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setTitol(nomPeticio);
       peticioDeFirma.setDescripcio(nomPeticio);
+      
+      peticioDeFirma.setPrioritatID(PRIORITAT_BAIXA);
 
       peticioDeFirma.setTipusEstatPeticioDeFirmaID(TIPUSESTATPETICIODEFIRMA_NOINICIAT); // NO_INICIAT
       // Data caducitat = 1 mes
@@ -1122,13 +1123,20 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
   }
   
-
+  // #199
   @Override
   public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
-      ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
-    final Where suportats = TipusFirmaFields.SUPORTADA.equal(true);
-    return super.getReferenceListForTipusFirmaID(request, mav, 
-        peticioDeFirmaForm, Where.AND(where, suportats));
+      ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)
+      throws I18NException {
+
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+
+    for (int tipus : TIPUSFIRMA_SUPPORTED) {
+      __tmp.add(new StringKeyValue(String.valueOf(tipus), I18NUtils.tradueix("tipusfirma."
+          + tipus)));
+    }
+    return __tmp;
+
   }
   
   

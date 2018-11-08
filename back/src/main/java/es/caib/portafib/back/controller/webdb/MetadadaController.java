@@ -63,10 +63,6 @@ public class MetadadaController
   @Autowired
   protected PeticioDeFirmaRefList peticioDeFirmaRefList;
 
-  // References 
-  @Autowired
-  protected TipusMetadadaRefList tipusMetadadaRefList;
-
   /**
    * Llistat de totes Metadada
    */
@@ -201,7 +197,7 @@ public class MetadadaController
     {
       _listSKV = getReferenceListForTipusMetadadaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfTipusMetadadaForTipusMetadadaID(_tmp);
+      filterForm.setMapOfValuesForTipusMetadadaID(_tmp);
       if (filterForm.getGroupByFields().contains(TIPUSMETADADAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSMETADADAID, false);
       };
@@ -223,7 +219,7 @@ public class MetadadaController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(PETICIODEFIRMAID, filterForm.getMapOfPeticioDeFirmaForPeticioDeFirmaID());
-    __mapping.put(TIPUSMETADADAID, filterForm.getMapOfTipusMetadadaForTipusMetadadaID());
+    __mapping.put(TIPUSMETADADAID, filterForm.getMapOfValuesForTipusMetadadaID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -279,11 +275,11 @@ public class MetadadaController
       metadadaForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (metadadaForm.getListOfTipusMetadadaForTipusMetadadaID() == null) {
+    if (metadadaForm.getListOfValuesForTipusMetadadaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusMetadadaID(request, mav, metadadaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      metadadaForm.setListOfTipusMetadadaForTipusMetadadaID(_listSKV);
+      metadadaForm.setListOfValuesForTipusMetadadaID(_listSKV);
     }
     
   }
@@ -630,11 +626,7 @@ public java.lang.Long stringToPK(String value) {
     if (metadadaForm.isHiddenField(TIPUSMETADADAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (metadadaForm.isReadOnlyField(TIPUSMETADADAID)) {
-      _where = TipusMetadadaFields.TIPUSMETADADAID.equal(metadadaForm.getMetadada().getTipusMetadadaID());
-    }
-    return getReferenceListForTipusMetadadaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForTipusMetadadaID(request, mav, where);
   }
 
 
@@ -646,21 +638,20 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(TIPUSMETADADAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (Metadada _item : list) {
-        _pkList.add(_item.getTipusMetadadaID());
-        }
-        _w = TipusMetadadaFields.TIPUSMETADADAID.in(_pkList);
-      }
     return getReferenceListForTipusMetadadaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForTipusMetadadaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return tipusMetadadaRefList.getReferenceList(TipusMetadadaFields.TIPUSMETADADAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    return __tmp;
   }
 
 

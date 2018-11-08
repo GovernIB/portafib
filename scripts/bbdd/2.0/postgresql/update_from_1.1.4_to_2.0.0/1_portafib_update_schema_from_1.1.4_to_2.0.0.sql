@@ -362,4 +362,45 @@ create index pfi_plugcrida_retorfitxer_fk_i on pfi_plugincridada (retornfitxerid
  ALTER TABLE pfi_entitat ADD COLUMN uspoliticadefirma integer NOT NULL DEFAULT 0;
  COMMENT ON COLUMN pfi_entitat.uspoliticadefirma IS '-1=> usar politica de firma de l''entitat, 0 => no usar politica de firma,  1=> usar politica d''aquesta configuracio, 2 => L''usuari web o usuari-app elegeixen la politica de firma';
 
-    
+ 
+-- ======================================================================
+-- 2018/11/02 Neteja de taules de BBDD #199
+-- ======================================================================
+
+ALTER TABLE pfi_usuariaplicacioconfig DROP CONSTRAINT pfi_confapp_tipusfirma_fk;
+ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_tipusfirma_fk;
+DROP TABLE pfi_tipusfirma;
+
+ALTER TABLE pfi_metadada DROP CONSTRAINT pfi_metadada_tipmetada_fk;
+DROP TABLE pfi_tipusmetadada;
+
+ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_prioritat_fk;
+DROP TABLE pfi_prioritat;
+
+ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_algofirma_fk;
+ALTER TABLE pfi_entitat DROP CONSTRAINT pfi_entitat_algofirma_fk;
+ALTER TABLE pfi_usuariaplicacioconfig DROP CONSTRAINT pfi_confapp_algofirma_fk;
+DROP TABLE pfi_algorismedefirma;
+
+ALTER TABLE pfi_custodiainfo DROP CONSTRAINT pfi_custodia_pospagina_bar_fk;
+ALTER TABLE pfi_custodiainfo DROP CONSTRAINT pfi_custodia_pospagina_msg_fk;
+DROP TABLE pfi_posiciopagina;
+
+ALTER TABLE pfi_peticiodefirma DROP CONSTRAINT pfi_petifirma_estpetfirm_fk;
+DROP TABLE pfi_tipusestatpeticiodefirma;
+
+ALTER TABLE pfi_estatdefirma DROP CONSTRAINT pfi_estatfirma_estfirmini_fk;
+DROP TABLE pfi_tipusestatdefirmainicial;
+
+ALTER TABLE pfi_firma DROP CONSTRAINT pfi_firma_estfirmafi_fk;
+ALTER TABLE pfi_estatdefirma DROP CONSTRAINT pfi_estatfirma_estfirmafi_fk;
+DROP TABLE pfi_tipusestatdefirmafinal;
+
+
+
+
+
+
+
+
+ 

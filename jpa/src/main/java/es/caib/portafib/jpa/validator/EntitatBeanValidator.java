@@ -17,8 +17,6 @@ public class EntitatBeanValidator
 
 
   // EJB's
-  protected final es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager;
-
   protected final es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager;
 
   protected final es.caib.portafib.model.dao.IEntitatManager __entitatManager;
@@ -33,13 +31,11 @@ public class EntitatBeanValidator
   public final EntitatValidator<EntitatJPA> _validator;
 
 
-  public EntitatBeanValidator(es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
-     es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
+  public EntitatBeanValidator(es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) { 
-    this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
@@ -49,13 +45,11 @@ public class EntitatBeanValidator
   }
 
   public EntitatBeanValidator(EntitatValidator<EntitatJPA> _validator,
-     es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager,
      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
-    this.__algorismeDeFirmaManager = __algorismeDeFirmaManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
@@ -67,7 +61,7 @@ public class EntitatBeanValidator
   @Override
   public List<I18NFieldError> validate(EntitatJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<EntitatJPA> _bvr_ = new BeanValidatorResult<EntitatJPA>();
-    _validator.validate(_bvr_, target, isNou, __algorismeDeFirmaManager, __custodiaInfoManager, __entitatManager, __pluginManager, __traduccioManager, __usuariAplicacioManager);
+    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __pluginManager, __traduccioManager, __usuariAplicacioManager);
     return _bvr_.getErrors();
   }
 }

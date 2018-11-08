@@ -158,12 +158,4 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     });
   }
 
-  public TipusEstatDeFirmaFinalQueryPath TIPUSESTATDEFIRMAFINAL() {
-    return new TipusEstatDeFirmaFinalQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return FirmaQueryPath.this.getQueryPath() + "tipusEstatDeFirmaFinal" + ".";
-      }
-    });
-  }
-
 }

@@ -220,8 +220,8 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
     this.descripcio = __toClone.descripcio;
     this.mapOfFirmaForFirmaID = __toClone.mapOfFirmaForFirmaID;
     this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
-    this.mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID = __toClone.mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
-    this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = __toClone.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+    this.mapOfValuesForTipusEstatDeFirmaInicialID = __toClone.mapOfValuesForTipusEstatDeFirmaInicialID;
+    this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;
     this.mapOfColaboracioDelegacioForColaboracioDelegacioID = __toClone.mapOfColaboracioDelegacioForColaboracioDelegacioID;
   }
   
@@ -281,26 +281,26 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
 
 
 
-  private Map<String, String> mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  private Map<String, String> mapOfValuesForTipusEstatDeFirmaInicialID;
 
-  public Map<String, String> getMapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID() {
-    return this.mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  public Map<String, String> getMapOfValuesForTipusEstatDeFirmaInicialID() {
+    return this.mapOfValuesForTipusEstatDeFirmaInicialID;
   }
 
-  public void setMapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID(Map<String, String> mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID) {
-    this.mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID = mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  public void setMapOfValuesForTipusEstatDeFirmaInicialID(Map<String, String> mapOfValuesForTipusEstatDeFirmaInicialID) {
+    this.mapOfValuesForTipusEstatDeFirmaInicialID = mapOfValuesForTipusEstatDeFirmaInicialID;
   }
 
 
 
-  private Map<String, String> mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  private Map<String, String> mapOfValuesForTipusEstatDeFirmaFinalID;
 
-  public Map<String, String> getMapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID() {
-    return this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public Map<String, String> getMapOfValuesForTipusEstatDeFirmaFinalID() {
+    return this.mapOfValuesForTipusEstatDeFirmaFinalID;
   }
 
-  public void setMapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID(Map<String, String> mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID) {
-    this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public void setMapOfValuesForTipusEstatDeFirmaFinalID(Map<String, String> mapOfValuesForTipusEstatDeFirmaFinalID) {
+    this.mapOfValuesForTipusEstatDeFirmaFinalID = mapOfValuesForTipusEstatDeFirmaFinalID;
   }
 
 
@@ -325,8 +325,6 @@ public class EstatDeFirmaFilterForm extends PortaFIBBaseFilterForm implements Es
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(TIPUSESTATDEFIRMAINICIALID.javaName);
-   traduibles.add(TIPUSESTATDEFIRMAFINALID.javaName);
    };
 
 }

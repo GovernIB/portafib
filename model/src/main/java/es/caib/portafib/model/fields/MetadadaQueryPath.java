@@ -52,12 +52,4 @@ public class MetadadaQueryPath extends org.fundaciobit.genapp.common.query.Query
     });
   }
 
-  public TipusMetadadaQueryPath TIPUSMETADADA() {
-    return new TipusMetadadaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return MetadadaQueryPath.this.getQueryPath() + "tipusMetadada" + ".";
-      }
-    });
-  }
-
 }

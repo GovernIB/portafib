@@ -670,11 +670,11 @@
           <form:errors path="entitat.algorismeDeFirmaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
           <form:hidden path="entitat.algorismeDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.algorismeDeFirmaID,__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.algorismeDeFirmaID,__theForm.listOfValuesForAlgorismeDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.ALGORISMEDEFIRMAID)}" >
           <form:select id="entitat_algorismeDeFirmaID"  onchange="if(typeof onChangeAlgorismeDeFirmaID == 'function') {  onChangeAlgorismeDeFirmaID(this); };"  cssClass="input-xxlarge" path="entitat.algorismeDeFirmaID">
-            <c:forEach items="${__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForAlgorismeDeFirmaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

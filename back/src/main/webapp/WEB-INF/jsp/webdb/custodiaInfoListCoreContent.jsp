@@ -79,7 +79,7 @@
           <td>
           <c:set var="tmp">${custodiaInfo.missatgePosicioPaginaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPosicioPaginaForMissatgePosicioPaginaID[tmp]}
+          ${__theFilterForm.mapOfValuesForMissatgePosicioPaginaID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -95,7 +95,7 @@
           <td>
           <c:set var="tmp">${custodiaInfo.codiBarresPosicioPaginaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPosicioPaginaForCodiBarresPosicioPaginaID[tmp]}
+          ${__theFilterForm.mapOfValuesForCodiBarresPosicioPaginaID[tmp]}
           </c:if>
           </td>
         </c:if>

@@ -557,11 +557,11 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
-    this.mapOfTipusFirmaForTipusFirmaID = __toClone.mapOfTipusFirmaForTipusFirmaID;
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-    this.mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID = __toClone.mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+    this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
+    this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
+    this.mapOfValuesForTipusEstatPeticioDeFirmaID = __toClone.mapOfValuesForTipusEstatPeticioDeFirmaID;
     this.mapOfIdiomaForIdiomaID = __toClone.mapOfIdiomaForIdiomaID;
-    this.mapOfPrioritatForPrioritatID = __toClone.mapOfPrioritatForPrioritatID;
+    this.mapOfValuesForPrioritatID = __toClone.mapOfValuesForPrioritatID;
     this.mapOfFluxDeFirmesForFluxDeFirmesID = __toClone.mapOfFluxDeFirmesForFluxDeFirmesID;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
@@ -636,38 +636,38 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
 
 
-  private Map<String, String> mapOfTipusFirmaForTipusFirmaID;
+  private Map<String, String> mapOfValuesForTipusFirmaID;
 
-  public Map<String, String> getMapOfTipusFirmaForTipusFirmaID() {
-    return this.mapOfTipusFirmaForTipusFirmaID;
+  public Map<String, String> getMapOfValuesForTipusFirmaID() {
+    return this.mapOfValuesForTipusFirmaID;
   }
 
-  public void setMapOfTipusFirmaForTipusFirmaID(Map<String, String> mapOfTipusFirmaForTipusFirmaID) {
-    this.mapOfTipusFirmaForTipusFirmaID = mapOfTipusFirmaForTipusFirmaID;
-  }
-
-
-
-  private Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-
-  public Map<String, String> getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-  }
-
-  public void setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setMapOfValuesForTipusFirmaID(Map<String, String> mapOfValuesForTipusFirmaID) {
+    this.mapOfValuesForTipusFirmaID = mapOfValuesForTipusFirmaID;
   }
 
 
 
-  private Map<String, String> mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  private Map<String, String> mapOfValuesForAlgorismeDeFirmaID;
 
-  public Map<String, String> getMapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID() {
-    return this.mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  public Map<String, String> getMapOfValuesForAlgorismeDeFirmaID() {
+    return this.mapOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setMapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID(Map<String, String> mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID) {
-    this.mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID = mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
+    this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForTipusEstatPeticioDeFirmaID;
+
+  public Map<String, String> getMapOfValuesForTipusEstatPeticioDeFirmaID() {
+    return this.mapOfValuesForTipusEstatPeticioDeFirmaID;
+  }
+
+  public void setMapOfValuesForTipusEstatPeticioDeFirmaID(Map<String, String> mapOfValuesForTipusEstatPeticioDeFirmaID) {
+    this.mapOfValuesForTipusEstatPeticioDeFirmaID = mapOfValuesForTipusEstatPeticioDeFirmaID;
   }
 
 
@@ -684,14 +684,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
 
 
-  private Map<String, String> mapOfPrioritatForPrioritatID;
+  private Map<String, String> mapOfValuesForPrioritatID;
 
-  public Map<String, String> getMapOfPrioritatForPrioritatID() {
-    return this.mapOfPrioritatForPrioritatID;
+  public Map<String, String> getMapOfValuesForPrioritatID() {
+    return this.mapOfValuesForPrioritatID;
   }
 
-  public void setMapOfPrioritatForPrioritatID(Map<String, String> mapOfPrioritatForPrioritatID) {
-    this.mapOfPrioritatForPrioritatID = mapOfPrioritatForPrioritatID;
+  public void setMapOfValuesForPrioritatID(Map<String, String> mapOfValuesForPrioritatID) {
+    this.mapOfValuesForPrioritatID = mapOfValuesForPrioritatID;
   }
 
 
@@ -752,8 +752,6 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(TIPUSESTATPETICIODEFIRMAID.javaName);
-   traduibles.add(PRIORITATID.javaName);
    };
 
 }

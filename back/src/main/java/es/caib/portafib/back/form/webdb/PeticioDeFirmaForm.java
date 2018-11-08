@@ -39,11 +39,11 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfTipusDocumentForTipusDocumentID = __toClone.listOfTipusDocumentForTipusDocumentID;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
-    this.listOfTipusFirmaForTipusFirmaID = __toClone.listOfTipusFirmaForTipusFirmaID;
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-    this.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID = __toClone.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+    this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
+    this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
+    this.listOfValuesForTipusEstatPeticioDeFirmaID = __toClone.listOfValuesForTipusEstatPeticioDeFirmaID;
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
-    this.listOfPrioritatForPrioritatID = __toClone.listOfPrioritatForPrioritatID;
+    this.listOfValuesForPrioritatID = __toClone.listOfValuesForPrioritatID;
     this.listOfFluxDeFirmesForFluxDeFirmesID = __toClone.listOfFluxDeFirmesForFluxDeFirmesID;
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
@@ -155,38 +155,38 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTipusFirmaForTipusFirmaID;
+  private List<StringKeyValue> listOfValuesForTipusFirmaID;
 
-  public List<StringKeyValue> getListOfTipusFirmaForTipusFirmaID() {
-    return this.listOfTipusFirmaForTipusFirmaID;
+  public List<StringKeyValue> getListOfValuesForTipusFirmaID() {
+    return this.listOfValuesForTipusFirmaID;
   }
 
-  public void setListOfTipusFirmaForTipusFirmaID(List<StringKeyValue> listOfTipusFirmaForTipusFirmaID) {
-    this.listOfTipusFirmaForTipusFirmaID = listOfTipusFirmaForTipusFirmaID;
-  }
-
-
-
-  private List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-
-  public List<StringKeyValue> getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
-  }
-
-  public void setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setListOfValuesForTipusFirmaID(List<StringKeyValue> listOfValuesForTipusFirmaID) {
+    this.listOfValuesForTipusFirmaID = listOfValuesForTipusFirmaID;
   }
 
 
 
-  private List<StringKeyValue> listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  private List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID;
 
-  public List<StringKeyValue> getListOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID() {
-    return this.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  public List<StringKeyValue> getListOfValuesForAlgorismeDeFirmaID() {
+    return this.listOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setListOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID(List<StringKeyValue> listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID) {
-    this.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID = listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID;
+  public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
+    this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForTipusEstatPeticioDeFirmaID;
+
+  public List<StringKeyValue> getListOfValuesForTipusEstatPeticioDeFirmaID() {
+    return this.listOfValuesForTipusEstatPeticioDeFirmaID;
+  }
+
+  public void setListOfValuesForTipusEstatPeticioDeFirmaID(List<StringKeyValue> listOfValuesForTipusEstatPeticioDeFirmaID) {
+    this.listOfValuesForTipusEstatPeticioDeFirmaID = listOfValuesForTipusEstatPeticioDeFirmaID;
   }
 
 
@@ -203,14 +203,14 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfPrioritatForPrioritatID;
+  private List<StringKeyValue> listOfValuesForPrioritatID;
 
-  public List<StringKeyValue> getListOfPrioritatForPrioritatID() {
-    return this.listOfPrioritatForPrioritatID;
+  public List<StringKeyValue> getListOfValuesForPrioritatID() {
+    return this.listOfValuesForPrioritatID;
   }
 
-  public void setListOfPrioritatForPrioritatID(List<StringKeyValue> listOfPrioritatForPrioritatID) {
-    this.listOfPrioritatForPrioritatID = listOfPrioritatForPrioritatID;
+  public void setListOfValuesForPrioritatID(List<StringKeyValue> listOfValuesForPrioritatID) {
+    this.listOfValuesForPrioritatID = listOfValuesForPrioritatID;
   }
 
 

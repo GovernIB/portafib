@@ -65,10 +65,6 @@ public class CustodiaInfoController
 
   // References 
   @Autowired
-  protected PosicioPaginaRefList posicioPaginaRefList;
-
-  // References 
-  @Autowired
   protected CodiBarresRefList codiBarresRefList;
 
   // References 
@@ -220,7 +216,7 @@ public class CustodiaInfoController
     {
       _listSKV = getReferenceListForMissatgePosicioPaginaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPosicioPaginaForMissatgePosicioPaginaID(_tmp);
+      filterForm.setMapOfValuesForMissatgePosicioPaginaID(_tmp);
       if (filterForm.getGroupByFields().contains(MISSATGEPOSICIOPAGINAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, MISSATGEPOSICIOPAGINAID, false);
       };
@@ -240,7 +236,7 @@ public class CustodiaInfoController
     {
       _listSKV = getReferenceListForCodiBarresPosicioPaginaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPosicioPaginaForCodiBarresPosicioPaginaID(_tmp);
+      filterForm.setMapOfValuesForCodiBarresPosicioPaginaID(_tmp);
       if (filterForm.getGroupByFields().contains(CODIBARRESPOSICIOPAGINAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, CODIBARRESPOSICIOPAGINAID, false);
       };
@@ -295,9 +291,9 @@ public class CustodiaInfoController
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
     __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
-    __mapping.put(MISSATGEPOSICIOPAGINAID, filterForm.getMapOfPosicioPaginaForMissatgePosicioPaginaID());
+    __mapping.put(MISSATGEPOSICIOPAGINAID, filterForm.getMapOfValuesForMissatgePosicioPaginaID());
     __mapping.put(CODIBARRESID, filterForm.getMapOfCodiBarresForCodiBarresID());
-    __mapping.put(CODIBARRESPOSICIOPAGINAID, filterForm.getMapOfPosicioPaginaForCodiBarresPosicioPaginaID());
+    __mapping.put(CODIBARRESPOSICIOPAGINAID, filterForm.getMapOfValuesForCodiBarresPosicioPaginaID());
     __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
     __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
     __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
@@ -356,11 +352,11 @@ public class CustodiaInfoController
       custodiaInfoForm.setListOfPluginForPluginID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (custodiaInfoForm.getListOfPosicioPaginaForMissatgePosicioPaginaID() == null) {
+    if (custodiaInfoForm.getListOfValuesForMissatgePosicioPaginaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForMissatgePosicioPaginaID(request, mav, custodiaInfoForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      custodiaInfoForm.setListOfPosicioPaginaForMissatgePosicioPaginaID(_listSKV);
+      custodiaInfoForm.setListOfValuesForMissatgePosicioPaginaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfCodiBarresForCodiBarresID() == null) {
@@ -370,11 +366,11 @@ public class CustodiaInfoController
       custodiaInfoForm.setListOfCodiBarresForCodiBarresID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (custodiaInfoForm.getListOfPosicioPaginaForCodiBarresPosicioPaginaID() == null) {
+    if (custodiaInfoForm.getListOfValuesForCodiBarresPosicioPaginaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForCodiBarresPosicioPaginaID(request, mav, custodiaInfoForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      custodiaInfoForm.setListOfPosicioPaginaForCodiBarresPosicioPaginaID(_listSKV);
+      custodiaInfoForm.setListOfValuesForCodiBarresPosicioPaginaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (custodiaInfoForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
@@ -742,11 +738,7 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(MISSATGEPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(MISSATGEPOSICIOPAGINAID)) {
-      _where = PosicioPaginaFields.POSICIOPAGINAID.equal(custodiaInfoForm.getCustodiaInfo().getMissatgePosicioPaginaID());
-    }
-    return getReferenceListForMissatgePosicioPaginaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForMissatgePosicioPaginaID(request, mav, where);
   }
 
 
@@ -758,21 +750,19 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(MISSATGEPOSICIOPAGINAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (CustodiaInfo _item : list) {
-        _pkList.add(_item.getMissatgePosicioPaginaID());
-        }
-        _w = PosicioPaginaFields.POSICIOPAGINAID.in(_pkList);
-      }
     return getReferenceListForMissatgePosicioPaginaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForMissatgePosicioPaginaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return posicioPaginaRefList.getReferenceList(PosicioPaginaFields.POSICIOPAGINAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    return __tmp;
   }
 
 
@@ -820,11 +810,7 @@ public java.lang.Long stringToPK(String value) {
     if (custodiaInfoForm.isHiddenField(CODIBARRESPOSICIOPAGINAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (custodiaInfoForm.isReadOnlyField(CODIBARRESPOSICIOPAGINAID)) {
-      _where = PosicioPaginaFields.POSICIOPAGINAID.equal(custodiaInfoForm.getCustodiaInfo().getCodiBarresPosicioPaginaID());
-    }
-    return getReferenceListForCodiBarresPosicioPaginaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForCodiBarresPosicioPaginaID(request, mav, where);
   }
 
 
@@ -836,21 +822,19 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(CODIBARRESPOSICIOPAGINAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (CustodiaInfo _item : list) {
-        _pkList.add(_item.getCodiBarresPosicioPaginaID());
-        }
-        _w = PosicioPaginaFields.POSICIOPAGINAID.in(_pkList);
-      }
     return getReferenceListForCodiBarresPosicioPaginaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForCodiBarresPosicioPaginaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return posicioPaginaRefList.getReferenceList(PosicioPaginaFields.POSICIOPAGINAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    return __tmp;
   }
 
 

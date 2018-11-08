@@ -509,8 +509,8 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
-    this.mapOfTipusFirmaForTipusFirmaID = __toClone.mapOfTipusFirmaForTipusFirmaID;
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
+    this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
     this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
@@ -591,26 +591,26 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
-  private Map<String, String> mapOfTipusFirmaForTipusFirmaID;
+  private Map<String, String> mapOfValuesForTipusFirmaID;
 
-  public Map<String, String> getMapOfTipusFirmaForTipusFirmaID() {
-    return this.mapOfTipusFirmaForTipusFirmaID;
+  public Map<String, String> getMapOfValuesForTipusFirmaID() {
+    return this.mapOfValuesForTipusFirmaID;
   }
 
-  public void setMapOfTipusFirmaForTipusFirmaID(Map<String, String> mapOfTipusFirmaForTipusFirmaID) {
-    this.mapOfTipusFirmaForTipusFirmaID = mapOfTipusFirmaForTipusFirmaID;
+  public void setMapOfValuesForTipusFirmaID(Map<String, String> mapOfValuesForTipusFirmaID) {
+    this.mapOfValuesForTipusFirmaID = mapOfValuesForTipusFirmaID;
   }
 
 
 
-  private Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  private Map<String, String> mapOfValuesForAlgorismeDeFirmaID;
 
-  public Map<String, String> getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public Map<String, String> getMapOfValuesForAlgorismeDeFirmaID() {
+    return this.mapOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
+    this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
   }
 
 

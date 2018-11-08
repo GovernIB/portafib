@@ -32,9 +32,6 @@ public class MetadadaWebValidator  implements Validator, MetadadaFields {
   @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusMetadadaEJB/local")
-  protected es.caib.portafib.ejb.TipusMetadadaLocal tipusMetadadaEjb;
-
 
 
   public MetadadaWebValidator() {
@@ -63,7 +60,7 @@ public class MetadadaWebValidator  implements Validator, MetadadaFields {
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, metadadaEjb, peticioDeFirmaEjb, tipusMetadadaEjb);
+      isNou, metadadaEjb, peticioDeFirmaEjb);
 
   } // Final de metode
 

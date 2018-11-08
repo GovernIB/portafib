@@ -706,51 +706,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     this.tipusDocument = tipusDocument;
   }
 
-// IMP Field:tipusfirmaid | Table: pfi_tipusfirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_petifirma_tipusfirma_fk")
-	@JoinColumn(name = "tipusfirmaid", referencedColumnName ="tipusFirmaID", nullable = false, insertable=false, updatable=false)
-	private TipusFirmaJPA tipusFirma;
-
-	public TipusFirmaJPA getTipusFirma() {
-    return this.tipusFirma;
-  }
-
-	public  void setTipusFirma(TipusFirmaJPA tipusFirma) {
-    this.tipusFirma = tipusFirma;
-  }
-
-// IMP Field:algorismedefirmaid | Table: pfi_algorismedefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_petifirma_algofirma_fk")
-	@JoinColumn(name = "algorismedefirmaid", referencedColumnName ="algorismeDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private AlgorismeDeFirmaJPA algorismeDeFirma;
-
-	public AlgorismeDeFirmaJPA getAlgorismeDeFirma() {
-    return this.algorismeDeFirma;
-  }
-
-	public  void setAlgorismeDeFirma(AlgorismeDeFirmaJPA algorismeDeFirma) {
-    this.algorismeDeFirma = algorismeDeFirma;
-  }
-
-// IMP Field:tipusestatpeticiodefirmaid | Table: pfi_tipusestatpeticiodefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_petifirma_estpetfirm_fk")
-	@JoinColumn(name = "tipusestatpeticiodefirmaid", referencedColumnName ="tipusEstatPeticioDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private TipusEstatPeticioDeFirmaJPA tipusEstatPeticioDeFirma;
-
-	public TipusEstatPeticioDeFirmaJPA getTipusEstatPeticioDeFirma() {
-    return this.tipusEstatPeticioDeFirma;
-  }
-
-	public  void setTipusEstatPeticioDeFirma(TipusEstatPeticioDeFirmaJPA tipusEstatPeticioDeFirma) {
-    this.tipusEstatPeticioDeFirma = tipusEstatPeticioDeFirma;
-  }
-
 // IMP Field:idiomaid | Table: pfi_idioma | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -764,21 +719,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 
 	public  void setIdioma(IdiomaJPA idioma) {
     this.idioma = idioma;
-  }
-
-// IMP Field:prioritatid | Table: pfi_prioritat | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_petifirma_prioritat_fk")
-	@JoinColumn(name = "prioritatid", referencedColumnName ="prioritatID", nullable = false, insertable=false, updatable=false)
-	private PrioritatJPA prioritat;
-
-	public PrioritatJPA getPrioritat() {
-    return this.prioritat;
-  }
-
-	public  void setPrioritat(PrioritatJPA prioritat) {
-    this.prioritat = prioritat;
   }
 
 // IMP Field:fluxdefirmesid | Table: pfi_fluxdefirmes | Type: 1  
@@ -960,14 +900,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusDocument) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusDocument()) ) ) {
       __tmp.setTipusDocument(TipusDocumentJPA.copyJPA(__jpa.getTipusDocument(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
-    if(!"TipusFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusFirma()) ) ) {
-      __tmp.setTipusFirma(TipusFirmaJPA.copyJPA(__jpa.getTipusFirma(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"PrioritatJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.prioritat) || org.hibernate.Hibernate.isInitialized(__jpa.getPrioritat()) ) ) {
-      __tmp.setPrioritat(PrioritatJPA.copyJPA(__jpa.getPrioritat(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
     if(!"CustodiaInfoJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfo) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfo()) ) ) {
       __tmp.setCustodiaInfo(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfo(), __alreadyCopied,"PeticioDeFirmaJPA"));
@@ -976,17 +908,9 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.fluxDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getFluxDeFirmes()) ) ) {
       __tmp.setFluxDeFirmes(FluxDeFirmesJPA.copyJPA(__jpa.getFluxDeFirmes(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
-    if(!"TipusEstatPeticioDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatPeticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatPeticioDeFirma()) ) ) {
-      __tmp.setTipusEstatPeticioDeFirma(TipusEstatPeticioDeFirmaJPA.copyJPA(__jpa.getTipusEstatPeticioDeFirma(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
     if(!"IdiomaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.idioma) || org.hibernate.Hibernate.isInitialized(__jpa.getIdioma()) ) ) {
       __tmp.setIdioma(IdiomaJPA.copyJPA(__jpa.getIdioma(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
-    if(!"AlgorismeDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.algorismeDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getAlgorismeDeFirma()) ) ) {
-      __tmp.setAlgorismeDeFirma(AlgorismeDeFirmaJPA.copyJPA(__jpa.getAlgorismeDeFirma(), __alreadyCopied,"PeticioDeFirmaJPA"));
     }
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {

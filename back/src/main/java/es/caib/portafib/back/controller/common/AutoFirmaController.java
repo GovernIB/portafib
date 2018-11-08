@@ -692,11 +692,11 @@ public class AutoFirmaController extends FitxerController
     
     int pos = filename.lastIndexOf('.');
     if (pos == -1) {
-      filename = filename + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma.firmat");
+      filename = filename + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma." + ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT);
     } else {
       
       filename = filename.substring(0, pos)
-          + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma.firmat")
+          + "_" + I18NUtils.tradueix("tipusestatpeticiodefirma." + ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT)
           + filename.substring(pos);
     }
     

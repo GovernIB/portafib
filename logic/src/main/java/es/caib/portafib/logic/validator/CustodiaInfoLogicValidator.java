@@ -23,7 +23,6 @@ public class CustodiaInfoLogicValidator<T> extends CustodiaInfoValidator<T> {
       ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
       ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
       ,es.caib.portafib.model.dao.IPluginManager __pluginManager
-      ,es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager
       ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
       ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     
@@ -31,7 +30,6 @@ public class CustodiaInfoLogicValidator<T> extends CustodiaInfoValidator<T> {
         , __custodiaInfoManager
         , __entitatManager
         ,__pluginManager
-        , __posicioPaginaManager
         , __usuariAplicacioManager
         , __usuariEntitatManager);
     

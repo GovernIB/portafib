@@ -25,28 +25,21 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
   
   @Override
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-      ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
       ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
       ,es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager
       ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
       ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
-      ,es.caib.portafib.model.dao.IPrioritatManager __prioritatManager
       ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
-      ,es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager
-      ,es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager
       ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
       ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     
     
-    super.validate(__vr, __target__, __isNou__,  __algorismeDeFirmaManager
+    super.validate(__vr, __target__, __isNou__
         ,__custodiaInfoManager
         ,__fluxDeFirmesManager
         ,__idiomaManager
         ,__peticioDeFirmaManager
-        ,__prioritatManager
         ,__tipusDocumentManager
-        ,__tipusEstatPeticioDeFirmaManager
-        ,__tipusFirmaManager
         ,__usuariAplicacioManager
         ,__usuariEntitatManager);
     

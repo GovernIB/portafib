@@ -154,21 +154,6 @@ private static final long serialVersionUID = 171659772L;
     this.peticioDeFirma = peticioDeFirma;
   }
 
-// IMP Field:tipusmetadadaid | Table: pfi_tipusmetadada | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_metadada_tipmetada_fk")
-	@JoinColumn(name = "tipusmetadadaid", referencedColumnName ="tipusMetadadaID", nullable = false, insertable=false, updatable=false)
-	private TipusMetadadaJPA tipusMetadada;
-
-	public TipusMetadadaJPA getTipusMetadada() {
-    return this.tipusMetadada;
-  }
-
-	public  void setTipusMetadada(TipusMetadadaJPA tipusMetadada) {
-    this.tipusMetadada = tipusMetadada;
-  }
-
 
  // ---------------  STATIC METHODS ------------------
   public static MetadadaJPA toJPA(Metadada __bean) {
@@ -213,10 +198,6 @@ private static final long serialVersionUID = 171659772L;
     if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
       __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"MetadadaJPA"));
-    }
-    if(!"TipusMetadadaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusMetadada) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusMetadada()) ) ) {
-      __tmp.setTipusMetadada(TipusMetadadaJPA.copyJPA(__jpa.getTipusMetadada(), __alreadyCopied,"MetadadaJPA"));
     }
 
     return __tmp;

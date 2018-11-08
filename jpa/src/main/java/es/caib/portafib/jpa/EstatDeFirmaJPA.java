@@ -217,36 +217,6 @@ private static final long serialVersionUID = 1766648722L;
     this.usuariEntitat = usuariEntitat;
   }
 
-// IMP Field:tipusestatdefirmainicialid | Table: pfi_tipusestatdefirmainicial | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_estatfirma_estfirmini_fk")
-	@JoinColumn(name = "tipusestatdefirmainicialid", referencedColumnName ="tipusEstatDeFirmaInicialID", nullable = false, insertable=false, updatable=false)
-	private TipusEstatDeFirmaInicialJPA tipusEstatDeFirmaInicial;
-
-	public TipusEstatDeFirmaInicialJPA getTipusEstatDeFirmaInicial() {
-    return this.tipusEstatDeFirmaInicial;
-  }
-
-	public  void setTipusEstatDeFirmaInicial(TipusEstatDeFirmaInicialJPA tipusEstatDeFirmaInicial) {
-    this.tipusEstatDeFirmaInicial = tipusEstatDeFirmaInicial;
-  }
-
-// IMP Field:tipusestatdefirmafinalid | Table: pfi_tipusestatdefirmafinal | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_estatfirma_estfirmafi_fk")
-	@JoinColumn(name = "tipusestatdefirmafinalid", referencedColumnName ="tipusEstatDeFirmaFinalID", nullable = true, insertable=false, updatable=false)
-	private TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal;
-
-	public TipusEstatDeFirmaFinalJPA getTipusEstatDeFirmaFinal() {
-    return this.tipusEstatDeFirmaFinal;
-  }
-
-	public  void setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal) {
-    this.tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinal;
-  }
-
 // IMP Field:colaboraciodelegacioid | Table: pfi_colaboraciodelegacio | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -306,10 +276,6 @@ private static final long serialVersionUID = 1766648722L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"TipusEstatDeFirmaFinalJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaFinal) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaFinal()) ) ) {
-      __tmp.setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA.copyJPA(__jpa.getTipusEstatDeFirmaFinal(), __alreadyCopied,"EstatDeFirmaJPA"));
-    }
     if(!"UsuariEntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
       __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"EstatDeFirmaJPA"));
@@ -317,10 +283,6 @@ private static final long serialVersionUID = 1766648722L;
     if(!"ColaboracioDelegacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.colaboracioDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getColaboracioDelegacio()) ) ) {
       __tmp.setColaboracioDelegacio(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacio(), __alreadyCopied,"EstatDeFirmaJPA"));
-    }
-    if(!"TipusEstatDeFirmaInicialJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaInicial) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaInicial()) ) ) {
-      __tmp.setTipusEstatDeFirmaInicial(TipusEstatDeFirmaInicialJPA.copyJPA(__jpa.getTipusEstatDeFirmaInicial(), __alreadyCopied,"EstatDeFirmaJPA"));
     }
     if(!"FirmaJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.firma) || org.hibernate.Hibernate.isInitialized(__jpa.getFirma()) ) ) {

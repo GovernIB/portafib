@@ -27,8 +27,8 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
     this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
-    this.listOfTipusFirmaForTipusFirmaID = __toClone.listOfTipusFirmaForTipusFirmaID;
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
+    this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
     this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
@@ -113,26 +113,26 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTipusFirmaForTipusFirmaID;
+  private List<StringKeyValue> listOfValuesForTipusFirmaID;
 
-  public List<StringKeyValue> getListOfTipusFirmaForTipusFirmaID() {
-    return this.listOfTipusFirmaForTipusFirmaID;
+  public List<StringKeyValue> getListOfValuesForTipusFirmaID() {
+    return this.listOfValuesForTipusFirmaID;
   }
 
-  public void setListOfTipusFirmaForTipusFirmaID(List<StringKeyValue> listOfTipusFirmaForTipusFirmaID) {
-    this.listOfTipusFirmaForTipusFirmaID = listOfTipusFirmaForTipusFirmaID;
+  public void setListOfValuesForTipusFirmaID(List<StringKeyValue> listOfValuesForTipusFirmaID) {
+    this.listOfValuesForTipusFirmaID = listOfValuesForTipusFirmaID;
   }
 
 
 
-  private List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  private List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID;
 
-  public List<StringKeyValue> getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public List<StringKeyValue> getListOfValuesForAlgorismeDeFirmaID() {
+    return this.listOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(List<StringKeyValue> listOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID = listOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
+    this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
   }
 
 

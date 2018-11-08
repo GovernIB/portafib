@@ -1,6 +1,5 @@
 package es.caib.portafib.logic.utils;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import org.junit.Test;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
-import es.caib.portafib.jpa.TipusFirmaJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.model.IPortaFIBDaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
@@ -42,11 +40,9 @@ import es.caib.portafib.model.dao.IEstatDeFirmaManager;
 import es.caib.portafib.model.dao.IFirmaManager;
 import es.caib.portafib.model.dao.IPeticioDeFirmaManager;
 import es.caib.portafib.model.dao.IPropietatGlobalManager;
-import es.caib.portafib.model.dao.ITipusFirmaManager;
 import es.caib.portafib.model.dao.IUsuariEntitatManager;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PropietatGlobal;
-import es.caib.portafib.model.entity.TipusFirma;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
 import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
@@ -758,7 +754,7 @@ public class TestJPA {
 
 
 
-
+/*
   @SuppressWarnings("unused")
   private void testTipusFirma(EntityManager em, ITipusFirmaManager tipusFirmaMan)
       throws I18NException, IOException {
@@ -790,4 +786,5 @@ public class TestJPA {
          + ( tipus.isSuportada()?"SI":"NO") + " SUPORTADA)");
     }
   }
+  */
 }

@@ -146,26 +146,10 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
     });
   }
 
-  public PosicioPaginaQueryPath MISSATGEPOSICIOPAGINA() {
-    return new PosicioPaginaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return CustodiaInfoQueryPath.this.getQueryPath() + "missatgePosicioPagina" + ".";
-      }
-    });
-  }
-
   public CodiBarresQueryPath CODIBARRES() {
     return new CodiBarresQueryPath(new QueryPath() {
       public String getQueryPath() {
           return CustodiaInfoQueryPath.this.getQueryPath() + "codiBarres" + ".";
-      }
-    });
-  }
-
-  public PosicioPaginaQueryPath CODIBARRESPOSICIOPAGINA() {
-    return new PosicioPaginaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return CustodiaInfoQueryPath.this.getQueryPath() + "codiBarresPosicioPagina" + ".";
       }
     });
   }

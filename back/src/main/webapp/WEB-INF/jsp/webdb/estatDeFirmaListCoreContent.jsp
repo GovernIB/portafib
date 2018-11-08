@@ -55,7 +55,7 @@
           <td>
           <c:set var="tmp">${estatDeFirma.tipusEstatDeFirmaInicialID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaInicialID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -63,7 +63,7 @@
           <td>
           <c:set var="tmp">${estatDeFirma.tipusEstatDeFirmaFinalID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaFinalID[tmp]}
           </c:if>
           </td>
         </c:if>

@@ -75,10 +75,6 @@ public class EntitatController
 
   // References 
   @Autowired
-  protected AlgorismeDeFirmaRefList algorismeDeFirmaRefList;
-
-  // References 
-  @Autowired
   protected CustodiaInfoRefList custodiaInfoRefList;
 
   // References 
@@ -252,7 +248,7 @@ public class EntitatController
     {
       _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_tmp);
+      filterForm.setMapOfValuesForAlgorismeDeFirmaID(_tmp);
       if (filterForm.getGroupByFields().contains(ALGORISMEDEFIRMAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, ALGORISMEDEFIRMAID, false);
       };
@@ -373,7 +369,7 @@ public class EntitatController
     __mapping.put(USPOLITICADEFIRMA, filterForm.getMapOfValuesForUsPoliticaDeFirma());
     __mapping.put(MOTIUDELEGACIOID, filterForm.getMapOfTraduccioForMotiuDelegacioID());
     __mapping.put(FIRMATPERFORMATID, filterForm.getMapOfTraduccioForFirmatPerFormatID());
-    __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
+    __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfValuesForAlgorismeDeFirmaID());
     __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
@@ -464,11 +460,11 @@ public class EntitatController
       entitatForm.setListOfValuesForUsPoliticaDeFirma(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (entitatForm.getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() == null) {
+    if (entitatForm.getListOfValuesForAlgorismeDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, entitatForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      entitatForm.setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_listSKV);
+      entitatForm.setListOfValuesForAlgorismeDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfValuesForPoliticaCustodia() == null) {
@@ -1041,11 +1037,7 @@ public java.lang.String stringToPK(String value) {
     if (entitatForm.isHiddenField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (entitatForm.isReadOnlyField(ALGORISMEDEFIRMAID)) {
-      _where = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(entitatForm.getEntitat().getAlgorismeDeFirmaID());
-    }
-    return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForAlgorismeDeFirmaID(request, mav, where);
   }
 
 
@@ -1057,21 +1049,18 @@ public java.lang.String stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(ALGORISMEDEFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (Entitat _item : list) {
-        _pkList.add(_item.getAlgorismeDeFirmaID());
-        }
-        _w = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.in(_pkList);
-      }
     return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return algorismeDeFirmaRefList.getReferenceList(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
   }
 
 

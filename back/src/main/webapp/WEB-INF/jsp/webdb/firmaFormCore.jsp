@@ -299,13 +299,13 @@
           <form:errors path="firma.tipusEstatDeFirmaFinalID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <form:hidden path="firma.tipusEstatDeFirmaFinalID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.firma.tipusEstatDeFirmaFinalID,__theForm.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.firma.tipusEstatDeFirmaFinalID,__theForm.listOfValuesForTipusEstatDeFirmaFinalID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.TIPUSESTATDEFIRMAFINALID)}" >
           <form:select id="firma_tipusEstatDeFirmaFinalID"  onchange="if(typeof onChangeTipusEstatDeFirmaFinalID == 'function') {  onChangeTipusEstatDeFirmaFinalID(this); };"  cssClass="input-xxlarge" path="firma.tipusEstatDeFirmaFinalID">
           <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
           <form:option value="" ></form:option>
-            <c:forEach items="${__theForm.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForTipusEstatDeFirmaFinalID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

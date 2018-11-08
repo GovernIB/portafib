@@ -412,11 +412,11 @@
           <form:errors path="peticioDeFirma.tipusFirmaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSFIRMAID)}" >
           <form:hidden path="peticioDeFirma.tipusFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusFirmaID,__theForm.listOfTipusFirmaForTipusFirmaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusFirmaID,__theForm.listOfValuesForTipusFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSFIRMAID)}" >
           <form:select id="peticioDeFirma_tipusFirmaID"  onchange="if(typeof onChangeTipusFirmaID == 'function') {  onChangeTipusFirmaID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.tipusFirmaID">
-            <c:forEach items="${__theForm.listOfTipusFirmaForTipusFirmaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForTipusFirmaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -439,11 +439,11 @@
           <form:errors path="peticioDeFirma.algorismeDeFirmaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.ALGORISMEDEFIRMAID)}" >
           <form:hidden path="peticioDeFirma.algorismeDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.algorismeDeFirmaID,__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.algorismeDeFirmaID,__theForm.listOfValuesForAlgorismeDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.ALGORISMEDEFIRMAID)}" >
           <form:select id="peticioDeFirma_algorismeDeFirmaID"  onchange="if(typeof onChangeAlgorismeDeFirmaID == 'function') {  onChangeAlgorismeDeFirmaID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.algorismeDeFirmaID">
-            <c:forEach items="${__theForm.listOfAlgorismeDeFirmaForAlgorismeDeFirmaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForAlgorismeDeFirmaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -490,11 +490,11 @@
           <form:errors path="peticioDeFirma.tipusEstatPeticioDeFirmaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}" >
           <form:hidden path="peticioDeFirma.tipusEstatPeticioDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusEstatPeticioDeFirmaID,__theForm.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.tipusEstatPeticioDeFirmaID,__theForm.listOfValuesForTipusEstatPeticioDeFirmaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID)}" >
           <form:select id="peticioDeFirma_tipusEstatPeticioDeFirmaID"  onchange="if(typeof onChangeTipusEstatPeticioDeFirmaID == 'function') {  onChangeTipusEstatPeticioDeFirmaID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.tipusEstatPeticioDeFirmaID">
-            <c:forEach items="${__theForm.listOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForTipusEstatPeticioDeFirmaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -569,11 +569,11 @@
           <form:errors path="peticioDeFirma.prioritatID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PRIORITATID)}" >
           <form:hidden path="peticioDeFirma.prioritatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.prioritatID,__theForm.listOfPrioritatForPrioritatID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.prioritatID,__theForm.listOfValuesForPrioritatID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.PRIORITATID)}" >
           <form:select id="peticioDeFirma_prioritatID"  onchange="if(typeof onChangePrioritatID == 'function') {  onChangePrioritatID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.prioritatID">
-            <c:forEach items="${__theForm.listOfPrioritatForPrioritatID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForPrioritatID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

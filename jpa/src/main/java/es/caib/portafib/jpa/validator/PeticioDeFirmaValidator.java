@@ -4,14 +4,10 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.IdiomaFields;
-import es.caib.portafib.model.fields.PrioritatFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
-import es.caib.portafib.model.fields.TipusEstatPeticioDeFirmaFields;
-import es.caib.portafib.model.fields.TipusFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
@@ -35,15 +31,11 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IFluxDeFirmesManager __fluxDeFirmesManager
     ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
     ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
-    ,es.caib.portafib.model.dao.IPrioritatManager __prioritatManager
     ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
-    ,es.caib.portafib.model.dao.ITipusEstatPeticioDeFirmaManager __tipusEstatPeticioDeFirmaManager
-    ,es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
@@ -296,42 +288,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
       }
     }
 
-    if (__vr.getFieldErrorCount(TIPUSFIRMAID) == 0) {
-      java.lang.Integer __tipusfirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,TIPUSFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __tipusFirmaManager.count(TipusFirmaFields.TIPUSFIRMAID.equal(__tipusfirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(TIPUSFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusFirma.tipusFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusFirma.tipusFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusfirmaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(ALGORISMEDEFIRMAID) == 0) {
-      java.lang.Integer __algorismedefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __algorismeDeFirmaManager.count(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(__algorismedefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(ALGORISMEDEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__algorismedefirmaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(TIPUSESTATPETICIODEFIRMAID) == 0) {
-      java.lang.Integer __tipusestatpeticiodefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,TIPUSESTATPETICIODEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __tipusEstatPeticioDeFirmaManager.count(TipusEstatPeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(__tipusestatpeticiodefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(TIPUSESTATPETICIODEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusestatpeticiodefirmaid)));
-      }
-    }
-
     if (__vr.getFieldErrorCount(IDIOMAID) == 0) {
       java.lang.String __idiomaid = (java.lang.String)__vr.getFieldValue(__target__,IDIOMAID);
       Long __count_ = null;
@@ -341,18 +297,6 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("idioma.idioma"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("idioma.idiomaID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__idiomaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(PRIORITATID) == 0) {
-      java.lang.Integer __prioritatid = (java.lang.Integer)__vr.getFieldValue(__target__,PRIORITATID);
-      Long __count_ = null;
-      try { __count_ = __prioritatManager.count(PrioritatFields.PRIORITATID.equal(__prioritatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(PRIORITATID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("prioritat.prioritat"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("prioritat.prioritatID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__prioritatid)));
       }
     }
 

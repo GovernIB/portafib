@@ -20,7 +20,7 @@ public class MetadadaForm extends PortaFIBBaseForm {
     super(__toClone);
       this.metadada = __toClone.metadada;
     this.listOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.listOfPeticioDeFirmaForPeticioDeFirmaID;
-    this.listOfTipusMetadadaForTipusMetadadaID = __toClone.listOfTipusMetadadaForTipusMetadadaID;
+    this.listOfValuesForTipusMetadadaID = __toClone.listOfValuesForTipusMetadadaID;
   }
   
   public MetadadaForm(MetadadaJPA metadada, boolean nou) {
@@ -48,14 +48,14 @@ public class MetadadaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTipusMetadadaForTipusMetadadaID;
+  private List<StringKeyValue> listOfValuesForTipusMetadadaID;
 
-  public List<StringKeyValue> getListOfTipusMetadadaForTipusMetadadaID() {
-    return this.listOfTipusMetadadaForTipusMetadadaID;
+  public List<StringKeyValue> getListOfValuesForTipusMetadadaID() {
+    return this.listOfValuesForTipusMetadadaID;
   }
 
-  public void setListOfTipusMetadadaForTipusMetadadaID(List<StringKeyValue> listOfTipusMetadadaForTipusMetadadaID) {
-    this.listOfTipusMetadadaForTipusMetadadaID = listOfTipusMetadadaForTipusMetadadaID;
+  public void setListOfValuesForTipusMetadadaID(List<StringKeyValue> listOfValuesForTipusMetadadaID) {
+    this.listOfValuesForTipusMetadadaID = listOfValuesForTipusMetadadaID;
   }
 
 

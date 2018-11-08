@@ -53,5 +53,13 @@ INSERT INTO pfi_tipusestatdefirmafinal(tipusestatdefirmafinalid, nom, descripcio
 INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (90, NULL, 'notificacioavis.requerit_per_revisar', true);
 
 
+-- ======================================================================
+-- 2018/11/02 Neteja de taules de BBDD #199
+-- ======================================================================
+
+UPDATE pfi_peticiodefirma SET prioritatid=3 WHERE prioritatid <3;
+UPDATE pfi_peticiodefirma SET prioritatid=7 WHERE prioritatid >7;
+
+
 
 

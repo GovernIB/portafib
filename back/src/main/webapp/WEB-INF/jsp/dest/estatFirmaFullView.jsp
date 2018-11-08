@@ -58,19 +58,8 @@
            ${pfi:processEmailURL(peticioDeFirma.remitentDescripcio)}<br />
        </c:if>
          
-       <c:choose>
-          <c:when test="${peticioDeFirma.prioritatID <= 2}">
-             <c:set var="title_priority" value="prioritat.baixa"/>
-          </c:when>
-          <c:when test="${peticioDeFirma.prioritatID >= 7}">
-              <c:set var="title_priority" value="prioritat.alta"/>
-          </c:when>
-          <c:otherwise>
-              <c:set var="title_priority" value="prioritat.normal"/>
-          </c:otherwise>
-       </c:choose>
        <b><fmt:message key="peticioDeFirma.prioritatID" />:</b>
-               <fmt:message key="${title_priority}" /><br />
+               <fmt:message key="prioritat.${peticioDeFirma.prioritatID}" /><br />
 
        <c:if test="${not empty peticioDeFirma.expedientCodi}">
            <b> <fmt:message key="peticioDeFirma.expedientCodi" />:</b>

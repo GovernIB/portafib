@@ -663,16 +663,6 @@
 <!-- ==== GENAPP MARK START -->
 
 
-    <definition name="algorismeDeFirmaFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="algorismeDeFirma.algorismeDeFirma" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/algorismeDeFirmaForm.jsp" />
-    </definition>
-    
-    <definition name="algorismeDeFirmaListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/algorismeDeFirmaList.jsp" />
-    </definition>
-
-
     <definition name="annexFormWebDB" extends="webdb">
         <put-attribute name="titol" value="annex.annex" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/annexForm.jsp" />
@@ -943,26 +933,6 @@
     </definition>
 
 
-    <definition name="posicioPaginaFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="posicioPagina.posicioPagina" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioPaginaForm.jsp" />
-    </definition>
-    
-    <definition name="posicioPaginaListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/posicioPaginaList.jsp" />
-    </definition>
-
-
-    <definition name="prioritatFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="prioritat.prioritat" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/prioritatForm.jsp" />
-    </definition>
-    
-    <definition name="prioritatListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/prioritatList.jsp" />
-    </definition>
-
-
     <definition name="propietatGlobalFormWebDB" extends="webdb">
         <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
@@ -1040,56 +1010,6 @@
     
     <definition name="tipusDocumentColaboracioDelegacioListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusDocumentColaboracioDelegacioList.jsp" />
-    </definition>
-
-
-    <definition name="tipusEstatDeFirmaFinalFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="tipusEstatDeFirmaFinal.tipusEstatDeFirmaFinal" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaFinalForm.jsp" />
-    </definition>
-    
-    <definition name="tipusEstatDeFirmaFinalListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaFinalList.jsp" />
-    </definition>
-
-
-    <definition name="tipusEstatDeFirmaInicialFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="tipusEstatDeFirmaInicial.tipusEstatDeFirmaInicial" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaInicialForm.jsp" />
-    </definition>
-    
-    <definition name="tipusEstatDeFirmaInicialListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatDeFirmaInicialList.jsp" />
-    </definition>
-
-
-    <definition name="tipusEstatPeticioDeFirmaFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="tipusEstatPeticioDeFirma.tipusEstatPeticioDeFirma" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatPeticioDeFirmaForm.jsp" />
-    </definition>
-    
-    <definition name="tipusEstatPeticioDeFirmaListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusEstatPeticioDeFirmaList.jsp" />
-    </definition>
-
-
-    <definition name="tipusFirmaFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="tipusFirma.tipusFirma" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusFirmaForm.jsp" />
-    </definition>
-    
-    <definition name="tipusFirmaListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusFirmaList.jsp" />
-    </definition>
-
-
-    <definition name="tipusMetadadaFormWebDB" extends="webdb">
-        <put-attribute name="titol" value="tipusMetadada.tipusMetadada" />
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusMetadadaForm.jsp" />
-    </definition>
-    
-    <definition name="tipusMetadadaListWebDB" extends="webdb">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/tipusMetadadaList.jsp" />
     </definition>
 
 

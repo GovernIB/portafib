@@ -340,7 +340,7 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.minimDeRevisorsFins = __toClone.minimDeRevisorsFins;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
-    this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = __toClone.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+    this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;
   }
   
   /* ========= UTILS ========== */
@@ -399,14 +399,14 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
 
 
 
-  private Map<String, String> mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  private Map<String, String> mapOfValuesForTipusEstatDeFirmaFinalID;
 
-  public Map<String, String> getMapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID() {
-    return this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public Map<String, String> getMapOfValuesForTipusEstatDeFirmaFinalID() {
+    return this.mapOfValuesForTipusEstatDeFirmaFinalID;
   }
 
-  public void setMapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID(Map<String, String> mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID) {
-    this.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public void setMapOfValuesForTipusEstatDeFirmaFinalID(Map<String, String> mapOfValuesForTipusEstatDeFirmaFinalID) {
+    this.mapOfValuesForTipusEstatDeFirmaFinalID = mapOfValuesForTipusEstatDeFirmaFinalID;
   }
 
 
@@ -419,7 +419,6 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(TIPUSESTATDEFIRMAFINALID.javaName);
    };
 
 }

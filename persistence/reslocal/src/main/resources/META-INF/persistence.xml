@@ -9,7 +9,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
          		
 		
-		<class>es.caib.portafib.jpa.AlgorismeDeFirmaJPA</class>
 		<class>es.caib.portafib.jpa.AnnexJPA</class>
 		<class>es.caib.portafib.jpa.AnnexFirmatJPA</class>
 		<class>es.caib.portafib.jpa.BitacolaJPA</class>
@@ -37,8 +36,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.PluginCridadaJPA</class>
 		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariAplicacioJPA</class>
 		<class>es.caib.portafib.jpa.PluginFirmaWebPerUsuariEntitatJPA</class>
-		<class>es.caib.portafib.jpa.PosicioPaginaJPA</class>
-		<class>es.caib.portafib.jpa.PrioritatJPA</class>
 		<class>es.caib.portafib.jpa.PropietatGlobalJPA</class>
 		<class>es.caib.portafib.jpa.RebreAvisJPA</class>
 		<class>es.caib.portafib.jpa.RevisorDeFirmaJPA</class>
@@ -47,11 +44,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.RoleUsuariEntitatJPA</class>
 		<class>es.caib.portafib.jpa.TipusDocumentJPA</class>
 		<class>es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA</class>
-		<class>es.caib.portafib.jpa.TipusEstatDeFirmaFinalJPA</class>
-		<class>es.caib.portafib.jpa.TipusEstatDeFirmaInicialJPA</class>
-		<class>es.caib.portafib.jpa.TipusEstatPeticioDeFirmaJPA</class>
-		<class>es.caib.portafib.jpa.TipusFirmaJPA</class>
-		<class>es.caib.portafib.jpa.TipusMetadadaJPA</class>
 		<class>es.caib.portafib.jpa.TipusNotificacioJPA</class>
 		<class>es.caib.portafib.jpa.TraduccioJPA</class>
 		<class>es.caib.portafib.jpa.TraduccioMapJPA</class>

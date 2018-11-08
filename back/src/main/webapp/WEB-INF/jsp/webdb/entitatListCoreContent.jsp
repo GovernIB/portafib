@@ -183,7 +183,7 @@
           <td>
           <c:set var="tmp">${entitat.algorismeDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>

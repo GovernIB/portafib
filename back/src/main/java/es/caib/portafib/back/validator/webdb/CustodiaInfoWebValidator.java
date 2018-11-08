@@ -38,9 +38,6 @@ public class CustodiaInfoWebValidator  implements Validator, CustodiaInfoFields 
   @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
   protected es.caib.portafib.ejb.PluginLocal pluginEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PosicioPaginaEJB/local")
-  protected es.caib.portafib.ejb.PosicioPaginaLocal posicioPaginaEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
@@ -75,7 +72,7 @@ public class CustodiaInfoWebValidator  implements Validator, CustodiaInfoFields 
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, codiBarresEjb, custodiaInfoEjb, entitatEjb, pluginEjb, posicioPaginaEjb, usuariAplicacioEjb, usuariEntitatEjb);
+      isNou, codiBarresEjb, custodiaInfoEjb, entitatEjb, pluginEjb, usuariAplicacioEjb, usuariEntitatEjb);
 
   } // Final de metode
 

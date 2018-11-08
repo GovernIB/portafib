@@ -291,9 +291,9 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     this.dataCustodiaDesde = __toClone.dataCustodiaDesde;
     this.dataCustodiaFins = __toClone.dataCustodiaFins;
     this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
-    this.mapOfPosicioPaginaForMissatgePosicioPaginaID = __toClone.mapOfPosicioPaginaForMissatgePosicioPaginaID;
+    this.mapOfValuesForMissatgePosicioPaginaID = __toClone.mapOfValuesForMissatgePosicioPaginaID;
     this.mapOfCodiBarresForCodiBarresID = __toClone.mapOfCodiBarresForCodiBarresID;
-    this.mapOfPosicioPaginaForCodiBarresPosicioPaginaID = __toClone.mapOfPosicioPaginaForCodiBarresPosicioPaginaID;
+    this.mapOfValuesForCodiBarresPosicioPaginaID = __toClone.mapOfValuesForCodiBarresPosicioPaginaID;
     this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
     this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
@@ -343,14 +343,14 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
 
 
 
-  private Map<String, String> mapOfPosicioPaginaForMissatgePosicioPaginaID;
+  private Map<String, String> mapOfValuesForMissatgePosicioPaginaID;
 
-  public Map<String, String> getMapOfPosicioPaginaForMissatgePosicioPaginaID() {
-    return this.mapOfPosicioPaginaForMissatgePosicioPaginaID;
+  public Map<String, String> getMapOfValuesForMissatgePosicioPaginaID() {
+    return this.mapOfValuesForMissatgePosicioPaginaID;
   }
 
-  public void setMapOfPosicioPaginaForMissatgePosicioPaginaID(Map<String, String> mapOfPosicioPaginaForMissatgePosicioPaginaID) {
-    this.mapOfPosicioPaginaForMissatgePosicioPaginaID = mapOfPosicioPaginaForMissatgePosicioPaginaID;
+  public void setMapOfValuesForMissatgePosicioPaginaID(Map<String, String> mapOfValuesForMissatgePosicioPaginaID) {
+    this.mapOfValuesForMissatgePosicioPaginaID = mapOfValuesForMissatgePosicioPaginaID;
   }
 
 
@@ -367,14 +367,14 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
 
 
 
-  private Map<String, String> mapOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  private Map<String, String> mapOfValuesForCodiBarresPosicioPaginaID;
 
-  public Map<String, String> getMapOfPosicioPaginaForCodiBarresPosicioPaginaID() {
-    return this.mapOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  public Map<String, String> getMapOfValuesForCodiBarresPosicioPaginaID() {
+    return this.mapOfValuesForCodiBarresPosicioPaginaID;
   }
 
-  public void setMapOfPosicioPaginaForCodiBarresPosicioPaginaID(Map<String, String> mapOfPosicioPaginaForCodiBarresPosicioPaginaID) {
-    this.mapOfPosicioPaginaForCodiBarresPosicioPaginaID = mapOfPosicioPaginaForCodiBarresPosicioPaginaID;
+  public void setMapOfValuesForCodiBarresPosicioPaginaID(Map<String, String> mapOfValuesForCodiBarresPosicioPaginaID) {
+    this.mapOfValuesForCodiBarresPosicioPaginaID = mapOfValuesForCodiBarresPosicioPaginaID;
   }
 
 
@@ -423,8 +423,6 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(MISSATGEPOSICIOPAGINAID.javaName);
-   traduibles.add(CODIBARRESPOSICIOPAGINAID.javaName);
    };
 
 }

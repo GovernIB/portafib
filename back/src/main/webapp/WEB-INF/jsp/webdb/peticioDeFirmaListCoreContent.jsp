@@ -107,7 +107,7 @@
           <td>
           <c:set var="tmp">${peticioDeFirma.tipusFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusFirmaForTipusFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -115,7 +115,7 @@
           <td>
           <c:set var="tmp">${peticioDeFirma.algorismeDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -127,7 +127,7 @@
           <td>
           <c:set var="tmp">${peticioDeFirma.tipusEstatPeticioDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusEstatPeticioDeFirmaForTipusEstatPeticioDeFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusEstatPeticioDeFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -148,7 +148,7 @@
           <td>
           <c:set var="tmp">${peticioDeFirma.prioritatID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPrioritatForPrioritatID[tmp]}
+          ${__theFilterForm.mapOfValuesForPrioritatID[tmp]}
           </c:if>
           </td>
         </c:if>

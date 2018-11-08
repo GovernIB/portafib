@@ -111,11 +111,11 @@
           <form:errors path="metadada.tipusMetadadaID" cssClass="errorField alert alert-error" />
           <c:if test="${gen:contains(__theForm.readOnlyFields ,MetadadaFields.TIPUSMETADADAID)}" >
           <form:hidden path="metadada.tipusMetadadaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.metadada.tipusMetadadaID,__theForm.listOfTipusMetadadaForTipusMetadadaID)}"  />
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.metadada.tipusMetadadaID,__theForm.listOfValuesForTipusMetadadaID)}"  />
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,MetadadaFields.TIPUSMETADADAID)}" >
           <form:select id="metadada_tipusMetadadaID"  onchange="if(typeof onChangeTipusMetadadaID == 'function') {  onChangeTipusMetadadaID(this); };"  cssClass="input-xxlarge" path="metadada.tipusMetadadaID">
-            <c:forEach items="${__theForm.listOfTipusMetadadaForTipusMetadadaID}" var="tmp">
+            <c:forEach items="${__theForm.listOfValuesForTipusMetadadaID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

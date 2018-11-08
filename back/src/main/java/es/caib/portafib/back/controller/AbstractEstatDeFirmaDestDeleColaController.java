@@ -2241,17 +2241,14 @@ import es.caib.portafib.utils.Configuracio;
         String color_priority, title_priority;
         for(Long estatDeFirmaId : peticionsByEstat.keySet()) {
           int prioritatID = peticionsByEstat.get(estatDeFirmaId).getPrioritatID();
+          title_priority="prioritat." + prioritatID;
           
-          
-          if (prioritatID <= 2) {
-             color_priority="btn-success";
-             title_priority="prioritat.baixa";
-          } else if (prioritatID >= 7) {
+          if (prioritatID <= ConstantsV2.PRIORITAT_BAIXA) {
+             color_priority="btn-success";             
+          } else if (prioritatID >= ConstantsV2.PRIORITAT_ALTA) {
               color_priority="btn-danger";
-              title_priority="prioritat.alta";
           } else {
               color_priority="btn-warning";
-              title_priority="prioritat.normal";
           }
 
           mapPR.put(estatDeFirmaId, "<button title=\""+ I18NUtils.tradueix(title_priority) + "\" "
@@ -2976,8 +2973,33 @@ import es.caib.portafib.utils.Configuracio;
       
     }
     
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForTipusEstatDeFirmaFinalID(
+      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
 
-  } // Final de Classe
+    for (long tipus : ConstantsV2.TIPUSESTATDEFIRMAINICIAL) {
+      __tmp.add(new StringKeyValue(String.valueOf(tipus), I18NUtils
+          .tradueix("tipusestatdefirmafinal." + tipus)));
+    }
+    return __tmp;
+  }
+
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForTipusEstatDeFirmaInicialID(
+      HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+
+    for (long tipus : ConstantsV2.TIPUSESTATDEFIRMAINICIAL) {
+      __tmp.add(new StringKeyValue(String.valueOf(tipus), I18NUtils
+          .tradueix("tipusestatdefirmainicial." + tipus)));
+    }
+    return __tmp;
+  }
+
+} // Final de Classe
 
 
 

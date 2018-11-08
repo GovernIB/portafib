@@ -35,12 +35,6 @@ public class EstatDeFirmaWebValidator  implements Validator, EstatDeFirmaFields 
   @javax.ejb.EJB(mappedName = "portafib/FirmaEJB/local")
   protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusEstatDeFirmaFinalEJB/local")
-  protected es.caib.portafib.ejb.TipusEstatDeFirmaFinalLocal tipusEstatDeFirmaFinalEjb;
-
-  @javax.ejb.EJB(mappedName = "portafib/TipusEstatDeFirmaInicialEJB/local")
-  protected es.caib.portafib.ejb.TipusEstatDeFirmaInicialLocal tipusEstatDeFirmaInicialEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
@@ -72,7 +66,7 @@ public class EstatDeFirmaWebValidator  implements Validator, EstatDeFirmaFields 
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, colaboracioDelegacioEjb, estatDeFirmaEjb, firmaEjb, tipusEstatDeFirmaFinalEjb, tipusEstatDeFirmaInicialEjb, usuariEntitatEjb);
+      isNou, colaboracioDelegacioEjb, estatDeFirmaEjb, firmaEjb, usuariEntitatEjb);
 
   } // Final de metode
 

@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 
 public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
-   private final AlgorismeDeFirmaJPAManager pfi_algorismedefirma;
    private final AnnexJPAManager pfi_annex;
    private final AnnexFirmatJPAManager pfi_annexfirmat;
    private final BitacolaJPAManager pfi_bitacola;
@@ -34,8 +33,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final PluginCridadaJPAManager pfi_plugincridada;
    private final PluginFirmaWebPerUsuariAplicacioJPAManager pfi_pluginfirmawebperusrapp;
    private final PluginFirmaWebPerUsuariEntitatJPAManager pfi_pluginfirmawebperusrent;
-   private final PosicioPaginaJPAManager pfi_posiciopagina;
-   private final PrioritatJPAManager pfi_prioritat;
    private final PropietatGlobalJPAManager pfi_propietatglobal;
    private final RebreAvisJPAManager pfi_rebreavis;
    private final RevisorDeFirmaJPAManager pfi_revisordefirma;
@@ -44,11 +41,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final RoleUsuariEntitatJPAManager pfi_roleusuarientitat;
    private final TipusDocumentJPAManager pfi_tipusdocument;
    private final TipusDocumentColaboracioDelegacioJPAManager pfi_tipusdocumentcoladele;
-   private final TipusEstatDeFirmaFinalJPAManager pfi_tipusestatdefirmafinal;
-   private final TipusEstatDeFirmaInicialJPAManager pfi_tipusestatdefirmainicial;
-   private final TipusEstatPeticioDeFirmaJPAManager pfi_tipusestatpeticiodefirma;
-   private final TipusFirmaJPAManager pfi_tipusfirma;
-   private final TipusMetadadaJPAManager pfi_tipusmetadada;
    private final TipusNotificacioJPAManager pfi_tipusnotificacio;
    private final TraduccioJPAManager pfi_traduccio;
    private final UsuariAplicacioJPAManager pfi_usuariaplicacio;
@@ -58,7 +50,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final UsuariPersonaJPAManager pfi_usuaripersona;
 
   public  PortaFIBJPADaoManagers(EntityManager __em) {
-    this.pfi_algorismedefirma = new AlgorismeDeFirmaJPAManager(__em);
     this.pfi_annex = new AnnexJPAManager(__em);
     this.pfi_annexfirmat = new AnnexFirmatJPAManager(__em);
     this.pfi_bitacola = new BitacolaJPAManager(__em);
@@ -86,8 +77,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_plugincridada = new PluginCridadaJPAManager(__em);
     this.pfi_pluginfirmawebperusrapp = new PluginFirmaWebPerUsuariAplicacioJPAManager(__em);
     this.pfi_pluginfirmawebperusrent = new PluginFirmaWebPerUsuariEntitatJPAManager(__em);
-    this.pfi_posiciopagina = new PosicioPaginaJPAManager(__em);
-    this.pfi_prioritat = new PrioritatJPAManager(__em);
     this.pfi_propietatglobal = new PropietatGlobalJPAManager(__em);
     this.pfi_rebreavis = new RebreAvisJPAManager(__em);
     this.pfi_revisordefirma = new RevisorDeFirmaJPAManager(__em);
@@ -96,11 +85,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_roleusuarientitat = new RoleUsuariEntitatJPAManager(__em);
     this.pfi_tipusdocument = new TipusDocumentJPAManager(__em);
     this.pfi_tipusdocumentcoladele = new TipusDocumentColaboracioDelegacioJPAManager(__em);
-    this.pfi_tipusestatdefirmafinal = new TipusEstatDeFirmaFinalJPAManager(__em);
-    this.pfi_tipusestatdefirmainicial = new TipusEstatDeFirmaInicialJPAManager(__em);
-    this.pfi_tipusestatpeticiodefirma = new TipusEstatPeticioDeFirmaJPAManager(__em);
-    this.pfi_tipusfirma = new TipusFirmaJPAManager(__em);
-    this.pfi_tipusmetadada = new TipusMetadadaJPAManager(__em);
     this.pfi_tipusnotificacio = new TipusNotificacioJPAManager(__em);
     this.pfi_traduccio = new TraduccioJPAManager(__em);
     this.pfi_usuariaplicacio = new UsuariAplicacioJPAManager(__em);
@@ -109,10 +93,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_usuarientitatfavorit = new UsuariEntitatFavoritJPAManager(__em);
     this.pfi_usuaripersona = new UsuariPersonaJPAManager(__em);
   }
-
-	public IAlgorismeDeFirmaManager getAlgorismeDeFirmaManager() {
-	  return this.pfi_algorismedefirma;
-	};
 
 	public IAnnexManager getAnnexManager() {
 	  return this.pfi_annex;
@@ -222,14 +202,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 	  return this.pfi_pluginfirmawebperusrent;
 	};
 
-	public IPosicioPaginaManager getPosicioPaginaManager() {
-	  return this.pfi_posiciopagina;
-	};
-
-	public IPrioritatManager getPrioritatManager() {
-	  return this.pfi_prioritat;
-	};
-
 	public IPropietatGlobalManager getPropietatGlobalManager() {
 	  return this.pfi_propietatglobal;
 	};
@@ -260,26 +232,6 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public ITipusDocumentColaboracioDelegacioManager getTipusDocumentColaboracioDelegacioManager() {
 	  return this.pfi_tipusdocumentcoladele;
-	};
-
-	public ITipusEstatDeFirmaFinalManager getTipusEstatDeFirmaFinalManager() {
-	  return this.pfi_tipusestatdefirmafinal;
-	};
-
-	public ITipusEstatDeFirmaInicialManager getTipusEstatDeFirmaInicialManager() {
-	  return this.pfi_tipusestatdefirmainicial;
-	};
-
-	public ITipusEstatPeticioDeFirmaManager getTipusEstatPeticioDeFirmaManager() {
-	  return this.pfi_tipusestatpeticiodefirma;
-	};
-
-	public ITipusFirmaManager getTipusFirmaManager() {
-	  return this.pfi_tipusfirma;
-	};
-
-	public ITipusMetadadaManager getTipusMetadadaManager() {
-	  return this.pfi_tipusmetadada;
 	};
 
 	public ITipusNotificacioManager getTipusNotificacioManager() {

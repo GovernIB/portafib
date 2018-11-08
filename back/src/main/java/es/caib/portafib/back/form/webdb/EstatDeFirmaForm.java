@@ -21,8 +21,8 @@ public class EstatDeFirmaForm extends PortaFIBBaseForm {
       this.estatDeFirma = __toClone.estatDeFirma;
     this.listOfFirmaForFirmaID = __toClone.listOfFirmaForFirmaID;
     this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
-    this.listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID = __toClone.listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
-    this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = __toClone.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+    this.listOfValuesForTipusEstatDeFirmaInicialID = __toClone.listOfValuesForTipusEstatDeFirmaInicialID;
+    this.listOfValuesForTipusEstatDeFirmaFinalID = __toClone.listOfValuesForTipusEstatDeFirmaFinalID;
     this.listOfColaboracioDelegacioForColaboracioDelegacioID = __toClone.listOfColaboracioDelegacioForColaboracioDelegacioID;
   }
   
@@ -63,26 +63,26 @@ public class EstatDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  private List<StringKeyValue> listOfValuesForTipusEstatDeFirmaInicialID;
 
-  public List<StringKeyValue> getListOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID() {
-    return this.listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  public List<StringKeyValue> getListOfValuesForTipusEstatDeFirmaInicialID() {
+    return this.listOfValuesForTipusEstatDeFirmaInicialID;
   }
 
-  public void setListOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID(List<StringKeyValue> listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID) {
-    this.listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID = listOfTipusEstatDeFirmaInicialForTipusEstatDeFirmaInicialID;
+  public void setListOfValuesForTipusEstatDeFirmaInicialID(List<StringKeyValue> listOfValuesForTipusEstatDeFirmaInicialID) {
+    this.listOfValuesForTipusEstatDeFirmaInicialID = listOfValuesForTipusEstatDeFirmaInicialID;
   }
 
 
 
-  private List<StringKeyValue> listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  private List<StringKeyValue> listOfValuesForTipusEstatDeFirmaFinalID;
 
-  public List<StringKeyValue> getListOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID() {
-    return this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public List<StringKeyValue> getListOfValuesForTipusEstatDeFirmaFinalID() {
+    return this.listOfValuesForTipusEstatDeFirmaFinalID;
   }
 
-  public void setListOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID(List<StringKeyValue> listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID) {
-    this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public void setListOfValuesForTipusEstatDeFirmaFinalID(List<StringKeyValue> listOfValuesForTipusEstatDeFirmaFinalID) {
+    this.listOfValuesForTipusEstatDeFirmaFinalID = listOfValuesForTipusEstatDeFirmaFinalID;
   }
 
 

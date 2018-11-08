@@ -3,7 +3,6 @@ package es.caib.portafib.model;
 import es.caib.portafib.model.dao.*;
 
 public interface IPortaFIBDaoManagers {
-	public IAlgorismeDeFirmaManager getAlgorismeDeFirmaManager();
 	public IAnnexManager getAnnexManager();
 	public IAnnexFirmatManager getAnnexFirmatManager();
 	public IBitacolaManager getBitacolaManager();
@@ -31,8 +30,6 @@ public interface IPortaFIBDaoManagers {
 	public IPluginCridadaManager getPluginCridadaManager();
 	public IPluginFirmaWebPerUsuariAplicacioManager getPluginFirmaWebPerUsuariAplicacioManager();
 	public IPluginFirmaWebPerUsuariEntitatManager getPluginFirmaWebPerUsuariEntitatManager();
-	public IPosicioPaginaManager getPosicioPaginaManager();
-	public IPrioritatManager getPrioritatManager();
 	public IPropietatGlobalManager getPropietatGlobalManager();
 	public IRebreAvisManager getRebreAvisManager();
 	public IRevisorDeFirmaManager getRevisorDeFirmaManager();
@@ -41,11 +38,6 @@ public interface IPortaFIBDaoManagers {
 	public IRoleUsuariEntitatManager getRoleUsuariEntitatManager();
 	public ITipusDocumentManager getTipusDocumentManager();
 	public ITipusDocumentColaboracioDelegacioManager getTipusDocumentColaboracioDelegacioManager();
-	public ITipusEstatDeFirmaFinalManager getTipusEstatDeFirmaFinalManager();
-	public ITipusEstatDeFirmaInicialManager getTipusEstatDeFirmaInicialManager();
-	public ITipusEstatPeticioDeFirmaManager getTipusEstatPeticioDeFirmaManager();
-	public ITipusFirmaManager getTipusFirmaManager();
-	public ITipusMetadadaManager getTipusMetadadaManager();
 	public ITipusNotificacioManager getTipusNotificacioManager();
 	public ITraduccioManager getTraduccioManager();
 	public IUsuariAplicacioManager getUsuariAplicacioManager();

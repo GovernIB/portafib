@@ -56,7 +56,7 @@
           <td>
           <c:set var="tmp">${metadada.tipusMetadadaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusMetadadaForTipusMetadadaID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusMetadadaID[tmp]}
           </c:if>
           </td>
         </c:if>

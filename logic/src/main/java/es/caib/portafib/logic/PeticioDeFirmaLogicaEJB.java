@@ -206,14 +206,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.TipusFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusFirmaLocal tipusFirmaEjb;
-  
-  @EJB(mappedName = es.caib.portafib.ejb.PrioritatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PrioritatLocal prioritatEjb;
-  
-  @EJB(mappedName = es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal tipusEstatPeticioDeFirmaEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
@@ -223,9 +217,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
-  
-  @EJB(mappedName = es.caib.portafib.ejb.AlgorismeDeFirmaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PropietatGlobalLocal propietatGlobalEjb;
@@ -272,10 +263,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
-        algorismeDeFirmaEjb, custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
-        this, prioritatEjb, 
-        tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb,  tipusFirmaEjb,
-        usuariAplicacioEjb, usuariEntitatEjb);
+        custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
+        this, tipusDocumentEjb, usuariAplicacioEjb, usuariEntitatEjb);
     
     final boolean isNou = false;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -315,10 +304,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
     
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
-        algorismeDeFirmaEjb, custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
-        this, prioritatEjb, 
-        tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb,  tipusFirmaEjb,
-        usuariAplicacioEjb, usuariEntitatEjb);
+        custodiaInfoEjb,  fluxDeFirmesLogicaEjb, idiomaEjb,
+        this, tipusDocumentEjb, usuariAplicacioEjb, usuariEntitatEjb);
 
     final boolean isNou = true;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -404,7 +391,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // Check custodia
         CustodiaInfoBeanValidator custodiaValidator = new CustodiaInfoBeanValidator(
             codiBarresEjb, custodiaInfoEjb, entitatEjb, pluginDeCustodiaLogicaEjb,
-            posicioPaginaEjb, usuariAplicacioEjb, usuariEntitatEjb);
+            usuariAplicacioEjb, usuariEntitatEjb);
         
         custodiaValidator.throwValidationExceptionIfErrors(custodiaInfo, isNou);
   
@@ -2814,7 +2801,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           firma.setNomCertificat(null);
 
           firma.setTipusEstatDeFirmaFinalID(null);
-          firma.setTipusEstatDeFirmaFinal(null);
 
           firma.setAnnexFirmats(new HashSet<AnnexFirmatJPA>());
           firma.setEstatDeFirmas(new HashSet<EstatDeFirmaJPA>());
@@ -3170,7 +3156,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           firmaJPA.setFitxerFirmatID(null);
 
           firmaJPA.setTipusEstatDeFirmaFinalID(null);
-          firmaJPA.setTipusEstatDeFirmaFinal(null);
 
           blocDeFirmesJPA.getFirmas().add(firmaJPA);
         }
@@ -3381,14 +3366,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     return nouFitxer;
   }
 
+  
 
-  
-  
-  @EJB(mappedName = es.caib.portafib.ejb.PosicioPaginaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PosicioPaginaLocal posicioPaginaEjb;
-  
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
   
   
   @Override

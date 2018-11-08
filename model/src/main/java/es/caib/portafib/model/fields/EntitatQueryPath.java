@@ -352,14 +352,6 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     });
   }
 
-  public AlgorismeDeFirmaQueryPath ALGORISMEDEFIRMA() {
-    return new AlgorismeDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return EntitatQueryPath.this.getQueryPath() + "algorismeDeFirma" + ".";
-      }
-    });
-  }
-
   public CustodiaInfoQueryPath CUSTODIAINFO() {
     return new CustodiaInfoQueryPath(new QueryPath() {
       public String getQueryPath() {

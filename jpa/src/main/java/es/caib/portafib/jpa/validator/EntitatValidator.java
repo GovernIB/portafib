@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.EntitatFields;
-import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TraduccioFields;
@@ -30,7 +29,6 @@ public class EntitatValidator<T> implements EntitatFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
@@ -343,18 +341,6 @@ public class EntitatValidator<T> implements EntitatFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("traduccio.traduccioID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__firmatperformatid)));
         }
-      }
-    }
-
-    if (__vr.getFieldErrorCount(ALGORISMEDEFIRMAID) == 0) {
-      java.lang.Integer __algorismedefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __algorismeDeFirmaManager.count(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(__algorismedefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(ALGORISMEDEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__algorismedefirmaid)));
       }
     }
 

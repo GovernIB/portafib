@@ -71,14 +71,6 @@ public class UsuariAplicacioConfiguracioController
 
   // References 
   @Autowired
-  protected TipusFirmaRefList tipusFirmaRefList;
-
-  // References 
-  @Autowired
-  protected AlgorismeDeFirmaRefList algorismeDeFirmaRefList;
-
-  // References 
-  @Autowired
   protected CustodiaInfoRefList custodiaInfoRefList;
 
   // References 
@@ -243,7 +235,7 @@ public class UsuariAplicacioConfiguracioController
     {
       _listSKV = getReferenceListForTipusFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfTipusFirmaForTipusFirmaID(_tmp);
+      filterForm.setMapOfValuesForTipusFirmaID(_tmp);
       if (filterForm.getGroupByFields().contains(TIPUSFIRMAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, TIPUSFIRMAID, false);
       };
@@ -253,7 +245,7 @@ public class UsuariAplicacioConfiguracioController
     {
       _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_tmp);
+      filterForm.setMapOfValuesForAlgorismeDeFirmaID(_tmp);
       if (filterForm.getGroupByFields().contains(ALGORISMEDEFIRMAID)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, ALGORISMEDEFIRMAID, false);
       };
@@ -392,8 +384,8 @@ public class UsuariAplicacioConfiguracioController
     __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
     __mapping.put(USPOLITICADEFIRMA, filterForm.getMapOfValuesForUsPoliticaDeFirma());
     __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
-    __mapping.put(TIPUSFIRMAID, filterForm.getMapOfTipusFirmaForTipusFirmaID());
-    __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID());
+    __mapping.put(TIPUSFIRMAID, filterForm.getMapOfValuesForTipusFirmaID());
+    __mapping.put(ALGORISMEDEFIRMAID, filterForm.getMapOfValuesForAlgorismeDeFirmaID());
     __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
@@ -492,18 +484,18 @@ public class UsuariAplicacioConfiguracioController
       usuariAplicacioConfiguracioForm.setListOfValuesForTipusOperacioFirma(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (usuariAplicacioConfiguracioForm.getListOfTipusFirmaForTipusFirmaID() == null) {
+    if (usuariAplicacioConfiguracioForm.getListOfValuesForTipusFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForTipusFirmaID(request, mav, usuariAplicacioConfiguracioForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      usuariAplicacioConfiguracioForm.setListOfTipusFirmaForTipusFirmaID(_listSKV);
+      usuariAplicacioConfiguracioForm.setListOfValuesForTipusFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (usuariAplicacioConfiguracioForm.getListOfAlgorismeDeFirmaForAlgorismeDeFirmaID() == null) {
+    if (usuariAplicacioConfiguracioForm.getListOfValuesForAlgorismeDeFirmaID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForAlgorismeDeFirmaID(request, mav, usuariAplicacioConfiguracioForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      usuariAplicacioConfiguracioForm.setListOfAlgorismeDeFirmaForAlgorismeDeFirmaID(_listSKV);
+      usuariAplicacioConfiguracioForm.setListOfValuesForAlgorismeDeFirmaID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioConfiguracioForm.getListOfValuesForPoliticaCustodia() == null) {
@@ -1010,11 +1002,7 @@ public java.lang.Long stringToPK(String value) {
     if (usuariAplicacioConfiguracioForm.isHiddenField(TIPUSFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (usuariAplicacioConfiguracioForm.isReadOnlyField(TIPUSFIRMAID)) {
-      _where = TipusFirmaFields.TIPUSFIRMAID.equal(usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getTipusFirmaID());
-    }
-    return getReferenceListForTipusFirmaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForTipusFirmaID(request, mav, where);
   }
 
 
@@ -1026,21 +1014,18 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(TIPUSFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (UsuariAplicacioConfiguracio _item : list) {
-        _pkList.add(_item.getTipusFirmaID());
-        }
-        _w = TipusFirmaFields.TIPUSFIRMAID.in(_pkList);
-      }
     return getReferenceListForTipusFirmaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return tipusFirmaRefList.getReferenceList(TipusFirmaFields.TIPUSFIRMAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
   }
 
 
@@ -1049,11 +1034,7 @@ public java.lang.Long stringToPK(String value) {
     if (usuariAplicacioConfiguracioForm.isHiddenField(ALGORISMEDEFIRMAID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
-    Where _where = null;
-    if (usuariAplicacioConfiguracioForm.isReadOnlyField(ALGORISMEDEFIRMAID)) {
-      _where = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getAlgorismeDeFirmaID());
-    }
-    return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where, _where));
+    return getReferenceListForAlgorismeDeFirmaID(request, mav, where);
   }
 
 
@@ -1065,22 +1046,18 @@ public java.lang.Long stringToPK(String value) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(ALGORISMEDEFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Integer> _pkList = new java.util.HashSet<java.lang.Integer>();
-      for (UsuariAplicacioConfiguracio _item : list) {
-        if(_item.getAlgorismeDeFirmaID() == null) { continue; };
-        _pkList.add(_item.getAlgorismeDeFirmaID());
-        }
-        _w = AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.in(_pkList);
-      }
     return getReferenceListForAlgorismeDeFirmaID(request, mav, Where.AND(where,_w));
   }
 
 
   public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return algorismeDeFirmaRefList.getReferenceList(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID, where );
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    return __tmp;
   }
 
 

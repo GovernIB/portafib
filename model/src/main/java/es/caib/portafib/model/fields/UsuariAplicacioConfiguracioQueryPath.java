@@ -148,22 +148,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     });
   }
 
-  public TipusFirmaQueryPath TIPUSFIRMA() {
-    return new TipusFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "tipusFirma" + ".";
-      }
-    });
-  }
-
-  public AlgorismeDeFirmaQueryPath ALGORISMEDEFIRMA() {
-    return new AlgorismeDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "algorismeDeFirma" + ".";
-      }
-    });
-  }
-
   public CustodiaInfoQueryPath CUSTODIAINFO() {
     return new CustodiaInfoQueryPath(new QueryPath() {
       public String getQueryPath() {

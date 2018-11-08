@@ -82,7 +82,7 @@
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.tipusFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusFirmaForTipusFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -90,7 +90,7 @@
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.algorismeDeFirmaID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID[tmp]}
+          ${__theFilterForm.mapOfValuesForAlgorismeDeFirmaID[tmp]}
           </c:if>
           </td>
         </c:if>

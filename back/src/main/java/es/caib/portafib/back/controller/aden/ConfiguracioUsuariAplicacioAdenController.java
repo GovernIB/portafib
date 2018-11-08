@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.admin.GestioEntitatController;
 import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioController;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
@@ -369,6 +370,21 @@ public class ConfiguracioUsuariAplicacioAdenController extends
    }
 
    return __tmp;
+ }
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForTipusFirmaID(HttpServletRequest request,
+      ModelAndView mav, Where where) throws I18NException {
+    List<StringKeyValue> __tmp = AbstractPeticioDeFirmaController.staticGetReferenceListForTipusFirmaID();
+    return __tmp;
+  }
+  
+  
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   return AbstractPeticioDeFirmaController.staticGetReferenceListForAlgorismeDeFirmaID();
  }
   
 

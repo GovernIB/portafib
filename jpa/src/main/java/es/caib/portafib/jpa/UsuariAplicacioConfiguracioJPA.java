@@ -511,36 +511,6 @@ opcional incluso cuando se genera una firma EPES. */
     this.usuariAplicacio = usuariAplicacio;
   }
 
-// IMP Field:tipusfirmaid | Table: pfi_tipusfirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_confapp_tipusfirma_fk")
-	@JoinColumn(name = "tipusfirmaid", referencedColumnName ="tipusFirmaID", nullable = false, insertable=false, updatable=false)
-	private TipusFirmaJPA tipusFirma;
-
-	public TipusFirmaJPA getTipusFirma() {
-    return this.tipusFirma;
-  }
-
-	public  void setTipusFirma(TipusFirmaJPA tipusFirma) {
-    this.tipusFirma = tipusFirma;
-  }
-
-// IMP Field:algorismedefirmaid | Table: pfi_algorismedefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_confapp_algofirma_fk")
-	@JoinColumn(name = "algorismedefirmaid", referencedColumnName ="algorismeDeFirmaID", nullable = true, insertable=false, updatable=false)
-	private AlgorismeDeFirmaJPA algorismeDeFirma;
-
-	public AlgorismeDeFirmaJPA getAlgorismeDeFirma() {
-    return this.algorismeDeFirma;
-  }
-
-	public  void setAlgorismeDeFirma(AlgorismeDeFirmaJPA algorismeDeFirma) {
-    this.algorismeDeFirma = algorismeDeFirma;
-  }
-
 // IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -718,10 +688,6 @@ opcional incluso cuando se genera una firma EPES. */
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"TipusFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusFirma()) ) ) {
-      __tmp.setTipusFirma(TipusFirmaJPA.copyJPA(__jpa.getTipusFirma(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
-    }
     if(!"TraduccioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.motiuDelegacio) || org.hibernate.Hibernate.isInitialized(__jpa.getMotiuDelegacio()) ) ) {
       __tmp.setMotiuDelegacio(TraduccioJPA.copyJPA(__jpa.getMotiuDelegacio(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
@@ -741,10 +707,6 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginSegellat) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginSegellat()) ) ) {
       __tmp.setPluginSegellat(PluginJPA.copyJPA(__jpa.getPluginSegellat(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
-    }
-    if(!"AlgorismeDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.algorismeDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getAlgorismeDeFirma()) ) ) {
-      __tmp.setAlgorismeDeFirma(AlgorismeDeFirmaJPA.copyJPA(__jpa.getAlgorismeDeFirma(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
     }
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {

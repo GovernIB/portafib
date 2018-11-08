@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
 import es.caib.portafib.back.form.webdb.EntitatFilterForm;
@@ -561,5 +562,12 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
       
   }
   
+  
+  // #199
+  @Override
+  public List<StringKeyValue> getReferenceListForAlgorismeDeFirmaID(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   return AbstractPeticioDeFirmaController.staticGetReferenceListForAlgorismeDeFirmaID();
+ }
 
 }

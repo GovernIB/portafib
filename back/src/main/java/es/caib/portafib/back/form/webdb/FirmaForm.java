@@ -26,7 +26,7 @@ public class FirmaForm extends PortaFIBBaseForm {
       this.firma = __toClone.firma;
     this.listOfUsuariEntitatForDestinatariID = __toClone.listOfUsuariEntitatForDestinatariID;
     this.listOfBlocDeFirmesForBlocDeFirmaID = __toClone.listOfBlocDeFirmesForBlocDeFirmaID;
-    this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = __toClone.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+    this.listOfValuesForTipusEstatDeFirmaFinalID = __toClone.listOfValuesForTipusEstatDeFirmaFinalID;
   }
   
   public FirmaForm(FirmaJPA firma, boolean nou) {
@@ -80,14 +80,14 @@ public class FirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  private List<StringKeyValue> listOfValuesForTipusEstatDeFirmaFinalID;
 
-  public List<StringKeyValue> getListOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID() {
-    return this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public List<StringKeyValue> getListOfValuesForTipusEstatDeFirmaFinalID() {
+    return this.listOfValuesForTipusEstatDeFirmaFinalID;
   }
 
-  public void setListOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID(List<StringKeyValue> listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID) {
-    this.listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID = listOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID;
+  public void setListOfValuesForTipusEstatDeFirmaFinalID(List<StringKeyValue> listOfValuesForTipusEstatDeFirmaFinalID) {
+    this.listOfValuesForTipusEstatDeFirmaFinalID = listOfValuesForTipusEstatDeFirmaFinalID;
   }
 
 

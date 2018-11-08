@@ -72,22 +72,6 @@ public class EstatDeFirmaQueryPath extends org.fundaciobit.genapp.common.query.Q
     });
   }
 
-  public TipusEstatDeFirmaInicialQueryPath TIPUSESTATDEFIRMAINICIAL() {
-    return new TipusEstatDeFirmaInicialQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return EstatDeFirmaQueryPath.this.getQueryPath() + "tipusEstatDeFirmaInicial" + ".";
-      }
-    });
-  }
-
-  public TipusEstatDeFirmaFinalQueryPath TIPUSESTATDEFIRMAFINAL() {
-    return new TipusEstatDeFirmaFinalQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return EstatDeFirmaQueryPath.this.getQueryPath() + "tipusEstatDeFirmaFinal" + ".";
-      }
-    });
-  }
-
   public ColaboracioDelegacioQueryPath COLABORACIODELEGACIO() {
     return new ColaboracioDelegacioQueryPath(new QueryPath() {
       public String getQueryPath() {

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.FirmaFields;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
-import es.caib.portafib.model.fields.TipusEstatDeFirmaFinalFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -30,7 +29,6 @@ public class FirmaValidator<T> implements FirmaFields {
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.IBlocDeFirmesManager __blocDeFirmesManager
     ,es.caib.portafib.model.dao.IFirmaManager __firmaManager
-    ,es.caib.portafib.model.dao.ITipusEstatDeFirmaFinalManager __tipusEstatDeFirmaFinalManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
     // Valors Not Null
@@ -128,20 +126,6 @@ public class FirmaValidator<T> implements FirmaFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("blocDeFirmes.blocDeFirmes"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("blocDeFirmes.blocDeFirmesID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__blocdefirmaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(TIPUSESTATDEFIRMAFINALID) == 0) {
-      java.lang.Long __tipusestatdefirmafinalid = (java.lang.Long)__vr.getFieldValue(__target__,TIPUSESTATDEFIRMAFINALID);
-      if (__tipusestatdefirmafinalid != null ) {
-        Long __count_ = null;
-        try { __count_ = __tipusEstatDeFirmaFinalManager.count(TipusEstatDeFirmaFinalFields.TIPUSESTATDEFIRMAFINALID.equal(__tipusestatdefirmafinalid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(TIPUSESTATDEFIRMAFINALID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusEstatDeFirmaFinal.tipusEstatDeFirmaFinal"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusEstatDeFirmaFinal.tipusEstatDeFirmaFinalID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusestatdefirmafinalid)));
-        }
       }
     }
 

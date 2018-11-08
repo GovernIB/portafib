@@ -32,9 +32,6 @@ public class FirmaWebValidator  implements Validator, FirmaFields {
   @javax.ejb.EJB(mappedName = "portafib/FirmaEJB/local")
   protected es.caib.portafib.ejb.FirmaLocal firmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/TipusEstatDeFirmaFinalEJB/local")
-  protected es.caib.portafib.ejb.TipusEstatDeFirmaFinalLocal tipusEstatDeFirmaFinalEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
   protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
 
@@ -70,7 +67,7 @@ public class FirmaWebValidator  implements Validator, FirmaFields {
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, blocDeFirmesEjb, firmaEjb, tipusEstatDeFirmaFinalEjb, usuariEntitatEjb);
+      isNou, blocDeFirmesEjb, firmaEjb, usuariEntitatEjb);
 
   } // Final de metode
 

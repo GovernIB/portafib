@@ -7,7 +7,6 @@ import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.model.fields.PosicioPaginaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
@@ -35,7 +34,6 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
-    ,es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
@@ -201,18 +199,6 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
       }
     }
 
-    if (__vr.getFieldErrorCount(MISSATGEPOSICIOPAGINAID) == 0) {
-      java.lang.Long __missatgeposiciopaginaid = (java.lang.Long)__vr.getFieldValue(__target__,MISSATGEPOSICIOPAGINAID);
-      Long __count_ = null;
-      try { __count_ = __posicioPaginaManager.count(PosicioPaginaFields.POSICIOPAGINAID.equal(__missatgeposiciopaginaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(MISSATGEPOSICIOPAGINAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioPagina.posicioPagina"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioPagina.posicioPaginaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__missatgeposiciopaginaid)));
-      }
-    }
-
     if (__vr.getFieldErrorCount(CODIBARRESID) == 0) {
       java.lang.String __codibarresid = (java.lang.String)__vr.getFieldValue(__target__,CODIBARRESID);
       Long __count_ = null;
@@ -222,18 +208,6 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("codiBarres.codiBarres"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("codiBarres.codiBarresID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__codibarresid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(CODIBARRESPOSICIOPAGINAID) == 0) {
-      java.lang.Long __codibarresposiciopaginaid = (java.lang.Long)__vr.getFieldValue(__target__,CODIBARRESPOSICIOPAGINAID);
-      Long __count_ = null;
-      try { __count_ = __posicioPaginaManager.count(PosicioPaginaFields.POSICIOPAGINAID.equal(__codibarresposiciopaginaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(CODIBARRESPOSICIOPAGINAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioPagina.posicioPagina"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("posicioPagina.posicioPaginaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__codibarresposiciopaginaid)));
       }
     }
 

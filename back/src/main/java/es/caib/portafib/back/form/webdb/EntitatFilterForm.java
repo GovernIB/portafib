@@ -594,7 +594,7 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfTraduccioForMotiuDelegacioID = __toClone.mapOfTraduccioForMotiuDelegacioID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = __toClone.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+    this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
     this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
@@ -686,14 +686,14 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
 
 
-  private Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  private Map<String, String> mapOfValuesForAlgorismeDeFirmaID;
 
-  public Map<String, String> getMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID() {
-    return this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public Map<String, String> getMapOfValuesForAlgorismeDeFirmaID() {
+    return this.mapOfValuesForAlgorismeDeFirmaID;
   }
 
-  public void setMapOfAlgorismeDeFirmaForAlgorismeDeFirmaID(Map<String, String> mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID) {
-    this.mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID = mapOfAlgorismeDeFirmaForAlgorismeDeFirmaID;
+  public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
+    this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
   }
 
 

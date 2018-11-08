@@ -21,35 +21,29 @@ public class MetadadaBeanValidator
 
   protected final es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager;
 
-  protected final es.caib.portafib.model.dao.ITipusMetadadaManager __tipusMetadadaManager;
-
 
   public final MetadadaValidator<MetadadaJPA> _validator;
 
 
   public MetadadaBeanValidator(es.caib.portafib.model.dao.IMetadadaManager __metadadaManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
-     es.caib.portafib.model.dao.ITipusMetadadaManager __tipusMetadadaManager) { 
+     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager) { 
     this.__metadadaManager = __metadadaManager;
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
-    this.__tipusMetadadaManager = __tipusMetadadaManager;
     _validator = new MetadadaValidator<MetadadaJPA>();
   }
 
   public MetadadaBeanValidator(MetadadaValidator<MetadadaJPA> _validator,
      es.caib.portafib.model.dao.IMetadadaManager __metadadaManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
-     es.caib.portafib.model.dao.ITipusMetadadaManager __tipusMetadadaManager) {
+     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager) {
     this.__metadadaManager = __metadadaManager;
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
-    this.__tipusMetadadaManager = __tipusMetadadaManager;
     this._validator = _validator;
   }
 
   @Override
   public List<I18NFieldError> validate(MetadadaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<MetadadaJPA> _bvr_ = new BeanValidatorResult<MetadadaJPA>();
-    _validator.validate(_bvr_, target, isNou, __metadadaManager, __peticioDeFirmaManager, __tipusMetadadaManager);
+    _validator.validate(_bvr_, target, isNou, __metadadaManager, __peticioDeFirmaManager);
     return _bvr_.getErrors();
   }
 }

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.TipusMetadadaFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
@@ -28,8 +27,7 @@ public class MetadadaValidator<T> implements MetadadaFields {
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.IMetadadaManager __metadadaManager
-    ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
-    ,es.caib.portafib.model.dao.ITipusMetadadaManager __tipusMetadadaManager) {
+    ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager) {
 
     // Valors Not Null
     __vr.rejectIfEmptyOrWhitespace(__target__,NOM, 
@@ -98,18 +96,6 @@ public class MetadadaValidator<T> implements MetadadaFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirma"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirmaID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__peticiodefirmaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(TIPUSMETADADAID) == 0) {
-      java.lang.Integer __tipusmetadadaid = (java.lang.Integer)__vr.getFieldValue(__target__,TIPUSMETADADAID);
-      Long __count_ = null;
-      try { __count_ = __tipusMetadadaManager.count(TipusMetadadaFields.TIPUSMETADADAID.equal(__tipusmetadadaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(TIPUSMETADADAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusMetadada.tipusMetadada"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusMetadada.tipusMetadadaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusmetadadaid)));
       }
     }
 

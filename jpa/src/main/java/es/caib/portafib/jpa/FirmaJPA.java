@@ -398,21 +398,6 @@ private static final long serialVersionUID = -491371752L;
     this.fitxerFirmat = fitxerFirmat;
   }
 
-// IMP Field:tipusestatdefirmafinalid | Table: pfi_tipusestatdefirmafinal | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_firma_estfirmafi_fk")
-	@JoinColumn(name = "tipusestatdefirmafinalid", referencedColumnName ="tipusEstatDeFirmaFinalID", nullable = true, insertable=false, updatable=false)
-	private TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal;
-
-	public TipusEstatDeFirmaFinalJPA getTipusEstatDeFirmaFinal() {
-    return this.tipusEstatDeFirmaFinal;
-  }
-
-	public  void setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA tipusEstatDeFirmaFinal) {
-    this.tipusEstatDeFirmaFinal = tipusEstatDeFirmaFinal;
-  }
-
 
  // ---------------  STATIC METHODS ------------------
   public static FirmaJPA toJPA(Firma __bean) {
@@ -480,10 +465,6 @@ private static final long serialVersionUID = -491371752L;
       __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"FirmaJPA"));
     }
     // Copia de beans complexes (IMP)
-    if(!"TipusEstatDeFirmaFinalJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.tipusEstatDeFirmaFinal) || org.hibernate.Hibernate.isInitialized(__jpa.getTipusEstatDeFirmaFinal()) ) ) {
-      __tmp.setTipusEstatDeFirmaFinal(TipusEstatDeFirmaFinalJPA.copyJPA(__jpa.getTipusEstatDeFirmaFinal(), __alreadyCopied,"FirmaJPA"));
-    }
     if(!"BlocDeFirmesJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.blocDeFirmes) || org.hibernate.Hibernate.isInitialized(__jpa.getBlocDeFirmes()) ) ) {
       __tmp.setBlocDeFirmes(BlocDeFirmesJPA.copyJPA(__jpa.getBlocDeFirmes(), __alreadyCopied,"FirmaJPA"));

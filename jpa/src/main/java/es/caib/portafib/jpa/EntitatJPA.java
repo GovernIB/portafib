@@ -840,21 +840,6 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
 
-// IMP Field:algorismedefirmaid | Table: pfi_algorismedefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_entitat_algofirma_fk")
-	@JoinColumn(name = "algorismedefirmaid", referencedColumnName ="algorismeDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private AlgorismeDeFirmaJPA algorismeDeFirma;
-
-	public AlgorismeDeFirmaJPA getAlgorismeDeFirma() {
-    return this.algorismeDeFirma;
-  }
-
-	public  void setAlgorismeDeFirma(AlgorismeDeFirmaJPA algorismeDeFirma) {
-    this.algorismeDeFirma = algorismeDeFirma;
-  }
-
 // IMP Field:custodiainfoid | Table: pfi_custodiainfo | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -1077,10 +1062,6 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
       __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"EntitatJPA"));
-    }
-    if(!"AlgorismeDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.algorismeDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getAlgorismeDeFirma()) ) ) {
-      __tmp.setAlgorismeDeFirma(AlgorismeDeFirmaJPA.copyJPA(__jpa.getAlgorismeDeFirma(), __alreadyCopied,"EntitatJPA"));
     }
 
     return __tmp;

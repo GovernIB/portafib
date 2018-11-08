@@ -106,7 +106,7 @@
           <td>
           <c:set var="tmp">${firma.tipusEstatDeFirmaFinalID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfTipusEstatDeFirmaFinalForTipusEstatDeFirmaFinalID[tmp]}
+          ${__theFilterForm.mapOfValuesForTipusEstatDeFirmaFinalID[tmp]}
           </c:if>
           </td>
         </c:if>

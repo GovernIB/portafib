@@ -256,42 +256,10 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     });
   }
 
-  public TipusFirmaQueryPath TIPUSFIRMA() {
-    return new TipusFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "tipusFirma" + ".";
-      }
-    });
-  }
-
-  public AlgorismeDeFirmaQueryPath ALGORISMEDEFIRMA() {
-    return new AlgorismeDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "algorismeDeFirma" + ".";
-      }
-    });
-  }
-
-  public TipusEstatPeticioDeFirmaQueryPath TIPUSESTATPETICIODEFIRMA() {
-    return new TipusEstatPeticioDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "tipusEstatPeticioDeFirma" + ".";
-      }
-    });
-  }
-
   public IdiomaQueryPath IDIOMA() {
     return new IdiomaQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PeticioDeFirmaQueryPath.this.getQueryPath() + "idioma" + ".";
-      }
-    });
-  }
-
-  public PrioritatQueryPath PRIORITAT() {
-    return new PrioritatQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "prioritat" + ".";
       }
     });
   }

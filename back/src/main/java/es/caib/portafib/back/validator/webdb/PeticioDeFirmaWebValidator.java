@@ -26,9 +26,6 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
   protected PeticioDeFirmaValidator<Object> validator = new PeticioDeFirmaValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/AlgorismeDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.AlgorismeDeFirmaLocal algorismeDeFirmaEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
 
@@ -41,17 +38,8 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
   @javax.ejb.EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/PrioritatEJB/local")
-  protected es.caib.portafib.ejb.PrioritatLocal prioritatEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/TipusDocumentEJB/local")
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
-
-  @javax.ejb.EJB(mappedName = "portafib/TipusEstatPeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.TipusEstatPeticioDeFirmaLocal tipusEstatPeticioDeFirmaEjb;
-
-  @javax.ejb.EJB(mappedName = "portafib/TipusFirmaEJB/local")
-  protected es.caib.portafib.ejb.TipusFirmaLocal tipusFirmaEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -91,7 +79,7 @@ public class PeticioDeFirmaWebValidator  implements Validator, PeticioDeFirmaFie
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, algorismeDeFirmaEjb, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, prioritatEjb, tipusDocumentEjb, tipusEstatPeticioDeFirmaEjb, tipusFirmaEjb, usuariAplicacioEjb, usuariEntitatEjb);
+      isNou, custodiaInfoEjb, fluxDeFirmesEjb, idiomaEjb, peticioDeFirmaEjb, tipusDocumentEjb, usuariAplicacioEjb, usuariEntitatEjb);
 
   } // Final de metode
 

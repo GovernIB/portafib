@@ -25,8 +25,6 @@ public class CustodiaInfoBeanValidator
 
   protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
 
-  protected final es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager;
-
   protected final es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager;
 
   protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
@@ -39,14 +37,12 @@ public class CustodiaInfoBeanValidator
      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
-     es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) { 
     this.__codiBarresManager = __codiBarresManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
-    this.__posicioPaginaManager = __posicioPaginaManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     _validator = new CustodiaInfoValidator<CustodiaInfoJPA>();
@@ -57,14 +53,12 @@ public class CustodiaInfoBeanValidator
      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
-     es.caib.portafib.model.dao.IPosicioPaginaManager __posicioPaginaManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     this.__codiBarresManager = __codiBarresManager;
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
-    this.__posicioPaginaManager = __posicioPaginaManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this._validator = _validator;
@@ -73,7 +67,7 @@ public class CustodiaInfoBeanValidator
   @Override
   public List<I18NFieldError> validate(CustodiaInfoJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<CustodiaInfoJPA> _bvr_ = new BeanValidatorResult<CustodiaInfoJPA>();
-    _validator.validate(_bvr_, target, isNou, __codiBarresManager, __custodiaInfoManager, __entitatManager, __pluginManager, __posicioPaginaManager, __usuariAplicacioManager, __usuariEntitatManager);
+    _validator.validate(_bvr_, target, isNou, __codiBarresManager, __custodiaInfoManager, __entitatManager, __pluginManager, __usuariAplicacioManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

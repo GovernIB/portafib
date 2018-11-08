@@ -23,12 +23,18 @@ public interface ConstantsV2 {
   
   public static final String PDF_FILE_EXTENSION = "pdf";
   
- 
+  
   public static final int TIPUSESTATPETICIODEFIRMA_NOINICIAT = 0;
   public static final int TIPUSESTATPETICIODEFIRMA_ENPROCES = 1;
   public static final int TIPUSESTATPETICIODEFIRMA_PAUSAT = 2;
   public static final int TIPUSESTATPETICIODEFIRMA_REBUTJAT = 3;
   public static final int TIPUSESTATPETICIODEFIRMA_FIRMAT = 4;
+  
+  public static final int[] TIPUSESTATPETICIODEFIRMA = {
+    TIPUSESTATPETICIODEFIRMA_NOINICIAT,TIPUSESTATPETICIODEFIRMA_ENPROCES,
+    TIPUSESTATPETICIODEFIRMA_PAUSAT, TIPUSESTATPETICIODEFIRMA_REBUTJAT,
+    TIPUSESTATPETICIODEFIRMA_FIRMAT
+  };
 
   // Estat Inicials d'un EstatDeFirma
   public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR = 0L;
@@ -38,6 +44,13 @@ public interface ConstantsV2 {
   // de la resta de colaboradors
   public static final long TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR = 2L;
   public static final long TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR = 3L;
+  
+  public static final long[] TIPUSESTATDEFIRMAINICIAL = new long[] {
+    TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_VALIDAR,
+    TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR,
+    TIPUSESTATDEFIRMAINICIAL_REVISANT_PER_VALIDAR,
+    TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR
+  };
 
   // Estats Finals d'un EstatDeFirma
   public static final long TIPUSESTATDEFIRMAFINAL_VALIDAT = 0L;
@@ -160,16 +173,41 @@ public interface ConstantsV2 {
   public static final int TIPUSFIRMA_CADES = 2;
   public static final int TIPUSFIRMA_SMIME = 3;
   
+  
+  public static final int[] TIPUSFIRMA_SUPPORTED = { TIPUSFIRMA_PADES }; 
+  
 
   public static final int DOC_PDF = 0;
   public static final int DOC_IMG = 1;
   public static final int DOC_TXT = 2;
   public static final int DOC_BIN = 3;
   
+  
+  // #199  TIPUS METADADES XYZ ZZZ
+//  0;"tipusmetadada.string";"java.lang.String"
+//  1;"tipusmetadada.integer";"java.math.BigInteger"
+//  2;"tipusmetadada.decimal";"java.math.BigDecimal"
+//  3;"tipusmetadada.boolean";"java.lang.Boolean"
+//  4;"tipusmetadada.base64";"org.fundaciobit.pluginsib.core.utils.Base64"
+//  5;"tipusmetadada.date";"org.fundaciobit.pluginsib.core.utils.ISO8601"
 
-  public static final int PRIORITAT_BAIXA = 0;
+  
+
+//prioritat.0=Prioridad Pausada
+//prioritat.1=Prioridad Insignificante
+//prioritat.2=Prioridad Muy Baja
+//prioritat.3=Prioridad Baja
+//prioritat.4=Prioridad Normal-Baja
+//prioritat.5=Prioridad Normal
+//prioritat.6=Prioridad Normal-Alta
+//prioritat.7=Prioridad Alta
+//prioritat.8=Prioridad Muy Alta
+//prioritat.9=Prioridad Inmediata
+
+
+  public static final int PRIORITAT_BAIXA = 3;
   public static final int PRIORITAT_NORMAL = 5;
-  public static final int PRIORITAT_ALTA = 9;
+  public static final int PRIORITAT_ALTA = 7;
 
 
   
@@ -225,6 +263,9 @@ public interface ConstantsV2 {
    * Neither code bars nor signer information will be added to the PDF document.
    */
   public static final int POSICIO_PAGINA_CAP = 0;
+  
+  
+  
   
   
   //========================================================
@@ -367,6 +408,9 @@ public interface ConstantsV2 {
     PLUGIN_POLITICA_DE_US_NOMES_ENTITAT,
     PLUGIN_POLITICA_DE_US_USAR_TOTHOM
   };
+
+  
+
 
 
   // ========================================================

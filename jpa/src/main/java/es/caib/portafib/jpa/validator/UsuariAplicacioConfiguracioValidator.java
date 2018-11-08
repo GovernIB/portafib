@@ -4,10 +4,8 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
-import es.caib.portafib.model.fields.AlgorismeDeFirmaFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PluginFields;
-import es.caib.portafib.model.fields.TipusFirmaFields;
 import es.caib.portafib.model.fields.TraduccioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
@@ -31,10 +29,8 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.IAlgorismeDeFirmaManager __algorismeDeFirmaManager
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
-    ,es.caib.portafib.model.dao.ITipusFirmaManager __tipusFirmaManager
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager) {
@@ -189,32 +185,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacio.usuariAplicacio"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacio.usuariAplicacioID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariaplicacioid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(TIPUSFIRMAID) == 0) {
-      java.lang.Integer __tipusfirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,TIPUSFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __tipusFirmaManager.count(TipusFirmaFields.TIPUSFIRMAID.equal(__tipusfirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(TIPUSFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusFirma.tipusFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("tipusFirma.tipusFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__tipusfirmaid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(ALGORISMEDEFIRMAID) == 0) {
-      java.lang.Integer __algorismedefirmaid = (java.lang.Integer)__vr.getFieldValue(__target__,ALGORISMEDEFIRMAID);
-      if (__algorismedefirmaid != null ) {
-        Long __count_ = null;
-        try { __count_ = __algorismeDeFirmaManager.count(AlgorismeDeFirmaFields.ALGORISMEDEFIRMAID.equal(__algorismedefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(ALGORISMEDEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("algorismeDeFirma.algorismeDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__algorismedefirmaid)));
-        }
       }
     }
 

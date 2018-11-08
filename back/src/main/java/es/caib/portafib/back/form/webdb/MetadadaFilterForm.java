@@ -135,7 +135,7 @@ public class MetadadaFilterForm extends PortaFIBBaseFilterForm implements Metada
     this.tipusMetadadaIDDesde = __toClone.tipusMetadadaIDDesde;
     this.tipusMetadadaIDFins = __toClone.tipusMetadadaIDFins;
     this.mapOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.mapOfPeticioDeFirmaForPeticioDeFirmaID;
-    this.mapOfTipusMetadadaForTipusMetadadaID = __toClone.mapOfTipusMetadadaForTipusMetadadaID;
+    this.mapOfValuesForTipusMetadadaID = __toClone.mapOfValuesForTipusMetadadaID;
   }
   
   /* ========= UTILS ========== */
@@ -182,14 +182,14 @@ public class MetadadaFilterForm extends PortaFIBBaseFilterForm implements Metada
 
 
 
-  private Map<String, String> mapOfTipusMetadadaForTipusMetadadaID;
+  private Map<String, String> mapOfValuesForTipusMetadadaID;
 
-  public Map<String, String> getMapOfTipusMetadadaForTipusMetadadaID() {
-    return this.mapOfTipusMetadadaForTipusMetadadaID;
+  public Map<String, String> getMapOfValuesForTipusMetadadaID() {
+    return this.mapOfValuesForTipusMetadadaID;
   }
 
-  public void setMapOfTipusMetadadaForTipusMetadadaID(Map<String, String> mapOfTipusMetadadaForTipusMetadadaID) {
-    this.mapOfTipusMetadadaForTipusMetadadaID = mapOfTipusMetadadaForTipusMetadadaID;
+  public void setMapOfValuesForTipusMetadadaID(Map<String, String> mapOfValuesForTipusMetadadaID) {
+    this.mapOfValuesForTipusMetadadaID = mapOfValuesForTipusMetadadaID;
   }
 
 
@@ -202,7 +202,6 @@ public class MetadadaFilterForm extends PortaFIBBaseFilterForm implements Metada
 
    static {
      traduibles = new java.util.ArrayList<String>();
-   traduibles.add(TIPUSMETADADAID.javaName);
    };
 
 }
