@@ -467,10 +467,6 @@ public class PassarelaDeFirmaWebEJB
          continue;
        }
 
-       
-       
-       
-      
       // (a) Verificar que el certificat emprat en la firma es correcte (vàlid)
       /* XYZ ZZZ
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
@@ -498,6 +494,9 @@ public class PassarelaDeFirmaWebEJB
         InformacioCertificat info;
         info = PdfUtils.checkCertificatePADES(fitxerOriginalID, fitxersByNumFirma, signatureFile,
             numFirmaPortaFIB, numFirmesOriginals, ignoreCheckPostSign);
+            
+       // XYZ ZZZ FALTA VERIFICAR QUE EL DOCUMENT NO S?HAGI MODIFICAT
+       //status.setCheckDocumentModifications(true);
   
         // Obtenir informació del certificat
         final boolean isDebug = log.isDebugEnabled();
@@ -534,9 +533,17 @@ public class PassarelaDeFirmaWebEJB
         final Where where = UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma
             .getUsuariEntitatID());
         String expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
-        LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
+        if(LogicUtils.checkExpectedNif(nifFirmant, expectedNif)) {
+          OKKKK
+         };
+        status.setCheckAdministrationIDOfSigner(true);
+      } else {
+      status.setCheckAdministrationIDOfSigner(false);
       }
       */
+       
+       
+       
 
       // (c) // Validar la Firma
       try {
@@ -560,13 +567,12 @@ public class PassarelaDeFirmaWebEJB
                 "error.passarela.sensevalidadorfirmesdinsentitat"));
             continue;            
           }
-          
-          
         }
         
 
         if (pluginValidateSignatureID == null) {
           log.info("XYZ ZZZ debug No s'ha definit plugin De validacio dins de l'entitat");
+          status.setCheckValidationSignature(false);
         } else {
           InputStream documentDetachedFile;
           {
@@ -586,6 +592,7 @@ public class PassarelaDeFirmaWebEJB
           }
           validacioFirmesEjb.validateSignature(fis.getSignType(), pluginValidateSignatureID, documentDetachedFile,
               status.getFitxerFirmat(), languageUI);
+          status.setCheckValidationSignature(true);
         }
       
       } catch(I18NException i18n) {

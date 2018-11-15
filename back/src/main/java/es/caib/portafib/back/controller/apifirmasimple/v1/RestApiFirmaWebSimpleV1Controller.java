@@ -937,9 +937,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       }
 
       //FirmaSimpleFile fsf = convertFitxerBeanToFirmaSimpleFile(result.getSignedFile());
+      final boolean isSignatureInServer = false;
       FirmaSimpleSignatureResult fssr;
       fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result,
-          pss.getSignaturesSet().getCommonInfoSignature(), infoSign);
+          pss.getSignaturesSet().getCommonInfoSignature(), infoSign, isSignatureInServer);
       
 
       HttpHeaders headers = addAccessControllAllowOrigin();

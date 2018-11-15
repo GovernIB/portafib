@@ -313,7 +313,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
         return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
       }
 
-      FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults, pss);
+      final boolean isSignatureInServer = true;
+      FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults, pss, isSignatureInServer);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignDocumentsResponse>(fssfr,

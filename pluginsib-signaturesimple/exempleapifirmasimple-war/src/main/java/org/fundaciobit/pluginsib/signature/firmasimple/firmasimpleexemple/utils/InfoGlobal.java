@@ -14,6 +14,8 @@ public class InfoGlobal {
 
   FirmaSimpleSignatureResult resultat;
 
+  String signatureDetails;
+
   /**
    * @param peticio
    */
@@ -32,6 +34,14 @@ public class InfoGlobal {
 
   public FirmaSimpleFileInfoSignature getPeticio() {
     return peticio;
+  }
+
+  public String getSignatureDetails() {
+    return signatureDetails;
+  }
+
+  public void setSignatureDetails(String signatureDetails) {
+    this.signatureDetails = signatureDetails;
   }
 
 }

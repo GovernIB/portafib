@@ -41,12 +41,12 @@ public class ApiFirmaEnServidorSimpleTester {
       ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
 
       testGetMaxSignByTransaction(api);
-      
+
       testGetAvailableProfiles(api);
 
       testSignatureServer(api);
 
-      //testUpgradeSignaturePAdES(api);
+      // testUpgradeSignaturePAdES(api);
 
       // testUpgradeSignatureCAdES(api);
 
@@ -91,8 +91,11 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
         "application/octet-stream");
 
-    FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign
-        .getData(), null));
+    FirmaSimpleSignatureResult upgradedInfo = api
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
+
+    printSignatureInfo(upgradedInfo);
+    FirmaSimpleFile upgraded = upgradedInfo.getSignedFile();
 
     String fileName = "foto.jpg_cades_detached-upgraded.csig";
 
@@ -106,8 +109,11 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola_signed.pdf",
         "application/pdf");
 
-    FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign
-        .getData(), null));
+    FirmaSimpleSignatureResult upgradedInfo = api
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
+
+    printSignatureInfo(upgradedInfo);
+    FirmaSimpleFile upgraded = upgradedInfo.getSignedFile();
 
     String fileName = "hola-signed-upgraded.pdf";
 
@@ -121,8 +127,11 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto_xades_attached_firmat.xsig",
         "application/xml");
 
-    FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign
-        .getData(), null));
+    FirmaSimpleSignatureResult upgradedInfo = api
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
+
+    printSignatureInfo(upgradedInfo);
+    FirmaSimpleFile upgraded = upgradedInfo.getSignedFile();
 
     String fileName = "foto_xades_attached_firmat_upgraded.xsig";
 
@@ -135,8 +144,11 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml_signed.xsig",
         "application/xml");
 
-    FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign
-        .getData(), null));
+    FirmaSimpleSignatureResult upgradedInfo = api
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
+
+    printSignatureInfo(upgradedInfo);
+    FirmaSimpleFile upgraded = upgradedInfo.getSignedFile();
 
     String fileName = "sample.xml_signed_upgraded.xsig";
 
@@ -149,8 +161,11 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("ORVE_firma0.xsig",
         "application/xml");
 
-    FirmaSimpleFile upgraded = api.upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign
-        .getData(), null));
+    FirmaSimpleSignatureResult upgradedInfo = api
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(fileToSign.getData(), null));
+
+    printSignatureInfo(upgradedInfo);
+    FirmaSimpleFile upgraded = upgradedInfo.getSignedFile();
 
     String fileName = "ORVE_firma0_upgraded.xsig";
 
@@ -293,70 +308,10 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   public static void printSignatureInfo(FirmaSimpleSignatureResult fssr) {
-    System.out.println("  INFORMACIO:");
-
-    FirmaSimpleSignedFileInfo sfi = fssr.getSignedFileInfo();
-
-    String operation;
-    switch (sfi.getSignOperation()) {
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_SIGN:
-      operation = "FIRMA";
-      break;
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COSIGN:
-      operation = "COFIRMA";
-      break;
-
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COUNTERSIGN:
-      operation = "CONTRAFIRMA";
-      break;
-
-    default:
-      operation = "DESCONEGUDA (" + sfi.getSignOperation() + ")";
-    }
-    System.out.println("      * Operacio:\t" + operation);
-
-    System.out.println("      * Tipus:\t" + sfi.getSignType());
-
-    System.out.println("      * Algorisme:\t" + sfi.getSignAlgorithm());
-
-    System.out
-        .println("      * Mode:\t"
-            + ((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED) ? "Attached - Implicit"
-                : "Detached- Explicit"));
-
-    String posicioTaulaDeFirmes;
-    switch (sfi.getSignaturesTableLocation()) {
-
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_WITHOUT:
-      posicioTaulaDeFirmes = "Sense taula de Firmes";
-      break;
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_FIRSTPAGE:
-      posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
-      break;
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_LASTPAGE:
-      posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
-      break;
-
-    default:
-      posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";
-
-    }
-    System.out.println("      * Posicio Taula De Firmes:\t" + posicioTaulaDeFirmes);
-
-    System.out.println("      * Inclou Politica de Firmes(o sigui es EPES):\t"
-        + sfi.isPolicyIncluded());
-    System.out.println("      * Inclou Segell de Temps:\t" + sfi.isTimeStampIncluded());
-
-    
-    // XYZ ZZZ 
-    // Falta guardar en un fitxer a part o com a mínim imprimir informació de custòdia
-    String custID = sfi.getCustodyFileID();
-    String custURL = sfi.getCustodyFileURL();
-    if (custID != null || custURL != null) {
-      System.out.println("      * CustodiaID: " + custID);
-      System.out.println("      * CustodiaURL: " + custURL);
-    }
+    System.out.println(FirmaSimpleSignedFileInfo.toString(fssr.getSignedFileInfo()));
   }
+  
+  
 
   public static void testGetMaxSignByTransaction(ApiFirmaEnServidorSimple api)
       throws Exception {
@@ -365,27 +320,23 @@ public class ApiFirmaEnServidorSimpleTester {
     System.out.println("getMaxNumberOfSignaturesByTransaction = " + max);
   }
 
-  
-  public static void testGetAvailableProfiles(ApiFirmaEnServidorSimple api)
-      throws Exception {
-    
-    String locales[] = new String[] { "ca" , "es"};
-    
+  public static void testGetAvailableProfiles(ApiFirmaEnServidorSimple api) throws Exception {
+
+    String locales[] = new String[] { "ca", "es" };
+
     for (String loc : locales) {
-      System.out.println(" ==== LOCALE: " + loc  + " ===========");
+      System.out.println(" ==== LOCALE: " + loc + " ===========");
       FirmaSimpleAvailableProfiles profiles = api.getAvailableProfiles(loc);
-      
+
       List<FirmaSimpleAvailableProfile> listProfiles = profiles.getAvailableProfiles();
-      
+
       for (FirmaSimpleAvailableProfile ap : listProfiles) {
-        System.out.println("  + Profile[" + ap.getName()+ "] => " + ap.getDescription());  
+        System.out.println("  + Profile[" + ap.getName() + "] => " + ap.getDescription());
       }
 
     }
-   
-    
+
   }
-  
 
   /**
    * 

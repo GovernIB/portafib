@@ -113,6 +113,7 @@ abstract class AbstractApiFirmaSimple {
         client = Client.create();
       }
 
+      
       if (this.username != null) {
         client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
       }

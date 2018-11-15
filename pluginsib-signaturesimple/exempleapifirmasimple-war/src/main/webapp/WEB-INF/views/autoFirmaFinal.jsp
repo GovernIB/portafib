@@ -70,6 +70,11 @@
                     target="_blank" class="btn btn-primary" style="color: white;"> <fmt:message
                             key="descarregardocumentfirmat" />
                 </a>
+                <br/>
+                <br/>
+                 <textarea rows="30" cols="70" style="width:auto;">${entry.value.signatureDetails}</textarea> 
+                
+                
                  </c:if>
                 <c:if test="${result.status.status != StatusFirma.STATUS_FINAL_OK}">
                    <div class="alert alert-danger">

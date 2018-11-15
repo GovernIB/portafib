@@ -15,11 +15,13 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
+import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
@@ -209,9 +211,15 @@ public class PassarelaDeFirmaEnServidorEJB extends
       
       // FIRMAR
       ss = signaturePlugin.signDocuments(ss, timestampUrlBase, parameters);
+      
+      
+      // XYZ ZZZ ZZZ FALTA VALIDAR i CUSTODIA
+      
+      PassarelaCustodyInfo custodyInfo = null;
+      PassarelaValidationInfo validationInfo = null;
 
       // Convertir a Status i Results
-      return getSignatureStatusAndResults(ss);
+      return getSignatureStatusAndResults(ss, custodyInfo, validationInfo);
 
     } catch (I18NValidationException i18nve) {
 
@@ -312,7 +320,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
     return new PassarelaFullResults(pss);
   }
 
-  private PassarelaFullResults getSignatureStatusAndResults(SignaturesSet ssf)
+  private PassarelaFullResults getSignatureStatusAndResults(SignaturesSet ssf,
+      PassarelaCustodyInfo custodyInfo, PassarelaValidationInfo validationInfo)
       throws I18NException {
 
     PassarelaFullResults resultFull = new PassarelaFullResults();
@@ -334,15 +343,11 @@ public class PassarelaDeFirmaEnServidorEJB extends
       StatusSignature ss = pfis.getStatusSignature();
 
       
-      PassarelaSignatureResult psr = new PassarelaSignatureResult();
-      
-      psr.setSignID(pfis.getSignID());
-      
-      statusToPassarelaStatus(ss, psr);
 
+      FitxerBean signedFile = null;
       if (ss.getSignedData() != null && ss.getSignedData().exists()) {
 
-        FitxerBean signedFile = new FitxerBean();
+        signedFile = new FitxerBean();
         signedFile.setNom("signed_" + pfis.getFileToSign().getName());
 
         // Això depen del tipus de firma !!!!!
@@ -372,8 +377,12 @@ public class PassarelaDeFirmaEnServidorEJB extends
         signedFile.setData(new DataHandler(new FileDataSource(ss.getSignedData())));
         signedFile.setDescripcio("Signed Document");
 
-        psr.setSignedFile(signedFile);
       }
+
+      PassarelaSignatureResult psr = new PassarelaSignatureResult(pfis.getSignID(), signedFile,
+          custodyInfo, validationInfo);
+      
+      statusToPassarelaStatus(ss, psr);
 
       results.add(psr);
     }

@@ -13,10 +13,35 @@ public class PassarelaSignatureResult extends PassarelaSignatureStatus {
   protected FitxerBean signedFile;
 
   protected String signID;
-  
-  protected java.lang.String custodyFileID = null;
 
-  protected java.lang.String custodyFileURL = null;
+  protected PassarelaCustodyInfo custodyInfo;
+  
+  protected PassarelaValidationInfo validationInfo;
+
+
+  public PassarelaSignatureResult() {
+    super();
+  }
+
+  public PassarelaSignatureResult(String signID, int status, String errorMessage,
+      String errorStackTrace, FitxerBean signedFile, PassarelaCustodyInfo custodyInfo,
+      PassarelaValidationInfo validationInfo) {
+    super(status, errorMessage, errorStackTrace);
+    this.signID = signID;
+    this.signedFile = signedFile;
+    this.custodyInfo = custodyInfo;
+    this.validationInfo = validationInfo;
+  
+  }
+
+  public PassarelaSignatureResult(String signID, FitxerBean signedFile,
+      PassarelaCustodyInfo custodyInfo, PassarelaValidationInfo validationInfo) {
+    super();
+    this.signID = signID;
+    this.signedFile = signedFile;
+    this.custodyInfo = custodyInfo;
+    this.validationInfo = validationInfo;
+  }
 
   public FitxerBean getSignedFile() {
     return signedFile;
@@ -34,20 +59,20 @@ public class PassarelaSignatureResult extends PassarelaSignatureStatus {
     this.signID = signID;
   }
 
-  public java.lang.String getCustodyFileID() {
-    return custodyFileID;
+  public PassarelaCustodyInfo getCustodyInfo() {
+    return custodyInfo;
   }
 
-  public void setCustodyFileID(java.lang.String custodyFileID) {
-    this.custodyFileID = custodyFileID;
+  public void setCustodyInfo(PassarelaCustodyInfo custodyInfo) {
+    this.custodyInfo = custodyInfo;
   }
 
-  public java.lang.String getCustodyFileURL() {
-    return custodyFileURL;
+  public PassarelaValidationInfo getValidationInfo() {
+    return validationInfo;
   }
 
-  public void setCustodyFileURL(java.lang.String custodyFileURL) {
-    this.custodyFileURL = custodyFileURL;
+  public void setValidationInfo(PassarelaValidationInfo validationInfo) {
+    this.validationInfo = validationInfo;
   }
 
 }

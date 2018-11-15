@@ -27,6 +27,7 @@ import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.F
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.exceptions.AbstractFirmaSimpleException;
@@ -464,6 +465,10 @@ public class AutoFirmaController {
               transactionID, signID));
 
           infoGlobal.setResultat(fssr);
+          
+          if (fssr.getSignedFileInfo() != null) {
+            infoGlobal.setSignatureDetails(FirmaSimpleSignedFileInfo.toString(fssr.getSignedFileInfo()));
+          }
 
         } // Final for de fitxers firmats
 
@@ -572,6 +577,10 @@ public class AutoFirmaController {
 
         InfoGlobal infoGlobal = peticions.get(fssr.getSignID());
         infoGlobal.setResultat(fssr);
+        
+        if (fssr.getSignedFileInfo() != null) {
+          infoGlobal.setSignatureDetails(FirmaSimpleSignedFileInfo.toString(fssr.getSignedFileInfo()));
+        }
 
       } // Final for de fitxers firmats
 

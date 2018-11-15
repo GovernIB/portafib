@@ -17,6 +17,7 @@ import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.F
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -87,23 +88,24 @@ public class ApiFirmaEnServidorSimple extends AbstractApiFirmaSimple {
   
   
   
-  public FirmaSimpleFile upgradeSignature(FirmaSimpleUpgradeRequest fsur) throws Exception {
+  public FirmaSimpleSignatureResult upgradeSignature(FirmaSimpleUpgradeRequest fsur) throws Exception {
     ClientResponse response = commonCall(fsur, UPGRADESIGNATURE);
 
-    FirmaSimpleFile result = response.getEntity(FirmaSimpleFile.class);
+    FirmaSimpleSignatureResult fullresult = response.getEntity(FirmaSimpleSignatureResult.class);
 
+    FirmaSimpleFile result = fullresult.getSignedFile();
     if (result != null && result.getMime() != null) {
       if ("application/xml".equals(result.getMime())) {
         if (!isUTF8(result.getData())) {
           // Algunes firmes XAdes es retornen com a ANSI despres de passar per REST
           // S'han de convertir a UTF-8
           result.setData(transformEncoding(result.getData(), "ISO-8859-1", "UTF-8"));
-          result.setMime(null);
+          //result.setMime(null);
         }
       }
     }
     
-    return result;
+    return fullresult;
     
     /* XYZ ZZZ
     InputStream is = response.getEntityInputStream();
