@@ -2,6 +2,8 @@
 PortaFIB 1.1.5
 ==============
 
+2019-01-22 Afegir Nou Plugin de Segell de Temps per TS@ (https://github.com/GovernIB/pluginsib-timestamp/issues/3)
+
 2018-10-31 Falta destinatari en col·laboracions i delegacions #206
 
 2018-10-30 Bug: Firmat per, data i motiu utilitza idioma de UserInterface #205

@@ -381,7 +381,6 @@
         <!-- ===  PLUGINS DE SEGELLAT DE TEMPS  === -->
         <!-- ====================================== -->
 
-
         <dependency>
           <groupId>org.fundaciobit.plugins</groupId>
           <artifactId>plugin-timestamp-api</artifactId>
@@ -399,8 +398,13 @@
           <artifactId>plugin-timestamp-afirmarfc</artifactId>
           <version>1.0.1</version>
         </dependency>
-        
-        
+
+        <dependency>
+          <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
+          <artifactId>pluginsib-timestamp-afirmarfc-cliente_tsa_rfc</artifactId>
+          <version>1.0.0</version>
+        </dependency>
+
         <!-- ======================================== -->
         <!-- ===  PLUGINS DE VALIDACIO DE FIRMES  === -->
         <!-- ======================================== -->
