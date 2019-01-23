@@ -26,9 +26,9 @@ UPDATE pfi_usuarientitat SET politicacustodia=4 WHERE potcustodiar=true;
 UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar=false;
 UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar is null;
 
-UPDATE pfi_usuariaplicacio SET politicacustodia=4 WHERE potcustodiar=true;
-UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar=false;
-UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
+-- UPDATE pfi_usuariaplicacio SET politicacustodia=4 WHERE potcustodiar=true;
+-- UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar=false;
+-- UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 
 -- ======================================================================
 -- 2018/05/01 Configuració de Firma de UsuariApp 	Us política de Firma) #148

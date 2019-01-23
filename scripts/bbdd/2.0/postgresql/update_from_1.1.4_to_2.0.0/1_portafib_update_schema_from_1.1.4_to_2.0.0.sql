@@ -93,7 +93,7 @@ DROP TABLE pfi_posiciotaulafirmes;
 -- ===========================================
 
 CREATE TABLE pfi_estadistica (
-   estadisticaid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
+   estadisticaid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
    tipus integer NOT NULL,
    usuariaplicacioid character varying(101),
    usuarientitatid character varying(101),
@@ -101,7 +101,7 @@ CREATE TABLE pfi_estadistica (
    entitatid character varying (50),
    valor double precision, 
    parametres character varying	(3000), 
-   CONSTRAINT pfi_estadistica_pk PRIMARY KEY 	estadisticaid,
+   CONSTRAINT pfi_estadistica_pk PRIMARY KEY (estadisticaid),
    CONSTRAINT pfi_estadis_entitat_fk FOREIGN KEY (entitatid) REFERENCES pfi_entitat(entitatid) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -346,7 +346,7 @@ CREATE TABLE pfi_plugincridada (
    CONSTRAINT pfi_plugcrida_entitat_fk FOREIGN KEY 	(entitatid) REFERENCES pfi_entitat 	(entitatid) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 COMMENT ON COLUMN pfi_plugincridada.tipusresultat IS '0 => error, 1 => ok';
-COMMENT ON COLUMN pfi_plugincridada.resultat IS 'conte error si falla i dades resultat si va bé.';
+COMMENT ON COLUMN pfi_plugincridada.retorntext IS 'conte error si falla i dades resultat si va bé.';
 COMMENT ON COLUMN pfi_plugincridada.tempsexecucio IS 'milisegons execucio';
 
 create index pfi_plugincridada_pk_i on pfi_plugincridada 	(plugincridadaid);

@@ -422,11 +422,11 @@
           <artifactId>pluginsib-timestamp-catcertrfc</artifactId>
           <version>${plugins.version}</version>
         </dependency>
-
+      
         <dependency>
           <groupId>org.fundaciobit.pluginsib.timestamp</groupId>
-          <artifactId>pluginsib-timestamp-afirmarfc</artifactId>
-          <version>${plugins.version}</version>
+          <artifactId>pluginsib-timestamp-afirmarfc-cliente_tsa_rfc</artifactId>
+          <version>2.0.0</version>
         </dependency>
         
         

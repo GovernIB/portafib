@@ -19,7 +19,7 @@
     <!-- PortaFIB -->
     
     <module>utils</module>
-    <!-- XYZ ZZZ   --> 
+    <!-- XYZ ZZZ  --> 
     
     <module>persistence</module>
     <module>model</module>
@@ -27,7 +27,7 @@
     <module>ejb</module> 
     <module>logic</module> 
 
-    <module>back</module> 
+    <module>back</module>  
     <!--    XYZ ZZZ -->
     <module>ws</module>
     <module>scripts</module> 

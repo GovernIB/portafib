@@ -173,6 +173,9 @@ public class LoginInfo {
     return usuariEntitatPerEntitatID;
   }
 
+  public boolean isNeedConfigUser() {
+    return needConfigUser;
+  }
 
   public boolean getNeedConfigUser() {
     return needConfigUser;

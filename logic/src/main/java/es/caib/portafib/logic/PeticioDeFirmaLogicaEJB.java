@@ -583,7 +583,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             custodyID = plugin.reserveCustodyID(additionParameters);
             // TODO Check custodyID != null
             custodiaInfo.setCustodiaDocumentID(custodyID);
-            String url = plugin.getValidationUrl(custodyID, additionParameters);
+            String url = plugin.getOriginalFileUrl(custodyID, additionParameters);
             custodiaInfo.setUrlFitxerCustodiat(url);
             custodiaInfo.setTitolPeticio(peticioDeFirma.getTitol());
             custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
