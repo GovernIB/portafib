@@ -23,18 +23,16 @@ Les seves característiques principals són:
 Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/master/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
 
 
-** Documentació **
+**Documentació**
 
- * [API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
-	* GuiaDePresentació.odt
-	* Introduccio_Basica_PortaFIB.odp	
-	* Manual_de_CallBack_de_PortaFIB.odt
-	* Manual_de_Instalacio_de_PortaFIB.odt
-	* Manual_de_Migracio_de_Versions_de_PortaFIB.odt
-	* Manual_de_RESTServices_de_PortaFIB.odt
-	* Manual_de_Usuari_de_PortaFIB.odt
-	* Manual_de_WebServices_de_PortaFIB.odt
-	* Model_BBDD_PortaFIB.png
+* [API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt) : FALTA EXPLICAIO SIMPLE
+* [GuiaDePresentació.odt](/.doc/GuiaDePresentació.odt) : FALTA EXPLICAIO SIMPLE
+* [Introduccio_Basica_PortaFIB.odp](/.doc/): FALTA EXPLICAIO SIMPLE
+* [Manual_de_CallBack_de_PortaFIB.odt](/.doc/): FALTA EXPLICAIO SIMPLE
+* [Manual_de_Instalacio_de_PortaFIB.odt](/.doc/): FALTA EXPLICAIO SIMPLE
+* [Manual_de_Migracio_de_Versions_de_PortaFIB.odt](/.doc/): FALTA EXPLICAIO SIMPLE
+* [Manual_de_RESTServices_de_PortaFIB.odt](/.doc/): FALTA EXPLICAIO SIMPLE
+* [Manual_de_Usuari_de_PortaFIB.odt](/.doc/): FALTA EXPLICAIO SIMPLE
   ...
 
 
