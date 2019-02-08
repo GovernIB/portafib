@@ -6,6 +6,7 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.PropertyInfo;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
@@ -575,5 +577,9 @@ public abstract class AbstractSignatureWebPlugin
     return null;
   }
 
+  @Override
+  public List<PropertyInfo> getAvailableProperties(String propertyKeyBase) {
+    return null;
+  }
 
 }

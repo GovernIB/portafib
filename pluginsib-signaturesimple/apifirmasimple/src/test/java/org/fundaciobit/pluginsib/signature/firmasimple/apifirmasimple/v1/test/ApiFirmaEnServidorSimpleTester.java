@@ -40,13 +40,13 @@ public class ApiFirmaEnServidorSimpleTester {
 
       ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple();
 
-      testGetMaxSignByTransaction(api);
+      //testGetMaxSignByTransaction(api);
 
-      testGetAvailableProfiles(api);
+      //testGetAvailableProfiles(api);
 
-      testSignatureServer(api);
+      //testSignatureServer(api);
 
-      // testUpgradeSignaturePAdES(api);
+      testUpgradeSignaturePAdES(api);
 
       // testUpgradeSignatureCAdES(api);
 
@@ -120,6 +120,7 @@ public class ApiFirmaEnServidorSimpleTester {
     guardarFitxer(upgraded, fileName);
 
   }
+
 
   public static void testUpgradeSignatureXAdESOfBinary(ApiFirmaEnServidorSimple api)
       throws Exception, FileNotFoundException, IOException {

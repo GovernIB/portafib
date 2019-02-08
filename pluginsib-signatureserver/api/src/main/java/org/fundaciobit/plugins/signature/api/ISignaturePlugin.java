@@ -109,6 +109,10 @@ public interface ISignaturePlugin extends IPlugin {
    */
   public boolean providesSecureVerificationCodeStamper();
 
-  
+  /**
+   * @return llista de propietats disponibles per aquest plugin. 
+   *    Si retorna null, es que no ha implementat aquest mètode
+   */
+  public List<PropertyInfo> getAvailableProperties(String propertyKeyBase);
 
 }

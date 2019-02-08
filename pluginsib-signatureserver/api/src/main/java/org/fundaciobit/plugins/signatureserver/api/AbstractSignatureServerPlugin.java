@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
+import org.fundaciobit.plugins.signature.api.PropertyInfo;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -364,6 +365,11 @@ public abstract class AbstractSignatureServerPlugin
   @Override
   public Integer getSupportedNumberOfSignaturesInBatch() {
     // Null indica qualsevol numero de firmes per transacció.
+    return null;
+  }
+  
+  @Override
+  public List<PropertyInfo> getAvailableProperties(String propertyKeyBase) {
     return null;
   }
 

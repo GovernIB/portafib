@@ -344,8 +344,7 @@ public class FirmaSimpleSignedFileInfo {
 
     str.append("\n").append("      * Algorisme:\t" + sfi.getSignAlgorithm());
 
-    System.out
-        .println("      * Mode:\t"
+    str.append("\n").append("      * Mode:\t"
             + ((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED) ? "Attached - Implicit"
                 : "Detached- Explicit"));
 
