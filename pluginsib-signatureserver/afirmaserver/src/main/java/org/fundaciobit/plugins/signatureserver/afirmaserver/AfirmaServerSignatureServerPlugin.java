@@ -822,7 +822,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
           + " plataforma @firma no incluye la firma electrónica evolucionada al "
           + "formato " + typeform.getType() + " - " + typeform.getFormat()  + ".");
     }
-
+    
     return serSigRes.getSignature();
   }
   

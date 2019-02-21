@@ -114,6 +114,7 @@ import org.fundaciobit.plugins.documentcustody.api.DocumentCustody;
 import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.fundaciobit.plugins.documentcustody.api.NotSupportedCustodyException;
 import org.fundaciobit.plugins.documentcustody.api.SignatureCustody;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.hibernate.Hibernate;
@@ -1958,7 +1959,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // (a) Verificar que el certificat emprat en la firma es correcte (vàlid)
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
-      String tipusFirmaNom;
+      String signType;
       String mime;
       String extension;
       String nifFirmant;
@@ -1967,7 +1968,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         extension = "pdf";
         mime = ConstantsV2.PDF_MIME_TYPE;
         
-        tipusFirmaNom = "PAdES";
+        signType = FileInfoSignature.SIGN_TYPE_PADES;
 
         Map<Integer, Long> fitxersByNumFirma = null;
         if (numFirmaPortaFIB != 1) {
@@ -2023,8 +2024,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       
       // (c) // Validar la Firma
       {  
-        Long pluginValidateSignatureID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
-            EntitatFields.ENTITATID.equal(entitatID));
 
         InputStream documentDetachedFile = null;
         try {
@@ -2035,8 +2034,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             documentDetachedFile = null;
           }
         
-          validacioFirmesEjb.validateSignature(tipusFirmaNom, pluginValidateSignatureID, documentDetachedFile,
-            signatureFile, languageUI);
+          validacioFirmesEjb.validateSignatureWeb(entitatID, signType,
+              signatureFile, documentDetachedFile, languageUI);
         } finally {
           
           if (documentDetachedFile != null) {
@@ -2044,6 +2043,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           }
           
         }
+        
       
       }
 

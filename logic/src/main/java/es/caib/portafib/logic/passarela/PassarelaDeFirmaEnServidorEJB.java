@@ -280,8 +280,11 @@ public class PassarelaDeFirmaEnServidorEJB extends
     
     
     if (!signaturePlugin.isUpgradeSignatureSupported(signTypeForm)) {
-      log.warn("El plugin " + signaturePlugin.getName(new Locale("ca")) + " no suporta extensió de firma.");
-      throw new NoCompatibleSignaturePluginException();
+      // XYZ ZZZ TRA
+      String msg = "El plugin " + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
+          + " no suporta extensió de firma.";
+      log.warn(msg);
+      throw new NoCompatibleSignaturePluginException(msg);
     }
     
     
@@ -291,9 +294,15 @@ public class PassarelaDeFirmaEnServidorEJB extends
        // XYZ ZZZZ TODO fa falta cercar en propietats d'aplicació
        // el Segellador de Temps seleccionat i instanciar-ho
        // timestampGenerator = << INSTANCIAR-HO >>
+      
+      // XYZ ZZZ TRA
+      String msg = "El plugin " + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
+          + " requereix un Segellador de Temps extern, però aquesta funcionalitat encara"
+          + " no està suportada dins PortaFIB. Consulti amb el seu administrador.";
+      log.error(msg);
+      throw new NoCompatibleSignaturePluginException(msg);
     }
-    
-    
+
     return signaturePlugin.upgradeSignature(signature, null, signTypeForm, timestampGenerator);
     
     

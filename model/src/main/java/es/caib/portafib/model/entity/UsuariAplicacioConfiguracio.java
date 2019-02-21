@@ -5,8 +5,29 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public long getUsuariAplicacioConfigID();
 	public void setUsuariAplicacioConfigID(long _usuariAplicacioConfigID_);
 
-	public java.lang.String getUsuariAplicacioID();
-	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
+	public java.lang.String getNom();
+	public void setNom(java.lang.String _nom_);
+
+	public java.lang.String getEntitatID();
+	public void setEntitatID(java.lang.String _entitatID_);
+
+	public boolean isUsEnFirmaApiSimpleServidor();
+	public void setUsEnFirmaApiSimpleServidor(boolean _usEnFirmaApiSimpleServidor_);
+
+	public boolean isUsEnFirmaApiSimpleWeb();
+	public void setUsEnFirmaApiSimpleWeb(boolean _usEnFirmaApiSimpleWeb_);
+
+	public boolean isUsEnFirmaWeb();
+	public void setUsEnFirmaWeb(boolean _usEnFirmaWeb_);
+
+	public boolean isUsEnFirmaWS2();
+	public void setUsEnFirmaWS2(boolean _usEnFirmaWS2_);
+
+	public boolean isUsEnFirmaPassarelaServidor();
+	public void setUsEnFirmaPassarelaServidor(boolean _usEnFirmaPassarelaServidor_);
+
+	public boolean isUsEnFirmaPassarelaWeb();
+	public void setUsEnFirmaPassarelaWeb(boolean _usEnFirmaPassarelaWeb_);
 
 	public int getUsPoliticaDeFirma();
 	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_);
@@ -53,11 +74,11 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Long getFirmatPerFormatID();
 	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
 
-	public java.lang.Long getMotiuDelegacioID();
-	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
-
 	public java.lang.String getPropietatsTaulaFirmes();
 	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
+
+	public java.lang.Long getMotiuDelegacioID();
+	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
 
 	public int getPoliticaSegellatDeTemps();
 	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);

@@ -1,10 +1,14 @@
-<%@page import="es.caib.portafib.utils.Configuracio"%>
-<%@page import="es.caib.portafib.back.security.LoginInfo"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"
-%><%@ include  file="/WEB-INF/jsp/moduls/includes.jsp"%>
-<sec:authorize access="hasRole('ROLE_ADEN')">
+<%@page import="es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController"%>
+<%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
+%><%@page import="es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController"
+%><%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"
+%><%@page import="es.caib.portafib.utils.Configuracio"
+%><%@page import="es.caib.portafib.back.security.LoginInfo"
+%><%@page import="java.util.HashMap"
+%><%@page import="java.util.Map"
+%><%@ page contentType="text/html;charset=UTF-8" language="java"
+%><%@ include  file="/WEB-INF/jsp/moduls/includes.jsp"
+%><sec:authorize access="hasRole('ROLE_ADEN')">
 <div>
   <h5><fmt:message key="ROLE_ADEN.menu" /></h5>
 <%!
@@ -41,13 +45,20 @@ final String[] menu1 = {
     "estadistica.estadistica.plural"
 };
 
+public static final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
+public static final String PERFIL_DE_FIRMA = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL + ".plural";
+
 final String[] menu2 = {
-    "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}    
+    CONFIGURACIO_DE_FIRMA,
+    PERFIL_DE_FIRMA,
+    "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}  
+    "",
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
     "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio
     "custodiaInfo.custodiaInfo.plural",
     "notificaciows.llistat"
 };
+
 
 
 public static final Map<String, String> mapping;
@@ -83,14 +94,16 @@ static {
   
   mapping.put("solicitant.gestio", "/aden/solicitant/selecciousuari");
   mapping.put("revisor.gestio", "/aden/revisor/selecciousuari");
-  
-  
+
   mapping.put("peticionscaducades.llistat", "/aden/peticionscaducades/list");
   mapping.put("aturarpeticionsdefirma", "/aden/aturarpeticions/selecciousuari");
-  
-  
+
   mapping.put("usuariaplicacio.gestio", "/aden/usuariAplicacio/list");
 
+  mapping.put(CONFIGURACIO_DE_FIRMA, ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/list");
+
+  mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdenController.CONTEXT_WEB + "/list");
+  
   mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list/1");
 
   mapping.put("notificaciows.llistat", "/aden/notificaciows/list");

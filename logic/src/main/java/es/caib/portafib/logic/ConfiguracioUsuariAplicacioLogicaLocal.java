@@ -16,7 +16,19 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends UsuariAplicacioC
 	
   public static final String JNDI_NAME = "portafib/ConfiguracioUsuariAplicacioLogicaEJB/local";
   
+  /**
+   * 
+   * @param usuariAplicacioID
+   * @param codiPerfil
+   * @param usFirma veure 
+   * @return
+   * @throws I18NException
+   */
   public UsuariAplicacioConfiguracio getConfiguracioUsuariAplicacio(
-      final String usuariAplicacioID) throws I18NException;
+      final String usuariAplicacioID, String codiPerfil, final int usFirma) throws I18NException;
+  
+
+  public UsuariAplicacioConfiguracio getConfiguracioUsuariAplicacioPerPassarela(
+      final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
  
 }

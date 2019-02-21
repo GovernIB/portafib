@@ -1,19 +1,19 @@
 package es.caib.portafib.back.controller.apifirmasimple.v1;
 
 import org.apache.commons.io.FileUtils;
+import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.ApiFirmaWebSimple;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
-import org.fundaciobit.pluginsib.signature.firmasimple.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +34,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
+import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -391,7 +392,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       // Cercam que tengui configuracio
       final UsuariAplicacioConfiguracio config;
       config = configuracioUsuariAplicacioLogicaLocalEjb
-          .getConfiguracioUsuariAplicacio(usuariAplicacioID);
+          .getConfiguracioUsuariAplicacio(usuariAplicacioID, ti.getCommonInfo().getSignProfile(),
+              ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
       
       
       FirmaSimpleSignDocumentsRequest simpleSignaturesSet;

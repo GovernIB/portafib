@@ -8,24 +8,23 @@
 
   <modules>
     <!-- Llibreries de Firma Simple, Firma Web i Firma en Servidor -->
-      
-    <module>pluginsib-signaturesimple</module>
-    
+
     <module>pluginsib-signatureserver</module>
  
-    <module>pluginsib-signatureweb</module> 
+    <module>pluginsib-signatureweb</module>  
+
+    <module>apifirmasimple</module>  
   
  
     <!-- PortaFIB -->
-    
+
     <module>utils</module>
-    <!-- XYZ ZZZ  --> 
-    
+
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
     <module>ejb</module> 
-    <module>logic</module> 
+    <module>logic</module>
 
     <module>back</module>  
     <!--    XYZ ZZZ -->

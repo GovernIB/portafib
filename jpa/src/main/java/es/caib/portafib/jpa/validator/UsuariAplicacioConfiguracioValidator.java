@@ -5,9 +5,9 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
+import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TraduccioFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
@@ -30,15 +30,43 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
+    ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
-    ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager) {
 
     // Valors Not Null
-    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIAPLICACIOID, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,NOM, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOM)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,ENTITATID, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAAPISIMPLESERVIDOR, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAAPISIMPLESERVIDOR)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAAPISIMPLEWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAAPISIMPLEWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWS2, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWS2)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAPASSARELASERVIDOR, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAPASSARELASERVIDOR)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAPASSARELAWEB, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAPASSARELAWEB)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,USPOLITICADEFIRMA, 
         "genapp.validation.required",
@@ -73,11 +101,19 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICASEGELLATDETEMPS)));
 
     // Check size
-    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
-      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
-      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
-        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+    if (__vr.getFieldErrorCount(NOM) == 0) {
+      java.lang.String __nom = (java.lang.String)__vr.getFieldValue(__target__,NOM);
+      if (__nom!= null && __nom.length() > 255) {
+        __vr.rejectValue(NOM, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(NOM)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(ENTITATID) == 0) {
+      java.lang.String __entitatid = (java.lang.String)__vr.getFieldValue(__target__,ENTITATID);
+      if (__entitatid!= null && __entitatid.length() > 50) {
+        __vr.rejectValue(ENTITATID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
       }
     }
     
@@ -143,17 +179,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       // ====== Check Unique MULTIPLES - NOU =======
 
       // Check Unique - no PK
-      if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
-        java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
-        Long __count_ = null;
-        try { __count_ = __usuariAplicacioConfiguracioManager.count(org.fundaciobit.genapp.common.query.Where.AND(USUARIAPLICACIOID.equal(__usuariaplicacioid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ != 0) {        
-            __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.unique",
-                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariaplicacioid)),
-                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
-        }
-      }
-
       // Check Unique - PK no AutoIncrement amb UNA SOLA PK 
     } else {
       // ================ UPDATE
@@ -161,30 +186,18 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       // ====== Check Unique MULTIPLES - EDIT  =======
 
       // Check Unique - no PK
-      if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0 && __vr.getFieldErrorCount(USUARIAPLICACIOCONFIGID) == 0) {
-        java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
-        java.lang.Long __usuariaplicacioconfigid = (java.lang.Long)__vr.getFieldValue(__target__,USUARIAPLICACIOCONFIGID);
-        Long __count_ = null;
-        try { __count_ = __usuariAplicacioConfiguracioManager.count(org.fundaciobit.genapp.common.query.Where.AND(USUARIAPLICACIOID.equal(__usuariaplicacioid), USUARIAPLICACIOCONFIGID.notEqual(__usuariaplicacioconfigid))); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ != 0) {        
-            __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.unique",
-                new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariaplicacioid)),
-                     new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)));
-        }
-      }
-
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
-      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
+    if (__vr.getFieldErrorCount(ENTITATID) == 0) {
+      java.lang.String __entitatid = (java.lang.String)__vr.getFieldValue(__target__,ENTITATID);
       Long __count_ = null;
-      try { __count_ = __usuariAplicacioManager.count(UsuariAplicacioFields.USUARIAPLICACIOID.equal(__usuariaplicacioid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+      try { __count_ = __entitatManager.count(EntitatFields.ENTITATID.equal(__entitatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
       if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(USUARIAPLICACIOID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacio.usuariAplicacio"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacio.usuariAplicacioID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuariaplicacioid)));
+        __vr.rejectValue(ENTITATID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitat"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitatID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__entitatid)));
       }
     }
 

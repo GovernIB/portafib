@@ -352,8 +352,26 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioForm.jsp" />
     </definition>
     
-        <definition name="estadisticaListAden" extends="role_aden">
+    <definition name="usuariAplicacioConfiguracioListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariAplicacioConfiguracioList.jsp" />
+    </definition>
+    
+    <definition name="estadisticaListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estadisticaList.jsp" />
+    </definition>
+    
+    <definition name="perfilsPerUsuariAplicacioFormAden" extends="role_aden">
+        <put-attribute name="titol" value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioForm.jsp" />
+    </definition>
+    
+    <definition name="perfilDeFirmaFormAden" extends="role_aden">
+        <put-attribute name="titol" value="usuariAplicacioPerfil.usuariAplicacioPerfil" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="perfilDeFirmaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaList.jsp" />
     </definition>
 
 
@@ -850,6 +868,26 @@
     
     <definition name="notificacioWSListWebDB" extends="webdb">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/notificacioWSList.jsp" />
+    </definition>
+
+
+    <definition name="perfilDeFirmaFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="perfilDeFirma.perfilDeFirma" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaForm.jsp" />
+    </definition>
+    
+    <definition name="perfilDeFirmaListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaList.jsp" />
+    </definition>
+
+
+    <definition name="perfilsPerUsuariAplicacioFormWebDB" extends="webdb">
+        <put-attribute name="titol" value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioForm.jsp" />
+    </definition>
+    
+    <definition name="perfilsPerUsuariAplicacioListWebDB" extends="webdb">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioList.jsp" />
     </definition>
 
 

@@ -43,14 +43,25 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.String usuariAplicacioID;
+  private java.lang.String nom;
 
-  public java.lang.String getUsuariAplicacioID() {
-    return this.usuariAplicacioID;
+  public java.lang.String getNom() {
+    return this.nom;
   }
 
-  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
-    this.usuariAplicacioID = usuariAplicacioID;
+  public void setNom(java.lang.String nom) {
+    this.nom = nom;
+  }
+
+
+  private java.lang.String entitatID;
+
+  public java.lang.String getEntitatID() {
+    return this.entitatID;
+  }
+
+  public void setEntitatID(java.lang.String entitatID) {
+    this.entitatID = entitatID;
   }
 
 
@@ -307,6 +318,17 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.String propietatsTaulaFirmes;
+
+  public java.lang.String getPropietatsTaulaFirmes() {
+    return this.propietatsTaulaFirmes;
+  }
+
+  public void setPropietatsTaulaFirmes(java.lang.String propietatsTaulaFirmes) {
+    this.propietatsTaulaFirmes = propietatsTaulaFirmes;
+  }
+
+
   private java.lang.Long motiuDelegacioIDDesde;
 
   public java.lang.Long getMotiuDelegacioIDDesde() {
@@ -326,17 +348,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMotiuDelegacioIDFins(java.lang.Long motiuDelegacioIDFins) {
     this.motiuDelegacioIDFins = motiuDelegacioIDFins;
-  }
-
-
-  private java.lang.String propietatsTaulaFirmes;
-
-  public java.lang.String getPropietatsTaulaFirmes() {
-    return this.propietatsTaulaFirmes;
-  }
-
-  public void setPropietatsTaulaFirmes(java.lang.String propietatsTaulaFirmes) {
-    this.propietatsTaulaFirmes = propietatsTaulaFirmes;
   }
 
 
@@ -468,7 +479,8 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     super(__toClone);
     this.usuariAplicacioConfigIDDesde = __toClone.usuariAplicacioConfigIDDesde;
     this.usuariAplicacioConfigIDFins = __toClone.usuariAplicacioConfigIDFins;
-    this.usuariAplicacioID = __toClone.usuariAplicacioID;
+    this.nom = __toClone.nom;
+    this.entitatID = __toClone.entitatID;
     this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
     this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
     this.policyIdentifier = __toClone.policyIdentifier;
@@ -492,9 +504,9 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
     this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
+    this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
     this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
-    this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
     this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
     this.pluginSegellatIDDesde = __toClone.pluginSegellatIDDesde;
@@ -506,7 +518,7 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.maxFirmesEnServidorFins = __toClone.maxFirmesEnServidorFins;
     this.upgradeSignFormatDesde = __toClone.upgradeSignFormatDesde;
     this.upgradeSignFormatFins = __toClone.upgradeSignFormatFins;
-    this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
+    this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
     this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
@@ -527,7 +539,7 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] {  }));
   }
 
   @Override
@@ -555,14 +567,14 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID;
+  private Map<String, String> mapOfEntitatForEntitatID;
 
-  public Map<String, String> getMapOfUsuariAplicacioForUsuariAplicacioID() {
-    return this.mapOfUsuariAplicacioForUsuariAplicacioID;
+  public Map<String, String> getMapOfEntitatForEntitatID() {
+    return this.mapOfEntitatForEntitatID;
   }
 
-  public void setMapOfUsuariAplicacioForUsuariAplicacioID(Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID) {
-    this.mapOfUsuariAplicacioForUsuariAplicacioID = mapOfUsuariAplicacioForUsuariAplicacioID;
+  public void setMapOfEntitatForEntitatID(Map<String, String> mapOfEntitatForEntitatID) {
+    this.mapOfEntitatForEntitatID = mapOfEntitatForEntitatID;
   }
 
 

@@ -37,7 +37,7 @@ public class UsuariAplicacioConfiguracioRefList extends RefListBase
     this.traduccioEjb = __clone.traduccioEjb;
   }
   public UsuariAplicacioConfiguracioRefList() {
-    setSelects(new Select<?>[] { USUARIAPLICACIOID.select });
+    setSelects(new Select<?>[] { NOM.select });
     addCampTraduible(FIRMATPERFORMATID.select);
     addCampTraduible(MOTIUDELEGACIOID.select);
   }

@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>apifirmasimple-example-war</artifactId>
+  <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+  <version>1.0.0</version>
+  <packaging>war</packaging>
+
+  <name>FundacioBit - ApisIB - API Firma Simple - Exemple WebApp</name>
+
+  <parent>
+    <artifactId>apifirmasimple</artifactId>
+    <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+    <version>1.0.0</version>
+  </parent>
+
+  <properties>
+    <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
+  </properties>
+
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+
+    <!-- ================  API implementation JERSEY ======================== -->
+
+    <dependency>
+      <artifactId>apifirmasimple-jersey</artifactId>
+      <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+      <version>1.0.0</version>
+    </dependency>
+
+    <!-- ================  WEB ======================== -->
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <finalName>firmasimple</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <packagingExcludes>
+                  WEB-INF/lib/xml-apis-*.jar,
+                  WEB-INF/lib/slf4j*.jar
+          </packagingExcludes>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

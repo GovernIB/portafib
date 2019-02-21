@@ -22,6 +22,8 @@ public interface IPortaFIBDaoManagers {
 	public IMetadadaManager getMetadadaManager();
 	public IModulDeFirmaPerTipusDeDocumentManager getModulDeFirmaPerTipusDeDocumentManager();
 	public INotificacioWSManager getNotificacioWSManager();
+	public IPerfilDeFirmaManager getPerfilDeFirmaManager();
+	public IPerfilsPerUsuariAplicacioManager getPerfilsPerUsuariAplicacioManager();
 	public IPermisGrupPlantillaManager getPermisGrupPlantillaManager();
 	public IPermisUsuariPlantillaManager getPermisUsuariPlantillaManager();
 	public IPeticioDeFirmaManager getPeticioDeFirmaManager();

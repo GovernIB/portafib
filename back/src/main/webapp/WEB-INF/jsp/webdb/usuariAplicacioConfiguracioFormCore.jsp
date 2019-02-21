@@ -2,28 +2,178 @@
 <%@ include file="/WEB-INF/jsp/moduls/includes.jsp"%>
 <un:useConstants var="UsuariAplicacioConfiguracioFields" className="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"/>
   
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}">
-        <tr id="usuariAplicacioConfiguracio_usuariAplicacioID_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.NOM)}">
+        <tr id="usuariAplicacioConfiguracio_nom_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID])?'usuariAplicacioConfiguracio.usuariAplicacioID':__theForm.labels[UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.NOM])?'usuariAplicacioConfiguracio.nom':__theForm.labels[UsuariAplicacioConfiguracioFields.NOM]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.NOM]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.NOM]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="usuariAplicacioConfiguracio.usuariAplicacioID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}" >
-          <form:hidden path="usuariAplicacioConfiguracio.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+            <form:errors path="usuariAplicacioConfiguracio.nom" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.NOM)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="usuariAplicacioConfiguracio.nom"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.ENTITATID)}">
+        <tr id="usuariAplicacioConfiguracio_entitatID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.ENTITATID])?'usuariAplicacioConfiguracio.entitatID':__theForm.labels[UsuariAplicacioConfiguracioFields.ENTITATID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.ENTITATID]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.ENTITATID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacioConfiguracio.entitatID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ENTITATID)}" >
+          <form:hidden path="usuariAplicacioConfiguracio.entitatID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.entitatID,__theForm.listOfEntitatForEntitatID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}" >
-          <form:select id="usuariAplicacioConfiguracio_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.usuariAplicacioID">
-            <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.ENTITATID)}" >
+          <form:select id="usuariAplicacioConfiguracio_entitatID"  onchange="if(typeof onChangeEntitatID == 'function') {  onChangeEntitatID(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.entitatID">
+            <c:forEach items="${__theForm.listOfEntitatForEntitatID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaApiSimpleServidor_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR])?'usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaApiSimpleWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB])?'usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWEB])?'usuariAplicacioConfiguracio.usEnFirmaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaWeb" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaWeb" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaWeb}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaWS2_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS2])?'usuariAplicacioConfiguracio.usEnFirmaWS2':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaWS2" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaWS2" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaWS2}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaPassarelaServidor_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR])?'usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaPassarelaWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB])?'usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb}" />
           </c:if>
            </td>
         </tr>
@@ -403,6 +553,31 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+        <tr id="usuariAplicacioConfiguracio_propietatsTaulaFirmes_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES])?'usuariAplicacioConfiguracio.propietatsTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+              <form:errors path="usuariAplicacioConfiguracio.propietatsTaulaFirmes" cssClass="errorField alert alert-error" />
+              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="usuariAplicacioConfiguracio.propietatsTaulaFirmes"  />
+              <div class="btn-group" style="vertical-align: top;">
+              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='off';" >No Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='soft';">Soft Wrap</a></li>
+                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='hard';">Hard Wrap</a></li>
+              </ul>
+              </div>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
         <tr id="usuariAplicacioConfiguracio_motiuDelegacioID_rowid">
           <td>
@@ -432,31 +607,6 @@
          </div>
        </div>
 
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-        <tr id="usuariAplicacioConfiguracio_propietatsTaulaFirmes_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES])?'usuariAplicacioConfiguracio.propietatsTaulaFirmes':__theForm.labels[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-              <form:errors path="usuariAplicacioConfiguracio.propietatsTaulaFirmes" cssClass="errorField alert alert-error" />
-              <form:textarea rows="3" wrap="soft" style="overflow:auto;" cssClass="input-xxlarge" readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)? 'true' : 'false'}" path="usuariAplicacioConfiguracio.propietatsTaulaFirmes"  />
-              <div class="btn-group" style="vertical-align: top;">
-              <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='off';" >No Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='soft';">Soft Wrap</a></li>
-                <li><a href="#" onclick="javascript:var ta=document.getElementById('usuariAplicacioConfiguracio.propietatsTaulaFirmes'); ta.wrap='hard';">Hard Wrap</a></li>
-              </ul>
-              </div>
            </td>
         </tr>
         </c:if>

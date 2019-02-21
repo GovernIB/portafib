@@ -15,8 +15,36 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID);
   }
 
-  public StringField USUARIAPLICACIOID() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID);
+  public StringField NOM() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.NOM);
+  }
+
+  public StringField ENTITATID() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.ENTITATID);
+  }
+
+  public BooleanField USENFIRMAAPISIMPLESERVIDOR() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR);
+  }
+
+  public BooleanField USENFIRMAAPISIMPLEWEB() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB);
+  }
+
+  public BooleanField USENFIRMAWEB() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWEB);
+  }
+
+  public BooleanField USENFIRMAWS2() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWS2);
+  }
+
+  public BooleanField USENFIRMAPASSARELASERVIDOR() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR);
+  }
+
+  public BooleanField USENFIRMAPASSARELAWEB() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB);
   }
 
   public IntegerField USPOLITICADEFIRMA() {
@@ -79,12 +107,12 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
   }
 
-  public LongField MOTIUDELEGACIOID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
-  }
-
   public StringField PROPIETATSTAULAFIRMES() {
     return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES);
+  }
+
+  public LongField MOTIUDELEGACIOID() {
+    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
   }
 
   public IntegerField POLITICASEGELLATDETEMPS() {
@@ -140,10 +168,52 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
   }
 
 
-  public UsuariAplicacioQueryPath USUARIAPLICACIO() {
-    return new UsuariAplicacioQueryPath(new QueryPath() {
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO1IDS() {
+    return new PerfilDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "usuariAplicacio" + ".";
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "perfilDeFirma_usrappconfiguracio1ids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO2IDS() {
+    return new PerfilDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "perfilDeFirma_usrappconfiguracio2ids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO3IDS() {
+    return new PerfilDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "perfilDeFirma_usrappconfiguracio3ids" + ".";
+      }
+    });
+  }
+*/
+
+  public EntitatQueryPath ENTITAT() {
+    return new EntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "entitat" + ".";
       }
     });
   }

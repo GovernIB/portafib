@@ -687,6 +687,19 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
+// EXP  Field:entitatid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracios() {
+    return this.usuariAplicacioConfiguracios;
+  }
+
+	public void setUsuariAplicacioConfiguracios(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios) {
+	  this.usuariAplicacioConfiguracios = usuariAplicacioConfiguracios;
+	}
+
+
 // EXP  Field:entitatid | Table: pfi_usuarientitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entitat")
@@ -1013,6 +1026,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"CustodiaInfoJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
       __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"EntitatJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
+      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"EntitatJPA"));
     }
     if(!"UsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {

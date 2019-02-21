@@ -25,6 +25,8 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
    private final MetadadaJPAManager pfi_metadada;
    private final ModulDeFirmaPerTipusDeDocumentJPAManager pfi_modulfirmapertipusdoc;
    private final NotificacioWSJPAManager pfi_notificacio;
+   private final PerfilDeFirmaJPAManager pfi_usuariaplicacioperfil;
+   private final PerfilsPerUsuariAplicacioJPAManager pfi_perfilsperusrapp;
    private final PermisGrupPlantillaJPAManager pfi_permisgrupplantilla;
    private final PermisUsuariPlantillaJPAManager pfi_permisusuariplantilla;
    private final PeticioDeFirmaJPAManager pfi_peticiodefirma;
@@ -69,6 +71,8 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
     this.pfi_metadada = new MetadadaJPAManager(__em);
     this.pfi_modulfirmapertipusdoc = new ModulDeFirmaPerTipusDeDocumentJPAManager(__em);
     this.pfi_notificacio = new NotificacioWSJPAManager(__em);
+    this.pfi_usuariaplicacioperfil = new PerfilDeFirmaJPAManager(__em);
+    this.pfi_perfilsperusrapp = new PerfilsPerUsuariAplicacioJPAManager(__em);
     this.pfi_permisgrupplantilla = new PermisGrupPlantillaJPAManager(__em);
     this.pfi_permisusuariplantilla = new PermisUsuariPlantillaJPAManager(__em);
     this.pfi_peticiodefirma = new PeticioDeFirmaJPAManager(__em);
@@ -168,6 +172,14 @@ public final class PortaFIBJPADaoManagers implements IPortaFIBDaoManagers{
 
 	public INotificacioWSManager getNotificacioWSManager() {
 	  return this.pfi_notificacio;
+	};
+
+	public IPerfilDeFirmaManager getPerfilDeFirmaManager() {
+	  return this.pfi_usuariaplicacioperfil;
+	};
+
+	public IPerfilsPerUsuariAplicacioManager getPerfilsPerUsuariAplicacioManager() {
+	  return this.pfi_perfilsperusrapp;
 	};
 
 	public IPermisGrupPlantillaManager getPermisGrupPlantillaManager() {

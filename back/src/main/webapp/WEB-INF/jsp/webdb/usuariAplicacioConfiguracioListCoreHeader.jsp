@@ -15,8 +15,29 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.NOM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.NOM)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ENTITATID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.ENTITATID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}</th>
@@ -63,11 +84,11 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}</th>

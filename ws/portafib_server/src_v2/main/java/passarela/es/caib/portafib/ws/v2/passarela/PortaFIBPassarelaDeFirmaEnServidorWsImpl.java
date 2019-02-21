@@ -41,8 +41,9 @@ import es.caib.portafib.utils.Constants;
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v2/"
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
-public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPassarelaDeFirmaWsImpl
-  implements PortaFIBPassarelaDeFirmaEnServidorWs, Constants {
+public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends
+    AbstractPortaFIBPassarelaDeFirmaWsImpl implements PortaFIBPassarelaDeFirmaEnServidorWs,
+    Constants {
 
   public static final String NAME = "PortaFIBPassarelaDeFirmaEnServidor";
 
@@ -51,14 +52,11 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
   @EJB(mappedName = PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
   protected PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
 
-  
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-  
   @Resource
   private WebServiceContext wsContext;
-
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
@@ -68,20 +66,19 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = es.caib.portafib.ws.utils.UsuariAplicacioCache.get();
-    
-    
+
     // Recuperar Configuracio de Plugin associada a usuariAplicacio
+    final boolean isFirmaServidor = true;
     UsuariAplicacioConfiguracio config;
-    config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacio(userapp.getUsuariAplicacioID());
-    
-    
-    
+    config = configuracioUsuariAplicacioLogicaLocalEjb
+        .getConfiguracioUsuariAplicacioPerPassarela(userapp.getUsuariAplicacioID(), isFirmaServidor);
+
     try {
 
-      return passarelaDeFirmaEnServidorEjb.signDocuments(signaturesSet,
-        userapp.getEntitat(), userapp, config);
-    } catch(NoCompatibleSignaturePluginException nape) {
-       throw new I18NException("signaturemodule.notfound");
+      return passarelaDeFirmaEnServidorEjb.signDocuments(signaturesSet, userapp.getEntitat(),
+          userapp, config);
+    } catch (NoCompatibleSignaturePluginException nape) {
+      throw new I18NException("signaturemodule.notfound");
     }
 
   }

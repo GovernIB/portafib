@@ -29,12 +29,47 @@
           ${usuariAplicacioConfiguracio.usuariAplicacioConfigID}
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.NOM)}">
           <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.usuariAplicacioID}</c:set>
+          ${usuariAplicacioConfiguracio.nom}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.ENTITATID)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.entitatID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
+          ${__theFilterForm.mapOfEntitatForEntitatID[tmp]}
           </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWeb?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWS2?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb?'success':'error'}.png"/>">
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
@@ -138,17 +173,17 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+          <td>
+          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
           </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-          <td>
-          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">

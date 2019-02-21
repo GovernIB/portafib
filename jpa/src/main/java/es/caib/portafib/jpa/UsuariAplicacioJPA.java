@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import java.util.HashSet;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Entity;
 import java.util.Set;
@@ -256,6 +255,19 @@ private static final long serialVersionUID = -360699331L;
 	}
 
 
+// EXP  Field:usuariaplicacioid | Table: pfi_perfilsperusrapp | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
+	private Set<PerfilsPerUsuariAplicacioJPA> perfilsPerUsuariAplicacios = new HashSet<PerfilsPerUsuariAplicacioJPA>(0);
+	public  Set<PerfilsPerUsuariAplicacioJPA> getPerfilsPerUsuariAplicacios() {
+    return this.perfilsPerUsuariAplicacios;
+  }
+
+	public void setPerfilsPerUsuariAplicacios(Set<PerfilsPerUsuariAplicacioJPA> perfilsPerUsuariAplicacios) {
+	  this.perfilsPerUsuariAplicacios = perfilsPerUsuariAplicacios;
+	}
+
+
 // EXP  Field:usuariaplicacioid | Table: pfi_peticiodefirma | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacio")
@@ -318,19 +330,6 @@ private static final long serialVersionUID = -360699331L;
 
 	public void setTipusDocuments(Set<TipusDocumentJPA> tipusDocuments) {
 	  this.tipusDocuments = tipusDocuments;
-	}
-
-
-// EXP  Field:usuariaplicacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
-
-	@OneToOne(mappedBy="usuariAplicacio")
-	private UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio;
-	public UsuariAplicacioConfiguracioJPA getUsuariAplicacioConfiguracio() {
-	  return this.usuariAplicacioConfiguracio;
-	}
-
-	public  void setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio) {
-	  this.usuariAplicacioConfiguracio = usuariAplicacioConfiguracio;
 	}
 
 
@@ -435,10 +434,6 @@ private static final long serialVersionUID = -360699331L;
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plantillaFluxDeFirmess) || org.hibernate.Hibernate.isInitialized(__jpa.getPlantillaFluxDeFirmess())) ) {
       __tmp.setPlantillaFluxDeFirmess(PlantillaFluxDeFirmesJPA.copyJPA(__jpa.getPlantillaFluxDeFirmess(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracio())) ) {
-      __tmp.setUsuariAplicacioConfiguracio(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracio(), __alreadyCopied,"UsuariAplicacioJPA"));
-    }
     if(!"EntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitats) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitats())) ) {
       __tmp.setEntitats(EntitatJPA.copyJPA(__jpa.getEntitats(), __alreadyCopied,"UsuariAplicacioJPA"));
@@ -454,6 +449,10 @@ private static final long serialVersionUID = -360699331L;
     if(!"CustodiaInfoJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
       __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"UsuariAplicacioJPA"));
+    }
+    if(!"PerfilsPerUsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilsPerUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilsPerUsuariAplicacios())) ) {
+      __tmp.setPerfilsPerUsuariAplicacios(PerfilsPerUsuariAplicacioJPA.copyJPA(__jpa.getPerfilsPerUsuariAplicacios(), __alreadyCopied,"UsuariAplicacioJPA"));
     }
     if(!"RoleUsuariAplicacioJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariAplicacios())) ) {

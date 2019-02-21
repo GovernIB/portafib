@@ -1,4 +1,3 @@
-
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
 <%@page import="org.fundaciobit.genapp.common.web.i18n.I18NUtils"%>
 <%@page import="org.fundaciobit.genapp.common.query.Field"%>
@@ -51,13 +50,18 @@
 
  function onChangePoliticaTaulaFirmes(combo) {
      var value = combo.options[combo.selectedIndex].value;
+     //alert("VALUE onChangePoliticaTaulaFirmes: ]["  +  value + "")
      if (value == <%=ConstantsPortaFIB.POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT%>
         || value == <%=ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET%>) { 
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      } else {
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>_rowid").style.display = '';
        document.getElementById("<%=UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = '';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID.fullName.replace('.', '_') %>_rowid").style.display = '';
+       document.getElementById("<%=UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID.fullName.replace('.', '_') %>_rowid").style.display = '';
      }
  }
 
@@ -122,10 +126,10 @@
  final Field<?>[] tipusFirma = {
      
      UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES,
-     UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
-     UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES,
-     UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
-     UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID
+     //UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID,
+     //UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES,
+     //UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID,
+     //UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID
   };
  %>
  
@@ -145,6 +149,8 @@
      document.getElementById("<%=tipusFirma[c].fullName.replace('.', '_') %>_rowid").style.display = 'none';
      <% } %>
    }
+   
+   onChangePoliticaTaulaFirmes(document.getElementById("<%=UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES.fullName.replace('.', '_') %>"));
  }
 
  // ALGORISME DE FIRMA
@@ -174,6 +180,7 @@
     }
  }
 
+ <%--
  // XYZ ZZZ Posicio Taula de Firmes
  // var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.POSICIOTAULAFIRMESID.fullName.replace('.', '_') %>").options;
  //for (i = 0; i < sel.length; i++) {
@@ -183,6 +190,8 @@
  //   }
  //}
  
+ alert("SURT");
+ --%>
 
 </script>
 

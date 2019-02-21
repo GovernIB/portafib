@@ -328,7 +328,7 @@ create index pfi_pfwpua_plugin_fk_i on pfi_pluginfirmawebperusrapp 	(pluginfirma
 
 CREATE TABLE pfi_plugincridada (
 	
-   plugincridadaid bigint NOT NULL DEFAULT nextval	('pfi_portafib_seq'), 
+   plugincridadaid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
    entitatid character varying	(50), 
    data timestamp with time zone NOT NULL, 
    pluginid bigint NOT NULL,
@@ -395,6 +395,92 @@ DROP TABLE pfi_tipusestatdefirmainicial;
 ALTER TABLE pfi_firma DROP CONSTRAINT pfi_firma_estfirmafi_fk;
 ALTER TABLE pfi_estatdefirma DROP CONSTRAINT pfi_estatfirma_estfirmafi_fk;
 DROP TABLE pfi_tipusestatdefirmafinal;
+
+
+-- ======================================================================
+-- 2019/02/08  Perfils i Configuracions per l'API de Firma Simple #235 
+-- ======================================================================
+
+ALTER TABLE pfi_usuariaplicacioconfig  DROP CONSTRAINT pfi_confapp_usrapp_fk;
+ALTER TABLE pfi_usuariaplicacioconfig  DROP CONSTRAINT pfi_confapp_usrapp_uk;
+
+ALTER TABLE pfi_usuariaplicacioconfig  DROP COLUMN usuariaplicacioid;
+
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmaapisimpleservidor boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmaapisimpleweb boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmaweb boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmaws2 boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmapassarelaservidor boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmapassarelaweb boolean NOT NULL DEFAULT false;
+  
+  
+ALTER TABLE pfi_usuariaplicacioconfig  ADD COLUMN nom character varying(255);
+
+UPDATE pfi_usuariaplicacioconfig SET nom='Configuracio amb ID' || usuariaplicacioconfigid;
+
+ALTER TABLE pfi_usuariaplicacioconfig  ALTER COLUMN nom SET NOT NULL;
+
+ALTER TABLE pfi_usuariaplicacioconfig ADD COLUMN entitatid character varying(50) NOT NULL;
+
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD CONSTRAINT pfi_confapp_entitat_ent_fk FOREIGN KEY (entitatid) REFERENCES pfi_entitat (entitatid) ON UPDATE NO ACTION ON DELETE NO ACTION;
+  
+create index pfi_confapp_entitatid_fk_i on pfi_usuariaplicacioconfig (entitatid);
+
+
+CREATE TABLE portafib.pfi_usuariaplicacioperfil
+(
+   usuariaplicacioperfilid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
+   nom character varying(255) NOT NULL,
+   codi character varying(100) NOT NULL,
+   descripcio character varying(500), 
+   condicio character varying(4000), 
+   usrappconfiguracio1id bigint NOT NULL, 
+   usrappconfiguracio2id bigint, 
+   usrappconfiguracio3id bigint, 
+   CONSTRAINT pfi_usuariaplicacioperfil_pk PRIMARY KEY (usuariaplicacioperfilid), 
+   CONSTRAINT pfi_perfilapp_confapp_1_fk FOREIGN KEY (usrappconfiguracio1id) REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT pfi_perfilapp_confapp_2_fk FOREIGN KEY (usrappconfiguracio2id) REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT pfi_perfilapp_confapp_3_fk FOREIGN KEY (usrappconfiguracio3id) REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid) ON UPDATE NO ACTION ON DELETE NO ACTION,
+   CONSTRAINT pfi_perfilapp_codi_uk UNIQUE (codi)
+) 
+WITH (
+  OIDS = FALSE
+);
+
+create index pfi_usuariaplicacioperfil_pk_i on pfi_usuariaplicacioperfil (usuariaplicacioperfilid);
+create index pfi_perfilapp_appconf1id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio1id);
+create index pfi_perfilapp_appconf2id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio2id);
+create index pfi_perfilapp_appconf3id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio3id);
+
+
+CREATE TABLE portafib.pfi_perfilsperusrapp
+(
+   perfilsperusrappid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
+   usuariaplicacioperfilid bigint NOT NULL, 
+   usuariaplicacioid character varying(50)  NOT NULL, 
+   CONSTRAINT pfi_perfilsperusrapp_pk PRIMARY KEY (perfilsperusrappid), 
+   CONSTRAINT pfi_perfilsua_perfilapp_p_fk FOREIGN KEY (usuariaplicacioperfilid) REFERENCES pfi_usuariaplicacioperfil (usuariaplicacioperfilid) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT pfi_perfilsua_usrapp_usr_fk FOREIGN KEY (usuariaplicacioid) REFERENCES pfi_usuariaplicacio (usuariaplicacioid) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT pfi_perfilsua_uaid_perf_uk UNIQUE (usuariaplicacioperfilid, usuariaplicacioid)
+) 
+WITH (
+  OIDS = FALSE
+);
+
+
+create index pfi_perfilsperusrapp_pk_i on pfi_perfilsperusrapp (perfilsperusrappid);
+create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicacioperfilid);
+create index pfi_perfilsua_usuappid_fk_i on pfi_perfilsperusrapp (usuariaplicacioid);
+
+
+
 
 
 

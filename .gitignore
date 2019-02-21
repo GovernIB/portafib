@@ -260,3 +260,19 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /pluginsib-signatureweb/fnmtcloud/doc/sp_minimalist_rp_v1.2-fnmt.zip
 /pluginsib-signatureweb/fnmtcloud/config/test.properties
 /pluginsib-signatureweb/fnmtcloud/2018-10-29 PortaFIB - PAdES - EPES.pdf
+/back/src/main/java/es/caib/portafib/back/controller/admin/AdminController.java
+/back/src/main/java/es/caib/portafib/back/controller/admin/MenuAdmin209Controller.java
+/back/src/main/java/es/caib/portafib/back/controller/common/CommonController.java
+/back/src/main/java/es/caib/portafib/back/controller/user/UserController.java
+/back/src/main/webapp/WEB-INF/jsp/common/option.jsp
+/back/src/main/webapp/WEB-INF/jsp/moduls/menu_admin.jsp
+/back/src/main/webapp/WEB-INF/jsp/moduls/menu_user.jsp
+/apifirmasimple/apifirmasimple-example-console/apifirmaenservidorsimple.properties
+/apifirmasimple/apifirmasimple-example-console/apifirmawebsimple.properties
+/apifirmasimple/apifirmasimple-example-console/results
+/apifirmasimple/apifirmasimple-example-console/signed_hola.pdf
+/apifirmasimple/apifirmasimple-example-console/signed_adaptat.pdf
+/apifirmasimple/apifirmasimple-example-console/src/test/java/org/fundaciobit/apisib/apifirmasimple/v1/test/Esborrar.java
+/apifirmasimple/apifirmasimple-example-war/compil.bat
+/apifirmasimple/apifirmasimple-example-war/deps.txt
+/apifirmasimple/compil.bat

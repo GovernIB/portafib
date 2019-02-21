@@ -67,7 +67,7 @@ public class UsuariAplicacioConfiguracioController
 
   // References 
   @Autowired
-  protected UsuariAplicacioRefList usuariAplicacioRefList;
+  protected EntitatRefList entitatRefList;
 
   // References 
   @Autowired
@@ -201,15 +201,33 @@ public class UsuariAplicacioConfiguracioController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
-    // Field usuariAplicacioID
+    // Field entitatID
     {
-      _listSKV = getReferenceListForUsuariAplicacioID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfUsuariAplicacioForUsuariAplicacioID(_tmp);
-      if (filterForm.getGroupByFields().contains(USUARIAPLICACIOID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIAPLICACIOID, false);
+      filterForm.setMapOfEntitatForEntitatID(_tmp);
+      if (filterForm.getGroupByFields().contains(ENTITATID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, ENTITATID, false);
       };
     }
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAAPISIMPLESERVIDOR);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAAPISIMPLEWEB);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAWEB);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAWS2);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAPASSARELASERVIDOR);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAPASSARELAWEB);
 
     // Field usPoliticaDeFirma
     {
@@ -381,7 +399,7 @@ public class UsuariAplicacioConfiguracioController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
+    __mapping.put(ENTITATID, filterForm.getMapOfEntitatForEntitatID());
     __mapping.put(USPOLITICADEFIRMA, filterForm.getMapOfValuesForUsPoliticaDeFirma());
     __mapping.put(TIPUSOPERACIOFIRMA, filterForm.getMapOfValuesForTipusOperacioFirma());
     __mapping.put(TIPUSFIRMAID, filterForm.getMapOfValuesForTipusFirmaID());
@@ -463,11 +481,11 @@ public class UsuariAplicacioConfiguracioController
   public void fillReferencesForForm(UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
     // Comprovam si ja esta definida la llista
-    if (usuariAplicacioConfiguracioForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, usuariAplicacioConfiguracioForm, null);
+    if (usuariAplicacioConfiguracioForm.getListOfEntitatForEntitatID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForEntitatID(request, mav, usuariAplicacioConfiguracioForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      usuariAplicacioConfiguracioForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
+      usuariAplicacioConfiguracioForm.setListOfEntitatForEntitatID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (usuariAplicacioConfiguracioForm.getListOfValuesForUsPoliticaDeFirma() == null) {
@@ -895,42 +913,42 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioConfiguracioForm usuariAplicacioConfiguracioForm, Where where)  throws I18NException {
-    if (usuariAplicacioConfiguracioForm.isHiddenField(USUARIAPLICACIOID)) {
+    if (usuariAplicacioConfiguracioForm.isHiddenField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
-    if (usuariAplicacioConfiguracioForm.isReadOnlyField(USUARIAPLICACIOID)) {
-      _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getUsuariAplicacioID());
+    if (usuariAplicacioConfiguracioForm.isReadOnlyField(ENTITATID)) {
+      _where = EntitatFields.ENTITATID.equal(usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio().getEntitatID());
     }
-    return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));
+    return getReferenceListForEntitatID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, UsuariAplicacioConfiguracioFilterForm usuariAplicacioConfiguracioFilterForm,
        List<UsuariAplicacioConfiguracio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+    if (usuariAplicacioConfiguracioFilterForm.isHiddenField(ENTITATID)
+      && !usuariAplicacioConfiguracioFilterForm.isGroupByField(ENTITATID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {
+    if (!_groupByItemsMap.containsKey(ENTITATID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
       for (UsuariAplicacioConfiguracio _item : list) {
-        _pkList.add(_item.getUsuariAplicacioID());
+        _pkList.add(_item.getEntitatID());
         }
-        _w = UsuariAplicacioFields.USUARIAPLICACIOID.in(_pkList);
+        _w = EntitatFields.ENTITATID.in(_pkList);
       }
-    return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where,_w));
+    return getReferenceListForEntitatID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForEntitatID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
-    return usuariAplicacioRefList.getReferenceList(UsuariAplicacioFields.USUARIAPLICACIOID, where );
+    return entitatRefList.getReferenceList(EntitatFields.ENTITATID, where );
   }
 
 

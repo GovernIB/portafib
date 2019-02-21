@@ -23,6 +23,20 @@ public interface ConstantsV2 {
   
   public static final String PDF_FILE_EXTENSION = "pdf";
   
+  //==============================================================
+  // --- TIPUS US FIRMA DE CONFIGURACIO USUARI APLICACIO -----
+  // ==============================================================
+  
+  public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR = 0;
+  public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB = 1;
+  public static final int US_FIRMA_CONF_APP_FIRMAWEB = 2;
+  public static final int US_FIRMA_CONF_APP_FIRMAWS2 = 3;
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR = 4;
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMAWEB = 5;
+  
+  //==============================================================
+  // --- TIPUS ESTAT PETICIO DE FIRMA -----
+  // ==============================================================
   
   public static final int TIPUSESTATPETICIODEFIRMA_NOINICIAT = 0;
   public static final int TIPUSESTATPETICIODEFIRMA_ENPROCES = 1;

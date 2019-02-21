@@ -13,9 +13,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
@@ -31,8 +31,6 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.CodiBarresFields;
-import es.caib.portafib.model.fields.EntitatFields;
-import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 import javax.activation.DataHandler;
@@ -51,6 +49,8 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
@@ -66,17 +66,15 @@ public class PassarelaDeFirmaWebEJB
   implements PassarelaDeFirmaWebLocal {
 
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
-  private EntitatLocal entitatEjb;
-
   @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
   
   @EJB(mappedName = ModulDeFirmaWebLogicaLocal.JNDI_NAME)
   protected ModulDeFirmaWebLogicaLocal modulDeFirmaEjb;
+
   
-  @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
+  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
   
   @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
   protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
@@ -363,11 +361,10 @@ public class PassarelaDeFirmaWebEJB
               status.setProcessed(true);
             }
           }
-          
-          
+
           // Validar certificat i firmes, i comprovar que els NIFs corresponen
-          validateSignatures(ssf);
-          
+          final boolean isFirmaServidor = false;
+          validateSignatures(ssf, isFirmaServidor);
         }
         
       
@@ -424,36 +421,33 @@ public class PassarelaDeFirmaWebEJB
    * Validar certificat i firmes, i comprovar que els NIFs corresponen
    * @param ssf
    */
-  protected void validateSignatures(PassarelaSignaturesSetWebInternalUse ssf) {
+  protected void validateSignatures(PassarelaSignaturesSetWebInternalUse ssf, boolean esFirmaEnServidor) {
     
     Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
     
     final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
-    
+
     final UsuariAplicacio usuariAplicacio;
     final UsuariAplicacioConfiguracio usuariAplicacioConfig;
-    {
-      final String applicationID = ssf.getApplicationID();
-      
-      List<UsuariAplicacioConfiguracio> list;
-      try {
-        list = usuariAplicacioConfiguracioEjb.select(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID.equal(applicationID));
-      } catch (I18NException e) {
-        // TODO Auto-generated catch block
-        log.error("Error cercant UsuariAplicacioConfiguracio per usuariaplicacio = " + applicationID ,e);
-        list =null;
-      }
-      
-      if (list == null || list.size() == 0) {
-        log.info("XYZ ZZZ No s'ha definit configuració per l´Usuari Aplicació " + applicationID);      
-        return;
-      }
     
-      usuariAplicacioConfig = list.get(0);
-      
-      usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(applicationID);
-      
+    final String applicationID = ssf.getApplicationID();
+    usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(applicationID);
+    
+    try {
+      usuariAplicacioConfig = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
+          applicationID,
+          esFirmaEnServidor);
+    } catch (I18NException e) {
+      // TODO Auto-generated catch block
+      log.error("Error cercant UsuariAplicacioConfiguracio per usuariaplicacio = " + applicationID ,e);
+      return;
     }
+    
+    if (usuariAplicacioConfig == null) {
+      log.info("XYZ ZZZ No s'ha definit configuració per l´Usuari Aplicació " + applicationID);      
+      return;
+    }
+    
     
     final String entitatID = usuariAplicacio.getEntitatID();
     
@@ -541,68 +535,53 @@ public class PassarelaDeFirmaWebEJB
       status.setCheckAdministrationIDOfSigner(false);
       }
       */
-       
-       
-       
 
       // (c) // Validar la Firma
-      try {
-        
-        final Long pluginValidateSignatureID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
-            EntitatFields.ENTITATID.equal(entitatID));
-        
-        
-        // XYZ ZZZ Falta si validarFirma està a true en la configuració de l'UsrApp
-        Boolean isValidarFirma = usuariAplicacioConfig.getValidarFirma();
-        if (isValidarFirma == null) {
-          // El que digui la entitat: si està definit el plugin llavors
-          // es valida, en cas contrari no es valida
-        } else {
-          
-          if (pluginValidateSignatureID == null && isValidarFirma.booleanValue() == true) {
-            // Com que des de UsuariAplicació ens requereixen Signar, però l'entitat
-            // no té definit el Plugin de Validació llavors llançam un error
-            status.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-            status.setErrorMessage(I18NLogicUtils.tradueix(new Locale(languageUI),
-                "error.passarela.sensevalidadorfirmesdinsentitat"));
-            continue;            
-          }
-        }
-        
+       try {
+         
+         InputStream documentDetachedFile;
+         {
+           FitxerBean firmaOriginalDetached = fis.getPreviusSignatureDetachedFile();
+           if (firmaOriginalDetached != null) {
+             try {
+               documentDetachedFile = firmaOriginalDetached.getData().getInputStream();
+             } catch (IOException e) {
+               // XYZ ZZZ traduir
+               final String msg = "Error desconegut al intentar obtenir contingut del fitxer detached: " + e.getMessage();
+               log.error(msg, e);
+               throw new I18NException("genapp.comodi", msg);                
+             }
+           } else {
+             documentDetachedFile = null;
+           }
+         }
 
-        if (pluginValidateSignatureID == null) {
-          log.info("XYZ ZZZ debug No s'ha definit plugin De validacio dins de l'entitat");
-          status.setCheckValidationSignature(false);
-        } else {
-          InputStream documentDetachedFile;
-          {
-            FitxerBean firmaOriginalDetached = fis.getPreviusSignatureDetachedFile();
-            if (firmaOriginalDetached != null) {
-              try {
-                documentDetachedFile = firmaOriginalDetached.getData().getInputStream();
-              } catch (IOException e) {
-                // XYZ ZZZ traduir
-                final String msg = "Error desconegut al intentar obtenir contingut del fitxer detached: " + e.getMessage();
-                log.error(msg, e);
-                throw new I18NException("genapp.comodi", msg);                
-              }
-            } else {
-              documentDetachedFile = null;
-            }
-          }
-          validacioFirmesEjb.validateSignature(fis.getSignType(), pluginValidateSignatureID, documentDetachedFile,
-              status.getFitxerFirmat(), languageUI);
-          status.setCheckValidationSignature(true);
-        }
-      
-      } catch(I18NException i18n) {
-        // Error en la validació
-        status.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
-        status.setErrorMessage(I18NLogicUtils.getMessage(i18n, new Locale(languageUI)));
-      }
+         ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignaturePassarela(
+             entitatID, usuariAplicacioConfig,
+             fis.getSignType(), status.getFitxerFirmat(), documentDetachedFile, languageUI);
+
+         Boolean validation;
+         if (vsr == null || vsr.getValidationStatus() == null) {
+           validation = null;
+         } else {
+           if ( vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
+             validation = true;
+           } else {
+             validation = false;
+           }
+         }
+
+         status.setCheckValidationSignature(validation);
+         
+       } catch(I18NException i18n) {
+         // Error en la validació
+         status.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
+         status.setErrorMessage(I18NLogicUtils.getMessage(i18n, new Locale(languageUI)));
+       }
     }
     
   }
+
 
   
 

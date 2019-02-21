@@ -29,14 +29,14 @@ public class UsuariAplicacioConfiguracioWebValidator  implements Validator, Usua
   @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
 
+  @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
+  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/PluginEJB/local")
   protected es.caib.portafib.ejb.PluginLocal pluginEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/TraduccioEJB/local")
   protected es.caib.portafib.ejb.TraduccioLocal traduccioEjb;
-
-  @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
-  protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
   @javax.ejb.EJB(mappedName = "portafib/UsuariAplicacioConfiguracioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal usuariAplicacioConfiguracioEjb;
@@ -163,7 +163,7 @@ _ignoreFields.add(MOTIUDELEGACIOID);
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, custodiaInfoEjb, pluginEjb, traduccioEjb, usuariAplicacioEjb, usuariAplicacioConfiguracioEjb);
+      isNou, custodiaInfoEjb, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioConfiguracioEjb);
 
   } // Final de metode
 

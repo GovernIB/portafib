@@ -24,7 +24,7 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
   public UsuariAplicacioConfiguracioForm(UsuariAplicacioConfiguracioForm __toClone) {
     super(__toClone);
       this.usuariAplicacioConfiguracio = __toClone.usuariAplicacioConfiguracio;
-    this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
+    this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
     this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
@@ -77,14 +77,14 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
   public void setLoginCertificateIDDelete(boolean loginCertificateIDDelete) {
     this.loginCertificateIDDelete = loginCertificateIDDelete;
    }
-  private List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID;
+  private List<StringKeyValue> listOfEntitatForEntitatID;
 
-  public List<StringKeyValue> getListOfUsuariAplicacioForUsuariAplicacioID() {
-    return this.listOfUsuariAplicacioForUsuariAplicacioID;
+  public List<StringKeyValue> getListOfEntitatForEntitatID() {
+    return this.listOfEntitatForEntitatID;
   }
 
-  public void setListOfUsuariAplicacioForUsuariAplicacioID(List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID) {
-    this.listOfUsuariAplicacioForUsuariAplicacioID = listOfUsuariAplicacioForUsuariAplicacioID;
+  public void setListOfEntitatForEntitatID(List<StringKeyValue> listOfEntitatForEntitatID) {
+    this.listOfEntitatForEntitatID = listOfEntitatForEntitatID;
   }
 
 

@@ -73,7 +73,9 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
     
     // Recuperar Configuracio de Plugin associada a usuariAplicacio
     UsuariAplicacioConfiguracio config;
-    config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacio(userapp.getUsuariAplicacioID());
+    final boolean isFirmaServidor = true;
+    config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
+        userapp.getUsuariAplicacioID(), isFirmaServidor);
     
     
 

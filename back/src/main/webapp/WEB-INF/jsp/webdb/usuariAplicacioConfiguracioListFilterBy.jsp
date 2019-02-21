@@ -68,15 +68,136 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USUARIAPLICACIOID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.NOM)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="usuariAplicacioConfiguracio.usuariAplicacioID" var="usuariAplicacioID" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariAplicacioID" >                
-                 <fmt:param value="${usuariAplicacioID}"/>
+              <fmt:message key="usuariAplicacioConfiguracio.nom" var="nom" />
+              <fmt:message key="genapp.form.searchby" var="cercapernom" >                
+                 <fmt:param value="${nom}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${usuariAplicacioID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariAplicacioID}" path="usuariAplicacioID" />
+              <span class="add-on"><c:out value="${nom}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapernom}" path="nom" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.ENTITATID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="usuariAplicacioConfiguracio.entitatID" var="entitatID" />
+              <fmt:message key="genapp.form.searchby" var="cercaperentitatID" >                
+                 <fmt:param value="${entitatID}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${entitatID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperentitatID}" path="entitatID" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLESERVIDOR)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaApiSimpleServidor" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaApiSimpleServidorDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaApiSimpleServidorFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaApiSimpleWeb" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaApiSimpleWebDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaApiSimpleWebFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWEB)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaWeb" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaWebDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaWebFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaWS2" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaWS2Desde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaWS2Fins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaPassarelaServidor" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaPassarelaServidorDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaPassarelaServidorFins" />
+
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="usEnFirmaPassarelaWebDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaPassarelaWebFins" />
+
             </div>
 
 
@@ -326,6 +447,19 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="usuariAplicacioConfiguracio.propietatsTaulaFirmes" var="propietatsTaulaFirmes" />
+              <fmt:message key="genapp.form.searchby" var="cercaperpropietatsTaulaFirmes" >                
+                 <fmt:param value="${propietatsTaulaFirmes}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${propietatsTaulaFirmes}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperpropietatsTaulaFirmes}" path="propietatsTaulaFirmes" />
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
@@ -340,19 +474,6 @@
 
               <form:input cssClass="input-append input-small search-query" path="motiuDelegacioIDFins" />
 
-            </div>
-
-
-        </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="usuariAplicacioConfiguracio.propietatsTaulaFirmes" var="propietatsTaulaFirmes" />
-              <fmt:message key="genapp.form.searchby" var="cercaperpropietatsTaulaFirmes" >                
-                 <fmt:param value="${propietatsTaulaFirmes}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${propietatsTaulaFirmes}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperpropietatsTaulaFirmes}" path="propietatsTaulaFirmes" />
             </div>
 
 

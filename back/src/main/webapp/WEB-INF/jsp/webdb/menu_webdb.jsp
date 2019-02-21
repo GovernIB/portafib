@@ -369,6 +369,25 @@
       </ul>
     </li>
 
+    <%-- PerfilsPerUsuariAplicacio --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'perfilsPerUsuariAplicacio/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'perfilsPerUsuariAplicacio/')? "font-weight: bold;" : ""}"><fmt:message key="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio"/></span></a>
+      <ul class="${fn:contains(url, 'perfilsPerUsuariAplicacio/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/perfilsPerUsuariAplicacio/new"/>" ><span style="${(fn:contains(url, 'perfilsPerUsuariAplicacio/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/perfilsPerUsuariAplicacio/list/1"/>" ><span style="${(fn:contains(url, 'perfilsPerUsuariAplicacio/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
     <%-- PermisGrupPlantilla --%>
     <li>
       <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'permisGrupPlantilla/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'permisGrupPlantilla/')? "font-weight: bold;" : ""}"><fmt:message key="permisGrupPlantilla.permisGrupPlantilla"/></span></a>
@@ -741,6 +760,25 @@
        </fmt:message>
        </span></a></li>
         <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/usuariAplicacioConfiguracio/list/1"/>" ><span style="${(fn:contains(url, 'usuariAplicacioConfiguracio/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
+        <fmt:message key="genapp.listtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+        </span></a>
+        </li>
+      </ul>
+    </li>
+
+    <%-- PerfilDeFirma --%>
+    <li>
+      <a href="#" role="branch" class="tree-toggle ${fn:contains(url, 'perfilDeFirma/')? "" : "closed"}" data-toggle="branch" data-value="suportada"><span style="${fn:contains(url, 'perfilDeFirma/')? "font-weight: bold;" : ""}"><fmt:message key="perfilDeFirma.perfilDeFirma"/></span></a>
+      <ul class="${fn:contains(url, 'perfilDeFirma/')? "branch in" : "branch"}">
+        <li style="list-style-type: disc; list-style-position: inside;" ><a href="<c:url value="/webdb/perfilDeFirma/new"/>" ><span style="${(fn:contains(url, 'perfilDeFirma/') && fn:contains(url, '/new'))? "font-weight: bold;" : ""}" >
+       <fmt:message var="entityname" key="perfilDeFirma.perfilDeFirma"/>
+       <fmt:message key="genapp.createtitle" >
+         <fmt:param value="${entityname}"/>
+       </fmt:message>
+       </span></a></li>
+        <li style="list-style-type: disc; list-style-position: inside;"><a href="<c:url value="/webdb/perfilDeFirma/list/1"/>" ><span style="${(fn:contains(url, 'perfilDeFirma/') && fn:contains(url, '/list'))? "font-weight: bold;" : ""}" >
         <fmt:message key="genapp.listtitle" >
          <fmt:param value="${entityname}"/>
        </fmt:message>
