@@ -102,9 +102,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}</th>
         </c:if>

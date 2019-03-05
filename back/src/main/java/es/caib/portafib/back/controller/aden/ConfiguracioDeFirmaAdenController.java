@@ -92,7 +92,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
       uac.setPluginFirmaServidorID(null);
-      uac.setMaxFirmesEnServidor(5);
 
       uac.setEntitatID(LoginInfo.getInstance().getEntitatID());
 

@@ -26,7 +26,7 @@ public interface ValidacioFirmesLogicaLocal extends
       String signType, File signatureFile, InputStream documentDetachedIS, 
       String languageUI) throws I18NException;
 
-  public ValidateSignatureResponse validateSignatureUpgradeSignature(final String entitatID, 
+  public ValidateSignatureResponse validateSignatureInServer(final String entitatID, 
       final UsuariAplicacioConfiguracio usuariAplicacioConfig,
       final String signatureType, final byte[] signedFile, byte[] documentDetachedFile,
       final String languageUI) throws I18NException;

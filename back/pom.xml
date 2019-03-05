@@ -62,6 +62,7 @@
       <artifactId>apifirmasimple-api</artifactId>
       <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
       <version>1.0</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

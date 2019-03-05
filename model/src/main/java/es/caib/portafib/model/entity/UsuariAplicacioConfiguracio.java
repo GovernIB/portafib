@@ -92,9 +92,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Long getPluginFirmaServidorID();
 	public void setPluginFirmaServidorID(java.lang.Long _pluginFirmaServidorID_);
 
-	public java.lang.Integer getMaxFirmesEnServidor();
-	public void setMaxFirmesEnServidor(java.lang.Integer _maxFirmesEnServidor_);
-
 	public java.lang.Integer getUpgradeSignFormat();
 	public void setUpgradeSignFormat(java.lang.Integer _upgradeSignFormat_);
 

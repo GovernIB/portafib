@@ -36,7 +36,7 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
 
   public PassarelaSignatureStatus getStatusTransaction(String transactionID) throws I18NException;
 
-  public PassarelaSignaturesSetWebInternalUse getSignaturesSetFullByTransactionID(String transactionID)
+public PassarelaSignaturesSetWebInternalUse getSignaturesSetFullByTransactionID(String transactionID)
       throws I18NException;
 
   public List<PassarelaSignatureResult> getSignatureResults(String transactionID, boolean addFiles) throws I18NException;

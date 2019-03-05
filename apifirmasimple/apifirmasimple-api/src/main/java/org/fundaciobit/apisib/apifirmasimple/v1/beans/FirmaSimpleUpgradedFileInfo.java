@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaSimpleUpgradeFileInfo {
+public class FirmaSimpleUpgradedFileInfo {
 
 
   protected String signType;
@@ -62,11 +62,11 @@ public class FirmaSimpleUpgradeFileInfo {
    * */
   protected List<FirmaSimpleKeyValue> additionInformation = null;
 
-  public FirmaSimpleUpgradeFileInfo() {
+  public FirmaSimpleUpgradedFileInfo() {
     super();
   }
 
-  public FirmaSimpleUpgradeFileInfo(String signType, String signAlgorithm, Integer signMode,
+  public FirmaSimpleUpgradedFileInfo(String signType, String signAlgorithm, Integer signMode,
       String eniTipoFirma, String eniPerfilFirma, FirmaSimpleValidationInfo validationInfo,
       List<FirmaSimpleKeyValue> additionInformation) {
     super();
@@ -137,7 +137,7 @@ public class FirmaSimpleUpgradeFileInfo {
 
   
 
-  public static String toString(FirmaSimpleUpgradeFileInfo sfi) {
+  public static String toString(FirmaSimpleUpgradedFileInfo sfi) {
     StringBuffer str = new StringBuffer("  + INFORMACIO:");
 
     

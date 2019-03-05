@@ -7,13 +7,13 @@
   <name>PortaFIB</name>
 
   <modules>
-    <!-- Llibreries de Firma Simple, Firma Web i Firma en Servidor -->
+    <!-- Llibreries de Firma Simple, Firma Web i Firma en Servidor  -->
 
     <module>pluginsib-signatureserver</module>
  
     <module>pluginsib-signatureweb</module>  
 
-    <module>apifirmasimple</module>  
+    <module>apifirmasimple</module> 
   
  
     <!-- PortaFIB -->
@@ -71,7 +71,7 @@
     <repository>
        <id>github-governib-maven</id>
        <name>GitHub GovernIB Maven Repository</name>
-       <url>https://GovernIB.github.io/maven/maven/</url>
+       <url>https://governib.github.io/maven/maven/</url>
     </repository>
 
   </repositories>
@@ -234,7 +234,7 @@
            <repository>
              <id>github-governib-maven-repos</id>
              <name>GitHub GovernIB Maven Repository</name>
-             <url>http://GovernIB.github.io/maven/maven/</url>
+             <url>https://governib.github.io/maven/maven/</url>
            </repository>
         </repositories>
   -->

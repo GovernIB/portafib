@@ -20753,7 +20753,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
     <void index="41"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="37"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="36"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -22377,45 +22377,6 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>maxFirmesEnServidor</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Integer</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Màxim de firmes en servidor</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Máximo de firmas en servidor</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>10</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>maxfirmesenservidor</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>4</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>14</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="31"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
            <string>upgradeSignFormat</string> 
           </void> 
           <void property="javaType"> 
@@ -22452,7 +22413,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="32"> 
+        <void index="31"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22530,7 +22491,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="33"> 
+        <void index="32"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -22575,7 +22536,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="34"> 
+        <void index="33"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>-- Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -22620,7 +22581,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="35"> 
+        <void index="34"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
@@ -22665,7 +22626,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="36"> 
+        <void index="35"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>NULL =&gt; Lo que digui l&apos;entitat</string> 

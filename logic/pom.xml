@@ -16,6 +16,18 @@
   <name>PortaFIB Logica</name>
 
   <dependencies>
+  
+    <dependency>
+      <artifactId>apifirmasimple-api</artifactId>
+      <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
+      <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.utils</groupId>
+      <artifactId>pluginsib-utils-templateengine</artifactId>
+      <version>2.0.0</version>
+    </dependency>
 
     <dependency>
       <groupId>es.caib.portafib</groupId>

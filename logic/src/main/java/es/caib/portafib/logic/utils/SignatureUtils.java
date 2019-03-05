@@ -726,6 +726,36 @@ public class SignatureUtils {
 
      return absoluteRequestPluginBasePath;
    }
-
    
+   
+   public static String getEniTipoFirma(final String signType, final Integer signMode) {
+     
+     if (signType == null || signType.trim().length() == 0) {
+       return null;
+     }
+     
+     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+       return "TF06";
+     } 
+     
+     if (signMode == null) {
+       return null;
+     }
+     
+     if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
+       if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+         return "TF04"; // (CAdES detached/explicit
+       } else {
+         return "TF05"; // (CAdES attached/implicit signature),
+       }
+     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+       if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
+         return "TF03"; // (XAdES enveloped signature)
+       } else {
+         return "TF02"; // (XAdES internally detached signature), ,
+       }
+     }
+     return null;
+   }
+  
 }

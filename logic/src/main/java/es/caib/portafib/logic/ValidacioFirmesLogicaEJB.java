@@ -45,7 +45,7 @@ public class ValidacioFirmesLogicaEJB extends
   }
 
   @Override
-  public ValidateSignatureResponse validateSignatureUpgradeSignature(final String entitatID,
+  public ValidateSignatureResponse validateSignatureInServer(final String entitatID,
       final UsuariAplicacioConfiguracio usuariAplicacioConfig, final String signatureType,
       final byte[] signedFile, byte[] documentDetachedFile, final String languageUI)
       throws I18NException {
@@ -120,7 +120,7 @@ public class ValidacioFirmesLogicaEJB extends
       throw new I18NException("genapp.comodi", msg);
     }
 
-    return validateSignatureUpgradeSignature(entitatID, usuariAplicacioConfig, signType,
+    return validateSignatureInServer(entitatID, usuariAplicacioConfig, signType,
         signature, documentDetached, languageUI);
   }
 

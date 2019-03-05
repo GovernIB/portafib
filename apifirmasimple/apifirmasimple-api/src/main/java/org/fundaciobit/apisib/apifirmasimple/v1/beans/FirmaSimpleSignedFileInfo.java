@@ -400,6 +400,13 @@ public class FirmaSimpleSignedFileInfo {
       str.append("\n").append(
           "      * CheckValidationSignature: "
               + null2Str(validationInfo.getCheckValidationSignature()));
+      
+      if (validationInfo.getNoCheckValidationReason() != null) {
+        str.append("\n").append(
+            "      * No Validation reason: "
+                + validationInfo.getNoCheckValidationReason());
+      }
+      
     }
 
     List<FirmaSimpleKeyValue> additionInformation = sfi.getAdditionInformation();

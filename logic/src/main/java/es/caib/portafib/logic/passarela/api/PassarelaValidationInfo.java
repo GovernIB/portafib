@@ -16,18 +16,20 @@ public class PassarelaValidationInfo {
   protected Boolean checkAdministrationIDOfSigner;
   protected Boolean checkDocumentModifications;
   protected Boolean checkValidationSignature;
+  protected String noCheckValidationReason;
 
   public PassarelaValidationInfo() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   public PassarelaValidationInfo(Boolean checkAdministrationIDOfSigner,
-      Boolean checkDocumentModifications, Boolean checkValidationSignature) {
+      Boolean checkDocumentModifications, Boolean checkValidationSignature,
+      String noCheckValidationReason) {
     super();
     this.checkAdministrationIDOfSigner = checkAdministrationIDOfSigner;
     this.checkDocumentModifications = checkDocumentModifications;
     this.checkValidationSignature = checkValidationSignature;
+    this.noCheckValidationReason = noCheckValidationReason;
   }
 
   public Boolean getCheckAdministrationIDOfSigner() {
@@ -52,6 +54,14 @@ public class PassarelaValidationInfo {
 
   public void setCheckValidationSignature(Boolean checkValidationSignature) {
     this.checkValidationSignature = checkValidationSignature;
+  }
+
+  public String getNoCheckValidationReason() {
+    return noCheckValidationReason;
+  }
+
+  public void setNoCheckValidationReason(String noCheckValidationReason) {
+    this.noCheckValidationReason = noCheckValidationReason;
   }
 
 }

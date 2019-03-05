@@ -1,15 +1,20 @@
 package es.caib.portafib.back.controller.apifirmasimple.v1;
 
-import org.apache.commons.io.FileUtils;
+
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeFileInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleValidationInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
@@ -26,16 +31,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -152,7 +157,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
-  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
+  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaEjb;
 
   @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
   protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
@@ -163,73 +168,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
 
-  @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.GETMAXNUMBEROFSIGNATURESBYTRANSACTION, method = RequestMethod.POST)
-  @ResponseBody
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> getMaxNumberOfSignaturesByTransaction(HttpServletRequest request,
-      @RequestBody String profileCode) {
-
-    String error = autenticate(request);
-    if (error != null) {
-      return generateServerError(error, HttpStatus.UNAUTHORIZED);
-    }
-
-    // XYZ ZZZ S'ha de collir de propietat idioma per defecte
-    String languageUI = "ca";
-
-    try {
-
-      LoginInfo loginInfo = LoginInfo.getInstance();
-
-      // Checks usuari aplicacio
-      final UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-
-      languageUI = usuariAplicacio.getIdiomaID();
-
-      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
-
-      // Cercam que tengui configuracio
-      final UsuariAplicacioConfiguracio config;
-      config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacio(
-          usuariAplicacioID, profileCode, ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR);
-
-      Integer max;
-      if (config == null) {
-        max = 0;
-      } else {
-        max = config.getMaxFirmesEnServidor();
-      }
-
-      log.info(" XYZ ZZZ getMaxNumberOfSignaturesByTransaction() => " + max);
-      String strValue = (max == null) ? "" : String.valueOf(max);
-      HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<String>(strValue, headers, HttpStatus.OK);
-
-      return re;
-
-    } catch (I18NException i18ne) {
-      // XYZ ZZZ String idioma = simpleSignaturesSet.getCommonInfo().getLanguageUI();
-
-      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-      log.error(msg, i18ne);
-
-      return generateServerError(msg);
-
-    } catch (Throwable th) {
-
-      // XYZ ZZZ TRA
-      String msg = "Error desconegut intentant obtenir el numero màxim "
-          + "de firmes per transacció de Firma en Servidor: " + th.getMessage();
-
-      log.error(msg, th);
-
-      return generateServerError(msg, th);
-    }
-
-  }
 
   @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.UPGRADESIGNATURE, method = RequestMethod.POST)
   @ResponseBody
@@ -238,7 +176,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   public ResponseEntity<?> upgradeSignature(HttpServletRequest request,
       @RequestBody FirmaSimpleUpgradeRequest fsur) {
 
-    byte[] signature = fsur.getSignature();
+    FirmaSimpleFile signature = fsur.getSignature();
 
     log.info(" XYZ ZZZ eNTRA A upgradeSignature => signature: " + signature);
 
@@ -251,25 +189,21 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       // XYZ ZZZ TRA
       return generateServerError("L'objecte FirmaSimpleUpgradeRequest o l'idioma valen null.");
     }
-    
+
     // XYZ ZZZ Falta checks sobre fsur
 
     try {
 
       final boolean esFirmaEnServidor = true;
       RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor, fsur.getProfileCode());
-
-      Integer upgradeID = restLoginInfo.config.getUpgradeSignFormat();
-
-      if (upgradeID == null) {
-        // XYZ ZZZ Traduir
-        return generateServerError("L´usuari aplicació "
-            + restLoginInfo.loginInfo.getUsuariAplicacio().getUsuariAplicacioID()
-            + " no té definida configuració d´Extensió de Firma (Perfil: " 
-            + fsur.getProfileCode() + ")");
-      }
+      UsuariAplicacioConfiguracio config;
+      config = configuracioUsuariAplicacioLogicaLocalEjb
+          .getConfiguracioUsuariAplicacioPerUpgrade(restLoginInfo.loginInfo
+              .getUsuariAplicacio().getUsuariAplicacioID(), restLoginInfo.perfilDeFirma, fsur);
 
       SignatureTypeFormEnumForUpgrade singTypeForm = null;
+
+      Integer upgradeID = config.getUpgradeSignFormat();
 
       for (SignatureTypeFormEnumForUpgrade up : SignatureTypeFormEnumForUpgrade.values()) {
         if (upgradeID == up.getId()) {
@@ -280,8 +214,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
       if (singTypeForm == null) {
         // XYZ ZZZ Traduir
-        return generateServerError("El identificador d'Extensió de Firma " 
-            + upgradeID + " no existeix.");
+        return generateServerError("El identificador d'Extensió de Firma " + upgradeID
+            + " no existeix.");
       }
 
       log.info("XYZ ZZZ Fent UPGRADE a " + singTypeForm);
@@ -289,8 +223,10 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       byte[] upgraded;
       upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature,
           fsur.getTargetCertificate(), singTypeForm,
-          restLoginInfo.loginInfo.getUsuariAplicacio(), restLoginInfo.config);
+          restLoginInfo.loginInfo.getUsuariAplicacio(), config);
 
+      
+      //  VALIDATE
       final String mime;
       String signatureType = upgradeTypesToSimpleTypes.get(singTypeForm);
       if (FileInfoSignature.SIGN_TYPE_XADES.equals(signatureType)) {
@@ -307,69 +243,9 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       // XYZ ZZZ Que fer amb això
       final byte[] documentDetachedFile = null;
 
-      ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignatureUpgradeSignature(
-          entitatID, restLoginInfo.config, signatureType, upgraded, documentDetachedFile,
-          languageUI);
-
-      FirmaSimpleUpgradeFileInfo upgradedFileInfo;
-
-      if (vsr == null || vsr.getValidationStatus() == null) {
-        // No s'ha fet validacio
-        upgradedFileInfo = new FirmaSimpleUpgradeFileInfo();
-
-        upgradedFileInfo.setSignType(signatureType);
-        upgradedFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
-
-        upgradedFileInfo.setEniPerfilFirma(singTypeForm.getName());
-
-        
-        // SI es PADES llavors el signMode es attached
-        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
-          upgradedFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
-        }
-
-      } else {
-
-        final String signType = vsr.getSignType();
-        final String signAlgorithm = null;
-
-        String signFormat = vsr.getSignFormat();
-
-        Integer signMode;
-
-        if (signFormat == null) {
-          signMode = null;
-        } else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED
-            .equals(signFormat)
-            || ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED
-                .equals(signFormat)) {
-          signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
-        } else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
-            || ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED
-                .equals(signFormat)) {
-          signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
-        } else {
-          signMode = null;
-        }
-
-        // XYZ ZZZ
-        String eniTipoFirma = null;
-        final String eniPerfilFirma = vsr.getSignProfile();
-
-        FirmaSimpleValidationInfo validationInfo = new FirmaSimpleValidationInfo();
-
-        if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
-          validationInfo.setCheckValidationSignature(true);
-        } else {
-          validationInfo.setCheckValidationSignature(false);
-        }
-
-        List<FirmaSimpleKeyValue> additionInformation = null;
-
-        upgradedFileInfo = new FirmaSimpleUpgradeFileInfo(signType, signAlgorithm, signMode,
-            eniTipoFirma, eniPerfilFirma, validationInfo, additionInformation);
-
-      }
+      FirmaSimpleUpgradedFileInfo upgradedFileInfo = validateUpgrade(config,
+          signatureType, singTypeForm.getName(), upgraded, documentDetachedFile,
+          entitatID, languageUI);
 
       FirmaSimpleUpgradeResponse fsuresp = new FirmaSimpleUpgradeResponse(signedFile,
           upgradedFileInfo);
@@ -387,7 +263,6 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     } catch (NoCompatibleSignaturePluginException nape) {
 
       // XYZ ZZZ
-
 
       return generateNoAvailablePlugin(fsur.getLanguageUI(), false);
 
@@ -413,99 +288,212 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
-  @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.SIGNDOCUMENTS, method = RequestMethod.POST)
+
+  
+  
+
+  protected FirmaSimpleUpgradedFileInfo validateUpgrade(UsuariAplicacioConfiguracio config,
+      String signatureType, String profileSignType,
+      byte[] signedFile, final byte[] documentDetachedFile, 
+      final String entitatID, final String languageUI )
+      throws I18NException {
+
+    ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignatureInServer(
+        entitatID, config, signatureType, signedFile, documentDetachedFile, languageUI);
+
+    FirmaSimpleUpgradedFileInfo upgradedFileInfo;
+
+    if (vsr == null || vsr.getValidationStatus() == null) {
+      // No s'ha fet validacio
+      upgradedFileInfo = new FirmaSimpleUpgradedFileInfo();
+
+      upgradedFileInfo.setSignType(signatureType);
+      upgradedFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
+
+      upgradedFileInfo.setEniPerfilFirma(profileSignType);
+
+      // SI es PADES llavors el signMode es attached
+      if (FileInfoSignature.SIGN_TYPE_PADES.equals(signatureType)) {
+        upgradedFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
+      }
+
+    } else {
+
+      final String signType = vsr.getSignType();
+      final String signAlgorithm = null;
+
+      String signFormat = vsr.getSignFormat();
+
+      Integer signMode;
+
+      if (signFormat == null) {
+        signMode = null;
+      } else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED
+          .equals(signFormat)
+          || ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED
+              .equals(signFormat)) {
+        signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
+      } else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
+          || ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED
+              .equals(signFormat)) {
+        signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
+      } else {
+        signMode = null;
+      }
+
+      // XYZ ZZZ
+      String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
+
+      final String eniPerfilFirma = vsr.getSignProfile();
+
+      FirmaSimpleValidationInfo validationInfo = new FirmaSimpleValidationInfo();
+
+      if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
+        validationInfo.setCheckValidationSignature(true);
+      } else {
+        validationInfo.setCheckValidationSignature(false);
+        validationInfo.setNoCheckValidationReason(vsr.getValidationStatus().getErrorMsg());
+      }
+
+      List<FirmaSimpleKeyValue> additionInformation = null;
+
+      upgradedFileInfo = new FirmaSimpleUpgradedFileInfo(signType, signAlgorithm, signMode,
+          eniTipoFirma, eniPerfilFirma, validationInfo, additionInformation);
+
+    }
+    return upgradedFileInfo;
+  }
+  
+  
+
+  @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.SIGNDOCUMENT, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public ResponseEntity<?> signDocuments(HttpServletRequest request,
-      @RequestBody FirmaSimpleSignDocumentsRequest simpleSignaturesSet) {
+  public ResponseEntity<?> signDocument(HttpServletRequest request,
+      @RequestBody FirmaSimpleSignDocumentRequest simpleSignature) {
 
-    log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignaturesSet: " + simpleSignaturesSet);
+    log.info(" XYZ ZZZ eNTRA A signDocuments => simpleSignature: " + simpleSignature);
 
     String error = autenticate(request);
     if (error != null) {
       return generateServerError(error, HttpStatus.UNAUTHORIZED);
     }
 
-    // XYZ ZZZ Validar simpleSignaturesSet
+    // Validar simpleSignature
+    // XYZ ZZZ Canviar per idioma per defecte
+    String languageUI = "ca";
 
-    final String virtualTransactionID = internalGetTransacction();
+    if (simpleSignature == null) {
+      // XYZ ZZZ TRA
+      return generateServerError(I18NLogicUtils.tradueix(new Locale(languageUI), "",
+          "L´objecte FirmaSimpleSignDocumentRequest passat per paràmetre val null"));
+    }
+
+    if (simpleSignature.getCommonInfo() == null) {
+      // XYZ ZZZ TRA
+      return generateServerError(I18NLogicUtils.tradueix(new Locale(languageUI), "",
+          "L´objecte FirmaSimpleCommonInfo passat per paràmetre val null"));
+    }
+
+    String l = simpleSignature.getCommonInfo().getLanguageUI();
+    if (l == null || l.trim().length() == 0) {
+      // XYZ ZZZ TRA
+      return generateServerError(I18NLogicUtils.tradueix(new Locale(languageUI), "",
+          "El camp languageUI definit dins de FirmaSimpleCommonInfo val està buit o val null"));
+    }
+
+    languageUI = l;
+
+    final boolean esFirmaEnServidor = true;
+
+    log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
+        + simpleSignature.getCommonInfo().getSignProfile());
+    log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
+        + simpleSignature.getCommonInfo().getLanguageUI());
+
+    String virtualTransactionID = null;
 
     try {
-
-      final boolean esFirmaEnServidor = true;
-
-      log.info("simpleSignaturesSet.getCommonInfo().getSignProfile() ==> "
-          + simpleSignaturesSet.getCommonInfo().getSignProfile());
-      log.info("simpleSignaturesSet.getCommonInfo().getLanguageUI() ==> "
-          + simpleSignaturesSet.getCommonInfo().getLanguageUI());
-
-      RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor, simpleSignaturesSet
+      RestLoginInfo restLoginInfo = commonChecks(esFirmaEnServidor, simpleSignature
           .getCommonInfo().getSignProfile());
 
       LoginInfo loginInfo = restLoginInfo.loginInfo;
 
+      UsuariAplicacioConfiguracio config;
+      config = configuracioUsuariAplicacioLogicaLocalEjb
+          .getConfiguracioFirmaPerApiFirmaSimpleEnServidor(loginInfo.getUsuariAplicacio()
+              .getUsuariAplicacioID(), restLoginInfo.perfilDeFirma, simpleSignature);
+
       // ================== CODI COMU ==============
+
+      virtualTransactionID = internalGetTransacction();
+
       String transactionID = "" + System.currentTimeMillis();
       PassarelaSignaturesSet pss;
-      pss = convertRestBean2PassarelaBean(transactionID, simpleSignaturesSet,
-          virtualTransactionID, esFirmaEnServidor, loginInfo, loginInfo.getUsuariAplicacio()
-              .getUsuariAplicacioID(), restLoginInfo.config, codiBarresEjb, custodiaInfoEjb);
+      pss = convertRestBean2PassarelaBean(transactionID, virtualTransactionID,
+          simpleSignature, restLoginInfo.perfilDeFirma, config, codiBarresEjb, custodiaInfoEjb);
 
-      // FALTA PASSAR FILTRE
-      /*
-       * { ISignaturePlugin plugin = new VirtualSignaturePlugin(entitatID); final boolean
-       * suportXAdES_T = false; boolean filter =
-       * AbstractSignatureServerPlugin.checkFilter(plugin, aFirmar, suportXAdES_T, log);
-       * log.info("XYZ ZZZ PASSA FILTRE " + filter); if (!filter) {
-       * log.info("XYZ ZZZ Cridant a generateNoAvailablePlugin !!!!!"); return
-       * generateNoAvailablePlugin(languageUI); } }
-       */
-
-      // CRIDAR A SIGNDOCUMENT
-      // LoginInfo li = LoginInfo.getInstance();
 
       log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername()
           + "[");
       PassarelaFullResults fullResults;
       try {
         fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, loginInfo.getEntitat(),
-            loginInfo.getUsuariAplicacio(), restLoginInfo.config);
+            loginInfo.getUsuariAplicacio(), config);
       } catch (NoCompatibleSignaturePluginException nape) {
         return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
       }
 
       final boolean isSignatureInServer = true;
-      FirmaSimpleSignDocumentsResponse fssfr = processPassarelaResults(fullResults, pss,
+      FirmaSimpleSignDocumentsResponse fssfrFull = processPassarelaResults(fullResults, pss,
           isSignatureInServer);
+      
+      
+      FirmaSimpleStatus status = fssfrFull.getStatusSignatureProcess();
+      
+      FirmaSimpleSignatureResult result = fssfrFull.getResults().get(0);
+      
+      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+      
+          PassarelaFileInfoSignature fileInfo = pss.getFileInfoSignatureArray()[0];
+      
+          
+          final String profileSignType = null;
+          
+          final boolean useSignPolicy = (pss.getCommonInfoSignature().getPolicyInfoSignature() != null);
+         
+      
+          result.setSignedFileInfo(validateSignature(config, 
+              fileInfo, simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
+              loginInfo.getEntitat().getEntitatID(), useSignPolicy, languageUI)
+              );
+      
+      
+      }
+      
+      FirmaSimpleSignDocumentResponse fssfr = new FirmaSimpleSignDocumentResponse(
+          status, result);
+
 
       HttpHeaders headers = addAccessControllAllowOrigin();
-      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignDocumentsResponse>(fssfr,
+      ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignDocumentResponse>(fssfr,
           headers, HttpStatus.OK);
       log.info(" XYZ ZZZ Surt de signDocuments => FINAL OK");
 
       return re;
-    } catch (RestException re) {
 
-      return generateServerError(re.getMessage());
-      /*
-       * } catch (NoCompatibleSignaturePluginException nape) {
-       * 
-       * 
-       * 
-       * return generateNoAvailablePlugin(languageUI2);
-       * 
-       * /*} catch (I18NException i18ne) { // XYZ ZZZ String idioma =
-       * simpleSignaturesSet.getCommonInfo().getLanguageUI();
-       * 
-       * String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI2));
-       * 
-       * log.error(msg, i18ne);
-       * 
-       * return generateServerError(msg);
-       */
+    } catch (I18NException i18ne) { 
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+
+      log.error(msg, i18ne);
+
+      return generateServerError(msg);
+
     } catch (Throwable th) {
 
+      // XYZ ZZZ TRA
       String msg = "Error desconegut iniciant el proces de Firma: " + th.getMessage();
 
       log.error(msg, th);
@@ -516,7 +504,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
         try {
           File transactionFolder = getTransactionFolder(TIPUS_EN_SERVIDOR,
               virtualTransactionID);
-          FileUtils.deleteDirectory(transactionFolder);
+          org.apache.commons.io.FileUtils.deleteDirectory(transactionFolder);
         } catch (Exception e) {
           log.error("Error desconegut fent neteja dels fitxers "
               + "de ApiFirmaEnServidorSimple de la transacció " + virtualTransactionID + ":"
@@ -528,6 +516,137 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
+  
+  
+  protected FirmaSimpleSignedFileInfo validateSignature(UsuariAplicacioConfiguracio config,
+      PassarelaFileInfoSignature fileInfo, FirmaSimpleFileInfoSignature firmaRequest,
+      String eniPerfilFirma,  FirmaSimpleFile signedFile,  String entitatID,
+      boolean policyIncluded, final String languageUI )  throws I18NException {
+
+    log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
+    
+    String signType = fileInfo.getSignType();
+    
+    log.info("XYZ ZZZ validateSignature:: signType => " + signType);
+    
+    log.info("XYZ ZZZ validateSignature:: fileInfo.getSignMode() => " + fileInfo.getSignMode());
+
+    byte[] documentDetached = null;
+    if (fileInfo.getSignMode() == FileInfoSignature.SIGN_MODE_EXPLICIT) {
+        
+      if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType) 
+        || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+          documentDetached = firmaRequest.getFileToSign().getData();
+      }
+ 
+    }
+
+    log.info("XYZ ZZZ validateSignature:: documentDetached => " + documentDetached);
+
+    final int signOperation = fileInfo.getSignOperation();    
+    final String signAlgorithm = fileInfo.getSignAlgorithm();
+    final int signaturesTableLocation = fileInfo.getSignaturesTableLocation();
+    final boolean timeStampIncluded = fileInfo.isUseTimeStamp();
+    
+    // XYZ ZZZ ZZZ
+    final String eniRolFirma = null;
+    final String eniSignerName = null;
+    final String eniSignerAdministrationId = null;
+    final String eniSignLevel = null;
+
+    FirmaSimpleSignedFileInfo signatureFileInfo;
+    
+    // Internament ja es verifica si s'ha de passar 
+    ValidateSignatureResponse vsr;
+   
+    vsr = validacioFirmesEjb.validateSignatureInServer(
+          entitatID, config, signType, signedFile.getData(),
+          documentDetached, languageUI);
+
+    if (vsr == null || vsr.getValidationStatus() == null) {
+      // No s'ha fet validacio
+      signatureFileInfo = new FirmaSimpleSignedFileInfo();
+
+      signatureFileInfo.setSignOperation(signOperation);
+      
+      signatureFileInfo.setSignType(signType);
+      
+      signatureFileInfo.setSignAlgorithm(signAlgorithm);
+      
+      signatureFileInfo.setValidationInfo(new FirmaSimpleValidationInfo());
+
+      signatureFileInfo.setEniPerfilFirma(eniPerfilFirma);
+      
+      signatureFileInfo.setTimeStampIncluded(timeStampIncluded);
+      
+      signatureFileInfo.setPolicyIncluded(policyIncluded);
+
+      // SI es PADES llavors el signMode es attached
+      if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+        signatureFileInfo.setSignMode(FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED);
+      }
+
+      signatureFileInfo.setEniTipoFirma(SignatureUtils.getEniTipoFirma(signatureFileInfo.getSignType(),
+          signatureFileInfo.getSignMode()));
+
+    } else {
+
+      if (vsr.getSignType() != null) {
+        signType = vsr.getSignType();
+      }
+
+      String signFormat = vsr.getSignFormat();
+
+      Integer signMode;
+
+      if (signFormat == null) {
+        signMode = null;
+      } else if (ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPED_ATTACHED
+          .equals(signFormat)
+          || ValidateSignatureResponse.SIGNFORMAT_IMPLICIT_ENVELOPING_ATTACHED
+              .equals(signFormat)) {
+        signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED;
+      } else if (ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_DETACHED.equals(signFormat)
+          || ValidateSignatureResponse.SIGNFORMAT_EXPLICIT_EXTERNALLY_DETACHED
+              .equals(signFormat)) {
+        signMode = FirmaSimpleSignedFileInfo.SIGN_MODE_EXPLICIT_DETACHED;
+      } else {
+        signMode = null;
+      }
+
+      // XYZ ZZZ
+      String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
+
+      if (vsr.getSignProfile() != null) {
+        eniPerfilFirma = vsr.getSignProfile();
+      }
+
+      FirmaSimpleValidationInfo validationInfo = new FirmaSimpleValidationInfo();
+
+      if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
+        validationInfo.setCheckValidationSignature(true);
+      } else {
+        
+        log.info("XYZ ZZZ NO s'ha validat per la raó següent: " + vsr.getValidationStatus().getErrorMsg());
+        
+        validationInfo.setNoCheckValidationReason(vsr.getValidationStatus().getErrorMsg());
+        validationInfo.setCheckValidationSignature(false);
+      }
+
+      List<FirmaSimpleKeyValue> additionInformation = null;
+      FirmaSimpleCustodyInfo custodyInfo = null;
+
+      signatureFileInfo = new FirmaSimpleSignedFileInfo(signOperation, signType, signAlgorithm,
+          signMode, signaturesTableLocation, timeStampIncluded,
+          policyIncluded, eniTipoFirma, eniPerfilFirma, eniRolFirma,
+          eniSignerName, eniSignerAdministrationId, eniSignLevel,
+          custodyInfo, validationInfo, additionInformation);
+
+    }
+    return signatureFileInfo;
+  }
+  
+  
   @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)

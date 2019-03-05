@@ -215,11 +215,6 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
-          <td>
-          ${usuariAplicacioConfiguracio.maxFirmesEnServidor}
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.upgradeSignFormat}</c:set>

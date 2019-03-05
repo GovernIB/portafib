@@ -15,8 +15,8 @@ import java.nio.charset.CharsetDecoder;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
 
@@ -52,36 +52,21 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
    * @return
    * @throws Exception
    */
-  public FirmaSimpleSignDocumentsResponse signDocuments(
-      FirmaSimpleSignDocumentsRequest signaturesSet) throws Exception {
+  @Override
+  public FirmaSimpleSignDocumentResponse signDocument(
+      FirmaSimpleSignDocumentRequest signaturesSet) throws Exception {
 
-    ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENTS);
+    ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENT);
 
-    FirmaSimpleSignDocumentsResponse result = response
-        .getEntity(FirmaSimpleSignDocumentsResponse.class);
+    FirmaSimpleSignDocumentResponse result = response
+        .getEntity(FirmaSimpleSignDocumentResponse.class);
 
     return result;
   }
 
-  public Integer getMaxNumberOfSignaturesByTransaction(String codeProfile) throws Exception {
 
-    if (codeProfile == null) {
-      codeProfile = "null";
-    }
 
-    ClientResponse response = commonCall(codeProfile, GETMAXNUMBEROFSIGNATURESBYTRANSACTION);
-
-    String result = response.getEntity(String.class);
-
-    result = cleanString(result);
-
-    if (result == null || result.trim().length() == 0) {
-      return null;
-    }
-
-    return Integer.parseInt(result);
-  }
-
+  @Override
   public FirmaSimpleUpgradeResponse upgradeSignature(FirmaSimpleUpgradeRequest fsur)
       throws Exception {
     ClientResponse response = commonCall(fsur, UPGRADESIGNATURE);
@@ -118,6 +103,7 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
    * @return
    * @throws Exception
    */
+  @Override
   public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception {
 
     ClientResponse response = commonCall(locale, AVAILABLEPROFILES);

@@ -16,7 +16,7 @@ public class FirmaSimpleUpgradeResponse {
 
   protected FirmaSimpleFile upgradedFile;
 
-  protected FirmaSimpleUpgradeFileInfo upgradedFileInfo;
+  protected FirmaSimpleUpgradedFileInfo upgradedFileInfo;
 
   /**
    * 
@@ -26,7 +26,7 @@ public class FirmaSimpleUpgradeResponse {
   }
 
   public FirmaSimpleUpgradeResponse(FirmaSimpleFile upgradedFile,
-      FirmaSimpleUpgradeFileInfo upgradedFileInfo) {
+      FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
     super();
     this.upgradedFile = upgradedFile;
     this.upgradedFileInfo = upgradedFileInfo;
@@ -41,11 +41,11 @@ public class FirmaSimpleUpgradeResponse {
     this.upgradedFile = upgradedFile;
   }
 
-  public FirmaSimpleUpgradeFileInfo getUpgradedFileInfo() {
+  public FirmaSimpleUpgradedFileInfo getUpgradedFileInfo() {
     return upgradedFileInfo;
   }
 
-  public void setUpgradedFileInfo(FirmaSimpleUpgradeFileInfo upgradedFileInfo) {
+  public void setUpgradedFileInfo(FirmaSimpleUpgradedFileInfo upgradedFileInfo) {
     this.upgradedFileInfo = upgradedFileInfo;
   }
 

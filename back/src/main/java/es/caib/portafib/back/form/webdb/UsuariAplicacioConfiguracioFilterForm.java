@@ -428,28 +428,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer maxFirmesEnServidorDesde;
-
-  public java.lang.Integer getMaxFirmesEnServidorDesde() {
-    return this.maxFirmesEnServidorDesde;
-  }
-
-  public void setMaxFirmesEnServidorDesde(java.lang.Integer maxFirmesEnServidorDesde) {
-    this.maxFirmesEnServidorDesde = maxFirmesEnServidorDesde;
-  }
-
-
-  private java.lang.Integer maxFirmesEnServidorFins;
-
-  public java.lang.Integer getMaxFirmesEnServidorFins() {
-    return this.maxFirmesEnServidorFins;
-  }
-
-  public void setMaxFirmesEnServidorFins(java.lang.Integer maxFirmesEnServidorFins) {
-    this.maxFirmesEnServidorFins = maxFirmesEnServidorFins;
-  }
-
-
   private java.lang.Integer upgradeSignFormatDesde;
 
   public java.lang.Integer getUpgradeSignFormatDesde() {
@@ -514,8 +492,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.htmlPerLlistarPluginsFirmaWeb = __toClone.htmlPerLlistarPluginsFirmaWeb;
     this.pluginFirmaServidorIDDesde = __toClone.pluginFirmaServidorIDDesde;
     this.pluginFirmaServidorIDFins = __toClone.pluginFirmaServidorIDFins;
-    this.maxFirmesEnServidorDesde = __toClone.maxFirmesEnServidorDesde;
-    this.maxFirmesEnServidorFins = __toClone.maxFirmesEnServidorFins;
     this.upgradeSignFormatDesde = __toClone.upgradeSignFormatDesde;
     this.upgradeSignFormatFins = __toClone.upgradeSignFormatFins;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;

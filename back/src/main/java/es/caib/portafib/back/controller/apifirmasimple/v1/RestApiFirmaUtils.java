@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.activation.DataHandler;
@@ -26,6 +25,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
@@ -35,6 +35,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleValidationInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
 import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.ServerException;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
@@ -61,7 +62,6 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
 import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
-import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -282,30 +282,15 @@ public abstract class RestApiFirmaUtils extends RestUtils {
        * detached signature), TF03 (XAdES enveloped signature), TF04 (CAdES detached/explicit
        * signature), TF05 (CAdES attached/implicit signature), TF06 (PAdES)
        */
-      String eniTipoFirma; // TF01, ...
-      {
-        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
-          eniTipoFirma = "TF06";
-        } else if (psr.getCustodyInfo() != null) {
+      String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 
+      if (eniTipoFirma == null) {
+        if (psr.getCustodyInfo() != null && psr.getCustodyInfo().getCustodyFileCSV() != null) {
           eniTipoFirma = "TF01";
-        } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-          if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-            eniTipoFirma = "TF04"; // (CAdES detached/explicit
-          } else {
-            eniTipoFirma = "TF05"; // (CAdES attached/implicit signature),
-          }
-        } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
-          if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-            eniTipoFirma = "TF03"; // (XAdES enveloped signature)
-          } else {
-            eniTipoFirma = "TF02"; // (XAdES internally detached signature), ,
-          }
-        } else {
-          eniTipoFirma = null;
         }
-
       }
+
+      
 
       // EPES T C X XL A 'BASELINE B-Level' 'BASELINE LT-Level' 'BASELINE LTA-Level' 'BASELINE
       // T-Level' LTV
@@ -376,7 +361,8 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         PassarelaValidationInfo pvi = psr.getValidationInfo();
         if (pvi != null) {
           validation = new FirmaSimpleValidationInfo(pvi.getCheckAdministrationIDOfSigner(),
-              pvi.getCheckDocumentModifications(), pvi.getCheckValidationSignature());
+              pvi.getCheckDocumentModifications(), pvi.getCheckValidationSignature(),
+              pvi.getNoCheckValidationReason());
         }
       }
 
@@ -392,14 +378,95 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
   }
 
+
+
+  
+  /**
+   *  EN SERVIDOR
+   * @param transactionID
+   * @param virtualTransactionID
+   * @param simpleSignature
+   * @param perfilFirma
+   * @param configEnServidor
+   * @param codiBarresEjb
+   * @param custodiaInfoEjb
+   * @return
+   * @throws I18NException
+   */
   protected PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
-      FirmaSimpleSignDocumentsRequest simpleSignaturesSet, final String virtualTransactionID,
-      final boolean esFirmaEnServidor, LoginInfo loginInfo, final String usuariAplicacioID,
-      final UsuariAplicacioConfiguracio config, CodiBarresLocal codiBarresEjb,
-      CustodiaInfoLocal custodiaInfoEjb) throws RestException {
+      final String virtualTransactionID, FirmaSimpleSignDocumentRequest simpleSignature,
+      PerfilDeFirma perfilFirma, UsuariAplicacioConfiguracio configEnServidor,
+      CodiBarresLocal codiBarresEjb,
+      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
+   
+    final boolean esFirmaEnServidor = true;
+    
+    FirmaSimpleSignDocumentsRequest simpleSignaturesSet;
+    simpleSignaturesSet  = new FirmaSimpleSignDocumentsRequest(
+        simpleSignature.getCommonInfo(),
+        new FirmaSimpleFileInfoSignature[] { simpleSignature.getFileInfoSignature() }
+        );
+    
+    LoginInfo loginInfo = LoginInfo.getInstance();
+    
+        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
+            virtualTransactionID, simpleSignaturesSet, esFirmaEnServidor,
+            loginInfo, perfilFirma,  configEnServidor,
+            codiBarresEjb, custodiaInfoEjb);
+    
+    return pss;
+
+    
+  }
+  
+  
+  /**
+   * WEB
+   * 
+   * @param transactionID
+   * @param virtualTransactionID
+   * @param simpleSignature
+   * @param perfilWeb
+   * @param codiBarresEjb
+   * @param custodiaInfoEjb
+   * @return
+   * @throws I18NException
+   */
+  protected PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
+      final String virtualTransactionID,
+      FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
+      PerfilDeFirma perfilWeb,
+      CodiBarresLocal codiBarresEjb,
+      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
+    
+    final boolean esFirmaEnServidor = false;
+    
+    
+    LoginInfo loginInfo = LoginInfo.getInstance();
+    
+        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, virtualTransactionID,
+
+        simpleSignaturesSet, esFirmaEnServidor, loginInfo, perfilWeb,
+        null,  codiBarresEjb, custodiaInfoEjb);
+    
+    return pss;
+    
+  }
+  
+  
+  
+  
+  private PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
+      final String virtualTransactionID, FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
+      final boolean esFirmaEnServidor, LoginInfo loginInfo, PerfilDeFirma perfilFirma,
+      UsuariAplicacioConfiguracio configEnServidor2,  
+      CodiBarresLocal codiBarresEjb,
+      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
     // throws Exception, I18NException {
     String languageUI = "ca";
 
+    final String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
+    
     final String type = esFirmaEnServidor ? TIPUS_EN_SERVIDOR : TIPUS_WEB;
 
     try {
@@ -407,78 +474,43 @@ public abstract class RestApiFirmaUtils extends RestUtils {
       // TODO XYZ ZZZ VALIDAR ESTRUCTURA simpleSignaturesSet
       if (simpleSignaturesSet == null) {
         // Traduir
-        throw new RestException("FirmaSimpleSignDocumentsRequest val null");
+        throw new I18NException("genapp.comodi","FirmaSimpleSignDocumentsRequest val null");
       }
 
       FirmaSimpleCommonInfo commonInfo = simpleSignaturesSet.getCommonInfo();
       if (commonInfo == null) {
-        throw new RestException("L'atribut commonInfo val null");
+        throw new I18NException("genapp.comodi","L'atribut commonInfo val null");
       }
 
       languageUI = commonInfo.getLanguageUI();
       log.info(" XYZ ZZZ LanguageUI() => " + languageUI);
       if (languageUI == null || languageUI.trim().length() == 0) {
-        throw new RestException(
+        throw new I18NException("genapp.comodi",
             "El camp languageUI de l'atribut commonInfo val null o està buit");
       }
 
       // TODO XYZ FALTA CHECK
-      FirmaSimpleFileInfoSignature[] fitxersAFirmar = simpleSignaturesSet
+      FirmaSimpleFileInfoSignature[] simpleFileInfoSignatureArray = simpleSignaturesSet
           .getFileInfoSignatureArray();
 
-      if (fitxersAFirmar == null || fitxersAFirmar.length == 0) {
-        // XYZ ZZZ
-        throw new RestException("No ha enviat fitxers a firmar.");
+      if (simpleFileInfoSignatureArray == null || simpleFileInfoSignatureArray.length == 0) {
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi","No ha enviat fitxers a firmar.");
       }
-
-      if (esFirmaEnServidor) {
-        Integer max = config.getMaxFirmesEnServidor();
-        ;
-        if (max != null) {
-          if (fitxersAFirmar.length > max) {
-            // XYZ ZZZ Traduir !!!!
-            throw new RestException("El màxim de fitxers a firmar en una transacció és de "
-                + max);
-          }
-        }
-      }
-
+      
       EntitatJPA entitatJPA = loginInfo.getEntitat();
 
-      // final String entitatID = entitatJPA.getEntitatID();
 
-      // Vull suposar que abans de 10 minuts haurà firmat
-      // Proporcional al numero de firmes !!!!
-      Calendar expiryDate = Calendar.getInstance();
-      expiryDate.add(Calendar.MINUTE, 5 + fitxersAFirmar.length);
-
-      // ========== FILTRE DE CERTIFICATS
-      // Cercar-ho a info de l'usuari-app.Si val null o buit cercar-ho de les
-      // DADES DE l'ENTITAT
-      String filtreCertificats = config.getFiltreCertificats();
-      if (filtreCertificats == null || filtreCertificats.trim().length() == 0) {
-        filtreCertificats = entitatJPA.getFiltreCertificats();
-      }
-
-      // ========== POLITICA DE FIRMA
-      // Cercar l'ús de la politica de firma i actuar al respecte
-      final PassarelaPolicyInfoSignature policyInfoSignature = getPoliticaFirmaOfConfig(
-          usuariAplicacioID, config, entitatJPA);
-
-      final String username = commonInfo.getUsername();
-      final String administrationID = commonInfo.getAdministrationID();
-      PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(
-          languageUI, filtreCertificats, username, administrationID, null, policyInfoSignature);
-
-      FirmaSimpleFileInfoSignature[] simpleFileInfoSignatureArray;
-      simpleFileInfoSignatureArray = simpleSignaturesSet.getFileInfoSignatureArray();
+      // DADES ESPECIFIQUES DE CADA FIRMA
 
       PassarelaFileInfoSignature[] fileInfoSignatureArray;
       fileInfoSignatureArray = new PassarelaFileInfoSignature[simpleFileInfoSignatureArray.length];
 
-      // final FileInfoSignature[] aFirmar = new
-      // FileInfoSignature[simpleFileInfoSignatureArray.length];
-
+      String lastCertificate = null;
+      PassarelaPolicyInfoSignature lastPolicyInfoSignature = null;
+      
+      
+      
       for (int i = 0; i < simpleFileInfoSignatureArray.length; i++) {
 
         FirmaSimpleFileInfoSignature sfis = simpleFileInfoSignatureArray[i];
@@ -527,6 +559,19 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         }
 
         // ============ FIRMA
+        UsuariAplicacioConfiguracio config;
+        
+        if (esFirmaEnServidor) {
+          // SERVIDOR
+          config = configEnServidor2;
+        } else {
+           // WEB
+           config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
+            usuariAplicacioID, perfilFirma,
+            new FirmaSimpleSignDocumentRequest(commonInfo, sfis));
+        }
+        
+        
 
         // Operacio de Firma (FIRMA,COFIRMA,CONTRAFIRMA)
         final int signOperation = config.getTipusOperacioFirma();
@@ -574,45 +619,108 @@ public abstract class RestApiFirmaUtils extends RestUtils {
             signaturesTableHeader, secureVerificationCodeStampInfo, useTimeStamp,
             expedientCodi, expedientNom, expedientUrl, procedimentCodi, procedimentNom,
             additionalInformation);
-        /*
-         * 
-         * File fileToSign2 = null; String mimeType = fileToSign.getMime();
-         * 
-         * SignaturesTableHeader signaturesTableHeader2 = null; PdfVisibleSignature
-         * pdfVisibleSignature = null; SecureVerificationCodeStampInfo
-         * secureVerificationCodeStampInfo2 = null; ITimeStampGenerator timeStampGenerator =
-         * null;
-         * 
-         * aFirmar[i] = new FileInfoSignature(signID, fileToSign2, mimeType, name, reason,
-         * location, signerEmail, signNumber, languageSign, signType, signAlgorithm, signMode,
-         * signaturesTableLocation, signaturesTableHeader2, pdfVisibleSignature,
-         * secureVerificationCodeStampInfo2, useTimeStamp, timeStampGenerator);
-         */
+        
+        // LES DADES COMUNS DE TOTES LES CONFIGURACIONS HAN DE SER IGUALS
+        if (i == 0) {
+          lastCertificate = config.getFiltreCertificats();
+          lastPolicyInfoSignature = getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA);
+        } else {
+          // Comparar lastCertificate amb actual a veure si són iguals
+          if (!compare(lastCertificate, config.getFiltreCertificats())) {
+            
+            throw new I18NException("genapp.comodi", "El camp Filtre de Certificats"
+                + " de les diferents configuracions del Perfil "
+                + perfilFirma.getCodi() 
+                + " haurien de tenir el mateix valor i no el tenen.");
+            
+          }
+          
+          
+          
+          // Comparar lastPolicyInfoSignature amb actual a veure si són iguals
+          if (!compare(lastPolicyInfoSignature, getPoliticaFirmaOfConfig(usuariAplicacioID, config, entitatJPA))) {
+            throw new I18NException("genapp.comodi", "Els camps de Politica de Firma "
+                + " de les diferents configuracions del Perfil "
+                + perfilFirma.getCodi() 
+                + " haurien de tenir el mateix valor i no el tenen.");
+          }
+          
+        }
+        
+
       } // FINAL FOR DE TOTS
+      
+      // DADES COMUNS
+
+      // final String entitatID = entitatJPA.getEntitatID();
+
+      // Donam de temps 5 minuts més un minut per cada signatura
+      // Proporcional al numero de firmes !!!!
+      Calendar expiryDate = Calendar.getInstance();
+      expiryDate.add(Calendar.MINUTE, 5 + simpleFileInfoSignatureArray.length);
+
+      // ========== FILTRE DE CERTIFICATS
+      // Cercar-ho a info de l'usuari-app.Si val null o buit cercar-ho de les
+      // DADES DE l'ENTITAT
+      String filtreCertificats = lastCertificate;
+      if (filtreCertificats == null || filtreCertificats.trim().length() == 0) {
+        filtreCertificats = entitatJPA.getFiltreCertificats();
+      }
+
+      // ========== POLITICA DE FIRMA
+      // Cercar l'ús de la politica de firma i actuar al respecte
+      final PassarelaPolicyInfoSignature policyInfoSignature = lastPolicyInfoSignature;
+
+      final String username = commonInfo.getUsername();
+      final String administrationID = commonInfo.getAdministrationID();
+      PassarelaCommonInfoSignature commonInfoSignature = new PassarelaCommonInfoSignature(
+          languageUI, filtreCertificats, username, administrationID, null, policyInfoSignature);
+
+      // OBJECTE FINAL
 
       PassarelaSignaturesSet pss = new PassarelaSignaturesSet(transactionID,
           expiryDate.getTime(), commonInfoSignature, fileInfoSignatureArray);
       return pss;
-    } catch (RestException re) {
-      throw re;
-    } catch (I18NException i18ne) {
-      // XYZ ZZZ String idioma = simpleSignaturesSet.getCommonInfo().getLanguageUI();
-
-      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
-      log.error(msg, i18ne);
-
-      throw new RestException(msg);
+    }  catch (I18NException i18ne) {
+      throw i18ne;
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new RestException(e.getMessage());
+      // XYZ ZZZ TRA
+      throw new I18NException(e, "genapp.comodi", new I18NArgumentString(e.getMessage()));
     }
 
   }
+  
+  
+  public static boolean compare(String str1, String str2) {
+    return (str1 == null ? str2 == null : str1.equals(str2));
+  }
+  
+  
+  public static boolean compare(PassarelaPolicyInfoSignature pp1,
+      PassarelaPolicyInfoSignature pp2) {
+    if (pp1 == null) {
+      return pp2 == null;
+    } else {
+      if (pp2 == null) {
+        return false;
+      }
+      
+      if (compare (pp1.getPolicyIdentifier(), pp2.getPolicyIdentifier())
+          && compare(pp1.getPolicyIdentifierHash(), pp2.getPolicyIdentifierHash())
+          && compare(pp1.getPolicyIdentifierHashAlgorithm(), pp2.getPolicyIdentifierHashAlgorithm())
+          && compare(pp1.getPolicyUrlDocument(), pp2.getPolicyUrlDocument())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  
 
   public PassarelaSecureVerificationCodeStampInfo getCustodiaOfConfig(
       final String usuariAplicacioID, final UsuariAplicacioConfiguracio config,
-      EntitatJPA entitatJPA) throws RestException, I18NException {
+      EntitatJPA entitatJPA) throws I18NException {
     final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
     {
       // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID()
@@ -630,7 +738,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         break;
         case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
           // XYZ ZZZ Traduir #165
-          throw new RestException(
+          throw new I18NException("genapp.comodi", 
               "Politica de Custodia no suportada per PortaFIB (Usuari aplicació "
                   + usuariAplicacioID + ")");
 
@@ -676,12 +784,14 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         break;
 
         case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
-          throw new RestException("Politica de Custodia no suportada per API FIRMA SIMPLE "
+          throw new I18NException("genapp.comodi",
+              "Politica de Custodia no suportada per API FIRMA SIMPLE "
               + "(Usuari aplicació " + usuariAplicacioID + ")");
 
         default:
           // XYZ ZZZ Traduir
-          throw new RestException("Politica de Custòdia desconeguda (" + politicaCustodia
+          throw new I18NException("genapp.comodi",
+              "Politica de Custòdia desconeguda (" + politicaCustodia
               + ") en usuari aplicació " + usuariAplicacioID);
       }
 
@@ -707,7 +817,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   }
 
   public boolean getUseTimestampOfConfig(final String usuariAplicacioID,
-      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
     final boolean useTimeStamp;
     {
       int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
@@ -737,7 +847,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
         default:
           // XYZ ZZZ Traduir
-          throw new RestException("Politica de segellat de temps desconeguda ("
+          throw new I18NException("genapp.comodi", "Politica de segellat de temps desconeguda ("
               + politicaSegellatDeTemps + ") en usuari aplicació " + usuariAplicacioID);
       }
     }
@@ -745,7 +855,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   }
 
   public PassarelaPolicyInfoSignature getPoliticaFirmaOfConfig(final String usuariAplicacioID,
-      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
     final PassarelaPolicyInfoSignature policyInfoSignature;
     {
       int usPoliticaDeFirma = config.getUsPoliticaDeFirma();
@@ -779,12 +889,12 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         // 2 => L'usuari web o usuari-app elegeixen la politica de firma
         case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
           // XYZ ZZZ Traduir
-          throw new RestException("Ús de Politica de Firma no suportada en API Firma Simple ("
+          throw new I18NException("genapp.comodi","Ús de Politica de Firma no suportada en API Firma Simple ("
               + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
 
         default:
           // XYZ ZZZ Traduir
-          throw new RestException("Ús de Politica de Firma desconeguda (" + usPoliticaDeFirma
+          throw new I18NException("genapp.comodi","Ús de Politica de Firma desconeguda (" + usPoliticaDeFirma
               + ") en usuari aplicació " + usuariAplicacioID);
 
       }
@@ -799,7 +909,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   }
 
   public static int getSignaturesTableLocationOfConfig(final String usuariAplicacioID,
-      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws RestException {
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
     final int signaturesTableLocation; // =
                                        // FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
     if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
@@ -835,7 +945,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
         default:
           // XYZ ZZZ Traduir
-          throw new RestException("Politica de Taules de Firmes desconeguda ("
+          throw new I18NException("genapp.comodi","Politica de Taules de Firmes desconeguda ("
               + politicaTaulaDeFirmes + ") en usuari aplicació " + usuariAplicacioID);
       }
 
@@ -850,11 +960,9 @@ public abstract class RestApiFirmaUtils extends RestUtils {
    *
    * @param esFirmaEnServidor
    * @return
-   * @throws RestException
    * @throws I18NException
    */
-  protected LoginInfo commonChecks(boolean esFirmaEnServidor) throws RestException,
-      I18NException {
+  protected LoginInfo commonChecks(boolean esFirmaEnServidor) throws I18NException {
 
     LoginInfo loginInfo = LoginInfo.getInstance();
 
@@ -863,14 +971,15 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     // Checks Globals
     if (loginInfo.getUsuariEntitat() != null) {
       // TODO XYZ ZZZ Traduir
-      throw new RestException("Aquest servei només el poden fer servir els usuari-aplicació");
+      throw new I18NException("genapp.comodi",
+          "Aquest servei només el poden fer servir els Usuaris Aplicació");
     }
 
     return loginInfo;
   }
 
   protected RestLoginInfo commonChecks(boolean esFirmaEnServidor, String codiPerfil)
-      throws RestException, I18NException {
+      throws I18NException {
 
     LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
 
@@ -880,35 +989,24 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacioID);
 
     
+    final PerfilDeFirma perfilFirma = getPerfilDeFirma(esFirmaEnServidor, codiPerfil,
+        usuariAplicacioID);
+
+    return new RestLoginInfo(loginInfo, perfilFirma);
+
+  }
+
+  protected PerfilDeFirma getPerfilDeFirma(boolean esFirmaEnServidor, String codiPerfil,
+      final String usuariAplicacioID) throws I18NException {
     log.info(" XYZ ZZZ codiPerfil = " + codiPerfil);
-    // Cercam que tengui configuracio
-    final UsuariAplicacioConfiguracio config;
+    // Cercam informacio del Perfil
+    final PerfilDeFirma perfilFirma;
+    perfilFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
+        usuariAplicacioID, codiPerfil,
+        esFirmaEnServidor ? ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR : ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
 
-    if (codiPerfil == null) {
-      config = null;
-    } else {
-      config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacio(
-          usuariAplicacioID, codiPerfil,
-          esFirmaEnServidor ? ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR : ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
-    }
-    log.info(" XYZ ZZZ CONFIG = " + config);
-
-    if (esFirmaEnServidor) {
-      Long pluginId = null;
-
-      if (config != null) {
-        pluginId = config.getPluginFirmaServidorID();
-      }
-      if (pluginId == null) {
-        // XYZ ZZZ Traduir
-        throw new RestException(
-            "No es permeten firmes en servidor a través de l'usuari aplicació "
-                + usuariAplicacioID + "(Consulti amb l'administrador de PortaFIB)");
-      }
-    }
-
-    return new RestLoginInfo(loginInfo, config);
-
+    log.info(" XYZ ZZZ PERFIL = " + perfilFirma);
+    return perfilFirma;
   }
 
   public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request,
@@ -941,6 +1039,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
         String descripcio = perfil.getDescripcio();
 
+        /*
         if (descripcio == null) {
 
           UsuariAplicacioConfiguracio config;
@@ -994,6 +1093,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
           descripcio = str.toString();
 
         }
+        */
 
         // XYZ ZZZ ZZZ Falta llegir-ho de la BBDD
         FirmaSimpleAvailableProfile ap = new FirmaSimpleAvailableProfile(codiPerfil,
@@ -1033,12 +1133,12 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
     public final LoginInfo loginInfo;
 
-    public final UsuariAplicacioConfiguracio config;
+    public final PerfilDeFirma perfilDeFirma;
 
-    public RestLoginInfo(LoginInfo loginInfo, UsuariAplicacioConfiguracio config) {
+    public RestLoginInfo(LoginInfo loginInfo, PerfilDeFirma perfilDeFirma) {
       super();
       this.loginInfo = loginInfo;
-      this.config = config;
+      this.perfilDeFirma = perfilDeFirma;
     }
 
   }

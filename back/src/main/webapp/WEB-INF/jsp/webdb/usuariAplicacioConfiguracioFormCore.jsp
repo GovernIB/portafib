@@ -721,24 +721,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)}">
-        <tr id="usuariAplicacioConfiguracio_maxFirmesEnServidor_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR])?'usuariAplicacioConfiguracio.maxFirmesEnServidor':__theForm.labels[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-            <form:errors path="usuariAplicacioConfiguracio.maxFirmesEnServidor" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR)? 'input-mini uneditable-input' : 'input-mini'}"   path="usuariAplicacioConfiguracio.maxFirmesEnServidor"   />
-
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT)}">
         <tr id="usuariAplicacioConfiguracio_upgradeSignFormat_rowid">
           <td>

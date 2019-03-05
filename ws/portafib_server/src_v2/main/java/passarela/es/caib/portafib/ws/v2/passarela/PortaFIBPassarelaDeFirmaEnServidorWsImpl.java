@@ -27,7 +27,7 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.utils.Constants;
 
 /**
- * 
+ *
  * @author anadal
  */
 @SecurityDomain(Constants.SECURITY_DOMAIN)

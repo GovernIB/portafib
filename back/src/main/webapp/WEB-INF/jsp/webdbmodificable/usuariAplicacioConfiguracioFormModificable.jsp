@@ -110,10 +110,8 @@
  function onChangePluginFirmaServidorID(combo) {
    var value = combo.options[combo.selectedIndex].value;
    if (value == '') {
-     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      document.getElementById("<%=UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT.fullName.replace('.', '_') %>_rowid").style.display = 'none';
    } else {
-     document.getElementById("<%=UsuariAplicacioConfiguracioFields.MAXFIRMESENSERVIDOR.fullName.replace('.', '_') %>_rowid").style.display = '';
      document.getElementById("<%=UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT.fullName.replace('.', '_') %>_rowid").style.display = '';
    }
  }
