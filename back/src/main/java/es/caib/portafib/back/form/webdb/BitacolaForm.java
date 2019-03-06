@@ -19,7 +19,6 @@ public class BitacolaForm extends PortaFIBBaseForm {
   public BitacolaForm(BitacolaForm __toClone) {
     super(__toClone);
       this.bitacola = __toClone.bitacola;
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.listOfPeticioDeFirmaForPeticioDeFirmaID;
     this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
   }
   
@@ -36,18 +35,6 @@ public class BitacolaForm extends PortaFIBBaseForm {
   }
   
   
-  private List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public List<StringKeyValue> getListOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setListOfPeticioDeFirmaForPeticioDeFirmaID(List<StringKeyValue> listOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.listOfPeticioDeFirmaForPeticioDeFirmaID = listOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID;
 
   public List<StringKeyValue> getListOfUsuariEntitatForUsuariEntitatID() {

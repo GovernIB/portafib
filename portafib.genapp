@@ -890,26 +890,6 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_bitacola_petifirma_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_peticiodefirma</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
           <void property="index"> 
            <string>pfi_bitacola_peticid_fk_i</string> 
           </void> 
@@ -946,21 +926,8 @@
           </void> 
           <void property="webFieldInfo"> 
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_peticiodefirma</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
             <void property="webtype"> 
-             <int>3</int> 
+             <int>14</int> 
             </void> 
            </object> 
           </void> 
@@ -12228,7 +12195,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="4"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="3"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -12248,19 +12215,6 @@ opcional incluso cuando se genera una firma EPES.</string>
                <string>peticiodefirmaid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_bitacola_petifirma_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_bitacola</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="2"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>peticiodefirmaid</string> 
-              </void> 
-              <void property="name"> 
                <string>pfi_metadada_petifirma_fk</string> 
               </void> 
               <void property="table"> 
@@ -12268,7 +12222,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="3"> 
+            <void index="2"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>peticiodefirmaid</string> 

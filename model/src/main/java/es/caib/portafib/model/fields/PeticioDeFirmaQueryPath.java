@@ -187,20 +187,6 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public BitacolaQueryPath BITACOLAS() {
-    return new BitacolaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "bitacolas" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
   public MetadadaQueryPath METADADAS() {
     return new MetadadaQueryPath(new QueryPath() {
       public String getQueryPath() {

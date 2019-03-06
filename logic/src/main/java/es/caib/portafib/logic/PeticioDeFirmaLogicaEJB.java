@@ -3108,10 +3108,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         peticio.getNotificacioWSs().clear();
       }
 
-      if (peticio.getBitacolas() != null) {
-        peticio.getBitacolas().clear();
-      }
-
       peticio.setAvisWeb(false);
 
       // FLUX

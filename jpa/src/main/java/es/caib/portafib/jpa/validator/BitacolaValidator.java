@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.BitacolaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -28,7 +27,6 @@ public class BitacolaValidator<T> implements BitacolaFields {
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
     ,es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager
-    ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
     // Valors Not Null
@@ -81,18 +79,6 @@ public class BitacolaValidator<T> implements BitacolaFields {
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(PETICIODEFIRMAID) == 0) {
-      java.lang.Long __peticiodefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,PETICIODEFIRMAID);
-      Long __count_ = null;
-      try { __count_ = __peticioDeFirmaManager.count(PeticioDeFirmaFields.PETICIODEFIRMAID.equal(__peticiodefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(PETICIODEFIRMAID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirma"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("peticioDeFirma.peticioDeFirmaID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__peticiodefirmaid)));
-      }
-    }
-
     if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
       java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
       Long __count_ = null;

@@ -39,10 +39,7 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.PETICIODEFIRMAID)}">
           <td>
-          <c:set var="tmp">${bitacola.peticioDeFirmaID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPeticioDeFirmaForPeticioDeFirmaID[tmp]}
-          </c:if>
+          ${bitacola.peticioDeFirmaID}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIENTITATID)}">

@@ -40,14 +40,6 @@ public class BitacolaQueryPath extends org.fundaciobit.genapp.common.query.Query
   }
 
 
-  public PeticioDeFirmaQueryPath PETICIODEFIRMA() {
-    return new PeticioDeFirmaQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return BitacolaQueryPath.this.getQueryPath() + "peticioDeFirma" + ".";
-      }
-    });
-  }
-
   public UsuariEntitatQueryPath USUARIENTITAT() {
     return new UsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {

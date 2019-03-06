@@ -122,7 +122,6 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
     this.peticioDeFirmaIDDesde = __toClone.peticioDeFirmaIDDesde;
     this.peticioDeFirmaIDFins = __toClone.peticioDeFirmaIDFins;
     this.usuariEntitatID = __toClone.usuariEntitatID;
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = __toClone.mapOfPeticioDeFirmaForPeticioDeFirmaID;
     this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
   }
   
@@ -158,18 +157,6 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID;
-
-  public Map<String, String> getMapOfPeticioDeFirmaForPeticioDeFirmaID() {
-    return this.mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-  public void setMapOfPeticioDeFirmaForPeticioDeFirmaID(Map<String, String> mapOfPeticioDeFirmaForPeticioDeFirmaID) {
-    this.mapOfPeticioDeFirmaForPeticioDeFirmaID = mapOfPeticioDeFirmaForPeticioDeFirmaID;
-  }
-
-
-
   private Map<String, String> mapOfUsuariEntitatForUsuariEntitatID;
 
   public Map<String, String> getMapOfUsuariEntitatForUsuariEntitatID() {

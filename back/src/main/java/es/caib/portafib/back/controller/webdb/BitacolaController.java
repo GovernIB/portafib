@@ -61,10 +61,6 @@ public class BitacolaController
 
   // References 
   @Autowired
-  protected PeticioDeFirmaRefList peticioDeFirmaRefList;
-
-  // References 
-  @Autowired
   protected UsuariEntitatRefList usuariEntitatRefList;
 
   /**
@@ -187,16 +183,6 @@ public class BitacolaController
     Map<String, String> _tmp;
     List<StringKeyValue> _listSKV;
 
-    // Field peticioDeFirmaID
-    {
-      _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPeticioDeFirmaForPeticioDeFirmaID(_tmp);
-      if (filterForm.getGroupByFields().contains(PETICIODEFIRMAID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, PETICIODEFIRMAID, false);
-      };
-    }
-
     // Field usuariEntitatID
     {
       _listSKV = getReferenceListForUsuariEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
@@ -222,7 +208,6 @@ public class BitacolaController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(PETICIODEFIRMAID, filterForm.getMapOfPeticioDeFirmaForPeticioDeFirmaID());
     __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
@@ -271,13 +256,6 @@ public class BitacolaController
 
   public void fillReferencesForForm(BitacolaForm bitacolaForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
-    // Comprovam si ja esta definida la llista
-    if (bitacolaForm.getListOfPeticioDeFirmaForPeticioDeFirmaID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPeticioDeFirmaID(request, mav, bitacolaForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      bitacolaForm.setListOfPeticioDeFirmaForPeticioDeFirmaID(_listSKV);
-    }
     // Comprovam si ja esta definida la llista
     if (bitacolaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
       List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, bitacolaForm, null);
@@ -583,45 +561,6 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
-    if (bitacolaForm.isHiddenField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _where = null;
-    if (bitacolaForm.isReadOnlyField(PETICIODEFIRMAID)) {
-      _where = PeticioDeFirmaFields.PETICIODEFIRMAID.equal(bitacolaForm.getBitacola().getPeticioDeFirmaID());
-    }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where, _where));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
-       List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (bitacolaFilterForm.isHiddenField(PETICIODEFIRMAID)
-      && !bitacolaFilterForm.isGroupByField(PETICIODEFIRMAID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    if (!_groupByItemsMap.containsKey(PETICIODEFIRMAID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
-      for (Bitacola _item : list) {
-        _pkList.add(_item.getPeticioDeFirmaID());
-        }
-        _w = PeticioDeFirmaFields.PETICIODEFIRMAID.in(_pkList);
-      }
-    return getReferenceListForPeticioDeFirmaID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForPeticioDeFirmaID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    return peticioDeFirmaRefList.getReferenceList(PeticioDeFirmaFields.PETICIODEFIRMAID, where );
   }
 
 

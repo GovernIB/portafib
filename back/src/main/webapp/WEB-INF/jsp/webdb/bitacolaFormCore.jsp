@@ -74,18 +74,9 @@
              </label>
             </td>
             <td>
-          <form:errors path="bitacola.peticioDeFirmaID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.PETICIODEFIRMAID)}" >
-          <form:hidden path="bitacola.peticioDeFirmaID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.bitacola.peticioDeFirmaID,__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.PETICIODEFIRMAID)}" >
-          <form:select id="bitacola_peticioDeFirmaID"  onchange="if(typeof onChangePeticioDeFirmaID == 'function') {  onChangePeticioDeFirmaID(this); };"  cssClass="input-xxlarge" path="bitacola.peticioDeFirmaID">
-            <c:forEach items="${__theForm.listOfPeticioDeFirmaForPeticioDeFirmaID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
+            <form:errors path="bitacola.peticioDeFirmaID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.PETICIODEFIRMAID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.PETICIODEFIRMAID)? 'input-mini uneditable-input' : 'input-mini'}"   path="bitacola.peticioDeFirmaID"   />
+
            </td>
         </tr>
         </c:if>

@@ -19,8 +19,6 @@ public class BitacolaBeanValidator
   // EJB's
   protected final es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager;
 
-  protected final es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager;
-
   protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
 
 
@@ -28,20 +26,16 @@ public class BitacolaBeanValidator
 
 
   public BitacolaBeanValidator(es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) { 
     this.__bitacolaManager = __bitacolaManager;
-    this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     _validator = new BitacolaValidator<BitacolaJPA>();
   }
 
   public BitacolaBeanValidator(BitacolaValidator<BitacolaJPA> _validator,
      es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager,
-     es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     this.__bitacolaManager = __bitacolaManager;
-    this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this._validator = _validator;
   }
@@ -49,7 +43,7 @@ public class BitacolaBeanValidator
   @Override
   public List<I18NFieldError> validate(BitacolaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<BitacolaJPA> _bvr_ = new BeanValidatorResult<BitacolaJPA>();
-    _validator.validate(_bvr_, target, isNou, __bitacolaManager, __peticioDeFirmaManager, __usuariEntitatManager);
+    _validator.validate(_bvr_, target, isNou, __bitacolaManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

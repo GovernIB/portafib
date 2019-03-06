@@ -505,6 +505,13 @@ ALTER TABLE pfi_usuaripersona
   ADD COLUMN contrasenya character varying(255);
 
 
+-- =================================================
+-- 2019/03/06  Ajustar BBDD per Bitàcola #234 
+-- =================================================
+
+ALTER TABLE pfi_bitacola
+  DROP CONSTRAINT pfi_bitacola_petifirma_fk;
+
 
 
  

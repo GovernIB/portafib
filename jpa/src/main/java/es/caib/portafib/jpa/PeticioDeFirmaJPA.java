@@ -607,19 +607,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
 	}
 
 
-// EXP  Field:peticiodefirmaid | Table: pfi_bitacola | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "peticioDeFirma")
-	private Set<BitacolaJPA> bitacolas = new HashSet<BitacolaJPA>(0);
-	public  Set<BitacolaJPA> getBitacolas() {
-    return this.bitacolas;
-  }
-
-	public void setBitacolas(Set<BitacolaJPA> bitacolas) {
-	  this.bitacolas = bitacolas;
-	}
-
-
 // EXP  Field:peticiodefirmaid | Table: pfi_metadada | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "peticioDeFirma")
@@ -875,10 +862,6 @@ Manualment l'usuari haurà d'indicar que ha vist la finalitzaio d'aquesta petici
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"BitacolaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.bitacolas) || org.hibernate.Hibernate.isInitialized(__jpa.getBitacolas())) ) {
-      __tmp.setBitacolas(BitacolaJPA.copyJPA(__jpa.getBitacolas(), __alreadyCopied,"PeticioDeFirmaJPA"));
-    }
     if(!"NotificacioWSJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.notificacioWSs) || org.hibernate.Hibernate.isInitialized(__jpa.getNotificacioWSs())) ) {
       __tmp.setNotificacioWSs(NotificacioWSJPA.copyJPA(__jpa.getNotificacioWSs(), __alreadyCopied,"PeticioDeFirmaJPA"));

@@ -443,3 +443,11 @@ ALTER TABLE pfi_usuaripersona
   ADD COLUMN usuariintern NUMBER(1,0) NOT NULL DEFAULT 1;
 ALTER TABLE pfi_usuaripersona
   ADD COLUMN contrasenya VARCHAR2(255 CHAR);
+
+
+-- =================================================
+-- 2019/03/06  Ajustar BBDD per Bitàcola #234 
+-- =================================================
+
+ALTER TABLE pfi_bitacola
+  DROP CONSTRAINT pfi_bitacola_petifirma_fk;

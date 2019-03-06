@@ -124,21 +124,6 @@ private static final long serialVersionUID = 1492894118L;
     return __result;
   }
 
-// IMP Field:peticiodefirmaid | Table: pfi_peticiodefirma | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_bitacola_petifirma_fk")
-	@JoinColumn(name = "peticiodefirmaid", referencedColumnName ="peticioDeFirmaID", nullable = false, insertable=false, updatable=false)
-	private PeticioDeFirmaJPA peticioDeFirma;
-
-	public PeticioDeFirmaJPA getPeticioDeFirma() {
-    return this.peticioDeFirma;
-  }
-
-	public  void setPeticioDeFirma(PeticioDeFirmaJPA peticioDeFirma) {
-    this.peticioDeFirma = peticioDeFirma;
-  }
-
 // IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -197,10 +182,6 @@ private static final long serialVersionUID = 1492894118L;
     if(!"UsuariEntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
       __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"BitacolaJPA"));
-    }
-    if(!"PeticioDeFirmaJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma()) ) ) {
-      __tmp.setPeticioDeFirma(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma(), __alreadyCopied,"BitacolaJPA"));
     }
 
     return __tmp;
