@@ -87,6 +87,17 @@ public class UsuariPersonaFilterForm extends PortaFIBBaseFilterForm implements U
   }
 
 
+  private java.lang.String contrasenya;
+
+  public java.lang.String getContrasenya() {
+    return this.contrasenya;
+  }
+
+  public void setContrasenya(java.lang.String contrasenya) {
+    this.contrasenya = contrasenya;
+  }
+
+
   public UsuariPersonaFilterForm() {
   }
   
@@ -98,6 +109,7 @@ public class UsuariPersonaFilterForm extends PortaFIBBaseFilterForm implements U
     this.email = __toClone.email;
     this.nif = __toClone.nif;
     this.idiomaID = __toClone.idiomaID;
+    this.contrasenya = __toClone.contrasenya;
     this.mapOfIdiomaForIdiomaID = __toClone.mapOfIdiomaForIdiomaID;
   }
   

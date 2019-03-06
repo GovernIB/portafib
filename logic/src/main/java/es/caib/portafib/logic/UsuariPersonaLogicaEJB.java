@@ -87,7 +87,7 @@ public class UsuariPersonaLogicaEJB extends UsuariPersonaEJB implements
       throw new I18NException("usuaripersona.teUsuariEntitat", usuariPersonaID);
     }
     
-    // Borrar
+    // Esborrar
     if (up.getRubricaID() != null) {
       fitxers.add(up.getRubricaID());
     }

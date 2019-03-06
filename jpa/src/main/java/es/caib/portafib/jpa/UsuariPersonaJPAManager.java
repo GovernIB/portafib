@@ -66,8 +66,8 @@ public class UsuariPersonaJPAManager
 		return list.toArray(new UsuariPersona[list.size()]);
 	};
 
-	public synchronized UsuariPersona create( java.lang.String _usuariPersonaID_, java.lang.String _nom_, java.lang.String _llinatges_, java.lang.String _email_, java.lang.String _nif_, java.lang.String _idiomaID_, java.lang.Long _rubricaID_) throws I18NException {
-		UsuariPersonaJPA __bean =  new UsuariPersonaJPA(_usuariPersonaID_,_nom_,_llinatges_,_email_,_nif_,_idiomaID_,_rubricaID_);
+	public synchronized UsuariPersona create( java.lang.String _usuariPersonaID_, java.lang.String _nom_, java.lang.String _llinatges_, java.lang.String _email_, java.lang.String _nif_, java.lang.String _idiomaID_, java.lang.Long _rubricaID_, boolean _usuariIntern_, java.lang.String _contrasenya_) throws I18NException {
+		UsuariPersonaJPA __bean =  new UsuariPersonaJPA(_usuariPersonaID_,_nom_,_llinatges_,_email_,_nif_,_idiomaID_,_rubricaID_,_usuariIntern_,_contrasenya_);
 		return create(__bean);
 	}
 

@@ -17,6 +17,8 @@ private static final long serialVersionUID = 1803901243L;
 	java.lang.String nif;
 	java.lang.String idiomaID;
 	java.lang.Long rubricaID;
+	boolean usuariIntern;
+	java.lang.String contrasenya;
 
 
   /** Constructor Buit */
@@ -24,7 +26,7 @@ private static final long serialVersionUID = 1803901243L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariPersonaBean(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , java.lang.Long rubricaID) {
+  public UsuariPersonaBean(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , java.lang.Long rubricaID , boolean usuariIntern , java.lang.String contrasenya) {
     this.usuariPersonaID=usuariPersonaID;
     this.nom=nom;
     this.llinatges=llinatges;
@@ -32,15 +34,18 @@ private static final long serialVersionUID = 1803901243L;
     this.nif=nif;
     this.idiomaID=idiomaID;
     this.rubricaID=rubricaID;
+    this.usuariIntern=usuariIntern;
+    this.contrasenya=contrasenya;
 }
   /** Constructor dels valors Not Null */
-  public UsuariPersonaBean(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID) {
+  public UsuariPersonaBean(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , boolean usuariIntern) {
     this.usuariPersonaID=usuariPersonaID;
     this.nom=nom;
     this.llinatges=llinatges;
     this.email=email;
     this.nif=nif;
     this.idiomaID=idiomaID;
+    this.usuariIntern=usuariIntern;
 }
   public UsuariPersonaBean(UsuariPersona __bean) {
     this.setUsuariPersonaID(__bean.getUsuariPersonaID());
@@ -50,6 +55,8 @@ private static final long serialVersionUID = 1803901243L;
     this.setNif(__bean.getNif());
     this.setIdiomaID(__bean.getIdiomaID());
     this.setRubricaID(__bean.getRubricaID());
+    this.setUsuariIntern(__bean.isUsuariIntern());
+    this.setContrasenya(__bean.getContrasenya());
     // Fitxer
     this.setRubrica(FitxerBean.toBean(__bean.getRubrica()));
 	}
@@ -103,6 +110,20 @@ private static final long serialVersionUID = 1803901243L;
 		this.rubricaID = _rubricaID_;
 	};
 
+	public boolean isUsuariIntern() {
+		return(usuariIntern);
+	};
+	public void setUsuariIntern(boolean _usuariIntern_) {
+		this.usuariIntern = _usuariIntern_;
+	};
+
+	public java.lang.String getContrasenya() {
+		return(contrasenya);
+	};
+	public void setContrasenya(java.lang.String _contrasenya_) {
+		this.contrasenya = _contrasenya_;
+	};
+
 
 
   // ======================================
@@ -117,6 +138,8 @@ private static final long serialVersionUID = 1803901243L;
     __tmp.setNif(__bean.getNif());
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setRubricaID(__bean.getRubricaID());
+    __tmp.setUsuariIntern(__bean.isUsuariIntern());
+    __tmp.setContrasenya(__bean.getContrasenya());
     // Fitxer
     __tmp.setRubrica(FitxerBean.toBean(__bean.getRubrica()));
 		return __tmp;

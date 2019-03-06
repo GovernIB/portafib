@@ -197,6 +197,9 @@ public class UsuariPersonaController
     }
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USUARIINTERN);
+
+
     return groupByItemsMap;
   }
 

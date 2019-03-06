@@ -434,3 +434,12 @@ ALTER TABLE pfi_usuariaplicacioperfil ADD CONSTRAINT pfi_perfilapp_confapp_5_fk 
 
 create index pfi_perfilapp_appconf4id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio4id);
 create index pfi_perfilapp_appconf5id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio5id);
+
+-- =================================================
+-- 2019/03/06 Usuaris externs puguin firmar #162
+-- =================================================
+
+ALTER TABLE pfi_usuaripersona
+  ADD COLUMN usuariintern NUMBER(1,0) NOT NULL DEFAULT 1;
+ALTER TABLE pfi_usuaripersona
+  ADD COLUMN contrasenya VARCHAR2(255 CHAR);

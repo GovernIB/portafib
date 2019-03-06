@@ -77,6 +77,8 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
       }
 
       form.addHiddenField(RUBRICAID);
+      form.addHiddenField(USUARIINTERN);
+      form.addHiddenField(CONTRASENYA);
 
       if(up.getEmail()!=null && !propietatEjb.getBooleanProperty(
           ConstantsV2.PORTAFIB_PROPERTY_BASE + "editableuser", false)) {

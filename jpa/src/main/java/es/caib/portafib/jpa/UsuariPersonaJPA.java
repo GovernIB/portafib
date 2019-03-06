@@ -54,6 +54,12 @@ private static final long serialVersionUID = -80349968L;
 	@Column(name="rubricaid",length = 19)
 	java.lang.Long rubricaID;
 
+	@Column(name="usuariintern",nullable = false,length = 1)
+	boolean usuariIntern;
+
+	@Column(name="contrasenya",length = 255)
+	java.lang.String contrasenya;
+
 
 
   /** Constructor Buit */
@@ -61,7 +67,7 @@ private static final long serialVersionUID = -80349968L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariPersonaJPA(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , java.lang.Long rubricaID) {
+  public UsuariPersonaJPA(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , java.lang.Long rubricaID , boolean usuariIntern , java.lang.String contrasenya) {
     this.usuariPersonaID=usuariPersonaID;
     this.nom=nom;
     this.llinatges=llinatges;
@@ -69,15 +75,18 @@ private static final long serialVersionUID = -80349968L;
     this.nif=nif;
     this.idiomaID=idiomaID;
     this.rubricaID=rubricaID;
+    this.usuariIntern=usuariIntern;
+    this.contrasenya=contrasenya;
 }
   /** Constructor dels valors Not Null */
-  public UsuariPersonaJPA(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID) {
+  public UsuariPersonaJPA(java.lang.String usuariPersonaID , java.lang.String nom , java.lang.String llinatges , java.lang.String email , java.lang.String nif , java.lang.String idiomaID , boolean usuariIntern) {
     this.usuariPersonaID=usuariPersonaID;
     this.nom=nom;
     this.llinatges=llinatges;
     this.email=email;
     this.nif=nif;
     this.idiomaID=idiomaID;
+    this.usuariIntern=usuariIntern;
 }
   public UsuariPersonaJPA(UsuariPersona __bean) {
     this.setUsuariPersonaID(__bean.getUsuariPersonaID());
@@ -87,6 +96,8 @@ private static final long serialVersionUID = -80349968L;
     this.setNif(__bean.getNif());
     this.setIdiomaID(__bean.getIdiomaID());
     this.setRubricaID(__bean.getRubricaID());
+    this.setUsuariIntern(__bean.isUsuariIntern());
+    this.setContrasenya(__bean.getContrasenya());
     // Fitxer
     this.setRubrica(FitxerJPA.toJPA(__bean.getRubrica()));
 	}
@@ -138,6 +149,20 @@ private static final long serialVersionUID = -80349968L;
 	};
 	public void setRubricaID(java.lang.Long _rubricaID_) {
 		this.rubricaID = _rubricaID_;
+	};
+
+	public boolean isUsuariIntern() {
+		return(usuariIntern);
+	};
+	public void setUsuariIntern(boolean _usuariIntern_) {
+		this.usuariIntern = _usuariIntern_;
+	};
+
+	public java.lang.String getContrasenya() {
+		return(contrasenya);
+	};
+	public void setContrasenya(java.lang.String _contrasenya_) {
+		this.contrasenya = _contrasenya_;
 	};
 
 
@@ -215,6 +240,8 @@ private static final long serialVersionUID = -80349968L;
     __tmp.setNif(__bean.getNif());
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setRubricaID(__bean.getRubricaID());
+    __tmp.setUsuariIntern(__bean.isUsuariIntern());
+    __tmp.setContrasenya(__bean.getContrasenya());
     // Fitxer
     __tmp.setRubrica(FitxerJPA.toJPA(__bean.getRubrica()));
 		return __tmp;

@@ -54,6 +54,10 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(IDIOMAID)));
 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIINTERN, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIINTERN)));
+
     // Check size
     if (__vr.getFieldErrorCount(USUARIPERSONAID) == 0) {
       java.lang.String __usuaripersonaid = (java.lang.String)__vr.getFieldValue(__target__,USUARIPERSONAID);
@@ -133,6 +137,14 @@ public class UsuariPersonaValidator<T> implements UsuariPersonaFields {
       if (__idiomaid!= null && __idiomaid.length() > 5) {
         __vr.rejectValue(IDIOMAID, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(IDIOMAID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(5)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(CONTRASENYA) == 0) {
+      java.lang.String __contrasenya = (java.lang.String)__vr.getFieldValue(__target__,CONTRASENYA);
+      if (__contrasenya!= null && __contrasenya.length() > 255) {
+        __vr.rejectValue(CONTRASENYA, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CONTRASENYA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
       }
     }
     

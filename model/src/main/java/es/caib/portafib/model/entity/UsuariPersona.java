@@ -23,6 +23,12 @@ public interface UsuariPersona extends org.fundaciobit.genapp.common.IGenAppEnti
 	public java.lang.Long getRubricaID();
 	public void setRubricaID(java.lang.Long _rubricaID_);
 
+	public boolean isUsuariIntern();
+	public void setUsuariIntern(boolean _usuariIntern_);
+
+	public java.lang.String getContrasenya();
+	public void setContrasenya(java.lang.String _contrasenya_);
+
   // Fitxer
   public <F extends Fitxer> F getRubrica();
 

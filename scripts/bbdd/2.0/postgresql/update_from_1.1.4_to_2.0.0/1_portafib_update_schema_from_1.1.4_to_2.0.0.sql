@@ -495,7 +495,14 @@ create index pfi_perfilapp_appconf4id_fk_i on pfi_usuariaplicacioperfil (usrappc
 create index pfi_perfilapp_appconf5id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio5id);
 
 
+-- =================================================
+-- 2019/03/06 Usuaris externs puguin firmar #162
+-- =================================================
 
+ALTER TABLE pfi_usuaripersona
+  ADD COLUMN usuariintern boolean NOT NULL DEFAULT true;
+ALTER TABLE pfi_usuaripersona
+  ADD COLUMN contrasenya character varying(255);
 
 
 

@@ -39,6 +39,14 @@ public class UsuariPersonaQueryPath extends org.fundaciobit.genapp.common.query.
     return new LongField(getQueryPath(), UsuariPersonaFields.RUBRICAID);
   }
 
+  public BooleanField USUARIINTERN() {
+    return new BooleanField(getQueryPath(), UsuariPersonaFields.USUARIINTERN);
+  }
+
+  public StringField CONTRASENYA() {
+    return new StringField(getQueryPath(), UsuariPersonaFields.CONTRASENYA);
+  }
+
 
 
   @Override

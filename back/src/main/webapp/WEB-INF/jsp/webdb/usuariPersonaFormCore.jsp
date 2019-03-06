@@ -164,3 +164,43 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.USUARIINTERN)}">
+        <tr id="usuariPersona_usuariIntern_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.USUARIINTERN])?'usuariPersona.usuariIntern':__theForm.labels[UsuariPersonaFields.USUARIINTERN]}" />
+              <c:if test="${not empty __theForm.help[UsuariPersonaFields.USUARIINTERN]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariPersonaFields.USUARIINTERN]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)}" >
+              <form:errors path="usuariPersona.usuariIntern" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)? 'false' : 'true'}" path="usuariPersona.usuariIntern" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.USUARIINTERN)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariPersona.usuariIntern}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariPersonaFields.CONTRASENYA)}">
+        <tr id="usuariPersona_contrasenya_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariPersonaFields.CONTRASENYA])?'usuariPersona.contrasenya':__theForm.labels[UsuariPersonaFields.CONTRASENYA]}" />
+              <c:if test="${not empty __theForm.help[UsuariPersonaFields.CONTRASENYA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariPersonaFields.CONTRASENYA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="usuariPersona.contrasenya" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariPersonaFields.CONTRASENYA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="usuariPersona.contrasenya"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

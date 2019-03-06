@@ -33,6 +33,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.RUBRICAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariPersonaFields.RUBRICAID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.USUARIINTERN)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariPersonaFields.USUARIINTERN)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariPersonaFields.CONTRASENYA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariPersonaFields.CONTRASENYA)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

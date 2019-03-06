@@ -19,6 +19,8 @@ public interface UsuariPersonaFields extends java.io.Serializable {
 	 public static final StringField NIF = new StringField(_TABLE_MODEL, "nif", "nif");
 	 public static final StringField IDIOMAID = new StringField(_TABLE_MODEL, "idiomaID", "idiomaid");
 	 public static final LongField RUBRICAID = new LongField(_TABLE_MODEL, "rubricaID", "rubricaid");
+	 public static final BooleanField USUARIINTERN = new BooleanField(_TABLE_MODEL, "usuariIntern", "usuariintern");
+	 public static final StringField CONTRASENYA = new StringField(_TABLE_MODEL, "contrasenya", "contrasenya");
 
 
   public static final Field<?>[] ALL_USUARIPERSONA_FIELDS = {
@@ -28,7 +30,9 @@ public interface UsuariPersonaFields extends java.io.Serializable {
     EMAIL,
     NIF,
     IDIOMAID,
-    RUBRICAID
+    RUBRICAID,
+    USUARIINTERN,
+    CONTRASENYA
   };
 
 

@@ -281,6 +281,9 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
         }
         nomPersona = nomPersona + up.getLlinatges();
       }
+      
+      up.setUsuariIntern(true);
+      
       HtmlUtils.saveMessageInfo(request,
           I18NUtils.tradueix("usuaripersona.verificacio", nomPersona, up.getNif()));
       // eliminam de la sessió el PortaFIBUserInfo.
@@ -313,6 +316,8 @@ public class GestioUsuariPersonaController extends UsuariPersonaController {
     // Feim només de lectura el camp ID perque no els puguin modificar.
     form.addReadOnlyField(USUARIPERSONAID);
     form.addHiddenField(RUBRICAID);
+    form.addHiddenField(USUARIINTERN);
+    form.addHiddenField(CONTRASENYA);
     
 
     return form;
