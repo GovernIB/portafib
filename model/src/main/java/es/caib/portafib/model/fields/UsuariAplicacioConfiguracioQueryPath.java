@@ -206,6 +206,34 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
   }
 */
 
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO4IDS() {
+    return new PerfilDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "perfilDeFirma_usrappconfiguracio4ids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO5IDS() {
+    return new PerfilDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "perfilDeFirma_usrappconfiguracio5ids" + ".";
+      }
+    });
+  }
+*/
+
   public EntitatQueryPath ENTITAT() {
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {

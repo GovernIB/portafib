@@ -11,7 +11,9 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -84,8 +86,9 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
 
       perfilDeFirmaFilterForm.setVisibleMultipleSelection(false);
 
-      perfilDeFirmaFilterForm.addAdditionalButton(new AdditionalButton("icon-info-sign icon-white",
-          "ajuda.titol", "javascript:window.open('" + request.getContextPath()
+      perfilDeFirmaFilterForm.addAdditionalButton(new AdditionalButton(
+          "icon-info-sign icon-white", "ajuda.titol", "javascript:window.open('"
+              + request.getContextPath()
               + "/img/perfil_i_configuracio_de_firma.png', '_blank');", "btn-info"));
     }
 
@@ -97,13 +100,27 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
       HttpServletRequest request, ModelAndView mav) throws I18NException {
     PerfilDeFirmaForm form = super.getPerfilDeFirmaForm(_jpa, __isView, request, mav);
 
-    form.addReadOnlyField(CONFIGURACIODEFIRMA2ID);
-    form.addReadOnlyField(CONFIGURACIODEFIRMA3ID);
-    form.addReadOnlyField(CONDICIO);
-
     return form;
   }
 
- 
+  @Override
+  public void postValidate(HttpServletRequest request, PerfilDeFirmaForm perfilDeFirmaForm,
+      BindingResult result) throws I18NException {
+
+    PerfilDeFirmaJPA perfil = perfilDeFirmaForm.getPerfilDeFirma();
+
+    if (perfil.getConfiguracioDeFirma2ID() != null
+        || perfil.getConfiguracioDeFirma3ID() != null
+        || perfil.getConfiguracioDeFirma4ID() != null
+        || perfil.getConfiguracioDeFirma5ID() != null) {
+      // Condicio no ha de valer null
+      if (perfil.getCondicio() == null) {
+        result.rejectValue(get(CONDICIO), "genapp.validation.required",
+            new String[] { I18NUtils.tradueix(get(CONDICIO)) }, null);
+      }
+
+    }
+
+  }
 
 }

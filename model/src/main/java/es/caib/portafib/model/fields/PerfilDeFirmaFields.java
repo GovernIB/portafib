@@ -20,6 +20,8 @@ public interface PerfilDeFirmaFields extends java.io.Serializable {
 	 public static final LongField CONFIGURACIODEFIRMA1ID = new LongField(_TABLE_MODEL, "configuracioDeFirma1ID", "usrappconfiguracio1id");
 	 public static final LongField CONFIGURACIODEFIRMA2ID = new LongField(_TABLE_MODEL, "configuracioDeFirma2ID", "usrappconfiguracio2id");
 	 public static final LongField CONFIGURACIODEFIRMA3ID = new LongField(_TABLE_MODEL, "configuracioDeFirma3ID", "usrappconfiguracio3id");
+	 public static final LongField CONFIGURACIODEFIRMA4ID = new LongField(_TABLE_MODEL, "configuracioDeFirma4ID", "usrappconfiguracio4id");
+	 public static final LongField CONFIGURACIODEFIRMA5ID = new LongField(_TABLE_MODEL, "configuracioDeFirma5ID", "usrappconfiguracio5id");
 
 
   public static final Field<?>[] ALL_PERFILDEFIRMA_FIELDS = {
@@ -30,7 +32,9 @@ public interface PerfilDeFirmaFields extends java.io.Serializable {
     CONDICIO,
     CONFIGURACIODEFIRMA1ID,
     CONFIGURACIODEFIRMA2ID,
-    CONFIGURACIODEFIRMA3ID
+    CONFIGURACIODEFIRMA3ID,
+    CONFIGURACIODEFIRMA4ID,
+    CONFIGURACIODEFIRMA5ID
   };
 
 

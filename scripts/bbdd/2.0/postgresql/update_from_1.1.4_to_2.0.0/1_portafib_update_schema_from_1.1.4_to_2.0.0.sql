@@ -479,8 +479,20 @@ create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicaci
 create index pfi_perfilsua_usuappid_fk_i on pfi_perfilsperusrapp (usuariaplicacioid);
 
 
+ALTER TABLE pfi_usuariaplicacioperfil ADD COLUMN usrappconfiguracio4id bigint;
+ALTER TABLE pfi_usuariaplicacioperfil ADD COLUMN usrappconfiguracio5id bigint;
 
 
+ALTER TABLE pfi_usuariaplicacioperfil ADD CONSTRAINT pfi_perfilapp_confapp_4_fk FOREIGN KEY (usrappconfiguracio4id)
+      REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE pfi_usuariaplicacioperfil ADD CONSTRAINT pfi_perfilapp_confapp_5_fk FOREIGN KEY (usrappconfiguracio5id)
+      REFERENCES pfi_usuariaplicacioconfig (usuariaplicacioconfigid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+create index pfi_perfilapp_appconf4id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio4id);
+create index pfi_perfilapp_appconf5id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio5id);
 
 
 

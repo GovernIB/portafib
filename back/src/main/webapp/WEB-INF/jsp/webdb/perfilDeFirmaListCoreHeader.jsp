@@ -36,6 +36,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

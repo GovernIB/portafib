@@ -66,8 +66,8 @@ public class PerfilDeFirmaJPAManager
 		return list.toArray(new PerfilDeFirma[list.size()]);
 	};
 
-	public synchronized PerfilDeFirma create( java.lang.String _nom_, java.lang.String _codi_, java.lang.String _descripcio_, java.lang.String _condicio_, long _configuracioDeFirma1ID_, java.lang.Long _configuracioDeFirma2ID_, java.lang.Long _configuracioDeFirma3ID_) throws I18NException {
-		PerfilDeFirmaJPA __bean =  new PerfilDeFirmaJPA(_nom_,_codi_,_descripcio_,_condicio_,_configuracioDeFirma1ID_,_configuracioDeFirma2ID_,_configuracioDeFirma3ID_);
+	public synchronized PerfilDeFirma create( java.lang.String _nom_, java.lang.String _codi_, java.lang.String _descripcio_, java.lang.String _condicio_, long _configuracioDeFirma1ID_, java.lang.Long _configuracioDeFirma2ID_, java.lang.Long _configuracioDeFirma3ID_, java.lang.Long _configuracioDeFirma4ID_, java.lang.Long _configuracioDeFirma5ID_) throws I18NException {
+		PerfilDeFirmaJPA __bean =  new PerfilDeFirmaJPA(_nom_,_codi_,_descripcio_,_condicio_,_configuracioDeFirma1ID_,_configuracioDeFirma2ID_,_configuracioDeFirma3ID_,_configuracioDeFirma4ID_,_configuracioDeFirma5ID_);
 		return create(__bean);
 	}
 

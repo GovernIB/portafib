@@ -1,0 +1,62 @@
+
+COMMENTS 
+========
+<#-- Comentari -->
+
+
+API FIRMA SIMPLE EN SERVIDOR 
+============================
+
+Llista de paràmetres amb els que construir la Condició
+
+usFirma (int) Valors: 0 => FIRMA SIMPLE EN SERVIDOR  | 1 => FIRMA SIMPLE WEB
+lang (String) Idioma en format dos caràcters (ISO 639-1)
+
+firmaSimpleSignDocumentRequest	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest)
+firmaSimpleSignDocumentRequest.commonInfo	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo)
+firmaSimpleSignDocumentRequest.commonInfo.signProfile	(String)
+firmaSimpleSignDocumentRequest.commonInfo.languageUI	(String)
+firmaSimpleSignDocumentRequest.commonInfo.username	(String)
+firmaSimpleSignDocumentRequest.commonInfo.administrationID	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature)
+firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile)
+firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.nom	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.data	(byte[])
+firmaSimpleSignDocumentRequest.fileInfoSignature.previusSignatureDetachedFile	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile)
+firmaSimpleSignDocumentRequest.fileInfoSignature.previusSignatureDetachedFile.nom	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.previusSignatureDetachedFile.mime	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.previusSignatureDetachedFile.data	(byte[])
+firmaSimpleSignDocumentRequest.fileInfoSignature.signID	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.name	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.reason	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.location	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.signerEmail	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.signNumber	(int)
+firmaSimpleSignDocumentRequest.fileInfoSignature.languageSign	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.expedientCodi	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.expedientNom	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.expedientUrl	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.procedimentCodi	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.procedimentNom	(String)
+firmaSimpleSignDocumentRequest.fileInfoSignature.additionalInformation	(java.util.List)
+
+
+EXEMPLE
+=======
+
+<#if usFirma==0 || usFirma==1 >
+   <#if firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'application/pdf'>
+      1
+  <#elseif firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'text/xml'>
+      2
+   <#else>
+      3
+   </#if>
+<#else>
+   <#if lang == 'es'>
+La condición del perfil solo evalua llamadas de API Firma Simple en Servidor
+   <#else>
+La condició del perfil només avalua cridades de API Firma Simple en Servidor
+   </#if>
+</#if>

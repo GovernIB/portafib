@@ -165,6 +165,34 @@ public class PerfilDeFirmaValidator<T> implements PerfilDeFirmaFields {
       }
     }
 
+    if (__vr.getFieldErrorCount(CONFIGURACIODEFIRMA4ID) == 0) {
+      java.lang.Long __configuraciodefirma4id = (java.lang.Long)__vr.getFieldValue(__target__,CONFIGURACIODEFIRMA4ID);
+      if (__configuraciodefirma4id != null ) {
+        Long __count_ = null;
+        try { __count_ = __usuariAplicacioConfiguracioManager.count(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(__configuraciodefirma4id)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(CONFIGURACIODEFIRMA4ID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfiguracio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfigID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__configuraciodefirma4id)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(CONFIGURACIODEFIRMA5ID) == 0) {
+      java.lang.Long __configuraciodefirma5id = (java.lang.Long)__vr.getFieldValue(__target__,CONFIGURACIODEFIRMA5ID);
+      if (__configuraciodefirma5id != null ) {
+        Long __count_ = null;
+        try { __count_ = __usuariAplicacioConfiguracioManager.count(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(__configuraciodefirma5id)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(CONFIGURACIODEFIRMA5ID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfiguracio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfigID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__configuraciodefirma5id)));
+        }
+      }
+    }
+
   } // Final de mètode
   public String get(Field<?> field) {
     return field.fullName;

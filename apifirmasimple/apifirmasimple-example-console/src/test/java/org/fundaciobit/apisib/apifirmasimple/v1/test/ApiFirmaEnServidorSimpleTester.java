@@ -49,29 +49,33 @@ public class ApiFirmaEnServidorSimpleTester {
 
   public static final String PROFILE_CADES_PROPERTY = "PROFILE_CADES";
 
+  public static final String PROFILE_MIX_PADES_XADES_CADES = "PROFILE_MIX_PADES_XADES_CADES";
+
   public static void main(String[] args) {
 
     try {
 
       ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      //tester.testGetAvailableProfiles();
+      // tester.testGetAvailableProfiles();
 
-      //tester.testSignatureServerPAdES();
-      
-      //tester.testSignatureServerCAdES();
-      
-      //tester.testSignatureServerXAdESBinary();
-      
-      //tester.testSignatureServerXAdESXml();
+      // tester.testSignatureServerPAdES();
 
-      //tester.testUpgradeSignaturePAdES();
+      // tester.testSignatureServerCAdES();
 
-      //tester.testUpgradeSignatureXAdESOfBinary();
+      // tester.testSignatureServerXAdESBinary();
 
-      //tester.testUpgradeSignatureXAdESOfXML();
+      // tester.testSignatureServerXAdESXml();
 
-      tester.testUpgradeSignatureCAdES();
+      tester.testSignatureServerPAdESXAdES();
+
+      // tester.testUpgradeSignaturePAdES();
+
+      // tester.testUpgradeSignatureXAdESOfBinary();
+
+      // tester.testUpgradeSignatureXAdESOfXML();
+
+      // tester.testUpgradeSignatureCAdES();
 
     } catch (NoAvailablePluginException nape) {
 
@@ -166,7 +170,8 @@ public class ApiFirmaEnServidorSimpleTester {
         System.out.println(" NO TE CAP PERFIL ASSIGNAT !!!");
       } else {
         for (FirmaSimpleAvailableProfile ap : listProfiles) {
-          System.out.println("  + " + ap.getName() + "[" + ap.getCode() +  "] => " + ap.getDescription());
+          System.out.println("  + " + ap.getName() + "[" + ap.getCode() + "] => "
+              + ap.getDescription());
         }
       }
 
@@ -194,13 +199,69 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
-    
-    
+
     internalSignDocument(api, perfil, fileToSign);
   }
-  
-  
-  
+
+  @Test
+  public void testSignatureServerPAdESXAdES() throws Exception, FileNotFoundException,
+      IOException {
+
+    Properties prop = getConfigProperties();
+
+    ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
+
+    final String perfil = prop.getProperty(PROFILE_MIX_PADES_XADES_CADES);
+    if (perfil == null) {
+      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_MIX_PADES_XADES_CADES
+          + "[");
+    }
+    {
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
+
+      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+
+      // Hauria de ser firma PADES
+      if (result != null) {
+        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_PADES.equals(currentType)) {
+          throw new Exception("S'esperava una firma de tipus PADES"
+              + " però s'ha rebut una de tipus " + currentType);
+        }
+      }
+    }
+
+    {
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
+
+      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+
+      // Hauria de ser firma PADES
+      if (result != null) {
+        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_XADES.equals(currentType)) {
+          throw new Exception("S'esperava una firma de tipus XADES"
+              + " però s'ha rebut una de tipus " + currentType);
+        }
+      }
+    }
+
+    {
+      FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
+
+      FirmaSimpleSignDocumentResponse result = internalSignDocument(api, perfil, fileToSign);
+
+      // Hauria de ser firma PADES
+      if (result != null) {
+        String currentType = result.getResult().getSignedFileInfo().getSignType();
+        if (!FirmaSimpleSignedFileInfo.SIGN_TYPE_CADES.equals(currentType)) {
+          throw new Exception("S'esperava una firma de tipus CADES"
+              + " però s'ha rebut una de tipus " + currentType);
+        }
+      }
+    }
+  }
+
   @Test
   public void testSignatureServerCAdES() throws Exception, FileNotFoundException, IOException {
 
@@ -214,14 +275,13 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
-    
-    
+
     internalSignDocument(api, perfil, fileToSign);
   }
-  
-  
+
   @Test
-  public void testSignatureServerXAdESBinary() throws Exception, FileNotFoundException, IOException {
+  public void testSignatureServerXAdESBinary() throws Exception, FileNotFoundException,
+      IOException {
 
     Properties prop = getConfigProperties();
 
@@ -233,14 +293,13 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
-    
-    
+
     internalSignDocument(api, perfil, fileToSign);
   }
-  
-  
+
   @Test
-  public void testSignatureServerXAdESXml() throws Exception, FileNotFoundException, IOException {
+  public void testSignatureServerXAdESXml() throws Exception, FileNotFoundException,
+      IOException {
 
     Properties prop = getConfigProperties();
 
@@ -252,14 +311,13 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
-    
-    
+
     internalSignDocument(api, perfil, fileToSign);
   }
-  
 
-  protected void internalSignDocument(ApiFirmaEnServidorSimple api, final String perfil,
-      FirmaSimpleFile fileToSign) throws Exception, FileNotFoundException, IOException {
+  protected FirmaSimpleSignDocumentResponse internalSignDocument(ApiFirmaEnServidorSimple api,
+      final String perfil, FirmaSimpleFile fileToSign) throws Exception,
+      FileNotFoundException, IOException {
     String signID = "1";
     String name = fileToSign.getNom();
     String reason = "Per aprovar pressuposts";
@@ -294,11 +352,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
       case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
         System.err.println("Initializing ...Unknown Error (???)");
-        return;
+        return null;
 
       case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
         System.err.println("In PROGRESS ... Unknown Error (????) ");
-        return;
+        return null;
 
       case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
       {
@@ -308,21 +366,19 @@ public class ApiFirmaEnServidorSimpleTester {
         if (desc != null) {
           System.err.println(desc);
         }
-        return;
+        return null;
       }
 
       case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
       {
         System.err.println("S'ha cancel·lat el procés de firmat.");
-        return;
+        return null;
       }
 
       case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
       {
         System.out.println(" ===== RESULTAT  =========");
         FirmaSimpleSignatureResult fssr = fullResults.getResult();
-
-        
 
         {
           System.out.println(" ---- Signature [ " + fssr.getSignID() + " ]");
@@ -361,18 +417,19 @@ public class ApiFirmaEnServidorSimpleTester {
               System.out.println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
               printSignatureInfo(fssr);
 
-            break;
+              return fullResults;
+
           }
 
-          return;
         } // Final for de fitxers firmats
       } // Final Case Firma OK
     } // Final Switch Firma
+
+    return null;
   }
 
   @Test
-  public void testUpgradeSignatureCAdES() throws Exception,
-      FileNotFoundException, IOException {
+  public void testUpgradeSignatureCAdES() throws Exception, FileNotFoundException, IOException {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
         "application/octet-stream");
@@ -435,7 +492,6 @@ public class ApiFirmaEnServidorSimpleTester {
   public static void printSignatureInfo(FirmaSimpleUpgradeResponse fssr) {
     System.out.println(FirmaSimpleUpgradedFileInfo.toString(fssr.getUpgradedFileInfo()));
   }
-
 
   /**
    * 
@@ -514,8 +570,7 @@ public class ApiFirmaEnServidorSimpleTester {
     }
 
     FirmaSimpleUpgradeResponse upgradeResponse = api
-        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, null,
-            language));
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, null, language));
 
     printSignatureInfo(upgradeResponse);
     return upgradeResponse;

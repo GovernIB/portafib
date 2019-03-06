@@ -213,6 +213,26 @@ public class PerfilDeFirmaController
       };
     }
 
+    // Field configuracioDeFirma4ID
+    {
+      _listSKV = getReferenceListForConfiguracioDeFirma4ID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID(_tmp);
+      if (filterForm.getGroupByFields().contains(CONFIGURACIODEFIRMA4ID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, CONFIGURACIODEFIRMA4ID, false);
+      };
+    }
+
+    // Field configuracioDeFirma5ID
+    {
+      _listSKV = getReferenceListForConfiguracioDeFirma5ID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID(_tmp);
+      if (filterForm.getGroupByFields().contains(CONFIGURACIODEFIRMA5ID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, CONFIGURACIODEFIRMA5ID, false);
+      };
+    }
+
 
     return groupByItemsMap;
   }
@@ -231,6 +251,8 @@ public class PerfilDeFirmaController
     __mapping.put(CONFIGURACIODEFIRMA1ID, filterForm.getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID());
     __mapping.put(CONFIGURACIODEFIRMA2ID, filterForm.getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID());
     __mapping.put(CONFIGURACIODEFIRMA3ID, filterForm.getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID());
+    __mapping.put(CONFIGURACIODEFIRMA4ID, filterForm.getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID());
+    __mapping.put(CONFIGURACIODEFIRMA5ID, filterForm.getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -298,6 +320,20 @@ public class PerfilDeFirmaController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       perfilDeFirmaForm.setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (perfilDeFirmaForm.getListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForConfiguracioDeFirma4ID(request, mav, perfilDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      perfilDeFirmaForm.setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (perfilDeFirmaForm.getListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForConfiguracioDeFirma5ID(request, mav, perfilDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      perfilDeFirmaForm.setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID(_listSKV);
     }
     
   }
@@ -714,6 +750,86 @@ public java.lang.Long stringToPK(String value) {
 
 
   public List<StringKeyValue> getReferenceListForConfiguracioDeFirma3ID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return usuariAplicacioConfiguracioRefList.getReferenceList(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma4ID(HttpServletRequest request,
+       ModelAndView mav, PerfilDeFirmaForm perfilDeFirmaForm, Where where)  throws I18NException {
+    if (perfilDeFirmaForm.isHiddenField(CONFIGURACIODEFIRMA4ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (perfilDeFirmaForm.isReadOnlyField(CONFIGURACIODEFIRMA4ID)) {
+      _where = UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(perfilDeFirmaForm.getPerfilDeFirma().getConfiguracioDeFirma4ID());
+    }
+    return getReferenceListForConfiguracioDeFirma4ID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma4ID(HttpServletRequest request,
+       ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
+       List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA4ID)
+      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA4ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(CONFIGURACIODEFIRMA4ID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (PerfilDeFirma _item : list) {
+        if(_item.getConfiguracioDeFirma4ID() == null) { continue; };
+        _pkList.add(_item.getConfiguracioDeFirma4ID());
+        }
+        _w = UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.in(_pkList);
+      }
+    return getReferenceListForConfiguracioDeFirma4ID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma4ID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return usuariAplicacioConfiguracioRefList.getReferenceList(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma5ID(HttpServletRequest request,
+       ModelAndView mav, PerfilDeFirmaForm perfilDeFirmaForm, Where where)  throws I18NException {
+    if (perfilDeFirmaForm.isHiddenField(CONFIGURACIODEFIRMA5ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (perfilDeFirmaForm.isReadOnlyField(CONFIGURACIODEFIRMA5ID)) {
+      _where = UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(perfilDeFirmaForm.getPerfilDeFirma().getConfiguracioDeFirma5ID());
+    }
+    return getReferenceListForConfiguracioDeFirma5ID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma5ID(HttpServletRequest request,
+       ModelAndView mav, PerfilDeFirmaFilterForm perfilDeFirmaFilterForm,
+       List<PerfilDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (perfilDeFirmaFilterForm.isHiddenField(CONFIGURACIODEFIRMA5ID)
+      && !perfilDeFirmaFilterForm.isGroupByField(CONFIGURACIODEFIRMA5ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(CONFIGURACIODEFIRMA5ID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (PerfilDeFirma _item : list) {
+        if(_item.getConfiguracioDeFirma5ID() == null) { continue; };
+        _pkList.add(_item.getConfiguracioDeFirma5ID());
+        }
+        _w = UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.in(_pkList);
+      }
+    return getReferenceListForConfiguracioDeFirma5ID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForConfiguracioDeFirma5ID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return usuariAplicacioConfiguracioRefList.getReferenceList(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID, where );
   }

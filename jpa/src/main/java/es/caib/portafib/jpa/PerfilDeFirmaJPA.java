@@ -58,6 +58,14 @@ private static final long serialVersionUID = -877725275L;
 	@Column(name="usrappconfiguracio3id",length = 19)
 	java.lang.Long configuracioDeFirma3ID;
 
+	@Index(name="pfi_perfilapp_appconf4id_fk_i")
+	@Column(name="usrappconfiguracio4id",length = 19)
+	java.lang.Long configuracioDeFirma4ID;
+
+	@Index(name="pfi_perfilapp_appconf5id_fk_i")
+	@Column(name="usrappconfiguracio5id",length = 19)
+	java.lang.Long configuracioDeFirma5ID;
+
 
 
   /** Constructor Buit */
@@ -65,7 +73,7 @@ private static final long serialVersionUID = -877725275L;
   }
 
   /** Constructor amb tots els camps  */
-  public PerfilDeFirmaJPA(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID) {
+  public PerfilDeFirmaJPA(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID) {
     this.usuariAplicacioPerfilID=usuariAplicacioPerfilID;
     this.nom=nom;
     this.codi=codi;
@@ -74,9 +82,11 @@ private static final long serialVersionUID = -877725275L;
     this.configuracioDeFirma1ID=configuracioDeFirma1ID;
     this.configuracioDeFirma2ID=configuracioDeFirma2ID;
     this.configuracioDeFirma3ID=configuracioDeFirma3ID;
+    this.configuracioDeFirma4ID=configuracioDeFirma4ID;
+    this.configuracioDeFirma5ID=configuracioDeFirma5ID;
 }
   /** Constructor sense valors autoincrementals */
-  public PerfilDeFirmaJPA(java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID) {
+  public PerfilDeFirmaJPA(java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID) {
     this.nom=nom;
     this.codi=codi;
     this.descripcio=descripcio;
@@ -84,6 +94,8 @@ private static final long serialVersionUID = -877725275L;
     this.configuracioDeFirma1ID=configuracioDeFirma1ID;
     this.configuracioDeFirma2ID=configuracioDeFirma2ID;
     this.configuracioDeFirma3ID=configuracioDeFirma3ID;
+    this.configuracioDeFirma4ID=configuracioDeFirma4ID;
+    this.configuracioDeFirma5ID=configuracioDeFirma5ID;
 }
   /** Constructor dels valors Not Null */
   public PerfilDeFirmaJPA(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , long configuracioDeFirma1ID) {
@@ -101,6 +113,8 @@ private static final long serialVersionUID = -877725275L;
     this.setConfiguracioDeFirma1ID(__bean.getConfiguracioDeFirma1ID());
     this.setConfiguracioDeFirma2ID(__bean.getConfiguracioDeFirma2ID());
     this.setConfiguracioDeFirma3ID(__bean.getConfiguracioDeFirma3ID());
+    this.setConfiguracioDeFirma4ID(__bean.getConfiguracioDeFirma4ID());
+    this.setConfiguracioDeFirma5ID(__bean.getConfiguracioDeFirma5ID());
 	}
 
 	public long getUsuariAplicacioPerfilID() {
@@ -157,6 +171,20 @@ private static final long serialVersionUID = -877725275L;
 	};
 	public void setConfiguracioDeFirma3ID(java.lang.Long _configuracioDeFirma3ID_) {
 		this.configuracioDeFirma3ID = _configuracioDeFirma3ID_;
+	};
+
+	public java.lang.Long getConfiguracioDeFirma4ID() {
+		return(configuracioDeFirma4ID);
+	};
+	public void setConfiguracioDeFirma4ID(java.lang.Long _configuracioDeFirma4ID_) {
+		this.configuracioDeFirma4ID = _configuracioDeFirma4ID_;
+	};
+
+	public java.lang.Long getConfiguracioDeFirma5ID() {
+		return(configuracioDeFirma5ID);
+	};
+	public void setConfiguracioDeFirma5ID(java.lang.Long _configuracioDeFirma5ID_) {
+		this.configuracioDeFirma5ID = _configuracioDeFirma5ID_;
 	};
 
 
@@ -232,6 +260,36 @@ private static final long serialVersionUID = -877725275L;
     this.configuracioDeFirma3 = configuracioDeFirma3;
   }
 
+// IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_perfilapp_confapp_4_fk")
+	@JoinColumn(name = "usrappconfiguracio4id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+	private UsuariAplicacioConfiguracioJPA configuracioDeFirma4;
+
+	public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma4() {
+    return this.configuracioDeFirma4;
+  }
+
+	public  void setConfiguracioDeFirma4(UsuariAplicacioConfiguracioJPA configuracioDeFirma4) {
+    this.configuracioDeFirma4 = configuracioDeFirma4;
+  }
+
+// IMP Field:usuariaplicacioconfigid | Table: pfi_usuariaplicacioconfig | Type: 1  
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@ForeignKey(name="pfi_perfilapp_confapp_5_fk")
+	@JoinColumn(name = "usrappconfiguracio5id", referencedColumnName ="usuariAplicacioConfigID", nullable = true, insertable=false, updatable=false)
+	private UsuariAplicacioConfiguracioJPA configuracioDeFirma5;
+
+	public UsuariAplicacioConfiguracioJPA getConfiguracioDeFirma5() {
+    return this.configuracioDeFirma5;
+  }
+
+	public  void setConfiguracioDeFirma5(UsuariAplicacioConfiguracioJPA configuracioDeFirma5) {
+    this.configuracioDeFirma5 = configuracioDeFirma5;
+  }
+
 
  // ---------------  STATIC METHODS ------------------
   public static PerfilDeFirmaJPA toJPA(PerfilDeFirma __bean) {
@@ -245,6 +303,8 @@ private static final long serialVersionUID = -877725275L;
     __tmp.setConfiguracioDeFirma1ID(__bean.getConfiguracioDeFirma1ID());
     __tmp.setConfiguracioDeFirma2ID(__bean.getConfiguracioDeFirma2ID());
     __tmp.setConfiguracioDeFirma3ID(__bean.getConfiguracioDeFirma3ID());
+    __tmp.setConfiguracioDeFirma4ID(__bean.getConfiguracioDeFirma4ID());
+    __tmp.setConfiguracioDeFirma5ID(__bean.getConfiguracioDeFirma5ID());
 		return __tmp;
 	}
 
@@ -288,8 +348,16 @@ private static final long serialVersionUID = -877725275L;
       __tmp.setConfiguracioDeFirma2(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma2(), __alreadyCopied,"PerfilDeFirmaJPA"));
     }
     if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma5) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma5()) ) ) {
+      __tmp.setConfiguracioDeFirma5(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma5(), __alreadyCopied,"PerfilDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma3) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma3()) ) ) {
       __tmp.setConfiguracioDeFirma3(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma3(), __alreadyCopied,"PerfilDeFirmaJPA"));
+    }
+    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.configuracioDeFirma4) || org.hibernate.Hibernate.isInitialized(__jpa.getConfiguracioDeFirma4()) ) ) {
+      __tmp.setConfiguracioDeFirma4(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getConfiguracioDeFirma4(), __alreadyCopied,"PerfilDeFirmaJPA"));
     }
 
     return __tmp;

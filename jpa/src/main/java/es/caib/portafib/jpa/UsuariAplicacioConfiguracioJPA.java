@@ -622,6 +622,32 @@ opcional incluso cuando se genera una firma EPES. */
 	}
 
 
+// EXP  Field:usrappconfiguracio4id | Table: pfi_usuariaplicacioperfil | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "configuracioDeFirma4ID")
+	private Set<PerfilDeFirmaJPA> perfilDeFirma_usrappconfiguracio4ids = new HashSet<PerfilDeFirmaJPA>(0);
+	public  Set<PerfilDeFirmaJPA> getPerfilDeFirma_usrappconfiguracio4ids() {
+    return this.perfilDeFirma_usrappconfiguracio4ids;
+  }
+
+	public void setPerfilDeFirma_usrappconfiguracio4ids(Set<PerfilDeFirmaJPA> perfilDeFirma_usrappconfiguracio4ids) {
+	  this.perfilDeFirma_usrappconfiguracio4ids = perfilDeFirma_usrappconfiguracio4ids;
+	}
+
+
+// EXP  Field:usrappconfiguracio5id | Table: pfi_usuariaplicacioperfil | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "configuracioDeFirma5ID")
+	private Set<PerfilDeFirmaJPA> perfilDeFirma_usrappconfiguracio5ids = new HashSet<PerfilDeFirmaJPA>(0);
+	public  Set<PerfilDeFirmaJPA> getPerfilDeFirma_usrappconfiguracio5ids() {
+    return this.perfilDeFirma_usrappconfiguracio5ids;
+  }
+
+	public void setPerfilDeFirma_usrappconfiguracio5ids(Set<PerfilDeFirmaJPA> perfilDeFirma_usrappconfiguracio5ids) {
+	  this.perfilDeFirma_usrappconfiguracio5ids = perfilDeFirma_usrappconfiguracio5ids;
+	}
+
+
 // IMP Field:entitatid | Table: pfi_entitat | Type: 1  
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -820,12 +846,20 @@ opcional incluso cuando se genera una firma EPES. */
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     if(!"PerfilDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio5ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio5ids())) ) {
+      __tmp.setPerfilDeFirma_usrappconfiguracio5ids(PerfilDeFirmaJPA.copyJPA(__jpa.getPerfilDeFirma_usrappconfiguracio5ids(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
+    }
+    if(!"PerfilDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio1ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio1ids())) ) {
       __tmp.setPerfilDeFirma_usrappconfiguracio1ids(PerfilDeFirmaJPA.copyJPA(__jpa.getPerfilDeFirma_usrappconfiguracio1ids(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
     }
     if(!"PerfilDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio3ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio3ids())) ) {
       __tmp.setPerfilDeFirma_usrappconfiguracio3ids(PerfilDeFirmaJPA.copyJPA(__jpa.getPerfilDeFirma_usrappconfiguracio3ids(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
+    }
+    if(!"PerfilDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio4ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio4ids())) ) {
+      __tmp.setPerfilDeFirma_usrappconfiguracio4ids(PerfilDeFirmaJPA.copyJPA(__jpa.getPerfilDeFirma_usrappconfiguracio4ids(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
     }
     if(!"PerfilDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio2ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio2ids())) ) {

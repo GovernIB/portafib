@@ -43,6 +43,14 @@ public class PerfilDeFirmaQueryPath extends org.fundaciobit.genapp.common.query.
     return new LongField(getQueryPath(), PerfilDeFirmaFields.CONFIGURACIODEFIRMA3ID);
   }
 
+  public LongField CONFIGURACIODEFIRMA4ID() {
+    return new LongField(getQueryPath(), PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID);
+  }
+
+  public LongField CONFIGURACIODEFIRMA5ID() {
+    return new LongField(getQueryPath(), PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID);
+  }
+
 
 
   @Override
@@ -86,6 +94,22 @@ public class PerfilDeFirmaQueryPath extends org.fundaciobit.genapp.common.query.
     return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PerfilDeFirmaQueryPath.this.getQueryPath() + "configuracioDeFirma3" + ".";
+      }
+    });
+  }
+
+  public UsuariAplicacioConfiguracioQueryPath CONFIGURACIODEFIRMA4() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PerfilDeFirmaQueryPath.this.getQueryPath() + "configuracioDeFirma4" + ".";
+      }
+    });
+  }
+
+  public UsuariAplicacioConfiguracioQueryPath CONFIGURACIODEFIRMA5() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PerfilDeFirmaQueryPath.this.getQueryPath() + "configuracioDeFirma5" + ".";
       }
     });
   }

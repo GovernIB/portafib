@@ -22,6 +22,8 @@ public class PerfilDeFirmaForm extends PortaFIBBaseForm {
     this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID;
     this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID;
     this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID;
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
   }
   
   public PerfilDeFirmaForm(PerfilDeFirmaJPA perfilDeFirma, boolean nou) {
@@ -69,6 +71,30 @@ public class PerfilDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID(List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID) {
     this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID = listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID;
+  }
+
+
+
+  private List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+
+  public List<StringKeyValue> getListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID() {
+    return this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+  }
+
+  public void setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID(List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID) {
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID = listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+  }
+
+
+
+  private List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
+
+  public List<StringKeyValue> getListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID() {
+    return this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
+  }
+
+  public void setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID(List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID) {
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID = listOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
   }
 
 

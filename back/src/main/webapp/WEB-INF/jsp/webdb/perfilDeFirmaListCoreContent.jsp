@@ -73,6 +73,22 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA4ID)}">
+          <td>
+          <c:set var="tmp">${perfilDeFirma.configuracioDeFirma4ID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
+          <td>
+          <c:set var="tmp">${perfilDeFirma.configuracioDeFirma5ID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

@@ -298,7 +298,8 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     parameters.put("firmaSimpleUpgradeRequest", firmaSimpleUpgradeRequest);
 
     UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, 
-        perfilDeFirma, ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, parameters);
+        perfilDeFirma, ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
+        firmaSimpleUpgradeRequest.getLanguageUI(), parameters);
 
    
     Integer upgradeID = config.getUpgradeSignFormat();
@@ -328,22 +329,26 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
       
       UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, parameters);
+          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
+          firmaSimpleSignDocumentRequest.getCommonInfo().getLanguageUI(), parameters);
 
       return config;
   
   }
+
   
   
   public UsuariAplicacioConfiguracio getConfiguracioFirmaPerApiFirmaSimpleWeb(
-      String usuariAplicacioID, PerfilDeFirma perfilDeFirma, 
+      String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
 
       Map<String, Object> parameters = new HashMap<String, Object>();
       parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
       
-      UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB, parameters);
+      UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,            
+          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB,
+          firmaSimpleSignDocumentRequest.getCommonInfo().getLanguageUI(),
+          parameters);
 
       return config;
 
@@ -358,10 +363,11 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
    * @throws I18NException
    */
   protected UsuariAplicacioConfiguracio avaluarCondicio(String usuariAplicacioID,
-      PerfilDeFirma perfilDeFirma, int usFirma, Map<String, Object> parameters)
+      PerfilDeFirma perfilDeFirma, int usFirma, String lang, Map<String, Object> parameters)
       throws I18NException {
 
     parameters.put("usFirma", usFirma);
+    parameters.put("lang", lang);
 
     String condicio = perfilDeFirma.getCondicio();
     Long configID;
@@ -381,7 +387,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
       long configPos;
       try {
-        configPos = Long.parseLong(errorOrConfig);
+        configPos = Long.parseLong(errorOrConfig.trim());
       } catch (NumberFormatException e) {
         // Signnifica que la condicio ha retornat un error
         // XYZ ZZZ TRAD
@@ -390,7 +396,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
                 + " ha retornat un missatge d´error: " + errorOrConfig));
       }
 
-      if (configPos < 1 || configPos > 3) {
+      if (configPos < 1 || configPos > 5) {
         // XYZ ZZZ TRAD
         throw new I18NException("genapp.comodi", new I18NArgumentString(
             "El processat de la condició del perfil " + perfilDeFirma.getCodi()
@@ -410,12 +416,20 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         case 3:
           configID = perfilDeFirma.getConfiguracioDeFirma3ID();
         break;
+        
+        case 4:
+          configID = perfilDeFirma.getConfiguracioDeFirma4ID();
+        break;
+
+        case 5:
+          configID = perfilDeFirma.getConfiguracioDeFirma5ID();
+        break;
 
         default:
           // XYZ ZZZ TRAD
           throw new I18NException("genapp.comodi", "El processat de la condició del perfil "
               + perfilDeFirma.getCodi()
-              + " ha retornat id de Configuració major que 3 o menor que 1: " + configPos);
+              + " ha retornat id de Configuració major que 5 o menor que 1: " + configPos);
       }
 
       if (configID == null) {

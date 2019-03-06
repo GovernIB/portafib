@@ -10696,7 +10696,7 @@ opcional incluso cuando se genera una firma EPES.</string>
     <void index="19"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="8"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="10"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -11170,6 +11170,162 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
               <void property="name"> 
                <string>pfi_perfilapp_confapp_3_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioconfig</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="8"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usuariaplicacioconfigid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_4_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioconfig</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_perfilapp_appconf4id_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>configuracioDeFirma4ID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Configuració de Firma 4</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Configuración de Firma 4</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usrappconfiguracio4id</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usuariaplicacioconfigid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_4_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioconfig</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="9"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usuariaplicacioconfigid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_5_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioconfig</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_perfilapp_appconf5id_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>configuracioDeFirma5ID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Configuració de Firma 5</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Configuración de Firma 5</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usrappconfiguracio5id</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usuariaplicacioconfigid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_5_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioconfig</string> 
@@ -20769,7 +20925,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="3"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="5"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -20803,6 +20959,32 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
               </void> 
               <void property="name"> 
                <string>pfi_perfilapp_confapp_3_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioperfil</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void index="3"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usrappconfiguracio4id</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_4_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuariaplicacioperfil</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void index="4"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>usrappconfiguracio5id</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_perfilapp_confapp_5_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioperfil</string> 

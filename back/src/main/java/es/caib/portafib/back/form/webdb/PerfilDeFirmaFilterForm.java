@@ -153,6 +153,50 @@ public class PerfilDeFirmaFilterForm extends PortaFIBBaseFilterForm implements P
   }
 
 
+  private java.lang.Long configuracioDeFirma4IDDesde;
+
+  public java.lang.Long getConfiguracioDeFirma4IDDesde() {
+    return this.configuracioDeFirma4IDDesde;
+  }
+
+  public void setConfiguracioDeFirma4IDDesde(java.lang.Long configuracioDeFirma4IDDesde) {
+    this.configuracioDeFirma4IDDesde = configuracioDeFirma4IDDesde;
+  }
+
+
+  private java.lang.Long configuracioDeFirma4IDFins;
+
+  public java.lang.Long getConfiguracioDeFirma4IDFins() {
+    return this.configuracioDeFirma4IDFins;
+  }
+
+  public void setConfiguracioDeFirma4IDFins(java.lang.Long configuracioDeFirma4IDFins) {
+    this.configuracioDeFirma4IDFins = configuracioDeFirma4IDFins;
+  }
+
+
+  private java.lang.Long configuracioDeFirma5IDDesde;
+
+  public java.lang.Long getConfiguracioDeFirma5IDDesde() {
+    return this.configuracioDeFirma5IDDesde;
+  }
+
+  public void setConfiguracioDeFirma5IDDesde(java.lang.Long configuracioDeFirma5IDDesde) {
+    this.configuracioDeFirma5IDDesde = configuracioDeFirma5IDDesde;
+  }
+
+
+  private java.lang.Long configuracioDeFirma5IDFins;
+
+  public java.lang.Long getConfiguracioDeFirma5IDFins() {
+    return this.configuracioDeFirma5IDFins;
+  }
+
+  public void setConfiguracioDeFirma5IDFins(java.lang.Long configuracioDeFirma5IDFins) {
+    this.configuracioDeFirma5IDFins = configuracioDeFirma5IDFins;
+  }
+
+
   public PerfilDeFirmaFilterForm() {
   }
   
@@ -170,9 +214,15 @@ public class PerfilDeFirmaFilterForm extends PortaFIBBaseFilterForm implements P
     this.configuracioDeFirma2IDFins = __toClone.configuracioDeFirma2IDFins;
     this.configuracioDeFirma3IDDesde = __toClone.configuracioDeFirma3IDDesde;
     this.configuracioDeFirma3IDFins = __toClone.configuracioDeFirma3IDFins;
+    this.configuracioDeFirma4IDDesde = __toClone.configuracioDeFirma4IDDesde;
+    this.configuracioDeFirma4IDFins = __toClone.configuracioDeFirma4IDFins;
+    this.configuracioDeFirma5IDDesde = __toClone.configuracioDeFirma5IDDesde;
+    this.configuracioDeFirma5IDFins = __toClone.configuracioDeFirma5IDFins;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID;
+    this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+    this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
   }
   
   /* ========= UTILS ========== */
@@ -239,6 +289,30 @@ public class PerfilDeFirmaFilterForm extends PortaFIBBaseFilterForm implements P
 
   public void setMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID(Map<String, String> mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID) {
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID = mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID;
+  }
+
+
+
+  private Map<String, String> mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+
+  public Map<String, String> getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID() {
+    return this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+  }
+
+  public void setMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID(Map<String, String> mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID) {
+    this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID = mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma4ID;
+  }
+
+
+
+  private Map<String, String> mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
+
+  public Map<String, String> getMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID() {
+    return this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
+  }
+
+  public void setMapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID(Map<String, String> mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID) {
+    this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID = mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma5ID;
   }
 
 
