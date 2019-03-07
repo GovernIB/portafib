@@ -64,7 +64,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
     SelectMultipleStringKeyValue smskv;
     smskv = new SelectMultipleStringKeyValue(PETICIODEFIRMAID.select, TITOL.select);
 
-    Where where = Where.AND(USUARIENTITATID.equal(loginInfo.getUsuariEntitatID()),
+    Where where = Where.AND(SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
         TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT));
 
     List<StringKeyValue> peticionsBase = peticioDeFirmaLogicaEjb.executeQuery(smskv, where);

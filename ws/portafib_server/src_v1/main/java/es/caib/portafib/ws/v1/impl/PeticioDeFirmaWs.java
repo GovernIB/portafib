@@ -208,13 +208,13 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setPrioritatID(__bean.getPrioritatID());
     __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setSolicitantUsuariAplicacioID(__bean.getUsuariAplicacioID());
     __tmp.setRemitentNom(__bean.getRemitentNom());
     __tmp.setRemitentDescripcio(__bean.getRemitentDescripcio());
     __tmp.setInformacioAddicional(__bean.getInformacioAdicional());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setSolicitantUsuariEntitat1ID(__bean.getUsuariEntitatID());
     __tmp.setAvisWeb(__bean.isAvisWeb());
     __tmp.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer

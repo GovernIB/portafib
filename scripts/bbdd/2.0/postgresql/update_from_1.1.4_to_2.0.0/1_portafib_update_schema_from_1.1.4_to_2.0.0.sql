@@ -512,6 +512,20 @@ ALTER TABLE pfi_usuaripersona
 ALTER TABLE pfi_bitacola
   DROP CONSTRAINT pfi_bitacola_petifirma_fk;
 
+-- ==================================================================
+-- 2019/03/07  Sol·licitant Addicional o Delegat de Sol·licitant #196
+-- ===================================================================
 
+ALTER TABLE pfi_peticiodefirma
+  ADD COLUMN solicitantpersona2id character varying(101);
+ALTER TABLE pfi_peticiodefirma
+  ADD COLUMN solicitantpersona3id character varying(101);
+
+
+ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_usrentitat_2_fk  FOREIGN KEY (solicitantpersona2id)  REFERENCES pfi_usuarientitat (usuarientitatid);
+ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_usrentitat_3_fk  FOREIGN KEY (solicitantpersona3id)  REFERENCES pfi_usuarientitat (usuarientitatid);
+
+create index pfi_petifirma_solipers2_fk_i on pfi_peticiodefirma (solicitantpersona2id);
+create index pfi_petifirma_solipers3_fk_i on pfi_peticiodefirma (solicitantpersona3id);
 
  

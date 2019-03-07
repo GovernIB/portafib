@@ -217,7 +217,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
       // ROL SOLICITANT
       if (ROLE_SOLI.equals(rol)) {
         Where w = Where.AND(
-          PeticioDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID),
+          PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(usuariEntitatID),
           PeticioDeFirmaFields.AVISWEB.equal(true)
         );
         //Long count = peticioDeFirmaEjb.count(w);
@@ -264,7 +264,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
 
         PeticioDeFirmaQueryPath pfQP = new NotificacioWSQueryPath().PETICIODEFIRMA();
         
-        Where w4 = pfQP.USUARIAPLICACIOID().isNotNull();
+        Where w4 = pfQP.SOLICITANTUSUARIAPLICACIOID().isNotNull();
         
         Where w5 = pfQP.USUARIAPLICACIO().ENTITATID().equal(entitatID);
         

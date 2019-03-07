@@ -160,11 +160,11 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.USUARIAPLICACIOID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}">
           <td>
-          <c:set var="tmp">${peticioDeFirma.usuariAplicacioID}</c:set>
+          <c:set var="tmp">${peticioDeFirma.solicitantUsuariAplicacioID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfUsuariAplicacioForUsuariAplicacioID[tmp]}
+          ${__theFilterForm.mapOfUsuariAplicacioForSolicitantUsuariAplicacioID[tmp]}
           </c:if>
           </td>
         </c:if>
@@ -228,11 +228,27 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.USUARIENTITATID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}">
           <td>
-          <c:set var="tmp">${peticioDeFirma.usuariEntitatID}</c:set>
+          <c:set var="tmp">${peticioDeFirma.solicitantUsuariEntitat1ID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
+          ${__theFilterForm.mapOfUsuariEntitatForSolicitantUsuariEntitat1ID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.solicitantUsuariEntitat2ID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfUsuariEntitatForSolicitantUsuariEntitat2ID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.solicitantUsuariEntitat3ID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfUsuariEntitatForSolicitantUsuariEntitat3ID[tmp]}
           </c:if>
           </td>
         </c:if>

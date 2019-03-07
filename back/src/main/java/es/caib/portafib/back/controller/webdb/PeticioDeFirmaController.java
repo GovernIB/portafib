@@ -299,13 +299,13 @@ public class PeticioDeFirmaController
       };
     }
 
-    // Field usuariAplicacioID
+    // Field solicitantUsuariAplicacioID
     {
-      _listSKV = getReferenceListForUsuariAplicacioID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForSolicitantUsuariAplicacioID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfUsuariAplicacioForUsuariAplicacioID(_tmp);
-      if (filterForm.getGroupByFields().contains(USUARIAPLICACIOID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIAPLICACIOID, false);
+      filterForm.setMapOfUsuariAplicacioForSolicitantUsuariAplicacioID(_tmp);
+      if (filterForm.getGroupByFields().contains(SOLICITANTUSUARIAPLICACIOID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SOLICITANTUSUARIAPLICACIOID, false);
       };
     }
 
@@ -319,13 +319,33 @@ public class PeticioDeFirmaController
       };
     }
 
-    // Field usuariEntitatID
+    // Field solicitantUsuariEntitat1ID
     {
-      _listSKV = getReferenceListForUsuariEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForSolicitantUsuariEntitat1ID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfUsuariEntitatForUsuariEntitatID(_tmp);
-      if (filterForm.getGroupByFields().contains(USUARIENTITATID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIENTITATID, false);
+      filterForm.setMapOfUsuariEntitatForSolicitantUsuariEntitat1ID(_tmp);
+      if (filterForm.getGroupByFields().contains(SOLICITANTUSUARIENTITAT1ID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SOLICITANTUSUARIENTITAT1ID, false);
+      };
+    }
+
+    // Field solicitantUsuariEntitat2ID
+    {
+      _listSKV = getReferenceListForSolicitantUsuariEntitat2ID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfUsuariEntitatForSolicitantUsuariEntitat2ID(_tmp);
+      if (filterForm.getGroupByFields().contains(SOLICITANTUSUARIENTITAT2ID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SOLICITANTUSUARIENTITAT2ID, false);
+      };
+    }
+
+    // Field solicitantUsuariEntitat3ID
+    {
+      _listSKV = getReferenceListForSolicitantUsuariEntitat3ID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfUsuariEntitatForSolicitantUsuariEntitat3ID(_tmp);
+      if (filterForm.getGroupByFields().contains(SOLICITANTUSUARIENTITAT3ID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, SOLICITANTUSUARIENTITAT3ID, false);
       };
     }
 
@@ -359,9 +379,11 @@ public class PeticioDeFirmaController
     __mapping.put(IDIOMAID, filterForm.getMapOfIdiomaForIdiomaID());
     __mapping.put(PRIORITATID, filterForm.getMapOfValuesForPrioritatID());
     __mapping.put(FLUXDEFIRMESID, filterForm.getMapOfFluxDeFirmesForFluxDeFirmesID());
-    __mapping.put(USUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID());
+    __mapping.put(SOLICITANTUSUARIAPLICACIOID, filterForm.getMapOfUsuariAplicacioForSolicitantUsuariAplicacioID());
     __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
-    __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
+    __mapping.put(SOLICITANTUSUARIENTITAT1ID, filterForm.getMapOfUsuariEntitatForSolicitantUsuariEntitat1ID());
+    __mapping.put(SOLICITANTUSUARIENTITAT2ID, filterForm.getMapOfUsuariEntitatForSolicitantUsuariEntitat2ID());
+    __mapping.put(SOLICITANTUSUARIENTITAT3ID, filterForm.getMapOfUsuariEntitatForSolicitantUsuariEntitat3ID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -473,11 +495,11 @@ public class PeticioDeFirmaController
       peticioDeFirmaForm.setListOfFluxDeFirmesForFluxDeFirmesID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (peticioDeFirmaForm.getListOfUsuariAplicacioForUsuariAplicacioID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForUsuariAplicacioID(request, mav, peticioDeFirmaForm, null);
+    if (peticioDeFirmaForm.getListOfUsuariAplicacioForSolicitantUsuariAplicacioID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSolicitantUsuariAplicacioID(request, mav, peticioDeFirmaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      peticioDeFirmaForm.setListOfUsuariAplicacioForUsuariAplicacioID(_listSKV);
+      peticioDeFirmaForm.setListOfUsuariAplicacioForSolicitantUsuariAplicacioID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (peticioDeFirmaForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
@@ -487,11 +509,25 @@ public class PeticioDeFirmaController
       peticioDeFirmaForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (peticioDeFirmaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, peticioDeFirmaForm, null);
+    if (peticioDeFirmaForm.getListOfUsuariEntitatForSolicitantUsuariEntitat1ID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSolicitantUsuariEntitat1ID(request, mav, peticioDeFirmaForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      peticioDeFirmaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
+      peticioDeFirmaForm.setListOfUsuariEntitatForSolicitantUsuariEntitat1ID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (peticioDeFirmaForm.getListOfUsuariEntitatForSolicitantUsuariEntitat2ID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSolicitantUsuariEntitat2ID(request, mav, peticioDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      peticioDeFirmaForm.setListOfUsuariEntitatForSolicitantUsuariEntitat2ID(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (peticioDeFirmaForm.getListOfUsuariEntitatForSolicitantUsuariEntitat3ID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForSolicitantUsuariEntitat3ID(request, mav, peticioDeFirmaForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      peticioDeFirmaForm.setListOfUsuariEntitatForSolicitantUsuariEntitat3ID(_listSKV);
     }
     
   }
@@ -1176,40 +1212,40 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
-    if (peticioDeFirmaForm.isHiddenField(USUARIAPLICACIOID)) {
+    if (peticioDeFirmaForm.isHiddenField(SOLICITANTUSUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(USUARIAPLICACIOID)) {
-      _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticioDeFirmaForm.getPeticioDeFirma().getUsuariAplicacioID());
+    if (peticioDeFirmaForm.isReadOnlyField(SOLICITANTUSUARIAPLICACIOID)) {
+      _where = UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticioDeFirmaForm.getPeticioDeFirma().getSolicitantUsuariAplicacioID());
     }
-    return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where, _where));
+    return getReferenceListForSolicitantUsuariAplicacioID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
        List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (peticioDeFirmaFilterForm.isHiddenField(USUARIAPLICACIOID)
-      && !peticioDeFirmaFilterForm.isGroupByField(USUARIAPLICACIOID)) {
+    if (peticioDeFirmaFilterForm.isHiddenField(SOLICITANTUSUARIAPLICACIOID)
+      && !peticioDeFirmaFilterForm.isGroupByField(SOLICITANTUSUARIAPLICACIOID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(USUARIAPLICACIOID)) {
+    if (!_groupByItemsMap.containsKey(SOLICITANTUSUARIAPLICACIOID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
       for (PeticioDeFirma _item : list) {
-        _pkList.add(_item.getUsuariAplicacioID());
+        _pkList.add(_item.getSolicitantUsuariAplicacioID());
         }
         _w = UsuariAplicacioFields.USUARIAPLICACIOID.in(_pkList);
       }
-    return getReferenceListForUsuariAplicacioID(request, mav, Where.AND(where,_w));
+    return getReferenceListForSolicitantUsuariAplicacioID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariAplicacioID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariAplicacioID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return usuariAplicacioRefList.getReferenceList(UsuariAplicacioFields.USUARIAPLICACIOID, where );
   }
@@ -1255,41 +1291,121 @@ public java.lang.Long stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat1ID(HttpServletRequest request,
        ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
-    if (peticioDeFirmaForm.isHiddenField(USUARIENTITATID)) {
+    if (peticioDeFirmaForm.isHiddenField(SOLICITANTUSUARIENTITAT1ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
-    if (peticioDeFirmaForm.isReadOnlyField(USUARIENTITATID)) {
-      _where = UsuariEntitatFields.USUARIENTITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getUsuariEntitatID());
+    if (peticioDeFirmaForm.isReadOnlyField(SOLICITANTUSUARIENTITAT1ID)) {
+      _where = UsuariEntitatFields.USUARIENTITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getSolicitantUsuariEntitat1ID());
     }
-    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
+    return getReferenceListForSolicitantUsuariEntitat1ID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat1ID(HttpServletRequest request,
        ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
        List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (peticioDeFirmaFilterForm.isHiddenField(USUARIENTITATID)
-      && !peticioDeFirmaFilterForm.isGroupByField(USUARIENTITATID)) {
+    if (peticioDeFirmaFilterForm.isHiddenField(SOLICITANTUSUARIENTITAT1ID)
+      && !peticioDeFirmaFilterForm.isGroupByField(SOLICITANTUSUARIENTITAT1ID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
+    if (!_groupByItemsMap.containsKey(SOLICITANTUSUARIENTITAT1ID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
       for (PeticioDeFirma _item : list) {
-        if(_item.getUsuariEntitatID() == null) { continue; };
-        _pkList.add(_item.getUsuariEntitatID());
+        if(_item.getSolicitantUsuariEntitat1ID() == null) { continue; };
+        _pkList.add(_item.getSolicitantUsuariEntitat1ID());
         }
         _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);
       }
-    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where,_w));
+    return getReferenceListForSolicitantUsuariEntitat1ID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat1ID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat2ID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
+    if (peticioDeFirmaForm.isHiddenField(SOLICITANTUSUARIENTITAT2ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (peticioDeFirmaForm.isReadOnlyField(SOLICITANTUSUARIENTITAT2ID)) {
+      _where = UsuariEntitatFields.USUARIENTITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getSolicitantUsuariEntitat2ID());
+    }
+    return getReferenceListForSolicitantUsuariEntitat2ID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat2ID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+       List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (peticioDeFirmaFilterForm.isHiddenField(SOLICITANTUSUARIENTITAT2ID)
+      && !peticioDeFirmaFilterForm.isGroupByField(SOLICITANTUSUARIENTITAT2ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(SOLICITANTUSUARIENTITAT2ID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
+      for (PeticioDeFirma _item : list) {
+        if(_item.getSolicitantUsuariEntitat2ID() == null) { continue; };
+        _pkList.add(_item.getSolicitantUsuariEntitat2ID());
+        }
+        _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);
+      }
+    return getReferenceListForSolicitantUsuariEntitat2ID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat2ID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat3ID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
+    if (peticioDeFirmaForm.isHiddenField(SOLICITANTUSUARIENTITAT3ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (peticioDeFirmaForm.isReadOnlyField(SOLICITANTUSUARIENTITAT3ID)) {
+      _where = UsuariEntitatFields.USUARIENTITATID.equal(peticioDeFirmaForm.getPeticioDeFirma().getSolicitantUsuariEntitat3ID());
+    }
+    return getReferenceListForSolicitantUsuariEntitat3ID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat3ID(HttpServletRequest request,
+       ModelAndView mav, PeticioDeFirmaFilterForm peticioDeFirmaFilterForm,
+       List<PeticioDeFirma> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (peticioDeFirmaFilterForm.isHiddenField(SOLICITANTUSUARIENTITAT3ID)
+      && !peticioDeFirmaFilterForm.isGroupByField(SOLICITANTUSUARIENTITAT3ID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(SOLICITANTUSUARIENTITAT3ID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
+      for (PeticioDeFirma _item : list) {
+        if(_item.getSolicitantUsuariEntitat3ID() == null) { continue; };
+        _pkList.add(_item.getSolicitantUsuariEntitat3ID());
+        }
+        _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);
+      }
+    return getReferenceListForSolicitantUsuariEntitat3ID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForSolicitantUsuariEntitat3ID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
   }

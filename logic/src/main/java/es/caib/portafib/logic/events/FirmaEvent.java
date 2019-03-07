@@ -139,8 +139,8 @@ public class FirmaEvent implements Cloneable, Serializable {
     // Això és informació que es retorna quan el document es retornat (downloadDocument)
     // Tiquet pendent #130
     this.peticioDeFirmaInfoAdicional = peticioDeFirma.getInformacioAddicional();
-    this.peticioDeFirmaUsuariAplicacioID = peticioDeFirma.getUsuariAplicacioID();
-    this.peticioDeFirmaUsuariEntitatID = peticioDeFirma.getUsuariEntitatID();
+    this.peticioDeFirmaUsuariAplicacioID = peticioDeFirma.getSolicitantUsuariAplicacioID();
+    this.peticioDeFirmaUsuariEntitatID = peticioDeFirma.getSolicitantUsuariEntitat1ID();
     this.tipusEstatPeticioDeFirmaID = peticioDeFirma.getTipusEstatPeticioDeFirmaID();
     
     if (eventID == ConstantsV2.NOTIFICACIOAVIS_PETICIO_FIRMADA) {

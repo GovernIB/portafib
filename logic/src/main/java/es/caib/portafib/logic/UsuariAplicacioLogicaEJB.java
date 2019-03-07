@@ -258,7 +258,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
                  PeticioDeFirmaFields.PETICIODEFIRMAID.select,
                  PeticioDeFirmaFields.TITOL.select),        
           Where.AND(        
-            PeticioDeFirmaFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
+            PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(usuariAplicacioID),
             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.in(
               new Integer[]{
                   ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES,
@@ -298,8 +298,8 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
                  PeticioDeFirmaFields.PETICIODEFIRMAID.select,
                  PeticioDeFirmaFields.TITOL.select),        
           Where.AND(        
-            PeticioDeFirmaFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
-            PeticioDeFirmaFields.USUARIENTITATID.isNotNull())
+            PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(usuariAplicacioID),
+            PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.isNotNull())
            );
       if (peticions != null && peticions.size() != 0) {
         List<String> peticionsStr = new ArrayList<String>(peticions.size());
@@ -359,10 +359,10 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
 
     // (1) Borrar Peticions de Firma
     List<PeticioDeFirma> peticions = peticioDeFirmaLogicaEjb.select(       
-          PeticioDeFirmaFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
+          PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(usuariAplicacioID));
     for (PeticioDeFirma peticioDeFirma : peticions) {
       fitxers.addAll(peticioDeFirmaLogicaEjb.deleteFullUsingUsuariAplicacio(
-          peticioDeFirma.getPeticioDeFirmaID(), peticioDeFirma.getUsuariAplicacioID()));
+          peticioDeFirma.getPeticioDeFirmaID(), peticioDeFirma.getSolicitantUsuariAplicacioID()));
     }
 
     // (2) Borrar Tipus de Document

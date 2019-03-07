@@ -34,7 +34,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final StringField IDIOMAID = new StringField(_TABLE_MODEL, "idiomaID", "idiomaid");
 	 public static final IntegerField PRIORITATID = new IntegerField(_TABLE_MODEL, "prioritatID", "prioritatid");
 	 public static final LongField FLUXDEFIRMESID = new LongField(_TABLE_MODEL, "fluxDeFirmesID", "fluxdefirmesid");
-	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
+	 public static final StringField SOLICITANTUSUARIAPLICACIOID = new StringField(_TABLE_MODEL, "solicitantUsuariAplicacioID", "usuariaplicacioid");
 	 public static final StringField REMITENTNOM = new StringField(_TABLE_MODEL, "remitentNom", "remitentnom");
 	 public static final StringField REMITENTDESCRIPCIO = new StringField(_TABLE_MODEL, "remitentDescripcio", "remitentdescripcio");
 	 public static final StringField EXPEDIENTCODI = new StringField(_TABLE_MODEL, "expedientCodi", "expedientcodi");
@@ -46,7 +46,9 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final DoubleField INFORMACIOADDICIONALAVALUABLE = new DoubleField(_TABLE_MODEL, "informacioAddicionalAvaluable", "informacioaddicionalavaluable");
 	 public static final LongField LOGOSEGELLID = new LongField(_TABLE_MODEL, "logoSegellID", "logosegellid");
 	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
-	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
+	 public static final StringField SOLICITANTUSUARIENTITAT1ID = new StringField(_TABLE_MODEL, "solicitantUsuariEntitat1ID", "usuarientitatid");
+	 public static final StringField SOLICITANTUSUARIENTITAT2ID = new StringField(_TABLE_MODEL, "solicitantUsuariEntitat2ID", "solicitantpersona2id");
+	 public static final StringField SOLICITANTUSUARIENTITAT3ID = new StringField(_TABLE_MODEL, "solicitantUsuariEntitat3ID", "solicitantpersona3id");
 	 public static final BooleanField AVISWEB = new BooleanField(_TABLE_MODEL, "avisWeb", "avisweb");
 	 public static final BooleanField SEGELLATDETEMPS = new BooleanField(_TABLE_MODEL, "segellatDeTemps", "segellatdetemps");
 
@@ -74,7 +76,7 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     IDIOMAID,
     PRIORITATID,
     FLUXDEFIRMESID,
-    USUARIAPLICACIOID,
+    SOLICITANTUSUARIAPLICACIOID,
     REMITENTNOM,
     REMITENTDESCRIPCIO,
     EXPEDIENTCODI,
@@ -86,7 +88,9 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     INFORMACIOADDICIONALAVALUABLE,
     LOGOSEGELLID,
     CUSTODIAINFOID,
-    USUARIENTITATID,
+    SOLICITANTUSUARIENTITAT1ID,
+    SOLICITANTUSUARIENTITAT2ID,
+    SOLICITANTUSUARIENTITAT3ID,
     AVISWEB,
     SEGELLATDETEMPS
   };

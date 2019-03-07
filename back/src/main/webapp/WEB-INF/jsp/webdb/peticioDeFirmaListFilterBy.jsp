@@ -428,15 +428,15 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.USUARIAPLICACIOID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="peticioDeFirma.usuariAplicacioID" var="usuariAplicacioID" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariAplicacioID" >                
-                 <fmt:param value="${usuariAplicacioID}"/>
+              <fmt:message key="peticioDeFirma.solicitantUsuariAplicacioID" var="solicitantUsuariAplicacioID" />
+              <fmt:message key="genapp.form.searchby" var="cercapersolicitantUsuariAplicacioID" >                
+                 <fmt:param value="${solicitantUsuariAplicacioID}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${usuariAplicacioID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariAplicacioID}" path="usuariAplicacioID" />
+              <span class="add-on"><c:out value="${solicitantUsuariAplicacioID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapersolicitantUsuariAplicacioID}" path="solicitantUsuariAplicacioID" />
             </div>
 
 
@@ -581,15 +581,41 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.USUARIENTITATID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="peticioDeFirma.usuariEntitatID" var="usuariEntitatID" />
-              <fmt:message key="genapp.form.searchby" var="cercaperusuariEntitatID" >                
-                 <fmt:param value="${usuariEntitatID}"/>
+              <fmt:message key="peticioDeFirma.solicitantUsuariEntitat1ID" var="solicitantUsuariEntitat1ID" />
+              <fmt:message key="genapp.form.searchby" var="cercapersolicitantUsuariEntitat1ID" >                
+                 <fmt:param value="${solicitantUsuariEntitat1ID}"/>
               </fmt:message>
-              <span class="add-on"><c:out value="${usuariEntitatID}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperusuariEntitatID}" path="usuariEntitatID" />
+              <span class="add-on"><c:out value="${solicitantUsuariEntitat1ID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapersolicitantUsuariEntitat1ID}" path="solicitantUsuariEntitat1ID" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.solicitantUsuariEntitat2ID" var="solicitantUsuariEntitat2ID" />
+              <fmt:message key="genapp.form.searchby" var="cercapersolicitantUsuariEntitat2ID" >                
+                 <fmt:param value="${solicitantUsuariEntitat2ID}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${solicitantUsuariEntitat2ID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapersolicitantUsuariEntitat2ID}" path="solicitantUsuariEntitat2ID" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="peticioDeFirma.solicitantUsuariEntitat3ID" var="solicitantUsuariEntitat3ID" />
+              <fmt:message key="genapp.form.searchby" var="cercapersolicitantUsuariEntitat3ID" >                
+                 <fmt:param value="${solicitantUsuariEntitat3ID}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${solicitantUsuariEntitat3ID}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapersolicitantUsuariEntitat3ID}" path="solicitantUsuariEntitat3ID" />
             </div>
 
 

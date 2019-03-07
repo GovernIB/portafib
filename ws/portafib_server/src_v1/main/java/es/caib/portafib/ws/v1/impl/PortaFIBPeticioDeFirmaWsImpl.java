@@ -389,7 +389,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       
 
       String userapp = wsContext.getUserPrincipal().getName();
-      peticioDeFirmaJPA.setUsuariAplicacioID(userapp);
+      peticioDeFirmaJPA.setSolicitantUsuariAplicacioID(userapp);
 
       peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
 
@@ -548,7 +548,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     
     if (!wsContext.isUserInRole(PFI_ADMIN)) {
       String usrappPropietari = peticioDeFirmaLogicaEjb.executeQueryOne(
-          PeticioDeFirmaFields.USUARIAPLICACIOID,
+          PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID,
           PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
   
       String userapp = wsContext.getUserPrincipal().getName();

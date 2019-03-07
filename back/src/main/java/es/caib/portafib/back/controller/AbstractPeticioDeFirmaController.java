@@ -103,7 +103,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
    
    for (int i = 0; i < 10; i++) {
-     __tmp.add(new StringKeyValue(String.valueOf(i) , I18NUtils.tradueix("prioritat." + i)));
+     __tmp.add(new StringKeyValue(String.valueOf(i) , i + " " + I18NUtils.tradueix("prioritat." + i)));
    }
    
    return __tmp;

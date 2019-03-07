@@ -161,8 +161,8 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
       // Agrupacio
       peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
       peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
-      peticioDeFirmaFilterForm.addGroupByField(USUARIAPLICACIOID);
-      peticioDeFirmaFilterForm.addGroupByField(USUARIENTITATID);
+      peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
+      peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIENTITAT1ID);
       peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
 
       // Per defecte seleccionam les anteriors a un mes
@@ -364,17 +364,17 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
 
     Long key;
 
-    Map<String, String> mapWeb = filterForm.getMapOfUsuariEntitatForUsuariEntitatID();
-    Map<String, String> mapApp = filterForm.getMapOfUsuariAplicacioForUsuariAplicacioID();
+    Map<String, String> mapWeb = filterForm.getMapOfUsuariEntitatForSolicitantUsuariEntitat1ID();
+    Map<String, String> mapApp = filterForm.getMapOfUsuariAplicacioForSolicitantUsuariAplicacioID();
 
     for (PeticioDeFirma peticio : list) {
       key = peticio.getPeticioDeFirmaID();
 
-      if (peticio.getUsuariEntitatID() == null) {
-        mapSoli.put(key, "<small><b>APP:</b> " + mapApp.get(peticio.getUsuariAplicacioID())
+      if (peticio.getSolicitantUsuariEntitat1ID() == null) {
+        mapSoli.put(key, "<small><b>APP:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
             + "</small>");
       } else {
-        mapSoli.put(key, "<small><b>WEB:</b> " + mapWeb.get(peticio.getUsuariEntitatID())
+        mapSoli.put(key, "<small><b>WEB:</b> " + mapWeb.get(peticio.getSolicitantUsuariEntitat1ID())
             + "</small>");
       }
 

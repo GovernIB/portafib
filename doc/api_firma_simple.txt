@@ -4,8 +4,8 @@ COMMENTS
 <#-- Comentari -->
 
 
-API FIRMA SIMPLE EN SERVIDOR 
-============================
+API FIRMA SIMPLE EN SERVIDOR i WEB
+==================================
 
 Llista de paràmetres amb els que construir la Condició
 
@@ -47,11 +47,11 @@ EXEMPLE
 
 <#if usFirma==0 || usFirma==1 >
    <#if firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'application/pdf'>
-      1
+      1 <#-- PAdES -->
   <#elseif firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'text/xml'>
-      2
+      2 <#-- XAdES -->
    <#else>
-      3
+      3 <#-- CAdES -->
    </#if>
 <#else>
    <#if lang == 'es'>

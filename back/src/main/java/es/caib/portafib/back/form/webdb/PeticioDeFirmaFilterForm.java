@@ -351,14 +351,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.String usuariAplicacioID;
+  private java.lang.String solicitantUsuariAplicacioID;
 
-  public java.lang.String getUsuariAplicacioID() {
-    return this.usuariAplicacioID;
+  public java.lang.String getSolicitantUsuariAplicacioID() {
+    return this.solicitantUsuariAplicacioID;
   }
 
-  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
-    this.usuariAplicacioID = usuariAplicacioID;
+  public void setSolicitantUsuariAplicacioID(java.lang.String solicitantUsuariAplicacioID) {
+    this.solicitantUsuariAplicacioID = solicitantUsuariAplicacioID;
   }
 
 
@@ -494,14 +494,36 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
   }
 
 
-  private java.lang.String usuariEntitatID;
+  private java.lang.String solicitantUsuariEntitat1ID;
 
-  public java.lang.String getUsuariEntitatID() {
-    return this.usuariEntitatID;
+  public java.lang.String getSolicitantUsuariEntitat1ID() {
+    return this.solicitantUsuariEntitat1ID;
   }
 
-  public void setUsuariEntitatID(java.lang.String usuariEntitatID) {
-    this.usuariEntitatID = usuariEntitatID;
+  public void setSolicitantUsuariEntitat1ID(java.lang.String solicitantUsuariEntitat1ID) {
+    this.solicitantUsuariEntitat1ID = solicitantUsuariEntitat1ID;
+  }
+
+
+  private java.lang.String solicitantUsuariEntitat2ID;
+
+  public java.lang.String getSolicitantUsuariEntitat2ID() {
+    return this.solicitantUsuariEntitat2ID;
+  }
+
+  public void setSolicitantUsuariEntitat2ID(java.lang.String solicitantUsuariEntitat2ID) {
+    this.solicitantUsuariEntitat2ID = solicitantUsuariEntitat2ID;
+  }
+
+
+  private java.lang.String solicitantUsuariEntitat3ID;
+
+  public java.lang.String getSolicitantUsuariEntitat3ID() {
+    return this.solicitantUsuariEntitat3ID;
+  }
+
+  public void setSolicitantUsuariEntitat3ID(java.lang.String solicitantUsuariEntitat3ID) {
+    this.solicitantUsuariEntitat3ID = solicitantUsuariEntitat3ID;
   }
 
 
@@ -540,7 +562,7 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.prioritatIDFins = __toClone.prioritatIDFins;
     this.fluxDeFirmesIDDesde = __toClone.fluxDeFirmesIDDesde;
     this.fluxDeFirmesIDFins = __toClone.fluxDeFirmesIDFins;
-    this.usuariAplicacioID = __toClone.usuariAplicacioID;
+    this.solicitantUsuariAplicacioID = __toClone.solicitantUsuariAplicacioID;
     this.remitentNom = __toClone.remitentNom;
     this.remitentDescripcio = __toClone.remitentDescripcio;
     this.expedientCodi = __toClone.expedientCodi;
@@ -553,7 +575,9 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.informacioAddicionalAvaluableFins = __toClone.informacioAddicionalAvaluableFins;
     this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
     this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
-    this.usuariEntitatID = __toClone.usuariEntitatID;
+    this.solicitantUsuariEntitat1ID = __toClone.solicitantUsuariEntitat1ID;
+    this.solicitantUsuariEntitat2ID = __toClone.solicitantUsuariEntitat2ID;
+    this.solicitantUsuariEntitat3ID = __toClone.solicitantUsuariEntitat3ID;
     this.mapOfTipusDocumentForTipusDocumentID = __toClone.mapOfTipusDocumentForTipusDocumentID;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
@@ -563,21 +587,23 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
     this.mapOfIdiomaForIdiomaID = __toClone.mapOfIdiomaForIdiomaID;
     this.mapOfValuesForPrioritatID = __toClone.mapOfValuesForPrioritatID;
     this.mapOfFluxDeFirmesForFluxDeFirmesID = __toClone.mapOfFluxDeFirmesForFluxDeFirmesID;
-    this.mapOfUsuariAplicacioForUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForUsuariAplicacioID;
+    this.mapOfUsuariAplicacioForSolicitantUsuariAplicacioID = __toClone.mapOfUsuariAplicacioForSolicitantUsuariAplicacioID;
     this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
-    this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat1ID = __toClone.mapOfUsuariEntitatForSolicitantUsuariEntitat1ID;
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat2ID = __toClone.mapOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat3ID = __toClone.mapOfUsuariEntitatForSolicitantUsuariEntitat3ID;
   }
   
   /* ========= UTILS ========== */
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TITOL ,DESCRIPCIO ,MOTIU ,DATASOLICITUD ,DATAFINAL ,DATACADUCITAT ,USUARIAPLICACIOID ,EXPEDIENTCODI ,EXPEDIENTNOM ,PROCEDIMENTCODI ,PROCEDIMENTNOM ,INFORMACIOADDICIONAL ,INFORMACIOADDICIONALAVALUABLE }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TITOL ,DESCRIPCIO ,MOTIU ,DATASOLICITUD ,DATAFINAL ,DATACADUCITAT ,SOLICITANTUSUARIAPLICACIOID ,EXPEDIENTCODI ,EXPEDIENTNOM ,PROCEDIMENTCODI ,PROCEDIMENTNOM ,INFORMACIOADDICIONAL ,INFORMACIOADDICIONALAVALUABLE }));
   }
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,ALGORISMEDEFIRMAID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,USUARIAPLICACIOID ,EXPEDIENTCODI ,PROCEDIMENTCODI ,INFORMACIOADDICIONALAVALUABLE ,AVISWEB }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { TIPUSDOCUMENTID ,ALGORISMEDEFIRMAID ,TIPUSESTATPETICIODEFIRMAID ,IDIOMAID ,PRIORITATID ,SOLICITANTUSUARIAPLICACIOID ,EXPEDIENTCODI ,PROCEDIMENTCODI ,INFORMACIOADDICIONALAVALUABLE ,AVISWEB }));
   }
 
 
@@ -708,14 +734,14 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
 
 
-  private Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID;
+  private Map<String, String> mapOfUsuariAplicacioForSolicitantUsuariAplicacioID;
 
-  public Map<String, String> getMapOfUsuariAplicacioForUsuariAplicacioID() {
-    return this.mapOfUsuariAplicacioForUsuariAplicacioID;
+  public Map<String, String> getMapOfUsuariAplicacioForSolicitantUsuariAplicacioID() {
+    return this.mapOfUsuariAplicacioForSolicitantUsuariAplicacioID;
   }
 
-  public void setMapOfUsuariAplicacioForUsuariAplicacioID(Map<String, String> mapOfUsuariAplicacioForUsuariAplicacioID) {
-    this.mapOfUsuariAplicacioForUsuariAplicacioID = mapOfUsuariAplicacioForUsuariAplicacioID;
+  public void setMapOfUsuariAplicacioForSolicitantUsuariAplicacioID(Map<String, String> mapOfUsuariAplicacioForSolicitantUsuariAplicacioID) {
+    this.mapOfUsuariAplicacioForSolicitantUsuariAplicacioID = mapOfUsuariAplicacioForSolicitantUsuariAplicacioID;
   }
 
 
@@ -732,14 +758,38 @@ public class PeticioDeFirmaFilterForm extends PortaFIBBaseFilterForm implements 
 
 
 
-  private Map<String, String> mapOfUsuariEntitatForUsuariEntitatID;
+  private Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat1ID;
 
-  public Map<String, String> getMapOfUsuariEntitatForUsuariEntitatID() {
-    return this.mapOfUsuariEntitatForUsuariEntitatID;
+  public Map<String, String> getMapOfUsuariEntitatForSolicitantUsuariEntitat1ID() {
+    return this.mapOfUsuariEntitatForSolicitantUsuariEntitat1ID;
   }
 
-  public void setMapOfUsuariEntitatForUsuariEntitatID(Map<String, String> mapOfUsuariEntitatForUsuariEntitatID) {
-    this.mapOfUsuariEntitatForUsuariEntitatID = mapOfUsuariEntitatForUsuariEntitatID;
+  public void setMapOfUsuariEntitatForSolicitantUsuariEntitat1ID(Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat1ID) {
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat1ID = mapOfUsuariEntitatForSolicitantUsuariEntitat1ID;
+  }
+
+
+
+  private Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+
+  public Map<String, String> getMapOfUsuariEntitatForSolicitantUsuariEntitat2ID() {
+    return this.mapOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+  }
+
+  public void setMapOfUsuariEntitatForSolicitantUsuariEntitat2ID(Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat2ID) {
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat2ID = mapOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+  }
+
+
+
+  private Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+
+  public Map<String, String> getMapOfUsuariEntitatForSolicitantUsuariEntitat3ID() {
+    return this.mapOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+  }
+
+  public void setMapOfUsuariEntitatForSolicitantUsuariEntitat3ID(Map<String, String> mapOfUsuariEntitatForSolicitantUsuariEntitat3ID) {
+    this.mapOfUsuariEntitatForSolicitantUsuariEntitat3ID = mapOfUsuariEntitatForSolicitantUsuariEntitat3ID;
   }
 
 

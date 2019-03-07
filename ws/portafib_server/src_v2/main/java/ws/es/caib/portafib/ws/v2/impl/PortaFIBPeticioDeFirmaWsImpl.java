@@ -512,7 +512,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       
 
       String userapp = wsContext.getUserPrincipal().getName();
-      peticioDeFirmaJPA.setUsuariAplicacioID(userapp);
+      peticioDeFirmaJPA.setSolicitantUsuariAplicacioID(userapp);
 
       peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);
 
@@ -685,8 +685,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
     Where where;
     if (usuariEntitatID == null) {
       String userapp = wsContext.getUserPrincipal().getName();
-      where = Where.AND(PeticioDeFirmaFields.USUARIAPLICACIOID.equal(userapp),
-          PeticioDeFirmaFields.USUARIENTITATID.isNull());
+      where = Where.AND(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(userapp),
+          PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.isNull());
 
     } else {
 
@@ -698,8 +698,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
       }
 
-      where = Where.AND(PeticioDeFirmaFields.USUARIAPLICACIOID.isNull(),
-          PeticioDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID));
+      where = Where.AND(PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.isNull(),
+          PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(usuariEntitatID));
 
     }
 
@@ -793,7 +793,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
     
     if (!wsContext.isUserInRole(PFI_ADMIN)) {
       String usrappPropietari = peticioDeFirmaLogicaEjb.executeQueryOne(
-          PeticioDeFirmaFields.USUARIAPLICACIOID,
+          PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID,
           PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
   
       String userapp = wsContext.getUserPrincipal().getName();

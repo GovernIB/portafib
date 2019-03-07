@@ -861,7 +861,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
     
     
     // Eliminar les peticions d'usuari-entitat via web
-    Where excludeWebRequests = PeticioDeFirmaFields.USUARIENTITATID.isNull();
+    Where excludeWebRequests = PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.isNull();
     
     filtre = Where.AND(filtre, whereDoc, excludeWebRequests);
     return filtre;
@@ -1714,7 +1714,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       PeticioDeFirmaJPA peticioDeFirma = new PeticioDeFirmaJPA();
       peticioDeFirma.setIdiomaID(usuariAplicacio.getIdiomaID());
       peticioDeFirma.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_DARRERAPAGINA);
-      peticioDeFirma.setUsuariAplicacioID(usuariAplicacio.getUsuariAplicacioID());
+      peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setUsuariAplicacio(usuariAplicacio);
       peticioDeFirma.setLogoSegellID(null);
       

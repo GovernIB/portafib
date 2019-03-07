@@ -78,8 +78,8 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.FLUXDEFIRMESID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.FLUXDEFIRMESID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.USUARIAPLICACIOID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.USUARIAPLICACIOID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.REMITENTNOM)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.REMITENTNOM)}</th>
@@ -114,8 +114,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.CUSTODIAINFOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.CUSTODIAINFOID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.USUARIENTITATID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.USUARIENTITATID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.AVISWEB)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.AVISWEB)}</th>

@@ -134,7 +134,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		if (ConstantsV2.ROLE_SOLI.equals(roleID)) {
 		  // No es pot borrar el role SOLI si l'usuari té solicituds de firma associades
 		  Long count = peticioDeFirmaEjb.count(
-		      es.caib.portafib.model.fields.PeticioDeFirmaFields.USUARIENTITATID.equal(instance.getUsuariEntitatID()));
+		      es.caib.portafib.model.fields.PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(instance.getUsuariEntitatID()));
 		  if (count != 0) {
 		    throw new I18NException("roleusuarientitat.solicitant.error.tepeticionsdefirma");
 		  }

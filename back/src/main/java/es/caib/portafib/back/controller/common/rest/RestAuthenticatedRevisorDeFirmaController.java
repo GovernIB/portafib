@@ -131,7 +131,7 @@ public class RestAuthenticatedRevisorDeFirmaController extends RestUtils {
 
       final UsuariAplicacioJPA usuariAplicacio = usuariAplicacioCache.get();
 
-      if (!peticio.getUsuariAplicacioID().equals(usuariAplicacio.getUsuariAplicacioID())) {
+      if (!peticio.getSolicitantUsuariAplicacioID().equals(usuariAplicacio.getUsuariAplicacioID())) {
         // XYZ ZZZ
         return generateServerError("No es pot afegir un revisor de firmes"
             + " a una Petició que no ha estat generada pel mateix usuari "

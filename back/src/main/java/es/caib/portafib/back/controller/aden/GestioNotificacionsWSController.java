@@ -386,7 +386,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
         UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()));
 
     // Peticions dels usuarisapp
-    Where w1 = PeticioDeFirmaFields.USUARIAPLICACIOID.in(subQueryUserApp);
+    Where w1 = PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.in(subQueryUserApp);
     Where w2 = null; // PeticioDeFirmaFields.PETICIODEFIRMAID.notIn(
     // peticioDeFirmaUsuariEntitatEjb.getSubQuery(PeticioDeFirmaUsuariEntitatFields.PETICIODEFIRMAID,null));
 

@@ -332,16 +332,42 @@ private static final long serialVersionUID = 2031334771L;
 	}
 
 
-// EXP  Field:usuarientitatid | Table: pfi_peticiodefirma | Type: 0  
+// EXP  Field:solicitantpersona2id | Table: pfi_peticiodefirma | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
-	private Set<PeticioDeFirmaJPA> peticioDeFirmas = new HashSet<PeticioDeFirmaJPA>(0);
-	public  Set<PeticioDeFirmaJPA> getPeticioDeFirmas() {
-    return this.peticioDeFirmas;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "solicitantUsuariEntitat2ID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_solicitantpersona2ids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_solicitantpersona2ids() {
+    return this.peticioDeFirma_solicitantpersona2ids;
   }
 
-	public void setPeticioDeFirmas(Set<PeticioDeFirmaJPA> peticioDeFirmas) {
-	  this.peticioDeFirmas = peticioDeFirmas;
+	public void setPeticioDeFirma_solicitantpersona2ids(Set<PeticioDeFirmaJPA> peticioDeFirma_solicitantpersona2ids) {
+	  this.peticioDeFirma_solicitantpersona2ids = peticioDeFirma_solicitantpersona2ids;
+	}
+
+
+// EXP  Field:solicitantpersona3id | Table: pfi_peticiodefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "solicitantUsuariEntitat3ID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_solicitantpersona3ids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_solicitantpersona3ids() {
+    return this.peticioDeFirma_solicitantpersona3ids;
+  }
+
+	public void setPeticioDeFirma_solicitantpersona3ids(Set<PeticioDeFirmaJPA> peticioDeFirma_solicitantpersona3ids) {
+	  this.peticioDeFirma_solicitantpersona3ids = peticioDeFirma_solicitantpersona3ids;
+	}
+
+
+// EXP  Field:usuarientitatid | Table: pfi_peticiodefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "solicitantUsuariEntitat1ID")
+	private Set<PeticioDeFirmaJPA> peticioDeFirma_usuarientitatids = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirma_usuarientitatids() {
+    return this.peticioDeFirma_usuarientitatids;
+  }
+
+	public void setPeticioDeFirma_usuarientitatids(Set<PeticioDeFirmaJPA> peticioDeFirma_usuarientitatids) {
+	  this.peticioDeFirma_usuarientitatids = peticioDeFirma_usuarientitatids;
 	}
 
 
@@ -410,19 +436,6 @@ private static final long serialVersionUID = 2031334771L;
 	}
 
 
-// EXP  Field:favoritid | Table: pfi_usuarientitatfavorit | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "favoritID")
-	private Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_favoritids = new HashSet<UsuariEntitatFavoritJPA>(0);
-	public  Set<UsuariEntitatFavoritJPA> getUsuariEntitatFavorit_favoritids() {
-    return this.usuariEntitatFavorit_favoritids;
-  }
-
-	public void setUsuariEntitatFavorit_favoritids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_favoritids) {
-	  this.usuariEntitatFavorit_favoritids = usuariEntitatFavorit_favoritids;
-	}
-
-
 // EXP  Field:origenid | Table: pfi_usuarientitatfavorit | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "origenID")
@@ -433,6 +446,19 @@ private static final long serialVersionUID = 2031334771L;
 
 	public void setUsuariEntitatFavorit_origenids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_origenids) {
 	  this.usuariEntitatFavorit_origenids = usuariEntitatFavorit_origenids;
+	}
+
+
+// EXP  Field:favoritid | Table: pfi_usuarientitatfavorit | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "favoritID")
+	private Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_favoritids = new HashSet<UsuariEntitatFavoritJPA>(0);
+	public  Set<UsuariEntitatFavoritJPA> getUsuariEntitatFavorit_favoritids() {
+    return this.usuariEntitatFavorit_favoritids;
+  }
+
+	public void setUsuariEntitatFavorit_favoritids(Set<UsuariEntitatFavoritJPA> usuariEntitatFavorit_favoritids) {
+	  this.usuariEntitatFavorit_favoritids = usuariEntitatFavorit_favoritids;
 	}
 
 
@@ -542,8 +568,8 @@ private static final long serialVersionUID = 2031334771L;
       __tmp.setColaboracioDelegacio_colaboradordelegatids(ColaboracioDelegacioJPA.copyJPA(__jpa.getColaboracioDelegacio_colaboradordelegatids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"PeticioDeFirmaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
-      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_usuarientitatids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_usuarientitatids())) ) {
+      __tmp.setPeticioDeFirma_usuarientitatids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_usuarientitatids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"RoleUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.roleUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getRoleUsuariEntitats())) ) {
@@ -552,6 +578,10 @@ private static final long serialVersionUID = 2031334771L;
     if(!"EstatDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.estatDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getEstatDeFirmas())) ) {
       __tmp.setEstatDeFirmas(EstatDeFirmaJPA.copyJPA(__jpa.getEstatDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_solicitantpersona2ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_solicitantpersona2ids())) ) {
+      __tmp.setPeticioDeFirma_solicitantpersona2ids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_solicitantpersona2ids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"UsuariEntitatFavoritJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitatFavorit_favoritids) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitatFavorit_favoritids())) ) {
@@ -588,6 +618,10 @@ private static final long serialVersionUID = 2031334771L;
     if(!"CustodiaInfoJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.custodiaInfos) || org.hibernate.Hibernate.isInitialized(__jpa.getCustodiaInfos())) ) {
       __tmp.setCustodiaInfos(CustodiaInfoJPA.copyJPA(__jpa.getCustodiaInfos(), __alreadyCopied,"UsuariEntitatJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirma_solicitantpersona3ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirma_solicitantpersona3ids())) ) {
+      __tmp.setPeticioDeFirma_solicitantpersona3ids(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirma_solicitantpersona3ids(), __alreadyCopied,"UsuariEntitatJPA"));
     }
     if(!"PluginFirmaWebPerUsuariEntitatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.pluginFirmaWebPerUsuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getPluginFirmaWebPerUsuariEntitats())) ) {

@@ -492,7 +492,7 @@ public class TestJPA {
 
       Set<String> usuarisAppIDs = new HashSet<String>();
       for (PeticioDeFirma peticioDeFirma : peticions) {
-        usuarisAppIDs.add(peticioDeFirma.getUsuariAplicacioID());
+        usuarisAppIDs.add(peticioDeFirma.getSolicitantUsuariAplicacioID());
       }
 
       //SelectMultipleStringKeyValue skv = new SelectMultipleStringKeyValue(

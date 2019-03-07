@@ -125,7 +125,7 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
         peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
         peticioDeFirmaFilterForm.addGroupByField(DATACADUCITAT);
         peticioDeFirmaFilterForm.addGroupByField(PRIORITATID);
-        peticioDeFirmaFilterForm.addGroupByField(USUARIAPLICACIOID);
+        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
         
         
         // Afegim un boto

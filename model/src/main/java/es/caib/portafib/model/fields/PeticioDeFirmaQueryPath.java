@@ -99,8 +99,8 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new LongField(getQueryPath(), PeticioDeFirmaFields.FLUXDEFIRMESID);
   }
 
-  public StringField USUARIAPLICACIOID() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.USUARIAPLICACIOID);
+  public StringField SOLICITANTUSUARIAPLICACIOID() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID);
   }
 
   public StringField REMITENTNOM() {
@@ -147,8 +147,16 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new LongField(getQueryPath(), PeticioDeFirmaFields.CUSTODIAINFOID);
   }
 
-  public StringField USUARIENTITATID() {
-    return new StringField(getQueryPath(), PeticioDeFirmaFields.USUARIENTITATID);
+  public StringField SOLICITANTUSUARIENTITAT1ID() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID);
+  }
+
+  public StringField SOLICITANTUSUARIENTITAT2ID() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID);
+  }
+
+  public StringField SOLICITANTUSUARIENTITAT3ID() {
+    return new StringField(getQueryPath(), PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID);
   }
 
   public BooleanField AVISWEB() {
@@ -282,10 +290,26 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     });
   }
 
-  public UsuariEntitatQueryPath USUARIENTITAT() {
+  public UsuariEntitatQueryPath SOLICITANTUSUARIENTITAT1() {
     return new UsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return PeticioDeFirmaQueryPath.this.getQueryPath() + "usuariEntitat" + ".";
+          return PeticioDeFirmaQueryPath.this.getQueryPath() + "solicitantUsuariEntitat1" + ".";
+      }
+    });
+  }
+
+  public UsuariEntitatQueryPath SOLICITANTUSUARIENTITAT2() {
+    return new UsuariEntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PeticioDeFirmaQueryPath.this.getQueryPath() + "solicitantUsuariEntitat2" + ".";
+      }
+    });
+  }
+
+  public UsuariEntitatQueryPath SOLICITANTUSUARIENTITAT3() {
+    return new UsuariEntitatQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PeticioDeFirmaQueryPath.this.getQueryPath() + "solicitantUsuariEntitat3" + ".";
       }
     });
   }

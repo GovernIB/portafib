@@ -609,25 +609,25 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.USUARIAPLICACIOID)}">
-        <tr id="peticioDeFirma_usuariAplicacioID_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}">
+        <tr id="peticioDeFirma_solicitantUsuariAplicacioID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.USUARIAPLICACIOID])?'peticioDeFirma.usuariAplicacioID':__theForm.labels[PeticioDeFirmaFields.USUARIAPLICACIOID]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.USUARIAPLICACIOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.USUARIAPLICACIOID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID])?'peticioDeFirma.solicitantUsuariAplicacioID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="peticioDeFirma.usuariAplicacioID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.USUARIAPLICACIOID)}" >
-          <form:hidden path="peticioDeFirma.usuariAplicacioID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.usuariAplicacioID,__theForm.listOfUsuariAplicacioForUsuariAplicacioID)}"  />
+          <form:errors path="peticioDeFirma.solicitantUsuariAplicacioID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}" >
+          <form:hidden path="peticioDeFirma.solicitantUsuariAplicacioID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.solicitantUsuariAplicacioID,__theForm.listOfUsuariAplicacioForSolicitantUsuariAplicacioID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.USUARIAPLICACIOID)}" >
-          <form:select id="peticioDeFirma_usuariAplicacioID"  onchange="if(typeof onChangeUsuariAplicacioID == 'function') {  onChangeUsuariAplicacioID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.usuariAplicacioID">
-            <c:forEach items="${__theForm.listOfUsuariAplicacioForUsuariAplicacioID}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID)}" >
+          <form:select id="peticioDeFirma_solicitantUsuariAplicacioID"  onchange="if(typeof onChangeSolicitantUsuariAplicacioID == 'function') {  onChangeSolicitantUsuariAplicacioID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.solicitantUsuariAplicacioID">
+            <c:forEach items="${__theForm.listOfUsuariAplicacioForSolicitantUsuariAplicacioID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>
@@ -879,27 +879,85 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.USUARIENTITATID)}">
-        <tr id="peticioDeFirma_usuariEntitatID_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}">
+        <tr id="peticioDeFirma_solicitantUsuariEntitat1ID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.USUARIENTITATID])?'peticioDeFirma.usuariEntitatID':__theForm.labels[PeticioDeFirmaFields.USUARIENTITATID]}" />
-              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.USUARIENTITATID]}">
-              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.USUARIENTITATID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID])?'peticioDeFirma.solicitantUsuariEntitat1ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="peticioDeFirma.usuariEntitatID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.USUARIENTITATID)}" >
-          <form:hidden path="peticioDeFirma.usuariEntitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
+          <form:errors path="peticioDeFirma.solicitantUsuariEntitat1ID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}" >
+          <form:hidden path="peticioDeFirma.solicitantUsuariEntitat1ID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.solicitantUsuariEntitat1ID,__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat1ID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.USUARIENTITATID)}" >
-          <form:select id="peticioDeFirma_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.usuariEntitatID">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID)}" >
+          <form:select id="peticioDeFirma_solicitantUsuariEntitat1ID"  onchange="if(typeof onChangeSolicitantUsuariEntitat1ID == 'function') {  onChangeSolicitantUsuariEntitat1ID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.solicitantUsuariEntitat1ID">
           <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
           <form:option value="" ></form:option>
-            <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
+            <c:forEach items="${__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat1ID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}">
+        <tr id="peticioDeFirma_solicitantUsuariEntitat2ID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID])?'peticioDeFirma.solicitantUsuariEntitat2ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.solicitantUsuariEntitat2ID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}" >
+          <form:hidden path="peticioDeFirma.solicitantUsuariEntitat2ID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.solicitantUsuariEntitat2ID,__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat2ID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT2ID)}" >
+          <form:select id="peticioDeFirma_solicitantUsuariEntitat2ID"  onchange="if(typeof onChangeSolicitantUsuariEntitat2ID == 'function') {  onChangeSolicitantUsuariEntitat2ID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.solicitantUsuariEntitat2ID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat2ID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}">
+        <tr id="peticioDeFirma_solicitantUsuariEntitat3ID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID])?'peticioDeFirma.solicitantUsuariEntitat3ID':__theForm.labels[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.solicitantUsuariEntitat3ID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}" >
+          <form:hidden path="peticioDeFirma.solicitantUsuariEntitat3ID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.solicitantUsuariEntitat3ID,__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat3ID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT3ID)}" >
+          <form:select id="peticioDeFirma_solicitantUsuariEntitat3ID"  onchange="if(typeof onChangeSolicitantUsuariEntitat3ID == 'function') {  onChangeSolicitantUsuariEntitat3ID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.solicitantUsuariEntitat3ID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfUsuariEntitatForSolicitantUsuariEntitat3ID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

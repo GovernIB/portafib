@@ -318,10 +318,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String entitatID;
     String usuariAplicacioID;
     String usuariEntitatID;
-    if (peticioDeFirma.getUsuariEntitatID() == null) {
+    if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
       // Peticio de usuari Aplicacio
       usuariEntitatID = null;
-      usuariAplicacioID = peticioDeFirma.getUsuariAplicacioID();
+      usuariAplicacioID = peticioDeFirma.getSolicitantUsuariAplicacioID();
       if (peticioDeFirma.getRemitentNom() == null) {
         peticioDeFirma.setRemitentNom(usuariAplicacioID);
       }
@@ -339,7 +339,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Peticio de usuari web
       
       usuariAplicacioID = null;
-      usuariEntitatID = peticioDeFirma.getUsuariEntitatID();
+      usuariEntitatID = peticioDeFirma.getSolicitantUsuariEntitat1ID();
       
       UsuariEntitatJPA usuariEntitat;
       usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
@@ -496,22 +496,22 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       return;
     }
     
-    if (peticioDeFirma.getUsuariEntitatID() != null) {
-      Hibernate.initialize(peticioDeFirma.getUsuariEntitat());
-      Hibernate.initialize(peticioDeFirma.getUsuariEntitat().getUsuariPersona());
+    if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
+      Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+      Hibernate.initialize(peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona());
     }
 
-    if (peticioDeFirma.getUsuariAplicacioID() != null) {
+    if (peticioDeFirma.getSolicitantUsuariAplicacioID() != null) {
       Hibernate.initialize(peticioDeFirma.getUsuariAplicacio());
       
       if (peticioDeFirma.getUsuariAplicacio() == null) {
         
         peticioDeFirma.setUsuariAplicacio(
-            usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getUsuariAplicacioID()));
+            usuariAplicacioEjb.findByPrimaryKey(peticioDeFirma.getSolicitantUsuariAplicacioID()));
 
         if (peticioDeFirma.getUsuariAplicacio() == null) {
           log.error("No s'ha pogut inicialitzar l'usuari Aplicacio "
-            + peticioDeFirma.getUsuariAplicacioID(), new Exception());
+            + peticioDeFirma.getSolicitantUsuariAplicacioID(), new Exception());
         }
       }
       
@@ -657,10 +657,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           Estadistica est = new EstadisticaJPA();
 
           est.setValor(1.0);
-          est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+          est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI);
-          est.setUsuariEntitatID(peticioDeFirma.getUsuariEntitatID());
-          String usrent = peticioDeFirma.getUsuariEntitatID();
+          est.setUsuariEntitatID(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+          String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
           {
             Properties params = new Properties();
             params.setProperty("entitatID", entitatID);
@@ -768,10 +768,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     
     // DADES GENERALS
     String entitatID;
-    if (peticioDeFirma.getUsuariEntitat() != null) {
+    if (peticioDeFirma.getSolicitantUsuariEntitat1() != null) {
       // usuari entitat
       log.debug(" Idioma Usuari Entitat: ");
-      entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
+      entitatID = peticioDeFirma.getSolicitantUsuariEntitat1().getEntitatID();
     } else {
       // usuari aplicacio
       log.debug(" Idioma Usuari Aplicació: ");
@@ -789,10 +789,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String idioma = peticioDeFirma.getIdiomaID();
 
     if (idioma == null) {
-      if (peticioDeFirma.getUsuariEntitatID() != null) {
+      if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
         // usuari entitat
         log.debug(" Idioma Usuari Entitat: ");
-        idioma = peticioDeFirma.getUsuariEntitat().getUsuariPersona().getIdiomaID();
+        idioma = peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona().getIdiomaID();
       } else {
         // usuari aplicacio
         log.debug(" Idioma Usuari Aplicació: ");
@@ -934,10 +934,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Cercar en usuari entitat o usuari peticio
       String entitatID;
-      if (peticioDeFirma.getUsuariEntitat() != null) {
+      if (peticioDeFirma.getSolicitantUsuariEntitat1() != null) {
         // usuari-entitat
         UsuariEntitat ue;
-        ue = peticioDeFirma.getUsuariEntitat();
+        ue = peticioDeFirma.getSolicitantUsuariEntitat1();
         if (ue.getLogoSegellID() != null) {
           return FileSystemManager.getFile(ue.getLogoSegellID());
         } else {
@@ -1678,12 +1678,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Si és PFI_ADMIN se li permet 
       if (!context.isCallerInRole(PFI_ADMIN)) {
         if (isUsuariEntitat) {
-          if (!username.equals(pf.getUsuariEntitatID())) {
+          if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
             // L'usuari {0} no té permisos per borrar la petició de firma titulada {1}
             throw new I18NException("peticiodefirma.error.nopermisdeborrar", username, pf.getTitol());
           }
         } else {
-          if (!username.equals(pf.getUsuariAplicacioID())) {
+          if (!username.equals(pf.getSolicitantUsuariAplicacioID())) {
             throw new I18NException("peticiodefirma.error.nopermisdeborrar", username, pf.getTitol());
           }
         }
@@ -1949,9 +1949,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Checks
       final String languageUI;
       final String entitatID;
-      if (peticioDeFirma.getUsuariEntitat() != null) {
-        entitatID = peticioDeFirma.getUsuariEntitat().getEntitatID();
-        languageUI = peticioDeFirma.getUsuariEntitat().getUsuariPersona().getIdiomaID();
+      if (peticioDeFirma.getSolicitantUsuariEntitat1() != null) {
+        entitatID = peticioDeFirma.getSolicitantUsuariEntitat1().getEntitatID();
+        languageUI = peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona().getIdiomaID();
       } else {
         entitatID = peticioDeFirma.getUsuariAplicacio().getEntitatID();
         languageUI = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
@@ -2242,7 +2242,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           Estadistica est = new EstadisticaJPA();
 
           est.setValor(1.0);
-          est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+          est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
           est.setUsuariEntitatID(null);
           {
@@ -2251,7 +2251,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
             params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
             params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-            String usrent = peticioDeFirma.getUsuariEntitatID();
+            String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
             if (usrent != null) {
               params.setProperty("usuariEntitatID", usrent);
             }
@@ -2539,7 +2539,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Estadistica est = new EstadisticaJPA();
 
       est.setValor(1.0);
-      est.setUsuariAplicacioID(peticioDeFirma.getUsuariAplicacioID());
+      est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
       est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA);
       est.setUsuariEntitatID(usuariEntitatIDQueRebutja);
       {
@@ -2548,7 +2548,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         params.setProperty("peticioDeFirmaID", String.valueOf(peticioDeFirma.getPeticioDeFirmaID()));
         params.setProperty("tipusFirmaID", String.valueOf(peticioDeFirma.getTipusFirmaID()));
         params.setProperty("tipusDocumentID", String.valueOf(peticioDeFirma.getTipusDocumentID()));
-        String usrent = peticioDeFirma.getUsuariEntitatID();
+        String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
         if (usrent != null) {
           params.setProperty("usuariEntitatID", usrent);
         }
@@ -2689,7 +2689,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioDeFirma
           .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
-      if (peticioDeFirma.getUsuariEntitatID() != null) {
+      if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
         peticioDeFirma.setAvisWeb(true);
       }
       this.update(peticioDeFirma);
@@ -2976,12 +2976,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   protected CustodiaInfo getDefaultCustodyInfoByEntity(PeticioDeFirmaJPA peticio) throws I18NException {
 
     String entitatID;
-    if (peticio.getUsuariEntitatID() == null) {
+    if (peticio.getSolicitantUsuariEntitat1ID() == null) {
       entitatID = usuariAplicacioEjb.executeQueryOne(UsuariAplicacioFields.ENTITATID,
-          UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticio.getUsuariAplicacioID()));
+          UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticio.getSolicitantUsuariAplicacioID()));
     } else {
       entitatID = usuariEntitatEjb.executeQueryOne(UsuariEntitatFields.ENTITATID,
-          UsuariEntitatFields.USUARIENTITATID.equal(peticio.getUsuariEntitatID()));
+          UsuariEntitatFields.USUARIENTITATID.equal(peticio.getSolicitantUsuariEntitat1ID()));
     }
 
     CustodiaInfo custodiaInfo_Entitat_Default = getDefaultCustodyInfoByEntity(entitatID);
@@ -3320,10 +3320,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     clonedCust.setEntitatID(null);
     clonedCust.setTitolPeticio(peticio.getTitol());
     
-    if (peticio.getUsuariEntitatID() != null) {
-      clonedCust.setUsuariEntitatID(peticio.getUsuariEntitatID());
+    if (peticio.getSolicitantUsuariEntitat1ID() != null) {
+      clonedCust.setUsuariEntitatID(peticio.getSolicitantUsuariEntitat1ID());
     } else {
-      clonedCust.setUsuariAplicacioID(peticio.getUsuariAplicacioID());
+      clonedCust.setUsuariAplicacioID(peticio.getSolicitantUsuariAplicacioID());
     }
     
     if (create) {
@@ -3387,18 +3387,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     cibv.throwValidationExceptionIfErrors(custodiaInfo, true)
     */
 
-    String usuariEntitatID = peticio.getUsuariEntitatID();
+    String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
     String entitatID;
     if (usuariEntitatID == null) {
       entitatID = peticio.getUsuariAplicacio().getEntitatID();      
     } else {
-      entitatID = peticio.getUsuariEntitat().getEntitatID();
+      entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID();
     }
     
     
     CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
         constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
-         peticio.getUsuariAplicacioID(), peticio.getIdiomaID()));
+         peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
     
 
     custodiaInfo = (CustodiaInfoJPA)custodiaInfoEjb.create(custodiaInfo);
@@ -3559,7 +3559,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       Set<String> usuarisAppIDs = new HashSet<String>();
       for (PeticioDeFirma peticioDeFirma : peticions) {
-        usuarisAppIDs.add(peticioDeFirma.getUsuariAplicacioID());
+        usuarisAppIDs.add(peticioDeFirma.getSolicitantUsuariAplicacioID());
       }
 
       final long now = System.currentTimeMillis();

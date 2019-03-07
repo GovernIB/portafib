@@ -68,8 +68,8 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public long getFluxDeFirmesID();
 	public void setFluxDeFirmesID(long _fluxDeFirmesID_);
 
-	public java.lang.String getUsuariAplicacioID();
-	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
+	public java.lang.String getSolicitantUsuariAplicacioID();
+	public void setSolicitantUsuariAplicacioID(java.lang.String _solicitantUsuariAplicacioID_);
 
 	public java.lang.String getRemitentNom();
 	public void setRemitentNom(java.lang.String _remitentNom_);
@@ -104,8 +104,14 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public java.lang.Long getCustodiaInfoID();
 	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
-	public java.lang.String getUsuariEntitatID();
-	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_);
+	public java.lang.String getSolicitantUsuariEntitat1ID();
+	public void setSolicitantUsuariEntitat1ID(java.lang.String _solicitantUsuariEntitat1ID_);
+
+	public java.lang.String getSolicitantUsuariEntitat2ID();
+	public void setSolicitantUsuariEntitat2ID(java.lang.String _solicitantUsuariEntitat2ID_);
+
+	public java.lang.String getSolicitantUsuariEntitat3ID();
+	public void setSolicitantUsuariEntitat3ID(java.lang.String _solicitantUsuariEntitat3ID_);
 
 	public boolean isAvisWeb();
 	public void setAvisWeb(boolean _avisWeb_);

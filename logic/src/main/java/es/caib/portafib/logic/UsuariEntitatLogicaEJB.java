@@ -294,7 +294,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     }
     
     // Peticions on el solicitant és l'usuariEntitatID
-    Where w2 = PeticioDeFirmaFields.USUARIENTITATID.equal(usuariEntitatID);
+    Where w2 = PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(usuariEntitatID);
 
     if(usuariEntitatJPA.getCarrec() == null) {
     

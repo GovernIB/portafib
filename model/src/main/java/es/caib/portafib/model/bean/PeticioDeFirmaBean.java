@@ -32,7 +32,7 @@ private static final long serialVersionUID = 906207731L;
 	java.lang.String idiomaID;
 	int prioritatID;
 	long fluxDeFirmesID;
-	java.lang.String usuariAplicacioID;
+	java.lang.String solicitantUsuariAplicacioID;
 	java.lang.String remitentNom;
 	java.lang.String remitentDescripcio;
 	java.lang.String expedientCodi;
@@ -44,7 +44,9 @@ private static final long serialVersionUID = 906207731L;
 	java.lang.Double informacioAddicionalAvaluable;
 	java.lang.Long logoSegellID;
 	java.lang.Long custodiaInfoID;
-	java.lang.String usuariEntitatID;
+	java.lang.String solicitantUsuariEntitat1ID;
+	java.lang.String solicitantUsuariEntitat2ID;
+	java.lang.String solicitantUsuariEntitat3ID;
 	boolean avisWeb;
 	boolean segellatDeTemps;
 
@@ -54,7 +56,7 @@ private static final long serialVersionUID = 906207731L;
   }
 
   /** Constructor amb tots els camps  */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.descripcio=descripcio;
@@ -77,7 +79,7 @@ private static final long serialVersionUID = 906207731L;
     this.idiomaID=idiomaID;
     this.prioritatID=prioritatID;
     this.fluxDeFirmesID=fluxDeFirmesID;
-    this.usuariAplicacioID=usuariAplicacioID;
+    this.solicitantUsuariAplicacioID=solicitantUsuariAplicacioID;
     this.remitentNom=remitentNom;
     this.remitentDescripcio=remitentDescripcio;
     this.expedientCodi=expedientCodi;
@@ -89,12 +91,14 @@ private static final long serialVersionUID = 906207731L;
     this.informacioAddicionalAvaluable=informacioAddicionalAvaluable;
     this.logoSegellID=logoSegellID;
     this.custodiaInfoID=custodiaInfoID;
-    this.usuariEntitatID=usuariEntitatID;
+    this.solicitantUsuariEntitat1ID=solicitantUsuariEntitat1ID;
+    this.solicitantUsuariEntitat2ID=solicitantUsuariEntitat2ID;
+    this.solicitantUsuariEntitat3ID=solicitantUsuariEntitat3ID;
     this.avisWeb=avisWeb;
     this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor sense valors autoincrementals */
-  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String usuariEntitatID , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaBean(java.lang.String titol , java.lang.String descripcio , java.lang.String motiu , java.lang.Long fitxerAFirmarID , java.lang.Long firmaOriginalDetachedID , java.lang.Long fitxerAdaptatID , long tipusDocumentID , java.lang.String descripcioTipusDocument , int posicioTaulaFirmesID , java.sql.Timestamp dataSolicitud , java.sql.Timestamp dataFinal , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String motiuDeRebuig , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , java.lang.String remitentDescripcio , java.lang.String expedientCodi , java.lang.String expedientNom , java.lang.String expedientUrl , java.lang.String procedimentCodi , java.lang.String procedimentNom , java.lang.String informacioAddicional , java.lang.Double informacioAddicionalAvaluable , java.lang.Long logoSegellID , java.lang.Long custodiaInfoID , java.lang.String solicitantUsuariEntitat1ID , java.lang.String solicitantUsuariEntitat2ID , java.lang.String solicitantUsuariEntitat3ID , boolean avisWeb , boolean segellatDeTemps) {
     this.titol=titol;
     this.descripcio=descripcio;
     this.motiu=motiu;
@@ -116,7 +120,7 @@ private static final long serialVersionUID = 906207731L;
     this.idiomaID=idiomaID;
     this.prioritatID=prioritatID;
     this.fluxDeFirmesID=fluxDeFirmesID;
-    this.usuariAplicacioID=usuariAplicacioID;
+    this.solicitantUsuariAplicacioID=solicitantUsuariAplicacioID;
     this.remitentNom=remitentNom;
     this.remitentDescripcio=remitentDescripcio;
     this.expedientCodi=expedientCodi;
@@ -128,12 +132,14 @@ private static final long serialVersionUID = 906207731L;
     this.informacioAddicionalAvaluable=informacioAddicionalAvaluable;
     this.logoSegellID=logoSegellID;
     this.custodiaInfoID=custodiaInfoID;
-    this.usuariEntitatID=usuariEntitatID;
+    this.solicitantUsuariEntitat1ID=solicitantUsuariEntitat1ID;
+    this.solicitantUsuariEntitat2ID=solicitantUsuariEntitat2ID;
+    this.solicitantUsuariEntitat3ID=solicitantUsuariEntitat3ID;
     this.avisWeb=avisWeb;
     this.segellatDeTemps=segellatDeTemps;
 }
   /** Constructor dels valors Not Null */
-  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String usuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
+  public PeticioDeFirmaBean(long peticioDeFirmaID , java.lang.String titol , java.lang.String motiu , long tipusDocumentID , int posicioTaulaFirmesID , java.sql.Timestamp dataCaducitat , int tipusOperacioFirma , int tipusFirmaID , int algorismeDeFirmaID , java.lang.Boolean modeDeFirma , int tipusEstatPeticioDeFirmaID , java.lang.String idiomaID , int prioritatID , long fluxDeFirmesID , java.lang.String solicitantUsuariAplicacioID , java.lang.String remitentNom , boolean avisWeb , boolean segellatDeTemps) {
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.titol=titol;
     this.motiu=motiu;
@@ -148,7 +154,7 @@ private static final long serialVersionUID = 906207731L;
     this.idiomaID=idiomaID;
     this.prioritatID=prioritatID;
     this.fluxDeFirmesID=fluxDeFirmesID;
-    this.usuariAplicacioID=usuariAplicacioID;
+    this.solicitantUsuariAplicacioID=solicitantUsuariAplicacioID;
     this.remitentNom=remitentNom;
     this.avisWeb=avisWeb;
     this.segellatDeTemps=segellatDeTemps;
@@ -176,7 +182,7 @@ private static final long serialVersionUID = 906207731L;
     this.setIdiomaID(__bean.getIdiomaID());
     this.setPrioritatID(__bean.getPrioritatID());
     this.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    this.setSolicitantUsuariAplicacioID(__bean.getSolicitantUsuariAplicacioID());
     this.setRemitentNom(__bean.getRemitentNom());
     this.setRemitentDescripcio(__bean.getRemitentDescripcio());
     this.setExpedientCodi(__bean.getExpedientCodi());
@@ -188,7 +194,9 @@ private static final long serialVersionUID = 906207731L;
     this.setInformacioAddicionalAvaluable(__bean.getInformacioAddicionalAvaluable());
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    this.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    this.setSolicitantUsuariEntitat1ID(__bean.getSolicitantUsuariEntitat1ID());
+    this.setSolicitantUsuariEntitat2ID(__bean.getSolicitantUsuariEntitat2ID());
+    this.setSolicitantUsuariEntitat3ID(__bean.getSolicitantUsuariEntitat3ID());
     this.setAvisWeb(__bean.isAvisWeb());
     this.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer
@@ -355,11 +363,11 @@ private static final long serialVersionUID = 906207731L;
 		this.fluxDeFirmesID = _fluxDeFirmesID_;
 	};
 
-	public java.lang.String getUsuariAplicacioID() {
-		return(usuariAplicacioID);
+	public java.lang.String getSolicitantUsuariAplicacioID() {
+		return(solicitantUsuariAplicacioID);
 	};
-	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
-		this.usuariAplicacioID = _usuariAplicacioID_;
+	public void setSolicitantUsuariAplicacioID(java.lang.String _solicitantUsuariAplicacioID_) {
+		this.solicitantUsuariAplicacioID = _solicitantUsuariAplicacioID_;
 	};
 
 	public java.lang.String getRemitentNom() {
@@ -439,11 +447,25 @@ private static final long serialVersionUID = 906207731L;
 		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
-	public java.lang.String getUsuariEntitatID() {
-		return(usuariEntitatID);
+	public java.lang.String getSolicitantUsuariEntitat1ID() {
+		return(solicitantUsuariEntitat1ID);
 	};
-	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_) {
-		this.usuariEntitatID = _usuariEntitatID_;
+	public void setSolicitantUsuariEntitat1ID(java.lang.String _solicitantUsuariEntitat1ID_) {
+		this.solicitantUsuariEntitat1ID = _solicitantUsuariEntitat1ID_;
+	};
+
+	public java.lang.String getSolicitantUsuariEntitat2ID() {
+		return(solicitantUsuariEntitat2ID);
+	};
+	public void setSolicitantUsuariEntitat2ID(java.lang.String _solicitantUsuariEntitat2ID_) {
+		this.solicitantUsuariEntitat2ID = _solicitantUsuariEntitat2ID_;
+	};
+
+	public java.lang.String getSolicitantUsuariEntitat3ID() {
+		return(solicitantUsuariEntitat3ID);
+	};
+	public void setSolicitantUsuariEntitat3ID(java.lang.String _solicitantUsuariEntitat3ID_) {
+		this.solicitantUsuariEntitat3ID = _solicitantUsuariEntitat3ID_;
 	};
 
 	public boolean isAvisWeb() {
@@ -489,7 +511,7 @@ private static final long serialVersionUID = 906207731L;
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setPrioritatID(__bean.getPrioritatID());
     __tmp.setFluxDeFirmesID(__bean.getFluxDeFirmesID());
-    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
+    __tmp.setSolicitantUsuariAplicacioID(__bean.getSolicitantUsuariAplicacioID());
     __tmp.setRemitentNom(__bean.getRemitentNom());
     __tmp.setRemitentDescripcio(__bean.getRemitentDescripcio());
     __tmp.setExpedientCodi(__bean.getExpedientCodi());
@@ -501,7 +523,9 @@ private static final long serialVersionUID = 906207731L;
     __tmp.setInformacioAddicionalAvaluable(__bean.getInformacioAddicionalAvaluable());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
-    __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setSolicitantUsuariEntitat1ID(__bean.getSolicitantUsuariEntitat1ID());
+    __tmp.setSolicitantUsuariEntitat2ID(__bean.getSolicitantUsuariEntitat2ID());
+    __tmp.setSolicitantUsuariEntitat3ID(__bean.getSolicitantUsuariEntitat3ID());
     __tmp.setAvisWeb(__bean.isAvisWeb());
     __tmp.setSegellatDeTemps(__bean.isSegellatDeTemps());
     // Fitxer

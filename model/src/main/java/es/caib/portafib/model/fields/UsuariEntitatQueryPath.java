@@ -185,10 +185,38 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public PeticioDeFirmaQueryPath PETICIODEFIRMAS() {
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_SOLICITANTPERSONA2IDS() {
     return new PeticioDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "peticioDeFirmas" + ".";
+          return UsuariEntitatQueryPath.this.getQueryPath() + "peticioDeFirma_solicitantpersona2ids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_SOLICITANTPERSONA3IDS() {
+    return new PeticioDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "peticioDeFirma_solicitantpersona3ids" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
+  public PeticioDeFirmaQueryPath PETICIODEFIRMA_USUARIENTITATIDS() {
+    return new PeticioDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "peticioDeFirma_usuarientitatids" + ".";
       }
     });
   }
@@ -269,10 +297,10 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public UsuariEntitatFavoritQueryPath USUARIENTITATFAVORIT_FAVORITIDS() {
+  public UsuariEntitatFavoritQueryPath USUARIENTITATFAVORIT_ORIGENIDS() {
     return new UsuariEntitatFavoritQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_favoritids" + ".";
+          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_origenids" + ".";
       }
     });
   }
@@ -283,10 +311,10 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public UsuariEntitatFavoritQueryPath USUARIENTITATFAVORIT_ORIGENIDS() {
+  public UsuariEntitatFavoritQueryPath USUARIENTITATFAVORIT_FAVORITIDS() {
     return new UsuariEntitatFavoritQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_origenids" + ".";
+          return UsuariEntitatQueryPath.this.getQueryPath() + "usuariEntitatFavorit_favoritids" + ".";
       }
     });
   }

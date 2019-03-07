@@ -45,9 +45,11 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
     this.listOfValuesForPrioritatID = __toClone.listOfValuesForPrioritatID;
     this.listOfFluxDeFirmesForFluxDeFirmesID = __toClone.listOfFluxDeFirmesForFluxDeFirmesID;
-    this.listOfUsuariAplicacioForUsuariAplicacioID = __toClone.listOfUsuariAplicacioForUsuariAplicacioID;
+    this.listOfUsuariAplicacioForSolicitantUsuariAplicacioID = __toClone.listOfUsuariAplicacioForSolicitantUsuariAplicacioID;
     this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
-    this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat1ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat1ID;
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat2ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat3ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
   }
   
   public PeticioDeFirmaForm(PeticioDeFirmaJPA peticioDeFirma, boolean nou) {
@@ -227,14 +229,14 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID;
+  private List<StringKeyValue> listOfUsuariAplicacioForSolicitantUsuariAplicacioID;
 
-  public List<StringKeyValue> getListOfUsuariAplicacioForUsuariAplicacioID() {
-    return this.listOfUsuariAplicacioForUsuariAplicacioID;
+  public List<StringKeyValue> getListOfUsuariAplicacioForSolicitantUsuariAplicacioID() {
+    return this.listOfUsuariAplicacioForSolicitantUsuariAplicacioID;
   }
 
-  public void setListOfUsuariAplicacioForUsuariAplicacioID(List<StringKeyValue> listOfUsuariAplicacioForUsuariAplicacioID) {
-    this.listOfUsuariAplicacioForUsuariAplicacioID = listOfUsuariAplicacioForUsuariAplicacioID;
+  public void setListOfUsuariAplicacioForSolicitantUsuariAplicacioID(List<StringKeyValue> listOfUsuariAplicacioForSolicitantUsuariAplicacioID) {
+    this.listOfUsuariAplicacioForSolicitantUsuariAplicacioID = listOfUsuariAplicacioForSolicitantUsuariAplicacioID;
   }
 
 
@@ -251,14 +253,38 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID;
+  private List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat1ID;
 
-  public List<StringKeyValue> getListOfUsuariEntitatForUsuariEntitatID() {
-    return this.listOfUsuariEntitatForUsuariEntitatID;
+  public List<StringKeyValue> getListOfUsuariEntitatForSolicitantUsuariEntitat1ID() {
+    return this.listOfUsuariEntitatForSolicitantUsuariEntitat1ID;
   }
 
-  public void setListOfUsuariEntitatForUsuariEntitatID(List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
-    this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
+  public void setListOfUsuariEntitatForSolicitantUsuariEntitat1ID(List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat1ID) {
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat1ID = listOfUsuariEntitatForSolicitantUsuariEntitat1ID;
+  }
+
+
+
+  private List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+
+  public List<StringKeyValue> getListOfUsuariEntitatForSolicitantUsuariEntitat2ID() {
+    return this.listOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+  }
+
+  public void setListOfUsuariEntitatForSolicitantUsuariEntitat2ID(List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat2ID) {
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat2ID = listOfUsuariEntitatForSolicitantUsuariEntitat2ID;
+  }
+
+
+
+  private List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+
+  public List<StringKeyValue> getListOfUsuariEntitatForSolicitantUsuariEntitat3ID() {
+    return this.listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+  }
+
+  public void setListOfUsuariEntitatForSolicitantUsuariEntitat3ID(List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat3ID) {
+    this.listOfUsuariEntitatForSolicitantUsuariEntitat3ID = listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
   }
 
 

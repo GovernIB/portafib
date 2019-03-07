@@ -309,7 +309,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       if (isDebug) { log.debug("Seleccionat usuariaplicacio = ]" + usuariAplicacioID + "["); }
       if (usuariAplicacioID == null || usuariAplicacioID.trim().length() == 0) {
         ValidationUtils.rejectIfEmptyOrWhitespace(result, "usuariAplicacioID",
-            "genapp.validation.required", new Object[] { I18NUtils.tradueix(USUARIAPLICACIOID.fullName) });
+            "genapp.validation.required", new Object[] { I18NUtils.tradueix(SOLICITANTUSUARIAPLICACIOID.fullName) });
         return getTileSeleccioFlux();
       }
       
@@ -813,7 +813,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         // Obtenim l'usuari aplicacio per defecte a emprar en 
         // aquesta entitat per peticions de usuari-entitat
         usuariAplicacioID = entitat.getUsuariAplicacioID();
-        peticioDeFirma.setUsuariEntitatID(loginInfo.getUsuariEntitatID());
+        peticioDeFirma.setSolicitantUsuariEntitat1ID(loginInfo.getUsuariEntitatID());
         peticioDeFirma.setAvisWeb(false);
       } else {
         // Obtenim l'usuari aplicació elegit
@@ -882,7 +882,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         peticioDeFirma.setRemitentDescripcio(ua.getEmailAdmin());
       }
 
-      peticioDeFirma.setUsuariAplicacioID(usuariAplicacioID);
+      peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacioID);
       
       // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
       peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
@@ -1046,13 +1046,13 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     }
 
     if (isSolicitantUsuariEntitat()) {
-      peticioDeFirmaForm.addHiddenField(USUARIAPLICACIOID);
+      peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIAPLICACIOID);
 
       peticioDeFirmaForm.addHiddenField(REMITENTNOM);
       peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
       
     } else {
-      peticioDeFirmaForm.addReadOnlyField(USUARIAPLICACIOID);
+      peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
     }
 
     // XYZ ZZZ #164
@@ -1066,7 +1066,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     peticioDeFirmaForm.addHiddenField(ALGORISMEDEFIRMAID);
     peticioDeFirmaForm.addHiddenField(MODEDEFIRMA);
 
-    peticioDeFirmaForm.addHiddenField(USUARIENTITATID);
+    peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIENTITAT1ID);
+    peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIENTITAT2ID);
+    peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIENTITAT3ID);
     peticioDeFirmaForm.addHiddenField(AVISWEB);
 
     peticioDeFirmaForm.addHiddenField(CUSTODIAINFOID);
@@ -1086,7 +1088,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       ModelAndView mav, PeticioDeFirmaForm peticioDeFirmaForm, Where where)  throws I18NException {
     
     
-    String usuariAplicacioID = peticioDeFirmaForm.getPeticioDeFirma().getUsuariAplicacioID(); 
+    String usuariAplicacioID = peticioDeFirmaForm.getPeticioDeFirma().getSolicitantUsuariAplicacioID(); 
     Where whereTD;
     whereTD = Where.OR(
       TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
@@ -1167,7 +1169,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       // Mostrar usuari aplicacio i remitent si estan en gestio de usuari aplicacio
       if (!isSolicitantUsuariEntitat()) {
-        hiddenFields.remove(USUARIAPLICACIOID);
+        hiddenFields.remove(SOLICITANTUSUARIAPLICACIOID);
         hiddenFields.remove(REMITENTNOM);
       }
 
@@ -1180,12 +1182,12 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
       peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
       if (!isSolicitantUsuariEntitat()) {
-        peticioDeFirmaFilterForm.addGroupByField(USUARIAPLICACIOID);
+        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
       }
 
       // Filtres
       List<Field<?>> filtres = new ArrayList<Field<?>>(peticioDeFirmaFilterForm.getDefaultFilterByFields());
-      filtres.remove(USUARIAPLICACIOID);
+      filtres.remove(SOLICITANTUSUARIAPLICACIOID);
 
       peticioDeFirmaFilterForm.setFilterByFields(filtres);
 
@@ -1379,13 +1381,13 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
     if (isSolicitantUsuariEntitat()) {
       // Seleccionar només les peticions de firma de l'usuari-persona
-      return USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
+      return SOLICITANTUSUARIENTITAT1ID.equal(LoginInfo.getInstance().getUsuariEntitatID());
     } else {
       // Seleccionam totes aquelles que no tenguin definit cap usuari
       // i que le susuaris-aplicació pertanyin a aquesta entitat
       final String entitatID = LoginInfo.getInstance().getEntitatID();
       return Where.AND(
-          USUARIENTITATID.isNull(),
+          SOLICITANTUSUARIENTITAT1ID.isNull(),
           new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID)
           );
     }
@@ -1406,7 +1408,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       // encara no ha marcat com ja revisada
       LoginInfo loginInfo = LoginInfo.getInstance();
       Where w = Where.AND(
-        PeticioDeFirmaFields.USUARIENTITATID.equal(loginInfo.getUsuariEntitatID()),
+        PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
         PeticioDeFirmaFields.AVISWEB.equal(true)
       );
       
@@ -1446,7 +1448,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       if (LoginInfo.getInstance().getEntitat().getCustodiaInfoID() != null) {
         for (PeticioDeFirma peticio : list) {
           // TODO Optimitzar amb una sola consulta SelectMultiple
-          String usuariAplicacioID = peticio.getUsuariAplicacioID();
+          String usuariAplicacioID = peticio.getSolicitantUsuariAplicacioID();
           UsuariAplicacio ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
           if (ua.getPotCustodiar()) {
             potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
