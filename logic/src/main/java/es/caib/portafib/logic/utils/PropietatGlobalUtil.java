@@ -36,12 +36,14 @@ public class PropietatGlobalUtil implements ConstantsV2 {
    * @param entitatID
    * @return
    */
+  /* #191
   public static boolean ignoreCheckPostSign(String entitatID) {
     // Valor per entitat
     final String partialPropertyName = "ignorecheckpostsign";
     Boolean val = getBooleanByEntitat(entitatID, partialPropertyName);
     return (val == null)? false : val;
   }
+  */
   
   
   /**

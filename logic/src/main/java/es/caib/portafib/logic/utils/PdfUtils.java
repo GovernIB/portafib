@@ -182,7 +182,7 @@ public class PdfUtils implements ConstantsV2 {
 
   public static InformacioCertificat checkCertificatePADES(Long fitxerOriginalID,
       Map<Integer, Long> fitxersByNumFirma, File signedPDF, int numFirmaPortaFIB,
-      int numFirmesOriginals, boolean ignoreChecks)
+      int numFirmesOriginals, boolean checkCanviatDocFirmat)
       throws I18NException, FileNotFoundException, IOException, Exception {
 
     final boolean isDebug = log.isDebugEnabled();
@@ -208,7 +208,7 @@ public class PdfUtils implements ConstantsV2 {
       throw new Exception("No hi ha informació de signatures en aquest document: "
           + signedPDF.getAbsolutePath());
     }
-    if (!ignoreChecks) {
+    if (checkCanviatDocFirmat) {
       if (names.size() != (numFirmaPortaFIB + numFirmesOriginals)) {
         // TODO XYZ ZZZ Traduir
         throw new Exception("S´esperaven " + (numFirmaPortaFIB + numFirmesOriginals)
@@ -227,10 +227,10 @@ public class PdfUtils implements ConstantsV2 {
         if (numFirmaPortaFIB == 1) {
           // Comprovar fitxer original i pujat
           byte[] originalData = FileSystemManager.getFileContent(fitxerOriginalID);
- 
+
           boolean isOK;
           isOK = checkDocumentWhenFirstSign(originalData, signedPDFData, numFirmesOriginals);
-          
+
           if (!isOK) {
             // TODO traduir
             Exception e = new Exception(
@@ -378,7 +378,7 @@ public class PdfUtils implements ConstantsV2 {
     } // Final de Ignore Checks
 
     // ================ Validar el certificat de la darrera firma
-    // ===============
+
     String name = names.get(numFirmaPortaFIB + numFirmesOriginals - 1); // names.size() - 1
 
     PdfPKCS7 pk = af.verifySignature(name);

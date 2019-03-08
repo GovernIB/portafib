@@ -133,7 +133,9 @@ public class GestioEntitatController extends EntitatController implements Consta
        // #171 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINVALIDACERTIFICATID);
        //entitatForm.addReadOnlyField(PLUGINVALIDAFIRMESID);
-       entitatForm.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
+       //entitatForm.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
+       entitatForm.addHelpToField(CHECKCANVIATDOCFIRMAT, I18NUtils.tradueix("checkcanviatdocfirmat.help"));
+       
        if(entitatForm.isNou()) {
          entitatForm.getEntitat().setCheckCanviatDocFirmat(true);
        }
@@ -542,10 +544,12 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
                 + " el role PFI_AUTOFIRMA");
 
+        /** #191
         propietatGlobalEjb.create("es.caib.portafib.ignorecheckpostsign", "false", 
             _entitatID_, "Opcional. Serveix per indicar a PortaFIB que "
                 + "revisi(false o no definit) o no revisi(true) la manipulació"
                 + " del PDF firmat");
+            */
 
         
       } catch(I18NException ie) {

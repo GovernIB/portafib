@@ -1977,17 +1977,20 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
 
         Long fitxerOriginalID = peticioDeFirma.getFitxerAdaptatID();
-
-        final boolean ignoreCheckPostSign = PropietatGlobalUtil.ignoreCheckPostSign(entitatID);
-
+        
+        
+        final Boolean checkCanviatDocFirmat = usuariEntitatEjb.executeQueryOne(
+            new UsuariEntitatQueryPath().ENTITAT().CHECKCANVIATDOCFIRMAT(),
+            UsuariEntitatFields.USUARIENTITATID.equal(estatDeFirma.getUsuariEntitatID()));
+        
         InformacioCertificat info;
         info = PdfUtils.checkCertificatePADES(fitxerOriginalID, fitxersByNumFirma, signatureFile,
-            numFirmaPortaFIB, numFirmesOriginals, ignoreCheckPostSign);
+            numFirmaPortaFIB, numFirmesOriginals, checkCanviatDocFirmat);
 
         // Obtenir informació del certificat
         final boolean isDebug = log.isDebugEnabled();
         if (isDebug) {
-          log.debug("PropietatGlobalUtil.ignoreCheckPostSign: " + ignoreCheckPostSign);
+          log.debug("entitat.checkCanviatDocFirmat: " + checkCanviatDocFirmat);
           log.debug("NumeroSerieCertificat = " + info.getNumeroSerie());
           log.debug("Emissor = " + info.getEmissorID());
           log.debug("Subject = " + info.getSubject());
