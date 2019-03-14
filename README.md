@@ -40,5 +40,4 @@ Les seves característiques principals són:
 * Intended Audience:  Any entity with sign requirements
 * Operating System:  OS Independent (Written in an interpreted language)
 * Programming Language:  Java
-* Translations: Catalan & Spanish
 * User Interface: Web-based
