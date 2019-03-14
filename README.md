@@ -18,7 +18,7 @@ Les seves característiques principals són:
 * Realitzar peticions de firma via web o WebServices, és a dir, a traves d'un usuari persona o un usuari-aplicació.
 * Multientitat (amb una sol servidor es pot donar servei a varies entitats, administracions,empreses, ...)
 * Avisos per mail o callback de ws
-* Plugin d'exportació de llistats.
+* Plugin d'exportació de llistats a diferents formats.
 * Plugins de mòduls de firma
 * Plugins de Segellat de Temps
 * Plugins de Gestió de Custòdia
