@@ -29,9 +29,6 @@ Les seves característiques principals són:
 
 [Documentació de branca estable](../../tree/portafib-1.1/README.md#documentaci%C3%B3)
 
-Manual d'usuari i característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/portafib-1.1/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
-
-
 **Característiques**
 
 * Registered: 2013-02-18 
