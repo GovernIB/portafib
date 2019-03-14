@@ -3,7 +3,7 @@
 
 ***Versió estable***
 
-> - [PortaFIB_1.1.5](https://github.com/GovernIB/portafib/releases/tag/portafib-1.1.5_2018-10-31)
+> - [PortaFIB-1.1.5](https://github.com/GovernIB/portafib/releases/tag/portafib-1.1.5_2018-10-31)
 
 ***Descripció***
 
