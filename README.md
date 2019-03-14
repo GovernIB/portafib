@@ -1,8 +1,11 @@
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
- *Portafirmes Digital de les Illes Balears*
+ *Portafirmes Digitals de les Illes Balears*
 
-Versió Estable: __portafib-1.1.5__ (branca [portafib-1.1](https://github.com/GovernIB/portafib/tree/portafib-1.1))<br/>
-Versió Desenvolupament: portafib-2.0.0 (branca [portafib-2.0](https://github.com/GovernIB/portafib/tree/portafib-2.0))
+***Versions***
+
+> - Versió Estable: __portafib-1.1.5__ (branca [portafib-1.1](../../tree/portafib-1.1))<br/>
+> - Versió en Desenvolupament: __portafib-2.0.0__ (branca [portafib-2.0](../../tree/portafib-2.0))
+
 
 **Descripció**
 
@@ -22,7 +25,9 @@ Les seves característiques principals són:
 * API WS
 * ...
 
-Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/portafib-1.1/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+**Documentació**
+
+Manual d'usuari i característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/portafib-1.1/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
 
 
 **Característiques**
