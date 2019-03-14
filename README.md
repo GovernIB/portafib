@@ -1,6 +1,10 @@
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-1.1
  *Portafirmes Digital de les Illes Balears*
 
+***Versió estable***
+
+> - [Darrera versió estable](https://github.com/GovernIB/portafib/releases/tag/portafib-1.1.5_2018-10-31)
+
 ***Descripció***
 
 PortaFIB és un portafirmes “digital” desenvolupat en el departament d'Administració Electrònica de la Fundació Bit (OTAE) per encàrrec del Govern de les Illes Balears.
