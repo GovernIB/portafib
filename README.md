@@ -43,29 +43,3 @@ Manual d'usuari i característiques completes: [Manual d'Usuari v1.1](https://gi
 * Programming Language:  Java
 * Translations: Catalan & Spanish
 * User Interface: Web-based
-
-**Captures de pantalla**
-
-![Multientitat i Menú d'Inici](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_1.png)<br/>
-<center>Multientitat i Menú d'Inici</center>
-<hr/>
-
-![Menú Sol·licitant i opcions per una petició de firma](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_2.png)<br/>
-Menú Sol·licitant i opcions per una petició de firma
-
-![Plantilla de Flux de Firmes](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_3.png)<br/>
-Plantilla de Flux de Firmes
-
- 
-![Menú Administrador i llistat de Tipus de document](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_4.png)<br/>
-Menú Administrador i llistat de Tipus de document
-
- 
-![Menú Administrador d'Entitat i llistat de peticions caducades](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_5.png)<br/>
-Menú Administrador d'Entitat i llistat de peticions caducades
-
-
-![Vista Completa de Petició de Firma en Destinatari](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_6.png)<br/>
-Vista Completa de Petició de Firma en Destinatari
-
-
