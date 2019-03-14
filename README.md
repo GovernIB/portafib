@@ -24,7 +24,7 @@ Les seves característiques principals són:
 
 Directori | Descripció | Documentació
 ------------ | ------------- | -------------
-API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma | [Documenatció](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
+API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB | Manual d'us de l'API de firma web, firma en servidor i passarel·la de firma PortaFIB | [Documenatció](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
 Manual_Programador | Manual de programador | [Documenatció](./doc/Manual_Programador.odt)
 Manual_de_CallBack_de_PortaFIB | Manual de CallBack de PortaFIB | [Documenatció](./doc/Manual_de_CallBack_de_PortaFIB.odt)
 Manual_de_Instalacio_de_PortaFIB | Manual d'instal·lació de PortaFIB | [Documenatció](./doc/Manual_de_Instalacio_de_PortaFIB.odt)
