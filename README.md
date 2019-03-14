@@ -24,7 +24,20 @@ Les seves característiques principals són:
 
 Directori | Descripció | Documentació
 ------------ | ------------- | -------------
+API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB | -- | [Documenatció](./doc/API_Firma_Web-API_Firma_EnServidor-Passarela_de_Firma_PortaFIB.odt)
+Manual_Programador | -- | [Documenatció](./doc/Manual_Programador.odt)
+Manual_de_CallBack_de_PortaFIB | -- | [Documenatció](./doc/Manual_de_CallBack_de_PortaFIB.odt)
+Manual_de_Instalacio_de_PortaFIB | Manual d'usuari i característiques completes | [Documenatció](./doc/Manual_de_Instalacio_de_PortaFIB.odt)
 Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+
 
 
 ***Característiques***
