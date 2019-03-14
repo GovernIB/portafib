@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-1.1_ADAPTACIO_MOBILS
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-1.1_ADAPTACIO_MOVILS
  *Portafirmes Digital de les Illes Balears*
 
 ***Versió estable***
@@ -17,8 +17,8 @@ Les seves característiques principals són:
 * Multientitat (amb una sol servidor es pot donar servei a varies entitats, administracions,empreses, ...)
 * Avisos per mail o callback de ws
 * Plugins d'exportació de llistats a diferents formats
-* Plugins de mòduls de firma
-* Plugins de Segellat de Temps 
+* Plugins de mòduls de firma 
+* Plugins de Segellat de Temps
 * Plugins de Gestió de Custòdia
 * API WS
 * ...
@@ -55,17 +55,16 @@ Manual_de_WebServices_de_PortaFIB.odt | Manual de WS de PortaFIB | [Document](./
 
 
 
-# Versions dels Plugins de Firma Web i Firma en Servidor (15/06/2017)
+#### ***Versions dels Plugins de Firma Web i Firma en Servidor (15/06/2017)***
 
 | Plugin  | Versió |
 | ------------- | ------------- |
 | plugin-signatureserver-miniappletutils | 2.0.1  |
-| plugin-signatureweb-miniappletutils | 2.0.1 |
-| - | - |
 | plugin-signatureserver-afirmaserver | 2.0.4 |
 | plugin-signatureserver-miniappletinserver | 2.0.3 |
 | plugin-signatureserver-portafib | 2.0.0 |
 | - | - |
+| plugin-signatureweb-miniappletutils | 2.0.1 |
 | plugin-signatureweb-miniappletinserver | 2.0.1 |
 | plugin-signatureweb-miniappletinserversia | 2.0.1 |
 | plugin-signatureweb-miniappletinclient | 2.0.1 |
