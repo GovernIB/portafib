@@ -55,7 +55,7 @@ Manual_de_WebServices_de_PortaFIB.odt | Manual de WS de PortaFIB | [Document](./
 
 
 
-#### ***Versions dels Plugins de Firma Web i Firma en Servidor (15/06/2017)***
+#### ***Versions dels Plugins de Firma Web i Firma en Servidor (14/03/2019)***
 
 | Plugin  | Versió |
 | ------------- | ------------- |
