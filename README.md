@@ -20,7 +20,7 @@ Les seves característiques principals són:
 * Avisos per mail o callback de ws
 * Exportació de llistats a ODS, Excel i CSV
 * Plugins de mòduls de firma
-* Plugins de Segellat de Temps (TS@ ,CatCert, ...)
+* Plugins de Segellat de Temps
 * Plugins de Gestió de Custòdia
 * API WS
 * ...
@@ -29,7 +29,7 @@ Les seves característiques principals són:
 
 [Documentació de branca estable](../../tree/portafib-1.1/README.md#documentaci%C3%B3)
 
-**Característiques**
+***Característiques***
 
 * Registered: 2013-02-18 
 * Project Labels: PortaFirmes  PortaSignatures  PortaFIB  MiniApplet @firma  CAIB  Portafirmas  FundacioBit  
