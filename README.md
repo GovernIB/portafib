@@ -1,8 +1,7 @@
 # ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB (portafib)
  *Portafirmes Digital de les Illes Balears*
 
-
-**Descripció**
+***Descripció***
 
 PortaFIB és un portafirmes “digital” desenvolupat en el departament d'Administració Electrònica de la Fundació Bit (OTAE) per encàrrec del Govern de les Illes Balears.
 Les seves característiques principals són:
@@ -27,7 +26,8 @@ Directori | Descripció | Documentació
 ------------ | ------------- | -------------
 Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
 
-**Característiques**
+
+***Característiques***
 
 * Registered: 2013-02-18 
 * Project Labels: PortaFirmes  PortaSignatures  PortaFIB  MiniApplet @firma  CAIB  Portafirmas  FundacioBit  
@@ -41,29 +41,7 @@ Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documena
 * Translations: Catalan & Spanish
 * User Interface: Web-based
 
-**Captures de pantalla**
 
-![Multientitat i Menú d'Inici](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_1.png)<br/>
-<center>Multientitat i Menú d'Inici</center>
-<hr/>
-
-![Menú Sol·licitant i opcions per una petició de firma](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_2.png)<br/>
-Menú Sol·licitant i opcions per una petició de firma
-
-![Plantilla de Flux de Firmes](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_3.png)<br/>
-Plantilla de Flux de Firmes
-
- 
-![Menú Administrador i llistat de Tipus de document](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_4.png)<br/>
-Menú Administrador i llistat de Tipus de document
-
- 
-![Menú Administrador d'Entitat i llistat de peticions caducades](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_5.png)<br/>
-Menú Administrador d'Entitat i llistat de peticions caducades
-
-
-![Vista Completa de Petició de Firma en Destinatari](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/screenshots/screenshot_6.png)<br/>
-Vista Completa de Petició de Firma en Destinatari
 
 
 
