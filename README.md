@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-1.1
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-2.0
  *Portafirmes Digital de les Illes Balears*
 
 ***Versió estable***
@@ -59,15 +59,15 @@ Manual_de_WebServices_de_PortaFIB.odt | Manual de WS de PortaFIB | [Document](./
 
 | Plugin  | Versió |
 | ------------- | ------------- |
-| plugin-signatureserver-miniappletutils | 2.0.1  |
-| plugin-signatureserver-afirmaserver | 2.0.4 |
-| plugin-signatureserver-miniappletinserver | 2.0.3 |
-| plugin-signatureserver-portafib | 2.0.0 |
+| plugin-signatureserver-miniappletutils | 3.0.0 |
+| plugin-signatureserver-afirmaserver | 3.0.0 |
+| plugin-signatureserver-miniappletinserver | 3.0.0 |
+| plugin-signatureserver-portafib | 3.0.0 |
 | - | - |
-| plugin-signatureweb-miniappletutils | 2.0.1 |
-| plugin-signatureweb-miniappletinserver | 2.0.1 |
-| plugin-signatureweb-miniappletinserversia | 2.0.1 |
-| plugin-signatureweb-miniappletinclient | 2.0.1 |
-| plugin-signatureweb-clavefirma | 2.0.3 |
-| plugin-signatureweb-afirma_triphase_server | 2.0.2 |
-| plugin-signatureweb-portafib | 2.0.0 |
+| plugin-signatureweb-miniappletutils | 3.0.0 |
+| plugin-signatureweb-miniappletinserver | 3.0.0 |
+| plugin-signatureweb-miniappletinserversia | 3.0.0 |
+| plugin-signatureweb-miniappletinclient | 3.0.0 |
+| plugin-signatureweb-clavefirma | 3.0.0 |
+| plugin-signatureweb-afirma_triphase_server | 3.0.0 |
+| plugin-signatureweb-portafib | 3.0.0 |
