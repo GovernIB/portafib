@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB-1.1_ADAPTACIO_MOVILS
+# ![Logo](https://github.com/GovernIB/maven/raw/binaris/portafib/projectinfo_Attachments/icon.jpg) PortaFIB 1.1 (portafib-1.1_ADAPTACIO_MOVILS)
  *Portafirmes Digital de les Illes Balears*
 
 ***Versió estable***
