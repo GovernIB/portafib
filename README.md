@@ -16,9 +16,9 @@ Les seves característiques principals són:
 * Realitzar peticions de firma via web o WebServices, és a dir, a traves d'un usuari persona o un usuari-aplicació.
 * Multientitat (amb una sol servidor es pot donar servei a varies entitats, administracions,empreses, ...)
 * Avisos per mail o callback de ws
-* Exportació de llistats a ODS, Excel i CSV
-* Plugins de mòduls de firma ( MiniApplet com applet, MiniApplet com javawebstart, MiniApplet en Servidor, Firma en nuvol SIA, ... i en un futur Firma en Nube Cl@ve)
-* Plugins de Segellat de Temps (TS@ ,CatCert, ...)
+* Plugins d'exportació de llistats a diferents formats
+* Plugins de mòduls de firma 
+* Plugins de Segellat de Temps
 * Plugins de Gestió de Custòdia
 * API WS
 * ...
