@@ -50,12 +50,11 @@ Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documena
 | Plugin  | Versió |
 | ------------- | ------------- |
 | plugin-signatureserver-miniappletutils | 2.0.1  |
-| plugin-signatureweb-miniappletutils | 2.0.1 |
-| - | - |
 | plugin-signatureserver-afirmaserver | 2.0.4 |
 | plugin-signatureserver-miniappletinserver | 2.0.3 |
 | plugin-signatureserver-portafib | 2.0.0 |
 | - | - |
+| plugin-signatureweb-miniappletutils | 2.0.1 |
 | plugin-signatureweb-miniappletinserver | 2.0.1 |
 | plugin-signatureweb-miniappletinserversia | 2.0.1 |
 | plugin-signatureweb-miniappletinclient | 2.0.1 |
