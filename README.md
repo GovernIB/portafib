@@ -20,6 +20,14 @@ Les seves característiques principals són:
 * API WS
 * ...
 
+
+#### ***Documentació***
+
+Directori | Descripció | Documentació
+------------ | ------------- | -------------
+Manual d'Usuari v1.1 | Manual d'usuari i característiques completes | [Documenatció](./doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
+
+
 Pot descarregar el manual d'usuari per veure les característiques completes: [Manual d'Usuari v1.1](https://github.com/GovernIB/portafib/raw/master/doc/pdf/Manual_de_Usuari_de_PortaFIB.pdf)
 
 
