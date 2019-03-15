@@ -42,6 +42,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}">
         <th>${pfi:getSortIcons(__theFilterForm,PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PerfilDeFirmaFields.URLBASE)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

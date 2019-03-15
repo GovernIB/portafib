@@ -565,10 +565,9 @@ public abstract class RestApiFirmaUtils extends RestUtils {
           // SERVIDOR
           config = configEnServidor2;
         } else {
-           // WEB
-           config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
-            usuariAplicacioID, perfilFirma,
-            new FirmaSimpleSignDocumentRequest(commonInfo, sfis));
+          // WEB
+          config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleWeb(
+             usuariAplicacioID, perfilFirma, new FirmaSimpleSignDocumentRequest(commonInfo, sfis));
         }
         
         

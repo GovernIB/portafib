@@ -132,9 +132,17 @@
 
   <br/>
   <div class="navbar-form pull-right">
-    <input id="submitbutton" type="submit" class="btn btn-primary" onclick="firmar()" value="<fmt:message key="firmar"/>">
+    <input id="submitbutton" type="submit" class="btn btn-primary" value="<fmt:message key="firmar"/>">
    </div>
  
    <form:hidden id="id" path="id" />
+   
+   <form:hidden id="baseUrlFull" path="baseUrlFull" />
   
 </form:form>
+<script>
+
+  var baseUrl = document.getElementById("baseUrlFull");
+  baseUrl.value = window.location.href;
+
+</script>

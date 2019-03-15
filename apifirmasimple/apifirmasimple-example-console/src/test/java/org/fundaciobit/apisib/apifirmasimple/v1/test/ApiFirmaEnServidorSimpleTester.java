@@ -57,21 +57,21 @@ public class ApiFirmaEnServidorSimpleTester {
 
       ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      // tester.testGetAvailableProfiles();
+      tester.testGetAvailableProfiles();
 
-      // tester.testSignatureServerPAdES();
+      //tester.testSignatureServerPAdES();
 
       // tester.testSignatureServerCAdES();
 
       // tester.testSignatureServerXAdESBinary();
 
-      // tester.testSignatureServerXAdESXml();
+      //tester.testSignatureServerXAdESXml();
 
-      tester.testSignatureServerPAdESXAdES();
+      //tester.testSignatureServerPAdESXAdESCAdES();
 
-      // tester.testUpgradeSignaturePAdES();
+      //tester.testUpgradeSignaturePAdES();
 
-      // tester.testUpgradeSignatureXAdESOfBinary();
+      //tester.testUpgradeSignatureXAdESOfBinary();
 
       // tester.testUpgradeSignatureXAdESOfXML();
 
@@ -204,7 +204,7 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   @Test
-  public void testSignatureServerPAdESXAdES() throws Exception, FileNotFoundException,
+  public void testSignatureServerPAdESXAdESCAdES() throws Exception, FileNotFoundException,
       IOException {
 
     Properties prop = getConfigProperties();

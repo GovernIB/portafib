@@ -143,8 +143,8 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     return new IntegerField(getQueryPath(), EntitatFields.POLITICASEGELLATDETEMPS);
   }
 
-  public LongField PLUGINID() {
-    return new LongField(getQueryPath(), EntitatFields.PLUGINID);
+  public LongField PLUGINSEGELLTEMPSID() {
+    return new LongField(getQueryPath(), EntitatFields.PLUGINSEGELLTEMPSID);
   }
 
   public LongField PLUGINRUBRICAID() {
@@ -374,10 +374,10 @@ public class EntitatQueryPath extends org.fundaciobit.genapp.common.query.QueryP
     });
   }
 
-  public PluginQueryPath PLUGIN() {
+  public PluginQueryPath PLUGINSEGELLTEMPS() {
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return EntitatQueryPath.this.getQueryPath() + "plugin" + ".";
+          return EntitatQueryPath.this.getQueryPath() + "pluginSegellTemps" + ".";
       }
     });
   }

@@ -31,6 +31,7 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 
 import es.gob.afirma.signers.cades.AOCAdESSigner;
 import es.gob.afirma.signers.pades.AOPDFSigner;
@@ -773,10 +774,10 @@ public class AfirmaLibsSignatureServerPlugin extends AbstractSignatureServerPlug
   @Override
   public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate,
       SignatureTypeFormEnumForUpgrade typeform,
-      ITimeStampGenerator externalTimestamp) throws Exception {
+      ITimeStampGenerator timeStampGenerator, String timeStamperURL) throws Exception {
 
     
-    byte[] pdfltv = new PadesSigner().upgrade(signature, externalTimestamp);
+    byte[] pdfltv = new PadesSigner().upgrade(signature, timeStampGenerator);
 
     return pdfltv;
 

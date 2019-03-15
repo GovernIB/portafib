@@ -86,6 +86,14 @@ public class PerfilDeFirmaValidator<T> implements PerfilDeFirmaFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(URLBASE) == 0) {
+      java.lang.String __urlbase = (java.lang.String)__vr.getFieldValue(__target__,URLBASE);
+      if (__urlbase!= null && __urlbase.length() > 255) {
+        __vr.rejectValue(URLBASE, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(URLBASE)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 

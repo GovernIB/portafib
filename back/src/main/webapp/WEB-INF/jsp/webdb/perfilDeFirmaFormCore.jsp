@@ -231,3 +231,21 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
+        <tr id="perfilDeFirma_urlBase_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PerfilDeFirmaFields.URLBASE])?'perfilDeFirma.urlBase':__theForm.labels[PerfilDeFirmaFields.URLBASE]}" />
+              <c:if test="${not empty __theForm.help[PerfilDeFirmaFields.URLBASE]}">
+              <i class="icon-info-sign" title="${__theForm.help[PerfilDeFirmaFields.URLBASE]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="perfilDeFirma.urlBase" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.URLBASE)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,PerfilDeFirmaFields.URLBASE)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="255" path="perfilDeFirma.urlBase"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

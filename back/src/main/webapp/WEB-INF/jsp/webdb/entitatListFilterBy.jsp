@@ -479,19 +479,19 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINID)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,EntitatFields.PLUGINSEGELLTEMPSID)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="entitat.pluginID" />:</span>
+              <span class="add-on"><fmt:message key="entitat.pluginSegellTempsID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="pluginIDDesde" />
+              <form:input cssClass="input-append input-small" path="pluginSegellTempsIDDesde" />
 
 
               <span class="add-on"><fmt:message key="genapp.to" /></span>
 
-              <form:input cssClass="input-append input-small search-query" path="pluginIDFins" />
+              <form:input cssClass="input-append input-small search-query" path="pluginSegellTempsIDFins" />
 
             </div>
 

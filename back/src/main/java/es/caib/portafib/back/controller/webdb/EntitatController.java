@@ -304,13 +304,13 @@ public class EntitatController
       };
     }
 
-    // Field pluginID
+    // Field pluginSegellTempsID
     {
-      _listSKV = getReferenceListForPluginID(request, mav, filterForm, list, groupByItemsMap, null);
+      _listSKV = getReferenceListForPluginSegellTempsID(request, mav, filterForm, list, groupByItemsMap, null);
       _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfPluginForPluginID(_tmp);
-      if (filterForm.getGroupByFields().contains(PLUGINID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINID, false);
+      filterForm.setMapOfPluginForPluginSegellTempsID(_tmp);
+      if (filterForm.getGroupByFields().contains(PLUGINSEGELLTEMPSID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, PLUGINSEGELLTEMPSID, false);
       };
     }
 
@@ -375,7 +375,7 @@ public class EntitatController
     __mapping.put(POLITICATAULAFIRMES, filterForm.getMapOfValuesForPoliticaTaulaFirmes());
     __mapping.put(POSICIOTAULAFIRMES, filterForm.getMapOfValuesForPosicioTaulaFirmes());
     __mapping.put(POLITICASEGELLATDETEMPS, filterForm.getMapOfValuesForPoliticaSegellatDeTemps());
-    __mapping.put(PLUGINID, filterForm.getMapOfPluginForPluginID());
+    __mapping.put(PLUGINSEGELLTEMPSID, filterForm.getMapOfPluginForPluginSegellTempsID());
     __mapping.put(PLUGINRUBRICAID, filterForm.getMapOfPluginForPluginRubricaID());
     __mapping.put(PLUGINVALIDAFIRMESID, filterForm.getMapOfPluginForPluginValidaFirmesID());
     __mapping.put(PLUGINVALIDACERTIFICATID, filterForm.getMapOfPluginForPluginValidaCertificatID());
@@ -502,11 +502,11 @@ public class EntitatController
       entitatForm.setListOfValuesForPoliticaSegellatDeTemps(_listSKV);
     }
     // Comprovam si ja esta definida la llista
-    if (entitatForm.getListOfPluginForPluginID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForPluginID(request, mav, entitatForm, null);
+    if (entitatForm.getListOfPluginForPluginSegellTempsID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPluginSegellTempsID(request, mav, entitatForm, null);
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      entitatForm.setListOfPluginForPluginID(_listSKV);
+      entitatForm.setListOfPluginForPluginSegellTempsID(_listSKV);
     }
     // Comprovam si ja esta definida la llista
     if (entitatForm.getListOfPluginForPluginRubricaID() == null) {
@@ -1234,41 +1234,41 @@ public java.lang.String stringToPK(String value) {
   }
 
 
-  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginSegellTempsID(HttpServletRequest request,
        ModelAndView mav, EntitatForm entitatForm, Where where)  throws I18NException {
-    if (entitatForm.isHiddenField(PLUGINID)) {
+    if (entitatForm.isHiddenField(PLUGINSEGELLTEMPSID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _where = null;
-    if (entitatForm.isReadOnlyField(PLUGINID)) {
-      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginID());
+    if (entitatForm.isReadOnlyField(PLUGINSEGELLTEMPSID)) {
+      _where = PluginFields.PLUGINID.equal(entitatForm.getEntitat().getPluginSegellTempsID());
     }
-    return getReferenceListForPluginID(request, mav, Where.AND(where, _where));
+    return getReferenceListForPluginSegellTempsID(request, mav, Where.AND(where, _where));
   }
 
 
-  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginSegellTempsID(HttpServletRequest request,
        ModelAndView mav, EntitatFilterForm entitatFilterForm,
        List<Entitat> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (entitatFilterForm.isHiddenField(PLUGINID)
-      && !entitatFilterForm.isGroupByField(PLUGINID)) {
+    if (entitatFilterForm.isHiddenField(PLUGINSEGELLTEMPSID)
+      && !entitatFilterForm.isGroupByField(PLUGINSEGELLTEMPSID)) {
       return EMPTY_STRINGKEYVALUE_LIST;
     }
     Where _w = null;
-    if (!_groupByItemsMap.containsKey(PLUGINID)) {
+    if (!_groupByItemsMap.containsKey(PLUGINSEGELLTEMPSID)) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
       for (Entitat _item : list) {
-        if(_item.getPluginID() == null) { continue; };
-        _pkList.add(_item.getPluginID());
+        if(_item.getPluginSegellTempsID() == null) { continue; };
+        _pkList.add(_item.getPluginSegellTempsID());
         }
         _w = PluginFields.PLUGINID.in(_pkList);
       }
-    return getReferenceListForPluginID(request, mav, Where.AND(where,_w));
+    return getReferenceListForPluginSegellTempsID(request, mav, Where.AND(where,_w));
   }
 
 
-  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginSegellTempsID(HttpServletRequest request,
        ModelAndView mav, Where where)  throws I18NException {
     return pluginRefList.getReferenceList(PluginFields.PLUGINID, where );
   }

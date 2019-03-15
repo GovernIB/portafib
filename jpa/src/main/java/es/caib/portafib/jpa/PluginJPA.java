@@ -281,7 +281,7 @@ private static final long serialVersionUID = 190357384L;
 
 // EXP  Field:pluginid | Table: pfi_entitat | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginID")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginSegellTempsID")
 	private Set<EntitatJPA> entitat_pluginids = new HashSet<EntitatJPA>(0);
 	public  Set<EntitatJPA> getEntitat_pluginids() {
     return this.entitat_pluginids;

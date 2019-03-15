@@ -30,6 +30,8 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
   protected boolean redirectToParentWindow;
 
   protected final int[] originalNumberOfSignsArray;
+  
+  protected final String urlBase;
 
   /**
    * @param signaturesSetID
@@ -40,12 +42,13 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
   public PortaFIBSignaturesSet(String signaturesSetID, Date expiryDate,
       CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
       int[] originalNumberOfSignsArray, EntitatJPA entitat, String urlFinal,
-      boolean redirectToParentWindow) {
+      boolean redirectToParentWindow, String urlBase) {
     super(signaturesSetID, expiryDate, commonInfoSignature, fileInfoSignatureArray, urlFinal);
     this.urlFinalOriginal = this.getUrlFinal();
     this.entitat = entitat;
     this.redirectToParentWindow = redirectToParentWindow;
     this.originalNumberOfSignsArray = originalNumberOfSignsArray;
+    this.urlBase = urlBase;
   }
 
   public Map<String, List<Long>> getPluginsFirmaBySignatureID() {
@@ -90,6 +93,10 @@ public class PortaFIBSignaturesSet extends SignaturesSetWeb {
 
   public int[] getOriginalNumberOfSignsArray() {
     return originalNumberOfSignsArray;
+  }
+
+  public String getUrlBase() {
+    return urlBase;
   }
 
 }

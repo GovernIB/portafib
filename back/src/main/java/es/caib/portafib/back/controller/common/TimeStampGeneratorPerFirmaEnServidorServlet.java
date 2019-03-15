@@ -18,12 +18,13 @@ import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 import org.springframework.stereotype.Controller;
 
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
-import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
+
 
 /**
  *
  * La URL que processa aquest servlet esta definida dins la constant 
- * CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR de la classe SigntureUtils.
+ * CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR de la classe SegellDeTempsLogicaLocal.
  * Si es modifica aquesta classe s'ha d'adaptar el web.xml 
  * @author anadal
  *
@@ -70,7 +71,7 @@ public class TimeStampGeneratorPerFirmaEnServidorServlet extends HttpServlet {
     }
 
     // BASE = /common/timestampgenerator
-    final String BASE = SignatureUtils.CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR;
+    final String BASE = SegellDeTempsLogicaLocal.CONTEXTWEB_FOR_TIMESTAMP_GENERATOR_PER_FIRMA_EN_SERVIDOR;
     int index = uri.indexOf(BASE);
 
     if (index == -1) {

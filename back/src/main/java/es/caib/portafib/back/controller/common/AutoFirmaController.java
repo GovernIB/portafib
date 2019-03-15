@@ -63,6 +63,7 @@ import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.AutoFirmaValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
@@ -70,7 +71,6 @@ import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -266,9 +266,10 @@ public class AutoFirmaController extends FitxerController
     boolean userRequiresTimeStamp = form.isSegellDeTemps();
 
     
-    ITimeStampGenerator timeStampGenerator = null;
+    
     EntitatJPA entitat = loginInfo.getEntitat();
-    timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, 
+    ITimeStampGenerator timeStampGenerator;
+    timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb( 
         entitat, userRequiresTimeStamp );
 
     //  #174 TODO XYZ ZZZ
@@ -284,7 +285,7 @@ public class AutoFirmaController extends FitxerController
         (int)form.getPosicioTaulaFirmesID(), reason, location, signerEmail, sign_number, 
         langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
-        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langSign), timeStampGenerator,
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langSign), timeStampGenerator,
         expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
     
     CommonInfoSignature commonInfoSignature;
@@ -303,14 +304,22 @@ public class AutoFirmaController extends FitxerController
     String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, CONTEXTWEB);
     final String urlFinal = relativeControllerBase + "/final/" + signaturesSetID;
     
+    log.info(" XYZ ZZZ relativeControllerBase => " + relativeControllerBase);
+    
+    log.info(" XYZ ZZZ BASE URL FULL FORM => " + form.getBaseUrlFull());
+    
+    
+    final String baseUrl = Utils.getUrlBaseFromFullUrl(request, form.getBaseUrlFull());
+    log.info(" XYZ ZZZ BASE URL  => " + form.getBaseUrlFull());
+    
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat.getTime(),  commonInfoSignature,
         new FileInfoSignature[] { fis }, new int[] { originalNumberOfSigns },
-        loginInfo.getEntitat(), urlFinal, true);
+        loginInfo.getEntitat(), urlFinal, true, baseUrl);
     
     signaturesSet.setPluginsFirmaBySignatureID(null);
 
-
+    
     final String view = "PluginDeFirmaContenidor_AutoFirma";
     ModelAndView mav = SignatureModuleController.startPrivateSignatureProcess(request, view, signaturesSet);
     

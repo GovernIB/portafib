@@ -111,6 +111,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
     form.addHelpToField(HTMLPERLLISTARPLUGINSFIRMAWEB,
         I18NUtils.tradueix("usuariaplicacioconfig.definitenentitat.ajuda"));
+  
 
     form.addReadOnlyField(TIPUSOPERACIOFIRMA);
     form.addReadOnlyField(USENFIRMAWS2);

@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaServidorLogicaLocal;
@@ -23,11 +26,12 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
+import es.caib.portafib.logic.utils.PortaFIBTimeStampInfo;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -43,7 +47,6 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
@@ -77,8 +80,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
   @Override
   public PassarelaFullResults signDocuments(PassarelaSignaturesSet passarelaSignaturesSet,
-      EntitatJPA entitat, UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config)
-      throws NoCompatibleSignaturePluginException {
+      EntitatJPA entitat, UsuariAplicacioJPA usrApp, PerfilDeFirma perfilDeFirma, 
+      UsuariAplicacioConfiguracioJPA config) throws NoCompatibleSignaturePluginException {
 
     Locale locale;
 
@@ -113,6 +116,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
       PassarelaFileInfoSignature[] fisArray = passarelaSignaturesSet
           .getFileInfoSignatureArray();
       int[] originalNumberOfSignsArray2 = new int[fisArray.length];
+      
+     
       for (int i = 0; i < fisArray.length; i++) {
 
         PassarelaFileInfoSignature pfis = fisArray[i];
@@ -127,26 +132,16 @@ public class PassarelaDeFirmaEnServidorEJB extends
             adaptat, usrApp);
 
       } // Final de For
+           
 
       // 1.- Cridar convertir PassarelaSignaturesSet a SignaturesSet
+      Set<String> timeStampUrls = new HashSet<String>(); 
       SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(this,
-          segellDeTempsPublicEjb, signaturesSetID, passarelaSignaturesSet, entitat);
+          segellDeTempsPublicEjb, passarelaSignaturesSet, usrApp, perfilDeFirma,
+          config, entitat, timeStampUrls);
+      
 
-      //
-      // Map<UsuariAplicacioConfiguracio, SignaturesSet> splitByConfig;
-      //
-      // splitByConfig = splitByConfig(fullSS);
-      //
-      // List<PassarelaFullResults> pfrList = new ArrayList<PassarelaFullResults>();
-      //
-      // for(Map.Entry<UsuariAplicacioConfiguracio, SignaturesSet> entry:
-      // splitByConfig.entrySet()) {
-      //
-      // // a.- Cercar la Configuracio
-      // UsuariAplicacioConfiguracio config = entry.getKey();
-      // SignaturesSet ss = entry.getValue();
-
-      // b.- Cercar Plugin associats als IDs
+      // 2.- Cercar Plugin associats als IDs
       Long pluginFirmaEnServidorId = config.getPluginFirmaServidorID();
       ISignatureServerPlugin signaturePlugin;
       signaturePlugin = instantitatePluginDeFirmaEnServidor(pluginFirmaEnServidorId);
@@ -159,23 +154,17 @@ public class PassarelaDeFirmaEnServidorEJB extends
         throw new NoCompatibleSignaturePluginException(error);
       }
 
-      // Cridar al plugin per a que firmi
-      // XYZ hauria de cridar a l'altre
-      String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
-      if (absoluteURL == null) {
-        absoluteURL = PropietatGlobalUtil.getAppUrl();
+      // TIMESTAMP INFO
+      String timestampUrlBase = null;
+      if (timeStampUrls.size() != 0) {
+        // Nota per ara només suportam una sola URL pel Segellador de Temps
+        timestampUrlBase = timeStampUrls.iterator().next();
       }
-
-      // Segellat de temps
-      String timestampUrlBase = SignatureUtils
-          .getAbsoluteURLToTimeStampGeneratorPerFirmaEnServidor(absoluteURL,
-              pluginFirmaEnServidorId);
 
       // FIRMAR
       ss = signaturePlugin.signDocuments(ss, timestampUrlBase, parameters);
 
       // XYZ ZZZ ZZZ FALTA CUSTODIA
-
       PassarelaCustodyInfo custodyInfo = null;
 
       return getSignatureStatusAndResults(ss, custodyInfo, config, locale);
@@ -205,6 +194,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
   }
 
+
+
   private ISignatureServerPlugin instantitatePluginDeFirmaEnServidor(
       Long pluginFirmaEnServidorID) throws I18NException {
     ISignatureServerPlugin signaturePlugin;
@@ -221,8 +212,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
   @Override
   public byte[] upgradeSignature(FirmaSimpleFile signature, FirmaSimpleFile targetCertificate,
       SignatureTypeFormEnumForUpgrade signTypeForm, UsuariAplicacioJPA usrApp,
-      UsuariAplicacioConfiguracio config) throws NoCompatibleSignaturePluginException,
-      I18NException, Exception {
+      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config, EntitatJPA entitat) 
+          throws NoCompatibleSignaturePluginException, I18NException, Exception {
 
     // 1.- Cercar Plugin associats als IDs
 
@@ -237,26 +228,38 @@ public class PassarelaDeFirmaEnServidorEJB extends
       throw new NoCompatibleSignaturePluginException(msg);
     }
 
-    ITimeStampGenerator timestampGenerator = null;
+    PortaFIBTimeStampInfo info = null;
 
     if (signaturePlugin.isRequiredExternalTimeStampForUpgradeSignature()) {
-      // XYZ ZZZZ TODO fa falta cercar en propietats d'aplicació
-      // el Segellador de Temps seleccionat i instanciar-ho
-      // timestampGenerator = << INSTANCIAR-HO >>
+      // Cercar en propietats d'aplicació el Segellador de Temps seleccionat i instanciar-ho
+      
+      boolean userRequiresTimeStamp = true;
+      info =  segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usrApp, entitat,
+          perfilDeFirma, config, userRequiresTimeStamp);
 
       // XYZ ZZZ TRA
-      String msg = "El plugin " + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
-          + " requereix un Segellador de Temps extern, però aquesta funcionalitat encara"
-          + " no està suportada dins PortaFIB. Consulti amb el seu administrador.";
-      log.error(msg);
-      throw new NoCompatibleSignaturePluginException(msg);
+      if (info == null) {
+        String msg = "L'actualitzadador de Firmes (upgrade) '"
+           + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
+           + "' requereix un Segellador de Temps però la Configuració de Firma " 
+           + config.getNom() + " associat al Perfil de Firma amb Codi " 
+           + perfilDeFirma.getCodi() + " no defineix Segellador de Temps. Consulti amb l'administrador de PortaFIB";
+        
+        log.error(msg);
+        throw new NoCompatibleSignaturePluginException(msg);
+      }
     }
 
     // FER UPDGRADE
     final byte[] signatureData = signature.getData();
-
-    return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm,
-        timestampGenerator);
+    
+    if (info != null) {
+      return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm,
+          info.getTimeStampGenerator(), info.getTimeStampUrl());
+    } else {
+      return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm,
+        null, null);
+    }
 
   }
 

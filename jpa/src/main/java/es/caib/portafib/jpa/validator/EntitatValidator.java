@@ -358,16 +358,16 @@ public class EntitatValidator<T> implements EntitatFields {
       }
     }
 
-    if (__vr.getFieldErrorCount(PLUGINID) == 0) {
-      java.lang.Long __pluginid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINID);
-      if (__pluginid != null ) {
+    if (__vr.getFieldErrorCount(PLUGINSEGELLTEMPSID) == 0) {
+      java.lang.Long __pluginsegelltempsid = (java.lang.Long)__vr.getFieldValue(__target__,PLUGINSEGELLTEMPSID);
+      if (__pluginsegelltempsid != null ) {
         Long __count_ = null;
-        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        try { __count_ = __pluginManager.count(PluginFields.PLUGINID.equal(__pluginsegelltempsid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
         if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(PLUGINID, "error.notfound",
+          __vr.rejectValue(PLUGINSEGELLTEMPSID, "error.notfound",
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.plugin"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("plugin.pluginID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginid)));
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__pluginsegelltempsid)));
         }
       }
     }

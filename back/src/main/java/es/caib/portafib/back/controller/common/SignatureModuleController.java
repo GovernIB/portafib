@@ -38,7 +38,6 @@ import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
-import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.model.entity.Plugin;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.Configuracio;
@@ -274,7 +273,9 @@ public class SignatureModuleController extends HttpServlet {
     String relativeRequestPluginBasePath = getRequestPluginBasePath(
         relativeControllerBase, signaturesSetID, -1);
 
-    String absoluteControllerBase = getAbsoluteControllerBase(request, getContextWeb());
+    //String absoluteControllerBase = getAbsoluteControllerBase(request, getContextWeb());
+    
+    String absoluteControllerBase = signaturesSet.getUrlBase() + getContextWeb();
     String absoluteRequestPluginBasePath = getRequestPluginBasePath(
         absoluteControllerBase, signaturesSetID, -1);
 
@@ -428,10 +429,14 @@ public class SignatureModuleController extends HttpServlet {
       Utils.printRequestInfo(request);
     }
 
-    String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(request, 
+    String absoluteRequestPluginBasePath =  getAbsoluteRequestPluginBasePath(ss.getUrlBase(), 
         getContextWeb() , signaturesSetID, signatureIndex);
     String relativeRequestPluginBasePath =  getRelativeRequestPluginBasePath(request, 
         getContextWeb() , signaturesSetID, signatureIndex);
+    
+    
+    log.info("XYZ ZZZ  SignatureModuleController:absoluteRequestPluginBasePath => " + absoluteRequestPluginBasePath);
+    log.info("XYZ ZZZ  SignatureModuleController:relativeRequestPluginBasePath => " + relativeRequestPluginBasePath);
     
 
     if (isPost) {
@@ -661,6 +666,8 @@ public class SignatureModuleController extends HttpServlet {
   private static ModelAndView startSignatureProcess(HttpServletRequest request,
       String view, PortaFIBSignaturesSet signaturesSet, boolean isPublic) throws I18NException {
 
+    final String baseUrl = signaturesSet.getUrlBase();
+    
     final String signaturesSetID = signaturesSet.getSignaturesSetID();
     synchronized (portaFIBSignaturesSets) {
       if (portaFIBSignaturesSets.containsKey(signaturesSetID)) {   
@@ -674,7 +681,7 @@ public class SignatureModuleController extends HttpServlet {
 
     String context = isPublic? PUBLIC_CONTEXTWEB : PRIVATE_CONTEXTWEB;
     
-    final String urlToSelectPluginPagePage = getAbsoluteControllerBase(request, context)
+    final String urlToSelectPluginPagePage = baseUrl + context// == getAbsoluteControllerBase(request, context)
         + "/selectsignmodule/" + signaturesSetID;
 
     ModelAndView mav = new ModelAndView(view);
@@ -684,6 +691,7 @@ public class SignatureModuleController extends HttpServlet {
     return mav;
   }
 
+  /*
   public static String getAbsolutePortaFIBBaseForSignatureModule(HttpServletRequest request) {
     String absoluteURL = PropietatGlobalUtil.getSignatureModuleAbsoluteURL();
     if (absoluteURL==null || absoluteURL.trim().isEmpty()) {
@@ -701,6 +709,7 @@ public class SignatureModuleController extends HttpServlet {
       return absoluteURL;
     }
   }
+  */
 
   
   public static String getRelativePortaFIBBase(HttpServletRequest request) {
@@ -708,19 +717,20 @@ public class SignatureModuleController extends HttpServlet {
   }
 
 
-  protected static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
-    return getAbsolutePortaFIBBaseForSignatureModule(request) + webContext;
-  }
+//  protected static String  getAbsoluteControllerBase(HttpServletRequest request, String webContext) {
+//    return getAbsolutePortaFIBBaseForSignatureModule(request) + webContext;
+//  }
   
   public static String  getRelativeControllerBase(HttpServletRequest request, String webContext) {
     return   getRelativePortaFIBBase(request) + webContext;
   }
 
 
-  protected static String getAbsoluteRequestPluginBasePath(HttpServletRequest request, 
+  protected static String getAbsoluteRequestPluginBasePath(String baseUrl, 
       String webContext, String signaturesSetID, int signatureIndex) {
     
-    String base = getAbsoluteControllerBase(request, webContext);
+    //String base = getAbsoluteControllerBase(request, webContext);
+    String base = baseUrl + webContext;
     return getRequestPluginBasePath(base, signaturesSetID, signatureIndex);
   }
   

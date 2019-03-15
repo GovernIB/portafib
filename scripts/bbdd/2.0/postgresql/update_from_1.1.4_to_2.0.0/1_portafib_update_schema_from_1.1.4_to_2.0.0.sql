@@ -528,4 +528,11 @@ ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_usrentitat_3_fk  FOR
 create index pfi_petifirma_solipers2_fk_i on pfi_peticiodefirma (solicitantpersona2id);
 create index pfi_petifirma_solipers3_fk_i on pfi_peticiodefirma (solicitantpersona3id);
 
+
+-- ==================================================================
+-- 2019/03/13 URL Absoluta en la Configuració de UsrApp i enviament de la URL Bona a traves de web #181
+-- ===================================================================
+
+ALTER TABLE pfi_usuariaplicacioperfil  ADD COLUMN urlbase character varying(255);
+
  

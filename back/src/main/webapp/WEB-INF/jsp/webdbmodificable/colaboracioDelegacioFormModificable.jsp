@@ -70,6 +70,14 @@
 
 <script type="text/javascript">
 
+
+    function firmar(url) {
+      url = url + "?url_user=" + encodeURIComponent(window.location.href);
+      alert(url);
+      goTo(url);
+    }
+
+
     $(document).ready(function () {
         // when a submit button is clicked, put its name into the action hidden field
         $(":submit").click(function () {
@@ -215,7 +223,7 @@
     </c:if>
       
  
-    </script>
+  </script>
   
   
   <style type="text/css">

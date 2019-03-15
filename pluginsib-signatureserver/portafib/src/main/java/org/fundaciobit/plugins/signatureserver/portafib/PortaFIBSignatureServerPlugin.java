@@ -741,8 +741,9 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
   }
 
   @Override
-  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, SignatureTypeFormEnumForUpgrade typeform,
-      ITimeStampGenerator timestampGenerator)
+  public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, 
+      SignatureTypeFormEnumForUpgrade typeform,
+      ITimeStampGenerator timeStampGenerator, String timeStampUrl)
       throws Exception {
     // XYZ ZZZZ Afegir mètodes a API WS
     throw new Exception("No suportat");

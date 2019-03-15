@@ -32,7 +32,7 @@ public class AfirmaLibsUpgradeTest {
       CatCertTimeStampGenerator externalTimestamp = new CatCertTimeStampGenerator();
 
       byte[] pdf_t = new AfirmaLibsSignatureServerPlugin().upgradeSignature(fileToSign, null,
-          SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL, externalTimestamp);
+          SignatureTypeFormEnumForUpgrade.PAdES_T_LEVEL, externalTimestamp, null);
 
       FileOutputStream fos = new FileOutputStream("hola_PADES_T.pdf");
       fos.write(pdf_t);

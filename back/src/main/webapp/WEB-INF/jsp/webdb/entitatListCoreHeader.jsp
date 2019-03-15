@@ -111,8 +111,8 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.POLITICASEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.POLITICASEGELLATDETEMPS)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
-        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINID)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINSEGELLTEMPSID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINSEGELLTEMPSID)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINRUBRICAID)}">
         <th>${pfi:getSortIcons(__theFilterForm,EntitatFields.PLUGINRUBRICAID)}</th>

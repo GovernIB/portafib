@@ -20,6 +20,7 @@ private static final long serialVersionUID = -1439896794L;
 	java.lang.Long configuracioDeFirma3ID;
 	java.lang.Long configuracioDeFirma4ID;
 	java.lang.Long configuracioDeFirma5ID;
+	java.lang.String urlBase;
 
 
   /** Constructor Buit */
@@ -27,7 +28,7 @@ private static final long serialVersionUID = -1439896794L;
   }
 
   /** Constructor amb tots els camps  */
-  public PerfilDeFirmaBean(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID) {
+  public PerfilDeFirmaBean(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID , java.lang.String urlBase) {
     this.usuariAplicacioPerfilID=usuariAplicacioPerfilID;
     this.nom=nom;
     this.codi=codi;
@@ -38,9 +39,10 @@ private static final long serialVersionUID = -1439896794L;
     this.configuracioDeFirma3ID=configuracioDeFirma3ID;
     this.configuracioDeFirma4ID=configuracioDeFirma4ID;
     this.configuracioDeFirma5ID=configuracioDeFirma5ID;
+    this.urlBase=urlBase;
 }
   /** Constructor sense valors autoincrementals */
-  public PerfilDeFirmaBean(java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID) {
+  public PerfilDeFirmaBean(java.lang.String nom , java.lang.String codi , java.lang.String descripcio , java.lang.String condicio , long configuracioDeFirma1ID , java.lang.Long configuracioDeFirma2ID , java.lang.Long configuracioDeFirma3ID , java.lang.Long configuracioDeFirma4ID , java.lang.Long configuracioDeFirma5ID , java.lang.String urlBase) {
     this.nom=nom;
     this.codi=codi;
     this.descripcio=descripcio;
@@ -50,6 +52,7 @@ private static final long serialVersionUID = -1439896794L;
     this.configuracioDeFirma3ID=configuracioDeFirma3ID;
     this.configuracioDeFirma4ID=configuracioDeFirma4ID;
     this.configuracioDeFirma5ID=configuracioDeFirma5ID;
+    this.urlBase=urlBase;
 }
   /** Constructor dels valors Not Null */
   public PerfilDeFirmaBean(long usuariAplicacioPerfilID , java.lang.String nom , java.lang.String codi , long configuracioDeFirma1ID) {
@@ -69,6 +72,7 @@ private static final long serialVersionUID = -1439896794L;
     this.setConfiguracioDeFirma3ID(__bean.getConfiguracioDeFirma3ID());
     this.setConfiguracioDeFirma4ID(__bean.getConfiguracioDeFirma4ID());
     this.setConfiguracioDeFirma5ID(__bean.getConfiguracioDeFirma5ID());
+    this.setUrlBase(__bean.getUrlBase());
 	}
 
 	public long getUsuariAplicacioPerfilID() {
@@ -141,6 +145,13 @@ private static final long serialVersionUID = -1439896794L;
 		this.configuracioDeFirma5ID = _configuracioDeFirma5ID_;
 	};
 
+	public java.lang.String getUrlBase() {
+		return(urlBase);
+	};
+	public void setUrlBase(java.lang.String _urlBase_) {
+		this.urlBase = _urlBase_;
+	};
+
 
 
   // ======================================
@@ -158,6 +169,7 @@ private static final long serialVersionUID = -1439896794L;
     __tmp.setConfiguracioDeFirma3ID(__bean.getConfiguracioDeFirma3ID());
     __tmp.setConfiguracioDeFirma4ID(__bean.getConfiguracioDeFirma4ID());
     __tmp.setConfiguracioDeFirma5ID(__bean.getConfiguracioDeFirma5ID());
+    __tmp.setUrlBase(__bean.getUrlBase());
 		return __tmp;
 	}
 

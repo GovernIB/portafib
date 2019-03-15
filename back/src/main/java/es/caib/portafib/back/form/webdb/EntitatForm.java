@@ -50,7 +50,7 @@ public class EntitatForm extends PortaFIBBaseForm {
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmes = __toClone.listOfValuesForPosicioTaulaFirmes;
     this.listOfValuesForPoliticaSegellatDeTemps = __toClone.listOfValuesForPoliticaSegellatDeTemps;
-    this.listOfPluginForPluginID = __toClone.listOfPluginForPluginID;
+    this.listOfPluginForPluginSegellTempsID = __toClone.listOfPluginForPluginSegellTempsID;
     this.listOfPluginForPluginRubricaID = __toClone.listOfPluginForPluginRubricaID;
     this.listOfPluginForPluginValidaFirmesID = __toClone.listOfPluginForPluginValidaFirmesID;
     this.listOfPluginForPluginValidaCertificatID = __toClone.listOfPluginForPluginValidaCertificatID;
@@ -268,14 +268,14 @@ public class EntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfPluginForPluginID;
+  private List<StringKeyValue> listOfPluginForPluginSegellTempsID;
 
-  public List<StringKeyValue> getListOfPluginForPluginID() {
-    return this.listOfPluginForPluginID;
+  public List<StringKeyValue> getListOfPluginForPluginSegellTempsID() {
+    return this.listOfPluginForPluginSegellTempsID;
   }
 
-  public void setListOfPluginForPluginID(List<StringKeyValue> listOfPluginForPluginID) {
-    this.listOfPluginForPluginID = listOfPluginForPluginID;
+  public void setListOfPluginForPluginSegellTempsID(List<StringKeyValue> listOfPluginForPluginSegellTempsID) {
+    this.listOfPluginForPluginSegellTempsID = listOfPluginForPluginSegellTempsID;
   }
 
 

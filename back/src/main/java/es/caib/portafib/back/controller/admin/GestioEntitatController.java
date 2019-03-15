@@ -98,7 +98,7 @@ public class GestioEntitatController extends EntitatController implements Consta
        if(entitatForm.isNou()) {
          entitatForm.addHiddenField(USUARIAPLICACIOID);
          entitatForm.addHiddenField(CUSTODIAINFOID); // Plantilla de custòdia
-         entitatForm.addHiddenField(PLUGINID); // Segell de temps
+         entitatForm.addHiddenField(PLUGINSEGELLTEMPSID); // Segell de temps
          entitatForm.addHiddenField(POLITICASEGELLATDETEMPS);
          entitatForm.getEntitat().setPoliticaSegellatDeTemps(POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
          
@@ -291,7 +291,7 @@ public class GestioEntitatController extends EntitatController implements Consta
    * @throws I18NException
    */
   @Override
-  public List<StringKeyValue> getReferenceListForPluginID(HttpServletRequest request,
+  public List<StringKeyValue> getReferenceListForPluginSegellTempsID(HttpServletRequest request,
       ModelAndView mav, EntitatForm entitatForm, Where where) throws I18NException {
 
     Where where2 = Where.AND(
@@ -299,7 +299,7 @@ public class GestioEntitatController extends EntitatController implements Consta
         PluginFields.TIPUS.equal(ConstantsV2.TIPUS_PLUGIN_SEGELLDETEMPS),
         PluginFields.ENTITATID.equal(entitatForm.getEntitat().getEntitatID()));
 
-    return super.getReferenceListForPluginID(request, mav, entitatForm, where2);
+    return super.getReferenceListForPluginSegellTempsID(request, mav, entitatForm, where2);
   }
   
   

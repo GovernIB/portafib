@@ -845,27 +845,27 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINID)}">
-        <tr id="entitat_pluginID_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,EntitatFields.PLUGINSEGELLTEMPSID)}">
+        <tr id="entitat_pluginSegellTempsID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINID])?'entitat.pluginID':__theForm.labels[EntitatFields.PLUGINID]}" />
-              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINID]}">
-              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINID]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[EntitatFields.PLUGINSEGELLTEMPSID])?'entitat.pluginSegellTempsID':__theForm.labels[EntitatFields.PLUGINSEGELLTEMPSID]}" />
+              <c:if test="${not empty __theForm.help[EntitatFields.PLUGINSEGELLTEMPSID]}">
+              <i class="icon-info-sign" title="${__theForm.help[EntitatFields.PLUGINSEGELLTEMPSID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="entitat.pluginID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINID)}" >
-          <form:hidden path="entitat.pluginID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginID,__theForm.listOfPluginForPluginID)}"  />
+          <form:errors path="entitat.pluginSegellTempsID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINSEGELLTEMPSID)}" >
+          <form:hidden path="entitat.pluginSegellTempsID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.entitat.pluginSegellTempsID,__theForm.listOfPluginForPluginSegellTempsID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINID)}" >
-          <form:select id="entitat_pluginID"  onchange="if(typeof onChangePluginID == 'function') {  onChangePluginID(this); };"  cssClass="input-xxlarge" path="entitat.pluginID">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,EntitatFields.PLUGINSEGELLTEMPSID)}" >
+          <form:select id="entitat_pluginSegellTempsID"  onchange="if(typeof onChangePluginSegellTempsID == 'function') {  onChangePluginSegellTempsID(this); };"  cssClass="input-xxlarge" path="entitat.pluginSegellTempsID">
           <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
           <form:option value="" ></form:option>
-            <c:forEach items="${__theForm.listOfPluginForPluginID}" var="tmp">
+            <c:forEach items="${__theForm.listOfPluginForPluginSegellTempsID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

@@ -232,11 +232,11 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINID)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,EntitatFields.PLUGINSEGELLTEMPSID)}">
           <td>
-          <c:set var="tmp">${entitat.pluginID}</c:set>
+          <c:set var="tmp">${entitat.pluginSegellTempsID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfPluginForPluginID[tmp]}
+          ${__theFilterForm.mapOfPluginForPluginSegellTempsID[tmp]}
           </c:if>
           </td>
         </c:if>

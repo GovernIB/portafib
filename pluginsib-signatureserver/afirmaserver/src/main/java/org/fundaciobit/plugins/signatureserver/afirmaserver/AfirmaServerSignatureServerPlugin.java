@@ -743,7 +743,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
   @Override
   public byte[] upgradeSignature(byte[] signature,  byte[] targetCertificate, 
       SignatureTypeFormEnumForUpgrade typeform,
-     ITimeStampGenerator timestampGenerator) throws Exception {
+     ITimeStampGenerator timeStampGenerator, String timeStamperURL) throws Exception {
 
     
     if(signature == null || signature.length == 0){

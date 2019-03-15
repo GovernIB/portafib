@@ -53,11 +53,13 @@ public class AutoFirmaForm {
   CommonsMultipartFile adjunt4;
 
   long id;
-  
+
   boolean segellDeTemps;
-  
+
   boolean segellDeTempsReadOnly;
-  
+
+  String baseUrlFull;
+
   public AutoFirmaForm() {
   }
 
@@ -197,7 +199,6 @@ public class AutoFirmaForm {
     this.usuariEntitatID = usuariEntitatID;
   }
 
-
   public boolean isSegellDeTemps() {
     return segellDeTemps;
   }
@@ -205,7 +206,7 @@ public class AutoFirmaForm {
   public void setSegellDeTemps(boolean segellDeTemps) {
     this.segellDeTemps = segellDeTemps;
   }
-  
+
   public boolean isSegellDeTempsReadOnly() {
     return segellDeTempsReadOnly;
   }
@@ -214,6 +215,13 @@ public class AutoFirmaForm {
     this.segellDeTempsReadOnly = segellDeTempsReadOnly;
   }
 
+  public String getBaseUrlFull() {
+    return baseUrlFull;
+  }
+
+  public void setBaseUrlFull(String baseUrlFull) {
+    this.baseUrlFull = baseUrlFull;
+  }
 
   @Override
   protected void finalize() throws Throwable {
@@ -245,6 +253,4 @@ public class AutoFirmaForm {
 
   }
 
-  
-  
 }

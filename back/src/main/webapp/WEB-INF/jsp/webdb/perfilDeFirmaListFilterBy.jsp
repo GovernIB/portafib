@@ -210,6 +210,19 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,PerfilDeFirmaFields.URLBASE)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="perfilDeFirma.urlBase" var="urlBase" />
+              <fmt:message key="genapp.form.searchby" var="cercaperurlBase" >                
+                 <fmt:param value="${urlBase}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${urlBase}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperurlBase}" path="urlBase" />
+            </div>
+
+
+        </c:if>
 
       <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">
       <c:if test="${ __entry.key >= 0 && not empty __entry.value.searchBy }">

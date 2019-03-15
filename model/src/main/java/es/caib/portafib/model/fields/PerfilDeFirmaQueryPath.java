@@ -51,6 +51,10 @@ public class PerfilDeFirmaQueryPath extends org.fundaciobit.genapp.common.query.
     return new LongField(getQueryPath(), PerfilDeFirmaFields.CONFIGURACIODEFIRMA5ID);
   }
 
+  public StringField URLBASE() {
+    return new StringField(getQueryPath(), PerfilDeFirmaFields.URLBASE);
+  }
+
 
 
   @Override

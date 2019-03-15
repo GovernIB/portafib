@@ -450,25 +450,25 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
   }
 
 
-  private java.lang.Long pluginIDDesde;
+  private java.lang.Long pluginSegellTempsIDDesde;
 
-  public java.lang.Long getPluginIDDesde() {
-    return this.pluginIDDesde;
+  public java.lang.Long getPluginSegellTempsIDDesde() {
+    return this.pluginSegellTempsIDDesde;
   }
 
-  public void setPluginIDDesde(java.lang.Long pluginIDDesde) {
-    this.pluginIDDesde = pluginIDDesde;
+  public void setPluginSegellTempsIDDesde(java.lang.Long pluginSegellTempsIDDesde) {
+    this.pluginSegellTempsIDDesde = pluginSegellTempsIDDesde;
   }
 
 
-  private java.lang.Long pluginIDFins;
+  private java.lang.Long pluginSegellTempsIDFins;
 
-  public java.lang.Long getPluginIDFins() {
-    return this.pluginIDFins;
+  public java.lang.Long getPluginSegellTempsIDFins() {
+    return this.pluginSegellTempsIDFins;
   }
 
-  public void setPluginIDFins(java.lang.Long pluginIDFins) {
-    this.pluginIDFins = pluginIDFins;
+  public void setPluginSegellTempsIDFins(java.lang.Long pluginSegellTempsIDFins) {
+    this.pluginSegellTempsIDFins = pluginSegellTempsIDFins;
   }
 
 
@@ -582,8 +582,8 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
     this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
-    this.pluginIDDesde = __toClone.pluginIDDesde;
-    this.pluginIDFins = __toClone.pluginIDFins;
+    this.pluginSegellTempsIDDesde = __toClone.pluginSegellTempsIDDesde;
+    this.pluginSegellTempsIDFins = __toClone.pluginSegellTempsIDFins;
     this.pluginRubricaIDDesde = __toClone.pluginRubricaIDDesde;
     this.pluginRubricaIDFins = __toClone.pluginRubricaIDFins;
     this.pluginValidaFirmesIDDesde = __toClone.pluginValidaFirmesIDDesde;
@@ -600,7 +600,7 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmes = __toClone.mapOfValuesForPosicioTaulaFirmes;
     this.mapOfValuesForPoliticaSegellatDeTemps = __toClone.mapOfValuesForPoliticaSegellatDeTemps;
-    this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
+    this.mapOfPluginForPluginSegellTempsID = __toClone.mapOfPluginForPluginSegellTempsID;
     this.mapOfPluginForPluginRubricaID = __toClone.mapOfPluginForPluginRubricaID;
     this.mapOfPluginForPluginValidaFirmesID = __toClone.mapOfPluginForPluginValidaFirmesID;
     this.mapOfPluginForPluginValidaCertificatID = __toClone.mapOfPluginForPluginValidaCertificatID;
@@ -758,14 +758,14 @@ public class EntitatFilterForm extends PortaFIBBaseFilterForm implements Entitat
 
 
 
-  private Map<String, String> mapOfPluginForPluginID;
+  private Map<String, String> mapOfPluginForPluginSegellTempsID;
 
-  public Map<String, String> getMapOfPluginForPluginID() {
-    return this.mapOfPluginForPluginID;
+  public Map<String, String> getMapOfPluginForPluginSegellTempsID() {
+    return this.mapOfPluginForPluginSegellTempsID;
   }
 
-  public void setMapOfPluginForPluginID(Map<String, String> mapOfPluginForPluginID) {
-    this.mapOfPluginForPluginID = mapOfPluginForPluginID;
+  public void setMapOfPluginForPluginSegellTempsID(Map<String, String> mapOfPluginForPluginSegellTempsID) {
+    this.mapOfPluginForPluginSegellTempsID = mapOfPluginForPluginSegellTempsID;
   }
 
 

@@ -43,7 +43,7 @@ private static final long serialVersionUID = -2014602951L;
 	int posicioTaulaFirmes;
 	java.lang.String propietatsTaulaFirmes;
 	int politicaSegellatDeTemps;
-	java.lang.Long pluginID;
+	java.lang.Long pluginSegellTempsID;
 	java.lang.Long pluginRubricaID;
 	boolean comprovarNifFirma;
 	boolean checkCanviatDocFirmat;
@@ -56,7 +56,7 @@ private static final long serialVersionUID = -2014602951L;
   }
 
   /** Constructor amb tots els camps  */
-  public EntitatBean(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , int politicaCustodia , java.lang.Long custodiaInfoID , int politicaTaulaFirmes , int posicioTaulaFirmes , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginID , java.lang.Long pluginRubricaID , boolean comprovarNifFirma , boolean checkCanviatDocFirmat , java.lang.Long pluginValidaFirmesID , java.lang.Long pluginValidaCertificatID) {
+  public EntitatBean(java.lang.String entitatID , java.lang.String nom , java.lang.String descripcio , boolean activa , java.lang.String web , java.lang.Long faviconID , java.lang.Long logoWebID , java.lang.Long logoWebPeuID , java.lang.Long logoSegellID , java.lang.String adrezaHtml , java.lang.String filtreCertificats , java.lang.Long pdfAutoritzacioDelegacioID , java.lang.String suportTelefon , java.lang.String suportWeb , java.lang.String suportEmail , java.lang.String usuariAplicacioID , java.lang.Long maxUploadSize , java.lang.Long maxSizeFitxerAdaptat , java.lang.Integer maxFilesToSignAtSameTime , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.Long motiuDelegacioID , java.lang.Long firmatPerFormatID , int algorismeDeFirmaID , int politicaCustodia , java.lang.Long custodiaInfoID , int politicaTaulaFirmes , int posicioTaulaFirmes , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellTempsID , java.lang.Long pluginRubricaID , boolean comprovarNifFirma , boolean checkCanviatDocFirmat , java.lang.Long pluginValidaFirmesID , java.lang.Long pluginValidaCertificatID) {
     this.entitatID=entitatID;
     this.nom=nom;
     this.descripcio=descripcio;
@@ -90,7 +90,7 @@ private static final long serialVersionUID = -2014602951L;
     this.posicioTaulaFirmes=posicioTaulaFirmes;
     this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
-    this.pluginID=pluginID;
+    this.pluginSegellTempsID=pluginSegellTempsID;
     this.pluginRubricaID=pluginRubricaID;
     this.comprovarNifFirma=comprovarNifFirma;
     this.checkCanviatDocFirmat=checkCanviatDocFirmat;
@@ -153,7 +153,7 @@ private static final long serialVersionUID = -2014602951L;
     this.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
     this.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     this.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
-    this.setPluginID(__bean.getPluginID());
+    this.setPluginSegellTempsID(__bean.getPluginSegellTempsID());
     this.setPluginRubricaID(__bean.getPluginRubricaID());
     this.setComprovarNifFirma(__bean.isComprovarNifFirma());
     this.setCheckCanviatDocFirmat(__bean.isCheckCanviatDocFirmat());
@@ -402,11 +402,11 @@ private static final long serialVersionUID = -2014602951L;
 		this.politicaSegellatDeTemps = _politicaSegellatDeTemps_;
 	};
 
-	public java.lang.Long getPluginID() {
-		return(pluginID);
+	public java.lang.Long getPluginSegellTempsID() {
+		return(pluginSegellTempsID);
 	};
-	public void setPluginID(java.lang.Long _pluginID_) {
-		this.pluginID = _pluginID_;
+	public void setPluginSegellTempsID(java.lang.Long _pluginSegellTempsID_) {
+		this.pluginSegellTempsID = _pluginSegellTempsID_;
 	};
 
 	public java.lang.Long getPluginRubricaID() {
@@ -484,7 +484,7 @@ private static final long serialVersionUID = -2014602951L;
     __tmp.setPosicioTaulaFirmes(__bean.getPosicioTaulaFirmes());
     __tmp.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     __tmp.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
-    __tmp.setPluginID(__bean.getPluginID());
+    __tmp.setPluginSegellTempsID(__bean.getPluginSegellTempsID());
     __tmp.setPluginRubricaID(__bean.getPluginRubricaID());
     __tmp.setComprovarNifFirma(__bean.isComprovarNifFirma());
     __tmp.setCheckCanviatDocFirmat(__bean.isCheckCanviatDocFirmat());

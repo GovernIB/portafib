@@ -1,5 +1,7 @@
 package es.caib.portafib.back.utils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -245,6 +247,28 @@ public class Utils {
         (String) request.getAttribute("javax.servlet.forward.request_uri"));
     
     log.info(" ===============================================================");
+  }
+  
+  
+  public static String getUrlBaseFromFullUrl(HttpServletRequest request, String baseUrlFull) {
+    URL url;
+    try {
+      url = new URL(baseUrlFull);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();        
+      return null;
+    }
+
+    String port;
+    if (url.getPort() == -1) {
+      port = "";
+    } else {
+      port = ":" + url.getPort();
+    }
+
+    String baseUrl = url.getProtocol() + "://" + url.getHost() + port
+        + request.getContextPath();
+    return baseUrl;
   }
 
 }

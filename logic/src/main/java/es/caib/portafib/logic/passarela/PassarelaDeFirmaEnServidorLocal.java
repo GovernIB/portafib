@@ -7,9 +7,11 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
 /**
@@ -30,8 +32,9 @@ public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirm
    * @return resultats o errors segons com hagi finalitzat
    */
   public PassarelaFullResults signDocuments(PassarelaSignaturesSet signaturesSet,
-      EntitatJPA entitat, UsuariAplicacioJPA usrApp, UsuariAplicacioConfiguracio config)
-      throws NoCompatibleSignaturePluginException;
+      EntitatJPA entitat, UsuariAplicacioJPA usrApp, 
+      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracioJPA config)
+         throws NoCompatibleSignaturePluginException;
 
   /**
    * 
@@ -41,7 +44,7 @@ public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirm
    */
   public byte[] upgradeSignature(FirmaSimpleFile signature,FirmaSimpleFile targetCertificate,
       SignatureTypeFormEnumForUpgrade signTypeForm, UsuariAplicacioJPA usrApp,
-      UsuariAplicacioConfiguracio config) throws NoCompatibleSignaturePluginException,
-      I18NException, Exception;
+      PerfilDeFirma perfil, UsuariAplicacioConfiguracio config, EntitatJPA entitat)
+          throws NoCompatibleSignaturePluginException, I18NException, Exception;
 
 }

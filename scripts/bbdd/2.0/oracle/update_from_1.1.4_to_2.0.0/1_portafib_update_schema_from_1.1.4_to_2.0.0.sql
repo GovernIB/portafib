@@ -353,26 +353,27 @@ ALTER TABLE pfi_usuariaplicacioconfig  DROP CONSTRAINT pfi_confapp_usrapp_uk;
 ALTER TABLE pfi_usuariaplicacioconfig  DROP COLUMN usuariaplicacioid;
 
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmaapisimpleservidor NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmaapisimpleservidor NUMBER(1,0) NOT NULL DEFAULT 0;
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmaapisimpleweb NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmaapisimpleweb NUMBER(1,0) NOT NULL DEFAULT 0;
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmaweb NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmaweb NUMBER(1,0) NOT NULL DEFAULT 0;
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmaws2 NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmaws2 NUMBER(1,0) NOT NULL DEFAULT 0;
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmapassarelaservidor NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmapassarelaservidor NUMBER(1,0) NOT NULL DEFAULT 0;
 ALTER TABLE pfi_usuariaplicacioconfig
-  ADD COLUMN usenfirmapassarelaweb NUMBER(1,0) NOT NULL DEFAULT false;
+  ADD usenfirmapassarelaweb NUMBER(1,0) NOT NULL DEFAULT 0;
   
   
-ALTER TABLE pfi_usuariaplicacioconfig  ADD COLUMN nom VARCHAR2(255 CHAR);
+ALTER TABLE pfi_usuariaplicacioconfig  ADD nom VARCHAR2(255 CHAR);
 
-UPDATE pfi_usuariaplicacioconfig SET nom='Configuracio amb ID' || usuariaplicacioconfigid;
+UPDATE pfi_usuariaplicacioconfig SET nom=CONCAT('Configuracio amb ID',usuariaplicacioconfigid);
 
-ALTER TABLE pfi_usuariaplicacioconfig  ALTER COLUMN nom SET NOT NULL;
 
-ALTER TABLE pfi_usuariaplicacioconfig ADD COLUMN entitatid VARCHAR2(50 CHAR) NOT NULL;
+ALTER TABLE pfi_usuariaplicacioconfig MODIFY (nom NOT NULL);
+
+ALTER TABLE pfi_usuariaplicacioconfig ADD entitatid VARCHAR2(50 CHAR) NOT NULL;
 
 ALTER TABLE pfi_usuariaplicacioconfig
   ADD CONSTRAINT pfi_confapp_entitat_ent_fk FOREIGN KEY (entitatid) REFERENCES pfi_entitat (entitatid) ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -382,7 +383,7 @@ create index pfi_confapp_entitatid_fk_i on pfi_usuariaplicacioconfig (entitatid)
 
 CREATE TABLE portafib.pfi_usuariaplicacioperfil
 (
-   usuariaplicacioperfilid NUMBER(19,0) NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
+   usuariaplicacioperfilid NUMBER(19,0) NOT NULL DEFAULT pfi_portafib_seq.nextval, 
    nom VARCHAR2(255 CHAR) NOT NULL,
    codi VARCHAR2(100 CHAR) NOT NULL,
    descripcio VARCHAR2(500 CHAR), 
@@ -405,7 +406,7 @@ create index pfi_perfilapp_appconf3id_fk_i on pfi_usuariaplicacioperfil (usrappc
 
 CREATE TABLE portafib.pfi_perfilsperusrapp
 (
-   perfilsperusrappid NUMBER(19,0) NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
+   perfilsperusrappid NUMBER(19,0) NOT NULL DEFAULT pfi_portafib_seq.nextval, 
    usuariaplicacioperfilid NUMBER(19,0) NOT NULL, 
    usuariaplicacioid VARCHAR2(50 CHAR)  NOT NULL, 
    CONSTRAINT pfi_perfilsperusrapp_pk PRIMARY KEY (perfilsperusrappid), 
@@ -420,8 +421,8 @@ create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicaci
 create index pfi_perfilsua_usuappid_fk_i on pfi_perfilsperusrapp (usuariaplicacioid);
 
 
-ALTER TABLE pfi_usuariaplicacioperfil ADD COLUMN usrappconfiguracio4id NUMBER(19,0);
-ALTER TABLE pfi_usuariaplicacioperfil ADD COLUMN usrappconfiguracio5id NUMBER(19,0);
+ALTER TABLE pfi_usuariaplicacioperfil ADD usrappconfiguracio4id NUMBER(19,0);
+ALTER TABLE pfi_usuariaplicacioperfil ADD usrappconfiguracio5id NUMBER(19,0);
 
 
 ALTER TABLE pfi_usuariaplicacioperfil ADD CONSTRAINT pfi_perfilapp_confapp_4_fk FOREIGN KEY (usrappconfiguracio4id)
@@ -440,9 +441,9 @@ create index pfi_perfilapp_appconf5id_fk_i on pfi_usuariaplicacioperfil (usrappc
 -- =================================================
 
 ALTER TABLE pfi_usuaripersona
-  ADD COLUMN usuariintern NUMBER(1,0) NOT NULL DEFAULT 1;
+  ADD usuariintern NUMBER(1,0) NOT NULL DEFAULT 1;
 ALTER TABLE pfi_usuaripersona
-  ADD COLUMN contrasenya VARCHAR2(255 CHAR);
+  ADD contrasenya VARCHAR2(255 CHAR);
 
 
 -- =================================================
@@ -458,9 +459,9 @@ ALTER TABLE pfi_bitacola
 -- ===================================================================
 
 ALTER TABLE pfi_peticiodefirma
-  ADD COLUMN solicitantpersona2id VARCHAR2(101 CHAR);
+  ADD solicitantpersona2id VARCHAR2(101 CHAR);
 ALTER TABLE pfi_peticiodefirma
-  ADD COLUMN solicitantpersona3id VARCHAR2(101 CHAR);
+  ADD solicitantpersona3id VARCHAR2(101 CHAR);
 
 
 ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_usrentitat_2_fk  FOREIGN KEY (solicitantpersona2id)  REFERENCES pfi_usuarientitat (usuarientitatid);
@@ -470,6 +471,11 @@ create index pfi_petifirma_solipers2_fk_i on pfi_peticiodefirma (solicitantperso
 create index pfi_petifirma_solipers3_fk_i on pfi_peticiodefirma (solicitantpersona3id);
 
 
+-- ==================================================================
+-- 2019/03/13 URL Absoluta en la Configuració de UsrApp i enviament de la URL Bona a traves de web #181
+-- ===================================================================
+
+ALTER TABLE pfi_usuariaplicacioperfil ADD urlbase VARCHAR2(255 CHAR);
 
 
 

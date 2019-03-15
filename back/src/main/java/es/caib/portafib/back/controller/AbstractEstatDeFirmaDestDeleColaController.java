@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -83,7 +84,6 @@ import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.ConstantsV2;
@@ -630,7 +630,13 @@ import es.caib.portafib.utils.Configuracio;
 
     @RequestMapping(value = "/firmarseleccionats", method = RequestMethod.POST)
     public ModelAndView firmarSeleccionats(HttpServletRequest request,
-        @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
+        @ModelAttribute EstatDeFirmaFilterForm filterForm,
+        @RequestParam("url_user") String baseUrlFull) throws I18NException {
+
+      log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
+      
+      String baseUrl = es.caib.portafib.back.utils.Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
+      log.info("XYZ ZZZ  baseUrl OK = " + baseUrl);
 
       // seleccionats conté els estatIDs
       String[] seleccionatsStr = filterForm.getSelectedItems();
@@ -762,7 +768,7 @@ import es.caib.portafib.utils.Configuracio;
         PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
             caducitat.getTime(), commonInfoSignature,
             fileInfoSignatureArray, originalNumberOfSignsArray,
-            loginInfo.getEntitat(), urlFinal, true);
+            loginInfo.getEntitat(), urlFinal, true, baseUrl);
 
         signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -782,6 +788,8 @@ import es.caib.portafib.utils.Configuracio;
         return mav;
         
     }
+
+
     
 
     public abstract String getRole();
@@ -987,17 +995,26 @@ import es.caib.portafib.utils.Configuracio;
 
     @RequestMapping(value = "/firmar/{estatDeFirmaID}/{peticioDeFirmaID}", method = RequestMethod.GET)
     public ModelAndView firmar(HttpServletRequest request, HttpServletResponse response,
-        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
+        @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID,
+        @RequestParam("url_user") String baseUrlFull) throws I18NException {
 
+      log.info("XYZ ZZZ baseUrlFull = " + baseUrlFull);
+      
+      String baseUrl = es.caib.portafib.back.utils.Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
+      log.info("XYZ ZZZ  baseUrl OK = " + baseUrl);
+      
+      
       ModelAndView mav;
       final int numberTotalOfSignatures = 1;
       mav = commonFirma(request, response, estatDeFirmaID,
-                 peticioDeFirmaID, numberTotalOfSignatures);
+                 peticioDeFirmaID, baseUrl, numberTotalOfSignatures);
       return mav;
     }
 
     private ModelAndView commonFirma(HttpServletRequest request, HttpServletResponse response,
-        Long estatDeFirmaID, Long peticioDeFirmaID, int numberTotalOfSignatures) throws I18NException {
+        Long estatDeFirmaID, Long peticioDeFirmaID, String baseUrl, 
+        int numberTotalOfSignatures) throws I18NException {
+      
       log.info("Entra a firmar Peticio = " + peticioDeFirmaID + " | EstatDeFirma = " + estatDeFirmaID);
       
       try {
@@ -1033,13 +1050,18 @@ import es.caib.portafib.utils.Configuracio;
       Calendar caducitat = Calendar.getInstance();
       caducitat.add(Calendar.MINUTE, 10);
 
-      String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+      //String relativeControllerBase = SignatureModuleController.getRelativeControllerBase(request, getContextWeb());
+      
+      String relativeControllerBase = baseUrl +  getContextWeb();
+      
+      log.info(" XYZ ZZZ relativeControllerBase = " + relativeControllerBase);
+      
       final String urlFinal = relativeControllerBase + "/finalFirma/" + signaturesSetID;
 
       PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(
           signaturesSetID, caducitat.getTime(), commonInfoSignature,
           new FileInfoSignature[] { fif.fileInfoSignature }, new int[] { fif.originalNumberOfSigns},
-          entitat, urlFinal, true);
+          entitat, urlFinal, true, baseUrl);
 
       signaturesSet.setPluginsFirmaBySignatureID(pluginsFirmaBySignatureID);
 
@@ -1434,14 +1456,14 @@ import es.caib.portafib.utils.Configuracio;
         // Construir Objecte
         final String idname = peticioDeFirma.getFitxerAFirmar().getNom();
 
-        final String firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, langSign);
+        final String firmatPerFormat = SignatureUtils.getFirmatPerFormat(entitat, null, langSign);
 
        final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
        
        // S'ha d'obtenir de la PeticioDeFirma
        boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
-       ITimeStampGenerator timeStampGenerator;
-       timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(segellDeTempsEjb, entitat, userRequiresTimeStamp);
+       ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
+       
        
        
        // Seleccionar si existeixen restriccionas de PLugins de Firma segons els 

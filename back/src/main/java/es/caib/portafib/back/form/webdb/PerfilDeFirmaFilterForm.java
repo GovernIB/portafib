@@ -197,6 +197,17 @@ public class PerfilDeFirmaFilterForm extends PortaFIBBaseFilterForm implements P
   }
 
 
+  private java.lang.String urlBase;
+
+  public java.lang.String getUrlBase() {
+    return this.urlBase;
+  }
+
+  public void setUrlBase(java.lang.String urlBase) {
+    this.urlBase = urlBase;
+  }
+
+
   public PerfilDeFirmaFilterForm() {
   }
   
@@ -218,6 +229,7 @@ public class PerfilDeFirmaFilterForm extends PortaFIBBaseFilterForm implements P
     this.configuracioDeFirma4IDFins = __toClone.configuracioDeFirma4IDFins;
     this.configuracioDeFirma5IDDesde = __toClone.configuracioDeFirma5IDDesde;
     this.configuracioDeFirma5IDFins = __toClone.configuracioDeFirma5IDFins;
+    this.urlBase = __toClone.urlBase;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma1ID;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma2ID;
     this.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID = __toClone.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirma3ID;

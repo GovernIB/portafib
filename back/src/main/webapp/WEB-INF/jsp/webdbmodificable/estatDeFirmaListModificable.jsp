@@ -29,6 +29,7 @@
   
 
   function firmar(url, firmaid) {
+      url = url + "?url_user=" + encodeURIComponent(window.location.href);
       goTo(url);
   }
   
@@ -42,11 +43,11 @@
       var iLen=firmes.length;
       
       if(typeof iLen === 'undefined'){
-        <%--  Ã©s un sol element --%>
+        <%--  És un sol element --%>
         str = firmes.value;
         <%-- console.log("Unique Value= " + firmes.value); --%>
       } else {
-          <%--  Ã©s un array d'elements --%>
+          <%--  És un array d'elements --%>
           console.log("iLen = " + iLen);
           for (var i=0; i<iLen; i++) {
             if (firmes[i].checked) {
@@ -93,7 +94,7 @@
 
      function firmarseleccionats() {
        var url;
-       url = '<c:url value="${contexte}/firmarseleccionats"/>';
+       url = '<c:url value="${contexte}/firmarseleccionats"/>?url_user=' + encodeURIComponent(window.location.href);
        document.estatDeFirma.action = url;
        document.estatDeFirma.submit();
      }

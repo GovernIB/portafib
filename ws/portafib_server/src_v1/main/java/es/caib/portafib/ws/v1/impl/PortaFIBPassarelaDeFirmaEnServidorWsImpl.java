@@ -22,7 +22,7 @@ import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
+import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
@@ -42,8 +42,9 @@ import es.caib.portafib.ws.v1.utils.PassarelaConversion;
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME_WS)
 @WebContext(contextRoot = "/portafib/ws", urlPattern = "/v1/"
     + PortaFIBPassarelaDeFirmaEnServidorWsImpl.NAME, transportGuarantee = TransportGuarantee.NONE, secureWSDLAccess = false, authMethod = "WSBASIC")
-public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPassarelaDeFirmaWsImpl
-  implements PortaFIBPassarelaDeFirmaEnServidorWs, Constants {
+public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends
+    AbstractPortaFIBPassarelaDeFirmaWsImpl implements PortaFIBPassarelaDeFirmaEnServidorWs,
+    Constants {
 
   public static final String NAME = "PortaFIBPassarelaDeFirmaEnServidor";
 
@@ -51,16 +52,12 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
 
   @EJB(mappedName = PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
   protected PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
-  
+
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   protected ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-  
-  
-  
   @Resource
   private WebServiceContext wsContext;
-
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })
   @WebMethod
@@ -70,43 +67,37 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends AbstractPortaFIBPa
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-    
+
     // Recuperar Configuracio de Plugin associada a usuariAplicacio
-    UsuariAplicacioConfiguracio config;
+
     final boolean isFirmaServidor = true;
-    config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
-        userapp.getUsuariAplicacioID(), isFirmaServidor);
-    
-    
+    PerfilConfiguracioDeFirma pcf;
+    pcf = configuracioUsuariAplicacioLogicaLocalEjb
+        .getConfiguracioUsuariAplicacioPerPassarela(userapp.getUsuariAplicacioID(),
+            isFirmaServidor);
 
     es.caib.portafib.logic.passarela.api.PassarelaFullResults results;
-try {
-  
-     PassarelaSignaturesSet pss = PassarelaConversion.convert(signaturesSet); 
-     
-     if (signaturesSet.getCommonInfoSignature().isUsePortafibCertificateFilter()) {
-       pss.getCommonInfoSignature().setFiltreCertificats(userapp.getEntitat().getFiltreCertificats());
-     }
-     
-     if (signaturesSet.getCommonInfoSignature().getUsername() == null) {
-       pss.getCommonInfoSignature().setUsername(userapp.getUsuariAplicacioID());
-     }
-  
-    results = passarelaDeFirmaEnServidorEjb.signDocuments(
-        pss,
-        userapp.getEntitat(), userapp, config);
-    
-    
-    
-    
-    
-    
-  } catch(NoCompatibleSignaturePluginException nape) {
-    throw new I18NException("signaturemodule.notfound");
- }
-    
+    try {
+
+      PassarelaSignaturesSet pss = PassarelaConversion.convert(signaturesSet);
+
+      if (signaturesSet.getCommonInfoSignature().isUsePortafibCertificateFilter()) {
+        pss.getCommonInfoSignature().setFiltreCertificats(
+            userapp.getEntitat().getFiltreCertificats());
+      }
+
+      if (signaturesSet.getCommonInfoSignature().getUsername() == null) {
+        pss.getCommonInfoSignature().setUsername(userapp.getUsuariAplicacioID());
+      }
+
+      results = passarelaDeFirmaEnServidorEjb.signDocuments(pss, userapp.getEntitat(),
+          userapp, pcf.perfilDeFirma, pcf.configuracioDeFirma);
+
+    } catch (NoCompatibleSignaturePluginException nape) {
+      throw new I18NException("signaturemodule.notfound");
+    }
+
     return PassarelaConversion.convert(results);
   }
-
 
 }

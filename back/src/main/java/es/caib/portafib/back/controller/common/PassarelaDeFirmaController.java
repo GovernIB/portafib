@@ -1,6 +1,8 @@
 package es.caib.portafib.back.controller.common;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -22,18 +24,21 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.PortaFIBSessionLocaleResolver;
 import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebPublicLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsPublicLogicaLocal;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.utils.Configuracio;
 
 /**
- *
- * @author anadal
- *
+ * 
+ * @author anadal(u80067)
  *
  */
 @Controller
@@ -50,6 +55,12 @@ public class PassarelaDeFirmaController  {
   
   @EJB(mappedName = SegellDeTempsPublicLogicaLocal.JNDI_NAME)
   protected SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb;
+  
+  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
+  
+  @EJB(mappedName = UsuariAplicacioLogicaLocal.JNDI_NAME)
+  protected UsuariAplicacioLogicaLocal usuariAplicacioLogicaEjb;
 
   /**
    * 
@@ -70,13 +81,30 @@ public class PassarelaDeFirmaController  {
       throw new Exception("La transacció amb ID " + signaturesSetID 
           + " no existeix o ja ha caducat.");
     }
+    
+    // Passarela només pot tenir una sola Configuracio
+
+    
+    
+    
+    final boolean isFirmaServidor = true;
+    PerfilConfiguracioDeFirma pcf;
+    pcf = configuracioUsuariAplicacioLogicaLocalEjb
+        .getConfiguracioUsuariAplicacioPerPassarela(ssf.getApplicationID(),
+            isFirmaServidor);
+    
 
     PassarelaSignaturesSet pss = ssf.getSignaturesSet();
 
     EntitatJPA entitat = passarelaDeFirmaEjb.getEntitat(ssf.getEntitatID());
-
+    
+    
+    UsuariAplicacioJPA usrApp = (UsuariAplicacioJPA)usuariAplicacioLogicaEjb.findByPrimaryKey(ssf.getApplicationID());
+    
+    
+    Set<String> timeStampUrls = new HashSet<String>();
     SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(passarelaDeFirmaEjb,
-        segellDeTempsPublicEjb, signaturesSetID, pss, entitat);
+        segellDeTempsPublicEjb, pss, usrApp, pcf.perfilDeFirma, pcf.configuracioDeFirma, entitat, timeStampUrls);
 
     // Vull suposar que abans de 10 minuts haurà firmat
     java.util.Date caducitat = pss.getExpiryDate();
@@ -87,7 +115,7 @@ public class PassarelaDeFirmaController  {
 
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat, ss.getCommonInfoSignature(), ss.getFileInfoSignatureArray(),
-        ssf.getOriginalNumberOfSignsArray(),  entitat, urlFinal, ssf.isFullView());
+        ssf.getOriginalNumberOfSignsArray(),  entitat, urlFinal, ssf.isFullView(), ssf.getBaseUrl());
     
     // Filtres definits en l'Aplicació CLient
     List<Long> filterByPluginsID = pss.getCommonInfoSignature().getAcceptedPlugins();
@@ -102,7 +130,8 @@ public class PassarelaDeFirmaController  {
     final String view = "PluginDeFirmaContenidor_Passarela";
     
 
-    ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(request, view, signaturesSet);
+    ModelAndView mav = SignatureModuleController.startPublicSignatureProcess(
+        request,  view, signaturesSet);
 
     LoginInfo loginInfo = null;
     try {

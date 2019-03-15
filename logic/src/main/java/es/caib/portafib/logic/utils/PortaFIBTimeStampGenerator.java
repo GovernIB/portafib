@@ -3,71 +3,23 @@ package es.caib.portafib.logic.utils;
 import java.util.Calendar;
 
 import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
 
-import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
-import es.caib.portafib.model.entity.Entitat;
-import es.caib.portafib.utils.ConstantsPortaFIB;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 public class PortaFIBTimeStampGenerator implements ITimeStampGenerator {
 
-  protected static Logger log = Logger.getLogger(PortaFIBTimeStampGenerator.class);
+  protected Logger log = Logger.getLogger(this.getClass());
 
   final ITimeStampPlugin timeStampPlugin;
 
-  private PortaFIBTimeStampGenerator(ITimeStampPlugin timeStampPlugin) {
+  public PortaFIBTimeStampGenerator(ITimeStampPlugin timeStampPlugin) {
     this.timeStampPlugin = timeStampPlugin;
-  }
-
-  public static ITimeStampGenerator getInstance(SegellDeTempsLogicaLocal segellDeTempsEjb,
-      Entitat entitat, boolean userRequiresTimeStamp) throws I18NException {
-
-    if (entitat == null) {
-      return null;
-    }
-
-    switch (entitat.getPoliticaSegellatDeTemps()) {
-    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
-      return null;
-
-    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
-    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
-      if (!userRequiresTimeStamp) {
-        return null;
-      }
-
-    case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI:
-      if (entitat.getPluginID() == null) {
-        // TODO Traduir com toca
-        throw new I18NException("error.unknown",
-            "No s'ha definit plugin de Segellat de Temps en les opcions de l'Entitat");
-      }
-      if (segellDeTempsEjb == null) {
-        // TODO Traduir com toca
-        throw new I18NException("error.unknown", "La instancia de segellDeTempsEjb val null ");
-      }
-
-    }
-
-    Long pluginID = entitat.getPluginID();
-
-    ITimeStampPlugin plugin = segellDeTempsEjb.getInstanceByPluginID(pluginID);
-
-    if (plugin == null) {
-      // TODO Traduir com toca
-      throw new I18NException("error.unknown",
-          "No s'ha pogut instanciar el plugin de segellat amb ID " + pluginID);
-    }
-
-    return new PortaFIBTimeStampGenerator(plugin);
-
   }
 
   @Override

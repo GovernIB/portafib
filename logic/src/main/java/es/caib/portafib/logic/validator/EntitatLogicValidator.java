@@ -32,11 +32,11 @@ public class EntitatLogicValidator<T> extends EntitatValidator<T>{
     Integer segellatWeb = (Integer)__vr.getFieldValue(__target__, POLITICASEGELLATDETEMPS);
     if (segellatWeb != ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR) {
       // Requerim un plugin de segellat definit
-      Long pluginSegellatID = (Long)__vr.getFieldValue(__target__, PLUGINID);
+      Long pluginSegellatID = (Long)__vr.getFieldValue(__target__, PLUGINSEGELLTEMPSID);
       if (pluginSegellatID == null) {
-        __vr.rejectValue(PLUGINID, 
+        __vr.rejectValue(PLUGINSEGELLTEMPSID, 
             "genapp.validation.required",
-            new I18NArgumentCode(get(PLUGINID)));
+            new I18NArgumentCode(get(PLUGINSEGELLTEMPSID)));
       }
     }
     

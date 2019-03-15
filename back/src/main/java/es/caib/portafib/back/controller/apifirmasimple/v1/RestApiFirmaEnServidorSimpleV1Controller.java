@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
@@ -223,7 +224,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       byte[] upgraded;
       upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature,
           fsur.getTargetCertificate(), singTypeForm,
-          restLoginInfo.loginInfo.getUsuariAplicacio(), config);
+          restLoginInfo.loginInfo.getUsuariAplicacio(),
+          restLoginInfo.perfilDeFirma, config, restLoginInfo.loginInfo.getEntitat());
 
       
       //  VALIDATE
@@ -420,7 +422,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
       LoginInfo loginInfo = restLoginInfo.loginInfo;
 
-      UsuariAplicacioConfiguracio config;
+      UsuariAplicacioConfiguracioJPA config;
       config = configuracioUsuariAplicacioLogicaLocalEjb
           .getConfiguracioFirmaPerApiFirmaSimpleEnServidor(loginInfo.getUsuariAplicacio()
               .getUsuariAplicacioID(), restLoginInfo.perfilDeFirma, simpleSignature);
@@ -440,7 +442,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       PassarelaFullResults fullResults;
       try {
         fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, loginInfo.getEntitat(),
-            loginInfo.getUsuariAplicacio(), config);
+            loginInfo.getUsuariAplicacio(), restLoginInfo.perfilDeFirma, config);
       } catch (NoCompatibleSignaturePluginException nape) {
         return generateNoAvailablePlugin(pss.getCommonInfoSignature().getLanguageUI(), true);
       }

@@ -33,6 +33,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -103,7 +104,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     String codiPerfil = commonInfo.getSignProfile();
 
     try {
-      configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(LoginInfo.getInstance()
+       configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(LoginInfo.getInstance()
           .getUsuariAplicacio().getUsuariAplicacioID(), codiPerfil,
           ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
 
@@ -476,8 +477,11 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       // CRIDAR A START TRANSACION
       final boolean fullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN
           .equals(startTransactionRequest.getView());
+      
+      String urlBase = LogicUtils.getUrlBase(perfilFirma);
+
       String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView,
-          usuariAplicacio);
+          usuariAplicacio, urlBase);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);
@@ -512,6 +516,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     }
 
   }
+
+  
 
   @RequestMapping(value = "/" + ApiFirmaWebSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
   @ResponseBody
@@ -866,7 +872,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
      * @param startTime
      * @param status
      */
-    public TransactionInfo(String transactionID, FirmaSimpleCommonInfo commonInfo, int status) {
+    public TransactionInfo(String transactionID, FirmaSimpleCommonInfo commonInfo, 
+        int status) {
       super();
       this.transactionID = transactionID;
       this.startTime = new Date();

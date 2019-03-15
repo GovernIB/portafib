@@ -5423,7 +5423,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <string>pfi_entitat_segelltemps_fk_i</string> 
           </void> 
           <void property="javaName"> 
-           <string>pluginID</string> 
+           <string>pluginSegellTempsID</string> 
           </void> 
           <void property="javaType"> 
            <class>java.lang.Long</class> 
@@ -10663,7 +10663,7 @@ opcional incluso cuando se genera una firma EPES.</string>
     <void index="19"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="10"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="11"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -11304,6 +11304,45 @@ opcional incluso cuando se genera una firma EPES.</string>
             </void> 
             <void property="webtype"> 
              <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="10"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>urlBase</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Adreça Web Base d&apos;Accés</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Dirección Web Base de Acceso</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>255</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>urlbase</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
             </void> 
            </object> 
           </void> 

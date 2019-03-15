@@ -98,9 +98,9 @@ public interface ISignatureServerPlugin extends ISignaturePlugin {
    */
   public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, 
       SignatureTypeFormEnumForUpgrade typeform,
-      ITimeStampGenerator externalTimestamp) throws Exception;
+      ITimeStampGenerator timestampGenerator, String timestampUrlBase) throws Exception;
 
-  
+
   /**
    * Reseteja les transaccions dels Plugin i fa neteja
    * @return

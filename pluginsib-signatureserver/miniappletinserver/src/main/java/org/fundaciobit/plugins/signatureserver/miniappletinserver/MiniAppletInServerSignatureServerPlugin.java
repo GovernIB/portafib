@@ -790,7 +790,7 @@ public class MiniAppletInServerSignatureServerPlugin extends AbstractSignatureSe
 
   @Override
   public byte[] upgradeSignature(byte[] signature, byte[] targetCertificate, SignatureTypeFormEnumForUpgrade typeform,
-      ITimeStampGenerator externalTimestamp)
+     ITimeStampGenerator timeStampGenerator, String timeStampUrl)
       throws Exception {
     // XYZ ZZZ
     throw new Exception("No suportat");

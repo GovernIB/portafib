@@ -12,6 +12,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -19,10 +20,13 @@ import org.jboss.wsf.spi.annotation.TransportGuarantee;
 import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 
@@ -63,6 +67,9 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
 
   @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  
+  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
   @Resource
   private WebServiceContext wsContext;
@@ -81,9 +88,23 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    final String applicationID = userapp.getUsuariAplicacioID(); 
+
+    final boolean esFirmaEnServidor = false;
+    
+    final PerfilDeFirma perfilDeFirma;
+    try {
+      perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.
+          getPerfilDeFirmaPerPassarela(applicationID, esFirmaEnServidor);
+    } catch (I18NException e) {
+      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + applicationID + " per Passarela Web"; 
+      throw new Exception(msg, e);
+    }
+
+    String baseUrl = LogicUtils.getUrlBase(perfilDeFirma);
 
     final boolean fullView = false;
-    return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, userapp.getEntitatID(), fullView, userapp);
+    return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, userapp.getEntitatID(), fullView, userapp, baseUrl);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

@@ -101,8 +101,8 @@ public interface Entitat extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getPoliticaSegellatDeTemps();
 	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);
 
-	public java.lang.Long getPluginID();
-	public void setPluginID(java.lang.Long _pluginID_);
+	public java.lang.Long getPluginSegellTempsID();
+	public void setPluginSegellTempsID(java.lang.Long _pluginSegellTempsID_);
 
 	public java.lang.Long getPluginRubricaID();
 	public void setPluginRubricaID(java.lang.Long _pluginRubricaID_);

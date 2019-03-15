@@ -89,6 +89,11 @@
           </c:if>
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PerfilDeFirmaFields.URLBASE)}">
+          <td>
+          ${perfilDeFirma.urlBase}
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

@@ -32,6 +32,9 @@ public interface PerfilDeFirma extends org.fundaciobit.genapp.common.IGenAppEnti
 	public java.lang.Long getConfiguracioDeFirma5ID();
 	public void setConfiguracioDeFirma5ID(java.lang.Long _configuracioDeFirma5ID_);
 
+	public java.lang.String getUrlBase();
+	public void setUrlBase(java.lang.String _urlBase_);
+
 
 
   // ======================================

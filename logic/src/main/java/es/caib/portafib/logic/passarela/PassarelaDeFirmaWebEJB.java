@@ -24,12 +24,12 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -93,7 +93,7 @@ public class PassarelaDeFirmaWebEJB
   
   @Override
   public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID, 
-      boolean fullView, UsuariAplicacioJPA usuariAplicacio)
+      boolean fullView, UsuariAplicacioJPA usuariAplicacio, String baseUrl)
       throws I18NException, I18NValidationException {
 
     // Validar
@@ -156,7 +156,8 @@ public class PassarelaDeFirmaWebEJB
       
       // Guardar
       storeSignaturesSet(new PassarelaSignaturesSetWebInternalUse(entitatID,
-          originalNumberOfSignsArray, fullView, signaturesSet, usuariAplicacio.getUsuariAplicacioID()));
+          originalNumberOfSignsArray, fullView, signaturesSet, 
+          usuariAplicacio.getUsuariAplicacioID(), baseUrl));
 
     } catch (I18NException i18n) {
       deleteSignaturesSet(signaturesSetID);
@@ -164,14 +165,12 @@ public class PassarelaDeFirmaWebEJB
     }
 
     // URL on Iniciar el proces de firma
-    // XYZ ZZZ TODO Això ho ha de collir de la propietat URL PortaFIB de UsuariApplicacioConfig
-    // XYZ ZZZ TODO Configurar que si getAppUrl val null llavors llanci excepció
-    final String absoluteURL = PropietatGlobalUtil.getAppUrl() + PASSARELA_CONTEXTPATH
+    final String absoluteURL = baseUrl + PASSARELA_CONTEXTPATH
         + "/start/" + signaturesSetID;
     if (log.isDebugEnabled()) {
       log.debug("Inici de TRANSACCIO PORTAFIB = " + absoluteURL);
     }
-
+    
     return absoluteURL;
   }
   
@@ -426,25 +425,19 @@ public class PassarelaDeFirmaWebEJB
     Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignID = ssf.getStatusBySignatureID();
     
     final String languageUI = ssf.getSignaturesSet().getCommonInfoSignature().getLanguageUI();
-
-    final UsuariAplicacio usuariAplicacio;
-    final UsuariAplicacioConfiguracio usuariAplicacioConfig;
     
     final String applicationID = ssf.getApplicationID();
+    final UsuariAplicacio usuariAplicacio;
     usuariAplicacio = usuariAplicacioLogicaEjb.findByPrimaryKey(applicationID);
     
+    PerfilConfiguracioDeFirma pcf;
     try {
-      usuariAplicacioConfig = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
+      pcf = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
           applicationID,
           esFirmaEnServidor);
     } catch (I18NException e) {
       // TODO Auto-generated catch block
-      log.error("Error cercant UsuariAplicacioConfiguracio per usuariaplicacio = " + applicationID ,e);
-      return;
-    }
-    
-    if (usuariAplicacioConfig == null) {
-      log.info("XYZ ZZZ No s'ha definit configuració per l´Usuari Aplicació " + applicationID);      
+      log.error("Error cercant Configuracio de Firma per usuariaplicacio = " + applicationID ,e);
       return;
     }
     
@@ -561,7 +554,7 @@ public class PassarelaDeFirmaWebEJB
          }
 
          ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignaturePassarela(
-             entitatID, usuariAplicacioConfig,
+             entitatID, pcf.configuracioDeFirma,
              fis.getSignType(), status.getFitxerFirmat(), documentDetachedFile, languageUI);
 
          Boolean validation;

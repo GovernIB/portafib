@@ -15,7 +15,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
-
 /**
  * 
  * @author anadal
@@ -30,22 +29,25 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
 
   public static final String PASSARELA_CONTEXTPATH_FINAL = "/final";
 
-  public String startTransaction(
-      PassarelaSignaturesSet signaturesSet, String entitatID, boolean fullView, 
-      UsuariAplicacioJPA usuariAplicacio) throws I18NException, I18NValidationException;
+  public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID,
+      boolean fullView, UsuariAplicacioJPA usuariAplicacio, String baseUrl)
+      throws I18NException, I18NValidationException;
 
-  public PassarelaSignatureStatus getStatusTransaction(String transactionID) throws I18NException;
-
-public PassarelaSignaturesSetWebInternalUse getSignaturesSetFullByTransactionID(String transactionID)
+  public PassarelaSignatureStatus getStatusTransaction(String transactionID)
       throws I18NException;
 
-  public List<PassarelaSignatureResult> getSignatureResults(String transactionID, boolean addFiles) throws I18NException;
-  
-  public PassarelaSignatureResult getSignatureResult(String transactionID, String signID) throws I18NException;
+  public PassarelaSignaturesSetWebInternalUse getSignaturesSetFullByTransactionID(
+      String transactionID) throws I18NException;
 
-  public File getFitxerOriginalPath(String transactionID,String signID);
+  public List<PassarelaSignatureResult> getSignatureResults(String transactionID,
+      boolean addFiles) throws I18NException;
 
-  public File getFitxerFirmatPath(String transactionID,String signID);
+  public PassarelaSignatureResult getSignatureResult(String transactionID, String signID)
+      throws I18NException;
+
+  public File getFitxerOriginalPath(String transactionID, String signID);
+
+  public File getFitxerFirmatPath(String transactionID, String signID);
 
   public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID,
       SignaturesSetWeb ss) throws I18NException, IOException;

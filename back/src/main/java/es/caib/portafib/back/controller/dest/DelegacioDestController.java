@@ -54,6 +54,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -88,7 +89,6 @@ import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
-import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
@@ -542,7 +542,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
               "firmar", 
               //"javascript:firmarAutoritzacio('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/{0}')",
               //request.getContextPath() + 
-              getContextWeb() + "/firmarautoritzacio/" +  colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID(),
+              "javascript:firmar('" + request.getContextPath() + getContextWeb() + "/firmarautoritzacio/"
+              +  colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID() + "');",
               "btn-warning"));
           // Missatge informatiu
           HtmlUtils.saveMessageInfo(request,
@@ -1115,9 +1116,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
   public static final String FITXER_AUTORITZACIO_PREFIX = "FitxerAutoritzacioDelegacio_";
 
   @RequestMapping(value = "/firmarautoritzacio/{delegacioID}", method = RequestMethod.GET)
-  public ModelAndView firmarAutoritzacioDelegacio(
-      @PathVariable("delegacioID") Long delegacioID,
-      HttpServletRequest request, HttpServletResponse response) throws I18NException {
+  public ModelAndView firmarAutoritzacioDelegacio( HttpServletRequest request, 
+      HttpServletResponse response,  @PathVariable("delegacioID") Long delegacioID,
+      @RequestParam("url_user") String baseUrlFull) throws I18NException {
     
 
     ColaboracioDelegacioJPA delegacio;
@@ -1252,8 +1253,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       userRequiresTimeStamp = true;
     }
 
-    ITimeStampGenerator timeStampGenerator = PortaFIBTimeStampGenerator.getInstance(
-        segellDeTempsEjb, entitat,userRequiresTimeStamp);
+    ITimeStampGenerator timeStampGenerator;
+    timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat,userRequiresTimeStamp);
     
     //  #174 TODO XYZ ZZZ
     final String expedientCode = null;
@@ -1267,7 +1268,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         (int)location_sign_table,  reason, location, signerEmail,  sign_number, 
         langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
-        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), langUI), timeStampGenerator,
+        SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
         expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
@@ -1292,14 +1293,18 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     // Sabem que no té cap firma 
     final int[] originalNumberOfSignsArray = new int[] {0};
     
+    String baseUrl = Utils.getUrlBaseFromFullUrl(request, baseUrlFull);
+    
     PortaFIBSignaturesSet signaturesSet = new PortaFIBSignaturesSet(signaturesSetID,
         caducitat.getTime(),  commonInfoSignature, fileInfoSignatureArray,
-        originalNumberOfSignsArray, entitat, urlFirmaFinal, true);
+        originalNumberOfSignsArray, entitat, urlFirmaFinal, true, baseUrl);
 
     signaturesSet.setPluginsFirmaBySignatureID(null);
     
     HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("firmardelegacio.titol")); 
     //"<b>Firmar Autorització</b> Ara ha de firmar l´autorització de delegació. Sense aquest pas no es completarà aquesta delegació. Si vol, pot deixar aquest pas per més endavant però fins que no firmi aquesta delegació, aquesta no s´activarà.");
+
+    
 
 
     final String view = "PluginDeFirmaContenidor_ROLE_DEST";

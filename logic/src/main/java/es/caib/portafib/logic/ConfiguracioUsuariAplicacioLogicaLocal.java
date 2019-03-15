@@ -1,6 +1,8 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
@@ -31,7 +33,7 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest) throws I18NException;
   
-  public UsuariAplicacioConfiguracio getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
@@ -39,8 +41,10 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
-  public UsuariAplicacioConfiguracio getConfiguracioUsuariAplicacioPerPassarela(
+  public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
       final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
-
+  
+  public PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
+      final boolean esFirmaEnServidor) throws I18NException;
 
 }

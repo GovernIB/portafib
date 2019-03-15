@@ -100,6 +100,11 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
       HttpServletRequest request, ModelAndView mav) throws I18NException {
     PerfilDeFirmaForm form = super.getPerfilDeFirmaForm(_jpa, __isView, request, mav);
 
+    
+    form.addHelpToField(URLBASE, 
+        I18NUtils.tradueix("perfildefirma.urlbase.ajuda"));
+    
+    
     return form;
   }
 
