@@ -3,7 +3,7 @@
 
 ***Versions***
 
-> - Versió Estable: Tag [__portafib-1.1.5__](../../tree/81d55bc567e6f131f5ff13f9337a040a23127797) (branca [portafib-1.1](../../tree/portafib-1.1))<br/>
+> - Versió Estable: [__portafib-1.1.5__](../../tree/81d55bc567e6f131f5ff13f9337a040a23127797) (branca [portafib-1.1](../../tree/portafib-1.1))<br/>
 > - Versió en Desenvolupament: __portafib-2.0.0__ (branca [portafib-2.0](../../tree/portafib-2.0))
 
 
