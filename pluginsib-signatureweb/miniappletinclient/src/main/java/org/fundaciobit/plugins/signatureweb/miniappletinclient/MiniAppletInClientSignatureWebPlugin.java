@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.servlet.http.Cookie;
@@ -1010,6 +1011,8 @@ public class MiniAppletInClientSignatureWebPlugin extends
     out.println("        <jar href=\"" + appletUrl + "/miniappletui.jar" + "\" main=\"true\" />");
     out.println("        <jar href=\"" + appletUrl + "/miniapplet.jar\" />");
     out.println("    </resources>");
+    
+    /*
     out.println("    <applet-desc");
     out.println("      documentBase=\"" + appletUrl + "\"");
     out.println("      name=\"Aplicaci\u00F3 de Firma JavaWebStart basat en el MiniApplet de @firma\"");
@@ -1017,11 +1020,13 @@ public class MiniAppletInClientSignatureWebPlugin extends
     out.println("      width=\"475\"");
     out.println("      height=\"300\">");
     out.println();
-      
+    */
     
     FileInfoSignature[] signs = signaturesSet.getFileInfoSignatureArray();
 
     CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
+    
+    Map<String, String> parameters = new HashMap<String, String>();
 
     for (int i = 0; i < signs.length; i++) {
 
@@ -1052,19 +1057,15 @@ public class MiniAppletInClientSignatureWebPlugin extends
         return;
 
       }
-
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_SOURCE + "_" + i + "\""
-          + " value=\"" + StringEscapeUtils.escapeXml(baseSignaturesSet + "/" + i + "/source") + "\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_DESTINATION + "_" + i + "\" value=\""
-          + baseSignaturesSet + "/" + i + "/destination\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_ERRORPAGE + "_" + i + "\" value=\""
-          + baseSignaturesSet + "/" + i + "/error\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_IDNAME + "_" + i + "\" value=\""
-          + StringEscapeUtils.escapeXml(fileInfo.getName()) + "\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_SIGN_TYPE + "_" + i + "\" value=\""
-          + signInfo.getSignType() + "\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_SIGN_ALGORITHM + "_" + i + "\" value=\""
-          + signInfo.getSignAlgorithm() + "\"/>");
+      
+      
+      
+      parameters.put(MiniAppletConstants.APPLET_SOURCE + "_" + i , StringEscapeUtils.escapeXml(baseSignaturesSet + "/" + i + "/source"));
+      parameters.put(MiniAppletConstants.APPLET_DESTINATION + "_" + i , baseSignaturesSet + "/" + i + "/destination");
+      parameters.put(MiniAppletConstants.APPLET_ERRORPAGE + "_" + i , baseSignaturesSet + "/" + i + "/error\"/>");
+      parameters.put(MiniAppletConstants.APPLET_IDNAME + "_" + i , StringEscapeUtils.escapeXml(fileInfo.getName()));
+      parameters.put(MiniAppletConstants.APPLET_SIGN_TYPE + "_" + i , signInfo.getSignType() );
+      parameters.put(MiniAppletConstants.APPLET_SIGN_ALGORITHM + "_" + i , signInfo.getSignAlgorithm() );
 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       try {
@@ -1082,9 +1083,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
         encoded = propStr;
       }
 
-      out.println("       <param name=\"" + MiniAppletConstants.APPLET_MINIAPPLET_PROPERTIES + "_" + i
-          + "\" value=\"" + StringEscapeUtils.escapeXml(encoded)
-          + "\"/>");
+      parameters.put(MiniAppletConstants.APPLET_MINIAPPLET_PROPERTIES + "_" + i, StringEscapeUtils.escapeXml(encoded));
 
     } // FINAL DE FOR
 
@@ -1096,29 +1095,36 @@ public class MiniAppletInClientSignatureWebPlugin extends
       encoded = commonInfoSignature.getFiltreCertificats();
     }
       
-    out.println("       <param name=\"" + MiniAppletConstants.APPLET_CERTIFICATE_FILTER + "\" value=\""
-        + StringEscapeUtils.escapeXml(encoded) + "\"/>");
+    parameters.put(MiniAppletConstants.APPLET_CERTIFICATE_FILTER , StringEscapeUtils.escapeXml(encoded) );
 
     PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
     if (policy != null) {
-      out.println("       <param name=\"" + MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER + "\" value=\""
-          + StringEscapeUtils.escapeXml(policy.getPolicyIdentifier()) + "\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.PROPERTY_POLICY_HASH + "\" value=\""
-          + StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHash()) + "\"/>");
-      out.println("       <param name=\"" + MiniAppletConstants.PROPERTY_POLICY_HASH_ALGORITHM + "\" value=\""
-          + StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHashAlgorithm())
-          + "\"/>");
+      parameters.put(MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER , StringEscapeUtils.escapeXml(policy.getPolicyIdentifier()));
+      parameters.put(MiniAppletConstants.PROPERTY_POLICY_HASH , StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHash()));
+      parameters.put(MiniAppletConstants.PROPERTY_POLICY_HASH_ALGORITHM , StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHashAlgorithm()));
       if (policy.getPolicyUrlDocument() != null) {
-        out.println("       <param name=\"" + MiniAppletConstants.PROPERTY_POLICY_QUALIFIER + "\" value=\""
-            + StringEscapeUtils.escapeXml(policy.getPolicyUrlDocument()) + "\"/>");
+        parameters.put(MiniAppletConstants.PROPERTY_POLICY_QUALIFIER , StringEscapeUtils.escapeXml(policy.getPolicyUrlDocument()));
       }
-
     }
-    out.println("       <param name=\"" + MiniAppletConstants.APPLET_ISJNLP + "\" value=\"true\"/>");
-    out.println("       <param name=\"" + MiniAppletConstants.APPLET_LANGUAGE_UI + "\" value=\""
-        + commonInfoSignature.getLanguageUI() + "\"/>");
+    parameters.put( MiniAppletConstants.APPLET_ISJNLP ,"true");
+    parameters.put( MiniAppletConstants.APPLET_LANGUAGE_UI , commonInfoSignature.getLanguageUI());
 
-    out.println("   </applet-desc>");
+    //out.println("   </applet-desc>");
+    
+    
+    
+    out.println("    <application-desc");
+    out.println("      name=\"Aplicacio de Firma JavaWebStart basat en el MiniApplet de @firma\"");
+    out.println("      main-class=\"es.caib.portafib.applet.standalone.JnlpApp\" >");
+    
+    for (Entry<String, String> item : parameters.entrySet()) {
+      out.println("       <argument>" + item.getKey() + "=" + item.getValue() + "</argument>");
+    }
+    
+    out.println("    </application-desc>");
+    
+    
+    
     out.println("</jnlp>");
     out.flush();
     

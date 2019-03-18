@@ -15,7 +15,7 @@
   </parent>
 
   <properties>
-    <afirma.keytool.keystore>./afirma.keystore</afirma.keytool.keystore>
+    <afirma.keytool.keystore>./afirma.jks</afirma.keytool.keystore>
     <afirma.keytool.alias>codesign</afirma.keytool.alias>
     <afirma.keytool.password>afirma</afirma.keytool.password>
   </properties>
