@@ -7,6 +7,11 @@
 > - Versió en Desenvolupament: __portafib-2.0.0__ (branca [portafib-2.0](../../tree/portafib-2.0))
 
 
+***Documentació***
+
+[Documentació de branca estable](../../tree/portafib-1.1/README.md#documentaci%C3%B3)
+
+
 ***Descripció***
 
 PortaFIB és un portafirmes “digital” desenvolupat en el departament d'Administració Electrònica de la Fundació Bit (OTAE) per encàrrec del Govern de les Illes Balears.
@@ -24,10 +29,6 @@ Les seves característiques principals són:
 * Plugins de Gestió de Custòdia
 * API WS
 * ...
-
-***Documentació***
-
-[Documentació de branca estable](../../tree/portafib-1.1/README.md#documentaci%C3%B3)
 
 ***Característiques***
 
