@@ -45,10 +45,8 @@ import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.back.controller.common.rest.RestUtils;
 import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.ejb.CodiBarresLocal;
-import es.caib.portafib.ejb.CustodiaInfoLocal;
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
@@ -393,11 +391,10 @@ public abstract class RestApiFirmaUtils extends RestUtils {
    * @return
    * @throws I18NException
    */
-  protected PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
+  protected PassarelaSignaturesSet convertRestBean2PassarelaBeanServer(String transactionID,
       final String virtualTransactionID, FirmaSimpleSignDocumentRequest simpleSignature,
-      PerfilDeFirma perfilFirma, UsuariAplicacioConfiguracio configEnServidor,
-      CodiBarresLocal codiBarresEjb,
-      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
+      PerfilDeFirma perfilFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
    
     final boolean esFirmaEnServidor = true;
     
@@ -409,14 +406,12 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     
     LoginInfo loginInfo = LoginInfo.getInstance();
     
-        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
+    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
             virtualTransactionID, simpleSignaturesSet, esFirmaEnServidor,
-            loginInfo, perfilFirma,  configEnServidor,
-            codiBarresEjb, custodiaInfoEjb);
+            loginInfo, perfilFirma, configBySignID);
     
     return pss;
 
-    
   }
   
   
@@ -432,22 +427,19 @@ public abstract class RestApiFirmaUtils extends RestUtils {
    * @return
    * @throws I18NException
    */
-  protected PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
+  protected PassarelaSignaturesSet convertRestBean2PassarelaBeanWeb(String transactionID,
       final String virtualTransactionID,
       FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
       PerfilDeFirma perfilWeb,
-      CodiBarresLocal codiBarresEjb,
-      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
     
     final boolean esFirmaEnServidor = false;
     
     
     LoginInfo loginInfo = LoginInfo.getInstance();
     
-        PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, virtualTransactionID,
-
-        simpleSignaturesSet, esFirmaEnServidor, loginInfo, perfilWeb,
-        null,  codiBarresEjb, custodiaInfoEjb);
+    PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID, virtualTransactionID,
+        simpleSignaturesSet, esFirmaEnServidor, loginInfo, perfilWeb,configBySignID);
     
     return pss;
     
@@ -458,10 +450,9 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   
   private PassarelaSignaturesSet convertRestBean2PassarelaBean(String transactionID,
       final String virtualTransactionID, FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
-      final boolean esFirmaEnServidor, LoginInfo loginInfo, PerfilDeFirma perfilFirma,
-      UsuariAplicacioConfiguracio configEnServidor2,  
-      CodiBarresLocal codiBarresEjb,
-      CustodiaInfoLocal custodiaInfoEjb) throws I18NException {
+      final boolean esFirmaEnServidor, LoginInfo loginInfo,
+      //UsuariAplicacioConfiguracioJPA configEnServidor,
+      PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
     // throws Exception, I18NException {
     String languageUI = "ca";
 
@@ -559,18 +550,9 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         }
 
         // ============ FIRMA
-        UsuariAplicacioConfiguracio config;
-        
-        if (esFirmaEnServidor) {
-          // SERVIDOR
-          config = configEnServidor2;
-        } else {
-          // WEB
-          config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleWeb(
-             usuariAplicacioID, perfilFirma, new FirmaSimpleSignDocumentRequest(commonInfo, sfis));
-        }
-        
-        
+        UsuariAplicacioConfiguracioJPA config = configBySignID.get(sfis.getSignID());
+       
+
 
         // Operacio de Firma (FIRMA,COFIRMA,CONTRAFIRMA)
         final int signOperation = config.getTipusOperacioFirma();
@@ -977,6 +959,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     return loginInfo;
   }
 
+  /*
   protected RestLoginInfo commonChecks(boolean esFirmaEnServidor, String codiPerfil)
       throws I18NException {
 
@@ -1007,6 +990,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     log.info(" XYZ ZZZ PERFIL = " + perfilFirma);
     return perfilFirma;
   }
+  */
 
   public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request,
       String locale, final boolean esFirmaEnServidor) {

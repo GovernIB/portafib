@@ -2,9 +2,9 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.model.entity.PerfilDeFirma;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
 import javax.ejb.Local;
 
@@ -29,22 +29,27 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       final int usFirma) throws I18NException;
 
 
-  public UsuariAplicacioConfiguracio getConfiguracioUsuariAplicacioPerUpgrade(
+  public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerUpgrade(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest) throws I18NException;
   
-  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
-      String usuariAplicacioID, PerfilDeFirma perfilDeFirma, 
+  public PerfilConfiguracionsDeFirma getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
+      String usuariAplicacioID, String codiPerfil,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
-  public UsuariAplicacioConfiguracio getConfiguracioFirmaPerApiFirmaSimpleWeb(
-      String usuariAplicacioID, PerfilDeFirma perfilDeFirma, 
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleWeb(
+      String usuariAplicacioID,  PerfilDeFirma codiPerfil, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
-  public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
-      final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
   
-  public PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
-      final boolean esFirmaEnServidor) throws I18NException;
+  public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
+      PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException;
+  
+  //public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
+  //    final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
+  
+  // XYZ ZZZ revisar si s'esta utilitzant
+  //public PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
+  //    final boolean esFirmaEnServidor) throws I18NException;
 
 }

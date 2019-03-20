@@ -10,7 +10,7 @@
     <definition name="base.contingutbuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
     <definition name="base.menubuit" template="/WEB-INF/jsp/moduls/blanc.jsp"/>
     <definition name="base.contingut" template="/WEB-INF/jsp/moduls/contingut.jsp"/>
-	<definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
+	  <definition name="base.peu" template="/WEB-INF/jsp/moduls/peu.jsp" preparer="peuPreparer"/>
 
     <definition name="base.definition" template="/WEB-INF/jsp/layout/layout.jsp" preparer="basePreparer">
         <put-attribute name="cap" value="base.cap" />
@@ -97,6 +97,18 @@
     <definition name="PluginFirmaFinal" template="/WEB-INF/jsp/layout/htmlpagelayout.jsp" >
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/plugindefirma_final.jsp" />
     </definition>
+    
+    
+    <definition name="public_wait" extends="principal">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/wait.jsp" />
+    </definition>
+    
+    
+    <definition name="passarela_wait" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/common/wait.jsp" />
+    </definition>
+    
+    
 
     <definition name="carrecsList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />

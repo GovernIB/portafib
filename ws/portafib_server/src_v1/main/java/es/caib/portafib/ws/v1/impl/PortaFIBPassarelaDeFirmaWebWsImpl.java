@@ -23,8 +23,7 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.LogicUtils;
-import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.PassarelaConversion;
@@ -87,7 +86,7 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-    final String applicationID = userapp.getUsuariAplicacioID(); 
+    final String usuariAplicacioID = userapp.getUsuariAplicacioID(); 
     
     final boolean fullView = false;
 
@@ -99,20 +98,25 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
     
     final boolean esFirmaEnServidor = false;
     
-    final PerfilDeFirma perfilDeFirma;
+    PerfilConfiguracionsDeFirma pcf;
     try {
-      perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.
-          getPerfilDeFirmaPerPassarela(applicationID, esFirmaEnServidor);
+      pcf = configuracioUsuariAplicacioLogicaLocalEjb.
+          getConfiguracioUsuariAplicacioPerPassarela(usuariAplicacioID, pss, esFirmaEnServidor);
     } catch (I18NException e) {
-      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + applicationID + " per Passarela Web"; 
+
+      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + usuariAplicacioID + " per Passarela Web";
+       
+      // XYZ ZZZ
+      log.error(msg, e);
+      
       throw new Exception(msg, e);
     }
     
     
-    String baseUrl =LogicUtils.getUrlBase(perfilDeFirma);
+    //String baseUrl =LogicUtils.getUrlBase(perfilDeFirma);
 
     return passarelaDeFirmaWebEjb.startTransaction(
-        pss, userapp.getEntitatID(), fullView, userapp, baseUrl);
+        pss, userapp.getEntitatID(), fullView, userapp, pcf.perfilDeFirma, pcf.configBySignID);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

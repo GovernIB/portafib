@@ -583,6 +583,9 @@ import es.caib.portafib.utils.Configuracio;
     @RequestMapping(value = "/final", method = RequestMethod.GET)
     public String finalRequest(HttpServletRequest request, HttpServletResponse response)
         throws I18NException {
+      
+      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalRequest\n\n");
+      
       return "redirect:" + getContextWeb() + "/list";
     }
     
@@ -1073,8 +1076,9 @@ import es.caib.portafib.utils.Configuracio;
     
     
     
+    
     /** 
-     * Quan acaba el mòdul de firma
+     * Quan acaba el mòdul de firma mostram espera de validacions de firma
      * @param request
      * @param response
      * @param signaturesSetID
@@ -1085,6 +1089,29 @@ import es.caib.portafib.utils.Configuracio;
     public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
         @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
+      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirma\n\n");
+      
+      ModelAndView mav = new ModelAndView("public_wait");
+      
+      mav.addObject("finalURL", getContextWeb() + "/finalFirmaReal/" + signaturesSetID);
+      
+      return mav;
+    
+    }
+    
+    /** 
+     * Quan acaba el mòdul de firma
+     * @param request
+     * @param response
+     * @param signaturesSetID
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/finalFirmaReal/{signaturesSetID}")
+    public ModelAndView finalProcesDeFirmaReal(HttpServletRequest request, HttpServletResponse response,
+        @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
+    
+      log.info("\n\n XYZ ZZZ   ñññññññññ   PASSA PER finalProcesDeFirmaReal\n\n");
     
       SignaturesSetWeb ss;
       ss = SignatureModuleController.getSignaturesSetByID(request, signaturesSetID, modulDeFirmaEjb);

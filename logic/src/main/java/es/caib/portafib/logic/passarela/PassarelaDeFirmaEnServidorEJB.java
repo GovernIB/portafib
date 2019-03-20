@@ -80,8 +80,9 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
   @Override
   public PassarelaFullResults signDocuments(PassarelaSignaturesSet passarelaSignaturesSet,
-      EntitatJPA entitat, UsuariAplicacioJPA usrApp, PerfilDeFirma perfilDeFirma, 
-      UsuariAplicacioConfiguracioJPA config) throws NoCompatibleSignaturePluginException {
+      EntitatJPA entitat, UsuariAplicacioJPA usrApp, PerfilDeFirma perfilDeFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+      throws NoCompatibleSignaturePluginException {
 
     Locale locale;
 
@@ -116,8 +117,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
       PassarelaFileInfoSignature[] fisArray = passarelaSignaturesSet
           .getFileInfoSignatureArray();
       int[] originalNumberOfSignsArray2 = new int[fisArray.length];
-      
-     
+
       for (int i = 0; i < fisArray.length; i++) {
 
         PassarelaFileInfoSignature pfis = fisArray[i];
@@ -132,14 +132,24 @@ public class PassarelaDeFirmaEnServidorEJB extends
             adaptat, usrApp);
 
       } // Final de For
-           
 
       // 1.- Cridar convertir PassarelaSignaturesSet a SignaturesSet
-      Set<String> timeStampUrls = new HashSet<String>(); 
+      Set<String> timeStampUrls = new HashSet<String>();
       SignaturesSet ss = SignatureUtils.passarelaSignaturesSetToSignaturesSet(this,
           segellDeTempsPublicEjb, passarelaSignaturesSet, usrApp, perfilDeFirma,
-          config, entitat, timeStampUrls);
-      
+          configBySignID, entitat, timeStampUrls);
+
+      // XYZ ZZZ ZZZ S'han de poder fer multiples firmes amb diferents configuracions
+      if (configBySignID.size() != 1) {
+        // XYZ ZZZ
+        final String msg = "El codi per realitzar multiples firmes amb diferents"
+            + " configuracions de firma encara no està implementat."
+            + " Consulti amb l'administrador de PortaFIB";
+        final Exception e = new Exception(msg);
+        return processError(e, msg);
+      }
+
+      UsuariAplicacioConfiguracioJPA config = configBySignID.values().iterator().next();
 
       // 2.- Cercar Plugin associats als IDs
       Long pluginFirmaEnServidorId = config.getPluginFirmaServidorID();
@@ -194,8 +204,6 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
   }
 
-
-
   private ISignatureServerPlugin instantitatePluginDeFirmaEnServidor(
       Long pluginFirmaEnServidorID) throws I18NException {
     ISignatureServerPlugin signaturePlugin;
@@ -212,8 +220,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
   @Override
   public byte[] upgradeSignature(FirmaSimpleFile signature, FirmaSimpleFile targetCertificate,
       SignatureTypeFormEnumForUpgrade signTypeForm, UsuariAplicacioJPA usrApp,
-      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config, EntitatJPA entitat) 
-          throws NoCompatibleSignaturePluginException, I18NException, Exception {
+      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config, EntitatJPA entitat)
+      throws NoCompatibleSignaturePluginException, I18NException, Exception {
 
     // 1.- Cercar Plugin associats als IDs
 
@@ -232,19 +240,20 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     if (signaturePlugin.isRequiredExternalTimeStampForUpgradeSignature()) {
       // Cercar en propietats d'aplicació el Segellador de Temps seleccionat i instanciar-ho
-      
+
       boolean userRequiresTimeStamp = true;
-      info =  segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usrApp, entitat,
-          perfilDeFirma, config, userRequiresTimeStamp);
+      info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usrApp, entitat, perfilDeFirma,
+          config, userRequiresTimeStamp);
 
       // XYZ ZZZ TRA
       if (info == null) {
         String msg = "L'actualitzadador de Firmes (upgrade) '"
-           + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
-           + "' requereix un Segellador de Temps però la Configuració de Firma " 
-           + config.getNom() + " associat al Perfil de Firma amb Codi " 
-           + perfilDeFirma.getCodi() + " no defineix Segellador de Temps. Consulti amb l'administrador de PortaFIB";
-        
+            + signaturePlugin.getName(new Locale(usrApp.getIdiomaID()))
+            + "' requereix un Segellador de Temps però la Configuració de Firma "
+            + config.getNom() + " associat al Perfil de Firma amb Codi "
+            + perfilDeFirma.getCodi()
+            + " no defineix Segellador de Temps. Consulti amb l'administrador de PortaFIB";
+
         log.error(msg);
         throw new NoCompatibleSignaturePluginException(msg);
       }
@@ -252,13 +261,12 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     // FER UPDGRADE
     final byte[] signatureData = signature.getData();
-    
+
     if (info != null) {
       return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm,
           info.getTimeStampGenerator(), info.getTimeStampUrl());
     } else {
-      return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm,
-        null, null);
+      return signaturePlugin.upgradeSignature(signatureData, null, signTypeForm, null, null);
     }
 
   }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -234,7 +235,8 @@ public class SignatureUtils {
       AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb,
       SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb,
       PassarelaSignaturesSet pss, UsuariAplicacioJPA usuariAplicacio,
-      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracioJPA config,
+      PerfilDeFirma perfilDeFirma, 
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID,
       EntitatJPA entitat, Set<String> timeStampUrls)
       throws I18NException {
     final String signaturesSetID = pss.getSignaturesSetID();
@@ -260,6 +262,8 @@ public class SignatureUtils {
         final String signID = pfis.getSignID();
 
         final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
+        
+        UsuariAplicacioConfiguracioJPA config = configBySignID.get(signID);
 
         // Ve d'un camp que indica si l'usuari vol Segellat de Temps
         boolean userRequiresTimeStamp = pfis.isUseTimeStamp();

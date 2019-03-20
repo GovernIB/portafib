@@ -3,11 +3,14 @@ package es.caib.portafib.logic.passarela;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 
 import javax.ejb.Local;
 
@@ -30,7 +33,9 @@ public interface PassarelaDeFirmaWebLocal extends AbstractPassarelaDeFirmaLocal 
   public static final String PASSARELA_CONTEXTPATH_FINAL = "/final";
 
   public String startTransaction(PassarelaSignaturesSet signaturesSet, String entitatID,
-      boolean fullView, UsuariAplicacioJPA usuariAplicacio, String baseUrl)
+      boolean fullView, UsuariAplicacioJPA usuariAplicacio,
+      PerfilDeFirma perfilDeFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
       throws I18NException, I18NValidationException;
 
   public PassarelaSignatureStatus getStatusTransaction(String transactionID)

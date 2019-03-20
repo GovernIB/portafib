@@ -22,7 +22,7 @@
     </c:if>
     <c:if test="${ rolecontext eq 'dest' || rolecontext eq 'dele' }" >
       <a class="btn btn-success" href="#"
-      onclick="goTo('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
+      onclick="firmar('<c:url value="${contexte}/firmar/${estatID}/${peticioID}"/>')"> <i
       class="icon-edit"></i> <fmt:message key="firmar" /> </a> &nbsp;&nbsp; 
     </c:if>
     
@@ -262,6 +262,13 @@
 
 <c:if test="${empty estatDeFirma.tipusEstatDeFirmaFinalID }">
 <script>
+
+
+  function firmar(url) {
+    url = url + "?url_user=" + encodeURIComponent(window.location.href);
+    goTo(url);
+  }
+
 
   function rebutjar(url) {
     var x;

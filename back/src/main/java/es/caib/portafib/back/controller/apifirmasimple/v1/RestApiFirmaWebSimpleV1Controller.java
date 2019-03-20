@@ -7,6 +7,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
@@ -33,7 +35,6 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -383,9 +384,9 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
       // Checks usuari aplicacio
       UsuariAplicacioJPA usuariAplicacio = loginInfo.getUsuariAplicacio();
-      log.info(" XYZ ZZZ Usuari-APP = " + usuariAplicacio);
+
       String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      log.info(" XYZ ZZZ Usuari-APP ID = " + usuariAplicacio);
+
 
       EntitatJPA entitatJPA = loginInfo.getEntitat();
 
@@ -403,12 +404,32 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       simpleSignaturesSet = new FirmaSimpleSignDocumentsRequest(ti.getCommonInfo(),
           fileInfoSignatureArray);
 
-      final PerfilDeFirma perfilFirma = getPerfilDeFirma(esFirmaEnServidor, ti.getCommonInfo()
-          .getSignProfile(), usuariAplicacioID);
+      final PerfilDeFirma perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
+          usuariAplicacioID, ti.getCommonInfo().getSignProfile(), 
+          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
+      
+      log.info(" XYZ ZZZ PERFILFIRMA FIRMA WEB = " + perfilDeFirma.getCodi());
+      
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
-      PassarelaSignaturesSet pss = convertRestBean2PassarelaBean(transactionID,
-          virtualTransactionID, simpleSignaturesSet, perfilFirma, codiBarresEjb,
-          custodiaInfoEjb);
+      final FirmaSimpleCommonInfo commonInfo = ti.getCommonInfo();
+      
+      for (FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature : fileInfoSignatureArray) {
+
+        UsuariAplicacioConfiguracioJPA config;
+        config = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioFirmaPerApiFirmaSimpleWeb(
+            usuariAplicacioID, perfilDeFirma,
+            new FirmaSimpleSignDocumentRequest(commonInfo, firmaSimpleFileInfoSignature));
+        
+        configBySignID.put(firmaSimpleFileInfoSignature.getSignID(), config);
+        
+        log.info(" XYZ ZZZ CONFIG => " + config.getNom());
+        
+      }
+
+      
+      PassarelaSignaturesSet pss = convertRestBean2PassarelaBeanWeb(transactionID,
+          virtualTransactionID, simpleSignaturesSet, perfilDeFirma, configBySignID);
 
       String urlFinal = startTransactionRequest.getReturnUrl();
       pss.getCommonInfoSignature().setUrlFinal(urlFinal);
@@ -478,10 +499,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       final boolean fullView = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN
           .equals(startTransactionRequest.getView());
       
-      String urlBase = LogicUtils.getUrlBase(perfilFirma);
+     
 
       String redirectUrl = passarelaDeFirmaWebEjb.startTransaction(pss, entitatID, fullView,
-          usuariAplicacio, urlBase);
+          usuariAplicacio, perfilDeFirma, configBySignID);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<String>(redirectUrl, headers, HttpStatus.OK);

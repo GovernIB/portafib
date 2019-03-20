@@ -3,9 +3,11 @@ package es.caib.portafib.logic.passarela;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 
 /**
  * 
@@ -13,7 +15,7 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
  *
  */
 public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStatus {
-  
+
   protected final boolean fullView;
 
   protected final String entitatID;
@@ -21,33 +23,39 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
   protected final PassarelaSignaturesSet signaturesSet;
 
   protected final int[] originalNumberOfSignsArray;
-  
+
   protected final String applicationID;
-  
+
   protected final String baseUrl;
 
-  protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID 
-    = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
+  protected final PerfilDeFirma perfilDeFirma;
+
+  protected final Map<String, UsuariAplicacioConfiguracioJPA> configBySignID;
+
+  protected final Map<String, PassarelaSignatureStatusWebInternalUse> statusBySignatureID = new HashMap<String, PassarelaSignatureStatusWebInternalUse>();
 
   /**
    * @param signaturesSet
    */
-  public PassarelaSignaturesSetWebInternalUse(String entitatID, 
-      int[] originalNumberOfSignsArray, boolean fullView, 
-      PassarelaSignaturesSet signaturesSet, String applicationID,
-      String baseUrl) {
+  public PassarelaSignaturesSetWebInternalUse(String entitatID,
+      int[] originalNumberOfSignsArray, boolean fullView,
+      PassarelaSignaturesSet signaturesSet, String applicationID, String baseUrl,
+      PerfilDeFirma perfilDeFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) {
     super();
-    this.originalNumberOfSignsArray= originalNumberOfSignsArray;
+    this.originalNumberOfSignsArray = originalNumberOfSignsArray;
     this.signaturesSet = signaturesSet;
     this.entitatID = entitatID;
     this.fullView = fullView;
     this.applicationID = applicationID;
     this.baseUrl = baseUrl;
+    this.perfilDeFirma = perfilDeFirma;
+    this.configBySignID = configBySignID;
 
     PassarelaFileInfoSignature[] files = this.signaturesSet.getFileInfoSignatureArray();
 
     for (PassarelaFileInfoSignature fileInfo : files) {
-      statusBySignatureID.put(fileInfo.getSignID(), new PassarelaSignatureStatusWebInternalUse());
+      statusBySignatureID.put(fileInfo.getSignID(),
+          new PassarelaSignatureStatusWebInternalUse());
     }
   }
 
@@ -85,6 +93,14 @@ public class PassarelaSignaturesSetWebInternalUse extends PassarelaSignatureStat
 
   public String getBaseUrl() {
     return baseUrl;
+  }
+
+  public PerfilDeFirma getPerfilDeFirma() {
+    return perfilDeFirma;
+  }
+
+  public Map<String, UsuariAplicacioConfiguracioJPA> getConfigBySignID() {
+    return configBySignID;
   }
 
 }

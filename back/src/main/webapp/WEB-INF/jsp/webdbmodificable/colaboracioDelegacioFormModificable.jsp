@@ -73,7 +73,6 @@
 
     function firmar(url) {
       url = url + "?url_user=" + encodeURIComponent(window.location.href);
-      alert(url);
       goTo(url);
     }
 

@@ -23,7 +23,7 @@ import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
 import es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
 
 /**
@@ -68,16 +68,16 @@ public class PortaFIBPassarelaDeFirmaEnServidorWsImpl extends
     UsuariAplicacioJPA userapp = es.caib.portafib.ws.utils.UsuariAplicacioCache.get();
 
     // Recuperar Configuracio de Plugin associada a usuariAplicacio
-    final boolean isFirmaServidor = true;
-    PerfilConfiguracioDeFirma pcf;
+    final boolean esFirmaEnServidor = true;
 
-    pcf = configuracioUsuariAplicacioLogicaLocalEjb
-        .getConfiguracioUsuariAplicacioPerPassarela(userapp.getUsuariAplicacioID(), isFirmaServidor);
+    PerfilConfiguracionsDeFirma pcf = configuracioUsuariAplicacioLogicaLocalEjb.
+        getConfiguracioUsuariAplicacioPerPassarela(userapp.getUsuariAplicacioID(),
+        signaturesSet, esFirmaEnServidor);
 
     try {
 
       return passarelaDeFirmaEnServidorEjb.signDocuments(signaturesSet, userapp.getEntitat(),
-          userapp,pcf.perfilDeFirma, pcf.configuracioDeFirma);
+          userapp,pcf.perfilDeFirma, pcf.configBySignID);
     } catch (NoCompatibleSignaturePluginException nape) {
       throw new I18NException("signaturemodule.notfound");
     }

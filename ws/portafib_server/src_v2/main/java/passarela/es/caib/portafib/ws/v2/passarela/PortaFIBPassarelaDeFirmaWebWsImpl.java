@@ -1,5 +1,6 @@
 package es.caib.portafib.ws.v2.passarela;
 
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,8 +26,7 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.LogicUtils;
-import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.utils.Constants;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 
@@ -88,23 +88,57 @@ public class PortaFIBPassarelaDeFirmaWebWsImpl extends AbstractPortaFIBPassarela
       throws WsI18NException, WsValidationException, Throwable {
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
-    final String applicationID = userapp.getUsuariAplicacioID(); 
+    final String usuariAplicacioID = userapp.getUsuariAplicacioID();
 
     final boolean esFirmaEnServidor = false;
     
-    final PerfilDeFirma perfilDeFirma;
+    
+    PerfilConfiguracionsDeFirma pcf;
     try {
-      perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.
-          getPerfilDeFirmaPerPassarela(applicationID, esFirmaEnServidor);
+      pcf = configuracioUsuariAplicacioLogicaLocalEjb.
+          getConfiguracioUsuariAplicacioPerPassarela(usuariAplicacioID, signaturesSet, esFirmaEnServidor);
     } catch (I18NException e) {
-      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + applicationID + " per Passarela Web"; 
+
+      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + usuariAplicacioID + " per Passarela Web";
+       
+      // XYZ ZZZ
+      log.error(msg, e);
+      
+      throw new Exception(msg, e);
+    }
+    
+    /*
+    final PerfilDeFirma perfilDeFirma;
+    Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
+    try {
+   
+      
+      PerfilConfiguracioDeFirma pcf;
+      pcf = configuracioUsuariAplicacioLogicaLocalEjb.getConfiguracioUsuariAplicacioPerPassarela(
+          usuariAplicacioID, esFirmaEnServidor);
+      
+      perfilDeFirma = pcf.perfilDeFirma;
+      
+      
+      
+      for (PassarelaFileInfoSignature pfis:  signaturesSet.getFileInfoSignatureArray()) {
+        configBySignID.put(pfis.getSignID(), pcf.configuracioDeFirma);
+      }
+      
+      
+      
+      
+    } catch (I18NException e) {
+      String msg = "Error cercant Perfil de Firma de l´usuariaplicacio = " + usuariAplicacioID + " per Passarela Web"; 
       throw new Exception(msg, e);
     }
 
     String baseUrl = LogicUtils.getUrlBase(perfilDeFirma);
+    */
 
     final boolean fullView = false;
-    return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, userapp.getEntitatID(), fullView, userapp, baseUrl);
+    return passarelaDeFirmaWebEjb.startTransaction(signaturesSet, 
+        userapp.getEntitatID(), fullView, userapp, pcf.perfilDeFirma, pcf.configBySignID);
   }
 
   @RolesAllowed({ Constants.PFI_ADMIN, Constants.PFI_USER })

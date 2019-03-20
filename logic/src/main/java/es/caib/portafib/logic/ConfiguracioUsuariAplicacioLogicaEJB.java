@@ -8,7 +8,10 @@ import java.util.Map;
 
 import es.caib.portafib.ejb.UsuariAplicacioConfiguracioEJB;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.logic.utils.PerfilConfiguracioDeFirma;
+import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.entity.PerfilDeFirma;
@@ -17,7 +20,9 @@ import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioQueryPath;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -37,6 +42,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "ConfiguracioUsuariAplicacioLogicaEJB")
 @SecurityDomain("seycon")
+@RunAs("PFI_USER")
 public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfiguracioEJB
     implements ConfiguracioUsuariAplicacioLogicaLocal {
 
@@ -231,8 +237,10 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
    * @return
    * @throws I18NException
    */
+  /*
   @Override
-  @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  @PermitAll
   public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
       final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException {
 
@@ -254,10 +262,59 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     return new PerfilConfiguracioDeFirma(perfilDeFirma, config);
 
   }
-
+  */
+  
   @Override
-  @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-  public PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
+  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  @PermitAll
+  public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
+      PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException {
+
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirmaPerPassarela(usuariAplicacioID,
+        esFirmaEnServidor);
+  
+    
+//    UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA)findByPrimaryKey(perfilDeFirma
+//        .getConfiguracioDeFirma1ID());
+  
+    final int usFirma;
+    if (esFirmaEnServidor) {
+      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR;
+    } else {
+      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMAWEB;
+    }
+    
+    Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
+    
+    final PassarelaCommonInfoSignature passarelaCommonInfoSignature = signaturesSet.getCommonInfoSignature();
+    
+    final String langUI = signaturesSet.getCommonInfoSignature().getLanguageUI();
+    
+    for(PassarelaFileInfoSignature passarelaFileInfoSignature : signaturesSet.getFileInfoSignatureArray()) {
+    
+      Map<String, Object> parameters = new HashMap<String, Object>();
+      parameters.put("passarelaFileInfoSignature", passarelaFileInfoSignature);
+      parameters.put("passarelaCommonInfoSignature", passarelaCommonInfoSignature);
+
+      UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
+        usFirma, langUI, parameters);
+      
+      checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
+      
+      configBySignID.put(passarelaFileInfoSignature.getSignID(), config);
+
+    }
+    
+    return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
+
+}
+  
+  
+
+  //@Override
+  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  //@PermitAll
+  protected PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException {
 
     final Field<Boolean> usFirmaPassarela;
@@ -309,14 +366,14 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
   @Override
   @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-  public UsuariAplicacioConfiguracio getConfiguracioUsuariAplicacioPerUpgrade(
+  public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerUpgrade(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleUpgradeRequest firmaSimpleUpgradeRequest) throws I18NException {
 
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleUpgradeRequest", firmaSimpleUpgradeRequest);
 
-    UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR,
         firmaSimpleUpgradeRequest.getLanguageUI(), parameters);
 
@@ -334,10 +391,15 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
   }
 
   @Override
-  @RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
-      String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
+  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  @PermitAll
+  public PerfilConfiguracionsDeFirma getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
+      String usuariAplicacioID, String codiPerfil,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
+    
+    final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR;
+   
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil, usFirma);
 
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
@@ -345,22 +407,26 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
         ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, firmaSimpleSignDocumentRequest
             .getCommonInfo().getLanguageUI(), parameters);
+    
+    Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
+    
+    configBySignID.put(firmaSimpleSignDocumentRequest.getFileInfoSignature().getSignID(), config);
 
-    return config;
+    return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
 
   }
 
   @Override
-  public UsuariAplicacioConfiguracio getConfiguracioFirmaPerApiFirmaSimpleWeb(
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaSimpleWeb(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException {
-
+    
     Map<String, Object> parameters = new HashMap<String, Object>();
     parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
 
-    UsuariAplicacioConfiguracio config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
-        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB, firmaSimpleSignDocumentRequest
-            .getCommonInfo().getLanguageUI(), parameters);
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
+        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB,
+        firmaSimpleSignDocumentRequest.getCommonInfo().getLanguageUI(), parameters);
 
     return config;
 

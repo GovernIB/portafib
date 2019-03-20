@@ -1,5 +1,7 @@
 package es.caib.portafib.logic.passarela;
 
+import java.util.Map;
+
 import javax.ejb.Local;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
@@ -33,7 +35,7 @@ public interface PassarelaDeFirmaEnServidorLocal extends AbstractPassarelaDeFirm
    */
   public PassarelaFullResults signDocuments(PassarelaSignaturesSet signaturesSet,
       EntitatJPA entitat, UsuariAplicacioJPA usrApp, 
-      PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracioJPA config)
+      PerfilDeFirma perfilDeFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
          throws NoCompatibleSignaturePluginException;
 
   /**

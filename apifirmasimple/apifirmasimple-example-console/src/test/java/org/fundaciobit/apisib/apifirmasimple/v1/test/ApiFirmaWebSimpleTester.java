@@ -56,14 +56,31 @@ public class ApiFirmaWebSimpleTester {
             + " està buida. No es pot executar aquest test.");
       }
 
-      FirmaSimpleFile fileToSign = ApiFirmaEnServidorSimpleTester.getSimpleFileFromResource(
-          "hola.pdf", "application/pdf");
-
-      FirmaSimpleFileInfoSignature fileInfoSignature;
-      {
-        String signID = "1";
+      
+      String files = prop.getProperty("files");
+      String[] parts = files.split(",");
+      
+      FirmaSimpleFileInfoSignature[] filesToSign = new FirmaSimpleFileInfoSignature[parts.length];
+      
+      for (int i = 0; i < parts.length; i++) {
+        
+        String nom = prop.getProperty("file." + parts[i] + ".name");
+        String mime = prop.getProperty("file." + parts[i] + ".mime");
+        
+        System.out.println("Nom : ]" + nom + "[");
+        System.out.println("Mime : ]" + mime + "[");
+            
+        FirmaSimpleFile fileToSign = ApiFirmaEnServidorSimpleTester.getSimpleFileFromResource(
+            nom, mime);
+            //"hola_3mb.pdf",
+            //"hola.pdf", 
+            //"application/pdf");
+  
+        FirmaSimpleFileInfoSignature fileInfoSignature;
+        
+        String signID = parts[i];
         String name = fileToSign.getNom();
-        String reason = "Per aprovar pressuposts";
+        String reason = "Per aprovar pressuposts - " + parts[i];
         String location = "Palma";
         String signerEmail = "anadal@ibit.org";
         int signNumber = 1;
@@ -71,11 +88,13 @@ public class ApiFirmaWebSimpleTester {
 
         fileInfoSignature = new FirmaSimpleFileInfoSignature(fileToSign, signID, name, reason,
             location, signerEmail, signNumber, languageSign);
+        
+        filesToSign[i] = fileInfoSignature;
       }
 
-      String languageUI = "ca";
-      String username = null; // "anadal";
-      String administrationID = "12345678C";
+      final String languageUI = "ca";
+      final String username = null; // "anadal";
+      final String administrationID = "12345678C";
 
       int port = 1989;
 
@@ -94,7 +113,11 @@ public class ApiFirmaWebSimpleTester {
 
       final String view = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN;
 
-      api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, fileInfoSignature));
+      for (int i = 0; i < filesToSign.length; i++) {
+        System.out.println("Enviant firma[" + i + "]");
+        api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, filesToSign[i]));  
+      }
+      
 
       FirmaSimpleStartTransactionRequest startTransactionInfo;
       startTransactionInfo = new FirmaSimpleStartTransactionRequest(transactionID, returnUrl,
@@ -196,12 +219,14 @@ public class ApiFirmaWebSimpleTester {
                         transactionID, signID));
                 FirmaSimpleFile fsf = fssr.getSignedFile();
 
-                FileOutputStream fos = new FileOutputStream(fsf.getNom());
+                final String outFile = signID + "_" + fsf.getNom();
+                
+                FileOutputStream fos = new FileOutputStream(outFile);
                 fos.write(fsf.getData());
                 fos.flush();
 
                 System.out
-                    .println("  RESULT: Fitxer signat guardat en '" + fsf.getNom() + "'");
+                    .println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
                 System.gc();
 
                 ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
@@ -209,7 +234,7 @@ public class ApiFirmaWebSimpleTester {
               break;
             }
 
-            return;
+            
           } // Final for de fitxers firmats
         } // Final Case Firma OK
       } // Final Switch Firma

@@ -279,3 +279,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /back/src/main/webapp/img/image209.jsp
 /apifirmasimple/apifirmasimple-example-console/signed_adaptat.csig
 /apifirmasimple/apifirmasimple-example-console/signed_adaptat.xml
+/apifirmasimple/apifirmasimple-example-console/1_signed_hola.pdf
+/apifirmasimple/apifirmasimple-example-console/2_signed_hola_3mb.pdf
+/pluginsib-signatureweb/miniappletui/afirma.jks
+/pluginsib-signatureweb/miniappletui/csr.csr

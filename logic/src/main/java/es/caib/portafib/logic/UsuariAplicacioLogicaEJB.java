@@ -29,6 +29,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.RoleUsuariAplicacioEnum;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -218,6 +219,11 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     return uaJPA;
   }
   
+  @Override
+  @PermitAll
+  public UsuariAplicacioJPA findByPrimaryKey(String _ID_) {
+    return super.findByPrimaryKey(_ID_);
+  }
   
   
   @Override
