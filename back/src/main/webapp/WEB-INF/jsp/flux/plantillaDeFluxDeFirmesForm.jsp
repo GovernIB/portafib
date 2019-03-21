@@ -60,6 +60,8 @@
     
     <input type="hidden" name="revisorID" id="revisorID" />
     
+    <input  type="hidden" name="motiu" id="motiu" />
+    
     <%@include file="../webdb/fluxDeFirmesFormTitle.jsp" %>
 
   </c:if>
@@ -74,7 +76,7 @@
              
        <%@include file="../webdb/fluxDeFirmesFormCore.jsp" %>
 
-       <%-- Mostrar DescripciÃ³: Miram si es Plantilla o Flux --%>
+       <%-- Mostrar Descripció: Miram si es Plantilla o Flux --%>
        <c:if test="${not empty usuariEntitat}" >     
        <%@include file="../webdb/plantillaFluxDeFirmesFormCore.jsp" %>
        </c:if>
@@ -291,13 +293,27 @@
                                       &nbsp;<i class="icon-trash icon-white"></i>&nbsp;
                                     </button>
                                     </c:if>
-                                    
+
                                     <c:if test="${readOnly == false}">
+
                                     <button type="button" class="btn btn-success btn-mini" onclick="javascript:afegirRevisorDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.afegirrevisor"/>">
-                                       &nbsp;<i class="icon-plus-sign icon-white"></i>&nbsp;
-                                       <%-- XYZ  <fmt:message key="firma.afegirrevisor" /> --%>                        
+                                       &nbsp;<i class="icon-plus-sign icon-white"></i>&nbsp;                      
                                     </button>
-                                    </c:if>
+                                    
+                                   <c:if test="${empty firma.motiu}">
+                                     <button type="button" class="btn btn-warning btn-mini" onclick="javascript:definirMotiuDeFirma('${firma.firmaID}')" title="<fmt:message key="firma.motiudefirma.definir"/>">
+                                       &nbsp;<i class="icon-bullhorn icon-white"></i>&nbsp;
+                                     </button>
+                                   </c:if>
+
+                                   <%-- pfi:escapeJavaScript( --%>
+                                   <c:if test="${not empty firma.motiu}">
+                                     <button type="button" class="btn btn-success btn-mini" onclick="javascript:modificarMotiuDeFirma('${firma.firmaID}','${fn:escapeXml(firma.motiu)}')" title="<fmt:message key="firma.motiudefirma"/> ${fn:escapeXml(firma.motiu)}">
+                                       &nbsp;<i class="icon-bullhorn icon-white"></i>&nbsp;
+                                     </button>
+                                   </c:if>
+                                    
+                                   </c:if>
 
                                     </td>
                                     </tr>
@@ -451,6 +467,41 @@
     document.fluxDeFirmesForm.submit();
   }
   
+
+  
+  function definirMotiuDeFirma(firmaid) {
+    var motiu = prompt("<fmt:message key="firma.motiudefirma.definir.dialog"></fmt:message>");
+
+    if (motiu == null || motiu == "") {
+      <%-- // No feim res --%>
+    } else {
+      document.getElementById('motiu').value = motiu;
+      document.getElementById('firmaID').value = firmaid;
+      document.fluxDeFirmesForm.action = "<c:url value="${contexte}/definirmotiu" />";
+      document.fluxDeFirmesForm.submit();
+    } 
+  }
+  
+  
+  function modificarMotiuDeFirma(firmaid, valoractual) {
+    var motiu = prompt("<fmt:message key="firma.motiudefirma.modificar.dialog"></fmt:message>", valoractual);
+
+
+    if (motiu == null) {
+      <%-- No fer res s'ha espitjat CANCEL --%>
+    } else if (motiu == "") {
+      <%-- // Esborrar motiu --%>
+      document.getElementById('firmaID').value = firmaid;
+      document.fluxDeFirmesForm.action = "<c:url value="${contexte}/esborrarmotiu" />";
+      document.fluxDeFirmesForm.submit();
+    } else {
+      document.getElementById('motiu').value = motiu;
+      document.getElementById('firmaID').value = firmaid;
+      document.fluxDeFirmesForm.action = "<c:url value="${contexte}/definirmotiu" />";
+      document.fluxDeFirmesForm.submit();
+    } 
+  }
+  
   
 
   function changeMinimDeFirmesNum(blocID, minimDeFirmes) {
@@ -501,7 +552,7 @@
     
     <sec:authorize access="hasRole('ROLE_ADEN')">
 
-    <%-- NomÃ©s plantilles de usuari-entitat i de en ediciÃ³ --%> 
+    <%-- Només plantilles de usuari-entitat i de en edició --%> 
     <c:if test="${usuariEntitat == 'true' && !fluxDeFirmesForm.nou }" >
 	    
     var value;

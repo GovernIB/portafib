@@ -918,6 +918,55 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
   }
 
   
+  @RequestMapping(value = "/esborrarmotiu", method = RequestMethod.POST)
+  public String esborrarMotiu(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
+      @RequestParam("firmaID") long firmaID, HttpServletRequest request) throws I18NException {
+
+
+    for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
+      for(FirmaJPA firmaitem : bloc.getFirmas()) {
+        if(firmaitem.getFirmaID() == firmaID) {
+          firmaitem.setMotiu(null);
+          firmaLogicaEjb.update(firmaitem);
+          return getTileForm();
+        }
+      }
+    }
+    
+    // XYZ ZZZ Passar a HTMlUtils.saveWarning ????
+    log.warn("\n\nNo he trobat la firma amb ID " + firmaID 
+        + " per esborrar el motiu de la firma n\n");
+
+    return getTileForm();
+  }
+  
+  
+  @RequestMapping(value = "/definirmotiu", method = RequestMethod.POST)
+  public String definirMotiu(@ModelAttribute @Valid FluxDeFirmesForm fluxDeFirmesForm,
+      @ModelAttribute @Valid SeleccioUsuariForm seleccioUsuariForm,
+      @RequestParam("firmaID") long firmaID,
+      @RequestParam("motiu") String motiu, HttpServletRequest request) throws I18NException {
+
+    motiu = motiu.replace('\'', '´').replace('"', 'ʺ');
+
+    for (BlocDeFirmesJPA bloc : fluxDeFirmesForm.getFluxDeFirmes().getBlocDeFirmess()) {
+      for(FirmaJPA firmaitem : bloc.getFirmas()) {
+        if(firmaitem.getFirmaID() == firmaID) {
+          firmaitem.setMotiu(motiu);
+          firmaLogicaEjb.update(firmaitem);
+          return getTileForm();
+        }
+      }
+    }
+    
+    // XYZ ZZZ Passar a HTMlUtils.saveWarning ????
+    log.warn("\n\nNo he trobat la firma amb ID " + firmaID 
+        + " per modificar el motiu de la firma n\n");
+
+    return getTileForm();
+  }
+  
   
   
   

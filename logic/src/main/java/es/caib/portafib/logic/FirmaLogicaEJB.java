@@ -59,6 +59,7 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
     
     // Esborrar RevisorsDeFirma
     revisorDeFirmaEjb.delete(RevisorDeFirmaFields.FIRMAID.equal(firma.getFirmaID()));
+    firma.setRevisorDeFirmas(null);
 
     // Esborrar Anexes amb deleteFull ja que tenen arxius
     List<AnnexFirmat> annexFirmats = annexFirmatEjb.select(AnnexFirmatFields.FIRMAID

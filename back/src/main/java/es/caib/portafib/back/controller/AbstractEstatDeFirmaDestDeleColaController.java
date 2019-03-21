@@ -1448,7 +1448,11 @@ import es.caib.portafib.utils.Configuracio;
         UsuariPersona up = loginInfo.getUsuariPersona();
         if (colaDeleID == null) {
           // Destinatari
-          reason = I18NUtils.tradueix(localeSign, "motiupeticiodirecta");
+          if (firma.getMotiu() != null) {
+            reason = firma.getMotiu();
+          } else {
+            reason = I18NUtils.tradueix(localeSign, "motiupeticiodirecta");
+          }
         } else {
           // Delegat
           // Firma {0} (NIF {1}) per delegació de {2} (NIF {3}).Motiu: {4}
@@ -1458,6 +1462,14 @@ import es.caib.portafib.utils.Configuracio;
           UsuariEntitatJPA dest = usuariEntitatLogicaEjb.findByPrimaryKeyFull(colaDele
               .getDestinatariID());
 
+          String motiu;
+          if (firma.getMotiu() == null) {
+            // El de la peticio
+            motiu = peticioDeFirma.getMotiu();
+          } else {
+            // El de la firma
+            motiu = firma.getMotiu();
+          }
           
           UsuariPersona destUP = dest.getUsuariPersona();
           String[] args = {
@@ -1468,7 +1480,7 @@ import es.caib.portafib.utils.Configuracio;
               destUP.getNom() + " " + destUP.getLlinatges(),  // {2} Nom del destinatari
               destUP.getNif(),              // {3} NIF del destinatari
               colaDele.getMotiu(),          // {4} Motiu de la delegació
-              peticioDeFirma.getMotiu(),    // {5} Motiu de la peticio de firma
+              motiu,    // {5} Motiu de la peticio de firma
               };
           String basemsg = SignatureUtils.getMotiuDeFirmaFormat(entitat, langSign);
           MessageFormat mf = new MessageFormat(basemsg);

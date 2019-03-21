@@ -57,9 +57,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
       ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      tester.testGetAvailableProfiles();
+      //tester.testGetAvailableProfiles();
 
-      tester.testSignatureServerPAdES();
+      //tester.testSignatureServerPAdES();
 
       // tester.testSignatureServerCAdES();
 
@@ -69,9 +69,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testSignatureServerPAdESXAdESCAdES();
 
-      //tester.testUpgradeSignaturePAdES();
+      tester.testUpgradeSignaturePAdES();
 
-      //tester.testUpgradeSignatureXAdESOfBinary();
+      tester.testUpgradeSignatureXAdESOfBinary();
 
       // tester.testUpgradeSignatureXAdESOfXML();
 

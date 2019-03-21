@@ -23,11 +23,11 @@
     <module>persistence</module>
     <module>model</module>
     <module>jpa</module>
-    <module>ejb</module> 
+    <module>ejb</module>
     <module>logic</module>
 
     <module>back</module>  
-    <!--  XYZ ZZZ -->
+    <!--  XYZ ZZZ  -->
     <module>ws</module>
     <module>scripts</module> 
 

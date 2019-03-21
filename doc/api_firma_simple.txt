@@ -43,7 +43,7 @@ firmaSimpleSignDocumentRequest.fileInfoSignature.additionalInformation	(java.uti
 
 
 EXEMPLE
-=======
+-------
 
 <#if usFirma==0 || usFirma==1 >
    <#if firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'application/pdf'>
@@ -60,3 +60,90 @@ La condición del perfil solo evalua llamadas de API Firma Simple en Servidor
 La condició del perfil només avalua cridades de API Firma Simple en Servidor
    </#if>
 </#if>
+
+
+
+
+PASSARELA DE FIRMA
+==================
+
+Llista de paràmetres amb els que construir la Condició
+
+usFirma (int) Valors: 4 => PASSARELA EN SERVIDOR  | 5 => PASSARELA WEB
+lang (String) Idioma en format dos caràcters (ISO 639-1)
+passarelaCommonInfoSignature (PassarelaCommonInfoSignature) Dades comuns de la Petició (més detalls al punt següent)
+passarelaFileInfoSignature	(PassarelaFileInfoSignature) Dades de la firma en si (més detalls al unt següent)
+
+DETALLAS DE PassarelaCommonInfoSignature I DE PassarelaFileInfoSignature
+
+passarelaCommonInfoSignature	(es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature)
+passarelaCommonInfoSignature.languageUI	(String)
+passarelaCommonInfoSignature.filtreCertificats	(String)
+passarelaCommonInfoSignature.username	(String)
+passarelaCommonInfoSignature.administrationID	(String)
+passarelaCommonInfoSignature.urlFinal	(String)
+passarelaCommonInfoSignature.acceptedPlugins	(List)
+passarelaCommonInfoSignature.policyInfoSignature	(es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature)
+passarelaCommonInfoSignature.policyInfoSignature.policyIdentifier	(String)
+passarelaCommonInfoSignature.policyInfoSignature.policyIdentifierHash	(String)
+passarelaCommonInfoSignature.policyInfoSignature.policyIdentifierHashAlgorithm	(String)
+passarelaCommonInfoSignature.policyInfoSignature.policyUrlDocument	(String)
+
+passarelaFileInfoSignature	(es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature)
+passarelaFileInfoSignature.fileToSign	(es.caib.portafib.model.bean.FitxerBean)
+passarelaFileInfoSignature.fileToSign.serialVersionUID	(long)
+passarelaFileInfoSignature.fileToSign.fitxerID	(long)
+passarelaFileInfoSignature.fileToSign.nom	(String)
+passarelaFileInfoSignature.fileToSign.descripcio	(String)
+passarelaFileInfoSignature.fileToSign.tamany	(long)
+passarelaFileInfoSignature.fileToSign.mime	(String)
+passarelaFileInfoSignature.fileToSign.encryptedFileID	(String)
+passarelaFileInfoSignature.previusSignatureDetachedFile	(es.caib.portafib.model.bean.FitxerBean)
+passarelaFileInfoSignature.previusSignatureDetachedFile.serialVersionUID	(long)
+passarelaFileInfoSignature.previusSignatureDetachedFile.fitxerID	(long)
+passarelaFileInfoSignature.previusSignatureDetachedFile.nom	(String)
+passarelaFileInfoSignature.previusSignatureDetachedFile.descripcio	(String)
+passarelaFileInfoSignature.previusSignatureDetachedFile.tamany	(long)
+passarelaFileInfoSignature.previusSignatureDetachedFile.mime	(String)
+passarelaFileInfoSignature.previusSignatureDetachedFile.encryptedFileID	(String)
+passarelaFileInfoSignature.signID	(String)
+passarelaFileInfoSignature.name	(String)
+passarelaFileInfoSignature.reason	(String)
+passarelaFileInfoSignature.location	(String)
+passarelaFileInfoSignature.signerEmail	(String)
+passarelaFileInfoSignature.signNumber	(int)
+passarelaFileInfoSignature.languageSign	(String)
+passarelaFileInfoSignature.signOperation	(int)
+passarelaFileInfoSignature.signType	(String)
+passarelaFileInfoSignature.signAlgorithm	(String)
+passarelaFileInfoSignature.signMode	(int)
+passarelaFileInfoSignature.signaturesTableLocation	(int)
+passarelaFileInfoSignature.signaturesTableHeader	(es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader)
+passarelaFileInfoSignature.signaturesTableHeader.logoJpeg	(byte[])
+passarelaFileInfoSignature.signaturesTableHeader.title	(String)
+passarelaFileInfoSignature.signaturesTableHeader.titleFieldLabel	(String)
+passarelaFileInfoSignature.signaturesTableHeader.titleFieldValue	(String)
+passarelaFileInfoSignature.signaturesTableHeader.descriptionFieldLabel	(String)
+passarelaFileInfoSignature.signaturesTableHeader.descriptionFieldValue	(String)
+passarelaFileInfoSignature.signaturesTableHeader.signatureLabel	(String)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo	(es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.pages	(String)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.message	(String)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.messagePosition	(int)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.barCodeType	(String)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.barCodePosition	(int)
+passarelaFileInfoSignature.secureVerificationCodeStampInfo.barCodeText	(String)
+passarelaFileInfoSignature.useTimeStamp	(boolean)
+passarelaFileInfoSignature.expedientCodi	(String)
+passarelaFileInfoSignature.expedientNom	(String)
+passarelaFileInfoSignature.expedientUrl	(String)
+passarelaFileInfoSignature.procedimentCodi	(String)
+passarelaFileInfoSignature.procedimentNom	(String)
+passarelaFileInfoSignature.additionalInformation	(List)
+
+
+EXEMPLE
+-------
+
+
+
