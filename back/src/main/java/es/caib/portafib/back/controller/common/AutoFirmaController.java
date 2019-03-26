@@ -71,6 +71,7 @@ import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.StampTaulaDeFirmes;
 import es.caib.portafib.model.bean.FitxerBean;
@@ -232,14 +233,15 @@ public class AutoFirmaController extends FitxerController
     final String langUI = loginInfo.getUsuariPersona().getIdiomaID();
     final String langSign = form.getIdioma();
     
+    EntitatJPA entitat = loginInfo.getEntitat();
     
     File fitxerPDF = form.getFitxerAFirmarIDFile();
     File pdfAdaptat = getFitxerAdaptatPath(form.getUsuariEntitatID(), id);
     // XYZ ZZZ Això NOMES S'HA DE CRIDAR SI ÉS PDF
-    final int originalNumberOfSigns = generaFitxerAdaptat(fitxerPDF, pdfAdaptat, 
+    final int originalNumberOfSigns = generaFitxerAdaptat(entitat.getEntitatID(), 
+        fitxerPDF, pdfAdaptat, 
         langSign, form.getLogoSegell().getFitxerID(), form.getAttachments(),
         (int) form.getPosicioTaulaFirmesID(), form.getTitol(), form.getDescripcio());
-    
 
     // Preparar pàgina
     final String idname = form.getFitxerAFirmarID().getOriginalFilename();
@@ -267,7 +269,7 @@ public class AutoFirmaController extends FitxerController
 
     
     
-    EntitatJPA entitat = loginInfo.getEntitat();
+    
     ITimeStampGenerator timeStampGenerator;
     timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb( 
         entitat, userRequiresTimeStamp );
@@ -636,7 +638,7 @@ public class AutoFirmaController extends FitxerController
   
   
 
-  private int generaFitxerAdaptat(File fitxerPDF, File dstPDF, String langUI,
+  private int generaFitxerAdaptat(String entitatID, File fitxerPDF, File dstPDF, String langUI,
       long logoSegellID, List<AttachedFile> attachments, int posicioTaulaFirmesID,
       String titol, String descripcio)
       throws Exception, I18NException {
@@ -666,13 +668,14 @@ public class AutoFirmaController extends FitxerController
     // La pujada de fitxers des d'autofirma ho gestiona la classe 
     // PortaFIBCommonsMultipartResolver
     final Long maxSizeFitxerAdaptat = null;
+    
+    final boolean ignoreAdaptedFileIfIsNotNecessary = PropietatGlobalUtil.isIgnoreAdaptedFileIfIsNotNecessary(entitatID);
 
     return PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxerPDF, dstPDF,
         attachments, maxSizeFitxerAdaptat,
         new StampTaulaDeFirmes(1, posicioTaulaFirmesID,
         signantLabel, resumLabel, descLabel, descripcio, 
-        titolLabel, titol, logoSegell), null
-         );
+        titolLabel, titol, logoSegell), null, ignoreAdaptedFileIfIsNotNecessary);
   }
 
 

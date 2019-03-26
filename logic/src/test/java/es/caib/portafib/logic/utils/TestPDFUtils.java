@@ -213,8 +213,10 @@ public class TestPDFUtils implements ConstantsV2 {
       }
       
       File dstPDF = new File("testAttachingFilesToPDFwithAttachs_test.pdf");
+      
+      final boolean ignoreAdaptedFileIfIsNotNecessary = true;
 
-      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, null, null, null);
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, null, null, null, ignoreAdaptedFileIfIsNotNecessary);
       
       Set<String> attachments = extractDocLevelAttachments(dstPDF.getAbsolutePath());
       
@@ -510,9 +512,13 @@ public class TestPDFUtils implements ConstantsV2 {
       log.info(" INICI XX " + dstPDF.getAbsolutePath());
       // File logoFile = null;
 
+      final boolean ignoreAdaptedFileIfIsNotNecessary = true;
+      
+      final StampTaulaDeFirmes stamp = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
+          resumLabel, descLabel, desc, titolLabel, titol, logoSegell); 
+      
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments,
-           null, new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
-              resumLabel, descLabel, desc, titolLabel, titol, logoSegell), null);
+           null, stamp,  null, ignoreAdaptedFileIfIsNotNecessary);
 
     } catch (Throwable e) {
       e.printStackTrace();
@@ -582,13 +588,16 @@ public class TestPDFUtils implements ConstantsV2 {
     
     StampCustodiaInfo custodiaInfo = null; //getCustodyInfo(barcode);
     
+    final boolean ignoreAdaptedFileIfIsNotNecessary = true;
 
     for (File file : files) {
 
       File dstPDF = new File("testHorizontal_" + file.getName());
+      
+      
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(file, dstPDF, attachments, null,
-          taulaDeFirmesInfo , custodiaInfo);
+          taulaDeFirmesInfo , custodiaInfo, ignoreAdaptedFileIfIsNotNecessary);
 
     }
 

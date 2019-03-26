@@ -3,9 +3,11 @@ PortaFIB 2.0.0
 
 2019-03-21 Motiu de la firma a nivell Firma #163 
 
+2019-03-19 Pantalla en blanc quan se validen les firmes #227 
+
 2019-03-15 URL Absoluta en la Configuració de UsrApp i enviament de la URL Bona a traves de web #181
 
-2018-11-08  Neteja de taules de BBDD #199
+2018-11-08 Neteja de taules de BBDD #199
 
 2018-11-02 ApiFirmaSimple: Afegir informació de perfil i informació del format del fitxer retornat #207
 

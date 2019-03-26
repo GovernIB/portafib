@@ -537,7 +537,8 @@ public class PdfUtils implements ConstantsV2 {
    */
   public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
       final List<AttachedFile> attachmentsOrig, Long maxSize,
-      StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo) throws Exception,
+      StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
+      boolean ignoreAdaptedFileIfIsNotNecessary) throws Exception,
       I18NException {
 
     final int originalNumberOfSigns = getNumberOfSignaturesInPDF(srcPDF);
@@ -581,6 +582,37 @@ public class PdfUtils implements ConstantsV2 {
       return originalNumberOfSigns;
     }
     
+    
+    if (ignoreAdaptedFileIfIsNotNecessary) {
+      
+      
+      // a.- Check No permetem taula de firmes
+      boolean checkA = (taulaDeFirmesInfo == null) || (taulaDeFirmesInfo.getPosicioTaulaDeFirmes() == TAULADEFIRMES_SENSETAULA);
+
+      // b.- No permetem adjunts incrustats en el PDF
+      boolean checkB = (attachmentsOrig == null) || (attachmentsOrig.size() == 0);
+
+      // c.- Nom permetem custòdia si duu estampació
+      boolean checkC = (custodiaInfo == null) || (custodiaInfo.getPosicioCustodiaInfo() == POSICIO_PAGINA_CAP);
+      
+      
+      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: A => " + checkA);
+      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: B => " + checkB);
+      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: C => " + checkC);
+      
+      
+      if (checkA && checkB && checkC ) {
+        // Copiar dins dstFile el fitxer Original
+        FileUtils.copyFile(srcPDF, dstPDF);
+        
+        return originalNumberOfSigns;
+      }
+      
+    }
+    
+    
+    
+    
     List<AttachedFile> attachments = new ArrayList<AttachedFile>();
     
     if (attachmentsOrig != null && attachmentsOrig.size() != 0) {
@@ -606,6 +638,12 @@ public class PdfUtils implements ConstantsV2 {
       }
 
     }
+    
+    
+    
+    
+    
+    
 
     // 1. Modificar Contingut del PDF
     // Llegir PDF
@@ -1016,7 +1054,7 @@ public class PdfUtils implements ConstantsV2 {
         }
       }
   
-      document.close();      
+      document.close();
   
       writer.flush();
       writer.close();

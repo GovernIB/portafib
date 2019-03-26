@@ -31,6 +31,20 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     return (val == null)? false: val;  
   }
   
+
+  /**
+   * Ignorar Adaptació de PDF si propietat activa #243
+   * @param entitatID
+   * @return
+   */
+  public static boolean isIgnoreAdaptedFileIfIsNotNecessary(String entitatID) {
+    final String partialname = "ignoreadaptedfileifisnotnecessary";
+    Boolean val = getBooleanByEntitat(entitatID,partialname);
+    return (val == null)? false: val;  
+  }
+  
+  
+  
   /**
    * 
    * @param entitatID

@@ -517,8 +517,8 @@ public class SignatureUtils {
    * @throws I18NException
    */
   public static int afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
-      StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo)
-      throws I18NException {
+      StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo,
+      final boolean ignoreAdaptedFileIfIsNotNecessary) throws I18NException {
 
     // La pujada de fitxers des d'autofirma ho gestiona la classe
     // PortaFIBCommonsMultipartResolver
@@ -528,7 +528,7 @@ public class SignatureUtils {
 
       final int originalNumberOfSigns = PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(
           fitxerPDF, tmpDest, null, maxSizeFitxerAdaptat, stampTaulaDeFirmes,
-          stampCustodiaInfo);
+          stampCustodiaInfo, ignoreAdaptedFileIfIsNotNecessary);
 
       // Destí no pot existir !!!
       fitxerPDF.delete();
@@ -680,9 +680,13 @@ public class SignatureUtils {
 
         }
       }
+      
+      final boolean ignoreAdaptedFileIfIsNotNecessary = PropietatGlobalUtil.isIgnoreAdaptedFileIfIsNotNecessary(entitatID);
+
 
       return SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat,
-          stampTaulaDeFirmes, stampCodiSegurVerificacio);
+          stampTaulaDeFirmes, stampCodiSegurVerificacio, ignoreAdaptedFileIfIsNotNecessary);
+
       // Final IF PADES
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())
         || FileInfoSignature.SIGN_TYPE_CADES.equals(pfis.getSignType())
