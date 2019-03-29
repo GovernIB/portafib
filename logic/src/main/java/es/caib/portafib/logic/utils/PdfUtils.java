@@ -689,6 +689,9 @@ public class PdfUtils implements ConstantsV2 {
       List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
       {
         PdfStamper stamper = new PdfStamper(reader, output1);
+        
+        //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
+        
         // 1.0.- Llegir documents Adjunts del PDF original
         // (Quan es converteix a PDF/A s'eliminen els adjunts)
         attachmentsOriginalPDF.addAll(extractAttachments(reader));
@@ -704,10 +707,26 @@ public class PdfUtils implements ConstantsV2 {
           posicioTaulaFirmes = taulaDeFirmesInfo.getPosicioTaulaDeFirmes();
         }
 
-        // 1.1.- Afegir Informacio de Custodia
+        // 1.2.- Afegir Informacio de Custodia
         if (custodiaInfo != null) {
           addCustodiaInfo(reader, stamper, custodiaInfo, posicioTaulaFirmes);
         }
+        
+        // 1.3.- Attach Files
+        if (attachments != null && attachments.size() != 0) {
+    
+          // PdfWriter writer = stamper.getWriter();
+          for (AttachedFile fa : attachments) {
+            File src = fa.getContent();
+            if (src != null && src.exists()) {
+              String name = fa.getName();
+              PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(stamper.getWriter(),
+                  src.getAbsolutePath(), name, null);
+              stamper.getWriter().addFileAttachment(name.substring(0, name.indexOf('.')), fs);
+            }
+          }
+        }
+        
 
         // 1.3.- Guardar PDF
         stamper.close();
