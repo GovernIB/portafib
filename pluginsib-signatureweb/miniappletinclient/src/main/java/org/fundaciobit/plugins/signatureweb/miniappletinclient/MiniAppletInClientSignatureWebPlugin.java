@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -92,7 +90,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
     addSignaturesSet(signaturesSet);
 
     // Veure si navegador suporta java.
-    return relativePluginRequestPath + "/" + DISCOVER_JAVA_IN_BROWSER_PAGE;
+    return relativePluginRequestPath + "/" + SHOW_JNLP_PAGE;
   }
   
 
@@ -191,22 +189,22 @@ public class MiniAppletInClientSignatureWebPlugin extends
       sourceDocPage(absolutePluginRequestPath, relativePluginRequestPath, request, response,
           signaturesSet, signatureIndex, languageUI);
 
-    } else if (query.endsWith(SHOW_APPLET_PAGE)) {
+    } /* else if (query.endsWith(SHOW_APPLET_PAGE)) {
 
       showMiniAppletGet_APPLET(request, response, absolutePluginRequestPath,
           relativePluginRequestPath, query, signaturesSet, signatureIndex, languageUI);
 
-    } else if (query.endsWith(SHOW_JNLP_PAGE)) {
+    } */ else if (query.endsWith(SHOW_JNLP_PAGE)) {
 
       showMiniAppletGet_JAVAWEBSTART(request, response, absolutePluginRequestPath,
           relativePluginRequestPath, query, signaturesSet, signatureIndex, languageUI);
 
-    } else if (query.endsWith(DISCOVER_JAVA_IN_BROWSER_PAGE)) {
+    } /*else if (query.endsWith(DISCOVER_JAVA_IN_BROWSER_PAGE)) {
 
       discoverJavaInBrowserGet(request, response, absolutePluginRequestPath, 
           relativePluginRequestPath, query, signaturesSet, signatureIndex, languageUI);
 
-    } else if (query.endsWith(FINAL_PAGE)) {
+    } */else if (query.endsWith(FINAL_PAGE)) {
 
       finalPage(relativePluginRequestPath, query, signaturesSet, signatureIndex,
           request, response);
@@ -571,7 +569,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
  // ------------------- DISCOVER JAVA IN BROWSER ----------------------
  // ----------------------------------------------------------------------------
  // ----------------------------------------------------------------------------
-  
+  /*
   private static final String COOKIE_APPLET = "applet";
   private static final String COOKIE_JNLP = "jnlp";
 
@@ -687,7 +685,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
     out.flush();
 
   }
- 
+ */
  
  public static String escapeHtml(String s) {
    StringBuilder out = new StringBuilder(Math.max(16, s.length()));
@@ -768,7 +766,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
   
-  
+  /*
   private static final String SHOW_APPLET_PAGE = "showapplet";
  
   protected void showMiniAppletGet_APPLET(HttpServletRequest request, 
@@ -956,7 +954,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
   }
   
-  
+  */
   
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
@@ -1196,12 +1194,12 @@ public class MiniAppletInClientSignatureWebPlugin extends
       String absolutePluginRequestPath, String relativePluginRequestPath,
       String relativePath, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
-
+/*
     Cookie cookie = new Cookie(DEFAULT_JAVA_ACTION_COOKIE, COOKIE_JNLP);
     cookie.setMaxAge(Integer.MAX_VALUE);
     response.addCookie(cookie);
     
-
+*/
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
 
     PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,

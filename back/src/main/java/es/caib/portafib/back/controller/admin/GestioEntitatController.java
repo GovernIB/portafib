@@ -544,12 +544,19 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
                 + " el role PFI_AUTOFIRMA");
 
-        propietatGlobalEjb.create("es.caib.portafib.ignoreadaptedfileifisnotnecessary", null,
-            _entitatID_, "Opcional. Amb firmes PAdES, al fitxer PDF se li fa una adaptació"
-                + " (neteja) a fi d'evitar errors en el PDF que envien les aplicacions"
-                + " o inclouen els sol·licitants. Amb aquesta propietat a true el que "
-                + "es fa és ometre l'adaptació si no hi ha Taula de Firmes ni Custòdia"
-                + " amb missatge ni Annexes que s'hagin de signar.");
+
+        propietatGlobalEjb.create("es.caib.portafib.transformpdfa", null,
+            _entitatID_, "Nou a la versió 2.0.0  Amb firmes PAdES, si aquest valor es true"
+                + " i el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3, llavors es transforma el"
+                + " PDF per a que pugui ser adaptat (taula de firmes, ....), però perd la"
+                + " condició de PDF/A");
+
+        propietatGlobalEjb.create("es.caib.portafib.forcecleanpdf", null,
+            _entitatID_, "Nou a la versió 2.0.0  Opcional. Amb firmes PAdES, si aquesta"
+                + " propietat val true llavors es fa neteja del PDF per a que no tengui"
+                + " problemes amb el plugins de firma. Això implica que algunes"
+                + " caracteristiques del PDF original es perdin.");
+
 
         /** #191
         propietatGlobalEjb.create("es.caib.portafib.ignorecheckpostsign", "false", 

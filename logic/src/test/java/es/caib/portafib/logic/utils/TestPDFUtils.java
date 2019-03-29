@@ -214,9 +214,11 @@ public class TestPDFUtils implements ConstantsV2 {
       
       File dstPDF = new File("testAttachingFilesToPDFwithAttachs_test.pdf");
       
-      final boolean ignoreAdaptedFileIfIsNotNecessary = true;
+      boolean transformPdfA = false;
+      boolean forceCleanPdf = false;
 
-      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, null, null, null, ignoreAdaptedFileIfIsNotNecessary);
+      PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, 
+          null, null, null, transformPdfA, forceCleanPdf);
       
       Set<String> attachments = extractDocLevelAttachments(dstPDF.getAbsolutePath());
       
@@ -512,13 +514,17 @@ public class TestPDFUtils implements ConstantsV2 {
       log.info(" INICI XX " + dstPDF.getAbsolutePath());
       // File logoFile = null;
 
-      final boolean ignoreAdaptedFileIfIsNotNecessary = true;
+      boolean transformPdfA = false;
+      boolean forceCleanPdf = false;
+
       
       final StampTaulaDeFirmes stamp = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
           resumLabel, descLabel, desc, titolLabel, titol, logoSegell); 
       
+      
+      
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments,
-           null, stamp,  null, ignoreAdaptedFileIfIsNotNecessary);
+           null, stamp,  null, transformPdfA, forceCleanPdf);
 
     } catch (Throwable e) {
       e.printStackTrace();
@@ -588,16 +594,15 @@ public class TestPDFUtils implements ConstantsV2 {
     
     StampCustodiaInfo custodiaInfo = null; //getCustodyInfo(barcode);
     
-    final boolean ignoreAdaptedFileIfIsNotNecessary = true;
+    boolean transformPdfA = false;
+    boolean forceCleanPdf = false;
 
     for (File file : files) {
 
       File dstPDF = new File("testHorizontal_" + file.getName());
-      
-      
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(file, dstPDF, attachments, null,
-          taulaDeFirmesInfo , custodiaInfo, ignoreAdaptedFileIfIsNotNecessary);
+          taulaDeFirmesInfo , custodiaInfo, transformPdfA, forceCleanPdf);
 
     }
 

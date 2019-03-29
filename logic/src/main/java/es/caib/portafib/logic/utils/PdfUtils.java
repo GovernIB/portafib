@@ -40,6 +40,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.RectangleReadOnly;
@@ -538,23 +539,23 @@ public class PdfUtils implements ConstantsV2 {
   public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
       final List<AttachedFile> attachmentsOrig, Long maxSize,
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
-      boolean ignoreAdaptedFileIfIsNotNecessary) throws Exception,
-      I18NException {
+      boolean transformPdfA, boolean forceCleanPdf) throws Exception, I18NException {
 
     final int originalNumberOfSigns = getNumberOfSignaturesInPDF(srcPDF);
-    
+
     log.info(" XYZ ZZZ originalNumberOfSigns = " + originalNumberOfSigns);
 
+    // EL FITXER ORIGINAL JA ESTA FIRMAT
     if (originalNumberOfSigns != 0) {
-      // EL FITXER ORIGINAL JA ESTA FIRMAT
-      
+
       // 12/06/2017 Permetem Refirmar Fitxers amb Firmes amb les condicions següents:
-      //  a) No permetem taula de firmes
-      //  b) No permetem adjunt incrustats en el PDF
-      //  c) No permetem custòdia si duu estampació
+      // a) No permetem taula de firmes
+      // b) No permetem adjunt incrustats en el PDF
+      // c) No permetem custòdia si duu estampació
 
       // a.- Check No permetem taula de firmes
-      if (taulaDeFirmesInfo != null && taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
+      if (taulaDeFirmesInfo != null
+          && taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
         // El fitxer original conté firmes però s'ha demanat Taula de Firmes:
         // aquests dos requeriments són incompatibles.
         throw new I18NException("error.checkpdf.firmattaulafirmes");
@@ -569,7 +570,7 @@ public class PdfUtils implements ConstantsV2 {
 
       // c.- Nom permetem custòdia si duu estampació
       if (custodiaInfo != null && custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP) {
-        // El fitxer original conté firmes però s'ha demanat estampar 
+        // El fitxer original conté firmes però s'ha demanat estampar
         // el PDF amb informació de custòdia: aquests dos requeriments són incompatibles."
         throw new I18NException("error.checkpdf.firmatestampar");
       }
@@ -578,47 +579,60 @@ public class PdfUtils implements ConstantsV2 {
 
       // Copiar dins dstFile el fitxer Original
       FileUtils.copyFile(srcPDF, dstPDF);
-      
+
       return originalNumberOfSigns;
     }
-    
-    
-    if (ignoreAdaptedFileIfIsNotNecessary) {
-      
-      
-      // a.- Check No permetem taula de firmes
-      boolean checkA = (taulaDeFirmesInfo == null) || (taulaDeFirmesInfo.getPosicioTaulaDeFirmes() == TAULADEFIRMES_SENSETAULA);
 
-      // b.- No permetem adjunts incrustats en el PDF
-      boolean checkB = (attachmentsOrig == null) || (attachmentsOrig.size() == 0);
+    final boolean requereixTaula_o_Custodia_o_Annexes = requereixTaula_o_Custodia_o_Annexes(
+        attachmentsOrig, taulaDeFirmesInfo, custodiaInfo);
 
-      // c.- Nom permetem custòdia si duu estampació
-      boolean checkC = (custodiaInfo == null) || (custodiaInfo.getPosicioCustodiaInfo() == POSICIO_PAGINA_CAP);
-      
-      
-      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: A => " + checkA);
-      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: B => " + checkB);
-      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: C => " + checkC);
-      
-      
-      if (checkA && checkB && checkC ) {
-        // Copiar dins dstFile el fitxer Original
-        FileUtils.copyFile(srcPDF, dstPDF);
-        
-        return originalNumberOfSigns;
+    if (!requereixTaula_o_Custodia_o_Annexes) {
+
+      log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
+
+      // Check PDF-A1?
+      PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
+      try {
+
+        if (isPdfA1(reader.getMetadata())) {
+
+          if (!forceCleanPdf) {
+            // El PDF és de tipus {0}, el que significa que no se li pot afegir 
+            // taula de firmes, estampar custòdia o afegir annexes.
+            throw new I18NException(
+                "error.checkpdf.pdfa_no_modificar", "PDF/A1");
+          }
+
+          log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: ES PDF-A1");
+
+          final List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
+
+          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+
+          File input3 = forceCleanPdfInternal(attachments, srcPDF, attachmentsOriginalPDF);
+          addPortaFIBVersionToPdf(dstPDF, input3, reader);
+
+        } else {
+
+          log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
+          // Copiar dins dstFile el fitxer Original
+          FileUtils.copyFile(srcPDF, dstPDF);
+        }
+      } finally {
+        reader.close();
       }
-      
+
+      return originalNumberOfSigns;
     }
-    
-    
-    
-    
+
+    // Es requereix Taula de Firmes o estampacio o anexes
+
     List<AttachedFile> attachments = new ArrayList<AttachedFile>();
-    
+
     if (attachmentsOrig != null && attachmentsOrig.size() != 0) {
-      for (AttachedFile attach : attachmentsOrig) { 
+      for (AttachedFile attach : attachmentsOrig) {
         if (attach != null) {
-         attachments.add(attach);
+          attachments.add(attach);
         }
       }
     }
@@ -638,102 +652,110 @@ public class PdfUtils implements ConstantsV2 {
       }
 
     }
-    
-    
-    
-    
-    
-    
 
     // 1. Modificar Contingut del PDF
     // Llegir PDF
     File fileTmp1 = null;
     FileOutputStream output1 = null;
-    File fileTmp2 = null;
-    FileOutputStream output2 = null;
-  try {
-    PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
-    //ByteArrayOutputStream output = new ByteArrayOutputStream();
-    fileTmp1 = File.createTempFile("portafib_pdfutils_1_", ".pdf");
-    fileTmp1.deleteOnExit();
-        
-    output1 = new FileOutputStream(fileTmp1);
-    
-    List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
-    {
-      PdfStamper stamper = new PdfStamper(reader, output1);
-      // 1.0.- Llegir documents Adjunts del PDF original
-      // (Quan es converteix a PDF/A s'eliminen els adjunts)
-      attachmentsOriginalPDF.addAll(extractAttachments(reader));
-      for (AttachedFile fileAttached : attachmentsOriginalPDF) {
-        fileAttached.getContent().deleteOnExit();
-      }
-      attachments.addAll(attachmentsOriginalPDF);
 
-      // 1.1.- Afegir taula de firmes (si escau)
-      int posicioTaulaFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
-      if (taulaDeFirmesInfo != null) {
-        addTaulaDeFirmes(reader, stamper, taulaDeFirmesInfo);
-        posicioTaulaFirmes = taulaDeFirmesInfo.getPosicioTaulaDeFirmes();
+    File input3 = null;
+    try {
+      PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
+
+      // Check PDF-A1 o A2 o A3
+      // final byte[] xmpBytes = reader.getMetadata();
+
+      log.info("XYZ ZZZ Comprovant si es PDF/Ax ...");
+
+      if (isPdfAx(reader.getMetadata())) {
+        if (!transformPdfA) {
+          
+          // El PDF és de tipus {0}, el que significa que no se li pot afegir 
+          // taula de firmes, estampar custòdia o afegir annexes.
+          throw new I18NException(
+              "error.checkpdf.pdfa_no_modificar", "PDF/A");
+        }
+
+      } else {
+        log.info("XYZ ZZZ NO Es PDF/Ax, continuam ...");
       }
 
-      // 1.1.- Afegir Informacio de Custodia
-      if (custodiaInfo != null) {
-        addCustodiaInfo(reader, stamper, custodiaInfo, posicioTaulaFirmes);
+      // ByteArrayOutputStream output = new ByteArrayOutputStream();
+      fileTmp1 = File.createTempFile("portafib_pdfutils_1_", ".pdf");
+      fileTmp1.deleteOnExit();
+
+      output1 = new FileOutputStream(fileTmp1);
+
+      List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
+      {
+        PdfStamper stamper = new PdfStamper(reader, output1);
+        // 1.0.- Llegir documents Adjunts del PDF original
+        // (Quan es converteix a PDF/A s'eliminen els adjunts)
+        attachmentsOriginalPDF.addAll(extractAttachments(reader));
+        for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+          fileAttached.getContent().deleteOnExit();
+        }
+        attachments.addAll(attachmentsOriginalPDF);
+
+        // 1.1.- Afegir taula de firmes (si escau)
+        int posicioTaulaFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
+        if (taulaDeFirmesInfo != null) {
+          addTaulaDeFirmes(reader, stamper, taulaDeFirmesInfo);
+          posicioTaulaFirmes = taulaDeFirmesInfo.getPosicioTaulaDeFirmes();
+        }
+
+        // 1.1.- Afegir Informacio de Custodia
+        if (custodiaInfo != null) {
+          addCustodiaInfo(reader, stamper, custodiaInfo, posicioTaulaFirmes);
+        }
+
+        // 1.3.- Guardar PDF
+        stamper.close();
       }
 
-      // 1.3.- Guardar PDF
-      stamper.close();
+      //
+      output1.flush();
+      output1.close();
+      output1 = null;
+
+      // Revisar comportament de Portafib amb els PDF/A #242
+      if (forceCleanPdf) { 
+
+        // 5.- Netejar PDF anterior
+
+        input3 = forceCleanPdfInternal(attachments, fileTmp1, attachmentsOriginalPDF);
+
+      } else {
+        log.info(" XYZ ZZZ NOOOOO NETEJA DE PDF");
+
+        input3 = fileTmp1;
+      }
+
+      addPortaFIBVersionToPdf(dstPDF, input3, reader);
+
+    } finally {
+      try {
+        if (output1 != null) {
+          output1.close();
+        }
+      } catch (Exception e) {
+      }
+      ;
+      try {
+        if (fileTmp1 != null) {
+          fileTmp1.delete();
+        }
+      } catch (Exception e) {
+      }
+      ;
+      try {
+        if (input3 != null) {
+          input3.delete();
+        }
+      } catch (Exception e) {
+      }
+      ;
     }
-
-    // 
-    output1.flush();
-    output1.close();
-    output1 = null;
-    
-    
-    // 5.- Convertir PDF anterior a PDF/A
-    PdfReader reader2 = new PdfReader(new FileInputStream(fileTmp1));
-    //ByteArrayOutputStream output2 = new ByteArrayOutputStream();
-    
-    
-    fileTmp2 = File.createTempFile("portafib_pdfutils_2_", ".pdf");
-    fileTmp2.deleteOnExit();
-        
-    output2 = new FileOutputStream(fileTmp2);
-    
-    
-    convertirPdfToPdfa(reader2, output2, attachments);
-    // Borrar del directori temporal els fitxers adjunts originals
-    for (AttachedFile fileAttached : attachmentsOriginalPDF) {
-      fileAttached.getContent().delete();
-    }
-
-    output2.flush();
-    output2.close();
-    output2 = null;
-
-    // 6.- Afegir propietats inicials
-    //InputStream input3 = new ByteArrayInputStream(output2.toByteArray());
-    
-    InputStream input3 = new FileInputStream(fileTmp2);
-    
-    PdfReader reader3 = new PdfReader(input3);
-    PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF));
-
-    Map<String, String> info = reader.getInfo();
-    info.put("PortaFIB.versio", Versio.VERSIO);
-    stamper3.setMoreInfo(info);
-    stamper3.close();
-    
-  } finally {
-    try { if (output1 != null) { output1.close(); } } catch (Exception e) { };
-    try { if (fileTmp1 != null) { fileTmp1.delete(); } } catch (Exception e) { };
-    
-    try { if (output2 != null) { output2.close(); } } catch (Exception e) { };
-    try { if (fileTmp2 != null) { fileTmp2.delete(); } } catch (Exception e) { };
-    
-  }
 
     if (maxSize != null) {
       if (dstPDF.length() > maxSize) {
@@ -746,9 +768,79 @@ public class PdfUtils implements ConstantsV2 {
       }
 
     }
-    
+
     return originalNumberOfSigns;
 
+  }
+
+  protected static boolean requereixTaula_o_Custodia_o_Annexes(
+      final List<AttachedFile> attachmentsOrig, StampTaulaDeFirmes taulaDeFirmesInfo,
+      StampCustodiaInfo custodiaInfo) {
+    // a.- Requereix taula de firmes
+    if( (taulaDeFirmesInfo != null) && (taulaDeFirmesInfo.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA)) {
+      return true;
+    };
+
+    // b.- Ha d'incloure adjunts incrustats en el PDF
+    if ( (attachmentsOrig != null) && (attachmentsOrig.size() != 0) ) {
+      return true;
+    }
+
+    // c.- necessita estampació de custòdia 
+   if ( (custodiaInfo != null) && (custodiaInfo.getPosicioCustodiaInfo() != POSICIO_PAGINA_CAP)) {
+     return true;
+   }
+
+    return false;
+  }
+
+  protected static File forceCleanPdfInternal(List<AttachedFile> attachments,
+      File fileTmp1, List<AttachedFile> attachmentsOriginalPDF) throws IOException,
+      FileNotFoundException, Exception {
+    File input3;
+    log.info(" XYZ ZZZ METHOD FORCE CLEAN PDF");
+    
+    PdfReader reader2 = new PdfReader(new FileInputStream(fileTmp1));
+    //ByteArrayOutputStream output2 = new ByteArrayOutputStream();
+    
+    File fileTmp2 = null;
+    FileOutputStream output2 = null;
+    try {
+    
+      fileTmp2 = File.createTempFile("portafib_pdfutils_2_", ".pdf");
+      fileTmp2.deleteOnExit();
+          
+      output2 = new FileOutputStream(fileTmp2);
+      
+      
+      forceCleanPdf(reader2, output2, attachments);
+      // Borrar del directori temporal els fitxers adjunts originals
+      for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+        fileAttached.getContent().delete();
+      }
+  
+      output2.flush();
+      output2.close();
+      output2 = null;
+    } finally {
+      try { if (output2 != null) { output2.close(); } } catch (Exception e) { };
+      //try { if (fileTmp2 != null) { fileTmp2.delete(); } } catch (Exception e) { };
+    }
+ 
+    // 6.- Afegir propietats inicials
+    input3 = fileTmp2;
+    return input3;
+  }
+
+  protected static void addPortaFIBVersionToPdf(File dstPDF, File input3, PdfReader reader)
+      throws IOException, FileNotFoundException, DocumentException {
+    PdfReader reader3 = new PdfReader(new FileInputStream(input3));
+    PdfStamper stamper3 = new PdfStamper(reader3, new FileOutputStream(dstPDF));
+
+    Map<String, String> info = reader.getInfo();
+    info.put("PortaFIB.versio", Versio.VERSIO);
+    stamper3.setMoreInfo(info);
+    stamper3.close();
   }
 
   public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper,
@@ -975,7 +1067,7 @@ public class PdfUtils implements ConstantsV2 {
 
   public static final PdfAConformanceLevel PDFA_CONFORMANCE_LEVEL = PdfAConformanceLevel.PDF_A_3B;
 
-  public static void convertirPdfToPdfa(PdfReader reader, OutputStream destiPDFA,
+  public static void forceCleanPdf(PdfReader reader, OutputStream destiPDFA,
       List<AttachedFile> attachments) throws Exception {
 
     
@@ -1535,4 +1627,43 @@ public class PdfUtils implements ConstantsV2 {
     
     return pages;
   }
+  
+  
+  
+  public static boolean isPdfA1(final byte[] metadata) {
+    //log.info(" XYZ ZZZ METADATA_A1(byte[])= " + metadata);
+    if (metadata == null) {
+      return false;
+    }
+    final String rdf = new String(metadata);
+    
+    //log.info(" XYZ ZZZ METADATA_A1(string) = ]" +  rdf +  "[");
+    
+    return rdf.replace("\n", "") //$NON-NLS-1$ //$NON-NLS-2$
+          .replace("\r", "") //$NON-NLS-1$ //$NON-NLS-2$
+            .replace("\t", "") //$NON-NLS-1$ //$NON-NLS-2$
+              .replace(" ", "") //$NON-NLS-1$ //$NON-NLS-2$
+                .contains("<pdfaid:part>1</pdfaid:part>"); //$NON-NLS-1$
+  }
+
+  public static boolean isPdfAx(final byte[] metadata) {
+    
+    //log.info(" XYZ ZZZ METADATA(byte[])= " + metadata);
+    
+    if (metadata == null) {
+      return false;
+    }
+    final String rdf = new String(metadata);
+    
+    //log.info(" XYZ ZZZ METADATA(string) = ]" +  rdf +  "[");
+    
+    return rdf.replace("\n", "") //$NON-NLS-1$ //$NON-NLS-2$
+          .replace("\r", "") //$NON-NLS-1$ //$NON-NLS-2$
+            .replace("\t", "") //$NON-NLS-1$ //$NON-NLS-2$
+              .replace(" ", "") //$NON-NLS-1$ //$NON-NLS-2$
+                .contains("pdfaid:part"); //$NON-NLS-1$
+  }
+  
+  
+  
 }

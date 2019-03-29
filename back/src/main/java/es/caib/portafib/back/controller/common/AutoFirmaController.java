@@ -669,13 +669,16 @@ public class AutoFirmaController extends FitxerController
     // PortaFIBCommonsMultipartResolver
     final Long maxSizeFitxerAdaptat = null;
     
-    final boolean ignoreAdaptedFileIfIsNotNecessary = PropietatGlobalUtil.isIgnoreAdaptedFileIfIsNotNecessary(entitatID);
+    final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
+    
+    final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
 
     return PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxerPDF, dstPDF,
         attachments, maxSizeFitxerAdaptat,
         new StampTaulaDeFirmes(1, posicioTaulaFirmesID,
         signantLabel, resumLabel, descLabel, descripcio, 
-        titolLabel, titol, logoSegell), null, ignoreAdaptedFileIfIsNotNecessary);
+        titolLabel, titol, logoSegell), null, transformPdfA,
+        forceCleanPdf);
   }
 
 

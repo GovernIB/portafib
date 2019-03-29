@@ -896,12 +896,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
           PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes());
 
-      final boolean ignoreAdaptedFileIfIsNotNecessary = PropietatGlobalUtil.isIgnoreAdaptedFileIfIsNotNecessary(entitatID);
-
+      final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
+      
+      final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
       
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(
           srcPDF, dstPDF, attachments, maxSize, taulaDeFirmes, 
-          custodiaInfoStamp, ignoreAdaptedFileIfIsNotNecessary);
+          custodiaInfoStamp, transformPdfA, forceCleanPdf);
 
       FitxerJPA f = new FitxerJPA();
       f.setDescripcio("");

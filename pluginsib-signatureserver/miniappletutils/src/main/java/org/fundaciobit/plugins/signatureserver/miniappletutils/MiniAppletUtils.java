@@ -66,6 +66,7 @@ public class MiniAppletUtils {
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
       
       miniAppletProperties.setProperty("alwaysCreateRevision", "true");
+      //miniAppletProperties.setProperty("pdfVersion", "7");
 
       convertPAdES(fileInfo, miniAppletProperties, policy);
 
@@ -272,6 +273,7 @@ public class MiniAppletUtils {
       Properties miniAppletProperties, PolicyInfoSignature policy) {
     
     miniAppletProperties.setProperty("alwaysCreateRevision", "true");
+    //miniAppletProperties.setProperty("pdfVersion", "7");
     
     // POLITICA DE FIRMA PADES
     if (policy == null || policy.getPolicyIdentifier() == null

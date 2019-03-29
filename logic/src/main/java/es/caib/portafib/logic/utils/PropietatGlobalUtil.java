@@ -33,16 +33,27 @@ public class PropietatGlobalUtil implements ConstantsV2 {
   
 
   /**
-   * Ignorar Adaptació de PDF si propietat activa #243
+   * Revisar comportament de Portafib amb els PDF/A #242
    * @param entitatID
    * @return
    */
-  public static boolean isIgnoreAdaptedFileIfIsNotNecessary(String entitatID) {
-    final String partialname = "ignoreadaptedfileifisnotnecessary";
+  public static boolean isTransformPdfA(String entitatID) {
+    final String partialname = "transformpdfa";
+    Boolean val = getBooleanByEntitat(entitatID,partialname);
+    return (val == null)? false: val;
+  }
+
+
+  /**
+   * Revisar comportament de Portafib amb els PDF/A #242
+   * @param entitatID
+   * @return
+   */
+  public static boolean isForceCleanPdf(String entitatID) {
+    final String partialname = "forcecleanpdf";
     Boolean val = getBooleanByEntitat(entitatID,partialname);
     return (val == null)? false: val;  
   }
-  
   
   
   /**
