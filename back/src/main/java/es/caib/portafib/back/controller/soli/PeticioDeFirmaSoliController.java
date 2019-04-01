@@ -1169,6 +1169,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       // Mostrar usuari aplicacio i remitent si estan en gestio de usuari aplicacio
       if (!isSolicitantUsuariEntitat()) {
+        hiddenFields.remove(PETICIODEFIRMAID); // #219
         hiddenFields.remove(SOLICITANTUSUARIAPLICACIOID);
         hiddenFields.remove(REMITENTNOM);
       }

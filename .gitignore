@@ -283,3 +283,7 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /apifirmasimple/apifirmasimple-example-console/2_signed_hola_3mb.pdf
 /pluginsib-signatureweb/miniappletui/afirma.jks
 /pluginsib-signatureweb/miniappletui/csr.csr
+/logic/src/test/resources/fonts/OpenSans-Regular.ttf
+/logic/OpenSans-Regular.ttf
+/logic/pdf_a1a.pdf
+/logic/pdf_a3a.pdf
