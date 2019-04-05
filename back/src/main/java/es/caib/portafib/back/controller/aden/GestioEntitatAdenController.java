@@ -2,7 +2,7 @@ package es.caib.portafib.back.controller.aden;
 
 import javax.servlet.http.HttpServletRequest;
 
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/aden/entitat")
-public class GestioEntitatAdenController extends GestioEntitatController {
+public class GestioEntitatAdenController extends GestioEntitatAdminController {
 
   @Override
   public String getTileForm() {

@@ -26,8 +26,9 @@ public class UsuariEntitatForm extends PortaFIBBaseForm {
       this.usuariEntitat = __toClone.usuariEntitat;
     this.listOfUsuariPersonaForUsuariPersonaID = __toClone.listOfUsuariPersonaForUsuariPersonaID;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
-    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
     this.listOfValuesForPoliticaDePluginFirmaWeb = __toClone.listOfValuesForPoliticaDePluginFirmaWeb;
+    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
+    this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
   }
   
   public UsuariEntitatForm(UsuariEntitatJPA usuariEntitat, boolean nou) {
@@ -81,6 +82,18 @@ public class UsuariEntitatForm extends PortaFIBBaseForm {
 
 
 
+  private List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaDePluginFirmaWeb() {
+    return this.listOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+  public void setListOfValuesForPoliticaDePluginFirmaWeb(List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb) {
+    this.listOfValuesForPoliticaDePluginFirmaWeb = listOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+
+
   private List<StringKeyValue> listOfValuesForPoliticaCustodia;
 
   public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
@@ -93,14 +106,14 @@ public class UsuariEntitatForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb;
+  private List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID;
 
-  public List<StringKeyValue> getListOfValuesForPoliticaDePluginFirmaWeb() {
-    return this.listOfValuesForPoliticaDePluginFirmaWeb;
+  public List<StringKeyValue> getListOfCustodiaInfoForCustodiaInfoID() {
+    return this.listOfCustodiaInfoForCustodiaInfoID;
   }
 
-  public void setListOfValuesForPoliticaDePluginFirmaWeb(List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb) {
-    this.listOfValuesForPoliticaDePluginFirmaWeb = listOfValuesForPoliticaDePluginFirmaWeb;
+  public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
+    this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
   }
 
 

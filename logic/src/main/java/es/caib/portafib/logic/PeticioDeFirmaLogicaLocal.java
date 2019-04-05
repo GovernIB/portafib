@@ -10,8 +10,6 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
-import es.caib.portafib.model.bean.CustodiaInfoBean;
-import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
@@ -127,13 +125,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
       String newMessageFormaPatternForName,String descripcio, String motiu,
       FitxerJPA fitxerJPA) throws I18NException;
 
-  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID) throws I18NException;
-  
-  public CustodiaInfoBean constructDefaultCustodiaInfo(String titol, String entitatID,
-      String usuariEntitatID, String usuariAplicacioID, String idioma);
 
-  public void deleteCustodiaInfoOfPeticioDeFirma(CustodiaInfo custodiaInfo) throws I18NException;
-  
   public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException;
   
   /**

@@ -61,7 +61,7 @@ public class UsuariEntitatBean  {
     this.setLogoSegellID(__bean.getLogoSegellID());
     this.setPredeterminat(__bean.isPredeterminat());
     this.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
-    this.setPotCustodiar(__bean.getPotCustodiar());
+    // this.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -76,6 +76,7 @@ public class UsuariEntitatBean  {
 	public java.lang.String getCarrec() {
 		return(carrec);
 	};
+
 	public void setCarrec(java.lang.String _carrec_) {
 		this.carrec = _carrec_;
 	};
@@ -152,7 +153,7 @@ public class UsuariEntitatBean  {
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setPredeterminat(__bean.isPredeterminat());
     __tmp.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    //__tmp.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

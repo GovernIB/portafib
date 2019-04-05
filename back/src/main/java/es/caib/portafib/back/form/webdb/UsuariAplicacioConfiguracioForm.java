@@ -29,8 +29,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
-    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
-    this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
@@ -133,30 +131,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
     this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
-  }
-
-
-
-  private List<StringKeyValue> listOfValuesForPoliticaCustodia;
-
-  public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
-    return this.listOfValuesForPoliticaCustodia;
-  }
-
-  public void setListOfValuesForPoliticaCustodia(List<StringKeyValue> listOfValuesForPoliticaCustodia) {
-    this.listOfValuesForPoliticaCustodia = listOfValuesForPoliticaCustodia;
-  }
-
-
-
-  private List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID;
-
-  public List<StringKeyValue> getListOfCustodiaInfoForCustodiaInfoID() {
-    return this.listOfCustodiaInfoForCustodiaInfoID;
-  }
-
-  public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
-    this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
   }
 
 

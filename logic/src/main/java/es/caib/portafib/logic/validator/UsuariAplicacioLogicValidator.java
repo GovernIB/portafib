@@ -22,6 +22,7 @@ public class UsuariAplicacioLogicValidator<T> extends UsuariAplicacioValidator<T
  
 
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
+      ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
       ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
       ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
       ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
@@ -29,7 +30,7 @@ public class UsuariAplicacioLogicValidator<T> extends UsuariAplicacioValidator<T
 
     log.debug(" BBBBBBBBBBBBB   Passa per UsuariAplicacioWebLogicValidator");
 
-    super.validate(__vr, __target__, __isNou__, __entitatManager, __idiomaManager, __usuariAplicacioManager);
+    super.validate(__vr, __target__, __isNou__, __custodiaInfoManager ,__entitatManager, __idiomaManager, __usuariAplicacioManager);
 
     if (__isNou__ && __vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
       String userApp = (String)__vr.getFieldValue(__target__, USUARIAPLICACIOID);

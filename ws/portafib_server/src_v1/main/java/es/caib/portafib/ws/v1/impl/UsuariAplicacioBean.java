@@ -66,7 +66,7 @@ public class UsuariAplicacioBean  {
     this.setIdiomaID(__bean.getIdiomaID());
     this.setDescripcio(__bean.getDescripcio());
     this.setLogoSegellID(__bean.getLogoSegellID());
-    this.setPotCustodiar(__bean.getPotCustodiar());
+    //this.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -165,7 +165,7 @@ public class UsuariAplicacioBean  {
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    //__tmp.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

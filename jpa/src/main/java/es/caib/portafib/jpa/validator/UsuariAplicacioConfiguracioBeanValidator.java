@@ -17,8 +17,6 @@ public class UsuariAplicacioConfiguracioBeanValidator
 
 
   // EJB's
-  protected final es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager;
-
   protected final es.caib.portafib.model.dao.IEntitatManager __entitatManager;
 
   protected final es.caib.portafib.model.dao.IPluginManager __pluginManager;
@@ -31,12 +29,10 @@ public class UsuariAplicacioConfiguracioBeanValidator
   public final UsuariAplicacioConfiguracioValidator<UsuariAplicacioConfiguracioJPA> _validator;
 
 
-  public UsuariAplicacioConfiguracioBeanValidator(es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
-     es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+  public UsuariAplicacioConfiguracioBeanValidator(es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager) { 
-    this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
     this.__traduccioManager = __traduccioManager;
@@ -45,12 +41,10 @@ public class UsuariAplicacioConfiguracioBeanValidator
   }
 
   public UsuariAplicacioConfiguracioBeanValidator(UsuariAplicacioConfiguracioValidator<UsuariAplicacioConfiguracioJPA> _validator,
-     es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IPluginManager __pluginManager,
      es.caib.portafib.model.dao.ITraduccioManager __traduccioManager,
      es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager) {
-    this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__pluginManager = __pluginManager;
     this.__traduccioManager = __traduccioManager;
@@ -61,7 +55,7 @@ public class UsuariAplicacioConfiguracioBeanValidator
   @Override
   public List<I18NFieldError> validate(UsuariAplicacioConfiguracioJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<UsuariAplicacioConfiguracioJPA> _bvr_ = new BeanValidatorResult<UsuariAplicacioConfiguracioJPA>();
-    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __pluginManager, __traduccioManager, __usuariAplicacioConfiguracioManager);
+    _validator.validate(_bvr_, target, isNou, __entitatManager, __pluginManager, __traduccioManager, __usuariAplicacioConfiguracioManager);
     return _bvr_.getErrors();
   }
 }

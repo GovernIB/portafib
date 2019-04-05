@@ -20,18 +20,19 @@ public class UsuariAplicacioBeanLogicValidator extends UsuariAplicacioBeanValida
 
   protected final Logger log = Logger.getLogger(getClass());
   
-  public UsuariAplicacioBeanLogicValidator(es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+  public UsuariAplicacioBeanLogicValidator(es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
+      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
       es.caib.portafib.model.dao.IIdiomaManager __idiomaManager,
       es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) { 
      super(new UsuariAplicacioLogicValidator<UsuariAplicacioJPA>(),
-          __entitatManager, __idiomaManager, __usuariAplicacioManager);
+         __custodiaInfoManager,__entitatManager, __idiomaManager, __usuariAplicacioManager);
 
    }
   
   public List<I18NFieldError> validate(UsuariAplicacioJPA target, boolean isNou, String entitatID) throws I18NException {
     BeanValidatorResult<UsuariAplicacioJPA> _bvr_ = new BeanValidatorResult<UsuariAplicacioJPA>();
     
-    ((UsuariAplicacioLogicValidator<UsuariAplicacioJPA>)_validator).validate(_bvr_, target, isNou, __entitatManager, __idiomaManager, __usuariAplicacioManager, entitatID);
+    ((UsuariAplicacioLogicValidator<UsuariAplicacioJPA>)_validator).validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __idiomaManager, __usuariAplicacioManager, entitatID);
     
     return _bvr_.getErrors();
   }

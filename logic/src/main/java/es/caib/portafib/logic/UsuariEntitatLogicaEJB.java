@@ -101,6 +101,9 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   private es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
   
+  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  
   private UsuariEntitatLogicValidator<UsuariEntitatJPA> validator = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
 
   
@@ -175,7 +178,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
           usuariEntitatJPA.getEntitatID() + "_" + usuariPersonaID);
       
       UsuariEntitatLogicValidator<UsuariEntitatJPA> validadorUE = new UsuariEntitatLogicValidator<UsuariEntitatJPA>();
-      UsuariEntitatBeanValidator uebv = new UsuariEntitatBeanValidator(validadorUE, entitatEjb, this, this.usuariPersonaLogicaEjb);
+      UsuariEntitatBeanValidator uebv = new UsuariEntitatBeanValidator(validadorUE,this.custodiaInfoEjb,  entitatEjb, this, this.usuariPersonaLogicaEjb);
       uebv.throwValidationExceptionIfErrors(usuariEntitatJPA, isNou);
       
       // 2.2- Creacio
@@ -480,7 +483,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
        }
 
        UsuariEntitatBeanValidator beanValidator;
-       beanValidator= new UsuariEntitatBeanValidator(validator, entitatEjb, this,  usuariPersonaLogicaEjb);
+       beanValidator= new UsuariEntitatBeanValidator(validator, this.custodiaInfoEjb,  entitatEjb, this, usuariPersonaLogicaEjb);
 
        final boolean isNou = true;
        beanValidator.throwValidationExceptionIfErrors(usuariEntitat, isNou);
@@ -502,7 +505,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     throws I18NValidationException, I18NException {
     
     UsuariEntitatBeanValidator beanValidator;
-    beanValidator= new UsuariEntitatBeanValidator(entitatEjb, this, usuariPersonaLogicaEjb);
+    beanValidator= new UsuariEntitatBeanValidator(this.custodiaInfoEjb, entitatEjb,  this , usuariPersonaLogicaEjb);
 
     final boolean isNou = false;
     beanValidator.throwValidationExceptionIfErrors(usuariEntitat, isNou);

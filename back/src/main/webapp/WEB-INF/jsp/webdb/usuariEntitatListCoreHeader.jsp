@@ -39,14 +39,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.REBRETOTSELSAVISOS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.REBRETOTSELSAVISOS)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POTCUSTODIAR)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POTCUSTODIAR)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICACUSTODIA)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POLITICACUSTODIA)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.CUSTODIAINFOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariEntitatFields.CUSTODIAINFOID)}</th>
         </c:if>
 
 

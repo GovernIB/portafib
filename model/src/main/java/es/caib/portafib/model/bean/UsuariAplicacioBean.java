@@ -20,8 +20,9 @@ private static final long serialVersionUID = 1703005582L;
 	java.lang.String idiomaID;
 	java.lang.String descripcio;
 	java.lang.Long logoSegellID;
-	java.lang.Boolean potCustodiar;
 	int politicaDePluginFirmaWeb;
+	int politicaCustodia;
+	java.lang.Long custodiaInfoID;
 
 
   /** Constructor Buit */
@@ -29,7 +30,7 @@ private static final long serialVersionUID = 1703005582L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , java.lang.Boolean potCustodiar , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String contrasenya , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , java.lang.String descripcio , java.lang.Long logoSegellID , int politicaDePluginFirmaWeb , int politicaCustodia , java.lang.Long custodiaInfoID) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.contrasenya=contrasenya;
     this.entitatID=entitatID;
@@ -40,11 +41,12 @@ private static final long serialVersionUID = 1703005582L;
     this.idiomaID=idiomaID;
     this.descripcio=descripcio;
     this.logoSegellID=logoSegellID;
-    this.potCustodiar=potCustodiar;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
+    this.politicaCustodia=politicaCustodia;
+    this.custodiaInfoID=custodiaInfoID;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb) {
+  public UsuariAplicacioBean(java.lang.String usuariAplicacioID , java.lang.String entitatID , java.lang.String emailAdmin , int callbackVersio , java.lang.String callbackURL , boolean actiu , java.lang.String idiomaID , int politicaDePluginFirmaWeb , int politicaCustodia) {
     this.usuariAplicacioID=usuariAplicacioID;
     this.entitatID=entitatID;
     this.emailAdmin=emailAdmin;
@@ -53,6 +55,7 @@ private static final long serialVersionUID = 1703005582L;
     this.actiu=actiu;
     this.idiomaID=idiomaID;
     this.politicaDePluginFirmaWeb=politicaDePluginFirmaWeb;
+    this.politicaCustodia=politicaCustodia;
 }
   public UsuariAplicacioBean(UsuariAplicacio __bean) {
     this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
@@ -65,8 +68,9 @@ private static final long serialVersionUID = 1703005582L;
     this.setIdiomaID(__bean.getIdiomaID());
     this.setDescripcio(__bean.getDescripcio());
     this.setLogoSegellID(__bean.getLogoSegellID());
-    this.setPotCustodiar(__bean.getPotCustodiar());
     this.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
+    this.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    this.setCustodiaInfoID(__bean.getCustodiaInfoID());
     // Fitxer
     this.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 	}
@@ -141,18 +145,25 @@ private static final long serialVersionUID = 1703005582L;
 		this.logoSegellID = _logoSegellID_;
 	};
 
-	public java.lang.Boolean getPotCustodiar() {
-		return(potCustodiar);
-	};
-	public void setPotCustodiar(java.lang.Boolean _potCustodiar_) {
-		this.potCustodiar = _potCustodiar_;
-	};
-
 	public int getPoliticaDePluginFirmaWeb() {
 		return(politicaDePluginFirmaWeb);
 	};
 	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_) {
 		this.politicaDePluginFirmaWeb = _politicaDePluginFirmaWeb_;
+	};
+
+	public int getPoliticaCustodia() {
+		return(politicaCustodia);
+	};
+	public void setPoliticaCustodia(int _politicaCustodia_) {
+		this.politicaCustodia = _politicaCustodia_;
+	};
+
+	public java.lang.Long getCustodiaInfoID() {
+		return(custodiaInfoID);
+	};
+	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_) {
+		this.custodiaInfoID = _custodiaInfoID_;
 	};
 
 
@@ -172,8 +183,9 @@ private static final long serialVersionUID = 1703005582L;
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
     __tmp.setPoliticaDePluginFirmaWeb(__bean.getPoliticaDePluginFirmaWeb());
+    __tmp.setPoliticaCustodia(__bean.getPoliticaCustodia());
+    __tmp.setCustodiaInfoID(__bean.getCustodiaInfoID());
     // Fitxer
     __tmp.setLogoSegell(FitxerBean.toBean(__bean.getLogoSegell()));
 		return __tmp;

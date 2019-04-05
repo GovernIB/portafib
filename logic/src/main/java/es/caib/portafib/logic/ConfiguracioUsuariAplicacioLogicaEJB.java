@@ -85,23 +85,27 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
         nom = "US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR";
       break;
       case ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB:
-        tePermis = config.isUsEnFirmaApiSimpleServidor();
+        tePermis = config.isUsEnFirmaApiSimpleWeb();
         nom = "US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB";
       break;
       case ConstantsV2.US_FIRMA_CONF_APP_FIRMAWEB:
-        tePermis = config.isUsEnFirmaApiSimpleServidor();
+        tePermis = config.isUsEnFirmaWeb();
         nom = "US_FIRMA_CONF_APP_FIRMAWEB";
       break;
+      case ConstantsV2.US_FIRMA_CONF_APP_FIRMAWS1:
+        tePermis = config.isUsEnFirmaWS1();
+        nom = "US_FIRMA_CONF_APP_FIRMAWS1";
+      break;
       case ConstantsV2.US_FIRMA_CONF_APP_FIRMAWS2:
-        tePermis = config.isUsEnFirmaApiSimpleServidor();
+        tePermis = config.isUsEnFirmaWS2();
         nom = "US_FIRMA_CONF_APP_FIRMAWS2";
       break;
       case ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR:
-        tePermis = config.isUsEnFirmaApiSimpleServidor();
+        tePermis = config.isUsEnFirmaPassarelaServidor();
         nom = "US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR";
       break;
       case ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMAWEB:
-        tePermis = config.isUsEnFirmaApiSimpleServidor();
+        tePermis = config.isUsEnFirmaPassarelaWeb();
         nom = "US_FIRMA_CONF_APP_PASSARELAFIRMAWEB";
       break;
       default:
@@ -237,32 +241,25 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
    * @return
    * @throws I18NException
    */
-  /*
+  
   @Override
-  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
   @PermitAll
-  public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
-      final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException {
+  public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerApiPortafibWS1(
+      final String usuariAplicacioID) throws I18NException {
 
-    PerfilDeFirma perfilDeFirma = getPerfilDeFirmaPerPassarela(usuariAplicacioID,
-        esFirmaEnServidor);
+    Where where = new PerfilsPerUsuariAplicacioQueryPath().PERFILDEFIRMA()
+          .CONFIGURACIODEFIRMA1().USENFIRMAWS1().equal(true);
+    final String us = "api portafib ws 1.0";
+
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirmaUnike(usuariAplicacioID, where, us);
 
     UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA)findByPrimaryKey(perfilDeFirma
         .getConfiguracioDeFirma1ID());
 
-    final int usFirma;
-    if (esFirmaEnServidor) {
-      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR;
-    } else {
-      usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMAWEB;
-    }
-
-    checkTePermisPerUsDeFirma(usuariAplicacioID, perfilDeFirma.getCodi(), usFirma, config);
-
-    return new PerfilConfiguracioDeFirma(perfilDeFirma, config);
+    return config;
 
   }
-  */
+  
   
   @Override
   //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
@@ -272,11 +269,10 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirmaPerPassarela(usuariAplicacioID,
         esFirmaEnServidor);
-  
-    
+
 //    UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA)findByPrimaryKey(perfilDeFirma
 //        .getConfiguracioDeFirma1ID());
-  
+
     final int usFirma;
     if (esFirmaEnServidor) {
       usFirma = ConstantsV2.US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR;
@@ -307,13 +303,17 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     
     return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
 
-}
-  
-  
+  }
 
-  //@Override
-  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
-  //@PermitAll
+
+
+  /**
+   * 
+   * @param usuariAplicacioID
+   * @param esFirmaEnServidor
+   * @return
+   * @throws I18NException
+   */
   protected PerfilDeFirma getPerfilDeFirmaPerPassarela(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException {
 
@@ -325,12 +325,27 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
       usFirmaPassarela = new PerfilsPerUsuariAplicacioQueryPath().PERFILDEFIRMA()
           .CONFIGURACIODEFIRMA1().USENFIRMAPASSARELAWEB();
     }
+    Where where = usFirmaPassarela.equal(true); 
+    String nomus = "passarela";
 
+    return getPerfilDeFirmaUnike(usuariAplicacioID, where, nomus);
+  }
+
+  /**
+   * 
+   * @param usuariAplicacioID
+   * @param where
+   * @param nomus
+   * @return
+   * @throws I18NException
+   */
+  protected PerfilDeFirma getPerfilDeFirmaUnike(final String usuariAplicacioID, Where where,
+      String nomus) throws I18NException {
     // Hauria de retornar 1
     List<String> codisPerfil = perfilsPerUsuariAplicacioEjb.executeQuery(
         new PerfilsPerUsuariAplicacioQueryPath().PERFILDEFIRMA().CODI(), Where.AND(
             PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID),
-            usFirmaPassarela.equal(true)));
+            where));
 
     if (codisPerfil == null || codisPerfil.size() != 1) {
       // XYZ ZZZ TRA
@@ -338,7 +353,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
           "genapp.comodi",
           "Els usuaris aplicació, com "
               + usuariAplicacioID
-              + ", que es fan servir per passarel·la han de tenir un"
+              + ", que es fan servir per " + nomus + " han de tenir un"
               + " i solament un perfil de firma assignat, i aquest o no en te cap o en té múltiples.");
     }
 
@@ -358,7 +373,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
               + codiPerfil
               + " que esta assignat a l´usuari aplicació "
               + usuariAplicacioID
-              + ", que es fa servir per passarel·la, no pot tenir condició, ni configuració de firma 2,3,4 o 5");
+              + ", que es fa servir per " + nomus + ", no pot tenir condició, ni configuració de firma 2,3,4 o 5");
     }
 
     return perfilDeFirma;
@@ -390,8 +405,10 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
   }
 
+  /**
+   * 
+   */
   @Override
-  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
   @PermitAll
   public PerfilConfiguracionsDeFirma getConfiguracioFirmaPerApiFirmaSimpleEnServidor(
       String usuariAplicacioID, String codiPerfil,
@@ -522,5 +539,37 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
 
     return config;
   }
+  
+  
+  
+  
+  /*
+  @Override
+  //@RolesAllowed({ "PFI_ADMIN", "PFI_USER" })
+  @PermitAll
+  public PerfilConfiguracionsDeFirma getConfiguracioFirmaPerApiPortaFIBWS1(
+      String usuariAplicacioID) throws I18NException {
+    
+    final int usFirma = ConstantsV2.US_FIRMA_CONF_APP_FIRMAWS1;
+   
+    PerfilDeFirma perfilDeFirma = getPerfilDeFirma(usuariAplicacioID, codiPerfil, usFirma);
+
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("firmaSimpleSignDocumentRequest", firmaSimpleSignDocumentRequest);
+
+    UsuariAplicacioConfiguracioJPA config = avaluarCondicio(usuariAplicacioID, perfilDeFirma,
+        ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR, firmaSimpleSignDocumentRequest
+            .getCommonInfo().getLanguageUI(), parameters);
+    
+    Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
+    
+    configBySignID.put(firmaSimpleSignDocumentRequest.getFileInfoSignature().getSignID(), config);
+
+    return new PerfilConfiguracionsDeFirma(perfilDeFirma, configBySignID);
+
+  }
+  */
+  
+  
 
 }

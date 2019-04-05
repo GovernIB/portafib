@@ -25,7 +25,7 @@
 
 <c:if test="${seleccioFluxDeFirmesForm.solicitantUsuariEntitat == false}">
 <tr>
-  <td><label><fmt:message key="peticioDeFirma.usuariAplicacioID" />:</label></td>
+  <td><label><fmt:message key="peticioDeFirma.solicitantUsuariAplicacioID" />:</label></td>
   <td>
     <form:errors path="usuariAplicacioID"  cssClass="errorField alert alert-error" />
     <form:input cssClass="input-xlarge" readonly="true" path="usuariAplicacioID"/>

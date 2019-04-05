@@ -30,19 +30,7 @@
 
  }
  
- // Politica de Custòdia (ocultar o mostrar valor)
- onChangePoliticaCustodia(document.getElementById("<%=UsuariAplicacioConfiguracioFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
 
- function onChangePoliticaCustodia(combo) {
-     var value = combo.options[combo.selectedIndex].value;
-     if (value == <%=ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA%>
-        || value == <%=ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU%>
-        || value == <%=ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU%>) { 
-       document.getElementById("<%=UsuariAplicacioConfiguracioFields.CUSTODIAINFOID.fullName.replace('.', '_') %>_rowid").style.display = '';
-     } else {
-       document.getElementById("<%=UsuariAplicacioConfiguracioFields.CUSTODIAINFOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
-     }
- }
  
  
  // Politica de Taula de Firmes (ocultar o mostrar valor)
@@ -160,14 +148,6 @@
     }
  }
 
- // CustodiaInfo (camp null)
- var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.CUSTODIAINFOID.fullName.replace('.', '_') %>").options;
- for (i = 0; i < sel.length; i++) {
-    if (sel[i].value == '') {
-      sel[i].innerHTML='--<fmt:message key="combobox.seleccionar"/>--';
-      break;
-    }
- }
  
  // Segellat de Temps (camp null)
  var sel = document.getElementById("<%=UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID.fullName.replace('.', '_') %>").options;

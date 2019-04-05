@@ -42,11 +42,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.LOGOSEGELLID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.LOGOSEGELLID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POTCUSTODIAR)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.POTCUSTODIAR)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.POLITICACUSTODIA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioFields.CUSTODIAINFOID)}</th>
         </c:if>
 
 

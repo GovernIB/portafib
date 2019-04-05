@@ -60,11 +60,22 @@ create index pfi_petifirma_firmaori_fk_i on pfi_peticiodefirma 	firmaoriginaldet
 
 ALTER TABLE pfi_entitat
   ADD COLUMN politicacustodia integer NOT NULL DEFAULT 0;
-COMMENT ON COLUMN pfi_entitat.politicacustodia IS '0: No permetre, 1:Només Plantilles de l''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat 	Per defecte Actiu), 4: Opcional plantilla Entitat 	Per defecte NO Actiu), 5: Llibertat Total 	selecció, edició i us)';
+COMMENT ON COLUMN pfi_entitat.politicacustodia IS '0: No permetre, 1:Només Plantilles de l''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat 	Per defecte Actiu), 4: Opcional plantilla Entitat 	Per defecte NO Actiu), 5: Llibertat Total 	selecció, edició i us';
 
 ALTER TABLE pfi_usuarientitat ADD COLUMN politicacustodia integer NOT NULL DEFAULT 0;
-COMMENT ON COLUMN pfi_usuarientitat.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1:Només Plantilles de l''''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat 	Per defecte Actiu), 4: Opcional plantilla Entitat 	Per defecte NO Actiu), 5: Llibertat Total 	selecció, edició i us)';
+COMMENT ON COLUMN pfi_usuarientitat.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1:Només Plantilles de l''''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat 	Per defecte Actiu), 4: Opcional plantilla Entitat 	Per defecte NO Actiu), 5: Llibertat Total(selecció, edició i us), 6: La plantilla definida en l''usuari-entitat';
 
+ALTER TABLE pfi_usuarientitat ADD COLUMN custodiainfoid bigint;
+ALTER TABLE ONLY pfi_usuarientitat  ADD CONSTRAINT pfi_usrentitat_custodia_fk FOREIGN KEY (custodiainfoid) REFERENCES pfi_custodiainfo(custodiainfoid);
+CREATE INDEX pfi_usrentitat_custinfo_fk_i ON pfi_usuarientitat USING btree (custodiainfoid);
+
+
+ALTER TABLE pfi_usuariaplicacio ADD COLUMN politicacustodia integer NOT NULL DEFAULT 0;
+COMMENT ON COLUMN pfi_usuariaplicacio.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1:Només Plantilles de l''''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat 	Per defecte Actiu), 4: Opcional plantilla Entitat 	Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us), 6: La plantilla definida en l''usuari-aplicacio';
+
+ALTER TABLE pfi_usuariaplicacio ADD COLUMN custodiainfoid bigint;
+ALTER TABLE ONLY pfi_usuariaplicacio  ADD CONSTRAINT pfi_usrapp_custodia_fk FOREIGN KEY (custodiainfoid) REFERENCES pfi_custodiainfo(custodiainfoid);
+CREATE INDEX pfi_usrapp_custodia_fk_i ON pfi_usuariaplicacio USING btree (custodiainfoid);
 
 
 -- ===========================================
@@ -194,8 +205,6 @@ CREATE TABLE pfi_usuariaplicacioconfig (
   modedefirma boolean NOT NULL,
   motiudelegacioid bigint,
   firmatperformatid bigint,
-  politicacustodia integer NOT NULL DEFAULT 0,
-  custodiainfoid bigint,
   politicataulafirmes integer NOT NULL DEFAULT 0,
   posiciotaulafirmesid integer NOT NULL DEFAULT 0,
   propietatstaulafirmes text,
@@ -214,9 +223,7 @@ CREATE TABLE pfi_usuariaplicacioconfig (
   CONSTRAINT pfi_confapp_algofirma_fk FOREIGN KEY 	(algorismedefirmaid)
       REFERENCES pfi_algorismedefirma 	(algorismedefirmaid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT pfi_confapp_custodia_fk FOREIGN KEY 	(custodiainfoid)
-      REFERENCES pfi_custodiainfo 	(custodiainfoid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  
   CONSTRAINT pfi_confapp_fitxer_cert_fk FOREIGN KEY 	(logincertificateid)
       REFERENCES pfi_fitxer 	(fitxerid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -243,7 +250,6 @@ CREATE TABLE pfi_usuariaplicacioconfig (
 
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicataulafirmes IS '-1 definit en l''entitat, 0 no es permet taules de firmes, 1  obligatori politica definida en la configuració d''usuari aplicació o entitat, 2 opcional, per defecte el definit a l''entitat';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicasegellatdetemps IS 'DEFINIT_EN_ENTITAT=-1;NOUSAR=0;US_OBLIGATORI=1;USUARI_ELEGEIX_PER_DEFECTE_SI=2;USUARI_ELEGEIX_PER_DEFECTE_NO=3;';
-COMMENT ON COLUMN pfi_usuariaplicacioconfig.politicacustodia IS '-1: el que digui l''entitat, 0: No permetre, 1: Només Plantilles de l''''Entitat 	No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total 	selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.validarcertificat IS 'NULL => Lo que digui l''entitat';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.uspoliticadefirma IS '-1=> usar politica de firma de l''entitat, 0 => no usar politica de firma,  1=> usar politica d''aquesta configuracio, 2 => L''usuari web o usuari-app elegeixen la politica de firma';
 COMMENT ON COLUMN pfi_usuariaplicacioconfig.tipusoperaciofirma IS '0 firma, 1 contrafirma 2, cofirma';
@@ -262,8 +268,6 @@ COMMENT ON COLUMN pfi_usuariaplicacioconfig.validarfirma IS 'Indica si validar l
  create index pfi_confapp_motiudele_fk_i on pfi_usuariaplicacioconfig 	(motiudelegacioid);
 
  create index pfi_confapp_firmatper_fk_i on pfi_usuariaplicacioconfig 	(firmatperformatid);
-
- create index pfi_confapp_custinfo_fk_i on pfi_usuariaplicacioconfig 	(custodiainfoid);
 
  create index pfi_confapp_plugsegell_fk_i on pfi_usuariaplicacioconfig 	(pluginsegellatid);
 
@@ -411,6 +415,8 @@ ALTER TABLE pfi_usuariaplicacioconfig
   ADD COLUMN usenfirmaapisimpleweb boolean NOT NULL DEFAULT false;
 ALTER TABLE pfi_usuariaplicacioconfig
   ADD COLUMN usenfirmaweb boolean NOT NULL DEFAULT false;
+ALTER TABLE pfi_usuariaplicacioconfig
+  ADD COLUMN usenfirmaws1 boolean NOT NULL DEFAULT false;
 ALTER TABLE pfi_usuariaplicacioconfig
   ADD COLUMN usenfirmaws2 boolean NOT NULL DEFAULT false;
 ALTER TABLE pfi_usuariaplicacioconfig

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 
@@ -27,6 +28,7 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
+    ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IIdiomaManager __idiomaManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager) {
@@ -63,6 +65,10 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICADEPLUGINFIRMAWEB, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICADEPLUGINFIRMAWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
 
     // Check size
     if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
@@ -191,6 +197,20 @@ public class UsuariAplicacioValidator<T> implements UsuariAplicacioFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("idioma.idioma"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("idioma.idiomaID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__idiomaid)));
+      }
+    }
+
+    if (__vr.getFieldErrorCount(CUSTODIAINFOID) == 0) {
+      java.lang.Long __custodiainfoid = (java.lang.Long)__vr.getFieldValue(__target__,CUSTODIAINFOID);
+      if (__custodiainfoid != null ) {
+        Long __count_ = null;
+        try { __count_ = __custodiaInfoManager.count(CustodiaInfoFields.CUSTODIAINFOID.equal(__custodiainfoid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(CUSTODIAINFOID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
+        }
       }
     }
 

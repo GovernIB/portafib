@@ -29,14 +29,14 @@ public interface UsuariEntitat extends org.fundaciobit.genapp.common.IGenAppEnti
 	public boolean isRebreTotsElsAvisos();
 	public void setRebreTotsElsAvisos(boolean _rebreTotsElsAvisos_);
 
-	public java.lang.Boolean getPotCustodiar();
-	public void setPotCustodiar(java.lang.Boolean _potCustodiar_);
+	public int getPoliticaDePluginFirmaWeb();
+	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_);
 
 	public int getPoliticaCustodia();
 	public void setPoliticaCustodia(int _politicaCustodia_);
 
-	public int getPoliticaDePluginFirmaWeb();
-	public void setPoliticaDePluginFirmaWeb(int _politicaDePluginFirmaWeb_);
+	public java.lang.Long getCustodiaInfoID();
+	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
   // Fitxer
   public <F extends Fitxer> F getLogoSegell();

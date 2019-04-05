@@ -20,6 +20,9 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public boolean isUsEnFirmaWeb();
 	public void setUsEnFirmaWeb(boolean _usEnFirmaWeb_);
 
+	public boolean isUsEnFirmaWS1();
+	public void setUsEnFirmaWS1(boolean _usEnFirmaWS1_);
+
 	public boolean isUsEnFirmaWS2();
 	public void setUsEnFirmaWS2(boolean _usEnFirmaWS2_);
 
@@ -58,12 +61,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 
 	public boolean isModeDeFirma();
 	public void setModeDeFirma(boolean _modeDeFirma_);
-
-	public int getPoliticaCustodia();
-	public void setPoliticaCustodia(int _politicaCustodia_);
-
-	public java.lang.Long getCustodiaInfoID();
-	public void setCustodiaInfoID(java.lang.Long _custodiaInfoID_);
 
 	public int getPoliticaTaulaFirmes();
 	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_);

@@ -17,6 +17,8 @@ public class UsuariEntitatBeanValidator
 
 
   // EJB's
+  protected final es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager;
+
   protected final es.caib.portafib.model.dao.IEntitatManager __entitatManager;
 
   protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
@@ -27,9 +29,11 @@ public class UsuariEntitatBeanValidator
   public final UsuariEntitatValidator<UsuariEntitatJPA> _validator;
 
 
-  public UsuariEntitatBeanValidator(es.caib.portafib.model.dao.IEntitatManager __entitatManager,
+  public UsuariEntitatBeanValidator(es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
+     es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager,
      es.caib.portafib.model.dao.IUsuariPersonaManager __usuariPersonaManager) { 
+    this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this.__usuariPersonaManager = __usuariPersonaManager;
@@ -37,9 +41,11 @@ public class UsuariEntitatBeanValidator
   }
 
   public UsuariEntitatBeanValidator(UsuariEntitatValidator<UsuariEntitatJPA> _validator,
+     es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
      es.caib.portafib.model.dao.IEntitatManager __entitatManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager,
      es.caib.portafib.model.dao.IUsuariPersonaManager __usuariPersonaManager) {
+    this.__custodiaInfoManager = __custodiaInfoManager;
     this.__entitatManager = __entitatManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this.__usuariPersonaManager = __usuariPersonaManager;
@@ -49,7 +55,7 @@ public class UsuariEntitatBeanValidator
   @Override
   public List<I18NFieldError> validate(UsuariEntitatJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<UsuariEntitatJPA> _bvr_ = new BeanValidatorResult<UsuariEntitatJPA>();
-    _validator.validate(_bvr_, target, isNou, __entitatManager, __usuariEntitatManager, __usuariPersonaManager);
+    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __entitatManager, __usuariEntitatManager, __usuariPersonaManager);
     return _bvr_.getErrors();
   }
 }

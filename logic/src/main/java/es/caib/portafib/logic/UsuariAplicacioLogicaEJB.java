@@ -83,6 +83,9 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  
+  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
+  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
  
 
   @Override
@@ -90,7 +93,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     throws I18NException, I18NValidationException {
     
     UsuariAplicacioBeanLogicValidator uabv;
-    uabv = new UsuariAplicacioBeanLogicValidator(entitatEjb, idiomaEjb, this);
+    uabv = new UsuariAplicacioBeanLogicValidator(custodiaInfoEjb, entitatEjb, idiomaEjb, this);
     
     final boolean isNou = true;
     List<I18NFieldError> fieldErrors = uabv.validate(_usuariAplicacio_, isNou, entitatID);

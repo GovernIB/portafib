@@ -18,6 +18,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final BooleanField USENFIRMAAPISIMPLESERVIDOR = new BooleanField(_TABLE_MODEL, "usEnFirmaApiSimpleServidor", "usenfirmaapisimpleservidor");
 	 public static final BooleanField USENFIRMAAPISIMPLEWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaApiSimpleWeb", "usenfirmaapisimpleweb");
 	 public static final BooleanField USENFIRMAWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaWeb", "usenfirmaweb");
+	 public static final BooleanField USENFIRMAWS1 = new BooleanField(_TABLE_MODEL, "usEnFirmaWS1", "usenfirmaws1");
 	 public static final BooleanField USENFIRMAWS2 = new BooleanField(_TABLE_MODEL, "usEnFirmaWS2", "usenfirmaws2");
 	 public static final BooleanField USENFIRMAPASSARELASERVIDOR = new BooleanField(_TABLE_MODEL, "usEnFirmaPassarelaServidor", "usenfirmapassarelaservidor");
 	 public static final BooleanField USENFIRMAPASSARELAWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaPassarelaWeb", "usenfirmapassarelaweb");
@@ -31,8 +32,6 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final IntegerField TIPUSFIRMAID = new IntegerField(_TABLE_MODEL, "tipusFirmaID", "tipusfirmaid");
 	 public static final IntegerField ALGORISMEDEFIRMAID = new IntegerField(_TABLE_MODEL, "algorismeDeFirmaID", "algorismedefirmaid");
 	 public static final BooleanField MODEDEFIRMA = new BooleanField(_TABLE_MODEL, "modeDeFirma", "modedefirma");
-	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
-	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 	 public static final IntegerField POLITICATAULAFIRMES = new IntegerField(_TABLE_MODEL, "politicaTaulaFirmes", "politicataulafirmes");
 	 public static final IntegerField POSICIOTAULAFIRMESID = new IntegerField(_TABLE_MODEL, "posicioTaulaFirmesID", "posiciotaulafirmesid");
 	 public static final LongField FIRMATPERFORMATID = new LongField(_TABLE_MODEL, "firmatPerFormatID", "firmatperformatid");
@@ -57,6 +56,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     USENFIRMAAPISIMPLESERVIDOR,
     USENFIRMAAPISIMPLEWEB,
     USENFIRMAWEB,
+    USENFIRMAWS1,
     USENFIRMAWS2,
     USENFIRMAPASSARELASERVIDOR,
     USENFIRMAPASSARELAWEB,
@@ -70,8 +70,6 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     TIPUSFIRMAID,
     ALGORISMEDEFIRMAID,
     MODEDEFIRMA,
-    POLITICACUSTODIA,
-    CUSTODIAINFOID,
     POLITICATAULAFIRMES,
     POSICIOTAULAFIRMESID,
     FIRMATPERFORMATID,

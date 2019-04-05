@@ -17,6 +17,7 @@ public class UsuariEntitatLogicValidator<T> extends UsuariEntitatValidator<T> {
 
   @Override
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__,
+      es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager,
       es.caib.portafib.model.dao.IEntitatManager __entitatManager,
       es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager,
       es.caib.portafib.model.dao.IUsuariPersonaManager __usuariPersonaManager)  {
@@ -48,7 +49,7 @@ public class UsuariEntitatLogicValidator<T> extends UsuariEntitatValidator<T> {
       }
     }
     
-    super.validate(__vr, __target__, __isNou__,  __entitatManager, __usuariEntitatManager,
+    super.validate(__vr, __target__, __isNou__,  __custodiaInfoManager, __entitatManager, __usuariEntitatManager,
         __usuariPersonaManager);
     
     // Si carrec == null llavors usuariEntitatID és la concatenació

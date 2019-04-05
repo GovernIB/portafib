@@ -1,6 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
@@ -16,8 +16,10 @@ import es.caib.portafib.logic.RoleUsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
+import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -196,8 +198,6 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
 
      UsuariEntitatForm usuariEntitatForm = super.getUsuariEntitatForm(_jpa, __isView, request, mav);
 
-
-
     // Cas d'alta
     if(usuariEntitatForm.isNou()) {
 
@@ -221,6 +221,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       String nomPersona = up.getNom() + " " + up.getLlinatges();
       HtmlUtils.saveMessageInfo(request,
        I18NUtils.tradueix("usuarientitat.verificacio", nomPersona, up.getNif()));
+      
 
       // LLevam de la sessio el formulari de selecció.
       session.removeAttribute(USUARI_PERSONA_ID_HOLDER);
@@ -261,7 +262,11 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     }
     
     // XYZ ZZZ Es quedaran així fins que no s'implementi #165
-    usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
+    // usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
+    
+    usuariEntitatForm.setAttachedAdditionalJspCode(true);
+    
+    
     // XYZ ZZZ Es quedaran així fins que no s'implementi #173
     usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
@@ -354,10 +359,11 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
     ue.setUsuariPersonaID(usuariPersonaID);
     ue.setEntitatID(entitatID);
     ue.setActiu(true);
-    // XYZ ZZZ
-    ue.setPotCustodiar(false);
-    ue.setUsuariEntitatID(entitatID+ "_" +usuariPersonaID);
+    
+    // XYZ ZZZ  ue.setPotCustodiar(false);
     ue.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+    
+    ue.setUsuariEntitatID(entitatID+ "_" +usuariPersonaID);
     ue.setPoliticaDePluginFirmaWeb(ConstantsV2.POLITICA_PLUGIN_FIRMA_WEB_NOMES_PLUGINS_ENTITAT);
   }
 
@@ -397,6 +403,30 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
           );
   }
   
+ 
+  
+  @Override
+  public void postValidate(HttpServletRequest request,
+      UsuariEntitatForm usuariEntitatForm, BindingResult result)
+      throws I18NException {
+
+    UsuariEntitat ue = usuariEntitatForm.getUsuariEntitat();
+
+
+    // Custodia
+    int politicaCustodia = ue.getPoliticaCustodia();
+    if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO) {
+
+      Long custInfoID = ue.getCustodiaInfoID();
+      if (custInfoID == null) {
+        // El camp {0} és obligatori.
+        result.rejectValue(get(CUSTODIAINFOID), "genapp.validation.required",
+            new String[] { I18NUtils.tradueix(get(CUSTODIAINFOID)) }, null);
+      }
+    } else {
+      ue.setCustodiaInfoID(null);
+    }
+  }
   
  
   
@@ -464,8 +494,7 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    final boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForPoliticaCustodia(isEntitat);
+    return GestioEntitatAdminController.staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_ENTITAT);
   }
 
   /**
@@ -476,6 +505,22 @@ public class GestioUsuariEntitatAdenController extends UsuariEntitatController {
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
     return ConfiguracioUsuariEntitatController.staticGetReferenceListForPoliticaDePluginFirmaWeb();
+  }
+  
+  
+  
+
+  
+  @Override
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+      ModelAndView mav, UsuariEntitatForm configuracioForm, Where where)
+      throws I18NException {
+
+    Where where2 = Where.AND(where,
+        CustodiaInfoFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        CustodiaInfoFields.NOMPLANTILLA.isNotNull());
+
+    return super.getReferenceListForCustodiaInfoID(request, mav, configuracioForm, where2);
   }
 
 }

@@ -85,15 +85,27 @@
             </c:if>
            </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POTCUSTODIAR)}">
-          <td>
-            <fmt:message key="potcustodiar.${usuariAplicacio.potCustodiar}" />          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
           <td>
           <c:set var="tmp">${usuariAplicacio.politicaDePluginFirmaWeb}</c:set>
           <c:if test="${not empty tmp}">
           ${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacio.politicaCustodia}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaCustodia[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacio.custodiaInfoID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
           </c:if>
           </td>
         </c:if>

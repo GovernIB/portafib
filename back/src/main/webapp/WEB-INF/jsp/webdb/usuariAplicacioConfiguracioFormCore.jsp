@@ -113,6 +113,28 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaWS1_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS1])?'usuariAplicacioConfiguracio.usEnFirmaWS1':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS1]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaWS1" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaWS1" />
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaWS1}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
         <tr id="usuariAplicacioConfiguracio_usEnFirmaWS2_rowid">
           <td>
@@ -405,62 +427,6 @@
           </c:if>
           <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}" >
                 <fmt:message key="modefirma.${__theForm.usuariAplicacioConfiguracio.modeDeFirma}" />
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
-        <tr id="usuariAplicacioConfiguracio_politicaCustodia_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA])?'usuariAplicacioConfiguracio.politicaCustodia':__theForm.labels[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.POLITICACUSTODIA]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="usuariAplicacioConfiguracio.politicaCustodia" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}" >
-          <form:hidden path="usuariAplicacioConfiguracio.politicaCustodia"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}" >
-          <form:select id="usuariAplicacioConfiguracio_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.politicaCustodia">
-            <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.CUSTODIAINFOID)}">
-        <tr id="usuariAplicacioConfiguracio_custodiaInfoID_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.CUSTODIAINFOID])?'usuariAplicacioConfiguracio.custodiaInfoID':__theForm.labels[UsuariAplicacioConfiguracioFields.CUSTODIAINFOID]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.CUSTODIAINFOID]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.CUSTODIAINFOID]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <form:errors path="usuariAplicacioConfiguracio.custodiaInfoID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.CUSTODIAINFOID)}" >
-          <form:hidden path="usuariAplicacioConfiguracio.custodiaInfoID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacioConfiguracio.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.CUSTODIAINFOID)}" >
-          <form:select id="usuariAplicacioConfiguracio_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="input-xxlarge" path="usuariAplicacioConfiguracio.custodiaInfoID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
-            <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
           </c:if>
            </td>
         </tr>

@@ -104,7 +104,9 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
           ue.setActiu(false);
           ue.setCarrec(((nom == null) || (nom.trim().length() == 0)) ? "PENDENT posar nom" : nom);
           ue.setEntitatID(entitatID);
-          ue.setPotCustodiar(false);
+          // XYZ ZZZ ue.setPotCustodiar(false);
+          ue.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+          
           ue.setUsuariEntitatID(usuariEntitatID);
        
           ue.setUsuariPersonaID(codusu);
@@ -501,7 +503,10 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
     ue.setActiu(actiu);
     ue.setCarrec(null);
     ue.setEntitatID(entitatID);
-    ue.setPotCustodiar(false);
+
+    //ue.setPotCustodiar(false);
+    ue.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+
     // ue.setUsuariEntitatID(usuariEntitatID); Es definexi dins el mètode create
     ue.setUsuariPersonaID(codusu);
     return ue;

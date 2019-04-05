@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 
@@ -27,6 +28,7 @@ public class UsuariEntitatValidator<T> implements UsuariEntitatFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
+    ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager
     ,es.caib.portafib.model.dao.IUsuariPersonaManager __usuariPersonaManager) {
@@ -56,13 +58,13 @@ public class UsuariEntitatValidator<T> implements UsuariEntitatFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REBRETOTSELSAVISOS)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICADEPLUGINFIRMAWEB, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICADEPLUGINFIRMAWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
 
     // Check size
     if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
@@ -194,6 +196,20 @@ public class UsuariEntitatValidator<T> implements UsuariEntitatFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitat"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitatID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__entitatid)));
+      }
+    }
+
+    if (__vr.getFieldErrorCount(CUSTODIAINFOID) == 0) {
+      java.lang.Long __custodiainfoid = (java.lang.Long)__vr.getFieldValue(__target__,CUSTODIAINFOID);
+      if (__custodiainfoid != null ) {
+        Long __count_ = null;
+        try { __count_ = __custodiaInfoManager.count(CustodiaInfoFields.CUSTODIAINFOID.equal(__custodiainfoid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(CUSTODIAINFOID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
+        }
       }
     }
 

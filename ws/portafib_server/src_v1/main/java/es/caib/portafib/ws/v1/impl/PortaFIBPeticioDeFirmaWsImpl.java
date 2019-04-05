@@ -35,11 +35,11 @@ import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.fields.IdiomaFields;
@@ -75,20 +75,17 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
   public static final String NAME_WS = NAME + "Ws";
 
-  @EJB(mappedName = "portafib/FitxerLogicaEJB/local")
-  private FitxerLogicaLocal fitxerLogicaEjb;
-
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
-  
-  @EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")
+  @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
 
   @Resource
   private WebServiceContext wsContext;
@@ -109,24 +106,25 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       @WebParam(name = "language") String language)
      throws WsI18NException, Throwable {
     
-    
-    if (!LogicUtils.checkPotCustodiar(UsuariAplicacioCache.get())) {
+    /*
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+
+    Integer politicaCustodia = entitatLogicaEjb.getPoliticaDeCustodiaFinalPerUA(userapp);
+    if (politicaCustodia == null) {
       return null;
     }
 
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
     final String usuariEntitatID = null;
     if (language.trim().length() == 0) {
       language = userapp.getIdiomaID();
     }
-    final String usuariAplicacioID = userapp.getUsuariAplicacioID();
+    */
     
-    es.caib.portafib.model.bean.CustodiaInfoBean cibModel;
-    
-    cibModel = peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title,
-        userapp.getEntitatID(), usuariEntitatID, usuariAplicacioID, language);
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
-    return CustodiaInfoBean.toBean(cibModel);
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació");
+
+    return CustodiaInfoBean.toBean(ci);
     
   }
 

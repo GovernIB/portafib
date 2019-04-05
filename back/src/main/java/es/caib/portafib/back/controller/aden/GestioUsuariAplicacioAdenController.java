@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.common.ConfiguracioUsuariEntitatController;
 import es.caib.portafib.back.controller.webdb.UsuariAplicacioController;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
@@ -15,10 +16,13 @@ import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.entity.RoleUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -32,6 +36,7 @@ import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +50,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,10 +79,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @EJB(mappedName = es.caib.portafib.ejb.RoleUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;
-
-  // @EJB(mappedName = es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal.JNDI_NAME)
-  // protected es.caib.portafib.ejb.UsuariAplicacioConfiguracioLocal
-  // usuariAplicacioConfiguracioEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
@@ -150,7 +153,10 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       aplicacio.setIdiomaID(Configuracio.getDefaultLanguage());
       aplicacio.setActiu(true);
       aplicacio.setCallbackURL("http://HOST:8080/portafib/cb/v1/PortaFIBCallBack");
-      aplicacio.setPotCustodiar(false);
+      
+      aplicacio.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+      
+      //XYZ ZZZ aplicacio.setPotCustodiar(false);
     } else {
       usuariAplicacioForm.addReadOnlyField(USUARIAPLICACIOID);
       usuariAplicacioForm.addReadOnlyField(ACTIU);
@@ -183,6 +189,8 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       usuariAplicacioForm.addAdditionalButton(new AdditionalButton("icon-play", "activar",
           getContextWeb() + "/activar/{0}", "btn-success"));
     }
+
+    usuariAplicacioForm.setAttachedAdditionalJspCode(true);
 
     return usuariAplicacioForm;
   }
@@ -235,15 +243,26 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
     if (usuariAplicacioFilterForm.isNou()) {
 
-      usuariAplicacioFilterForm.addHiddenField(CONTRASENYA);
-      usuariAplicacioFilterForm.addHiddenField(DESCRIPCIO);
-      usuariAplicacioFilterForm.addHiddenField(IDIOMAID);
-      usuariAplicacioFilterForm.addHiddenField(EMAILADMIN);
-      usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
-      usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
+      Set<Field<?>> hiddenFields = new HashSet<Field<?>>(
+          Arrays
+              .asList(UsuariAplicacioFields.ALL_USUARIAPLICACIO_FIELDS));
+      
+      hiddenFields.remove(USUARIAPLICACIOID);
+      hiddenFields.remove(CALLBACKVERSIO);
+      hiddenFields.remove(ACTIU);
+      //hiddenFields.remove(POLITICACUSTODIA);
+      
+      
+      usuariAplicacioFilterForm.setHiddenFields(hiddenFields);
+      
+//      usuariAplicacioFilterForm.addHiddenField(CONTRASENYA);
+//      usuariAplicacioFilterForm.addHiddenField(DESCRIPCIO);
+//      usuariAplicacioFilterForm.addHiddenField(IDIOMAID);
+//      usuariAplicacioFilterForm.addHiddenField(EMAILADMIN);
+//      usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
+//      usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
 
-      // XYZ ZZZ pendent d'eliminar
-      usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
+      // XYZ ZZZ  usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
 
       usuariAplicacioFilterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
 
@@ -333,6 +352,33 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     return usuariAplicacioFilterForm;
   }
 
+  
+  
+  @Override
+  public void postValidate(HttpServletRequest request,
+      UsuariAplicacioForm usuariAplicacioForm, BindingResult result)
+      throws I18NException {
+
+    UsuariAplicacio ue = usuariAplicacioForm.getUsuariAplicacio();
+
+
+    // Custodia
+    int politicaCustodia = ue.getPoliticaCustodia();
+    if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO) {
+
+      Long custInfoID = ue.getCustodiaInfoID();
+      if (custInfoID == null) {
+        // El camp {0} és obligatori.
+        result.rejectValue(get(CUSTODIAINFOID), "genapp.validation.required",
+            new String[] { I18NUtils.tradueix(get(CUSTODIAINFOID)) }, null);
+      }
+    } else {
+      ue.setCustodiaInfoID(null);
+    }
+  }
+  
+  
+  
   @RequestMapping(value = "/validarurlcallback/{usuariAplicacioID}", method = RequestMethod.GET)
   public String validarURLCallBack(
       @PathVariable("usuariAplicacioID") java.lang.String usuariAplicacioID,
@@ -427,8 +473,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     }
 
     // PERFILS
-
-    {
+    if (!isAdmin()){
       Map<String, String> map;
       map = (Map<String, String>) filterForm.getAdditionalField(PERFILS).getValueMap();
       map.clear();
@@ -645,5 +690,32 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
     return ConfiguracioUsuariEntitatController
         .staticGetReferenceListForPoliticaDePluginFirmaWeb();
   }
+  
+  // #165
+  @Override
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+      ModelAndView mav, UsuariAplicacioForm configuracioForm, Where where)
+      throws I18NException {
+
+    Where where2 = Where.AND(where,
+        CustodiaInfoFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
+        CustodiaInfoFields.NOMPLANTILLA.isNotNull());
+
+    return super.getReferenceListForCustodiaInfoID(request, mav, configuracioForm, where2);
+  }
+  
+  
+  /**
+   * #165
+   */
+  @Override
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+      ModelAndView mav, Where where) throws I18NException {
+
+
+
+    return GestioEntitatAdminController.staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_APLICACIO);
+  }
+  
 
 }

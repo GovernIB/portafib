@@ -21,14 +21,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.UsuariAplicacioConfiguracioController;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioFilterForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -87,7 +86,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       // XYZ ZZZ Falta valors per politiques de custodia, taula i segell de temps !!!!
       // XYZ ZZZ ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET
 
-      uac.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+
       uac.setPoliticaSegellatDeTemps(ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
       uac.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
@@ -147,7 +146,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
   public List<StringKeyValue> getReferenceListForUsPoliticaDeFirma(HttpServletRequest request,
       ModelAndView mav, Where where) throws I18NException {
     final boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForUsPoliticaDeFirma(isEntitat);
+    return GestioEntitatAdminController.staticGetReferenceListForUsPoliticaDeFirma(isEntitat);
   }
 
   @Override
@@ -170,7 +169,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
   @Override
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(
       HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    return GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes();
+    return GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes();
   }
 
   @Override
@@ -196,16 +195,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     return pluginRefList.getReferenceList(PluginFields.PLUGINID, where2);
   }
 
-  /**
-   * #165
-   */
-  @Override
-  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
-      ModelAndView mav, Where where) throws I18NException {
 
-    final boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForPoliticaCustodia(isEntitat);
-  }
 
   /**
    * #166
@@ -215,7 +205,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
 
     boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForPoliticaTaulaFirmes(isEntitat);
+    return GestioEntitatAdminController.staticGetReferenceListForPoliticaTaulaFirmes(isEntitat);
   }
 
   /**
@@ -225,20 +215,10 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
   public List<StringKeyValue> getReferenceListForPoliticaSegellatDeTemps(
       HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
     final boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
+    return GestioEntitatAdminController.staticGetReferenceListForPoliticaSegellatDeTemps(isEntitat);
   }
 
-  @Override
-  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
-      ModelAndView mav, UsuariAplicacioConfiguracioForm configuracioForm, Where where)
-      throws I18NException {
 
-    Where where2 = Where.AND(where,
-        CustodiaInfoFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID()),
-        CustodiaInfoFields.NOMPLANTILLA.isNotNull());
-
-    return super.getReferenceListForCustodiaInfoID(request, mav, configuracioForm, where2);
-  }
 
   @Override
   public void postValidate(HttpServletRequest request,
@@ -275,21 +255,6 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       uac.setPolicyUrlDocument(null);
     }
 
-    // Custodia
-    int politicaCustodia = uac.getPoliticaCustodia();
-    if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA
-        || politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU
-        || politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU) {
-
-      Long custInfoID = uac.getCustodiaInfoID();
-      if (custInfoID == null) {
-        // El camp {0} és obligatori.
-        result.rejectValue(get(CUSTODIAINFOID), "genapp.validation.required",
-            new String[] { I18NUtils.tradueix(get(CUSTODIAINFOID)) }, null);
-      }
-    } else {
-      uac.setCustodiaInfoID(null);
-    }
 
     // Segellat de temps
     int politicaSegellat = uac.getPoliticaSegellatDeTemps();

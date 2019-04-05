@@ -37,6 +37,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.ServerException;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +48,9 @@ import es.caib.portafib.back.controller.common.rest.RestUtils;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
@@ -85,11 +88,12 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
+  private es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
+
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
@@ -386,15 +390,13 @@ public abstract class RestApiFirmaUtils extends RestUtils {
    * @param simpleSignature
    * @param perfilFirma
    * @param configEnServidor
-   * @param codiBarresEjb
-   * @param custodiaInfoEjb
    * @return
    * @throws I18NException
    */
   protected PassarelaSignaturesSet convertRestBean2PassarelaBeanServer(String transactionID,
       final String virtualTransactionID, FirmaSimpleSignDocumentRequest simpleSignature,
       PerfilDeFirma perfilFirma,
-      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException, I18NValidationException {
    
     final boolean esFirmaEnServidor = true;
     
@@ -422,8 +424,6 @@ public abstract class RestApiFirmaUtils extends RestUtils {
    * @param virtualTransactionID
    * @param simpleSignature
    * @param perfilWeb
-   * @param codiBarresEjb
-   * @param custodiaInfoEjb
    * @return
    * @throws I18NException
    */
@@ -431,7 +431,8 @@ public abstract class RestApiFirmaUtils extends RestUtils {
       final String virtualTransactionID,
       FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
       PerfilDeFirma perfilWeb,
-      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID)
+          throws I18NException, I18NValidationException {
     
     final boolean esFirmaEnServidor = false;
     
@@ -452,7 +453,8 @@ public abstract class RestApiFirmaUtils extends RestUtils {
       final String virtualTransactionID, FirmaSimpleSignDocumentsRequest simpleSignaturesSet,
       final boolean esFirmaEnServidor, LoginInfo loginInfo,
       //UsuariAplicacioConfiguracioJPA configEnServidor,
-      PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) throws I18NException {
+      PerfilDeFirma perfilFirma, Map<String, UsuariAplicacioConfiguracioJPA> configBySignID) 
+          throws I18NException, I18NValidationException {
     // throws Exception, I18NException {
     String languageUI = "ca";
 
@@ -591,8 +593,9 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         // "CustodiaInfoBean custodiaInfo" i convertir-lo a
         // secureVerificationCodeStampInfo
         final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
-        secureVerificationCodeStampInfo = getCustodiaOfConfig(usuariAplicacioID, config,
-            entitatJPA);
+      
+        secureVerificationCodeStampInfo = getCustodiaOfUsuari(loginInfo.getUsuariAplicacio(), entitatJPA);
+        
 
         fileInfoSignatureArray[i] = new PassarelaFileInfoSignature(fileToSign, prevSign,
             signID, name, reason, location, signerEmail, signNumber, languageSign,
@@ -662,6 +665,8 @@ public abstract class RestApiFirmaUtils extends RestUtils {
       PassarelaSignaturesSet pss = new PassarelaSignaturesSet(transactionID,
           expiryDate.getTime(), commonInfoSignature, fileInfoSignatureArray);
       return pss;
+    } catch (I18NValidationException ve) {
+      throw ve;
     }  catch (I18NException i18ne) {
       throw i18ne;
     } catch (Exception e) {
@@ -699,15 +704,49 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   }
   
 
-  public PassarelaSecureVerificationCodeStampInfo getCustodiaOfConfig(
-      final String usuariAplicacioID, final UsuariAplicacioConfiguracio config,
-      EntitatJPA entitatJPA) throws I18NException {
+  public PassarelaSecureVerificationCodeStampInfo getCustodiaOfUsuari(
+      final UsuariAplicacioJPA usuariAplicacio, // final UsuariAplicacioConfiguracio config,
+      EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
     final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
+
+    CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null, "Passarela Custòdia");
+    
+    if (custodiaInfo == null) {
+      return null;
+    }
+
+    secureVerificationCodeStampInfo = new PassarelaSecureVerificationCodeStampInfo();
+
+    secureVerificationCodeStampInfo.setBarCodePosition((int) custodiaInfo
+        .getCodiBarresPosicioPaginaID());
+    secureVerificationCodeStampInfo.setBarCodeText(custodiaInfo.getCodiBarresText());
+
+    String codiBarresID = custodiaInfo.getCodiBarresID();
+
+    String codiBarresNom = codiBarresEjb.executeQueryOne(CodiBarresFields.NOM,
+        CodiBarresFields.CODIBARRESID.equal(codiBarresID));
+
+    if (codiBarresNom == null) {
+      // TODO Traduir XYZ ZZZ
+      String msg = "No s'ha trobat cap plugin de Codi de Barres amb nom "
+          + codiBarresNom;
+      throw new I18NException("error.unknown", msg);
+    }
+
+    secureVerificationCodeStampInfo.setBarCodeType(codiBarresNom);
+
+    long messagePosition = custodiaInfo.getMissatgePosicioPaginaID();
+    secureVerificationCodeStampInfo.setMessagePosition((int) messagePosition);
+    secureVerificationCodeStampInfo.setMessage(custodiaInfo.getMissatge());
+    secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
+    
+    
+    /* XYZ ZZZ #165
     {
       // CustodiaInfoBean custodiaInfo = config.getCustodiaInfoID()
-      int politicaCustodia = config.getPoliticaCustodia();
+      int politicaCustodia = usuariAplicacio.getPoliticaCustodia();
       boolean obtenirDeEntitat = false;
-      if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT) {
+      if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT) {
         obtenirDeEntitat = true;
         politicaCustodia = entitatJPA.getPoliticaCustodia();
       }
@@ -721,15 +760,15 @@ public abstract class RestApiFirmaUtils extends RestUtils {
           // XYZ ZZZ Traduir #165
           throw new I18NException("genapp.comodi", 
               "Politica de Custodia no suportada per PortaFIB (Usuari aplicació "
-                  + usuariAplicacioID + ")");
+                  + usuariAplicacio.getUsuariAplicacioID() + ")");
 
-        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU:
-        case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA:
+        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_ACTIU:
+        case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO:
           long custodiaInfoID = entitatJPA.getCustodiaInfoID();
           if (obtenirDeEntitat) {
             custodiaInfoID = entitatJPA.getCustodiaInfoID();
           } else {
-            custodiaInfoID = config.getCustodiaInfoID();
+            custodiaInfoID = usuariAplicacio.getCustodiaInfoID();
           }
 
           CustodiaInfo custodiaInfo = custodiaInfoEjb.findByPrimaryKey(custodiaInfoID);
@@ -760,23 +799,24 @@ public abstract class RestApiFirmaUtils extends RestUtils {
           secureVerificationCodeStampInfo.setPages(custodiaInfo.getPagines());
         break;
 
-        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU:
+        case ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_NO_ACTIU:
           secureVerificationCodeStampInfo = null;
         break;
 
         case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
           throw new I18NException("genapp.comodi",
               "Politica de Custodia no suportada per API FIRMA SIMPLE "
-              + "(Usuari aplicació " + usuariAplicacioID + ")");
+              + "(Usuari aplicació " + usuariAplicacio.getUsuariAplicacioID() + ")");
 
         default:
           // XYZ ZZZ Traduir
           throw new I18NException("genapp.comodi",
               "Politica de Custòdia desconeguda (" + politicaCustodia
-              + ") en usuari aplicació " + usuariAplicacioID);
+              + ") en usuari aplicació " + usuariAplicacio.getUsuariAplicacioID());
       }
 
     }
+    */
 
     return secureVerificationCodeStampInfo;
   }
@@ -803,10 +843,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     {
       int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
 
-      boolean obtenirDeEntitat = false;
-
       if (politicaSegellatDeTemps == ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_DEFINIT_EN_ENTITAT) {
-        obtenirDeEntitat = true;
         politicaSegellatDeTemps = entitatJPA.getPoliticaSegellatDeTemps();
       }
 

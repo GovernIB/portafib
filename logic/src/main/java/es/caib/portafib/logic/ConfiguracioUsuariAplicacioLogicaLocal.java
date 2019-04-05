@@ -23,11 +23,8 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
 
   public static final String JNDI_NAME = "portafib/ConfiguracioUsuariAplicacioLogicaEJB/local";
 
-
-  
   public PerfilDeFirma getPerfilDeFirma(final String usuariAplicacioID, String codiPerfil,
       final int usFirma) throws I18NException;
-
 
   public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerUpgrade(
       String usuariAplicacioID, PerfilDeFirma perfilDeFirma,
@@ -41,9 +38,11 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       String usuariAplicacioID,  PerfilDeFirma codiPerfil, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
-  
   public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
       PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException;
+  
+  public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerApiPortafibWS1(
+      final String usuariAplicacioID) throws I18NException;
   
   //public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
   //    final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;

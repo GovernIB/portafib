@@ -70,6 +70,10 @@ public class UsuariAplicacioController
   @Autowired
   protected IdiomaRefList idiomaRefList;
 
+  // References 
+  @Autowired
+  protected CustodiaInfoRefList custodiaInfoRefList;
+
   /**
    * Llistat de totes UsuariAplicacio
    */
@@ -223,9 +227,6 @@ public class UsuariAplicacioController
       };
     }
 
-
-      fillValuesToGroupByItemsBoolean("potcustodiar", groupByItemsMap, POTCUSTODIAR);
-
     // Field politicaDePluginFirmaWeb
     {
       _listSKV = getReferenceListForPoliticaDePluginFirmaWeb(request, mav, filterForm, list, groupByItemsMap, null);
@@ -233,6 +234,26 @@ public class UsuariAplicacioController
       filterForm.setMapOfValuesForPoliticaDePluginFirmaWeb(_tmp);
       if (filterForm.getGroupByFields().contains(POLITICADEPLUGINFIRMAWEB)) {
         fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICADEPLUGINFIRMAWEB, false);
+      };
+    }
+
+    // Field politicaCustodia
+    {
+      _listSKV = getReferenceListForPoliticaCustodia(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfValuesForPoliticaCustodia(_tmp);
+      if (filterForm.getGroupByFields().contains(POLITICACUSTODIA)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, POLITICACUSTODIA, false);
+      };
+    }
+
+    // Field custodiaInfoID
+    {
+      _listSKV = getReferenceListForCustodiaInfoID(request, mav, filterForm, list, groupByItemsMap, null);
+      _tmp = Utils.listToMap(_listSKV);
+      filterForm.setMapOfCustodiaInfoForCustodiaInfoID(_tmp);
+      if (filterForm.getGroupByFields().contains(CUSTODIAINFOID)) {
+        fillValuesToGroupByItems(_tmp, groupByItemsMap, CUSTODIAINFOID, false);
       };
     }
 
@@ -255,6 +276,8 @@ public class UsuariAplicacioController
     __mapping.put(CALLBACKVERSIO, filterForm.getMapOfValuesForCallbackVersio());
     __mapping.put(IDIOMAID, filterForm.getMapOfIdiomaForIdiomaID());
     __mapping.put(POLITICADEPLUGINFIRMAWEB, filterForm.getMapOfValuesForPoliticaDePluginFirmaWeb());
+    __mapping.put(POLITICACUSTODIA, filterForm.getMapOfValuesForPoliticaCustodia());
+    __mapping.put(CUSTODIAINFOID, filterForm.getMapOfCustodiaInfoForCustodiaInfoID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -329,6 +352,20 @@ public class UsuariAplicacioController
 
       java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
       usuariAplicacioForm.setListOfValuesForPoliticaDePluginFirmaWeb(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariAplicacioForm.getListOfValuesForPoliticaCustodia() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForPoliticaCustodia(request, mav, usuariAplicacioForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      usuariAplicacioForm.setListOfValuesForPoliticaCustodia(_listSKV);
+    }
+    // Comprovam si ja esta definida la llista
+    if (usuariAplicacioForm.getListOfCustodiaInfoForCustodiaInfoID() == null) {
+      List<StringKeyValue> _listSKV = getReferenceListForCustodiaInfoID(request, mav, usuariAplicacioForm, null);
+
+      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
+      usuariAplicacioForm.setListOfCustodiaInfoForCustodiaInfoID(_listSKV);
     }
     
   }
@@ -801,6 +838,82 @@ public java.lang.String stringToPK(String value) {
     __tmp.add(new StringKeyValue("1" , "1"));
     __tmp.add(new StringKeyValue("2" , "2"));
     return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
+    if (usuariAplicacioForm.isHiddenField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    return getReferenceListForPoliticaCustodia(request, mav, where);
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
+       List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariAplicacioFilterForm.isHiddenField(POLITICACUSTODIA)
+      && !usuariAplicacioFilterForm.isGroupByField(POLITICACUSTODIA)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    return getReferenceListForPoliticaCustodia(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForPoliticaCustodia(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+    __tmp.add(new StringKeyValue("-1" , "-1"));
+    __tmp.add(new StringKeyValue("0" , "0"));
+    __tmp.add(new StringKeyValue("1" , "1"));
+    __tmp.add(new StringKeyValue("2" , "2"));
+    __tmp.add(new StringKeyValue("3" , "3"));
+    __tmp.add(new StringKeyValue("4" , "4"));
+    __tmp.add(new StringKeyValue("5" , "5"));
+    __tmp.add(new StringKeyValue("6" , "6"));
+    return __tmp;
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioForm usuariAplicacioForm, Where where)  throws I18NException {
+    if (usuariAplicacioForm.isHiddenField(CUSTODIAINFOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _where = null;
+    if (usuariAplicacioForm.isReadOnlyField(CUSTODIAINFOID)) {
+      _where = CustodiaInfoFields.CUSTODIAINFOID.equal(usuariAplicacioForm.getUsuariAplicacio().getCustodiaInfoID());
+    }
+    return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where, _where));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, UsuariAplicacioFilterForm usuariAplicacioFilterForm,
+       List<UsuariAplicacio> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
+    if (usuariAplicacioFilterForm.isHiddenField(CUSTODIAINFOID)
+      && !usuariAplicacioFilterForm.isGroupByField(CUSTODIAINFOID)) {
+      return EMPTY_STRINGKEYVALUE_LIST;
+    }
+    Where _w = null;
+    if (!_groupByItemsMap.containsKey(CUSTODIAINFOID)) {
+      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
+      java.util.Set<java.lang.Long> _pkList = new java.util.HashSet<java.lang.Long>();
+      for (UsuariAplicacio _item : list) {
+        if(_item.getCustodiaInfoID() == null) { continue; };
+        _pkList.add(_item.getCustodiaInfoID());
+        }
+        _w = CustodiaInfoFields.CUSTODIAINFOID.in(_pkList);
+      }
+    return getReferenceListForCustodiaInfoID(request, mav, Where.AND(where,_w));
+  }
+
+
+  public List<StringKeyValue> getReferenceListForCustodiaInfoID(HttpServletRequest request,
+       ModelAndView mav, Where where)  throws I18NException {
+    return custodiaInfoRefList.getReferenceList(CustodiaInfoFields.CUSTODIAINFOID, where );
   }
 
 

@@ -38,6 +38,7 @@ import es.caib.portafib.back.form.webdb.NotificacioWSForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.NotificacioWSJPA;
 import es.caib.portafib.logic.NotificacioWSLogicaLocal;
 import es.caib.portafib.model.entity.NotificacioWS;
@@ -66,8 +67,8 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)  //"portafib/NotificacioLogicaEJB/local")
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
-  protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;

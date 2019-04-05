@@ -14,10 +14,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -77,9 +75,9 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.AnnexLogicaLocal;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
@@ -143,10 +141,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
-
  
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.PermisGrupPlantillaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PermisGrupPlantillaLocal permisGrupPlantillaEjb;
@@ -472,7 +469,20 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       @PathVariable long peticioDeFirmaID)
       throws Exception, I18NException {
 
-    CustodiaInfo custodiaInfo = peticioDeFirmaLogicaEjb.addCustodiaInfoToPeticioDeFirma(peticioDeFirmaID);
+    CustodiaInfo custodiaInfo;
+    try {
+      custodiaInfo = custodiaInfoLogicaEjb.addCustodiaInfoToPeticioDeFirma(peticioDeFirmaID);
+    } catch (I18NException e) {
+      String msg = I18NUtils.getMessage(e);
+      HtmlUtils.saveMessageError(request, msg);
+      log.error("Error intentant afegir custòdia a peticio: " + msg);
+      return llistat(request, response);
+    } catch (I18NValidationException e) {
+      String msg = I18NUtils.getMessage(e);
+      HtmlUtils.saveMessageError(request, msg);
+      log.error("Error intentant afegir custòdia a peticio: " + msg);
+      return llistat(request, response);
+    }
     
     if (custodiaInfo == null) {
       // TODO  traduir i passar a LOGICA
@@ -1401,7 +1411,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
     final boolean isSolicitantUsuariEntitat = isSolicitantUsuariEntitat();
     
-    Map<Long, Boolean> potCustodiar = new HashMap<Long, Boolean>();
+    //Map<Long, Boolean> potCustodiar = new HashMap<Long, Boolean>();
+    final Integer politicaCustodia;
     
     List<Long> peticionsIDsAmbAvis = null;
     if (isSolicitantUsuariEntitat()) {
@@ -1415,24 +1426,24 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
       peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
       
-      final boolean usuariPotCustodiar = (loginInfo.getEntitat().getCustodiaInfoID() != null)
-          &&  (LogicUtils.checkPotCustodiar(LoginInfo.getInstance().getUsuariEntitat()));
-      
+      politicaCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(LoginInfo.getInstance().getUsuariEntitat());
+      /* XYZ ZZZ 
       for (PeticioDeFirma peticio : list) {
         
         if (peticio.getCustodiaInfoID() != null) {
           potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
         } else {
-          if (usuariPotCustodiar) {
-            potCustodiar.put(peticio.getPeticioDeFirmaID(), usuariPotCustodiar);
+          if (politicaCustodiaUsuari != null) {
+            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
           }
         }
 
       }
+      */
 
 
     } else  {
-      // USUARI APLICACIO
+      // Administrador d'Entitat - USUARI APLICACIO
       {
       
         Where w1 = UsuariAplicacioFields.ACTIU.equal(true);
@@ -1446,19 +1457,31 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         mav.addObject("listOfUsuariAplicacio",_listSKV);
       }
       
+      // Cada petició depen d'un usuari-aplicacio amb una politica de custodia diferent
+      politicaCustodia = null;
+      
+      // No deixarem que les peticions creades des d'Entorn Web 
+      // per l'Administrador d'Entitat puguin tenir Custòdia
+      /*
       if (LoginInfo.getInstance().getEntitat().getCustodiaInfoID() != null) {
+        // XYZ ZZZ TODO Optimitzar amb una sola consulta SelectMultiple
         for (PeticioDeFirma peticio : list) {
-          // TODO Optimitzar amb una sola consulta SelectMultiple
-          String usuariAplicacioID = peticio.getSolicitantUsuariAplicacioID();
-          UsuariAplicacio ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
-          if (ua.getPotCustodiar()) {
+
+          if (peticio.getCustodiaInfoID() != null) {
             potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
-          }
+          } 
+          
+//          String usuariAplicacioID = peticio.getSolicitantUsuariAplicacioID();
+//          UsuariAplicacio ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+//          if (ua.getPotCustodiar()) {
+//            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
+//          }
         }
       } 
+      */
     }
 
-
+/*
     if (log.isDebugEnabled()) {
       if (potCustodiar.isEmpty()) {
         log.debug("PETICIONS A CUSTODIAR = 0 ");
@@ -1468,7 +1491,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         }
       }
     }
-    
+    */
     
     filterForm.getAdditionalButtonsByPK().clear();
     filterForm.getAdditionalInfoForActionsRendererByPK().clear();
@@ -1577,7 +1600,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       // <%-- CUSTODIA --%>
        
-      if(potCustodiar.containsKey(peticioDeFirmaID)) {            
+      {            
             
         if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() != null) {
@@ -1592,11 +1615,21 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           
         if (estat == ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           if (peticioDeFirma.getCustodiaInfoID() == null) {
-             /* CREAR CUSTODIA */
-            filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
-                "/img/custodia.png", "custodia.crear",  
-                "javascript:goTo('" + request.getContextPath()  + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
-                "btn-warning"));
+
+            Integer pc = politicaCustodia;
+
+            /// XYZ ZZZ Falta Cache temporal de politiques !!!
+            if (pc == null) {
+              pc = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
+            }
+
+            if (pc != null) {
+               /* CREAR CUSTODIA */
+              filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
+                  "/img/custodia.png", "custodia.crear",  
+                  "javascript:goTo('" + request.getContextPath()  + getContextWeb() + "/afegircustodiainfo/" + peticioDeFirmaID + "?redirectOnCustody=" + getContextWeb() + "/list')",
+                  "btn-warning"));
+            }
           } else {
 
             /*  MODIFICAR CUSTODIA  */
@@ -1605,14 +1638,12 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
                 "javascript:goTo('" + request.getContextPath() +"/"  + context_role + "/peticio/custodiainfo/" + peticioDeFirma.getCustodiaInfoID() + "/edit?redirectOnCustody=" + getContextWeb() + "/list')",
                 "btn-warning"));
             
-            
           }
         }
       }
               
         
         //  <%-- FINAL CUSTODIA --%>
-
 
         if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
           /* FLUXDEFIRMES */

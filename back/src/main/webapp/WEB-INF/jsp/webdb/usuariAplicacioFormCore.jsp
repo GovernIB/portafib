@@ -247,31 +247,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POTCUSTODIAR)}">
-        <tr id="usuariAplicacio_potCustodiar_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POTCUSTODIAR])?'usuariAplicacio.potCustodiar':__theForm.labels[UsuariAplicacioFields.POTCUSTODIAR]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.POTCUSTODIAR]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.POTCUSTODIAR]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POTCUSTODIAR)}" >
-              <form:select cssClass="input-medium" onchange="if(typeof onChangePotCustodiar == 'function') {  onChangePotCustodiar(this); };"  path="usuariAplicacio.potCustodiar">
-                <form:option value=""><fmt:message key="potcustodiar." /></form:option>
-                <form:option value="true" ><fmt:message key="potcustodiar.true" /></form:option>
-                <form:option value="false" ><fmt:message key="potcustodiar.false" /></form:option>
-              </form:select>
-          </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POTCUSTODIAR)}" >
-                <fmt:message key="potcustodiar.${__theForm.usuariAplicacio.potCustodiar}" />
-          </c:if>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}">
         <tr id="usuariAplicacio_politicaDePluginFirmaWeb_rowid">
           <td>
@@ -291,6 +266,62 @@
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB)}" >
           <form:select id="usuariAplicacio_politicaDePluginFirmaWeb"  onchange="if(typeof onChangePoliticaDePluginFirmaWeb == 'function') {  onChangePoliticaDePluginFirmaWeb(this); };"  cssClass="input-xxlarge" path="usuariAplicacio.politicaDePluginFirmaWeb">
             <c:forEach items="${__theForm.listOfValuesForPoliticaDePluginFirmaWeb}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.POLITICACUSTODIA)}">
+        <tr id="usuariAplicacio_politicaCustodia_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA])?'usuariAplicacio.politicaCustodia':__theForm.labels[UsuariAplicacioFields.POLITICACUSTODIA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.POLITICACUSTODIA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacio.politicaCustodia" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
+          <form:hidden path="usuariAplicacio.politicaCustodia"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.politicaCustodia,__theForm.listOfValuesForPoliticaCustodia)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.POLITICACUSTODIA)}" >
+          <form:select id="usuariAplicacio_politicaCustodia"  onchange="if(typeof onChangePoliticaCustodia == 'function') {  onChangePoliticaCustodia(this); };"  cssClass="input-xxlarge" path="usuariAplicacio.politicaCustodia">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaCustodia}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioFields.CUSTODIAINFOID)}">
+        <tr id="usuariAplicacio_custodiaInfoID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID])?'usuariAplicacio.custodiaInfoID':__theForm.labels[UsuariAplicacioFields.CUSTODIAINFOID]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioFields.CUSTODIAINFOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioFields.CUSTODIAINFOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="usuariAplicacio.custodiaInfoID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CUSTODIAINFOID)}" >
+          <form:hidden path="usuariAplicacio.custodiaInfoID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariAplicacio.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioFields.CUSTODIAINFOID)}" >
+          <form:select id="usuariAplicacio_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="input-xxlarge" path="usuariAplicacio.custodiaInfoID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

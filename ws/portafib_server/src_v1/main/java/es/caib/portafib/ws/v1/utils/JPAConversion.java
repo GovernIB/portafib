@@ -60,7 +60,7 @@ public class JPAConversion {
     __tmp.setIdiomaID(__bean.getIdiomaID());
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    //__tmp.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     __tmp.setLogoSegell(toJPA(__bean.getLogoSegell()));
     return __tmp;
@@ -97,7 +97,7 @@ public class JPAConversion {
     __tmp.setLogoSegellID(__bean.getLogoSegellID());
     __tmp.setPredeterminat(__bean.isPredeterminat());
     __tmp.setRebreTotsElsAvisos(__bean.isRebreTotsElsAvisos());
-    __tmp.setPotCustodiar(__bean.getPotCustodiar());
+    //__tmp.setPotCustodiar(__bean.getPotCustodiar());
     // Fitxer
     __tmp.setLogoSegell(toJPA(__bean.getLogoSegell()));
     return __tmp;

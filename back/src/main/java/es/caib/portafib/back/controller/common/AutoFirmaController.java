@@ -56,7 +56,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.AutoFirmaForm;
@@ -132,7 +132,7 @@ public class AutoFirmaController extends FitxerController
     form.setIdioma(loginInfo.getUsuariPersona().getIdiomaID());
     
     // #166 XYZ ZZZ S'ha de veure si deixam llibertat o limitam segons el que digui l'entitat
-    form.setListOfPosicioTaulaFirmes(GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes());
+    form.setListOfPosicioTaulaFirmes(GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes());
 
     form.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
 

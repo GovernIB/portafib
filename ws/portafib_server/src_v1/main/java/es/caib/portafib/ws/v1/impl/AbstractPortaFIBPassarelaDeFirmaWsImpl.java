@@ -12,13 +12,13 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
 
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
-import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 /**
@@ -30,19 +30,16 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
   
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  private PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
 
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
-  protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
-
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  private es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PluginLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.PluginLocal pluginEjb;
+  private es.caib.portafib.ejb.PluginLocal pluginEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  private CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
 
   
   // -------------------------------------------------------------------
@@ -56,11 +53,68 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
   @Override
   public int getCustodiaPolicy() throws WsI18NException, Throwable {
 
-    if (!LogicUtils.checkPotCustodiar(UsuariAplicacioCache.get())) {
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    
+    Integer politicaFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(userapp);
+    if (politicaFirma == null) {
       return CUSTODIA_NO_PERMETRE; // = 0;
     }
+    
+    
+    switch (politicaFirma) {
 
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+      // La politica de Custòdia definida dins l´Entitat
+      case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT: // = -1;
+        /**
+         * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false
+         */
+        return CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE; // = 1;
+
+      // Només Plantilles de l´Entitat (No editables)
+      case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT: // = 1;
+        // TODO XYZ Cas no definit
+        return CUSTODIA_NOMES_PLANTILLES_DEFINIDES_EN_ENTITAT;
+
+        
+      
+      // Obligatori Plantilla definida en Entitat, Usuari-Entitat o Usuari-Aplicació.
+      case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: // = 2;
+      // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
+      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU: // =
+                                                                                                // 3;
+      // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
+      case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU: // =
+        // HO FEIM PASSAR COM AQUESTA
+        /**
+         * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false
+         */
+        return CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE; // = 1;
+
+      // Llibertat Total (selecció, edició i us)
+      case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
+        /**
+         * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true i multiples
+         * plantilles de custòdia disponible per l'entitat
+         */
+        return CUSTODIA_TOTALMENT_EDITABLE;
+
+        
+      // CAS NO ES PERMET
+        /**
+         * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
+         * i només una plantilla de custòdia disponible per l'entitat 
+         */
+        //public static final int CUSTODIA_EDITABLE_SENSE_CANVI_PLUGIN = 3;
+        
+        
+      default:
+        // XYZ ZZZ TRA segons idiona de usuari aplicacio
+        throw new Exception("La politica de firma amb id " + politicaFirma + " no es reconeguda.");
+        
+    }
+
+    
+    /* XYZ ZZZ
 
     Long custInfoDefID = entitatEjb.executeQueryOne(EntitatFields.CUSTODIAINFOID,
         EntitatFields.ENTITATID.equal(userapp.getEntitatID()));
@@ -70,14 +124,13 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
       return Constants.CUSTODIA_NO_PERMETRE; // = 0;
     } else {
 
+      
       boolean editable = custodiaInfoEjb.executeQueryOne(CustodiaInfoFields.EDITABLE,
           CustodiaInfoFields.CUSTODIAINFOID.equal(custInfoDefID));
 
       if (editable == false) {
-        /**
-         * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable =
-         * false
-         */
+       // CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false
+        
         return CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE; // = 1;
       } else {
 
@@ -91,21 +144,22 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
             ));
 
         if (count == 1) {
-          /**
-           * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable =
-           * true i només una plantilla de custòdia disponible per l'entitat
-           */
+          
+         //  * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable =
+         //  * true i només una plantilla de custòdia disponible per l'entitat
+           
           return CUSTODIA_EDITABLE_SENSE_CANVI_PLUGIN; // = 3;
         } else {
-          /**
-           * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable =
-           * true i multiples plantilles de custòdia disponible per l'entitat
-           */
+        
+          // * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable =
+          // * true i multiples plantilles de custòdia disponible per l'entitat
+          
           return Constants.CUSTODIA_TOTALMENT_EDITABLE; // = 4;
         }
       }
 
     }
+    */
 
   }
 
@@ -115,11 +169,24 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
   public CustodiaInfoBean getDefaultCustodiaInfo(@WebParam(name = "title") String title,
       @WebParam(name = "language") String language) throws WsI18NException, Throwable {
 
-    if (!LogicUtils.checkPotCustodiar(UsuariAplicacioCache.get())) {
+    
+    // #165
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació");
+    
+    return CustodiaInfoBean.toBean(ci);
+    
+    /* XYZ ZZZ
+    
+    
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    
+    Integer politicaCustodia = entitat.getPoliticaDeCustodiaFinalPerUA(userapp);
+    if (politicaCustodia == null) {
       return null;
     }
 
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
     final String usuariEntitatID = null;
     if (language.trim().length() == 0) {
       language = userapp.getIdiomaID();
@@ -129,6 +196,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
         usuariEntitatID, usuariAplicacioID, language);
 
     return CustodiaInfoBean.toBean(cibModel); 
+    */
 
   }
 
@@ -154,7 +222,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
-    List<CustodiaInfo> listJPA = custodiaInfoEjb.select(Where.AND(
+    List<CustodiaInfo> listJPA = custodiaInfoLogicaEjb.select(Where.AND(
         CustodiaInfoFields.ENTITATID.equal(userapp.getEntitatID()),
         CustodiaInfoFields.NOMPLANTILLA.isNotNull() // == Plantilla
         ));

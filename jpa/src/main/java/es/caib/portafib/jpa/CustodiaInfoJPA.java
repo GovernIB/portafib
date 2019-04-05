@@ -384,16 +384,29 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
 	}
 
 
-// EXP  Field:custodiainfoid | Table: pfi_usuariaplicacioconfig | Type: 0  
+// EXP  Field:custodiainfoid | Table: pfi_usuariaplicacio | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "custodiaInfo")
-	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
-	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracios() {
-    return this.usuariAplicacioConfiguracios;
+	private Set<UsuariAplicacioJPA> usuariAplicacios = new HashSet<UsuariAplicacioJPA>(0);
+	public  Set<UsuariAplicacioJPA> getUsuariAplicacios() {
+    return this.usuariAplicacios;
   }
 
-	public void setUsuariAplicacioConfiguracios(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios) {
-	  this.usuariAplicacioConfiguracios = usuariAplicacioConfiguracios;
+	public void setUsuariAplicacios(Set<UsuariAplicacioJPA> usuariAplicacios) {
+	  this.usuariAplicacios = usuariAplicacios;
+	}
+
+
+// EXP  Field:custodiainfoid | Table: pfi_usuarientitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "custodiaInfo")
+	private Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>(0);
+	public  Set<UsuariEntitatJPA> getUsuariEntitats() {
+    return this.usuariEntitats;
+  }
+
+	public void setUsuariEntitats(Set<UsuariEntitatJPA> usuariEntitats) {
+	  this.usuariEntitats = usuariEntitats;
 	}
 
 
@@ -533,30 +546,34 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
       __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"CustodiaInfoJPA"));
     }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
-      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"CustodiaInfoJPA"));
+    if(!"UsuariAplicacioJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacios())) ) {
+      __tmp.setUsuariAplicacios(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacios(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitats) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitats())) ) {
+      __tmp.setUsuariEntitats(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitats(), __alreadyCopied,"CustodiaInfoJPA"));
     }
     // Copia de beans complexes (IMP)
-    if(!"UsuariEntitatJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
-      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
     if(!"EntitatJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.entitat) || org.hibernate.Hibernate.isInitialized(__jpa.getEntitat()) ) ) {
       __tmp.setEntitat(EntitatJPA.copyJPA(__jpa.getEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"UsuariEntitatJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
+      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"CustodiaInfoJPA"));
     }
     if(!"PluginJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.plugin) || org.hibernate.Hibernate.isInitialized(__jpa.getPlugin()) ) ) {
       __tmp.setPlugin(PluginJPA.copyJPA(__jpa.getPlugin(), __alreadyCopied,"CustodiaInfoJPA"));
     }
-    if(!"CodiBarresJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {
-      __tmp.setCodiBarres(CodiBarresJPA.copyJPA(__jpa.getCodiBarres(), __alreadyCopied,"CustodiaInfoJPA"));
-    }
     if(!"UsuariAplicacioJPA".equals(origenJPA) && 
        (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacio) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacio()) ) ) {
       __tmp.setUsuariAplicacio(UsuariAplicacioJPA.copyJPA(__jpa.getUsuariAplicacio(), __alreadyCopied,"CustodiaInfoJPA"));
+    }
+    if(!"CodiBarresJPA".equals(origenJPA) && 
+       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.codiBarres) || org.hibernate.Hibernate.isInitialized(__jpa.getCodiBarres()) ) ) {
+      __tmp.setCodiBarres(CodiBarresJPA.copyJPA(__jpa.getCodiBarres(), __alreadyCopied,"CustodiaInfoJPA"));
     }
 
     return __tmp;

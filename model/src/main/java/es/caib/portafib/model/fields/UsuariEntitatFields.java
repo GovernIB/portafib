@@ -21,9 +21,9 @@ public interface UsuariEntitatFields extends java.io.Serializable {
 	 public static final LongField LOGOSEGELLID = new LongField(_TABLE_MODEL, "logoSegellID", "logosegellid");
 	 public static final BooleanField PREDETERMINAT = new BooleanField(_TABLE_MODEL, "predeterminat", "predeterminat");
 	 public static final BooleanField REBRETOTSELSAVISOS = new BooleanField(_TABLE_MODEL, "rebreTotsElsAvisos", "rebretotselsavisos");
-	 public static final BooleanField POTCUSTODIAR = new BooleanField(_TABLE_MODEL, "potCustodiar", "potcustodiar");
-	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
 	 public static final IntegerField POLITICADEPLUGINFIRMAWEB = new IntegerField(_TABLE_MODEL, "politicaDePluginFirmaWeb", "politicadepluginfirmaweb");
+	 public static final IntegerField POLITICACUSTODIA = new IntegerField(_TABLE_MODEL, "politicaCustodia", "politicacustodia");
+	 public static final LongField CUSTODIAINFOID = new LongField(_TABLE_MODEL, "custodiaInfoID", "custodiainfoid");
 
 
   public static final Field<?>[] ALL_USUARIENTITAT_FIELDS = {
@@ -36,9 +36,9 @@ public interface UsuariEntitatFields extends java.io.Serializable {
     LOGOSEGELLID,
     PREDETERMINAT,
     REBRETOTSELSAVISOS,
-    POTCUSTODIAR,
+    POLITICADEPLUGINFIRMAWEB,
     POLITICACUSTODIA,
-    POLITICADEPLUGINFIRMAWEB
+    CUSTODIAINFOID
   };
 
 

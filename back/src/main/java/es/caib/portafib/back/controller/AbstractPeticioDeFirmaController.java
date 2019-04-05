@@ -14,7 +14,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.validator.PeticioDeFirmaAmbFitxerAFirmarWebValidator;
@@ -57,7 +57,7 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
   @Override
   public List<StringKeyValue> getReferenceListForPosicioTaulaFirmesID(
       HttpServletRequest request, ModelAndView mav, Where where) throws I18NException {
-    return GestioEntitatController.staticGetReferenceListForPosicioTaulaFirmes();
+    return GestioEntitatAdminController.staticGetReferenceListForPosicioTaulaFirmes();
   }
 
   // #199

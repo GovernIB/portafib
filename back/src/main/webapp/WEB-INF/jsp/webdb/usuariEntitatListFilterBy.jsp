@@ -169,6 +169,24 @@
 
 
         </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+            <%-- FILTRE NUMERO --%>      
+            <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
+              <span class="add-on"><fmt:message key="usuariEntitat.politicaDePluginFirmaWeb" />:</span>
+
+              <span class="add-on"><fmt:message key="genapp.from" /></span>
+              
+              <form:input cssClass="input-append input-small" path="politicaDePluginFirmaWebDesde" />
+
+
+              <span class="add-on"><fmt:message key="genapp.to" /></span>
+
+              <form:input cssClass="input-append input-small search-query" path="politicaDePluginFirmaWebFins" />
+
+            </div>
+
+
+        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.POLITICACUSTODIA)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
@@ -187,19 +205,19 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariEntitatFields.CUSTODIAINFOID)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="usuariEntitat.politicaDePluginFirmaWeb" />:</span>
+              <span class="add-on"><fmt:message key="usuariEntitat.custodiaInfoID" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="politicaDePluginFirmaWebDesde" />
+              <form:input cssClass="input-append input-small" path="custodiaInfoIDDesde" />
 
 
               <span class="add-on"><fmt:message key="genapp.to" /></span>
 
-              <form:input cssClass="input-append input-small search-query" path="politicaDePluginFirmaWebFins" />
+              <form:input cssClass="input-append input-small search-query" path="custodiaInfoIDFins" />
 
             </div>
 

@@ -51,12 +51,16 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new LongField(getQueryPath(), UsuariAplicacioFields.LOGOSEGELLID);
   }
 
-  public BooleanField POTCUSTODIAR() {
-    return new BooleanField(getQueryPath(), UsuariAplicacioFields.POTCUSTODIAR);
-  }
-
   public IntegerField POLITICADEPLUGINFIRMAWEB() {
     return new IntegerField(getQueryPath(), UsuariAplicacioFields.POLITICADEPLUGINFIRMAWEB);
+  }
+
+  public IntegerField POLITICACUSTODIA() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioFields.POLITICACUSTODIA);
+  }
+
+  public LongField CUSTODIAINFOID() {
+    return new LongField(getQueryPath(), UsuariAplicacioFields.CUSTODIAINFOID);
   }
 
 
@@ -200,6 +204,14 @@ public class UsuariAplicacioQueryPath extends org.fundaciobit.genapp.common.quer
     return new FitxerQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariAplicacioQueryPath.this.getQueryPath() + "logoSegell" + ".";
+      }
+    });
+  }
+
+  public CustodiaInfoQueryPath CUSTODIAINFO() {
+    return new CustodiaInfoQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
       }
     });
   }

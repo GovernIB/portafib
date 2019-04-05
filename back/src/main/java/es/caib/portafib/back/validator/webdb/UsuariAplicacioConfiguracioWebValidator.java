@@ -26,9 +26,6 @@ public class UsuariAplicacioConfiguracioWebValidator  implements Validator, Usua
   protected UsuariAplicacioConfiguracioValidator<Object> validator = new UsuariAplicacioConfiguracioValidator<Object>();
 
   // EJB's
-  @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
-
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
@@ -163,7 +160,7 @@ _ignoreFields.add(MOTIUDELEGACIOID);
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, custodiaInfoEjb, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioConfiguracioEjb);
+      isNou, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioConfiguracioEjb);
 
   } // Final de metode
 

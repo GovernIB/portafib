@@ -19,11 +19,16 @@ UPDATE pfi_tipusdocument SET tipusdocumentbaseid=tipusdocumentid WHERE tipusdocu
 -- 2018/03/15 Política de Custòdia #165
 -- ===========================================
 
+-- No permetre
 UPDATE pfi_entitat SET politicacustodia=0 WHERE custodiainfoid IS NULL;
-UPDATE pfi_entitat SET politicacustodia=4 WHERE custodiainfoid IS NOT NULL;
+-- Llibertat Total
+UPDATE pfi_entitat SET politicacustodia=5 WHERE custodiainfoid IS NOT NULL;
 
-UPDATE pfi_usuarientitat SET politicacustodia=4 WHERE potcustodiar=1;
-UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar=0;
+-- Llibertat Total
+UPDATE pfi_usuarientitat SET politicacustodia=5 WHERE potcustodiar=1;
+-- No permetre
+UPDATE pfi_usuarientitat SET politicacustodia=0 WHERE potcustodiar=0;
+-- El que digui l'entitat
 UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar is null;
 
 --- ***** No ha funcionat... No són necessaris

@@ -26,6 +26,9 @@ public class UsuariAplicacioWebValidator  implements Validator, UsuariAplicacioF
   protected UsuariAplicacioValidator<Object> validator = new UsuariAplicacioValidator<Object>();
 
   // EJB's
+  @javax.ejb.EJB(mappedName = "portafib/CustodiaInfoEJB/local")
+  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+
   @javax.ejb.EJB(mappedName = "portafib/EntitatEJB/local")
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
@@ -67,7 +70,7 @@ public class UsuariAplicacioWebValidator  implements Validator, UsuariAplicacioF
       // Fitxers 
     }
     validator.validate(wvr, target,
-      isNou, entitatEjb, idiomaEjb, usuariAplicacioEjb);
+      isNou, custodiaInfoEjb, entitatEjb, idiomaEjb, usuariAplicacioEjb);
 
   } // Final de metode
 

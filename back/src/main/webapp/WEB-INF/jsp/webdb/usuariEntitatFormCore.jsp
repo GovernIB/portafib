@@ -221,26 +221,28 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.POTCUSTODIAR)}">
-        <tr id="usuariEntitat_potCustodiar_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+        <tr id="usuariEntitat_politicaDePluginFirmaWeb_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.POTCUSTODIAR])?'usuariEntitat.potCustodiar':__theForm.labels[UsuariEntitatFields.POTCUSTODIAR]}" />
-              <c:if test="${not empty __theForm.help[UsuariEntitatFields.POTCUSTODIAR]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariEntitatFields.POTCUSTODIAR]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB])?'usuariEntitat.politicaDePluginFirmaWeb':__theForm.labels[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POTCUSTODIAR)}" >
-              <form:select cssClass="input-medium" onchange="if(typeof onChangePotCustodiar == 'function') {  onChangePotCustodiar(this); };"  path="usuariEntitat.potCustodiar">
-                <form:option value=""><fmt:message key="potcustodiar." /></form:option>
-                <form:option value="true" ><fmt:message key="potcustodiar.true" /></form:option>
-                <form:option value="false" ><fmt:message key="potcustodiar.false" /></form:option>
-              </form:select>
+          <form:errors path="usuariEntitat.politicaDePluginFirmaWeb" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}" >
+          <form:hidden path="usuariEntitat.politicaDePluginFirmaWeb"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariEntitat.politicaDePluginFirmaWeb,__theForm.listOfValuesForPoliticaDePluginFirmaWeb)}"  />
           </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POTCUSTODIAR)}" >
-                <fmt:message key="potcustodiar.${__theForm.usuariEntitat.potCustodiar}" />
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}" >
+          <form:select id="usuariEntitat_politicaDePluginFirmaWeb"  onchange="if(typeof onChangePoliticaDePluginFirmaWeb == 'function') {  onChangePoliticaDePluginFirmaWeb(this); };"  cssClass="input-xxlarge" path="usuariEntitat.politicaDePluginFirmaWeb">
+            <c:forEach items="${__theForm.listOfValuesForPoliticaDePluginFirmaWeb}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
           </c:if>
            </td>
         </tr>
@@ -273,25 +275,27 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
-        <tr id="usuariEntitat_politicaDePluginFirmaWeb_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariEntitatFields.CUSTODIAINFOID)}">
+        <tr id="usuariEntitat_custodiaInfoID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB])?'usuariEntitat.politicaDePluginFirmaWeb':__theForm.labels[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}" /> &nbsp;(*)
-              <c:if test="${not empty __theForm.help[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariEntitatFields.CUSTODIAINFOID])?'usuariEntitat.custodiaInfoID':__theForm.labels[UsuariEntitatFields.CUSTODIAINFOID]}" />
+              <c:if test="${not empty __theForm.help[UsuariEntitatFields.CUSTODIAINFOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariEntitatFields.CUSTODIAINFOID]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <form:errors path="usuariEntitat.politicaDePluginFirmaWeb" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}" >
-          <form:hidden path="usuariEntitat.politicaDePluginFirmaWeb"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariEntitat.politicaDePluginFirmaWeb,__theForm.listOfValuesForPoliticaDePluginFirmaWeb)}"  />
+          <form:errors path="usuariEntitat.custodiaInfoID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CUSTODIAINFOID)}" >
+          <form:hidden path="usuariEntitat.custodiaInfoID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.usuariEntitat.custodiaInfoID,__theForm.listOfCustodiaInfoForCustodiaInfoID)}"  />
           </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}" >
-          <form:select id="usuariEntitat_politicaDePluginFirmaWeb"  onchange="if(typeof onChangePoliticaDePluginFirmaWeb == 'function') {  onChangePoliticaDePluginFirmaWeb(this); };"  cssClass="input-xxlarge" path="usuariEntitat.politicaDePluginFirmaWeb">
-            <c:forEach items="${__theForm.listOfValuesForPoliticaDePluginFirmaWeb}" var="tmp">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariEntitatFields.CUSTODIAINFOID)}" >
+          <form:select id="usuariEntitat_custodiaInfoID"  onchange="if(typeof onChangeCustodiaInfoID == 'function') {  onChangeCustodiaInfoID(this); };"  cssClass="input-xxlarge" path="usuariEntitat.custodiaInfoID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfCustodiaInfoForCustodiaInfoID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
           </form:select>

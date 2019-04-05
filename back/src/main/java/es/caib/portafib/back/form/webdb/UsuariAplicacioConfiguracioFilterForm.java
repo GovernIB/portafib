@@ -208,50 +208,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer politicaCustodiaDesde;
-
-  public java.lang.Integer getPoliticaCustodiaDesde() {
-    return this.politicaCustodiaDesde;
-  }
-
-  public void setPoliticaCustodiaDesde(java.lang.Integer politicaCustodiaDesde) {
-    this.politicaCustodiaDesde = politicaCustodiaDesde;
-  }
-
-
-  private java.lang.Integer politicaCustodiaFins;
-
-  public java.lang.Integer getPoliticaCustodiaFins() {
-    return this.politicaCustodiaFins;
-  }
-
-  public void setPoliticaCustodiaFins(java.lang.Integer politicaCustodiaFins) {
-    this.politicaCustodiaFins = politicaCustodiaFins;
-  }
-
-
-  private java.lang.Long custodiaInfoIDDesde;
-
-  public java.lang.Long getCustodiaInfoIDDesde() {
-    return this.custodiaInfoIDDesde;
-  }
-
-  public void setCustodiaInfoIDDesde(java.lang.Long custodiaInfoIDDesde) {
-    this.custodiaInfoIDDesde = custodiaInfoIDDesde;
-  }
-
-
-  private java.lang.Long custodiaInfoIDFins;
-
-  public java.lang.Long getCustodiaInfoIDFins() {
-    return this.custodiaInfoIDFins;
-  }
-
-  public void setCustodiaInfoIDFins(java.lang.Long custodiaInfoIDFins) {
-    this.custodiaInfoIDFins = custodiaInfoIDFins;
-  }
-
-
   private java.lang.Integer politicaTaulaFirmesDesde;
 
   public java.lang.Integer getPoliticaTaulaFirmesDesde() {
@@ -472,10 +428,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.tipusFirmaIDFins = __toClone.tipusFirmaIDFins;
     this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
     this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
-    this.politicaCustodiaDesde = __toClone.politicaCustodiaDesde;
-    this.politicaCustodiaFins = __toClone.politicaCustodiaFins;
-    this.custodiaInfoIDDesde = __toClone.custodiaInfoIDDesde;
-    this.custodiaInfoIDFins = __toClone.custodiaInfoIDFins;
     this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
     this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
@@ -499,8 +451,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
     this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
-    this.mapOfValuesForPoliticaCustodia = __toClone.mapOfValuesForPoliticaCustodia;
-    this.mapOfCustodiaInfoForCustodiaInfoID = __toClone.mapOfCustodiaInfoForCustodiaInfoID;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
@@ -520,7 +470,7 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   @Override
   public List<Field<?>> getDefaultGroupByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] {  }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { USENFIRMAWS1 }));
   }
 
 
@@ -599,30 +549,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
     this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
-  }
-
-
-
-  private Map<String, String> mapOfValuesForPoliticaCustodia;
-
-  public Map<String, String> getMapOfValuesForPoliticaCustodia() {
-    return this.mapOfValuesForPoliticaCustodia;
-  }
-
-  public void setMapOfValuesForPoliticaCustodia(Map<String, String> mapOfValuesForPoliticaCustodia) {
-    this.mapOfValuesForPoliticaCustodia = mapOfValuesForPoliticaCustodia;
-  }
-
-
-
-  private Map<String, String> mapOfCustodiaInfoForCustodiaInfoID;
-
-  public Map<String, String> getMapOfCustodiaInfoForCustodiaInfoID() {
-    return this.mapOfCustodiaInfoForCustodiaInfoID;
-  }
-
-  public void setMapOfCustodiaInfoForCustodiaInfoID(Map<String, String> mapOfCustodiaInfoForCustodiaInfoID) {
-    this.mapOfCustodiaInfoForCustodiaInfoID = mapOfCustodiaInfoForCustodiaInfoID;
   }
 
 

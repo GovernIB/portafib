@@ -37,15 +37,15 @@ import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PlantillaFluxDeFirmesLogicaLocal;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FirmaBean;
 import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
@@ -91,16 +91,12 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
 
   public static final String NAME_WS = NAME + "Ws";
 
-  @EJB(mappedName = "portafib/FitxerLogicaEJB/local")
-  private FitxerLogicaLocal fitxerLogicaEjb;
+
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
-  
-  @EJB(mappedName = "portafib/FluxDeFirmesLogicaEJB/local")
+  @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
@@ -108,6 +104,11 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
   
   @EJB(mappedName = PlantillaFluxDeFirmesLogicaLocal.JNDI_NAME)
   private PlantillaFluxDeFirmesLogicaLocal plantillaFluxDeFirmesLogicaEjb;
+  
+  
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+  
 
   @Resource
   private WebServiceContext wsContext;
@@ -128,13 +129,22 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
       @WebParam(name = "title") String title,
       @WebParam(name = "language") String language)
      throws WsI18NException, Throwable {
+    // #165
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació");
+
+    return CustodiaInfoBean.toBean(ci);
     
-    
-    if (!LogicUtils.checkPotCustodiar(UsuariAplicacioCache.get())) {
+    /* XYZ ZZZ
+    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+
+    Integer politicaCustodia = LogicUtils.getPoliticaDeCustodiaFinalPerUA(userapp, entitatEjb);
+    if (politicaCustodia == null) {
       return null;
     }
-
-    UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
+    
+    
     final String usuariEntitatID = null;
     if (language.trim().length() == 0) {
       language = userapp.getIdiomaID();
@@ -142,7 +152,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseWsImpl implem
     final String usuariAplicacioID = userapp.getUsuariAplicacioID();
     return peticioDeFirmaLogicaEjb.constructDefaultCustodiaInfo(title,
         userapp.getEntitatID(), usuariEntitatID, usuariAplicacioID, language);
-
+*/
   }
 
   

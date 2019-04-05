@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
-import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.TraduccioFields;
@@ -29,7 +28,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.ICustodiaInfoManager __custodiaInfoManager
     ,es.caib.portafib.model.dao.IEntitatManager __entitatManager
     ,es.caib.portafib.model.dao.IPluginManager __pluginManager
     ,es.caib.portafib.model.dao.ITraduccioManager __traduccioManager
@@ -55,6 +53,10 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWEB, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWEB)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWS1, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWS1)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWS2, 
         "genapp.validation.required",
@@ -83,10 +85,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     __vr.rejectIfEmptyOrWhitespace(__target__,MODEDEFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODEDEFIRMA)));
-
-    __vr.rejectIfEmptyOrWhitespace(__target__,POLITICACUSTODIA, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLITICACUSTODIA)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICATAULAFIRMES, 
         "genapp.validation.required",
@@ -198,20 +196,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitat"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("entitat.entitatID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__entitatid)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(CUSTODIAINFOID) == 0) {
-      java.lang.Long __custodiainfoid = (java.lang.Long)__vr.getFieldValue(__target__,CUSTODIAINFOID);
-      if (__custodiainfoid != null ) {
-        Long __count_ = null;
-        try { __count_ = __custodiaInfoManager.count(CustodiaInfoFields.CUSTODIAINFOID.equal(__custodiainfoid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(CUSTODIAINFOID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfo"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("custodiaInfo.custodiaInfoID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__custodiainfoid)));
-        }
       }
     }
 

@@ -47,16 +47,16 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new BooleanField(getQueryPath(), UsuariEntitatFields.REBRETOTSELSAVISOS);
   }
 
-  public BooleanField POTCUSTODIAR() {
-    return new BooleanField(getQueryPath(), UsuariEntitatFields.POTCUSTODIAR);
+  public IntegerField POLITICADEPLUGINFIRMAWEB() {
+    return new IntegerField(getQueryPath(), UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB);
   }
 
   public IntegerField POLITICACUSTODIA() {
     return new IntegerField(getQueryPath(), UsuariEntitatFields.POLITICACUSTODIA);
   }
 
-  public IntegerField POLITICADEPLUGINFIRMAWEB() {
-    return new IntegerField(getQueryPath(), UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB);
+  public LongField CUSTODIAINFOID() {
+    return new LongField(getQueryPath(), UsuariEntitatFields.CUSTODIAINFOID);
   }
 
 
@@ -340,6 +340,14 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new FitxerQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariEntitatQueryPath.this.getQueryPath() + "logoSegell" + ".";
+      }
+    });
+  }
+
+  public CustodiaInfoQueryPath CUSTODIAINFO() {
+    return new CustodiaInfoQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariEntitatQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
       }
     });
   }

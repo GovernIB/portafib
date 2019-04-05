@@ -35,6 +35,10 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWEB);
   }
 
+  public BooleanField USENFIRMAWS1() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWS1);
+  }
+
   public BooleanField USENFIRMAWS2() {
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWS2);
   }
@@ -85,14 +89,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
 
   public BooleanField MODEDEFIRMA() {
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.MODEDEFIRMA);
-  }
-
-  public IntegerField POLITICACUSTODIA() {
-    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICACUSTODIA);
-  }
-
-  public LongField CUSTODIAINFOID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.CUSTODIAINFOID);
   }
 
   public IntegerField POLITICATAULAFIRMES() {
@@ -238,14 +234,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new EntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "entitat" + ".";
-      }
-    });
-  }
-
-  public CustodiaInfoQueryPath CUSTODIAINFO() {
-    return new CustodiaInfoQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "custodiaInfo" + ".";
       }
     });
   }

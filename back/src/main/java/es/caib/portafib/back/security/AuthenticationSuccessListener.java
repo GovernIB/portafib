@@ -169,7 +169,9 @@ public class AuthenticationSuccessListener implements
                 usuariEntitat.setActiu(true);
                 usuariEntitat.setCarrec(null);
                 usuariEntitat.setEntitatID(defaultEntity);
-                usuariEntitat.setPotCustodiar(false);
+                //XYZ ZZZ usuariEntitat.setPotCustodiar(false);
+                usuariEntitat.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+                
                 usuariEntitat.setPredeterminat(true);
                 usuariEntitat.setUsuariPersonaID(admin.getUsuariPersonaID());
               }

@@ -57,6 +57,11 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWeb?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS1)}">
+          <td>
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWS1?'success':'error'}.png"/>">
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
           <td>
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaWS2?'success':'error'}.png"/>">
@@ -132,22 +137,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}">
           <td>
             <fmt:message key="modefirma.${usuariAplicacioConfiguracio.modeDeFirma}" />          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICACUSTODIA)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.politicaCustodia}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForPoliticaCustodia[tmp]}
-          </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.CUSTODIAINFOID)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.custodiaInfoID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
-          </c:if>
-          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
           <td>

@@ -15,6 +15,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
@@ -30,18 +31,20 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoFilterForm;
 import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.validator.CustodiaInfoLogicValidator;
 import es.caib.portafib.model.entity.CustodiaInfo;
+import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 @Controller
 @RequestMapping(value = CustodiaInfoSoliController.SOLI_CUSTODIA_CONTEXT)
@@ -52,8 +55,12 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
   
   protected CustodiaInfoLogicValidator<Object> validator = new CustodiaInfoLogicValidator<Object>();
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaLogicaEJB/local")
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
+  protected PeticioDeFirmaLocal peticioDeFirmaEjb;
+  
+  @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
+  protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+  
 
   @Override
   public boolean isActiveList() {
@@ -153,21 +160,94 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     custodiaInfoForm.addHiddenField(USUARIENTITATID);
     custodiaInfoForm.addHiddenField(CODIBARRESPOSICIOPAGINAID);
 
-    if (custodiaInfoForm.getCustodiaInfo().isEditable()) {
-      custodiaInfoForm.addReadOnlyField(PLUGINID);
+    
+    PeticioDeFirma peticioDeFirma;
+    {
+       List<PeticioDeFirma> list;
+       list = peticioDeFirmaEjb.select(PeticioDeFirmaFields.CUSTODIAINFOID.equal(custodia.getCustodiaInfoID()));
+       
+       if (list == null || list.size() == 0) {
+         peticioDeFirma = null;
+       } else {
+         peticioDeFirma = list.get(0);
+       }
+    }
+    
+    if (peticioDeFirma == null) {
+      // És una Plantilla
     } else {
-      custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
-      custodiaInfoForm.setDeleteButtonVisible(false);
+      
+      if (custodiaInfoForm.getCustodiaInfo().isEditable()) {
+        custodiaInfoForm.addReadOnlyField(PLUGINID);
+      } else {
+        custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
+      }
+      
+      Integer politicaDeFirma;
+      if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
+        // Usuari Aplicació
+        politicaDeFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
+      } else {
+        // Usuari Entitat
+        politicaDeFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+      }
+      
+      log.info("XYZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeFirma);
+      
+      if (politicaDeFirma == null) {
+        // No Permetre
+        custodiaInfoForm.setDeleteButtonVisible(true);
+      } else {
+        
+        switch((int)politicaDeFirma) {
+          
+          // Obligatori Plantilla definida en Entitat, Usuari-Entitat  o Usuari-Aplicació.
+          case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: // = 2;
+            custodiaInfoForm.setDeleteButtonVisible(false);
+            custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
+          break;
+
+          // Només Plantilles de l´Entitat (No editables)
+          case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT: // = 1;
+              // XYZ ZZZ S'hauria de poder permetre canviar de
+            // XYZ ZZZ TRA
+            HtmlUtils.saveMessageWarning(request, "Aquesta politica només permet alguna de les plantilles de l'entitat. Encara no s'ha desenvolupat codi per canviar Politica de Custòdia per una altre ");
+            custodiaInfoForm.setDeleteButtonVisible(false);
+          break;
+
+          // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
+          case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU: //= 3;
+          
+          // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
+          case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU: // = 4;
+            
+            log.info("XYZ ZZZ posa tot a ReadOnly ...");
+            custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
+          
+          // Llibertat Total (selecció, edició i us)
+          case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL: // = 5;
+            custodiaInfoForm.setDeleteButtonVisible(true);
+          break;
+          
+          default:
+
+        }
+
+      }
+
     }
 
+
+
+
     if (__isView) {
+
+//      Long existeixPeticio = peticioDeFirmaLogicaEjb.count(Where.AND(
+//             PeticioDeFirmaFields.CUSTODIAINFOID.equal(custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID()),
+//             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT)
+//          ));
       
-      Long existeixPeticio = peticioDeFirmaLogicaEjb.count(Where.AND(
-             PeticioDeFirmaFields.CUSTODIAINFOID.equal(custodiaInfoForm.getCustodiaInfo().getCustodiaInfoID()),
-             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT)
-          ));
-      
-      if (existeixPeticio == 0) {
+      if (peticioDeFirma == null) {
         // Segur retornar a llista de custodia
         custodiaInfoForm.setCancelButtonVisible(false);
         String r;
@@ -202,7 +282,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
   @Override
   public void delete(HttpServletRequest request, CustodiaInfo custodiaInfo) throws Exception,
       I18NException {
-    peticioDeFirmaLogicaEjb.deleteCustodiaInfoOfPeticioDeFirma(custodiaInfo);
+    custodiaInfoLogicaEjb.deleteCustodiaInfoOfPeticioDeFirma(custodiaInfo);
   }
 
   @Override
@@ -264,10 +344,10 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
     Where wFinished = Where.OR(
       // Només les finalitzades
       CUSTODIAINFOID.in(
-        peticioDeFirmaLogicaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID,
+        peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID,
             PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT))),
       // Les que ja no tenen peticio de firma
-      CUSTODIAINFOID.notIn(peticioDeFirmaLogicaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID, PeticioDeFirmaFields.CUSTODIAINFOID.isNotNull()))
+      CUSTODIAINFOID.notIn(peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID, PeticioDeFirmaFields.CUSTODIAINFOID.isNotNull()))
     );
     
     // Per usuaris entitat o usuaris aplicacio

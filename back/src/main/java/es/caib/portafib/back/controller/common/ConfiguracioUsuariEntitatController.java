@@ -1,6 +1,6 @@
 package es.caib.portafib.back.controller.common;
 
-import es.caib.portafib.back.controller.admin.GestioEntitatController;
+import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.UsuariEntitatController;
 import es.caib.portafib.back.form.webdb.UsuariEntitatForm;
 import es.caib.portafib.back.security.LoginInfo;
@@ -9,6 +9,7 @@ import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
+import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
 import es.caib.portafib.utils.ConstantsV2;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -75,10 +76,14 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     // Ocultam camps
     usuariEntitatForm.addHiddenField(USUARIENTITATID);
     usuariEntitatForm.addHiddenField(USUARIPERSONAID);
+    usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
+    usuariEntitatForm.addReadOnlyField(CUSTODIAINFOID);
+    
     usuariEntitatForm.addReadOnlyField(ENTITATID);
+    
     usuariEntitatForm.addHiddenField(ACTIU);
     usuariEntitatForm.addHiddenField(CARREC);
-    usuariEntitatForm.addReadOnlyField(POTCUSTODIAR);
+    // XYZ ZZZ usuariEntitatForm.addReadOnlyField(POTCUSTODIAR);
     usuariEntitatForm.addReadOnlyField(POLITICACUSTODIA);
     usuariEntitatForm.addReadOnlyField(POLITICADEPLUGINFIRMAWEB);
     
@@ -116,6 +121,15 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
     lskvEntitat.add(skvEntitat);
     usuariEntitatForm.setListOfEntitatForEntitatID(lskvEntitat);
 
+    
+    int politicaCustodia = usuariEntitatForm.getUsuariEntitat().getPoliticaCustodia();
+    
+    if (politicaCustodia ==  ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO) {
+      // OK 
+    } else {
+      usuariEntitatForm.addHiddenField(CUSTODIAINFOID);
+    }
+   
     return usuariEntitatForm;
 
   }
@@ -145,8 +159,8 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    final boolean isEntitat = false;
-    return GestioEntitatController.staticGetReferenceListForPoliticaCustodia(isEntitat);
+
+    return GestioEntitatAdminController.staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_USUARI_ENTITAT);
   }
 
   

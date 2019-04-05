@@ -28,6 +28,8 @@ public class UsuariAplicacioForm extends PortaFIBBaseForm {
     this.listOfValuesForCallbackVersio = __toClone.listOfValuesForCallbackVersio;
     this.listOfIdiomaForIdiomaID = __toClone.listOfIdiomaForIdiomaID;
     this.listOfValuesForPoliticaDePluginFirmaWeb = __toClone.listOfValuesForPoliticaDePluginFirmaWeb;
+    this.listOfValuesForPoliticaCustodia = __toClone.listOfValuesForPoliticaCustodia;
+    this.listOfCustodiaInfoForCustodiaInfoID = __toClone.listOfCustodiaInfoForCustodiaInfoID;
   }
   
   public UsuariAplicacioForm(UsuariAplicacioJPA usuariAplicacio, boolean nou) {
@@ -101,6 +103,30 @@ public class UsuariAplicacioForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForPoliticaDePluginFirmaWeb(List<StringKeyValue> listOfValuesForPoliticaDePluginFirmaWeb) {
     this.listOfValuesForPoliticaDePluginFirmaWeb = listOfValuesForPoliticaDePluginFirmaWeb;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForPoliticaCustodia;
+
+  public List<StringKeyValue> getListOfValuesForPoliticaCustodia() {
+    return this.listOfValuesForPoliticaCustodia;
+  }
+
+  public void setListOfValuesForPoliticaCustodia(List<StringKeyValue> listOfValuesForPoliticaCustodia) {
+    this.listOfValuesForPoliticaCustodia = listOfValuesForPoliticaCustodia;
+  }
+
+
+
+  private List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID;
+
+  public List<StringKeyValue> getListOfCustodiaInfoForCustodiaInfoID() {
+    return this.listOfCustodiaInfoForCustodiaInfoID;
+  }
+
+  public void setListOfCustodiaInfoForCustodiaInfoID(List<StringKeyValue> listOfCustodiaInfoForCustodiaInfoID) {
+    this.listOfCustodiaInfoForCustodiaInfoID = listOfCustodiaInfoForCustodiaInfoID;
   }
 
 

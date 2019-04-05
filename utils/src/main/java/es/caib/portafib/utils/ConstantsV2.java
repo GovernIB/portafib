@@ -30,9 +30,11 @@ public interface ConstantsV2 {
   public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR = 0;
   public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB = 1;
   public static final int US_FIRMA_CONF_APP_FIRMAWEB = 2;
-  public static final int US_FIRMA_CONF_APP_FIRMAWS2 = 3;
-  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR = 4;
-  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMAWEB = 5;
+  public static final int US_FIRMA_CONF_APP_FIRMAWS1 = 3;
+  public static final int US_FIRMA_CONF_APP_FIRMAWS2 = 4;
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR = 5;
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMAWEB = 6;
+
   
   //==============================================================
   // --- TIPUS ESTAT PETICIO DE FIRMA -----
@@ -295,32 +297,32 @@ public interface ConstantsV2 {
 
   
  //========================================================
- // ----- POLITICA DE CUSTODIA ------
+ // -- POLITICA DE CUSTODIA (Es troben a Constants de WS --
  // ========================================================
 
   /**
    * CustodiaInfo per Defecte de l'entitat val NULL 
    */
-  public static final int CUSTODIA_NO_PERMETRE = 0;
+  //public static final int CUSTODIA_NO_PERMETRE = 0;
   
   /**
    * CustodiaInfo per Defecte de l'entitat diferent de NULL i editable = false 
    */
-  public static final int CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE = 1;
+  //public static final int CUSTODIA_NOMES_PLANTILLA_PER_DEFECTE = 1;
 
-  public static final int CUSTODIA_NOMES_PLANTILLES_DEFINIDES_EN_ENTITAT = 2;
+  //public static final int CUSTODIA_NOMES_PLANTILLES_DEFINIDES_EN_ENTITAT = 2;
 
   /**
    * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
    * i només una plantilla de custòdia disponible per l'entitat 
    */
-  public static final int CUSTODIA_EDITABLE_SENSE_CANVI_PLUGIN = 3;
+  //public static final int CUSTODIA_EDITABLE_SENSE_CANVI_PLUGIN = 3;
   
   /**
    * CustodiaInfo per Defecte de l'entitat diferent de NULL, editable = true 
    * i multiples plantilles de custòdia disponible per l'entitat  
    */
-  public static final int CUSTODIA_TOTALMENT_EDITABLE = 4;
+  //public static final int CUSTODIA_TOTALMENT_EDITABLE = 4;
 
   
   
@@ -329,8 +331,8 @@ public interface ConstantsV2 {
   // ----- POLITICA DE CUSTODIA - PORTAFIB v2.0 #165 ------
   // =======================================================
   
-  // [USR_APP_CONFIG] El que s´hagi definit dins l´Entitat
-  public static final int POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT = -1;
+  // La politica de Custòdia definida dins l´Entitat
+  public static final int POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT = -1;
   
   // No permetre
   public static final int POLITICA_CUSTODIA_NO_PERMETRE = 0;
@@ -338,17 +340,19 @@ public interface ConstantsV2 {
   // Només Plantilles de l´Entitat (No editables)
   public static final int POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT = 1;
   
-  // Obligatori Plantilla definida en Entitat o Config. usuari Aplicació.
-  public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA = 2;
+  // Obligatori Plantilla definida en Entitat, Usuari-Entitat  o Usuari-Aplicació.
+  public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO = 2;
   
   // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
-  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_ACTIU = 3;
+  public static final int POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU = 3;
   
   // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
-  public static final int POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_DEFECTE_NO_ACTIU = 4;
+  public static final int POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU = 4;
   
   // Llibertat Total (selecció, edició i us)
   public static final int POLITICA_CUSTODIA_LLIBERTAT_TOTAL = 5;
+  
+
   
 
   

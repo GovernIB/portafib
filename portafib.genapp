@@ -2321,7 +2321,7 @@
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="3"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="4"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -2354,10 +2354,23 @@
                <string>custodiainfoid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_confapp_custodia_fk</string> 
+               <string>pfi_usrapp_custodia_fk</string> 
               </void> 
               <void property="table"> 
-               <string>pfi_usuariaplicacioconfig</string> 
+               <string>pfi_usuariaplicacio</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void index="3"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>custodiainfoid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_usrentitat_custodia_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_usuarientitat</string> 
               </void> 
              </object> 
             </void> 
@@ -5093,11 +5106,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Política del Sistema de Custòdia</string> 
+            <string>Política de Custòdia</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Política del Sistema de Custodia</string> 
+            <string>Política de Custodia</string> 
            </void> 
           </void> 
           <void property="minAllowedValue"> 
@@ -5161,11 +5174,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Custòdia per Defecte</string> 
+            <string>Plantilla de Custòdia</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Custòdia per Defecte</string> 
+            <string>Plantilla de Custodia</string> 
            </void> 
           </void> 
           <void property="size"> 
@@ -20216,7 +20229,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
     <void index="40"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="12"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="13"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -20917,60 +20930,6 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         <void index="10"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
-           <string>false</string> 
-          </void> 
-          <void property="descripcio"> 
-           <string>Indica si aquest usuari aplicacio pot custodiar en les peticions de firma:
-     + null = Només plantilles de Entitat
-     + false = No pot custodiar
-     + true = Pot emprar plantilles o establie el mateix usuari la configuració de custodia</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="javaName"> 
-           <string>potCustodiar</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Boolean</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Pot Custodiar</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Puede Custodiar</string> 
-           </void> 
-          </void> 
-          <void property="minAllowedValue"> 
-           <string>potcustodiar</string> 
-          </void> 
-          <void property="size"> 
-           <int>1</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>potcustodiar</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-7</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>4</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="11"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="defaultValue"> 
            <string>0</string> 
           </void> 
           <void property="descripcio"> 
@@ -21019,6 +20978,135 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
+        <void index="11"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>0</string> 
+          </void> 
+          <void property="descripcio"> 
+           <string>-1: el que digui l&apos;entitat, 0: No permetre, 1:Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Totalselecció, edició i us), 6: La plantilla definida en l&apos;&apos;usuari-aplicació</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>politicaCustodia</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>int</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Política de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Política de Custodia</string> 
+           </void> 
+          </void> 
+          <void property="minAllowedValue"> 
+           <string>-1,0,1,2,3,4,5,6</string> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>10</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>politicacustodia</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>4</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>16</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="12"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>custodiainfoid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_usrapp_custodia_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_custodiainfo</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_usrapp_custodia_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>custodiaInfoID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Plantilla de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Plantilla de Custodia</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>custodiainfoid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>custodiainfoid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_usrapp_custodia_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_custodiainfo</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
        </array> 
       </void> 
       <void property="generate"> 
@@ -21058,7 +21146,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
     <void index="41"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="36"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="35"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -21450,6 +21538,54 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="digits"> 
            <int>0</int> 
           </void> 
+          <void property="groupBy"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="javaName"> 
+           <string>usEnFirmaWS1</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>boolean</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Ús en Firma WS v1</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Uso en Firma WS v1</string> 
+           </void> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>1</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usenfirmaws1</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-7</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>4</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="7"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>false</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
           <void property="javaName"> 
            <string>usEnFirmaWS2</string> 
           </void> 
@@ -21487,7 +21623,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
-        <void index="7"> 
+        <void index="8"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>false</string> 
@@ -21532,7 +21668,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
-        <void index="8"> 
+        <void index="9"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>false</string> 
@@ -21577,7 +21713,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
-        <void index="9"> 
+        <void index="10"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -21628,7 +21764,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           </void> 
          </object> 
         </void> 
-        <void index="10"> 
+        <void index="11"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Identificador de la política de firma. Si es defineix aquest valors llavorses generaran 
@@ -21671,7 +21807,7 @@ firmes PAdES-EPES,CAdES-EPES y XAdES-EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="11"> 
+        <void index="12"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -21710,7 +21846,7 @@ firmes PAdES-EPES,CAdES-EPES y XAdES-EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="12"> 
+        <void index="13"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica el algoritmo utilizado para generar la Huella Digital definida en
@@ -21755,7 +21891,7 @@ SHA1, SHA-256, SHA-384 o SHA-512</string>
           </void> 
          </object> 
         </void> 
-        <void index="13"> 
+        <void index="14"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>URL (universalmente accesible) hacia el documento (normalmente PDF) que
@@ -21799,7 +21935,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="14"> 
+        <void index="15"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -21838,7 +21974,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="15"> 
+        <void index="16"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -21889,7 +22025,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="16"> 
+        <void index="17"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -21937,7 +22073,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="17"> 
+        <void index="18"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -21982,7 +22118,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="18"> 
+        <void index="19"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22027,136 +22163,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="19"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="defaultValue"> 
-           <string>0</string> 
-          </void> 
-          <void property="descripcio"> 
-           <string>-1: el que digui l&apos;entitat, 0: No permetre, 1: Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
-           <string>politicaCustodia</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>int</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Política de Custòdia</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Política de Custódia</string> 
-           </void> 
-          </void> 
-          <void property="minAllowedValue"> 
-           <string>-1,0,1,2,3,4,5,6</string> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="size"> 
-           <int>10</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>politicacustodia</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>4</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>16</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
         <void index="20"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>custodiainfoid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_custodia_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_custodiainfo</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
-          <void property="index"> 
-           <string>pfi_confapp_custinfo_fk_i</string> 
-          </void> 
-          <void property="javaName"> 
-           <string>custodiaInfoID</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Long</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Plantilla de Custòdia</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Plantilla de Custodia</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>19</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>custodiainfoid</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-5</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>custodiainfoid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_custodia_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_custodiainfo</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-            <void property="webtype"> 
-             <int>3</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="21"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -22207,7 +22214,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="22"> 
+        <void index="21"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -22261,7 +22268,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="23"> 
+        <void index="22"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22339,7 +22346,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="24"> 
+        <void index="23"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22378,7 +22385,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="25"> 
+        <void index="24"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22456,7 +22463,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="26"> 
+        <void index="25"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -22507,7 +22514,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="27"> 
+        <void index="26"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22585,7 +22592,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="28"> 
+        <void index="27"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22624,7 +22631,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="29"> 
+        <void index="28"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22702,7 +22709,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="30"> 
+        <void index="29"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22744,7 +22751,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="31"> 
+        <void index="30"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>0</int> 
@@ -22822,7 +22829,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="32"> 
+        <void index="31"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -22867,7 +22874,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="33"> 
+        <void index="32"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>-- Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -22912,7 +22919,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="34"> 
+        <void index="33"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
@@ -22957,7 +22964,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="35"> 
+        <void index="34"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>NULL =&gt; Lo que digui l&apos;entitat</string> 
@@ -23815,108 +23822,6 @@ opcional incluso cuando se genera una firma EPES.</string>
         <void index="9"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
-           <string>false</string> 
-          </void> 
-          <void property="descripcio"> 
-           <string>Indica si aquest ususari entitat pot custodiar les peticions de firma:
-     + null = Només plantilles de Entitat
-     + false = No pot custodiar
-     + true = Pot emprar plantilles o establie el mateix usuari la configuració de custodia</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="groupBy"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="javaName"> 
-           <string>potCustodiar</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Boolean</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Pot Custodiar</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Puede Custodiar</string> 
-           </void> 
-          </void> 
-          <void property="minAllowedValue"> 
-           <string>potcustodiar</string> 
-          </void> 
-          <void property="size"> 
-           <int>1</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>potcustodiar</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-7</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>4</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="10"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="descripcio"> 
-           <string>-1: el que digui l&apos;entitat, 0: No permetre, 1:Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us)</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
-           <string>politicaCustodia</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>int</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Política de Custòdia</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Política de Custodia</string> 
-           </void> 
-          </void> 
-          <void property="minAllowedValue"> 
-           <string>-1,0,1,2,3,4,5</string> 
-          </void> 
-          <void property="notNullable"> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="size"> 
-           <int>10</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>politicacustodia</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>4</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>16</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="11"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="defaultValue"> 
            <string>0</string> 
           </void> 
           <void property="descripcio"> 
@@ -23960,6 +23865,135 @@ opcional incluso cuando se genera una firma EPES.</string>
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
             <void property="webtype"> 
              <int>16</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="10"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>-1: el que digui l&apos;entitat, 0: No permetre, 1:Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us)</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>politicaCustodia</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>int</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Política de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Política de Custodia</string> 
+           </void> 
+          </void> 
+          <void property="minAllowedValue"> 
+           <string>-1,0,1,2,3,4,5,6</string> 
+          </void> 
+          <void property="notNullable"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="size"> 
+           <int>10</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>politicacustodia</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>4</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>16</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="11"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>-1: el que digui l&apos;entitat, 0: No permetre, 1: Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat, 4: Opcional plantilla Entitat, 5: Llibertat Total (selecció, edició i us), 6: Custòdia de la Configuració de usuariAplicacio</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="foreignKeys"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
+            <void index="0"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>custodiainfoid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_usrentitat_custodia_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_custodiainfo</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="index"> 
+           <string>pfi_usrentitat_custinfo_fk_i</string> 
+          </void> 
+          <void property="javaName"> 
+           <string>custodiaInfoID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.Long</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Plantilla de Custòdia</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Plantilla de Custodia</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>19</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>custodiainfoid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>-5</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="foreignKey"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>custodiainfoid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_usrentitat_custodia_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_custodiainfo</string> 
+              </void> 
+              <void property="type"> 
+               <int>1</int> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="webtype"> 
+             <int>3</int> 
             </void> 
            </object> 
           </void> 

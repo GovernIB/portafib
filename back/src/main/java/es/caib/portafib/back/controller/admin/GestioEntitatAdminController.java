@@ -33,6 +33,7 @@ import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,12 +51,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/admin/entitat")
-public class GestioEntitatController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
+public class GestioEntitatAdminController extends EntitatController implements ConstantsV2, ConstantsPortaFIB {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
 
-  @EJB(mappedName = "portafib/EntitatLogicaEJB/local")
+  @EJB(mappedName = EntitatLogicaLocal.JNDI_NAME)
   protected EntitatLogicaLocal entitatLogicaEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.PropietatGlobalLocal.JNDI_NAME)
@@ -105,6 +106,9 @@ public class GestioEntitatController extends EntitatController implements Consta
          entitatForm.getEntitat().setPoliticaTaulaFirmes(ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF);
          entitatForm.getEntitat().setPosicioTaulaFirmes(ConstantsV2.TAULADEFIRMES_PRIMERAPAGINA);
          
+         // #165 Pentent de que s'implementi XYZ ZZZ
+         entitatForm.getEntitat().setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
+         
        } else {
          // TODO S'ha d'ocultar només si te usuarisEntitat o usuarisAplicacio associats (veure mètode delete)         
          entitatForm.addHiddenField(ENTITATID);           
@@ -114,10 +118,7 @@ public class GestioEntitatController extends EntitatController implements Consta
        entitatForm.addHelpToField(FILTRECERTIFICATS, I18NUtils.tradueix("manualfiltrescertificats.ajuda"));
        entitatForm.addHelpToField(MOTIUDELEGACIOID, I18NUtils.tradueix("motiudelegacio.help"));
        entitatForm.addHelpToField(FIRMATPERFORMATID, I18NUtils.tradueix("firmatperformat.help"));
-       
-       // #165 Pentent de que s'implementi XYZ ZZZ
-       entitatForm.getEntitat().setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA);
-       entitatForm.addReadOnlyField(POLITICACUSTODIA);
+
 
        // #172 Pentent de que s'implementi XYZ ZZZ
        entitatForm.addReadOnlyField(PLUGINRUBRICAID);
@@ -347,28 +348,33 @@ public class GestioEntitatController extends EntitatController implements Consta
   public List<StringKeyValue> getReferenceListForPoliticaCustodia(
       HttpServletRequest request, ModelAndView mav, Where where)
       throws I18NException {
-    
-    final boolean isEntitat = true;
-    List<StringKeyValue> kvList = staticGetReferenceListForPoliticaCustodia(isEntitat);
-    /* XYZ ZZZ
-    for (StringKeyValue skv : kvList) {
-      if (skv.getKey().equals(String.valueOf(Constants.POLITICA_CUSTODIA_EL_DEFINIT_EN_ENTITAT))) {
-        kvList.remove(skv);
-        break;
-      }
-    }
-    */
+    List<StringKeyValue> kvList = staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA.POLITICA_CUSTODIA_ENTITAT);
     return kvList;    
   }
   
-  public static List<StringKeyValue> staticGetReferenceListForPoliticaCustodia(boolean isEntitat) {
+  
+
+  
+  public static List<StringKeyValue> staticGetReferenceListForPoliticaCustodia(POLITICA_CUSTODIA politicaCustodia) {
     List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
     
+    
     final int[] myArray;
-    if (isEntitat) {
-      myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_EN_ENTITAT;
-    } else {
-      myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_EN_USR_APP_CONFIG;
+    
+    switch(politicaCustodia) {
+    
+      case POLITICA_CUSTODIA_ENTITAT: 
+         myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_ENTITAT;
+      break;
+      case POLITICA_CUSTODIA_USUARI_ENTITAT:
+        myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_USUARI_ENTITAT;
+      break;
+      case POLITICA_CUSTODIA_USUARI_APLICACIO:
+        myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_USUARI_APLICACIO;
+      break;
+      
+      default:
+         return null;  
     }
     
     for (int i = 0; i < myArray.length; i++) {
@@ -579,6 +585,35 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
       return e;
       
   }
+  
+  
+  // # 165
+  @Override
+  public void postValidate(HttpServletRequest request,
+      EntitatForm entitatForm, BindingResult result)
+      throws I18NException {
+
+    Entitat ue = entitatForm.getEntitat();
+
+
+    // Custodia
+    int politicaCustodia = ue.getPoliticaCustodia();
+    if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO 
+        || politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU
+        || politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU) {
+
+      Long custInfoID = ue.getCustodiaInfoID();
+      if (custInfoID == null) {
+        // El camp {0} és obligatori.
+        result.rejectValue(get(CUSTODIAINFOID), "genapp.validation.required",
+            new String[] { I18NUtils.tradueix(get(CUSTODIAINFOID)) }, null);
+      }
+    } else {
+      ue.setCustodiaInfoID(null);
+    }
+  }
+  
+  
   
   
   // #199

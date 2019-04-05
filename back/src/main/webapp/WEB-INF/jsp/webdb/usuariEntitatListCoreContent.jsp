@@ -77,9 +77,13 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariEntitat.rebreTotsElsAvisos?'success':'error'}.png"/>">
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POTCUSTODIAR)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
           <td>
-            <fmt:message key="potcustodiar.${usuariEntitat.potCustodiar}" />          </td>
+          <c:set var="tmp">${usuariEntitat.politicaDePluginFirmaWeb}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb[tmp]}
+          </c:if>
+          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICACUSTODIA)}">
           <td>
@@ -89,11 +93,11 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.POLITICADEPLUGINFIRMAWEB)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariEntitatFields.CUSTODIAINFOID)}">
           <td>
-          <c:set var="tmp">${usuariEntitat.politicaDePluginFirmaWeb}</c:set>
+          <c:set var="tmp">${usuariEntitat.custodiaInfoID}</c:set>
           <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForPoliticaDePluginFirmaWeb[tmp]}
+          ${__theFilterForm.mapOfCustodiaInfoForCustodiaInfoID[tmp]}
           </c:if>
           </td>
         </c:if>
