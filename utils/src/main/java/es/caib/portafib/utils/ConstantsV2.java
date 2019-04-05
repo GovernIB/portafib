@@ -331,7 +331,7 @@ public interface ConstantsV2 {
   // ----- POLITICA DE CUSTODIA - PORTAFIB v2.0 #165 ------
   // =======================================================
   
-  // La politica de Custòdia definida dins l´Entitat
+  // [NOMES USR_ENTITAT & USR_APLICAICO] La politica de Custòdia definida dins l´Entitat
   public static final int POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT = -1;
   
   // No permetre
@@ -343,10 +343,10 @@ public interface ConstantsV2 {
   // Obligatori Plantilla definida en Entitat, Usuari-Entitat  o Usuari-Aplicació.
   public static final int POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO = 2;
   
-  // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
+  // Opcional plantilla Entitat (Per defecte Actiu)
   public static final int POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU = 3;
   
-  // [ENTITAT] Opcional plantilla Entitat (Per defecte NO Actiu)
+  // Opcional plantilla Entitat (Per defecte NO Actiu)
   public static final int POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU = 4;
   
   // Llibertat Total (selecció, edició i us)
