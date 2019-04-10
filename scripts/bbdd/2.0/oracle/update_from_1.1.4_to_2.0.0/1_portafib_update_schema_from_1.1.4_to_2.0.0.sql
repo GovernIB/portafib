@@ -359,7 +359,7 @@ DROP TABLE pfi_tipusestatdefirmafinal;
 ALTER TABLE pfi_usuariaplicacioconfig  DROP CONSTRAINT pfi_confapp_usrapp_fk;
 ALTER TABLE pfi_usuariaplicacioconfig  DROP CONSTRAINT pfi_confapp_usrapp_uk;
 
-ALTER TABLE pfi_usuariaplicacioconfig  DROP COLUMN usuariaplicacioid;
+ALTER TABLE pfi_usuariaplicacioconfig  DROP usuariaplicacioid;
 
 ALTER TABLE pfi_usuariaplicacioconfig
   ADD usenfirmaapisimpleservidor NUMBER(1,0) NOT NULL DEFAULT 0;

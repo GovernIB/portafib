@@ -1,3 +1,4 @@
+WHENEVER SQLERROR EXIT ROLLBACK;
 
 -- Iniciades
 INSERT INTO pfi_estadistica(estadisticaid, tipus, data, entitatid, valor, parametres, usuariaplicacioid, usuarientitatid) 

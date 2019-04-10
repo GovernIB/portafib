@@ -1,3 +1,4 @@
+WHENEVER SQLERROR EXIT ROLLBACK;
 
 -- ================================================
 -- 2018/03/13 Modificacions en la Taula Plugins #160
@@ -31,10 +32,10 @@ UPDATE pfi_usuarientitat SET politicacustodia=0 WHERE potcustodiar=0;
 -- El que digui l'entitat
 UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar is null;
 
---- ***** No ha funcionat... No són necessaris
---UPDATE pfi_usuariaplicacio SET politicacustodia=4 WHERE potcustodiar=1;
---UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar=0;
---UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
+
+UPDATE pfi_usuariaplicacio SET politicacustodia=4 WHERE potcustodiar=1;
+UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar=0;
+UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 
 -- ======================================================================
 -- 2018/05/01 Configuració de Firma de UsuariApp 	Us política de Firma) #148

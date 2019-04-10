@@ -351,13 +351,7 @@ public interface ConstantsV2 {
   
   // Llibertat Total (selecció, edició i us)
   public static final int POLITICA_CUSTODIA_LLIBERTAT_TOTAL = 5;
-  
 
-  
-
-  
-
-  
   
 
   // ==============================================================
