@@ -50,9 +50,9 @@ ALTER TABLE pfi_peticiodefirma ADD COLUMN procedimentnom character varying (255)
 ALTER TABLE pfi_peticiodefirma ADD COLUMN informacioaddicionalavaluable double precision;
 
 ALTER TABLE pfi_peticiodefirma ADD COLUMN firmaoriginaldetachedid bigint;
-ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_fitxer_ori_fk FOREIGN KEY firmaoriginaldetachedid REFERENCES  pfi_fitxer fitxerid ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE pfi_peticiodefirma ADD CONSTRAINT pfi_petifirma_fitxer_ori_fk FOREIGN KEY (firmaoriginaldetachedid) REFERENCES  pfi_fitxer(fitxerid) ON UPDATE NO ACTION ON DELETE NO ACTION;
 COMMENT ON COLUMN pfi_peticiodefirma.firmaoriginaldetachedid IS 'Camp de tipus fitxer que conté la firma en casos de cofirmes i contrafirmes detached de tipus CAdEs i XAdES';
-create index pfi_petifirma_firmaori_fk_i on pfi_peticiodefirma 	firmaoriginaldetachedid;
+create index pfi_petifirma_firmaori_fk_i on pfi_peticiodefirma(firmaoriginaldetachedid);
 
 -- ===========================================
 -- 2018/03/15 Política de Custòdia #165
