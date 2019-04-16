@@ -50,6 +50,12 @@
   <repositories>
 
     <repository>
+       <id>github-governib-maven</id>
+       <name>GitHub GovernIB Maven Repository</name>
+       <url>https://governib.github.io/maven/maven/</url>
+    </repository>
+
+    <repository>
       <id>maven-nuxeo</id>
       <name>Maven Nuxeo Repository</name>
       <url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
@@ -63,14 +69,7 @@
         <updatePolicy>never</updatePolicy>
       </snapshots>
     </repository>
-
-    <!-- Requerim GENAPP i PLUGINSIB -->
-    <repository>
-       <id>github-governib-maven</id>
-       <name>GitHub GovernIB Maven Repository</name>
-       <url>https://governib.github.io/maven/maven/</url>
-    </repository>
-
+	
   </repositories>
 
   <dependencies>

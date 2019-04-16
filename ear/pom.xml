@@ -22,28 +22,6 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
   </properties>
-  
-  
-  
-  
-  
-  <repositories>
-
-    <repository>
-      <id>maven-nuxeo</id>
-      <name>Maven Redhat Repository</name>
-      <url>https://maven.repository.redhat.com/nexus/content/groups/product-ga/</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <dependencies>
 
