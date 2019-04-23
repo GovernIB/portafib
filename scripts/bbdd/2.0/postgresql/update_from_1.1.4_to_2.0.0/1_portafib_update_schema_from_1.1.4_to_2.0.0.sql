@@ -134,7 +134,7 @@ ALTER TABLE pfi_firma
 
 
 CREATE TABLE pfi_revisordefirma (
-   revisordefirmaid bigint NOT NULL DEFAULT nextval 'pfi_portafib_seq', 
+   revisordefirmaid bigint NOT NULL DEFAULT nextval('pfi_portafib_seq'), 
    usuarientitatid character varying(101) NOT NULL,   
    firmaid bigint NOT NULL,
    obligatori boolean NOT NULL, 
