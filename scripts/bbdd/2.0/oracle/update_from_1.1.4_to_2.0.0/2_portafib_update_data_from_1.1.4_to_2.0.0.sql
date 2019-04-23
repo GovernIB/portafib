@@ -43,20 +43,12 @@ UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 
 UPDATE pfi_entitat SET uspoliticadefirma=1 where policyidentifier is not NULL;
 
--- ======================================================================
--- 2018/08/24 Actualització dels packages de pluginsib a versió 2.0
--- ======================================================================
-
-UPDATE pfi_tipusmetadada SET descripcio='org.fundaciobit.pluginsib.core.utils.Base64' WHERE tipusmetadadaid=4;
-UPDATE pfi_tipusmetadada SET descripcio='org.fundaciobit.pluginsib.core.utils.ISO8601' WHERE tipusmetadadaid=5;
 
 -- =================================================
 -- 2018/09/13 Revisor de Firma #169
 -- =================================================
 
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_REVI', 'Revisor de Firmes', NULL);
-INSERT INTO pfi_tipusestatdefirmainicial(tipusestatdefirmainicialid, nom) VALUES (3,'tipusestatdefirmainicial.ASSIGNAT_PER_REVISAR');
-INSERT INTO pfi_tipusestatdefirmafinal(tipusestatdefirmafinalid, nom, descripcio) VALUES (5, 'tipusestatdefirmafinal.ACCEPTAT', 'Es quan un revisor de firmes accepta la firma');
 INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (90, NULL, 'notificacioavis.requerit_per_revisar', 1);
 
 
