@@ -1,11 +1,4 @@
 
-    create table pfi_algorismedefirma (
-        algorismedefirmaid number(10,0) not null,
-        descripcio varchar2(255 char),
-        nom varchar2(100 char) not null,
-        suportat number(1,0)
-    );
-
     create table pfi_annex (
         annexid number(19,0) not null,
         adjuntar number(1,0) not null,
@@ -101,8 +94,8 @@
         motiudelegacioid number(19,0),
         nom varchar2(50 char) not null,
         pdfautoritzaciodelegacioid number(19,0) not null,
-        pluginid number(19,0),
         pluginrubricaid number(19,0),
+        pluginid number(19,0),
         pluginvalidacertificatid number(19,0),
         pluginvalidafirmesid number(19,0),
         policyidentifier varchar2(100 char),
@@ -110,12 +103,14 @@
         policyidentifierhashalgorithm varchar2(50 char),
         policyurldocument varchar2(255 char),
         politicacustodia number(10,0) not null,
+        segelldetempsviaweb number(10,0) not null,
         politicataulafirmes number(10,0) not null,
         posiciotaulafirmes number(10,0) not null,
-        segelldetempsviaweb number(10,0) not null,
+        propietatstaulafirmes clob,
         suportemail varchar2(100 char),
         suporttelefon varchar2(50 char),
         suportweb varchar2(250 char),
+        uspoliticadefirma number(10,0) not null,
         usuariaplicacioid varchar2(101 char),
         web varchar2(250 char) not null
     );
@@ -126,7 +121,9 @@
         entitatid varchar2(50 char),
         parametres varchar2(3000 char),
         tipus number(10,0) not null,
-        valor double precision
+        usuariaplicacioid varchar2(101 char),
+        usuarientitatid varchar2(101 char),
+        valor double precision not null
     );
 
     create table pfi_estatdefirma (
@@ -224,6 +221,12 @@
         tipusnotificacioid number(19,0) not null
     );
 
+    create table pfi_perfilsperusrapp (
+        perfilsperusrappid number(19,0) not null,
+        usuariaplicacioperfilid number(19,0) not null,
+        usuariaplicacioid varchar2(50 char) not null
+    );
+
     create table pfi_permisgrupplantilla (
         permisgrupplantillaid number(19,0) not null,
         grupentitatid number(19,0) not null,
@@ -255,6 +258,7 @@
         fluxdefirmesid number(19,0) not null,
         idiomaid varchar2(5 char) not null,
         informacioaddicional varchar2(500 char),
+        informacioaddicionalavaluable double precision,
         logosegellid number(19,0),
         modedefirma number(1,0) not null,
         motiu varchar2(255 char) not null,
@@ -266,13 +270,15 @@
         remitentdescripcio varchar2(500 char),
         remitentnom varchar2(100 char) not null,
         segellatdetemps number(1,0) not null,
+        usuariaplicacioid varchar2(101 char) not null,
+        usuarientitatid varchar2(101 char),
+        solicitantpersona2id varchar2(101 char),
+        solicitantpersona3id varchar2(101 char),
         tipusdocumentid number(19,0) not null,
         tipusestatpeticiodefirmaid number(10,0) not null,
         tipusfirmaid number(10,0) not null,
         tipusoperaciofirma number(10,0) not null,
-        titol varchar2(255 char) not null,
-        usuariaplicacioid varchar2(101 char) not null,
-        usuarientitatid varchar2(101 char)
+        titol varchar2(255 char) not null
     );
 
     create table pfi_plantillafluxdefirmes (
@@ -292,8 +298,8 @@
         entitatid varchar2(50 char),
         nomid number(19,0) not null,
         ordre number(10,0),
-        politicamostrarpropietats number(10,0) not null,
         politicadeus number(10,0) not null,
+        politicamostrarpropietats number(10,0) not null,
         propertiesadmin clob,
         propertiesentitat clob,
         tipus number(10,0) not null
@@ -301,14 +307,15 @@
 
     create table pfi_plugincridada (
         plugincridadaid number(19,0) not null,
-        dadescridada varchar2(3000 char) not null,
-        dadesplugin varchar2(255 char),
         data timestamp not null,
         entitatid varchar2(50 char),
         metodeplugin varchar2(100 char) not null,
-        resultat clob not null,
+        parametresfitxerid number(19,0),
+        parametrestext clob,
+        pluginid number(19,0) not null,
+        retornfitxerid number(19,0),
+        retorntext clob,
         tempsexecucio number(19,0) not null,
-        tipusplugin number(10,0) not null,
         tipusresultat number(10,0) not null
     );
 
@@ -324,23 +331,6 @@
         accio number(10,0) not null,
         pluginfirmawebid number(19,0) not null,
         usuarientitatid varchar2(101 char) not null
-    );
-
-    create table pfi_posiciopagina (
-        posiciopaginaid number(19,0) not null,
-        nom varchar2(255 char) not null
-    );
-
-    create table pfi_posiciotaulafirmes (
-        posiciotaulafirmesid number(10,0) not null,
-        descripcio varchar2(255 char),
-        nom varchar2(50 char) not null,
-        suportada number(1,0) not null
-    );
-
-    create table pfi_prioritat (
-        prioritatid number(10,0) not null,
-        nom varchar2(50 char) not null
     );
 
     create table pfi_propietatglobal (
@@ -362,7 +352,7 @@
         revisordefirmaid number(19,0) not null,
         firmaid number(19,0) not null,
         obligatori number(1,0) not null,
-        usuarientitatrevisorid number(19,0) not null
+        usuarientitatid varchar2(101 char) not null
     );
 
     create table pfi_role (
@@ -397,37 +387,6 @@
         tipusdocumentid number(19,0) not null
     );
 
-    create table pfi_tipusestatdefirmafinal (
-        tipusestatdefirmafinalid number(19,0) not null,
-        descripcio varchar2(255 char),
-        nom varchar2(50 char) not null
-    );
-
-    create table pfi_tipusestatdefirmainicial (
-        tipusestatdefirmainicialid number(19,0) not null,
-        descripcio varchar2(255 char),
-        nom varchar2(50 char) not null
-    );
-
-    create table pfi_tipusestatpeticiodefirma (
-        tipusestatpeticiodefirmaid number(10,0) not null,
-        descripcio varchar2(1000 char),
-        nom varchar2(50 char) not null
-    );
-
-    create table pfi_tipusfirma (
-        tipusfirmaid number(10,0) not null,
-        descripcio varchar2(1000 char),
-        nom varchar2(50 char) not null,
-        suportada number(1,0) not null
-    );
-
-    create table pfi_tipusmetadada (
-        tipusmetadadaid number(10,0) not null,
-        descripcio varchar2(255 char),
-        nom varchar2(100 char) not null
-    );
-
     create table pfi_tipusnotificacio (
         tipusnotificacioid number(19,0) not null,
         descripcio varchar2(250 char),
@@ -451,14 +410,14 @@
         callbackurl varchar2(400 char) not null,
         callbackversio number(10,0) not null,
         contrasenya varchar2(50 char),
+        custodiainfoid number(19,0),
         descripcio varchar2(255 char),
         emailadmin varchar2(100 char) not null,
         entitatid varchar2(50 char) not null,
         idiomaid varchar2(5 char) not null,
         logosegellid number(19,0),
         politicacustodia number(10,0) not null,
-        politicadepluginfirmaweb number(10,0) not null,
-        potcustodiar number(1,0)
+        politicadepluginfirmaweb number(10,0) not null
     );
 
     create table pfi_usuariaplicacioconfig (
@@ -466,38 +425,63 @@
         algorismedefirmaid number(10,0),
         checkcanviatdocfirmat number(1,0),
         comprovarniffirma number(1,0),
-        custodiainfoid number(19,0),
+        entitatid varchar2(50 char) not null,
         filtrecertificats clob,
         firmatperformatid number(19,0),
         htmlperllistarpluginsfirmaweb clob,
         logincertificateid number(19,0),
         modedefirma number(1,0) not null,
         motiudelegacioid number(19,0),
+        nom varchar2(255 char) not null,
         pluginfirmaservidorid number(19,0),
         pluginsegellatid number(19,0),
         policyidentifier varchar2(100 char),
         policyidentifierhash varchar2(256 char),
         policyidentifierhashalgorithm varchar2(50 char),
         policyurldocument varchar2(255 char),
+        politicasegellatdetemps number(10,0) not null,
+        politicataulafirmes number(10,0) not null,
         posiciotaulafirmesid number(10,0) not null,
+        propietatstaulafirmes clob,
         tipusfirmaid number(10,0) not null,
         tipusoperaciofirma number(10,0) not null,
+        upgradesignformat number(10,0),
+        usenfirmaapisimpleservidor number(1,0) not null,
+        usenfirmaapisimpleweb number(1,0) not null,
+        usenfirmapassarelaservidor number(1,0) not null,
+        usenfirmapassarelaweb number(1,0) not null,
+        usenfirmaws1 number(1,0) not null,
+        usenfirmaws2 number(1,0) not null,
+        usenfirmaweb number(1,0) not null,
         uspoliticadefirma number(10,0) not null,
-        usuariaplicacioid varchar2(101 char) not null,
         validarcertificat number(1,0),
         validarfirma number(1,0)
+    );
+
+    create table pfi_usuariaplicacioperfil (
+        usuariaplicacioperfilid number(19,0) not null,
+        codi varchar2(100 char) not null,
+        condicio varchar2(4000 char),
+        usrappconfiguracio1id number(19,0) not null,
+        usrappconfiguracio2id number(19,0),
+        usrappconfiguracio3id number(19,0),
+        usrappconfiguracio4id number(19,0),
+        usrappconfiguracio5id number(19,0),
+        descripcio varchar2(500 char),
+        nom varchar2(255 char) not null,
+        urlbase varchar2(255 char)
     );
 
     create table pfi_usuarientitat (
         usuarientitatid varchar2(101 char) not null,
         actiu number(1,0) not null,
         carrec varchar2(150 char),
+        custodiainfoid number(19,0),
         email varchar2(100 char),
         entitatid varchar2(50 char) not null,
         logosegellid number(19,0),
         politicacustodia number(10,0) not null,
         politicadepluginfirmaweb number(10,0) not null,
-        potcustodiar number(1,0),
         predeterminat number(1,0) not null,
         rebretotselsavisos number(1,0) not null,
         usuaripersonaid varchar2(50 char) not null
@@ -509,27 +493,22 @@
         origenid varchar2(101 char) not null
     );
 
-    create table pfi_usuarientitatrevisor (
-        usuarientitatrevisorid number(19,0) not null,
-        actiu number(1,0) not null,
-        usuarientitatid varchar2(50 char) not null
-    );
-
     create table pfi_usuaripersona (
         usuaripersonaid varchar2(50 char) not null,
+        contrasenya varchar2(255 char),
         email varchar2(100 char) not null,
         idiomaid varchar2(5 char) not null,
         llinatges varchar2(100 char) not null,
         nif varchar2(9 char) not null,
         nom varchar2(50 char) not null,
-        rubricaid number(19,0)
+        rubricaid number(19,0),
+        usuariintern number(1,0) not null
     );
 
-    create sequence pfi_portafib_seq;
+    create sequence pfi_portafib_seq ;
 
 
  -- INICI Indexes
-    create index pfi_algorismedefirma_pk_i on pfi_algorismedefirma (algorismedefirmaid);
     create index pfi_annex_petdefirmaid_fk_i on pfi_annex (peticiodefirmaid);
     create index pfi_annex_pk_i on pfi_annex (annexid);
     create index pfi_annex_fitxerid_fk_i on pfi_annex (fitxerid);
@@ -556,20 +535,20 @@
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
-    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
-    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
-    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
     create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
     create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
     create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
+    create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
+    create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
     create index pfi_estadistica_pk_i on pfi_estadistica (estadisticaid);
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
@@ -600,12 +579,16 @@
     create index pfi_notifica_peticioid_fk_i on pfi_notificacio (peticiodefirmaid);
     create index pfi_notificacio_pk_i on pfi_notificacio (notificacioid);
     create index pfi_notifica_tiponotiid_fk_i on pfi_notificacio (tipusnotificacioid);
+    create index pfi_perfilsperusrapp_pk_i on pfi_perfilsperusrapp (perfilsperusrappid);
+    create index pfi_perfilsua_usuappid_fk_i on pfi_perfilsperusrapp (usuariaplicacioid);
+    create index pfi_perfilsua_perfilid_fk_i on pfi_perfilsperusrapp (usuariaplicacioperfilid);
     create index pfi_permisgrpl_fluxid_fk_i on pfi_permisgrupplantilla (fluxdefirmesid);
     create index pfi_permisgrpl_grupentid_fk_i on pfi_permisgrupplantilla (grupentitatid);
     create index pfi_permisgrupplantilla_pk_i on pfi_permisgrupplantilla (permisgrupplantillaid);
     create index pfi_permisuspl_usrentid_fk_i on pfi_permisusuariplantilla (usuarientitatid);
     create index pfi_permisuspl_fluxid_fk_i on pfi_permisusuariplantilla (fluxdefirmesid);
     create index pfi_permisusuariplantilla_pk_i on pfi_permisusuariplantilla (permisusuariplantillaid);
+    create index pfi_petifirma_solipers3_fk_i on pfi_peticiodefirma (solicitantpersona3id);
     create index pfi_petifirma_tipusdocid_fk_i on pfi_peticiodefirma (tipusdocumentid);
     create index pfi_peticiodefirma_pk_i on pfi_peticiodefirma (peticiodefirmaid);
     create index pfi_petifirma_custinfoid_fk_i on pfi_peticiodefirma (custodiainfoid);
@@ -614,6 +597,7 @@
     create index pfi_petifirma_prioritatid_fk_i on pfi_peticiodefirma (prioritatid);
     create index pfi_petifirma_fitxeadaid_fk_i on pfi_peticiodefirma (fitxeradaptatid);
     create index pfi_petifirma_idiomaid_fk_i on pfi_peticiodefirma (idiomaid);
+    create index pfi_petifirma_solipers2_fk_i on pfi_peticiodefirma (solicitantpersona2id);
     create index pfi_petifirma_usrappid_fk_i on pfi_peticiodefirma (usuariaplicacioid);
     create index pfi_petifirma_fitxerid_fk_i on pfi_peticiodefirma (fitxerafirmarid);
     create index pfi_petifirma_fluxid_fk_i on pfi_peticiodefirma (fluxdefirmesid);
@@ -621,7 +605,6 @@
     create index pfi_petifirma_firmaori_fk_i on pfi_peticiodefirma (firmaoriginaldetachedid);
     create index pfi_petifirma_estatid_fk_i on pfi_peticiodefirma (tipusestatpeticiodefirmaid);
     create index pfi_petifirma_tipofirmid_fk_i on pfi_peticiodefirma (tipusfirmaid);
-    create index pfi_petifirma_postaulaid_fk_i on pfi_peticiodefirma (posiciotaulafirmesid);
     create index pfi_plantiflfi_usrappid_fk_i on pfi_plantillafluxdefirmes (usuariaplicacioid);
     create index pfi_plantiflfi_usrentiid_fk_i on pfi_plantillafluxdefirmes (usuarientitatid);
     create index pfi_plantillafluxdefirmes_pk_i on pfi_plantillafluxdefirmes (fluxdefirmesid);
@@ -629,7 +612,10 @@
     create index pfi_plugin_pk_i on pfi_plugin (pluginid);
     create index pfi_plugin_desccurtaid_fk_i on pfi_plugin (descripciocurtaid);
     create index pfi_plugin_entitatid_fk_i on pfi_plugin (entitatid);
+    create index pfi_plugcrida_retorfitxer_fk_i on pfi_plugincridada (retornfitxerid);
     create index pfi_plugincridada_pk_i on pfi_plugincridada (plugincridadaid);
+    create index pfi_plugcrida_pluginid_fk_i on pfi_plugincridada (pluginid);
+    create index pfi_plugcrida_paramfitxer_fk_i on pfi_plugincridada (parametresfitxerid);
     create index pfi_plugcrida_entitatid_fk_i on pfi_plugincridada (entitatid);
     create index pfi_pfwpua_usrappid_fk_i on pfi_pluginfirmawebperusrapp (usuariaplicacioid);
     create index pfi_pfwpua_pk_i on pfi_pluginfirmawebperusrapp (pluginfirmawebperusrappid);
@@ -637,9 +623,6 @@
     create index pfi_pfwpue_plugin_fk_i on pfi_pluginfirmawebperusrent (pluginfirmawebid);
     create index pfi_pfwpue_usrentid_fk_i on pfi_pluginfirmawebperusrent (usuarientitatid);
     create index pfi_pfwpue_pk_i on pfi_pluginfirmawebperusrent (pluginfirmawebperusrentid);
-    create index pfi_posiciopagina_pk_i on pfi_posiciopagina (posiciopaginaid);
-    create index pfi_posiciotaulafirmes_pk_i on pfi_posiciotaulafirmes (posiciotaulafirmesid);
-    create index pfi_prioritat_pk_i on pfi_prioritat (prioritatid);
     create index pfi_propietat_entitatid_fk_i on pfi_propietatglobal (entitatid);
     create index pfi_propietatglobal_pk_i on pfi_propietatglobal (propietatglobalid);
     create index pfi_rebreavis_usrentid_fk_i on pfi_rebreavis (usuarientitatid);
@@ -647,7 +630,7 @@
     create index pfi_rebreavis_pk_i on pfi_rebreavis (id);
     create index pfi_revisordefirma_pk_i on pfi_revisordefirma (revisordefirmaid);
     create index pfi_revfirma_firmaid_fk_i on pfi_revisordefirma (firmaid);
-    create index pfi_revfirma_usuentrev_fk_i on pfi_revisordefirma (usuarientitatrevisorid);
+    create index pfi_revfirma_usrentitat_fk_i on pfi_revisordefirma (usuarientitatid);
     create index pfi_role_pk_i on pfi_role (roleid);
     create index pfi_roleusuariaplicacio_pk_i on pfi_roleusuariaplicacio (id);
     create index pfi_roleusrapp_usrappid_fk_i on pfi_roleusuariaplicacio (usuariaplicacioid);
@@ -661,15 +644,11 @@
     create index pfi_tipusdoccd_coldelid_fk_i on pfi_tipusdocumentcoladele (colaboraciodelegacioid);
     create index pfi_tipusdoccd_tipusdocid_fk_i on pfi_tipusdocumentcoladele (tipusdocumentid);
     create index pfi_tipusdocumentcoladele_pk_i on pfi_tipusdocumentcoladele (id);
-    create index pfi_estfirmafi_pk_i on pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid);
-    create index pfi_estfirmini_pk_i on pfi_tipusestatdefirmainicial (tipusestatdefirmainicialid);
-    create index pfi_estpetfirm_pk_i on pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid);
-    create index pfi_tipusfirma_pk_i on pfi_tipusfirma (tipusfirmaid);
-    create index pfi_tipusmetadada_pk_i on pfi_tipusmetadada (tipusmetadadaid);
     create index pfi_tipusnotificacio_pk_i on pfi_tipusnotificacio (tipusnotificacioid);
     create index pfi_traduccio_pk_i on pfi_traduccio (traduccioid);
     create index pfi_usrapp_entitatid_fk_i on pfi_usuariaplicacio (entitatid);
     create index pfi_usuariaplicacio_pk_i on pfi_usuariaplicacio (usuariaplicacioid);
+    create index pfi_usrapp_custodia_fk_i on pfi_usuariaplicacio (custodiainfoid);
     create index pfi_usrapp_idiomaid_fk_i on pfi_usuariaplicacio (idiomaid);
     create index pfi_usrapp_logosegellid_fk_i on pfi_usuariaplicacio (logosegellid);
     create index pfi_confapp_motiudele_fk_i on pfi_usuariaplicacioconfig (motiudelegacioid);
@@ -679,19 +658,23 @@
     create index pfi_confapp_tipusfirma_fk_i on pfi_usuariaplicacioconfig (tipusfirmaid);
     create index pfi_confapp_postaula_fk_i on pfi_usuariaplicacioconfig (posiciotaulafirmesid);
     create index pfi_confapp_logincert_fk_i on pfi_usuariaplicacioconfig (logincertificateid);
-    create index pfi_confapp_usuappid_fk_i on pfi_usuariaplicacioconfig (usuariaplicacioid);
     create index pfi_confapp_firmatper_fk_i on pfi_usuariaplicacioconfig (firmatperformatid);
-    create index pfi_confapp_custinfo_fk_i on pfi_usuariaplicacioconfig (custodiainfoid);
     create index pfi_confapp_firmaserv_fk_i on pfi_usuariaplicacioconfig (pluginfirmaservidorid);
+    create index pfi_confapp_entitatid_fk_i on pfi_usuariaplicacioconfig (entitatid);
+    create index pfi_perfilapp_appconf1id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio1id);
+    create index pfi_perfilapp_appconf2id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio2id);
+    create index pfi_usuariaplicacioperfil_pk_i on pfi_usuariaplicacioperfil (usuariaplicacioperfilid);
+    create index pfi_perfilapp_appconf4id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio4id);
+    create index pfi_perfilapp_appconf3id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio3id);
+    create index pfi_perfilapp_appconf5id_fk_i on pfi_usuariaplicacioperfil (usrappconfiguracio5id);
     create index pfi_usrentitat_entitatid_fk_i on pfi_usuarientitat (entitatid);
     create index pfi_usuarientitat_pk_i on pfi_usuarientitat (usuarientitatid);
     create index pfi_usrentitat_logosegid_fk_i on pfi_usuarientitat (logosegellid);
     create index pfi_usrentitat_personaid_fk_i on pfi_usuarientitat (usuaripersonaid);
+    create index pfi_usrentitat_custinfo_fk_i on pfi_usuarientitat (custodiainfoid);
     create index pfi_usuarientitatfavorit_pk_i on pfi_usuarientitatfavorit (id);
     create index pfi_favorit_origenid_fk_i on pfi_usuarientitatfavorit (origenid);
     create index pfi_favorit_favoritid_fk_i on pfi_usuarientitatfavorit (favoritid);
-    create index pfi_usuarientitatrevisor_pk_i on pfi_usuarientitatrevisor (usuarientitatrevisorid);
-    create index pfi_usuentrev_usrentitat_fk_i on pfi_usuarientitatrevisor (usuarientitatid);
     create index pfi_usuaripersona_nif_i on pfi_usuaripersona (nif);
     create index pfi_persona_idiomaid_fk_i on pfi_usuaripersona (idiomaid);
     create index pfi_usuaripersona_pk_i on pfi_usuaripersona (usuaripersonaid);
@@ -699,8 +682,6 @@
  -- FINAL Indexes
 
  -- INICI PK's
-    alter table pfi_algorismedefirma add constraint pfi_algorismedefirma_pk primary key (algorismedefirmaid);
-
     alter table pfi_annex add constraint pfi_annex_pk primary key (annexid);
 
     alter table pfi_annexfirmat add constraint pfi_annexfirmat_pk primary key (annexfirmatid);
@@ -739,6 +720,8 @@
 
     alter table pfi_notificacio add constraint pfi_notificacio_pk primary key (notificacioid);
 
+    alter table pfi_perfilsperusrapp add constraint pfi_perfilsperusrapp_pk primary key (perfilsperusrappid);
+
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrupplantilla_pk primary key (permisgrupplantillaid);
 
     alter table pfi_permisusuariplantilla add constraint pfi_permisusuariplantilla_pk primary key (permisusuariplantillaid);
@@ -754,12 +737,6 @@
     alter table pfi_pluginfirmawebperusrapp add constraint pfi_pluginfirmawebperusrapp_pk primary key (pluginfirmawebperusrappid);
 
     alter table pfi_pluginfirmawebperusrent add constraint pfi_pluginfirmawebperusrent_pk primary key (pluginfirmawebperusrentid);
-
-    alter table pfi_posiciopagina add constraint pfi_posiciopagina_pk primary key (posiciopaginaid);
-
-    alter table pfi_posiciotaulafirmes add constraint pfi_posiciotaulafirmes_pk primary key (posiciotaulafirmesid);
-
-    alter table pfi_prioritat add constraint pfi_prioritat_pk primary key (prioritatid);
 
     alter table pfi_propietatglobal add constraint pfi_propietatglobal_pk primary key (propietatglobalid);
 
@@ -777,16 +754,6 @@
 
     alter table pfi_tipusdocumentcoladele add constraint pfi_tipusdocumentcoladele_pk primary key (id);
 
-    alter table pfi_tipusestatdefirmafinal add constraint pfi_tipusestatdefirmafinal_pk primary key (tipusestatdefirmafinalid);
-
-    alter table pfi_tipusestatdefirmainicial add constraint pfi_estfirmini_pk primary key (tipusestatdefirmainicialid);
-
-    alter table pfi_tipusestatpeticiodefirma add constraint pfi_estpetfirm_pk primary key (tipusestatpeticiodefirmaid);
-
-    alter table pfi_tipusfirma add constraint pfi_tipusfirma_pk primary key (tipusfirmaid);
-
-    alter table pfi_tipusmetadada add constraint pfi_tipusmetadada_pk primary key (tipusmetadadaid);
-
     alter table pfi_tipusnotificacio add constraint pfi_tipusnotificacio_pk primary key (tipusnotificacioid);
 
     alter table pfi_traduccio add constraint pfi_traduccio_pk primary key (traduccioid);
@@ -797,11 +764,11 @@
 
     alter table pfi_usuariaplicacioconfig add constraint pfi_usuariaplicacioconfig_pk primary key (usuariaplicacioconfigid);
 
+    alter table pfi_usuariaplicacioperfil add constraint pfi_usuariaplicacioperfil_pk primary key (usuariaplicacioperfilid);
+
     alter table pfi_usuarientitat add constraint pfi_usuarientitat_pk primary key (usuarientitatid);
 
     alter table pfi_usuarientitatfavorit add constraint pfi_usuarientitatfavorit_pk primary key (id);
-
-    alter table pfi_usuarientitatrevisor add constraint pfi_usuarientitatrevisor_pk primary key (usuarientitatrevisorid);
 
     alter table pfi_usuaripersona add constraint pfi_usuaripersona_pk primary key (usuaripersonaid);
 
@@ -839,11 +806,6 @@
         foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
-    alter table pfi_bitacola 
-        add constraint pfi_bitacola_petifirma_fk 
-        foreign key (peticiodefirmaid) 
-        references pfi_peticiodefirma;
-
     alter table pfi_blocdefirmes 
         add constraint pfi_blocfirmes_fluxfirmes_fk 
         foreign key (fluxdefirmesid) 
@@ -870,19 +832,9 @@
         references pfi_usuarientitat;
 
     alter table pfi_custodiainfo 
-        add constraint pfi_custodia_pospagina_bar_fk 
-        foreign key (codibarresposiciopaginaid) 
-        references pfi_posiciopagina;
-
-    alter table pfi_custodiainfo 
         add constraint pfi_custodia_entitat_fk 
         foreign key (entitatid) 
         references pfi_entitat;
-
-    alter table pfi_custodiainfo 
-        add constraint pfi_custodia_pospagina_msg_fk 
-        foreign key (missatgeposiciopaginaid) 
-        references pfi_posiciopagina;
 
     alter table pfi_custodiainfo 
         add constraint pfi_custodia_plugin_fk 
@@ -913,11 +865,6 @@
         add constraint pfi_entitat_plugin_vafi_fk 
         foreign key (pluginvalidafirmesid) 
         references pfi_plugin;
-
-    alter table pfi_entitat 
-        add constraint pfi_entitat_algofirma_fk 
-        foreign key (algorismedefirmaid) 
-        references pfi_algorismedefirma;
 
     alter table pfi_entitat 
         add constraint pfi_entitat_fitxer_lose_fk 
@@ -980,16 +927,6 @@
         references pfi_usuarientitat;
 
     alter table pfi_estatdefirma 
-        add constraint pfi_estatfirma_estfirmafi_fk 
-        foreign key (tipusestatdefirmafinalid) 
-        references pfi_tipusestatdefirmafinal;
-
-    alter table pfi_estatdefirma 
-        add constraint pfi_estatfirma_estfirmini_fk 
-        foreign key (tipusestatdefirmainicialid) 
-        references pfi_tipusestatdefirmainicial;
-
-    alter table pfi_estatdefirma 
         add constraint pfi_estatfirma_colabdeleg_fk 
         foreign key (colaboraciodelegacioid) 
         references pfi_colaboraciodelegacio;
@@ -1003,11 +940,6 @@
         add constraint pfi_firma_fitxer_fk 
         foreign key (fitxerfirmatid) 
         references pfi_fitxer;
-
-    alter table pfi_firma 
-        add constraint pfi_firma_estfirmafi_fk 
-        foreign key (tipusestatdefirmafinalid) 
-        references pfi_tipusestatdefirmafinal;
 
     alter table pfi_firma 
         add constraint pfi_firma_usrentitat_fk 
@@ -1039,11 +971,6 @@
         foreign key (peticiodefirmaid) 
         references pfi_peticiodefirma;
 
-    alter table pfi_metadada 
-        add constraint pfi_metadada_tipmetada_fk 
-        foreign key (tipusmetadadaid) 
-        references pfi_tipusmetadada;
-
     alter table pfi_modulfirmapertipusdoc 
         add constraint pfi_mofitido_tipusdoc_fk 
         foreign key (tipusdocumentid) 
@@ -1063,6 +990,16 @@
         add constraint pfi_notifica_tipnotific_fk 
         foreign key (tipusnotificacioid) 
         references pfi_tipusnotificacio;
+
+    alter table pfi_perfilsperusrapp 
+        add constraint pfi_perfilsua_perfilapp_p_fk 
+        foreign key (usuariaplicacioperfilid) 
+        references pfi_usuariaplicacioperfil;
+
+    alter table pfi_perfilsperusrapp 
+        add constraint pfi_perfilsua_usrapp_usr_fk 
+        foreign key (usuariaplicacioid) 
+        references pfi_usuariaplicacio;
 
     alter table pfi_permisgrupplantilla 
         add constraint pfi_permisgrpl_grupentita_fk 
@@ -1085,28 +1022,13 @@
         references pfi_plantillafluxdefirmes;
 
     alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_algofirma_fk 
-        foreign key (algorismedefirmaid) 
-        references pfi_algorismedefirma;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_log_fk 
-        foreign key (logosegellid) 
-        references pfi_fitxer;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_postaufir_fk 
-        foreign key (posiciotaulafirmesid) 
-        references pfi_posiciotaulafirmes;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_usrapp_fk 
-        foreign key (usuariaplicacioid) 
-        references pfi_usuariaplicacio;
-
-    alter table pfi_peticiodefirma 
         add constraint pfi_petifirma_usrentitat_fk 
         foreign key (usuarientitatid) 
+        references pfi_usuarientitat;
+
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrentitat_3_fk 
+        foreign key (solicitantpersona3id) 
         references pfi_usuarientitat;
 
     alter table pfi_peticiodefirma 
@@ -1115,19 +1037,9 @@
         references pfi_fitxer;
 
     alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_estpetfirm_fk 
-        foreign key (tipusestatpeticiodefirmaid) 
-        references pfi_tipusestatpeticiodefirma;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_prioritat_fk 
-        foreign key (prioritatid) 
-        references pfi_prioritat;
-
-    alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_tipusfirma_fk 
-        foreign key (tipusfirmaid) 
-        references pfi_tipusfirma;
+        add constraint pfi_petifirma_usrentitat_2_fk 
+        foreign key (solicitantpersona2id) 
+        references pfi_usuarientitat;
 
     alter table pfi_peticiodefirma 
         add constraint pfi_petifirma_tipusdoc_fk 
@@ -1135,13 +1047,13 @@
         references pfi_tipusdocument;
 
     alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_ori_fk 
-        foreign key (firmaoriginaldetachedid) 
+        add constraint pfi_petifirma_fitxer_log_fk 
+        foreign key (logosegellid) 
         references pfi_fitxer;
 
     alter table pfi_peticiodefirma 
-        add constraint pfi_petifirma_fitxer_fir_fk 
-        foreign key (fitxerafirmarid) 
+        add constraint pfi_petifirma_fitxer_ori_fk 
+        foreign key (firmaoriginaldetachedid) 
         references pfi_fitxer;
 
     alter table pfi_peticiodefirma 
@@ -1150,9 +1062,19 @@
         references pfi_fluxdefirmes;
 
     alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_fitxer_fir_fk 
+        foreign key (fitxerafirmarid) 
+        references pfi_fitxer;
+
+    alter table pfi_peticiodefirma 
         add constraint pfi_petifirma_idioma_fk 
         foreign key (idiomaid) 
         references pfi_idioma;
+
+    alter table pfi_peticiodefirma 
+        add constraint pfi_petifirma_usrapp_fk 
+        foreign key (usuariaplicacioid) 
+        references pfi_usuariaplicacio;
 
     alter table pfi_peticiodefirma 
         add constraint pfi_petifirma_custodia_fk 
@@ -1185,9 +1107,24 @@
         references pfi_traduccio;
 
     alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_fitxer_retor_fk 
+        foreign key (retornfitxerid) 
+        references pfi_fitxer;
+
+    alter table pfi_plugincridada 
         add constraint pfi_plugcrida_entitat_fk 
         foreign key (entitatid) 
         references pfi_entitat;
+
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_fitxer_param_fk 
+        foreign key (parametresfitxerid) 
+        references pfi_fitxer;
+
+    alter table pfi_plugincridada 
+        add constraint pfi_plugcrida_plugin_fk 
+        foreign key (pluginid) 
+        references pfi_plugin;
 
     alter table pfi_pluginfirmawebperusrapp 
         add constraint pfi_pfwpua_plugin_fk 
@@ -1225,9 +1162,9 @@
         references pfi_tipusnotificacio;
 
     alter table pfi_revisordefirma 
-        add constraint pfi_revfirma_usuentrev_fk 
-        foreign key (usuarientitatrevisorid) 
-        references pfi_usuarientitatrevisor;
+        add constraint pfi_revfirma_usrentitat_fk 
+        foreign key (usuarientitatid) 
+        references pfi_usuarientitat;
 
     alter table pfi_revisordefirma 
         add constraint pfi_revfirma_firma_fk 
@@ -1294,15 +1231,15 @@
         foreign key (idiomaid) 
         references pfi_idioma;
 
+    alter table pfi_usuariaplicacio 
+        add constraint pfi_usrapp_custodia_fk 
+        foreign key (custodiainfoid) 
+        references pfi_custodiainfo;
+
     alter table pfi_usuariaplicacioconfig 
         add constraint pfi_confapp_traduccio_moti_fk 
         foreign key (motiudelegacioid) 
         references pfi_traduccio;
-
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_tipusfirma_fk 
-        foreign key (tipusfirmaid) 
-        references pfi_tipusfirma;
 
     alter table pfi_usuariaplicacioconfig 
         add constraint pfi_confapp_traduccio_firm_fk 
@@ -1310,19 +1247,14 @@
         references pfi_traduccio;
 
     alter table pfi_usuariaplicacioconfig 
+        add constraint pfi_confapp_entitat_ent_fk 
+        foreign key (entitatid) 
+        references pfi_entitat;
+
+    alter table pfi_usuariaplicacioconfig 
         add constraint pfi_confapp_plugin_fsrv_fk 
         foreign key (pluginfirmaservidorid) 
         references pfi_plugin;
-
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_algofirma_fk 
-        foreign key (algorismedefirmaid) 
-        references pfi_algorismedefirma;
-
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_postaufir_fk 
-        foreign key (posiciotaulafirmesid) 
-        references pfi_posiciotaulafirmes;
 
     alter table pfi_usuariaplicacioconfig 
         add constraint pfi_confapp_fitxer_cert_fk 
@@ -1334,15 +1266,30 @@
         foreign key (pluginsegellatid) 
         references pfi_plugin;
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_usrapp_fk 
-        foreign key (usuariaplicacioid) 
-        references pfi_usuariaplicacio;
+    alter table pfi_usuariaplicacioperfil 
+        add constraint pfi_perfilapp_confapp_5_fk 
+        foreign key (usrappconfiguracio5id) 
+        references pfi_usuariaplicacioconfig;
 
-    alter table pfi_usuariaplicacioconfig 
-        add constraint pfi_confapp_custodia_fk 
-        foreign key (custodiainfoid) 
-        references pfi_custodiainfo;
+    alter table pfi_usuariaplicacioperfil 
+        add constraint pfi_perfilapp_confapp_1_fk 
+        foreign key (usrappconfiguracio1id) 
+        references pfi_usuariaplicacioconfig;
+
+    alter table pfi_usuariaplicacioperfil 
+        add constraint pfi_perfilapp_confapp_4_fk 
+        foreign key (usrappconfiguracio4id) 
+        references pfi_usuariaplicacioconfig;
+
+    alter table pfi_usuariaplicacioperfil 
+        add constraint pfi_perfilapp_confapp_2_fk 
+        foreign key (usrappconfiguracio2id) 
+        references pfi_usuariaplicacioconfig;
+
+    alter table pfi_usuariaplicacioperfil 
+        add constraint pfi_perfilapp_confapp_3_fk 
+        foreign key (usrappconfiguracio3id) 
+        references pfi_usuariaplicacioconfig;
 
     alter table pfi_usuarientitat 
         add constraint pfi_usrentitat_entitat_fk 
@@ -1359,6 +1306,11 @@
         foreign key (usuaripersonaid) 
         references pfi_usuaripersona;
 
+    alter table pfi_usuarientitat 
+        add constraint pfi_usrentitat_custodia_fk 
+        foreign key (custodiainfoid) 
+        references pfi_custodiainfo;
+
     alter table pfi_usuarientitatfavorit 
         add constraint pfi_favorit_usrentitat_fav_fk 
         foreign key (favoritid) 
@@ -1367,11 +1319,6 @@
     alter table pfi_usuarientitatfavorit 
         add constraint pfi_favorit_usrentitat_ori_fk 
         foreign key (origenid) 
-        references pfi_usuarientitat;
-
-    alter table pfi_usuarientitatrevisor 
-        add constraint pfi_usuentrev_usrentitat_fk 
-        foreign key (usuarientitatid) 
         references pfi_usuarientitat;
 
     alter table pfi_usuaripersona 
@@ -1386,10 +1333,10 @@
  -- FINAL FK's
 
  -- INICI UNIQUES
-    alter table pfi_algorismedefirma add constraint pfi_algofirma_nom_uk unique (nom);
     alter table pfi_grupentitat add constraint pfi_grupentita_nomentitat_uk unique (nom, entitatid);
     alter table pfi_grupentitatusuarientitat add constraint pfi_grupusrent_usrgrup_uk unique (usuarientitatid, grupentitatid);
     alter table pfi_modulfirmapertipusdoc add constraint pfi_mofitido_modfirm_tipdoc_uk unique (tipusdocumentid, pluginid);
+    alter table pfi_perfilsperusrapp add constraint pfi_perfilsua_multiple_uk unique (usuariaplicacioperfilid, usuariaplicacioid);
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrpl_grupflux_uk unique (grupentitatid, fluxdefirmesid);
     alter table pfi_permisusuariplantilla add constraint pfi_permisuspl_usrflux_uk unique (usuarientitatid, fluxdefirmesid);
     alter table pfi_peticiodefirma add constraint pfi_petifirma_fluxfirmesid_uk unique (fluxdefirmesid);
@@ -1400,8 +1347,7 @@
     alter table pfi_roleusuariaplicacio add constraint pfi_roleusrapp_approle_uk unique (usuariaplicacioid, roleid);
     alter table pfi_roleusuarientitat add constraint pfi_roleusrent_roleusrent_uk unique (roleid, usuarientitatid);
     alter table pfi_tipusdocumentcoladele add constraint pfi_tipusdoccd_codetdoc_uk unique (colaboraciodelegacioid, tipusdocumentid);
-    alter table pfi_tipusmetadada add constraint pfi_tipmetada_nom_uk unique (nom);
-    alter table pfi_usuariaplicacioconfig add constraint pfi_confapp_usrapp_uk unique (usuariaplicacioid);
+    alter table pfi_usuariaplicacioperfil add constraint pfi_perfilapp_codi_uk unique (codi);
     alter table pfi_usuarientitat add constraint pfi_usrentitat_perentcar_uk unique (usuaripersonaid, entitatid, carrec);
     alter table pfi_usuarientitatfavorit add constraint pfi_favorit_origfavo_uk unique (origenid, favoritid);
     alter table pfi_usuaripersona add constraint pfi_persona_nif_uk unique (nif);
