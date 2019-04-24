@@ -1,7 +1,7 @@
-﻿BEGIN;
+﻿
+BEGIN;
 
 -- TIPUS DE DOCUMENT COMU
-
 INSERT INTO pfi_traduccio(traduccioid) VALUES (1);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (2);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (3);
@@ -67,75 +67,28 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (20, 'es', 
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'ca', 'Altres tipus de documents');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'es', 'Otros tipus de documentos');
 
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (1, 'Document de decisió de tipus Resolució', 1, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (2, 'Document de decisió de tipus Acord', 2, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (3, 'Document de decisió de tipus Contracte', 3, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (4, 'Document de decisió de tipus Conveni', 4, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (5, 'Document de decisió de tipus Declaració', 5, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (6, 'Document de transmissió de tipus Comunicació', 6, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (7, 'Document de transmissió de tipus Notificació', 7, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (8, 'Document de transmissió de tipus Publicació', 8, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (9, 'Document de transmissió de tipus Justificant de recepció', 9, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (10, 'Document de constància de tipus Acta', 10, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (11, 'Document de constància de tipus Certificat', 11, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (12, 'Document de constància de tipus Diligència', 12, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (13, 'Document de judici de tipus Informe', 13, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (14, 'Document de ciutadà de tipus Sol.licitud', 14, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (15, 'Document de ciutadà de tipus Denúncia', 15, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (16, 'Document de ciutadà de tipus Al.legació', 16, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (17, 'Document de ciutadà de tipus Recurs', 17, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (18, 'Document de ciutadà de tipus Comunicació al ciudadà', 18, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (19, 'Document de ciutadà de tipus Factura', 19, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (20, 'Document de ciutadà de tipus Altres confiscats', 20, NULL);
-INSERT INTO pfi_tipusdocument (tipusdocumentid, descripcio, nom, usuariaplicacioid) VALUES (99, 'Altres tipus de documents', 99, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (1, 1, 'Document de decisió de tipus Resolució', 1, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (2, 2, 'Document de decisió de tipus Acord', 2, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (3, 3, 'Document de decisió de tipus Contracte', 3, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (4, 4, 'Document de decisió de tipus Conveni', 4, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (5, 5, 'Document de decisió de tipus Declaració', 5, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (6, 6, 'Document de transmissió de tipus Comunicació', 6, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (7, 7, 'Document de transmissió de tipus Notificació', 7, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (8, 8, 'Document de transmissió de tipus Publicació', 8, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (9, 9, 'Document de transmissió de tipus Justificant de recepció', 9, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (10, 10, 'Document de constància de tipus Acta', 10, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (11, 11, 'Document de constància de tipus Certificat', 11, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (12, 12, 'Document de constància de tipus Diligència', 12, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (13, 13, 'Document de judici de tipus Informe', 13, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (14, 14, 'Document de ciutadà de tipus Sol.licitud', 14, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (15, 15, 'Document de ciutadà de tipus Denúncia', 15, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (16, 16, 'Document de ciutadà de tipus Al.legació', 16, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (17, 17, 'Document de ciutadà de tipus Recurs', 17, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (18, 18, 'Document de ciutadà de tipus Comunicació al ciudadà', 18, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (19, 19, 'Document de ciutadà de tipus Factura', 19, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (20, 20, 'Document de ciutadà de tipus Altres confiscats', 20, NULL);
+INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (99, 99, 'Altres tipus de documents', 99, NULL);
 
-
-
-
-
--- POSICICO DE LA TAULA DE FIRMES
-
-INSERT INTO pfi_posiciotaulafirmes (posiciotaulafirmesid,nom, descripcio, suportada)   VALUES (0,'taulafirmes.sense_taula_de_firmes', 'Sense taula de firmes, la posicio de les firmes es definiex en la taula pfi_firma', true);
-INSERT INTO pfi_posiciotaulafirmes (posiciotaulafirmesid,nom, descripcio, suportada)   VALUES (1,'taulafirmes.taula_de_firmes_primera_pagina', 'Taula de firmes en la primera pàgina', true);
-INSERT INTO pfi_posiciotaulafirmes (posiciotaulafirmesid,nom, descripcio, suportada) VALUES (-1,'taulafirmes.taula_de_firmes_darrera_pagina', 'Taula de firmes en la darrera pàgina', true);
-
-
--- PRIORITATS
-
-INSERT INTO pfi_prioritat (prioritatid,nom) VALUES (0,'prioritat.baixa');
-INSERT INTO pfi_prioritat (prioritatid,nom) VALUES (5,'prioritat.normal');
-INSERT INTO pfi_prioritat (prioritatid,nom) VALUES (9,'prioritat.alta');
-
-
--- TIPUS DE FIRMA
-
-INSERT INTO pfi_tipusfirma (tipusfirmaid, descripcio, nom, suportada) VALUES (0, 'PADES', 'PADES', true);
-INSERT INTO pfi_tipusfirma (tipusfirmaid, descripcio, nom, suportada) VALUES (1, 'XADES', 'XADES', false);
-INSERT INTO pfi_tipusfirma (tipusfirmaid, descripcio, nom, suportada) VALUES (2, 'CADES', 'CADES', false);
-
-
--- TIPUS DE ESTAT DE PETICIO DE FIRMA
-
-INSERT INTO pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid, descripcio, nom) VALUES (0, NULL, 'tipusestatpeticiodefirma.noiniciat');
-INSERT INTO pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid, descripcio, nom) VALUES (1, NULL, 'tipusestatpeticiodefirma.enprocess');
-INSERT INTO pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid, descripcio, nom) VALUES (2, NULL, 'tipusestatpeticiodefirma.pausat');
-INSERT INTO pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid, descripcio, nom) VALUES (3, NULL, 'tipusestatpeticiodefirma.rebutjat');
-INSERT INTO pfi_tipusestatpeticiodefirma (tipusestatpeticiodefirmaid, descripcio, nom) VALUES (4, NULL, 'tipusestatpeticiodefirma.firmat');
-
-
--- TIPUS DE ESTAT DE FIRMA INICIAL
-
-INSERT INTO pfi_tipusestatdefirmainicial (tipusestatdefirmainicialid, descripcio,  nom) VALUES (0, NULL, 'tipusestatdefirmainicial.ASSIGNAT_PER_VALIDAR');
-INSERT INTO pfi_tipusestatdefirmainicial (tipusestatdefirmainicialid, descripcio,  nom) VALUES (1, NULL, 'tipusestatdefirmainicial.ASSIGNAT_PER_FIRMAR');
-INSERT INTO pfi_tipusestatdefirmainicial (tipusestatdefirmainicialid, descripcio,  nom) VALUES (2, 'Indica que el colaborador ha indicat als altres possible colaboradors que ell ja s''ho mira per la qual coas el sistema descarta la tasca de la resta de colaboradors ', 'tipusestatdefirmainicial.REVISANT_PER_VALIDAR');
-
--- TIPUS DE ESTAT DE FIRMA FINAL
-
-INSERT INTO pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid, descripcio, nom) VALUES (0, NULL, 'tipusestatdefirmafinal.VALIDAT');
-INSERT INTO pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid, descripcio, nom) VALUES (1, NULL, 'tipusestatdefirmafinal.INVALIDAT');
-INSERT INTO pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid, descripcio, nom) VALUES (2, NULL, 'tipusestatdefirmafinal.FIRMAT');
-INSERT INTO pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid, descripcio, nom) VALUES (3, NULL, 'tipusestatdefirmafinal.REBUTJAT');
-INSERT INTO pfi_tipusestatdefirmafinal (tipusestatdefirmafinalid, descripcio, nom) VALUES (4, 'Es pasa a aquest estat quan la tasca encomnada ha sigut realitzada per un altra persona', 'tipusestatdefirmafinal.DESCARTAT');
 
 
 -- ROLES
@@ -146,9 +99,9 @@ INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_DELE', 'Delegat', N
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_COLA', 'Col·laborador', NULL);
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_ADEN', 'Administrador d''Entitat', NULL);
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_SOLI', 'Sol·licitant', NULL);
+INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('ROLE_REVI', 'Revisor de Firmes', NULL);
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('PFI_ADMIN', 'Rol Administrador per Usuaris Aplicació', NULL);
 INSERT INTO pfi_role (roleid, nom, descripcio) VALUES ('PFI_USER', 'Rol Bàsic per Usuaris Aplicació', NULL);
-
 
 
 -- TIPUS NOTIFICACIO
@@ -164,7 +117,7 @@ INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) V
 INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (60, NULL, 'notificacioavis.peticio_firmada', NULL);
 INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (70, NULL, 'notificacioavis.peticio_rebutjada', NULL);
 INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (80, NULL, 'notificacioavis.peticio_pausada', NULL);
-
+INSERT INTO pfi_tipusnotificacio (tipusnotificacioid, descripcio, nom, esavis) VALUES (90, NULL, 'notificacioavis.requerit_per_revisar', true);
 
 -- IDIOMES
 
@@ -183,29 +136,7 @@ INSERT INTO pfi_codibarres (codibarresid, nom, descripcio) VALUES ('org.fundacio
 INSERT INTO pfi_codibarres (codibarresid, nom, descripcio) VALUES ('org.fundaciobit.plugins.barcode.qrcode.QrCodePlugin', 'QrCode', NULL);
 INSERT INTO pfi_codibarres (codibarresid, nom, descripcio) VALUES ('org.fundaciobit.plugins.barcode.barcode128.BarCode128Plugin', 'BarCode128', NULL);
 
--- POSICIO PAGINA
 
-INSERT INTO pfi_posiciopagina (posiciopaginaid, nom) VALUES (0, 'posiciopagina.cap');
-INSERT INTO pfi_posiciopagina (posiciopaginaid, nom) VALUES (1, 'posiciopagina.adalt');
-INSERT INTO pfi_posiciopagina (posiciopaginaid, nom) VALUES (2, 'posiciopagina.abaix');
-INSERT INTO pfi_posiciopagina (posiciopaginaid, nom) VALUES (3, 'posiciopagina.esquerra');
-INSERT INTO pfi_posiciopagina (posiciopaginaid, nom) VALUES (4, 'posiciopagina.dreta');
-
--- ALGORISMES DE FIRMA
-
-INSERT INTO pfi_algorismedefirma (algorismedefirmaid, nom, descripcio, suportat) VALUES (0, 'SHA1withRSA', NULL, true);
-INSERT INTO pfi_algorismedefirma (algorismedefirmaid, nom, descripcio, suportat) VALUES (1, 'SHA256withRSA', NULL, true);
-INSERT INTO pfi_algorismedefirma (algorismedefirmaid, nom, descripcio, suportat) VALUES (2, 'SHA384withRSA', NULL, true);
-INSERT INTO pfi_algorismedefirma (algorismedefirmaid, nom, descripcio, suportat) VALUES (3, 'SHA512withRSA', NULL, true);
-
--- TIPUS DE METADADA
-
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (0, 'tipusmetadada.string', 'java.lang.String');
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (1, 'tipusmetadada.integer', 'java.math.BigInteger');
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (2, 'tipusmetadada.decimal', 'java.math.BigDecimal');
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (3, 'tipusmetadada.boolean', 'java.lang.Boolean');
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (4, 'tipusmetadada.base64', 'org.fundaciobit.pluginsib.core.utils.Base64');
-INSERT INTO pfi_tipusmetadada (tipusmetadadaid, nom, descripcio) VALUES (5, 'tipusmetadada.date', 'org.fundaciobit.pluginsib.core.utils.ISO8601');
 
 
 -- ===================================
@@ -229,15 +160,17 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (122, 'es',
 
 INSERT INTO pfi_plugin(
             pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
-            propertiesentitat, entitatid, actiu, tipus)
-            VALUES (1, 101, 111, 'org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin', 'es.caib.portafib.plugins.signatureweb.miniappletinserver.base_dir=D:/dades/dades/CarpetesPersonals/Programacio/portafib-files/postgresql_1.1/MINIAPPLETINSERVER', NULL, NULL, false, 0);
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi)
+            VALUES (1, 101, 111, 'org.fundaciobit.plugins.signatureweb.miniappletinserver.MiniAppletInServerSignatureWebPlugin', 'es.caib.portafib.plugins.signatureweb.miniappletinserver.base_dir=D:/dades/dades/CarpetesPersonals/Programacio/portafib-files/postgresql_1.1/MINIAPPLETINSERVER', NULL, NULL, false, 0, 0, 2, '1');
 INSERT INTO pfi_plugin(
             pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
-            propertiesentitat, entitatid, actiu, tipus)
-            VALUES (2, 102, 122, 'org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletInClientSignatureWebPlugin', NULL, NULL, NULL, true, 0);
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi)
+            VALUES (2, 102, 122, 'org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletInClientSignatureWebPlugin', NULL, NULL, NULL, true, 0, 0, 2, '2');
             
 -- =======================================
--- 2015/11/25 Plantilla  Plugin de Segellat de Temps
+-- 2015/11/25 Plantilla Plugin de Segellat de Temps
 -- =======================================
 
 INSERT INTO pfi_traduccio(traduccioid) VALUES (104);
@@ -257,12 +190,18 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (105, 'es',
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (155, 'ca', 'Ministeri d''Hisenda i Administracions Públiques');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (155, 'es', 'Ministerio de Hacienda y Administraciones Públicas');
 
-INSERT INTO pfi_plugin VALUES (4, 104, 144, 'org.fundaciobit.plugins.timestamp.catcertrfc.CatCertRfcTimeStampPlugin', 'es.caib.portafib.plugins.timestamp.catcertrfc.url_rfc=http://psis.catcert.net/psis/catcert/tsp
+INSERT INTO pfi_plugin(
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi) VALUES (4, 104, 144, 'org.fundaciobit.plugins.timestamp.catcertrfc.CatCertRfcTimeStampPlugin', 'es.caib.portafib.plugins.timestamp.catcertrfc.url_rfc=http://psis.catcert.net/psis/catcert/tsp
 es.caib.portafib.plugins.timestamp.catcertrfc.oid_rfc3161=0.4.0.2023.1.1
-es.caib.portafib.plugins.timestamp.catcertrfc.hashalgorithm=SHA-512', NULL, NULL, true, 1);
+es.caib.portafib.plugins.timestamp.catcertrfc.hashalgorithm=SHA-512', NULL, NULL, true, 1, 0, 2, '4');
 
 
-INSERT INTO pfi_plugin VALUES (5, 105, 155, 'org.fundaciobit.plugins.timestamp.afirmarfc.AfirmaRFCTimeStampPlugin', '#################################################
+INSERT INTO pfi_plugin(
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi) VALUES (5, 105, 155, 'org.fundaciobit.plugins.timestamp.afirmarfc.AfirmaRFCTimeStampPlugin', '#################################################
 #Configuración para el cliente TSA Java sólo RFC#
 #################################################
 #Identificador de la aplicación cliente
@@ -294,7 +233,8 @@ es.caib.portafib.plugins.timestamp.afirmarfc.auth.cert.p12.password=x7E7f9vU8QH8
 #Configuracion general de confianza para los servicios por HTTPS: RFC3161+HTTPS (puerto 8443)
 #Este certificado debe ser el certificado SSL de servidor la TSA (parte publica)
 es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.path=D:/dades/dades/CarpetesPersonals/Programacio/pluginsib-1.0/plugins-timestamp/afirmarfc/trustkeystore/truststore.jks
-es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=123456789', NULL, NULL, true, 1);
+es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=123456789', NULL, NULL, true, 1, 0, 2, '5');
+
 
 
 -- ========================================
@@ -319,7 +259,10 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (177, 'ca',
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (177, 'es', 'Plugin de Custodia para Alfresco');
 
 
-INSERT INTO pfi_plugin VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
+INSERT INTO pfi_plugin(
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi) VALUES (6, 106, 166, 'org.fundaciobit.plugins.documentcustody.filesystem.FileSystemDocumentCustodyPlugin', 'es.caib.portafib.plugins.documentcustody.filesystem.basedir=D:\\dades\\dades\\CarpetesPersonals\\Programacio\\portafib-1.1-jboss-5.1.0.GA\\server\\default\\deployportafib\\custodia.war
 es.caib.portafib.plugins.documentcustody.filesystem.prefix=CUST_
 # {0} = custodyID | {1} = URL.Encoded(custodyID)  | {2} = HASH
 #es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:8080/custodia/index.jsp?custodyID={1}
@@ -328,8 +271,12 @@ es.caib.portafib.plugins.documentcustody.filesystem.baseurl=http://localhost:808
 es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
 
 #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
-es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5', NULL, NULL, true, 2);
-INSERT INTO pfi_plugin VALUES (7, 107, 177, 'org.fundaciobit.plugins.documentcustody.alfresco.base.AlfrescoBaseDocumentCustodyPlugin', '# WS or ATOM
+es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5', NULL, NULL, true, 2, 0, 2, '6');
+
+INSERT INTO pfi_plugin(
+            pluginid, nomid, descripciocurtaid, classe, propertiesadmin,
+            propertiesentitat, entitatid, actiu, tipus, politicadeus,
+            politicamostrarpropietats, codi) VALUES (7, 107, 177, 'org.fundaciobit.plugins.documentcustody.alfresco.base.AlfrescoBaseDocumentCustodyPlugin', '# WS or ATOM
 es.caib.portafib.plugins.documentcustody.alfresco.access.method=ATOM
  
 # Depends of Method and Alfresco version (alfresco 5)
@@ -345,7 +292,7 @@ es.caib.portafib.plugins.documentcustody.alfresco.basepath=/test
 
 # Only for ATOM: Elegir una de les dues
 es.caib.portafib.plugins.documentcustody.alfresco.site=ODES
-#es.caib.portafib.plugins.documentcustody.alfresco.fullsitepath=/Sites/ODES/documentLibrary', NULL, NULL, false, 2);
+#es.caib.portafib.plugins.documentcustody.alfresco.fullsitepath=/Sites/ODES/documentLibrary', NULL, NULL, false, 2, 0, 2, '7');
 
 
 -- ========================================
@@ -399,14 +346,9 @@ INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio)
 
 INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
   VALUES (16, 'es.caib.portafib.logouturl', NULL, 'Opcional. Afegeix una nova opció de menú davall de “Configuració” del menú de la capçalera (superior dreta) que indica una URL que servirà per poder abandonar PortaFIB. Per aplicar canvis requereix reiniciar servidor.');
- 
-  
-  
--- =======================================
+
 -- Actualitzam la Sequencia per a que no sobreescriqui valors posats a pinyo fix
 -- IMPORTANT !!!!  Ha d'estar al final de l'script SQL
--- =======================================
-
 ALTER SEQUENCE pfi_portafib_seq RESTART WITH 1000;
 
 
