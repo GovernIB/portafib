@@ -1,10 +1,6 @@
 
 WHENEVER SQLERROR EXIT ROLLBACK;
 
--- ===========================================================================
--- És el mateix fitxer que posgresql però substiuint true per 1 i false per 0.
--- ===========================================================================
-
 -- TIPUS DE DOCUMENT COMU
 INSERT INTO pfi_traduccio(traduccioid) VALUES (1);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (2);
@@ -172,8 +168,6 @@ INSERT INTO pfi_plugin(
             propertiesentitat, entitatid, actiu, tipus, politicadeus, 
             politicamostrarpropietats, codi)
             VALUES (2, 102, 122, 'org.fundaciobit.plugins.signatureweb.miniappletinclient.MiniAppletInClientSignatureWebPlugin', NULL, NULL, NULL, 1, 0, 0, 2, '2');
-
-
             
 -- =======================================
 -- 2015/11/25 Plantilla Plugin de Segellat de Temps
@@ -247,7 +241,6 @@ es.caib.portafib.plugins.timestamp.afirmarfc.server.trustkeystore.password=12345
 -- 2015/12/01 Plugin de Custòdia Documental
 -- ========================================
 
-
 INSERT INTO pfi_traduccio(traduccioid) VALUES (106);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (166);
 INSERT INTO pfi_traduccio(traduccioid) VALUES (107);
@@ -279,6 +272,7 @@ es.caib.portafib.plugins.documentcustody.filesystem.hash.password=portafib
 
 #  MD2, MD5, SHA,SHA-256,SHA-384,SHA-512
 es.caib.portafib.plugins.documentcustody.filesystem.hash.algorithm=MD5', NULL, NULL, 1, 2, 0, 2, '6');
+
 INSERT INTO pfi_plugin(
             pluginid, nomid, descripciocurtaid, classe, propertiesadmin, 
             propertiesentitat, entitatid, actiu, tipus, politicadeus, 
@@ -349,11 +343,9 @@ INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio)
   
 INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
   VALUES (15, 'es.caib.portafib.passwordforagentssql', NULL, 'Opcional excepte en entorns de la CAIB. Contrasenya (o clau de pas) per comprovar que les peticions http realment provenen d''un trigger de BBDD. Veure punt [Gestió de Rols a traves de triggers Oracle] del manual d''instal·lació per més informació.');
-    
+
 INSERT INTO pfi_propietatglobal(propietatglobalid, clau, valor, descripcio) 
   VALUES (16, 'es.caib.portafib.logouturl', NULL, 'Opcional. Afegeix una nova opció de menú davall de “Configuració” del menú de la capçalera (superior dreta) que indica una URL que servirà per poder abandonar PortaFIB. Per aplicar canvis requereix reiniciar servidor.');
-
-
 
 -- Actualitzam la Sequencia per a que no sobreescriqui valors posats a pinyo fix
 -- IMPORTANT !!!!  Ha d'estar al final de l'script SQL
