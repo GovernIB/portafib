@@ -103,6 +103,41 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.3.2</version>
       </plugin>
+
+      <!--
+      Plugin per generar l'SQL per fer un drop de la base de dades
+      Exemple:
+       mvn -Dhibernate.dialect=org.hibernate.dialect.PostgreSQLDialect hibernate3:hbm2ddl@drop
+      El fitxer resultant es troba dins target/sql/hibernate3/
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>hibernate3-maven-plugin</artifactId>
+        <version>3.0</version>
+        <executions>
+          <execution>
+            <id>drop</id>
+            <configuration>
+              <hibernatetool>
+                <jpaconfiguration persistenceunit="portafibDB" />
+                <hbm2ddl export="false" create="false" drop="true"
+                         update="false" format="true" outputfilename="portafib_drop_schema.sql" />
+              </hibernatetool>
+            </configuration>
+          </execution>
+          <execution>
+            <id>create</id>
+            <configuration>
+              <hibernatetool>
+                <jpaconfiguration persistenceunit="portafibDB" />
+                <hbm2ddl export="false" create="true" drop="false"
+                         update="false" format="true" outputfilename="portafib_create_schema.sql" />
+              </hibernatetool>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
