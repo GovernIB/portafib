@@ -33,14 +33,14 @@
  }
  */
  
- // Politica de Custòdia (ocultar o mostrar valor)
+ // Politica de CustÃ²dia (ocultar o mostrar valor)
  onChangePoliticaCustodia(document.getElementById("<%=EntitatFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
 
  function onChangePoliticaCustodia(combo) {
      var value = combo.options[combo.selectedIndex].value;
      if (value == <%=ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO %>
-       ||value == <%=ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_ACTIU%>
-       || value == <%=ConstantsV2.POLITICA_CUSTODIA_OPCIONAL_PLANTILLA_DEFINIDA_ENTITAT_PER_DEFECTE_NO_ACTIU%>) { 
+       ||value == <%=ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU%>
+       || value == <%=ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU%>) {
        document.getElementById("<%=EntitatFields.CUSTODIAINFOID.fullName.replace('.', '_') %>_rowid").style.display = '';
      } else {
        document.getElementById("<%=EntitatFields.CUSTODIAINFOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
