@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
@@ -43,6 +42,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -53,7 +53,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/peticio/netejaesborrat")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFirmaController {
+public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFirmaAdenController {
 
   public static final int SOLICITANT = 0;
 
@@ -146,24 +146,30 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
       // hiddenFields.remove(PeticioDeFirmaFields.USUARIAPLICACIOID);
       hiddenFields.remove(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID);
 
-      // Cerca
-      List<Field<?>> filterByFields = new ArrayList<Field<?>>();
-
-      // filterByFields.add(PeticioDeFirmaFields.PETICIODEFIRMAID);
-      filterByFields.add(PeticioDeFirmaFields.TITOL);
-      // filterByFields.add(PeticioDeFirmaFields.DATASOLICITUD);
-      filterByFields.add(PeticioDeFirmaFields.DATAFINAL);
-      // filterByFields.add(PeticioDeFirmaFields.USUARIENTITATID);
-      // filterByFields.add(PeticioDeFirmaFields.USUARIAPLICACIOID);
-
-      peticioDeFirmaFilterForm.setFilterByFields(filterByFields);
-
-      // Agrupacio
-      peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
-      peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
-      peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
-      peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIENTITAT1ID);
-      peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
+      if (!Configuracio.isCAIB()) {
+        // Cerca
+        List<Field<?>> filterByFields = new ArrayList<Field<?>>();
+  
+        // filterByFields.add(PeticioDeFirmaFields.PETICIODEFIRMAID);
+        filterByFields.add(PeticioDeFirmaFields.TITOL);
+        // filterByFields.add(PeticioDeFirmaFields.DATASOLICITUD);
+        filterByFields.add(PeticioDeFirmaFields.DATAFINAL);
+        // filterByFields.add(PeticioDeFirmaFields.USUARIENTITATID);
+        // filterByFields.add(PeticioDeFirmaFields.USUARIAPLICACIOID);
+  
+        peticioDeFirmaFilterForm.setFilterByFields(filterByFields);
+  
+        // Agrupacio
+      
+        peticioDeFirmaFilterForm.addGroupByField(DATAFINAL);
+        peticioDeFirmaFilterForm.addGroupByField(DATASOLICITUD);
+        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
+        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIENTITAT1ID);
+        peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
+      }
+      
+      AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
+      
 
       // Per defecte seleccionam les anteriors a un mes
       peticioDeFirmaFilterForm.setDataFinalFins(new Timestamp(Calendar.getInstance()
@@ -385,10 +391,18 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
         if (peticio.getFitxerAdaptatID() != null) {
           mapAdaptat.put(key, "<i class=\"icon-share\"></i>");
         }
-
       }
-
     }
+  }
+
+  @Override
+  protected boolean showUsuariEntitat() {
+    return true;
+  }
+
+  @Override
+  protected boolean showUsuariAplicacio() {
+    return true;
   }
 
 }

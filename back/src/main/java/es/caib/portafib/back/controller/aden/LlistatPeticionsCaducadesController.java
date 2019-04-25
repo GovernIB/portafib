@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
@@ -28,6 +27,7 @@ import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -38,7 +38,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/peticionscaducades")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaController {
+public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaAdenController {
 
   @EJB(mappedName = "portafib/UsuariAplicacioEJB/local")
   protected es.caib.portafib.ejb.UsuariAplicacioLocal usuariAplicacioEjb;
@@ -122,10 +122,12 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
         hiddenFields.remove(PeticioDeFirmaFields.DATASOLICITUD);
 
         // Agrupacio
-        peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
-        peticioDeFirmaFilterForm.addGroupByField(DATACADUCITAT);
-        peticioDeFirmaFilterForm.addGroupByField(PRIORITATID);
-        peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
+        if (!Configuracio.isCAIB()) {
+          peticioDeFirmaFilterForm.addGroupByField(TIPUSESTATPETICIODEFIRMAID);
+          peticioDeFirmaFilterForm.addGroupByField(DATACADUCITAT);
+          peticioDeFirmaFilterForm.addGroupByField(PRIORITATID);
+          peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
+        }
         
         
         // Afegim un boto
@@ -150,6 +152,8 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
         peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-list-alt", "veuredetalls",
             getContextWeb() + "/view/{0}",
             null));
+        
+        AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
 
         
       }
@@ -168,6 +172,16 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaC
     usuariAplicacioRefList
         .setSelects(new Select<?>[] { UsuariAplicacioFields.USUARIAPLICACIOID.select });
     usuariAplicacioRefList.setSeparator("");
+  }
+
+  @Override
+  protected boolean showUsuariEntitat() {
+    return true;
+  }
+
+  @Override
+  protected boolean showUsuariAplicacio() {
+    return true;
   }
   
 
