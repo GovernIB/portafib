@@ -24,7 +24,6 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.exportdata.ExportData;
 import org.fundaciobit.pluginsib.exportdata.ExportFile;
 import org.fundaciobit.pluginsib.exportdata.ExportItem;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +36,9 @@ import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
 import es.caib.portafib.back.form.webdb.EstadisticaForm;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.DataExporterPortaFIB;
-
 import es.caib.portafib.model.entity.Estadistica;
+import es.caib.portafib.model.fields.EstadisticaFields;
+import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -128,14 +128,31 @@ public class EstadisticaAdenController extends EstadisticaController {
       filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
           "genapp.viewtitle", getContextWeb() + "/view/{0}", "btn-info"));
 
+      
+      
+      filterForm.setGroupBy(EstadisticaFields.TIPUS.javaName);
+      filterForm.setGroupValue(String.valueOf(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL));
+      
+      
+      
     }
 
     String groupBy = filterForm.getGroupBy();
     if (groupBy == null) {
       filterForm.setVisibleExportList(false);
-      HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("estadistiques.info"));
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("estadistiques.info"));
     } else {
       filterForm.setVisibleExportList(true);
+    }
+    
+    
+    String dataPlugins = Configuracio.getExportDataPlugins();
+    if (dataPlugins == null || dataPlugins.trim().isEmpty()) {
+      HtmlUtils.saveMessageError(request, I18NUtils.tradueix("estadistiques.nopluginsdisponibles"));
+    } else {
+      if (DataExporterManager.getAllDataExporters().size() == 0) {
+        HtmlUtils.saveMessageError(request, I18NUtils.tradueix("estadistiques.nopluginsdisponibles"));
+      }
     }
 
     filterForm.getAdditionalButtons().clear();
