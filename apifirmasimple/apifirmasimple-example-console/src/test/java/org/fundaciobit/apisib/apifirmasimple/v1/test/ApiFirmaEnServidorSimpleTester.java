@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
-import junit.framework.Assert;
-
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
@@ -61,21 +59,21 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testSignatureServerPAdES();
 
-      // tester.testSignatureServerCAdES();
+      //tester.testSignatureServerCAdES();
 
-      // tester.testSignatureServerXAdESBinary();
+      //tester.testSignatureServerXAdESBinary();
 
       //tester.testSignatureServerXAdESXml();
 
       //tester.testSignatureServerPAdESXAdESCAdES();
 
-      tester.testUpgradeSignaturePAdES();
+      //tester.testUpgradeSignaturePAdES();
 
-      tester.testUpgradeSignatureXAdESOfBinary();
+      //tester.testUpgradeSignatureXAdESOfBinary();
 
-      // tester.testUpgradeSignatureXAdESOfXML();
+      //tester.testUpgradeSignatureXAdESOfXML();
 
-      // tester.testUpgradeSignatureCAdES();
+      tester.testUpgradeSignatureCAdES();
 
     } catch (NoAvailablePluginException nape) {
 
@@ -170,8 +168,9 @@ public class ApiFirmaEnServidorSimpleTester {
         System.out.println(" NO TE CAP PERFIL ASSIGNAT !!!");
       } else {
         for (FirmaSimpleAvailableProfile ap : listProfiles) {
-          System.out.println("  + " + ap.getName() + "[" + ap.getCode() + "] => "
-              + ap.getDescription());
+          System.out.println("  + " + ap.getName() + ":");
+          System.out.println("      * Codi: " + ap.getCode());
+          System.out.println("      * Desc: " + ap.getDescription());
         }
       }
 
@@ -195,7 +194,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     final String perfil = prop.getProperty(PROFILE_PADES_PROPERTY);
     if (perfil == null) {
-      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_PADES_PROPERTY + "[");
+      logErrorPerfilBuit(PROFILE_PADES_PROPERTY);
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
@@ -213,8 +212,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     final String perfil = prop.getProperty(PROFILE_MIX_PADES_XADES_CADES);
     if (perfil == null) {
-      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_MIX_PADES_XADES_CADES
-          + "[");
+      logErrorPerfilBuit(PROFILE_MIX_PADES_XADES_CADES);
     }
     {
       FirmaSimpleFile fileToSign = getSimpleFileFromResource("hola.pdf", "application/pdf");
@@ -271,7 +269,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     final String perfil = prop.getProperty(PROFILE_CADES_PROPERTY);
     if (perfil == null) {
-      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_CADES_PROPERTY + "[");
+      logErrorPerfilBuit(PROFILE_CADES_PROPERTY);
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
@@ -289,7 +287,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
     if (perfil == null) {
-      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_XADES_PROPERTY + "[");
+      logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("foto.jpg", "image/jpeg");
@@ -307,7 +305,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     final String perfil = prop.getProperty(PROFILE_XADES_PROPERTY);
     if (perfil == null) {
-      junit.framework.Assert.fail("No existeix la propietat ]" + PROFILE_XADES_PROPERTY + "[");
+      logErrorPerfilBuit(PROFILE_XADES_PROPERTY);
     }
 
     FirmaSimpleFile fileToSign = getSimpleFileFromResource("sample.xml", "text/xml");
@@ -565,8 +563,7 @@ public class ApiFirmaEnServidorSimpleTester {
     final String perfil = prop.getProperty(perfilProperty);
 
     if (perfil == null) {
-      Assert.fail("La propietat " + perfilProperty
-          + " està buida. No es pot executar aquest test.");
+      logErrorPerfilBuit(perfilProperty);
     }
 
     FirmaSimpleUpgradeResponse upgradeResponse = api
@@ -574,6 +571,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
     printSignatureInfo(upgradeResponse);
     return upgradeResponse;
+  }
+
+  protected void logErrorPerfilBuit(final String perfilProperty) {
+    System.err.println("La propietat " + perfilProperty
+        + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
   }
 
 }

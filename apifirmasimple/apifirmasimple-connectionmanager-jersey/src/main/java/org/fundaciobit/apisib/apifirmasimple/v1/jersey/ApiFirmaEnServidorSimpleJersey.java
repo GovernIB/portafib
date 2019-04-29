@@ -88,14 +88,6 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
 
     return fullresult;
 
-    /*
-     * XYZ ZZZ InputStream is = response.getEntityInputStream(); ByteArrayOutputStream os = new
-     * ByteArrayOutputStream(); int n; byte[] buffer = new byte[1024]; while ((n =
-     * is.read(buffer)) > -1) { os.write(buffer, 0, n); // Don't allow any extra bytes to creep
-     * in, final write } os.close();
-     * 
-     * return os.toByteArray();
-     */
   }
 
   /**

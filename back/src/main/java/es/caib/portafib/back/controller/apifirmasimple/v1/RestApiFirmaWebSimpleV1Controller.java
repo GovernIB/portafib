@@ -28,7 +28,6 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
@@ -63,16 +62,13 @@ import java.util.Map;
 @RequestMapping(value = RestApiFirmaWebSimpleV1Controller.CONTEXT)
 public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
 
-  public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
+  final boolean esFirmaEnServidor = false;
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  public static final String CONTEXT = "/common/rest/apifirmawebsimple/v1";
 
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal.JNDI_NAME)
   protected es.caib.portafib.logic.passarela.PassarelaDeFirmaWebLocal passarelaDeFirmaWebEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
 
   protected static final Map<String, TransactionInfo> currentTransactions = new HashMap<String, RestApiFirmaWebSimpleV1Controller.TransactionInfo>();
 
@@ -102,12 +98,10 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       return generateServerError("El camp LanguageUI del tipus FirmaSimpleCommonInfo no pot ser null o buit.");
     }
 
-    String codiPerfil = commonInfo.getSignProfile();
 
     try {
-       configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(LoginInfo.getInstance()
-          .getUsuariAplicacio().getUsuariAplicacioID(), codiPerfil,
-          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
+
+      getPerfilDeFirma(commonInfo, esFirmaEnServidor);
 
     } catch (I18NException i18ne) {
 
@@ -138,6 +132,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     return res;
 
   }
+
+
 
   @RequestMapping(value = "/" + ApiFirmaWebSimple.AVAILABLEPROFILES, method = RequestMethod.POST)
   @ResponseBody
@@ -328,7 +324,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     try {
       log.info(" XYZ ZZZ eNTRA A startTransaction => FirmaWebSimpleStartTransactionRequest: "
           + startTransactionRequest);
-      final boolean esFirmaEnServidor = false;
+      
       // TODO XYZ ZZZ CHECKS DE LOGIN
       LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
 
@@ -404,7 +400,11 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       simpleSignaturesSet = new FirmaSimpleSignDocumentsRequest(ti.getCommonInfo(),
           fileInfoSignatureArray);
 
-      final PerfilDeFirma perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
+      final FirmaSimpleCommonInfo commonInfo = ti.getCommonInfo();
+
+      final PerfilDeFirma perfilDeFirma = getPerfilDeFirma(commonInfo, esFirmaEnServidor);
+          
+          configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
           usuariAplicacioID, ti.getCommonInfo().getSignProfile(), 
           ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
       
@@ -412,7 +412,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
       
       Map<String, UsuariAplicacioConfiguracioJPA> configBySignID = new HashMap<String, UsuariAplicacioConfiguracioJPA>();
 
-      final FirmaSimpleCommonInfo commonInfo = ti.getCommonInfo();
+      
       
       for (FirmaSimpleFileInfoSignature firmaSimpleFileInfoSignature : fileInfoSignatureArray) {
 
@@ -537,8 +537,6 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
     }
 
   }
-
-  
 
   @RequestMapping(value = "/" + ApiFirmaWebSimple.TRANSACTIONSTATUS, method = RequestMethod.POST)
   @ResponseBody
@@ -893,8 +891,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
      * @param startTime
      * @param status
      */
-    public TransactionInfo(String transactionID, FirmaSimpleCommonInfo commonInfo, 
-        int status) {
+    public TransactionInfo(String transactionID, FirmaSimpleCommonInfo commonInfo, int status) {
       super();
       this.transactionID = transactionID;
       this.startTime = new Date();

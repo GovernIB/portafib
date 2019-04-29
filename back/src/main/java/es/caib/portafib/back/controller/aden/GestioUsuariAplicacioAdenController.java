@@ -155,8 +155,7 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       aplicacio.setCallbackURL("http://HOST:8080/portafib/cb/v1/PortaFIBCallBack");
       
       aplicacio.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
-      
-      //XYZ ZZZ aplicacio.setPotCustodiar(false);
+
     } else {
       usuariAplicacioForm.addReadOnlyField(USUARIAPLICACIOID);
       usuariAplicacioForm.addReadOnlyField(ACTIU);
@@ -255,13 +254,6 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       
       usuariAplicacioFilterForm.setHiddenFields(hiddenFields);
       
-//      usuariAplicacioFilterForm.addHiddenField(CONTRASENYA);
-//      usuariAplicacioFilterForm.addHiddenField(DESCRIPCIO);
-//      usuariAplicacioFilterForm.addHiddenField(IDIOMAID);
-//      usuariAplicacioFilterForm.addHiddenField(EMAILADMIN);
-//      usuariAplicacioFilterForm.addHiddenField(LOGOSEGELLID);
-//      usuariAplicacioFilterForm.addHiddenField(CALLBACKURL);
-
       // XYZ ZZZ  usuariAplicacioFilterForm.addHiddenField(POTCUSTODIAR);
 
       usuariAplicacioFilterForm.addHiddenField(POLITICADEPLUGINFIRMAWEB);
