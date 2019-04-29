@@ -88,7 +88,6 @@ public abstract class RestApiFirmaUtils extends RestUtils {
   @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
   public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaLocalEjb;
 
-
   @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
   private es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
 
@@ -995,6 +994,28 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
     return loginInfo;
   }
+  
+  
+  protected PerfilDeFirma getPerfilDeFirma(FirmaSimpleCommonInfo commonInfo,
+      final boolean esFirmaEnServidor) throws I18NException {
+    
+    String codiPerfil = commonInfo.getSignProfile();
+    
+    PerfilDeFirma perfil;
+    String usrAppID = LoginInfo.getInstance().getUsuariAplicacio().getUsuariAplicacioID();
+    if (codiPerfil == null) {
+      perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirmaPerApiFirmaSimple(
+          usrAppID, esFirmaEnServidor);
+      codiPerfil = perfil.getCodi();
+      commonInfo.setSignProfile(codiPerfil);
+    } else {
+      perfil = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(usrAppID,
+          codiPerfil, esFirmaEnServidor ? ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR
+              : ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB);
+    }
+    return perfil;
+  }
+  
 
   /*
   protected RestLoginInfo commonChecks(boolean esFirmaEnServidor, String codiPerfil)

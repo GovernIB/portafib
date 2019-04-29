@@ -128,13 +128,9 @@ public class EstadisticaAdenController extends EstadisticaController {
       filterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-info-sign",
           "genapp.viewtitle", getContextWeb() + "/view/{0}", "btn-info"));
 
-      
-      
       filterForm.setGroupBy(EstadisticaFields.TIPUS.javaName);
       filterForm.setGroupValue(String.valueOf(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL));
-      
-      
-      
+
     }
 
     String groupBy = filterForm.getGroupBy();

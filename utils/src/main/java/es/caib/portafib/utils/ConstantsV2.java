@@ -27,13 +27,14 @@ public interface ConstantsV2 {
   // --- TIPUS US FIRMA DE CONFIGURACIO USUARI APLICACIO -----
   // ==============================================================
   
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR = -1; // Han de desapareixer
+  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMAWEB = -2; // Han de desapareixer
   public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR = 0;
   public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB = 1;
   public static final int US_FIRMA_CONF_APP_FIRMAWEB = 2;
   public static final int US_FIRMA_CONF_APP_FIRMAWS1 = 3;
   public static final int US_FIRMA_CONF_APP_FIRMAWS2 = 4;
-  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMASERVIDOR = 5;
-  public static final int US_FIRMA_CONF_APP_PASSARELAFIRMAWEB = 6;
+
 
   
   //==============================================================

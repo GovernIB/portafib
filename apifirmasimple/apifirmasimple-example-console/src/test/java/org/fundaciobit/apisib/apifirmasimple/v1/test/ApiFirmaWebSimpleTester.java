@@ -52,8 +52,8 @@ public class ApiFirmaWebSimpleTester {
       final String perfil = prop.getProperty(PROFILE_WEB_PROPERTY);
 
       if (perfil == null) {
-        Assert.fail("La propietat " + PROFILE_WEB_PROPERTY
-            + " està buida. No es pot executar aquest test.");
+        System.err.println("La propietat " + PROFILE_WEB_PROPERTY
+            + " està buida. Com l'usuari aplicació tengui més d'un perfil definit no es podrà executar.");
       }
 
       

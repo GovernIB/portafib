@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.apifirmasimple.v1;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
@@ -43,7 +43,6 @@ import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.utils.ConstantsV2;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +67,8 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   public static final String CONTEXT = "/common/rest/apifirmaenservidorsimple/v1";
 
+  private static final boolean esFirmaEnServidor = true;
+  
   public static final Map<SignatureTypeFormEnumForUpgrade, String> upgradeTypesToSimpleTypes = new HashMap<SignatureTypeFormEnumForUpgrade, String>();
 
   static {
@@ -150,26 +151,11 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
-  protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
-
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
   protected es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
 
-  @EJB(mappedName = es.caib.portafib.ejb.EntitatLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
-
-  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
-  public ConfiguracioUsuariAplicacioLogicaLocal configuracioUsuariAplicacioLogicaEjb;
-
   @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
   protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
-
-  @EJB(mappedName = es.caib.portafib.ejb.CodiBarresLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CodiBarresLocal codiBarresEjb;
-
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
 
   @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.UPGRADESIGNATURE, method = RequestMethod.POST)
   @ResponseBody
@@ -196,15 +182,24 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
     try {
 
-      final boolean esFirmaEnServidor = true;
+      
       LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
 
       String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
 
+//      final PerfilDeFirma perfilDeFirma;
+//      perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
+//          usuariAplicacioID, fsur.getProfileCode(),
+//          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR);
+      
       final PerfilDeFirma perfilDeFirma;
-      perfilDeFirma = configuracioUsuariAplicacioLogicaLocalEjb.getPerfilDeFirma(
-          usuariAplicacioID, fsur.getProfileCode(),
-          ConstantsV2.US_FIRMA_CONF_APP_APIFIRMASIMPLESERVIDOR);
+      {
+        FirmaSimpleCommonInfo commonInfo = new FirmaSimpleCommonInfo();
+        commonInfo.setSignProfile(fsur.getProfileCode());
+        perfilDeFirma = getPerfilDeFirma(commonInfo, esFirmaEnServidor);
+        fsur.setProfileCode(perfilDeFirma.getCodi());
+      }
+      
 
       UsuariAplicacioConfiguracio config;
       config = configuracioUsuariAplicacioLogicaLocalEjb
@@ -416,18 +411,15 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
     try {
       LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
-
-      // UsuariAplicacioConfiguracioJPA config;
-      // config = configuracioUsuariAplicacioLogicaLocalEjb
-      // .getConfiguracioFirmaPerApiFirmaSimpleEnServidor(loginInfo.getUsuariAplicacio()
-      // .getUsuariAplicacioID(), restLoginInfo.perfilDeFirma, simpleSignature);
+      
+      // Si codi de Perfil val null, llavors en cerca un.
+      PerfilDeFirma perfil = getPerfilDeFirma(simpleSignature.getCommonInfo(), esFirmaEnServidor);
 
       PerfilConfiguracionsDeFirma pcf;
 
       pcf = configuracioUsuariAplicacioLogicaLocalEjb
           .getConfiguracioFirmaPerApiFirmaSimpleEnServidor(loginInfo.getUsuariAplicacio()
-              .getUsuariAplicacioID(), simpleSignature.getCommonInfo().getSignProfile(),
-              simpleSignature);
+              .getUsuariAplicacioID(), perfil.getCodi(), simpleSignature);
 
       // ================== CODI COMU ==============
 
