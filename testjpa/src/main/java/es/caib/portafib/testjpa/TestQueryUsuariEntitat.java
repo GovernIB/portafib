@@ -1,4 +1,4 @@
-package org.ibit.portafirmes.jpatest;
+package es.caib.portafib.testjpa;
 
 import java.util.List;
 import java.util.Properties;
@@ -28,11 +28,11 @@ import es.caib.portafib.model.fields.UsuariPersonaFields;
  * @author anadal(u80067)
  *
  */
-public class App {
+public class TestQueryUsuariEntitat {
 
   public static void main(String[] args) {
 
-    new App().main();
+    new TestQueryUsuariEntitat().main();
   }
 
   public void main() {

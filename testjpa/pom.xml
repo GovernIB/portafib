@@ -89,7 +89,7 @@
 
     <!-- <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
       <configuration> <archive> <manifest> <addClasspath>true</addClasspath> <addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
-      <mainClass>org.ibit.portafirmes.jpatest.App</mainClass> </manifest> <manifestEntries> 
+      <mainClass>TestQueryUsuariEntitat</mainClass> </manifest> <manifestEntries>
       <Class-Path>genapp.jar</Class-Path> </manifestEntries> </archive> </configuration> </plugin> 
       </plugins> -->
 

@@ -1,4 +1,4 @@
-package org.ibit.portafirmes.jpatest;
+package es.caib.portafib.testjpa;
 
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
@@ -29,11 +29,11 @@ import java.util.Properties;
 /**
  * @author areus
  */
-public class TestPeticio {
+public class TestFitxersPeticioFirma {
 
     public static void main(String[] args) {
         I18NCommonUtils.BUNDLES = new String[] {"missatges"};
-        new TestPeticio().main();
+        new TestFitxersPeticioFirma().main();
     }
 
     public void main() {
