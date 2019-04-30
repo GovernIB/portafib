@@ -415,6 +415,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       
       session.removeAttribute(SELECTION_DELE_COLA_USUARI_ENTITAT);
       colaboracioDelegacioJPA.setColaboradorDelegatID(usuEntID);
+
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("delegacio.avisdatainici"));
     }
     
     
@@ -939,10 +941,12 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     if (esDelegat()) {
       // Anam a la pàgina de Firma
-      // TODO: S'hauria de fer un "encode" del paràmetre request.getRequestURL per ficar-lo a la URL?
+
+      log.warn("url_user=" + ((ColaboracioDelegacioDestForm)colaboracioDelegacioForm).getUrl_user());
       return "redirect:" + getContextWeb() + "/firmarautoritzacio/"
               + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
-              + "?url_user=" + request.getRequestURL().toString();
+              // TODO: S'hauria de fer un "encode" del paràmetre per ficar-lo a la URL?
+              + "?url_user=" + ((ColaboracioDelegacioDestForm)colaboracioDelegacioForm).getUrl_user();
     } else {
       enviarNotificacioMailColaDele(request, colaboracioDelegacioForm.getColaboracioDelegacio());
       
