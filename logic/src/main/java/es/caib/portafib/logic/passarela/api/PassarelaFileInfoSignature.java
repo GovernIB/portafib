@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 import es.caib.portafib.logic.passarela.PassarelaKeyValue;
-// XYZ ZZZ import es.caib.portafib.model.bean.CustodiaInfoBean;
 import es.caib.portafib.model.bean.FitxerBean;
 
 /**

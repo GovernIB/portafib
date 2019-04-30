@@ -325,16 +325,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
       __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("politicadesegellatdetemps." + val)));
     }
     return __tmp;
-    
-    /* XYZ ZZZ 
-    
-    List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
-     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR , I18NUtils.tradueix("segelldetempsviaweb_" + ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR)));
-     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_US_OBLIGATORI)));
-     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI)));
-     __tmp.add(new StringKeyValue("" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO , I18NUtils.tradueix("segelldetempsviaweb_" + POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO)));
-     return __tmp;
-     */
+
   }
   
   

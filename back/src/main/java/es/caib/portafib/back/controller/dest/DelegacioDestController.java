@@ -103,6 +103,7 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.ConstantsPortaFIB;
+import org.springframework.web.util.UriUtils;
 
 /**
  * 
@@ -486,7 +487,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       }
 
       colaboracioDelegacioJPA.setDataInici(new Timestamp(
-          System.currentTimeMillis() + 30 * 60 * 1000));
+          System.currentTimeMillis() + 5 * 60 * 1000));
       
       if (!esDelegat()) {
         colaboracioDelegacioForm.getReadOnlyFields().remove(ACTIVA);
@@ -938,8 +939,10 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     if (esDelegat()) {
       // Anam a la pàgina de Firma
-      return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
-          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
+      // TODO: S'hauria de fer un "encode" del paràmetre request.getRequestURL per ficar-lo a la URL?
+      return "redirect:" + getContextWeb() + "/firmarautoritzacio/"
+              + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
+              + "?url_user=" + request.getRequestURL().toString();
     } else {
       enviarNotificacioMailColaDele(request, colaboracioDelegacioForm.getColaboracioDelegacio());
       

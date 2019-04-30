@@ -4,13 +4,17 @@ COMMENTS
 <#-- Comentari -->
 
 
-API FIRMA SIMPLE EN SERVIDOR i WEB
-==================================
+API FIRMA SIMPLE EN SERVIDOR (firma i upgrade) i WEB
+====================================================
 
 Llista de paràmetres amb els que construir la Condició
 
 usFirma (int) Valors: 0 => FIRMA SIMPLE EN SERVIDOR  | 1 => FIRMA SIMPLE WEB
 lang (String) Idioma en format dos caràcters (ISO 639-1)
+isUpgrade(boolean)  Valors: true => si es firma en servidor i a més és upgrade de signatura | false => qualsevol altre cas
+
+
+Si isUpgrade val false:
 
 firmaSimpleSignDocumentRequest	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest)
 firmaSimpleSignDocumentRequest.commonInfo	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo)
@@ -41,23 +45,72 @@ firmaSimpleSignDocumentRequest.fileInfoSignature.procedimentCodi	(String)
 firmaSimpleSignDocumentRequest.fileInfoSignature.procedimentNom	(String)
 firmaSimpleSignDocumentRequest.fileInfoSignature.additionalInformation	(java.util.List)
 
+Si isUpgrade val true:
+
+firmaSimpleUpgradeRequest	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest)
+firmaSimpleUpgradeRequest.profileCode	(String)
+firmaSimpleUpgradeRequest.signature	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile)
+firmaSimpleUpgradeRequest.signature.nom	(String)
+firmaSimpleUpgradeRequest.signature.mime	(String)
+firmaSimpleUpgradeRequest.signature.data	(byte[])
+firmaSimpleUpgradeRequest.targetCertificate	(org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile)
+firmaSimpleUpgradeRequest.targetCertificate.nom	(String)
+firmaSimpleUpgradeRequest.targetCertificate.mime	(String)
+firmaSimpleUpgradeRequest.targetCertificate.data	(byte[])
+firmaSimpleUpgradeRequest.languageUI	(String)
+
+
 
 EXEMPLE
 -------
 
 <#if usFirma==0 || usFirma==1 >
-   <#if firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'application/pdf'>
-      1 <#-- PAdES -->
-  <#elseif firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'text/xml'>
-      2 <#-- XAdES -->
+   <#assign mime = "">
+   <#if isUpgrade>
+      <#assign mime = firmaSimpleUpgradeRequest.signature.mime>
    <#else>
-      3 <#-- CAdES -->
+      <#assign mime = firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime>
+   </#if>
+
+   <#if mime == 'application/pdf'>
+      1 <#-- Posició de la configuració PAdES en el Perfil-->
+  <#elseif mime == 'text/xml'>
+      2 <#-- Posició de la configuració XAdES en el Perfil -->
+   <#else>
+      3 <#-- Posició de la configuració CAdES en el Perfil -->
    </#if>
 <#else>
    <#if lang == 'es'>
-La condición del perfil solo evalua llamadas de API Firma Simple en Servidor
+La condición del perfil solo evalua llamadas de API Firma Simple
    <#else>
-La condició del perfil només avalua cridades de API Firma Simple en Servidor
+La condició del perfil només avalua cridades de API Firma Simple
+   </#if>
+</#if>
+
+
+
+
+
+
+
+
+
+<#if usFirma==0 || usFirma==1 >
+
+   <#assign x = "plain">
+
+   <#if firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'application/pdf'>
+      1 <#-- Posició de la configuració PAdES en el Perfil-->
+  <#elseif firmaSimpleSignDocumentRequest.fileInfoSignature.fileToSign.mime == 'text/xml'>
+      2 <#-- Posició de la configuració XAdES en el Perfil -->
+   <#else>
+      3 <#-- Posició de la configuració CAdES en el Perfil -->
+   </#if>
+<#else>
+   <#if lang == 'es'>
+La condición del perfil solo evalua llamadas de API Firma Simple
+   <#else>
+La condició del perfil només avalua cridades de API Firma Simple
    </#if>
 </#if>
 
@@ -69,7 +122,7 @@ PASSARELA DE FIRMA
 
 Llista de paràmetres amb els que construir la Condició
 
-usFirma (int) Valors: 4 => PASSARELA EN SERVIDOR  | 5 => PASSARELA WEB
+usFirma (int) Valors: -1 => PASSARELA EN SERVIDOR  | -2 => PASSARELA WEB
 lang (String) Idioma en format dos caràcters (ISO 639-1)
 passarelaCommonInfoSignature (PassarelaCommonInfoSignature) Dades comuns de la Petició (més detalls al punt següent)
 passarelaFileInfoSignature	(PassarelaFileInfoSignature) Dades de la firma en si (més detalls al unt següent)

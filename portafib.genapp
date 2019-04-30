@@ -14175,11 +14175,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Sol·licitant 1</string> 
+            <string>Sol·licitant Persona</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Solicitante 1</string> 
+            <string>Solicitante Persona</string> 
            </void> 
           </void> 
           <void property="size"> 

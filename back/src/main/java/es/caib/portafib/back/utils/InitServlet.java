@@ -57,6 +57,7 @@ public class InitServlet extends HttpServlet {
       log.error("Error inicialitzant el sistema de sistema de fitxers: " + th.getMessage(), th);
     }
 
+    // Aturar Timer de NotificacionsWS a l'aturar Servidor
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
         try {
@@ -73,7 +74,6 @@ public class InitServlet extends HttpServlet {
               " \n\n HOOK SHUTDOWN NotificacionsCallBackTimerLocal ERROR: " + e.getMessage()
                   + " \n", e);
         }
-
       }
     });
 

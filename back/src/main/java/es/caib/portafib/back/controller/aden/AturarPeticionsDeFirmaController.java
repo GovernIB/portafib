@@ -1,6 +1,6 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.util.ArrayList;
+
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
@@ -51,7 +50,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/aturarpeticions")
 @SessionAttributes(types = { AturarPeticionsDeFirmaFilterForm.class })
-public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaController {
+public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAdenController {
   
   public static final String USUARI_ENTITAT_ID_HOLDER =
         "AturarPeticionsDeFirmaController_USUARI_ENTITAT_ID_HOLDER";
@@ -260,13 +259,16 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaCont
         
         
         // Agrupacio
-        peticioDeFirmaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
+        //peticioDeFirmaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
         
         
         
         peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
             "icon-remove", "rebutjar",  getContextWeb() + "/rebutjar/{0}",
             "btn-danger"));
+        
+        
+        AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
 
         
       }
@@ -311,12 +313,15 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaCont
 
     return llistatPaginat(request, response, null);
   }
-  
-  
-  
-  
-  
-  
 
-  
+  @Override
+  protected boolean showUsuariEntitat() {
+    return true;
+  }
+
+  @Override
+  protected boolean showUsuariAplicacio() {
+    return true;
+  }
+
 }

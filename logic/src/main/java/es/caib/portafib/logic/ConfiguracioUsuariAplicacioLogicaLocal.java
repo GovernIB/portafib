@@ -38,6 +38,9 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       String usuariAplicacioID,  PerfilDeFirma codiPerfil, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
+  public PerfilDeFirma getPerfilDeFirmaPerApiFirmaSimple(final String usuariAplicacioID,
+      final boolean esFirmaEnServidor) throws I18NException;
+  
   public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
       PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException;
   
