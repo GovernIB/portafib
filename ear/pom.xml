@@ -616,7 +616,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version>
             <configuration>
               <modules combine.children="append">
                 <webModule>
@@ -675,7 +674,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version>
             <configuration>
               <modules combine.children="append">
                 <!-- Mòdul de desenvolupament per provar els Callback -->
@@ -710,7 +708,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version>
             <configuration>
               <modules combine.children="append">
                 <ejbModule>
@@ -744,7 +741,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version>
             <configuration>
               <modules combine.children="append">
                 <ejbModule>
@@ -799,7 +795,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version>
             <configuration>
               <modules combine.children="append">
                 <ejbModule>
@@ -834,21 +829,6 @@
       <filter>../config.properties</filter>
     </filters>
 
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-            <encoding>UTF-8</encoding>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-
     <plugins>
 
       <plugin>
@@ -882,9 +862,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.0.1</version>
         <!-- configuring the ear plugin -->
         <configuration>
+
+          <version>5</version>
 
           <displayName>Portafirmes de les Illes Balears (PortaFIB)</displayName>
           <description>Portafirmes de les Illes Balears (PortaFIB)</description>
