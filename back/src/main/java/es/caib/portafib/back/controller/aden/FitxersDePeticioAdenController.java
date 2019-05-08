@@ -16,6 +16,7 @@ import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.utils.ConstantsV2;
 import org.apache.xml.security.utils.I18n;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.ITableManager;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -58,6 +59,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
     public static final int COLUMN_NOUFITXERID = -3;
     public static final int COLUMN_ORIGEN = -2;
     public static final int COLUMN_DESTINATARI = -1;
+    public static final int COLUMN_RUTA = 1;
 
     public static final String ORIGEN_PETICIO = "fitxersPeticio.origen.peticio";
     public static final String ORIGEN_DETACHED = "fitxersPeticio.origen.detached";
@@ -157,6 +159,13 @@ public class FitxersDePeticioAdenController extends FitxerController {
                 destinatariField.setValueMap(new HashMap<Long, String>());
                 fitxerFilterForm.addAdditionalField(destinatariField);
             }
+            {
+                AdditionalField<Long,String> rutaField = new AdditionalField<Long,String>();
+                rutaField.setCodeName("fitxersPeticio.ruta");
+                rutaField.setPosition(COLUMN_RUTA);
+                rutaField.setValueMap(new HashMap<Long, String>());
+                fitxerFilterForm.addAdditionalField(rutaField);
+            }
 
             fitxerFilterForm.addAdditionalButton(
                     new AdditionalButton("icon-arrow-left icon-white", "tornar",
@@ -189,11 +198,17 @@ public class FitxersDePeticioAdenController extends FitxerController {
         mapDestinatari= (Map<Long, String>)filterForm.getAdditionalField(COLUMN_DESTINATARI).getValueMap();
         mapDestinatari.clear();
 
+        Map<Long, String> mapRuta;
+        mapRuta = (Map<Long, String>)filterForm.getAdditionalField(COLUMN_RUTA).getValueMap();
+        mapRuta.clear();
+
         filterForm.getAdditionalButtonsByPK().clear();
 
         for (Fitxer fitxer : list) {
             if (fitxer.getFitxerID() > 0) {
                 mapFitxerId.put(fitxer.getFitxerID(), String.valueOf(fitxer.getFitxerID()));
+
+                mapRuta.put(fitxer.getFitxerID(), FileSystemManager.getFile(fitxer.getFitxerID()).getAbsolutePath());
 
                 filterForm.addAdditionalButtonByPK(fitxer.getFitxerID(),
                         new AdditionalButton("icon-download-alt icon-white",
