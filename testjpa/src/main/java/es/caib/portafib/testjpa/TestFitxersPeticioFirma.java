@@ -1,16 +1,19 @@
 package es.caib.portafib.testjpa;
 
+import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PortaFIBJPADaoManagers;
 import es.caib.portafib.model.PortaFIBDaoManager;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.dao.IFirmaManager;
 import es.caib.portafib.model.dao.IPeticioDeFirmaManager;
+import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.OrderBy;
@@ -36,7 +39,7 @@ public class TestFitxersPeticioFirma {
         new TestFitxersPeticioFirma().main();
     }
 
-    public void main() {
+    private void main() {
         try {
             System.out.println("Test petició");
 
@@ -69,13 +72,16 @@ public class TestFitxersPeticioFirma {
             PortaFIBDaoManager.setDaoManagers(new PortaFIBJPADaoManagers(em));
 
             Locale loc = new Locale("ca");
-            List<Fitxer> llistaFitxers = new ArrayList<Fitxer>();
+            List<FitxerPeticioFirma> llistaFitxers = new ArrayList<FitxerPeticioFirma>();
 
             //long peticioFirmaID = 1155; // no iniciat
-            long peticioFirmaID = 1147; // no iniciat
+            //long peticioFirmaID = 1147; // no iniciat
             //long peticioFirmaID = 1127; // en procés després de fer pausa al primer bloc
-            //long peticioFirmaID = 1111; // finalitzat
+            long peticioFirmaID = 1111; // finalitzat
             //long peticioFirmaID = 1086;
+            //long peticioFirmaID = 1046; // flux senzill de dos blocs amb una sola firma obligatoria finalitzat
+
+
             {
                 /*
                 Estat 0, no iniciat
@@ -109,20 +115,19 @@ public class TestFitxersPeticioFirma {
                 System.out.println("Fitxer orig detached [" + peticio.getFirmaOriginalDetachedID() + "]");
 
                 llistaFitxers.add( peticio.getFitxerAFirmarID() == null
-                        ? createFitxerNull("Fitxer a firmar de petició")
-                        : peticio.getFitxerAFirmar() );
+                        ? new FitxerPeticioFirma("Fitxer a firmar. No hauria de ser null", null)
+                        : new FitxerPeticioFirma(peticio.getFitxerAFirmar(), "Fitxer a firmar", null ));
+
 
                 llistaFitxers.add( peticio.getFitxerAdaptatID() == null
-                        ? createFitxerNull("Fitxer adaptat")
-                        : peticio.getFitxerAdaptat() );
+                        //TODO en funció de l'estat dir si encara no s'ha creat o ja s'h descartat
+                        ? new FitxerPeticioFirma("Fitxer adaptat encara no s'ha creat o ja s'ha descartat", null)
+                        : new FitxerPeticioFirma(peticio.getFitxerAFirmar(), "Fitxer adaptat", null ));
 
                 llistaFitxers.add( peticio.getFirmaOriginalDetachedID() == null
-                        ? createFitxerNull("Fitxer original detached")
-                        : peticio.getFirmaOriginalDetached() );
-
+                        ? new FitxerPeticioFirma("Fitxer original detached no s'ha creat", null)
+                        : new FitxerPeticioFirma(peticio.getFirmaOriginalDetached(), "Fitxer adaptat", null ));
             }
-
-
 
             {
 
@@ -137,30 +142,67 @@ public class TestFitxersPeticioFirma {
 
                 List<Firma> llistaFirmes = firmaManager.select(where, orderBy);
 
+                int maxFirma = 0;
+                for (Firma firma : llistaFirmes) {
+                    if (firma.getNumFirmaDocument() != null && firma.getNumFirmaDocument() > maxFirma) {
+                        maxFirma = firma.getNumFirmaDocument();
+                    }
+                }
+
                 int counter = 0;
                 for (Firma firma : llistaFirmes) {
                     counter++;
 
                     Hibernate.initialize(((FirmaJPA)firma).getBlocDeFirmes());
+                    Hibernate.initialize(((FirmaJPA)firma).getEstatDeFirmas());
 
                     System.out.println(counter + ".- [" + firma.getFirmaID()
-                            + "] fitxer: [" + firma.getFitxerFirmatID() + "]"
-                            + ", destinatari [" + firma.getDestinatariID() + "]"
-                            + ", numFirmaDocument [" + firma.getNumFirmaDocument() + "]"
-                            + ", tipusestatdefirmafinalid [" +
+                            + "] fitxer[" + firma.getFitxerFirmatID() + "]"
+                            + ", destinatari[" + firma.getDestinatariID() + "]"
+                            + ", numFirmaDocument[" + firma.getNumFirmaDocument() + "]"
+                            + ", tipusestatdefirmafinalid[" +
                                     (firma.getTipusEstatDeFirmaFinalID() != null
                                             ? I18NCommonUtils.tradueix(loc, "tipusestatdefirmafinal." + firma.getTipusEstatDeFirmaFinalID())
                                             : null) + "]"
                             + "\n\t\t"
-                            + ", numseriecertificat [" + firma.getNumeroSerieCertificat()  + "]"
-                            + ", blocdefirmesid [" + ((FirmaJPA) firma).getBlocDeFirmes().getBlocDeFirmesID() + "]"
-                            + ", datafinalitzaciobloc [" + ((FirmaJPA) firma).getBlocDeFirmes().getDataFinalitzacio() + "]"
+                            + ", numseriecertificat[" + firma.getNumeroSerieCertificat()  + "]"
+                            + ", blocdefirmesid[" + ((FirmaJPA) firma).getBlocDeFirmes().getBlocDeFirmesID() + "]"
+                            + ", datafinalitzaciobloc[" + ((FirmaJPA) firma).getBlocDeFirmes().getDataFinalitzacio() + "]"
                             + "\n\t\t"
-                            + ", ordre bloc " + ((FirmaJPA) firma).getBlocDeFirmes().getOrdre());
+                            + ", ordrebloc[" + ((FirmaJPA) firma).getBlocDeFirmes().getOrdre() + "]");
 
-                    llistaFitxers.add( firma.getFitxerFirmatID() == null
-                            ? createFitxerNull("Firma destinatari " + firma.getDestinatariID())
-                            : firma.getFitxerFirmat() );
+                    for (EstatDeFirma estatDeFirma : ((FirmaJPA)firma).getEstatDeFirmas()) {
+                        System.out.println("\t\t\t == ESTATS DE FIRMA ==");
+                        System.out.println("\t\t\t - Usuari[" + estatDeFirma.getUsuariEntitatID() + "]" +
+                                ", descripció[" + estatDeFirma.getDescripcio() + "]" +
+                                ", tipusestatdefirmafinalid[" +
+                                        (estatDeFirma.getTipusEstatDeFirmaFinalID() != null
+                                                ? I18NCommonUtils.tradueix(loc, "tipusestatdefirmafinal." + estatDeFirma.getTipusEstatDeFirmaFinalID())
+                                                : null) + "]" +
+                                ", tipusestatdefirmainicialid[" +
+                                I18NCommonUtils.tradueix(loc, "tipusestatdefirmainicial." + estatDeFirma.getTipusEstatDeFirmaInicialID()) + "]"
+                        );
+                    }
+
+
+                    BlocDeFirmesJPA blocDeFirmes = ((FirmaJPA) firma).getBlocDeFirmes();
+                    if (firma.getNumFirmaDocument() == null) {
+                        if (firma.getTipusEstatDeFirmaFinalID() == null) {
+                            llistaFitxers.add( new FitxerPeticioFirma("La firma encara no s'ha realitzat", blocDeFirmes.getOrdre()));
+                        } else if (firma.getTipusEstatDeFirmaFinalID() == ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT){
+                            llistaFitxers.add( new FitxerPeticioFirma("La firma no s'ha realitzat perque no calia", blocDeFirmes.getOrdre()));
+                        }
+                    } else {
+                        if (firma.getFitxerFirmat() == null) {
+                            if (firma.getNumFirmaDocument() < maxFirma) {
+                                llistaFitxers.add( new FitxerPeticioFirma("La firma s'ha descartat perquè no és la darrera", blocDeFirmes.getOrdre()));
+                            } else {
+                                llistaFitxers.add( new FitxerPeticioFirma("La firma s'ha descartat i això no hauria de passar perquè és la darrera", blocDeFirmes.getOrdre()));
+                            }
+                        } else {
+                            llistaFitxers.add( new FitxerPeticioFirma(firma.getFitxerFirmat(), "Fitxer firmat", blocDeFirmes.getOrdre()));
+                        }
+                    }
 
                 }
                 System.out.println(" ========= FI LLISTAT FIRMES PETICIÓ FIRMA " + peticioFirmaID);
@@ -168,13 +210,21 @@ public class TestFitxersPeticioFirma {
 
 
             {
+                System.out.println(" ========= ===================================== =========");
                 System.out.println(" ========= INFORMACIÓ FITXERS PETICIÓ FIRMA " + peticioFirmaID);
+                System.out.println(" ========= ===================================== =========");
 
                 int counter = 0;
-                for (Fitxer fitxer : llistaFitxers) {
+                for (FitxerPeticioFirma fitxer : llistaFitxers) {
                     counter++;
 
-                    System.out.println(counter + ".-" + fitxer.getNom() + ", " + fitxer.getDescripcio());
+                    System.out.println(counter + "." +
+                            " id[" + fitxer.getFitxerID() + "]" +
+                            ", nom[" + fitxer.getNom() + "]" +
+                            ", descripcio[" + fitxer.getDescripcio() + "]" +
+                            ", explicacio[" + fitxer.getExplicacio() + "]" +
+                            ", ordreBloc[" + fitxer.getOrdreBloc() + "]"
+                    );
 
                 }
             }
@@ -187,10 +237,6 @@ public class TestFitxersPeticioFirma {
             e.printStackTrace();
         }
 
-    }
-
-    private FitxerBean createFitxerNull(String nom) {
-        return new FitxerBean(-1,nom, "NULL", 0,null);
     }
 
 }

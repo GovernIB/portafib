@@ -386,6 +386,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilDeFirmaList.jsp" />
     </definition>
 
+    <definition name="fitxersDePeticioListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
+    </definition>
+
 
     <!--  ===========  ADMINISTRADOR ================== -->
     
