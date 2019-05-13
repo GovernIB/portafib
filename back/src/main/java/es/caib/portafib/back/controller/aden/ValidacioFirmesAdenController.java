@@ -11,7 +11,7 @@ import es.caib.portafib.back.controller.AbstractPluginAdenController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
 import es.caib.portafib.back.form.webdb.PluginForm;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
-import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
+import es.caib.portafib.logic.PluginValidacioFirmesLogicaLocal;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -24,8 +24,8 @@ import es.caib.portafib.utils.ConstantsV2;
 @SessionAttributes(types = { PluginForm.class, PluginFilterForm.class })
 public class ValidacioFirmesAdenController extends AbstractPluginAdenController<IValidateSignaturePlugin> {
   
-  @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
-  protected ValidacioFirmesLogicaLocal validacioFirmesEnServidorEjb;
+  @EJB(mappedName = PluginValidacioFirmesLogicaLocal.JNDI_NAME)
+  protected PluginValidacioFirmesLogicaLocal validacioFirmesEnServidorEjb;
   
   
   @Override

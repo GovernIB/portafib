@@ -15,8 +15,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Properties;
 
-import junit.framework.Assert;
-
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;

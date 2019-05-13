@@ -43,9 +43,9 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final LongField PLUGINFIRMASERVIDORID = new LongField(_TABLE_MODEL, "pluginFirmaServidorID", "pluginfirmaservidorid");
 	 public static final IntegerField UPGRADESIGNFORMAT = new IntegerField(_TABLE_MODEL, "upgradeSignFormat", "upgradesignformat");
 	 public static final LongField LOGINCERTIFICATEID = new LongField(_TABLE_MODEL, "loginCertificateID", "logincertificateid");
-	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
-	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
 	 public static final BooleanField VALIDARFIRMA = new BooleanField(_TABLE_MODEL, "validarFirma", "validarfirma");
+	 public static final BooleanField CHECKCANVIATDOCFIRMAT = new BooleanField(_TABLE_MODEL, "checkCanviatDocFirmat", "checkcanviatdocfirmat");
+	 public static final BooleanField COMPROVARNIFFIRMA = new BooleanField(_TABLE_MODEL, "comprovarNifFirma", "comprovarniffirma");
 	 public static final BooleanField VALIDARCERTIFICAT = new BooleanField(_TABLE_MODEL, "validarCertificat", "validarcertificat");
 
 
@@ -81,9 +81,9 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     PLUGINFIRMASERVIDORID,
     UPGRADESIGNFORMAT,
     LOGINCERTIFICATEID,
-    COMPROVARNIFFIRMA,
-    CHECKCANVIATDOCFIRMAT,
     VALIDARFIRMA,
+    CHECKCANVIATDOCFIRMAT,
+    COMPROVARNIFFIRMA,
     VALIDARCERTIFICAT
   };
 

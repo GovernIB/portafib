@@ -84,6 +84,7 @@ public class RestUtils {
         WebAuthentication pwl = new WebAuthentication();
         autenticat = pwl.login(username, password);
       }
+      
       /*
       else {
         // En entorns CAIB l'autenticació està en BBDD PortaFI, en la taula d'UsuarisAplicació 

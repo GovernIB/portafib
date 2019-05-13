@@ -38,7 +38,6 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
 
   @PostConstruct
   public void initValidador() {
-    // log.error("\n\n\n Inicialitzant NOU VALIDADOR per Peticio de Firma\n\n\n");
     setWebValidator(this.peticioDeFirmaAmbFitxerAFirmarWebValidator);
   }
 

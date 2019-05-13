@@ -105,14 +105,14 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}</th>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT)}</th>

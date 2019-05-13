@@ -105,6 +105,47 @@ public class PerfilDeFirmaAdenController extends PerfilDeFirmaController {
         I18NUtils.tradueix("perfildefirma.urlbase.ajuda"));
     
     
+    
+    if (__isView) {
+      
+      // Posam botons d'edició i d'accés directe a Configuracions
+      PerfilDeFirmaJPA perfil = form.getPerfilDeFirma();
+      
+      form.addAdditionalButton(new AdditionalButton("icon-edit icon-white","genapp.edit",
+          CONTEXT_WEB + "/" + perfil.getUsuariAplicacioPerfilID()
+              + "/edit", "btn-warning"));
+      
+      
+      Long[] configuracions = new Long[] {
+          perfil.getConfiguracioDeFirma1ID(),
+          perfil.getConfiguracioDeFirma2ID(),
+          perfil.getConfiguracioDeFirma3ID(),
+          perfil.getConfiguracioDeFirma4ID(),          
+          perfil.getConfiguracioDeFirma5ID()
+      };
+      
+      for (int i = 0; i < configuracions.length; i++) {
+        
+        if (configuracions[i] != null) {
+           form.addAdditionalButton(new AdditionalButton("icon-info-sign","Configuració " + (i +1),
+            ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/view/" + configuracions[i]
+              , "btn-info"));
+        }
+      }
+      
+      form.setCancelButtonVisible(false);
+      /*
+      + ConfiguracioDeFirmaAdenController.CONTEXT_WEB
+      + "/"
+      + perfil.getConfiguracioDeFirma1ID()
+      + "/edit\"> 
+      */
+      
+    }
+    
+    
+    
+
     return form;
   }
 

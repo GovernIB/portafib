@@ -150,7 +150,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
         // Valors temporals
         String fileName = arxiuPujat.getOriginalFilename();
         arxiuActual.setNom(fileName);
-        arxiuActual.setMime("application/octet-stream");
+        arxiuActual.setMime(ConstantsV2.MIME_TYPE_BINARY);
         arxiuActual.setMime(Utils.getMimeType(arxiuPujat.getOriginalFilename()));
         arxiuActual.setTamany(arxiuPujat.getSize());
 

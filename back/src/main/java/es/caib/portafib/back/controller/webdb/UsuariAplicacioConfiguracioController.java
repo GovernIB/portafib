@@ -352,13 +352,13 @@ public class UsuariAplicacioConfiguracioController
     }
 
 
-      fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, COMPROVARNIFFIRMA);
+      fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, VALIDARFIRMA);
 
 
       fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, CHECKCANVIATDOCFIRMAT);
 
 
-      fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, VALIDARFIRMA);
+      fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, COMPROVARNIFFIRMA);
 
 
       fillValuesToGroupByItemsBoolean("definitenentitat", groupByItemsMap, VALIDARCERTIFICAT);

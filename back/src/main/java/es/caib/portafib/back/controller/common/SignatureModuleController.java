@@ -512,8 +512,10 @@ public class SignatureModuleController extends HttpServlet {
     }
     synchronized (portaFIBSignaturesSets) {
       
-      //log.info(" XYZ ZZZ ZZZ SignatureModuleController::closeSignaturesSet() "
-      //    + "=> Esborrant signaturesSetID = " + signaturesSetID, new Exception());
+      if (log.isDebugEnabled()) {
+        log.info("SignatureModuleController::closeSignaturesSet() "
+             + "=> Esborrant signaturesSetID = " + signaturesSetID, new Exception());
+      }
       
       portaFIBSignaturesSets.remove(signaturesSetID);
     }

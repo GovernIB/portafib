@@ -45,5 +45,6 @@ public class Configuracio implements ConstantsV2 {
   public static boolean checkCertificateInClientCert() {
     return  Boolean.getBoolean(PORTAFIB_PROPERTY_BASE + "checkcertificateinclientcert");
   }
-    
+  
+  
 }

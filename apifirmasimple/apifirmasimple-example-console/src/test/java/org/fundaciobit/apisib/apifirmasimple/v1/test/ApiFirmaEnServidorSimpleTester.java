@@ -431,8 +431,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
         "application/octet-stream");
+    
+    FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
+        "application/octet-stream");
 
-    internalFullTestUpgrade(PROFILE_CADES_PROPERTY, fileToUpgrade,
+    internalFullTestUpgrade(PROFILE_CADES_PROPERTY, fileToUpgrade, documentDetached,
         "foto.jpg_cades_detached-upgraded.csig");
 
   }
@@ -443,7 +446,7 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("hola_signed.pdf",
         "application/pdf");
 
-    internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, "hola-signed-upgraded.pdf");
+    internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
 
   }
 
@@ -453,8 +456,11 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource(
         "foto_xades_attached_firmat.xsig", "application/xml");
+    
+    FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
+        "application/octet-stream");
 
-    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade,
+    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
         "foto_xades_attached_firmat_upgraded.xsig");
   }
 
@@ -464,8 +470,10 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("sample.xml_signed.xsig",
         "application/xml");
+    
+    FirmaSimpleFile documentDetached = null; //getSimpleFileFromResource("sample.xml",  "application/xml");
 
-    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade,
+    internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
         "sample.xml_signed_upgraded.xsig");
   }
 
@@ -542,10 +550,10 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   protected void internalFullTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade, String upgradedFileName) throws IOException,
+      FirmaSimpleFile fileToUpgrade,  FirmaSimpleFile documentDetached, String upgradedFileName) throws IOException,
       FileNotFoundException, Exception {
     FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty,
-        fileToUpgrade);
+        fileToUpgrade,  documentDetached);
 
     FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
 
@@ -553,7 +561,7 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade) throws IOException, FileNotFoundException, Exception {
+      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached) throws IOException, FileNotFoundException, Exception {
     final String language = "ca";
 
     Properties prop = getConfigProperties();
@@ -565,9 +573,11 @@ public class ApiFirmaEnServidorSimpleTester {
     if (perfil == null) {
       logErrorPerfilBuit(perfilProperty);
     }
+    
+    
 
     FirmaSimpleUpgradeResponse upgradeResponse = api
-        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, null, language));
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, documentDetached, null, language));
 
     printSignatureInfo(upgradeResponse);
     return upgradeResponse;

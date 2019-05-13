@@ -22832,13 +22832,13 @@ opcional incluso cuando se genera una firma EPES.</string>
         <void index="31"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
-           <string>Null =&gt; Valor definit a l&apos;entitat</string> 
+           <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
           </void> 
           <void property="digits"> 
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>comprovarNifFirma</string> 
+           <string>validarFirma</string> 
           </void> 
           <void property="javaType"> 
            <class>java.lang.Boolean</class> 
@@ -22846,11 +22846,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Comprovar NIF Firma</string> 
+            <string>Validar Firma</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>ComproBar NIF Firma</string> 
+            <string>Validar Firma</string> 
            </void> 
           </void> 
           <void property="minAllowedValue"> 
@@ -22860,7 +22860,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>1</int> 
           </void> 
           <void property="sqlName"> 
-           <string>comprovarniffirma</string> 
+           <string>validarfirma</string> 
           </void> 
           <void property="sqlType"> 
            <int>-7</int> 
@@ -22922,13 +22922,13 @@ opcional incluso cuando se genera una firma EPES.</string>
         <void index="33"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
-           <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
+           <string>Null =&gt; Valor definit a l&apos;entitat</string> 
           </void> 
           <void property="digits"> 
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>validarFirma</string> 
+           <string>comprovarNifFirma</string> 
           </void> 
           <void property="javaType"> 
            <class>java.lang.Boolean</class> 
@@ -22936,11 +22936,11 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Validar Firma</string> 
+            <string>Comprovar NIF Firma</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Validar Firma</string> 
+            <string>ComproBar NIF Firma</string> 
            </void> 
           </void> 
           <void property="minAllowedValue"> 
@@ -22950,7 +22950,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>1</int> 
           </void> 
           <void property="sqlName"> 
-           <string>validarfirma</string> 
+           <string>comprovarniffirma</string> 
           </void> 
           <void property="sqlType"> 
            <int>-7</int> 

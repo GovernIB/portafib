@@ -761,26 +761,26 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
-        <tr id="usuariAplicacioConfiguracio_comprovarNifFirma_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
+        <tr id="usuariAplicacioConfiguracio_validarFirma_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA])?'usuariAplicacioConfiguracio.comprovarNifFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA])?'usuariAplicacioConfiguracio.validarFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}" >
-              <form:select cssClass="input-medium" onchange="if(typeof onChangeComprovarNifFirma == 'function') {  onChangeComprovarNifFirma(this); };"  path="usuariAplicacioConfiguracio.comprovarNifFirma">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}" >
+              <form:select cssClass="input-medium" onchange="if(typeof onChangeValidarFirma == 'function') {  onChangeValidarFirma(this); };"  path="usuariAplicacioConfiguracio.validarFirma">
                 <form:option value=""><fmt:message key="definitenentitat." /></form:option>
                 <form:option value="true" ><fmt:message key="definitenentitat.true" /></form:option>
                 <form:option value="false" ><fmt:message key="definitenentitat.false" /></form:option>
               </form:select>
           </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}" >
-                <fmt:message key="definitenentitat.${__theForm.usuariAplicacioConfiguracio.comprovarNifFirma}" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}" >
+                <fmt:message key="definitenentitat.${__theForm.usuariAplicacioConfiguracio.validarFirma}" />
           </c:if>
            </td>
         </tr>
@@ -811,26 +811,26 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
-        <tr id="usuariAplicacioConfiguracio_validarFirma_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
+        <tr id="usuariAplicacioConfiguracio_comprovarNifFirma_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA])?'usuariAplicacioConfiguracio.validarFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.VALIDARFIRMA]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA])?'usuariAplicacioConfiguracio.comprovarNifFirma':__theForm.labels[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}" >
-              <form:select cssClass="input-medium" onchange="if(typeof onChangeValidarFirma == 'function') {  onChangeValidarFirma(this); };"  path="usuariAplicacioConfiguracio.validarFirma">
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}" >
+              <form:select cssClass="input-medium" onchange="if(typeof onChangeComprovarNifFirma == 'function') {  onChangeComprovarNifFirma(this); };"  path="usuariAplicacioConfiguracio.comprovarNifFirma">
                 <form:option value=""><fmt:message key="definitenentitat." /></form:option>
                 <form:option value="true" ><fmt:message key="definitenentitat.true" /></form:option>
                 <form:option value="false" ><fmt:message key="definitenentitat.false" /></form:option>
               </form:select>
           </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}" >
-                <fmt:message key="definitenentitat.${__theForm.usuariAplicacioConfiguracio.validarFirma}" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}" >
+                <fmt:message key="definitenentitat.${__theForm.usuariAplicacioConfiguracio.comprovarNifFirma}" />
           </c:if>
            </td>
         </tr>

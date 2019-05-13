@@ -219,17 +219,17 @@
             </c:if>
            </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
           <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.comprovarNifFirma}" />          </td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarFirma}" />          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT)}">
           <td>
             <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.checkCanviatDocFirmat}" />          </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA)}">
           <td>
-            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarFirma}" />          </td>
+            <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.comprovarNifFirma}" />          </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARCERTIFICAT)}">
           <td>

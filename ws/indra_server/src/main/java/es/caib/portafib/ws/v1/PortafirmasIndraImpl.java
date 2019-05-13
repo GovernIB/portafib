@@ -2414,7 +2414,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
   
   
   private DocumentAttributes peticioDeFirma2DocumentAttributes(
-      PeticioDeFirmaJPA peticioDeFirma) throws Exception {
+      PeticioDeFirmaJPA peticioDeFirma) throws Exception, I18NException {
     
     
     DocumentAttributes attributes = new DocumentAttributes();
