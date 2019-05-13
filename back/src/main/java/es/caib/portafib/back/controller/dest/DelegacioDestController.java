@@ -103,6 +103,7 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.ConstantsPortaFIB;
+import org.springframework.web.util.UriUtils;
 
 /**
  * 
@@ -414,6 +415,8 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       
       session.removeAttribute(SELECTION_DELE_COLA_USUARI_ENTITAT);
       colaboracioDelegacioJPA.setColaboradorDelegatID(usuEntID);
+
+      HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("delegacio.avisdatainici"));
     }
     
     
@@ -486,7 +489,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
       }
 
       colaboracioDelegacioJPA.setDataInici(new Timestamp(
-          System.currentTimeMillis() + 30 * 60 * 1000));
+          System.currentTimeMillis() + 5 * 60 * 1000));
       
       if (!esDelegat()) {
         colaboracioDelegacioForm.getReadOnlyFields().remove(ACTIVA);
@@ -938,8 +941,12 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     
     if (esDelegat()) {
       // Anam a la pàgina de Firma
-      return "redirect:" + getContextWeb() + "/firmarautoritzacio/" 
-          + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID();
+
+      log.warn("url_user=" + ((ColaboracioDelegacioDestForm)colaboracioDelegacioForm).getUrl_user());
+      return "redirect:" + getContextWeb() + "/firmarautoritzacio/"
+              + colaboracioDelegacioForm.getColaboracioDelegacio().getColaboracioDelegacioID()
+              // TODO: S'hauria de fer un "encode" del paràmetre per ficar-lo a la URL?
+              + "?url_user=" + ((ColaboracioDelegacioDestForm)colaboracioDelegacioForm).getUrl_user();
     } else {
       enviarNotificacioMailColaDele(request, colaboracioDelegacioForm.getColaboracioDelegacio());
       

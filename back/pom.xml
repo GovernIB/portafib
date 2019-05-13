@@ -383,24 +383,28 @@
 
   </dependencies>
 
+  <!-- Emprar només useCache al war en desenvolupament -->
+  <properties>
+    <war.useCache>false</war.useCache>
+  </properties>
+  <profiles>
+    <profile>
+      <id>desenvolupament</id>
+      <properties>
+        <war.useCache>true</war.useCache>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-          <compilerVersion>1.6</compilerVersion>
-        </configuration>
-      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.2.2</version>
         <configuration>
+          <useCache>${war.useCache}</useCache>
           <webResources>
             <!-- Documents pdf que es troben dins /doc/pdf i han d'anar a WEBAPP/Documentacio -->
             <resource>
@@ -442,7 +446,6 @@
 
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
         <executions>
           <execution>
             <id>copy-resources</id>				
@@ -470,21 +473,6 @@
       </plugin>
 
     </plugins>
-
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-            <encoding>UTF-8</encoding>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
 
   </build>
 </project>

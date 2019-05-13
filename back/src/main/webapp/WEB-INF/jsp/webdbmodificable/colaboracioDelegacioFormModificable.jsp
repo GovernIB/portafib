@@ -67,6 +67,7 @@
 </tbody>
 </table>
 
+<form:hidden path="url_user" id="url_user" />
 
 <script type="text/javascript">
 
@@ -108,6 +109,10 @@
         for (var i = 0; i < all.options.length; i++) { 
             all.options[i].selected = true; 
         }
+
+        // Afegir url_user #260
+        var url_user = document.getElementById("url_user");
+        url_user.value = encodeURIComponent(window.location.href);
     }
 
     function afegir() {

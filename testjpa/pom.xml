@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>PortaFIB JPA TEST</name>
+  <artifactId>portafib-testjpa</artifactId>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>es.caib.portafib</groupId>
+    <artifactId>portafib</artifactId>
+    <version>2.0.0</version>
+  </parent>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-model</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-jpa</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-utils</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>es.caib.portafib</groupId>
+      <artifactId>portafib-persistence-resourcelocal</artifactId> 
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.genapp</groupId>
+      <artifactId>genapp-core</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>8.4-702.jdbc3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.16</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.5.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <filters>
+      <filter>../config.properties</filter>
+    </filters>
+
+  </build>
+
+
+
+</project>

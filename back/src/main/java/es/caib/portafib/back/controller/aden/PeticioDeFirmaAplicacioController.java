@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.aden;
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -60,6 +61,10 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
     PeticioDeFirmaFilterForm peticioDeFirmaFilterForm;
     peticioDeFirmaFilterForm = super.getPeticioDeFirmaFilterForm(pagina, mav, request);
 
+    if (peticioDeFirmaFilterForm.isNou()) {
+      peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-list-alt icon-white", "peticiodefirma.fitxerspeticio",
+               FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}", "btn-info"));
+    }
     
     boolean showUsuariEntitat = false;
     boolean showUsuariAplicacio = true;

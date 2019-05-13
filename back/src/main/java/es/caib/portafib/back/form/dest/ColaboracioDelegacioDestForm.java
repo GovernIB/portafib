@@ -48,7 +48,8 @@ public class ColaboracioDelegacioDestForm extends ColaboracioDelegacioForm {
   int tipus = 2;
   
   boolean tipusReadOnly = false;
-  
+
+  String url_user = null;
   
   public ColaboracioDelegacioDestForm() {
   }
@@ -105,5 +106,12 @@ public class ColaboracioDelegacioDestForm extends ColaboracioDelegacioForm {
   public void setAvailableTipusDocument(List<Long> availableTipusDocument) {
     this.availableTipusDocument = availableTipusDocument;
   }
-  
+
+  public String getUrl_user() {
+    return url_user;
+  }
+
+  public void setUrl_user(String url_user) {
+    this.url_user = url_user;
+  }
 }
