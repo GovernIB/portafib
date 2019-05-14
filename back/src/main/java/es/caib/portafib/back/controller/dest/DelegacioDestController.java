@@ -1451,7 +1451,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
     File dstPDF = new File(base, FITXER_AUTORITZACIO_PREFIX + id + ".pdf");
     dstPDF.deleteOnExit();
 
-    response.setContentType(ConstantsV2.PDF_MIME_TYPE);
+    response.setContentType(ConstantsV2.MIME_TYPE_PDF);
     response.setHeader("Content-Disposition", "inline; filename=\"" + dstPDF.getName() + "\"");
     response.setContentLength((int) dstPDF.length());
 

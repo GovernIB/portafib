@@ -36,6 +36,7 @@ import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedExce
 import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
 
@@ -103,7 +104,7 @@ public class PdfUtils implements ConstantsV2 {
       log.debug("convertToPDF(): MIME = " + mime);
     }
 
-    if (PDF_MIME_TYPE.equals(mime)) {
+    if (MIME_TYPE_PDF.equals(mime)) {
       return fileToConvertInfo;
     } else {
       try {
@@ -118,7 +119,7 @@ public class PdfUtils implements ConstantsV2 {
           FileInputStream fis = new FileInputStream(fileToConvert);
           try {
             baos = new ByteArrayOutputStream();
-            docPlugin.convertDocumentByMime(fis, mime, baos, PDF_MIME_TYPE);
+            docPlugin.convertDocumentByMime(fis, mime, baos, MIME_TYPE_PDF);
             newFileName = fileToConvertInfo.getNom() + "." + PDF_FILE_EXTENSION;
           } finally {
             fis.close();
@@ -159,7 +160,7 @@ public class PdfUtils implements ConstantsV2 {
 
         FitxerBean fileConvertedInfo = new FitxerBean();
 
-        fileConvertedInfo.setMime(PDF_MIME_TYPE);
+        fileConvertedInfo.setMime(MIME_TYPE_PDF);
         fileConvertedInfo.setNom(newFileName);
         fileConvertedInfo.setTamany(baos.size());
         fileConvertedInfo.setData(new DataHandler(new ByteArrayDataSource(baos.toByteArray(),
@@ -171,7 +172,7 @@ public class PdfUtils implements ConstantsV2 {
             mime);
       } catch (OutputDocumentNotSupportedException odnse) {
         throw new I18NException("formatfitxer.conversio.erroroutput", fileToConvertInfo.getNom() + "."
-            + PDF_FILE_EXTENSION, PDF_MIME_TYPE);
+            + PDF_FILE_EXTENSION, MIME_TYPE_PDF);
       } catch (Exception e) {
         log.error("Error converting document a PDF:" + e.getMessage(), e);
         throw new I18NException("error.unknown", e.getMessage());
@@ -451,7 +452,7 @@ public class PdfUtils implements ConstantsV2 {
   }
 
   public static boolean checkDocumentWhenFirstSign(byte[] originalData, 
-      byte[] signedPDFData, int numFirmesOriginals) throws Exception {
+      byte[] signedPDFData, int numFirmesOriginals) throws I18NException {
     
     if (log.isDebugEnabled()) {
       log.debug(" Comprovar fitxer original i pujat quan és la primera firma");
@@ -494,11 +495,20 @@ public class PdfUtils implements ConstantsV2 {
 
     // NOTA: No comptarem el retorn de carro final (ni CR ni LF ni CRLF) ni %%EOF
     byte[] docOriginalDataFromSignedPDF = Arrays.copyOf(signedPDFData, revisionLimitSigned);
-    final String hashDocOriginalFromSignedPDF = Utils.getChecksum(new ByteArrayInputStream(
-        docOriginalDataFromSignedPDF));
+    String hashDocOriginalFromSignedPDF;
+    final String hashDocOriginal;
+    try {
+      hashDocOriginalFromSignedPDF = Utils.getChecksum(new ByteArrayInputStream(
+          docOriginalDataFromSignedPDF));
 
-    final String hashDocOriginal = Utils.getChecksum(
+      hashDocOriginal = Utils.getChecksum(
         new ByteArrayInputStream(originalData, 0, revisionLimitOriginal));
+    
+    } catch (Exception e) {
+      // XYZ ZZZ TRA
+      throw new I18NException(e, "genapp.comodi",  
+          new I18NArgumentString("Error intentant obtenir el checksum de les dades originals i d'una revisió"));
+    }
 
     if (!hashDocOriginalFromSignedPDF.equals(hashDocOriginal)) {
 
@@ -541,7 +551,17 @@ public class PdfUtils implements ConstantsV2 {
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
       boolean transformPdfA, boolean forceCleanPdf) throws Exception, I18NException {
 
-    final int originalNumberOfSigns = getNumberOfSignaturesInPDF(srcPDF);
+    InputStream isPDF = null;
+    final int originalNumberOfSigns;
+    try {
+      isPDF = new FileInputStream(srcPDF);
+      originalNumberOfSigns = getNumberOfSignaturesInPDF(isPDF);
+      
+    } finally {
+      if (isPDF != null) {
+        isPDF.close();
+      }
+    }
 
     log.info(" XYZ ZZZ originalNumberOfSigns = " + originalNumberOfSigns);
 
@@ -1288,6 +1308,35 @@ public class PdfUtils implements ConstantsV2 {
     return files;
   }
 
+  /**
+   * 
+   * @param pdf
+   * @return Si el fitxer no és PDF llavors retorna 0.
+   */
+  public static int getNumberOfSignaturesInPDF(File pdf) throws I18NException {
+
+    InputStream is = null;
+    try {
+      is = new FileInputStream(pdf);
+      return PdfUtils.getNumberOfSignaturesInPDF(is);
+    } catch (FileNotFoundException e) {
+      // XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi", "No s'ha trobat el fitxer "
+          + pdf.getAbsolutePath() + ":" + e.getMessage());
+    }
+
+    finally {
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e) {
+          log.error(
+              "Error tancant InputStream del fitxer " + pdf.getAbsolutePath() + ":"
+                  + e.getMessage(), e);
+        }
+      }
+    }
+  }
   
   
   /**
@@ -1295,12 +1344,13 @@ public class PdfUtils implements ConstantsV2 {
    * @param pdf
    * @return Si el fitxer no és PDF llavors retorna 0.
    */
-  public static int getNumberOfSignaturesInPDF(File pdf)  {
+  public static int getNumberOfSignaturesInPDF(InputStream pdfis)  {
     try {
-      PdfReader reader = new PdfReader(new FileInputStream(pdf));
+      PdfReader reader = new PdfReader(pdfis);
       AcroFields fields = reader.getAcroFields();
       return fields.getSignatureNames().size();      
     } catch (Throwable e) {
+      log.error("Error desconegut intentant obtenir numeo de firmes d'un PDF");
       return 0;
     }
   }

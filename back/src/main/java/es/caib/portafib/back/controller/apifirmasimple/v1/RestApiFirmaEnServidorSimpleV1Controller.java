@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.apifirmasimple.v1;
 
+
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
@@ -20,7 +21,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
-import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +32,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.logic.ValidacioFirmesLogicaLocal;
+import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
 import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
+import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
+import es.caib.portafib.logic.passarela.UpgradeResponse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
 import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
@@ -51,6 +55,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -154,8 +159,11 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @EJB(mappedName = es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal.JNDI_NAME)
   protected es.caib.portafib.logic.passarela.PassarelaDeFirmaEnServidorLocal passarelaDeFirmaEnServidorEjb;
 
-  @EJB(mappedName = ValidacioFirmesLogicaLocal.JNDI_NAME)
-  protected ValidacioFirmesLogicaLocal validacioFirmesEjb;
+  
+  @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
+  protected  ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
+
+  
 
   @RequestMapping(value = "/" + ApiFirmaEnServidorSimple.UPGRADESIGNATURE, method = RequestMethod.POST)
   @ResponseBody
@@ -205,6 +213,11 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       config = configuracioUsuariAplicacioLogicaLocalEjb
           .getConfiguracioUsuariAplicacioPerUpgrade(usuariAplicacioID, perfilDeFirma, fsur);
 
+      if (log.isDebugEnabled()) {
+        log.info("UPGRADE CONFIG  " + config.getNom());
+      }
+      
+      
       SignatureTypeFormEnumForUpgrade singTypeForm = null;
 
       Integer upgradeID = config.getUpgradeSignFormat();
@@ -222,12 +235,18 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
             + " no existeix.");
       }
 
-      log.info("XYZ ZZZ Fent UPGRADE a " + singTypeForm);
+      final boolean isDebug = log.isDebugEnabled();
+      
+      if(isDebug) {
+        log.info("Fent UPGRADE a " + singTypeForm);
+      }
 
-      byte[] upgraded;
-      upgraded = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature,
-          fsur.getTargetCertificate(), singTypeForm, loginInfo.getUsuariAplicacio(),
-          perfilDeFirma, config, loginInfo.getEntitat());
+      UpgradeResponse upgradeResponse;
+      
+      upgradeResponse = passarelaDeFirmaEnServidorEjb.upgradeSignature(signature,
+          fsur.getDetachedDocument(), fsur.getTargetCertificate(), singTypeForm,
+          loginInfo.getUsuariAplicacio(), perfilDeFirma, config, 
+          loginInfo.getEntitat(), fsur.getLanguageUI());
 
       // VALIDATE
       final String mime;
@@ -238,30 +257,26 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
         mime = null;
       }
 
-      FirmaSimpleFile signedFile = new FirmaSimpleFile(null, mime, upgraded);
 
-      final String entitatID = loginInfo.getUsuariAplicacio().getEntitatID();
-      final String languageUI = fsur.getLanguageUI();
+      FirmaSimpleUpgradedFileInfo upgradedFileInfo = constructFirmaSimpleUpgradedFileInfo(
+          upgradeResponse, signatureType, singTypeForm.getName());
 
-      // XYZ ZZZ Que fer amb això
-      final byte[] documentDetachedFile = null;
-
-      FirmaSimpleUpgradedFileInfo upgradedFileInfo = validateUpgrade(config, signatureType,
-          singTypeForm.getName(), upgraded, documentDetachedFile, entitatID, languageUI);
-
+      FirmaSimpleFile signedFile = new FirmaSimpleFile(null, mime, upgradeResponse.getUpgradedSignature());
+      
       FirmaSimpleUpgradeResponse fsuresp = new FirmaSimpleUpgradeResponse(signedFile,
           upgradedFileInfo);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<FirmaSimpleUpgradeResponse>(fsuresp, headers,
           HttpStatus.OK);
-      log.info(" XYZ ZZZ Surt de upgradeSignature => FINAL OK");
+      
+      
+      if(isDebug) {
+        log.info("Surt de upgradeSignature => FINAL OK");
+      }
 
       return re;
-    } catch (RestException re) {
-
-      return generateServerError(re.getMessage());
-
+    
     } catch (NoCompatibleSignaturePluginException nape) {
 
       // XYZ ZZZ
@@ -286,17 +301,25 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       log.error(msg, th);
 
       return generateServerError(msg, th);
+    } finally {
+      System.gc();
     }
+    
 
   }
 
-  protected FirmaSimpleUpgradedFileInfo validateUpgrade(UsuariAplicacioConfiguracio config,
-      String signatureType, String profileSignType, byte[] signedFile,
-      final byte[] documentDetachedFile, final String entitatID, final String languageUI)
+  
+  
+  protected FirmaSimpleUpgradedFileInfo constructFirmaSimpleUpgradedFileInfo(UpgradeResponse upgradeResponse,
+      String signatureType, String profileSignType)
       throws I18NException {
 
-    ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignatureInServer(entitatID,
-        config, signatureType, signedFile, documentDetachedFile, languageUI);
+
+    ValidateSignatureResponse vsr = upgradeResponse.getValidacioResponse().getValidateSignatureResponse();
+    
+    
+    //ValidateSignatureResponse vsr = validacioFirmesEjb.validateSignatureInServer(entitatID,
+    //    config, signatureType, signedFile, documentDetachedFile, languageUI);
 
     FirmaSimpleUpgradedFileInfo upgradedFileInfo;
 
@@ -345,14 +368,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
       FirmaSimpleValidationInfo validationInfo = new FirmaSimpleValidationInfo();
 
-      if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
-        validationInfo.setCheckValidationSignature(true);
-      } else {
-        validationInfo.setCheckValidationSignature(false);
-        validationInfo.setNoCheckValidationReason(vsr.getValidationStatus().getErrorMsg());
-      }
+      ValidacioCompletaResponse vcr = upgradeResponse.getValidacioResponse();
+      validationInfo.setCheckValidationSignature(vcr.getCheckValidationSignature());
+      validationInfo.setCheckDocumentModifications(vcr.getCheckDocumentModifications());
+      validationInfo.setCheckAdministrationIDOfSigner(vcr.getCheckAdministrationIDOfSigner());
 
-      List<FirmaSimpleKeyValue> additionInformation = null;
+      final List<FirmaSimpleKeyValue> additionInformation = null;
 
       upgradedFileInfo = new FirmaSimpleUpgradedFileInfo(signType, signAlgorithm, signMode,
           eniTipoFirma, eniPerfilFirma, validationInfo, additionInformation);
@@ -435,7 +456,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
       log.info("XYZ ZZZ  ======>   USERNAME = ]" + pss.getCommonInfoSignature().getUsername()
           + "[");
-      PassarelaFullResults fullResults;
+      PassarelaSignatureInServerResults fullResults;
       try {
         fullResults = passarelaDeFirmaEnServidorEjb.signDocuments(pss, loginInfo.getEntitat(),
             loginInfo.getUsuariAplicacio(), pcf.perfilDeFirma, pcf.configBySignID);
@@ -450,9 +471,13 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       FirmaSimpleStatus status = fssfrFull.getStatusSignatureProcess();
 
       FirmaSimpleSignatureResult result = fssfrFull.getResults().get(0);
+      
+      
 
-      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK
+          && result.getStatus().getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
 
+        // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA VEGADA
         PassarelaFileInfoSignature fileInfo = pss.getFileInfoSignatureArray()[0];
 
         final String profileSignType = null;
@@ -461,11 +486,21 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
         UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(simpleSignature
             .getFileInfoSignature().getSignID());
+        
+        ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID().get(fileInfo.getSignID());
+        
 
-        result.setSignedFileInfo(validateSignature(config, fileInfo,
+        result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
             simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
-            loginInfo.getEntitat().getEntitatID(), useSignPolicy, languageUI));
+            loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
 
+      } else {
+        // Passam l'error de la firma a l'error general
+        if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+          status.setStatus(result.getStatus().getStatus());
+          status.setErrorMessage(result.getStatus().getErrorMessage());
+          status.setErrorStackTrace(result.getStatus().getErrorStackTrace());
+        }
       }
 
       FirmaSimpleSignDocumentResponse fssfr = new FirmaSimpleSignDocumentResponse(status,
@@ -511,10 +546,13 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 
   }
 
-  protected FirmaSimpleSignedFileInfo validateSignature(UsuariAplicacioConfiguracio config,
+  
+  
+  protected FirmaSimpleSignedFileInfo constructFirmaSimpleSignedFileInfo(UsuariAplicacioConfiguracio config,
       PassarelaFileInfoSignature fileInfo, FirmaSimpleFileInfoSignature firmaRequest,
       String eniPerfilFirma, FirmaSimpleFile signedFile, String entitatID,
-      boolean policyIncluded, final String languageUI) throws I18NException {
+      boolean policyIncluded,  ValidacioCompletaResponse vcr,
+      final String languageUI) throws I18NException {
 
     log.info("XYZ ZZZ validateSignature::Entra a Validate Signature ...");
 
@@ -541,7 +579,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     final int signaturesTableLocation = fileInfo.getSignaturesTableLocation();
     final boolean timeStampIncluded = fileInfo.isUseTimeStamp();
 
-    // XYZ ZZZ ZZZ
+    // XYZ ZZZ  S'ha d'omplir ?????
     final String eniRolFirma = null;
     final String eniSignerName = null;
     final String eniSignerAdministrationId = null;
@@ -550,10 +588,13 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     FirmaSimpleSignedFileInfo signatureFileInfo;
 
     // Internament ja es verifica si s'ha de passar
-    ValidateSignatureResponse vsr;
+    ValidateSignatureResponse vsr = vcr.getValidateSignatureResponse();
 
-    vsr = validacioFirmesEjb.validateSignatureInServer(entitatID, config, signType,
-        signedFile.getData(), documentDetached, languageUI);
+
+    
+    // ELIMIMNAR  !!!!!    
+    //vsr = validacioFirmesEjb.validateSignatureInServer(entitatID, config, signType,
+    //    signedFile.getData(), documentDetached, languageUI);
 
     if (vsr == null || vsr.getValidationStatus() == null) {
       // No s'ha fet validacio
@@ -614,17 +655,22 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
       }
 
       FirmaSimpleValidationInfo validationInfo = new FirmaSimpleValidationInfo();
+      validationInfo.setCheckAdministrationIDOfSigner(vcr.getCheckAdministrationIDOfSigner());
+      validationInfo.setCheckDocumentModifications(vcr.getCheckDocumentModifications());
+      validationInfo.setCheckValidationSignature(vcr.getCheckValidationSignature());
+      
+      
 
-      if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
-        validationInfo.setCheckValidationSignature(true);
-      } else {
-
-        log.info("XYZ ZZZ NO s'ha validat per la raó següent: "
-            + vsr.getValidationStatus().getErrorMsg());
-
-        validationInfo.setNoCheckValidationReason(vsr.getValidationStatus().getErrorMsg());
-        validationInfo.setCheckValidationSignature(false);
-      }
+//      if (vsr.getValidationStatus().getStatus() == ValidationStatus.SIGNATURE_VALID) {
+//        validationInfo.setCheckValidationSignature(true);
+//      } else {
+//
+//        log.info("XYZ ZZZ NO s'ha validat per la raó següent: "
+//            + vsr.getValidationStatus().getErrorMsg());
+//
+//        validationInfo.setNoCheckValidationReason(vsr.getValidationStatus().getErrorMsg());
+//        validationInfo.setCheckValidationSignature(false);
+//      }
 
       List<FirmaSimpleKeyValue> additionInformation = null;
       FirmaSimpleCustodyInfo custodyInfo = null;
@@ -652,5 +698,47 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     return internalGetAvailableProfiles(request, locale, esFirmaEnServidor);
 
   }
+  
+  
+  protected FirmaSimpleSignDocumentsResponse processPassarelaResults(
+      PassarelaSignatureInServerResults completeResults, PassarelaSignaturesSet pss, boolean isSignatureInServer)
+      throws Exception {
+    
+    PassarelaFullResults fullResults = completeResults.getPassarelaFullResults();
+    
+    PassarelaSignatureStatus passarelaSS = fullResults.getSignaturesSetStatus();
+
+    FirmaSimpleStatus statusSignatureProcess = new FirmaSimpleStatus(passarelaSS.getStatus(),
+        passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
+
+    List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
+
+    List<FirmaSimpleSignatureResult> results = new ArrayList<FirmaSimpleSignatureResult>();
+
+    Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
+    for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
+
+      infoBySignID.put(pfis.getSignID(), pfis);
+
+    }
+
+    for (PassarelaSignatureResult psr : passarelaSR) {
+
+      // TODO XYZ ZZZ #165 Si s'ha definit una CUSTODIA llavors s'ha de guardar el document
+      // al SISTEMA DE CUSTODIA I retornar informacio al respecte
+      // java.lang.String custodyFileID = ;
+      // java.lang.String custodyFileURL = ;
+
+      results
+          .add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+              pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()),
+              isSignatureInServer));
+    }
+
+    FirmaSimpleSignDocumentsResponse fssfr;
+    fssfr = new FirmaSimpleSignDocumentsResponse(statusSignatureProcess, results);
+    return fssfr;
+  }
+
 
 }

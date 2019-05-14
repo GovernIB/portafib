@@ -135,16 +135,16 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID);
   }
 
-  public BooleanField COMPROVARNIFFIRMA() {
-    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA);
+  public BooleanField VALIDARFIRMA() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.VALIDARFIRMA);
   }
 
   public BooleanField CHECKCANVIATDOCFIRMAT() {
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT);
   }
 
-  public BooleanField VALIDARFIRMA() {
-    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.VALIDARFIRMA);
+  public BooleanField COMPROVARNIFFIRMA() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA);
   }
 
   public BooleanField VALIDARCERTIFICAT() {

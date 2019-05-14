@@ -9,6 +9,7 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.validatesignature.api.IValidateSignaturePlugin;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 
 /**
@@ -17,10 +18,10 @@ import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
  *
  */
 @Local
-public interface ValidacioFirmesLogicaLocal extends
+public interface PluginValidacioFirmesLogicaLocal extends
     AbstractPluginLogicaLocal<IValidateSignaturePlugin> {
 
-  public static final String JNDI_NAME = "portafib/ValidacioFirmesLogicaEJB/local";
+  public static final String JNDI_NAME = "portafib/PluginValidacioFirmesLogicaEJB/local";
 
   public ValidateSignatureResponse validateSignatureWeb(final String entitatID,
       String signType, File signatureFile, InputStream documentDetachedIS, 
@@ -37,6 +38,10 @@ public interface ValidacioFirmesLogicaLocal extends
       String signType, File signatureFile, InputStream documentDetachedIS, 
       String languageUI) throws I18NException;
   
-  
+
+  public ValidateSignatureResponse validateSignature(final String entitatID,
+      String signType, IPortaFIBDataSource signature, 
+      IPortaFIBDataSource documentDetached, String languageUI)
+      throws I18NException;
   
 }

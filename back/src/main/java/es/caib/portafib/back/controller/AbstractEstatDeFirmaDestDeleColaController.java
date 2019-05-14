@@ -1530,6 +1530,7 @@ import es.caib.portafib.utils.Configuracio;
        // XYZ ZZZ Només per PDF !!!!!
        File originalDoc = FileSystemManager.getFile(peticioDeFirma.getFitxerAdaptatID());
        final int originalNumberOfSigns = PdfUtils.getNumberOfSignaturesInPDF(originalDoc);
+      
        
        //  #174 TODO XYZ ZZZ
        final String expedientCode = null;
@@ -2862,7 +2863,7 @@ import es.caib.portafib.utils.Configuracio;
 
       String mime = f.getMime();
 
-      if (mime.equals(ConstantsV2.PDF_MIME_TYPE)) {
+      if (mime.equals(ConstantsV2.MIME_TYPE_PDF)) {
         return String.valueOf(ConstantsV2.DOC_PDF);
       }
 

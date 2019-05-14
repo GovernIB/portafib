@@ -17,6 +17,8 @@ public class FirmaSimpleUpgradeRequest {
 
   FirmaSimpleFile signature;
 
+  FirmaSimpleFile detachedDocument;
+
   /** Certificat del que penjar l'upgrade a l'hora de fer cofirmes i contrafirmes */
   FirmaSimpleFile targetCertificate;
 
@@ -27,10 +29,11 @@ public class FirmaSimpleUpgradeRequest {
   }
 
   public FirmaSimpleUpgradeRequest(String profileCode, FirmaSimpleFile signature,
-      FirmaSimpleFile targetCertificate, String languageUI) {
+      FirmaSimpleFile detachedDocument, FirmaSimpleFile targetCertificate, String languageUI) {
     super();
     this.profileCode = profileCode;
     this.signature = signature;
+    this.detachedDocument = detachedDocument;
     this.targetCertificate = targetCertificate;
     this.languageUI = languageUI;
   }
@@ -65,6 +68,14 @@ public class FirmaSimpleUpgradeRequest {
 
   public void setTargetCertificate(FirmaSimpleFile targetCertificate) {
     this.targetCertificate = targetCertificate;
+  }
+
+  public FirmaSimpleFile getDetachedDocument() {
+    return detachedDocument;
+  }
+
+  public void setDetachedDocument(FirmaSimpleFile detachedDocument) {
+    this.detachedDocument = detachedDocument;
   }
 
 }

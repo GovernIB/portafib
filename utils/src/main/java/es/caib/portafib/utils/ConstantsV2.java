@@ -19,9 +19,14 @@ public interface ConstantsV2 {
   // XYZ ZZZ 
   public static final String NOTIFICACIONS_QUEUE = "jms/es.caib.portafib.PortaFIBNotificacionsQueue";
   
-  public static final String PDF_MIME_TYPE = "application/pdf";
-  
   public static final String PDF_FILE_EXTENSION = "pdf";
+  
+  public static final String MIME_TYPE_PDF = "application/pdf";
+  
+  public static final String MIME_TYPE_BINARY = "application/octet-stream";
+  
+  public static final String MIME_TYPE_XML = "application/xml";
+  
   
   //==============================================================
   // --- TIPUS US FIRMA DE CONFIGURACIO USUARI APLICACIO -----

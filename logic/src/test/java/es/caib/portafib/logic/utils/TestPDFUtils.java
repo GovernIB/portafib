@@ -185,6 +185,8 @@ public class TestPDFUtils implements ConstantsV2 {
     
     log.info("Result = " + result);
     
+    } catch (I18NException e) {
+      e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -354,7 +356,7 @@ public class TestPDFUtils implements ConstantsV2 {
 
       log.info("Result = " + result);
 
-    } catch (Exception e) {
+    } catch (Throwable e) {
       e.printStackTrace();
     }
 

@@ -98,6 +98,20 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
       uac.setUsEnFirmaWeb(true);
       uac.setUsEnFirmaApiSimpleWeb(true);
     }
+    
+    
+    if (__isView) {
+      
+      form.setCancelButtonVisible(false);
+      
+      form.addAdditionalButton(new AdditionalButton("icon-edit icon-white","genapp.edit",
+          CONTEXT_WEB + "/" + form.getUsuariAplicacioConfiguracio().getUsuariAplicacioConfigID()
+              + "/edit", "btn-warning"));
+      
+      
+    }
+    
+    
 
     // Codi comu
     form.addHiddenField(ENTITATID);
@@ -122,8 +136,8 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     form.addReadOnlyField(LOGINCERTIFICATEID);
 
     // XYZ ZZZ Pendent de Implementar
-    form.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
-    form.addReadOnlyField(COMPROVARNIFFIRMA);
+    //form.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
+    //form.addReadOnlyField(COMPROVARNIFFIRMA);
     form.addReadOnlyField(VALIDARCERTIFICAT);
     // form.addReadOnlyField(VALIDARFIRMA);
 

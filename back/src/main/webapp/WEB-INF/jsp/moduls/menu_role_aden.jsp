@@ -49,9 +49,9 @@ public static final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFi
 public static final String PERFIL_DE_FIRMA = PerfilDeFirmaFields._TABLE_MODEL + "." + PerfilDeFirmaFields._TABLE_MODEL + ".plural";
 
 final String[] menu2 = {
-    CONFIGURACIO_DE_FIRMA,
-    PERFIL_DE_FIRMA,
     "usuariaplicacio.gestio", // Alta d'Usuari-Aplicació"}  
+    PERFIL_DE_FIRMA,
+    CONFIGURACIO_DE_FIRMA,    
     "",
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
     "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio

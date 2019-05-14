@@ -13,6 +13,7 @@ import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
+import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.RoleUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.entity.PerfilDeFirma;
@@ -29,6 +30,7 @@ import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -473,12 +475,17 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       for (UsuariAplicacio usuariAplicacio : list) {
         String key = usuariAplicacio.getUsuariAplicacioID();
 
-        List<Long> perfilsID = perfilsPerUsuariAplicacioEjb.executeQuery(
-            PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID,
-            PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID.equal(key));
+        SubQuery<PerfilsPerUsuariAplicacio, Long> subquery;
+        subquery = perfilsPerUsuariAplicacioEjb.getSubQuery(PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID,
+             PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID.equal(key));
+        
+        
+        //List<Long> perfilsID = perfilsPerUsuariAplicacioEjb.executeQuery(
+        //    PerfilsPerUsuariAplicacioFields.PERFILDEFIRMAID,
+        //    PerfilsPerUsuariAplicacioFields.USUARIAPLICACIOID.equal(key));
 
         List<PerfilDeFirma> perfils = usuariAplicacioPerfilEjb
-            .select(PerfilDeFirmaFields.USUARIAPLICACIOPERFILID.in(perfilsID));
+            .select(PerfilDeFirmaFields.USUARIAPLICACIOPERFILID.in(subquery));
 
         if (perfils == null || perfils.size() == 0) {
           map.put(key, "");
@@ -490,10 +497,17 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
             // Edit -> Link Nom i Codi
             "<tr><td>\n"
                 + "<a href=\"" + request.getContextPath()
+                
+                + PerfilDeFirmaAdenController.CONTEXT_WEB
+                + "/view/"
+                + perfil.getUsuariAplicacioPerfilID()
+                + "\"> "
+                /*
                 + ConfiguracioDeFirmaAdenController.CONTEXT_WEB
                 + "/"
                 + perfil.getConfiguracioDeFirma1ID()
                 + "/edit\"> "
+                */
                 + perfil.getNom()
                 + " (<b>"
                 + perfil.getCodi()

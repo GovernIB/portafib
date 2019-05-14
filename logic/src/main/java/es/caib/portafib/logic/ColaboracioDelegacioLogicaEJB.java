@@ -188,8 +188,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     }
     
     return ids;
-    
-    
+
   }
 	
 	
@@ -250,7 +249,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     // Crear fitxer en BBDD
     Fitxer fitxer = new FitxerJPA();
     fitxer.setDescripcio("");
-    fitxer.setMime(ConstantsV2.PDF_MIME_TYPE);
+    fitxer.setMime(ConstantsV2.MIME_TYPE_PDF);
     fitxer.setNom(nom);
     fitxer.setTamany(firmat.length());
     fitxer = fitxerEjb.create(fitxer);

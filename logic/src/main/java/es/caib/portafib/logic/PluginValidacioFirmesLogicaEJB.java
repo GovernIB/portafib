@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.PluginJPA;
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -26,10 +27,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  *
  * @author anadal
  */
-@Stateless(name = "ValidacioFirmesLogicaEJB")
+@Stateless(name = "PluginValidacioFirmesLogicaEJB")
 @SecurityDomain("seycon")
-public class ValidacioFirmesLogicaEJB extends
-    AbstractPluginLogicaEJB<IValidateSignaturePlugin> implements ValidacioFirmesLogicaLocal {
+public class PluginValidacioFirmesLogicaEJB extends
+    AbstractPluginLogicaEJB<IValidateSignaturePlugin> implements PluginValidacioFirmesLogicaLocal {
 
   @EJB(mappedName = EntitatLocal.JNDI_NAME)
   private EntitatLocal entitatEjb;
@@ -123,6 +124,74 @@ public class ValidacioFirmesLogicaEJB extends
     return validateSignatureInServer(entitatID, usuariAplicacioConfig, signType,
         signature, documentDetached, languageUI);
   }
+  
+  
+  
+  // XYZ ZZZ Això s'ha de cridar des de passarel.la i api firma simple
+  @Override
+  public ValidateSignatureResponse validateSignature(final String entitatID,
+      String signType, IPortaFIBDataSource signatureDS, 
+      IPortaFIBDataSource documentDetachedDS, String languageUI)
+      throws I18NException {
+
+    log.info("\n\n XYZ ZZZ =======  ENTRA DINS PLUGIN VALIDACIO DE FIRMES (EJB)  ======= \n\n");
+
+    Long pluginValidateSignatureID = entitatEjb.executeQueryOne(
+        EntitatFields.PLUGINVALIDAFIRMESID, EntitatFields.ENTITATID.equal(entitatID));
+
+    if (pluginValidateSignatureID == null) {
+      // No s'ha de validar
+      return null;
+    }
+
+    byte[] documentDetached;
+    if (documentDetachedDS == null) {
+      documentDetached = null;
+    } else {
+      try {
+        documentDetached = documentDetachedDS.getByteArray();
+      } catch (Exception e1) {
+        // XYZ ZZZ traduir missatge
+        String msg = "No s'ha pogut llegir el fitxer detached per la validació: "
+            + e1.getMessage();
+        log.error(msg, e1);
+        throw new I18NException("genapp.comodi", msg);
+      }
+    }
+
+    byte[] signature;
+    try {
+      signature = signatureDS.getByteArray();
+    } catch (Exception e1) {
+      // XYZ ZZZ traduir missatge
+      String msg = "No s'ha pogut llegir el fitxer de Firma per la validació: "
+          + e1.getMessage();
+      log.error(msg, e1);
+      throw new I18NException("genapp.comodi", msg);
+    }
+
+    ValidateSignatureResponse vsresp = internalValidateSignature(pluginValidateSignatureID,
+        signType, signature, documentDetached, languageUI);
+
+    int status = vsresp.getValidationStatus().getStatus();
+    if (status != ValidationStatus.SIGNATURE_VALID) {
+      // XYZ ZZZ Traduir
+      String msg = "La firma no és vàlida. Raó: " + vsresp.getValidationStatus().getErrorMsg();
+      log.error(msg);
+      throw new I18NException("genapp.comodi", msg);
+    } else {
+
+      if (log.isDebugEnabled()) {
+        log.debug("FIRMA VALIDADA CORRECTAMENT");
+      }
+      return vsresp;
+    }
+
+  }
+  
+  
+  
+
 
   // XYZ ZZZ Això s'ha de cridar des de passarel.la i api firma simple
   @Override
@@ -210,6 +279,7 @@ public class ValidacioFirmesLogicaEJB extends
 
     SignatureRequestedInformation sri = new SignatureRequestedInformation();
     sri.setReturnSignatureTypeFormatProfile(true);
+    sri.setReturnCertificateInfo(true);
 
     ValidateSignatureRequest vsr = new ValidateSignatureRequest();
     vsr.setLanguage(languageUI);

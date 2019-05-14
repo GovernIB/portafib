@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.activation.DataHandler;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -107,9 +109,9 @@ public class SignatureUtils {
 
     PdfVisibleSignature pdfInfoSignature = null;
 
-    final int signMode = portafibModeSign2ApiModeSign(signModeBool);
+    final int signMode = convertPortafibSignMode2ApiSignMode(signModeBool);
 
-    final String signType = portafibSignTypeToApiSignType(signTypeID);
+    final String signType = convertPortafibSignTypeToApiSignType(signTypeID);
     if (signType == null) {
       throw new I18NException("error.unknown", "Tipus de firma no suportada: " + signTypeID);
     }
@@ -177,12 +179,18 @@ public class SignatureUtils {
     return fis;
   }
 
-  public static int portafibModeSign2ApiModeSign(boolean signModeBool) {
+  public static int convertPortafibSignMode2ApiSignMode(boolean signModeBool) {
     return (signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? FileInfoSignature.SIGN_MODE_IMPLICIT
         : FileInfoSignature.SIGN_MODE_EXPLICIT;
   }
+  
+  public static boolean convertApiSignMode2PortafibSignMode(int signModeBool) {
+    return (signModeBool == FileInfoSignature.SIGN_MODE_IMPLICIT) ? ConstantsV2.SIGN_MODE_IMPLICIT
+        : ConstantsV2.SIGN_MODE_EXPLICIT;
+  }
+  
 
-  public static String portafibSignTypeToApiSignType(long signTypeID) throws I18NException {
+  public static String convertPortafibSignTypeToApiSignType(long signTypeID) throws I18NException {
     final String signType;
     switch ((int) signTypeID) {
       case ConstantsV2.TIPUSFIRMA_PADES:
@@ -283,7 +291,7 @@ public class SignatureUtils {
           }
         }
 
-        int signTypeID = getSignTypeToPortaFIB(pfis.getSignType());
+        int signTypeID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis.getSignType());
 
         final String mime;
         if (signTypeID == ConstantsV2.TIPUSFIRMA_PADES) {
@@ -374,7 +382,7 @@ public class SignatureUtils {
     return ss;
   }
 
-  public static int getSignTypeToPortaFIB(String signType) throws I18NException {
+  public static int convertApiSignTypeToPortafibSignType(String signType) throws I18NException {
 
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
       return ConstantsV2.TIPUSFIRMA_PADES;
@@ -685,10 +693,15 @@ public class SignatureUtils {
       
       final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
       
-      return SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat,
+      int val = SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat,
           stampTaulaDeFirmes, stampCodiSegurVerificacio, 
           transformPdfA, forceCleanPdf);
+      
+      // El contingut original els substituim per l'adaptat
+      pfis.getFileToSign().setData(new DataHandler(new javax.activation.FileDataSource(adaptat)));
 
+      return val;
+      
       // Final IF PADES
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())
         || FileInfoSignature.SIGN_TYPE_CADES.equals(pfis.getSignType())
@@ -696,13 +709,18 @@ public class SignatureUtils {
       // L'original és l'adaptat, per això el movem allà
       try {
         FileUtils.moveFile(original, adaptat);
+
+        // El contingut original els substituim per l'adaptat
+        pfis.getFileToSign().setData(new DataHandler(new javax.activation.FileDataSource(adaptat)));
+
+        return 0;
+        
       } catch (Exception e) {
         log.error(" Error movent fitxer des de " + original.getAbsolutePath() + " a "
             + adaptat.getAbsolutePath(), e);
         throw new I18NException("error.copyfile", original.getAbsolutePath(),
             adaptat.getAbsolutePath());
       }
-      return 0;
 
     } else {
       throw new I18NException(new Exception(), "error.desconegut", new I18NArgumentString(

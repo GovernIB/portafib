@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignatu
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
@@ -55,11 +53,9 @@ import es.caib.portafib.logic.passarela.PassarelaKeyValue;
 import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
 import es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
 import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
@@ -219,43 +215,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
     return transactionID;
   }
 
-  protected FirmaSimpleSignDocumentsResponse processPassarelaResults(
-      PassarelaFullResults fullResults, PassarelaSignaturesSet pss, boolean isSignatureInServer)
-      throws Exception {
-    PassarelaSignatureStatus passarelaSS = fullResults.getSignaturesSetStatus();
-
-    FirmaSimpleStatus statusSignatureProcess = new FirmaSimpleStatus(passarelaSS.getStatus(),
-        passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
-
-    List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
-
-    List<FirmaSimpleSignatureResult> results = new ArrayList<FirmaSimpleSignatureResult>();
-
-    Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
-    for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
-
-      infoBySignID.put(pfis.getSignID(), pfis);
-
-    }
-
-    for (PassarelaSignatureResult psr : passarelaSR) {
-
-      // TODO XYZ ZZZ #165 Si s'ha definit una CUSTODIA llavors s'ha de guardar el document
-      // al SISTEMA DE CUSTODIA I retornar informacio al respecte
-      // java.lang.String custodyFileID = ;
-      // java.lang.String custodyFileURL = ;
-
-      results
-          .add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
-              pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()),
-              isSignatureInServer));
-    }
-
-    FirmaSimpleSignDocumentsResponse fssfr;
-    fssfr = new FirmaSimpleSignDocumentsResponse(statusSignatureProcess, results);
-    return fssfr;
-  }
-
+  
   public FirmaSimpleSignatureResult convertPassarelaSignatureResult2FirmaSimpleSignatureResult(
       PassarelaSignatureResult psr, PassarelaCommonInfoSignature commonInfo,
       PassarelaFileInfoSignature infoSignature, boolean isSignatureInServer) throws Exception {
@@ -356,7 +316,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         }
       }
 
-      // XYZ ZZZ ZZZ
+
       FirmaSimpleValidationInfo validation = null;
       {
         PassarelaValidationInfo pvi = psr.getValidationInfo();
@@ -509,8 +469,16 @@ public abstract class RestApiFirmaUtils extends RestUtils {
 
         String signID = sfis.getSignID();
 
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign() => " + sfis.getFileToSign());
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getNom() => " + sfis.getFileToSign().getNom());
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::sfis.getFileToSign().getData(byte[]) => " + sfis.getFileToSign().getData());
+
         FitxerBean fileToSign = convertFirmaSimpleFileToFitxerBean(sfis.getFileToSign(), type,
             virtualTransactionID, signID);
+
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign => " + fileToSign);
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getNom() => " + fileToSign.getNom());
+        log.info("XYZ ZZZ \n\n  convertRestBean2PassarelaBean::fileToSign.getData() => " + fileToSign.getData());
 
         // XYZ ZZZ FALTA ENCARA NO SUPORTAT
         FitxerBean prevSign = null;
@@ -559,7 +527,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         final int signOperation = config.getTipusOperacioFirma();
 
         // TIPUS DE FIRMA
-        final String signType = SignatureUtils.portafibSignTypeToApiSignType(config
+        final String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(config
             .getTipusFirmaID());
 
         // Algorisme de Firma
@@ -571,7 +539,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
           // SI és una pADES llavors val implicit
           signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
         } else {
-          signMode = SignatureUtils.portafibModeSign2ApiModeSign(config.isModeDeFirma());
+          signMode = SignatureUtils.convertPortafibSignMode2ApiSignMode(config.isModeDeFirma());
         }
 
         // TAULA DE FIRMES

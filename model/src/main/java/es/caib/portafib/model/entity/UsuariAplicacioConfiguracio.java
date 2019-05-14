@@ -95,14 +95,14 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Long getLoginCertificateID();
 	public void setLoginCertificateID(java.lang.Long _loginCertificateID_);
 
-	public java.lang.Boolean getComprovarNifFirma();
-	public void setComprovarNifFirma(java.lang.Boolean _comprovarNifFirma_);
+	public java.lang.Boolean getValidarFirma();
+	public void setValidarFirma(java.lang.Boolean _validarFirma_);
 
 	public java.lang.Boolean getCheckCanviatDocFirmat();
 	public void setCheckCanviatDocFirmat(java.lang.Boolean _checkCanviatDocFirmat_);
 
-	public java.lang.Boolean getValidarFirma();
-	public void setValidarFirma(java.lang.Boolean _validarFirma_);
+	public java.lang.Boolean getComprovarNifFirma();
+	public void setComprovarNifFirma(java.lang.Boolean _comprovarNifFirma_);
 
 	public java.lang.Boolean getValidarCertificat();
 	public void setValidarCertificat(java.lang.Boolean _validarCertificat_);

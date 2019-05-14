@@ -70,11 +70,6 @@ public class PassarelaFileInfoSignature {
   protected List<PassarelaKeyValue> additionalInformation = null;
 
   /**
-   * NO IMPLEMENTAT
-   */
-  // XYZ ZZZ protected CustodiaInfoBean custodiaInfo;
-
-  /**
    * 
    */
   public PassarelaFileInfoSignature() {
@@ -116,8 +111,7 @@ public class PassarelaFileInfoSignature {
       PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
       boolean useTimeStamp, String expedientCodi, String expedientNom, String expedientUrl,
       String procedimentCodi, String procedimentNom,
-      List<PassarelaKeyValue> additionalInformation) { // XYZ ZZZ , CustodiaInfoBean
-                                                       // custodiaInfo) {
+      List<PassarelaKeyValue> additionalInformation) {
     super();
     this.fileToSign = fileToSign;
     this.previusSignatureDetachedFile = previusSignatureDetachedFile;
@@ -142,7 +136,6 @@ public class PassarelaFileInfoSignature {
     this.procedimentCodi = procedimentCodi;
     this.procedimentNom = procedimentNom;
     this.additionalInformation = additionalInformation;
-    // XYZ ZZZ this.custodiaInfo = custodiaInfo;
   }
 
   /**
@@ -169,7 +162,7 @@ public class PassarelaFileInfoSignature {
       String signType, String signAlgorithm, int signMode, int signaturesTableLocation,
       PassarelaSignaturesTableHeader signaturesTableHeader,
       PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
-      boolean useTimeStamp) { // XYZ ZZZ , CustodiaInfoBean custodiaInfo) {
+      boolean useTimeStamp) { 
     super();
     this.fileToSign = fileToSign;
     this.signID = signID;
@@ -186,7 +179,6 @@ public class PassarelaFileInfoSignature {
     this.signaturesTableHeader = signaturesTableHeader;
     this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
     this.useTimeStamp = useTimeStamp;
-    // XYZ ZZZ this.custodiaInfo = custodiaInfo;
   }
 
   public FitxerBean getFileToSign() {
@@ -310,12 +302,6 @@ public class PassarelaFileInfoSignature {
     this.useTimeStamp = useTimeStamp;
   }
 
-  /*
-   * XYZ ZZZ public CustodiaInfoBean getCustodiaInfo() { return custodiaInfo; }
-   * 
-   * public void setCustodiaInfo(CustodiaInfoBean custodiaInfo) { this.custodiaInfo =
-   * custodiaInfo; }
-   */
   public FitxerBean getPreviusSignatureDetachedFile() {
     return previusSignatureDetachedFile;
   }

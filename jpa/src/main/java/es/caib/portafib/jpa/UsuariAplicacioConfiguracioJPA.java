@@ -151,17 +151,17 @@ opcional incluso cuando se genera una firma EPES. */
 	@Column(name="logincertificateid",length = 19)
 	java.lang.Long loginCertificateID;
 
-  /** Null => Valor definit a l'entitat */
-	@Column(name="comprovarniffirma",length = 1)
-	java.lang.Boolean comprovarNifFirma;
+  /** Indica si validar la firma amb el Plugin de validació definit a l'entitat */
+	@Column(name="validarfirma",length = 1)
+	java.lang.Boolean validarFirma;
 
   /** -- Null => Valor definit a l'entitat */
 	@Column(name="checkcanviatdocfirmat",length = 1)
 	java.lang.Boolean checkCanviatDocFirmat;
 
-  /** Indica si validar la firma amb el Plugin de validació definit a l'entitat */
-	@Column(name="validarfirma",length = 1)
-	java.lang.Boolean validarFirma;
+  /** Null => Valor definit a l'entitat */
+	@Column(name="comprovarniffirma",length = 1)
+	java.lang.Boolean comprovarNifFirma;
 
   /** NULL => Lo que digui l'entitat */
 	@Column(name="validarcertificat",length = 1)
@@ -174,7 +174,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean comprovarNifFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean validarFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -206,13 +206,13 @@ opcional incluso cuando se genera una firma EPES. */
     this.pluginFirmaServidorID=pluginFirmaServidorID;
     this.upgradeSignFormat=upgradeSignFormat;
     this.loginCertificateID=loginCertificateID;
-    this.comprovarNifFirma=comprovarNifFirma;
-    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
     this.validarFirma=validarFirma;
+    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
+    this.comprovarNifFirma=comprovarNifFirma;
     this.validarCertificat=validarCertificat;
 }
   /** Constructor sense valors autoincrementals */
-  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean comprovarNifFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean validarFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.nom=nom;
     this.entitatID=entitatID;
     this.usEnFirmaApiSimpleServidor=usEnFirmaApiSimpleServidor;
@@ -243,9 +243,9 @@ opcional incluso cuando se genera una firma EPES. */
     this.pluginFirmaServidorID=pluginFirmaServidorID;
     this.upgradeSignFormat=upgradeSignFormat;
     this.loginCertificateID=loginCertificateID;
-    this.comprovarNifFirma=comprovarNifFirma;
-    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
     this.validarFirma=validarFirma;
+    this.checkCanviatDocFirmat=checkCanviatDocFirmat;
+    this.comprovarNifFirma=comprovarNifFirma;
     this.validarCertificat=validarCertificat;
 }
   /** Constructor dels valors Not Null */
@@ -300,9 +300,9 @@ opcional incluso cuando se genera una firma EPES. */
     this.setPluginFirmaServidorID(__bean.getPluginFirmaServidorID());
     this.setUpgradeSignFormat(__bean.getUpgradeSignFormat());
     this.setLoginCertificateID(__bean.getLoginCertificateID());
-    this.setComprovarNifFirma(__bean.getComprovarNifFirma());
-    this.setCheckCanviatDocFirmat(__bean.getCheckCanviatDocFirmat());
     this.setValidarFirma(__bean.getValidarFirma());
+    this.setCheckCanviatDocFirmat(__bean.getCheckCanviatDocFirmat());
+    this.setComprovarNifFirma(__bean.getComprovarNifFirma());
     this.setValidarCertificat(__bean.getValidarCertificat());
     // Fitxer
     this.setLoginCertificate(FitxerJPA.toJPA(__bean.getLoginCertificate()));
@@ -525,11 +525,11 @@ opcional incluso cuando se genera una firma EPES. */
 		this.loginCertificateID = _loginCertificateID_;
 	};
 
-	public java.lang.Boolean getComprovarNifFirma() {
-		return(comprovarNifFirma);
+	public java.lang.Boolean getValidarFirma() {
+		return(validarFirma);
 	};
-	public void setComprovarNifFirma(java.lang.Boolean _comprovarNifFirma_) {
-		this.comprovarNifFirma = _comprovarNifFirma_;
+	public void setValidarFirma(java.lang.Boolean _validarFirma_) {
+		this.validarFirma = _validarFirma_;
 	};
 
 	public java.lang.Boolean getCheckCanviatDocFirmat() {
@@ -539,11 +539,11 @@ opcional incluso cuando se genera una firma EPES. */
 		this.checkCanviatDocFirmat = _checkCanviatDocFirmat_;
 	};
 
-	public java.lang.Boolean getValidarFirma() {
-		return(validarFirma);
+	public java.lang.Boolean getComprovarNifFirma() {
+		return(comprovarNifFirma);
 	};
-	public void setValidarFirma(java.lang.Boolean _validarFirma_) {
-		this.validarFirma = _validarFirma_;
+	public void setComprovarNifFirma(java.lang.Boolean _comprovarNifFirma_) {
+		this.comprovarNifFirma = _comprovarNifFirma_;
 	};
 
 	public java.lang.Boolean getValidarCertificat() {
@@ -779,9 +779,9 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setPluginFirmaServidorID(__bean.getPluginFirmaServidorID());
     __tmp.setUpgradeSignFormat(__bean.getUpgradeSignFormat());
     __tmp.setLoginCertificateID(__bean.getLoginCertificateID());
-    __tmp.setComprovarNifFirma(__bean.getComprovarNifFirma());
-    __tmp.setCheckCanviatDocFirmat(__bean.getCheckCanviatDocFirmat());
     __tmp.setValidarFirma(__bean.getValidarFirma());
+    __tmp.setCheckCanviatDocFirmat(__bean.getCheckCanviatDocFirmat());
+    __tmp.setComprovarNifFirma(__bean.getComprovarNifFirma());
     __tmp.setValidarCertificat(__bean.getValidarCertificat());
     // Fitxer
     __tmp.setLoginCertificate(FitxerJPA.toJPA(__bean.getLoginCertificate()));

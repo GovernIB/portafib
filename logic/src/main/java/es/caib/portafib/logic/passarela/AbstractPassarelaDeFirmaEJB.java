@@ -19,6 +19,7 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.AbstractPluginLogicaLocal;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
@@ -227,6 +228,72 @@ public abstract class AbstractPassarelaDeFirmaEJB<T extends ISignaturePlugin> im
     File p = new File(getPassarelaBasePath() + File.separatorChar + transactionID);
     p.mkdirs();
     return p;
+  }
+  
+  
+
+  /**
+   * 
+   * @param configuracio
+   * @param entitatID
+   * @return
+   * @throws I18NException
+   */
+  protected boolean validarFirma(UsuariAplicacioConfiguracio configuracio, String entitatID)
+      throws I18NException {
+    Boolean validarFirma = configuracio.getValidarFirma();
+
+    if (validarFirma == null) {
+
+      Long pluginID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
+          EntitatFields.ENTITATID.equal(entitatID));
+
+      if (pluginID == null) {
+        validarFirma = false;
+      } else {
+        validarFirma = true;
+      }
+    }
+
+    return validarFirma;
+  }
+
+  /**
+   * 
+   * @param configuracio
+   * @param entitatID
+   * @return
+   * @throws I18NException
+   */
+  protected boolean comprovarNifFirma(UsuariAplicacioConfiguracio configuracio,
+      String entitatID) throws I18NException {
+    Boolean comp = configuracio.getComprovarNifFirma();
+
+    if (comp == null) {
+      // Llegim el que digui l'entitat
+      comp = entitatEjb.executeQueryOne(EntitatFields.COMPROVARNIFFIRMA,
+          EntitatFields.ENTITATID.equal(entitatID));
+    }
+
+    return comp;
+
+  }
+
+  
+  
+
+  protected boolean checkCanviatDocFirmat(UsuariAplicacioConfiguracio configuracio,
+      String entitatID) throws I18NException {
+    Boolean comp = configuracio.getCheckCanviatDocFirmat();
+
+    if (comp == null) {
+      // Llegim el que digui l'entitat
+      comp = entitatEjb.executeQueryOne(EntitatFields.CHECKCANVIATDOCFIRMAT,
+          EntitatFields.ENTITATID.equal(entitatID));
+    }
+
+    return comp;
+
   }
   
 }
