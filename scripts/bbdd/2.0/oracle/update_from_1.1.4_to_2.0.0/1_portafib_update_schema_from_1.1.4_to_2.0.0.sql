@@ -466,6 +466,11 @@ ALTER TABLE pfi_bitacola
 
 ALTER TABLE pfi_bitacola MODIFY (usuarientitatid  NULL);
 
+ALTER TABLE pfi_bitacola
+  ADD usuariaplicacioid VARCHAR2(101 CHAR);
+
+ALTER TABLE pfi_bitacola
+  DROP CONSTRAINT pfi_bitacola_usrentitat_fk;
 
 -- ==================================================================
 -- 2019/03/07  Sol·licitant Addicional o Delegat de Sol·licitant #196

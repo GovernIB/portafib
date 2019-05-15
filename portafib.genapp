@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.6.0_33" class="java.beans.XMLDecoder"> 
+<java version="1.6.0_45" class="java.beans.XMLDecoder"> 
  <object class="org.fundaciobit.genapp.Project"> 
   <void property="dataBaseInfo"> 
    <object class="org.fundaciobit.genapp.common.db.DataBaseInfo"> 
@@ -10,7 +10,7 @@
      <string>portafib</string> 
     </void> 
     <void property="url"> 
-     <string>jdbc:postgresql://10.215.216.175:5432/portafib20</string> 
+     <string>jdbc:postgresql://localhost:5432/portafib2</string> 
     </void> 
     <void property="usr"> 
      <string>portafib</string> 
@@ -735,7 +735,7 @@
     <void index="2"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="5"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="6"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -938,26 +938,6 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>usuarientitatid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_bitacola_usrentitat_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_usuarientitat</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
           <void property="index"> 
            <string>pfi_bitacola_usrentid_fk_i</string> 
           </void> 
@@ -977,9 +957,6 @@
             <string>Usuario Entidad</string> 
            </void> 
           </void> 
-          <void property="notNullable"> 
-           <boolean>false</boolean>
-          </void> 
           <void property="showInReferenceList"> 
            <boolean>true</boolean> 
           </void> 
@@ -994,21 +971,50 @@
           </void> 
           <void property="webFieldInfo"> 
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>usuarientitatid</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_usuarientitat</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
             <void property="webtype"> 
-             <int>3</int> 
+             <int>1</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="5"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="filter"> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="javaName"> 
+           <string>usuariAplicacioID</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Usuari Aplicació</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Usuario Aplicación</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>101</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>usuariaplicacioid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
             </void> 
            </object> 
           </void> 
@@ -8026,10 +8032,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="13"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>retornfitxerid</string> 
+               <string>parametresfitxerid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_plugcrida_fitxer_retor_fk</string> 
+               <string>pfi_plugcrida_fitxer_param_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_plugincridada</string> 
@@ -8039,10 +8045,10 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="14"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>parametresfitxerid</string> 
+               <string>retornfitxerid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_plugcrida_fitxer_param_fk</string> 
+               <string>pfi_plugcrida_fitxer_retor_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_plugincridada</string> 
@@ -11646,7 +11652,7 @@ opcional incluso cuando se genera una firma EPES.</string>
         <void index="0"> 
          <object class="org.fundaciobit.genapp.MultipleUnique"> 
           <void property="name"> 
-           <string>pfi_perfilsua_multiple_uk</string> 
+           <string>pfi_perfilsua_uaid_perf_uk</string> 
           </void> 
           <void property="sqlColumns"> 
            <array class="java.lang.String" length="2"> 
@@ -14943,19 +14949,6 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="1"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>pluginvalidacertificatid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_entitat_plugin_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_entitat</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="2"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
                <string>pluginid</string> 
               </void> 
               <void property="name"> 
@@ -14966,13 +14959,26 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
               </void> 
              </object> 
             </void> 
-            <void index="3"> 
+            <void index="2"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>pluginvalidafirmesid</string> 
               </void> 
               <void property="name"> 
                <string>pfi_entitat_plugin_vafi_fk</string> 
+              </void> 
+              <void property="table"> 
+               <string>pfi_entitat</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void index="3"> 
+             <object class="org.fundaciobit.genapp.ForeignKey"> 
+              <void property="field"> 
+               <string>pluginvalidacertificatid</string> 
+              </void> 
+              <void property="name"> 
+               <string>pfi_entitat_plugin_cert_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_entitat</string> 
@@ -16252,6 +16258,9 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
         </void> 
         <void index="7"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>conte error si falla i dades resultat si va bé.</string> 
+          </void> 
           <void property="digits"> 
            <int>0</int> 
           </void> 
@@ -19904,10 +19913,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="6"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>motiudelegacioid</string> 
+               <string>firmatperformatid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_confapp_traduccio_moti_fk</string> 
+               <string>pfi_confapp_traduccio_firm_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioconfig</string> 
@@ -19917,10 +19926,10 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
             <void index="7"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>firmatperformatid</string> 
+               <string>motiudelegacioid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_confapp_traduccio_firm_fk</string> 
+               <string>pfi_confapp_traduccio_moti_fk</string> 
               </void> 
               <void property="table"> 
                <string>pfi_usuariaplicacioconfig</string> 
@@ -22225,9 +22234,6 @@ opcional incluso cuando se genera una firma EPES.</string>
           <void property="digits"> 
            <int>0</int> 
           </void> 
-          <void property="index"> 
-           <string>pfi_confapp_postaula_fk_i</string> 
-          </void> 
           <void property="javaName"> 
            <string>posicioTaulaFirmesID</string> 
           </void> 
@@ -23061,17 +23067,17 @@ opcional incluso cuando se genera una firma EPES.</string>
            <boolean>true</boolean> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="18"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="17"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>usuarientitatid</string> 
+               <string>destinatariid</string> 
               </void> 
               <void property="name"> 
-               <string>pfi_bitacola_usrentitat_fk</string> 
+               <string>pfi_colabdeleg_usrentitat_d_fk</string> 
               </void> 
               <void property="table"> 
-               <string>pfi_bitacola</string> 
+               <string>pfi_colaboraciodelegacio</string> 
               </void> 
              </object> 
             </void> 
@@ -23091,19 +23097,6 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="2"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>destinatariid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_colabdeleg_usrentitat_d_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_colaboraciodelegacio</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="3"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
                <string>usuarientitatid</string> 
               </void> 
               <void property="name"> 
@@ -23114,7 +23107,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="4"> 
+            <void index="3"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23127,7 +23120,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="5"> 
+            <void index="4"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>destinatariid</string> 
@@ -23140,7 +23133,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="6"> 
+            <void index="5"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23153,7 +23146,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="7"> 
+            <void index="6"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23166,7 +23159,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="8"> 
+            <void index="7"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>solicitantpersona2id</string> 
@@ -23179,7 +23172,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="9"> 
+            <void index="8"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>solicitantpersona3id</string> 
@@ -23192,7 +23185,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="10"> 
+            <void index="9"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23205,7 +23198,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="11"> 
+            <void index="10"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23218,7 +23211,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="12"> 
+            <void index="11"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23231,7 +23224,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="13"> 
+            <void index="12"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23244,7 +23237,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="14"> 
+            <void index="13"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23257,7 +23250,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="15"> 
+            <void index="14"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>usuarientitatid</string> 
@@ -23270,7 +23263,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="16"> 
+            <void index="15"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>origenid</string> 
@@ -23283,7 +23276,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="17"> 
+            <void index="16"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>favoritid</string> 
@@ -23872,6 +23865,9 @@ opcional incluso cuando se genera una firma EPES.</string>
         </void> 
         <void index="10"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="defaultValue"> 
+           <string>0</string> 
+          </void> 
           <void property="descripcio"> 
            <string>-1: el que digui l&apos;entitat, 0: No permetre, 1:Només Plantilles de l&apos;&apos;Entitat (No editables), 2: Obligatori Plantilla Entitat, 3: Opcional plantilla Entitat (Per defecte Actiu), 4: Opcional plantilla Entitat (Per defecte NO Actiu), 5: Llibertat Total (selecció, edició i us)</string> 
           </void> 
