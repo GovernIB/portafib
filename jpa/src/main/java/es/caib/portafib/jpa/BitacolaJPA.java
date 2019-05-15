@@ -42,7 +42,7 @@ private static final long serialVersionUID = 1492894118L;
 	long peticioDeFirmaID;
 
 	@Index(name="pfi_bitacola_usrentid_fk_i")
-	@Column(name="usuarientitatid",nullable = false,length = 101)
+	@Column(name="usuarientitatid",length = 101)
 	java.lang.String usuariEntitatID;
 
 
@@ -128,7 +128,7 @@ private static final long serialVersionUID = 1492894118L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@ForeignKey(name="pfi_bitacola_usrentitat_fk")
-	@JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = false, insertable=false, updatable=false)
+	@JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
 	private UsuariEntitatJPA usuariEntitat;
 
 	public UsuariEntitatJPA getUsuariEntitat() {

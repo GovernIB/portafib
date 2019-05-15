@@ -19,7 +19,7 @@
         data timestamp not null,
         descripcio varchar2(255 char) not null,
         peticiodefirmaid number(19,0) not null,
-        usuarientitatid varchar2(101 char) not null
+        usuarientitatid varchar2(101 char)
     );
 
     create table pfi_blocdefirmes (

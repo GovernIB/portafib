@@ -85,7 +85,7 @@
         <tr id="bitacola_usuariEntitatID_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[BitacolaFields.USUARIENTITATID])?'bitacola.usuariEntitatID':__theForm.labels[BitacolaFields.USUARIENTITATID]}" /> &nbsp;(*)
+              <fmt:message key="${(empty __theForm.labels[BitacolaFields.USUARIENTITATID])?'bitacola.usuariEntitatID':__theForm.labels[BitacolaFields.USUARIENTITATID]}" />
               <c:if test="${not empty __theForm.help[BitacolaFields.USUARIENTITATID]}">
               <i class="icon-info-sign" title="${__theForm.help[BitacolaFields.USUARIENTITATID]}" ></i>
               </c:if>
@@ -99,6 +99,8 @@
           </c:if>
           <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIENTITATID)}" >
           <form:select id="bitacola_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="input-xxlarge" path="bitacola.usuariEntitatID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
             <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
             <form:option value="${tmp.key}" >${tmp.value}</form:option>
             </c:forEach>
