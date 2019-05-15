@@ -464,6 +464,8 @@ ALTER TABLE pfi_usuaripersona
 ALTER TABLE pfi_bitacola
   DROP CONSTRAINT pfi_bitacola_petifirma_fk;
 
+ALTER TABLE pfi_bitacola MODIFY (usuarientitatid  NULL);
+
 
 -- ==================================================================
 -- 2019/03/07  Sol·licitant Addicional o Delegat de Sol·licitant #196

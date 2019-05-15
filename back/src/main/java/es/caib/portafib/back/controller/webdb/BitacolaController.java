@@ -589,6 +589,7 @@ public java.lang.Long stringToPK(String value) {
       // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
       java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
       for (Bitacola _item : list) {
+        if(_item.getUsuariEntitatID() == null) { continue; };
         _pkList.add(_item.getUsuariEntitatID());
         }
         _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);

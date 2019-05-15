@@ -42,10 +42,6 @@ public class BitacolaValidator<T> implements BitacolaFields {
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PETICIODEFIRMAID)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,USUARIENTITATID, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIENTITATID)));
-
     // Check size
     if (__vr.getFieldErrorCount(DESCRIPCIO) == 0) {
       java.lang.String __descripcio = (java.lang.String)__vr.getFieldValue(__target__,DESCRIPCIO);
@@ -81,13 +77,15 @@ public class BitacolaValidator<T> implements BitacolaFields {
     // Fields with References to Other tables 
     if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
       java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
-      Long __count_ = null;
-      try { __count_ = __usuariEntitatManager.count(UsuariEntitatFields.USUARIENTITATID.equal(__usuarientitatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-      if (__count_ == null || __count_ == 0) {        
-        __vr.rejectValue(USUARIENTITATID, "error.notfound",
+      if (__usuarientitatid != null  && __usuarientitatid.length() != 0) {
+        Long __count_ = null;
+        try { __count_ = __usuariEntitatManager.count(UsuariEntitatFields.USUARIENTITATID.equal(__usuarientitatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(USUARIENTITATID, "error.notfound",
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitat"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitatID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuarientitatid)));
+        }
       }
     }
 

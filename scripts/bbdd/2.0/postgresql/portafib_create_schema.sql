@@ -35,7 +35,7 @@ SET default_with_oids = false;
         data timestamp not null,
         descripcio varchar(255) not null,
         peticiodefirmaid int8 not null,
-        usuarientitatid varchar(101) not null,
+        usuarientitatid varchar(101),
         primary key (bitacolaid)
     );
 
