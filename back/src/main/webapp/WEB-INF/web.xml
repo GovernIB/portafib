@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<display-name>PortaFIB</display-name>
-	<description>Back&amp;Front Office PortaFIB</description>
+	<description>Back Office &amp; Front Office - PortaFIB</description>
   
 
 	
@@ -149,8 +149,15 @@
 		</taglib>
 	</jsp-config>
 
+  
+  <error-page>
+    <error-code>401</error-code>
+    <location>/indexcc.jsp?error=401</location>
+  </error-page>
+   
+  
 
-   <error-page>
+  <error-page>
 		<error-code>404</error-code>
 		<location>/error.jsp?errortype=404</location>
 	</error-page>
@@ -181,6 +188,7 @@
             <url-pattern>/doc/*</url-pattern>
             <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/indexcc.jsp</url-pattern>
             <!-- Plugins de Firma -->
             <url-pattern>/common/signmodule/requestPlugin/*</url-pattern>
             <!-- Passarela de Firma PortaFIB No-Autenticada i REST -->
@@ -257,6 +265,20 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+  
+  
+
+  <filter>
+    <filter-name>ClientCertAuthentication</filter-name>
+    <filter-class>es.caib.portafib.back.security.ClientCertAuthenticationFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ClientCertAuthentication</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -267,5 +289,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+  
+
 
 </web-app>

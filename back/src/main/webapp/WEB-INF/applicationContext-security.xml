@@ -20,6 +20,7 @@
     <sec:intercept-url pattern="/css/**" access="permitAll"/>
     <sec:intercept-url pattern="/error.jsp" access="permitAll"/>        
     <sec:intercept-url pattern="/index.jsp" access="permitAll"/>
+    <sec:intercept-url pattern="/indexcc.jsp" access="permitAll"/>
     <!-- Plugins de Firma -->
     <sec:intercept-url pattern="/common/signmodule/requestPlugin/**" access="permitAll"/>
     <!-- Passarela de Firma PortaFIB No-Autenticada i REST -->

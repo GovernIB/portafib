@@ -33,13 +33,6 @@
 
   <profiles>
     <profile>
-      <id>clientcert</id>
-      <modules>
-        <module>back-clientcert</module>
-      </modules>
-    </profile>
-
-    <profile>
       <id>produccio</id>
       <modules>
         <module>earplugins</module>
