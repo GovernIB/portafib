@@ -1,7 +1,5 @@
 package es.caib.portafib.back.controller.webdb;
 
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.GroupByItem;
@@ -58,10 +56,6 @@ public class BitacolaController
 
   @Autowired
   protected BitacolaRefList bitacolaRefList;
-
-  // References 
-  @Autowired
-  protected UsuariEntitatRefList usuariEntitatRefList;
 
   /**
    * Llistat de totes Bitacola
@@ -180,19 +174,6 @@ public class BitacolaController
       groupByItemsMap.put(groupByItem.getField(),groupByItem);
     }
 
-    Map<String, String> _tmp;
-    List<StringKeyValue> _listSKV;
-
-    // Field usuariEntitatID
-    {
-      _listSKV = getReferenceListForUsuariEntitatID(request, mav, filterForm, list, groupByItemsMap, null);
-      _tmp = Utils.listToMap(_listSKV);
-      filterForm.setMapOfUsuariEntitatForUsuariEntitatID(_tmp);
-      if (filterForm.getGroupByFields().contains(USUARIENTITATID)) {
-        fillValuesToGroupByItems(_tmp, groupByItemsMap, USUARIENTITATID, false);
-      };
-    }
-
 
     return groupByItemsMap;
   }
@@ -208,7 +189,6 @@ public class BitacolaController
 
     java.util.Map<Field<?>, java.util.Map<String, String>> __mapping;
     __mapping = new java.util.HashMap<Field<?>, java.util.Map<String, String>>();
-    __mapping.put(USUARIENTITATID, filterForm.getMapOfUsuariEntitatForUsuariEntitatID());
     exportData(request, response, dataExporterID, filterForm,
           list, allFields, __mapping, PRIMARYKEY_FIELDS);
   }
@@ -256,13 +236,6 @@ public class BitacolaController
 
   public void fillReferencesForForm(BitacolaForm bitacolaForm,
     HttpServletRequest request, ModelAndView mav) throws I18NException {
-    // Comprovam si ja esta definida la llista
-    if (bitacolaForm.getListOfUsuariEntitatForUsuariEntitatID() == null) {
-      List<StringKeyValue> _listSKV = getReferenceListForUsuariEntitatID(request, mav, bitacolaForm, null);
-
-      java.util.Collections.sort(_listSKV, STRINGKEYVALUE_COMPARATOR);
-      bitacolaForm.setListOfUsuariEntitatForUsuariEntitatID(_listSKV);
-    }
     
   }
 
@@ -561,46 +534,6 @@ public java.lang.Long stringToPK(String value) {
 
   public boolean isActiveFormView() {
     return isActiveFormEdit();
-  }
-
-
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
-       ModelAndView mav, BitacolaForm bitacolaForm, Where where)  throws I18NException {
-    if (bitacolaForm.isHiddenField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _where = null;
-    if (bitacolaForm.isReadOnlyField(USUARIENTITATID)) {
-      _where = UsuariEntitatFields.USUARIENTITATID.equal(bitacolaForm.getBitacola().getUsuariEntitatID());
-    }
-    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where, _where));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
-       ModelAndView mav, BitacolaFilterForm bitacolaFilterForm,
-       List<Bitacola> list, Map<Field<?>, GroupByItem> _groupByItemsMap, Where where)  throws I18NException {
-    if (bitacolaFilterForm.isHiddenField(USUARIENTITATID)
-      && !bitacolaFilterForm.isGroupByField(USUARIENTITATID)) {
-      return EMPTY_STRINGKEYVALUE_LIST;
-    }
-    Where _w = null;
-    if (!_groupByItemsMap.containsKey(USUARIENTITATID)) {
-      // OBTENIR TOTES LES CLAUS (PK) i despres només cercar referències d'aquestes PK
-      java.util.Set<java.lang.String> _pkList = new java.util.HashSet<java.lang.String>();
-      for (Bitacola _item : list) {
-        if(_item.getUsuariEntitatID() == null) { continue; };
-        _pkList.add(_item.getUsuariEntitatID());
-        }
-        _w = UsuariEntitatFields.USUARIENTITATID.in(_pkList);
-      }
-    return getReferenceListForUsuariEntitatID(request, mav, Where.AND(where,_w));
-  }
-
-
-  public List<StringKeyValue> getReferenceListForUsuariEntitatID(HttpServletRequest request,
-       ModelAndView mav, Where where)  throws I18NException {
-    return usuariEntitatRefList.getReferenceList(UsuariEntitatFields.USUARIENTITATID, where );
   }
 
 

@@ -17,6 +17,7 @@ public interface BitacolaFields extends java.io.Serializable {
 	 public static final StringField DESCRIPCIO = new StringField(_TABLE_MODEL, "descripcio", "descripcio");
 	 public static final LongField PETICIODEFIRMAID = new LongField(_TABLE_MODEL, "peticioDeFirmaID", "peticiodefirmaid");
 	 public static final StringField USUARIENTITATID = new StringField(_TABLE_MODEL, "usuariEntitatID", "usuarientitatid");
+	 public static final StringField USUARIAPLICACIOID = new StringField(_TABLE_MODEL, "usuariAplicacioID", "usuariaplicacioid");
 
 
   public static final Field<?>[] ALL_BITACOLA_FIELDS = {
@@ -24,7 +25,8 @@ public interface BitacolaFields extends java.io.Serializable {
     DATA,
     DESCRIPCIO,
     PETICIODEFIRMAID,
-    USUARIENTITATID
+    USUARIENTITATID,
+    USUARIAPLICACIOID
   };
 
 

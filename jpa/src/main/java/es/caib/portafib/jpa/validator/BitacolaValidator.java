@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import org.fundaciobit.genapp.common.query.Field;
 import es.caib.portafib.model.fields.BitacolaFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
 
@@ -26,8 +25,7 @@ public class BitacolaValidator<T> implements BitacolaFields {
 
   /** Constructor */
   public void validate(IValidatorResult<T> __vr, T __target__, boolean __isNou__
-    ,es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager
-    ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
+    ,es.caib.portafib.model.dao.IBitacolaManager __bitacolaManager) {
 
     // Valors Not Null
     __vr.rejectIfEmptyOrWhitespace(__target__,DATA, 
@@ -59,6 +57,14 @@ public class BitacolaValidator<T> implements BitacolaFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(USUARIAPLICACIOID) == 0) {
+      java.lang.String __usuariaplicacioid = (java.lang.String)__vr.getFieldValue(__target__,USUARIAPLICACIOID);
+      if (__usuariaplicacioid!= null && __usuariaplicacioid.length() > 101) {
+        __vr.rejectValue(USUARIAPLICACIOID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USUARIAPLICACIOID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(101)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 
@@ -75,20 +81,6 @@ public class BitacolaValidator<T> implements BitacolaFields {
     }
 
     // Fields with References to Other tables 
-    if (__vr.getFieldErrorCount(USUARIENTITATID) == 0) {
-      java.lang.String __usuarientitatid = (java.lang.String)__vr.getFieldValue(__target__,USUARIENTITATID);
-      if (__usuarientitatid != null  && __usuarientitatid.length() != 0) {
-        Long __count_ = null;
-        try { __count_ = __usuariEntitatManager.count(UsuariEntitatFields.USUARIENTITATID.equal(__usuarientitatid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
-        if (__count_ == null || __count_ == 0) {        
-          __vr.rejectValue(USUARIENTITATID, "error.notfound",
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitat"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitatID"),
-         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__usuarientitatid)));
-        }
-      }
-    }
-
   } // Final de mètode
   public String get(Field<?> field) {
     return field.fullName;

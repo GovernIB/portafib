@@ -1,7 +1,5 @@
 package es.caib.portafib.back.form.webdb;
 
-import java.util.List;
-import org.fundaciobit.genapp.common.StringKeyValue;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
 import es.caib.portafib.jpa.BitacolaJPA;
 
@@ -19,7 +17,6 @@ public class BitacolaForm extends PortaFIBBaseForm {
   public BitacolaForm(BitacolaForm __toClone) {
     super(__toClone);
       this.bitacola = __toClone.bitacola;
-    this.listOfUsuariEntitatForUsuariEntitatID = __toClone.listOfUsuariEntitatForUsuariEntitatID;
   }
   
   public BitacolaForm(BitacolaJPA bitacola, boolean nou) {
@@ -35,17 +32,5 @@ public class BitacolaForm extends PortaFIBBaseForm {
   }
   
   
-  private List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID;
-
-  public List<StringKeyValue> getListOfUsuariEntitatForUsuariEntitatID() {
-    return this.listOfUsuariEntitatForUsuariEntitatID;
-  }
-
-  public void setListOfUsuariEntitatForUsuariEntitatID(List<StringKeyValue> listOfUsuariEntitatForUsuariEntitatID) {
-    this.listOfUsuariEntitatForUsuariEntitatID = listOfUsuariEntitatForUsuariEntitatID;
-  }
-
-
-
   
 } // Final de Classe 

@@ -29,9 +29,6 @@ public class BitacolaWebValidator  implements Validator, BitacolaFields {
   @javax.ejb.EJB(mappedName = "portafib/BitacolaEJB/local")
   protected es.caib.portafib.ejb.BitacolaLocal bitacolaEjb;
 
-  @javax.ejb.EJB(mappedName = "portafib/UsuariEntitatEJB/local")
-  protected es.caib.portafib.ejb.UsuariEntitatLocal usuariEntitatEjb;
-
 
 
   public BitacolaWebValidator() {
@@ -60,7 +57,7 @@ public class BitacolaWebValidator  implements Validator, BitacolaFields {
     WebValidationResult<Object> wvr, boolean isNou) {
 
     validator.validate(wvr, target,
-      isNou, bitacolaEjb, usuariEntitatEjb);
+      isNou, bitacolaEjb);
 
   } // Final de metode
 

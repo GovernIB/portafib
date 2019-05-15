@@ -266,19 +266,6 @@ private static final long serialVersionUID = 190357384L;
 	}
 
 
-// EXP  Field:pluginvalidacertificatid | Table: pfi_entitat | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginValidaCertificatID")
-	private Set<EntitatJPA> entitat_pluginvalidacertificatids = new HashSet<EntitatJPA>(0);
-	public  Set<EntitatJPA> getEntitat_pluginvalidacertificatids() {
-    return this.entitat_pluginvalidacertificatids;
-  }
-
-	public void setEntitat_pluginvalidacertificatids(Set<EntitatJPA> entitat_pluginvalidacertificatids) {
-	  this.entitat_pluginvalidacertificatids = entitat_pluginvalidacertificatids;
-	}
-
-
 // EXP  Field:pluginid | Table: pfi_entitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginSegellTempsID")
@@ -302,6 +289,19 @@ private static final long serialVersionUID = 190357384L;
 
 	public void setEntitat_pluginvalidafirmesids(Set<EntitatJPA> entitat_pluginvalidafirmesids) {
 	  this.entitat_pluginvalidafirmesids = entitat_pluginvalidafirmesids;
+	}
+
+
+// EXP  Field:pluginvalidacertificatid | Table: pfi_entitat | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pluginValidaCertificatID")
+	private Set<EntitatJPA> entitat_pluginvalidacertificatids = new HashSet<EntitatJPA>(0);
+	public  Set<EntitatJPA> getEntitat_pluginvalidacertificatids() {
+    return this.entitat_pluginvalidacertificatids;
+  }
+
+	public void setEntitat_pluginvalidacertificatids(Set<EntitatJPA> entitat_pluginvalidacertificatids) {
+	  this.entitat_pluginvalidacertificatids = entitat_pluginvalidacertificatids;
 	}
 
 

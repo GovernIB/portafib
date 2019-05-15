@@ -17,6 +17,9 @@ public interface Bitacola extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public java.lang.String getUsuariEntitatID();
 	public void setUsuariEntitatID(java.lang.String _usuariEntitatID_);
 
+	public java.lang.String getUsuariAplicacioID();
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_);
+
 
 
   // ======================================
