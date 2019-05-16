@@ -129,6 +129,23 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
   
   
+  
+  @Override
+  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersonaJPA
+    , Set<String> virtualRoles)
+    throws I18NException, I18NValidationException, Exception {
+    
+    UsuariEntitatJPA usuariEntitatJPA = null;
+    
+    usuariEntitatJPA =  create( usuariPersonaJPA,
+         usuariEntitatJPA, virtualRoles);
+    
+    return usuariEntitatJPA.getUsuariPersona();
+    
+  }
+  
+  
+  
 
   @Override
   public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA,
@@ -155,7 +172,11 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);
     // (b) Assignam aquest usuariEntitat a la persona
     Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
-    usuariEntitats.add(usuariEntitatJPA);
+    if (usuariEntitatJPA.getUsuariEntitatID() == null) {
+      // Significa que es una entitat que només actua de contenidor de usuari persona
+    } else {
+      usuariEntitats.add(usuariEntitatJPA);
+    }
     usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
     
     return usuariEntitatJPA;

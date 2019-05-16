@@ -109,14 +109,14 @@ public class AuthenticationSuccessListener implements
       if (isDebug) { 
         log.debug("Configuracio.getDefaultEntity() = ]" + PropietatGlobalUtil.getDefaultEntity() + "[");
       }
-      if (containsRoleAdmin || Configuracio.isCAIB() || PropietatGlobalUtil.getDefaultEntity() != null) {
+      {
         try {
           IUserInformationPlugin plugin = PortaFIBPluginsManager.getUserInformationPluginInstance();
           UserInfo info = plugin.getUserInfoByUserName(name);
           if (info != null) {
-            UsuariPersonaJPA admin = new UsuariPersonaJPA();
-            admin.setEmail(info.getEmail()== null? PropietatGlobalUtil.getAppEmail() : info.getEmail());
-            admin.setIdiomaID(Configuracio.getDefaultLanguage());
+            UsuariPersonaJPA persona = new UsuariPersonaJPA();
+            persona.setEmail(info.getEmail()== null? PropietatGlobalUtil.getAppEmail() : info.getEmail());
+            persona.setIdiomaID(Configuracio.getDefaultLanguage());
             final String nom, llinatges;
             {         
               String nomTmp = info.getName() == null? name : info.getName();
@@ -140,11 +140,11 @@ public class AuthenticationSuccessListener implements
                 llinatges = llinatgesTmp;
               }
             }
-            admin.setNom(nom);
-            admin.setLlinatges(llinatges);
+            persona.setNom(nom);
+            persona.setLlinatges(llinatges);
 
-            admin.setUsuariPersonaID(name);
-            admin.setNif(info.getAdministrationID().toUpperCase());
+            persona.setUsuariPersonaID(name);
+            persona.setNif(info.getAdministrationID().toUpperCase());
 
             UsuariEntitatJPA usuariEntitat = null;
             Set<String> virtualRoles = null;
@@ -169,11 +169,10 @@ public class AuthenticationSuccessListener implements
                 usuariEntitat.setActiu(true);
                 usuariEntitat.setCarrec(null);
                 usuariEntitat.setEntitatID(defaultEntity);
-                //XYZ ZZZ usuariEntitat.setPotCustodiar(false);
                 usuariEntitat.setPoliticaCustodia(ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE);
                 
                 usuariEntitat.setPredeterminat(true);
-                usuariEntitat.setUsuariPersonaID(admin.getUsuariPersonaID());
+                usuariEntitat.setUsuariPersonaID(persona.getUsuariPersonaID());
               }
 
             }
@@ -192,13 +191,14 @@ public class AuthenticationSuccessListener implements
               throw new LoginException("No puc accedir al gestor d´obtenció de" +
                       " informació d´usuari-entitat per " + name + ": " + e.getMessage(), e);
             }
-            
+  
+            if (usuariEntitat == null) {
+              usuariPersona = usuariEntitatLogicaEjb.create(persona, virtualRoles);
+            } else {
+              usuariEntitat = usuariEntitatLogicaEjb.create(persona, usuariEntitat, virtualRoles);
+              usuariPersona = usuariEntitat.getUsuariPersona();
+            }  
 
-            usuariEntitat = (UsuariEntitatJPA)usuariEntitatLogicaEjb.create(admin, usuariEntitat, virtualRoles);
-            
-
-            usuariPersona = usuariEntitat.getUsuariPersona();
-            
             if (isDebug) { 
               log.debug("necesitaConfigurarUsuari = " + necesitaConfigurar);
             }
@@ -310,12 +310,16 @@ public class AuthenticationSuccessListener implements
     
 
     Set<UsuariEntitatJPA> usuariEntitats = usuariPersona.getUsuariEntitats();
-    if (log.isDebugEnabled()) {
-      log.debug("POST getUsuariEntitats() = " + usuariEntitats);
-    }
 
-    if (usuariEntitats != null && log.isDebugEnabled()) {
-      log.debug("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
+    if (isDebug) {
+      log.debug("POST getUsuariEntitats() = " + usuariEntitats);
+      if (usuariEntitats != null && log.isDebugEnabled()) {
+        log.debug("POST getUsuariEntitats()[SIZE] = " + usuariEntitats.size());
+        for (UsuariEntitatJPA usuariEntitatJPA : usuariEntitats) {
+          log.debug("POST getUsuariEntitats()[ITEM] = " + usuariEntitatJPA.getEntitatID() + " - " + usuariEntitatJPA.getUsuariEntitatID());
+        }
+
+      }
     }
 
     if (usuariEntitats == null) {
@@ -433,15 +437,14 @@ public class AuthenticationSuccessListener implements
     if (entitats.size() == 0 && !containsRoleAdmin) {
       
       if (usuariEntitats.size() == 0) {
-        // Miram si només és Administrador.
-        // Només permetem llista d'entitats buida si és ADMIN
-        // TODO traduccio
-        throw new LoginException("L'usuari " + name + " no té cap entitat associada");
-         
+        // L'usuari " + name + " no té cap entitat associada. Consulti amb l'Administrador
+        I18NTranslation translation = new I18NTranslation("error.senseentitat", name);        
+        BasePreparer.loginErrorMessage.put(name, translation);
       } else {
         // Les entitats a les que pertany estan desactivades
-        // TODO traduccio
-        throw new LoginException("L'usuari " + name + " no té cap entitat vàlida associada");
+        // "L'usuari " + name + " no té cap entitat vàlida associada");
+        I18NTranslation translation = new I18NTranslation("error.senseentitatvalida", name);
+        BasePreparer.loginErrorMessage.put(name, translation);
       }
     }
 
