@@ -3,15 +3,11 @@ package es.caib.portafib.jpa;
 import es.caib.portafib.model.entity.*;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import org.hibernate.annotations.Index;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import org.hibernate.annotations.ForeignKey;
 import javax.persistence.GeneratedValue;
 
 
@@ -45,6 +41,9 @@ private static final long serialVersionUID = 1492894118L;
 	@Column(name="usuarientitatid",length = 101)
 	java.lang.String usuariEntitatID;
 
+	@Column(name="usuariaplicacioid",length = 101)
+	java.lang.String usuariAplicacioID;
+
 
 
   /** Constructor Buit */
@@ -52,19 +51,28 @@ private static final long serialVersionUID = 1492894118L;
   }
 
   /** Constructor amb tots els camps  */
-  public BitacolaJPA(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID) {
+  public BitacolaJPA(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
     this.bitacolaID=bitacolaID;
     this.data=data;
     this.descripcio=descripcio;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.usuariEntitatID=usuariEntitatID;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor sense valors autoincrementals */
-  public BitacolaJPA(java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID) {
+  public BitacolaJPA(java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
     this.data=data;
     this.descripcio=descripcio;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.usuariEntitatID=usuariEntitatID;
+    this.usuariAplicacioID=usuariAplicacioID;
+}
+  /** Constructor dels valors Not Null */
+  public BitacolaJPA(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID) {
+    this.bitacolaID=bitacolaID;
+    this.data=data;
+    this.descripcio=descripcio;
+    this.peticioDeFirmaID=peticioDeFirmaID;
 }
   public BitacolaJPA(Bitacola __bean) {
     this.setBitacolaID(__bean.getBitacolaID());
@@ -72,6 +80,7 @@ private static final long serialVersionUID = 1492894118L;
     this.setDescripcio(__bean.getDescripcio());
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
 
 	public long getBitacolaID() {
@@ -109,6 +118,13 @@ private static final long serialVersionUID = 1492894118L;
 		this.usuariEntitatID = _usuariEntitatID_;
 	};
 
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
+	};
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
+	};
+
 
 
   @Override
@@ -124,21 +140,6 @@ private static final long serialVersionUID = 1492894118L;
     return __result;
   }
 
-// IMP Field:usuarientitatid | Table: pfi_usuarientitat | Type: 1  
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="pfi_bitacola_usrentitat_fk")
-	@JoinColumn(name = "usuarientitatid", referencedColumnName ="usuariEntitatID", nullable = true, insertable=false, updatable=false)
-	private UsuariEntitatJPA usuariEntitat;
-
-	public UsuariEntitatJPA getUsuariEntitat() {
-    return this.usuariEntitat;
-  }
-
-	public  void setUsuariEntitat(UsuariEntitatJPA usuariEntitat) {
-    this.usuariEntitat = usuariEntitat;
-  }
-
 
  // ---------------  STATIC METHODS ------------------
   public static BitacolaJPA toJPA(Bitacola __bean) {
@@ -149,6 +150,7 @@ private static final long serialVersionUID = 1492894118L;
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;
 	}
 
@@ -179,10 +181,6 @@ private static final long serialVersionUID = 1492894118L;
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
     // Copia de beans complexes (IMP)
-    if(!"UsuariEntitatJPA".equals(origenJPA) && 
-       (!org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariEntitat) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariEntitat()) ) ) {
-      __tmp.setUsuariEntitat(UsuariEntitatJPA.copyJPA(__jpa.getUsuariEntitat(), __alreadyCopied,"BitacolaJPA"));
-    }
 
     return __tmp;
   }

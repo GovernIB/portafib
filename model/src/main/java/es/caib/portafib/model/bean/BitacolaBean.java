@@ -15,6 +15,7 @@ private static final long serialVersionUID = -965139643L;
 	java.lang.String descripcio;
 	long peticioDeFirmaID;
 	java.lang.String usuariEntitatID;
+	java.lang.String usuariAplicacioID;
 
 
   /** Constructor Buit */
@@ -22,19 +23,28 @@ private static final long serialVersionUID = -965139643L;
   }
 
   /** Constructor amb tots els camps  */
-  public BitacolaBean(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID) {
+  public BitacolaBean(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
     this.bitacolaID=bitacolaID;
     this.data=data;
     this.descripcio=descripcio;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.usuariEntitatID=usuariEntitatID;
+    this.usuariAplicacioID=usuariAplicacioID;
 }
   /** Constructor sense valors autoincrementals */
-  public BitacolaBean(java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID) {
+  public BitacolaBean(java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID , java.lang.String usuariEntitatID , java.lang.String usuariAplicacioID) {
     this.data=data;
     this.descripcio=descripcio;
     this.peticioDeFirmaID=peticioDeFirmaID;
     this.usuariEntitatID=usuariEntitatID;
+    this.usuariAplicacioID=usuariAplicacioID;
+}
+  /** Constructor dels valors Not Null */
+  public BitacolaBean(long bitacolaID , java.sql.Timestamp data , java.lang.String descripcio , long peticioDeFirmaID) {
+    this.bitacolaID=bitacolaID;
+    this.data=data;
+    this.descripcio=descripcio;
+    this.peticioDeFirmaID=peticioDeFirmaID;
 }
   public BitacolaBean(Bitacola __bean) {
     this.setBitacolaID(__bean.getBitacolaID());
@@ -42,6 +52,7 @@ private static final long serialVersionUID = -965139643L;
     this.setDescripcio(__bean.getDescripcio());
     this.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     this.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    this.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 	}
 
 	public long getBitacolaID() {
@@ -79,6 +90,13 @@ private static final long serialVersionUID = -965139643L;
 		this.usuariEntitatID = _usuariEntitatID_;
 	};
 
+	public java.lang.String getUsuariAplicacioID() {
+		return(usuariAplicacioID);
+	};
+	public void setUsuariAplicacioID(java.lang.String _usuariAplicacioID_) {
+		this.usuariAplicacioID = _usuariAplicacioID_;
+	};
+
 
 
   // ======================================
@@ -91,6 +109,7 @@ private static final long serialVersionUID = -965139643L;
     __tmp.setDescripcio(__bean.getDescripcio());
     __tmp.setPeticioDeFirmaID(__bean.getPeticioDeFirmaID());
     __tmp.setUsuariEntitatID(__bean.getUsuariEntitatID());
+    __tmp.setUsuariAplicacioID(__bean.getUsuariAplicacioID());
 		return __tmp;
 	}
 

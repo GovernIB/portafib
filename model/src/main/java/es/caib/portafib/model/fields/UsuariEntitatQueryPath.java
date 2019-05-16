@@ -73,10 +73,10 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
-  public BitacolaQueryPath BITACOLAS() {
-    return new BitacolaQueryPath(new QueryPath() {
+  public ColaboracioDelegacioQueryPath COLABORACIODELEGACIO_DESTINATARIIDS() {
+    return new ColaboracioDelegacioQueryPath(new QueryPath() {
       public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "bitacolas" + ".";
+          return UsuariEntitatQueryPath.this.getQueryPath() + "colaboracioDelegacio_destinatariids" + ".";
       }
     });
   }
@@ -91,20 +91,6 @@ public class UsuariEntitatQueryPath extends org.fundaciobit.genapp.common.query.
     return new ColaboracioDelegacioQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariEntitatQueryPath.this.getQueryPath() + "colaboracioDelegacio_colaboradordelegatids" + ".";
-      }
-    });
-  }
-*/
-
-/* L'ús d'aquest camp (OneToMany) llança una exception:
- [Illegal attempt to dereference a collection]
-
- // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
-
-  public ColaboracioDelegacioQueryPath COLABORACIODELEGACIO_DESTINATARIIDS() {
-    return new ColaboracioDelegacioQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariEntitatQueryPath.this.getQueryPath() + "colaboracioDelegacio_destinatariids" + ".";
       }
     });
   }

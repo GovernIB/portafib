@@ -31,6 +31,10 @@ public class BitacolaQueryPath extends org.fundaciobit.genapp.common.query.Query
     return new StringField(getQueryPath(), BitacolaFields.USUARIENTITATID);
   }
 
+  public StringField USUARIAPLICACIOID() {
+    return new StringField(getQueryPath(), BitacolaFields.USUARIAPLICACIOID);
+  }
+
 
 
   @Override
@@ -39,13 +43,5 @@ public class BitacolaQueryPath extends org.fundaciobit.genapp.common.query.Query
         : this.parentQueryPath.getQueryPath());
   }
 
-
-  public UsuariEntitatQueryPath USUARIENTITAT() {
-    return new UsuariEntitatQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return BitacolaQueryPath.this.getQueryPath() + "usuariEntitat" + ".";
-      }
-    });
-  }
 
 }

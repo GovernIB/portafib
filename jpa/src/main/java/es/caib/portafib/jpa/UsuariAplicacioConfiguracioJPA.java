@@ -112,7 +112,6 @@ opcional incluso cuando se genera una firma EPES. */
 	int politicaTaulaFirmes;
 
   /** Si val null s'utilitza la info de l'entitat. Valors: SENSETAULA = 0; PRIMERAPAGINA = 1; DARRERAPAGINA = -1;DEFINIT_EN_FIRMA(RUBRICA)=2 */
-	@Index(name="pfi_confapp_postaula_fk_i")
 	@Column(name="posiciotaulafirmesid",nullable = false,length = 10)
 	int posicioTaulaFirmesID;
 

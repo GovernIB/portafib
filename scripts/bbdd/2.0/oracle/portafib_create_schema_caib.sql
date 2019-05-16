@@ -19,6 +19,7 @@
         data timestamp not null,
         descripcio varchar2(255 char) not null,
         peticiodefirmaid number(19,0) not null,
+        usuariaplicacioid varchar2(101 char),
         usuarientitatid varchar2(101 char)
     );
 
@@ -535,20 +536,20 @@
     create index pfi_custodia_codibarid_fk_i on pfi_custodiainfo (codibarresid);
     create index pfi_custodia_entitatid_fk_i on pfi_custodiainfo (entitatid);
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
-    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
-    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
-    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
     create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
     create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
     create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
+    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
+    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
     create index pfi_estadistica_pk_i on pfi_estadistica (estadisticaid);
     create index pfi_estadistica_entitatid_fk_i on pfi_estadistica (entitatid);
     create index pfi_estatdefirma_firmaid_fk_i on pfi_estatdefirma (firmaid);
@@ -656,7 +657,6 @@
     create index pfi_usuariaplicacioconfig_pk_i on pfi_usuariaplicacioconfig (usuariaplicacioconfigid);
     create index pfi_confapp_plugsegell_fk_i on pfi_usuariaplicacioconfig (pluginsegellatid);
     create index pfi_confapp_tipusfirma_fk_i on pfi_usuariaplicacioconfig (tipusfirmaid);
-    create index pfi_confapp_postaula_fk_i on pfi_usuariaplicacioconfig (posiciotaulafirmesid);
     create index pfi_confapp_logincert_fk_i on pfi_usuariaplicacioconfig (logincertificateid);
     create index pfi_confapp_firmatper_fk_i on pfi_usuariaplicacioconfig (firmatperformatid);
     create index pfi_confapp_firmaserv_fk_i on pfi_usuariaplicacioconfig (pluginfirmaservidorid);
@@ -800,11 +800,6 @@
         add constraint pfi_anexfirmat_firma_fk 
         foreign key (firmaid) 
         references pfi_firma;
-
-    alter table pfi_bitacola 
-        add constraint pfi_bitacola_usrentitat_fk 
-        foreign key (usuarientitatid) 
-        references pfi_usuarientitat;
 
     alter table pfi_blocdefirmes 
         add constraint pfi_blocfirmes_fluxfirmes_fk 
@@ -1336,7 +1331,7 @@
     alter table pfi_grupentitat add constraint pfi_grupentita_nomentitat_uk unique (nom, entitatid);
     alter table pfi_grupentitatusuarientitat add constraint pfi_grupusrent_usrgrup_uk unique (usuarientitatid, grupentitatid);
     alter table pfi_modulfirmapertipusdoc add constraint pfi_mofitido_modfirm_tipdoc_uk unique (tipusdocumentid, pluginid);
-    alter table pfi_perfilsperusrapp add constraint pfi_perfilsua_multiple_uk unique (usuariaplicacioperfilid, usuariaplicacioid);
+    alter table pfi_perfilsperusrapp add constraint pfi_perfilsua_uaid_perf_uk unique (usuariaplicacioperfilid, usuariaplicacioid);
     alter table pfi_permisgrupplantilla add constraint pfi_permisgrpl_grupflux_uk unique (grupentitatid, fluxdefirmesid);
     alter table pfi_permisusuariplantilla add constraint pfi_permisuspl_usrflux_uk unique (usuarientitatid, fluxdefirmesid);
     alter table pfi_peticiodefirma add constraint pfi_petifirma_fluxfirmesid_uk unique (fluxdefirmesid);

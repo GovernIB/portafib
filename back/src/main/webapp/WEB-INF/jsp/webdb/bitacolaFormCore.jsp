@@ -92,20 +92,27 @@
              </label>
             </td>
             <td>
-          <form:errors path="bitacola.usuariEntitatID" cssClass="errorField alert alert-error" />
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIENTITATID)}" >
-          <form:hidden path="bitacola.usuariEntitatID"/>
-          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.bitacola.usuariEntitatID,__theForm.listOfUsuariEntitatForUsuariEntitatID)}"  />
-          </c:if>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIENTITATID)}" >
-          <form:select id="bitacola_usuariEntitatID"  onchange="if(typeof onChangeUsuariEntitatID == 'function') {  onChangeUsuariEntitatID(this); };"  cssClass="input-xxlarge" path="bitacola.usuariEntitatID">
-          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
-          <form:option value="" ></form:option>
-            <c:forEach items="${__theForm.listOfUsuariEntitatForUsuariEntitatID}" var="tmp">
-            <form:option value="${tmp.key}" >${tmp.value}</form:option>
-            </c:forEach>
-          </form:select>
-          </c:if>
+            <form:errors path="bitacola.usuariEntitatID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIENTITATID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIENTITATID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="bitacola.usuariEntitatID"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,BitacolaFields.USUARIAPLICACIOID)}">
+        <tr id="bitacola_usuariAplicacioID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[BitacolaFields.USUARIAPLICACIOID])?'bitacola.usuariAplicacioID':__theForm.labels[BitacolaFields.USUARIAPLICACIOID]}" />
+              <c:if test="${not empty __theForm.help[BitacolaFields.USUARIAPLICACIOID]}">
+              <i class="icon-info-sign" title="${__theForm.help[BitacolaFields.USUARIAPLICACIOID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="bitacola.usuariAplicacioID" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIAPLICACIOID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,BitacolaFields.USUARIAPLICACIOID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="101" path="bitacola.usuariAplicacioID"   />
+
            </td>
         </tr>
         </c:if>

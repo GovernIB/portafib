@@ -35,6 +35,7 @@ SET default_with_oids = false;
         data timestamp not null,
         descripcio varchar(255) not null,
         peticiodefirmaid int8 not null,
+        usuariaplicacioid varchar(101),
         usuarientitatid varchar(101),
         primary key (bitacolaid)
     );
@@ -624,11 +625,6 @@ SET default_with_oids = false;
 
     create index pfi_bitacola_peticid_fk_i on pfi_bitacola (peticiodefirmaid);
 
-    alter table pfi_bitacola 
-        add constraint pfi_bitacola_usrentitat_fk 
-        foreign key (usuarientitatid) 
-        references pfi_usuarientitat;
-
     create index pfi_blocfirmes_fluxid_fk_i on pfi_blocdefirmes (fluxdefirmesid);
 
     create index pfi_blocdefirmes_pk_i on pfi_blocdefirmes (blocdefirmesid);
@@ -706,33 +702,33 @@ SET default_with_oids = false;
 
     create index pfi_entitat_motiudele_fk_i on pfi_entitat (motiudelegacioid);
 
-    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
-
     create index pfi_entitat_pk_i on pfi_entitat (entitatid);
-
-    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
 
     create index pfi_entitat_pluginvalcer_fk_i on pfi_entitat (pluginvalidacertificatid);
 
     create index pfi_entitat_pluginrubri_fk_i on pfi_entitat (pluginrubricaid);
 
-    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
-
-    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
-
     create index pfi_entitat_pdfautoriid_fk_i on pfi_entitat (pdfautoritzaciodelegacioid);
 
-    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
-
-    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
-
     create index pfi_entitat_usrappid_fk_i on pfi_entitat (usuariaplicacioid);
-
-    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
 
     create index pfi_entitat_firmatper_fk_i on pfi_entitat (firmatperformatid);
 
     create index pfi_entitat_faviconid_fk_i on pfi_entitat (faviconid);
+
+    create index pfi_entitat_algofirma_fk_i on pfi_entitat (algorismedefirmaid);
+
+    create index pfi_entitat_pluginvalfir_fk_i on pfi_entitat (pluginvalidafirmesid);
+
+    create index pfi_entitat_custodiadef_fk_i on pfi_entitat (custodiainfoid);
+
+    create index pfi_entitat_segelltemps_fk_i on pfi_entitat (pluginid);
+
+    create index pfi_entitat_logosegellid_fk_i on pfi_entitat (logosegellid);
+
+    create index pfi_entitat_logowebpeuid_fk_i on pfi_entitat (logowebpeuid);
+
+    create index pfi_entitat_logowebid_fk_i on pfi_entitat (logowebid);
 
     alter table pfi_entitat 
         add constraint pfi_entitat_traduccio_firm_fk 
@@ -1332,8 +1328,6 @@ SET default_with_oids = false;
     create index pfi_confapp_plugsegell_fk_i on pfi_usuariaplicacioconfig (pluginsegellatid);
 
     create index pfi_confapp_tipusfirma_fk_i on pfi_usuariaplicacioconfig (tipusfirmaid);
-
-    create index pfi_confapp_postaula_fk_i on pfi_usuariaplicacioconfig (posiciotaulafirmesid);
 
     create index pfi_confapp_logincert_fk_i on pfi_usuariaplicacioconfig (logincertificateid);
 

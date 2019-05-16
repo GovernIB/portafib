@@ -3,7 +3,6 @@ package es.caib.portafib.back.form.webdb;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -109,6 +108,17 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
   }
 
 
+  private java.lang.String usuariAplicacioID;
+
+  public java.lang.String getUsuariAplicacioID() {
+    return this.usuariAplicacioID;
+  }
+
+  public void setUsuariAplicacioID(java.lang.String usuariAplicacioID) {
+    this.usuariAplicacioID = usuariAplicacioID;
+  }
+
+
   public BitacolaFilterForm() {
   }
   
@@ -122,14 +132,14 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
     this.peticioDeFirmaIDDesde = __toClone.peticioDeFirmaIDDesde;
     this.peticioDeFirmaIDFins = __toClone.peticioDeFirmaIDFins;
     this.usuariEntitatID = __toClone.usuariEntitatID;
-    this.mapOfUsuariEntitatForUsuariEntitatID = __toClone.mapOfUsuariEntitatForUsuariEntitatID;
+    this.usuariAplicacioID = __toClone.usuariAplicacioID;
   }
   
   /* ========= UTILS ========== */
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,USUARIAPLICACIOID }));
   }
 
   @Override
@@ -157,18 +167,6 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
    // -----------------------
    // Maps de referencies.
    // -----------------------
-  private Map<String, String> mapOfUsuariEntitatForUsuariEntitatID;
-
-  public Map<String, String> getMapOfUsuariEntitatForUsuariEntitatID() {
-    return this.mapOfUsuariEntitatForUsuariEntitatID;
-  }
-
-  public void setMapOfUsuariEntitatForUsuariEntitatID(Map<String, String> mapOfUsuariEntitatForUsuariEntitatID) {
-    this.mapOfUsuariEntitatForUsuariEntitatID = mapOfUsuariEntitatForUsuariEntitatID;
-  }
-
-
-
 
    // --------------------------------
    // Camps traduibles de referencies.

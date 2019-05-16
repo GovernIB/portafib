@@ -44,10 +44,12 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIENTITATID)}">
           <td>
-          <c:set var="tmp">${bitacola.usuariEntitatID}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfUsuariEntitatForUsuariEntitatID[tmp]}
-          </c:if>
+          ${bitacola.usuariEntitatID}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIAPLICACIOID)}">
+          <td>
+          ${bitacola.usuariAplicacioID}
           </td>
         </c:if>
 

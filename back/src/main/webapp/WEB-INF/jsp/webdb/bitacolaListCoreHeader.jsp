@@ -27,6 +27,9 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIENTITATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,BitacolaFields.USUARIENTITATID)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,BitacolaFields.USUARIAPLICACIOID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,BitacolaFields.USUARIAPLICACIOID)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

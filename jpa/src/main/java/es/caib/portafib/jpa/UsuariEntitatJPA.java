@@ -226,16 +226,16 @@ private static final long serialVersionUID = 2031334771L;
     return __result;
   }
 
-// EXP  Field:usuarientitatid | Table: pfi_bitacola | Type: 0  
+// EXP  Field:destinatariid | Table: pfi_colaboraciodelegacio | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariEntitat")
-	private Set<BitacolaJPA> bitacolas = new HashSet<BitacolaJPA>(0);
-	public  Set<BitacolaJPA> getBitacolas() {
-    return this.bitacolas;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatariID")
+	private Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids = new HashSet<ColaboracioDelegacioJPA>(0);
+	public  Set<ColaboracioDelegacioJPA> getColaboracioDelegacio_destinatariids() {
+    return this.colaboracioDelegacio_destinatariids;
   }
 
-	public void setBitacolas(Set<BitacolaJPA> bitacolas) {
-	  this.bitacolas = bitacolas;
+	public void setColaboracioDelegacio_destinatariids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids) {
+	  this.colaboracioDelegacio_destinatariids = colaboracioDelegacio_destinatariids;
 	}
 
 
@@ -249,19 +249,6 @@ private static final long serialVersionUID = 2031334771L;
 
 	public void setColaboracioDelegacio_colaboradordelegatids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_colaboradordelegatids) {
 	  this.colaboracioDelegacio_colaboradordelegatids = colaboracioDelegacio_colaboradordelegatids;
-	}
-
-
-// EXP  Field:destinatariid | Table: pfi_colaboraciodelegacio | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "destinatariID")
-	private Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids = new HashSet<ColaboracioDelegacioJPA>(0);
-	public  Set<ColaboracioDelegacioJPA> getColaboracioDelegacio_destinatariids() {
-    return this.colaboracioDelegacio_destinatariids;
-  }
-
-	public void setColaboracioDelegacio_destinatariids(Set<ColaboracioDelegacioJPA> colaboracioDelegacio_destinatariids) {
-	  this.colaboracioDelegacio_destinatariids = colaboracioDelegacio_destinatariids;
 	}
 
 
@@ -568,10 +555,6 @@ private static final long serialVersionUID = 2031334771L;
     __tmp = toJPA(__jpa);
     __alreadyCopied.put(__jpa, __tmp);
     // Copia de beans complexes (EXP)
-    if(!"BitacolaJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.bitacolas) || org.hibernate.Hibernate.isInitialized(__jpa.getBitacolas())) ) {
-      __tmp.setBitacolas(BitacolaJPA.copyJPA(__jpa.getBitacolas(), __alreadyCopied,"UsuariEntitatJPA"));
-    }
     if(!"RevisorDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.revisorDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getRevisorDeFirmas())) ) {
       __tmp.setRevisorDeFirmas(RevisorDeFirmaJPA.copyJPA(__jpa.getRevisorDeFirmas(), __alreadyCopied,"UsuariEntitatJPA"));

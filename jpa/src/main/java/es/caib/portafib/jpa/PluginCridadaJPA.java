@@ -54,6 +54,7 @@ private static final long serialVersionUID = -1618108326L;
 	@Column(name="parametresfitxerid",length = 19)
 	java.lang.Long parametresFitxerID;
 
+  /** conte error si falla i dades resultat si va bé. */
 	@Column(name="retorntext",length = 2147483647)
   @Lob
 	java.lang.String retornText;
