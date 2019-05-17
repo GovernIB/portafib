@@ -151,7 +151,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
           segellDeTempsPublicEjb, passarelaSignaturesSet, usrApp, perfilDeFirma,
           configBySignID, entitat, timeStampUrls);
 
-      // XYZ ZZZ ZZZ S'han de poder fer multiples firmes amb diferents configuracions
+      //  S'han de poder fer multiples firmes amb diferents configuracions
       if (configBySignID.size() != 1) {
         // XYZ ZZZ
         final String msg = "El codi per realitzar multiples firmes amb diferents"

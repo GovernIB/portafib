@@ -19,7 +19,7 @@
   contentType="text/html;charset=UTF-8" language="java"%><%@page
   import="java.io.InputStream"%><%@page import="java.util.Properties"%><%!public Logger log = Logger.getLogger(this.getClass());%>
 <%
-  //log.error("XYZ ZZZ ZZZ REQUEST => " + request);
+  //log.error(" REQUEST => " + request);
 
   X509Certificate[] certs = (X509Certificate[]) request
       .getAttribute("javax.servlet.request.X509Certificate");
@@ -27,16 +27,15 @@
   if (request.getParameter("error") != null) {
     String uriErrorInicial = (String) request
         .getAttribute("javax.servlet.error.request_uri");
-    //log.error("XYZ ZZZ ZZZ ERROR REQUEST URI => " + uriErrorInicial);
+    //log.error(" ERROR REQUEST URI => " + uriErrorInicial);
 
     if (certs == null || certs.length == 0) {
-      //log.error("XYZ ZZZ ZZZ   INDEXCC.JSP 11111 =>  This request requires HTTP authentication ().");
+      //log.error("   INDEXCC.JSP 11111 =>  This request requires HTTP authentication ().");
       response.setStatus(401);
       response
           .setHeader("WWW-Authenticate", "BASIC realm=\"Govern de les Illes Balears\"");
     } else {
 
-      // XYZ ZZZ ZZZ
       if (uriErrorInicial == null) {
         response.sendRedirect(request.getContextPath());
       } else {
@@ -52,7 +51,7 @@
   Boolean autenticat;
   String certs_length = null;
   if (certs == null || certs.length == 0) {
-    //log.error("XYZ ZZZ ZZZ   INDEXCC.JSP 22222 =>  This request requires HTTP authentication ().");
+    //log.error("  INDEXCC.JSP 22222 =>  This request requires HTTP authentication ().");
     response.sendError(401);
     autenticat = null;
     return;
@@ -83,6 +82,6 @@
   redirect = url;
 
   // (1) Afegir a web.xml que si hi ha un error 401 de clientCert llavors redireccions a portafib amb https !!!1
-  //log.error("XYZ ZZZ ZZZ FENT REDIRECT TO " + redirect);
+  //log.error(" FENT REDIRECT TO " + redirect);
   response.sendRedirect(redirect);
 %>

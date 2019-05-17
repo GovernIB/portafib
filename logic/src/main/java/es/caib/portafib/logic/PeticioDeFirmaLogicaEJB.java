@@ -129,7 +129,6 @@ import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
@@ -327,9 +326,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
     }
-     
-    
-    
 
     // Crear Peticio
     Calendar cal = Calendar.getInstance();
@@ -2246,6 +2242,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           }
 
         }
+
       }
 
       // 9.2.- PeticióFinalitzada: Esborrat de fitxers innecessaris

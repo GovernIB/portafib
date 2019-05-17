@@ -200,7 +200,7 @@ public class SignatureModuleController extends HttpServlet {
   public ModelAndView finalProcesDeFirma(HttpServletRequest request, HttpServletResponse response,
       @PathVariable("signaturesSetID") String signaturesSetID) throws Exception {
     
-    log.info("\n\n XYZ ZZZ finalProcesDeFirma: ENTRA\n\n");
+    //log.info("\n\n finalProcesDeFirma: ENTRA\n\n");
     
     
     PortaFIBSignaturesSet pss = getPortaFIBSignaturesSet(request, signaturesSetID, modulDeFirmaEjb);
@@ -225,7 +225,7 @@ public class SignatureModuleController extends HttpServlet {
     mav.addObject("URL_FINAL", urlFinal);
     mav.addObject("window", pss.isRedirectToParentWindow() ? "window.parent": "window");
 
-    log.info("\n\n XYZ ZZZ finalProcesDeFirma: SURT\n\n");
+    //log.info("\n\n finalProcesDeFirma: SURT\n\n");
 
     return mav;
     
