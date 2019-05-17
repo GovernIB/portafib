@@ -450,6 +450,8 @@ public class PdfUtils implements ConstantsV2 {
     }
     return validacio;
   }
+  
+ 
 
   public static boolean checkDocumentWhenFirstSign(byte[] originalData, 
       byte[] signedPDFData, int numFirmesOriginals) throws I18NException {
@@ -458,36 +460,39 @@ public class PdfUtils implements ConstantsV2 {
       log.debug(" Comprovar fitxer original i pujat quan és la primera firma");
     }
 
-    log.info(" XYZ ZZZ  signedPDFData.length => " + signedPDFData.length);
+    log.info("XYZ ZZZ ZZZ  originalData.length => " + originalData.length);
+    log.info("XYZ ZZZ ZZZ signedPDFData.length => " + signedPDFData.length);
 
     // Calcular Dades originals sense (ni CR ni LF ni CRLF)
     // 20 és un valor per ometre espais, CRs ,LFs i CRLFs
     final int revisionLimitOriginal = indexOf(originalData, PdfUtils.EOF_PDF, originalData.length - 20) ;
-    log.warn("XYZ ZZZ revisionLimitOriginal == " + revisionLimitOriginal);
+    log.warn("XYZ ZZZ ZZZ revisionLimitOriginal ==> " + revisionLimitOriginal);
+
+    log.warn("XYZ ZZZ ZZZ numFirmesOriginals ==> " + numFirmesOriginals);
 
     int revisionLimitSigned;
     if (numFirmesOriginals == 0) {
-      revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF);
+      revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, originalData.length - 20);
     } else {
       revisionLimitSigned = 0;
       // Final del doc original més final de les "numFirmesOriginals" firmes
       for (int i = 0; i <= numFirmesOriginals; i++) {
         revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, revisionLimitSigned + PdfUtils.EOF_PDF.length);
-        log.info(" XYZ ZZZ  Bucle[" + i + "] = index => " + revisionLimitSigned);
+        log.info(" XYZ ZZZ ZZZ Bucle[" + i + "] = index => " + revisionLimitSigned);
         if (revisionLimitSigned == revisionLimitOriginal) {
-          log.info(" XYZ ZZZ  Sortim del Bucle[" + i + "] = trobat Limit abans d'hora"
+          log.info(" XYZ ZZZ ZZZ Sortim del Bucle[" + i + "] = trobat Limit abans d'hora"
               + " (suposam que no te revisió de la primera firma) ");
           break;
         }
       }
     }
 
-    log.warn("XYZ ZZZ revisionLimitSigned == " + revisionLimitSigned);
+    log.warn("XYZ ZZZ ZZZ revisionLimitSigned == " + revisionLimitSigned);
     if (revisionLimitOriginal != revisionLimitSigned) {
       // XYZ ZZZ Llançar Excepció
-      log.warn("XYZ ZZZ revisionLimitOriginal == " + revisionLimitOriginal);
-      log.warn("XYZ ZZZ revisionLimitSigned == " + revisionLimitSigned);
-      log.error("XYZ ZZZ El tamany del document original i el tamany de la part original del"
+      log.warn("XYZ ZZZ ZZZ revisionLimitOriginal == " + revisionLimitOriginal);
+      log.warn("XYZ ZZZ ZZZ revisionLimitSigned == " + revisionLimitSigned);
+      log.error("XYZ ZZZ ZZZ El tamany del document original i el tamany de la part original del"
           + " document firmat no corresponen (" + revisionLimitOriginal
           + " != " + revisionLimitSigned + ")");
       return false;
@@ -507,7 +512,7 @@ public class PdfUtils implements ConstantsV2 {
     } catch (Exception e) {
       // XYZ ZZZ TRA
       throw new I18NException(e, "genapp.comodi",  
-          new I18NArgumentString("Error intentant obtenir el checksum de les dades originals i d'una revisió"));
+          new I18NArgumentString("Error intentant obtenir el checksum de les dades originals o d'una revisió"));
     }
 
     if (!hashDocOriginalFromSignedPDF.equals(hashDocOriginal)) {
