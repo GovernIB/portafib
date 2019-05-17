@@ -2154,11 +2154,18 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         }
         
         AnnexJPA nouannex = new AnnexJPA();
-        
-        nouannex.setAdjuntar(attached);
-        if (annex.isIsFileSign() != null) {
-          nouannex.setFirmar(annex.isIsFileSign());
-        }
+
+        // API de Indra: Posar a pinyo adjuntar i firmar a false i false #248
+//        nouannex.setAdjuntar(attached);
+//        
+//        boolean firmarAttached = false;
+//        if (annex.isIsFileSign() != null) {
+//          nouannex.setFirmar(annex.isIsFileSign());
+//        }
+        nouannex.setAdjuntar(false);
+        nouannex.setFirmar(false);
+
+
         nouannex.setFitxerID(count); // Index al datahandler
               
         FitxerJPA fitxer = new FitxerJPA();

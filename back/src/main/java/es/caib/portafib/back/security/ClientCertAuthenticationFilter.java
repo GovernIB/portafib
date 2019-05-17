@@ -32,6 +32,7 @@ public class ClientCertAuthenticationFilter implements javax.servlet.Filter {
 
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void doFilter(ServletRequest srequest2, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {

@@ -14,5 +14,5 @@ waittosign=true
 deleteonfinish=false
 
 # Si no es defineixen,l'aplicacio elegeix fitxers de dins del jar
-#fitxerAFirmar=c:/tets.pdf
-#fitxerAAnnexar=c:/annex.txt
+#fitxerAFirmar=./hola.pdf
+#fitxerAAnnexar=./annex.txt

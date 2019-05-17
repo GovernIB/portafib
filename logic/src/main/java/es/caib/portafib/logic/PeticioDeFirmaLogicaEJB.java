@@ -126,7 +126,10 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.LongField;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.OrderType;
@@ -304,6 +307,29 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     final boolean isNou = true;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
+
+    // Validar Annexes: només són vàlids els valors true-true 
+    // i false-false per adjuntar-firma
+    {
+      Set<AnnexJPA> annexes = peticioDeFirma.getAnnexs();
+      if (annexes != null && annexes.size() != 0) {
+        for (AnnexJPA annex : annexes) {
+          if (annex.isAdjuntar() != annex.isFirmar()) {
+            List<I18NFieldError> camps = new ArrayList<I18NFieldError>();
+            camps.add(
+                new I18NFieldError(AnnexFields.ADJUNTAR, new I18NTranslation("peticiodefirma.annexos.novalid"))
+                );
+            camps.add(
+                new I18NFieldError(AnnexFields.FIRMAR, new I18NTranslation("peticiodefirma.annexos.novalid")
+                ));
+            throw new I18NValidationException(camps);
+          }
+        }
+      }
+    }
+     
+    
+    
 
     // Crear Peticio
     Calendar cal = Calendar.getInstance();
