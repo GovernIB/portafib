@@ -29,17 +29,7 @@
     <module>back</module> 
     <module>ear</module>
 
-    
   </modules>
-
-  <profiles>
-    <profile>
-      <id>produccio</id>
-      <modules>
-        <module>earplugins</module>
-      </modules>
-    </profile>
-  </profiles>
 
   <repositories>
 

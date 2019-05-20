@@ -1,7 +1,17 @@
 PortaFIB 2.0.0
 ==============
 
-2019-04-29  Api Firma Simple: Poder enviar peticions sense codi de Perfil #247
+2019-05-20 Eliminar deploydev i deploypro de PortaFIB i GenApp #264
+
+2019-05-16 Solució per HTTPS amb ClientCert #259 
+
+2019-05-13 Implementar tots els sistemes de validació i les polítiques corresponents #254
+
+2019-05-08 Llistat de Fitxers per Peticio de Firma #246
+
+2019-05-01 Hora inici delegació reduir a 5 minuts #212
+
+2019-04-29 Api Firma Simple: Poder enviar peticions sense codi de Perfil #247
 
 2019-04-05 Nova gestió de Politiques de Custòdia
 
