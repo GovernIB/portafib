@@ -2274,6 +2274,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   }
 
+  /*
   private void readResource(HttpServletResponse response, String relativePath) {
     InputStream fis = FileUtils.readResource(this.getClass(), relativePath);
     if (fis != null) {
@@ -2311,6 +2312,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       }
     }
   }
+  */
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
