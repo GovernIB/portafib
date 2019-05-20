@@ -3,7 +3,7 @@
 echo off
 cat help.txt
 
-env mvn -DskipTests -Pdesenvolupament $@ install 
+env mvn -DskipTests $@ install 
 
 if [ $? == 0 ]; then
   if [ "$PORTAFIB_DEPLOY_DIR" == "" ];  then
@@ -18,10 +18,6 @@ if [ $? == 0 ]; then
   
     echo on
     echo --------- COPIANT EAR ---------
-
-    if [ -f "$PORTAFIB_DEPLOY_DIR/portafib_plugins.ear" ]; then
-      rm  $PORTAFIB_DEPLOY_DIR/portafib_plugins.ear
-    fi
 
     cp ./ear/target/portafib.ear $PORTAFIB_DEPLOY_DIR
 

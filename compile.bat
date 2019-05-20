@@ -1,7 +1,7 @@
 @echo off
 type help.txt
 
-cmd /C mvn -DskipTests -Pdesenvolupament %* install
+cmd /C mvn -DskipTests %* install
 
 if %errorlevel% EQU 0 (
 
@@ -10,10 +10,6 @@ if %errorlevel% EQU 0 (
       for /f "tokens=* delims=" %%x in (versio.txt) do set PORTAFIB_VERSIO=%%x
 	  @echo on
 	  echo --------- COPIANT EAR %PORTAFIB_VERSIO% ---------
-
-	  if exist "%PORTAFIB_DEPLOY_DIR%\portafib_plugins.ear" ( 
-		del  "%PORTAFIB_DEPLOY_DIR%\portafib_plugins.ear"
-	  )
 
 	  xcopy /Y ear\target\portafib.ear %PORTAFIB_DEPLOY_DIR%
 
