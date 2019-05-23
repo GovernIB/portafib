@@ -365,7 +365,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     } else {
 
       if (notificacio.getDataEnviament() != null && notificacio.isBloquejada()) {
-        // Aturada, llavors l'usuari la pot borrar si ho desitja
+        // Aturada, llavors l'usuari la pot esborrar si ho desitja
         return SHOW_ACTION_ESBORRAR;
       }
     }

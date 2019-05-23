@@ -752,7 +752,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           plugin.deleteCustody(custodyID);
         } catch (Throwable e) {
           log.error(
-              "Error desconegut intentant borrar el document de custodia: " + e.getMessage(),
+              "Error desconegut intentant esborrar el document de custodia: " + e.getMessage(),
               e);
         }
       }
@@ -1063,7 +1063,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         RoleUsuariEntitatFields.USUARIENTITATID.in(destinatarisUsuari));
     List<String> destAmbPermis = roleUsuariEntitatEjb.executeQuery(
         RoleUsuariEntitatFields.USUARIENTITATID, where);
-    // Borram tos els que tenen permis
+    // Esborram tos els que tenen permis
     for (String ambPermis : destAmbPermis) {
       destinatarisUsuari.remove(ambPermis);
     }
@@ -1175,7 +1175,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
          * ((token.getTimeInNano() + Token.MAX_TIME_LOCKED_IN_NANO) < now) );
          * log.info("==================== ");
          */
-        // S'ha de borrar
+        // S'ha d'esborrar
         locks.remove(id);
       }
     }
@@ -1717,12 +1717,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         return files;
       }
 
-      // Check si l'usuari entitat o aplicació té permis per borrar
+      // Check si l'usuari entitat o aplicació té permis per esborrar
       // Si és PFI_ADMIN se li permet
       if (!context.isCallerInRole(PFI_ADMIN)) {
         if (isUsuariEntitat) {
           if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
-            // L'usuari {0} no té permisos per borrar la petició de firma titulada {1}
+            // L'usuari {0} no té permisos per esborrar la petició de firma titulada {1}
             throw new I18NException("peticiodefirma.error.nopermisdeborrar", username,
                 pf.getTitol());
           }
@@ -1734,16 +1734,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         }
       }
 
-      // Borrar Notificacions
+      // Esborrar Notificacions
       notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
-      // Borrar Bitacola
+      // Esborrar Bitacola
       bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
-      // Borrar metadades
+      // Esborrar metadades
       metadadaLogicaEjb.delete(MetadadaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
-      // Borrar anexes (i anexes firmats)
+      // Esborrar anexes (i anexes firmats)
       List<Annex> adjunts = annexLogicaEjb.select(AnnexFields.PETICIODEFIRMAID
           .equal(peticioDeFirmaID));
       if (adjunts != null) {
@@ -1753,31 +1753,31 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         pf.setAnnexs(null);
       }
 
-      // Borrar Peticio de Firma
+      // Esborrar Peticio de Firma
       delete(pf); // peticioDeFirmaID);
 
-      // Borrar flux de firmes
+      // Esborrar flux de firmes
       Long fluxID = pf.getFluxDeFirmesID();
       files.addAll(fluxDeFirmesLogicaEjb.deleteFull(fluxID));
 
-      // Borrar fitxer a firmar
+      // Esborrar fitxer a firmar
       if (pf.getFitxerAFirmarID() != null) {
         files.add(pf.getFitxerAFirmarID());
         fitxerLogicaEjb.delete(pf.getFitxerAFirmarID());
       }
 
-      // Borrar fitxer amb taula de firmes
+      // Esborrar fitxer amb taula de firmes
       if (pf.getFitxerAdaptatID() != null
           && (pf.getFitxerAFirmarID() != pf.getFitxerAdaptatID())) {
         files.add(pf.getFitxerAdaptatID());
         fitxerLogicaEjb.delete(pf.getFitxerAdaptatID());
       }
 
-      // Borram la reserva de Custòdia en cas de no haver finalitzat
+      // Esborram la reserva de Custòdia en cas de no haver finalitzat
       if (pf.getCustodiaInfoID() != null
           && pf.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT) {
 
-        // Borram la reserva de custòdia
+        // Esborram la reserva de custòdia
         CustodiaInfoJPA custInfo = custodiaInfoLogicaEjb.findByPrimaryKey(pf
             .getCustodiaInfoID());
 
@@ -1802,7 +1802,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           e.printStackTrace();
         }
 
-        // Borram informacio de custòdia
+        // Esorram informacio de custòdia
         custodiaInfoLogicaEjb.delete(pf.getCustodiaInfoID());
       }
 
@@ -2303,7 +2303,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         try {
           FileSystemManager.eliminarArxiu(fileID);
         } catch (Throwable e) {
-          log.error("Error intenant borrar ");
+          log.error("Error intenant esborrar ");
         }
       }
 
@@ -2762,7 +2762,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           + "(" + peticio.getPeticioDeFirmaID() + ")");
     }
 
-    // Fitxers a borrar
+    // Fitxers a esborrar
     Set<Fitxer> fitxers = new HashSet<Fitxer>();
 
     try {
@@ -2779,15 +2779,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       peticio.setMotiuDeRebuig(null);
 
-      // Borrar Notificacions
+      // Esborrar Notificacions
       notificacioWsEjb.delete(NotificacioWSFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
-      // TODO Borrar Bitacoles ????
+      // TODO Esborrar Bitacoles ????
       // bitacolaEjb.delete(BitacolaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       peticio.setAvisWeb(false);
 
-      // Borrar Fitxers Firmats, AnnexosFirmats i Estats de Firma
+      // Esborrar Fitxers Firmats, AnnexosFirmats i Estats de Firma
 
       FluxDeFirmesJPA flux = peticio.getFluxDeFirmes();
 
@@ -2821,10 +2821,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           firmaLogicaEjb.update(firma);
         }
 
-        // Borrar EstatsDeFirma
+        // Esborrar EstatsDeFirma
         estatDeFirmaLogicaEjb.delete(EstatDeFirmaFields.FIRMAID.in(firmesIDs));
 
-        // Borrar AnnexosFirmats
+        // Esborrar AnnexosFirmats
         List<AnnexFirmat> annexosFirmats;
         annexosFirmats = annexFirmatEjb.select(AnnexFirmatFields.FIRMAID.in(firmesIDs));
         for (AnnexFirmat annexFirmat : annexosFirmats) {
@@ -2895,10 +2895,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             }
 
           } else {
-            // En qualsevol altra cas: borram custodia actual i la reserva,
+            // En qualsevol altra cas: esborram custodia actual i la reserva,
             // i cream una de nova clonada de l'entitat
 
-            // Borrar reserva
+            // esborrar reserva
             // deleteCustodyInfoID = custodiaInfoID_Peticio_Current;
             deleteDocumentCustody = custodiaInfo_Peticio_Current;
 
@@ -2927,13 +2927,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       } catch (Exception e) {
       }
 
-      // borrarFitxers
+      // esborrarFitxers
       for (Fitxer fitxer : fitxers) {
         try {
           fitxerLogicaEjb.delete(fitxer);
           FileSystemManager.eliminarArxiu(fitxer.getFitxerID());
         } catch (Throwable th) {
-          log.error("Error borrant fitxers després de fer un reset de la peticio "
+          log.error("Error esborrant fitxers després de fer un reset de la peticio "
               + peticioDeFirmaID, th);
         }
       }
@@ -3048,7 +3048,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticio.setMotiu(adjustSize(motiu, 255));
     }
 
-    // Borrarem els ID's i clonam els fitxers
+    // Esborrarem els ID's i clonam els fitxers
     Set<Fitxer> fitxers = new HashSet<Fitxer>();
 
     File file = null;

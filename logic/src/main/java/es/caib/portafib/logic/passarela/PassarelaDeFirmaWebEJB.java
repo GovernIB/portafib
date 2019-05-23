@@ -667,7 +667,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
     final String signaturesSetID = pss.getSignaturesSet().getSignaturesSetID();
 
-    // BORRAR TOT DIRECTORI
+    // ESBORRAR TOT DIRECTORI
     File basePath = getTransactionPath(signaturesSetID);
     try {
       FileUtils.deleteDirectory(basePath);

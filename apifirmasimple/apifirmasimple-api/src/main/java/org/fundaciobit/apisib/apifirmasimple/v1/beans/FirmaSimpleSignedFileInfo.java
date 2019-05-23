@@ -47,8 +47,7 @@ public class FirmaSimpleSignedFileInfo {
    */
   public static final int SIGN_MODE_IMPLICIT_ATTACHED = 0;
   /*
-   * explicit La firma resultante no incluirá los datos firmados. Si no se indica el parámetro
-   * mode se configura automáticamente este comportamiento.
+   * explicit La firma resultante no incluirá los datos firmados. 
    */
   public static final int SIGN_MODE_EXPLICIT_DETACHED = 1;
 

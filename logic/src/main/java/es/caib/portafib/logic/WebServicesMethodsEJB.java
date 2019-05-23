@@ -58,13 +58,13 @@ public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB  implements W
     }
     
     
-    // Borram el fitxers fisicament: aquest pas sempre ha de ser
+    // Esborram el fitxers fisicament: aquest pas sempre ha de ser
     // l'últim per si alguna eliminacio falla.
     for (Long fitxerID : fitxers) {
       try {
         FileSystemManager.eliminarArxiu(fitxerID);
       } catch (Throwable e) {        
-        log.error("Error desconegut borrant fitxer "+ fitxerID, e);
+        log.error("Error desconegut esborrant fitxer "+ fitxerID, e);
       }
     }
     

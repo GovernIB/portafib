@@ -238,10 +238,10 @@ public class AutoFirmaForm {
       for (File file : llistat) {
         if (file.exists()) {
           if (log.isDebugEnabled()) {
-            log.debug(" FINALIZE : Borrant fitxer " + file.getAbsolutePath());
+            log.debug(" FINALIZE : Esborrant fitxer " + file.getAbsolutePath());
           }
           if (!file.delete()) {
-            log.error(" FINALIZE : No s'ha pogut borrar el fitxer " + file.getAbsolutePath());
+            log.error(" FINALIZE : No s'ha pogut esborrar el fitxer " + file.getAbsolutePath());
             file.deleteOnExit();
           }
         }

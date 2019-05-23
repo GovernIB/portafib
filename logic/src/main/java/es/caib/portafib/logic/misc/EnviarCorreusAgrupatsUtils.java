@@ -133,7 +133,7 @@ public class EnviarCorreusAgrupatsUtils {
         
         
         if(!file.delete()) {
-          log.error("NO PUC BORRARR FITXER [" + file.getAbsolutePath() + "]", new Exception());
+          log.error("NO PUC ESBORRAR FITXER [" + file.getAbsolutePath() + "]", new Exception());
         };
         
       }

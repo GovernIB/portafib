@@ -117,7 +117,7 @@ implements ConstantsV2 {
         
         colaboracioDelegacioFilterForm.setVisibleMultipleSelection(false);
 
-        // Ocultam botó creació i borrat
+        // Ocultam botó creació i esborrat
         colaboracioDelegacioFilterForm.setDeleteButtonVisible(false);
         colaboracioDelegacioFilterForm.setDeleteSelectedButtonVisible(false);
         colaboracioDelegacioFilterForm.setAddButtonVisible(false);

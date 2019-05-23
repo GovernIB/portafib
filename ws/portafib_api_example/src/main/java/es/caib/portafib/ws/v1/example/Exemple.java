@@ -231,7 +231,7 @@ public class Exemple {
           }
           System.out.println();
           
-          // Borrar la petició
+          // Esborrar la petició
           api.deletePeticioDeFirma(peticioDeFirmaID);
         }
       }

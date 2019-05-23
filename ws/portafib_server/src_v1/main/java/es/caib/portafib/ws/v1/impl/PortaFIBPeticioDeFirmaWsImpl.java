@@ -396,6 +396,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       return PeticioDeFirmaWs.toWs(peticioDeFirmaJPA);
 
     } catch (Throwable e) {
+      log.error("Error en createPeticioDeFirma(): " + e.getMessage(), e);
       FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
       throw e;
     } finally {

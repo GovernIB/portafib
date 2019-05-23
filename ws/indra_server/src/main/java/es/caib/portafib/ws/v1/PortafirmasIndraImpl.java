@@ -1788,7 +1788,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       */
     } finally {
       if (error == true) {
-        // Borrar fitxers
+        // Esborrar fitxers
         for(FitxerJPA fitxer : files.values()) {
           long fitxerID = fitxer.getFitxerID();
           if (fitxerID != 0) {
@@ -1796,7 +1796,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
               fitxerLogicaEjb.delete(fitxerID);
               FileSystemManager.eliminarArxiu(fitxerID);
             } catch (Exception e) {
-              log.error("Error borrant fitxer amb ID " + fitxerID 
+              log.error("Error esborrant fitxer amb ID " + fitxerID 
                   + " durant la creació d'una peticio de firma: " + e.getMessage(), e);
             }
           }

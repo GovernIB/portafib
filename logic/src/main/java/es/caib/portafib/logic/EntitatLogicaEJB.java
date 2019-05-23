@@ -82,7 +82,7 @@ public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, 
 
       // Si no te usuariEntitat associats, es pot esborrar.
       if (countUE != 0) {
-        // Només borrarem l'entitat si l'únic usuari és l'administrador d'entitat
+        // Només esborrarem l'entitat si l'únic usuari és l'administrador d'entitat
         if (countUE == 1) {
 
           // TODO cerca un unic valor

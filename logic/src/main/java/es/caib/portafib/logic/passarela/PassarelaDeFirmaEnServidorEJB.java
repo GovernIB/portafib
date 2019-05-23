@@ -318,7 +318,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     } finally {
 
-      // BORRAR TOT DIRECTORI
+      // ESBORRAR TOT DIRECTORI
       File basePath = getTransactionPath(signaturesSetID);
       try {
         FileUtils.deleteDirectory(basePath);

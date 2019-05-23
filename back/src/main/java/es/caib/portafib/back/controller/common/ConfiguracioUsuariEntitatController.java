@@ -94,7 +94,7 @@ public class ConfiguracioUsuariEntitatController extends UsuariEntitatController
       usuariEntitatForm.addReadOnlyField(LOGOSEGELLID);
     }
 
-    // Ocultam boto Cancelar i Borrar
+    // Ocultam boto Cancelar i esborrar
     usuariEntitatForm.setCancelButtonVisible(false);
     usuariEntitatForm.setDeleteButtonVisible(false);
 

@@ -804,7 +804,7 @@ public class PdfUtils implements ConstantsV2 {
     if (maxSize != null) {
       if (dstPDF.length() > maxSize) {
         if (!dstPDF.delete()) {
-          log.error("Error borrant fitxer adaptat " + dstPDF.getAbsolutePath());
+          log.error("Error esborrant fitxer adaptat " + dstPDF.getAbsolutePath());
           dstPDF.deleteOnExit();
         }
         throw new I18NException("tamanyfitxeradaptatsuperat", String.valueOf(dstPDF.length()),
@@ -858,7 +858,7 @@ public class PdfUtils implements ConstantsV2 {
       
       
       forceCleanPdf(reader2, output2, attachments);
-      // Borrar del directori temporal els fitxers adjunts originals
+      // Esborrar del directori temporal els fitxers adjunts originals
       for (AttachedFile fileAttached : attachmentsOriginalPDF) {
         fileAttached.getContent().delete();
       }

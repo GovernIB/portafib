@@ -364,7 +364,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
       colaboracioDelegacioFilterForm.setVisibleMultipleSelection(false);
 
-      // Ocultam botó creació i borrat
+      // Ocultam botó creació i esborrat
       colaboracioDelegacioFilterForm.setDeleteButtonVisible(false);
 
       // Canvi d'etiqueta
@@ -586,7 +586,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         HtmlUtils.saveMessageWarning(request,
             I18NUtils.tradueix(getEntityNameCode() + ".noeditable"));
 
-        // Es pot borrar? Per esbrinar-ho calcularem el nombre de estatsDeFirma
+        // Es pot esborrar? Per esbrinar-ho calcularem el nombre de estatsDeFirma
         // associats
         Long colaboracioDelegacioID = colaboracioDelegacioJPA.getColaboracioDelegacioID();
         Where w = EstatDeFirmaFields.COLABORACIODELEGACIOID.equal(colaboracioDelegacioID);

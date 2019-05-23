@@ -85,7 +85,7 @@ public class ConfiguracioUsuariPersonaController extends UsuariPersonaController
           form.addReadOnlyField(EMAIL);
       }
 
-      // Ocultam boto Cancelar i Borrar
+      // Ocultam boto Cancelar i esborrar
       form.setCancelButtonVisible(false);
       form.setDeleteButtonVisible(false);
       

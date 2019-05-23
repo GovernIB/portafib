@@ -506,7 +506,7 @@ public class SignatureModuleController extends HttpServlet {
       try {
         signaturePlugin.closeSignaturesSet(request, signaturesSetID);
       } catch (Exception e) {
-        log.error("Error borrant dades d'un SignaturesSet " + signaturesSetID 
+        log.error("Error esborrant dades d'un SignaturesSet " + signaturesSetID 
             + ": " + e.getMessage(), e);
       }
     }

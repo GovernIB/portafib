@@ -234,7 +234,7 @@ public class LoadUsers extends Exemple {
 
         } finally {
           if (peticioDeFirmaID != null) {
-            // Borrar la petició
+            // Esborrar la petició
             apiPF.deletePeticioDeFirma(peticioDeFirmaID);
           }
         }

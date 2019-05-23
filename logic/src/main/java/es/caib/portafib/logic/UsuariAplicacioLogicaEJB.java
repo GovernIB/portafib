@@ -290,7 +290,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
 
     // (c) Té Notificacions pendents d'enviar
     // TODO Que feim amb això? Si és una notificacio d'un usuari app que 
-    // volem borrar i que no s'envia, llavors la borram i punt
+    // volem esborrar i que no s'envia, llavors la esborram i punt
 
     // (e) Existeixen peticions de firma d'usuaris entitat amb
     // tipus de document associats al seu usuari-aplicació
@@ -366,7 +366,7 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
       return fitxers;
     }
 
-    // (1) Borrar Peticions de Firma
+    // (1) Esborrar Peticions de Firma
     List<PeticioDeFirma> peticions = peticioDeFirmaLogicaEjb.select(       
           PeticioDeFirmaFields.SOLICITANTUSUARIAPLICACIOID.equal(usuariAplicacioID));
     for (PeticioDeFirma peticioDeFirma : peticions) {
@@ -374,10 +374,10 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
           peticioDeFirma.getPeticioDeFirmaID(), peticioDeFirma.getSolicitantUsuariAplicacioID()));
     }
 
-    // (2) Borrar Tipus de Document
+    // (2) Esborrar Tipus de Document
     tipusDocumentEjb.delete(TipusDocumentFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
 
-    // (3) Borrar Plantilles
+    // (3) Esborrar Plantilles
     List<Long> plantilles = plantillaFluxDeFirmesEjb.executeQuery(
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID, 
         PlantillaFluxDeFirmesFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
@@ -385,11 +385,11 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
       fitxers.addAll(fluxDeFirmesLogicaEjb.deleteFull(plantillaID));  
     }
 
-    // (4) Borrar Roles
+    // (4) Esborrar Roles
     roleUsuariAplicacioEjb.delete(
         RoleUsuariAplicacioFields.USUARIAPLICACIOID.equal(usuariAplicacioID));
     
-    // (5) Borrar usuari    
+    // (5) Esborrar usuari    
     if (usuariAplicacioJPA.getLogoSegellID() != null) {
       fitxers.add(usuariAplicacioJPA.getLogoSegellID());
     }
