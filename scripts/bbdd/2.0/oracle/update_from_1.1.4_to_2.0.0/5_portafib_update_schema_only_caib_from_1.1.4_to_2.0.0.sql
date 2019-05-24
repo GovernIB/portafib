@@ -6,4 +6,3 @@ grant select,insert,delete,update on pfi_pluginfirmawebperusrapp to www_portafib
 grant select,insert,delete,update on pfi_plugincridada to www_portafib;
 grant select,insert,delete,update on pfi_usuariaplicacioperfil to www_portafib;
 grant select,insert,delete,update on pfi_perfilsperusrapp to www_portafib;
-grant select,insert,delete,update on pfi_plugin to www_portafib;
