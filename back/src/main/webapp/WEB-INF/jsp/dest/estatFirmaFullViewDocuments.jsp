@@ -12,7 +12,7 @@
   <ul class="tree" style="margin: 3px; padding: 0px;">
 
       <li style="list-style-type: disc; list-style-position: inside;">
-         <a href="javascript:mostrarDiv(0)">${fitxers[0].key.nom}</a>
+         <a href="javascript:mostrarDiv(0)"><c:out value="${fitxers[0].key.nom}" /></a>
       </li>
     </li>
   </ul>
@@ -26,7 +26,7 @@
     
         <c:forEach var="fitxer" items="${fitxers}" begin="1" varStatus="theCount">
           <li style="list-style-type: disc; list-style-position: inside;">
-            <a href="javascript:mostrarDiv(${theCount.index})">${fitxer.key.nom}</a>
+            <a href="javascript:mostrarDiv(${theCount.index})"><c:out value="${fitxer.key.nom}" /></a>
           </li>
         </c:forEach>  
     
