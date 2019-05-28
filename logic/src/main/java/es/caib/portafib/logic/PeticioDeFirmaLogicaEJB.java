@@ -449,46 +449,46 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * protected Long checkCustodia(PeticioDeFirmaJPA peticioDeFirma, String entitatID,
    * UsuariAplicacioJPA usuariAplicacio, UsuariEntitatJPA usuariEntitat) throws I18NException,
    * I18NValidationException {
-   *
-   *
+   * 
+   * 
    * final String titol = peticioDeFirma.getTitol(); final CustodiaInfoJPA custodiaSentByUser =
    * peticioDeFirma.getCustodiaInfo();
-   *
+   * 
    * final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-   *
+   * 
    * CustodiaInfo onlyDef; if (usuariEntitat == null) { onlyDef =
    * entitatLogicaEjb.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol); } else {
    * onlyDef = entitatLogicaEjb.getCustodiaUE(usuariEntitat, usuariAplicacioID,
    * custodiaSentByUser, titol); }
-   *
-   *
+   * 
+   * 
    * if (onlyDef == null) { // Per alguna rao no es permet Custodia per aquesta petició return
    * null; } else { return created.getCustodiaInfoID(); }
    */
 
   /*
    * int politicaCustodia;
-   *
-   *
+   * 
+   * 
    * Long defaultCustodiaInfoID = entitatEjb.executeQueryOne(EntitatFields.CUSTODIAINFOID,
    * EntitatFields.ENTITATID.equal(entitatID));
-   *
+   * 
    * if (defaultCustodiaInfoID == null) { // L'entitat no deixa tenir custòdia
    * peticioDeFirma.setCustodiaInfoID(null); } else { CustodiaInfoJPA custodiaInfo =
    * peticioDeFirma.getCustodiaInfo();
-   *
+   * 
    * CustodiaInfoJPA custodiaInfoEntitat =
    * custodiaInfoEjb.findByPrimaryKey(defaultCustodiaInfoID);
-   *
+   * 
    * if (!custodiaInfoEntitat.isEditable()) { // S'obliga a l'usuari a emprar la plantilla
    * definida per l'entitat custodiaInfo = new
    * CustodiaInfoJPA(constructDefaultCustodiaInfo(peticioDeFirma.getTitol(),entitatID,
    * usuariEntitatID, usuariAplicacioID, peticioDeFirma.getIdiomaID() ));
-   *
+   * 
    * }
-   *
+   * 
    * if (custodiaInfo == null) { peticioDeFirma.setCustodiaInfoID(null); } else {
-   *
+   * 
    * // Set common DATA custodiaInfo.setPluginID(custodiaInfoEntitat.getPluginID());
    * custodiaInfo.setUsuariEntitatID(usuariEntitatID);
    * custodiaInfo.setUsuariAplicacioID(usuariAplicacioID);
@@ -496,16 +496,16 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * es de cap entitat custodiaInfo.setEntitatID(null); // Posam null per indicar que no es de
    * cap entitat i no es cap plantilla custodiaInfo.setNomPlantilla(null);
    * custodiaInfo.setCustodiaInfoID(0);
-   *
+   * 
    * // Check custodia CustodiaInfoBeanValidator custodiaValidator = new
    * CustodiaInfoBeanValidator( codiBarresEjb, custodiaInfoEjb, entitatEjb,
    * pluginDeCustodiaLogicaEjb, usuariAplicacioEjb, usuariEntitatEjb); final boolean isNou =
    * true; custodiaValidator.throwValidationExceptionIfErrors(custodiaInfo, isNou);
-   *
+   * 
    * custodiaInfo = (CustodiaInfoJPA)custodiaInfoEjb.create(custodiaInfo);
-   *
+   * 
    * peticioDeFirma.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID()); }
-   *
+   * 
    * } peticioDeFirma.setCustodiaInfo(null);
    */
   /* } */
@@ -1805,9 +1805,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       delete(pf); // peticioDeFirmaID);
 
       bitacolaLogicaEjb.createBitacola("Petició esborrada", pf.getPeticioDeFirmaID(),
-              getActingUsuariEntitat(pf),
-              pf.getSolicitantUsuariAplicacioID());
-
+                getActingUsuariEntitat(pf),
+                pf.getSolicitantUsuariAplicacioID());
 
       // Esborrar flux de firmes
       Long fluxID = pf.getFluxDeFirmesID();
@@ -1838,10 +1837,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         plugin = pluginDeCustodiaLogicaEjb.getInstanceByPluginID(custInfo.getPluginID());
         /*
          * String pluginClass = custInfo.getCustodiaPluginClassID();
-         *
+         * 
          * IDocumentCustodyPlugin plugin =
          * PortaFIBPluginsManager.getDocumentCustodyPluginByClassName(pluginClass);
-         *
+         * 
          * if (plugin == null) { throw new I18NException("plugin.donotinstantiate",
          * pluginClass); }
          */
@@ -3268,9 +3267,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
        * IDocumentCustodyPlugin custodiaPluginClassID = null; try { custodiaPluginClassID =
        * PortaFIBPluginsManager.getDocumentCustodyPluginInstance(); } catch(Throwable e) { } if
        * (peticio.getCustodiaInfoID() != null && custodiaPluginClassID != null) {
-       *
+       * 
        * cloneCustodiaInfo(peticio, custodiaPluginClassID);
-       *
+       * 
        * } else { peticio.setCustodiaInfoID(null); peticio.setCustodiaInfo(null); }
        */
 
