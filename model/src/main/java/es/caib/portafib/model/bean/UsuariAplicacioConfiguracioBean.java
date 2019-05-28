@@ -20,21 +20,21 @@ private static final long serialVersionUID = 333534165L;
 	boolean usEnFirmaWS2;
 	boolean usEnFirmaPassarelaServidor;
 	boolean usEnFirmaPassarelaWeb;
-	int usPoliticaDeFirma;
-	java.lang.String policyIdentifier;
-	java.lang.String policyIdentifierHash;
-	java.lang.String policyIdentifierHashAlgorithm;
-	java.lang.String policyUrlDocument;
 	java.lang.String filtreCertificats;
 	int tipusOperacioFirma;
 	int tipusFirmaID;
 	java.lang.Integer algorismeDeFirmaID;
 	boolean modeDeFirma;
+	int usPoliticaDeFirma;
+	java.lang.String policyIdentifier;
+	java.lang.String policyIdentifierHash;
+	java.lang.String policyIdentifierHashAlgorithm;
+	java.lang.String policyUrlDocument;
 	int politicaTaulaFirmes;
 	int posicioTaulaFirmesID;
 	java.lang.Long firmatPerFormatID;
-	java.lang.String propietatsTaulaFirmes;
 	java.lang.Long motiuDelegacioID;
+	java.lang.String propietatsTaulaFirmes;
 	int politicaSegellatDeTemps;
 	java.lang.Long pluginSegellatID;
 	java.lang.String htmlPerLlistarPluginsFirmaWeb;
@@ -52,7 +52,7 @@ private static final long serialVersionUID = 333534165L;
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -63,21 +63,21 @@ private static final long serialVersionUID = 333534165L;
     this.usEnFirmaWS2=usEnFirmaWS2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
-    this.usPoliticaDeFirma=usPoliticaDeFirma;
-    this.policyIdentifier=policyIdentifier;
-    this.policyIdentifierHash=policyIdentifierHash;
-    this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
-    this.policyUrlDocument=policyUrlDocument;
     this.filtreCertificats=filtreCertificats;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.usPoliticaDeFirma=usPoliticaDeFirma;
+    this.policyIdentifier=policyIdentifier;
+    this.policyIdentifierHash=policyIdentifierHash;
+    this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
+    this.policyUrlDocument=policyUrlDocument;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.firmatPerFormatID=firmatPerFormatID;
-    this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.motiuDelegacioID=motiuDelegacioID;
+    this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.pluginSegellatID=pluginSegellatID;
     this.htmlPerLlistarPluginsFirmaWeb=htmlPerLlistarPluginsFirmaWeb;
@@ -90,7 +90,7 @@ private static final long serialVersionUID = 333534165L;
     this.validarCertificat=validarCertificat;
 }
   /** Constructor sense valors autoincrementals */
-  public UsuariAplicacioConfiguracioBean(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.String propietatsTaulaFirmes , java.lang.Long motiuDelegacioID , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioBean(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.nom=nom;
     this.entitatID=entitatID;
     this.usEnFirmaApiSimpleServidor=usEnFirmaApiSimpleServidor;
@@ -100,21 +100,21 @@ private static final long serialVersionUID = 333534165L;
     this.usEnFirmaWS2=usEnFirmaWS2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
-    this.usPoliticaDeFirma=usPoliticaDeFirma;
-    this.policyIdentifier=policyIdentifier;
-    this.policyIdentifierHash=policyIdentifierHash;
-    this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
-    this.policyUrlDocument=policyUrlDocument;
     this.filtreCertificats=filtreCertificats;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.algorismeDeFirmaID=algorismeDeFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.usPoliticaDeFirma=usPoliticaDeFirma;
+    this.policyIdentifier=policyIdentifier;
+    this.policyIdentifierHash=policyIdentifierHash;
+    this.policyIdentifierHashAlgorithm=policyIdentifierHashAlgorithm;
+    this.policyUrlDocument=policyUrlDocument;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.firmatPerFormatID=firmatPerFormatID;
-    this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.motiuDelegacioID=motiuDelegacioID;
+    this.propietatsTaulaFirmes=propietatsTaulaFirmes;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
     this.pluginSegellatID=pluginSegellatID;
     this.htmlPerLlistarPluginsFirmaWeb=htmlPerLlistarPluginsFirmaWeb;
@@ -127,7 +127,7 @@ private static final long serialVersionUID = 333534165L;
     this.validarCertificat=validarCertificat;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int usPoliticaDeFirma , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , int politicaSegellatDeTemps) {
+  public UsuariAplicacioConfiguracioBean(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , int politicaSegellatDeTemps) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -138,10 +138,10 @@ private static final long serialVersionUID = 333534165L;
     this.usEnFirmaWS2=usEnFirmaWS2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
-    this.usPoliticaDeFirma=usPoliticaDeFirma;
     this.tipusOperacioFirma=tipusOperacioFirma;
     this.tipusFirmaID=tipusFirmaID;
     this.modeDeFirma=modeDeFirma;
+    this.usPoliticaDeFirma=usPoliticaDeFirma;
     this.politicaTaulaFirmes=politicaTaulaFirmes;
     this.posicioTaulaFirmesID=posicioTaulaFirmesID;
     this.politicaSegellatDeTemps=politicaSegellatDeTemps;
@@ -157,21 +157,21 @@ private static final long serialVersionUID = 333534165L;
     this.setUsEnFirmaWS2(__bean.isUsEnFirmaWS2());
     this.setUsEnFirmaPassarelaServidor(__bean.isUsEnFirmaPassarelaServidor());
     this.setUsEnFirmaPassarelaWeb(__bean.isUsEnFirmaPassarelaWeb());
-    this.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
-    this.setPolicyIdentifier(__bean.getPolicyIdentifier());
-    this.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
-    this.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
-    this.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
     this.setFiltreCertificats(__bean.getFiltreCertificats());
     this.setTipusOperacioFirma(__bean.getTipusOperacioFirma());
     this.setTipusFirmaID(__bean.getTipusFirmaID());
     this.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     this.setModeDeFirma(__bean.isModeDeFirma());
+    this.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
+    this.setPolicyIdentifier(__bean.getPolicyIdentifier());
+    this.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
+    this.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
+    this.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
     this.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     this.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     this.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
-    this.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     this.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
+    this.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     this.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     this.setPluginSegellatID(__bean.getPluginSegellatID());
     this.setHtmlPerLlistarPluginsFirmaWeb(__bean.getHtmlPerLlistarPluginsFirmaWeb());
@@ -256,41 +256,6 @@ private static final long serialVersionUID = 333534165L;
 		this.usEnFirmaPassarelaWeb = _usEnFirmaPassarelaWeb_;
 	};
 
-	public int getUsPoliticaDeFirma() {
-		return(usPoliticaDeFirma);
-	};
-	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_) {
-		this.usPoliticaDeFirma = _usPoliticaDeFirma_;
-	};
-
-	public java.lang.String getPolicyIdentifier() {
-		return(policyIdentifier);
-	};
-	public void setPolicyIdentifier(java.lang.String _policyIdentifier_) {
-		this.policyIdentifier = _policyIdentifier_;
-	};
-
-	public java.lang.String getPolicyIdentifierHash() {
-		return(policyIdentifierHash);
-	};
-	public void setPolicyIdentifierHash(java.lang.String _policyIdentifierHash_) {
-		this.policyIdentifierHash = _policyIdentifierHash_;
-	};
-
-	public java.lang.String getPolicyIdentifierHashAlgorithm() {
-		return(policyIdentifierHashAlgorithm);
-	};
-	public void setPolicyIdentifierHashAlgorithm(java.lang.String _policyIdentifierHashAlgorithm_) {
-		this.policyIdentifierHashAlgorithm = _policyIdentifierHashAlgorithm_;
-	};
-
-	public java.lang.String getPolicyUrlDocument() {
-		return(policyUrlDocument);
-	};
-	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_) {
-		this.policyUrlDocument = _policyUrlDocument_;
-	};
-
 	public java.lang.String getFiltreCertificats() {
 		return(filtreCertificats);
 	};
@@ -326,6 +291,41 @@ private static final long serialVersionUID = 333534165L;
 		this.modeDeFirma = _modeDeFirma_;
 	};
 
+	public int getUsPoliticaDeFirma() {
+		return(usPoliticaDeFirma);
+	};
+	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_) {
+		this.usPoliticaDeFirma = _usPoliticaDeFirma_;
+	};
+
+	public java.lang.String getPolicyIdentifier() {
+		return(policyIdentifier);
+	};
+	public void setPolicyIdentifier(java.lang.String _policyIdentifier_) {
+		this.policyIdentifier = _policyIdentifier_;
+	};
+
+	public java.lang.String getPolicyIdentifierHash() {
+		return(policyIdentifierHash);
+	};
+	public void setPolicyIdentifierHash(java.lang.String _policyIdentifierHash_) {
+		this.policyIdentifierHash = _policyIdentifierHash_;
+	};
+
+	public java.lang.String getPolicyIdentifierHashAlgorithm() {
+		return(policyIdentifierHashAlgorithm);
+	};
+	public void setPolicyIdentifierHashAlgorithm(java.lang.String _policyIdentifierHashAlgorithm_) {
+		this.policyIdentifierHashAlgorithm = _policyIdentifierHashAlgorithm_;
+	};
+
+	public java.lang.String getPolicyUrlDocument() {
+		return(policyUrlDocument);
+	};
+	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_) {
+		this.policyUrlDocument = _policyUrlDocument_;
+	};
+
 	public int getPoliticaTaulaFirmes() {
 		return(politicaTaulaFirmes);
 	};
@@ -347,18 +347,18 @@ private static final long serialVersionUID = 333534165L;
 		this.firmatPerFormatID = _firmatPerFormatID_;
 	};
 
-	public java.lang.String getPropietatsTaulaFirmes() {
-		return(propietatsTaulaFirmes);
-	};
-	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_) {
-		this.propietatsTaulaFirmes = _propietatsTaulaFirmes_;
-	};
-
 	public java.lang.Long getMotiuDelegacioID() {
 		return(motiuDelegacioID);
 	};
 	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_) {
 		this.motiuDelegacioID = _motiuDelegacioID_;
+	};
+
+	public java.lang.String getPropietatsTaulaFirmes() {
+		return(propietatsTaulaFirmes);
+	};
+	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_) {
+		this.propietatsTaulaFirmes = _propietatsTaulaFirmes_;
 	};
 
 	public int getPoliticaSegellatDeTemps() {
@@ -448,21 +448,21 @@ private static final long serialVersionUID = 333534165L;
     __tmp.setUsEnFirmaWS2(__bean.isUsEnFirmaWS2());
     __tmp.setUsEnFirmaPassarelaServidor(__bean.isUsEnFirmaPassarelaServidor());
     __tmp.setUsEnFirmaPassarelaWeb(__bean.isUsEnFirmaPassarelaWeb());
-    __tmp.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
-    __tmp.setPolicyIdentifier(__bean.getPolicyIdentifier());
-    __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
-    __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
-    __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
     __tmp.setFiltreCertificats(__bean.getFiltreCertificats());
     __tmp.setTipusOperacioFirma(__bean.getTipusOperacioFirma());
     __tmp.setTipusFirmaID(__bean.getTipusFirmaID());
     __tmp.setAlgorismeDeFirmaID(__bean.getAlgorismeDeFirmaID());
     __tmp.setModeDeFirma(__bean.isModeDeFirma());
+    __tmp.setUsPoliticaDeFirma(__bean.getUsPoliticaDeFirma());
+    __tmp.setPolicyIdentifier(__bean.getPolicyIdentifier());
+    __tmp.setPolicyIdentifierHash(__bean.getPolicyIdentifierHash());
+    __tmp.setPolicyIdentifierHashAlgorithm(__bean.getPolicyIdentifierHashAlgorithm());
+    __tmp.setPolicyUrlDocument(__bean.getPolicyUrlDocument());
     __tmp.setPoliticaTaulaFirmes(__bean.getPoliticaTaulaFirmes());
     __tmp.setPosicioTaulaFirmesID(__bean.getPosicioTaulaFirmesID());
     __tmp.setFirmatPerFormatID(__bean.getFirmatPerFormatID());
-    __tmp.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     __tmp.setMotiuDelegacioID(__bean.getMotiuDelegacioID());
+    __tmp.setPropietatsTaulaFirmes(__bean.getPropietatsTaulaFirmes());
     __tmp.setPoliticaSegellatDeTemps(__bean.getPoliticaSegellatDeTemps());
     __tmp.setPluginSegellatID(__bean.getPluginSegellatID());
     __tmp.setHtmlPerLlistarPluginsFirmaWeb(__bean.getHtmlPerLlistarPluginsFirmaWeb());

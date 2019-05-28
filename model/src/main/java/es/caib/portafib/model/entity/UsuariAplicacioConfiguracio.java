@@ -32,21 +32,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public boolean isUsEnFirmaPassarelaWeb();
 	public void setUsEnFirmaPassarelaWeb(boolean _usEnFirmaPassarelaWeb_);
 
-	public int getUsPoliticaDeFirma();
-	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_);
-
-	public java.lang.String getPolicyIdentifier();
-	public void setPolicyIdentifier(java.lang.String _policyIdentifier_);
-
-	public java.lang.String getPolicyIdentifierHash();
-	public void setPolicyIdentifierHash(java.lang.String _policyIdentifierHash_);
-
-	public java.lang.String getPolicyIdentifierHashAlgorithm();
-	public void setPolicyIdentifierHashAlgorithm(java.lang.String _policyIdentifierHashAlgorithm_);
-
-	public java.lang.String getPolicyUrlDocument();
-	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_);
-
 	public java.lang.String getFiltreCertificats();
 	public void setFiltreCertificats(java.lang.String _filtreCertificats_);
 
@@ -62,6 +47,21 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public boolean isModeDeFirma();
 	public void setModeDeFirma(boolean _modeDeFirma_);
 
+	public int getUsPoliticaDeFirma();
+	public void setUsPoliticaDeFirma(int _usPoliticaDeFirma_);
+
+	public java.lang.String getPolicyIdentifier();
+	public void setPolicyIdentifier(java.lang.String _policyIdentifier_);
+
+	public java.lang.String getPolicyIdentifierHash();
+	public void setPolicyIdentifierHash(java.lang.String _policyIdentifierHash_);
+
+	public java.lang.String getPolicyIdentifierHashAlgorithm();
+	public void setPolicyIdentifierHashAlgorithm(java.lang.String _policyIdentifierHashAlgorithm_);
+
+	public java.lang.String getPolicyUrlDocument();
+	public void setPolicyUrlDocument(java.lang.String _policyUrlDocument_);
+
 	public int getPoliticaTaulaFirmes();
 	public void setPoliticaTaulaFirmes(int _politicaTaulaFirmes_);
 
@@ -71,11 +71,11 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Long getFirmatPerFormatID();
 	public void setFirmatPerFormatID(java.lang.Long _firmatPerFormatID_);
 
-	public java.lang.String getPropietatsTaulaFirmes();
-	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
-
 	public java.lang.Long getMotiuDelegacioID();
 	public void setMotiuDelegacioID(java.lang.Long _motiuDelegacioID_);
+
+	public java.lang.String getPropietatsTaulaFirmes();
+	public void setPropietatsTaulaFirmes(java.lang.String _propietatsTaulaFirmes_);
 
 	public int getPoliticaSegellatDeTemps();
 	public void setPoliticaSegellatDeTemps(int _politicaSegellatDeTemps_);

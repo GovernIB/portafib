@@ -42,21 +42,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}</th>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS)}</th>
         </c:if>
@@ -72,6 +57,21 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MODEDEFIRMA)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}</th>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}</th>
         </c:if>
@@ -81,11 +81,11 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+        <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}</th>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}</th>
