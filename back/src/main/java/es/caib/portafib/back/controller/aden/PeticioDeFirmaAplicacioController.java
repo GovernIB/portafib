@@ -64,6 +64,10 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
     if (peticioDeFirmaFilterForm.isNou()) {
       peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-list-alt icon-white", "peticiodefirma.fitxerspeticio",
                FitxersDePeticioAdenController.CONTEXT_WEB + "/peticio/{0}", "btn-info"));
+
+      String bitacolaLink = BitacolaPeticioAdenController.CONTEXT_WEB + "/peticio/{0}?returnPath=" + CONTEXT_ADEN_PETICIOFIRMA + "/list";
+      peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-cog icon-white", "peticiodefirma.bitacola",
+              bitacolaLink, "btn-info"));
     }
     
     boolean showUsuariEntitat = false;

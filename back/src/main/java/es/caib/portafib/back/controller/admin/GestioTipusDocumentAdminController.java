@@ -169,7 +169,7 @@ public class GestioTipusDocumentAdminController extends TipusDocumentController 
 		  tipusDocumentForm.getTipusDocument().setTipusDocumentBaseID(99); // Altres: TD99
 		}
     // Pendent de tiquet #161
-		tipusDocumentForm.addReadOnlyField(TIPUSDOCUMENTBASEID);
+		//tipusDocumentForm.addReadOnlyField(TIPUSDOCUMENTBASEID);
 
 		return tipusDocumentForm;
 	}

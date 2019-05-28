@@ -92,5 +92,7 @@ public interface UsuariEntitatLogicaLocal extends UsuariEntitatLocal {
   public List<String> getEmailsOfAdministradorsEntitatByEntitat(String entitatID) throws I18NException;
   
   public String getEmail(String usuariEntitatID);
+
+  public Set<String> getUsuariEntitatIdCurrentUser();
   
 }

@@ -139,7 +139,7 @@ public class BitacolaFilterForm extends PortaFIBBaseFilterForm implements Bitaco
 
   @Override
   public List<Field<?>> getDefaultFilterByFields() {
-    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,USUARIAPLICACIOID }));
+    return new java.util.ArrayList<Field<?>>(Arrays.asList(new Field<?>[] { DATA ,DESCRIPCIO ,USUARIAPLICACIOID }));
   }
 
   @Override

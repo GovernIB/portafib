@@ -51,22 +51,22 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 @Stateless(name = "FirmaEventManagerEJB")
 @RunAs("PFI_USER")
-public class FirmaEventManagerEJB implements ConstantsV2,
-     UsuariEntitatFields, FirmaEventManagerLocal {
+public class FirmaEventManagerEJB implements FirmaEventManagerLocal, ConstantsV2,
+     UsuariEntitatFields {
 
-  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME) // "portafib/BlocDeFirmesLogicaEJB/local")
+  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME)
   private NotificacionsCallBackTimerLocal notifCallback;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
+  @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME, beanName = "PeticioDeFirmaEJB")
   private PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = "portafib/UsuariEntitatEJB/local")
+  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME, beanName = "UsuariEntitatEJB")
   private UsuariEntitatLocal usuariEntitatEjb;
   
-  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
+  @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME, beanName = "UsuariAplicacioEJB")
   private UsuariAplicacioLocal usuariAplicacioEjb;
   
-  @EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
+  @EJB(mappedName = EstatDeFirmaLocal.JNDI_NAME, beanName = "EstatDeFirmaEJB")
   private EstatDeFirmaLocal estatDeFirmaEjb;
 
   @EJB(mappedName = "portafib/RebreAvisLogicaEJB/local")
@@ -81,18 +81,17 @@ public class FirmaEventManagerEJB implements ConstantsV2,
   protected final Logger log = Logger.getLogger(getClass());
 
   
-  public static String LIST_APENDIX = "/list/1";
-  
-  
-  public static String HREF_SOLI = CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + LIST_APENDIX;
-  
-  public static String HREF_DEST = CONTEXT_DEST_ESTATFIRMA_PENDENT + LIST_APENDIX;
-  
-  public static String HREF_DELE = CONTEXT_DELE_ESTATFIRMA_PENDENT + LIST_APENDIX;
-  
-  public static String HREF_COLA = CONTEXT_COLA_ESTATFIRMA_PENDENT + LIST_APENDIX;
-  
-  public static String HREF_REVI = CONTEXT_REVI_ESTATFIRMA_PENDENT + LIST_APENDIX;
+  private static final String LIST_APENDIX = "/list/1";
+
+  private static final String HREF_SOLI = CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + LIST_APENDIX;
+
+  private static final String HREF_DEST = CONTEXT_DEST_ESTATFIRMA_PENDENT + LIST_APENDIX;
+
+  private static final String HREF_DELE = CONTEXT_DELE_ESTATFIRMA_PENDENT + LIST_APENDIX;
+
+  private static final String HREF_COLA = CONTEXT_COLA_ESTATFIRMA_PENDENT + LIST_APENDIX;
+
+  private static final String HREF_REVI = CONTEXT_REVI_ESTATFIRMA_PENDENT + LIST_APENDIX;
   
 
   public Map<FirmaEvent, Throwable> processList(FirmaEventList felist, boolean wakeUpTimer) throws I18NException {
