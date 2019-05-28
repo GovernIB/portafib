@@ -266,8 +266,13 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
         peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
             "icon-remove", "rebutjar",  getContextWeb() + "/rebutjar/{0}",
             "btn-danger"));
-        
-        
+
+        String bitacolaLink =
+                BitacolaPeticioAdenController.CONTEXT_WEB + "/peticio/{0}?returnPath=/aden/aturarpeticions/list";
+        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
+                "icon-cog icon-white", "peticiodefirma.bitacola",
+                bitacolaLink, "btn-info"));
+
         AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
 
         

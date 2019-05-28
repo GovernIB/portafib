@@ -64,27 +64,7 @@ import es.caib.portafib.model.entity.RevisorDeFirma;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.entity.UsuariPersona;
-import es.caib.portafib.model.fields.AnnexFields;
-import es.caib.portafib.model.fields.AnnexFirmatFields;
-import es.caib.portafib.model.fields.BlocDeFirmesFields;
-import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
-import es.caib.portafib.model.fields.ColaboracioDelegacioQueryPath;
-import es.caib.portafib.model.fields.EntitatFields;
-import es.caib.portafib.model.fields.EstatDeFirmaFields;
-import es.caib.portafib.model.fields.EstatDeFirmaQueryPath;
-import es.caib.portafib.model.fields.FirmaFields;
-import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.model.fields.MetadadaFields;
-import es.caib.portafib.model.fields.NotificacioWSFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.PropietatGlobalFields;
-import es.caib.portafib.model.fields.RevisorDeFirmaFields;
-import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
-import es.caib.portafib.model.fields.RoleUsuariEntitatQueryPath;
-import es.caib.portafib.model.fields.TipusDocumentColaboracioDelegacioFields;
-import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
+import es.caib.portafib.model.fields.*;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -2803,8 +2783,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             + peticioDeFirma.getPeticioDeFirmaID() + ": " + msg, error);
       }
 
-      rebutjarEstadistica(estatDeFirma.getUsuariEntitatID(), peticioDeFirma
-          .getUsuariAplicacio().getEntitatID(), peticioDeFirma);
+
+      String entitatID = usuariAplicacioEjb.executeQueryOne(
+              UsuariAplicacioFields.ENTITATID,
+              UsuariAplicacioFields.USUARIAPLICACIOID.equal(peticioDeFirma.getSolicitantUsuariAplicacioID()));
+      rebutjarEstadistica(estatDeFirma.getUsuariEntitatID(), entitatID, peticioDeFirma);
 
     } finally {
       try {

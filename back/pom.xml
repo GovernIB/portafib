@@ -383,6 +383,19 @@
 
   </dependencies>
 
+  <!-- Emprar només useCache al war en desenvolupament (profile build) -->
+  <properties>
+    <war.useCache>false</war.useCache>
+  </properties>
+  <profiles>
+    <profile>
+      <id>build</id>
+      <properties>
+        <war.useCache>true</war.useCache>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
 
