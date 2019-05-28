@@ -65,72 +65,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.Integer usPoliticaDeFirmaDesde;
-
-  public java.lang.Integer getUsPoliticaDeFirmaDesde() {
-    return this.usPoliticaDeFirmaDesde;
-  }
-
-  public void setUsPoliticaDeFirmaDesde(java.lang.Integer usPoliticaDeFirmaDesde) {
-    this.usPoliticaDeFirmaDesde = usPoliticaDeFirmaDesde;
-  }
-
-
-  private java.lang.Integer usPoliticaDeFirmaFins;
-
-  public java.lang.Integer getUsPoliticaDeFirmaFins() {
-    return this.usPoliticaDeFirmaFins;
-  }
-
-  public void setUsPoliticaDeFirmaFins(java.lang.Integer usPoliticaDeFirmaFins) {
-    this.usPoliticaDeFirmaFins = usPoliticaDeFirmaFins;
-  }
-
-
-  private java.lang.String policyIdentifier;
-
-  public java.lang.String getPolicyIdentifier() {
-    return this.policyIdentifier;
-  }
-
-  public void setPolicyIdentifier(java.lang.String policyIdentifier) {
-    this.policyIdentifier = policyIdentifier;
-  }
-
-
-  private java.lang.String policyIdentifierHash;
-
-  public java.lang.String getPolicyIdentifierHash() {
-    return this.policyIdentifierHash;
-  }
-
-  public void setPolicyIdentifierHash(java.lang.String policyIdentifierHash) {
-    this.policyIdentifierHash = policyIdentifierHash;
-  }
-
-
-  private java.lang.String policyIdentifierHashAlgorithm;
-
-  public java.lang.String getPolicyIdentifierHashAlgorithm() {
-    return this.policyIdentifierHashAlgorithm;
-  }
-
-  public void setPolicyIdentifierHashAlgorithm(java.lang.String policyIdentifierHashAlgorithm) {
-    this.policyIdentifierHashAlgorithm = policyIdentifierHashAlgorithm;
-  }
-
-
-  private java.lang.String policyUrlDocument;
-
-  public java.lang.String getPolicyUrlDocument() {
-    return this.policyUrlDocument;
-  }
-
-  public void setPolicyUrlDocument(java.lang.String policyUrlDocument) {
-    this.policyUrlDocument = policyUrlDocument;
-  }
-
-
   private java.lang.String filtreCertificats;
 
   public java.lang.String getFiltreCertificats() {
@@ -208,6 +142,72 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
+  private java.lang.Integer usPoliticaDeFirmaDesde;
+
+  public java.lang.Integer getUsPoliticaDeFirmaDesde() {
+    return this.usPoliticaDeFirmaDesde;
+  }
+
+  public void setUsPoliticaDeFirmaDesde(java.lang.Integer usPoliticaDeFirmaDesde) {
+    this.usPoliticaDeFirmaDesde = usPoliticaDeFirmaDesde;
+  }
+
+
+  private java.lang.Integer usPoliticaDeFirmaFins;
+
+  public java.lang.Integer getUsPoliticaDeFirmaFins() {
+    return this.usPoliticaDeFirmaFins;
+  }
+
+  public void setUsPoliticaDeFirmaFins(java.lang.Integer usPoliticaDeFirmaFins) {
+    this.usPoliticaDeFirmaFins = usPoliticaDeFirmaFins;
+  }
+
+
+  private java.lang.String policyIdentifier;
+
+  public java.lang.String getPolicyIdentifier() {
+    return this.policyIdentifier;
+  }
+
+  public void setPolicyIdentifier(java.lang.String policyIdentifier) {
+    this.policyIdentifier = policyIdentifier;
+  }
+
+
+  private java.lang.String policyIdentifierHash;
+
+  public java.lang.String getPolicyIdentifierHash() {
+    return this.policyIdentifierHash;
+  }
+
+  public void setPolicyIdentifierHash(java.lang.String policyIdentifierHash) {
+    this.policyIdentifierHash = policyIdentifierHash;
+  }
+
+
+  private java.lang.String policyIdentifierHashAlgorithm;
+
+  public java.lang.String getPolicyIdentifierHashAlgorithm() {
+    return this.policyIdentifierHashAlgorithm;
+  }
+
+  public void setPolicyIdentifierHashAlgorithm(java.lang.String policyIdentifierHashAlgorithm) {
+    this.policyIdentifierHashAlgorithm = policyIdentifierHashAlgorithm;
+  }
+
+
+  private java.lang.String policyUrlDocument;
+
+  public java.lang.String getPolicyUrlDocument() {
+    return this.policyUrlDocument;
+  }
+
+  public void setPolicyUrlDocument(java.lang.String policyUrlDocument) {
+    this.policyUrlDocument = policyUrlDocument;
+  }
+
+
   private java.lang.Integer politicaTaulaFirmesDesde;
 
   public java.lang.Integer getPoliticaTaulaFirmesDesde() {
@@ -274,17 +274,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
   }
 
 
-  private java.lang.String propietatsTaulaFirmes;
-
-  public java.lang.String getPropietatsTaulaFirmes() {
-    return this.propietatsTaulaFirmes;
-  }
-
-  public void setPropietatsTaulaFirmes(java.lang.String propietatsTaulaFirmes) {
-    this.propietatsTaulaFirmes = propietatsTaulaFirmes;
-  }
-
-
   private java.lang.Long motiuDelegacioIDDesde;
 
   public java.lang.Long getMotiuDelegacioIDDesde() {
@@ -304,6 +293,17 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMotiuDelegacioIDFins(java.lang.Long motiuDelegacioIDFins) {
     this.motiuDelegacioIDFins = motiuDelegacioIDFins;
+  }
+
+
+  private java.lang.String propietatsTaulaFirmes;
+
+  public java.lang.String getPropietatsTaulaFirmes() {
+    return this.propietatsTaulaFirmes;
+  }
+
+  public void setPropietatsTaulaFirmes(java.lang.String propietatsTaulaFirmes) {
+    this.propietatsTaulaFirmes = propietatsTaulaFirmes;
   }
 
 
@@ -415,12 +415,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.usuariAplicacioConfigIDFins = __toClone.usuariAplicacioConfigIDFins;
     this.nom = __toClone.nom;
     this.entitatID = __toClone.entitatID;
-    this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
-    this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
-    this.policyIdentifier = __toClone.policyIdentifier;
-    this.policyIdentifierHash = __toClone.policyIdentifierHash;
-    this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
-    this.policyUrlDocument = __toClone.policyUrlDocument;
     this.filtreCertificats = __toClone.filtreCertificats;
     this.tipusOperacioFirmaDesde = __toClone.tipusOperacioFirmaDesde;
     this.tipusOperacioFirmaFins = __toClone.tipusOperacioFirmaFins;
@@ -428,15 +422,21 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.tipusFirmaIDFins = __toClone.tipusFirmaIDFins;
     this.algorismeDeFirmaIDDesde = __toClone.algorismeDeFirmaIDDesde;
     this.algorismeDeFirmaIDFins = __toClone.algorismeDeFirmaIDFins;
+    this.usPoliticaDeFirmaDesde = __toClone.usPoliticaDeFirmaDesde;
+    this.usPoliticaDeFirmaFins = __toClone.usPoliticaDeFirmaFins;
+    this.policyIdentifier = __toClone.policyIdentifier;
+    this.policyIdentifierHash = __toClone.policyIdentifierHash;
+    this.policyIdentifierHashAlgorithm = __toClone.policyIdentifierHashAlgorithm;
+    this.policyUrlDocument = __toClone.policyUrlDocument;
     this.politicaTaulaFirmesDesde = __toClone.politicaTaulaFirmesDesde;
     this.politicaTaulaFirmesFins = __toClone.politicaTaulaFirmesFins;
     this.posicioTaulaFirmesIDDesde = __toClone.posicioTaulaFirmesIDDesde;
     this.posicioTaulaFirmesIDFins = __toClone.posicioTaulaFirmesIDFins;
     this.firmatPerFormatIDDesde = __toClone.firmatPerFormatIDDesde;
     this.firmatPerFormatIDFins = __toClone.firmatPerFormatIDFins;
-    this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.motiuDelegacioIDDesde = __toClone.motiuDelegacioIDDesde;
     this.motiuDelegacioIDFins = __toClone.motiuDelegacioIDFins;
+    this.propietatsTaulaFirmes = __toClone.propietatsTaulaFirmes;
     this.politicaSegellatDeTempsDesde = __toClone.politicaSegellatDeTempsDesde;
     this.politicaSegellatDeTempsFins = __toClone.politicaSegellatDeTempsFins;
     this.pluginSegellatIDDesde = __toClone.pluginSegellatIDDesde;
@@ -447,10 +447,10 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
     this.upgradeSignFormatDesde = __toClone.upgradeSignFormatDesde;
     this.upgradeSignFormatFins = __toClone.upgradeSignFormatFins;
     this.mapOfEntitatForEntitatID = __toClone.mapOfEntitatForEntitatID;
-    this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForTipusOperacioFirma = __toClone.mapOfValuesForTipusOperacioFirma;
     this.mapOfValuesForTipusFirmaID = __toClone.mapOfValuesForTipusFirmaID;
     this.mapOfValuesForAlgorismeDeFirmaID = __toClone.mapOfValuesForAlgorismeDeFirmaID;
+    this.mapOfValuesForUsPoliticaDeFirma = __toClone.mapOfValuesForUsPoliticaDeFirma;
     this.mapOfValuesForPoliticaTaulaFirmes = __toClone.mapOfValuesForPoliticaTaulaFirmes;
     this.mapOfValuesForPosicioTaulaFirmesID = __toClone.mapOfValuesForPosicioTaulaFirmesID;
     this.mapOfTraduccioForFirmatPerFormatID = __toClone.mapOfTraduccioForFirmatPerFormatID;
@@ -505,18 +505,6 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
 
 
-  private Map<String, String> mapOfValuesForUsPoliticaDeFirma;
-
-  public Map<String, String> getMapOfValuesForUsPoliticaDeFirma() {
-    return this.mapOfValuesForUsPoliticaDeFirma;
-  }
-
-  public void setMapOfValuesForUsPoliticaDeFirma(Map<String, String> mapOfValuesForUsPoliticaDeFirma) {
-    this.mapOfValuesForUsPoliticaDeFirma = mapOfValuesForUsPoliticaDeFirma;
-  }
-
-
-
   private Map<String, String> mapOfValuesForTipusOperacioFirma;
 
   public Map<String, String> getMapOfValuesForTipusOperacioFirma() {
@@ -549,6 +537,18 @@ public class UsuariAplicacioConfiguracioFilterForm extends PortaFIBBaseFilterFor
 
   public void setMapOfValuesForAlgorismeDeFirmaID(Map<String, String> mapOfValuesForAlgorismeDeFirmaID) {
     this.mapOfValuesForAlgorismeDeFirmaID = mapOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private Map<String, String> mapOfValuesForUsPoliticaDeFirma;
+
+  public Map<String, String> getMapOfValuesForUsPoliticaDeFirma() {
+    return this.mapOfValuesForUsPoliticaDeFirma;
+  }
+
+  public void setMapOfValuesForUsPoliticaDeFirma(Map<String, String> mapOfValuesForUsPoliticaDeFirma) {
+    this.mapOfValuesForUsPoliticaDeFirma = mapOfValuesForUsPoliticaDeFirma;
   }
 
 

@@ -25,10 +25,10 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     super(__toClone);
       this.usuariAplicacioConfiguracio = __toClone.usuariAplicacioConfiguracio;
     this.listOfEntitatForEntitatID = __toClone.listOfEntitatForEntitatID;
-    this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfValuesForTipusOperacioFirma = __toClone.listOfValuesForTipusOperacioFirma;
     this.listOfValuesForTipusFirmaID = __toClone.listOfValuesForTipusFirmaID;
     this.listOfValuesForAlgorismeDeFirmaID = __toClone.listOfValuesForAlgorismeDeFirmaID;
+    this.listOfValuesForUsPoliticaDeFirma = __toClone.listOfValuesForUsPoliticaDeFirma;
     this.listOfValuesForPoliticaTaulaFirmes = __toClone.listOfValuesForPoliticaTaulaFirmes;
     this.listOfValuesForPosicioTaulaFirmesID = __toClone.listOfValuesForPosicioTaulaFirmesID;
     this.listOfTraduccioForFirmatPerFormatID = __toClone.listOfTraduccioForFirmatPerFormatID;
@@ -87,18 +87,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
 
 
-  private List<StringKeyValue> listOfValuesForUsPoliticaDeFirma;
-
-  public List<StringKeyValue> getListOfValuesForUsPoliticaDeFirma() {
-    return this.listOfValuesForUsPoliticaDeFirma;
-  }
-
-  public void setListOfValuesForUsPoliticaDeFirma(List<StringKeyValue> listOfValuesForUsPoliticaDeFirma) {
-    this.listOfValuesForUsPoliticaDeFirma = listOfValuesForUsPoliticaDeFirma;
-  }
-
-
-
   private List<StringKeyValue> listOfValuesForTipusOperacioFirma;
 
   public List<StringKeyValue> getListOfValuesForTipusOperacioFirma() {
@@ -131,6 +119,18 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
 
   public void setListOfValuesForAlgorismeDeFirmaID(List<StringKeyValue> listOfValuesForAlgorismeDeFirmaID) {
     this.listOfValuesForAlgorismeDeFirmaID = listOfValuesForAlgorismeDeFirmaID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForUsPoliticaDeFirma;
+
+  public List<StringKeyValue> getListOfValuesForUsPoliticaDeFirma() {
+    return this.listOfValuesForUsPoliticaDeFirma;
+  }
+
+  public void setListOfValuesForUsPoliticaDeFirma(List<StringKeyValue> listOfValuesForUsPoliticaDeFirma) {
+    this.listOfValuesForUsPoliticaDeFirma = listOfValuesForUsPoliticaDeFirma;
   }
 
 

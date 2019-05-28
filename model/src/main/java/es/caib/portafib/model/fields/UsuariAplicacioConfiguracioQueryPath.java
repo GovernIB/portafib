@@ -51,26 +51,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB);
   }
 
-  public IntegerField USPOLITICADEFIRMA() {
-    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA);
-  }
-
-  public StringField POLICYIDENTIFIER() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER);
-  }
-
-  public StringField POLICYIDENTIFIERHASH() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH);
-  }
-
-  public StringField POLICYIDENTIFIERHASHALGORITHM() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM);
-  }
-
-  public StringField POLICYURLDOCUMENT() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT);
-  }
-
   public StringField FILTRECERTIFICATS() {
     return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS);
   }
@@ -91,6 +71,26 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.MODEDEFIRMA);
   }
 
+  public IntegerField USPOLITICADEFIRMA() {
+    return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA);
+  }
+
+  public StringField POLICYIDENTIFIER() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER);
+  }
+
+  public StringField POLICYIDENTIFIERHASH() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH);
+  }
+
+  public StringField POLICYIDENTIFIERHASHALGORITHM() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM);
+  }
+
+  public StringField POLICYURLDOCUMENT() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT);
+  }
+
   public IntegerField POLITICATAULAFIRMES() {
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES);
   }
@@ -103,12 +103,12 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.FIRMATPERFORMATID);
   }
 
-  public StringField PROPIETATSTAULAFIRMES() {
-    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES);
-  }
-
   public LongField MOTIUDELEGACIOID() {
     return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID);
+  }
+
+  public StringField PROPIETATSTAULAFIRMES() {
+    return new StringField(getQueryPath(), UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES);
   }
 
   public IntegerField POLITICASEGELLATDETEMPS() {

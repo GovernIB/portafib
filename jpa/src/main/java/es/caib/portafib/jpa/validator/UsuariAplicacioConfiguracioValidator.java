@@ -70,10 +70,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAPASSARELAWEB)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,USPOLITICADEFIRMA, 
-        "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USPOLITICADEFIRMA)));
-
     __vr.rejectIfEmptyOrWhitespace(__target__,TIPUSOPERACIOFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TIPUSOPERACIOFIRMA)));
@@ -85,6 +81,10 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
     __vr.rejectIfEmptyOrWhitespace(__target__,MODEDEFIRMA, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(MODEDEFIRMA)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,USPOLITICADEFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USPOLITICADEFIRMA)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,POLITICATAULAFIRMES, 
         "genapp.validation.required",
@@ -112,6 +112,14 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       if (__entitatid!= null && __entitatid.length() > 50) {
         __vr.rejectValue(ENTITATID, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENTITATID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(FILTRECERTIFICATS) == 0) {
+      java.lang.String __filtrecertificats = (java.lang.String)__vr.getFieldValue(__target__,FILTRECERTIFICATS);
+      if (__filtrecertificats!= null && __filtrecertificats.length() > 2147483647) {
+        __vr.rejectValue(FILTRECERTIFICATS, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(FILTRECERTIFICATS)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
       }
     }
     
@@ -144,14 +152,6 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
       if (__policyurldocument!= null && __policyurldocument.length() > 255) {
         __vr.rejectValue(POLICYURLDOCUMENT, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(POLICYURLDOCUMENT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
-      }
-    }
-    
-    if (__vr.getFieldErrorCount(FILTRECERTIFICATS) == 0) {
-      java.lang.String __filtrecertificats = (java.lang.String)__vr.getFieldValue(__target__,FILTRECERTIFICATS);
-      if (__filtrecertificats!= null && __filtrecertificats.length() > 2147483647) {
-        __vr.rejectValue(FILTRECERTIFICATS, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(FILTRECERTIFICATS)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(2147483647)));
       }
     }
     

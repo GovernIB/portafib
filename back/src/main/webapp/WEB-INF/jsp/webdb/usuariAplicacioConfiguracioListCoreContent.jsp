@@ -77,34 +77,6 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${usuariAplicacioConfiguracio.usEnFirmaPassarelaWeb?'success':'error'}.png"/>">
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
-          <td>
-          <c:set var="tmp">${usuariAplicacioConfiguracio.usPoliticaDeFirma}</c:set>
-          <c:if test="${not empty tmp}">
-          ${__theFilterForm.mapOfValuesForUsPoliticaDeFirma[tmp]}
-          </c:if>
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
-          <td>
-          ${usuariAplicacioConfiguracio.policyIdentifier}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
-          <td>
-          ${usuariAplicacioConfiguracio.policyIdentifierHash}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
-          <td>
-          ${usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}
-          </td>
-        </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
-          <td>
-          ${usuariAplicacioConfiguracio.policyUrlDocument}
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.FILTRECERTIFICATS)}">
           <td>
           ${usuariAplicacioConfiguracio.filtreCertificats}
@@ -138,6 +110,34 @@
           <td>
             <fmt:message key="modefirma.${usuariAplicacioConfiguracio.modeDeFirma}" />          </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.USPOLITICADEFIRMA)}">
+          <td>
+          <c:set var="tmp">${usuariAplicacioConfiguracio.usPoliticaDeFirma}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForUsPoliticaDeFirma[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIER)}">
+          <td>
+          ${usuariAplicacioConfiguracio.policyIdentifier}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASH)}">
+          <td>
+          ${usuariAplicacioConfiguracio.policyIdentifierHash}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYIDENTIFIERHASHALGORITHM)}">
+          <td>
+          ${usuariAplicacioConfiguracio.policyIdentifierHashAlgorithm}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLICYURLDOCUMENT)}">
+          <td>
+          ${usuariAplicacioConfiguracio.policyUrlDocument}
+          </td>
+        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICATAULAFIRMES)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.politicaTaulaFirmes}</c:set>
@@ -162,17 +162,17 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
-          <td>
-          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.MOTIUDELEGACIOID)}">
           <td>
           <c:set var="tmp">${usuariAplicacioConfiguracio.motiuDelegacioID}</c:set>
           <c:if test="${not empty tmp}">
           ${usuariAplicacioConfiguracio.motiuDelegacio.traduccions[lang].valor}
           </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.PROPIETATSTAULAFIRMES)}">
+          <td>
+          ${usuariAplicacioConfiguracio.propietatsTaulaFirmes}
           </td>
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.POLITICASEGELLATDETEMPS)}">
