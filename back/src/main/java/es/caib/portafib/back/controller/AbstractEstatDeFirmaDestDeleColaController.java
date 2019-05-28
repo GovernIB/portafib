@@ -2088,21 +2088,21 @@ import es.caib.portafib.utils.Configuracio;
           int[] valors = infoDelegatsByEstat.get(estatDeFirmaId);
           StringBuffer str = new StringBuffer();
           if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] != 0) {
-             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.FIRMAT")
+             str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.2")
                  + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
           
           if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] != 0) {
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.ACCEPTAT")
+            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.5")
                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_ACCEPTAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
           
           if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] != 0) {
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.REBUTJAT")
+            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.3")
                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_REBUTJAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
           if (valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] != 0) {             
-            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.DESCARTAT")
+            str.append("<small>" + I18NUtils.tradueix("tipusestatdefirmafinal.4")
                 + ": " + valors[(int)ConstantsV2.TIPUSESTATDEFIRMAFINAL_DESCARTAT + 2] + "/" + valors[0] + "</small><br/>\n");
           }
           if (valors[1] != 0) {

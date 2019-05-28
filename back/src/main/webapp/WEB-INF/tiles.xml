@@ -390,6 +390,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/fitxerList.jsp" />
     </definition>
 
+    <definition name="bitacolaPeticioListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
+    </definition>
+
 
     <!--  ===========  ADMINISTRADOR ================== -->
     

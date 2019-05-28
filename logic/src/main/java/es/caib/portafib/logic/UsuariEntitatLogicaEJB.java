@@ -49,7 +49,9 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
@@ -803,4 +805,28 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     
   }
 
+  @Resource
+  private SessionContext context;
+
+  /**
+   * Cerca els identificadors de UsuariEntitat actius que no són càrrec relacionats
+   * amb l'usuari identificat.
+   */
+  @Override
+  public Set<String> getUsuariEntitatIdCurrentUser() {
+
+    String username = context.getCallerPrincipal().getName();
+    Set<String> setID = new HashSet<String>();
+    try {
+      List<String> listID = executeQuery(USUARIENTITATID, Where.AND(
+              USUARIPERSONAID.equal(username),
+              ACTIU.equal(true),
+              CARREC.isNull() ));
+      setID.addAll(listID);
+
+    } catch (I18NException e) {
+      log.error("Error cercant UsuariEntitatID de l'usuari " + username, e);
+    }
+    return setID;
+  }
 }

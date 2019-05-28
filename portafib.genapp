@@ -845,6 +845,9 @@
           <void property="digits"> 
            <int>0</int> 
           </void> 
+          <void property="filter"> 
+           <boolean>true</boolean> 
+          </void> 
           <void property="javaName"> 
            <string>descripcio</string> 
           </void> 
