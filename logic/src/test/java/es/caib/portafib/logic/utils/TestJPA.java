@@ -321,7 +321,7 @@ public class TestJPA {
      
      tx.begin();
      
-     log.info(" BORRAT !!!!");
+     log.info(" ESBORRAT !!!!");
      prova2Man.delete(p2);
      */
      
@@ -768,7 +768,7 @@ public class TestJPA {
     //tipusFirmaMan.create(nova);
     log.info(" ========= LLISTAR + NOU");
     listTipus(tipusFirmaMan);
-    // Borrar i llistar
+    // Esborrar i llistar
     tipusFirmaMan.delete(nova);
     log.info(" ========= LLISTAR - NOU");
     listTipus(tipusFirmaMan);

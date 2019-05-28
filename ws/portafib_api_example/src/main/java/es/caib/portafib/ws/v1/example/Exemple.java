@@ -187,6 +187,8 @@ public class Exemple {
           System.out.println("Esperant a que la peticio es firmi o rebutgi ...");
           
           int estat;
+          // AIXÒ NO S'HA DE FER !!!!!
+          // S'HAN D'UTILITZAR ELS CALLBACKS PER RECUPERAR FITXERS SIGNATS !!!!!
           do {            
             Thread.sleep(5000);
            estat = api.getStateOfPeticioDeFirma(peticioDeFirmaID);
@@ -229,7 +231,7 @@ public class Exemple {
           }
           System.out.println();
           
-          // Borrar la petició
+          // Esborrar la petició
           api.deletePeticioDeFirma(peticioDeFirmaID);
         }
       }

@@ -5,7 +5,9 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -50,32 +52,33 @@ public class ApiFirmaWebSimpleTester {
       final String perfil = prop.getProperty(PROFILE_WEB_PROPERTY);
 
       if (perfil == null) {
-        System.err.println("La propietat " + PROFILE_WEB_PROPERTY
-            + " està buida. Com l'usuari aplicació tengui més d'un perfil definit no es podrà executar.");
+        System.err
+            .println("La propietat "
+                + PROFILE_WEB_PROPERTY
+                + " està buida. Com l'usuari aplicació tengui més d'un perfil definit no es podrà executar.");
       }
 
-      
       String files = prop.getProperty("files");
       String[] parts = files.split(",");
-      
+
       FirmaSimpleFileInfoSignature[] filesToSign = new FirmaSimpleFileInfoSignature[parts.length];
-      
+
       for (int i = 0; i < parts.length; i++) {
-        
+
         String nom = prop.getProperty("file." + parts[i] + ".name");
         String mime = prop.getProperty("file." + parts[i] + ".mime");
-        
+
         System.out.println("Nom : ]" + nom + "[");
         System.out.println("Mime : ]" + mime + "[");
-            
+
         FirmaSimpleFile fileToSign = ApiFirmaEnServidorSimpleTester.getSimpleFileFromResource(
             nom, mime);
-            //"hola_3mb.pdf",
-            //"hola.pdf", 
-            //"application/pdf");
-  
+        // "hola_3mb.pdf",
+        // "hola.pdf",
+        // "application/pdf");
+
         FirmaSimpleFileInfoSignature fileInfoSignature;
-        
+
         String signID = parts[i];
         String name = fileToSign.getNom();
         String reason = "Per aprovar pressuposts - " + parts[i];
@@ -86,7 +89,7 @@ public class ApiFirmaWebSimpleTester {
 
         fileInfoSignature = new FirmaSimpleFileInfoSignature(fileToSign, signID, name, reason,
             location, signerEmail, signNumber, languageSign);
-        
+
         filesToSign[i] = fileInfoSignature;
       }
 
@@ -94,12 +97,10 @@ public class ApiFirmaWebSimpleTester {
       final String username = null; // "anadal";
       final String administrationID = "12345678C";
 
-      int port = 1989;
-
-      api = getApiFirmaWebSimple(prop);
-
       FirmaSimpleCommonInfo commonInfo;
       commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID);
+
+      api = getApiFirmaWebSimple(prop);
 
       // Enviam la part comu de la transacció
       transactionID = api.getTransactionID(commonInfo);
@@ -107,15 +108,14 @@ public class ApiFirmaWebSimpleTester {
       System.out.println("languageUI = |" + languageUI + "|");
       System.out.println("TransactionID = |" + transactionID + "|");
 
-      final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
-
-      final String view = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN;
-
       for (int i = 0; i < filesToSign.length; i++) {
         System.out.println("Enviant firma[" + i + "]");
-        api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, filesToSign[i]));  
+        api.addFileToSign(new FirmaSimpleAddFileToSignRequest(transactionID, filesToSign[i]));
       }
-      
+
+      int port = 1989;
+      final String returnUrl = "http://localhost:" + port + "/returnurl/" + transactionID;
+      final String view = FirmaSimpleStartTransactionRequest.VIEW_FULLSCREEN;
 
       FirmaSimpleStartTransactionRequest startTransactionInfo;
       startTransactionInfo = new FirmaSimpleStartTransactionRequest(transactionID, returnUrl,
@@ -172,68 +172,7 @@ public class ApiFirmaWebSimpleTester {
 
         case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
         {
-
-          List<FirmaSimpleSignatureStatus> ssl = fullTransactionStatus
-              .getSignaturesStatusList();
-
-          System.out.println(" ===== RESULTATS [" + ssl.size() + "] =========");
-
-          for (FirmaSimpleSignatureStatus signatureStatus : ssl) {
-
-            final String signID = signatureStatus.getSignID();
-
-            System.out.println(" ---- Signature [ " + signID + " ]");
-
-            FirmaSimpleStatus fss = signatureStatus.getStatus();
-
-            int statusSign = fss.getStatus();
-
-            switch (statusSign) {
-
-              case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
-                System.err.println("  STATUS = " + statusSign + " (STATUS_INITIALIZING)");
-                System.err.println("  ESULT: Incoherent Status");
-              break;
-
-              case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
-                System.err.println("  STATUS = " + statusSign + " (STATUS_IN_PROGRESS)");
-                System.err.println("  RESULT: Incoherent Status");
-              break;
-
-              case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
-                System.err.println("  STATUS = " + statusSign + " (STATUS_ERROR)");
-                System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
-              break;
-
-              case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
-                System.err.println("  STATUS = " + statusSign + " (STATUS_CANCELLED)");
-                System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
-              break;
-
-              case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
-
-                FirmaSimpleSignatureResult fssr = api
-                    .getSignatureResult(new FirmaSimpleGetSignatureResultRequest(
-                        transactionID, signID));
-                FirmaSimpleFile fsf = fssr.getSignedFile();
-
-                final String outFile = signID + "_" + fsf.getNom();
-                
-                FileOutputStream fos = new FileOutputStream(outFile);
-                fos.write(fsf.getData());
-                fos.flush();
-
-                System.out
-                    .println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
-                System.gc();
-
-                ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
-
-              break;
-            }
-
-            
-          } // Final for de fitxers firmats
+          processStatusFileOfSign(api, transactionID, fullTransactionStatus);
         } // Final Case Firma OK
       } // Final Switch Firma
 
@@ -249,6 +188,69 @@ public class ApiFirmaWebSimpleTester {
         }
       }
     }
+  }
+
+  protected static void processStatusFileOfSign(ApiFirmaWebSimple api, String transactionID,
+      FirmaSimpleGetTransactionStatusResponse fullTransactionStatus) throws Exception,
+      FileNotFoundException, IOException {
+    List<FirmaSimpleSignatureStatus> ssl = fullTransactionStatus.getSignaturesStatusList();
+
+    System.out.println(" ===== RESULTATS [" + ssl.size() + "] =========");
+
+    for (FirmaSimpleSignatureStatus signatureStatus : ssl) {
+
+      final String signID = signatureStatus.getSignID();
+
+      System.out.println(" ---- Signature [ " + signID + " ]");
+
+      FirmaSimpleStatus fss = signatureStatus.getStatus();
+
+      int statusSign = fss.getStatus();
+
+      switch (statusSign) {
+
+        case FirmaSimpleStatus.STATUS_INITIALIZING: // = 0;
+          System.err.println("  STATUS = " + statusSign + " (STATUS_INITIALIZING)");
+          System.err.println("  ESULT: Incoherent Status");
+        break;
+
+        case FirmaSimpleStatus.STATUS_IN_PROGRESS: // = 1;
+          System.err.println("  STATUS = " + statusSign + " (STATUS_IN_PROGRESS)");
+          System.err.println("  RESULT: Incoherent Status");
+        break;
+
+        case FirmaSimpleStatus.STATUS_FINAL_ERROR: // = -1;
+          System.err.println("  STATUS = " + statusSign + " (STATUS_ERROR)");
+          System.err.println("  RESULT: Error en la firma: " + fss.getErrorMessage());
+        break;
+
+        case FirmaSimpleStatus.STATUS_CANCELLED: // = -2;
+          System.err.println("  STATUS = " + statusSign + " (STATUS_CANCELLED)");
+          System.err.println("  RESULT: L'usuari ha cancel.lat la firma.");
+        break;
+
+        case FirmaSimpleStatus.STATUS_FINAL_OK: // = 2;
+
+          FirmaSimpleSignatureResult fssr = api
+              .getSignatureResult(new FirmaSimpleGetSignatureResultRequest(transactionID,
+                  signID));
+          FirmaSimpleFile fsf = fssr.getSignedFile();
+
+          final String outFile = signID + "_" + fsf.getNom();
+
+          FileOutputStream fos = new FileOutputStream(outFile);
+          fos.write(fsf.getData());
+          fos.flush();
+
+          System.out.println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
+          System.gc();
+
+          ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
+
+        break;
+      }
+
+    } // Final for de fitxers firmats
   }
 
   public static void readFromSocket(int port) throws Exception {

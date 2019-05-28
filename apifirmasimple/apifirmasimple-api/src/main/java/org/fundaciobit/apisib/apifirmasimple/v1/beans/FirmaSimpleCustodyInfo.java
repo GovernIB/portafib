@@ -29,7 +29,6 @@ public class FirmaSimpleCustodyInfo {
 
   public FirmaSimpleCustodyInfo() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   public FirmaSimpleCustodyInfo(String custodyFileID, String custodyFileURL,

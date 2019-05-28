@@ -1104,7 +1104,7 @@ public abstract class RestApiFirmaUtils extends RestUtils {
         }
         */
 
-        // XYZ ZZZ ZZZ Falta llegir-ho de la BBDD
+        // Falta llegir-ho de la BBDD
         FirmaSimpleAvailableProfile ap = new FirmaSimpleAvailableProfile(codiPerfil,
             perfil.getNom(), descripcio);
 

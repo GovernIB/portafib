@@ -338,7 +338,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       return files;
     }
     
-    // (1) Borrar Blocs i Firmes
+    // (1) Esborrar Blocs i Firmes
     Set<BlocDeFirmesJPA> blocs = flux.getBlocDeFirmess();
     if (blocs != null) {
       for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {  
@@ -346,20 +346,20 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       }
     }
     
-    // Borrar Permisos usuari
+    // Esborrar Permisos usuari
     permisUsuariPlantillaEjb.delete(
         PermisUsuariPlantillaFields.PLANTILLAFLUXDEFIRMESID.equal(fluxDeFirmesID));
     
-    // Borrar Permisos grups
+    // Esborrar Permisos grups
     permisGrupPlantillaEjb.delete(
         PermisGrupPlantillaFields.PLANTILLAFLUXDEFIRMESID.equal(fluxDeFirmesID));
     
 
-    // Borrar Plantilla         
+    // Esborrar Plantilla         
     plantillaFluxDeFirmesEjb.delete(
         PlantillaFluxDeFirmesFields.FLUXDEFIRMESID.equal(fluxDeFirmesID));
 
-    // Borrar Flux De Firmes
+    // Esborrar Flux De Firmes
     flux.setBlocDeFirmess(null);
     flux.setPlantillaFluxDeFirmes(null);
 

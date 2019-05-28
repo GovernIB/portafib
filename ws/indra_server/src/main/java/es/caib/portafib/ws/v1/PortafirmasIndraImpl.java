@@ -1788,7 +1788,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       */
     } finally {
       if (error == true) {
-        // Borrar fitxers
+        // Esborrar fitxers
         for(FitxerJPA fitxer : files.values()) {
           long fitxerID = fitxer.getFitxerID();
           if (fitxerID != 0) {
@@ -1796,7 +1796,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
               fitxerLogicaEjb.delete(fitxerID);
               FileSystemManager.eliminarArxiu(fitxerID);
             } catch (Exception e) {
-              log.error("Error borrant fitxer amb ID " + fitxerID 
+              log.error("Error esborrant fitxer amb ID " + fitxerID 
                   + " durant la creació d'una peticio de firma: " + e.getMessage(), e);
             }
           }
@@ -2154,11 +2154,18 @@ public class PortafirmasIndraImpl implements Cws, Constants {
         }
         
         AnnexJPA nouannex = new AnnexJPA();
-        
-        nouannex.setAdjuntar(attached);
-        if (annex.isIsFileSign() != null) {
-          nouannex.setFirmar(annex.isIsFileSign());
-        }
+
+        // API de Indra: Posar a pinyo adjuntar i firmar a false i false #248
+//        nouannex.setAdjuntar(attached);
+//        
+//        boolean firmarAttached = false;
+//        if (annex.isIsFileSign() != null) {
+//          nouannex.setFirmar(annex.isIsFileSign());
+//        }
+        nouannex.setAdjuntar(false);
+        nouannex.setFirmar(false);
+
+
         nouannex.setFitxerID(count); // Index al datahandler
               
         FitxerJPA fitxer = new FitxerJPA();

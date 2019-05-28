@@ -40,24 +40,24 @@
           <c:when test="${type eq Constants.DOC_PDF}">
              <object data="${urlfile}" type="application/pdf" width="100%" height="750">    
                <br/><br/><br/>
-               <center><a href="${urlfile}">${nomfile}</a></center>
+               <center><a href="${urlfile}"><c:out value="${nomfile}"/></a></center>
             </object>
           </c:when>
           <c:when test="${type eq Constants.DOC_TXT}">
              <br/><br/>
              <table width="100%" border="4"><tr><td>
              <object data="${urlfile}" type="${fitxer.key.mime}" width="100%" height="750">    
-               <center><a href="${urlfile}">${nomfile}</a></center>
+               <center><a href="${urlfile}"><c:out value="${nomfile}" /></a></center>
              </object>
              </td></tr></table>
           </c:when>
           <c:when test="${type eq Constants.DOC_IMG}">
-              <img src="${urlfile}" alt="${nomfile}"/>
+              <img src="${urlfile}" alt="<c:out value="${nomfile}"/>" />
           </c:when>
           <%-- Constants.DOC_BIN --%>
           <c:otherwise>
               <br/><br/><br/>
-              <center><a target="_blank" href="${urlfile}">${nomfile}</a> <br/></center>
+              <center><a target="_blank" href="${urlfile}"><c:out value="${nomfile}" /></a> <br/></center>
           </c:otherwise>
        </c:choose>
     </div>
@@ -71,12 +71,12 @@
    
    <c:forEach var="fitxer" items="${fitxers}" varStatus="theCount">
       <c:if test="${theCount.index > 0}">
-        <c:set var="ids" value="${ids}, " />   
-        <c:set var="filenames" value="${filenames}, " />   
-      </c:if> 
+        <c:set var="ids" value="${ids}, " />
+        <c:set var="filenames"><c:out value="${filenames}"/>, </c:set>
+      </c:if>
    
-      <c:set var="ids" value="${ids}'annex_${theCount.index}'" />   
-      <c:set var="filenames" value="${filenames}'${fitxer.key.nom}'" />
+      <c:set var="ids" value="${ids}'annex_${theCount.index}'" />
+      <c:set var="filenames"><c:out value="${filenames}"/>'<c:out value="${fitxer.key.nom}"/>'</c:set>
    </c:forEach>
 
    

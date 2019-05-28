@@ -107,7 +107,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		
 
 		if (ConstantsV2.ROLE_ADEN.equals(roleID)) {
-		  // NO es pot borrar el role ADEN si és el darrer administrador d'entitat d'una entitat
+		  // NO es pot esborrar el role ADEN si és el darrer administrador d'entitat d'una entitat
 			
 			// 1. recuperar de usuarientitat la entrada con usuarientitatid == instance.getUsuariEntitatID()
 			UsuariEntitat usuariEntitat = usuariEntitatEjb.findByPrimaryKey(instance.getUsuariEntitatID());
@@ -132,7 +132,7 @@ public class RoleUsuariEntitatLogicaEJB extends RoleUsuariEntitatEJB
 		}
 		
 		if (ConstantsV2.ROLE_SOLI.equals(roleID)) {
-		  // No es pot borrar el role SOLI si l'usuari té solicituds de firma associades
+		  // No es pot esborrar el role SOLI si l'usuari té solicituds de firma associades
 		  Long count = peticioDeFirmaEjb.count(
 		      es.caib.portafib.model.fields.PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(instance.getUsuariEntitatID()));
 		  if (count != 0) {

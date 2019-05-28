@@ -55,25 +55,25 @@ public class ApiFirmaEnServidorSimpleTester {
 
       ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      //tester.testGetAvailableProfiles();
+      // tester.testGetAvailableProfiles();
 
-      //tester.testSignatureServerPAdES();
+      tester.testSignatureServerPAdES();
 
-      //tester.testSignatureServerCAdES();
+      // tester.testSignatureServerCAdES();
 
-      //tester.testSignatureServerXAdESBinary();
+      // tester.testSignatureServerXAdESBinary();
 
-      //tester.testSignatureServerXAdESXml();
+      // tester.testSignatureServerXAdESXml();
 
-      //tester.testSignatureServerPAdESXAdESCAdES();
+      // tester.testSignatureServerPAdESXAdESCAdES();
 
-      //tester.testUpgradeSignaturePAdES();
+      // tester.testUpgradeSignaturePAdES();
 
-      //tester.testUpgradeSignatureXAdESOfBinary();
+      // tester.testUpgradeSignatureXAdESOfBinary();
 
-      //tester.testUpgradeSignatureXAdESOfXML();
+      // tester.testUpgradeSignatureXAdESOfXML();
 
-      tester.testUpgradeSignatureCAdES();
+      // tester.testUpgradeSignatureCAdES();
 
     } catch (NoAvailablePluginException nape) {
 
@@ -165,7 +165,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       List<FirmaSimpleAvailableProfile> listProfiles = profiles.getAvailableProfiles();
       if (listProfiles.size() == 0) {
-        System.out.println(" NO TE CAP PERFIL ASSIGNAT !!!");
+        System.err.println("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
       } else {
         for (FirmaSimpleAvailableProfile ap : listProfiles) {
           System.out.println("  + " + ap.getName() + ":");
@@ -431,7 +431,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("foto.jpg_cades_detached.csig",
         "application/octet-stream");
-    
+
     FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
         "application/octet-stream");
 
@@ -446,7 +446,8 @@ public class ApiFirmaEnServidorSimpleTester {
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("hola_signed.pdf",
         "application/pdf");
 
-    internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null, "hola-signed-upgraded.pdf");
+    internalFullTestUpgrade(PROFILE_PADES_PROPERTY, fileToUpgrade, null,
+        "hola-signed-upgraded.pdf");
 
   }
 
@@ -456,7 +457,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource(
         "foto_xades_attached_firmat.xsig", "application/xml");
-    
+
     FirmaSimpleFile documentDetached = getSimpleFileFromResource("foto.jpg",
         "application/octet-stream");
 
@@ -470,8 +471,9 @@ public class ApiFirmaEnServidorSimpleTester {
 
     FirmaSimpleFile fileToUpgrade = getSimpleFileFromResource("sample.xml_signed.xsig",
         "application/xml");
-    
-    FirmaSimpleFile documentDetached = null; //getSimpleFileFromResource("sample.xml",  "application/xml");
+
+    FirmaSimpleFile documentDetached = null; // getSimpleFileFromResource("sample.xml",
+                                             // "application/xml");
 
     internalFullTestUpgrade(PROFILE_XADES_PROPERTY, fileToUpgrade, documentDetached,
         "sample.xml_signed_upgraded.xsig");
@@ -550,10 +552,10 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   protected void internalFullTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade,  FirmaSimpleFile documentDetached, String upgradedFileName) throws IOException,
-      FileNotFoundException, Exception {
+      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached, String upgradedFileName)
+      throws IOException, FileNotFoundException, Exception {
     FirmaSimpleUpgradeResponse upgradeResponse = internalTestUpgrade(perfilProperty,
-        fileToUpgrade,  documentDetached);
+        fileToUpgrade, documentDetached);
 
     FirmaSimpleFile upgraded = upgradeResponse.getUpgradedFile();
 
@@ -561,7 +563,8 @@ public class ApiFirmaEnServidorSimpleTester {
   }
 
   protected FirmaSimpleUpgradeResponse internalTestUpgrade(final String perfilProperty,
-      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached) throws IOException, FileNotFoundException, Exception {
+      FirmaSimpleFile fileToUpgrade, FirmaSimpleFile documentDetached) throws IOException,
+      FileNotFoundException, Exception {
     final String language = "ca";
 
     Properties prop = getConfigProperties();
@@ -573,19 +576,20 @@ public class ApiFirmaEnServidorSimpleTester {
     if (perfil == null) {
       logErrorPerfilBuit(perfilProperty);
     }
-    
-    
 
     FirmaSimpleUpgradeResponse upgradeResponse = api
-        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade, documentDetached, null, language));
+        .upgradeSignature(new FirmaSimpleUpgradeRequest(perfil, fileToUpgrade,
+            documentDetached, null, language));
 
     printSignatureInfo(upgradeResponse);
     return upgradeResponse;
   }
 
   protected void logErrorPerfilBuit(final String perfilProperty) {
-    System.err.println("La propietat " + perfilProperty
-        + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
+    System.err
+        .println("La propietat "
+            + perfilProperty
+            + " està buida. Això significa que si l'usuari aplicacio té més d'un perfil assignat, llavors llançarà un error.");
   }
 
 }

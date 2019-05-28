@@ -139,7 +139,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
       } else {
         // Ja existeix, no feim res
 
-        // L'eliminam de la llista, per despres esbrinar els elements borrats 
+        // L'eliminam de la llista, per despres esbrinar els elements esborrats 
         currentTipusDocument.remove(new Long(t.getId()));
       }
     }

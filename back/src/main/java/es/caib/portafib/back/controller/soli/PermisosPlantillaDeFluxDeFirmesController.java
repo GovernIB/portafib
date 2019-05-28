@@ -290,8 +290,8 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
     }
 
     if (pup != null) {
-      permisUsuariPlantillaEjb.delete(pup); // Borrar de la BBDD
-      list.remove(pup); // Borrar del formulari
+      permisUsuariPlantillaEjb.delete(pup); // Esborrar de la BBDD
+      list.remove(pup); // Esborrar del formulari
     }
     
     // REFRESCAR LLISTA DE DISPONIBLES
@@ -386,8 +386,8 @@ public class PermisosPlantillaDeFluxDeFirmesController extends PlantillaFluxDeFi
     }
 
     if (pup != null) {
-      permisGrupPlantillaEjb.delete(pup); // Borrar de la BBDD
-      list.remove(pup); // Borrar del formulari
+      permisGrupPlantillaEjb.delete(pup); // Esborrar de la BBDD
+      list.remove(pup); // Esborrar del formulari
     }
     
     // REFRESCAR LLISTA DE DISPONIBLES

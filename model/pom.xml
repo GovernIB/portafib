@@ -35,7 +35,6 @@
 
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version_template_file>../scripts/templates/Versio.java.template</version_template_file>
     <version_file>src/main/java/es/caib/portafib/versio/Versio.java</version_file>
   </properties>

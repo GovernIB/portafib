@@ -1683,7 +1683,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         }
 
         if (estat != ConstantsV2.TIPUSESTATPETICIODEFIRMA_ENPROCES) {
-          /* Borrar */
+          /* Esborrar */
           filterForm.addAdditionalButtonByPK(peticioDeFirmaID, new AdditionalButton(
               "icon-trash icon-white", "genapp.delete",  
               //"javascript:goTo('" + request.getContextPath() + "/" + getContextWeb() + "/" + peticioDeFirmaID + "/delete')",

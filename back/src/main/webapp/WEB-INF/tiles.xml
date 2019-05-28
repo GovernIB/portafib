@@ -107,16 +107,9 @@
     <definition name="passarela_wait" template="/WEB-INF/jsp/layout/onlycontentlayout.jsp">
         <put-attribute name="contingut" value="/WEB-INF/jsp/common/wait.jsp" />
     </definition>
-    
-    
 
     <definition name="carrecsList" extends="principal">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/usuariEntitatList.jsp" />
-    </definition>
-
-    <!--  TODO ElimiNAR aquesta entrada i jsp   -->
-    <definition name="senseSuportJava" extends="principal">
-        <put-attribute name="contingut" value="/WEB-INF/jsp/common/senseSuportJava.jsp" />
     </definition>
 
     <definition name="seleccioUsuariForm_COMMON" extends="principal">

@@ -161,7 +161,7 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             ue.setActiu(false);
           } else {
             ue.setActiu(false);
-            ue.setCarrec("PENDENT DE BORRAR - " + ue.getCarrec());            
+            ue.setCarrec("PENDENT D'ESBORRAR - " + ue.getCarrec());            
           }
           usuariEntitatNonSecureLogicaEjb.update(ue);
           if (isUpdate) {
@@ -173,15 +173,15 @@ public class AgentsCAIBEJB implements AgentsCAIBLocal {
             }
           } else {
             if (isDelete) {
-              String msg = "S'ha rebut una petició per borrar el càrrec amb ID " + usuariEntitatID 
-                + ". S'ha pogut desactivar però queda pendent borrar-ho de PortaFIB. ";
+              String msg = "S'ha rebut una petició per esborrar el càrrec amb ID " + usuariEntitatID 
+                + ". S'ha pogut desactivar però queda pendent esborrar-ho de PortaFIB. ";
               enviarCorreuAdmistradors(msg, entitatID);
             }
           }
           return ue;
         } else {
           // Existeix una firma en marxa dins un bloc actiu que correspon a un
-          // càrrec que fa que no poguem canviar l'usuari o desactivar o borrar
+          // càrrec que fa que no poguem canviar l'usuari o desactivar o esborrar
           
 
           String msg;

@@ -25,9 +25,6 @@ Per compilar en mode producció: deploypro.sh/bat [OPCIONS]
                   Els WS definits son 
                        /portafib/ws/v1/PortaFIBPassarelaDeFirmaEnServidor
 
--Pclientcert      Genera un segon context web amb autenticacio
-                  CLIENT-CERT (context a /portafib/s)
-
 -Pws-portafib-v1  Crea WS per atacar a PortaFIB usant v1. Els WS definits son 
                        /portafib/ws/v1/PortaFIBPeticioDeFirma
                        /portafib/ws/v1/PortaFIBUsuariEntitat

@@ -12,9 +12,7 @@
     <module>pluginsib-signatureserver</module>
     <module>pluginsib-signatureweb</module>
     <module>apifirmasimple</module>
-
-    <!-- Mòduls de test -->
-    <module>testjpa</module>
+   
 
     <!-- PortaFIB   -->
 
@@ -25,27 +23,13 @@
     <module>ejb</module>
     <module>ws</module>
     <module>scripts</module>
-
+    <module>testjpa</module>    
+    
     <module>logic</module>
     <module>back</module> 
     <module>ear</module>
+
   </modules>
-
-  <profiles>
-    <profile>
-      <id>clientcert</id>
-      <modules>
-        <module>back-clientcert</module>
-      </modules>
-    </profile>
-
-    <profile>
-      <id>produccio</id>
-      <modules>
-        <module>earplugins</module>
-      </modules>
-    </profile>
-  </profiles>
 
   <repositories>
 

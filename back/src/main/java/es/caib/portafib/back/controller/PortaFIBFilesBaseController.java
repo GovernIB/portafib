@@ -49,7 +49,7 @@ public abstract class PortaFIBFilesBaseController<I extends IGenAppEntity, PK ex
           fitxerEjb.delete(file);
         }
       } catch (Exception e) {
-        log.error("Error borrant arxiu fisic amb id=" + fileID +
+        log.error("Error esborrant arxiu fisic amb id=" + fileID +
             ((file == null)? "" : ("("+ file.getNom() + ")")));
       }
 

@@ -131,6 +131,23 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
   }
   
   
+  
+  @Override
+  public UsuariPersonaJPA create(UsuariPersonaJPA usuariPersonaJPA
+    , Set<String> virtualRoles)
+    throws I18NException, I18NValidationException, Exception {
+    
+    UsuariEntitatJPA usuariEntitatJPA = null;
+    
+    usuariEntitatJPA =  create( usuariPersonaJPA,
+         usuariEntitatJPA, virtualRoles);
+    
+    return usuariEntitatJPA.getUsuariPersona();
+    
+  }
+  
+  
+  
 
   @Override
   public UsuariEntitatJPA create(UsuariPersonaJPA usuariPersonaJPA,
@@ -157,7 +174,11 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
     usuariEntitatJPA.setUsuariPersona(usuariPersonaJPA);
     // (b) Assignam aquest usuariEntitat a la persona
     Set<UsuariEntitatJPA> usuariEntitats = new HashSet<UsuariEntitatJPA>();
-    usuariEntitats.add(usuariEntitatJPA);
+    if (usuariEntitatJPA.getUsuariEntitatID() == null) {
+      // Significa que es una entitat que només actua de contenidor de usuari persona
+    } else {
+      usuariEntitats.add(usuariEntitatJPA);
+    }
     usuariPersonaJPA.setUsuariEntitats(usuariEntitats);
     
     return usuariEntitatJPA;
@@ -340,9 +361,9 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
 
       // (4) L'usuari té colaboracions o delegacions
       // Si no tenim solicituds de firma llavors les cola/dele es poden esborrar
-      // (4.1) Borrar les  Col·laboracions-Delegacions creades per aquest usuari
+      // (4.1) Esborrar les  Col·laboracions-Delegacions creades per aquest usuari
       colaboracioDelegacioEjb.delete(ColaboracioDelegacioFields.COLABORADORDELEGATID.equal(usuariEntitatID));
-      // (4.2) Borrar Destinatari d'una Col·laboracio-Delegacio
+      // (4.2) Esborrar Destinatari d'una Col·laboracio-Delegacio
       colaboracioDelegacioEjb.delete(ColaboracioDelegacioFields.DESTINATARIID.equal(usuariEntitatID));
       
       
@@ -351,16 +372,16 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       // NOTA: Si no té sol.licituds de firmes ni peticions de firma 
       // ni colaboracions/delegacions llavors no surt a la bitacola
 
-      // Borrar Avisos
+      // Esborrar Avisos
       rebreAvisEjb.delete(RebreAvisFields.USUARIENTITATID.equal(usuariEntitatID));
       
-      // Borrar favorits
+      // Esborrar favorits
       usuariEntitatFavoritEjb.delete(Where.OR(UsuariEntitatFavoritFields.ORIGENID.equal(usuariEntitatID),UsuariEntitatFavoritFields.FAVORITID.equal(usuariEntitatID)));
   
-      // Borrar Roles
+      // Esborrar Roles
       roleUsuariEntitatEjb.delete(RoleUsuariEntitatFields.USUARIENTITATID.equal(usuariEntitatID));
   
-      // Borrar plantilles de flux de firma d'usuari
+      // Esborrar plantilles de flux de firma d'usuari
       List<Long> plantilles = plantillaFluxDeFirmesEjb.executeQuery(
           PlantillaFluxDeFirmesFields.FLUXDEFIRMESID,
           PlantillaFluxDeFirmesFields.USUARIENTITATID.equal(usuariEntitatID));
@@ -369,7 +390,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
         fitxers.addAll(EjbManager.getFluxDeFirmesEjb().deleteFullPlantillaFluxDeFirmesUsuari(fluxDeFirmesID));      
       }
       
-      // Borrar Peticions de Firmes
+      // Esborrar Peticions de Firmes
       List<Long> peticionsID = this.peticioDeFirmaLogicaEjb.
            executeQuery(PeticioDeFirmaFields.PETICIODEFIRMAID, w2);
       
@@ -380,7 +401,7 @@ public class UsuariEntitatLogicaEJB extends UsuariEntitatEJB implements
       
     }
     
-    // Borrar el propi usuari entitat
+    // Esborrar el propi usuari entitat
     if (usuariEntitatJPA.getLogoSegellID() != null) {
       fitxers.add(usuariEntitatJPA.getLogoSegellID());
     }

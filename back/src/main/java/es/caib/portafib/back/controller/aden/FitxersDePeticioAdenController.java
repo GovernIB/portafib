@@ -6,7 +6,6 @@ import es.caib.portafib.back.form.webdb.FitxerFilterForm;
 import es.caib.portafib.back.form.webdb.FitxerForm;
 import es.caib.portafib.ejb.BlocDeFirmesLocal;
 import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -15,7 +14,6 @@ import es.caib.portafib.model.fields.BlocDeFirmesFields;
 import es.caib.portafib.model.fields.FirmaQueryPath;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.utils.ConstantsV2;
-import org.apache.xml.security.utils.I18n;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.ITableManager;
@@ -276,7 +274,7 @@ public class FitxersDePeticioAdenController extends FitxerController {
 
         for (Firma firma : llistaFirmes) {
 
-            BlocDeFirmesJPA blocDeFirmes = (BlocDeFirmesJPA)blocDeFirmesEjb.findByPrimaryKey(firma.getBlocDeFirmaID());
+            //BlocDeFirmesJPA blocDeFirmes = (BlocDeFirmesJPA)blocDeFirmesEjb.findByPrimaryKey(firma.getBlocDeFirmaID());
 
             if (firma.getNumFirmaDocument() == null) { // NO S'HA FIRMAT
                 if (firma.getTipusEstatDeFirmaFinalID() == null) { // PERQUÉ ENCARA ESTÀ PENDENT
