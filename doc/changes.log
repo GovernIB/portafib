@@ -1,6 +1,10 @@
 PortaFIB 2.0.0
 ==============
 
+2019-05-29 Reviure la Bitacola de PortaFIB #223
+
+2019-05-27 No funciona Vista Completa si el nom del fitxer conté cometes simples #210
+
 2019-05-20 Eliminar SenseSuportJava jsp, controller, missatges i tiles. #265
 
 2019-05-20 Eliminar deploydev i deploypro de PortaFIB i GenApp #264
@@ -11,9 +15,13 @@ PortaFIB 2.0.0
 
 2019-05-08 Llistat de Fitxers per Peticio de Firma #246
 
-2019-05-01 Hora inici delegació reduir a 5 minuts #212
+2019-04-30 Error en redireccionar a firma després de crear una delegació #260
+
+2019-04-30 Hora inici delegació reduir a 5 minuts #212
 
 2019-04-29 Api Firma Simple: Poder enviar peticions sense codi de Perfil #247
+
+2019-04-24 Error en la opció modificar dades entitat #255
 
 2019-04-05 Nova gestió de Politiques de Custòdia
 
