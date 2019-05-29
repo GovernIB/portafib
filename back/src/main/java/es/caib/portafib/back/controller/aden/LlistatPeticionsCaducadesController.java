@@ -143,19 +143,19 @@ public class LlistatPeticionsCaducadesController extends AbstractPeticioDeFirmaA
         */
 
         final String message = FluxDeFirmesFields._TABLE_MODEL + "." +  FluxDeFirmesFields._TABLE_MODEL;
-        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-eye-open icon-white", message,
+        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-eye-open", message,
             "javascript:window.open('" + request.getContextPath() 
             + "/aden/plantilla/viewonlyfluxofpeticio/{0}?readOnly=true' ,'popup','toolbar=no,directories=no,menubar=no,location=no,scrollbars=yes,width=560,height=650')",
                 "btn-info"));
         
         
-        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-list-alt icon-white", "veuredetalls",
+        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-list-alt", "veuredetalls",
             getContextWeb() + "/view/{0}",
                 "btn-info"));
 
         String bitacolaLink = BitacolaPeticioAdenController.CONTEXT_WEB + "/peticio/{0}?returnPath=/aden/peticionscaducades/list";
-        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-cog icon-white", "peticiodefirma.bitacola",
-                bitacolaLink, null));
+        peticioDeFirmaFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("icon-cog", "peticiodefirma.bitacola",
+                bitacolaLink, "btn-info"));
 
         AbstractPeticioDeFirmaAdenController.cleanFiltersAndGroups(peticioDeFirmaFilterForm);
 

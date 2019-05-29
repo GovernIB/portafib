@@ -7,6 +7,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.ejb.IdiomaLocal;
+import es.caib.portafib.logic.BitacolaLogicaLocal;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
@@ -52,7 +53,8 @@ public final class EjbManager {
   
   
   protected static PropietatGlobalLogicaLocal propietatLogicaEjb;
-  
+
+  protected static BitacolaLogicaLocal bitacolaLogicaEjb;
   
 
   public static NotificacioWSLogicaLocal getNotificacioLogicaEJB() throws I18NException {
@@ -234,7 +236,18 @@ public final class EjbManager {
     }
     return propietatLogicaEjb;
   }
-  
-  
+
+  public static BitacolaLogicaLocal getBitacolaLogicaEJB() throws I18NException {
+
+    if (bitacolaLogicaEjb == null) {
+      try {
+        bitacolaLogicaEjb = (BitacolaLogicaLocal) new InitialContext()
+            .lookup(BitacolaLogicaLocal.JNDI_NAME);
+      } catch (Throwable e) {
+        throwNewI18NException(e, BitacolaLogicaLocal.JNDI_NAME);
+      }
+    }
+    return bitacolaLogicaEjb;
+  }
 
 }

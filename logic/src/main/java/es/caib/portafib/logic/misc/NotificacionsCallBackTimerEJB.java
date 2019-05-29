@@ -376,7 +376,8 @@ public class NotificacionsCallBackTimerEJB implements NotificacionsCallBackTimer
         }
 
         notificacions = notificacioLogicaEjb.select(where, firstResult, maxResults,
-            new OrderBy(NotificacioWSFields.DATAENVIAMENT));
+            new OrderBy(NotificacioWSFields.DATACREACIO));
+        //    new OrderBy(NotificacioWSFields.DATAENVIAMENT));
 
         if (debug) {
           log.info(" NotificacionsCallBackTimerEJB::notificacioLogicaEjb.select().size(); => "

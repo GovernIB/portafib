@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import es.caib.portafib.logic.BitacolaLogicaLocal;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -74,7 +75,7 @@ public class NotificacionsQueue {
   
   //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public static void processNotificacio(UsuariAplicacioLogicaLocal usuariAplicacioEjb,
-      final NotificacioWSLogicaLocal notificacioLogicaEjb, NotificacioInfo notificacioInfo) {
+                                        final NotificacioWSLogicaLocal notificacioLogicaEjb, NotificacioInfo notificacioInfo) {
     
     // XYZ ZZZ Quan lo de Notificacions funcioni correctament llavors descomentar
     final boolean isDebug = true; // log.isDebugEnabled() 
@@ -143,6 +144,7 @@ public class NotificacionsQueue {
             log.info("  USRAPP: " + usuariAplicacio.getUsuariAplicacioID());
             log.info("  SERVER: " + usuariAplicacio.getCallbackURL());
             log.info("  VERSIO: " + usuariAplicacio.getCallbackVersio());
+            log.info("  EVENT: " + notificacioInfo.getFirmaEvent().getEventID());
         }
 
         switch(usuariAplicacio.getCallbackVersio()) {
@@ -165,8 +167,31 @@ public class NotificacionsQueue {
           default:
               // Do nothing
         }
-        
+
+        BitacolaLogicaLocal bitacolaLogicaEjb = EjbManager.getBitacolaLogicaEJB();
+        String message;
+        int eventID = (int) notificacioInfo.getFirmaEvent().getEventID();
+        switch (eventID) {
+          case 0:
+            message = "Envidada Notificació [En procés]";
+            break;
+          case 50:
+            message = "Envidada Notificació [Firma parcial]";
+            break;
+          case 60:
+            message = "Envidada Notificació [Firmada]";
+            break;
+          case 70:
+            message = "Envidada Notificació [Rebutjada]";
+            break;
+          default:
+            message = "Envidada Notificació [" + eventID + "]";
+        }
+        bitacolaLogicaEjb.createBitacola(message,
+                notificacioInfo.getFirmaEvent().getPeticioDeFirmaID(),
+                null, usuariAplicacioID);
       }
+
 
       notificacioLogicaEjb.delete(notificacioJPA);
       
