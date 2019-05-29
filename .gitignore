@@ -4,6 +4,7 @@ target/
 .settings/
 *.iml
 .idea/
+Thumbs.db
 dependency-reduced-pom.xml
 test.log
 genapp.log

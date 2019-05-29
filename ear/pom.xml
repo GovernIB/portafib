@@ -758,7 +758,6 @@
       </build>
     </profile>
 
-
   </profiles>
 
 
@@ -772,30 +771,10 @@
     <plugins>
 
       <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>2.5</version>
-        <!-- Aquest bloc força a netejar sempre -->
-        <executions>
-          <execution>
-            <id>auto-clean</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-
-        
-      </plugin>
-
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
         <version>2.9.1</version>
-        <!-- configuring the ear plugin -->
         <configuration>
-
           <version>5</version>
 
           <displayName>Portafirmes de les Illes Balears (PortaFIB)</displayName>
@@ -813,8 +792,8 @@
 
           <defaultLibBundleDir>lib</defaultLibBundleDir>
           <!--
-      <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
--->
+          <packagingExcludes>lib/axis-jaxrpc-1.4.jar</packagingExcludes>
+          -->
           <jboss>
             <version>5</version>
             <loader-repository>es.caib.portafib:loader=portafib.ear</loader-repository>
