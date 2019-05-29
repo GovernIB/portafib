@@ -142,19 +142,6 @@ private static final long serialVersionUID = -326205279L;
 	}
 
 
-// EXP  Field:firmatperformatid | Table: pfi_usuariaplicacioconfig | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmatPerFormatID")
-	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
-	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_firmatperformatids() {
-    return this.usuariAplicacioConfiguracio_firmatperformatids;
-  }
-
-	public void setUsuariAplicacioConfiguracio_firmatperformatids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids) {
-	  this.usuariAplicacioConfiguracio_firmatperformatids = usuariAplicacioConfiguracio_firmatperformatids;
-	}
-
-
 // EXP  Field:motiudelegacioid | Table: pfi_usuariaplicacioconfig | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "motiuDelegacioID")
@@ -165,6 +152,19 @@ private static final long serialVersionUID = -326205279L;
 
 	public void setUsuariAplicacioConfiguracio_motiudelegacioids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_motiudelegacioids) {
 	  this.usuariAplicacioConfiguracio_motiudelegacioids = usuariAplicacioConfiguracio_motiudelegacioids;
+	}
+
+
+// EXP  Field:firmatperformatid | Table: pfi_usuariaplicacioconfig | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "firmatPerFormatID")
+	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
+	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracio_firmatperformatids() {
+    return this.usuariAplicacioConfiguracio_firmatperformatids;
+  }
+
+	public void setUsuariAplicacioConfiguracio_firmatperformatids(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracio_firmatperformatids) {
+	  this.usuariAplicacioConfiguracio_firmatperformatids = usuariAplicacioConfiguracio_firmatperformatids;
 	}
 
 
