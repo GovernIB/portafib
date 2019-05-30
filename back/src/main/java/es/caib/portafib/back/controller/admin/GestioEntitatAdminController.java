@@ -142,7 +142,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
        }
        
        // #148 Pendent fins que s'implementi
-       entitatForm.addReadOnlyField(USPOLITICADEFIRMA);
+       //entitatForm.addReadOnlyField(USPOLITICADEFIRMA);
        
        entitatForm.setAttachedAdditionalJspCode(true);
        

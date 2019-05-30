@@ -7,7 +7,7 @@
 <script>
 
  // Politica de Firma (ocultar o mostrar valor)
- /*
+
  onChangeUsPoliticaDeFirma(document.getElementById("<%=EntitatFields.USPOLITICADEFIRMA.fullName.replace('.', '_') %>"));
 
  function onChangeUsPoliticaDeFirma(combo) {
@@ -31,7 +31,6 @@
      }
 
  }
- */
  
  // Politica de Custòdia (ocultar o mostrar valor)
  onChangePoliticaCustodia(document.getElementById("<%=EntitatFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
