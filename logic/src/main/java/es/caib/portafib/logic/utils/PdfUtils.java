@@ -471,9 +471,10 @@ public class PdfUtils implements ConstantsV2 {
     log.warn("XYZ ZZZ ZZZ numFirmesOriginals ==> " + numFirmesOriginals);
 
     int revisionLimitSigned;
-    if (numFirmesOriginals == 0) {
-      revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, originalData.length - 20);
-    } else {
+    // XYZ ZZZ ZZZ
+    //if (numFirmesOriginals == 0) {
+    revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, originalData.length - 20);
+    /*} else {
       revisionLimitSigned = 0;
       // Final del doc original més final de les "numFirmesOriginals" firmes
       for (int i = 0; i <= numFirmesOriginals; i++) {
@@ -485,9 +486,9 @@ public class PdfUtils implements ConstantsV2 {
           break;
         }
       }
-    }
+    }*/
 
-    log.warn("XYZ ZZZ ZZZ revisionLimitSigned == " + revisionLimitSigned);
+    
     if (revisionLimitOriginal != revisionLimitSigned) {
       // XYZ ZZZ Llançar Excepció
       log.warn("XYZ ZZZ ZZZ revisionLimitOriginal == " + revisionLimitOriginal);
