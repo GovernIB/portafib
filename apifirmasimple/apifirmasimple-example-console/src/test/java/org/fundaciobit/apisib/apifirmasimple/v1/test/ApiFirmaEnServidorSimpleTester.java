@@ -57,13 +57,13 @@ public class ApiFirmaEnServidorSimpleTester {
 
       // tester.testGetAvailableProfiles();
 
-      tester.testSignatureServerPAdES();
+      //tester.testSignatureServerPAdES();
 
-      // tester.testSignatureServerCAdES();
+      //tester.testSignatureServerCAdES();
 
       // tester.testSignatureServerXAdESBinary();
 
-      // tester.testSignatureServerXAdESXml();
+      tester.testSignatureServerXAdESXml();
 
       // tester.testSignatureServerPAdESXAdESCAdES();
 

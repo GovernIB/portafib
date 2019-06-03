@@ -14,8 +14,7 @@
     <module>apifirmasimple</module>
    
 
-    <!-- PortaFIB   -->
-
+    <!-- PortaFIB    --> 
     <module>utils</module>
     <module>persistence</module>
     <module>model</module>
@@ -23,7 +22,7 @@
     <module>ejb</module>
     <module>ws</module>
     <module>scripts</module>
-    <module>testjpa</module>    
+    <module>testjpa</module>  
     
     <module>logic</module>
     <module>back</module> 

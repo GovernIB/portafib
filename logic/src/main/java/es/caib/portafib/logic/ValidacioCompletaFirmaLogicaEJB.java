@@ -7,6 +7,7 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -127,17 +128,41 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
       if (sdi != null) {
 
-        log.info("XYZ ZZZ NIF DE LA PRIMERA FIRMA => "
-            + sdi[0].getCertificateInfo().getNifResponsable());
-        log.info("XYZ ZZZ NIF DE LA DARRERA FIRMA => "
-            + sdi[sdi.length - 1].getCertificateInfo().getNifResponsable());
-
-        InformacioCertificat info = sdi[sdi.length - 1].getCertificateInfo();
-
-        nifFirmant = info.getNifResponsable();
-        numeroSerieCertificat = info.getNumeroSerie();
-        emissorCertificat = info.getEmissorOrganitzacio();
-        subjectCertificat = info.getSubject();
+        // Esbrinar informació de la darrera Firma
+        
+        InformacioCertificat info = null;
+        Date signDate = null;
+        
+        for (int i = 0; i < sdi.length; i++) {
+          Date d = sdi[0].getSignDate();
+          if (d == null) {
+            signDate = null;
+            info = null;
+            break;
+          } else {
+            if (signDate == null || d.getTime() > signDate.getTime()) {
+              signDate = d;
+              info = sdi[i].getCertificateInfo();
+            }
+          }
+          
+          
+        }
+        
+        if (signDate == null) {
+          log.warn("No ha definit alguna de les dates de la firma cosa que "
+              + "implica que la informació de la validació pot ser inconsistent."
+              + " Omitim la cerca en aquest punt.");
+        } else {
+        
+          log.info("XYZ ZZZ NIF DE LA DARRERA FIRMA => "
+              + info.getNifResponsable());
+  
+          nifFirmant = info.getNifResponsable();
+          numeroSerieCertificat = info.getNumeroSerie();
+          emissorCertificat = info.getEmissorOrganitzacio();
+          subjectCertificat = info.getSubject();
+        }
       } else {
         log.warn("El validador de signatures no ha retornat informació del certificat !!!!",
             new Exception());
