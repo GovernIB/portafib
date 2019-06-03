@@ -98,7 +98,6 @@ public class GestioEntitatAdminController extends EntitatController implements C
 
        if(entitatForm.isNou()) {
          entitatForm.addHiddenField(USUARIAPLICACIOID);
-         entitatForm.addHiddenField(CUSTODIAINFOID); // Plantilla de custòdia
          entitatForm.addHiddenField(PLUGINSEGELLTEMPSID); // Segell de temps
          entitatForm.addHiddenField(POLITICASEGELLATDETEMPS);
          entitatForm.getEntitat().setPoliticaSegellatDeTemps(POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR);
@@ -284,9 +283,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
    * Plugin de Segellat de Temps
    * @param request
    * @param mav
-   * @param entitatFilterForm
-   * @param list
-   * @param _groupByItemsMap
+   * @param entitatForm
    * @param where
    * @return
    * @throws I18NException
@@ -351,11 +348,13 @@ public class GestioEntitatAdminController extends EntitatController implements C
     
     
     final int[] myArray;
+    String base = "usuarientitat.politicacustodia.";
     
     switch(politicaCustodia) {
     
       case POLITICA_CUSTODIA_ENTITAT: 
          myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_ENTITAT;
+         base += "entitat.";
       break;
       case POLITICA_CUSTODIA_USUARI_ENTITAT:
         myArray = ConstantsPortaFIB.POLITICA_CUSTODIA_USUARI_ENTITAT;
@@ -370,7 +369,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
     
     for (int i = 0; i < myArray.length; i++) {
       String val = String.valueOf(myArray[i]);
-      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix("usuarientitat.politicacustodia." + val)));
+      __tmp.add(new StringKeyValue(val, I18NUtils.tradueix(base + val)));
     }
     return __tmp;
   }
