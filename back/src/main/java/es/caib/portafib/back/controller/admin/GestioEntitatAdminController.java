@@ -124,8 +124,8 @@ public class GestioEntitatAdminController extends EntitatController implements C
        entitatForm.addReadOnlyField(PLUGINRUBRICAID);
 
        // #166 Pentent de que s'implementi XYZ ZZZ
-       entitatForm.addReadOnlyField(POLITICATAULAFIRMES);
-       entitatForm.addReadOnlyField(POSICIOTAULAFIRMES);
+       //entitatForm.addReadOnlyField(POLITICATAULAFIRMES);
+       //entitatForm.addReadOnlyField(POSICIOTAULAFIRMES);
 
        // Pentent de que s'implementi XYZ ZZZ
        // #176 Configuració etiquetes de la Taula de Firmes 
@@ -142,7 +142,7 @@ public class GestioEntitatAdminController extends EntitatController implements C
        }
        
        // #148 Pendent fins que s'implementi
-       entitatForm.addReadOnlyField(USPOLITICADEFIRMA);
+       //entitatForm.addReadOnlyField(USPOLITICADEFIRMA);
        
        entitatForm.setAttachedAdditionalJspCode(true);
        

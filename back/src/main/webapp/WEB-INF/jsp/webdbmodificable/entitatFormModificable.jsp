@@ -1,13 +1,12 @@
 
 <%@page import="es.caib.portafib.model.fields.EntitatFields"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
-<%@page import="org.fundaciobit.genapp.common.web.i18n.I18NUtils"%>
 <%@page import="org.fundaciobit.genapp.common.query.Field"%>
 <%@page import="es.caib.portafib.utils.ConstantsPortaFIB"%>
 <script>
 
  // Politica de Firma (ocultar o mostrar valor)
- /*
+
  onChangeUsPoliticaDeFirma(document.getElementById("<%=EntitatFields.USPOLITICADEFIRMA.fullName.replace('.', '_') %>"));
 
  function onChangeUsPoliticaDeFirma(combo) {
@@ -31,7 +30,6 @@
      }
 
  }
- */
  
  // Politica de Custòdia (ocultar o mostrar valor)
  onChangePoliticaCustodia(document.getElementById("<%=EntitatFields.POLITICACUSTODIA.fullName.replace('.', '_') %>"));
@@ -46,9 +44,7 @@
        document.getElementById("<%=EntitatFields.CUSTODIAINFOID.fullName.replace('.', '_') %>_rowid").style.display = 'none';
      }
  }
- 
- 
- 
+
   // CustodiaInfo (camp null)
  var sel = document.getElementById("<%=EntitatFields.CUSTODIAINFOID.fullName.replace('.', '_') %>").options;
  for (i = 0; i < sel.length; i++) {
@@ -57,5 +53,20 @@
       break;
     }
  }
- 
+
+ // Politica de Taula de Firmes (ocultar o mostrar valor)
+ onChangePoliticaTaulaFirmes(document.getElementById("<%=EntitatFields.POLITICATAULAFIRMES.fullName.replace('.', '_') %>"));
+
+ function onChangePoliticaTaulaFirmes(combo) {
+  var value = combo.options[combo.selectedIndex].value;
+  //alert("VALUE onChangePoliticaTaulaFirmes: ]["  +  value + "")
+  if (value == <%=ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET%>) {
+   document.getElementById("<%=EntitatFields.POSICIOTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+   document.getElementById("<%=EntitatFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = 'none';
+  } else {
+   document.getElementById("<%=EntitatFields.POSICIOTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = '';
+   document.getElementById("<%=EntitatFields.PROPIETATSTAULAFIRMES.fullName.replace('.', '_') %>_rowid").style.display = '';
+  }
+ }
+
  </script>
