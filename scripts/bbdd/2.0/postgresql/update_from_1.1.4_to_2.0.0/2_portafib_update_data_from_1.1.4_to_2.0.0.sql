@@ -21,22 +21,22 @@ UPDATE pfi_tipusdocument SET tipusdocumentbaseid=tipusdocumentid WHERE tipusdocu
 
 -- No permetre
 UPDATE pfi_entitat SET politicacustodia=0 WHERE custodiainfoid IS NULL;
--- Llibertat Total
-UPDATE pfi_entitat SET politicacustodia=5 WHERE custodiainfoid IS NOT NULL;
+-- Definit en l'entitat
+UPDATE pfi_entitat SET politicacustodia=4 WHERE custodiainfoid IS NOT NULL;
 
--- Llibertat Total
-UPDATE pfi_usuarientitat SET politicacustodia=5 WHERE potcustodiar=true;
+-- Definit en l'entitat
+UPDATE pfi_usuarientitat SET politicacustodia=4 WHERE potcustodiar=true;
 -- No permetre
 UPDATE pfi_usuarientitat SET politicacustodia=0 WHERE potcustodiar=false;
 -- El que digui l'entitat
 UPDATE pfi_usuarientitat SET politicacustodia=-1 WHERE potcustodiar is null;
 
--- Llibertat Total
--- UPDATE pfi_usuariaplicacio SET politicacustodia=5 WHERE potcustodiar=true;
+-- Definit en l'entitat
+UPDATE pfi_usuariaplicacio SET politicacustodia=4 WHERE potcustodiar=true;
 -- No permetre
--- UPDATE pfi_usuariaplicacio SET politicacustodia=0 WHERE potcustodiar=false;
+UPDATE pfi_usuariaplicacio SET politicacustodia=0 WHERE potcustodiar=false;
 -- El que digui l'entitat
--- UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
+UPDATE pfi_usuariaplicacio SET politicacustodia=-1 WHERE potcustodiar is null;
 
 -- ======================================================================
 -- 2018/05/01 Configuració de Firma de UsuariApp 	Us política de Firma) #148
