@@ -622,11 +622,11 @@ public class PdfUtils implements ConstantsV2 {
 
         if (isPdfA1(reader.getMetadata())) {
 
-          if (!forceCleanPdf) {
-            // El PDF és de tipus {0}, el que significa que no se li pot afegir 
-            // taula de firmes, estampar custòdia o afegir annexes.
-            throw new I18NException(
-                "error.checkpdf.pdfa_no_modificar", "PDF/A1");
+          if (!transformPdfA) {
+            // El PDF és de tipus PDF/A1 i no es permet la seva transformació.
+            // Per qüestions tècniques els PDF/A1 no es poden signar en PortaFIB. 
+            // Consulti amb l´administrador (Veure propietat es.caib.portafib.transformpdfa)
+            throw new I18NException("error.checkpdf.pdfa1");
           }
 
           log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: ES PDF-A1");
@@ -649,7 +649,7 @@ public class PdfUtils implements ConstantsV2 {
       }
 
       return originalNumberOfSigns;
-    }
+    } // Final IF requereixTaula_o_Custodia_o_Annexes
 
     // Es requereix Taula de Firmes o estampacio o anexes
 
@@ -695,15 +695,19 @@ public class PdfUtils implements ConstantsV2 {
 
       if (isPdfAx(reader.getMetadata())) {
         if (!transformPdfA) {
-          
-          // El PDF és de tipus {0}, el que significa que no se li pot afegir 
-          // taula de firmes, estampar custòdia o afegir annexes.
+
+          // El PDF és de tipus PDF/A, el que significa que no se li pot afegir 
+          // taula de firmes, estampar custòdia o afegir annexes a no ser que es 
+          // transformi el PDF, però la transformació està desactivada.
+          // Consulti amb l´administrador (Veure propietat es.caib.portafib.transformpdfa)
           throw new I18NException(
               "error.checkpdf.pdfa_no_modificar", "PDF/A");
         }
+        
+        /// XYZ ZZZ ZZZ forcecleanPdf posarho a true
 
       } else {
-        log.info("XYZ ZZZ NO Es PDF/Ax, continuam ...");
+        log.info("XYZ ZZZ ZZZ NO Es PDF/Ax, continuam ...");
       }
 
       // ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -753,7 +757,6 @@ public class PdfUtils implements ConstantsV2 {
           }
         }
         
-
         // 1.3.- Guardar PDF
         stamper.close();
       }
@@ -765,14 +768,11 @@ public class PdfUtils implements ConstantsV2 {
 
       // Revisar comportament de Portafib amb els PDF/A #242
       if (forceCleanPdf) { 
-
         // 5.- Netejar PDF anterior
-
+        log.info(" XYZ ZZZ NETEJAM DE PDF");
         input3 = forceCleanPdfInternal(attachments, fileTmp1, attachmentsOriginalPDF);
-
       } else {
         log.info(" XYZ ZZZ NOOOOO NETEJA DE PDF");
-
         input3 = fileTmp1;
       }
 
@@ -785,21 +785,18 @@ public class PdfUtils implements ConstantsV2 {
         }
       } catch (Exception e) {
       }
-      ;
       try {
         if (fileTmp1 != null) {
           fileTmp1.delete();
         }
       } catch (Exception e) {
       }
-      ;
       try {
         if (input3 != null) {
           input3.delete();
         }
       } catch (Exception e) {
       }
-      ;
     }
 
     if (maxSize != null) {
