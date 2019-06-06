@@ -13,7 +13,7 @@ UPDATE pfi_plugin SET politicadeus=1 WHERE entitatid is not null;
 -- 2018/03/14 Tipus Base pel TipusDocumentals #161
 -- ================================================
 
-UPDATE pfi_tipusdocument SET tipusdocumentbaseid=tipusdocumentid WHERE tipusdocumentid < 100;
+UPDATE pfi_tipusdocument SET tipusdocumentbaseid=tipusdocumentid WHERE tipusdocumentid < 100 AND tipusdocumentid >= 0;
 
 -- ===========================================
 -- 2018/03/15 Política de Custòdia #165
