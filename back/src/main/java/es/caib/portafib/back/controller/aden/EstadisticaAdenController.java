@@ -1,6 +1,7 @@
 package es.caib.portafib.back.controller.aden;
 
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,17 +15,23 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.caib.portafib.back.form.aden.EstadisticaAdenFilterForm;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.GroupByValueItem;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.exportdata.DataExporterManager;
+import org.fundaciobit.genapp.common.web.exportdata.IDataExporter;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.pluginsib.exportdata.ExportData;
 import org.fundaciobit.pluginsib.exportdata.ExportFile;
 import org.fundaciobit.pluginsib.exportdata.ExportItem;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,7 +55,7 @@ import es.caib.portafib.utils.ConstantsV2;
  */
 @Controller
 @RequestMapping(value = "/aden/estadistica")
-@SessionAttributes(types = { EstadisticaForm.class, EstadisticaFilterForm.class })
+@SessionAttributes(types = { EstadisticaForm.class, EstadisticaAdenFilterForm.class })
 public class EstadisticaAdenController extends EstadisticaController {
 
   public static String SESSION_ESTADISTIQUES_PER = "SESSION_ESTADISTIQUES_PER";
@@ -97,7 +104,13 @@ public class EstadisticaAdenController extends EstadisticaController {
   public EstadisticaFilterForm getEstadisticaFilterForm(Integer pagina, ModelAndView mav,
       HttpServletRequest request) throws I18NException {
 
-    EstadisticaFilterForm filterForm = super.getEstadisticaFilterForm(pagina, mav, request);
+    EstadisticaFilterForm estadisticaFilterForm = super.getEstadisticaFilterForm(pagina, mav, request);
+    EstadisticaAdenFilterForm filterForm;
+    if (estadisticaFilterForm instanceof EstadisticaAdenFilterForm) {
+      filterForm = (EstadisticaAdenFilterForm) estadisticaFilterForm;
+    } else {
+      filterForm = new EstadisticaAdenFilterForm(estadisticaFilterForm);
+    }
 
     if (filterForm.isNou()) {
 
@@ -115,7 +128,35 @@ public class EstadisticaAdenController extends EstadisticaController {
 
       filterForm.setEditButtonVisible(false);
 
-      filterForm.setItemsPerPage(5);
+      filterForm.setItemsPerPage(-1);
+      //filterForm.setAllItemsPerPage(null);
+
+      filterForm.setAplicacio(true);
+
+       { // FIXAR EL FILTRE DE DATES DEL PRINCIPI AL FINAL DEL MES ANTERIOR
+          Calendar calendar = Calendar.getInstance(I18NUtils.getLocale());
+
+          //Fixam que siguin les 00:00:00 000
+          calendar.set(Calendar.HOUR_OF_DAY, 0);
+          calendar.set(Calendar.MINUTE, 0);
+          calendar.set(Calendar.SECOND, 0);
+          calendar.set(Calendar.MILLISECOND, 0);
+
+          // Anam un més enrera.
+          calendar.add(Calendar.MONTH, -1);
+          // Fixam el primer dia del mes
+          calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+          // Això serà la data inicial
+          filterForm.setDataDesde(new Timestamp(calendar.getTimeInMillis()));
+
+          // Fixam el mes següent
+          calendar.add(Calendar.MONTH, 1);
+          // I llevam un milisegon perquè siguin les 23:59:59 999 del darrer dia del mes anterior
+          calendar.add(Calendar.MILLISECOND, -1);
+
+          filterForm.setDataFins(new Timestamp(calendar.getTimeInMillis()));
+       }
 
       setEstadistiquesPerUsrApp(request, true);
 
@@ -170,6 +211,15 @@ public class EstadisticaAdenController extends EstadisticaController {
 
       filterForm.addHiddenField(USUARIAPLICACIOID);
       filterForm.getHiddenFields().remove(USUARIENTITATID);
+    }
+    filterForm.addAdditionalButton(new AdditionalButton("icon-minus",
+        "estadistiques.simples", getContextWeb() + "/search",
+           "btn-info"));
+
+     List<IDataExporter> allDataExporters = DataExporterManager.getAllDataExporters();
+     mav.addObject("dataExporters", allDataExporters);
+    if (filterForm.getExporter() == null && !allDataExporters.isEmpty()) {
+       filterForm.setExporter(allDataExporters.get(0).getID());
     }
 
     return filterForm;
@@ -279,11 +329,41 @@ public class EstadisticaAdenController extends EstadisticaController {
    * }
    */
 
+  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  public ModelAndView search(HttpServletRequest request, HttpServletResponse response) throws I18NException {
+    ModelAndView mav = new ModelAndView("estadisticaSearchAden");
+    EstadisticaFilterForm filterForm = getEstadisticaFilterForm(1, mav, request);
+
+    filterForm.getAdditionalButtons().clear();
+    filterForm.addAdditionalButton(new AdditionalButton("icon-plus",
+           "estadistiques.complexes", getContextWeb() + "/list",
+           "btn-info"));
+    llistat(mav, request, filterForm);
+    return mav;
+  }
+
+  @RequestMapping(value = "/search", method = RequestMethod.POST)
+  public String search(HttpServletRequest request, HttpServletResponse response,
+                       @ModelAttribute EstadisticaFilterForm filterForm) throws I18NException {
+    setEstadistiquesPerUsrApp(request, ((EstadisticaAdenFilterForm)filterForm).getAplicacio());
+    return "redirect:" + getContextWeb() + "/search";
+  }
+
+  /*
+  @RequestMapping(value = "/search", method = RequestMethod.POST)
+  public ModelAndView search(HttpServletRequest request, HttpServletResponse response, @ModelAttribute EstadisticaFilterForm filterForm) throws I18NException {
+    ModelAndView mav = new ModelAndView("estadisticaSearchAden");
+    llistat(mav, request, getEstadisticaFilterForm(1, mav, request));
+    return mav;
+  }*/
+
   @Override
   @RequestMapping(value = "/export/{dataExporterID}", method = RequestMethod.POST)
   public void exportList(@PathVariable("dataExporterID") String dataExporterID,
       HttpServletRequest request, HttpServletResponse response,
       EstadisticaFilterForm filterForm) throws Exception, I18NException {
+
+    setEstadistiquesPerUsrApp(request, ((EstadisticaAdenFilterForm)filterForm).getAplicacio());
 
     int itemsInicials = filterForm.getItemsPerPage();
     
@@ -315,35 +395,38 @@ public class EstadisticaAdenController extends EstadisticaController {
     String[] titles = new String[dates.size() + 1]; // 1 columna per afegir noms de usuaris
 
     ExportItem[][] tableItems = new ExportItem[usuaris.size()][titles.length];
-    
-    tableItems[0][0] = new ExportItem("", "");
 
-    for (int u = 0; u < usuaris.size(); u++) {
-      String usr = usuaris.get(u);
-      tableItems[u][0] = new ExportItem(usr, usr);
-    }
-
-    int titlePos = 1;
-    for (String mes : dates) {
-      titles[titlePos] = mes;
-
-      Map<String, Double> valorsPerUsuari = agrupades.get(mes);
+    if (usuaris.size() > 0) {
 
       for (int u = 0; u < usuaris.size(); u++) {
         String usr = usuaris.get(u);
-
-        Double valor = valorsPerUsuari.get(usr);
-
-        if (valor == null) {
-          valor = 0.0;
-        }
-
-        tableItems[u][titlePos] = new ExportItem(String.valueOf(valor), valor);
+        tableItems[u][0] = new ExportItem(usr, usr);
       }
 
-      titlePos++;
-    }
+      int titlePos = 1;
+      for (String mes : dates) {
+        titles[titlePos] = mes;
 
+        Map<String, Double> valorsPerUsuari = agrupades.get(mes);
+
+        for (int u = 0; u < usuaris.size(); u++) {
+          String usr = usuaris.get(u);
+
+          Double valor = valorsPerUsuari.get(usr);
+
+          if (valor == null) {
+            valor = 0.0;
+          }
+
+          tableItems[u][titlePos] = new ExportItem(String.valueOf(valor), valor);
+        }
+
+        titlePos++;
+      }
+
+    } else {
+      titles[0] = I18NUtils.tradueix("estadistiques.buid");
+    }
     ExportData data = new ExportData(titles, tableItems);
 
     ExportFile exportFile = dataExporter.getExportDataPlugin().getExportFile(data);

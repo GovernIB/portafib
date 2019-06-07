@@ -365,6 +365,10 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/estadisticaList.jsp" />
     </definition>
     
+    <definition name="estadisticaSearchAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/aden/estadisticaSearch.jsp" />
+    </definition>
+
     <definition name="perfilsPerUsuariAplicacioFormAden" extends="role_aden">
         <put-attribute name="titol" value="perfilsPerUsuariAplicacio.perfilsPerUsuariAplicacio" />
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/perfilsPerUsuariAplicacioForm.jsp" />

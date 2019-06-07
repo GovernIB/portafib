@@ -116,7 +116,7 @@ static {
   
   mapping.put("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list");
   
-  mapping.put("estadistica.estadistica.plural", "/aden/estadistica/list");
+  mapping.put("estadistica.estadistica.plural", "/aden/estadistica/search");
 }
 
 %><%
