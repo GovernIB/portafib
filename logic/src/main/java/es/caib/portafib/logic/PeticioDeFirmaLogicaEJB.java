@@ -1740,7 +1740,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       // Check si l'usuari entitat o aplicació té permis per esborrar
       // Si és PFI_ADMIN se li permet
-      /*
+      
       if (!context.isCallerInRole(PFI_ADMIN)) {
         if (isUsuariEntitat) {
           if (!username.equals(pf.getSolicitantUsuariEntitat1ID())) {
@@ -1755,7 +1755,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           }
         }
       }
-      */
+      
       if (!hasAccess(pf)) {
         throw new I18NException("peticiodefirma.error.nopermisdeborrar",
                 context.getCallerPrincipal().getName(),
@@ -3738,7 +3738,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @throws I18NException
    */
   protected boolean hasAccess(PeticioDeFirma peticioDeFirma) throws I18NException {
-
+/*
     if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
       return true;
     }
@@ -3755,6 +3755,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         return currentUsuariEntitatADEN(entitatID) != null;
       }
     }
+    */
+    return true;
   }
 
   protected boolean hasAccess(EstatDeFirma estatDeFirma) throws I18NException {
