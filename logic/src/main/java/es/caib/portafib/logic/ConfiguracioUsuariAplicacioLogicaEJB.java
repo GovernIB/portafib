@@ -183,7 +183,10 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     // és firma en servidor que s'hagi definit plugin de firma en servidor
 
     Long[] configuracions = { perfilDeFirma.getConfiguracioDeFirma1ID(),
-        perfilDeFirma.getConfiguracioDeFirma2ID(), perfilDeFirma.getConfiguracioDeFirma3ID() };
+        perfilDeFirma.getConfiguracioDeFirma2ID(), 
+        perfilDeFirma.getConfiguracioDeFirma3ID(),
+        perfilDeFirma.getConfiguracioDeFirma4ID(),
+        perfilDeFirma.getConfiguracioDeFirma5ID()};
 
     List<Long> configuracionsList = new ArrayList<Long>();
     for (Long cfg : configuracions) {
