@@ -1,20 +1,28 @@
 package es.caib.portafib.back.controller.aden;
 
-import es.caib.portafib.back.controller.FileDownloadController;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import es.caib.portafib.back.controller.webdb.BitacolaController;
 import es.caib.portafib.back.form.webdb.BitacolaFilterForm;
 import es.caib.portafib.back.form.webdb.BitacolaForm;
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.model.entity.Bitacola;
-import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.BitacolaFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.*;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
@@ -28,7 +36,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+
 
 /**
  * Controller per mostrar la bitàcola d'una petició de firma
@@ -98,7 +106,7 @@ public class BitacolaPeticioAdenController extends BitacolaController {
             bitacolaFilterForm.setEditButtonVisible(false);
 
             bitacolaFilterForm.setGroupByFields(new ArrayList<Field<?>>());
-            List<Field<?>> filterByFields = new ArrayList(bitacolaFilterForm.getDefaultFilterByFields());
+            List<Field<?>> filterByFields = new ArrayList<Field<?>>(bitacolaFilterForm.getDefaultFilterByFields());
             filterByFields.remove(BitacolaFields.USUARIAPLICACIOID);
             bitacolaFilterForm.setFilterByFields(filterByFields);
 

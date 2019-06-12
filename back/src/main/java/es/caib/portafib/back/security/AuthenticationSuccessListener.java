@@ -309,7 +309,10 @@ public class AuthenticationSuccessListener implements
     }
     
 
-    Set<UsuariEntitatJPA> usuariEntitats = usuariPersona.getUsuariEntitats();
+    Set<UsuariEntitatJPA> usuariEntitats = null;
+    if (usuariPersona != null) {
+      usuariEntitats = usuariPersona.getUsuariEntitats();
+    }
 
     if (isDebug) {
       log.debug("POST getUsuariEntitats() = " + usuariEntitats);

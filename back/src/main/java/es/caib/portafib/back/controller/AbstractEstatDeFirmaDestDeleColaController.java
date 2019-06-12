@@ -435,7 +435,7 @@ import es.caib.portafib.utils.Configuracio;
         }
         
         // ===================  Cerca per informacio addicional avaluable
-        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE)) {
+        if (role.equals(ConstantsV2.ROLE_DEST) || role.equals(ConstantsV2.ROLE_DELE) || role.equals(ConstantsV2.ROLE_REVI)) {
           AdditionalField<String,String> addfieldInfoAddicAval = new AdditionalField<String,String>();
 
           addfieldInfoAddicAval.setCodeName(PeticioDeFirmaFields.INFORMACIOADDICIONALAVALUABLE.fullName);
@@ -2022,7 +2022,7 @@ import es.caib.portafib.utils.Configuracio;
           
           
         } else {
-          // Si no hiha elments, l'afegim alf items a ocultar
+          // Si no hiha elments, l'afegim als items a ocultar
           filterForm.addHiddenField(COLUMN_PETICIODEFIRMA_INFO_ADDICIONAL_AVALUABLE_FIELD);
         }
         

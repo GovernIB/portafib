@@ -21599,7 +21599,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
            <int>0</int> 
           </void> 
           <void property="javaName"> 
-           <string>usEnFirmaWS2</string> 
+           <string>usEnFirmaAsyncRest2</string> 
           </void> 
           <void property="javaType"> 
            <class>boolean</class> 
@@ -21607,11 +21607,11 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
           <void property="labels"> 
            <void method="put"> 
             <string>ca</string> 
-            <string>Ús en Firma WS v2</string> 
+            <string>Ús en Firma Async Simple REST v2</string> 
            </void> 
            <void method="put"> 
             <string>es</string> 
-            <string>Uso en Firma WS v2</string> 
+            <string>Uso en Firma Async Simple REST v2</string> 
            </void> 
           </void> 
           <void property="notNullable"> 

@@ -39,8 +39,8 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWS1);
   }
 
-  public BooleanField USENFIRMAWS2() {
-    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAWS2);
+  public BooleanField USENFIRMAASYNCREST2() {
+    return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2);
   }
 
   public BooleanField USENFIRMAPASSARELASERVIDOR() {

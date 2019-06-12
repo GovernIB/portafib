@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>    
+ 
+  <artifactId>apifirmaasyncsimple-example</artifactId>
+  <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
+  <version>2.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>FundacioBit - ApisIB - API Firma Asincrona Simple - Exemple</name>
+
+  <parent>
+    <artifactId>apifirmaasyncsimple</artifactId>
+    <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
+    <version>2.0.0</version>
+  </parent>
+
+  <properties>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+
+    <dependency>
+      <artifactId>apifirmaasyncsimple-jersey</artifactId>
+      <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
+      <version>2.0.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.fundaciobit.pluginsib.core</groupId>
+      <artifactId>pluginsib-core</artifactId>
+      <version>2.0.0</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

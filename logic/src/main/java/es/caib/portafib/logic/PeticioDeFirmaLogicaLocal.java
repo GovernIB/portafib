@@ -3,6 +3,7 @@ package es.caib.portafib.logic;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
@@ -10,6 +11,7 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.InfoUser;
+import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Firma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
@@ -147,6 +149,10 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * @throws I18NException
    */
   public void cleanAdaptatFileOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
+  
+  
+  public Map<String, Object> getAdditionalParametersForDocumentCustody(
+      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws I18NException;
   
 
 }

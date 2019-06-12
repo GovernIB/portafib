@@ -183,23 +183,23 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
         custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
       }
       
-      Integer politicaDeFirma;
+      Integer politicaDeCustodia;
       if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
         // Usuari Aplicació
-        politicaDeFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
+        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
       } else {
         // Usuari Entitat
-        politicaDeFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID());
       }
       
-      log.info("XYZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeFirma);
+      log.info("XYZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeCustodia);
       
-      if (politicaDeFirma == null) {
+      if (politicaDeCustodia == null) {
         // No Permetre
         custodiaInfoForm.setDeleteButtonVisible(true);
       } else {
         
-        switch((int)politicaDeFirma) {
+        switch((int)politicaDeCustodia) {
           
           // Obligatori Plantilla definida en Entitat, Usuari-Entitat  o Usuari-Aplicació.
           case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO: // = 2;
