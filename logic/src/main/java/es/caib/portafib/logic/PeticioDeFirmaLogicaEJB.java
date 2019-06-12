@@ -3738,7 +3738,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @throws I18NException
    */
   protected boolean hasAccess(PeticioDeFirma peticioDeFirma) throws I18NException {
-/*
+
     if (context.isCallerInRole(ConstantsV2.PFI_ADMIN)) {
       return true;
     }
@@ -3755,8 +3755,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         return currentUsuariEntitatADEN(entitatID) != null;
       }
     }
-    */
-    return true;
   }
 
   protected boolean hasAccess(EstatDeFirma estatDeFirma) throws I18NException {

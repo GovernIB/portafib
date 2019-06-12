@@ -7,7 +7,6 @@ import java.util.Set;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 
-import javax.annotation.security.RunAs;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
@@ -24,7 +23,6 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "WebServicesMethodsEJB")
 @SecurityDomain("seycon")
-@RunAs("PFI_USER")
 public class WebServicesMethodsEJB extends PeticioDeFirmaLogicaEJB  implements WebServicesMethodsLocal {
   
   protected final Logger log = Logger.getLogger(getClass());
