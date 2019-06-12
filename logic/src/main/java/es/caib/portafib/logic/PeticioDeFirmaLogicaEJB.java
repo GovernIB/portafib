@@ -48,6 +48,7 @@ import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.logic.validator.PeticioDeFirmaLogicValidator;
 import es.caib.portafib.model.bean.CustodiaInfoBean;
+import es.caib.portafib.model.bean.PeticioDeFirmaBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.entity.BlocDeFirmes;
@@ -269,6 +270,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     return peticioDeFirmaJPA;
   }
+  
+
 
   /**
    * 
@@ -385,13 +388,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         custodiaInfo = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(custodiaInfo);
 
         peticioDeFirma.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID());
+        peticioDeFirma.setCustodiaInfo(null);
       }
-
     }
-
     // --- FINAL CHECK CUSTODIA
-    // TODO controlar permisos de creació. Bàsicament que el solicitant sigui un dels UsuarisEntitat de l'usuari, o
-    // TODO en cas d'UsuariAplicacio que aquest coincideix amb l'usuari
+
+    // TODO controlar permisos de creació. Bàsicament que el solicitant 
+    // sigui un dels UsuarisEntitat de l'usuari, o en cas d'UsuariAplicacio
+    // que aquest coincideix amb l'usuari
     PeticioDeFirmaJPA pf = (PeticioDeFirmaJPA) create(peticioDeFirma);
 
     Long peticioDeFirmaID = pf.getPeticioDeFirmaID();
@@ -776,8 +780,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   }
 
-  protected Map<String, Object> getAdditionalParametersForDocumentCustody(
-      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws Exception {
+  @Override
+  public Map<String, Object> getAdditionalParametersForDocumentCustody(
+      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws I18NException {
 
     Map<String, Object> additionParameters = new HashMap<String, Object>();
 
@@ -786,14 +791,18 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       if (params != null && params.trim().length() != 0) {
         // Afegir propietats a additionParameters
         Properties prop = new Properties();
-        prop.load(new StringReader(params));
+        try {
+          prop.load(new StringReader(params));
+        } catch (IOException e1) {
+          log.error(e1.getMessage(), e1);
+        }
         for (Entry<Object, Object> e : prop.entrySet()) {
           additionParameters.put(e.getKey().toString(), e.getValue());
         }
       }
     }
 
-    PeticioDeFirmaJPA clone = PeticioDeFirmaJPA.copyJPA(peticioDeFirma);
+    PeticioDeFirmaJPA clone = new PeticioDeFirmaJPA(PeticioDeFirmaBean.toBean(peticioDeFirma));
     additionParameters.put("peticio", clone);
 
     return additionParameters;

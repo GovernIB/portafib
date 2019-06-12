@@ -8,6 +8,7 @@ import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.ejb.FirmaEJB;
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.FirmaJPA;
+import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.model.entity.AnnexFirmat;
 import es.caib.portafib.model.fields.AnnexFirmatFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
@@ -91,7 +92,19 @@ public class FirmaLogicaEJB extends FirmaEJB implements FirmaLogicaLocal {
   
   public FirmaJPA createFull(FirmaJPA firma) throws I18NException {
     // TODO validar
-    return (FirmaJPA)create(firma);
+    FirmaJPA f = (FirmaJPA)create(firma);
+    
+    Set<RevisorDeFirmaJPA> revisors = firma.getRevisorDeFirmas();
+    
+    if (revisors != null && revisors.size() != 0) {
+      for (RevisorDeFirmaJPA rev : revisors) {
+        rev.setFirmaID(f.getFirmaID());
+        revisorDeFirmaEjb.create(rev);
+      }
+    }
+    
+    return f;
+    
   }
 
 }

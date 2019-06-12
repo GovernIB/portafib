@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common.rest;
+package es.caib.portafib.back.controller.rest.revisor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.caib.portafib.back.controller.rest.RestUtils;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.FirmaLogicaLocal;

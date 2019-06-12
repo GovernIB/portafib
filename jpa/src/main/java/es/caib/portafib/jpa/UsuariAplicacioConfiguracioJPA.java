@@ -55,7 +55,7 @@ private static final long serialVersionUID = 2088976150L;
 	boolean usEnFirmaWS1;
 
 	@Column(name="usenfirmaws2",nullable = false,length = 1)
-	boolean usEnFirmaWS2;
+	boolean usEnFirmaAsyncRest2;
 
 	@Column(name="usenfirmapassarelaservidor",nullable = false,length = 1)
 	boolean usEnFirmaPassarelaServidor;
@@ -173,7 +173,7 @@ opcional incluso cuando se genera una firma EPES. */
   }
 
   /** Constructor amb tots els camps  */
-  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -181,7 +181,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.usEnFirmaApiSimpleWeb=usEnFirmaApiSimpleWeb;
     this.usEnFirmaWeb=usEnFirmaWeb;
     this.usEnFirmaWS1=usEnFirmaWS1;
-    this.usEnFirmaWS2=usEnFirmaWS2;
+    this.usEnFirmaAsyncRest2=usEnFirmaAsyncRest2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
     this.filtreCertificats=filtreCertificats;
@@ -211,14 +211,14 @@ opcional incluso cuando se genera una firma EPES. */
     this.validarCertificat=validarCertificat;
 }
   /** Constructor sense valors autoincrementals */
-  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
+  public UsuariAplicacioConfiguracioJPA(java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , java.lang.String filtreCertificats , int tipusOperacioFirma , int tipusFirmaID , java.lang.Integer algorismeDeFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , java.lang.String policyIdentifier , java.lang.String policyIdentifierHash , java.lang.String policyIdentifierHashAlgorithm , java.lang.String policyUrlDocument , int politicaTaulaFirmes , int posicioTaulaFirmesID , java.lang.Long firmatPerFormatID , java.lang.Long motiuDelegacioID , java.lang.String propietatsTaulaFirmes , int politicaSegellatDeTemps , java.lang.Long pluginSegellatID , java.lang.String htmlPerLlistarPluginsFirmaWeb , java.lang.Long pluginFirmaServidorID , java.lang.Integer upgradeSignFormat , java.lang.Long loginCertificateID , java.lang.Boolean validarFirma , java.lang.Boolean checkCanviatDocFirmat , java.lang.Boolean comprovarNifFirma , java.lang.Boolean validarCertificat) {
     this.nom=nom;
     this.entitatID=entitatID;
     this.usEnFirmaApiSimpleServidor=usEnFirmaApiSimpleServidor;
     this.usEnFirmaApiSimpleWeb=usEnFirmaApiSimpleWeb;
     this.usEnFirmaWeb=usEnFirmaWeb;
     this.usEnFirmaWS1=usEnFirmaWS1;
-    this.usEnFirmaWS2=usEnFirmaWS2;
+    this.usEnFirmaAsyncRest2=usEnFirmaAsyncRest2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
     this.filtreCertificats=filtreCertificats;
@@ -248,7 +248,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.validarCertificat=validarCertificat;
 }
   /** Constructor dels valors Not Null */
-  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaWS2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , int politicaSegellatDeTemps) {
+  public UsuariAplicacioConfiguracioJPA(long usuariAplicacioConfigID , java.lang.String nom , java.lang.String entitatID , boolean usEnFirmaApiSimpleServidor , boolean usEnFirmaApiSimpleWeb , boolean usEnFirmaWeb , boolean usEnFirmaWS1 , boolean usEnFirmaAsyncRest2 , boolean usEnFirmaPassarelaServidor , boolean usEnFirmaPassarelaWeb , int tipusOperacioFirma , int tipusFirmaID , boolean modeDeFirma , int usPoliticaDeFirma , int politicaTaulaFirmes , int posicioTaulaFirmesID , int politicaSegellatDeTemps) {
     this.usuariAplicacioConfigID=usuariAplicacioConfigID;
     this.nom=nom;
     this.entitatID=entitatID;
@@ -256,7 +256,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.usEnFirmaApiSimpleWeb=usEnFirmaApiSimpleWeb;
     this.usEnFirmaWeb=usEnFirmaWeb;
     this.usEnFirmaWS1=usEnFirmaWS1;
-    this.usEnFirmaWS2=usEnFirmaWS2;
+    this.usEnFirmaAsyncRest2=usEnFirmaAsyncRest2;
     this.usEnFirmaPassarelaServidor=usEnFirmaPassarelaServidor;
     this.usEnFirmaPassarelaWeb=usEnFirmaPassarelaWeb;
     this.tipusOperacioFirma=tipusOperacioFirma;
@@ -275,7 +275,7 @@ opcional incluso cuando se genera una firma EPES. */
     this.setUsEnFirmaApiSimpleWeb(__bean.isUsEnFirmaApiSimpleWeb());
     this.setUsEnFirmaWeb(__bean.isUsEnFirmaWeb());
     this.setUsEnFirmaWS1(__bean.isUsEnFirmaWS1());
-    this.setUsEnFirmaWS2(__bean.isUsEnFirmaWS2());
+    this.setUsEnFirmaAsyncRest2(__bean.isUsEnFirmaAsyncRest2());
     this.setUsEnFirmaPassarelaServidor(__bean.isUsEnFirmaPassarelaServidor());
     this.setUsEnFirmaPassarelaWeb(__bean.isUsEnFirmaPassarelaWeb());
     this.setFiltreCertificats(__bean.getFiltreCertificats());
@@ -356,11 +356,11 @@ opcional incluso cuando se genera una firma EPES. */
 		this.usEnFirmaWS1 = _usEnFirmaWS1_;
 	};
 
-	public boolean isUsEnFirmaWS2() {
-		return(usEnFirmaWS2);
+	public boolean isUsEnFirmaAsyncRest2() {
+		return(usEnFirmaAsyncRest2);
 	};
-	public void setUsEnFirmaWS2(boolean _usEnFirmaWS2_) {
-		this.usEnFirmaWS2 = _usEnFirmaWS2_;
+	public void setUsEnFirmaAsyncRest2(boolean _usEnFirmaAsyncRest2_) {
+		this.usEnFirmaAsyncRest2 = _usEnFirmaAsyncRest2_;
 	};
 
 	public boolean isUsEnFirmaPassarelaServidor() {
@@ -754,7 +754,7 @@ opcional incluso cuando se genera una firma EPES. */
     __tmp.setUsEnFirmaApiSimpleWeb(__bean.isUsEnFirmaApiSimpleWeb());
     __tmp.setUsEnFirmaWeb(__bean.isUsEnFirmaWeb());
     __tmp.setUsEnFirmaWS1(__bean.isUsEnFirmaWS1());
-    __tmp.setUsEnFirmaWS2(__bean.isUsEnFirmaWS2());
+    __tmp.setUsEnFirmaAsyncRest2(__bean.isUsEnFirmaAsyncRest2());
     __tmp.setUsEnFirmaPassarelaServidor(__bean.isUsEnFirmaPassarelaServidor());
     __tmp.setUsEnFirmaPassarelaWeb(__bean.isUsEnFirmaPassarelaWeb());
     __tmp.setFiltreCertificats(__bean.getFiltreCertificats());

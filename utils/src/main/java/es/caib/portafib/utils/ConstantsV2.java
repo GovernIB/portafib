@@ -38,7 +38,7 @@ public interface ConstantsV2 {
   public static final int US_FIRMA_CONF_APP_APIFIRMASIMPLEWEB = 1;
   public static final int US_FIRMA_CONF_APP_FIRMAWEB = 2;
   public static final int US_FIRMA_CONF_APP_FIRMAWS1 = 3;
-  public static final int US_FIRMA_CONF_APP_FIRMAWS2 = 4;
+  public static final int US_FIRMA_CONF_APP_FIRMAASYNCSIMPLEREST2 = 4;
 
 
   

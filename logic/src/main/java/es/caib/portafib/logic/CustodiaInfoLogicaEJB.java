@@ -346,7 +346,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
  */
   protected CustodiaInformation checkPotCustodiarE(EntitatJPA entitat,
       // requerid per include
-      boolean includeCustodiaInfo, CustodiaInfoJPA custodiaSentByUser2, String titol,
+      boolean includeCustodiaInfo, CustodiaInfoJPA custodiaSentByUser, String titol,
       String usuariAplicacioID, String usuariEntitatID) throws I18NException,
       I18NValidationException {
     if (entitat == null) {

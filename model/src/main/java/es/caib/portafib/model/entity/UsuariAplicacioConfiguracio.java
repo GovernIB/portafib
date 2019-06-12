@@ -23,8 +23,8 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public boolean isUsEnFirmaWS1();
 	public void setUsEnFirmaWS1(boolean _usEnFirmaWS1_);
 
-	public boolean isUsEnFirmaWS2();
-	public void setUsEnFirmaWS2(boolean _usEnFirmaWS2_);
+	public boolean isUsEnFirmaAsyncRest2();
+	public void setUsEnFirmaAsyncRest2(boolean _usEnFirmaAsyncRest2_);
 
 	public boolean isUsEnFirmaPassarelaServidor();
 	public void setUsEnFirmaPassarelaServidor(boolean _usEnFirmaPassarelaServidor_);

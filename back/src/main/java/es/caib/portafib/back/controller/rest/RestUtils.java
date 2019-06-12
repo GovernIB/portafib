@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common.rest;
+package es.caib.portafib.back.controller.rest;
 
 import java.util.ArrayList;
 import java.util.Collection;

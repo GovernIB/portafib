@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.apifirmasimple.v1;
+package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
 /**
  * 

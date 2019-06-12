@@ -135,23 +135,23 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
-        <tr id="usuariAplicacioConfiguracio_usEnFirmaWS2_rowid">
+        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}">
+        <tr id="usuariAplicacioConfiguracio_usEnFirmaAsyncRest2_rowid">
           <td>
             <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS2])?'usuariAplicacioConfiguracio.usEnFirmaWS2':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAWS2]}" ></i>
+              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2])?'usuariAplicacioConfiguracio.usEnFirmaAsyncRest2':__theForm.labels[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}" />
+              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}">
+              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2]}" ></i>
               </c:if>
              </label>
             </td>
             <td>
-          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}" >
-              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaWS2" cssClass="errorField alert alert-error" />
-              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaWS2" />
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}" >
+              <form:errors path="usuariAplicacioConfiguracio.usEnFirmaAsyncRest2" cssClass="errorField alert alert-error" />
+              <form:checkbox onclick="javascript:return ${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)? 'false' : 'true'}" path="usuariAplicacioConfiguracio.usEnFirmaAsyncRest2" />
           </c:if>
-          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}" >
-                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaWS2}" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.usuariAplicacioConfiguracio.usEnFirmaAsyncRest2}" />
           </c:if>
            </td>
         </tr>

@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.apifirmasimple.v1;
+package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
 
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
@@ -191,7 +191,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     try {
 
       
-      LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
+      LoginInfo loginInfo = commonChecks();
 
       String usuariAplicacioID = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
 
@@ -431,7 +431,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     String virtualTransactionID = null;
 
     try {
-      LoginInfo loginInfo = commonChecks(esFirmaEnServidor);
+      LoginInfo loginInfo = commonChecks();
       
       // Si codi de Perfil val null, llavors en cerca un.
       PerfilDeFirma perfil = getPerfilDeFirma(simpleSignature.getCommonInfo(), esFirmaEnServidor);

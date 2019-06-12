@@ -166,19 +166,19 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAWS2)}">
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2)}">
             <%-- FILTRE NUMERO --%>      
             <div class="input-prepend input-append" style="padding-right: 4px;padding-bottom: 4px;">
-              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaWS2" />:</span>
+              <span class="add-on"><fmt:message key="usuariAplicacioConfiguracio.usEnFirmaAsyncRest2" />:</span>
 
               <span class="add-on"><fmt:message key="genapp.from" /></span>
               
-              <form:input cssClass="input-append input-small" path="usEnFirmaWS2Desde" />
+              <form:input cssClass="input-append input-small" path="usEnFirmaAsyncRest2Desde" />
 
 
               <span class="add-on"><fmt:message key="genapp.to" /></span>
 
-              <form:input cssClass="input-append input-small search-query" path="usEnFirmaWS2Fins" />
+              <form:input cssClass="input-append input-small search-query" path="usEnFirmaAsyncRest2Fins" />
 
             </div>
 

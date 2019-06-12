@@ -8,6 +8,7 @@ import es.caib.portafib.model.entity.PerfilDeFirma;
 
 import javax.ejb.Local;
 
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -38,15 +39,19 @@ public interface ConfiguracioUsuariAplicacioLogicaLocal extends
       String usuariAplicacioID,  PerfilDeFirma codiPerfil, 
       FirmaSimpleSignDocumentRequest firmaSimpleSignDocumentRequest) throws I18NException;
   
+  public UsuariAplicacioConfiguracioJPA getConfiguracioFirmaPerApiFirmaAsyncSimple(
+      String usuariAplicacioID,  String codiPerfil,
+      FirmaAsyncSimpleSignatureRequest signatureRequest) throws I18NException;
+  
   public PerfilDeFirma getPerfilDeFirmaPerApiFirmaSimple(final String usuariAplicacioID,
       final boolean esFirmaEnServidor) throws I18NException;
-  
+
   public PerfilConfiguracionsDeFirma getConfiguracioUsuariAplicacioPerPassarela(String usuariAplicacioID,
       PassarelaSignaturesSet signaturesSet, boolean esFirmaEnServidor) throws I18NException;
-  
+
   public UsuariAplicacioConfiguracioJPA getConfiguracioUsuariAplicacioPerApiPortafibWS1(
       final String usuariAplicacioID) throws I18NException;
-  
+
   //public PerfilConfiguracioDeFirma getConfiguracioUsuariAplicacioPerPassarela(
   //    final String usuariAplicacioID, final boolean esFirmaEnServidor) throws I18NException;
   

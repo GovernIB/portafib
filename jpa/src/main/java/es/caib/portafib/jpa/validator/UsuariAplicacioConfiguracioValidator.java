@@ -58,9 +58,9 @@ public class UsuariAplicacioConfiguracioValidator<T> implements UsuariAplicacioC
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWS1)));
 
-    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAWS2, 
+    __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAASYNCREST2, 
         "genapp.validation.required",
-        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAWS2)));
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(USENFIRMAASYNCREST2)));
 
     __vr.rejectIfEmptyOrWhitespace(__target__,USENFIRMAPASSARELASERVIDOR, 
         "genapp.validation.required",

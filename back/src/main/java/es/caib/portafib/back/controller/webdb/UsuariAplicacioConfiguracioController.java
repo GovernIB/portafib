@@ -220,7 +220,7 @@ public class UsuariAplicacioConfiguracioController
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAWS1);
 
 
-      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAWS2);
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAASYNCREST2);
 
 
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, USENFIRMAPASSARELASERVIDOR);

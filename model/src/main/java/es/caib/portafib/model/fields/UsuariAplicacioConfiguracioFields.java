@@ -19,7 +19,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
 	 public static final BooleanField USENFIRMAAPISIMPLEWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaApiSimpleWeb", "usenfirmaapisimpleweb");
 	 public static final BooleanField USENFIRMAWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaWeb", "usenfirmaweb");
 	 public static final BooleanField USENFIRMAWS1 = new BooleanField(_TABLE_MODEL, "usEnFirmaWS1", "usenfirmaws1");
-	 public static final BooleanField USENFIRMAWS2 = new BooleanField(_TABLE_MODEL, "usEnFirmaWS2", "usenfirmaws2");
+	 public static final BooleanField USENFIRMAASYNCREST2 = new BooleanField(_TABLE_MODEL, "usEnFirmaAsyncRest2", "usenfirmaws2");
 	 public static final BooleanField USENFIRMAPASSARELASERVIDOR = new BooleanField(_TABLE_MODEL, "usEnFirmaPassarelaServidor", "usenfirmapassarelaservidor");
 	 public static final BooleanField USENFIRMAPASSARELAWEB = new BooleanField(_TABLE_MODEL, "usEnFirmaPassarelaWeb", "usenfirmapassarelaweb");
 	 public static final StringField FILTRECERTIFICATS = new StringField(_TABLE_MODEL, "filtreCertificats", "filtrecertificats");
@@ -57,7 +57,7 @@ public interface UsuariAplicacioConfiguracioFields extends java.io.Serializable 
     USENFIRMAAPISIMPLEWEB,
     USENFIRMAWEB,
     USENFIRMAWS1,
-    USENFIRMAWS2,
+    USENFIRMAASYNCREST2,
     USENFIRMAPASSARELASERVIDOR,
     USENFIRMAPASSARELAWEB,
     FILTRECERTIFICATS,

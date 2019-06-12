@@ -94,7 +94,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
 
       uac.setEntitatID(LoginInfo.getInstance().getEntitatID());
 
-      uac.setUsEnFirmaWS2(false);
+      uac.setUsEnFirmaAsyncRest2(true);
       uac.setUsEnFirmaWeb(true);
       uac.setUsEnFirmaApiSimpleWeb(true);
     }
@@ -127,7 +127,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
   
 
     form.addReadOnlyField(TIPUSOPERACIOFIRMA);
-    form.addReadOnlyField(USENFIRMAWS2);
+    
 
     // XYZ ZZZ Es quedaran així fins que no s'implementi #165
     // form.addReadOnlyField(POLITICACUSTODIA);
