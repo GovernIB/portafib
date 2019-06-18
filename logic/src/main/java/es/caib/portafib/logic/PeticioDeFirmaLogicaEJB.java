@@ -345,6 +345,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     final String usuariEntitatID;
     final UsuariEntitatJPA usuariEntitat;
+    final EntitatJPA entitatJPA;
     if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
       // Peticio via UsrApp
       // #186
@@ -354,6 +355,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       usuariEntitatID = null;
       usuariEntitat = null;
+      
+      entitatJPA = entitatEjb.findByPrimaryKey(usuariAplicacio.getEntitatID());
+      
+      
     } else {
       // Peticio de usuari web
 
@@ -371,12 +376,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
               .getEmail() : usuariEntitat.getEmail());
         }
       }
+      
+      entitatJPA = entitatEjb.findByPrimaryKey(usuariEntitat.getEntitatID());
+      
       // entitatID = usuariEntitat.getEntitatID();
     }
 
     // ======= Check de Custòdia ==========
     {
-      CustodiaInfo ci = custodiaInfoLogicaEjb.getAllowedCustodyInfo(peticioDeFirma,
+      CustodiaInfo ci = custodiaInfoLogicaEjb.getAllowedCustodyInfo(peticioDeFirma, entitatJPA,
           usuariAplicacio, usuariEntitat);
 
       if (ci == null) {
@@ -2808,7 +2816,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   }
 
   @Override
-  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID) throws I18NException,
+  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) throws I18NException,
       Exception {
 
     PeticioDeFirmaJPA peticio = this.findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
@@ -2906,7 +2914,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       CustodiaInfo custodiaInfo_Peticio_Current = getCustodyInfoOfPeticioFirma(peticio);
 
       CustodiaInfo custodiaInfo_Entitat_Default = custodiaInfoLogicaEjb
-          .getAllowedCustodyInfo(peticio);
+          .getAllowedCustodyInfo(peticio, entitatJPA);
 
       if (custodiaInfo_Entitat_Default == null) {
         // --------- Ara no hi ha custodia -----
@@ -3060,10 +3068,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @throws I18NException
    */
   @Override
-  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
+  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
       String newMessageFormaPatternForName) throws I18NException {
 
-    return clonePeticioDeFirma(peticioDeFirmaID, newMessageFormaPatternForName, null, null,
+    return clonePeticioDeFirma(peticioDeFirmaID, entitatJPA, newMessageFormaPatternForName, null, null,
         null);
 
   }
@@ -3077,7 +3085,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
    * @throws I18NException
    */
   @Override
-  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
+  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
       String newMessageFormaPatternForName, String descripcio, String motiu,
       FitxerJPA fitxerJPA) throws I18NException {
 
@@ -3213,7 +3221,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       CustodiaInfo custodiaInfo_Peticio_Current = getCustodyInfoOfPeticioFirma(peticio);
 
       CustodiaInfo custodiaInfo_Entitat_Allowed = custodiaInfoLogicaEjb
-          .getAllowedCustodyInfo(peticio);
+          .getAllowedCustodyInfo(peticio, entitatJPA);
 
       if (custodiaInfo_Entitat_Allowed == null) {
         // --------- Ara no hi ha custodia -----
@@ -3847,5 +3855,64 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             UsuariEntitatFields.CARREC.isNull() )) == 1;
   }
 
+  
+public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
+
+    
+    
+    log.info("XYZ ZZZ addCustodiaInfoToPeticioDeFirma:: ENTRA");
+    
+    // Check peticio de firma
+    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)this.findByPrimaryKey(peticioDeFirmaID);
+    if (peticio == null) {
+      log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: peticio == null");
+      return null;
+    }
+
+    // TODO Check si usuari app o usuari entitat pot custodiar
+    
+    /* XYZ ZZZ
+    CustodiaInfoBeanValidator cibv = new CustodiaInfoBeanValidator(validatorCustodiaInfo,usuariEntitatEjb,
+        entitatEjb, posicioPaginaEjb, codiBarresEjb, usuariAplicacioEjb);
+    
+    cibv.validate(target, isNou)
+
+    cibv.throwValidationExceptionIfErrors(custodiaInfo, true)
+    */
+
+    /*
+    String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
+    String entitatID;
+    if (usuariEntitatID == null) {
+      entitatID = peticio.getUsuariAplicacio().getEntitatID();      
+    } else {
+      entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID();
+    }
+    
+    ***
+    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
+        constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
+         peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
+         */
+   CustodiaInfo ci = custodiaInfoLogicaEjb.getAllowedCustodyInfo(peticio, entitatJPA);
+   
+   
+   
+   if (ci == null) {
+     log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: getAllowedCustodyInfo() == null");
+     return null;
+   }
+
+    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
+     
+    custodiaInfo = (CustodiaInfoJPA)custodiaInfoLogicaEjb.create(custodiaInfo);
+    peticio.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID());
+    peticio.setCustodiaInfo(custodiaInfo);
+    
+    this.update(peticio);
+   
+    
+    return custodiaInfo;
+  }
 
 }

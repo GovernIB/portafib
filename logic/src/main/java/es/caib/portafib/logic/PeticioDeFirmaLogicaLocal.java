@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
@@ -117,13 +118,13 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
       PeticioDeFirma peticioDeFirma, String motiuInvalidacio)
       throws I18NException;
 
-  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID)
+  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA)
        throws I18NException, Exception;
 
-  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
+  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
     String newMessageFormaPatternForName) throws I18NException;
   
-  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID,
+  public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
       String newMessageFormaPatternForName,String descripcio, String motiu,
       FitxerJPA fitxerJPA) throws I18NException;
 
@@ -153,6 +154,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
   
   public Map<String, Object> getAdditionalParametersForDocumentCustody(
       PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws I18NException;
+
+  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatID) throws I18NException, I18NValidationException;
   
 
 }

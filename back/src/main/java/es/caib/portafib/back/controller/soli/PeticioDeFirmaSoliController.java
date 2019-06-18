@@ -471,7 +471,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
     CustodiaInfo custodiaInfo;
     try {
-      custodiaInfo = custodiaInfoLogicaEjb.addCustodiaInfoToPeticioDeFirma(peticioDeFirmaID);
+      custodiaInfo = peticioDeFirmaLogicaEjb.addCustodiaInfoToPeticioDeFirma(peticioDeFirmaID, LoginInfo.getInstance().getEntitat());
     } catch (I18NException e) {
       String msg = I18NUtils.getMessage(e);
       HtmlUtils.saveMessageError(request, msg);
@@ -643,7 +643,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
    
     try {
       PeticioDeFirmaJPA peticio;   
-      peticio = this.peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, I18NUtils.tradueix("copiade"));
+      peticio = this.peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID, 
+          LoginInfo.getInstance().getEntitat(),
+          I18NUtils.tradueix("copiade"));
       
       if (peticio == null) {
         this.createMessageError(request, "error.notfound", peticioDeFirmaID);
@@ -681,7 +683,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
    
     try {
       PeticioDeFirmaJPA peticio;   
-      peticio = this.peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID);
+      peticio = this.peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID,
+          LoginInfo.getInstance().getEntitat() );
       if (peticio == null) {
         this.createMessageError(request, "error.notfound", peticioDeFirmaID);
         return llistat(request, response);
@@ -735,7 +738,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         }
         try {
           PeticioDeFirmaJPA peticio;
-          peticio = this.peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID);
+          peticio = this.peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID,
+              LoginInfo.getInstance().getEntitat());
           if (peticio == null) {
             this.createMessageError(request, "error.notfound", peticioDeFirmaID);
           }
@@ -1426,7 +1430,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
       peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
       
-      politicaCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(LoginInfo.getInstance().getUsuariEntitat());
+      politicaCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(
+          LoginInfo.getInstance().getUsuariEntitat(), LoginInfo.getInstance().getEntitat());
       /* XYZ ZZZ 
       for (PeticioDeFirma peticio : list) {
         
@@ -1620,7 +1625,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
             /// XYZ ZZZ Falta Cache temporal de politiques !!!
             if (pc == null) {
-              pc = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
+              pc = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(
+                  peticioDeFirma.getSolicitantUsuariAplicacioID(),
+                  LoginInfo.getInstance().getEntitat());
             }
 
             if (pc != null) {

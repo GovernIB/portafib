@@ -39,8 +39,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @SecurityDomain("seycon")
 public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaInfoLogicaLocal {
 
+
   @EJB(mappedName = EntitatLocal.JNDI_NAME)
   protected EntitatLocal entitatEjb;
+  
   
   @EJB(mappedName = UsuariAplicacioLocal.JNDI_NAME)
   protected UsuariAplicacioLocal usuariAplicacioEjb;
@@ -59,7 +61,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
   @Override
   public CustodiaInfo getCustodiaUA(UsuariAplicacio usuariAplicacio,
-      CustodiaInfoJPA custodiaSentByUser, String titol) throws I18NException,
+      CustodiaInfoJPA custodiaSentByUser, String titol, EntitatJPA entitatJPA) throws I18NException,
       I18NValidationException {
 
     if (usuariAplicacio == null) {
@@ -76,7 +78,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     boolean includeCustodiaInfo = true;
 
-    CustodiaInformation ci = internalCheckPotCustodia(usuariAplicacio.getEntitatID(),
+    CustodiaInformation ci = internalCheckPotCustodia(entitatJPA,
         politicaCustodia, name, includeCustodiaInfo, custodiaSentByUser, titol,
         usuariAplicacioID, usuariEntitatID);
 
@@ -100,7 +102,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NValidationException
    */
   @Override
-  public CustodiaInfo getCustodiaUE(UsuariEntitat usuariEntitat, String usuariAplicacioID,
+  public CustodiaInfo getCustodiaUE(EntitatJPA entitatJPA, UsuariEntitat usuariEntitat, String usuariAplicacioID,
       CustodiaInfoJPA custodiaSentByUser, String titol) throws I18NException,
       I18NValidationException {
 
@@ -117,7 +119,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     final boolean includeCustodiaInfo = true;
 
-    CustodiaInformation ci = internalCheckPotCustodia(usuariEntitat.getEntitatID(),
+    CustodiaInformation ci = internalCheckPotCustodia(entitatJPA,
         politicaCustodia, name, includeCustodiaInfo, custodiaSentByUser, titol,
         usuariAplicacioID, usuariEntitatID);
 
@@ -138,7 +140,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NValidationException
    */
   @Override
-  public Integer getPoliticaDeCustodiaFinalPerUA(String usuariAplicacioID)
+  public Integer getPoliticaDeCustodiaFinalPerUA(String usuariAplicacioID, EntitatJPA entitatJPA)
       throws I18NException {
 
     if (usuariAplicacioID == null) {
@@ -148,7 +150,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
 
-    return getPoliticaDeCustodiaFinalPerUA(usuariAplicacio);
+    return getPoliticaDeCustodiaFinalPerUA(usuariAplicacio, entitatJPA);
     
 
   }
@@ -165,8 +167,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NValidationException
    */
   @Override
-  public Integer getPoliticaDeCustodiaFinalPerUA(UsuariAplicacio usuariAplicacio)
-      throws I18NException {
+  public Integer getPoliticaDeCustodiaFinalPerUA(UsuariAplicacio usuariAplicacio, EntitatJPA entitatJPA)  throws I18NException {
 
     if (usuariAplicacio == null) {
       // XYZ ZZZ TRA
@@ -178,7 +179,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
     final String name = "usuari-aplicació";
 
     
-    return internalCheckPotCustodia(usuariAplicacio.getEntitatID(), politicaCustodia, name);
+    return internalCheckPotCustodia(entitatJPA, politicaCustodia, name);
     
 
   }
@@ -192,7 +193,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NException
    * @throws I18NValidationException
    */
-  protected Integer internalCheckPotCustodia(String entitatID, int politicaCustodia,
+  protected Integer internalCheckPotCustodia(EntitatJPA entitatJPA, int politicaCustodia,
       String name) throws I18NException {
 
     final boolean includeCustodiaInfo = false;
@@ -203,7 +204,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     CustodiaInformation ci;
     try {
-      ci = internalCheckPotCustodia(entitatID, politicaCustodia, name, includeCustodiaInfo,
+      ci = internalCheckPotCustodia(entitatJPA, politicaCustodia, name, includeCustodiaInfo,
           custodiaSentByUser, titol, usuariAplicacioID, usuariEntitatID);
       if (ci == null) {
         return null;
@@ -237,7 +238,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NException
    * @throws I18NValidationException
    */
-  protected CustodiaInformation internalCheckPotCustodia(String entitatID,
+  protected CustodiaInformation internalCheckPotCustodia(EntitatJPA entitatJPA,
       int politicaCustodia, String name,
       // requerid per include
       boolean includeCustodiaInfo, CustodiaInfoJPA custodiaSentByUser, String titol,
@@ -246,9 +247,6 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     // El que s´hagi definit dins l´Entitat
     if (politicaCustodia == ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT) {
-
-      EntitatJPA entitatJPA = entitatEjb.findByPrimaryKey(entitatID);
-
       return checkPotCustodiarE(entitatJPA, includeCustodiaInfo, custodiaSentByUser, titol,
           usuariAplicacioID, usuariEntitatID);
     }
@@ -260,8 +258,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
         // [ENTITAT] Opcional plantilla Entitat (Per defecte Actiu)
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
         // El que s´hagi definit dins l´Entitat
-      case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT:
-        EntitatJPA entitatJPA = entitatEjb.findByPrimaryKey(entitatID);
+      case ConstantsV2.POLITICA_CUSTODIA_POLITICA_DE_CUSTODIA_DEFINIDA_EN_ENTITAT:        
         return checkPotCustodiarE(entitatJPA, includeCustodiaInfo, custodiaSentByUser, titol,
             usuariAplicacioID, usuariEntitatID);
 
@@ -292,7 +289,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
   
   
   @Override
-  public Integer getPoliticaDeCustodiaFinalPerUE(String usuariEntitatID)
+  public Integer getPoliticaDeCustodiaFinalPerUE(String usuariEntitatID, EntitatJPA entitatJPA)
       throws I18NException {
 
     if (usuariEntitatID == null) {
@@ -302,7 +299,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     UsuariEntitatJPA usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
 
-    return getPoliticaDeCustodiaFinalPerUE(usuariEntitat);
+    return getPoliticaDeCustodiaFinalPerUE(usuariEntitat, entitatJPA);
     
 
   }
@@ -316,7 +313,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
    * @throws I18NException
    */
   @Override
-  public Integer getPoliticaDeCustodiaFinalPerUE(UsuariEntitat usuariEntitat) throws I18NException {
+  public Integer getPoliticaDeCustodiaFinalPerUE(UsuariEntitat usuariEntitat, EntitatJPA entitatJPA) throws I18NException {
     if (usuariEntitat == null) {
       // XYZ ZZZ TRA
       throw new I18NException("genapp.comodi", "Usuari Entitat val null");
@@ -326,7 +323,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
     final String name = "usuari-entitat";
 
-    return internalCheckPotCustodia(usuariEntitat.getEntitatID(), politicaCustodia, name);
+    return internalCheckPotCustodia(entitatJPA, politicaCustodia, name);
 
   }
 
@@ -481,7 +478,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
   
   @Override
-  public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio) 
+  public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio, EntitatJPA entitatJPA) 
           throws I18NException, I18NValidationException {
 
     
@@ -495,7 +492,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
       usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
     }
 
-    return  getAllowedCustodyInfo(peticio, usuariAplicacio,  usuariEntitat);
+    return  getAllowedCustodyInfo(peticio, entitatJPA, usuariAplicacio,  usuariEntitat);
 
   }
   
@@ -503,7 +500,7 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
 
   @Override
   public CustodiaInfo getAllowedCustodyInfo(PeticioDeFirmaJPA peticio,
-      UsuariAplicacio usuariAplicacio, UsuariEntitat usuariEntitat) throws I18NException, I18NValidationException {
+     EntitatJPA entitatJPA, UsuariAplicacio usuariAplicacio, UsuariEntitat usuariEntitat) throws I18NException, I18NValidationException {
 
     
     String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
@@ -514,11 +511,11 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
     CustodiaInfo onlyDef;
     if (usuariEntitatID == null) {
       log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
-      onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol);      
+      onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol, entitatJPA);      
     } else {
       log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
       final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      onlyDef = this.getCustodiaUE(usuariEntitat, usuariAplicacioID, custodiaSentByUser, titol);
+      onlyDef = this.getCustodiaUE(entitatJPA, usuariEntitat, usuariAplicacioID, custodiaSentByUser, titol);
     }
    
 
@@ -555,65 +552,8 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
   
 
   
-  @Override
-  public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID) throws I18NException, I18NValidationException {
-
-    
-    log.info("XYZ ZZZ addCustodiaInfoToPeticioDeFirma:: ENTRA");
-    
-    // Check peticio de firma
-    PeticioDeFirmaJPA peticio = (PeticioDeFirmaJPA)peticioDeFirmaEjb.findByPrimaryKey(peticioDeFirmaID);
-    if (peticio == null) {
-      log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: peticio == null");
-      return null;
-    }
-
-
-    // TODO Check si usuari app o usuari entitat pot custodiar
-    
-    /* XYZ ZZZ
-    CustodiaInfoBeanValidator cibv = new CustodiaInfoBeanValidator(validatorCustodiaInfo,usuariEntitatEjb,
-        entitatEjb, posicioPaginaEjb, codiBarresEjb, usuariAplicacioEjb);
-    
-    cibv.validate(target, isNou)
-
-    cibv.throwValidationExceptionIfErrors(custodiaInfo, true)
-    */
-
-    /*
-    String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
-    String entitatID;
-    if (usuariEntitatID == null) {
-      entitatID = peticio.getUsuariAplicacio().getEntitatID();      
-    } else {
-      entitatID = peticio.getSolicitantUsuariEntitat1().getEntitatID();
-    }
-    
-    ***
-    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(
-        constructDefaultCustodiaInfo(peticio.getTitol(), entitatID, usuariEntitatID,
-         peticio.getSolicitantUsuariAplicacioID(), peticio.getIdiomaID()));
-         */
-   CustodiaInfo ci = getAllowedCustodyInfo(peticio);
-   
-   
-   
-   if (ci == null) {
-     log.info("XYZ ZZZ  addCustodiaInfoToPeticioDeFirma:: getAllowedCustodyInfo() == null");
-     return null;
-   }
-
-    CustodiaInfoJPA custodiaInfo = CustodiaInfoJPA.toJPA(ci);
-     
-    custodiaInfo = (CustodiaInfoJPA)this.create(custodiaInfo);
-    peticio.setCustodiaInfoID(custodiaInfo.getCustodiaInfoID());
-    peticio.setCustodiaInfo(custodiaInfo);
-    
-    peticioDeFirmaEjb.update(peticio);
-   
-    
-    return custodiaInfo;
-  }
+  
+  
 
   /*
   @Override

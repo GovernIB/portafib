@@ -645,7 +645,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
       EntitatJPA entitatJPA) throws I18NException, I18NValidationException {
     final PassarelaSecureVerificationCodeStampInfo secureVerificationCodeStampInfo;
 
-    CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null, "Passarela Custòdia");
+    CustodiaInfo custodiaInfo = custodiaInfoLogicaEjb.getCustodiaUA(usuariAplicacio, null, "Passarela Custòdia", entitatJPA);
     
     if (custodiaInfo == null) {
       return null;

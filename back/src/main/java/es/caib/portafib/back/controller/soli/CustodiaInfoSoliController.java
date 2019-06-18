@@ -33,6 +33,7 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
+import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.validator.CustodiaInfoLogicValidator;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -183,13 +184,15 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
         custodiaInfoForm.getReadOnlyFields().addAll(Arrays.asList(ALL_CUSTODIAINFO_FIELDS));
       }
       
-      Integer politicaDeCustodia;
+      EntitatJPA entitatJPA = LoginInfo.getInstance().getEntitat();
+      
+      Integer politicaDeCustodia;      
       if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
         // Usuari Aplicació
-        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID());
+        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID(), entitatJPA);
       } else {
         // Usuari Entitat
-        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID());
+        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID(), entitatJPA);
       }
       
       log.info("XYZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeCustodia);

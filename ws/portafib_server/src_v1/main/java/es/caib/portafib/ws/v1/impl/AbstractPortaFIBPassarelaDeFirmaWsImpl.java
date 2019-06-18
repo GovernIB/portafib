@@ -55,7 +55,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
 
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
     
-    Integer politicaFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(userapp);
+    Integer politicaFirma = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(userapp, userapp.getEntitat());
     if (politicaFirma == null) {
       return CUSTODIA_NO_PERMETRE; // = 0;
     }
@@ -173,7 +173,7 @@ public abstract class AbstractPortaFIBPassarelaDeFirmaWsImpl extends Authenticat
     // #165
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
-    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació");
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació", userapp.getEntitat());
     
     return CustodiaInfoBean.toBean(ci);
     

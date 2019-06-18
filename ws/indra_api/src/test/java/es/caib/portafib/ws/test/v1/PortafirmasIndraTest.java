@@ -142,6 +142,8 @@ public class PortafirmasIndraTest extends IndraTestUtils {
       
       new PortafirmasIndraTest().testHeliumCode();
       
+      //new PortafirmasIndraTest().testEnterpriseCode();
+      
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.caib.portafib.ejb.EntitatEJB;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
+import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
@@ -11,6 +12,7 @@ import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -105,6 +107,12 @@ public class EntitatLogicaEJB extends EntitatEJB implements EntitatLogicaLocal, 
     // Eliminar Entitat
     super.delete(entitatID);
 
+  }
+
+  @PermitAll
+  @Override
+  public EntitatJPA findByPrimaryKeyPublic(String entitatID) throws I18NException {
+    return super.findByPrimaryKey(entitatID);
   }
 
 

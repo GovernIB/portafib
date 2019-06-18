@@ -122,7 +122,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
     
     UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
 
-    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació");
+    CustodiaInfo ci = custodiaInfoLogicaEjb.getCustodiaUA(userapp, null, "usuari aplicació", userapp.getEntitat());
 
     return CustodiaInfoBean.toBean(ci);
     
@@ -510,8 +510,10 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
     FitxerJPA.enableEncryptedFileIDGeneration();
     try {
+      UsuariAplicacioJPA ua = UsuariAplicacioCache.get();
+      
       PeticioDeFirmaJPA peticioDeFirmaJPA;
-      peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID);
+      peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.resetPeticioDeFirma(peticioDeFirmaID, ua.getEntitat());
       return PeticioDeFirmaWs.toWs(peticioDeFirmaJPA);
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

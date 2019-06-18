@@ -165,7 +165,7 @@ public class PeticioFirmaMassivaController implements PeticioDeFirmaFields {
         count++;
         // TODO Moure a lògica en un sol mètode cloneAndStart
         peticio = peticioDeFirmaLogicaEjb.clonePeticioDeFirma(peticioDeFirmaID,
-            t, d, m, arxiuActual);
+            LoginInfo.getInstance().getEntitat(), t, d, m, arxiuActual);
 
         peticioDeFirmaLogicaEjb.start(peticio.getPeticioDeFirmaID(), false);
 
