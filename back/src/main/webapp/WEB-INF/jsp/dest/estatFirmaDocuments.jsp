@@ -72,11 +72,11 @@
    <c:forEach var="fitxer" items="${fitxers}" varStatus="theCount">
       <c:if test="${theCount.index > 0}">
         <c:set var="ids" value="${ids}, " />
-        <c:set var="filenames"><c:out value="${filenames}"/>, </c:set>
+        <c:set var="filenames">${filenames}, </c:set>
       </c:if>
    
       <c:set var="ids" value="${ids}'annex_${theCount.index}'" />
-      <c:set var="filenames"><c:out value="${filenames}"/>'<c:out value="${fitxer.key.nom}"/>'</c:set>
+      <c:set var="filenames">${filenames}'<c:out value="${fitxer.key.nom}"/>'</c:set>
    </c:forEach>
 
    
