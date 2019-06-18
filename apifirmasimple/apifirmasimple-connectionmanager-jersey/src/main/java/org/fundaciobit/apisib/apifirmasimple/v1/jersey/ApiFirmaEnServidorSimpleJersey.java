@@ -11,23 +11,30 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.List;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
+import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
 
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
-public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey implements
+public class ApiFirmaEnServidorSimpleJersey extends
+    AbstractApisIBConnectionManagerJersey<FirmaSimpleError> implements
     ApiFirmaEnServidorSimple {
 
   /**
@@ -54,7 +61,7 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
    */
   @Override
   public FirmaSimpleSignDocumentResponse signDocument(
-      FirmaSimpleSignDocumentRequest signaturesSet) throws Exception {
+      FirmaSimpleSignDocumentRequest signaturesSet) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(signaturesSet, SIGNDOCUMENT);
 
@@ -64,11 +71,9 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
     return result;
   }
 
-
-
   @Override
   public FirmaSimpleUpgradeResponse upgradeSignature(FirmaSimpleUpgradeRequest fsur)
-      throws Exception {
+      throws AbstractApisIBException {
     ClientResponse response = commonCall(fsur, UPGRADESIGNATURE);
 
     FirmaSimpleUpgradeResponse fullresult = response
@@ -80,7 +85,13 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
         if (!isUTF8(result.getData())) {
           // Algunes firmes XAdes es retornen com a ANSI despres de passar per REST
           // S'han de convertir a UTF-8
-          result.setData(transformEncoding(result.getData(), "ISO-8859-1", "UTF-8"));
+          try {
+            result.setData(transformEncoding(result.getData(), "ISO-8859-1", "UTF-8"));
+          } catch (IOException e) {
+            throw new ApisIBClientException(
+                "Error desconegut transformant les dades de'un fitxer XAdES: "
+                    + e.getMessage(), e);
+          }
           // result.setMime(null);
         }
       }
@@ -96,12 +107,14 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
    * @throws Exception
    */
   @Override
-  public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception {
+  public List<FirmaSimpleAvailableProfile> getAvailableProfiles(String locale)
+      throws AbstractApisIBException {
 
     ClientResponse response = commonCall(locale, AVAILABLEPROFILES);
 
-    FirmaSimpleAvailableProfiles result = response
-        .getEntity(FirmaSimpleAvailableProfiles.class);
+    List<FirmaSimpleAvailableProfile> result = response
+        .getEntity(new GenericType<List<FirmaSimpleAvailableProfile>>() {
+        });
 
     return result;
   }
@@ -149,6 +162,11 @@ public class ApiFirmaEnServidorSimpleJersey extends AbstractApiFirmaSimpleJersey
     }
 
     return true;
+  }
+
+  @Override
+  protected Class<FirmaSimpleError> getErrorClass() {
+    return FirmaSimpleError.class;
   }
 
 }

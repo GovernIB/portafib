@@ -8,9 +8,9 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyVa
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.exceptions.AbstractFirmaAsyncSimpleException;
-
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 
 /**
  * 
@@ -29,6 +29,8 @@ public interface ApiFirmaAsyncSimple {
 
   public static final String CREATEANDSTARTSIGNATUREREQUEST = "createAndStartSignatureRequest";
 
+  public static final String CREATEANDSTARTSIGNATUREREQUESTWITHFLOWTEMPLATECODE = "createAndStartSignatureRequestWithFlowTemplateCode";
+
   public static final String SIGNATUREREQUESTSTATE = "getSignatureRequestState";
 
   public static final String SIGNEDFILEOFSIGNATUREREQUEST = "getSignedFileOfSignatureRequest";
@@ -42,7 +44,7 @@ public interface ApiFirmaAsyncSimple {
    * @throws AbstractFirmaAsyncSimpleException
    */
   public List<FirmaAsyncSimpleKeyValue> getAvailableLanguages(String languageUI)
-      throws AbstractFirmaAsyncSimpleException;
+      throws AbstractApisIBException;
 
   /**
    * 
@@ -50,7 +52,7 @@ public interface ApiFirmaAsyncSimple {
    * @throws Exception
    */
   public List<FirmaAsyncSimpleAvailableProfile> getAvailableProfiles(String languageUI)
-      throws AbstractFirmaAsyncSimpleException;
+      throws AbstractApisIBException;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -59,7 +61,7 @@ public interface ApiFirmaAsyncSimple {
   // -------------------------------------------------------------------
 
   public List<FirmaAsyncSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(
-      String languageUI) throws AbstractFirmaAsyncSimpleException;
+      String languageUI) throws AbstractApisIBException;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -68,15 +70,19 @@ public interface ApiFirmaAsyncSimple {
   // -------------------------------------------------------------------
 
   public long createAndStartSignatureRequest(FirmaAsyncSimpleSignatureRequest signatureRequest)
-      throws AbstractFirmaAsyncSimpleException;
+      throws AbstractApisIBException;
+
+  public long createAndStartSignatureRequestWithFlowTemplateCode(
+      FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
+      throws AbstractApisIBException;
 
   public FirmaAsyncSimpleSignatureRequestState getSignatureRequestState(
-      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractFirmaAsyncSimpleException;
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
 
   public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(
-      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractFirmaAsyncSimpleException;
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException;
 
   public void deleteSignatureRequest(FirmaAsyncSimpleSignatureRequestInfo info)
-      throws AbstractFirmaAsyncSimpleException;
+      throws AbstractApisIBException;
 
 }

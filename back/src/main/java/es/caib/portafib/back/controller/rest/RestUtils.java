@@ -38,7 +38,6 @@ public class RestUtils {
     return headers;
   }
   
-  
   protected String autenticate(HttpServletRequest request) {
 
     try {

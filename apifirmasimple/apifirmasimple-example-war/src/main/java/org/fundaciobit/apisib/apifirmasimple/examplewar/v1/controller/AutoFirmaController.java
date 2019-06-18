@@ -37,7 +37,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.AbstractFirmaSimpleException;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -90,9 +90,9 @@ public class AutoFirmaController {
     AutoFirmaForm form = new AutoFirmaForm();
     
     ApiFirmaWebSimple apiWeb = ApiFirmaWebCache.getApiFirmaWebSimple();
-    form.setProfilesWeb(apiWeb.getAvailableProfiles("ca").getAvailableProfiles());
+    form.setProfilesWeb(apiWeb.getAvailableProfiles("ca"));
     ApiFirmaEnServidorSimple apiServidor = ApiFirmaEnServidorCache.getApiFirmaEnServidorSimple();
-    form.setProfilesServer(apiServidor.getAvailableProfiles("ca").getAvailableProfiles());
+    form.setProfilesServer(apiServidor.getAvailableProfiles("ca"));
 
     final String txt = "Per petició de firma pròpia";
     // form.setTitol(txt);
@@ -283,7 +283,7 @@ public class AutoFirmaController {
         return finalProcesDeFirmaServer(request, response, fullResults, peticions);
 
       } // Final if -Web-EnServidor
-    } catch (AbstractFirmaSimpleException e) {
+    } catch (AbstractApisIBException e) {
       
       log.error(e.getMessage(), e);
 

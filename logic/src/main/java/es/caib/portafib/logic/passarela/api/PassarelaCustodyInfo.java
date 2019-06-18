@@ -13,26 +13,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PassarelaCustodyInfo {
 
-  String custodyFileID = null;
-  String custodyFileURL = null;
-  String custodyFileCSV = null;
-  String custodyFileCSVValidationWeb = null;
-  String custodyFileCSVGenerationDefinition = null;
+  protected String custodyFileID = null;
+  protected String custodyFileURL = null;
+  protected String custodyFileCSV = null;
+  protected String custodyFileCSVValidationWeb = null;
+  protected String custodyFileCSVGenerationDefinition = null;
+
+  protected String custodyFileOriginalFileDirectURL = null;
+  protected String custodyFilePrintableFileDirectUrl = null;
+  protected String custodyFileEniFileDirectUrl = null;
 
   public PassarelaCustodyInfo() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   public PassarelaCustodyInfo(String custodyFileID, String custodyFileURL,
       String custodyFileCSV, String custodyFileCSVValidationWeb,
-      String custodyFileCSVGenerationDefinition) {
+      String custodyFileCSVGenerationDefinition, String custodyFileOriginalFileDirectURL,
+      String custodyFilePrintableFileDirectUrl, String custodyFileEniFileDirectUrl) {
     super();
     this.custodyFileID = custodyFileID;
     this.custodyFileURL = custodyFileURL;
     this.custodyFileCSV = custodyFileCSV;
     this.custodyFileCSVValidationWeb = custodyFileCSVValidationWeb;
     this.custodyFileCSVGenerationDefinition = custodyFileCSVGenerationDefinition;
+    this.custodyFileOriginalFileDirectURL = custodyFileOriginalFileDirectURL;
+    this.custodyFilePrintableFileDirectUrl = custodyFilePrintableFileDirectUrl;
+    this.custodyFileEniFileDirectUrl = custodyFileEniFileDirectUrl;
   }
 
   public String getCustodyFileID() {
@@ -73,6 +80,30 @@ public class PassarelaCustodyInfo {
 
   public void setCustodyFileCSVGenerationDefinition(String custodyFileCSVGenerationDefinition) {
     this.custodyFileCSVGenerationDefinition = custodyFileCSVGenerationDefinition;
+  }
+
+  public String getCustodyFileOriginalFileDirectURL() {
+    return custodyFileOriginalFileDirectURL;
+  }
+
+  public void setCustodyFileOriginalFileDirectURL(String custodyFileOriginalFileDirectURL) {
+    this.custodyFileOriginalFileDirectURL = custodyFileOriginalFileDirectURL;
+  }
+
+  public String getCustodyFilePrintableFileDirectUrl() {
+    return custodyFilePrintableFileDirectUrl;
+  }
+
+  public void setCustodyFilePrintableFileDirectUrl(String custodyFilePrintableFileDirectUrl) {
+    this.custodyFilePrintableFileDirectUrl = custodyFilePrintableFileDirectUrl;
+  }
+
+  public String getCustodyFileEniFileDirectUrl() {
+    return custodyFileEniFileDirectUrl;
+  }
+
+  public void setCustodyFileEniFileDirectUrl(String custodyFileEniFileDirectUrl) {
+    this.custodyFileEniFileDirectUrl = custodyFileEniFileDirectUrl;
   }
 
 }

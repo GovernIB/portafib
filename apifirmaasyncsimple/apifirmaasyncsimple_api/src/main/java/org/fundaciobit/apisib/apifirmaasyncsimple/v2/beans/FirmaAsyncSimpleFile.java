@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.fundaciobit.apisib.core.beans.ApisIBFile;
+
 /**
  * 
  * @author anadal
@@ -11,13 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaAsyncSimpleFile {
-
-  protected java.lang.String nom;
-
-  protected java.lang.String mime;
-
-  protected byte[] data;
+public class FirmaAsyncSimpleFile extends ApisIBFile {
 
   /** Constructor Buit */
   public FirmaAsyncSimpleFile() {
@@ -25,33 +21,13 @@ public class FirmaAsyncSimpleFile {
 
   /** Constructor amb tots els camps */
   public FirmaAsyncSimpleFile(java.lang.String nom, java.lang.String mime, byte[] data) {
-    this.nom = nom;
-    this.mime = mime;
-    this.data = data;
+    super(nom, mime, data);
   }
 
-  public java.lang.String getNom() {
-    return (nom);
-  };
-
-  public void setNom(java.lang.String _nom_) {
-    this.nom = _nom_;
-  };
-
-  public java.lang.String getMime() {
-    return (mime);
-  };
-
-  public void setMime(java.lang.String _mime_) {
-    this.mime = _mime_;
-  };
-
-  public byte[] getData() {
-    return data;
+  public FirmaAsyncSimpleFile(ApisIBFile apisibfile) {
+    super(apisibfile);
   }
 
-  public void setData(byte[] data) {
-    this.data = data;
-  }
-
+  
+  
 }

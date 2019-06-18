@@ -1,12 +1,15 @@
 package org.fundaciobit.apisib.apifirmasimple.v1;
 
+import java.util.List;
+
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 
 /**
  * 
@@ -38,7 +41,7 @@ public interface ApiFirmaWebSimple {
    * @return Retorna l'ID de la transacció
    * @throws Exception
    */
-  public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws Exception;
+  public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws AbstractApisIBException;
 
   /**
    * 
@@ -46,7 +49,7 @@ public interface ApiFirmaWebSimple {
    * @throws Exception
    */
   public void addFileToSign(FirmaSimpleAddFileToSignRequest fileInfoSignatureHolder)
-      throws Exception;
+      throws AbstractApisIBException;
 
   /**
    *
@@ -55,7 +58,7 @@ public interface ApiFirmaWebSimple {
    * @throws Exception
    */
   public String startTransaction(FirmaSimpleStartTransactionRequest startTransactionInfo)
-      throws Exception;
+      throws AbstractApisIBException;
 
   /**
    * Retorna l'estat de la transacció.
@@ -66,7 +69,7 @@ public interface ApiFirmaWebSimple {
    */
 
   public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(String transactionID)
-      throws Exception;
+      throws AbstractApisIBException;
 
   /**
    * Retorna el resultat i les fitxers signats de les firmes enviades.
@@ -76,20 +79,20 @@ public interface ApiFirmaWebSimple {
    * @throws Exception
    */
   public FirmaSimpleSignatureResult getSignatureResult(
-      FirmaSimpleGetSignatureResultRequest transactionID) throws Exception;
+      FirmaSimpleGetSignatureResultRequest transactionID) throws AbstractApisIBException;
 
   /**
    * 
    * @param transactionID
    * @throws Exception
    */
-  public void closeTransaction(String transactionID) throws Exception;
+  public void closeTransaction(String transactionID) throws AbstractApisIBException;
 
   /**
    * 
    * @return
    * @throws Exception
    */
-  public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception;
+  public List<FirmaSimpleAvailableProfile> getAvailableProfiles(String languageUI) throws AbstractApisIBException;
 
 }

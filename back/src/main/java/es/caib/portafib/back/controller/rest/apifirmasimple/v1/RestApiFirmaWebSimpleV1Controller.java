@@ -7,6 +7,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
@@ -60,7 +61,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = RestApiFirmaWebSimpleV1Controller.CONTEXT)
-public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
+public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<FirmaSimpleKeyValue> {
 
   final boolean esFirmaEnServidor = false;
 
@@ -142,9 +143,7 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaUtils {
   public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
       @RequestBody String locale) {
 
-    final boolean esFirmaEnServidor = false;
-
-    return internalGetAvailableProfiles(request, locale, esFirmaEnServidor);
+    return internalGetAvailableProfiles(request, locale);
 
   }
 

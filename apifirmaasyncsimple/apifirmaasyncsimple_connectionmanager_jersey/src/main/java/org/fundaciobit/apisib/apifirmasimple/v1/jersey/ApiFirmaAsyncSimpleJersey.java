@@ -5,12 +5,15 @@ import java.util.List;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleError;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.exceptions.AbstractFirmaAsyncSimpleException;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -20,7 +23,8 @@ import com.sun.jersey.api.client.GenericType;
  * @author anadal
  *
  */
-public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey implements
+public class ApiFirmaAsyncSimpleJersey extends
+    AbstractApisIBConnectionManagerJersey<FirmaAsyncSimpleError> implements
     ApiFirmaAsyncSimple {
 
   /**
@@ -46,7 +50,7 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
    */
   @Override
   public List<FirmaAsyncSimpleAvailableProfile> getAvailableProfiles(String languageUI)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
 
     ClientResponse response = commonCall(languageUI, AVAILABLEPROFILES);
 
@@ -59,7 +63,7 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
 
   @Override
   public List<FirmaAsyncSimpleKeyValue> getAvailableLanguages(String languageUI)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
     ClientResponse response = commonCall(languageUI, AVAILABLELANGUAGES);
 
     List<FirmaAsyncSimpleKeyValue> result = response
@@ -71,7 +75,7 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
 
   @Override
   public List<FirmaAsyncSimpleDocumentTypeInformation> getAvailableTypesOfDocuments(
-      String languageUI) throws AbstractFirmaAsyncSimpleException {
+      String languageUI) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(languageUI, AVAILABLETYPESOFDOCUMENTS);
 
@@ -85,7 +89,7 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
 
   @Override
   public long createAndStartSignatureRequest(FirmaAsyncSimpleSignatureRequest signatureRequest)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
     ClientResponse response = commonCall(signatureRequest, CREATEANDSTARTSIGNATUREREQUEST);
 
     Long peticioID = response.getEntity(Long.class);
@@ -94,8 +98,20 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
   }
 
   @Override
+  public long createAndStartSignatureRequestWithFlowTemplateCode(
+      FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
+      throws AbstractApisIBException {
+    ClientResponse response = commonCall(signatureRequest,
+        CREATEANDSTARTSIGNATUREREQUESTWITHFLOWTEMPLATECODE);
+
+    Long peticioID = response.getEntity(Long.class);
+
+    return peticioID;
+  }
+
+  @Override
   public FirmaAsyncSimpleSignatureRequestState getSignatureRequestState(
-      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractFirmaAsyncSimpleException {
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(info, SIGNATUREREQUESTSTATE);
 
@@ -107,7 +123,7 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
 
   @Override
   public FirmaAsyncSimpleSignedFile getSignedFileOfSignatureRequest(
-      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractFirmaAsyncSimpleException {
+      FirmaAsyncSimpleSignatureRequestInfo info) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(info, SIGNEDFILEOFSIGNATUREREQUEST);
 
@@ -119,10 +135,15 @@ public class ApiFirmaAsyncSimpleJersey extends AbstractApiFirmaAsyncSimpleJersey
 
   @Override
   public void deleteSignatureRequest(FirmaAsyncSimpleSignatureRequestInfo info)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
 
     commonCall(info, DELETESIGNATUREREQUEST);
 
+  }
+
+  @Override
+  protected Class<FirmaAsyncSimpleError> getErrorClass() {
+    return FirmaAsyncSimpleError.class;
   }
 
 }

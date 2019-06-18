@@ -12,6 +12,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentRes
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignDocumentsResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignerInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
@@ -68,7 +69,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = RestApiFirmaEnServidorSimpleV1Controller.CONTEXT)
-public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils {
+public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaSimpleUtils<FirmaSimpleKeyValue> {
 
   public static final String CONTEXT = "/common/rest/apifirmaenservidorsimple/v1";
 
@@ -579,11 +580,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
     final int signaturesTableLocation = fileInfo.getSignaturesTableLocation();
     final boolean timeStampIncluded = fileInfo.isUseTimeStamp();
 
-    // XYZ ZZZ  S'ha d'omplir ?????
-    final String eniRolFirma = null;
-    final String eniSignerName = null;
-    final String eniSignerAdministrationId = null;
-    final String eniSignLevel = null;
+
 
     FirmaSimpleSignedFileInfo signatureFileInfo;
 
@@ -672,13 +669,15 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
 //        validationInfo.setCheckValidationSignature(false);
 //      }
 
-      List<FirmaSimpleKeyValue> additionInformation = null;
+      
       FirmaSimpleCustodyInfo custodyInfo = null;
+      
+      // XYZ ZZZ ZZZ  S'ha d'omplir ?????
+      FirmaSimpleSignerInfo signerInfo = null;
 
       signatureFileInfo = new FirmaSimpleSignedFileInfo(signOperation, signType,
           signAlgorithm, signMode, signaturesTableLocation, timeStampIncluded, policyIncluded,
-          eniTipoFirma, eniPerfilFirma, eniRolFirma, eniSignerName, eniSignerAdministrationId,
-          eniSignLevel, custodyInfo, validationInfo, additionInformation);
+          eniTipoFirma, eniPerfilFirma, signerInfo, custodyInfo, validationInfo);
 
     }
     return signatureFileInfo;
@@ -689,13 +688,12 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends RestApiFirmaUtils 
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> getAvailableProfiles(HttpServletRequest request,
-      @RequestBody String locale) {
+      @RequestBody String languageUI) {
 
-    final boolean esFirmaEnServidor = true;
 
-    log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => " + locale);
+    log.info("XYZ ZZZ REST_SERVIDOR:: getAvailableProfiles() => " + languageUI);
 
-    return internalGetAvailableProfiles(request, locale, esFirmaEnServidor);
+    return internalGetAvailableProfiles(request, languageUI);
 
   }
   

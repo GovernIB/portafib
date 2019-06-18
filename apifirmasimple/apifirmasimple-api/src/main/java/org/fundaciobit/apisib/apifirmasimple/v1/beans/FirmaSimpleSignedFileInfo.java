@@ -1,7 +1,5 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.beans;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -47,7 +45,7 @@ public class FirmaSimpleSignedFileInfo {
    */
   public static final int SIGN_MODE_IMPLICIT_ATTACHED = 0;
   /*
-   * explicit La firma resultante no incluirá los datos firmados. 
+   * explicit La firma resultante no incluirá los datos firmados.
    */
   public static final int SIGN_MODE_EXPLICIT_DETACHED = 1;
 
@@ -110,29 +108,7 @@ public class FirmaSimpleSignedFileInfo {
    */
   protected String eniPerfilFirma;
 
-  /**
-   * - eEMGDE.Firma.RolFirma (eEMGDE17.2): Esquemas desarrollados a nivel local y que pueden
-   * incluir valores como válida, autentica, refrenda, visa, representa, testimonia, etc..
-   */
-  protected String eniRolFirma;
-
-  /**
-   * eEMGDE.Firma.Firmante.NombreApellidos (eEMGDE17.5.1): Texto libre. Nombre o razón social
-   * de los firmantes.
-   */
-  protected String eniSignerName;
-
-  /**
-   * eEMGDE.Firma.Firmante (eEMGDE17.5.2). NúmeroIdentificacionFirmantes
-   */
-  protected String eniSignerAdministrationId;
-
-  /**
-   * eEMGDE.Firma.NivelFirma (eEMGDE17.5.4) Indicador normalizado que refleja el grado de
-   * confianza de la firma utilizado. Ejemplos: Nick, PIN ciudadano, Firma electrónica
-   * avanzada, Claves concertadas, Firma electrónica avanzada basada en certificados, CSV, ..
-   */
-  protected String eniSignLevel;
+  protected FirmaSimpleSignerInfo signerInfo;
 
   /**
    * Informacio de Custòdia
@@ -144,22 +120,15 @@ public class FirmaSimpleSignedFileInfo {
    */
   protected FirmaSimpleValidationInfo validationInfo = null;
 
-  /**
-   * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra información que se
-   * considere útil acerca del firmante.
-   * */
-  protected List<FirmaSimpleKeyValue> additionInformation = null;
-
   public FirmaSimpleSignedFileInfo() {
     super();
   }
 
   public FirmaSimpleSignedFileInfo(int signOperation, String signType, String signAlgorithm,
       Integer signMode, int signaturesTableLocation, boolean timeStampIncluded,
-      boolean policyIncluded, String eniTipoFirma, String eniPerfilFirma, String eniRolFirma,
-      String eniSignerName, String eniSignerAdministrationId, String eniSignLevel,
-      FirmaSimpleCustodyInfo custodyInfo, FirmaSimpleValidationInfo validationInfo,
-      List<FirmaSimpleKeyValue> additionInformation) {
+      boolean policyIncluded, String eniTipoFirma, String eniPerfilFirma,
+      FirmaSimpleSignerInfo signerInfo, FirmaSimpleCustodyInfo custodyInfo,
+      FirmaSimpleValidationInfo validationInfo) {
     super();
     this.signOperation = signOperation;
     this.signType = signType;
@@ -170,13 +139,9 @@ public class FirmaSimpleSignedFileInfo {
     this.policyIncluded = policyIncluded;
     this.eniTipoFirma = eniTipoFirma;
     this.eniPerfilFirma = eniPerfilFirma;
-    this.eniRolFirma = eniRolFirma;
-    this.eniSignerName = eniSignerName;
-    this.eniSignerAdministrationId = eniSignerAdministrationId;
-    this.eniSignLevel = eniSignLevel;
+    this.signerInfo = signerInfo;
     this.custodyInfo = custodyInfo;
     this.validationInfo = validationInfo;
-    this.additionInformation = additionInformation;
   }
 
   public int getSignOperation() {
@@ -251,36 +216,12 @@ public class FirmaSimpleSignedFileInfo {
     this.eniPerfilFirma = eniPerfilFirma;
   }
 
-  public String getEniRolFirma() {
-    return eniRolFirma;
+  public FirmaSimpleSignerInfo getSignerInfo() {
+    return signerInfo;
   }
 
-  public void setEniRolFirma(String eniRolFirma) {
-    this.eniRolFirma = eniRolFirma;
-  }
-
-  public String getEniSignerName() {
-    return eniSignerName;
-  }
-
-  public void setEniSignerName(String eniSignerName) {
-    this.eniSignerName = eniSignerName;
-  }
-
-  public String getEniSignerAdministrationId() {
-    return eniSignerAdministrationId;
-  }
-
-  public void setEniSignerAdministrationId(String eniSignerAdministrationId) {
-    this.eniSignerAdministrationId = eniSignerAdministrationId;
-  }
-
-  public String getEniSignLevel() {
-    return eniSignLevel;
-  }
-
-  public void setEniSignLevel(String eniSignLevel) {
-    this.eniSignLevel = eniSignLevel;
+  public void setSignerInfo(FirmaSimpleSignerInfo signerInfo) {
+    this.signerInfo = signerInfo;
   }
 
   public FirmaSimpleCustodyInfo getCustodyInfo() {
@@ -299,32 +240,24 @@ public class FirmaSimpleSignedFileInfo {
     this.validationInfo = validationInfo;
   }
 
-  public List<FirmaSimpleKeyValue> getAdditionInformation() {
-    return additionInformation;
-  }
-
-  public void setAdditionInformation(List<FirmaSimpleKeyValue> additionInformation) {
-    this.additionInformation = additionInformation;
-  }
-
   public static String toString(FirmaSimpleSignedFileInfo sfi) {
     StringBuffer str = new StringBuffer("  + INFORMACIO:");
 
     String operation;
     switch (sfi.getSignOperation()) {
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_SIGN:
-      operation = "FIRMA";
+      case FirmaSimpleSignedFileInfo.SIGN_OPERATION_SIGN:
+        operation = "FIRMA";
       break;
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COSIGN:
-      operation = "COFIRMA";
-      break;
-
-    case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COUNTERSIGN:
-      operation = "CONTRAFIRMA";
+      case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COSIGN:
+        operation = "COFIRMA";
       break;
 
-    default:
-      operation = "DESCONEGUDA (" + sfi.getSignOperation() + ")";
+      case FirmaSimpleSignedFileInfo.SIGN_OPERATION_COUNTERSIGN:
+        operation = "CONTRAFIRMA";
+      break;
+
+      default:
+        operation = "DESCONEGUDA (" + sfi.getSignOperation() + ")";
     }
     str.append("\n").append("      * Operacio:\t" + operation);
 
@@ -333,28 +266,28 @@ public class FirmaSimpleSignedFileInfo {
     str.append("\n").append("      * Algorisme:\t" + sfi.getSignAlgorithm());
 
     str.append("\n").append("      * Mode:\t");
-    if(sfi.getSignMode() == null) {
+    if (sfi.getSignMode() == null) {
       str.append("NULL");
     } else {
       str.append((sfi.getSignMode() == FirmaSimpleSignedFileInfo.SIGN_MODE_IMPLICIT_ATTACHED) ? "Attached - Implicit"
-                : "Detached- Explicit");
+          : "Detached- Explicit");
     }
 
     String posicioTaulaDeFirmes;
     switch (sfi.getSignaturesTableLocation()) {
 
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_WITHOUT:
-      posicioTaulaDeFirmes = "Sense taula de Firmes";
+      case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_WITHOUT:
+        posicioTaulaDeFirmes = "Sense taula de Firmes";
       break;
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_FIRSTPAGE:
-      posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
+      case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_FIRSTPAGE:
+        posicioTaulaDeFirmes = "Taula de Firmes en la primera pagina";
       break;
-    case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_LASTPAGE:
-      posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
+      case FirmaSimpleSignedFileInfo.SIGNATURESTABLELOCATION_LASTPAGE:
+        posicioTaulaDeFirmes = "Taula de Firmes en la darrera pagina";
       break;
 
-    default:
-      posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";
+      default:
+        posicioTaulaDeFirmes = "Desconeguda(" + sfi.getSignaturesTableLocation() + ")";
 
     }
     str.append("\n").append("      * Posicio Taula De Firmes:\t" + posicioTaulaDeFirmes);
@@ -365,25 +298,28 @@ public class FirmaSimpleSignedFileInfo {
 
     str.append("\n").append("      * eniTipoFirma:\t" + sfi.getEniTipoFirma());
     str.append("\n").append("      * eniPerfilFirma:\t" + sfi.getEniPerfilFirma());
-    str.append("\n").append("      * eniRolFirma:\t" + sfi.getEniRolFirma());
-    str.append("\n").append("      * eniSignerName:\t" + sfi.getEniSignerName());
-    str.append("\n").append(
-        "      * eniSignerAdministrationId:\t" + sfi.getEniSignerAdministrationId());
-    str.append("\n").append("      * eniSignLevel:\t" + sfi.getEniSignLevel());
+    if (sfi.getSignerInfo() != null) {
+      str.append("\n").append("      * Informacio del Firmant:\t");
+      str.append("\n").append(sfi.getSignerInfo().toString());
+    }
 
     FirmaSimpleCustodyInfo custody = sfi.getCustodyInfo();
 
     if (custody != null) {
 
       str.append("\n").append("  + CUSTODIA:");
-      str.append("\n").append("      * custodyFileID: " + custody.getCustodyFileID());
-      str.append("\n").append("      * custodyFileURL: " + custody.getCustodyFileURL());
-      str.append("\n").append("      * custodyFileCSV: " + custody.getCustodyFileCSV());
+      str.append("\n").append("      * custodyID: " + custody.getCustodyID());
+      str.append("\n").append("      * CSV: " + custody.getCsv());
+      str.append("\n").append("      * CSVValidationWeb: " + custody.getCsvValidationWeb());
+      str.append("\n").append("      * ValidationFileUrl: " + custody.getValidationFileUrl());
       str.append("\n").append(
-          "      * custodyFileCSVValidationWeb: " + custody.getCustodyFileCSVValidationWeb());
+          "      * CSVGenerationDefinition(eEMGDE17.4): "
+              + custody.getCsvGenerationDefinition());
       str.append("\n").append(
-          "      * custodyFileCSVGenerationDefinition: "
-              + custody.getCustodyFileCSVGenerationDefinition());
+          "      * originalFileDirectURL: " + custody.getOriginalFileDirectURL());
+      str.append("\n").append(
+          "      * printableFileDirectUrl: " + custody.getPrintableFileDirectUrl());
+      str.append("\n").append("      * eniFileDirectUrl: " + custody.getEniFileDirectUrl());
     }
 
     FirmaSimpleValidationInfo validationInfo = sfi.getValidationInfo();
@@ -399,24 +335,12 @@ public class FirmaSimpleSignedFileInfo {
       str.append("\n").append(
           "      * CheckValidationSignature: "
               + null2Str(validationInfo.getCheckValidationSignature()));
-      
+
       if (validationInfo.getNoCheckValidationReason() != null) {
         str.append("\n").append(
-            "      * No Validation reason: "
-                + validationInfo.getNoCheckValidationReason());
+            "      * No Validation reason: " + validationInfo.getNoCheckValidationReason());
       }
-      
-    }
 
-    List<FirmaSimpleKeyValue> additionInformation = sfi.getAdditionInformation();
-
-    if (additionInformation != null && additionInformation.size() != 0) {
-      str.append("\n").append("  + INFORMACIO ADDICIONAL:");
-      for (FirmaSimpleKeyValue firmaSimpleKeyValue : additionInformation) {
-        str.append("\n").append(
-            "      * KEY[" + firmaSimpleKeyValue.getKey() + "]: "
-                + firmaSimpleKeyValue.getValue());
-      }
     }
 
     return str.toString();

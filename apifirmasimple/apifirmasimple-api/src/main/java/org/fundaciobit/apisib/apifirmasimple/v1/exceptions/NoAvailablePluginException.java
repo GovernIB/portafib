@@ -1,11 +1,13 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.exceptions;
 
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+
 /**
  * 
  * @author anadal
  *
  */
-public class NoAvailablePluginException extends AbstractFirmaSimpleException {
+public class NoAvailablePluginException extends AbstractApisIBException {
 
   /**
    * 

@@ -1,12 +1,23 @@
 package es.caib.portafib.back.controller.rest;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 
+import org.fundaciobit.apisib.core.beans.ApisIBAvailableProfile;
+import org.fundaciobit.apisib.core.beans.ApisIBError;
+import org.fundaciobit.apisib.core.beans.ApisIBKeyValue;
+import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -25,16 +36,42 @@ import es.caib.portafib.utils.ConstantsV2;
  * @author anadal(u80067)
  *
  */
-public class RestFirmaUtils extends RestUtils {
+public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtils {
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilDeFirmaLocal perfilDeFirmaEjb;
-  
+
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+
+  public ResponseEntity<ApisIBError> generateServerError(String msg) {
+    return generateServerError(msg, null, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  public ResponseEntity<ApisIBError> generateServerError(String msg, HttpStatus status) {
+    return generateServerError(msg, null, status);
+  }
+
+  public ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th) {
+    return generateServerError(msg, th, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  public ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th,
+      HttpStatus status) {
+    String sStackTrace = null;
+    if (th != null) {
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      th.printStackTrace(pw);
+      sStackTrace = sw.toString();
+    }
+
+    return new ResponseEntity<ApisIBError>(new ApisIBError(msg,
+        ApisIBServerException.class.getName(), sStackTrace), status);
+  }
 
   /**
    *
@@ -120,8 +157,7 @@ public class RestFirmaUtils extends RestUtils {
     }
     return useTimeStamp;
   }
-  
-  
+
   protected String getAlgorismeDeFirmaOfConfig(final UsuariAplicacioConfiguracio config,
       EntitatJPA entitatJPA) throws I18NException {
     int signAlgorithmID = getAlgorismeDeFirmaIDOfConfig(config, entitatJPA);
@@ -143,8 +179,7 @@ public class RestFirmaUtils extends RestUtils {
     log.info(" XYZ ZZZ REST: SIGN_ALGO [signAlgorithmID] = " + signAlgorithmID);
     return signAlgorithmID;
   }
-  
-  
+
   public static int getSignaturesTableLocationOfConfig(final String usuariAplicacioID,
       final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
     final int signaturesTableLocation; // =
@@ -182,8 +217,9 @@ public class RestFirmaUtils extends RestUtils {
 
         default:
           // XYZ ZZZ Traduir
-          throw new I18NException("genapp.comodi","Politica de Taules de Firmes desconeguda ("
-              + politicaTaulaDeFirmes + ") en usuari aplicació " + usuariAplicacioID);
+          throw new I18NException("genapp.comodi",
+              "Politica de Taules de Firmes desconeguda (" + politicaTaulaDeFirmes
+                  + ") en usuari aplicació " + usuariAplicacioID);
       }
 
     } else {
@@ -193,9 +229,9 @@ public class RestFirmaUtils extends RestUtils {
     return signaturesTableLocation;
   }
 
-  
-  protected PassarelaPolicyInfoSignature getPoliticaFirmaOfConfig(final String usuariAplicacioID,
-      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
+  protected PassarelaPolicyInfoSignature getPoliticaFirmaOfConfig(
+      final String usuariAplicacioID, final UsuariAplicacioConfiguracio config,
+      EntitatJPA entitatJPA) throws I18NException {
     final PassarelaPolicyInfoSignature policyInfoSignature;
     {
       int usPoliticaDeFirma = config.getUsPoliticaDeFirma();
@@ -229,13 +265,14 @@ public class RestFirmaUtils extends RestUtils {
         // 2 => L'usuari web o usuari-app elegeixen la politica de firma
         case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
           // XYZ ZZZ Traduir
-          throw new I18NException("genapp.comodi","Ús de Politica de Firma no suportada en API Firma Simple ("
-              + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
+          throw new I18NException("genapp.comodi",
+              "Ús de Politica de Firma no suportada en API Firma Simple (" + usPoliticaDeFirma
+                  + ") en usuari aplicació " + usuariAplicacioID);
 
         default:
           // XYZ ZZZ Traduir
-          throw new I18NException("genapp.comodi","Ús de Politica de Firma desconeguda (" + usPoliticaDeFirma
-              + ") en usuari aplicació " + usuariAplicacioID);
+          throw new I18NException("genapp.comodi", "Ús de Politica de Firma desconeguda ("
+              + usPoliticaDeFirma + ") en usuari aplicació " + usuariAplicacioID);
 
       }
     }
@@ -246,6 +283,59 @@ public class RestFirmaUtils extends RestUtils {
           + policyInfoSignature.getPolicyUrlDocument() + ")");
     }
     return policyInfoSignature;
+  }
+  
+  
+
+  
+  public ResponseEntity<?> internalGetAvailableProfiles(HttpServletRequest request,
+      String locale) {
+    String error = autenticate(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+      
+
+      
+     // FALTA ELEGIR ELS PERFILS QUE TENGUIN API_PORTAFIB_WS_V2
+      Where w = null;
+      List<PerfilDeFirma> perfils = commonAvailableProfiles(w);
+      
+      List<ApisIBAvailableProfile<K>> list = new ArrayList<ApisIBAvailableProfile<K>>();
+
+      for (PerfilDeFirma perfil : perfils) {
+
+        String codiPerfil = perfil.getCodi();
+
+        String descripcio = perfil.getDescripcio();
+
+        // Falta llegir-ho de la BBDD
+        ApisIBAvailableProfile<K> ap = new ApisIBAvailableProfile<K>(codiPerfil,
+            perfil.getNom(), descripcio, null);
+
+        list.add(ap);
+      }
+      
+      
+
+      HttpHeaders headers = addAccessControllAllowOrigin();
+      ResponseEntity<?> re = new ResponseEntity<List<ApisIBAvailableProfile<K>>>(list, headers,
+          HttpStatus.OK);
+
+      return re;
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ Traduir
+      String msg = "Error desconegut retornant el perfils d'un usuari aplicacio: "
+          + th.getMessage();
+
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
   }
 
 

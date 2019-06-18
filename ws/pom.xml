@@ -40,37 +40,6 @@
     </profile>
 
     <profile>
-      <id>ws-portafib-v2</id>
-      <modules>
-        <module>portafib_server</module>
-        <!--  FALTA XYZ ZZZ
-        <module>portafib_api_v2</module>
-        <module>portafib_api_v2_example</module>
-        -->
-      </modules>
-    </profile>
-
-    <profile>
-      <id>passarelaweb-v2</id>
-      <modules>
-        <module>portafib_server</module>
-        <!--  FALTA XYZ ZZZ
-        <module>portafib_api_passarela_web_v2</module>
-        -->
-      </modules>
-    </profile>
-
-    <profile>
-      <id>passarelaserver-v2</id>
-      <modules>
-        <module>portafib_server</module>
-        <!--  FALTA XYZ ZZZ
-        <module>portafib_api_passarela_servidor_v2</module>
-        -->
-      </modules>
-    </profile>
-
-    <profile>
       <id>passarelaweb-v1</id>
       <modules>
         <module>portafib_server</module>

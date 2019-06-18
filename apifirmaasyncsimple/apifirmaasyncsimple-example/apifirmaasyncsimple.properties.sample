@@ -5,29 +5,25 @@ endpoint=http://10.215.216.175:8080/portafib/common/rest/apifirmaasyncsimple/v2/
 username=fundaciobit_rest
 password=fundaciobit_rest
 
-# Entorn CAIB
-#username=caibapp
-#password=caibapp
-
 fitxerAFirmar.name=./testfiles/hola.pdf
 fitxerAFirmar.mime=application/pdf
-
-#fileToSign.name=./testfiles/hola_3mb.pdf
-#fileToSign.mime=application/pdf
 
 fitxerAAnnexar.name=./testfiles/annex.txt
 fitxerAAnnexar.mime=text/plain
 
 PROFILE=PROFILE_PADES
 
+# Plantilla de Firmes (si aquesta està definida, no utilitza ni nifsDestinataris ni nifRevisor)
+#plantillaDeFirmes=208694
+
 # NIFs separats per comes
-nifsDestinataris=12345678C
+nifsDestinataris=123456789C
 
-# Revisor (s'afegirà  a cada firma)
-nifRevisor=12345678C
+# Revisor (s'afegirà a cada firma)
+# nifRevisor=123456789C
 
-# Esperar a que es firmi
-waittosign=false
+# Esperar a que es firmi?
+waittosign=true
 
 # Esborrar peticio de Firma al final
 deleteonfinish=false

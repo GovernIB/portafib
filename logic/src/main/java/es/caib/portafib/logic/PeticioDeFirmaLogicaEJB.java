@@ -1667,10 +1667,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     }
 
     // Si arribem aqui significa que ja no hi ha més blocs i el proces
-    // de firma ha finalitzat, per la qual cosa marcam la peticio con
+    // de firma ha finalitzat, per la qual cosa marcam la peticio com
     // finalitzada
 
-    log.debug("   == JA NO HI HA MÉS BLOCS: marcam la peticio con finalitzada");
+    log.debug("   == JA NO HI HA MÉS BLOCS: marcam la peticio com finalitzada");
     // Marcam la petició com Firmada
     peticioDeFirma.setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT);
     peticioDeFirma.setDataFinal(now);
@@ -1681,7 +1681,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     bitacolaLogicaEjb.createBitacola("Petició finalitzada",
             peticioDeFirma.getPeticioDeFirmaID(),
-            estatDeFirma.getUsuariEntitatID(), null);
+            estatDeFirma== null? null:estatDeFirma.getUsuariEntitatID(), null);
 
     return true;
   }

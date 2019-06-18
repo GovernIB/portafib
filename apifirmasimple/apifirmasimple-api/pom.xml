@@ -17,6 +17,14 @@
 
   <properties>
   </properties>
+  
+   <dependencies>
+    <dependency>
+      <groupId>org.fundaciobit.apisib</groupId>
+      <artifactId>apisib-core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <pluginManagement>

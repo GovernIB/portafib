@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.EstatDeFirmaLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
+import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 
@@ -36,5 +37,8 @@ public interface EstatDeFirmaLogicaLocal extends EstatDeFirmaLocal {
 
   public Map<String, List<Long>> getAvisosUsuariEntitat(String usuariEntitatID,
       String entitatID, Set<String> roles) throws I18NException;
+  
+  public List<FirmaJPA> getFirmesWithEstatDeFirmaFirmatOfPeticio(long peticioDeFirmaID)
+      throws I18NException;
 
 }

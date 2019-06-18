@@ -1,8 +1,12 @@
 package org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.fundaciobit.apisib.core.beans.ApisIBAvailableProfile;
 
 /**
  * 
@@ -11,47 +15,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaAsyncSimpleAvailableProfile {
-
-  protected String code;
-
-  protected String name;
-
-  protected String description;
+public class FirmaAsyncSimpleAvailableProfile extends ApisIBAvailableProfile<FirmaAsyncSimpleKeyValue> {
 
   public FirmaAsyncSimpleAvailableProfile() {
     super();
   }
 
-  public FirmaAsyncSimpleAvailableProfile(String code, String name, String description) {
-    super();
-    this.code = code;
-    this.name = name;
-    this.description = description;
+  public FirmaAsyncSimpleAvailableProfile(String code, String name, String description,
+      List<FirmaAsyncSimpleKeyValue> properties) {
+    super(code, name, description, properties);
   }
 
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+  public FirmaAsyncSimpleAvailableProfile(
+      ApisIBAvailableProfile<FirmaAsyncSimpleKeyValue> availableProfile) {
+    super(availableProfile);
   }
 
 }

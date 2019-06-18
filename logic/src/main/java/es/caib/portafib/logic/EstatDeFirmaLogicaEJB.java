@@ -5,6 +5,7 @@ import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.ejb.EstatDeFirmaEJB;
 import es.caib.portafib.ejb.PeticioDeFirmaLocal;
 import es.caib.portafib.jpa.EstatDeFirmaJPA;
+import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.Firma;
@@ -32,6 +33,8 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.query.SubQuery;
 import org.fundaciobit.genapp.common.query.Where;
 import org.hibernate.Hibernate;
@@ -281,5 +284,61 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
     }
     return avisos;
   }
+  
+  @Override
+  public List<FirmaJPA> getFirmesWithEstatDeFirmaFirmatOfPeticio(long peticioDeFirmaID)
+      throws I18NException {
+    LongField PETICIOID = new FirmaQueryPath().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA()
+        .PETICIODEFIRMAID();
+
+    // TODO Falta selectOne
+    List<Firma> firmes = firmaEjb.select(Where.AND(PETICIOID.equal(peticioDeFirmaID),
+        FirmaFields.NUMFIRMADOCUMENT.isNotNull()), new OrderBy(
+        FirmaFields.NUMFIRMADOCUMENT, OrderType.DESC));
+    
+    if (firmes == null || firmes.size() == 0) {
+      return null;
+    }
+    
+
+    
+    Long[] firmaIDs = new Long[firmes.size()];
+    {
+      int i = 0;
+      for (Firma f : firmes) {
+        firmaIDs[i] = f.getFirmaID();
+        i++;
+      }
+    }
+
+    Map<Long, EstatDeFirmaJPA> map = new HashMap<Long, EstatDeFirmaJPA>();
+    {
+      List<EstatDeFirma> estats = this.select(Where.AND(EstatDeFirmaFields.FIRMAID.in(firmaIDs), EstatDeFirmaFields.TIPUSESTATDEFIRMAFINALID.equal(ConstantsV2.TIPUSESTATDEFIRMAFINAL_FIRMAT)));
+      for (EstatDeFirma estatDeFirma : estats) {
+        EstatDeFirmaJPA jpa =  (EstatDeFirmaJPA) estatDeFirma;
+        
+        Hibernate.initialize(jpa.getUsuariEntitat());
+        Hibernate.initialize(jpa.getUsuariEntitat().getUsuariPersona());
+        map.put(estatDeFirma.getFirmaID(),jpa);
+        
+      }
+    }
+    
+    List<FirmaJPA> firmesJPA = new ArrayList<FirmaJPA>();
+    for (Firma firma : firmes) {
+      FirmaJPA jpa = (FirmaJPA)firma; 
+      Set<EstatDeFirmaJPA> estatDeFirmas = new HashSet<EstatDeFirmaJPA>();
+      estatDeFirmas.add(map.get(jpa.getFirmaID()));
+      
+      jpa.setEstatDeFirmas(estatDeFirmas);
+      
+      
+      firmesJPA.add(jpa);
+      
+    }
+
+    return firmesJPA;
+  }
+  
   
 }

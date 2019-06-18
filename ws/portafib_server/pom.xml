@@ -17,9 +17,6 @@
   <properties>
     <source_common>${basedir}/src_empty/main/java</source_common>
     <source_v1>${basedir}/src_empty/main/java</source_v1>
-    <source_v2_common>${basedir}/src_empty/main/java</source_v2_common>
-    <source_v2_ws>${basedir}/src_empty/main/java</source_v2_ws>
-    <source_v2_passarela>${basedir}/src_empty/main/java</source_v2_passarela>
   </properties>
 
   <build>
@@ -65,9 +62,6 @@
               <sources>
                 <source>${source_common}</source>
                 <source>${source_v1}</source>
-                <source>${source_v2_common}</source>
-                <source>${source_v2_ws}</source>
-                <source>${source_v2_passarela}</source>
               </sources>
             </configuration>
           </execution>
@@ -215,36 +209,6 @@
       <properties>
         <source_common>${basedir}/src_common/main/java</source_common>
         <source_v1>${basedir}/src_v1/main/java</source_v1>
-      </properties>
-    </profile>
-
-    <!-- Incloure API v2 Services de PortaFIB --> 
-    <profile>    
-      <id>ws-portafib-v2</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v2_common>${basedir}/src_v2/main/java/common</source_v2_common>
-        <source_v2_ws>${basedir}/src_v2/main/java/ws</source_v2_ws>
-      </properties>
-    </profile>
-
-    <!-- Incloure API v2 de Passarela Web --> 
-    <profile>
-      <id>passarelaweb-v2</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v2_common>${basedir}/src_v2/main/java/common</source_v2_common>
-        <source_v2_passarela>${basedir}/src_v2/main/java/passarela</source_v2_passarela>
-      </properties>      
-    </profile>
-
-    <!-- Incloure API v2 de Passarela Server --> 
-    <profile>
-      <id>passarelaserver-v2</id>
-      <properties>
-        <source_common>${basedir}/src_common/main/java</source_common>
-        <source_v2_common>${basedir}/src_v2/main/java/common</source_v2_common>
-        <source_v2_passarela>${basedir}/src_v2/main/java/passarela</source_v2_passarela>
       </properties>
     </profile>
 

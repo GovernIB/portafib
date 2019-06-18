@@ -1,22 +1,29 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.jersey;
 
+import java.util.List;
+
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleError;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+import org.fundaciobit.apisib.jerseycore.AbstractApisIBConnectionManagerJersey;
 
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.GenericType;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
-public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implements ApiFirmaWebSimple {
+public class ApiFirmaWebSimpleJersey extends
+    AbstractApisIBConnectionManagerJersey<FirmaSimpleError> implements ApiFirmaWebSimple {
 
   // Nom de les operacions en constants
 
@@ -57,7 +64,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @return Retorna l'ID de la transacció
    * @throws Exception
    */
-  public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws Exception {
+  public String getTransactionID(FirmaSimpleCommonInfo commonInfo) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(commonInfo, GETTRANSACTIONID);
 
@@ -74,7 +81,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @throws Exception
    */
   public void addFileToSign(FirmaSimpleAddFileToSignRequest fileInfoSignatureHolder)
-      throws Exception {
+      throws AbstractApisIBException {
 
     commonCall(fileInfoSignatureHolder, ADDFILETOSIGN);
 
@@ -87,7 +94,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @throws Exception
    */
   public String startTransaction(FirmaSimpleStartTransactionRequest startTransactionInfo)
-      throws Exception {
+      throws AbstractApisIBException {
 
     ClientResponse response = commonCall(startTransactionInfo, STARTTRANSACTION);
 
@@ -107,7 +114,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    */
 
   public FirmaSimpleGetTransactionStatusResponse getTransactionStatus(String transactionID)
-      throws Exception {
+      throws AbstractApisIBException {
 
     ClientResponse response = commonCall(transactionID, TRANSACTIONSTATUS);
 
@@ -125,7 +132,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @throws Exception
    */
   public FirmaSimpleSignatureResult getSignatureResult(
-      FirmaSimpleGetSignatureResultRequest transactionID) throws Exception {
+      FirmaSimpleGetSignatureResultRequest transactionID) throws AbstractApisIBException {
 
     ClientResponse response = commonCall(transactionID, SIGNATURERESULT);
 
@@ -139,7 +146,7 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @param transactionID
    * @throws Exception
    */
-  public void closeTransaction(String transactionID) throws Exception {
+  public void closeTransaction(String transactionID) throws AbstractApisIBException {
 
     commonCall(transactionID, CLOSETRANSACTION);
 
@@ -150,14 +157,21 @@ public class ApiFirmaWebSimpleJersey extends AbstractApiFirmaSimpleJersey implem
    * @return
    * @throws Exception
    */
-  public FirmaSimpleAvailableProfiles getAvailableProfiles(String locale) throws Exception {
+  public List<FirmaSimpleAvailableProfile> getAvailableProfiles(String languageUI) throws AbstractApisIBException {
 
-    ClientResponse response = commonCall(locale, AVAILABLEPROFILES);
+    ClientResponse response = commonCall(languageUI, AVAILABLEPROFILES);
 
-    FirmaSimpleAvailableProfiles result = response
-        .getEntity(FirmaSimpleAvailableProfiles.class);
+    List<FirmaSimpleAvailableProfile> result = response
+        .getEntity(new GenericType<List<FirmaSimpleAvailableProfile>>() {
+        });
 
     return result;
+  }
+
+
+  @Override
+  protected Class<FirmaSimpleError> getErrorClass() {
+    return FirmaSimpleError.class;
   }
 
 }

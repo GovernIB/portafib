@@ -57,8 +57,8 @@ public class FirmaSimpleUpgradedFileInfo {
   protected FirmaSimpleValidationInfo validationInfo = null;
 
   /**
-   * eEMGDE.Firma.InformacionAdicional (eEMGDE17.5.5) Ofrecer cualquier otra información que se
-   * considere útil acerca del firmante.
+   * Ofrecer cualquier otra información que se
+   * considere útil acerca del firmante o la actualización de la firma.
    * */
   protected List<FirmaSimpleKeyValue> additionInformation = null;
 

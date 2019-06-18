@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.fundaciobit.apisib.core.beans.ApisIBError;
+
 /**
  * Classe encarregada d'enviar excepcions des del servidor al client
  * 
@@ -12,64 +14,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaSimpleError {
+public class FirmaSimpleError extends ApisIBError {
 
-  String message;
-
-  String type;
-
-  String stackTrace;
-
-  /**
-   * @param message
-   */
   public FirmaSimpleError() {
     super();
   }
 
-  /**
-   * @param message
-   */
-  public FirmaSimpleError(String message, String type) {
-    super();
-    this.message = message;
-    this.type = type;
+  public FirmaSimpleError(ApisIBError apisiberror) {
+    super(apisiberror);
   }
 
-  /**
-   * @param message
-   * @param type
-   * @param stackTrace
-   */
   public FirmaSimpleError(String message, String type, String stackTrace) {
-    super();
-    this.message = message;
-    this.type = type;
-    this.stackTrace = stackTrace;
+    super(message, type, stackTrace);
   }
 
-  public String getMessage() {
-    return message;
+  public FirmaSimpleError(String message, String type) {
+    super(message, type);
   }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public String getStackTrace() {
-    return stackTrace;
-  }
-
-  public void setStackTrace(String stackTrace) {
-    this.stackTrace = stackTrace;
-  }
-
+  
 }

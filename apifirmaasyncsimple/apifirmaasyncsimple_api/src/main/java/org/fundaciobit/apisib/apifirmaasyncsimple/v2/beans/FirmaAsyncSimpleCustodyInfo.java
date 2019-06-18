@@ -13,73 +13,113 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FirmaAsyncSimpleCustodyInfo {
 
-  protected String custodyFileID;
+  protected String custodyID;
 
-  protected String custodyFileURL;
-
+  // String getCsv
   /** eEMGDE.Firma.FormatoFirma.ValorCSV (eEMGDE17.3) */
-  protected String custodyFileCSV;
+  protected String csv;
 
+  // String getCsvValidationWeb
+  protected String csvValidationWeb;
+
+  // String getValidationFileUrl
+  protected String validationFileUrl;
+
+  // getCsvGenerationDefinition
   /**
    * eEMGDE.DefinicionGeneracionCSV (eEMGDE17.4):
    */
-  protected String custodyFileCSVGenerationDefinition;
+  protected String csvGenerationDefinition;
 
-  protected String custodyFileCSVValidationWeb;
+  // String getOriginalFileUrl
+  protected String originalFileDirectURL; //
+
+  // String getPrintableFileUrl
+  protected String printableFileDirectUrl;
+
+  // String getEniFileUrl
+  protected String eniFileDirectUrl;
 
   public FirmaAsyncSimpleCustodyInfo() {
     super();
   }
 
-  public FirmaAsyncSimpleCustodyInfo(String custodyFileID, String custodyFileURL,
-      String custodyFileCSV, String custodyFileCSVGenerationDefinition,
-      String custodyFileCSVValidationWeb) {
+  public FirmaAsyncSimpleCustodyInfo(String custodyID, String csv, String csvValidationWeb,
+      String validationFileUrl, String csvGenerationDefinition, String originalFileDirectURL,
+      String printableFileDirectUrl, String eniFileDirectUrl) {
     super();
-    this.custodyFileID = custodyFileID;
-    this.custodyFileURL = custodyFileURL;
-    this.custodyFileCSV = custodyFileCSV;
-    this.custodyFileCSVGenerationDefinition = custodyFileCSVGenerationDefinition;
-    this.custodyFileCSVValidationWeb = custodyFileCSVValidationWeb;
+    this.custodyID = custodyID;
+    this.csv = csv;
+    this.csvValidationWeb = csvValidationWeb;
+    this.validationFileUrl = validationFileUrl;
+    this.csvGenerationDefinition = csvGenerationDefinition;
+    this.originalFileDirectURL = originalFileDirectURL;
+    this.printableFileDirectUrl = printableFileDirectUrl;
+    this.eniFileDirectUrl = eniFileDirectUrl;
   }
 
-  public String getCustodyFileID() {
-    return custodyFileID;
+  public String getCustodyID() {
+    return custodyID;
   }
 
-  public void setCustodyFileID(String custodyFileID) {
-    this.custodyFileID = custodyFileID;
+  public void setCustodyID(String custodyID) {
+    this.custodyID = custodyID;
   }
 
-  public String getCustodyFileURL() {
-    return custodyFileURL;
+  public String getCsv() {
+    return csv;
   }
 
-  public void setCustodyFileURL(String custodyFileURL) {
-    this.custodyFileURL = custodyFileURL;
+  public void setCsv(String csv) {
+    this.csv = csv;
   }
 
-  public String getCustodyFileCSV() {
-    return custodyFileCSV;
+  public String getCsvValidationWeb() {
+    return csvValidationWeb;
   }
 
-  public void setCustodyFileCSV(String custodyFileCSV) {
-    this.custodyFileCSV = custodyFileCSV;
+  public void setCsvValidationWeb(String csvValidationWeb) {
+    this.csvValidationWeb = csvValidationWeb;
   }
 
-  public String getCustodyFileCSVGenerationDefinition() {
-    return custodyFileCSVGenerationDefinition;
+  public String getValidationFileUrl() {
+    return validationFileUrl;
   }
 
-  public void setCustodyFileCSVGenerationDefinition(String custodyFileCSVGenerationDefinition) {
-    this.custodyFileCSVGenerationDefinition = custodyFileCSVGenerationDefinition;
+  public void setValidationFileUrl(String validationFileUrl) {
+    this.validationFileUrl = validationFileUrl;
   }
 
-  public String getCustodyFileCSVValidationWeb() {
-    return custodyFileCSVValidationWeb;
+  public String getCsvGenerationDefinition() {
+    return csvGenerationDefinition;
   }
 
-  public void setCustodyFileCSVValidationWeb(String custodyFileCSVValidationWeb) {
-    this.custodyFileCSVValidationWeb = custodyFileCSVValidationWeb;
+  public void setCsvGenerationDefinition(String csvGenerationDefinition) {
+    this.csvGenerationDefinition = csvGenerationDefinition;
+  }
+
+  public String getOriginalFileDirectURL() {
+    return originalFileDirectURL;
+  }
+
+  public void setOriginalFileDirectURL(String originalFileDirectURL) {
+    this.originalFileDirectURL = originalFileDirectURL;
+  }
+
+  public String getPrintableFileDirectUrl() {
+    return printableFileDirectUrl;
+  }
+
+  public void setPrintableFileDirectUrl(String printableFileDirectUrl) {
+    this.printableFileDirectUrl = printableFileDirectUrl;
+  }
+
+  public String getEniFileDirectUrl() {
+    return eniFileDirectUrl;
+  }
+
+  public void setEniFileDirectUrl(String eniFileDirectUrl) {
+    this.eniFileDirectUrl = eniFileDirectUrl;
   }
 
 }

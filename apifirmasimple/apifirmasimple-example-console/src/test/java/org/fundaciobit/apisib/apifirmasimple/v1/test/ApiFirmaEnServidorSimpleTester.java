@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAvailableProfiles;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
@@ -27,10 +26,10 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeRequest;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleUpgradeResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.ClientException;
 import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.NoAvailablePluginException;
-import org.fundaciobit.apisib.apifirmasimple.v1.exceptions.ServerException;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaEnServidorSimpleJersey;
+import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.junit.Test;
 
@@ -55,15 +54,15 @@ public class ApiFirmaEnServidorSimpleTester {
 
       ApiFirmaEnServidorSimpleTester tester = new ApiFirmaEnServidorSimpleTester();
 
-      // tester.testGetAvailableProfiles();
+      //tester.testGetAvailableProfiles();
 
-      //tester.testSignatureServerPAdES();
+      tester.testSignatureServerPAdES();
 
       //tester.testSignatureServerCAdES();
 
       // tester.testSignatureServerXAdESBinary();
 
-      tester.testSignatureServerXAdESXml();
+      //tester.testSignatureServerXAdESXml();
 
       // tester.testSignatureServerPAdESXAdESCAdES();
 
@@ -82,7 +81,7 @@ public class ApiFirmaEnServidorSimpleTester {
       System.err
           .println("No s'ha trobat cap plugin que pugui realitzar la firma o alguna de les firmes sol·licitades.");
 
-    } catch (ClientException client) {
+    } catch (ApisIBClientException client) {
 
       client.printStackTrace();
 
@@ -90,7 +89,7 @@ public class ApiFirmaEnServidorSimpleTester {
           .println("S'ha produït un error intentant contactar amb el servidor intermedi:"
               + client.getMessage());
 
-    } catch (ServerException server) {
+    } catch (ApisIBServerException server) {
 
       server.printStackTrace();
 
@@ -114,9 +113,7 @@ public class ApiFirmaEnServidorSimpleTester {
   protected static String selectProfileFromAvailables(ApiFirmaEnServidorSimple api,
       final String locale) throws Exception {
     String defprofile;
-    FirmaSimpleAvailableProfiles profiles = api.getAvailableProfiles(locale);
-
-    List<FirmaSimpleAvailableProfile> profilesList = profiles.getAvailableProfiles();
+    List<FirmaSimpleAvailableProfile> profilesList = api.getAvailableProfiles(locale);
 
     if (profilesList == null || profilesList.size() == 0) {
       throw new Exception("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
@@ -157,13 +154,12 @@ public class ApiFirmaEnServidorSimpleTester {
 
     ApiFirmaEnServidorSimple api = getApiFirmaEnServidorSimple(prop);
 
-    final String locales[] = new String[] { "ca", "es" };
+    final String languagesUI[] = new String[] { "ca", "es" };
 
-    for (String loc : locales) {
-      System.out.println(" ==== LOCALE: " + loc + " ===========");
-      FirmaSimpleAvailableProfiles profiles = api.getAvailableProfiles(loc);
+    for (String languageUI : languagesUI) {
+      System.out.println(" ==== LanguageUI : " + languageUI + " ===========");
 
-      List<FirmaSimpleAvailableProfile> listProfiles = profiles.getAvailableProfiles();
+      List<FirmaSimpleAvailableProfile> listProfiles = api.getAvailableProfiles(languageUI);
       if (listProfiles.size() == 0) {
         System.err.println("NO HI HA PERFILS PER AQUEST USUARI APLICACIÓ");
       } else {

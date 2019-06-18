@@ -1,5 +1,7 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.exceptions;
 
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+
 
 
 /**
@@ -7,7 +9,7 @@ package org.fundaciobit.apisib.apifirmasimple.v1.exceptions;
  * @author anadal
  *
  */
-public class CancelledUserException extends AbstractFirmaSimpleException {
+public class CancelledUserException extends AbstractApisIBException {
 
   /**
    * 

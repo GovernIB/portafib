@@ -21,13 +21,16 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleRevis
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignature;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureBlock;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestBase;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.exceptions.AbstractFirmaAsyncSimpleException;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.exceptions.ClientException;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.exceptions.ServerException;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaAsyncSimpleJersey;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
+import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 /**
@@ -83,7 +86,7 @@ public class ApiFirmaAsyncSimpleTester {
       // ----------- Peticio de Firma
       tester.createSignatureRequestAndStart(languageUI, api);
 
-    } catch (ClientException client) {
+    } catch (ApisIBClientException client) {
 
       client.printStackTrace();
 
@@ -91,7 +94,7 @@ public class ApiFirmaAsyncSimpleTester {
           .println("S'ha produït un error intentant contactar amb el servidor intermedi:"
               + client.getMessage());
 
-    } catch (ServerException server) {
+    } catch (ApisIBServerException server) {
 
       server.printStackTrace();
 
@@ -108,59 +111,65 @@ public class ApiFirmaAsyncSimpleTester {
   public void createSignatureRequestAndStart(String languageUI, ApiFirmaAsyncSimple api)
       throws Exception {
 
-    String[] nifsDestinataris = getNifsDestinataris();
-    String nifRevisor = getNifRevisor();
+    String plantillaDeFirmes = getPlantillaDeFirmes();
+    FirmaAsyncSimpleSignatureBlock[] signatureBlocks = null;
 
-    System.out.println("nifsDestinataris = " + Arrays.toString(nifsDestinataris));
+    if (plantillaDeFirmes == null || plantillaDeFirmes.trim().length() == 0) {
 
-    if (nifsDestinataris == null || nifsDestinataris.length == 0) {
-      throw new Exception("S'ha de definir la propietat nifsDestinataris dins test.properties");
-    }
+      String[] nifsDestinataris = getNifsDestinataris();
+      String nifRevisor = getNifRevisor();
 
-    FirmaAsyncSimpleSignatureBlock[] signatureBlocks;
-    signatureBlocks = new FirmaAsyncSimpleSignatureBlock[nifsDestinataris.length];
+      System.out.println("nifsDestinataris = " + Arrays.toString(nifsDestinataris));
 
-    for (int i = 0; i < nifsDestinataris.length; i++) {
-      String nif = nifsDestinataris[i];
-      if (nif == null || nif.trim().length() == 0) {
-        throw new Exception("Un dels NIFs dels destinataris està buit o val null");
+      if (nifsDestinataris == null || nifsDestinataris.length == 0) {
+        throw new Exception(
+            "S'ha de definir la propietat nifsDestinataris dins test.properties");
       }
 
-      FirmaAsyncSimplePerson personToSign = new FirmaAsyncSimplePerson();
-      personToSign.setAdministrationID(nif);
+      signatureBlocks = new FirmaAsyncSimpleSignatureBlock[nifsDestinataris.length];
 
-      List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
-      boolean required = true;
-      String reason = null; // Usar la de la Petició
+      for (int i = 0; i < nifsDestinataris.length; i++) {
+        String nif = nifsDestinataris[i];
+        if (nif == null || nif.trim().length() == 0) {
+          throw new Exception("Un dels NIFs dels destinataris està buit o val null");
+        }
 
-      // Revisors
-      int minimumNumberOfRevisers;
-      List<FirmaAsyncSimpleReviser> revisers;
+        FirmaAsyncSimplePerson personToSign = new FirmaAsyncSimplePerson();
+        personToSign.setAdministrationID(nif);
 
-      if (nifRevisor == null) {
-        minimumNumberOfRevisers = 0;
-        revisers = null;
-      } else {
-        minimumNumberOfRevisers = 1;
+        List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
+        boolean required = true;
+        String reason = null; // Usar la de la Petició
 
-        FirmaAsyncSimplePerson rev = new FirmaAsyncSimplePerson();
-        rev.setAdministrationID(nifRevisor);
+        // Revisors
+        int minimumNumberOfRevisers;
+        List<FirmaAsyncSimpleReviser> revisers;
 
-        final boolean requiredReviser = true;
-        FirmaAsyncSimpleReviser reviser = new FirmaAsyncSimpleReviser(rev, requiredReviser);
+        if (nifRevisor == null) {
+          minimumNumberOfRevisers = 0;
+          revisers = null;
+        } else {
+          minimumNumberOfRevisers = 1;
 
-        revisers = new ArrayList<FirmaAsyncSimpleReviser>();
-        revisers.add(reviser);
+          FirmaAsyncSimplePerson rev = new FirmaAsyncSimplePerson();
+          rev.setAdministrationID(nifRevisor);
+
+          final boolean requiredReviser = true;
+          FirmaAsyncSimpleReviser reviser = new FirmaAsyncSimpleReviser(rev, requiredReviser);
+
+          revisers = new ArrayList<FirmaAsyncSimpleReviser>();
+          revisers.add(reviser);
+
+        }
+
+        signers.add(new FirmaAsyncSimpleSignature(personToSign, required, reason,
+            minimumNumberOfRevisers, revisers));
+
+        int minimumNumberOfSignaturesRequired = 1;
+        signatureBlocks[i] = new FirmaAsyncSimpleSignatureBlock(
+            minimumNumberOfSignaturesRequired, signers);
 
       }
-
-      signers.add(new FirmaAsyncSimpleSignature(personToSign, required, reason,
-          minimumNumberOfRevisers, revisers));
-
-      int minimumNumberOfSignaturesRequired = 1;
-      signatureBlocks[i] = new FirmaAsyncSimpleSignatureBlock(
-          minimumNumberOfSignaturesRequired, signers);
-
     }
 
     // Annexes
@@ -182,7 +191,7 @@ public class ApiFirmaAsyncSimpleTester {
       throw new Exception("No s'ha definit fitxer a firmar");
     }
 
-    FirmaAsyncSimpleSignatureRequestInfo info = null;
+    FirmaAsyncSimpleSignatureRequestInfo rinfo = null;
     try {
 
       String profileCode = getPerfil();
@@ -208,20 +217,37 @@ public class ApiFirmaAsyncSimpleTester {
 
       List<FirmaAsyncSimpleMetadata> metadadaList = null;
 
-      FirmaAsyncSimpleSignatureRequest signatureRequest;
-      signatureRequest = new FirmaAsyncSimpleSignatureRequest(profileCode, title, description,
-          reason, fitxerAFirmar, originalDetachedSignature, documentType,
+      FirmaAsyncSimpleSignatureRequestBase signatureRequestBase;
+      signatureRequestBase = new FirmaAsyncSimpleSignatureRequestBase(profileCode, title,
+          description, reason, fitxerAFirmar, originalDetachedSignature, documentType,
           documentTypeDescription, languageDoc, languageUI, priority, senderName,
           senderDescription, expedientCode, expedientName, expedientUrl, procedureCode,
-          procedureName, additionalInformation, additionalInformationEvaluable,
-          signatureBlocks, annexs, metadadaList);
+          procedureName, additionalInformation, additionalInformationEvaluable, annexs,
+          metadadaList);
 
       // Crear Peticio
-      Long peticioDeFirmaID2 = api.createAndStartSignatureRequest(signatureRequest);
+      Long peticioDeFirmaID2;
+      if (signatureBlocks == null) {
+        // Utilitzar plantilla
+        log.info("Petició de Firma emprant Plantilla de Flux de Firmes");
+        FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest;
+        signatureRequest = new FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode(
+            signatureRequestBase, plantillaDeFirmes);
+        peticioDeFirmaID2 = api
+            .createAndStartSignatureRequestWithFlowTemplateCode(signatureRequest);
+
+      } else {
+        // Utilitzar Blocs de Firmes
+        log.info("Petició de Firma emprant Blocs de Firmes");
+        FirmaAsyncSimpleSignatureRequest signatureRequest;
+        signatureRequest = new FirmaAsyncSimpleSignatureRequest(signatureRequestBase,
+            signatureBlocks);
+        peticioDeFirmaID2 = api.createAndStartSignatureRequest(signatureRequest);
+      }
 
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);
 
-      info = new FirmaAsyncSimpleSignatureRequestInfo(peticioDeFirmaID2, languageUI);
+      rinfo = new FirmaAsyncSimpleSignatureRequestInfo(peticioDeFirmaID2, languageUI);
 
       if (isWaitToSign()) {
 
@@ -233,7 +259,7 @@ public class ApiFirmaAsyncSimpleTester {
         // S'HAN D'UTILITZAR ELS CALLBACKS PER RECUPERAR FITXERS SIGNATS !!!!!
         do {
           Thread.sleep(5000);
-          state = api.getSignatureRequestState(info);
+          state = api.getSignatureRequestState(rinfo);
           estat = state.getState();
         } while (estat != FirmaAsyncSimpleSignatureRequestState.SIGNATURE_REQUEST_STATE_SIGNED
             && estat != FirmaAsyncSimpleSignatureRequestState.SIGNATURE_REQUEST_STATE_REJECTED);
@@ -246,11 +272,18 @@ public class ApiFirmaAsyncSimpleTester {
         } else {
 
           // Info document firmat
-          FirmaAsyncSimpleSignedFile signedFile;
-          signedFile = api.getSignedFileOfSignatureRequest(info);
+          FirmaAsyncSimpleSignedFile signedFileFull;
+          signedFileFull = api.getSignedFileOfSignatureRequest(rinfo);
 
-          // Descarregar document
-          FirmaAsyncSimpleFile firma = signedFile.getSignedFile();
+          // Imprimir Informacio
+
+          System.out.println(" === INFO ===");
+          FirmaAsyncSimpleSignedFileInfo info = signedFileFull.getSignedFileInfo();
+
+          System.out.println(FirmaAsyncSimpleSignedFileInfo.toString(info));
+
+          // Obtenir document signat
+          FirmaAsyncSimpleFile firma = signedFileFull.getSignedFile();
 
           byte[] data = firma.getData();
           log.info("Tamany del fitxer: " + data.length);
@@ -260,6 +293,7 @@ public class ApiFirmaAsyncSimpleTester {
           fos.flush();
           fos.close();
 
+          System.out.println(" === FILE ===");
           System.out.println("El fitxer firmat s'ha guardat a "
               + fitxerFirmat.getAbsolutePath());
         }
@@ -267,7 +301,7 @@ public class ApiFirmaAsyncSimpleTester {
 
     } finally {
 
-      if (info != null && isDeleteOnFinish()) {
+      if (rinfo != null && isDeleteOnFinish()) {
         // Esperam a que les notificacions s'enviin
         System.out.println(" Esperam a que les notificacions s'enviin .");
         for (int i = 0; i < 20; i++) {
@@ -277,14 +311,14 @@ public class ApiFirmaAsyncSimpleTester {
         System.out.println();
 
         // Esborrar la petició
-        api.deleteSignatureRequest(info);
+        api.deleteSignatureRequest(rinfo);
       }
 
     }
   }
 
   public void getTipusDeDocumentsDisponibles(final String languageUI, ApiFirmaAsyncSimple api)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
     List<FirmaAsyncSimpleDocumentTypeInformation> documents;
     documents = api.getAvailableTypesOfDocuments(languageUI);
     System.out.println("  ======= TIPUS DOCUMENTS ========== ");
@@ -295,7 +329,7 @@ public class ApiFirmaAsyncSimpleTester {
   }
 
   public void getPerfilsDisponibles(final String languageUI, ApiFirmaAsyncSimple api)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
     List<FirmaAsyncSimpleAvailableProfile> listProfiles = api.getAvailableProfiles(languageUI);
 
     if (listProfiles == null || listProfiles.size() == 0) {
@@ -311,7 +345,7 @@ public class ApiFirmaAsyncSimpleTester {
   }
 
   public void getIdiomesDisponibles(final String languageUI, ApiFirmaAsyncSimple api)
-      throws AbstractFirmaAsyncSimpleException {
+      throws AbstractApisIBException {
     List<FirmaAsyncSimpleKeyValue> listProfiles = api.getAvailableLanguages(languageUI);
 
     if (listProfiles == null || listProfiles.size() == 0) {
@@ -356,6 +390,10 @@ public class ApiFirmaAsyncSimpleTester {
 
   protected FirmaAsyncSimpleFile getFitxerAFirmar() throws Exception {
     return getFitxer("fitxerAFirmar");
+  }
+
+  protected String getPlantillaDeFirmes() throws Exception {
+    return testProperties.getProperty("plantillaDeFirmes");
   }
 
   protected FirmaAsyncSimpleFile getFitxerAAnnexar() throws Exception {

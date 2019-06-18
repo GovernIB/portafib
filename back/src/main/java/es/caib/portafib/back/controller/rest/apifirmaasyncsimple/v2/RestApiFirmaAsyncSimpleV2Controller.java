@@ -15,9 +15,12 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSigna
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignerInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleValidationInfo;
+import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -36,23 +39,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.caib.portafib.back.controller.rest.RestFirmaUtils;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.MetadadaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
+import es.caib.portafib.logic.FirmaLogicaLocal;
 import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PluginDeCustodiaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
@@ -80,11 +91,14 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created 06/06/2019 10:23
@@ -93,7 +107,8 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = RestApiFirmaAsyncSimpleV2Controller.CONTEXT)
-public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils {
+public class RestApiFirmaAsyncSimpleV2Controller extends
+    RestFirmaUtils<FirmaAsyncSimpleKeyValue> {
 
   public static final String CONTEXT = "/common/rest/apifirmaasyncsimple/v2";
 
@@ -105,6 +120,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
+  
+  @EJB(mappedName = "portafib/FirmaLogicaEJB/local")
+  private FirmaLogicaLocal firmaLogicaEjb;
 
   @EJB(mappedName = FitxerLogicaLocal.JNDI_NAME)
   protected FitxerLogicaLocal fitxerLogicaEjb;
@@ -117,6 +135,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
 
   @EJB(mappedName = PluginDeCustodiaLogicaLocal.JNDI_NAME)
   private PluginDeCustodiaLogicaLocal pluginDeCustodiaLogicaEjb;
+
+  @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
+  private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
+  
+  @EJB(mappedName = "portafib/EstatDeFirmaLogicaEJB/local")
+  protected EstatDeFirmaLogicaLocal estatDeFirmaLogicaEjb;
 
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
@@ -191,6 +215,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
     return internalGetAvailableProfiles(request, languageUI);
 
   }
+  
+  
+  
 
   @RequestMapping(value = "/" + ApiFirmaAsyncSimple.AVAILABLETYPESOFDOCUMENTS, method = RequestMethod.POST)
   @ResponseBody
@@ -273,6 +300,170 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       log.error(msg, th);
 
       return generateServerError(msg, th);
+    }
+
+  }
+
+  @RequestMapping(value = "/"
+      + ApiFirmaAsyncSimple.CREATEANDSTARTSIGNATUREREQUESTWITHFLOWTEMPLATECODE, method = RequestMethod.POST)
+  @ResponseBody
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public ResponseEntity<?> createAndStartSignatureRequestWithFlowTemplateCode(
+      HttpServletRequest request,
+      @RequestBody FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode signatureRequest)
+      throws AbstractApisIBException {
+
+    String error = autenticate(request);
+    if (error != null) {
+      return generateServerError(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    FirmaAsyncSimpleSignatureBlock[] signatureBlocks;
+
+    String languageUI = "ca"; // XYZ ZZZ
+
+    try {
+
+      LoginInfo loginInfo = commonChecks();
+
+      if (signatureRequest == null) {
+        // XYZ ZZZ TRA
+        return generateServerError("La peticio de firma no pot valer null.");
+      }
+
+      // Check de commonInfo
+      languageUI = signatureRequest.getLanguageUI();
+      if (languageUI == null || languageUI.trim().length() == 0) {
+        // XYZ ZZZ TRA
+        return generateServerError("El parametre d'entrada languageUI no pot ser null o buit.");
+      }
+
+      // XYZ ZZZ ZZZ Per ara collirem el Codi com l'ID de les plantilles !!!!
+      String codiPlantilla = signatureRequest.getFlowTemplateCode();
+
+      long plantillaDeFluxDeFirmesID;
+      try {
+        plantillaDeFluxDeFirmesID = Long.parseLong(codiPlantilla);
+      } catch (NumberFormatException nfe) {
+        // XYZ ZZZ ZZZ TRA
+        return generateServerError("Durant aquesta fase de desenvolupament requerim que els codis de plantilla de flux siguin els IDs.");
+      }
+
+      // XYZ ZZZ ZZZ Cercar per codi no per ID !!!!!!
+      FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb
+          .findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
+      if (flux == null || flux.getPlantillaFluxDeFirmes() == null) {
+        // XYZ ZZZ ZZZ TRA
+        return generateServerError("El codi de plantilla " + codiPlantilla + " no existeix o no és una plantilla.");
+      }
+      // Check que la plantilla és de l'usuari que crida o esta compartida
+      // per algun usuari-entitat o usuari-aplicacio de la pròpia entitat
+      PlantillaFluxDeFirmesJPA plantilla = flux.getPlantillaFluxDeFirmes();
+      if (!plantilla.getCompartir()) {
+        String userapp = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
+        if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
+          // TODO XYZ ZZZ ZZZ Traduir i llançar una excepció
+          String msg = "L'usuari app connectat " + userapp
+              + " no té permis sobre la plantilla amd ID " + plantillaDeFluxDeFirmesID;
+          log.error(msg);
+          // Error desconegut: {0}
+          throw new I18NException("error.unknown", msg);
+        }
+      }
+
+      // Eliminar identificadors
+
+      Set<BlocDeFirmesJPA> blocs = flux.getPlantillaFluxDeFirmes().getFluxDeFirmes()
+          .getBlocDeFirmess();
+
+      signatureBlocks = new FirmaAsyncSimpleSignatureBlock[blocs.size()];
+
+      int count = 0;
+
+      TreeSet<BlocDeFirmesJPA> blocsOrdered = new TreeSet<BlocDeFirmesJPA>(
+          new ComparatorBlocDeFirmesJPA());
+      blocsOrdered.addAll(blocs);
+
+      for (BlocDeFirmesJPA blocDeFirmes : blocsOrdered) {
+
+        int minimumNumberOfSignaturesRequired = blocDeFirmes.getMinimDeFirmes();
+
+        List<FirmaAsyncSimpleSignature> signers = new ArrayList<FirmaAsyncSimpleSignature>();
+
+        for (FirmaJPA firma : blocDeFirmes.getFirmas()) {
+          
+
+          List<FirmaAsyncSimpleReviser> revisers = null;
+          Set<RevisorDeFirmaJPA> revisorsJPA = firma.getRevisorDeFirmas();
+          if (revisorsJPA != null && revisorsJPA.size() != 0) {
+
+            revisers = new ArrayList<FirmaAsyncSimpleReviser>();
+
+            for (RevisorDeFirmaJPA revisorDeFirmaJPA : revisorsJPA) {
+              FirmaAsyncSimplePerson person = new FirmaAsyncSimplePerson();
+              person.setIntermediateServerUsername(revisorDeFirmaJPA.getUsuariEntitatID());
+              revisers.add(new FirmaAsyncSimpleReviser(person, revisorDeFirmaJPA
+                  .isObligatori()));
+            }
+          }
+          
+          FirmaAsyncSimplePerson personToSign = new FirmaAsyncSimplePerson();
+          UsuariEntitatJPA ue = firma.getUsuariEntitat();
+          
+          if (ue.getCarrec() == null) {
+            personToSign.setIntermediateServerUsername(ue.getUsuariEntitatID());
+          } else {
+            personToSign.setPositionInTheCompany(ue.getUsuariEntitatID());
+          }
+
+          boolean required = firma.isObligatori();
+
+          String reason = firma.getMotiu();
+          int minimumNumberOfRevisers = firma.getMinimDeRevisors();
+
+          FirmaAsyncSimpleSignature sign = new FirmaAsyncSimpleSignature(personToSign,
+              required, reason, minimumNumberOfRevisers, revisers);
+          
+          signers.add(sign);
+
+        }
+
+        signatureBlocks[count] = new FirmaAsyncSimpleSignatureBlock(
+            minimumNumberOfSignaturesRequired, signers);
+        count++;
+      }
+
+    } catch (I18NException i18ne) {
+
+      String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
+
+      log.error(msg, i18ne);
+      return generateServerError(msg);
+
+    } catch (Throwable th) {
+
+      // XYZ ZZZ ZZZ TRA
+      String msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
+          + th.getMessage();
+      log.error(msg, th);
+
+      return generateServerError(msg, th);
+    }
+
+    FirmaAsyncSimpleSignatureRequest sr = new FirmaAsyncSimpleSignatureRequest(
+        signatureRequest, signatureBlocks);
+
+    return createAndStartSignatureRequest(request, sr);
+
+  }
+
+  public class ComparatorBlocDeFirmesJPA implements Comparator<BlocDeFirmesJPA> {
+
+    @Override
+    public int compare(BlocDeFirmesJPA o1, BlocDeFirmesJPA o2) {
+
+      return o1.getOrdre() - o2.getOrdre();
     }
 
   }
@@ -362,13 +553,18 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       res = new ResponseEntity<Long>(peticioDeFirmaID, headers, HttpStatus.OK);
 
       return res;
+    } catch (org.fundaciobit.genapp.common.i18n.I18NValidationException ve) {
+
+      String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
+      cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      log.error(msg, ve);
+      return generateServerError(msg);
 
     } catch (I18NException i18ne) {
 
       String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-
       cleanPostError(fitxerLogicaEjb, fitxersCreats);
-
+      log.error(msg, i18ne);
       return generateServerError(msg);
 
     } catch (Throwable th) {
@@ -376,11 +572,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       // XYZ ZZZ ZZZ TRA
       String msg = "Error desconegut cridant a createAndStartSignatureRequest: "
           + th.getMessage();
-
       log.error(msg, th);
-
       cleanPostError(fitxerLogicaEjb, fitxersCreats);
-
       return generateServerError(msg, th);
     }
 
@@ -497,7 +690,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
 
       // XYZ ZZZ ZZZ
       PeticioDeFirmaJPA peticioDeFirma = (PeticioDeFirmaJPA) peticioDeFirmaLogicaEjb
-          .findByPrimaryKey(peticioDeFirmaID);
+          .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 
       int signOperation = peticioDeFirma.getTipusOperacioFirma();
       String signType = SignatureUtils.convertPortafibSignTypeToApiSignType(peticioDeFirma
@@ -510,16 +703,15 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       boolean timeStampIncluded = peticioDeFirma.isSegellatDeTemps();
 
       String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
-      ;
+
+      
       // XYZ ZZZ ZZZ
       // FALTA API firma Simple per Signatures Asíncrones #224
       // Falta obtenir de la petició de firma la informació del darrer fitxer signat
       // FALTEN CAMPS A LA BBDD
       String eniPerfilFirma = null;
-      String eniRolFirma = null;
-      String eniSignerName = null;
-      String eniSignerAdministrationId = null;
-      String eniSignLevel = null;
+      
+
 
       // XYZ ZZZ ZZZ
       // FALTA API firma Simple per Signatures Asíncrones #224
@@ -534,26 +726,29 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
         custodyInfo = null;
       } else {
 
-        CustodiaInfoJPA custodiaInfoJPA = custodiaInfoLogicaEjb
-            .findByPrimaryKey(custodiInfoId);
+        CustodiaInfoJPA custodiaInfoJPA = peticioDeFirma.getCustodiaInfo(); 
+            // custodiaInfoLogicaEjb       .findByPrimaryKey(custodiInfoId);
 
-        String custodyFileID = custodiaInfoJPA.getCustodiaDocumentID();
+        String custodyID = custodiaInfoJPA.getCustodiaDocumentID();
+        // Això és plugin.getValidationFileUrl();
         String custodyFileURL = custodiaInfoJPA.getUrlFitxerCustodiat();
-        // XYZ ZZZ ZZZ
+        // XYZ ZZZ ZZZ Falten camps de BBDD
         IDocumentCustodyPlugin plugin;
         plugin = pluginDeCustodiaLogicaEjb
             .getInstanceByPluginID(custodiaInfoJPA.getPluginID());
         Map<String, Object> parameters = peticioDeFirmaLogicaEjb
             .getAdditionalParametersForDocumentCustody(peticioDeFirma, custodiaInfoJPA);
-        String custodyFileCSV = plugin.getCsv(custodyFileID, parameters);
+        String csv = plugin.getCsv(custodyID, parameters);
 
-        // XYZ ZZZ ZZZ
-        String custodyFileCSVGenerationDefinition = null;
-        String custodyFileCSVValidationWeb = null;
-        ;
+        // XYZ ZZZ ZZZ Falten camps de BBDD. Ha d'estar en BBDD: Ja s'ha d'haver cridat al PLUGIN !!! 
+        String csvGenerationDefinition = plugin.getCsvGenerationDefinition(custodyID, parameters);
+        String csvValidationWeb = plugin.getCsvValidationWeb(custodyID, parameters);
+        String originalFileDirectURL = plugin.getOriginalFileUrl(custodyID, parameters);
+        String printableFileDirectUrl = plugin.getPrintableFileUrl(custodyID, parameters);
+        String eniFileDirectUrl = plugin.getEniFileUrl(custodyID, parameters);
 
-        custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyFileID, custodyFileURL,
-            custodyFileCSV, custodyFileCSVGenerationDefinition, custodyFileCSVValidationWeb);
+        custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyID, csv, csvValidationWeb, custodyFileURL,
+            csvGenerationDefinition, originalFileDirectURL,printableFileDirectUrl,eniFileDirectUrl);
 
       }
 
@@ -561,19 +756,58 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       // FALTA API firma Simple per Signatures Asíncrones #224
       // Falta obtenir de la petició de firma la informació del darrer fitxer signat
       // FALTEN CAMPS A LA BBDD
-      Boolean checkAdministrationIDOfSigner = false;
-      Boolean checkDocumentModifications = false;
-      Boolean checkValidationSignature = false;
-      FirmaAsyncSimpleValidationInfo validationInfo = new FirmaAsyncSimpleValidationInfo(
-          checkAdministrationIDOfSigner, checkDocumentModifications, checkValidationSignature);
+//      Boolean checkAdministrationIDOfSigner = false;
+//      Boolean checkDocumentModifications = false;
+//      Boolean checkValidationSignature = false;
+      FirmaAsyncSimpleValidationInfo validationInfo = null;
+      // new FirmaAsyncSimpleValidationInfo(
+      //    checkAdministrationIDOfSigner, checkDocumentModifications, checkValidationSignature);
 
-      List<FirmaAsyncSimpleKeyValue> additionInformation = null;
+
+      
+
+
+     
+      List<FirmaAsyncSimpleSignerInfo> signers;
+      {
+        
+        List<FirmaJPA> firmes = estatDeFirmaLogicaEjb.getFirmesWithEstatDeFirmaFirmatOfPeticio(peticioDeFirmaID);
+
+        if (firmes == null || firmes.size() == 0) {
+          signers = null;
+        } else {
+          signers = new ArrayList<FirmaAsyncSimpleSignerInfo>(firmes.size());
+
+          for (FirmaJPA firma : firmes) {
+            // XYZ ZZZ ZZZ
+            // FALTA API firma Simple per Signatures Asíncrones #224
+            // eEMGDE17.2 - ROL DE FIRMA: Valida, Refrenda, Testimonia.
+            String eniRolFirma = null;
+            // eEMGDE17.5.4 – NIVEL DE FIRMA: Nick, PIN ciudadano, Firma electrónica avanzada,
+            // Claves concertadas, Firma electrónica avanzada basada en certificados, CSV
+            String eniSignLevel = null;
+            
+            EstatDeFirmaJPA estat = firma.getEstatDeFirmas().iterator().next();
+
+            UsuariPersonaJPA up = estat.getUsuariEntitat().getUsuariPersona();
+            String eniSignerName = up.getNom() + " " + up.getLlinatges();
+            String eniSignerAdministrationId = up.getNif();
+            Date signDate =  new Date(estat.getDataFi().getTime());
+            String serialNumberCert = firma.getNumeroSerieCertificat().toString();
+            String issuerCert = firma.getEmissorCertificat();
+            String subjectCert = firma.getNomCertificat();
+            List<FirmaAsyncSimpleKeyValue> additionInformation = null;
+            
+            FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
+            signers.add(signerInfo);      
+          }
+        }
+      }
 
       FirmaAsyncSimpleSignedFileInfo signedFileInfo = new FirmaAsyncSimpleSignedFileInfo(
           signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
-          timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, eniRolFirma,
-          eniSignerName, eniSignerAdministrationId, eniSignLevel, custodyInfo, validationInfo,
-          additionInformation);
+          timeStampIncluded, policyIncluded, eniTipoFirma, eniPerfilFirma, signers,
+          custodyInfo, validationInfo);
 
       FirmaAsyncSimpleSignedFile response = new FirmaAsyncSimpleSignedFile(signedFile,
           signedFileInfo);
@@ -601,6 +835,8 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       return generateServerError(msg, th);
     }
   }
+
+
 
   @RequestMapping(value = "/" + ApiFirmaAsyncSimple.DELETESIGNATUREREQUEST, method = RequestMethod.POST)
   @ResponseBody
@@ -744,7 +980,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       CustodiaInfoJPA custodiaInfoJPA = getPoliticaCustodiaDeConfig(usrapp, entitatJPA);
       if (custodiaInfoJPA == null) {
         jpa.setCustodiaInfo(null);
-        jpa.setCustodiaInfoID(0L);
+        jpa.setCustodiaInfoID(null);
       } else {
         CustodiaInfoJPA custodiaCloned = CustodiaInfoJPA.toJPA(custodiaInfoJPA);
         custodiaCloned.setCustodiaInfoID(0);
@@ -804,15 +1040,16 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
   protected BlocDeFirmesJPA toJPA(int ordre, FirmaAsyncSimpleSignatureBlock bloc,
       String entitatID, Set<Long> fitxersCreats) throws I18NException {
 
-     if (bloc == null) {
-       // XYZ ZZZ TRA
-       throw new I18NException("genapp.comodi", "El Bloc de Firmes de la posició " + ordre + " val NULL.");
-     }
+    if (bloc == null) {
+      // XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi", "El Bloc de Firmes de la posició " + ordre
+          + " val NULL.");
+    }
 
     // Bean
     BlocDeFirmesJPA jpa = new BlocDeFirmesJPA(ordre, null, 0,
         bloc.getMinimumNumberOfSignaturesRequired());
-    // Firmes    
+    // Firmes
     List<FirmaAsyncSimpleSignature> firmants = bloc.getSigners();
     if (firmants == null || firmants.size() == 0) {
       // XYZ ZZZ TRA
@@ -918,7 +1155,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
           "No s´ha definit cap camp de l´objecte FirmaAsyncSimplePerson declarat "
               + camp.fullName);
     }
-    ;
+    
 
     if (count != 1) {
       // XYZ ZZZ TRA
@@ -977,7 +1214,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
                   + persona.getIntermediateServerUsername());
         }
         // Comprovar que
-        if (ue.getCarrec() != null) {
+        if (ue.getCarrec() == null) {
           // XYZ ZZZ TRA
           throw new I18NException(
               "genapp.comodi",
@@ -1088,12 +1325,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
       case ConstantsV2.POLITICA_CUSTODIA_NO_PERMETRE:
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_NO_ACTIU:
         log.info("XYZ ZZZ ZZZ   POLITICA Entitat  XXXXXXXXXXX");
-        
+
         return null;
 
-              
       case ConstantsV2.POLITICA_CUSTODIA_OBLIGATORI_PLANTILLA_DEFINIDA_A_CONTINUACIO:
-        
+
         log.info("XYZ ZZZ ZZZ   POLITICA Entitat  YYYYYYYYYYYYYY");
 
         Long infoCust = entitatJPA.getCustodiaInfoID();
@@ -1103,7 +1339,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends RestApiFirmaAsyncUtils 
 
       default:
       case ConstantsV2.POLITICA_CUSTODIA_NOMES_PLANTILLES_ENTITAT:
-      
+
       case ConstantsV2.POLITICA_CUSTODIA_SENSE_CUSTODIA_O_POLITICA_DEFINIDA_EN_ENTITAT_PER_DEFECTE_ACTIU:
       case ConstantsV2.POLITICA_CUSTODIA_LLIBERTAT_TOTAL:
         // XYZ ZZZ TRA

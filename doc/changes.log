@@ -1,11 +1,12 @@
-PortaFIB 2.0.1
-==============
-
-
-
 
 PortaFIB 2.0.0
 ==============
+
+2019-06-18 API firma Simple per Signatures Asíncrones #224 
+
+2019-06-07 Millorar Interficie de Estadistiques #258
+
+2019-06-04 Afegir Politica custodia a Entitat, Usuari-Entitat i usuari- Aplicació #165 
 
 2019-05-29 Reviure la Bitacola de PortaFIB #223
 
