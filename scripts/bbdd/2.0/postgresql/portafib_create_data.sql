@@ -65,7 +65,7 @@ INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (19, 'es', 
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (20, 'ca', 'Altres confiscats');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (20, 'es', 'Otros confiscados');
 INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'ca', 'Altres tipus de documents');
-INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'es', 'Otros tipus de documentos');
+INSERT INTO pfi_traducciomap(traducciomapid, idiomaid, valor) VALUES (99, 'es', 'Otros tipos de documentos');
 
 INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (1, 1, 'Document de decisió de tipus Resolució', 1, NULL);
 INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (2, 2, 'Document de decisió de tipus Acord', 2, NULL);
