@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FirmaAsyncSimpleCustodyInfo {
 
-  protected String custodyID;
+  protected String custodyID = null;
 
   // String getCsv
   /** eEMGDE.Firma.FormatoFirma.ValorCSV (eEMGDE17.3) */
@@ -40,6 +40,12 @@ public class FirmaAsyncSimpleCustodyInfo {
   // String getEniFileUrl
   protected String eniFileDirectUrl;
 
+  // Futura Integració amb Api d'Arxiu
+  protected String expedientID = null;
+
+  // Futura Integració amb Api d'Arxiu
+  protected String documentID = null;
+
   public FirmaAsyncSimpleCustodyInfo() {
     super();
   }
@@ -56,6 +62,23 @@ public class FirmaAsyncSimpleCustodyInfo {
     this.originalFileDirectURL = originalFileDirectURL;
     this.printableFileDirectUrl = printableFileDirectUrl;
     this.eniFileDirectUrl = eniFileDirectUrl;
+  }
+
+  public FirmaAsyncSimpleCustodyInfo(String custodyID, String csv, String csvValidationWeb,
+      String validationFileUrl, String csvGenerationDefinition, String originalFileDirectURL,
+      String printableFileDirectUrl, String eniFileDirectUrl, String expedientID,
+      String documentID) {
+    super();
+    this.custodyID = custodyID;
+    this.csv = csv;
+    this.csvValidationWeb = csvValidationWeb;
+    this.validationFileUrl = validationFileUrl;
+    this.csvGenerationDefinition = csvGenerationDefinition;
+    this.originalFileDirectURL = originalFileDirectURL;
+    this.printableFileDirectUrl = printableFileDirectUrl;
+    this.eniFileDirectUrl = eniFileDirectUrl;
+    this.expedientID = expedientID;
+    this.documentID = documentID;
   }
 
   public String getCustodyID() {
@@ -120,6 +143,22 @@ public class FirmaAsyncSimpleCustodyInfo {
 
   public void setEniFileDirectUrl(String eniFileDirectUrl) {
     this.eniFileDirectUrl = eniFileDirectUrl;
+  }
+
+  public String getExpedientID() {
+    return expedientID;
+  }
+
+  public void setExpedientID(String expedientID) {
+    this.expedientID = expedientID;
+  }
+
+  public String getDocumentID() {
+    return documentID;
+  }
+
+  public void setDocumentID(String documentID) {
+    this.documentID = documentID;
   }
 
 }

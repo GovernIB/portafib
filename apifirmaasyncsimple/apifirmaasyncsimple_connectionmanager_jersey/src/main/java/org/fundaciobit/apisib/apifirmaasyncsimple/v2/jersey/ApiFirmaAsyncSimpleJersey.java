@@ -1,4 +1,4 @@
-package org.fundaciobit.apisib.apifirmasimple.v1.jersey;
+package org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvail
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleError;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
@@ -88,9 +88,9 @@ public class ApiFirmaAsyncSimpleJersey extends
   }
 
   @Override
-  public long createAndStartSignatureRequest(FirmaAsyncSimpleSignatureRequest signatureRequest)
+  public long createAndStartSignatureRequestWithSignBlockList(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest)
       throws AbstractApisIBException {
-    ClientResponse response = commonCall(signatureRequest, CREATEANDSTARTSIGNATUREREQUEST);
+    ClientResponse response = commonCall(signatureRequest, CREATEANDSTARTSIGNATUREREQUESTWITHSIGNBLOCKLIST);
 
     Long peticioID = response.getEntity(Long.class);
 

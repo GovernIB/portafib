@@ -272,8 +272,6 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
         }
       }
 
-      
-
 
       FirmaSimpleValidationInfo validation = null;
       {

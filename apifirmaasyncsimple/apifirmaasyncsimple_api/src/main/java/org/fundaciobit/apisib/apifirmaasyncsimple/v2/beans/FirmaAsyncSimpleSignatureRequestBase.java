@@ -78,8 +78,6 @@ public class FirmaAsyncSimpleSignatureRequestBase {
   protected String additionalInformation;
   protected Double additionalInformationEvaluable;
 
-  protected FirmaAsyncSimpleSignatureBlock[] signatureBlocks = null;
-
   protected List<FirmaAsyncSimpleAnnex> annexs = null;
 
   protected List<FirmaAsyncSimpleMetadata> metadadaList = null;

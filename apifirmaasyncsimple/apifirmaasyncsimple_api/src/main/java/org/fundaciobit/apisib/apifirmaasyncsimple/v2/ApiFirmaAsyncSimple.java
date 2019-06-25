@@ -5,7 +5,7 @@ import java.util.List;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAvailableProfile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleDocumentTypeInformation;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleKeyValue;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
@@ -27,7 +27,7 @@ public interface ApiFirmaAsyncSimple {
 
   public static final String AVAILABLETYPESOFDOCUMENTS = "getAvailableTypesOfDocuments";
 
-  public static final String CREATEANDSTARTSIGNATUREREQUEST = "createAndStartSignatureRequest";
+  public static final String CREATEANDSTARTSIGNATUREREQUESTWITHSIGNBLOCKLIST = "createAndStartSignatureRequestWithSignBlockList";
 
   public static final String CREATEANDSTARTSIGNATUREREQUESTWITHFLOWTEMPLATECODE = "createAndStartSignatureRequestWithFlowTemplateCode";
 
@@ -69,7 +69,7 @@ public interface ApiFirmaAsyncSimple {
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
 
-  public long createAndStartSignatureRequest(FirmaAsyncSimpleSignatureRequest signatureRequest)
+  public long createAndStartSignatureRequestWithSignBlockList(FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest)
       throws AbstractApisIBException;
 
   public long createAndStartSignatureRequestWithFlowTemplateCode(

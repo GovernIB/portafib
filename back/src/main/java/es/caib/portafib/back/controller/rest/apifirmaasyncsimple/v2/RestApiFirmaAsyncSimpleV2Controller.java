@@ -12,10 +12,10 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimplePerso
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleReviser;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignature;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureBlock;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignerInfo;
@@ -451,7 +451,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       return generateServerError(msg, th);
     }
 
-    FirmaAsyncSimpleSignatureRequest sr = new FirmaAsyncSimpleSignatureRequest(
+    FirmaAsyncSimpleSignatureRequestWithSignBlockList sr = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(
         signatureRequest, signatureBlocks);
 
     return createAndStartSignatureRequest(request, sr);
@@ -468,12 +468,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   }
 
-  @RequestMapping(value = "/" + ApiFirmaAsyncSimple.CREATEANDSTARTSIGNATUREREQUEST, method = RequestMethod.POST)
+  @RequestMapping(value = "/" + ApiFirmaAsyncSimple.CREATEANDSTARTSIGNATUREREQUESTWITHSIGNBLOCKLIST, method = RequestMethod.POST)
   @ResponseBody
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public ResponseEntity<?> createAndStartSignatureRequest(HttpServletRequest request,
-      @RequestBody FirmaAsyncSimpleSignatureRequest signatureRequest) {
+      @RequestBody FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest) {
 
     String error = autenticate(request);
     if (error != null) {
@@ -928,7 +928,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPAFull(
-      FirmaAsyncSimpleSignatureRequest signatureRequest, UsuariAplicacioJPA usrapp,
+      FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
       EntitatJPA entitatJPA, Set<Long> fitxersCreats) throws I18NException {
 
     // De Perfil de Firma i Configuracio de Firma
@@ -1368,7 +1368,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPA(
-      FirmaAsyncSimpleSignatureRequest signatureRequest, UsuariAplicacioJPA usrapp,
+      FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
       EntitatJPA entitatJPA, UsuariAplicacioConfiguracioJPA config) throws I18NException {
 
     long peticioDeFirmaID = 0;

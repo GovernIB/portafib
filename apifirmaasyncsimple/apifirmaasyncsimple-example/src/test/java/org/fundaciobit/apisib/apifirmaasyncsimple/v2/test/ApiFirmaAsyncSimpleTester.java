@@ -20,14 +20,14 @@ import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimplePerso
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleReviser;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignature;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureBlock;
-import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequest;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithSignBlockList;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestBase;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestInfo;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestState;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignatureRequestWithFlowTemplateCode;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFile;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleSignedFileInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaAsyncSimpleJersey;
+import org.fundaciobit.apisib.apifirmaasyncsimple.v2.jersey.ApiFirmaAsyncSimpleJersey;
 import org.fundaciobit.apisib.core.exceptions.AbstractApisIBException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBClientException;
 import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
@@ -203,7 +203,7 @@ public class ApiFirmaAsyncSimpleTester {
       long documentType = 8; // TD08 Publicación.
       String documentTypeDescription = "Publicació";
       String languageDoc = "ca";
-      int priority = FirmaAsyncSimpleSignatureRequest.PRIORITY_NORMAL_NORMAL;
+      int priority = FirmaAsyncSimpleSignatureRequestWithSignBlockList.PRIORITY_NORMAL_NORMAL;
       String senderName = "Tester Firma Async";
       String senderDescription = "Tester Firma Async - Description";
       String expedientCode = null;
@@ -239,10 +239,10 @@ public class ApiFirmaAsyncSimpleTester {
       } else {
         // Utilitzar Blocs de Firmes
         log.info("Petició de Firma emprant Blocs de Firmes");
-        FirmaAsyncSimpleSignatureRequest signatureRequest;
-        signatureRequest = new FirmaAsyncSimpleSignatureRequest(signatureRequestBase,
+        FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest;
+        signatureRequest = new FirmaAsyncSimpleSignatureRequestWithSignBlockList(signatureRequestBase,
             signatureBlocks);
-        peticioDeFirmaID2 = api.createAndStartSignatureRequest(signatureRequest);
+        peticioDeFirmaID2 = api.createAndStartSignatureRequestWithSignBlockList(signatureRequest);
       }
 
       log.info("Creada peticio amb ID = " + peticioDeFirmaID2);

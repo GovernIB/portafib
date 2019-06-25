@@ -13,21 +13,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FirmaAsyncSimpleSignatureRequest extends FirmaAsyncSimpleSignatureRequestBase {
+public class FirmaAsyncSimpleSignatureRequestWithSignBlockList extends FirmaAsyncSimpleSignatureRequestBase {
 
   protected FirmaAsyncSimpleSignatureBlock[] signatureBlocks = null;
 
-  public FirmaAsyncSimpleSignatureRequest() {
+  public FirmaAsyncSimpleSignatureRequestWithSignBlockList() {
     super();
   }
 
-  public FirmaAsyncSimpleSignatureRequest(FirmaAsyncSimpleSignatureRequestBase base,
+  public FirmaAsyncSimpleSignatureRequestWithSignBlockList(FirmaAsyncSimpleSignatureRequestBase base,
       FirmaAsyncSimpleSignatureBlock[] signatureBlocks) {
     super(base);
     this.signatureBlocks = signatureBlocks;
   }
 
-  public FirmaAsyncSimpleSignatureRequest(String profileCode, String title,
+  public FirmaAsyncSimpleSignatureRequestWithSignBlockList(String profileCode, String title,
       String description, String reason, FirmaAsyncSimpleFile fileToSign,
       FirmaAsyncSimpleFile originalDetachedSignature, long documentType,
       String documentTypeDescription, String languageDoc, String languageUI, int priority,
@@ -42,7 +42,7 @@ public class FirmaAsyncSimpleSignatureRequest extends FirmaAsyncSimpleSignatureR
         null, null);
   }
 
-  public FirmaAsyncSimpleSignatureRequest(String profileCode, String title,
+  public FirmaAsyncSimpleSignatureRequestWithSignBlockList(String profileCode, String title,
       String description, String reason, FirmaAsyncSimpleFile fileToSign,
       FirmaAsyncSimpleFile originalDetachedSignature, long documentType,
       String documentTypeDescription, String languageDoc, String languageUI, int priority,
