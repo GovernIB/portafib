@@ -91,7 +91,7 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
     
     if (nextFireAt == null) {
       log.warn("El timer " + getTimerName() + "  s'ha aturat ja que no s'ha definit"
-          + " cap expressió de tipus cron.", new Exception());
+          + " cap expressió de tipus cron.");
       return null;
     }
 
@@ -182,8 +182,9 @@ public abstract class AbstractTimerEJB implements AbstractTimerLocal {
       clearTimers();
 
       Date nextExecution = nextExecution();
-
-      log.info("Primer enviament de " + getTimerName() + " sera " + SDF.format(nextExecution));
+      if (nextExecution != null) {
+        log.info("Primer enviament de " + getTimerName() + " sera " + SDF.format(nextExecution));
+      }
 
     } catch (ParseException e) {
       log.fatal("Error creant timer de " + getTimerName() + ": " + e.getMessage(), e);
