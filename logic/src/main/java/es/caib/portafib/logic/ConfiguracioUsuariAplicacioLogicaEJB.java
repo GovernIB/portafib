@@ -254,7 +254,7 @@ public class ConfiguracioUsuariAplicacioLogicaEJB extends UsuariAplicacioConfigu
     final String us = "api portafib ws 1.0";
 
     PerfilDeFirma perfilDeFirma = getPerfilDeFirmaUnike(usuariAplicacioID, where, us,
-        " perfil.passarela.nomesunperfil", true);
+        "perfil.passarela.nomesunperfil", true);
 
     UsuariAplicacioConfiguracioJPA config = (UsuariAplicacioConfiguracioJPA) findByPrimaryKey(perfilDeFirma
         .getConfiguracioDeFirma1ID());

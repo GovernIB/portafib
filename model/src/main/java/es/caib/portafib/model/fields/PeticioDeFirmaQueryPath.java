@@ -167,6 +167,14 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new BooleanField(getQueryPath(), PeticioDeFirmaFields.SEGELLATDETEMPS);
   }
 
+  public IntegerField ORIGENPETICIODEFIRMA() {
+    return new IntegerField(getQueryPath(), PeticioDeFirmaFields.ORIGENPETICIODEFIRMA);
+  }
+
+  public LongField CONFIGURACIODEFIRMAID() {
+    return new LongField(getQueryPath(), PeticioDeFirmaFields.CONFIGURACIODEFIRMAID);
+  }
+
 
 
   @Override
@@ -310,6 +318,14 @@ public class PeticioDeFirmaQueryPath extends org.fundaciobit.genapp.common.query
     return new UsuariEntitatQueryPath(new QueryPath() {
       public String getQueryPath() {
           return PeticioDeFirmaQueryPath.this.getQueryPath() + "solicitantUsuariEntitat3" + ".";
+      }
+    });
+  }
+
+  public UsuariAplicacioConfiguracioQueryPath USUARIAPLICACIOCONFIGURACIO() {
+    return new UsuariAplicacioConfiguracioQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return PeticioDeFirmaQueryPath.this.getQueryPath() + "usuariAplicacioConfiguracio" + ".";
       }
     });
   }

@@ -83,6 +83,22 @@ public class FirmaQueryPath extends org.fundaciobit.genapp.common.query.QueryPat
     return new IntegerField(getQueryPath(), FirmaFields.MINIMDEREVISORS);
   }
 
+  public BooleanField CHECKADMINISTRATIONIDOFSIGNER() {
+    return new BooleanField(getQueryPath(), FirmaFields.CHECKADMINISTRATIONIDOFSIGNER);
+  }
+
+  public BooleanField CHECKDOCUMENTMODIFICATIONS() {
+    return new BooleanField(getQueryPath(), FirmaFields.CHECKDOCUMENTMODIFICATIONS);
+  }
+
+  public BooleanField CHECKVALIDATIONSIGNATURE() {
+    return new BooleanField(getQueryPath(), FirmaFields.CHECKVALIDATIONSIGNATURE);
+  }
+
+  public StringField PERFILDEFIRMA() {
+    return new StringField(getQueryPath(), FirmaFields.PERFILDEFIRMA);
+  }
+
 
 
   @Override

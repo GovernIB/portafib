@@ -7,7 +7,6 @@ import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.timestamp.api.ITimeStampPlugin;
 
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampInfo;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.entity.PerfilDeFirma;
@@ -35,9 +34,13 @@ public interface SegellDeTempsLogicaLocal extends AbstractPluginLogicaLocal<ITim
   public ITimeStampGenerator getTimeStampGeneratorForWeb(
       Entitat entitat, boolean userRequiresTimeStamp)
       throws I18NException;
+  
+  public ITimeStampGenerator getTimeStampGeneratorForUsrApp(String usuariAplicacioID,
+      EntitatJPA entitat, UsuariAplicacioConfiguracio config)  throws I18NException;
 
-  public PortaFIBTimeStampInfo getTimeStampInfoForUsrApp(UsuariAplicacioJPA usrApp,
-      EntitatJPA entitat, PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config, boolean userRequiresTimeStamp)
+  public PortaFIBTimeStampInfo getTimeStampInfoForUsrApp(String usuariAplicacioID,
+      EntitatJPA entitat, PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config,
+      boolean userRequiresTimeStamp)
       throws I18NException;
 
 }

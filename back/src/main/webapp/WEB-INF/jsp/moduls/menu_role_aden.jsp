@@ -1,3 +1,4 @@
+<%@page import="es.caib.portafib.utils.ConstantsV2"%>
 <%@page import="es.caib.portafib.back.controller.aden.PerfilDeFirmaAdenController"%>
 <%@page import="es.caib.portafib.model.fields.PerfilDeFirmaFields"
 %><%@page import="es.caib.portafib.back.controller.aden.ConfiguracioDeFirmaAdenController"
@@ -54,7 +55,8 @@ final String[] menu2 = {
     CONFIGURACIO_DE_FIRMA,    
     "",
     "plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural",
-    "peticiodefirma.llistar", // Llistar Peticions de Firma de usauris Aplicacio
+    "peticiodefirma.wsv1.llistar", // Peticions de Firma API PortaFIB WS v1
+    "peticiodefirma.asyncsimple.llistar", // Peticions de Firma API Firma Async Simple v2
     "custodiaInfo.custodiaInfo.plural",
     "notificaciows.llistat"
 };
@@ -108,7 +110,9 @@ static {
 
   mapping.put("notificaciows.llistat", "/aden/notificaciows/list");
 
-  mapping.put("peticiodefirma.llistar", "/aden/peticiofirmaaplicacio/list");
+  mapping.put("peticiodefirma.wsv1.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA + "/list");
+  
+  mapping.put("peticiodefirma.asyncsimple.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_ASYNC_SIMPLE + "/list");
   
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
   

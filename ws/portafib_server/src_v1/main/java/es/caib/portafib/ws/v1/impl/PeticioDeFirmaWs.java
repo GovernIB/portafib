@@ -13,6 +13,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.ws.v1.utils.FitxerUtils;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
 
@@ -84,6 +85,8 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
 
     // Bean
     PeticioDeFirmaJPA jpa = toJPA(peticioDeFirmaWs);
+    // Nous camps a Firma i a Peticio de Firma #281
+    jpa.setOrigenPeticioDeFirma(ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1);
 
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAFirmar() != null) {

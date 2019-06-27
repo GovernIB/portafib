@@ -51,6 +51,8 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
 	 public static final StringField SOLICITANTUSUARIENTITAT3ID = new StringField(_TABLE_MODEL, "solicitantUsuariEntitat3ID", "solicitantpersona3id");
 	 public static final BooleanField AVISWEB = new BooleanField(_TABLE_MODEL, "avisWeb", "avisweb");
 	 public static final BooleanField SEGELLATDETEMPS = new BooleanField(_TABLE_MODEL, "segellatDeTemps", "segellatdetemps");
+	 public static final IntegerField ORIGENPETICIODEFIRMA = new IntegerField(_TABLE_MODEL, "origenPeticioDeFirma", "origenpeticiodefirma");
+	 public static final LongField CONFIGURACIODEFIRMAID = new LongField(_TABLE_MODEL, "configuracioDeFirmaID", "configuraciodefirmaid");
 
 
   public static final Field<?>[] ALL_PETICIODEFIRMA_FIELDS = {
@@ -92,7 +94,9 @@ public interface PeticioDeFirmaFields extends java.io.Serializable {
     SOLICITANTUSUARIENTITAT2ID,
     SOLICITANTUSUARIENTITAT3ID,
     AVISWEB,
-    SEGELLATDETEMPS
+    SEGELLATDETEMPS,
+    ORIGENPETICIODEFIRMA,
+    CONFIGURACIODEFIRMAID
   };
 
 

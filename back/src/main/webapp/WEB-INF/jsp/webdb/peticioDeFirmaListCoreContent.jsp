@@ -262,6 +262,22 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${peticioDeFirma.segellatDeTemps?'success':'error'}.png"/>">
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.origenPeticioDeFirma}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfValuesForOrigenPeticioDeFirma[tmp]}
+          </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}">
+          <td>
+          <c:set var="tmp">${peticioDeFirma.configuracioDeFirmaID}</c:set>
+          <c:if test="${not empty tmp}">
+          ${__theFilterForm.mapOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID[tmp]}
+          </c:if>
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

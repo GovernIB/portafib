@@ -30,6 +30,10 @@ public interface FirmaFields extends java.io.Serializable {
 	 public static final BooleanField MOSTRARRUBRICA = new BooleanField(_TABLE_MODEL, "mostrarRubrica", "mostrarrubrica");
 	 public static final StringField MOTIU = new StringField(_TABLE_MODEL, "motiu", "motiu");
 	 public static final IntegerField MINIMDEREVISORS = new IntegerField(_TABLE_MODEL, "minimDeRevisors", "minimderevisors");
+	 public static final BooleanField CHECKADMINISTRATIONIDOFSIGNER = new BooleanField(_TABLE_MODEL, "checkAdministrationIdOfSigner", "checkadministrationidofsigner");
+	 public static final BooleanField CHECKDOCUMENTMODIFICATIONS = new BooleanField(_TABLE_MODEL, "checkDocumentModifications", "checkdocumentmodifications");
+	 public static final BooleanField CHECKVALIDATIONSIGNATURE = new BooleanField(_TABLE_MODEL, "checkValidationSignature", "checkvalidationsignature");
+	 public static final StringField PERFILDEFIRMA = new StringField(_TABLE_MODEL, "perfilDeFirma", "perfildefirma");
 
 
   public static final Field<?>[] ALL_FIRMA_FIELDS = {
@@ -50,7 +54,11 @@ public interface FirmaFields extends java.io.Serializable {
     TIPUSESTATDEFIRMAFINALID,
     MOSTRARRUBRICA,
     MOTIU,
-    MINIMDEREVISORS
+    MINIMDEREVISORS,
+    CHECKADMINISTRATIONIDOFSIGNER,
+    CHECKDOCUMENTMODIFICATIONS,
+    CHECKVALIDATIONSIGNATURE,
+    PERFILDEFIRMA
   };
 
 

@@ -129,6 +129,12 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.SEGELLATDETEMPS)}">
         <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.SEGELLATDETEMPS)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

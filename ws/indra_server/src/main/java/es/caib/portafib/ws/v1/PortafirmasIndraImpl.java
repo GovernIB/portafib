@@ -97,6 +97,7 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
+import es.caib.portafib.utils.ConstantsV2;
 import es.indra.portafirmasws.cws.Cws;
 import es.indra.portafirmasws.cws.Application;
 import es.indra.portafirmasws.cws.DeleteRequest;
@@ -856,8 +857,8 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       // Afegirem filtre de ID de peticio de firma        
       for (Long docID : docIDs) {
         whereDoc = Where.OR(whereDoc, PeticioDeFirmaFields.PETICIODEFIRMAID.equal(docID));          
-      }        
-    }      
+      }
+    }
     
     
     // Eliminar les peticions d'usuari-entitat via web
@@ -1717,6 +1718,9 @@ public class PortafirmasIndraImpl implements Cws, Constants {
       peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacio.getUsuariAplicacioID());
       peticioDeFirma.setUsuariAplicacio(usuariAplicacio);
       peticioDeFirma.setLogoSegellID(null);
+      
+      // Nous camps a Firma i a Peticio de Firma #281
+      peticioDeFirma.setOrigenPeticioDeFirma(ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1);
       
       // Verificar que aquest tipus de document pertany al usuari app
       DocumentAttributes attributes = documentReq.getAttributes();

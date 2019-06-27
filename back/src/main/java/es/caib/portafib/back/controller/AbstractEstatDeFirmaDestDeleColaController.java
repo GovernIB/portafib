@@ -77,6 +77,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -91,6 +92,7 @@ import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.entity.UsuariPersona;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.ColaboracioDelegacioFields;
@@ -127,6 +129,9 @@ import es.caib.portafib.utils.Configuracio;
 
     @EJB(mappedName = "portafib/ColaboracioDelegacioLogicaEJB/local")
     protected ColaboracioDelegacioLogicaLocal colaboracioDelegacioEjb;
+    
+    @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+    protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
     @EJB(mappedName = "portafib/FirmaEJB/local")
     protected FirmaLocal firmaEjb;
@@ -677,10 +682,7 @@ import es.caib.portafib.utils.Configuracio;
         
         
         EstatDeFirmaQueryPath efqp = new EstatDeFirmaQueryPath();
-        
-        
-        
-        
+
         SelectMultipleStringKeyValue smskv;
         smskv = new SelectMultipleStringKeyValue(ESTATDEFIRMAID.select, 
             efqp.FIRMA().BLOCDEFIRMES().FLUXDEFIRMES().PETICIODEFIRMA().PETICIODEFIRMAID().select
@@ -1364,6 +1366,7 @@ import es.caib.portafib.utils.Configuracio;
         FirmaJPA firma = check.firma;
         PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
         
+        
         // Extreim número de firmes del bloc, si aquesta valor és 1 i no té delegats 
         // llavors el token té temps il·limitat per firmar.
         long timeAliveToken = -1;
@@ -1500,11 +1503,54 @@ import es.caib.portafib.utils.Configuracio;
        final String signatureID = encodeSignatureID(peticioDeFirmaID, estatDeFirmaID, token);
        
        // S'ha d'obtenir de la PeticioDeFirma
-       boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
-       ITimeStampGenerator timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
        
-       
-       
+       // Nous camps de Peticio de Firma #281
+       ITimeStampGenerator timeStampGenerator;
+       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
+          
+          case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:          
+          {
+            boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
+            timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
+          }
+          break;
+
+          case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+          {
+            boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
+            if (userRequiresTimeStamp) {
+              if (peticioDeFirma.getConfiguracioDeFirmaID() == null) {
+                // Per peticions Antigues
+                timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
+              } else {
+                UsuariAplicacioConfiguracio configuracioDefirma;
+                configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+
+                timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
+                    peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
+              }
+            } else {
+              timeStampGenerator = null;
+            }
+          }
+          break;
+          
+          case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          {
+            UsuariAplicacioConfiguracio configuracioDefirma;
+            configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+
+            timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
+                  peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
+          }
+          break;
+            
+          default:
+           // XYZ ZZZ TRA
+            throw new I18NException("genapp.comodi"," No hi ha codi per el Segellat de Temps de les Peticions de Firma amb Origen " + 
+              I18NUtils.tradueix("origenpeticiodefirma." + peticioDeFirma.getOrigenPeticioDeFirma()));
+        }
+
        // Seleccionar si existeixen restriccionas de PLugins de Firma segons els 
        // Tipus de Document de la Petició de Firma
        {
@@ -1532,12 +1578,12 @@ import es.caib.portafib.utils.Configuracio;
        final int originalNumberOfSigns = PdfUtils.getNumberOfSignaturesInPDF(originalDoc);
       
        
-       //  #174 TODO XYZ ZZZ
-       final String expedientCode = null;
-       final String expedientName = null;
-       final String expedientUrl = null;
-       final String procedureCode = null;
-       final String procedureName = null;
+       //  #174
+       final String expedientCode = peticioDeFirma.getExpedientCodi();
+       final String expedientName = peticioDeFirma.getExpedientNom();
+       final String expedientUrl = peticioDeFirma.getExpedientUrl();
+       final String procedureCode = peticioDeFirma.getProcedimentCodi();
+       final String procedureName = peticioDeFirma.getProcedimentNom();
 
        return new FileInfoFull(SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 

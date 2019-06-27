@@ -17,6 +17,7 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.fundaciobit.genapp.common.ws.WsI18NException;
+import org.fundaciobit.genapp.common.ws.WsValidationException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
@@ -192,17 +193,23 @@ public class PortaFIBInInterceptor extends AbstractPhaseInterceptor<Message> {
         UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
         I18NException i18n = (I18NException) cause;
         String msg = I18NLogicUtils.getMessage(i18n, new Locale(userapp.getIdiomaID()));
+        
+        log.error("PortaFIBInInterceptor::handleFault(I18NException): " + msg);
+        
         message.setContent(Exception.class,
         // new WsI18NException(i18n.getTraduccio(), msg, cause));
             new WsI18NException(WsUtils.convertToWsTranslation(i18n.getTraduccio()), msg, cause));
       } else if (cause instanceof I18NValidationException) {
-        log.error("PortaFIBInInterceptor::handleFault() - CAUSE.ValidationException");
+        log.error("PortaFIBInInterceptor::handleFault() - CAUSE.");
         UsuariAplicacioJPA userapp = UsuariAplicacioCache.get();
         I18NValidationException ve = (I18NValidationException) cause;
-        message.setContent(
-            Exception.class,
-            WsUtils.convertToWsValidationException(ve,
-                new Locale(userapp.getIdiomaID())));
+       
+        WsValidationException wsve = WsUtils.convertToWsValidationException(ve,
+            new Locale(userapp.getIdiomaID()));
+        
+        log.error("PortaFIBInInterceptor::handleFault(ValidationException): " + wsve.getMessage());
+        
+        message.setContent(Exception.class, wsve);
       } else {
         log.error("PortaFIBInInterceptor::handleFault() - Cause.msg = " + cause.getMessage());
         log.error("PortaFIBInInterceptor::handleFault() - Cause.type = " + cause.getClass());

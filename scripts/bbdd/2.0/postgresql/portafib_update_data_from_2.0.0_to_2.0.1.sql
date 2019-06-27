@@ -82,3 +82,14 @@ INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio,
 INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (68, 68, 'TD68 - Iniciativa legislativa.', 68, NULL);
 INSERT INTO pfi_tipusdocument (tipusdocumentid, tipusdocumentbaseid, descripcio, nom, usuariaplicacioid) VALUES (69, 69, 'TD69 - Petició.', 69, NULL);
 
+
+
+
+--  ------------------------------------
+--   Nous camps de Peticio de Firma #281
+--  ------------------------------------
+
+UPDATE pfi_peticiodefirma SET origenpeticiodefirma=0 WHERE usuarientitatid IS NOT NULL;
+UPDATE pfi_peticiodefirma SET origenpeticiodefirma=1 WHERE usuarientitatid IS NULL;
+
+

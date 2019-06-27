@@ -29,6 +29,8 @@ public class PeticioDeFirmaBeanValidator
 
   protected final es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager;
 
+  protected final es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager;
+
   protected final es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager;
 
 
@@ -41,6 +43,7 @@ public class PeticioDeFirmaBeanValidator
      es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
+     es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) { 
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__fluxDeFirmesManager = __fluxDeFirmesManager;
@@ -48,6 +51,7 @@ public class PeticioDeFirmaBeanValidator
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
+    this.__usuariAplicacioConfiguracioManager = __usuariAplicacioConfiguracioManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     _validator = new PeticioDeFirmaValidator<PeticioDeFirmaJPA>();
   }
@@ -59,6 +63,7 @@ public class PeticioDeFirmaBeanValidator
      es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager,
      es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager,
      es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager,
+     es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager,
      es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     this.__custodiaInfoManager = __custodiaInfoManager;
     this.__fluxDeFirmesManager = __fluxDeFirmesManager;
@@ -66,6 +71,7 @@ public class PeticioDeFirmaBeanValidator
     this.__peticioDeFirmaManager = __peticioDeFirmaManager;
     this.__tipusDocumentManager = __tipusDocumentManager;
     this.__usuariAplicacioManager = __usuariAplicacioManager;
+    this.__usuariAplicacioConfiguracioManager = __usuariAplicacioConfiguracioManager;
     this.__usuariEntitatManager = __usuariEntitatManager;
     this._validator = _validator;
   }
@@ -73,7 +79,7 @@ public class PeticioDeFirmaBeanValidator
   @Override
   public List<I18NFieldError> validate(PeticioDeFirmaJPA target, boolean isNou) throws I18NException {
     BeanValidatorResult<PeticioDeFirmaJPA> _bvr_ = new BeanValidatorResult<PeticioDeFirmaJPA>();
-    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __fluxDeFirmesManager, __idiomaManager, __peticioDeFirmaManager, __tipusDocumentManager, __usuariAplicacioManager, __usuariEntitatManager);
+    _validator.validate(_bvr_, target, isNou, __custodiaInfoManager, __fluxDeFirmesManager, __idiomaManager, __peticioDeFirmaManager, __tipusDocumentManager, __usuariAplicacioManager, __usuariAplicacioConfiguracioManager, __usuariEntitatManager);
     return _bvr_.getErrors();
   }
 }

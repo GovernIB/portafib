@@ -370,7 +370,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
       // Cercar en propietats d'aplicació el Segellador de Temps seleccionat i instanciar-ho
 
       boolean userRequiresTimeStamp = true;
-      info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usrApp, entitat, perfilDeFirma,
+      info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usrApp.getUsuariAplicacioID(), entitat, perfilDeFirma,
           config, userRequiresTimeStamp);
 
       // XYZ ZZZ TRA

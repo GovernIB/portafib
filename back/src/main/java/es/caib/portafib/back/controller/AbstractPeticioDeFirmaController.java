@@ -120,6 +120,17 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
    return __tmp;
  }
   
+  // Nous camps de Peticio de Firma #281
+  @Override  
+  public List<StringKeyValue> getReferenceListForOrigenPeticioDeFirma(HttpServletRequest request,
+      ModelAndView mav, Where where)  throws I18NException {
+   List<StringKeyValue> __tmp = new java.util.ArrayList<StringKeyValue>();
+   for (int i = 0; i < 4; i++) {
+     __tmp.add(new StringKeyValue(String.valueOf(i), I18NUtils.tradueix("origenpeticiodefirma." + i)));
+   }
+   return __tmp;
+ }
+  
   
 
 }

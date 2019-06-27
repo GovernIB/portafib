@@ -50,6 +50,8 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
     this.listOfUsuariEntitatForSolicitantUsuariEntitat1ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat1ID;
     this.listOfUsuariEntitatForSolicitantUsuariEntitat2ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat2ID;
     this.listOfUsuariEntitatForSolicitantUsuariEntitat3ID = __toClone.listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+    this.listOfValuesForOrigenPeticioDeFirma = __toClone.listOfValuesForOrigenPeticioDeFirma;
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID = __toClone.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID;
   }
   
   public PeticioDeFirmaForm(PeticioDeFirmaJPA peticioDeFirma, boolean nou) {
@@ -285,6 +287,30 @@ public class PeticioDeFirmaForm extends PortaFIBBaseForm {
 
   public void setListOfUsuariEntitatForSolicitantUsuariEntitat3ID(List<StringKeyValue> listOfUsuariEntitatForSolicitantUsuariEntitat3ID) {
     this.listOfUsuariEntitatForSolicitantUsuariEntitat3ID = listOfUsuariEntitatForSolicitantUsuariEntitat3ID;
+  }
+
+
+
+  private List<StringKeyValue> listOfValuesForOrigenPeticioDeFirma;
+
+  public List<StringKeyValue> getListOfValuesForOrigenPeticioDeFirma() {
+    return this.listOfValuesForOrigenPeticioDeFirma;
+  }
+
+  public void setListOfValuesForOrigenPeticioDeFirma(List<StringKeyValue> listOfValuesForOrigenPeticioDeFirma) {
+    this.listOfValuesForOrigenPeticioDeFirma = listOfValuesForOrigenPeticioDeFirma;
+  }
+
+
+
+  private List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID;
+
+  public List<StringKeyValue> getListOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID() {
+    return this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID;
+  }
+
+  public void setListOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID(List<StringKeyValue> listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID) {
+    this.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID = listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID;
   }
 
 

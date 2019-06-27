@@ -227,6 +227,15 @@ public class FirmaController
       fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, MOSTRARRUBRICA);
 
 
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CHECKADMINISTRATIONIDOFSIGNER);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CHECKDOCUMENTMODIFICATIONS);
+
+
+      fillValuesToGroupByItemsBoolean("genapp.checkbox", groupByItemsMap, CHECKVALIDATIONSIGNATURE);
+
+
     return groupByItemsMap;
   }
 

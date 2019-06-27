@@ -307,6 +307,17 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
   }
 
 
+  private java.lang.String perfilDeFirma;
+
+  public java.lang.String getPerfilDeFirma() {
+    return this.perfilDeFirma;
+  }
+
+  public void setPerfilDeFirma(java.lang.String perfilDeFirma) {
+    this.perfilDeFirma = perfilDeFirma;
+  }
+
+
   public FirmaFilterForm() {
   }
   
@@ -338,6 +349,7 @@ public class FirmaFilterForm extends PortaFIBBaseFilterForm implements FirmaFiel
     this.motiu = __toClone.motiu;
     this.minimDeRevisorsDesde = __toClone.minimDeRevisorsDesde;
     this.minimDeRevisorsFins = __toClone.minimDeRevisorsFins;
+    this.perfilDeFirma = __toClone.perfilDeFirma;
     this.mapOfUsuariEntitatForDestinatariID = __toClone.mapOfUsuariEntitatForDestinatariID;
     this.mapOfBlocDeFirmesForBlocDeFirmaID = __toClone.mapOfBlocDeFirmesForBlocDeFirmaID;
     this.mapOfValuesForTipusEstatDeFirmaFinalID = __toClone.mapOfValuesForTipusEstatDeFirmaFinalID;

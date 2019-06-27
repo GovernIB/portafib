@@ -125,6 +125,32 @@
           ${firma.minimDeRevisors}
           </td>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
+          <td>
+            &nbsp;<c:if test="${not empty firma.checkAdministrationIdOfSigner}">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkAdministrationIdOfSigner?'success':'error'}.png"/>">
+            </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}">
+          <td>
+            &nbsp;<c:if test="${not empty firma.checkDocumentModifications}">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkDocumentModifications?'success':'error'}.png"/>">
+            </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKVALIDATIONSIGNATURE)}">
+          <td>
+            &nbsp;<c:if test="${not empty firma.checkValidationSignature}">
+            <img height="18" width="18" src="<c:url value="/img/icn_alert_${firma.checkValidationSignature?'success':'error'}.png"/>">
+            </c:if>
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
+          <td>
+          ${firma.perfilDeFirma}
+          </td>
+        </c:if>
 
 
         <!--  /** Additional Fields */  -->

@@ -53,7 +53,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = "/aden/peticio/netejaesborrat")
 @SessionAttributes(types = { PeticioDeFirmaForm.class, PeticioDeFirmaFilterForm.class })
-public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFirmaAdenController {
+public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFirmaAdenController implements ConstantsV2 {
 
   public static final int SOLICITANT = 0;
 
@@ -375,14 +375,31 @@ public class PeticioDeFirmaNetejarEsborrarController extends AbstractPeticioDeFi
 
     for (PeticioDeFirma peticio : list) {
       key = peticio.getPeticioDeFirmaID();
+      
+      // Nous camps de Peticio de Firma #281
+      switch (peticio.getOrigenPeticioDeFirma()) {
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          mapSoli.put(key, "<small><b>WEB:</b> " + mapWeb.get(peticio.getSolicitantUsuariEntitat1ID())
+              + "</small>");
+        break;
 
-      if (peticio.getSolicitantUsuariEntitat1ID() == null) {
-        mapSoli.put(key, "<small><b>APP:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
-            + "</small>");
-      } else {
-        mapSoli.put(key, "<small><b>WEB:</b> " + mapWeb.get(peticio.getSolicitantUsuariEntitat1ID())
-            + "</small>");
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+          mapSoli.put(key, "<small><b>WS_V1:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
+              + "</small>");
+        break;
+        
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          mapSoli.put(key, "<small><b>ASYNC_SIMPLE_V2:</b> " + mapApp.get(peticio.getSolicitantUsuariAplicacioID())
+              + "</small>");
+        break;
+          
+        default:
+         // XYZ ZZZ TRA
+         HtmlUtils.saveMessageError(request, "No hi ha codi per el PostList de les Peticions de Firma amb Origen " + 
+            I18NUtils.tradueix("origenpeticiodefirma." + peticio.getOrigenPeticioDeFirma()));
       }
+      
+
 
       if (peticio.getFitxerAFirmarID() != null) {
 

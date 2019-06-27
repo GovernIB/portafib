@@ -50,7 +50,7 @@ import es.caib.portafib.utils.ConstantsV2;
 @Controller
 @RequestMapping(value = CustodiaInfoSoliController.SOLI_CUSTODIA_CONTEXT)
 @SessionAttributes(types = { CustodiaInfoForm.class, CustodiaInfoFilterForm.class })
-public class CustodiaInfoSoliController extends CustodiaInfoController {
+public class CustodiaInfoSoliController extends CustodiaInfoController implements ConstantsV2 {
 
   public static final String SOLI_CUSTODIA_CONTEXT = "/soli/peticio/custodiainfo";
   
@@ -186,13 +186,35 @@ public class CustodiaInfoSoliController extends CustodiaInfoController {
       
       EntitatJPA entitatJPA = LoginInfo.getInstance().getEntitat();
       
-      Integer politicaDeCustodia;      
+      Integer politicaDeCustodia;
+      
+      // Nous camps de Peticio de Firma #281
+      switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
+         
+         case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+           // Usuari Entitat
+           politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID(), entitatJPA);
+         break;
+
+         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+         case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+            // Usuari Aplicació
+           politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID(), entitatJPA);
+         break;
+           
+         default:
+          // XYZ ZZZ TRA
+           throw new I18NException("genapp.comodi"," No hi ha codi per obtenir la Politica de Custodia de les Peticions de Firma amb Origen " + 
+             I18NUtils.tradueix("origenpeticiodefirma." + peticioDeFirma.getOrigenPeticioDeFirma()));
+       }
+      
+      
+      
+      
       if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
-        // Usuari Aplicació
-        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUA(peticioDeFirma.getSolicitantUsuariAplicacioID(), entitatJPA);
+        
       } else {
-        // Usuari Entitat
-        politicaDeCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(peticioDeFirma.getSolicitantUsuariEntitat1ID(), entitatJPA);
+        
       }
       
       log.info("XYZ ZZZ getCustodiaInfoForm():: politicaDeFirma => " + politicaDeCustodia);

@@ -26,6 +26,7 @@ import es.caib.portafib.utils.ConstantsV2;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -37,7 +38,8 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless(name = "CustodiaInfoLogicaEJB")
 @SecurityDomain("seycon")
-public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaInfoLogicaLocal {
+public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB 
+   implements CustodiaInfoLogicaLocal, ConstantsV2 {
 
 
   @EJB(mappedName = EntitatLocal.JNDI_NAME)
@@ -503,20 +505,35 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB implements CustodiaIn
      EntitatJPA entitatJPA, UsuariAplicacio usuariAplicacio, UsuariEntitat usuariEntitat) throws I18NException, I18NValidationException {
 
     
-    String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
+    //String usuariEntitatID = peticio.getSolicitantUsuariEntitat1ID();
     
     final CustodiaInfoJPA custodiaSentByUser = peticio.getCustodiaInfo();
     final String titol = peticio.getTitol();
     
     CustodiaInfo onlyDef;
-    if (usuariEntitatID == null) {
-      log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
-      onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol, entitatJPA);      
-    } else {
-      log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
-      final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
-      onlyDef = this.getCustodiaUE(entitatJPA, usuariEntitat, usuariAplicacioID, custodiaSentByUser, titol);
-    }
+    
+    // Nous camps de Peticio de Firma #281
+    switch (peticio.getOrigenPeticioDeFirma()) {
+       
+       case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+         log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER ENTITAT (cridant getCustodiaUE)");
+         final String usuariAplicacioID = usuariAplicacio.getUsuariAplicacioID();
+         onlyDef = this.getCustodiaUE(entitatJPA, usuariEntitat, usuariAplicacioID, custodiaSentByUser, titol);
+       break;
+
+       case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+       case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+         log.info("XYZ ZZZ  getAllowedCustodyInfo:: ES USER APP (cridant a getCustodiaUA)");
+         onlyDef = this.getCustodiaUA(usuariAplicacio, custodiaSentByUser, titol, entitatJPA); 
+       break;
+         
+       default:
+        // XYZ ZZZ TRA
+         throw new I18NException("genapp.comodi","No hi ha codi per l´obtenció de Custodia per defecte"
+             + " de les Peticions de Firma amb Origen " + 
+           I18NCommonUtils.tradueix(new Locale("ca"),"origenpeticiodefirma." 
+             + peticio.getOrigenPeticioDeFirma()));
+     }
    
 
     return onlyDef;

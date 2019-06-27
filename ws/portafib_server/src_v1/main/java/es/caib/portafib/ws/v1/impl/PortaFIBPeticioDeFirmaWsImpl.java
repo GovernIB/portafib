@@ -34,7 +34,9 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.TipusDocumentJPA;
 import es.caib.portafib.jpa.TraduccioMapJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
@@ -86,6 +88,9 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
   
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
+  
+  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+  protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
   @Resource
   private WebServiceContext wsContext;
@@ -350,6 +355,15 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       PeticioDeFirmaJPA peticioDeFirmaJPA = PeticioDeFirmaWs.toJPA(peticioDeFirmaWs,
           fitxerLogicaEjb, fitxersCreats);
       
+      
+      
+      String userapp = wsContext.getUserPrincipal().getName();
+      
+      // Nous camps a Firma i a Peticio de Firma #281
+      UsuariAplicacioConfiguracioJPA config;
+      config = configuracioDeFirmaLogicaEjb.getConfiguracioUsuariAplicacioPerApiPortafibWS1(userapp);
+      peticioDeFirmaJPA.setConfiguracioDeFirmaID(config.getUsuariAplicacioConfigID());
+
       // Convertir Fitxers
       Long fitxerAFirmarID = peticioDeFirmaJPA.getFitxerAFirmarID();
       {
@@ -384,9 +398,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
         
       }
       // Final Convertir Fitxer
-      
 
-      String userapp = wsContext.getUserPrincipal().getName();
       peticioDeFirmaJPA.setSolicitantUsuariAplicacioID(userapp);
 
       peticioDeFirmaJPA = peticioDeFirmaLogicaEjb.createFull(peticioDeFirmaJPA);

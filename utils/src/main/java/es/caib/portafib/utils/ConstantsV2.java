@@ -178,6 +178,7 @@ public interface ConstantsV2 {
   
 
   public static final String CONTEXT_ADEN_PETICIOFIRMA = "/aden/peticiofirmaaplicacio";
+  public static final String CONTEXT_ADEN_PETICIOFIRMA_ASYNC_SIMPLE = "/aden/peticiofirmaasyncsimple";
   
   public static final String CONTEXT_ADEN_NOTIFICACIONSWS = "/aden/notificaciows";
 
@@ -464,6 +465,17 @@ public interface ConstantsV2 {
   // Hauria de ser calculat
   public static final int MAX_FIRMES_PER_TAULA 
       = (A4_ALT - LOWER_MARGIN_PAGE - SIGNBOX_START)/SIGNBOX_HEIGHT; // ~10;  
+
+  
+
+  // ========================================================
+  // ----------  Origen Peticio de Firma #281 ---------------
+  // ========================================================
+
+  public static final int  ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB=0;
+  public static final int  ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1=1;
+  public static final int  ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2=2;
+  public static final int  ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1=3;
   
 
 }

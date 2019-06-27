@@ -56,6 +56,18 @@ public interface Firma extends org.fundaciobit.genapp.common.IGenAppEntity {
 	public int getMinimDeRevisors();
 	public void setMinimDeRevisors(int _minimDeRevisors_);
 
+	public java.lang.Boolean getCheckAdministrationIdOfSigner();
+	public void setCheckAdministrationIdOfSigner(java.lang.Boolean _checkAdministrationIdOfSigner_);
+
+	public java.lang.Boolean getCheckDocumentModifications();
+	public void setCheckDocumentModifications(java.lang.Boolean _checkDocumentModifications_);
+
+	public java.lang.Boolean getCheckValidationSignature();
+	public void setCheckValidationSignature(java.lang.Boolean _checkValidationSignature_);
+
+	public java.lang.String getPerfilDeFirma();
+	public void setPerfilDeFirma(java.lang.String _perfilDeFirma_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerFirmat();
 

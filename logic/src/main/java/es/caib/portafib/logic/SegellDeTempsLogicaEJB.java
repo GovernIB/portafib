@@ -1,7 +1,6 @@
 package es.caib.portafib.logic;
 
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampGenerator;
 import es.caib.portafib.logic.utils.PortaFIBTimeStampInfo;
@@ -95,14 +94,16 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
     return new PortaFIBTimeStampGenerator(plugin);
 
   }
-
+  
+  
+  
   @Override
-  public PortaFIBTimeStampInfo getTimeStampInfoForUsrApp(UsuariAplicacioJPA usrApp,
-      EntitatJPA entitat, PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config,
-      boolean userRequiresTimeStamp)  throws I18NException {
+  public ITimeStampGenerator getTimeStampGeneratorForUsrApp(String usuariAplicacioID,
+      EntitatJPA entitat, UsuariAplicacioConfiguracio config)  throws I18NException {
 
-    Long pluginSegellatID = getTimestampPluginIDOfConfig(usrApp.getUsuariAplicacioID(),
-        perfilDeFirma, config, entitat, userRequiresTimeStamp);
+    final boolean userRequiresTimeStamp = false;
+    Long pluginSegellatID = getTimestampPluginIDOfConfig(usuariAplicacioID,
+         config, entitat, userRequiresTimeStamp);
 
 //    if (pluginSegellatID == null) {
 //      // XYZ ZZZ TRA
@@ -112,9 +113,9 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
 //          + " no en té definit cap.");
 //    }
 
-    PortaFIBTimeStampInfo info;
+    ITimeStampGenerator timeStampGenerator;
     if (pluginSegellatID == null) {
-      info = null;
+      timeStampGenerator = null;
     } else {
       ITimeStampPlugin plugin = this.getInstanceByPluginID(pluginSegellatID);
   
@@ -124,13 +125,52 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
             "No s'ha pogut instanciar el plugin de segellat amb ID " + pluginSegellatID);
       }
   
-      ITimeStampGenerator timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
-  
-      String absoluteURL = LogicUtils.getUrlBase(perfilDeFirma);
-      String timeStampUrl = getTimeStampUrl(absoluteURL, pluginSegellatID);
-      
-      info = new PortaFIBTimeStampInfo(timeStampGenerator, timeStampUrl);
+      timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
     }
+    return timeStampGenerator;
+  }
+  
+  
+
+  @Override
+  public PortaFIBTimeStampInfo getTimeStampInfoForUsrApp(String usuariAplicacioID,
+      EntitatJPA entitat, PerfilDeFirma perfilDeFirma, UsuariAplicacioConfiguracio config,
+      boolean userRequiresTimeStamp)  throws I18NException {
+
+    Long pluginSegellatID = getTimestampPluginIDOfConfig(usuariAplicacioID,
+         config, entitat, userRequiresTimeStamp);
+
+//    if (pluginSegellatID == null) {
+//      // XYZ ZZZ TRA
+//      throw new I18NException("genapp.comodi", "La petició requereix Segellat de Temps,"
+//          + " però La configuració de Firma amb nom " + config.getNom()
+//          + " associat al Pefil de Firma amb codi " + perfilDeFirma.getCodi()
+//          + " no en té definit cap.");
+//    }
+
+    ITimeStampGenerator timeStampGenerator;
+    if (pluginSegellatID == null) {
+      timeStampGenerator = null;
+    } else {
+      ITimeStampPlugin plugin = this.getInstanceByPluginID(pluginSegellatID);
+  
+      if (plugin == null) {
+        // TODO Traduir com toca
+        throw new I18NException("error.unknown",
+            "No s'ha pogut instanciar el plugin de segellat amb ID " + pluginSegellatID);
+      }
+  
+      timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
+    }
+    
+    
+    
+    String absoluteURL = LogicUtils.getUrlBase(perfilDeFirma);
+    String timeStampUrl = getTimeStampUrl(absoluteURL, pluginSegellatID);
+    PortaFIBTimeStampInfo info;
+    info = new PortaFIBTimeStampInfo(timeStampGenerator, timeStampUrl);
+    
+    
     return info;
   }
 
@@ -144,7 +184,7 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
    * @throws I18NException
    */
   protected Long getTimestampPluginIDOfConfig(final String usuariAplicacioID,
-      PerfilDeFirma perfilDeFirma, final UsuariAplicacioConfiguracio config,
+      final UsuariAplicacioConfiguracio config,
       EntitatJPA entitatJPA, boolean userRequiresTimeStamp) throws I18NException {
 
     int politicaSegellatDeTemps = config.getPoliticaSegellatDeTemps();
@@ -166,6 +206,7 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_NO:
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_USUARI_ELEGEIX_PER_DEFECTE_SI:
         if(!userRequiresTimeStamp) {
+          // És usuari aplicació
           pluginSegellatTempsID = null;
           break;
         }

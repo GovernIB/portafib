@@ -99,6 +99,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     String emissorCertificat = null;
     String subjectCertificat = null;
     Boolean checkValidationSignature = null;
+    String perfilDeFirma = null;
+    
     ValidateSignatureResponse validateSignatureResponse = null;
     if (validacioRequest.isValidarFitxerFirma()) {
 
@@ -123,6 +125,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       validateSignatureResponse = validacioFirmesEjb.validateSignature(
           validacioRequest.getEntitatID(), signType, validacioRequest.getSignatureData(),
           documentDetached, validacioRequest.getLanguageUI());
+      
+      perfilDeFirma = validateSignatureResponse.getSignProfile();
 
       SignatureDetailInfo[] sdi = validateSignatureResponse.getSignatureDetailInfo();
 
@@ -361,7 +365,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     ValidacioCompletaResponse resposta = new ValidacioCompletaResponse(signType, mime,
         extension, nifFirmant, checkAdministrationIDOfSigner, checkDocumentModifications,
         checkValidationSignature, validateSignatureResponse, numeroSerieCertificat,
-        emissorCertificat, subjectCertificat, certificateLastSign);
+        emissorCertificat, subjectCertificat, certificateLastSign, perfilDeFirma);
 
     System.gc();
 

@@ -9,6 +9,7 @@ import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.IdiomaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 
 import org.fundaciobit.genapp.common.validation.IValidatorResult;
@@ -37,6 +38,7 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
     ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
     ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
+    ,es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager
     ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
 
     // Valors Not Null
@@ -107,6 +109,10 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
     __vr.rejectIfEmptyOrWhitespace(__target__,SEGELLATDETEMPS, 
         "genapp.validation.required",
         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(SEGELLATDETEMPS)));
+
+    __vr.rejectIfEmptyOrWhitespace(__target__,ORIGENPETICIODEFIRMA, 
+        "genapp.validation.required",
+        new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ORIGENPETICIODEFIRMA)));
 
     // Check size
     if (__vr.getFieldErrorCount(TITOL) == 0) {
@@ -392,6 +398,20 @@ public class PeticioDeFirmaValidator<T> implements PeticioDeFirmaFields {
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitat"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariEntitat.usuariEntitatID"),
          new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__solicitantusuarientitat3id)));
+        }
+      }
+    }
+
+    if (__vr.getFieldErrorCount(CONFIGURACIODEFIRMAID) == 0) {
+      java.lang.Long __configuraciodefirmaid = (java.lang.Long)__vr.getFieldValue(__target__,CONFIGURACIODEFIRMAID);
+      if (__configuraciodefirmaid != null ) {
+        Long __count_ = null;
+        try { __count_ = __usuariAplicacioConfiguracioManager.count(UsuariAplicacioConfiguracioFields.USUARIAPLICACIOCONFIGID.equal(__configuraciodefirmaid)); } catch(org.fundaciobit.genapp.common.i18n.I18NException e) { e.printStackTrace(); };
+        if (__count_ == null || __count_ == 0) {        
+          __vr.rejectValue(CONFIGURACIODEFIRMAID, "error.notfound",
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfiguracio"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentCode("usuariAplicacioConfiguracio.usuariAplicacioConfigID"),
+         new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(__configuraciodefirmaid)));
         }
       }
     }

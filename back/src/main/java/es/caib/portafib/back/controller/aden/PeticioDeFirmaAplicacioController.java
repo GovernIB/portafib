@@ -18,7 +18,8 @@ import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
- * Gestiona les peticions de firma dels Usuaris Aplicació de la meva entitat
+ * Gestiona les peticions de firma dels Usuaris Aplicació (API PortaFIB WS v1
+ *  i API Indra) de la meva entitat
  * 
  * @author anadal
  */
@@ -30,8 +31,8 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
     ConstantsV2 {
 
   @Override
-  public boolean isSolicitantUsuariEntitat() {
-    return false;
+  public int getOrigenPeticioDeFirma() {
+    return ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1;
   }
 
   @Override
@@ -83,6 +84,11 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
 
     return peticioDeFirmaFilterForm;
 
+  }
+
+  @Override
+  public String getEntityNameCode() {
+    return "peticiodefirma.wsv1";
   }
 
 }

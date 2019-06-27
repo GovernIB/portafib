@@ -372,3 +372,96 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
+        <tr id="firma_checkAdministrationIdOfSigner_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER])?'firma.checkAdministrationIdOfSigner':__theForm.labels[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.CHECKADMINISTRATIONIDOFSIGNER]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}" >
+              <form:select cssClass="input-medium" onchange="if(typeof onChangeCheckAdministrationIdOfSigner == 'function') {  onChangeCheckAdministrationIdOfSigner(this); };"  path="firma.checkAdministrationIdOfSigner">
+                <form:option value=""><fmt:message key="genapp.checkbox." /></form:option>
+                <form:option value="true" ><fmt:message key="genapp.checkbox.true" /></form:option>
+                <form:option value="false" ><fmt:message key="genapp.checkbox.false" /></form:option>
+              </form:select>
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.firma.checkAdministrationIdOfSigner}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}">
+        <tr id="firma_checkDocumentModifications_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKDOCUMENTMODIFICATIONS])?'firma.checkDocumentModifications':__theForm.labels[FirmaFields.CHECKDOCUMENTMODIFICATIONS]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.CHECKDOCUMENTMODIFICATIONS]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.CHECKDOCUMENTMODIFICATIONS]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}" >
+              <form:select cssClass="input-medium" onchange="if(typeof onChangeCheckDocumentModifications == 'function') {  onChangeCheckDocumentModifications(this); };"  path="firma.checkDocumentModifications">
+                <form:option value=""><fmt:message key="genapp.checkbox." /></form:option>
+                <form:option value="true" ><fmt:message key="genapp.checkbox.true" /></form:option>
+                <form:option value="false" ><fmt:message key="genapp.checkbox.false" /></form:option>
+              </form:select>
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.firma.checkDocumentModifications}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.CHECKVALIDATIONSIGNATURE)}">
+        <tr id="firma_checkValidationSignature_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.CHECKVALIDATIONSIGNATURE])?'firma.checkValidationSignature':__theForm.labels[FirmaFields.CHECKVALIDATIONSIGNATURE]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.CHECKVALIDATIONSIGNATURE]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.CHECKVALIDATIONSIGNATURE]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKVALIDATIONSIGNATURE)}" >
+              <form:select cssClass="input-medium" onchange="if(typeof onChangeCheckValidationSignature == 'function') {  onChangeCheckValidationSignature(this); };"  path="firma.checkValidationSignature">
+                <form:option value=""><fmt:message key="genapp.checkbox." /></form:option>
+                <form:option value="true" ><fmt:message key="genapp.checkbox.true" /></form:option>
+                <form:option value="false" ><fmt:message key="genapp.checkbox.false" /></form:option>
+              </form:select>
+          </c:if>
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,FirmaFields.CHECKVALIDATIONSIGNATURE)}" >
+                <fmt:message key="genapp.checkbox.${__theForm.firma.checkValidationSignature}" />
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
+        <tr id="firma_perfilDeFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[FirmaFields.PERFILDEFIRMA])?'firma.perfilDeFirma':__theForm.labels[FirmaFields.PERFILDEFIRMA]}" />
+              <c:if test="${not empty __theForm.help[FirmaFields.PERFILDEFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[FirmaFields.PERFILDEFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="firma.perfilDeFirma" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,FirmaFields.PERFILDEFIRMA)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="50" path="firma.perfilDeFirma"   />
+
+           </td>
+        </tr>
+        </c:if>
+        

@@ -30,12 +30,15 @@ public class ValidacioCompletaResponse {
   protected String subjectCertificat;
 
   protected X509Certificate certificateLastSign;
+  
+  protected String perfilDeFirma;
 
   public ValidacioCompletaResponse(String signType, String mime, String extension,
       String nifFirmant, Boolean checkAdministrationIDOfSigner,
       Boolean checkDocumentModifications, Boolean checkValidationSignature,
       ValidateSignatureResponse validateSignatureResponse, BigInteger numeroSerieCertificat,
-      String emissorCertificat, String subjectCertificat, X509Certificate certificateLastSign) {
+      String emissorCertificat, String subjectCertificat, X509Certificate certificateLastSign,
+      String perfilDeFirma) {
     super();
     this.signType = signType;
     this.mime = mime;
@@ -49,6 +52,7 @@ public class ValidacioCompletaResponse {
     this.emissorCertificat = emissorCertificat;
     this.subjectCertificat = subjectCertificat;
     this.certificateLastSign = certificateLastSign;
+    this.perfilDeFirma = perfilDeFirma;
   }
 
   public String getSignType() {
@@ -145,6 +149,14 @@ public class ValidacioCompletaResponse {
 
   public void setCertificateLastSign(X509Certificate certificateLastSign) {
     this.certificateLastSign = certificateLastSign;
+  }
+
+  public String getPerfilDeFirma() {
+    return perfilDeFirma;
+  }
+
+  public void setPerfilDeFirma(String perfilDeFirma) {
+    this.perfilDeFirma = perfilDeFirma;
   }
 
 }

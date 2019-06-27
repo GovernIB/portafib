@@ -19,7 +19,7 @@ import es.caib.portafib.back.form.webdb.CustodiaInfoForm;
 public class CustodiaInfoAdenController extends CustodiaInfoSoliController {
 
   public static final String ADEN_CUSTODIA_CONTEXT = "/aden/peticio/custodiainfo";
-  
+
   @Override
   public boolean isUsuariEntitat() {
     return false;

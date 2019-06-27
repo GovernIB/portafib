@@ -119,6 +119,12 @@ public interface PeticioDeFirma extends org.fundaciobit.genapp.common.IGenAppEnt
 	public boolean isSegellatDeTemps();
 	public void setSegellatDeTemps(boolean _segellatDeTemps_);
 
+	public int getOrigenPeticioDeFirma();
+	public void setOrigenPeticioDeFirma(int _origenPeticioDeFirma_);
+
+	public java.lang.Long getConfiguracioDeFirmaID();
+	public void setConfiguracioDeFirmaID(java.lang.Long _configuracioDeFirmaID_);
+
   // Fitxer
   public <F extends Fitxer> F getFitxerAFirmar();
   // Fitxer

@@ -31,6 +31,7 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
       ,es.caib.portafib.model.dao.IPeticioDeFirmaManager __peticioDeFirmaManager
       ,es.caib.portafib.model.dao.ITipusDocumentManager __tipusDocumentManager
       ,es.caib.portafib.model.dao.IUsuariAplicacioManager __usuariAplicacioManager
+      ,es.caib.portafib.model.dao.IUsuariAplicacioConfiguracioManager __usuariAplicacioConfiguracioManager
       ,es.caib.portafib.model.dao.IUsuariEntitatManager __usuariEntitatManager) {
     
     
@@ -41,6 +42,7 @@ public class PeticioDeFirmaLogicValidator<T> extends PeticioDeFirmaValidator<T> 
         ,__peticioDeFirmaManager
         ,__tipusDocumentManager
         ,__usuariAplicacioManager
+        ,__usuariAplicacioConfiguracioManager
         ,__usuariEntitatManager);
     
     if (__vr.getFieldErrorCount(FITXERAFIRMARID) == 0 

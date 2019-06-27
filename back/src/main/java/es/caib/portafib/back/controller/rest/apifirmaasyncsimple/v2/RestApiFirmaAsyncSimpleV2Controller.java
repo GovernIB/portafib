@@ -705,20 +705,13 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       String eniTipoFirma = SignatureUtils.getEniTipoFirma(signType, signMode);
 
       
-      // XYZ ZZZ ZZZ
-      // FALTA API firma Simple per Signatures Asíncrones #224
-      // Falta obtenir de la petició de firma la informació del darrer fitxer signat
-      // FALTEN CAMPS A LA BBDD
-      String eniPerfilFirma = null;
-      
-
 
       // XYZ ZZZ ZZZ
       // FALTA API firma Simple per Signatures Asíncrones #224
       // Falta obtenir de la petició de firma la informació de la POlitica de Firma Utilitzada
       // !!!!
       // FALTEN CAMPS A LA BBDD
-      final boolean policyIncluded = false;
+      final Boolean policyIncluded = null;
 
       FirmaAsyncSimpleCustodyInfo custodyInfo;
       Long custodiInfoId = peticioDeFirma.getCustodiaInfoID();
@@ -727,7 +720,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       } else {
 
         CustodiaInfoJPA custodiaInfoJPA = peticioDeFirma.getCustodiaInfo(); 
-            // custodiaInfoLogicaEjb       .findByPrimaryKey(custodiInfoId);
 
         String custodyID = custodiaInfoJPA.getCustodiaDocumentID();
         // Això és plugin.getValidationFileUrl();
@@ -749,26 +741,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
         custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyID, csv, csvValidationWeb, custodyFileURL,
             csvGenerationDefinition, originalFileDirectURL,printableFileDirectUrl,eniFileDirectUrl);
-
       }
 
-      // XYZ ZZZ ZZZ
-      // FALTA API firma Simple per Signatures Asíncrones #224
-      // Falta obtenir de la petició de firma la informació del darrer fitxer signat
-      // FALTEN CAMPS A LA BBDD
-//      Boolean checkAdministrationIDOfSigner = false;
-//      Boolean checkDocumentModifications = false;
-//      Boolean checkValidationSignature = false;
       FirmaAsyncSimpleValidationInfo validationInfo = null;
-      // new FirmaAsyncSimpleValidationInfo(
-      //    checkAdministrationIDOfSigner, checkDocumentModifications, checkValidationSignature);
-
-
-      
-
-
-     
       List<FirmaAsyncSimpleSignerInfo> signers;
+      String eniPerfilFirma = null;
       {
         
         List<FirmaJPA> firmes = estatDeFirmaLogicaEjb.getFirmesWithEstatDeFirmaFirmatOfPeticio(peticioDeFirmaID);
@@ -801,6 +778,19 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
             FirmaAsyncSimpleSignerInfo signerInfo = new FirmaAsyncSimpleSignerInfo(eniRolFirma, eniSignerName, eniSignerAdministrationId, eniSignLevel, signDate, serialNumberCert, issuerCert, subjectCert, additionInformation);
             signers.add(signerInfo);      
           }
+
+          // Nous camps a Firma i a Peticio de Firma #281
+          // Obtenir la informació del darrer fitxer signat
+
+          // La darrera firma està en el primer lloc
+          FirmaJPA firma = firmes.get(0);
+          log.info("XYZ ZZZ ZZZ NUMERO DE FIRMA ES " + firma.getNumFirmaDocument() );
+          eniPerfilFirma = firma.getPerfilDeFirma();
+
+          validationInfo = new FirmaAsyncSimpleValidationInfo(
+            firma.getCheckAdministrationIdOfSigner(),
+            firma.getCheckDocumentModifications(),
+            firma.getCheckValidationSignature());
         }
       }
 
@@ -1103,7 +1093,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     FirmaJPA jpa = new FirmaJPA(firmaID, destinatariID, blocDeFirmaID, obligatori,
         fitxerFirmatID, numFirmaDocument, caixaPagina, caixaX, caixaY, caixaAmple, caixaAlt,
         numeroSerieCertificat, emissorCertificat, nomCertificat, tipusEstatDeFirmaFinalID,
-        mostrarRubrica, motiu, minimDeRevisors);
+        mostrarRubrica, motiu, minimDeRevisors, null,null,null,null);
 
     List<FirmaAsyncSimpleReviser> revisors = firmaBean.getRevisers();
 
@@ -1441,6 +1431,10 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     java.lang.Long fitxerAdaptatID = null;
 
     Long custodiaInfoID = null;
+    
+    
+
+    final int origenPeticioDeFirma = ConstantsV2.ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2;
 
     PeticioDeFirmaJPA peticio = new PeticioDeFirmaJPA(peticioDeFirmaID, titol, descripcio,
         motiu, fitxerAFirmarID, firmaOriginalDetachedID, fitxerAdaptatID, tipusDocumentID,
@@ -1451,7 +1445,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         expedientNom, expedientUrl, procedimentCodi, procedimentNom, informacioAddicional,
         informacioAddicionalAvaluable, logoSegellID, custodiaInfoID,
         solicitantUsuariEntitat1ID, solicitantUsuariEntitat2ID, solicitantUsuariEntitat3ID,
-        avisWeb, segellatDeTemps);
+        avisWeb, segellatDeTemps, origenPeticioDeFirma, config.getUsuariAplicacioConfigID());
 
     // peticioDeFirmaID, titol, motiu, tipusDocumentID, posicioTaulaFirmesID, dataCaducitat,
     // tipusOperacioFirma, tipusFirmaID, algorismeDeFirmaID, modeDeFirma,

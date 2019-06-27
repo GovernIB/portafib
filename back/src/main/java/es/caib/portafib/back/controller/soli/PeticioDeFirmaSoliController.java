@@ -121,7 +121,8 @@ import org.springframework.validation.FieldError;
 @RequestMapping(value = ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA)
 @SessionAttributes(types = {SeleccioFluxDeFirmesForm.class, PeticioDeFirmaForm.class,
     PeticioDeFirmaFilterForm.class, AnnexFilterForm.class, AnnexForm.class })
-public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaController implements ConstantsV2 {
+public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaController 
+  implements ConstantsV2 {
   
   public static final String SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES = 
        "SESSION_FLUX_DE_FIRMES_DE_SELECT_FLUX_DE_FIRMES";
@@ -204,30 +205,45 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     // Plantilles de l'usuari-persona
     {
       SubQuery<PlantillaFluxDeFirmes,Long> fluxosSubQuery;
-      if (isSolicitantUsuariEntitat()) {
+      switch (getOrigenPeticioDeFirma()) {
         
-        String usuariEntitatID = loginInfo.getUsuariEntitatID();
-        //log.info("     -usuariEntitatID = " + usuariEntitatID);
-        fluxosSubQuery = getFluxosDeUsuariEntitat(usuariEntitatID);
-        
-        seleccioFluxDeFirmesForm.setSolicitantUsuariEntitat(true);
-      } else {
-        
-        String usuariAplicacioID = request.getParameter("usuariAplicacioID");
-        if (log.isDebugEnabled()) {
-          log.debug("Request Parameter[usuariAplicacioID] = ]" +usuariAplicacioID + "[");
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        {
+          String usuariEntitatID = loginInfo.getUsuariEntitatID();
+          //log.info("     -usuariEntitatID = " + usuariEntitatID);
+          fluxosSubQuery = getFluxosDeUsuariEntitat(usuariEntitatID);
+          
+          seleccioFluxDeFirmesForm.setSolicitantUsuariEntitat(true);
         }
+        break;
         
-        if (usuariAplicacioID == null) {
-          HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.error.usuariaplicacionodefinit"));  
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        {
+          String usuariAplicacioID = request.getParameter("usuariAplicacioID");
+          if (log.isDebugEnabled()) {
+            log.debug("Request Parameter[usuariAplicacioID] = ]" +usuariAplicacioID + "[");
+          }
+          
+          if (usuariAplicacioID == null) {
+            HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("peticiodefirma.error.usuariaplicacionodefinit"));  
+            return new ModelAndView(new RedirectView(getContextWeb() + "/list"));
+          }
+         
+          fluxosSubQuery = getFluxosDeUsuariAplicacio(usuariAplicacioID);
+          
+          seleccioFluxDeFirmesForm.setSolicitantUsuariEntitat(false);
+          seleccioFluxDeFirmesForm.setUsuariAplicacioID(usuariAplicacioID);
+         
+        }
+        break;
+        
+        default:
+        {
+          HtmlUtils.saveMessageWarning(request," No hi ha codi per gestionar les Peticions de Firma amb Origen " + 
+            I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));  
           return new ModelAndView(new RedirectView(getContextWeb() + "/list"));
         }
-       
-        fluxosSubQuery = getFluxosDeUsuariAplicacio(usuariAplicacioID);
-        
-        seleccioFluxDeFirmesForm.setSolicitantUsuariEntitat(false);
-        seleccioFluxDeFirmesForm.setUsuariAplicacioID(usuariAplicacioID);
-       
       }
       
       Where w;
@@ -300,7 +316,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     }
     final boolean isDebug = log.isDebugEnabled();
     String usuariAplicacioID = null;
-    if (!isSolicitantUsuariEntitat()) {
+    int origenPeticio = getOrigenPeticioDeFirma(); 
+    if (origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1
+        || origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2) {
       
       usuariAplicacioID = seleccioFluxDeFirmesForm.getUsuariAplicacioID();
       if (isDebug) { log.debug("Seleccionat usuariaplicacio = ]" + usuariAplicacioID + "["); }
@@ -496,11 +514,23 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
   }
   
   
-  protected String getCustodiaContext() {
-    if (isSolicitantUsuariEntitat()) {
-      return CustodiaInfoSoliController.SOLI_CUSTODIA_CONTEXT ;
-    } else {
-      return CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT;
+  protected String getCustodiaContext() throws I18NException {
+    
+    switch (getOrigenPeticioDeFirma()) {
+      
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        return CustodiaInfoSoliController.SOLI_CUSTODIA_CONTEXT ;
+      
+
+      
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        return CustodiaInfoAdenController.ADEN_CUSTODIA_CONTEXT;
+        
+      default:
+       // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi"," No hi ha codi per gestionar el Custodia Context de les Peticions de Firma amb Origen " + 
+          I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
     }
   }
 
@@ -689,11 +719,25 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         this.createMessageError(request, "error.notfound", peticioDeFirmaID);
         return llistat(request, response);
       }
-      if (isSolicitantUsuariEntitat()) {
-        return "redirect:" +  ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
-      } else {
-        return "redirect:" +  CONTEXT_ADEN_PETICIOFIRMA + "/" + peticioDeFirmaID + "/edit";
+      
+      
+      switch (getOrigenPeticioDeFirma()) {
+        
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          return "redirect:" +  CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/" + peticioDeFirmaID + "/edit";
+        
+
+        
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          return "redirect:" +  CONTEXT_ADEN_PETICIOFIRMA + "/" + peticioDeFirmaID + "/edit";
+          
+        default:
+         // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi"," No hi ha codi per gestionar l´edició de les Peticions de Firma amb Origen " + 
+            I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
       }
+
     } catch(Throwable e) {
       log.error(e);
       
@@ -823,17 +867,50 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       
 
       String usuariAplicacioID;
-      if (isSolicitantUsuariEntitat()) {
-        // Obtenim l'usuari aplicacio per defecte a emprar en 
-        // aquesta entitat per peticions de usuari-entitat
-        usuariAplicacioID = entitat.getUsuariAplicacioID();
-        peticioDeFirma.setSolicitantUsuariEntitat1ID(loginInfo.getUsuariEntitatID());
-        peticioDeFirma.setAvisWeb(false);
-      } else {
-        // Obtenim l'usuari aplicació elegit
-        usuariAplicacioID = (String)request.getSession().getAttribute("usuariAplicacioID");
-        request.getSession().removeAttribute("usuariAplicacioID");
+      
+      switch (getOrigenPeticioDeFirma()) {
+        
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          // Obtenim l'usuari aplicacio per defecte a emprar en 
+          // aquesta entitat per peticions de usuari-entitat
+          usuariAplicacioID = entitat.getUsuariAplicacioID();
+          peticioDeFirma.setSolicitantUsuariEntitat1ID(loginInfo.getUsuariEntitatID());
+          peticioDeFirma.setAvisWeb(false);
+          
+          
+          peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()));
+          
+          String mail = loginInfo.getUsuariEntitat().getEmail();
+          if (mail == null) {
+            mail = loginInfo.getUsuariPersona().getEmail();
+          }
+          peticioDeFirma.setRemitentDescripcio(mail);
+          
+          
+        break;
+        
+
+        
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          // Obtenim l'usuari aplicació elegit
+          usuariAplicacioID = (String)request.getSession().getAttribute("usuariAplicacioID");
+          request.getSession().removeAttribute("usuariAplicacioID");
+          
+          // Si estam des d'una compte d'Administrador d'Entitat provant un usuari aplicacio
+          peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()) 
+              + " (" + usuariAplicacioID + ")");
+          UsuariAplicacioJPA ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+          peticioDeFirma.setRemitentDescripcio(ua.getEmailAdmin());
+          
+        break;
+          
+        default:
+         // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi"," No hi ha codi per gestionar el Form de les Peticions de Firma amb Origen " + 
+            I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
       }
+
       
       if (usuariAplicacioID == null) {
         HtmlUtils.saveMessageError(request,
@@ -863,10 +940,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setIdiomaID(loginInfo.getUsuariPersona().getIdiomaID());
       peticioDeFirma.setTipusFirmaID(ConstantsV2.TIPUSFIRMA_PADES); // PADES
-      
 
       //LoginInfo li = LoginInfo.getInstance();
-      
+
       // TODO Mirar si l'usuari-entitat té definit un altre logo
       /*
       String urlLogoSegell = Configuracio.getAppUrl() 
@@ -877,33 +953,14 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirma.setUrlLogoSegell(urlLogoSegell);
       */
 
-      if (isSolicitantUsuariEntitat()) {
-        // Si estam des d'una compte de Solicitant
-        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()));
-        
-        String mail = loginInfo.getUsuariEntitat().getEmail();
-        if (mail == null) {
-          mail = loginInfo.getUsuariPersona().getEmail();
-        }
-        peticioDeFirma.setRemitentDescripcio(mail);
-        
-        
-      } else {
-        // Si estam des d'una compte d'Administrador d'Entitat provant un usuari aplicacio
-        peticioDeFirma.setRemitentNom(Utils.getOnlyNom(loginInfo.getUsuariPersona()) 
-            + " (" + usuariAplicacioID + ")");
-        UsuariAplicacioJPA ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
-        peticioDeFirma.setRemitentDescripcio(ua.getEmailAdmin());
-      }
+      peticioDeFirma.setOrigenPeticioDeFirma(getOrigenPeticioDeFirma());
 
       peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacioID);
-      
+
       // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
       peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-      
+
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
-
-
 
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
       
@@ -1040,6 +1097,11 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirmaForm.addHiddenField(FITXERADAPTATID);
 
       peticioDeFirmaForm.addHiddenField(TIPUSESTATPETICIODEFIRMAID);
+
+
+      // Nous camps a Firma i a Petició de Firma #281
+      peticioDeFirmaForm.addHiddenField(ORIGENPETICIODEFIRMA);
+
       
       // GESTIONAR VIA JS LA DESCRIPCIO DE TIPUS DE DOCUMENT
       peticioDeFirmaForm.setAttachedAdditionalJspCode(true);
@@ -1058,16 +1120,29 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         peticioDeFirmaForm.addHiddenField(DESCRIPCIOTIPUSDOCUMENT);
       }
     }
-
-    if (isSolicitantUsuariEntitat()) {
-      peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIAPLICACIOID);
-
-      peticioDeFirmaForm.addHiddenField(REMITENTNOM);
-      peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
+    
+    switch (getOrigenPeticioDeFirma()) {
       
-    } else {
-      peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        peticioDeFirmaForm.addHiddenField(SOLICITANTUSUARIAPLICACIOID);
+
+        peticioDeFirmaForm.addHiddenField(REMITENTNOM);
+        peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
+      break;
+
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
+      break;
+        
+      default:
+       // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi"," No hi ha codi per gestionar camps ocults o readonly de les Peticions de Firma amb Origen " + 
+          I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
     }
+    
+    
+    
 
     // XYZ ZZZ #164
     peticioDeFirmaForm.addHiddenField(FIRMAORIGINALDETACHEDID);
@@ -1109,26 +1184,41 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       TipusDocumentFields.USUARIAPLICACIOID.isNull()
     );
   
+    boolean showIds;
+    switch (getOrigenPeticioDeFirma()) {
+      
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.greaterThan(0L));
+        showIds = false;
+        break;
+      
 
-    if (isSolicitantUsuariEntitat()) {
-      whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.greaterThan(0L));
-    } else {
+      
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        UsuariAplicacio ua = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
 
-      UsuariAplicacio ua = this.usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
+        // Per usuaris aplicacio tipus Indra només mostram els tipus negatius
+        if (ua.getCallbackVersio() == 0) {
+          whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.lessThan(0L));
+        }
+        showIds = true;
 
-      // Per usuaris aplicacio tipus Indra només mostram els tipus negatius
-      if (ua.getCallbackVersio() == 0) {
-        whereTD =  Where.AND(TipusDocumentFields.TIPUSDOCUMENTID.lessThan(0L));
-      }
-
+        break;
+        
+      default:
+       // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi"," No hi ha codi per gestionar el WHERE de TipusDocuments de les Peticions de Firma amb Origen " + 
+          I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
     }
+
 
     List<StringKeyValue> result;
     result = super.getReferenceListForTipusDocumentID(request, mav,
         peticioDeFirmaForm, Where.AND(where, whereTD));
     
     
-    if (!isSolicitantUsuariEntitat()) {
+    if (showIds) {
       for (StringKeyValue stringKeyValue : result) {
         String id = stringKeyValue.getKey();
         String newvalue = stringKeyValue.getValue() + " (" + id + ")";
@@ -1182,7 +1272,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
 
       // Mostrar usuari aplicacio i remitent si estan en gestio de usuari aplicacio
-      if (!isSolicitantUsuariEntitat()) {
+      int origenPeticio = getOrigenPeticioDeFirma();
+      if (origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1
+          || origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2) {
         hiddenFields.remove(PETICIODEFIRMAID); // #219
         hiddenFields.remove(SOLICITANTUSUARIAPLICACIOID);
         hiddenFields.remove(REMITENTNOM);
@@ -1196,7 +1288,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirmaFilterForm.addGroupByField(INFORMACIOADDICIONALAVALUABLE);
       peticioDeFirmaFilterForm.addGroupByField(EXPEDIENTCODI);
       peticioDeFirmaFilterForm.addGroupByField(PROCEDIMENTCODI);
-      if (!isSolicitantUsuariEntitat()) {
+      if (origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1
+          || origenPeticio == ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2) {
         peticioDeFirmaFilterForm.addGroupByField(SOLICITANTUSUARIAPLICACIOID);
       }
 
@@ -1221,26 +1314,38 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       // Ordre inicial
       //BooleanField avisWeb = new PeticioDeFirmaQueryPath().PETICIODEFIRMAUSUARIENTITAT().AVISWEB();
       
-      peticioDeFirmaFilterForm.setDefaultOrderBy(
-          isSolicitantUsuariEntitat()?
-             new OrderBy[] {
-                // TODO
-                new OrderBy(AVISWEB, OrderType.DESC),
-                new OrderBy(TIPUSESTATPETICIODEFIRMAID, OrderType.ASC),
-                new OrderBy(DATAFINAL, OrderType.DESC),
-                new OrderBy(DATASOLICITUD, OrderType.DESC),
-            }
-          :
-            new OrderBy[] {
-                new OrderBy(TIPUSESTATPETICIODEFIRMAID, OrderType.ASC),
-                new OrderBy(DATAFINAL, OrderType.DESC),
-                new OrderBy(DATASOLICITUD, OrderType.DESC),
-            });
-      
-      
-      
-      peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
+      OrderBy[] ordre;
+      switch (getOrigenPeticioDeFirma()) {
+        
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          ordre = new OrderBy[] {
+              // TODO
+              new OrderBy(AVISWEB, OrderType.DESC),
+              new OrderBy(TIPUSESTATPETICIODEFIRMAID, OrderType.ASC),
+              new OrderBy(DATAFINAL, OrderType.DESC),
+              new OrderBy(DATASOLICITUD, OrderType.DESC),
+          };
+          break;
+        
 
+        
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          ordre = new OrderBy[] {
+              new OrderBy(TIPUSESTATPETICIODEFIRMAID, OrderType.ASC),
+              new OrderBy(DATAFINAL, OrderType.DESC),
+              new OrderBy(DATASOLICITUD, OrderType.DESC),
+          };
+        break;
+          
+        default:
+         // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi"," No hi ha codi per gestionar l'ordre de les Peticions de Firma amb Origen " + 
+            I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
+      }
+      
+      peticioDeFirmaFilterForm.setDefaultOrderBy(ordre);
+      peticioDeFirmaFilterForm.setActionsRenderer(EstatDeFirmaFilterForm.ACTIONS_RENDERER_DROPDOWN_BUTTON);
 
     }
     
@@ -1394,18 +1499,39 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
   @Override
   public Where getAdditionalCondition(HttpServletRequest request) throws I18NException {
-    if (isSolicitantUsuariEntitat()) {
-      // Seleccionar només les peticions de firma de l'usuari-persona
-      return SOLICITANTUSUARIENTITAT1ID.equal(LoginInfo.getInstance().getUsuariEntitatID());
-    } else {
-      // Seleccionam totes aquelles que no tenguin definit cap usuari
-      // i que le susuaris-aplicació pertanyin a aquesta entitat
-      final String entitatID = LoginInfo.getInstance().getEntitatID();
-      return Where.AND(
-          SOLICITANTUSUARIENTITAT1ID.isNull(),
-          new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID)
-          );
+    
+    
+    switch (getOrigenPeticioDeFirma()) {
+
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        // Seleccionar només les peticions de firma de l'usuari-entitat
+        // return
+        // XYZ ZZZ ZZZ
+        return Where.AND(
+            SOLICITANTUSUARIENTITAT1ID.equal(LoginInfo.getInstance().getUsuariEntitatID()),
+            ORIGENPETICIODEFIRMA.equal(getOrigenPeticioDeFirma()));
+
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        // Seleccionam totes aquelles que no tenguin definit cap usuari-entitat
+        // i que els usuaris-aplicació pertanyin a aquesta entitat
+        final String entitatID = LoginInfo.getInstance().getEntitatID();
+
+        // return Where.AND(
+        // SOLICITANTUSUARIENTITAT1ID.isNull(),
+        // new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID)
+        // );
+        // XYZ ZZZ ZZZ
+        return Where.AND(ORIGENPETICIODEFIRMA.equal(getOrigenPeticioDeFirma()),
+            new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
+
+      default:
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi",
+            " No hi ha codi per gestionar AdditionaCondition de les Peticions de Firma amb Origen "
+                + I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
     }
+
   }
   
   
@@ -1413,79 +1539,67 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
   public void postList(HttpServletRequest request, ModelAndView mav,
       PeticioDeFirmaFilterForm filterForm, List<PeticioDeFirma> list) throws I18NException {
 
-    final boolean isSolicitantUsuariEntitat = isSolicitantUsuariEntitat();
+    final int origenpeticioDeFirma = getOrigenPeticioDeFirma();
     
     //Map<Long, Boolean> potCustodiar = new HashMap<Long, Boolean>();
     final Integer politicaCustodia;
     
     List<Long> peticionsIDsAmbAvis = null;
-    if (isSolicitantUsuariEntitat()) {
-      // Llista amb les peticions finalitzades o rebutjades que l'usuari
-      // encara no ha marcat com ja revisada
-      LoginInfo loginInfo = LoginInfo.getInstance();
-      Where w = Where.AND(
-        PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
-        PeticioDeFirmaFields.AVISWEB.equal(true)
-      );
+    
+    
+     switch (getOrigenPeticioDeFirma()) {
       
-      peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
-      
-      politicaCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(
-          LoginInfo.getInstance().getUsuariEntitat(), LoginInfo.getInstance().getEntitat());
-      /* XYZ ZZZ 
-      for (PeticioDeFirma peticio : list) {
-        
-        if (peticio.getCustodiaInfoID() != null) {
-          potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
-        } else {
-          if (politicaCustodiaUsuari != null) {
-            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
-          }
-        }
-
-      }
-      */
-
-
-    } else  {
-      // Administrador d'Entitat - USUARI APLICACIO
-      {
-      
-        Where w1 = UsuariAplicacioFields.ACTIU.equal(true);
-        Where w2 = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
-        
-        List<String> _listSKV = usuariAplicacioEjb.executeQuery(
-            UsuariAplicacioFields.USUARIAPLICACIOID, Where.AND(w1,w2));
-        
-        java.util.Collections.sort(_listSKV, String.CASE_INSENSITIVE_ORDER);
-              
-        mav.addObject("listOfUsuariAplicacio",_listSKV);
-      }
-      
-      // Cada petició depen d'un usuari-aplicacio amb una politica de custodia diferent
-      politicaCustodia = null;
-      
-      // No deixarem que les peticions creades des d'Entorn Web 
-      // per l'Administrador d'Entitat puguin tenir Custòdia
-      /*
-      if (LoginInfo.getInstance().getEntitat().getCustodiaInfoID() != null) {
-        // XYZ ZZZ TODO Optimitzar amb una sola consulta SelectMultiple
-        for (PeticioDeFirma peticio : list) {
-
-          if (peticio.getCustodiaInfoID() != null) {
-            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
-          } 
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+        {
+          // Llista amb les peticions finalitzades o rebutjades que l'usuari
+          // encara no ha marcat com ja revisada
+          LoginInfo loginInfo = LoginInfo.getInstance();
+          Where w = Where.AND(
+            PeticioDeFirmaFields.SOLICITANTUSUARIENTITAT1ID.equal(loginInfo.getUsuariEntitatID()),
+            PeticioDeFirmaFields.AVISWEB.equal(true)
+          );
           
-//          String usuariAplicacioID = peticio.getSolicitantUsuariAplicacioID();
-//          UsuariAplicacio ua = usuariAplicacioEjb.findByPrimaryKey(usuariAplicacioID);
-//          if (ua.getPotCustodiar()) {
-//            potCustodiar.put(peticio.getPeticioDeFirmaID(), true);
-//          }
+          peticionsIDsAmbAvis = peticioDeFirmaEjb.executeQuery(PETICIODEFIRMAID, w);
+          
+          politicaCustodia = custodiaInfoLogicaEjb.getPoliticaDeCustodiaFinalPerUE(
+              LoginInfo.getInstance().getUsuariEntitat(), LoginInfo.getInstance().getEntitat());
+          
         }
-      } 
-      */
-    }
+        break;
+      
 
+      
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        {
+       // Administrador d'Entitat - USUARI APLICACIO
+          {
+          
+            Where w1 = UsuariAplicacioFields.ACTIU.equal(true);
+            Where w2 = UsuariAplicacioFields.ENTITATID.equal(LoginInfo.getInstance().getEntitatID());
+            
+            List<String> _listSKV = usuariAplicacioEjb.executeQuery(
+                UsuariAplicacioFields.USUARIAPLICACIOID, Where.AND(w1,w2));
+            
+            java.util.Collections.sort(_listSKV, String.CASE_INSENSITIVE_ORDER);
+                  
+            mav.addObject("listOfUsuariAplicacio",_listSKV);
+          }
+          
+          // Cada petició depen d'un usuari-aplicacio amb una politica de custodia diferent
+          politicaCustodia = null;
+          
+        }
+        break;
+        
+      default:
+       // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi"," No hi ha codi per gestionar el POstList Context de les Peticions de Firma amb Origen " + 
+          I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
+    }
+    
+    
+    
 /*
     if (log.isDebugEnabled()) {
       if (potCustodiar.isEmpty()) {
@@ -1521,7 +1635,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       Utils.TIPUSESTATPETICIODEFIRMA_FIRMAT = 4;
       */
       boolean avisweb;
-      if (isSolicitantUsuariEntitat) {
+      if (origenpeticioDeFirma == ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB) {
         avisweb =peticionsIDsAmbAvis.contains(peticioDeFirmaID);
       } else {
         avisweb = false;
@@ -1810,12 +1924,24 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     // Crear nou boto de Crear Petició
     {
       String action;
-      if (isSolicitantUsuariEntitat()) {
-        action = getContextWeb() + "/selectflux";
-      } else {
-        action = "javascript:openSelectUserAppDialog();";
+      switch (getOrigenPeticioDeFirma()) {
+
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          action = getContextWeb() + "/selectflux";
+        break;
+
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          action = "javascript:openSelectUserAppDialog();";
+        break;
+
+        default:
+          // XYZ ZZZ TRA
+          throw new I18NException("genapp.comodi",
+              " No hi ha codi per gestionar el Boto de Creació de les Peticions de Firma amb Origen "
+                  + I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
       }
-    
+
       filterForm.addAdditionalButton(new AdditionalButton(
         "icon-plus-sign", "peticiodefirma.crear" ,  action, ""));
     }
@@ -2016,8 +2142,8 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     return true;
   }
   
-  public boolean isSolicitantUsuariEntitat() {
-    return true;
+  public int getOrigenPeticioDeFirma() {
+    return ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB;
   }
   
   

@@ -89,6 +89,14 @@ public class FirmaValidator<T> implements FirmaFields {
       }
     }
     
+    if (__vr.getFieldErrorCount(PERFILDEFIRMA) == 0) {
+      java.lang.String __perfildefirma = (java.lang.String)__vr.getFieldValue(__target__,PERFILDEFIRMA);
+      if (__perfildefirma!= null && __perfildefirma.length() > 50) {
+        __vr.rejectValue(PERFILDEFIRMA, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PERFILDEFIRMA)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(50)));
+      }
+    }
+    
     if (__isNou__) { // Creació
       // ================ CREATION
       // Fitxers 

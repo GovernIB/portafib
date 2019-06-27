@@ -165,6 +165,20 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
 
  // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
 
+  public PeticioDeFirmaQueryPath PETICIODEFIRMAS() {
+    return new PeticioDeFirmaQueryPath(new QueryPath() {
+      public String getQueryPath() {
+          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "peticioDeFirmas" + ".";
+      }
+    });
+  }
+*/
+
+/* L'ús d'aquest camp (OneToMany) llança una exception:
+ [Illegal attempt to dereference a collection]
+
+ // TODO Solució dins el mètode testOneByOneDirect de la classe TestJPA 
+
   public PerfilDeFirmaQueryPath PERFILDEFIRMA_USRAPPCONFIGURACIO1IDS() {
     return new PerfilDeFirmaQueryPath(new QueryPath() {
       public String getQueryPath() {

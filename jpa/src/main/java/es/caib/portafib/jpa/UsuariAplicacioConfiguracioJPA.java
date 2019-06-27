@@ -567,6 +567,19 @@ opcional incluso cuando se genera una firma EPES. */
     return __result;
   }
 
+// EXP  Field:configuraciodefirmaid | Table: pfi_peticiodefirma | Type: 0  
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuariAplicacioConfiguracio")
+	private Set<PeticioDeFirmaJPA> peticioDeFirmas = new HashSet<PeticioDeFirmaJPA>(0);
+	public  Set<PeticioDeFirmaJPA> getPeticioDeFirmas() {
+    return this.peticioDeFirmas;
+  }
+
+	public void setPeticioDeFirmas(Set<PeticioDeFirmaJPA> peticioDeFirmas) {
+	  this.peticioDeFirmas = peticioDeFirmas;
+	}
+
+
 // EXP  Field:usrappconfiguracio1id | Table: pfi_usuariaplicacioperfil | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "configuracioDeFirma1ID")
@@ -824,6 +837,10 @@ opcional incluso cuando se genera una firma EPES. */
     if(!"PerfilDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio3ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio3ids())) ) {
       __tmp.setPerfilDeFirma_usrappconfiguracio3ids(PerfilDeFirmaJPA.copyJPA(__jpa.getPerfilDeFirma_usrappconfiguracio3ids(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
+    }
+    if(!"PeticioDeFirmaJPA".equals(origenJPA) 
+       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.peticioDeFirmas) || org.hibernate.Hibernate.isInitialized(__jpa.getPeticioDeFirmas())) ) {
+      __tmp.setPeticioDeFirmas(PeticioDeFirmaJPA.copyJPA(__jpa.getPeticioDeFirmas(), __alreadyCopied,"UsuariAplicacioConfiguracioJPA"));
     }
     if(!"PerfilDeFirmaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.perfilDeFirma_usrappconfiguracio4ids) || org.hibernate.Hibernate.isInitialized(__jpa.getPerfilDeFirma_usrappconfiguracio4ids())) ) {

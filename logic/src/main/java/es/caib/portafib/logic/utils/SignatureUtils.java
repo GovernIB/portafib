@@ -281,7 +281,7 @@ public class SignatureUtils {
         ITimeStampGenerator timeStampGenerator;
         {
           PortaFIBTimeStampInfo info;
-          info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usuariAplicacio, entitat,
+          info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usuariAplicacio.getUsuariAplicacioID(), entitat,
               perfilDeFirma, config, userRequiresTimeStamp);
           if (info == null) {
             timeStampGenerator = null;

@@ -93,6 +93,18 @@ private static final long serialVersionUID = -491371752L;
 	@Column(name="minimderevisors",nullable = false,length = 10)
 	int minimDeRevisors;
 
+	@Column(name="checkadministrationidofsigner",length = 1)
+	java.lang.Boolean checkAdministrationIdOfSigner;
+
+	@Column(name="checkdocumentmodifications",length = 1)
+	java.lang.Boolean checkDocumentModifications;
+
+	@Column(name="checkvalidationsignature",length = 1)
+	java.lang.Boolean checkValidationSignature;
+
+	@Column(name="perfildefirma",length = 50)
+	java.lang.String perfilDeFirma;
+
 
 
   /** Constructor Buit */
@@ -100,7 +112,7 @@ private static final long serialVersionUID = -491371752L;
   }
 
   /** Constructor amb tots els camps  */
-  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
+  public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma) {
     this.firmaID=firmaID;
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
@@ -119,9 +131,13 @@ private static final long serialVersionUID = -491371752L;
     this.mostrarRubrica=mostrarRubrica;
     this.motiu=motiu;
     this.minimDeRevisors=minimDeRevisors;
+    this.checkAdministrationIdOfSigner=checkAdministrationIdOfSigner;
+    this.checkDocumentModifications=checkDocumentModifications;
+    this.checkValidationSignature=checkValidationSignature;
+    this.perfilDeFirma=perfilDeFirma;
 }
   /** Constructor sense valors autoincrementals */
-  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors) {
+  public FirmaJPA(java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , java.lang.Long fitxerFirmatID , java.lang.Integer numFirmaDocument , int caixaPagina , java.lang.Integer caixaX , java.lang.Integer caixaY , java.lang.Integer caixaAmple , java.lang.Integer caixaAlt , java.math.BigInteger numeroSerieCertificat , java.lang.String emissorCertificat , java.lang.String nomCertificat , java.lang.Long tipusEstatDeFirmaFinalID , boolean mostrarRubrica , java.lang.String motiu , int minimDeRevisors , java.lang.Boolean checkAdministrationIdOfSigner , java.lang.Boolean checkDocumentModifications , java.lang.Boolean checkValidationSignature , java.lang.String perfilDeFirma) {
     this.destinatariID=destinatariID;
     this.blocDeFirmaID=blocDeFirmaID;
     this.obligatori=obligatori;
@@ -139,6 +155,10 @@ private static final long serialVersionUID = -491371752L;
     this.mostrarRubrica=mostrarRubrica;
     this.motiu=motiu;
     this.minimDeRevisors=minimDeRevisors;
+    this.checkAdministrationIdOfSigner=checkAdministrationIdOfSigner;
+    this.checkDocumentModifications=checkDocumentModifications;
+    this.checkValidationSignature=checkValidationSignature;
+    this.perfilDeFirma=perfilDeFirma;
 }
   /** Constructor dels valors Not Null */
   public FirmaJPA(long firmaID , java.lang.String destinatariID , long blocDeFirmaID , boolean obligatori , int caixaPagina , boolean mostrarRubrica , int minimDeRevisors) {
@@ -169,6 +189,10 @@ private static final long serialVersionUID = -491371752L;
     this.setMostrarRubrica(__bean.isMostrarRubrica());
     this.setMotiu(__bean.getMotiu());
     this.setMinimDeRevisors(__bean.getMinimDeRevisors());
+    this.setCheckAdministrationIdOfSigner(__bean.getCheckAdministrationIdOfSigner());
+    this.setCheckDocumentModifications(__bean.getCheckDocumentModifications());
+    this.setCheckValidationSignature(__bean.getCheckValidationSignature());
+    this.setPerfilDeFirma(__bean.getPerfilDeFirma());
     // Fitxer
     this.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 	}
@@ -299,6 +323,34 @@ private static final long serialVersionUID = -491371752L;
 		this.minimDeRevisors = _minimDeRevisors_;
 	};
 
+	public java.lang.Boolean getCheckAdministrationIdOfSigner() {
+		return(checkAdministrationIdOfSigner);
+	};
+	public void setCheckAdministrationIdOfSigner(java.lang.Boolean _checkAdministrationIdOfSigner_) {
+		this.checkAdministrationIdOfSigner = _checkAdministrationIdOfSigner_;
+	};
+
+	public java.lang.Boolean getCheckDocumentModifications() {
+		return(checkDocumentModifications);
+	};
+	public void setCheckDocumentModifications(java.lang.Boolean _checkDocumentModifications_) {
+		this.checkDocumentModifications = _checkDocumentModifications_;
+	};
+
+	public java.lang.Boolean getCheckValidationSignature() {
+		return(checkValidationSignature);
+	};
+	public void setCheckValidationSignature(java.lang.Boolean _checkValidationSignature_) {
+		this.checkValidationSignature = _checkValidationSignature_;
+	};
+
+	public java.lang.String getPerfilDeFirma() {
+		return(perfilDeFirma);
+	};
+	public void setPerfilDeFirma(java.lang.String _perfilDeFirma_) {
+		this.perfilDeFirma = _perfilDeFirma_;
+	};
+
 
 
   @Override
@@ -421,6 +473,10 @@ private static final long serialVersionUID = -491371752L;
     __tmp.setMostrarRubrica(__bean.isMostrarRubrica());
     __tmp.setMotiu(__bean.getMotiu());
     __tmp.setMinimDeRevisors(__bean.getMinimDeRevisors());
+    __tmp.setCheckAdministrationIdOfSigner(__bean.getCheckAdministrationIdOfSigner());
+    __tmp.setCheckDocumentModifications(__bean.getCheckDocumentModifications());
+    __tmp.setCheckValidationSignature(__bean.getCheckValidationSignature());
+    __tmp.setPerfilDeFirma(__bean.getPerfilDeFirma());
     // Fitxer
     __tmp.setFitxerFirmat(FitxerJPA.toJPA(__bean.getFitxerFirmat()));
 		return __tmp;

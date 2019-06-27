@@ -114,6 +114,7 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NCommonDateTimeFormat;
+import org.fundaciobit.genapp.common.i18n.I18NCommonUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
@@ -218,7 +219,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
   protected EstadisticaLocal estadisticaEjb;
 
   @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
-  ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
+  protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
+  
+  @EJB(mappedName = ConfiguracioUsuariAplicacioLogicaLocal.JNDI_NAME)
+  protected ConfiguracioUsuariAplicacioLogicaLocal configuracioDeFirmaLogicaEjb;
 
   private PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA> validator = new PeticioDeFirmaLogicValidator<PeticioDeFirmaJPA>();
 
@@ -251,7 +255,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         custodiaInfoLogicaEjb, fluxDeFirmesLogicaEjb, idiomaEjb, this, tipusDocumentEjb,
-        usuariAplicacioEjb, usuariEntitatEjb);
+        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb,  usuariEntitatEjb);
 
     final boolean isNou = false;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -301,7 +305,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     PeticioDeFirmaBeanValidator pfbv = new PeticioDeFirmaBeanValidator(validator,
         custodiaInfoLogicaEjb, fluxDeFirmesLogicaEjb, idiomaEjb, this, tipusDocumentEjb,
-        usuariAplicacioEjb, usuariEntitatEjb);
+        usuariAplicacioEjb, configuracioDeFirmaLogicaEjb, usuariEntitatEjb);
 
     final boolean isNou = true;
     pfbv.throwValidationExceptionIfErrors(peticioDeFirma, isNou);
@@ -346,41 +350,60 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     final String usuariEntitatID;
     final UsuariEntitatJPA usuariEntitat;
     final EntitatJPA entitatJPA;
-    if (peticioDeFirma.getSolicitantUsuariEntitat1ID() == null) {
-      // Peticio via UsrApp
-      // #186
-      if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
-        peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
-      }
+    
+    
+    // Nous camps de Peticio de Firma #281
+    switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
-      usuariEntitatID = null;
-      usuariEntitat = null;
-      
-      entitatJPA = entitatEjb.findByPrimaryKey(usuariAplicacio.getEntitatID());
-      
-      
-    } else {
-      // Peticio de usuari web
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB: {
+        // Peticio de usuari web
 
-      usuariEntitatID = peticioDeFirma.getSolicitantUsuariEntitat1ID();
+        usuariEntitatID = peticioDeFirma.getSolicitantUsuariEntitat1ID();
 
-      usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
-      if (peticioDeFirma.getRemitentNom() == null) {
-        UsuariPersona persona;
-        persona = usuariPersonaEjb.findByPrimaryKey(usuariEntitat.getUsuariPersonaID());
+        usuariEntitat = usuariEntitatEjb.findByPrimaryKey(usuariEntitatID);
+        if (peticioDeFirma.getRemitentNom() == null) {
+          UsuariPersona persona;
+          persona = usuariPersonaEjb.findByPrimaryKey(usuariEntitat.getUsuariPersonaID());
 
-        // UsuariPersona persona = usuariEntitat.getUsuariPersona();
-        peticioDeFirma.setRemitentNom(persona.getNom() + " " + persona.getLlinatges());
-        if (peticioDeFirma.getRemitentDescripcio() == null) {
-          peticioDeFirma.setRemitentDescripcio(usuariEntitat.getEmail() == null ? persona
-              .getEmail() : usuariEntitat.getEmail());
+          // UsuariPersona persona = usuariEntitat.getUsuariPersona();
+          peticioDeFirma.setRemitentNom(persona.getNom() + " " + persona.getLlinatges());
+          if (peticioDeFirma.getRemitentDescripcio() == null) {
+            peticioDeFirma.setRemitentDescripcio(usuariEntitat.getEmail() == null ? persona
+                .getEmail() : usuariEntitat.getEmail());
+          }
         }
+
+        entitatJPA = entitatEjb.findByPrimaryKey(usuariEntitat.getEntitatID());
       }
-      
-      entitatJPA = entitatEjb.findByPrimaryKey(usuariEntitat.getEntitatID());
-      
-      // entitatID = usuariEntitat.getEntitatID();
+      break;
+
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2: {
+        // Peticio via UsrApp
+        // #186
+        if (PropietatGlobalUtil.isDisabledSignaturesTable()) {
+          peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA); // = 0
+        }
+
+        usuariEntitatID = null;
+        usuariEntitat = null;
+
+        entitatJPA = entitatEjb.findByPrimaryKey(usuariAplicacio.getEntitatID());
+
+      }
+
+      break;
+
+      default:
+        // XYZ ZZZ ZZZ TRA
+        throw new I18NException("genapp.comodi",
+            " No hi ha codi per gestionar la recuperació de l'entitat"
+                + " de les Peticions de Firma amb Origen "
+                + I18NCommonUtils.tradueix(new Locale("ca"), "origenpeticiodefirma."
+                    + peticioDeFirma.getOrigenPeticioDeFirma()));
     }
+    
+
 
     // ======= Check de Custòdia ==========
     {
@@ -866,15 +889,33 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     String idioma = peticioDeFirma.getIdiomaID();
 
     if (idioma == null) {
-      if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
-        // usuari entitat
-        log.debug(" Idioma Usuari Entitat: ");
-        idioma = peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona().getIdiomaID();
-      } else {
-        // usuari aplicacio
-        log.debug(" Idioma Usuari Aplicació: ");
-        idioma = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
+      
+      
+      // Nous camps de Peticio de Firma #281
+      switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
+
+        case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+          // usuari entitat
+          log.debug(" Idioma Usuari Entitat: ");
+          idioma = peticioDeFirma.getSolicitantUsuariEntitat1().getUsuariPersona()
+              .getIdiomaID();
+        break;
+
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+          // usuari aplicacio
+          log.debug(" Idioma Usuari Aplicació: ");
+          idioma = peticioDeFirma.getUsuariAplicacio().getIdiomaID();
+        break;
+
+        default:
+          // XYZ ZZZ TRA
+          log.error("No hi ha codi per gestionar el Custodia Context de les Peticions de Firma amb Origen "
+              + I18NCommonUtils.tradueix(new Locale("ca"), "origenpeticiodefirma."
+                  + peticioDeFirma.getOrigenPeticioDeFirma()));
       }
+      
+
       if (idioma == null) {
         idioma = Configuracio.getDefaultLanguage();
       }
@@ -2113,6 +2154,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;
       validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+      
+      // Nous camps a Firma i a Petició de Firma #281
+      firma.setCheckAdministrationIdOfSigner(validacioResponse.getCheckAdministrationIDOfSigner());
+      firma.setCheckDocumentModifications(validacioResponse.getCheckDocumentModifications());
+      firma.setCheckValidationSignature(validacioResponse.getCheckValidationSignature());
+      firma.setPerfilDeFirma(validacioResponse.getPerfilDeFirma());
+      
 
       firma.setNumeroSerieCertificat(validacioResponse.getNumeroSerieCertificat());
       firma.setEmissorCertificat(validacioResponse.getEmissorCertificat());
@@ -2770,9 +2818,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       peticioDeFirma
           .setTipusEstatPeticioDeFirmaID(ConstantsV2.TIPUSESTATPETICIODEFIRMA_REBUTJAT);
       peticioDeFirma.setDataFinal(now);
+      
+      
       if (peticioDeFirma.getSolicitantUsuariEntitat1ID() != null) {
         peticioDeFirma.setAvisWeb(true);
       }
+      
+      
+      
       this.update(peticioDeFirma);
       events.peticio_rebutjada(peticioDeFirma, estatDeFirma);
 
@@ -3365,11 +3418,10 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     clonedCust.setEntitatID(null);
     clonedCust.setTitolPeticio(peticio.getTitol());
 
-    if (peticio.getSolicitantUsuariEntitat1ID() != null) {
-      clonedCust.setUsuariEntitatID(peticio.getSolicitantUsuariEntitat1ID());
-    } else {
-      clonedCust.setUsuariAplicacioID(peticio.getSolicitantUsuariAplicacioID());
-    }
+    
+    clonedCust.setUsuariEntitatID(peticio.getSolicitantUsuariEntitat1ID());
+    clonedCust.setUsuariAplicacioID(peticio.getSolicitantUsuariAplicacioID());
+    
 
     if (create) {
       clonedCust = (CustodiaInfoJPA) custodiaInfoLogicaEjb.create(clonedCust);

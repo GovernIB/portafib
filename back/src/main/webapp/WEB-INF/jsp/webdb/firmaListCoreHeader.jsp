@@ -66,6 +66,18 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.MINIMDEREVISORS)}">
         <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.MINIMDEREVISORS)}</th>
         </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.CHECKADMINISTRATIONIDOFSIGNER)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.CHECKDOCUMENTMODIFICATIONS)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.CHECKVALIDATIONSIGNATURE)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.CHECKVALIDATIONSIGNATURE)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,FirmaFields.PERFILDEFIRMA)}">
+        <th>${pfi:getSortIcons(__theFilterForm,FirmaFields.PERFILDEFIRMA)}</th>
+        </c:if>
 
 
         <c:forEach var="__entry" items="${__theFilterForm.additionalFields}">

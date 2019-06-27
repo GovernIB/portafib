@@ -1010,3 +1010,59 @@
         </tr>
         </c:if>
         
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}">
+        <tr id="peticioDeFirma_origenPeticioDeFirma_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA])?'peticioDeFirma.origenPeticioDeFirma':__theForm.labels[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}" /> &nbsp;(*)
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.ORIGENPETICIODEFIRMA]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.origenPeticioDeFirma" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}" >
+          <form:hidden path="peticioDeFirma.origenPeticioDeFirma"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.origenPeticioDeFirma,__theForm.listOfValuesForOrigenPeticioDeFirma)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.ORIGENPETICIODEFIRMA)}" >
+          <form:select id="peticioDeFirma_origenPeticioDeFirma"  onchange="if(typeof onChangeOrigenPeticioDeFirma == 'function') {  onChangeOrigenPeticioDeFirma(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.origenPeticioDeFirma">
+            <c:forEach items="${__theForm.listOfValuesForOrigenPeticioDeFirma}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}">
+        <tr id="peticioDeFirma_configuracioDeFirmaID_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID])?'peticioDeFirma.configuracioDeFirmaID':__theForm.labels[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}" />
+              <c:if test="${not empty __theForm.help[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}">
+              <i class="icon-info-sign" title="${__theForm.help[PeticioDeFirmaFields.CONFIGURACIODEFIRMAID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+          <form:errors path="peticioDeFirma.configuracioDeFirmaID" cssClass="errorField alert alert-error" />
+          <c:if test="${gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}" >
+          <form:hidden path="peticioDeFirma.configuracioDeFirmaID"/>
+          <input type="text" readonly="true" class="input-xxlarge uneditable-input" value="${gen:findValue(__theForm.peticioDeFirma.configuracioDeFirmaID,__theForm.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID)}"  />
+          </c:if>
+          <c:if test="${!gen:contains(__theForm.readOnlyFields ,PeticioDeFirmaFields.CONFIGURACIODEFIRMAID)}" >
+          <form:select id="peticioDeFirma_configuracioDeFirmaID"  onchange="if(typeof onChangeConfiguracioDeFirmaID == 'function') {  onChangeConfiguracioDeFirmaID(this); };"  cssClass="input-xxlarge" path="peticioDeFirma.configuracioDeFirmaID">
+          <%-- El camp pot ser null, per la qual cosa afegim una entrada buida --%>
+          <form:option value="" ></form:option>
+            <c:forEach items="${__theForm.listOfUsuariAplicacioConfiguracioForConfiguracioDeFirmaID}" var="tmp">
+            <form:option value="${tmp.key}" >${tmp.value}</form:option>
+            </c:forEach>
+          </form:select>
+          </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
