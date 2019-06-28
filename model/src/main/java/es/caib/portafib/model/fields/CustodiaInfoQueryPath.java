@@ -35,10 +35,6 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
     return new BooleanField(getQueryPath(), CustodiaInfoFields.CUSTODIAR);
   }
 
-  public StringField URLFITXERCUSTODIAT() {
-    return new StringField(getQueryPath(), CustodiaInfoFields.URLFITXERCUSTODIAT);
-  }
-
   public StringField PAGINES() {
     return new StringField(getQueryPath(), CustodiaInfoFields.PAGINES);
   }
@@ -85,6 +81,42 @@ public class CustodiaInfoQueryPath extends org.fundaciobit.genapp.common.query.Q
 
   public BooleanField EDITABLE() {
     return new BooleanField(getQueryPath(), CustodiaInfoFields.EDITABLE);
+  }
+
+  public StringField CSV() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.CSV);
+  }
+
+  public StringField CSVVALIDATIONWEB() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.CSVVALIDATIONWEB);
+  }
+
+  public StringField CSVGENERATIONDEFINITION() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.CSVGENERATIONDEFINITION);
+  }
+
+  public StringField URLFITXERCUSTODIAT() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.URLFITXERCUSTODIAT);
+  }
+
+  public StringField ORIGINALFILEDIRECTURL() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.ORIGINALFILEDIRECTURL);
+  }
+
+  public StringField PRINTABLEFILEDIRECTURL() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.PRINTABLEFILEDIRECTURL);
+  }
+
+  public StringField ENIFILEDIRECTURL() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.ENIFILEDIRECTURL);
+  }
+
+  public StringField EXPEDIENTARXIUID() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.EXPEDIENTARXIUID);
+  }
+
+  public StringField DOCUMENTARXIUID() {
+    return new StringField(getQueryPath(), CustodiaInfoFields.DOCUMENTARXIUID);
   }
 
 

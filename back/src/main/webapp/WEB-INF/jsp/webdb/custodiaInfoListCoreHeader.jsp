@@ -30,9 +30,6 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CUSTODIAR)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CUSTODIAR)}</th>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.URLFITXERCUSTODIAT)}</th>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.PAGINES)}</th>
         </c:if>
@@ -68,6 +65,33 @@
         </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EDITABLE)}">
         <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.EDITABLE)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSV)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CSV)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVVALIDATIONWEB)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CSVVALIDATIONWEB)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.CSVGENERATIONDEFINITION)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.URLFITXERCUSTODIAT)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ENIFILEDIRECTURL)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.ENIFILEDIRECTURL)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EXPEDIENTARXIUID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.EXPEDIENTARXIUID)}</th>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DOCUMENTARXIUID)}">
+        <th>${pfi:getSortIcons(__theFilterForm,CustodiaInfoFields.DOCUMENTARXIUID)}</th>
         </c:if>
 
 

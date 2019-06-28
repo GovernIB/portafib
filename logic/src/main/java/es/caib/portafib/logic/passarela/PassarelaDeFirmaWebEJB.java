@@ -243,7 +243,12 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     final String id = pfis.getSignID();
 
     PassarelaSignatureResult psr = new PassarelaSignatureResult();
-
+    
+    
+    
+    // XYZ ZZZ Aqui fa falta obtenir la informació de Custòdia
+    //psr.setCustodyInfo(custodyInfo);
+    
     psr.setStatus(ss.getStatus());
     psr.setErrorMessage(ss.getErrorMessage());
     psr.setErrorStackTrace(ss.getErrorStackTrace());
@@ -264,7 +269,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       }
     }
 
-    // ss.
+
 
     // validationInfo
     PassarelaValidationInfo pvi = new PassarelaValidationInfo(

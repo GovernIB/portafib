@@ -112,36 +112,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-        <tr id="custodiaInfo_urlFitxerCustodiat_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT])?'custodiaInfo.urlFitxerCustodiat':__theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT]}" />
-              <c:if test="${not empty __theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}">
-              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-
-             <c:if test="${ not empty __theForm.custodiaInfo.urlFitxerCustodiat}">
-               <a href="${__theForm.custodiaInfo.urlFitxerCustodiat}" target="_blank">${__theForm.custodiaInfo.urlFitxerCustodiat}</a>
-
-             </c:if>
-           </c:if>
-
-           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
-
-            <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-error" />
-            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
-
-           </c:if>
-
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
         <tr id="custodiaInfo_pagines_rowid">
           <td>
@@ -443,6 +413,240 @@
           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EDITABLE)}" >
                 <fmt:message key="genapp.checkbox.${__theForm.custodiaInfo.editable}" />
           </c:if>
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CSV)}">
+        <tr id="custodiaInfo_csv_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSV])?'custodiaInfo.csv':__theForm.labels[CustodiaInfoFields.CSV]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSV]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSV]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="custodiaInfo.csv" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSV)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csv"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CSVVALIDATIONWEB)}">
+        <tr id="custodiaInfo_csvValidationWeb_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB])?'custodiaInfo.csvValidationWeb':__theForm.labels[CustodiaInfoFields.CSVVALIDATIONWEB]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSVVALIDATIONWEB]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.csvValidationWeb}">
+               <a href="${__theForm.custodiaInfo.csvValidationWeb}" target="_blank">${__theForm.custodiaInfo.csvValidationWeb}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB))}">
+
+            <form:errors path="custodiaInfo.csvValidationWeb" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVVALIDATIONWEB)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csvValidationWeb"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
+        <tr id="custodiaInfo_csvGenerationDefinition_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION])?'custodiaInfo.csvGenerationDefinition':__theForm.labels[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.CSVGENERATIONDEFINITION]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.csvGenerationDefinition}">
+               <a href="${__theForm.custodiaInfo.csvGenerationDefinition}" target="_blank">${__theForm.custodiaInfo.csvGenerationDefinition}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION))}">
+
+            <form:errors path="custodiaInfo.csvGenerationDefinition" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.csvGenerationDefinition"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+        <tr id="custodiaInfo_urlFitxerCustodiat_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT])?'custodiaInfo.urlFitxerCustodiat':__theForm.labels[CustodiaInfoFields.URLFITXERCUSTODIAT]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.URLFITXERCUSTODIAT]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.urlFitxerCustodiat}">
+               <a href="${__theForm.custodiaInfo.urlFitxerCustodiat}" target="_blank">${__theForm.custodiaInfo.urlFitxerCustodiat}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT))}">
+
+            <form:errors path="custodiaInfo.urlFitxerCustodiat" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.urlFitxerCustodiat"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
+        <tr id="custodiaInfo_originalFileDirectUrl_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL])?'custodiaInfo.originalFileDirectUrl':__theForm.labels[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.ORIGINALFILEDIRECTURL]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.originalFileDirectUrl}">
+               <a href="${__theForm.custodiaInfo.originalFileDirectUrl}" target="_blank">${__theForm.custodiaInfo.originalFileDirectUrl}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL))}">
+
+            <form:errors path="custodiaInfo.originalFileDirectUrl" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.originalFileDirectUrl"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
+        <tr id="custodiaInfo_printableFileDirectUrl_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL])?'custodiaInfo.printableFileDirectUrl':__theForm.labels[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.PRINTABLEFILEDIRECTURL]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.printableFileDirectUrl}">
+               <a href="${__theForm.custodiaInfo.printableFileDirectUrl}" target="_blank">${__theForm.custodiaInfo.printableFileDirectUrl}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL))}">
+
+            <form:errors path="custodiaInfo.printableFileDirectUrl" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.printableFileDirectUrl"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.ENIFILEDIRECTURL)}">
+        <tr id="custodiaInfo_eniFileDirectUrl_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL])?'custodiaInfo.eniFileDirectUrl':__theForm.labels[CustodiaInfoFields.ENIFILEDIRECTURL]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.ENIFILEDIRECTURL]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+           <c:if test="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)}">
+
+             <c:if test="${ not empty __theForm.custodiaInfo.eniFileDirectUrl}">
+               <a href="${__theForm.custodiaInfo.eniFileDirectUrl}" target="_blank">${__theForm.custodiaInfo.eniFileDirectUrl}</a>
+
+             </c:if>
+           </c:if>
+
+           <c:if test="${not (gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL))}">
+
+            <form:errors path="custodiaInfo.eniFileDirectUrl" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.ENIFILEDIRECTURL)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="500" path="custodiaInfo.eniFileDirectUrl"   />
+
+           </c:if>
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.EXPEDIENTARXIUID)}">
+        <tr id="custodiaInfo_expedientArxiuId_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID])?'custodiaInfo.expedientArxiuId':__theForm.labels[CustodiaInfoFields.EXPEDIENTARXIUID]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.EXPEDIENTARXIUID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="custodiaInfo.expedientArxiuId" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.EXPEDIENTARXIUID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="250" path="custodiaInfo.expedientArxiuId"   />
+
+           </td>
+        </tr>
+        </c:if>
+        
+        <c:if test="${!gen:contains(__theForm.hiddenFields,CustodiaInfoFields.DOCUMENTARXIUID)}">
+        <tr id="custodiaInfo_documentArxiuId_rowid">
+          <td>
+            <label>
+              <fmt:message key="${(empty __theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID])?'custodiaInfo.documentArxiuId':__theForm.labels[CustodiaInfoFields.DOCUMENTARXIUID]}" />
+              <c:if test="${not empty __theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}">
+              <i class="icon-info-sign" title="${__theForm.help[CustodiaInfoFields.DOCUMENTARXIUID]}" ></i>
+              </c:if>
+             </label>
+            </td>
+            <td>
+            <form:errors path="custodiaInfo.documentArxiuId" cssClass="errorField alert alert-error" />
+            <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,CustodiaInfoFields.DOCUMENTARXIUID)? 'input-xxlarge uneditable-input' : 'input-xxlarge'}"  maxlength="250" path="custodiaInfo.documentArxiuId"   />
+
            </td>
         </tr>
         </c:if>

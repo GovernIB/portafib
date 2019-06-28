@@ -57,14 +57,6 @@
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.custodiar?'success':'error'}.png"/>">
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-          <td>
-                       <c:if test="${ not empty custodiaInfo.urlFitxerCustodiat}">
-               <a href="${custodiaInfo.urlFitxerCustodiat}" target="_blank">${custodiaInfo.urlFitxerCustodiat}</a>
-             </c:if>
-
-          </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PAGINES)}">
           <td>
           ${custodiaInfo.pagines}
@@ -139,6 +131,69 @@
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EDITABLE)}">
           <td>
             <img height="18" width="18" src="<c:url value="/img/icn_alert_${custodiaInfo.editable?'success':'error'}.png"/>">
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSV)}">
+          <td>
+          ${custodiaInfo.csv}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVVALIDATIONWEB)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.csvValidationWeb}">
+               <a href="${custodiaInfo.csvValidationWeb}" target="_blank">${custodiaInfo.csvValidationWeb}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.csvGenerationDefinition}">
+               <a href="${custodiaInfo.csvGenerationDefinition}" target="_blank">${custodiaInfo.csvGenerationDefinition}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.urlFitxerCustodiat}">
+               <a href="${custodiaInfo.urlFitxerCustodiat}" target="_blank">${custodiaInfo.urlFitxerCustodiat}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.originalFileDirectUrl}">
+               <a href="${custodiaInfo.originalFileDirectUrl}" target="_blank">${custodiaInfo.originalFileDirectUrl}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.printableFileDirectUrl}">
+               <a href="${custodiaInfo.printableFileDirectUrl}" target="_blank">${custodiaInfo.printableFileDirectUrl}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.ENIFILEDIRECTURL)}">
+          <td>
+                       <c:if test="${ not empty custodiaInfo.eniFileDirectUrl}">
+               <a href="${custodiaInfo.eniFileDirectUrl}" target="_blank">${custodiaInfo.eniFileDirectUrl}</a>
+             </c:if>
+
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.EXPEDIENTARXIUID)}">
+          <td>
+          ${custodiaInfo.expedientArxiuId}
+          </td>
+        </c:if>
+        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,CustodiaInfoFields.DOCUMENTARXIUID)}">
+          <td>
+          ${custodiaInfo.documentArxiuId}
           </td>
         </c:if>
 

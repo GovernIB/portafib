@@ -20,9 +20,6 @@ public interface CustodiaInfo extends org.fundaciobit.genapp.common.IGenAppEntit
 	public boolean isCustodiar();
 	public void setCustodiar(boolean _custodiar_);
 
-	public java.lang.String getUrlFitxerCustodiat();
-	public void setUrlFitxerCustodiat(java.lang.String _urlFitxerCustodiat_);
-
 	public java.lang.String getPagines();
 	public void setPagines(java.lang.String _pagines_);
 
@@ -58,6 +55,33 @@ public interface CustodiaInfo extends org.fundaciobit.genapp.common.IGenAppEntit
 
 	public boolean isEditable();
 	public void setEditable(boolean _editable_);
+
+	public java.lang.String getCsv();
+	public void setCsv(java.lang.String _csv_);
+
+	public java.lang.String getCsvValidationWeb();
+	public void setCsvValidationWeb(java.lang.String _csvValidationWeb_);
+
+	public java.lang.String getCsvGenerationDefinition();
+	public void setCsvGenerationDefinition(java.lang.String _csvGenerationDefinition_);
+
+	public java.lang.String getUrlFitxerCustodiat();
+	public void setUrlFitxerCustodiat(java.lang.String _urlFitxerCustodiat_);
+
+	public java.lang.String getOriginalFileDirectUrl();
+	public void setOriginalFileDirectUrl(java.lang.String _originalFileDirectUrl_);
+
+	public java.lang.String getPrintableFileDirectUrl();
+	public void setPrintableFileDirectUrl(java.lang.String _printableFileDirectUrl_);
+
+	public java.lang.String getEniFileDirectUrl();
+	public void setEniFileDirectUrl(java.lang.String _eniFileDirectUrl_);
+
+	public java.lang.String getExpedientArxiuId();
+	public void setExpedientArxiuId(java.lang.String _expedientArxiuId_);
+
+	public java.lang.String getDocumentArxiuId();
+	public void setDocumentArxiuId(java.lang.String _documentArxiuId_);
 
 
 
