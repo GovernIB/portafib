@@ -334,19 +334,6 @@ private static final long serialVersionUID = -252813913L;
 	}
 
 
-// EXP  Field:logincertificateid | Table: pfi_usuariaplicacioconfig | Type: 0  
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "loginCertificateID")
-	private Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios = new HashSet<UsuariAplicacioConfiguracioJPA>(0);
-	public  Set<UsuariAplicacioConfiguracioJPA> getUsuariAplicacioConfiguracios() {
-    return this.usuariAplicacioConfiguracios;
-  }
-
-	public void setUsuariAplicacioConfiguracios(Set<UsuariAplicacioConfiguracioJPA> usuariAplicacioConfiguracios) {
-	  this.usuariAplicacioConfiguracios = usuariAplicacioConfiguracios;
-	}
-
-
 // EXP  Field:logosegellid | Table: pfi_usuarientitat | Type: 0  
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "logoSegellID")
@@ -509,10 +496,6 @@ private static final long serialVersionUID = -252813913L;
     if(!"UsuariPersonaJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariPersonas) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariPersonas())) ) {
       __tmp.setUsuariPersonas(UsuariPersonaJPA.copyJPA(__jpa.getUsuariPersonas(), __alreadyCopied,"FitxerJPA"));
-    }
-    if(!"UsuariAplicacioConfiguracioJPA".equals(origenJPA) 
-       && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.usuariAplicacioConfiguracios) || org.hibernate.Hibernate.isInitialized(__jpa.getUsuariAplicacioConfiguracios())) ) {
-      __tmp.setUsuariAplicacioConfiguracios(UsuariAplicacioConfiguracioJPA.copyJPA(__jpa.getUsuariAplicacioConfiguracios(), __alreadyCopied,"FitxerJPA"));
     }
     if(!"AnnexFirmatJPA".equals(origenJPA) 
        && ( !org.fundaciobit.genapp.common.utils.Utils.isEmpty(__jpa.annexFirmats) || org.hibernate.Hibernate.isInitialized(__jpa.getAnnexFirmats())) ) {

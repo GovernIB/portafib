@@ -8336,7 +8336,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="19"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="18"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -8548,19 +8548,6 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="16"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>logincertificateid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_usuariaplicacioconfig</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="17"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
                <string>logosegellid</string> 
               </void> 
               <void property="name"> 
@@ -8571,7 +8558,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="18"> 
+            <void index="17"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>rubricaid</string> 
@@ -21758,7 +21745,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
     <void index="41"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="35"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="34"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -23375,84 +23362,6 @@ opcional incluso cuando se genera una firma EPES.</string>
         </void> 
         <void index="30"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>fitxerid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_fitxer</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
-          <void property="index"> 
-           <string>pfi_confapp_logincert_fk_i</string> 
-          </void> 
-          <void property="javaName"> 
-           <string>loginCertificateID</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Long</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Certificat per comunicacions ClientCert</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Certificat para comunicaciones ClientCert</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>19</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>logincertificateid</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-5</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>fitxerid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_fitxer</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-            <void property="webtype"> 
-             <int>3</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="31"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
           </void> 
@@ -23496,7 +23405,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="32"> 
+        <void index="31"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>-- Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -23541,7 +23450,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="33"> 
+        <void index="32"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -23586,7 +23495,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="34"> 
+        <void index="33"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>NULL =&gt; Lo que digui l&apos;entitat</string> 

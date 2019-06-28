@@ -155,10 +155,6 @@ _ignoreFields.add(MOTIUDELEGACIOID);
     }
 
   }
-    if (isNou) { // Creacio
-      // ================ CREATION
-      // Fitxers 
-    }
     validator.validate(wvr, target,
       isNou, entitatEjb, pluginEjb, traduccioEjb, usuariAplicacioConfiguracioEjb);
 

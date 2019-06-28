@@ -48,8 +48,7 @@ var markFieldsRowID = [
         UsuariAplicacioConfiguracioFields.PLUGINSEGELLATID,*/
     '<%=UsuariAplicacioConfiguracioFields.HTMLPERLLISTARPLUGINSFIRMAWEB.fullName.replace('.','_')%>_rowid',
     '<%=UsuariAplicacioConfiguracioFields.PLUGINFIRMASERVIDORID.fullName.replace('.','_')%>_rowid',/*
-        UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT,*/
-    '<%=UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID.fullName.replace('.','_')%>_rowid',
+        UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT,*/    
     '<%=UsuariAplicacioConfiguracioFields.VALIDARFIRMA.fullName.replace('.','_')%>_rowid',
     '<%=UsuariAplicacioConfiguracioFields.CHECKCANVIATDOCFIRMAT.fullName.replace('.','_')%>_rowid',
     '<%=UsuariAplicacioConfiguracioFields.COMPROVARNIFFIRMA.fullName.replace('.','_')%>_rowid',
@@ -82,12 +81,12 @@ var usFieldsRowID = [
 
 var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey' ];
 
- var fieldUses = [              /*FI.CER|TI.OPE|TI.FIR|ALG.FI|MOD.FI|POL.FI|P.TA.F|P.SG.T|HTPLFW|P.F.SV|LO.CER|VAL.FI|CK.N.M|CM.NIF|VAL.CR*/
-/* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  false, true,  true,  true,  false ],
-/* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, true,  true,  true,  false ],
-/* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false, false ],
-/* USENFIRMAWS1               */ [false, true,  false, false, false, false, false, true,  false, false, false, false, false, false, false ],
-/* USENFIRMAASYNCREST2        */ [false, true,  true,  true,  true,  false, true,  true,  true,  false, false, false, false, false, false ]
+ var fieldUses = [              /*FI.CER|TI.OPE|TI.FIR|ALG.FI|MOD.FI|POL.FI|P.TA.F|P.SG.T|HTPLFW|P.F.SV|VAL.FI|CK.N.M|CM.NIF|VAL.CR*/
+/* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  true,  false ],
+/* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
+/* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false ],
+/* USENFIRMAWS1               */ [false, true,  false, false, false, false, false, true,  false, false, false, false, false, false ],
+/* USENFIRMAASYNCREST2        */ [false, true,  true,  true,  true,  false, true,  true,  true,  false, false, false, false, false ]
  ];
 
  $("input[type='checkbox']").change(function() {

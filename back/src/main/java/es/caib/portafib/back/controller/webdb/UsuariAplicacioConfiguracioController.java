@@ -34,9 +34,6 @@ import es.caib.portafib.back.form.webdb.UsuariAplicacioConfiguracioForm;
 
 import es.caib.portafib.back.validator.webdb.UsuariAplicacioConfiguracioWebValidator;
 
-import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.jpa.FitxerJPA;
-import org.fundaciobit.genapp.common.web.controller.FilesFormManager;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.*;
@@ -51,7 +48,7 @@ import es.caib.portafib.model.fields.*;
 @RequestMapping(value = "/webdb/usuariAplicacioConfiguracio")
 @SessionAttributes(types = { UsuariAplicacioConfiguracioForm.class, UsuariAplicacioConfiguracioFilterForm.class })
 public class UsuariAplicacioConfiguracioController
-    extends es.caib.portafib.back.controller.PortaFIBFilesBaseController<UsuariAplicacioConfiguracio, java.lang.Long, UsuariAplicacioConfiguracioForm> implements UsuariAplicacioConfiguracioFields {
+    extends es.caib.portafib.back.controller.PortaFIBBaseController<UsuariAplicacioConfiguracio, java.lang.Long> implements UsuariAplicacioConfiguracioFields {
 
   @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
@@ -558,26 +555,20 @@ public class UsuariAplicacioConfiguracioController
 
     UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio = usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio();
 
-    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
-
     try {
-      this.setFilesFormToEntity(afm, usuariAplicacioConfiguracio, usuariAplicacioConfiguracioForm); // FILE
       preValidate(request, usuariAplicacioConfiguracioForm, result);
       getWebValidator().validate(usuariAplicacioConfiguracioForm, result);
       postValidate(request,usuariAplicacioConfiguracioForm, result);
 
       if (result.hasErrors()) {
-        afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
         usuariAplicacioConfiguracio = create(request, usuariAplicacioConfiguracio);
-        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.creation", usuariAplicacioConfiguracio.getUsuariAplicacioConfigID());
         usuariAplicacioConfiguracioForm.setUsuariAplicacioConfiguracio(usuariAplicacioConfiguracio);
         return getRedirectWhenCreated(request, usuariAplicacioConfiguracioForm);
       }
     } catch (Throwable __e) {
-      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -658,25 +649,20 @@ public class UsuariAplicacioConfiguracioController
     }
     UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio = usuariAplicacioConfiguracioForm.getUsuariAplicacioConfiguracio();
 
-    FilesFormManager<Fitxer> afm = getFilesFormManager(); // FILE
     try {
-      this.setFilesFormToEntity(afm, usuariAplicacioConfiguracio, usuariAplicacioConfiguracioForm); // FILE
       preValidate(request, usuariAplicacioConfiguracioForm, result);
       getWebValidator().validate(usuariAplicacioConfiguracio, result);
       postValidate(request, usuariAplicacioConfiguracioForm, result);
 
       if (result.hasErrors()) {
-        afm.processErrorFilesWithoutThrowException(); // FILE
         return getTileForm();
       } else {
         usuariAplicacioConfiguracio = update(request, usuariAplicacioConfiguracio);
-        afm.postPersistFiles(); // FILE
         createMessageSuccess(request, "success.modification", usuariAplicacioConfiguracio.getUsuariAplicacioConfigID());
         status.setComplete();
         return getRedirectWhenModified(request, usuariAplicacioConfiguracioForm, null);
       }
     } catch (Throwable __e) {
-      afm.processErrorFilesWithoutThrowException(); // FILE
       if (__e instanceof I18NValidationException) {
         ValidationWebUtils.addFieldErrorsToBindingResult(result, (I18NValidationException)__e);
         return getTileForm();
@@ -826,29 +812,6 @@ public java.lang.Long stringToPK(String value) {
     return _TABLE_MODEL;
   }
 
-  // FILE
-  @Override
-  public void setFilesFormToEntity(FilesFormManager<Fitxer> afm, UsuariAplicacioConfiguracio usuariAplicacioConfiguracio,
-      UsuariAplicacioConfiguracioForm form) throws I18NException {
-
-    FitxerJPA f;
-    f = (FitxerJPA)afm.preProcessFile(form.getLoginCertificateID(), form.isLoginCertificateIDDelete(),
-        form.isNou()? null : usuariAplicacioConfiguracio.getLoginCertificate());
-    ((UsuariAplicacioConfiguracioJPA)usuariAplicacioConfiguracio).setLoginCertificate(f);
-    if (f != null) { 
-      usuariAplicacioConfiguracio.setLoginCertificateID(f.getFitxerID());
-    } else {
-      usuariAplicacioConfiguracio.setLoginCertificateID(null);
-    }
-
-
-  }
-
-  // FILE
-  @Override
-  public void deleteFiles(UsuariAplicacioConfiguracio usuariAplicacioConfiguracio) {
-    deleteFile(usuariAplicacioConfiguracio.getLoginCertificateID());
-  }
   // Mètodes a sobreescriure 
 
   public boolean isActiveList() {

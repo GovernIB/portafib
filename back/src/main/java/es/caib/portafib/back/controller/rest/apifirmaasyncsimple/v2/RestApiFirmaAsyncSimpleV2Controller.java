@@ -29,7 +29,6 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

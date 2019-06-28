@@ -131,10 +131,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new IntegerField(getQueryPath(), UsuariAplicacioConfiguracioFields.UPGRADESIGNFORMAT);
   }
 
-  public LongField LOGINCERTIFICATEID() {
-    return new LongField(getQueryPath(), UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID);
-  }
-
   public BooleanField VALIDARFIRMA() {
     return new BooleanField(getQueryPath(), UsuariAplicacioConfiguracioFields.VALIDARFIRMA);
   }
@@ -280,14 +276,6 @@ public class UsuariAplicacioConfiguracioQueryPath extends org.fundaciobit.genapp
     return new PluginQueryPath(new QueryPath() {
       public String getQueryPath() {
           return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "pluginFirmaServidor" + ".";
-      }
-    });
-  }
-
-  public FitxerQueryPath LOGINCERTIFICATE() {
-    return new FitxerQueryPath(new QueryPath() {
-      public String getQueryPath() {
-          return UsuariAplicacioConfiguracioQueryPath.this.getQueryPath() + "loginCertificate" + ".";
       }
     });
   }

@@ -45,6 +45,16 @@ ALTER TABLE pfi_custodiainfo
   ADD COLUMN expedientid character varying(250);
 ALTER TABLE pfi_custodiainfo
   ADD COLUMN documentid character varying(250);
-COMMENT ON COLUMN pfi_custodiainfo.expedientid IS 'futura compatibilitat amb plugin arxiu';
+COMMENT ON COLUMN pfi_custodiainfo.expedientid IS 'Futura compatibilitat amb Plugin Arxiu';
 COMMENT ON COLUMN pfi_custodiainfo.documentid IS 'Futura compatibilitat amb Plugin Arxiu';
+
+
+
+--  -----------------------------------------------------------------------
+--   Eliminar Certificat de Configuració de Firma per UsuariAplicacio #279
+--  -----------------------------------------------------------------------
+
+ALTER TABLE pfi_usuariaplicacioconfig DROP COLUMN logincertificateid;
+
+
   
