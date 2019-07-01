@@ -1,8 +1,10 @@
 package es.caib.portafib.logic.utils;
 
+import java.io.File;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import es.caib.portafib.model.entity.PerfilDeFirma;
@@ -70,6 +72,32 @@ public class LogicUtils {
         }
       }
     }
+  }
+
+  public static File sobreescriureFitxerChecked(File src, Long fitxerID) throws Exception {
+    if (!src.exists()) {
+      log.error("El fitxer origen [" + src.getAbsolutePath() + "] no existeix");
+      throw new Exception("El fitxer origen [" + src.getAbsolutePath() + "] no existeix");
+    }
+
+    long srcLength = src.length();
+    File dest = FileSystemManager.sobreescriureFitxer(src, fitxerID);
+    if (!dest.exists()) {
+      log.error("El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix");
+      throw new Exception("El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix");
+    }
+    if (dest.length() != srcLength) {
+      log.error("La mida del fitxer resultant [" + dest.getAbsolutePath() + "] és inferior a la del fitxer original");
+      throw new Exception("La mida del fitxer resultant [" + dest.getAbsolutePath() + "] és inferior a la del fitxer original");
+    }
+    if (src.exists()) {
+      log.warn("El fitxer origen [" + src.getAbsolutePath() + "] encara existeix");
+      if (!src.delete()) {
+        log.warn("El fitxer origen [" + src.getAbsolutePath() + "] no s'ha pogut borrar");
+        src.deleteOnExit();
+      }
+    }
+    return dest;
   }
   
   

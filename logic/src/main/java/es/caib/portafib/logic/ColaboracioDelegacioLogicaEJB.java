@@ -263,7 +263,8 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     
     // Això ha de ser lo darrer per si hi hagues algun error en les passes
     // anteriors
-    FileSystemManager.sobreescriureFitxer(firmat, fitxer.getFitxerID());
+    //FileSystemManager.sobreescriureFitxer(firmat, fitxer.getFitxerID());
+    LogicUtils.sobreescriureFitxerChecked(firmat, fitxer.getFitxerID());
   }
 	
 	

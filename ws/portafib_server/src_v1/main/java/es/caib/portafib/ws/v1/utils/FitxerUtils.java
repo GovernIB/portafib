@@ -1,10 +1,10 @@
 package es.caib.portafib.ws.v1.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Set;
-
+import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.ws.utils.FitxerUtilsCommon;
+import es.caib.portafib.ws.v1.impl.FitxerBean;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,11 +12,10 @@ import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 
-import es.caib.portafib.jpa.FitxerJPA;
-import es.caib.portafib.logic.FitxerLogicaLocal;
-import es.caib.portafib.ws.utils.FitxerUtilsCommon;
-import es.caib.portafib.ws.v1.impl.FitxerBean;
-import es.caib.portafib.ws.v1.utils.JPAConversion;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Set;
 
 
 /**
@@ -81,8 +80,23 @@ public class FitxerUtils extends FitxerUtilsCommon {
     log.info("ID FITXER CREAT = "+ fitxerID );
     
     //FileSystemManager.crearFitxer(tmp, fitxerID);
-    FileSystemManager.sobreescriureFitxer(tmp, fitxerID);
-    
+    //FileSystemManager.sobreescriureFitxer(tmp, fitxerID);
+    try {
+      LogicUtils.sobreescriureFitxerChecked(tmp, fitxerID);
+    } catch (Exception e) {
+      /*
+      Si ha fallat el sobreescriure intentam borrar tot i llançar una runtime.
+       */
+      fitxerEjb.deleteFull(fitxerID);
+      if (tmp.exists()) {
+        if (!tmp.delete()) {
+          tmp.deleteOnExit();
+        }
+      }
+      throw new RuntimeException(e);
+    }
+
+
     fitxersCreats.add(fitxerJPA.getFitxerID());
 
     return fitxerJPA;

@@ -37,6 +37,7 @@ import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.EmailInfo;
 import es.caib.portafib.logic.utils.EmailUtil;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.StampCustodiaInfo;
@@ -1023,7 +1024,9 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       long fitxerFinalAFirmarID = f.getFitxerID();
 
-      dstPDF = FileSystemManager.sobreescriureFitxer(dstPDF, fitxerFinalAFirmarID);
+      //dstPDF = FileSystemManager.sobreescriureFitxer(dstPDF, fitxerFinalAFirmarID);
+      dstPDF = LogicUtils.sobreescriureFitxerChecked(dstPDF, fitxerFinalAFirmarID);
+
       if (log.isDebugEnabled()) {
         log.info("Guardat fitxer amb taula i adjunts a " + dstPDF.getAbsolutePath());
       }
@@ -2276,7 +2279,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // IMPORTATNT: Això ha de ser lo darrer per si hi hagues algun error en
       // les passes anteriors
       // 8.- Guardar Fitxer en Sistema de Fitxers
-      FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
+      //FileSystemManager.sobreescriureFitxer(signatureFile, fitxer.getFitxerID());
+      LogicUtils.sobreescriureFitxerChecked(signatureFile, fitxer.getFitxerID());
       fileID = fitxer.getFitxerID();
 
       // 9.- PeticióFinalitzada:

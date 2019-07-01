@@ -1,5 +1,6 @@
 package es.caib.portafib.back.controller.rest.apifirmaasyncsimple.v2;
 
+import es.caib.portafib.logic.utils.LogicUtils;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
@@ -1500,7 +1501,21 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     log.info("ID FITXER CREAT = " + fitxerID);
 
     // FileSystemManager.crearFitxer(tmp, fitxerID);
-    FileSystemManager.sobreescriureFitxer(tmp, fitxerID);
+    //FileSystemManager.sobreescriureFitxer(tmp, fitxerID);
+    try {
+      LogicUtils.sobreescriureFitxerChecked(tmp, fitxerID);
+    } catch (Exception e) {
+      /*
+      Si ha fallat el sobreescriure intentam borrar tot i llançar una runtime.
+       */
+      fitxerEjb.deleteFull(fitxerID);
+      if (tmp.exists()) {
+        if (!tmp.delete()) {
+          tmp.deleteOnExit();
+        }
+      }
+      throw new RuntimeException(e);
+    }
 
     fitxersCreats.add(fitxerJPA.getFitxerID());
 
