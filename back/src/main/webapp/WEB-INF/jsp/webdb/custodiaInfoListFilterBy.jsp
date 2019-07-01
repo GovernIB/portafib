@@ -143,19 +143,6 @@
 
 
         </c:if>
-        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
-            <%-- FILTRE STRING --%>
-            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
-              <fmt:message key="custodiaInfo.urlFitxerCustodiat" var="urlFitxerCustodiat" />
-              <fmt:message key="genapp.form.searchby" var="cercaperurlFitxerCustodiat" >                
-                 <fmt:param value="${urlFitxerCustodiat}"/>
-              </fmt:message>
-              <span class="add-on"><c:out value="${urlFitxerCustodiat}" />:</span>
-              <form:input cssClass="search-query input-medium" placeholder="${cercaperurlFitxerCustodiat}" path="urlFitxerCustodiat" />
-            </div>
-
-
-        </c:if>
         <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.PAGINES)}">
             <%-- FILTRE STRING --%>
             <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
@@ -356,6 +343,123 @@
 
               <form:input cssClass="input-append input-small search-query" path="editableFins" />
 
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CSV)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.csv" var="csv" />
+              <fmt:message key="genapp.form.searchby" var="cercapercsv" >                
+                 <fmt:param value="${csv}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${csv}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapercsv}" path="csv" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CSVVALIDATIONWEB)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.csvValidationWeb" var="csvValidationWeb" />
+              <fmt:message key="genapp.form.searchby" var="cercapercsvValidationWeb" >                
+                 <fmt:param value="${csvValidationWeb}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${csvValidationWeb}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapercsvValidationWeb}" path="csvValidationWeb" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.CSVGENERATIONDEFINITION)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.csvGenerationDefinition" var="csvGenerationDefinition" />
+              <fmt:message key="genapp.form.searchby" var="cercapercsvGenerationDefinition" >                
+                 <fmt:param value="${csvGenerationDefinition}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${csvGenerationDefinition}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapercsvGenerationDefinition}" path="csvGenerationDefinition" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.URLFITXERCUSTODIAT)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.urlFitxerCustodiat" var="urlFitxerCustodiat" />
+              <fmt:message key="genapp.form.searchby" var="cercaperurlFitxerCustodiat" >                
+                 <fmt:param value="${urlFitxerCustodiat}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${urlFitxerCustodiat}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperurlFitxerCustodiat}" path="urlFitxerCustodiat" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.ORIGINALFILEDIRECTURL)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.originalFileDirectUrl" var="originalFileDirectUrl" />
+              <fmt:message key="genapp.form.searchby" var="cercaperoriginalFileDirectUrl" >                
+                 <fmt:param value="${originalFileDirectUrl}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${originalFileDirectUrl}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperoriginalFileDirectUrl}" path="originalFileDirectUrl" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.PRINTABLEFILEDIRECTURL)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.printableFileDirectUrl" var="printableFileDirectUrl" />
+              <fmt:message key="genapp.form.searchby" var="cercaperprintableFileDirectUrl" >                
+                 <fmt:param value="${printableFileDirectUrl}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${printableFileDirectUrl}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperprintableFileDirectUrl}" path="printableFileDirectUrl" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.ENIFILEDIRECTURL)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.eniFileDirectUrl" var="eniFileDirectUrl" />
+              <fmt:message key="genapp.form.searchby" var="cercapereniFileDirectUrl" >                
+                 <fmt:param value="${eniFileDirectUrl}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${eniFileDirectUrl}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercapereniFileDirectUrl}" path="eniFileDirectUrl" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.EXPEDIENTARXIUID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.expedientArxiuId" var="expedientArxiuId" />
+              <fmt:message key="genapp.form.searchby" var="cercaperexpedientArxiuId" >                
+                 <fmt:param value="${expedientArxiuId}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${expedientArxiuId}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperexpedientArxiuId}" path="expedientArxiuId" />
+            </div>
+
+
+        </c:if>
+        <c:if test="${gen:contains(__theFilterForm.filterByFields ,CustodiaInfoFields.DOCUMENTARXIUID)}">
+            <%-- FILTRE STRING --%>
+            <div class="input-prepend" style="padding-right: 4px;padding-bottom: 4px;">
+              <fmt:message key="custodiaInfo.documentArxiuId" var="documentArxiuId" />
+              <fmt:message key="genapp.form.searchby" var="cercaperdocumentArxiuId" >                
+                 <fmt:param value="${documentArxiuId}"/>
+              </fmt:message>
+              <span class="add-on"><c:out value="${documentArxiuId}" />:</span>
+              <form:input cssClass="search-query input-medium" placeholder="${cercaperdocumentArxiuId}" path="documentArxiuId" />
             </div>
 
 

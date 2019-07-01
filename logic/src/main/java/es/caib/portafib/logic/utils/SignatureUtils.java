@@ -685,7 +685,6 @@ public class SignatureUtils {
           stampCodiSegurVerificacio.setMissatgeCustodia(pcvsStamp.getMessage());
           stampCodiSegurVerificacio.setPagines(pcvsStamp.getPages());
           stampCodiSegurVerificacio.setPosicioCustodiaInfo(pcvsStamp.getMessagePosition());
-
         }
       }
       

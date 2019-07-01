@@ -98,17 +98,6 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
   }
 
 
-  private java.lang.String urlFitxerCustodiat;
-
-  public java.lang.String getUrlFitxerCustodiat() {
-    return this.urlFitxerCustodiat;
-  }
-
-  public void setUrlFitxerCustodiat(java.lang.String urlFitxerCustodiat) {
-    this.urlFitxerCustodiat = urlFitxerCustodiat;
-  }
-
-
   private java.lang.String pagines;
 
   public java.lang.String getPagines() {
@@ -263,6 +252,105 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
   }
 
 
+  private java.lang.String csv;
+
+  public java.lang.String getCsv() {
+    return this.csv;
+  }
+
+  public void setCsv(java.lang.String csv) {
+    this.csv = csv;
+  }
+
+
+  private java.lang.String csvValidationWeb;
+
+  public java.lang.String getCsvValidationWeb() {
+    return this.csvValidationWeb;
+  }
+
+  public void setCsvValidationWeb(java.lang.String csvValidationWeb) {
+    this.csvValidationWeb = csvValidationWeb;
+  }
+
+
+  private java.lang.String csvGenerationDefinition;
+
+  public java.lang.String getCsvGenerationDefinition() {
+    return this.csvGenerationDefinition;
+  }
+
+  public void setCsvGenerationDefinition(java.lang.String csvGenerationDefinition) {
+    this.csvGenerationDefinition = csvGenerationDefinition;
+  }
+
+
+  private java.lang.String urlFitxerCustodiat;
+
+  public java.lang.String getUrlFitxerCustodiat() {
+    return this.urlFitxerCustodiat;
+  }
+
+  public void setUrlFitxerCustodiat(java.lang.String urlFitxerCustodiat) {
+    this.urlFitxerCustodiat = urlFitxerCustodiat;
+  }
+
+
+  private java.lang.String originalFileDirectUrl;
+
+  public java.lang.String getOriginalFileDirectUrl() {
+    return this.originalFileDirectUrl;
+  }
+
+  public void setOriginalFileDirectUrl(java.lang.String originalFileDirectUrl) {
+    this.originalFileDirectUrl = originalFileDirectUrl;
+  }
+
+
+  private java.lang.String printableFileDirectUrl;
+
+  public java.lang.String getPrintableFileDirectUrl() {
+    return this.printableFileDirectUrl;
+  }
+
+  public void setPrintableFileDirectUrl(java.lang.String printableFileDirectUrl) {
+    this.printableFileDirectUrl = printableFileDirectUrl;
+  }
+
+
+  private java.lang.String eniFileDirectUrl;
+
+  public java.lang.String getEniFileDirectUrl() {
+    return this.eniFileDirectUrl;
+  }
+
+  public void setEniFileDirectUrl(java.lang.String eniFileDirectUrl) {
+    this.eniFileDirectUrl = eniFileDirectUrl;
+  }
+
+
+  private java.lang.String expedientArxiuId;
+
+  public java.lang.String getExpedientArxiuId() {
+    return this.expedientArxiuId;
+  }
+
+  public void setExpedientArxiuId(java.lang.String expedientArxiuId) {
+    this.expedientArxiuId = expedientArxiuId;
+  }
+
+
+  private java.lang.String documentArxiuId;
+
+  public java.lang.String getDocumentArxiuId() {
+    return this.documentArxiuId;
+  }
+
+  public void setDocumentArxiuId(java.lang.String documentArxiuId) {
+    this.documentArxiuId = documentArxiuId;
+  }
+
+
   public CustodiaInfoFilterForm() {
   }
   
@@ -275,7 +363,6 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     this.pluginIDDesde = __toClone.pluginIDDesde;
     this.pluginIDFins = __toClone.pluginIDFins;
     this.custodiaPluginParameters = __toClone.custodiaPluginParameters;
-    this.urlFitxerCustodiat = __toClone.urlFitxerCustodiat;
     this.pagines = __toClone.pagines;
     this.missatge = __toClone.missatge;
     this.missatgePosicioPaginaIDDesde = __toClone.missatgePosicioPaginaIDDesde;
@@ -290,6 +377,15 @@ public class CustodiaInfoFilterForm extends PortaFIBBaseFilterForm implements Cu
     this.titolPeticio = __toClone.titolPeticio;
     this.dataCustodiaDesde = __toClone.dataCustodiaDesde;
     this.dataCustodiaFins = __toClone.dataCustodiaFins;
+    this.csv = __toClone.csv;
+    this.csvValidationWeb = __toClone.csvValidationWeb;
+    this.csvGenerationDefinition = __toClone.csvGenerationDefinition;
+    this.urlFitxerCustodiat = __toClone.urlFitxerCustodiat;
+    this.originalFileDirectUrl = __toClone.originalFileDirectUrl;
+    this.printableFileDirectUrl = __toClone.printableFileDirectUrl;
+    this.eniFileDirectUrl = __toClone.eniFileDirectUrl;
+    this.expedientArxiuId = __toClone.expedientArxiuId;
+    this.documentArxiuId = __toClone.documentArxiuId;
     this.mapOfPluginForPluginID = __toClone.mapOfPluginForPluginID;
     this.mapOfValuesForMissatgePosicioPaginaID = __toClone.mapOfValuesForMissatgePosicioPaginaID;
     this.mapOfCodiBarresForCodiBarresID = __toClone.mapOfCodiBarresForCodiBarresID;

@@ -129,17 +129,7 @@ public class ConfiguracioDeFirmaAdenController extends UsuariAplicacioConfigurac
     form.addReadOnlyField(TIPUSOPERACIOFIRMA);
     
 
-    // XYZ ZZZ Es quedaran així fins que no s'implementi #165
-    // form.addReadOnlyField(POLITICACUSTODIA);
-
-    // XYZ ZZZ Pendent de Implementar
-    form.addReadOnlyField(LOGINCERTIFICATEID);
-
-    // XYZ ZZZ Pendent de Implementar
-    //form.addReadOnlyField(CHECKCANVIATDOCFIRMAT);
-    //form.addReadOnlyField(COMPROVARNIFFIRMA);
     form.addReadOnlyField(VALIDARCERTIFICAT);
-    // form.addReadOnlyField(VALIDARFIRMA);
 
     // XYZ ZZZ Pendent de Implementar
     form.addReadOnlyField(HTMLPERLLISTARPLUGINSFIRMAWEB);

@@ -2,7 +2,6 @@ package es.caib.portafib.back.form.webdb;
 
 import java.util.List;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import es.caib.portafib.back.form.PortaFIBBaseForm;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 
@@ -13,10 +12,6 @@ import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
   
   private UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio;
-  
-  
-  private CommonsMultipartFile loginCertificateID;
-  private boolean loginCertificateIDDelete;
   
   public UsuariAplicacioConfiguracioForm() {
   }
@@ -61,20 +56,6 @@ public class UsuariAplicacioConfiguracioForm extends PortaFIBBaseForm {
     this.idiomesTraduccio = idiomesTraduccio;
   }
   
-  public CommonsMultipartFile getLoginCertificateID() {
-    return loginCertificateID;
-  }
-  
-   public void setLoginCertificateID(CommonsMultipartFile loginCertificateID) {
-    this.loginCertificateID = loginCertificateID;
-  }
-  public boolean isLoginCertificateIDDelete() {
-    return loginCertificateIDDelete;
-  }
-  
-  public void setLoginCertificateIDDelete(boolean loginCertificateIDDelete) {
-    this.loginCertificateIDDelete = loginCertificateIDDelete;
-   }
   private List<StringKeyValue> listOfEntitatForEntitatID;
 
   public List<StringKeyValue> getListOfEntitatForEntitatID() {

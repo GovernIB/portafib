@@ -548,7 +548,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
         form.setPlantillaFluxDeFirmes(pff);
       }
     
-
     }; // Final mode edició
     
     if (!LoginInfo.getInstance().hasRole(ConstantsV2.ROLE_ADMIN) &&
@@ -669,7 +668,6 @@ public class PlantillaDeFluxDeFirmesController extends FluxDeFirmesController
       mav.addObject("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
       request.getSession().setAttribute("seleccioUsuariRevisorForm", seleccioUsuariRevisorForm);
     }
-
    
     return form;
   }

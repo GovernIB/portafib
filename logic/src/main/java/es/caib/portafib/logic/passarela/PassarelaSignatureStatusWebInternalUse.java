@@ -21,6 +21,10 @@ public class PassarelaSignatureStatusWebInternalUse extends PassarelaSignatureSt
 
   protected Boolean checkValidationSignature = null;
 
+  public PassarelaSignatureStatusWebInternalUse() {
+    super();
+  }
+
   public File getFitxerFirmat() {
     return fitxerFirmat;
   }

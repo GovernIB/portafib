@@ -2314,7 +2314,7 @@
     <void index="6"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="19"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="27"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -2702,48 +2702,6 @@
         <void index="6"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
-           <string>URL retornada pel sistema de custòdia per accedir al document</string> 
-          </void> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="javaName"> 
-           <string>urlFitxerCustodiat</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.String</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Fitxer Custodiat</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Fichero Custodiado</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>500</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>urlfitxercustodiat</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>12</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="webtype"> 
-             <int>13</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="7"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="descripcio"> 
            <string>Indica en quines pàgines s&apos;ha de mostrar el missatge i el codi de barres. 
    - NULL = no mostrar
    - &apos;*&apos; = totes les pàgines
@@ -2791,7 +2749,7 @@
           </void> 
          </object> 
         </void> 
-        <void index="8"> 
+        <void index="7"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Properties amb &lt;idioma&gt;=&lt;missatge&gt;
@@ -2842,7 +2800,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="9"> 
+        <void index="8"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -2899,7 +2857,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="10"> 
+        <void index="9"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Tipus de Codi de barres a mostrar. Null no mostrar</string> 
@@ -2983,7 +2941,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="11"> 
+        <void index="10"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="defaultValue"> 
            <string>0</string> 
@@ -3040,7 +2998,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="12"> 
+        <void index="11"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Texte que representarà el codi de barres: 
@@ -3090,7 +3048,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="13"> 
+        <void index="12"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>UsuariEntitat que ha fet la peticio de firma. Si nomPlantilla != null llavors és un plantilla i indica a quin usuari pertany</string> 
@@ -3171,7 +3129,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="14"> 
+        <void index="13"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>UsuariAplicació que ha fet la petició de firma. Si nomPlantilla != null llavors és una plantilla i indica a quin usuari aplicacio pertany</string> 
@@ -3252,7 +3210,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="15"> 
+        <void index="14"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica si nomPlantilla != null l&apos;entitat a la qual pertany aquesta plantilla. Pot ser compartida per un usuai ADEN</string> 
@@ -3333,7 +3291,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="16"> 
+        <void index="15"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Nom de la peticio de firma</string> 
@@ -3378,7 +3336,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="17"> 
+        <void index="16"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="digits"> 
            <int>6</int> 
@@ -3423,7 +3381,7 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
           </void> 
          </object> 
         </void> 
-        <void index="18"> 
+        <void index="17"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Usat en Plantilles, indica si una vegada instanciada per un usuari aquesta plantilla podrà ser modificada</string> 
@@ -3463,6 +3421,366 @@ El missatge de custòdia a mostrar en el document pot contenir els següents ele
            <object class="org.fundaciobit.genapp.WebFieldInfo"> 
             <void property="webtype"> 
              <int>4</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="18"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>csv</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Codi Segur de Verificació (CSV)</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Código Seguro de Verificación (CSV)</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>csv</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="19"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>csvValidationWeb</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Web de validació del CSV</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Web de validación del CSV</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>csvvalidationweb</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="20"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>csvGenerationDefinition</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>URL al document de definició de creació del CSV</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>URL al documento de definición de creación del CSV</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>csvgenerationdefinition</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="21"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>URL retornada pel sistema de custòdia per accedir al document</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>urlFitxerCustodiat</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>Web on descarregar Fitxer Custodiat</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>Web donde descarregar Fichero Custodiado</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>urlfitxercustodiat</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="22"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>originalFileDirectUrl</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>URL directa on descarregar Fitxer Signat</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>URL directa donde descargar Fichero Firmado</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>originalfiledirecturl</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="23"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>printableFileDirectUrl</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>URL directa on descarregar la versió imprimible de la firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>URL directa donde descarregar la versión imprimible de la firma</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>printablefiledirecturl</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="24"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>eniFileDirectUrl</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>URL directa on descarregar la versió ENI de la firma</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>URL directa donde descargar la versión ENI de la firma</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>500</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>enifiledirecturl</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>13</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="25"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>futura compatibilitat amb plugin arxiu</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>expedientArxiuId</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>ID de l´expedient (API Arxiu)</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>ID del expediente (API Arxiu)</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>250</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>expedientid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+        <void index="26"> 
+         <object class="org.fundaciobit.genapp.FieldInfo"> 
+          <void property="descripcio"> 
+           <string>Futura compatibilitat amb Plugin Arxiu</string> 
+          </void> 
+          <void property="digits"> 
+           <int>0</int> 
+          </void> 
+          <void property="javaName"> 
+           <string>documentArxiuId</string> 
+          </void> 
+          <void property="javaType"> 
+           <class>java.lang.String</class> 
+          </void> 
+          <void property="labels"> 
+           <void method="put"> 
+            <string>ca</string> 
+            <string>ID del Document (API Arxiu)</string> 
+           </void> 
+           <void method="put"> 
+            <string>es</string> 
+            <string>ID del Documento(API Arxiu)</string> 
+           </void> 
+          </void> 
+          <void property="size"> 
+           <int>250</int> 
+          </void> 
+          <void property="sqlName"> 
+           <string>documentid</string> 
+          </void> 
+          <void property="sqlType"> 
+           <int>12</int> 
+          </void> 
+          <void property="webFieldInfo"> 
+           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
+            <void property="webtype"> 
+             <int>1</int> 
             </void> 
            </object> 
           </void> 
@@ -8018,7 +8336,7 @@ opcional incluso cuando se genera una firma EPES.</string>
            <int>0</int> 
           </void> 
           <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="19"> 
+           <array class="org.fundaciobit.genapp.ForeignKey" length="18"> 
             <void index="0"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
@@ -8230,19 +8548,6 @@ opcional incluso cuando se genera una firma EPES.</string>
             <void index="16"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
-               <string>logincertificateid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_usuariaplicacioconfig</string> 
-              </void> 
-             </object> 
-            </void> 
-            <void index="17"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
                <string>logosegellid</string> 
               </void> 
               <void property="name"> 
@@ -8253,7 +8558,7 @@ opcional incluso cuando se genera una firma EPES.</string>
               </void> 
              </object> 
             </void> 
-            <void index="18"> 
+            <void index="17"> 
              <object class="org.fundaciobit.genapp.ForeignKey"> 
               <void property="field"> 
                <string>rubricaid</string> 
@@ -21440,7 +21745,7 @@ Manualment l&apos;usuari haurà d&apos;indicar que ha vist la finalitzaio d&apos
     <void index="41"> 
      <object class="org.fundaciobit.genapp.TableInfo"> 
       <void property="fields"> 
-       <array class="org.fundaciobit.genapp.FieldInfo" length="35"> 
+       <array class="org.fundaciobit.genapp.FieldInfo" length="34"> 
         <void index="0"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="PK"> 
@@ -23057,84 +23362,6 @@ opcional incluso cuando se genera una firma EPES.</string>
         </void> 
         <void index="30"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
-          <void property="digits"> 
-           <int>0</int> 
-          </void> 
-          <void property="foreignKeys"> 
-           <array class="org.fundaciobit.genapp.ForeignKey" length="1"> 
-            <void index="0"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>fitxerid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_fitxer</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-           </array> 
-          </void> 
-          <void property="index"> 
-           <string>pfi_confapp_logincert_fk_i</string> 
-          </void> 
-          <void property="javaName"> 
-           <string>loginCertificateID</string> 
-          </void> 
-          <void property="javaType"> 
-           <class>java.lang.Long</class> 
-          </void> 
-          <void property="labels"> 
-           <void method="put"> 
-            <string>ca</string> 
-            <string>Certificat per comunicacions ClientCert</string> 
-           </void> 
-           <void method="put"> 
-            <string>es</string> 
-            <string>Certificat para comunicaciones ClientCert</string> 
-           </void> 
-          </void> 
-          <void property="size"> 
-           <int>19</int> 
-          </void> 
-          <void property="sqlName"> 
-           <string>logincertificateid</string> 
-          </void> 
-          <void property="sqlType"> 
-           <int>-5</int> 
-          </void> 
-          <void property="webFieldInfo"> 
-           <object class="org.fundaciobit.genapp.WebFieldInfo"> 
-            <void property="foreignKey"> 
-             <object class="org.fundaciobit.genapp.ForeignKey"> 
-              <void property="field"> 
-               <string>fitxerid</string> 
-              </void> 
-              <void property="name"> 
-               <string>pfi_confapp_fitxer_cert_fk</string> 
-              </void> 
-              <void property="table"> 
-               <string>pfi_fitxer</string> 
-              </void> 
-              <void property="type"> 
-               <int>1</int> 
-              </void> 
-             </object> 
-            </void> 
-            <void property="webtype"> 
-             <int>3</int> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void index="31"> 
-         <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Indica si validar la firma amb el Plugin de validació definit a l&apos;entitat</string> 
           </void> 
@@ -23178,7 +23405,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="32"> 
+        <void index="31"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>-- Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -23223,7 +23450,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="33"> 
+        <void index="32"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>Null =&gt; Valor definit a l&apos;entitat</string> 
@@ -23268,7 +23495,7 @@ opcional incluso cuando se genera una firma EPES.</string>
           </void> 
          </object> 
         </void> 
-        <void index="34"> 
+        <void index="33"> 
          <object class="org.fundaciobit.genapp.FieldInfo"> 
           <void property="descripcio"> 
            <string>NULL =&gt; Lo que digui l&apos;entitat</string> 

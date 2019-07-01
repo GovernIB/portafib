@@ -92,9 +92,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Integer getUpgradeSignFormat();
 	public void setUpgradeSignFormat(java.lang.Integer _upgradeSignFormat_);
 
-	public java.lang.Long getLoginCertificateID();
-	public void setLoginCertificateID(java.lang.Long _loginCertificateID_);
-
 	public java.lang.Boolean getValidarFirma();
 	public void setValidarFirma(java.lang.Boolean _validarFirma_);
 
@@ -107,8 +104,6 @@ public interface UsuariAplicacioConfiguracio extends org.fundaciobit.genapp.comm
 	public java.lang.Boolean getValidarCertificat();
 	public void setValidarCertificat(java.lang.Boolean _validarCertificat_);
 
-  // Fitxer
-  public <F extends Fitxer> F getLoginCertificate();
 
 
   // ======================================

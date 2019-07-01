@@ -160,8 +160,10 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
     custodiaInfoForm.addHiddenField(USUARIAPLICACIOID);
     custodiaInfoForm.addHiddenField(USUARIENTITATID);
     custodiaInfoForm.addHiddenField(CODIBARRESPOSICIOPAGINAID);
-
     
+    custodiaInfoForm.addHiddenField(EXPEDIENTARXIUID);
+    custodiaInfoForm.addHiddenField(DOCUMENTARXIUID);
+
     PeticioDeFirma peticioDeFirma;
     {
        List<PeticioDeFirma> list;

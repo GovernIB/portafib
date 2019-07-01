@@ -212,13 +212,6 @@
           </c:if>
           </td>
         </c:if>
-        <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
-          <td>
-            <c:if test="${not empty usuariAplicacioConfiguracio.loginCertificate}">
-              <a target="_blank" href="<c:url value="${pfi:fileUrl(usuariAplicacioConfiguracio.loginCertificate)}"/>">${usuariAplicacioConfiguracio.loginCertificate.nom}</a>
-            </c:if>
-           </td>
-        </c:if>
         <c:if test="${!gen:contains(__theFilterForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
           <td>
             <fmt:message key="definitenentitat.${usuariAplicacioConfiguracio.validarFirma}" />          </td>

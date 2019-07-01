@@ -30,7 +30,6 @@ import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
 import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.documentcustody.api.IDocumentCustodyPlugin;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +96,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -725,23 +723,18 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         String custodyID = custodiaInfoJPA.getCustodiaDocumentID();
         // Això és plugin.getValidationFileUrl();
         String custodyFileURL = custodiaInfoJPA.getUrlFitxerCustodiat();
-        // XYZ ZZZ ZZZ Falten camps de BBDD
-        IDocumentCustodyPlugin plugin;
-        plugin = pluginDeCustodiaLogicaEjb
-            .getInstanceByPluginID(custodiaInfoJPA.getPluginID());
-        Map<String, Object> parameters = peticioDeFirmaLogicaEjb
-            .getAdditionalParametersForDocumentCustody(peticioDeFirma, custodiaInfoJPA);
-        String csv = plugin.getCsv(custodyID, parameters);
 
-        // XYZ ZZZ ZZZ Falten camps de BBDD. Ha d'estar en BBDD: Ja s'ha d'haver cridat al PLUGIN !!! 
-        String csvGenerationDefinition = plugin.getCsvGenerationDefinition(custodyID, parameters);
-        String csvValidationWeb = plugin.getCsvValidationWeb(custodyID, parameters);
-        String originalFileDirectURL = plugin.getOriginalFileUrl(custodyID, parameters);
-        String printableFileDirectUrl = plugin.getPrintableFileUrl(custodyID, parameters);
-        String eniFileDirectUrl = plugin.getEniFileUrl(custodyID, parameters);
+        // PORTAFIB2: Nous camps de CustodyInfo #280
+        final String csv = custodiaInfoJPA.getCsv();
+        final String csvGenerationDefinition = custodiaInfoJPA.getCsvGenerationDefinition();
+        final String csvValidationWeb = custodiaInfoJPA.getCsvValidationWeb();
+        final String originalFileDirectURL = custodiaInfoJPA.getOriginalFileDirectUrl();
+        final String printableFileDirectUrl = custodiaInfoJPA.getPrintableFileDirectUrl();
+        final String eniFileDirectUrl = custodiaInfoJPA.getEniFileDirectUrl();
 
         custodyInfo = new FirmaAsyncSimpleCustodyInfo(custodyID, csv, csvValidationWeb, custodyFileURL,
-            csvGenerationDefinition, originalFileDirectURL,printableFileDirectUrl,eniFileDirectUrl);
+            csvGenerationDefinition, originalFileDirectURL,printableFileDirectUrl,eniFileDirectUrl,
+            custodiaInfoJPA.getExpedientArxiuId(), custodiaInfoJPA.getDocumentArxiuId());
       }
 
       FirmaAsyncSimpleValidationInfo validationInfo = null;

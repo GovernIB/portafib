@@ -18,11 +18,10 @@ import es.caib.portafib.back.form.webdb.FluxDeFirmesForm;
  */
 @Controller
 @RequestMapping(value = "/aden/plantilla")
-@SessionAttributes(types = {  PlantillaDeFluxDeFirmesFilterForm.class,
-    SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class,
-    FluxDeFirmesForm.class,  FluxDeFirmesFilterForm.class })
-public class PlantillaDeFluxDeFirmesAdenController 
-     extends PlantillaDeFluxDeFirmesController {
+@SessionAttributes(types = { PlantillaDeFluxDeFirmesFilterForm.class,
+    SeleccioUsuariForm.class, PlantillaDeFluxDeFirmesForm.class, FluxDeFirmesForm.class,
+    FluxDeFirmesFilterForm.class })
+public class PlantillaDeFluxDeFirmesAdenController extends PlantillaDeFluxDeFirmesController {
 
   @Override
   public String getTileForm() {
@@ -38,16 +37,15 @@ public class PlantillaDeFluxDeFirmesAdenController
   public String getSessionAttributeFilterForm() {
     return "PlantillaFluxDeFirmes_aden";
   }
-  
+
   @Override
   public boolean isUsuariEntitat() {
     return false;
   }
-  
+
   @Override
   public boolean isEditingPlantilla() {
     return true;
   }
 
-  
 }

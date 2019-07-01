@@ -716,51 +716,6 @@
         </tr>
         </c:if>
         
-        <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}">
-        <tr id="usuariAplicacioConfiguracio_loginCertificateID_rowid">
-          <td>
-            <label>
-              <fmt:message key="${(empty __theForm.labels[UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID])?'usuariAplicacioConfiguracio.loginCertificateID':__theForm.labels[UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID]}" />
-              <c:if test="${not empty __theForm.help[UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID]}">
-              <i class="icon-info-sign" title="${__theForm.help[UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID]}" ></i>
-              </c:if>
-             </label>
-            </td>
-            <td>
-              <form:errors path="usuariAplicacioConfiguracio.loginCertificateID" cssClass="errorField alert alert-error" />
-              <div class="fileupload fileupload-new" data-provides="fileupload" style="margin-bottom: 0px">
-                <div class="input-append">
-                <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}" >
-                    <div class="uneditable-input span3">
-                      <i class="icon-file fileupload-exists"></i>
-                      <span class="fileupload-preview"></span>
-                    </div>
-                    <span class="btn btn-file">
-                      <span class="fileupload-new"><fmt:message key="genapp.form.file.select"/></span>
-                      <span class="fileupload-exists"><fmt:message key="genapp.form.file.change"/></span>
-                      <form:input readonly="${ gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)? 'true' : 'false'}" cssClass="${gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)? 'input uneditable-input' : 'input'}"  path="loginCertificateID" type="file" />
-                    </span>
-                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="genapp.form.file.unselect"/></a>
-                    <span class="add-on">&nbsp;</span>
-                </c:if>
-                <c:if test="${not empty __theForm.usuariAplicacioConfiguracio.loginCertificate}">
-                <c:if test="${!gen:contains(__theForm.readOnlyFields ,UsuariAplicacioConfiguracioFields.LOGINCERTIFICATEID)}" >
-                    <span class="add-on">
-                        <form:checkbox path="loginCertificateIDDelete"/>
-                        <fmt:message key="genapp.form.file.delete"/>
-                    </span>
-                    <span class="add-on">&nbsp;</span>   
-                </c:if>
-                    <span class="add-on">
-                        <a target="_blank" href="<c:url value="${pfi:fileUrl(__theForm.usuariAplicacioConfiguracio.loginCertificate)}"/>">${__theForm.usuariAplicacioConfiguracio.loginCertificate.nom}</a>
-                    </span>
-                </c:if>
-                </div>
-              </div>
-           </td>
-        </tr>
-        </c:if>
-        
         <c:if test="${!gen:contains(__theForm.hiddenFields,UsuariAplicacioConfiguracioFields.VALIDARFIRMA)}">
         <tr id="usuariAplicacioConfiguracio_validarFirma_rowid">
           <td>

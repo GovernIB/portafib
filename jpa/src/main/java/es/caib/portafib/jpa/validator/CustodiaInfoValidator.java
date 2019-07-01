@@ -99,14 +99,6 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
       }
     }
     
-    if (__vr.getFieldErrorCount(URLFITXERCUSTODIAT) == 0) {
-      java.lang.String __urlfitxercustodiat = (java.lang.String)__vr.getFieldValue(__target__,URLFITXERCUSTODIAT);
-      if (__urlfitxercustodiat!= null && __urlfitxercustodiat.length() > 500) {
-        __vr.rejectValue(URLFITXERCUSTODIAT, "genapp.validation.sizeexceeds",
-            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(URLFITXERCUSTODIAT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
-      }
-    }
-    
     if (__vr.getFieldErrorCount(PAGINES) == 0) {
       java.lang.String __pagines = (java.lang.String)__vr.getFieldValue(__target__,PAGINES);
       if (__pagines!= null && __pagines.length() > 255) {
@@ -168,6 +160,78 @@ public class CustodiaInfoValidator<T> implements CustodiaInfoFields {
       if (__titolpeticio!= null && __titolpeticio.length() > 255) {
         __vr.rejectValue(TITOLPETICIO, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(TITOLPETICIO)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(CSV) == 0) {
+      java.lang.String __csv = (java.lang.String)__vr.getFieldValue(__target__,CSV);
+      if (__csv!= null && __csv.length() > 500) {
+        __vr.rejectValue(CSV, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CSV)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(CSVVALIDATIONWEB) == 0) {
+      java.lang.String __csvvalidationweb = (java.lang.String)__vr.getFieldValue(__target__,CSVVALIDATIONWEB);
+      if (__csvvalidationweb!= null && __csvvalidationweb.length() > 500) {
+        __vr.rejectValue(CSVVALIDATIONWEB, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CSVVALIDATIONWEB)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(CSVGENERATIONDEFINITION) == 0) {
+      java.lang.String __csvgenerationdefinition = (java.lang.String)__vr.getFieldValue(__target__,CSVGENERATIONDEFINITION);
+      if (__csvgenerationdefinition!= null && __csvgenerationdefinition.length() > 500) {
+        __vr.rejectValue(CSVGENERATIONDEFINITION, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(CSVGENERATIONDEFINITION)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(URLFITXERCUSTODIAT) == 0) {
+      java.lang.String __urlfitxercustodiat = (java.lang.String)__vr.getFieldValue(__target__,URLFITXERCUSTODIAT);
+      if (__urlfitxercustodiat!= null && __urlfitxercustodiat.length() > 500) {
+        __vr.rejectValue(URLFITXERCUSTODIAT, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(URLFITXERCUSTODIAT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(ORIGINALFILEDIRECTURL) == 0) {
+      java.lang.String __originalfiledirecturl = (java.lang.String)__vr.getFieldValue(__target__,ORIGINALFILEDIRECTURL);
+      if (__originalfiledirecturl!= null && __originalfiledirecturl.length() > 500) {
+        __vr.rejectValue(ORIGINALFILEDIRECTURL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ORIGINALFILEDIRECTURL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(PRINTABLEFILEDIRECTURL) == 0) {
+      java.lang.String __printablefiledirecturl = (java.lang.String)__vr.getFieldValue(__target__,PRINTABLEFILEDIRECTURL);
+      if (__printablefiledirecturl!= null && __printablefiledirecturl.length() > 500) {
+        __vr.rejectValue(PRINTABLEFILEDIRECTURL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PRINTABLEFILEDIRECTURL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(ENIFILEDIRECTURL) == 0) {
+      java.lang.String __enifiledirecturl = (java.lang.String)__vr.getFieldValue(__target__,ENIFILEDIRECTURL);
+      if (__enifiledirecturl!= null && __enifiledirecturl.length() > 500) {
+        __vr.rejectValue(ENIFILEDIRECTURL, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ENIFILEDIRECTURL)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(500)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(EXPEDIENTARXIUID) == 0) {
+      java.lang.String __expedientarxiuid = (java.lang.String)__vr.getFieldValue(__target__,EXPEDIENTARXIUID);
+      if (__expedientarxiuid!= null && __expedientarxiuid.length() > 250) {
+        __vr.rejectValue(EXPEDIENTARXIUID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(EXPEDIENTARXIUID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(250)));
+      }
+    }
+    
+    if (__vr.getFieldErrorCount(DOCUMENTARXIUID) == 0) {
+      java.lang.String __documentarxiuid = (java.lang.String)__vr.getFieldValue(__target__,DOCUMENTARXIUID);
+      if (__documentarxiuid!= null && __documentarxiuid.length() > 250) {
+        __vr.rejectValue(DOCUMENTARXIUID, "genapp.validation.sizeexceeds",
+            new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(DOCUMENTARXIUID)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(250)));
       }
     }
     

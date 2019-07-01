@@ -664,19 +664,29 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
                 + peticioDeFirma.getFluxDeFirmes().getBlocDeFirmess().size());
 
             // CustodyParameter conté la peticio de Firma en Format XML
-
             // la còpia es fa per evitar modificacions de la instància interna
-
-            Map<String, Object> additionParameters = getAdditionalParametersForDocumentCustody(
+            Map<String, Object> parameters = getAdditionalParametersForDocumentCustody(
                 peticioDeFirma, custodiaInfo);
 
-            custodyID = plugin.reserveCustodyID(additionParameters);
+            custodyID = plugin.reserveCustodyID(parameters);
             // TODO Check custodyID != null
             custodiaInfo.setCustodiaDocumentID(custodyID);
-            String url = plugin.getOriginalFileUrl(custodyID, additionParameters);
+            String url = plugin.getOriginalFileUrl(custodyID, parameters);
             custodiaInfo.setUrlFitxerCustodiat(url);
+
             custodiaInfo.setTitolPeticio(peticioDeFirma.getTitol());
             custodiaInfo.setDataCustodia(new Timestamp(new Date().getTime()));
+
+            // PORTAFIB2: Nous camps de CustodyInfo #280
+            custodiaInfo.setCsv(plugin.getCsv(custodyID, parameters));
+            custodiaInfo.setCsvGenerationDefinition(plugin.getCsvGenerationDefinition(custodyID, parameters));
+            custodiaInfo.setCsvValidationWeb(plugin.getCsvValidationWeb(custodyID, parameters));
+            custodiaInfo.setOriginalFileDirectUrl(plugin.getOriginalFileUrl(custodyID, parameters));
+            custodiaInfo.setPrintableFileDirectUrl(plugin.getPrintableFileUrl(custodyID, parameters));
+            custodiaInfo.setEniFileDirectUrl(plugin.getEniFileUrl(custodyID, parameters));
+
+            custodiaInfo.setExpedientArxiuId(null);
+            custodiaInfo.setDocumentArxiuId(null);
 
             custodiaInfo = custodiaInfoLogicaEjb.update(custodiaInfo);
           } else {
@@ -3418,6 +3428,19 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
     clonedCust.setCustodiaInfoID(0);
     clonedCust.setCustodiaDocumentID(null);
     clonedCust.setUrlFitxerCustodiat(null);
+    clonedCust.setCsv(null);
+    
+    clonedCust.setCsvGenerationDefinition(null);
+    clonedCust.setCsvValidationWeb(null);
+    
+
+    clonedCust.setOriginalFileDirectUrl(null);
+    clonedCust.setPrintableFileDirectUrl(null);
+    clonedCust.setEniFileDirectUrl(null);
+    clonedCust.setExpedientArxiuId(null); // futura compatibilitat amb plugin arxiu
+    clonedCust.setDocumentArxiuId(null);   // futura compatibilitat amb plugin arxiu
+    
+
     clonedCust.setNomPlantilla(null);
     clonedCust.setEntitatID(null);
     clonedCust.setTitolPeticio(peticio.getTitol());
