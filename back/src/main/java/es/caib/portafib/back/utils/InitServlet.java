@@ -238,39 +238,45 @@ public class InitServlet extends HttpServlet {
    */
   public void testTmpAndFileSystemManager() throws Exception {
 
-    final String OS = System.getProperty("os.name").toLowerCase();
-
-    boolean isUnix = (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0);
+    log.info("Inici test sistema de fitxers");
 
     log.debug("System.getProperty('java.io.tmpdir') => "
         + System.getProperty("java.io.tmpdir"));
 
-    if (isUnix) {
-
-      java.io.File tmp = java.io.File.createTempFile("portafib", ".testrename");
-
-      log.debug("File.createTempFile => " + tmp.getAbsolutePath());
-
-      java.io.File filesPath = new java.io.File(FileSystemManager.getFilesPath(),
-          tmp.getName());
-
-      log.debug("FileSystemManager.getFilesPath() + tmp.getName() => "
-          + filesPath.getAbsolutePath());
-
-      // touch
-      new java.io.FileOutputStream(tmp).close();
-
-      if (!tmp.renameTo(filesPath)) {
-        tmp.delete();
-        throw new Exception("El sistema de fitxers temporal i "
-            + "FileSystemManager.getFilesPath() apunten a unitats diferents "
-            + "(o mounts diferents). Han d´estar en el mateix file system.");
-      } else {
-        filesPath.delete();
-      }
-
+    // #275
+    // Intentam crear i esborrar fitxer a directori temporal.
+    java.io.File tmp = java.io.File.createTempFile("portafib", ".test");
+    log.debug("File.createTempFile => " + tmp.getAbsolutePath());
+    if (!tmp.delete()) {
+      throw new Exception("Test de creació i eliminació de fitxer temporal ha fallat.");
     }
 
+    // Intentam crear i esborrar fitxer a directori portafib
+    tmp = java.io.File.createTempFile("portafib", ".test", FileSystemManager.getFilesPath());
+    log.debug("File.createTempFile => " + tmp.getAbsolutePath());
+    if (!tmp.delete()) {
+      throw new Exception("Test de creació i eliminació de fitxer ha fallat.");
+    }
+
+    // Intentam fer un rename
+    tmp = java.io.File.createTempFile("portafib", ".testrename");
+    log.debug("File.createTempFile => " + tmp.getAbsolutePath());
+    java.io.File filesPath = new java.io.File(FileSystemManager.getFilesPath(), tmp.getName());
+    log.debug("FileSystemManager.getFilesPath() + tmp.getName() => " + filesPath.getAbsolutePath());
+
+    // touch
+    new java.io.FileOutputStream(tmp).close();
+
+    if (!tmp.renameTo(filesPath)) {
+      tmp.delete();
+      throw new Exception("El sistema de fitxers temporal i "
+          + "FileSystemManager.getFilesPath() apunten a unitats diferents "
+          + "(o mounts diferents). Han d´estar en el mateix file system.");
+    } else {
+      filesPath.delete();
+    }
+
+    log.info("Test sistema de fitxers superat");
   }
 
 }
