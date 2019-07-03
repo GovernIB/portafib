@@ -278,7 +278,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
     case SHOW_ACTION_BLOQUEJAR:
       filterForm.addAdditionalButton(new AdditionalButton("icon-pause",
           "notificaciows.bloquejar", "javascript:submitTo('notificacioWSFilterForm', '"
-              + context + "/bloquejarSelected", "btn-warning"));
+              + context + "/bloquejarSelected');", "btn-warning"));
       filterForm.addAdditionalButton(new AdditionalButton("icon-stop", "notificaciows.aturar",
           "javascript:submitTo('notificacioWSFilterForm', '" + context + "/aturarSelected');",
           "btn-warning"));
@@ -418,16 +418,15 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       if (notificacio == null) {
         createMessageWarning(request, "error.notfound", notificacioID);
-        return "redirect:" + getContextWeb() + "/list/";
       }
 
-      return "redirect:" + getContextWeb() + "/view/" + notificacioID;
     } catch (I18NException pe) {
 
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(pe));
-      return "redirect:" + getContextWeb() + "/list/";
+
     }
 
+    return "redirect:" + getContextWeb() + "/list/";
   }
 
   @RequestMapping(value = "/aturarSelected", method = RequestMethod.POST)
@@ -455,15 +454,13 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       if (notificacio == null) {
         createMessageWarning(request, "error.notfound", notificacioID);
-        return "redirect:" + getContextWeb() + "/list/";
       }
-      return "redirect:" + getContextWeb() + "/view/" + notificacioID;
 
     } catch (I18NException pe) {
-
       HtmlUtils.saveMessageError(request, I18NUtils.getMessage(pe));
-      return "redirect:" + getContextWeb() + "/list/";
     }
+
+    return "redirect:" + getContextWeb() + "/list/";
 
   }
 
@@ -494,7 +491,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
       if (notificacio == null) {
         createMessageWarning(request, "error.notfound", notificacioID);
-        return "redirect:" + getContextWeb() + "/list/";
       }
 
     } catch (I18NException pe) {
@@ -503,7 +499,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
     }
 
-    return "redirect:" + getContextWeb() + "/view/" + notificacioID;
+    return "redirect:" + getContextWeb() + "/list/";
   }
 
   @RequestMapping(value = "/desbloquejarSelected", method = RequestMethod.POST)
@@ -520,9 +516,6 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
 
     return "redirect:" + getContextWeb() + "/list/";
   }
-  
-  
-  
   
   @RequestMapping(value = "/startTimer", method = RequestMethod.GET)
   public String startNotificacioCallBackTimer(HttpServletRequest request,
