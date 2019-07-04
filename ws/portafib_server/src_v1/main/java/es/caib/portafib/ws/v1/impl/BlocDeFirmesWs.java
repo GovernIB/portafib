@@ -10,6 +10,7 @@ import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class BlocDeFirmesWs extends BlocDeFirmesBean {
   
   
   public static BlocDeFirmesJPA toJPA(BlocDeFirmesWs blocDeFirmesWs, 
-      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
     if (blocDeFirmesWs == null) {
       return null;
     }

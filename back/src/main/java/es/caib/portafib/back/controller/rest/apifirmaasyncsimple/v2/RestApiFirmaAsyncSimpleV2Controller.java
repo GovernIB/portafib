@@ -26,6 +26,7 @@ import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
@@ -651,12 +652,9 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   /**
-   * @param peticioDeFirmaID
    * @return El darrer fitxer firmat si la petició esta en marxa i algu ha firmat, els fitxer
    *         adaptat si la petició esta en marxa i ningú ha firmat o el fitxer original si la
    *         peticio no s'ha iniciat.
-   * @throws WsI18NException
-   * @throws Throwable
    */
   @RequestMapping(value = "/" + ApiFirmaAsyncSimple.SIGNEDFILEOFSIGNATUREREQUEST, method = RequestMethod.POST)
   @ResponseBody
@@ -913,7 +911,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   protected PeticioDeFirmaJPA signatureRequestToPeticioDeFirmaJPAFull(
       FirmaAsyncSimpleSignatureRequestWithSignBlockList signatureRequest, UsuariAplicacioJPA usrapp,
-      EntitatJPA entitatJPA, Set<Long> fitxersCreats) throws I18NException {
+      EntitatJPA entitatJPA, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
 
     // De Perfil de Firma i Configuracio de Firma
     // XYZ ZZZ ZZZ
@@ -1219,7 +1217,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   protected AnnexJPA toJPA(FirmaAsyncSimpleAnnex annexBean, FitxerLogicaLocal fitxerEjb,
-      Set<Long> fitxersCreats) throws I18NException {
+      Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
     if (annexBean == null) {
       return null;
     }
@@ -1452,7 +1450,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
   // TODO throw I18NException
   protected FitxerJPA createFitxer(FirmaAsyncSimpleFile fitxer, FitxerLogicaLocal fitxerEjb,
-      Set<Long> fitxersCreats, Field<?> field) throws I18NException {
+      Set<Long> fitxersCreats, Field<?> field) throws I18NException, I18NValidationException {
 
     if (fitxer == null) {
       return null;
@@ -1487,7 +1485,17 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     FitxerJPA fitxerJPA = new FitxerJPA(fitxer.getNom(), null, tmp.length(), fitxer.getMime());
 
     // TODO Arreglar aquest
-    fitxerJPA = fitxerEjb.createFull(fitxerJPA);
+    try {
+      fitxerJPA = fitxerEjb.createFull(fitxerJPA);
+    } catch (I18NValidationException e) {
+      // Si falla la creació per errors de validació, borram el fitxer temporal i rellançam excepció
+      if (tmp.exists()) {
+        if (!tmp.delete()) {
+          tmp.deleteOnExit();
+        }
+      }
+      throw e;
+    }
 
     long fitxerID = fitxerJPA.getFitxerID();
 

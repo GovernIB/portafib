@@ -1836,7 +1836,7 @@ public class PortafirmasIndraImpl implements Cws, Constants {
 
   private void gestionarFitxers(PeticioDeFirmaJPA peticioDeFirma,
       Map<String, DataHandler> dataHandlers, Map<Integer, FitxerJPA> files) 
-     throws Exception, I18NException {
+     throws Exception, I18NException, I18NValidationException {
     
     
     // Obtenir fitxers en ordre

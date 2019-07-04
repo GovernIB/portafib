@@ -6,6 +6,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 /**
  * 
@@ -17,7 +18,7 @@ public interface FitxerLogicaLocal extends FitxerLocal {
   
   public static final String JNDI_NAME = "portafib/FitxerLogicaEJB/local";
 
-  public FitxerJPA createFull(FitxerJPA fitxer) throws I18NException;
+  public FitxerJPA createFull(FitxerJPA fitxer) throws I18NException, I18NValidationException;
 
   public FitxerJPA checkBasic(long fitxerID) throws I18NException;
   

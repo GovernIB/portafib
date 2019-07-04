@@ -16,6 +16,7 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.ws.v1.utils.FitxerUtils;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 /**
  * 
@@ -77,7 +78,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
   
   // TODO EXCEPTION
   public static PeticioDeFirmaJPA toJPA(PeticioDeFirmaWs peticioDeFirmaWs, 
-      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
     
     if (peticioDeFirmaWs == null) {
       return null;

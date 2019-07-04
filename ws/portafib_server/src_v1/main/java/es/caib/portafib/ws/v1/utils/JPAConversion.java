@@ -21,6 +21,7 @@ import es.caib.portafib.ws.v1.impl.FitxerBean;
 import es.caib.portafib.ws.v1.impl.UsuariAplicacioBean;
 import es.caib.portafib.ws.v1.impl.UsuariEntitatBean;
 import es.caib.portafib.ws.v1.impl.UsuariPersonaBean;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class JPAConversion {
   
   
   public static UsuariAplicacioJPA toUsuariAplicacioJPA(UsuariAplicacioBean usuariAplicacioBean,
-      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
      if (usuariAplicacioBean == null) {
        return null;
      }
@@ -68,7 +69,7 @@ public class JPAConversion {
   
   
   public static UsuariEntitatJPA toUsuariEntitatJPA(UsuariEntitatBean usuariEntitatBean,
-      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
      if (usuariEntitatBean == null) {
        return null;
      }
@@ -105,7 +106,7 @@ public class JPAConversion {
   
   
   public static UsuariPersonaJPA toUsuariPersonaJPA(UsuariPersonaBean usuariPersonaBean,
-      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb,  Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
      if (usuariPersonaBean == null) {
        return null;
      }
@@ -139,7 +140,7 @@ public class JPAConversion {
   
 
   public static AnnexJPA toAnnexJPA(AnnexBean annexBean, FitxerLogicaLocal fitxerEjb,
-      Set<Long> fitxersCreats) throws I18NException {
+      Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
      if (annexBean == null) {
        return null;
      }
@@ -187,7 +188,7 @@ public class JPAConversion {
   
   
   public static FirmaJPA toFirmaJPA(FirmaBean firmaBean, 
-      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException {
+      FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) throws I18NException, I18NValidationException {
     
     if (firmaBean == null) {
       return null;

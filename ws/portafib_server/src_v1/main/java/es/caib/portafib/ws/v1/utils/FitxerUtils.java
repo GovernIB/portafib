@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class FitxerUtils extends FitxerUtilsCommon {
   // TODO throw I18NException
   public static FitxerJPA createFitxer(FitxerBean fitxer,
       FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats,
-      Field<?> field) throws I18NException {
+      Field<?> field) throws I18NException, I18NValidationException {
     
     if (fitxer == null) {
       return null;
@@ -73,8 +74,18 @@ public class FitxerUtils extends FitxerUtilsCommon {
     FitxerJPA fitxerJPA = JPAConversion.toJPA(fitxer);
 
     // TODO Arreglar aquest
-    fitxerJPA = fitxerEjb.createFull(fitxerJPA);
-    
+    try {
+      fitxerJPA = fitxerEjb.createFull(fitxerJPA);
+    } catch (I18NValidationException e) {
+      // Si falla la creació per errors de validació, borram el fitxer temporal i rellançam excepció
+      if (tmp.exists()) {
+        if (!tmp.delete()) {
+          tmp.deleteOnExit();
+        }
+      }
+      throw e;
+    }
+
     long fitxerID = fitxerJPA.getFitxerID();
     
     log.info("ID FITXER CREAT = "+ fitxerID );

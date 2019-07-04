@@ -852,7 +852,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
   private long thingsToDoInPADES(PeticioDeFirmaJPA peticioDeFirma, int numFirmes,
       CustodiaInfo custodiaInfo, IDocumentCustodyPlugin plugin) throws Exception,
-      I18NException {
+      I18NException, I18NValidationException {
 
     // Attachments
 
@@ -1030,7 +1030,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       f.setNom("TaulaDeFirmesDePeticio_" + peticioDeFirma.getPeticioDeFirmaID() + ".pdf");
       f.setTamany(dstPDF.length());
 
-      f = fitxerLogicaEjb.createFull(f);
+      try {
+        f = fitxerLogicaEjb.createFull(f);
+      } catch (I18NValidationException e) {
+        if (!dstPDF.delete()) {
+          dstPDF.deleteOnExit();
+        }
+        throw e;
+      }
 
       long fitxerFinalAFirmarID = f.getFitxerID();
 
