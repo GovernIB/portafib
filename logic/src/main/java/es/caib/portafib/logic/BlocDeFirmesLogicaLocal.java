@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 
 /**
  * 
@@ -22,7 +23,7 @@ public interface BlocDeFirmesLogicaLocal extends BlocDeFirmesLocal
   
   public Set<Long> deleteFull(BlocDeFirmesJPA blocDeFirmesJPA ) throws I18NException;
 
-  public BlocDeFirmesJPA createFull(BlocDeFirmesJPA blocDeFirmesJPA) throws I18NException;
+  public BlocDeFirmesJPA createFull(BlocDeFirmesJPA blocDeFirmesJPA) throws I18NException, I18NValidationException;
 
 }
 

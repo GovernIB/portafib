@@ -33,11 +33,8 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
   public FitxerJPA createFull(FitxerJPA fitxer) throws I18NException, I18NValidationException {
 
     FitxerBeanValidator fbv = new FitxerBeanValidator(this);
-    List<I18NFieldError> list = fbv.validate(fitxer, true);
-    if (!list.isEmpty()) {
-      throw new I18NValidationException(list);
-    }
-    
+    fbv.throwValidationExceptionIfErrors(fitxer, true);
+
     return (FitxerJPA)this.create(fitxer);
   }
   

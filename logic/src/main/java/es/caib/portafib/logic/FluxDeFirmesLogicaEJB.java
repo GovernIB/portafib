@@ -11,6 +11,7 @@ import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.jpa.PlantillaFluxDeFirmesJPA;
 import es.caib.portafib.jpa.RevisorDeFirmaJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.jpa.validator.BlocDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesValidator;
@@ -64,16 +65,16 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
   @EJB(mappedName = "portafib/BlocDeFirmesLogicaEJB/local")
   private BlocDeFirmesLogicaLocal blocDeFirmesLogicaEjb;
   
-  @EJB(mappedName = "portafib/UsuariEntitatEJB/local")
+  @EJB(mappedName = "portafib/UsuariEntitatEJB/local", beanName = "UsuariEntitatEJB")
   protected UsuariEntitatLocal usuariEntitatEjb;
 
-  @EJB(mappedName = "portafib/FirmaEJB/local")
+  @EJB(mappedName = "portafib/FirmaEJB/local", beanName = "FirmaEJB")
   private FirmaLocal firmaEjb;
 
-  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local")
+  @EJB(mappedName = "portafib/PeticioDeFirmaEJB/local", beanName = "PeticioDeFirmaEJB")
   protected es.caib.portafib.ejb.PeticioDeFirmaLocal peticioDeFirmaEjb;
   
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
+  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesEJB")
   protected PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
   
   @EJB(mappedName = es.caib.portafib.ejb.PermisUsuariPlantillaLocal.JNDI_NAME)
@@ -94,6 +95,8 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     }
 
     // TODO Crear un nou validador que faci tot això
+    // Problema, als blocs es valida l'id de flux, i a les firmes l'id de bloc, per tant només es pot
+    // emprar el seu validador quan ja s'ha creat el pare.
 
     FluxDeFirmesBeanValidator ffv = new FluxDeFirmesBeanValidator(validatorFlux, this);
     final boolean isNou = true;
@@ -105,13 +108,11 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
           new I18NArgumentCode("blocDeFirmes.blocDeFirmes"));
     }
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
-      // TODO Validate BLOC
       Set<FirmaJPA> firmes = blocDeFirmesJPA.getFirmas();
       if ((firmes == null) || (firmes.size() == 0)) {        
         throw new I18NException("genapp.validation.required", 
-            new I18NArgumentCode("firma.firma"));
+            new I18NArgumentCode("firma.firma.plural"));
       }
-      // TODO Validate cada Firma
     }
     // Check noms de plantilla no repetis
     PlantillaFluxDeFirmesJPA pff = flux.getPlantillaFluxDeFirmes(); 
@@ -127,9 +128,15 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     }
     flux.setFluxDeFirmesID(fluxID);
 
+    // Validador blocs
+    BlocDeFirmesBeanValidator bfbv = new BlocDeFirmesBeanValidator(blocDeFirmesLogicaEjb, this);
     // Create Blocs
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
-      blocDeFirmesJPA.setFluxDeFirmesID(fluxID);      
+      blocDeFirmesJPA.setFluxDeFirmesID(fluxID);
+
+      // Valida blocs
+      bfbv.throwValidationExceptionIfErrors(blocDeFirmesJPA, true);
+
       blocDeFirmesLogicaEjb.createFull(blocDeFirmesJPA);
     } 
     
