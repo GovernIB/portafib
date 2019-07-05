@@ -5,18 +5,19 @@ import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.BlocDeFirmesJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.validator.FirmaBeanValidator;
+import es.caib.portafib.jpa.validator.FirmaValidator;
+import es.caib.portafib.logic.validator.FirmaLogicValidator;
 import es.caib.portafib.model.entity.BlocDeFirmes;
 import es.caib.portafib.model.entity.Firma;
-
-import java.util.HashSet;
-import java.util.Set;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.hibernate.Hibernate;
-import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -47,7 +48,8 @@ public class BlocDeFirmesLogicaEJB extends BlocDeFirmesEJB
     blocDeFirmesJPA.setBlocDeFirmesID(blocID);
 
     // Validador de firmes.
-    FirmaBeanValidator fbv = new FirmaBeanValidator(this, firmaLogicaEjb, usuariEntitatEjb);
+    FirmaValidator<FirmaJPA> fv = new FirmaLogicValidator();
+    FirmaBeanValidator fbv = new FirmaBeanValidator(fv,this, firmaLogicaEjb, usuariEntitatEjb);
     for (FirmaJPA firmaJPA : firmes) {
       firmaJPA.setBlocDeFirmaID(blocID);
       firmaJPA.setFirmaID(0);

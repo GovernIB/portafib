@@ -27,23 +27,6 @@ import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.PlantillaFluxDeFirmesQueryPath;
-
-
-
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-
-
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
-import org.hibernate.Hibernate;
-import org.hibernate.LazyInitializationException;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -51,7 +34,16 @@ import org.fundaciobit.genapp.common.i18n.I18NFieldError;
 import org.fundaciobit.genapp.common.i18n.I18NTranslation;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Where;
+import org.hibernate.Hibernate;
+import org.hibernate.LazyInitializationException;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -130,7 +122,7 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     flux.setFluxDeFirmesID(fluxID);
 
     // Validador blocs
-    BlocDeFirmesValidator bfv = new BlocDeFirmesLogicValidator();
+    BlocDeFirmesValidator<BlocDeFirmesJPA> bfv = new BlocDeFirmesLogicValidator();
     BlocDeFirmesBeanValidator bfbv = new BlocDeFirmesBeanValidator(bfv, blocDeFirmesLogicaEjb, this);
     // Create Blocs
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
