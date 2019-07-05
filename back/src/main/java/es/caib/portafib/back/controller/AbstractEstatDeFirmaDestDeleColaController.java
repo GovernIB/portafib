@@ -1881,13 +1881,18 @@ import java.util.Set;
       switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
 
         case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
-        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
 
           if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
             usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
           }
           break;
+
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+
+          usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+          break;
       }
+
       return usuariAplicacioConfiguracio;
     }
 
