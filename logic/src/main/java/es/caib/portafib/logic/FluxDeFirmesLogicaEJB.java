@@ -15,6 +15,7 @@ import es.caib.portafib.jpa.validator.BlocDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.BlocDeFirmesValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesBeanValidator;
 import es.caib.portafib.jpa.validator.FluxDeFirmesValidator;
+import es.caib.portafib.logic.validator.BlocDeFirmesLogicValidator;
 import es.caib.portafib.model.entity.FluxDeFirmes;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.PlantillaFluxDeFirmes;
@@ -129,7 +130,8 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
     flux.setFluxDeFirmesID(fluxID);
 
     // Validador blocs
-    BlocDeFirmesBeanValidator bfbv = new BlocDeFirmesBeanValidator(blocDeFirmesLogicaEjb, this);
+    BlocDeFirmesValidator bfv = new BlocDeFirmesLogicValidator();
+    BlocDeFirmesBeanValidator bfbv = new BlocDeFirmesBeanValidator(bfv, blocDeFirmesLogicaEjb, this);
     // Create Blocs
     for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
       blocDeFirmesJPA.setFluxDeFirmesID(fluxID);
