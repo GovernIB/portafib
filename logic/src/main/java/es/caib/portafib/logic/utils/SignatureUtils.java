@@ -1,32 +1,5 @@
 package es.caib.portafib.logic.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.activation.DataHandler;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.IRubricGenerator;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
-import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
-import org.fundaciobit.pluginsib.core.utils.PluginsManager;
-import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
-
 import es.caib.portafib.ejb.CodiBarresLocal;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -49,6 +22,31 @@ import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PdfRubricRectangle;
+import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
+import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
+import org.fundaciobit.pluginsib.core.utils.PluginsManager;
+
+import javax.activation.DataHandler;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -64,10 +62,10 @@ public class SignatureUtils {
    * @param entitat
    * @param languageUI
    * @param username
-   * @param urlFinal
+   * @param administrationID
    * @return
    */
-  public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat,
+  public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, UsuariAplicacioConfiguracioJPA config,
       String languageUI, String username, String administrationID) {
 
     PolicyInfoSignature policyInfoSignature = null;
@@ -78,8 +76,10 @@ public class SignatureUtils {
           entitat.getPolicyUrlDocument());
     }
 
+    String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats();
+
     return new CommonInfoSignature(languageUI,
-        CommonInfoSignature.cleanFiltreCertificats(entitat.getFiltreCertificats()), username,
+        CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
         administrationID, policyInfoSignature);
   }
 

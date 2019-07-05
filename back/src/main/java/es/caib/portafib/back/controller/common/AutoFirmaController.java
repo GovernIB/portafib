@@ -1,63 +1,6 @@
 package es.caib.portafib.back.controller.common;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.FileUtils;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NFieldError;
-import org.fundaciobit.genapp.common.i18n.I18NTranslation;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
-import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.ITableManager;
-import org.fundaciobit.genapp.common.query.LongConstantField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
-import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.FitxerController;
 import es.caib.portafib.back.form.AutoFirmaForm;
 import es.caib.portafib.back.form.webdb.FitxerFilterForm;
@@ -78,8 +21,62 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.ConstantsPortaFIB;
+import es.caib.portafib.utils.ConstantsV2;
+import org.apache.commons.io.FileUtils;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import org.fundaciobit.genapp.common.i18n.I18NTranslation;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.ITableManager;
+import org.fundaciobit.genapp.common.query.LongConstantField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.i18n.I18NDateTimeFormat;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  *
@@ -295,7 +292,7 @@ public class AutoFirmaController extends FitxerController
       final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
       final String administrationID = loginInfo.getUsuariPersona().getNif();
       
-      commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, 
+      commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, null,
           langUI, username, administrationID);
     }
     

@@ -1,73 +1,14 @@
 package es.caib.portafib.back.controller;
 
-import org.fundaciobit.genapp.common.KeyValue;
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.utils.Utils;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.form.AdditionalField;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.DoubleField;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.GroupByItem;
-import org.fundaciobit.genapp.common.query.GroupByValueItem;
-import org.fundaciobit.genapp.common.query.IntegerField;
-import org.fundaciobit.genapp.common.query.LongField;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SelectGroupByAndCountForField;
-import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
-import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
-import org.fundaciobit.genapp.common.query.StringField;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
-import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
-import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.EstatDeFirmaController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
 import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
 import es.caib.portafib.back.form.webdb.TipusDocumentRefList;
 import es.caib.portafib.back.form.webdb.UsuariPersonaRefList;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.AbstractParallelSignedFilesProcessing;
+import es.caib.portafib.back.utils.PortaFIBSignaturesSet;
 import es.caib.portafib.ejb.FirmaLocal;
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.EntitatJPA;
@@ -75,19 +16,19 @@ import es.caib.portafib.jpa.EstatDeFirmaJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.ColaboracioDelegacioLogicaLocal;
 import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.EstatDeFirmaLogicaLocal;
 import es.caib.portafib.logic.ModulDeFirmaWebLogicaLocal;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.SegellDeTempsLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaEJB.Token;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.model.entity.ColaboracioDelegacio;
 import es.caib.portafib.model.entity.EstatDeFirma;
 import es.caib.portafib.model.entity.Fitxer;
@@ -110,6 +51,63 @@ import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.ConstantsV2;
+import org.fundaciobit.genapp.common.KeyValue;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.DoubleField;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.GroupByItem;
+import org.fundaciobit.genapp.common.query.GroupByValueItem;
+import org.fundaciobit.genapp.common.query.IntegerField;
+import org.fundaciobit.genapp.common.query.LongField;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SelectGroupByAndCountForField;
+import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
+import org.fundaciobit.genapp.common.query.SelectMultipleStringKeyValue;
+import org.fundaciobit.genapp.common.query.StringField;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.form.AdditionalField;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
   /**
    * Controller per gestionar un EstatDeFirma
@@ -700,6 +698,11 @@ import es.caib.portafib.utils.Configuracio;
 
         final boolean debug = log.isDebugEnabled();
         final int numberTotalOfSignatures = seleccionats.size();
+
+        UsuariAplicacioConfiguracioJPA config = null;
+        boolean isSameConfig = true;
+        boolean isFirstConfig = true;
+
         for (StringKeyValue skv: listIds ) {
           if (debug) {
             log.info("firmarSeleccionats::SELECCIONAT = " + skv.getKey() + " / "
@@ -708,6 +711,19 @@ import es.caib.portafib.utils.Configuracio;
 
           Long estatDeFirmaID = new Long( skv.getKey());
           Long peticioDeFirmaID = new Long(skv.getValue());
+
+          // Seleccionam la configuració de la primera petició de firma
+          // I a cada iteració comprovam que la configuració de la següent petició
+          // continui siguent la mateixa, o null si la primera era null
+          if (isFirstConfig) {
+            config = configuracio(peticioDeFirmaID);
+            isFirstConfig = false;
+          } else if (isSameConfig) {
+            UsuariAplicacioConfiguracio nextConfig = configuracio(peticioDeFirmaID);
+            isSameConfig = (config == null ?
+                  nextConfig == null :
+                  !(nextConfig == null) && config.getUsuariAplicacioConfigID() == nextConfig.getUsuariAplicacioConfigID());
+          }
 
           // Només permetre una firma per petició (evitar bloc de firmes amb una firma
           // usuari-entitat i una altra amb usuari càrrec)
@@ -734,6 +750,15 @@ import es.caib.portafib.utils.Configuracio;
           }
         }
 
+        if (!isSameConfig) {
+          // Si no totes tenen la mateixa configuració la fixam a null perquè al signatureSet la commonInfoSignature
+          // és única, i allà és on hi ha el filtre de certificats.
+          // TODO s'hauria d'evitar la signatura de múltiples fitxers si tenen configuracions de firma diferents?
+          // TODO o bé llançar error, o bé refactoritzar el signatureSet i el commonInfoSignature
+          config = null;
+          log.warn("A la signatura múltiple no totes les peticions de firma tenen la mateixa configuració");
+        }
+
         if (fileInfoFullArray.isEmpty()) {
           // TODO avis
           return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
@@ -745,8 +770,9 @@ import es.caib.portafib.utils.Configuracio;
         {
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
+
           commonInfoSignature = SignatureUtils.getCommonInfoSignature(
-              loginInfo.getEntitat(), langUI, username, administrationID);
+              loginInfo.getEntitat(), config, langUI, username, administrationID);
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
@@ -1039,6 +1065,7 @@ import es.caib.portafib.utils.Configuracio;
           loginInfo.getEntitatID(), numberTotalOfSignatures);
 
 
+
       EntitatJPA entitat = loginInfo.getEntitat();
 
       final String signaturesSetID= String.valueOf(peticioDeFirmaID + "_" + estatDeFirmaID);
@@ -1047,7 +1074,8 @@ import es.caib.portafib.utils.Configuracio;
       {
         final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
         final String administrationID = loginInfo.getUsuariPersona().getNif();
-        commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, 
+        final UsuariAplicacioConfiguracioJPA config = configuracio(peticioDeFirmaID);
+        commonInfoSignature = SignatureUtils.getCommonInfoSignature(entitat, config,
             langUI, username, administrationID);
       }
 
@@ -1168,8 +1196,6 @@ import es.caib.portafib.utils.Configuracio;
    * 
    * @param request
    * @param ss
-   * @param peticioDeFirmaLogicaEjb
-   * @param endOfProcess
    */
   public void signPostProcessOfSignaturesSet(HttpServletRequest request, SignaturesSetWeb ss) {
 
@@ -1841,6 +1867,30 @@ import es.caib.portafib.utils.Configuracio;
 
     }
 
+    /**
+     * Retorna la configuració de firma d'una petició.
+     * @param peticioDeFirmaID
+     * @return
+     */
+    private UsuariAplicacioConfiguracioJPA configuracio(Long peticioDeFirmaID) {
+
+      UsuariAplicacioConfiguracioJPA usuariAplicacioConfiguracio = null;
+
+      PeticioDeFirma peticioDeFirma = peticioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirmaID);
+
+      switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
+
+        case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+
+          if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
+            usuariAplicacioConfiguracio = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+          }
+          break;
+      }
+      return usuariAplicacioConfiguracio;
+    }
+
     // TODO Moure a capa de logica (així com els altres metodes de check)
     private CheckInfo checkAll(Long estatDeFirmaID, Long peticioDeFirmaID,
         HttpServletRequest request, boolean checkEstat, long... estatsInicialsRequerits)
@@ -1917,7 +1967,6 @@ import es.caib.portafib.utils.Configuracio;
      * 
      * @param estatDeFirmaID
      * @param request
-     * @param loginInfo
      * @return
      */
     private EstatDeFirmaJPA checkEstatDeFirma(Long estatDeFirmaID, HttpServletRequest request,

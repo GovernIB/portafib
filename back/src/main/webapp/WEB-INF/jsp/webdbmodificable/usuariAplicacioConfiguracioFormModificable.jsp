@@ -1,7 +1,7 @@
+<%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"%>
+<%@page import="es.caib.portafib.utils.ConstantsPortaFIB"%>
 <%@page import="es.caib.portafib.utils.ConstantsV2"%>
 <%@page import="org.fundaciobit.genapp.common.query.Field"%>
-<%@page import="es.caib.portafib.utils.ConstantsPortaFIB"%>
-<%@page import="es.caib.portafib.model.fields.UsuariAplicacioConfiguracioFields"%>
 <style>
     div.usMarker {
         display: inline-block;
@@ -85,8 +85,8 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey' ];
 /* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  true,  false ],
 /* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
 /* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false ],
-/* USENFIRMAWS1               */ [false, true,  false, false, false, false, false, true,  false, false, false, false, false, false ],
-/* USENFIRMAASYNCREST2        */ [false, true,  true,  true,  true,  false, true,  true,  true,  false, false, false, false, false ]
+/* USENFIRMAWS1               */ [true,  true,  false, false, false, false, false, true,  false, false, false, false, false, false ],
+/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  false, true,  true,  true,  false, false, false, false, false ]
  ];
 
  $("input[type='checkbox']").change(function() {
