@@ -18,8 +18,10 @@ import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.model.fields.EntitatFields;
+import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
 import org.apache.commons.io.FileUtils;
@@ -58,6 +60,63 @@ public class SignatureUtils {
   protected static final Logger log = Logger.getLogger(SignatureUtils.class);
 
   /**
+   * Obté la política de firma de la configuració o de l'entitat
+   * @param entitat
+   * @param config
+   * @return
+   */
+  private static PolicyInfoSignature getPolicyInfoSignature(EntitatJPA entitat, UsuariAplicacioConfiguracio config) {
+
+    PolicyInfoSignature policyInfoSignature;
+
+    int usPoliticaDeFirma;
+    boolean obtenirDeEntitat;
+    if (config != null && config.getUsPoliticaDeFirma() != ConstantsPortaFIB.US_POLITICA_DE_FIRMA_DEFINIT_EN_ENTITAT) {
+      usPoliticaDeFirma = config.getUsPoliticaDeFirma();
+      obtenirDeEntitat = false;
+    } else {
+      usPoliticaDeFirma = entitat.getUsPoliticaDeFirma();
+      obtenirDeEntitat = true;
+    }
+
+    switch (usPoliticaDeFirma) {
+      // 0 => no usar politica de firma,
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_NO_USAR:
+        policyInfoSignature = null;
+        break;
+
+      // 1=> usar politica d'aquesta configuracio
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT:
+        if (obtenirDeEntitat) {
+          policyInfoSignature = new PolicyInfoSignature(
+                entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
+                entitat.getPolicyIdentifierHashAlgorithm(),
+                entitat.getPolicyUrlDocument());
+        } else {
+          policyInfoSignature = new PolicyInfoSignature(
+                config.getPolicyIdentifier(), config.getPolicyIdentifierHash(),
+                config.getPolicyIdentifierHashAlgorithm(), config.getPolicyUrlDocument());
+        }
+        break;
+
+      // 2 => L'usuari web o usuari-app elegeixen la politica de firma
+      case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
+      default:
+        policyInfoSignature = null;
+        log.warn("Política de firma (" + usPoliticaDeFirma + ") no soportada");
+        break;
+    }
+
+    if (policyInfoSignature == null) {
+      log.info("No usam politica de firma");
+    } else {
+      log.info("Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
+            + policyInfoSignature.getPolicyUrlDocument() + ")");
+    }
+    return policyInfoSignature;
+  }
+
+  /**
    * 
    * @param entitat
    * @param languageUI
@@ -68,13 +127,7 @@ public class SignatureUtils {
   public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, UsuariAplicacioConfiguracioJPA config,
       String languageUI, String username, String administrationID) {
 
-    PolicyInfoSignature policyInfoSignature = null;
-    if (entitat.getPolicyIdentifier() != null) {
-
-      policyInfoSignature = new PolicyInfoSignature(entitat.getPolicyIdentifier(),
-          entitat.getPolicyIdentifierHash(), entitat.getPolicyIdentifierHashAlgorithm(),
-          entitat.getPolicyUrlDocument());
-    }
+    PolicyInfoSignature policyInfoSignature = getPolicyInfoSignature(entitat, config);
 
     String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats();
 
@@ -484,9 +537,6 @@ public class SignatureUtils {
 
   /**
    * 
-   * @param usuariEntitat
-   * @param id
-   * @param autoFirmaForm
    * @return
    */
   public static void convertirDocumentAPDF(Fitxer srcInfo, File src, File dst)

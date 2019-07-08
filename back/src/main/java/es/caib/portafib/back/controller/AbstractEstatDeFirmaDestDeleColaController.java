@@ -752,7 +752,7 @@ import java.util.Set;
 
         if (!isSameConfig) {
           // Si no totes tenen la mateixa configuració la fixam a null perquè al signatureSet la commonInfoSignature
-          // és única, i allà és on hi ha el filtre de certificats.
+          // és única, i allà és on hi ha el filtre de certificats i la política de firma.
           // TODO s'hauria d'evitar la signatura de múltiples fitxers si tenen configuracions de firma diferents?
           // TODO o bé llançar error, o bé refactoritzar el signatureSet i el commonInfoSignature
           config = null;
