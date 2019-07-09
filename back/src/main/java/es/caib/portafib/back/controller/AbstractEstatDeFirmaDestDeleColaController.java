@@ -470,7 +470,7 @@ import java.util.Set;
           // Els valors s'ompliran al mètode postList()
           adfieldDI.setValueMap(new HashMap<String, String>());
           adfieldDI.setEscapeXml(false);
-          
+          adfieldDI.setOrderBy(DATAINICI);
           ff.addAdditionalField(adfieldDI);
         }
         
