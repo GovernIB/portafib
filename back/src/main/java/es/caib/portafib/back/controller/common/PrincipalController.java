@@ -103,8 +103,8 @@ public class PrincipalController {
         return new ModelAndView("webdb");
       }      
       if ("ROLE_ADEN".equals(pipella)) {
-        //return new ModelAndView("role_aden");
-        return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1", true));
+        return new ModelAndView("role_aden");
+        //return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1", true));
       }
       if ("ROLE_ADMIN".equals(pipella)) {
         // return new ModelAndView("role_admin");
