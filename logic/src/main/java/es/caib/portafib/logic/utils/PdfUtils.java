@@ -1,5 +1,48 @@
 package es.caib.portafib.logic.utils;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.RectangleReadOnly;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PRStream;
+import com.itextpdf.text.pdf.PdfAConformanceLevel;
+import com.itextpdf.text.pdf.PdfAWriter;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfFileSpecification;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfString;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.security.PdfPKCS7;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.versio.Versio;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.plugins.certificate.ICertificatePlugin;
+import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.plugins.certificate.ResultatValidacio;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
+import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
+import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
+
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,54 +62,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-
-import org.fundaciobit.plugins.certificate.ICertificatePlugin;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
-import org.fundaciobit.plugins.certificate.ResultatValidacio;
-import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
-import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
-import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.utils.Utils;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.RectangleReadOnly;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.PdfAWriter;
-import com.itextpdf.text.pdf.PdfArray;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfFileSpecification;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfString;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.text.pdf.PdfAConformanceLevel;
-import com.itextpdf.text.pdf.security.PdfPKCS7;
-
-import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.versio.Versio;
 
 /**
  * 
@@ -1119,8 +1114,8 @@ public class PdfUtils implements ConstantsV2 {
       //OutputStream  destitmpPDFA = new FileOutputStream(tmpPDFA);
   
       PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
-      
-      
+
+
       //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PdfAConformanceLevel.PDF_A_1B);
       
      // writer.setPDFXConformance(PdfAWriter.PDFX1A2001);
@@ -1133,44 +1128,27 @@ public class PdfUtils implements ConstantsV2 {
   
       document.setMargins(0, 0, 0, 0);
       
-  
+      // TODO: Actualitzt itext a la 5.5.13.1 les següents propietats donen error.
+      // TODO: D'altra banda, són estrictametn necessàries? Eviten que el fitxer aparegui com a PDF/A compliant
       PdfDictionary outi = new PdfDictionary(PdfName.OUTPUTINTENT);
       outi.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
       outi.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
       outi.put(PdfName.S, PdfName.GTS_PDFA1);
       writer.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(outi));
   
-      
-      
-      PdfImportedPage p = null;
-      Image image;
-      
+      document.open();
       for (int i = 0; i < numberPages; i++) {
         int pageNumber = i + 1;
-        p = writer.getImportedPage(reader, pageNumber);                
-        image = Image.getInstance(p);
+        PdfImportedPage p = writer.getImportedPage(reader, pageNumber);
+        Image image = Image.getInstance(p);
 
-        Rectangle rect = reader.getPageSize(pageNumber);
+        Rectangle rect = reader.getPageSizeWithRotation(pageNumber);
 
-        //show(reader.getPageSize(pageNumber));
-        //show(reader.getPageSizeWithRotation(pageNumber));
+        image.setRotationDegrees(-rect.getRotation()); // Rectificam la rotació de la imatge (si és 0 no farà res)
 
-        if(rect.getWidth() > rect.getHeight()) {
-          //System.out.println("Horitzontal: " + rect.getHeight() + " | " + rect.getWidth() );
-          Rectangle newrect = new Rectangle(0.0f, 0.0f,rect.getWidth(),  rect.getHeight());
-          document.setPageSize(newrect);
-        } else {
-          //System.out.println("Vertical: ");
-          document.setPageSize(rect);
-        }
-
-        if (i == 0) {
-          document.open();
-        }
+        document.setPageSize(rect);
         document.newPage();
         document.add(image);
-        
-        
       }
   
       // 3.- Attach Files
