@@ -626,9 +626,19 @@ public class PdfUtils implements ConstantsV2 {
 
           log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: ES PDF-A1");
 
+          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+
           final List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
 
-          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+          // Llegir documents Adjunts del PDF original
+          // (Quan es converteix a PDF/A s'eliminen els adjunts)
+          attachmentsOriginalPDF.addAll(extractAttachments(reader));
+          for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+            fileAttached.getContent().deleteOnExit();
+          }
+          attachments.addAll(attachmentsOriginalPDF);
+
+          //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
 
           File input3 = forceCleanPdfInternal(attachments, srcPDF, attachmentsOriginalPDF);
           addPortaFIBVersionToPdf(dstPDF, input3, reader);
@@ -700,6 +710,7 @@ public class PdfUtils implements ConstantsV2 {
         }
         
         /// XYZ ZZZ ZZZ forcecleanPdf posarho a true
+        forceCleanPdf = true;
 
       } else {
         log.info("XYZ ZZZ ZZZ NO Es PDF/Ax, continuam ...");
