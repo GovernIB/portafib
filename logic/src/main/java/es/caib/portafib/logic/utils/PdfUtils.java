@@ -1,5 +1,48 @@
 package es.caib.portafib.logic.utils;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.RectangleReadOnly;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PRStream;
+import com.itextpdf.text.pdf.PdfAConformanceLevel;
+import com.itextpdf.text.pdf.PdfAWriter;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfFileSpecification;
+import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfString;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.security.PdfPKCS7;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.versio.Versio;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.utils.Utils;
+import org.fundaciobit.plugins.certificate.ICertificatePlugin;
+import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.plugins.certificate.ResultatValidacio;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
+import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
+import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
+
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,54 +62,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-
-import org.fundaciobit.plugins.certificate.ICertificatePlugin;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
-import org.fundaciobit.plugins.certificate.ResultatValidacio;
-import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
-import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
-import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.utils.Utils;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.RectangleReadOnly;
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.PdfAWriter;
-import com.itextpdf.text.pdf.PdfArray;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfFileSpecification;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfString;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.text.pdf.PdfAConformanceLevel;
-import com.itextpdf.text.pdf.security.PdfPKCS7;
-
-import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.model.entity.Fitxer;
-import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.versio.Versio;
 
 /**
  * 
@@ -631,9 +626,19 @@ public class PdfUtils implements ConstantsV2 {
 
           log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: ES PDF-A1");
 
+          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+
           final List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
 
-          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
+          // Llegir documents Adjunts del PDF original
+          // (Quan es converteix a PDF/A s'eliminen els adjunts)
+          attachmentsOriginalPDF.addAll(extractAttachments(reader));
+          for (AttachedFile fileAttached : attachmentsOriginalPDF) {
+            fileAttached.getContent().deleteOnExit();
+          }
+          attachments.addAll(attachmentsOriginalPDF);
+
+          //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
 
           File input3 = forceCleanPdfInternal(attachments, srcPDF, attachmentsOriginalPDF);
           addPortaFIBVersionToPdf(dstPDF, input3, reader);
@@ -705,6 +710,7 @@ public class PdfUtils implements ConstantsV2 {
         }
         
         /// XYZ ZZZ ZZZ forcecleanPdf posarho a true
+        forceCleanPdf = true;
 
       } else {
         log.info("XYZ ZZZ ZZZ NO Es PDF/Ax, continuam ...");
