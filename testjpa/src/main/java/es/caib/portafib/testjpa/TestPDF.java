@@ -1,12 +1,10 @@
 package es.caib.portafib.testjpa;
 
-import es.caib.portafib.logic.utils.AttachedFile;
 import es.caib.portafib.logic.utils.PdfUtils;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestPDF extends PdfUtils {
 
@@ -41,19 +39,28 @@ public class TestPDF extends PdfUtils {
         System.out.println("--- Processant " + fitxer.getName());
         System.out.println("---------------------------------------------------------");
 
-        List<AttachedFile> oldList = new ArrayList<AttachedFile>();
-        List<AttachedFile> newList = new ArrayList<AttachedFile>();
-        File newFile;
+        //List<AttachedFile> oldList = new ArrayList<AttachedFile>();
+        //List<AttachedFile> newList = new ArrayList<AttachedFile>();
+
+        String newName = System.currentTimeMillis() + "_" + fitxer.getName();
+        File newFile = new File(newName);
         try {
-            newFile = PdfUtils.forceCleanPdfInternal(newList, fitxer, oldList);
+            //newFile = PdfUtils.forceCleanPdfInternal(newList, fitxer, oldList);
+
+            PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxer, newFile, null, null, null, null, true, false);
+        } catch (I18NException e) {
+            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         System.out.println(newFile.getAbsolutePath());
 
+        /*
         String newName = System.currentTimeMillis() + "_" + fitxer.getName();
         if (!newFile.renameTo(new File(newName)))
             throw new RuntimeException("No s'ha pogut renombrar");
+
+         */
         System.out.println("Guardat a " + newName);
     }
 }
