@@ -1,15 +1,5 @@
 package org.fundaciobit.plugins.signatureserver.miniappletutils;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
@@ -19,6 +9,16 @@ import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * 
@@ -64,9 +64,6 @@ public class MiniAppletUtils {
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(fileInfo.getSignType())) {
 
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
-      
-      miniAppletProperties.setProperty("alwaysCreateRevision", "true");
-      //miniAppletProperties.setProperty("pdfVersion", "7");
 
       convertPAdES(fileInfo, miniAppletProperties, policy);
 
@@ -271,8 +268,10 @@ public class MiniAppletUtils {
 
   public static void convertPAdES(FileInfoSignature fileInfo,
       Properties miniAppletProperties, PolicyInfoSignature policy) {
-    
-    miniAppletProperties.setProperty("alwaysCreateRevision", "true");
+
+    // D'acord amb el manual @firma aquesta propietat a true només funciona amb fitxers que compleixin
+    // estrictament PDF 1.7 i pot crear incompatibilitats.
+    miniAppletProperties.setProperty("alwaysCreateRevision", "false");
     //miniAppletProperties.setProperty("pdfVersion", "7");
     
     // POLITICA DE FIRMA PADES
