@@ -734,7 +734,7 @@ public class PdfUtils implements ConstantsV2 {
         for (AttachedFile fileAttached : attachmentsOriginalPDF) {
           fileAttached.getContent().deleteOnExit();
         }
-        attachments.addAll(attachmentsOriginalPDF);
+        //attachments.addAll(attachmentsOriginalPDF);
 
         // 1.1.- Afegir taula de firmes (si escau)
         int posicioTaulaFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
@@ -776,6 +776,7 @@ public class PdfUtils implements ConstantsV2 {
       if (forceCleanPdf) { 
         // 5.- Netejar PDF anterior
         log.info(" XYZ ZZZ NETEJAM DE PDF");
+        attachments.addAll(attachmentsOriginalPDF);
         input3 = forceCleanPdfInternal(attachments, fileTmp1, attachmentsOriginalPDF);
       } else {
         log.info(" XYZ ZZZ NOOOOO NETEJA DE PDF");
