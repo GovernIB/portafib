@@ -552,8 +552,8 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + " caracteristiques del PDF original es perdin.");
 
         propietatGlobalEjb.create("es.caib.portafib.alwayscreaterevision", "true",
-            _entitatID_, "Nou a la versió 2.0.0.1/2.0.1 Opcional. Amb fimes PAdES, si aquesta propietat " +
-                    "val true (per defecte i recomanat), la firma sempre és genera mitjançant una revisió. Això permet validar" +
+            _entitatID_, "Nou a la versió 2.0.1 Opcional. Amb firmes PAdES, si aquesta propietat " +
+                    "val true (per defecte i recomanat), la firma sempre es genera mitjançant una revisió. Això permet validar " +
                     "el contingut a baix nivell del fitxer original amb el del fitxer signat.\n " +
                     "Però la creació de reivisions pot provocar que en determinats fitxers anteriors a la versió PDF 1.7 es generin signatures " +
                     "no vàlides amb l'error 'urn:afirma:dss:1.0:profile:XSS:resultminor:PAdESInvalidContentsKey'\n" +
