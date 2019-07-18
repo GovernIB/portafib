@@ -21,6 +21,8 @@ public class CommonInfoSignature {
 
   PolicyInfoSignature policyInfoSignature = null;
 
+  boolean alwaysCreateRevision = true;
+
   /**
    * 
    */
@@ -38,13 +40,14 @@ public class CommonInfoSignature {
    * @param urlFinal
    */
   public CommonInfoSignature(String languageUI, String filtreCertificats, String username,
-      String administrationID, PolicyInfoSignature policyInfoSignature) {
+      String administrationID, PolicyInfoSignature policyInfoSignature, boolean alwaysCreateRevision) {
     super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
     this.username = username;
     this.administrationID = administrationID;
     this.policyInfoSignature = policyInfoSignature;
+    this.alwaysCreateRevision = alwaysCreateRevision;
   }
 
 
@@ -90,7 +93,14 @@ public class CommonInfoSignature {
     this.administrationID = administrationID;
   }
 
-  
+  public boolean isAlwaysCreateRevision() {
+    return alwaysCreateRevision;
+  }
+
+  public void setAlwaysCreateRevision(boolean alwaysCreateRevision) {
+    this.alwaysCreateRevision = alwaysCreateRevision;
+  }
+
   public static String cleanFiltreCertificats(String certificateFilter) {
     StringBuffer cleanFilter = new StringBuffer();
   

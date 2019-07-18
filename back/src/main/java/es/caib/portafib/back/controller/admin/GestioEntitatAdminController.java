@@ -1,10 +1,5 @@
 package es.caib.portafib.back.controller.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.webdb.EntitatController;
 import es.caib.portafib.back.form.webdb.CustodiaInfoRefList;
@@ -18,13 +13,9 @@ import es.caib.portafib.model.fields.CustodiaInfoFields;
 import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.ConstantsPortaFIB;
-
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -32,6 +23,9 @@ import org.fundaciobit.genapp.common.query.GroupByItem;
 import org.fundaciobit.genapp.common.query.OrderBy;
 import org.fundaciobit.genapp.common.query.Select;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -42,6 +36,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created 24/05/13 9:13
@@ -552,6 +550,15 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + " propietat val true llavors es fa neteja del PDF per a que no tengui"
                 + " problemes amb el plugins de firma. Això implica que algunes"
                 + " caracteristiques del PDF original es perdin.");
+
+        propietatGlobalEjb.create("es.caib.portafib.alwayscreaterevision", "true",
+            _entitatID_, "Nou a la versió 2.0.0.1/2.0.1 Opcional. Amb fimes PAdES, si aquesta propietat " +
+                    "val true (per defecte i recomanat), la firma sempre és genera mitjançant una revisió. Això permet validar" +
+                    "el contingut a baix nivell del fitxer original amb el del fitxer signat.\n " +
+                    "Però la creació de reivisions pot provocar que en determinats fitxers anteriors a la versió PDF 1.7 es generin signatures " +
+                    "no vàlides amb l'error 'urn:afirma:dss:1.0:profile:XSS:resultminor:PAdESInvalidContentsKey'\n" +
+                    "Fixant aquest propietat a \"false\" permet generar una firma vàlida per aquests fitxers. Però caldrà desactivar l'opció " +
+                    "\"Comprovar que no s'hagi modificat durant la firma\" de l'entitat.");
 
 
         /** #191

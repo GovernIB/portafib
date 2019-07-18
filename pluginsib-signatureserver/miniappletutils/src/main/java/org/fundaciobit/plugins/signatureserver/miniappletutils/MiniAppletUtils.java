@@ -65,6 +65,10 @@ public class MiniAppletUtils {
 
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
 
+      // Permetre desactivar la creació automàtica de revisions #289
+      String alwaysCreateRevisionValue = String.valueOf(commonInfoSignature.isAlwaysCreateRevision());
+      miniAppletProperties.setProperty("alwaysCreateRevision", alwaysCreateRevisionValue);
+
       convertPAdES(fileInfo, miniAppletProperties, policy);
 
       // PDF Visible      
@@ -269,11 +273,6 @@ public class MiniAppletUtils {
   public static void convertPAdES(FileInfoSignature fileInfo,
       Properties miniAppletProperties, PolicyInfoSignature policy) {
 
-    // D'acord amb el manual @firma aquesta propietat a true només funciona amb fitxers que compleixin
-    // estrictament PDF 1.7 i pot crear incompatibilitats.
-    miniAppletProperties.setProperty("alwaysCreateRevision", "false");
-    //miniAppletProperties.setProperty("pdfVersion", "7");
-    
     // POLITICA DE FIRMA PADES
     if (policy == null || policy.getPolicyIdentifier() == null
         || policy.getPolicyIdentifier().trim().length() == 0) {

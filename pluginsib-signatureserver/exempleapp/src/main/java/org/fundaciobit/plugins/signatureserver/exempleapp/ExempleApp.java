@@ -1,15 +1,5 @@
 package org.fundaciobit.plugins.signatureserver.exempleapp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Set;
-
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -24,6 +14,16 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  * 
@@ -170,9 +170,11 @@ public class ExempleApp {
     String filtreCertificats = "";
     String username = "anadal"; // configuracio
     String administrationID = null; // No te sentit en API Firma En Servidor
+    boolean alwaysCreateRevision = true;
+
     PolicyInfoSignature policyInfoSignature = null;
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature);
+        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
 
     String signID = "999";
     File source = new File(pdfsource);

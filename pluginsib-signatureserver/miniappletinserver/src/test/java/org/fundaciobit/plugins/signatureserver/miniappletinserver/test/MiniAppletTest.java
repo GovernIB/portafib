@@ -1,13 +1,8 @@
 package org.fundaciobit.plugins.signatureserver.miniappletinserver.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -24,9 +19,13 @@ import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.miniappletinserver.MiniAppletInServerSignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 
@@ -148,8 +147,10 @@ public class MiniAppletTest extends TestCase {
    
     String administrationID = null; // No te sentit en API Firma En Servidor
     PolicyInfoSignature policyInfoSignature = null;
+    boolean alwaysCreateRevision = true;
+
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature);
+        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
 
     String signID = "999";
     File source = new File(pdfsource);

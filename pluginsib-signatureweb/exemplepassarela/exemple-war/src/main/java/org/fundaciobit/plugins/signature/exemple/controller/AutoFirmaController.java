@@ -1,19 +1,5 @@
 package org.fundaciobit.plugins.signature.exemple.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
@@ -49,6 +35,19 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -243,9 +242,12 @@ public class AutoFirmaController {
       // TODO Definir politica de Firma (opcional)
       final PolicyInfoSignature policyInfoSignature = null;
 
+      // TODO veure manual integració @firma
+      boolean alwaysCreateRevision = true;
+
       commonInfoSignature = new CommonInfoSignature(langUI,
           CommonInfoSignature.cleanFiltreCertificats(filtreCertificats),
-          username, administrationID, policyInfoSignature);
+          username, administrationID, policyInfoSignature, alwaysCreateRevision);
     }
     
 

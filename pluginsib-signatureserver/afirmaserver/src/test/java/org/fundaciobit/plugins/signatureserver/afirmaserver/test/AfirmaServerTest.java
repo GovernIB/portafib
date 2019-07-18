@@ -1,16 +1,8 @@
 package org.fundaciobit.plugins.signatureserver.afirmaserver.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -26,9 +18,16 @@ import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 
@@ -332,6 +331,7 @@ public class AfirmaServerTest extends TestCase {
     String filtreCertificats = "";
     String administrationID = null; // No te sentit en API Firma En Servidor
     PolicyInfoSignature policyInfoSignature = null;
+    boolean alwaysCreateRevision = true;
     if (epes) {      
       policyInfoSignature = new PolicyInfoSignature();
       policyInfoSignature.setPolicyIdentifier("urn:oid:2.16.724.1.3.1.1.2.1.9");
@@ -342,7 +342,7 @@ public class AfirmaServerTest extends TestCase {
 
     
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature);
+        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
 
     String signID = "999";
 
