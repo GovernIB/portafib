@@ -1,5 +1,40 @@
 package org.fundaciobit.plugin.signatureweb.afirmatriphaseserver;
 
+import com.handinteractive.mobile.UAgentInfo;
+import es.gob.afirma.core.misc.AOUtil;
+import es.gob.afirma.signers.batch.server.BatchPostsigner;
+import es.gob.afirma.signers.batch.server.BatchPresigner;
+import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
+import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
+import es.gob.afirma.signfolder.server.proxy.RetrieveConfig;
+import es.gob.afirma.signfolder.server.proxy.RetrieveService;
+import es.gob.afirma.signfolder.server.proxy.StorageService;
+import es.gob.afirma.triphase.server.SignatureService;
+import es.gob.afirma.triphase.server.document.DocumentManager;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs.Signresult;
+import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
+import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,44 +60,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs;
-import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signresult.Signs.Signresult;
-import org.fundaciobit.plugin.signatureweb.afirmatriphaseserver.signsaver.SignSaverFile;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.IRubricGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
-import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
-
-import com.handinteractive.mobile.UAgentInfo;
-
-import es.gob.afirma.core.misc.AOUtil;
 //import es.gob.afirma.core.misc.Base64;
-import es.gob.afirma.signers.batch.server.BatchPostsigner;
-import es.gob.afirma.signers.batch.server.BatchPresigner;
-import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
-import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
-import es.gob.afirma.signfolder.server.proxy.RetrieveConfig;
-import es.gob.afirma.signfolder.server.proxy.RetrieveService;
-import es.gob.afirma.signfolder.server.proxy.StorageService;
-import es.gob.afirma.triphase.server.SignatureService;
-import es.gob.afirma.triphase.server.document.DocumentManager;
 
 /**
  * 
@@ -1584,6 +1582,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     String format;
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
       format = "PAdES";
+
+      // Permetre desactivar la creació automàtica de revisions #289
+      String value = String.valueOf(signaturesSet.getCommonInfoSignature().isAlwaysCreateRevision());
+      configProperties.setProperty("alwaysCreateRevision", value);
 
       MiniAppletUtils.convertPAdES(fis, configProperties, policy);
       

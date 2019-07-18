@@ -131,9 +131,11 @@ public class SignatureUtils {
 
     String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats();
 
+    boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat.getEntitatID());
+
     return new CommonInfoSignature(languageUI,
         CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
-        administrationID, policyInfoSignature);
+        administrationID, policyInfoSignature, alwaysCreateRevision);
   }
 
   /**
@@ -394,6 +396,7 @@ public class SignatureUtils {
         final String username = cis.getUsername();
         final String administrationID = cis.getAdministrationID();
         final String langUI = cis.getLanguageUI();
+        boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat.getEntitatID());
 
         // XYZ ZZZ
         // if (usrApp == null) {
@@ -403,7 +406,7 @@ public class SignatureUtils {
         // } else
         {
           commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
-              username, administrationID, null);
+              username, administrationID, null, alwaysCreateRevision);
         }
 
         PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
@@ -536,7 +539,7 @@ public class SignatureUtils {
   // -----------------------------------------------------------------
 
   /**
-   * 
+   *
    * @return
    */
   public static void convertirDocumentAPDF(Fitxer srcInfo, File src, File dst)

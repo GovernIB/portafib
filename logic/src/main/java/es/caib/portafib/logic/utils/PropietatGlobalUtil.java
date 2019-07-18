@@ -1,13 +1,12 @@
 package es.caib.portafib.logic.utils;
 
-import java.util.Locale;
-
-import org.apache.log4j.Logger;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+
+import java.util.Locale;
 
 /**
  * 
@@ -66,6 +65,18 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     final String partialname = "forcecleanpdf";
     Boolean val = getBooleanByEntitat(entitatID, partialname);
     return (val == null) ? false : val;
+  }
+
+  /**
+   * Permetre desactivar la creació automàtica de revisions #289
+   *
+   * @param entitatID
+   * @return per defecte true si no està fixada
+   */
+  public static boolean isAlwaysCreateRevision(String entitatID) {
+    final String partialname = "alwayscreaterevision";
+    Boolean val = getBooleanByEntitat(entitatID, partialname);
+    return (val == null) ? true : val;
   }
 
   /**

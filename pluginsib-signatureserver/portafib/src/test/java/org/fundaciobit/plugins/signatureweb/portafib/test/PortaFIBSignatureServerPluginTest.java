@@ -1,15 +1,8 @@
 package org.fundaciobit.plugins.signatureweb.portafib.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.IRubricGenerator;
@@ -26,9 +19,15 @@ import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
 import org.fundaciobit.plugins.signatureserver.portafib.PortaFIBSignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.utils.Base64;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 
@@ -162,8 +161,10 @@ public class PortaFIBSignatureServerPluginTest extends TestCase {
     String username = "anadal"; // configuracio
     String administrationID = null; // No te sentit en API Firma En Servidor
     PolicyInfoSignature policyInfoSignature = null;
+    boolean alwaysCreateRevision = true;
+
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature);
+        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
 
     String signID = "999";
     File source = new File(pdfsource);
