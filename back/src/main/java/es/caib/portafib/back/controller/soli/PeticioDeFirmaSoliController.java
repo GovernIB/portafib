@@ -1505,8 +1505,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
         // Seleccionar només les peticions de firma de l'usuari-entitat
-        // return
-        // XYZ ZZZ ZZZ
         return Where.AND(
             SOLICITANTUSUARIENTITAT1ID.equal(LoginInfo.getInstance().getUsuariEntitatID()),
             ORIGENPETICIODEFIRMA.equal(getOrigenPeticioDeFirma()));
@@ -1517,11 +1515,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
         // i que els usuaris-aplicació pertanyin a aquesta entitat
         final String entitatID = LoginInfo.getInstance().getEntitatID();
 
-        // return Where.AND(
-        // SOLICITANTUSUARIENTITAT1ID.isNull(),
-        // new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID)
-        // );
-        // XYZ ZZZ ZZZ
         return Where.AND(ORIGENPETICIODEFIRMA.equal(getOrigenPeticioDeFirma()),
             new PeticioDeFirmaQueryPath().USUARIAPLICACIO().ENTITATID().equal(entitatID));
 

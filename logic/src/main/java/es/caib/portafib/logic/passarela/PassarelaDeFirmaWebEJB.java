@@ -471,9 +471,9 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
       try {
 
-        boolean validarFitxerFirma = validarFirma(configuracio, entitatID);
-        boolean comprovarNifFirma = comprovarNifFirma(configuracio, entitatID);
-        boolean checkCanviatDocFirmat = checkCanviatDocFirmat(configuracio, entitatID);
+        boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
+        boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
 
         // (A) Validar la Firma
         final IPortaFIBDataSource fitxerOriginal;

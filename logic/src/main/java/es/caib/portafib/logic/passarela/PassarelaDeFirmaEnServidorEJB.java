@@ -203,9 +203,9 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
         configuracio = configBySignID.get(pfis.getSignID());
 
-        boolean validarFitxerFirma = validarFirma(configuracio, entitatID);
-        boolean comprovarNifFirma = comprovarNifFirma(configuracio, entitatID);
-        boolean checkCanviatDocFirmat = checkCanviatDocFirmat(configuracio, entitatID);
+        boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
+        boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
+        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
         
         if(isDebug) {
           log.info(" CONFIGURACIO => " + configuracio.getUsuariAplicacioConfigID());
@@ -411,9 +411,9 @@ public class PassarelaDeFirmaEnServidorEJB extends
     // --------------------------------------------
     final String entitatID = entitat.getEntitatID();
 
-    boolean validarFitxerFirma = validarFirma(config, entitatID);
-    boolean comprovarNifFirma = comprovarNifFirma(config, entitatID);
-    boolean checkCanviatDocFirmat = checkCanviatDocFirmat(config, entitatID);
+    boolean validarFitxerFirma = SignatureUtils.validarFirma(config, entitatEjb, entitatID);
+    boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(config, entitatEjb, entitatID);
+    boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(config, entitatEjb,  entitatID);
 
     // (A) Validar la Firma
     final IPortaFIBDataSource fitxerOriginal;

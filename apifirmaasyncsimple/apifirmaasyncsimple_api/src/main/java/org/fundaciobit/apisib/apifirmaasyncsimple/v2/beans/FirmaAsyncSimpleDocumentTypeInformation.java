@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * XYZ ZZZ ZZZ Revisar si ho utilitzam
  * 
  * @author anadal
  *
