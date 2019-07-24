@@ -1392,7 +1392,6 @@ import java.util.Set;
         FirmaJPA firma = check.firma;
         PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
         
-        
         // Extreim número de firmes del bloc, si aquesta valor és 1 i no té delegats 
         // llavors el token té temps il·limitat per firmar.
         long timeAliveToken = -1;

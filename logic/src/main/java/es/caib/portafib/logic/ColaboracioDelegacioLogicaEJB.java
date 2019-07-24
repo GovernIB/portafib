@@ -15,7 +15,6 @@ import javax.ejb.Stateless;
 
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.hibernate.Hibernate;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;

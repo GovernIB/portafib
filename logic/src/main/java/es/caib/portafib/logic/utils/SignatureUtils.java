@@ -24,6 +24,7 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -43,6 +44,7 @@ import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
 import javax.activation.DataHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,57 +63,59 @@ public class SignatureUtils {
 
   /**
    * Obté la política de firma de la configuració o de l'entitat
+   * 
    * @param entitat
    * @param config
    * @return
    */
-  private static PolicyInfoSignature getPolicyInfoSignature(EntitatJPA entitat, UsuariAplicacioConfiguracio config) {
+  public static PolicyInfoSignature getPolicyInfoSignature(EntitatJPA entitat,
+      UsuariAplicacioConfiguracio config) {
 
     PolicyInfoSignature policyInfoSignature;
 
     int usPoliticaDeFirma;
     boolean obtenirDeEntitat;
-    if (config != null && config.getUsPoliticaDeFirma() != ConstantsPortaFIB.US_POLITICA_DE_FIRMA_DEFINIT_EN_ENTITAT) {
-      usPoliticaDeFirma = config.getUsPoliticaDeFirma();
-      obtenirDeEntitat = false;
-    } else {
+    if (config == null
+        || config.getUsPoliticaDeFirma() == ConstantsPortaFIB.US_POLITICA_DE_FIRMA_DEFINIT_EN_ENTITAT) {
       usPoliticaDeFirma = entitat.getUsPoliticaDeFirma();
       obtenirDeEntitat = true;
+    } else {
+      usPoliticaDeFirma = config.getUsPoliticaDeFirma();
+      obtenirDeEntitat = false;
     }
 
     switch (usPoliticaDeFirma) {
-      // 0 => no usar politica de firma,
+    // 0 => no usar politica de firma,
       case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_NO_USAR:
         policyInfoSignature = null;
-        break;
+      break;
 
       // 1=> usar politica d'aquesta configuracio
       case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OBLIGATORI_DEFINIT:
         if (obtenirDeEntitat) {
-          policyInfoSignature = new PolicyInfoSignature(
-                entitat.getPolicyIdentifier(), entitat.getPolicyIdentifierHash(),
-                entitat.getPolicyIdentifierHashAlgorithm(),
-                entitat.getPolicyUrlDocument());
+          policyInfoSignature = new PolicyInfoSignature(entitat.getPolicyIdentifier(),
+              entitat.getPolicyIdentifierHash(), entitat.getPolicyIdentifierHashAlgorithm(),
+              entitat.getPolicyUrlDocument());
         } else {
-          policyInfoSignature = new PolicyInfoSignature(
-                config.getPolicyIdentifier(), config.getPolicyIdentifierHash(),
-                config.getPolicyIdentifierHashAlgorithm(), config.getPolicyUrlDocument());
+          policyInfoSignature = new PolicyInfoSignature(config.getPolicyIdentifier(),
+              config.getPolicyIdentifierHash(), config.getPolicyIdentifierHashAlgorithm(),
+              config.getPolicyUrlDocument());
         }
-        break;
+      break;
 
       // 2 => L'usuari web o usuari-app elegeixen la politica de firma
       case ConstantsPortaFIB.US_POLITICA_DE_FIRMA_OPCIONAL:
       default:
         policyInfoSignature = null;
         log.warn("Política de firma (" + usPoliticaDeFirma + ") no soportada");
-        break;
+      break;
     }
 
     if (policyInfoSignature == null) {
-      log.info("No usam politica de firma");
+      log.info("XYZ ZZZ No usam politica de firma");
     } else {
-      log.info("Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier() + "("
-            + policyInfoSignature.getPolicyUrlDocument() + ")");
+      log.info("XYZ ZZZ Usam politica de firma: " + policyInfoSignature.getPolicyIdentifier()
+          + "(" + policyInfoSignature.getPolicyUrlDocument() + ")");
     }
     return policyInfoSignature;
   }
@@ -124,14 +128,17 @@ public class SignatureUtils {
    * @param administrationID
    * @return
    */
-  public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat, UsuariAplicacioConfiguracioJPA config,
-      String languageUI, String username, String administrationID) {
+  public static CommonInfoSignature getCommonInfoSignature(EntitatJPA entitat,
+      UsuariAplicacioConfiguracioJPA config, String languageUI, String username,
+      String administrationID) {
 
     PolicyInfoSignature policyInfoSignature = getPolicyInfoSignature(entitat, config);
 
-    String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats();
+    String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat
+        .getFiltreCertificats();
 
-    boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat.getEntitatID());
+    boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
+        .getEntitatID());
 
     return new CommonInfoSignature(languageUI,
         CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
@@ -238,14 +245,14 @@ public class SignatureUtils {
     return (signModeBool == ConstantsV2.SIGN_MODE_IMPLICIT) ? FileInfoSignature.SIGN_MODE_IMPLICIT
         : FileInfoSignature.SIGN_MODE_EXPLICIT;
   }
-  
+
   public static boolean convertApiSignMode2PortafibSignMode(int signModeBool) {
     return (signModeBool == FileInfoSignature.SIGN_MODE_IMPLICIT) ? ConstantsV2.SIGN_MODE_IMPLICIT
         : ConstantsV2.SIGN_MODE_EXPLICIT;
   }
-  
 
-  public static String convertPortafibSignTypeToApiSignType(long signTypeID) throws I18NException {
+  public static String convertPortafibSignTypeToApiSignType(long signTypeID)
+      throws I18NException {
     final String signType;
     switch ((int) signTypeID) {
       case ConstantsV2.TIPUSFIRMA_PADES:
@@ -296,12 +303,10 @@ public class SignatureUtils {
 
   public static SignaturesSet passarelaSignaturesSetToSignaturesSet(
       AbstractPassarelaDeFirmaLocal passarelaDeFirmaEjb,
-      SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb,
-      PassarelaSignaturesSet pss, UsuariAplicacioJPA usuariAplicacio,
-      PerfilDeFirma perfilDeFirma, 
-      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID,
-      EntitatJPA entitat, Set<String> timeStampUrls)
-      throws I18NException {
+      SegellDeTempsPublicLogicaLocal segellDeTempsPublicEjb, PassarelaSignaturesSet pss,
+      UsuariAplicacioJPA usuariAplicacio, PerfilDeFirma perfilDeFirma,
+      Map<String, UsuariAplicacioConfiguracioJPA> configBySignID, EntitatJPA entitat,
+      Set<String> timeStampUrls) throws I18NException {
     final String signaturesSetID = pss.getSignaturesSetID();
     SignaturesSet ss = new SignaturesSet();
     {
@@ -325,7 +330,7 @@ public class SignatureUtils {
         final String signID = pfis.getSignID();
 
         final int posicioTaulaFirmesID = pfis.getSignaturesTableLocation();
-        
+
         UsuariAplicacioConfiguracioJPA config = configBySignID.get(signID);
 
         // Ve d'un camp que indica si l'usuari vol Segellat de Temps
@@ -336,8 +341,9 @@ public class SignatureUtils {
         ITimeStampGenerator timeStampGenerator;
         {
           PortaFIBTimeStampInfo info;
-          info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(usuariAplicacio.getUsuariAplicacioID(), entitat,
-              perfilDeFirma, config, userRequiresTimeStamp);
+          info = segellDeTempsPublicEjb.getTimeStampInfoForUsrApp(
+              usuariAplicacio.getUsuariAplicacioID(), entitat, perfilDeFirma, config,
+              userRequiresTimeStamp);
           if (info == null) {
             timeStampGenerator = null;
           } else {
@@ -346,7 +352,8 @@ public class SignatureUtils {
           }
         }
 
-        int signTypeID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis.getSignType());
+        int signTypeID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis
+            .getSignType());
 
         final String mime;
         if (signTypeID == ConstantsV2.TIPUSFIRMA_PADES) {
@@ -379,8 +386,7 @@ public class SignatureUtils {
         count++;
 
       }
-      
-      
+
       if (timeStampUrls.size() > 2) {
         // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "Les diferents configuracions"
@@ -396,39 +402,23 @@ public class SignatureUtils {
         final String username = cis.getUsername();
         final String administrationID = cis.getAdministrationID();
         final String langUI = cis.getLanguageUI();
-        boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat.getEntitatID());
+        boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
+            .getEntitatID());
 
-        // XYZ ZZZ
-        // if (usrApp == null) {
-        // Ve de passarela
-        // commonInfoSignature = getCommonInfoSignature(entitat,
-        // langUI, username, administrationID);
-        // } else
-        {
-          commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
-              username, administrationID, null, alwaysCreateRevision);
-        }
-
+        PolicyInfoSignature pis;
         PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
         if (ppis == null) {
-
           log.info(" PassarelaPolicyInfoSignature = NULL");
-
+          pis = null;
         } else {
-
-          // XYZ ZZZ
-          // if (commonInfoSignature.getPolicyInfoSignature() != null) {
-          // log.warn("Ja s'ha definit una politica de Firma de l'entitat, "
-          // + " però la firma via passarel·la  n'ha definida una altra !!!. "
-          // + "S'utilitzarà la de la Passarel·la");
-          //
-          // }
-
-          commonInfoSignature.setPolicyInfoSignature(new PolicyInfoSignature(ppis
-              .getPolicyIdentifier(), ppis.getPolicyIdentifierHash(), ppis
-              .getPolicyIdentifierHashAlgorithm(), ppis.getPolicyUrlDocument()));
-
+          pis = new PolicyInfoSignature(ppis.getPolicyIdentifier(),
+              ppis.getPolicyIdentifierHash(), ppis.getPolicyIdentifierHashAlgorithm(),
+              ppis.getPolicyUrlDocument());
         }
+
+        commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
+            username, administrationID, pis, alwaysCreateRevision);
+
       }
       ss.setCommonInfoSignature(commonInfoSignature);
 
@@ -740,20 +730,20 @@ public class SignatureUtils {
           stampCodiSegurVerificacio.setPosicioCustodiaInfo(pcvsStamp.getMessagePosition());
         }
       }
-      
+
       final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
-      
+
       final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
-      
+
       int val = SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat,
-          stampTaulaDeFirmes, stampCodiSegurVerificacio, 
-          transformPdfA, forceCleanPdf);
-      
+          stampTaulaDeFirmes, stampCodiSegurVerificacio, transformPdfA, forceCleanPdf);
+
       // El contingut original els substituim per l'adaptat
-      pfis.getFileToSign().setData(new DataHandler(new javax.activation.FileDataSource(adaptat)));
+      pfis.getFileToSign().setData(
+          new DataHandler(new javax.activation.FileDataSource(adaptat)));
 
       return val;
-      
+
       // Final IF PADES
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(pfis.getSignType())
         || FileInfoSignature.SIGN_TYPE_CADES.equals(pfis.getSignType())
@@ -763,10 +753,11 @@ public class SignatureUtils {
         FileUtils.moveFile(original, adaptat);
 
         // El contingut original els substituim per l'adaptat
-        pfis.getFileToSign().setData(new DataHandler(new javax.activation.FileDataSource(adaptat)));
+        pfis.getFileToSign().setData(
+            new DataHandler(new javax.activation.FileDataSource(adaptat)));
 
         return 0;
-        
+
       } catch (Exception e) {
         log.error(" Error movent fitxer des de " + original.getAbsolutePath() + " a "
             + adaptat.getAbsolutePath(), e);
@@ -810,6 +801,132 @@ public class SignatureUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * 
+   * @param configuracio
+   * @param entitatID
+   * @return
+   * @throws I18NException
+   */
+  public static boolean validarFirma(UsuariAplicacioConfiguracio configuracio,
+      EntitatLocal entitatEjb, String entitatID) throws I18NException {
+    Boolean validarFirma = configuracio.getValidarFirma();
+
+    if (validarFirma == null) {
+
+      Long pluginID = entitatEjb.executeQueryOne(EntitatFields.PLUGINVALIDAFIRMESID,
+          EntitatFields.ENTITATID.equal(entitatID));
+
+      if (pluginID == null) {
+        validarFirma = false;
+      } else {
+        validarFirma = true;
+      }
+    }
+
+    return validarFirma;
+  }
+
+  /**
+   * 
+   * @param configuracio
+   * @param entitatID
+   * @return
+   * @throws I18NException
+   */
+  public static boolean comprovarNifFirma(UsuariAplicacioConfiguracio configuracio,
+      EntitatLocal entitatEjb, String entitatID) throws I18NException {
+    Boolean comp = configuracio.getComprovarNifFirma();
+
+    if (comp == null) {
+      // Llegim el que digui l'entitat
+      comp = entitatEjb.executeQueryOne(EntitatFields.COMPROVARNIFFIRMA,
+          EntitatFields.ENTITATID.equal(entitatID));
+    }
+
+    return comp;
+
+  }
+
+  /**
+   * 
+   * @param configuracio
+   * @param entitatEjb
+   * @param entitatID
+   * @return
+   * @throws I18NException
+   */
+  public static boolean checkCanviatDocFirmat(UsuariAplicacioConfiguracio configuracio,
+      EntitatLocal entitatEjb, String entitatID) throws I18NException {
+    Boolean comp = configuracio.getCheckCanviatDocFirmat();
+
+    if (comp == null) {
+      // Llegim el que digui l'entitat
+      comp = entitatEjb.executeQueryOne(EntitatFields.CHECKCANVIATDOCFIRMAT,
+          EntitatFields.ENTITATID.equal(entitatID));
+    }
+
+    return comp;
+
+  }
+
+  /**
+   * 
+   * @param usuariAplicacioID
+   * @param config
+   * @param entitatJPA
+   * @return
+   * @throws I18NException
+   */
+  public static int getSignaturesTableLocationOfConfig(final String usuariAplicacioID,
+      final UsuariAplicacioConfiguracio config, EntitatJPA entitatJPA) throws I18NException {
+    final int signaturesTableLocation; // =
+                                       // FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+    if (config.getTipusFirmaID() == ConstantsV2.TIPUSFIRMA_PADES) {
+      int politicaTaulaDeFirmes = config.getPoliticaTaulaFirmes();
+      boolean obtenirDeEntitat = false;
+      if (politicaTaulaDeFirmes == ConstantsPortaFIB.POLITICA_TAULA_FIRMES_DEFINIT_EN_ENTITAT) {
+        politicaTaulaDeFirmes = entitatJPA.getPoliticaTaulaFirmes();
+        obtenirDeEntitat = true;
+      }
+
+      switch (politicaTaulaDeFirmes) {
+      // 0 no es permet taules de firmes
+
+        case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET:
+          signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+        break;
+
+        // 1 obligatori politica definida en la configuració d'usuari aplicació o entitat
+        case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OBLIGATORI_DEFINIT:
+          if (obtenirDeEntitat) {
+            signaturesTableLocation = entitatJPA.getPosicioTaulaFirmes();
+          } else {
+            signaturesTableLocation = config.getPosicioTaulaFirmesID();
+          }
+        break;
+
+        // 2 opcional, per defecte el definit a l'entitat o conf. de usuari aplicacio
+        case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF:
+          // XYZ ZZZ Que faig: sense taula de firmes o llançar una excepció indicant
+          // que aquest valor no es vàlid per API Firma Simple ??
+          signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+        break;
+
+        default:
+          // XYZ ZZZ Traduir
+          throw new I18NException("genapp.comodi",
+              "Politica de Taules de Firmes desconeguda (" + politicaTaulaDeFirmes
+                  + ") en usuari aplicació " + usuariAplicacioID);
+      }
+
+    } else {
+      // XADES, CADES, ...
+      signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT;
+    }
+    return signaturesTableLocation;
   }
 
 }

@@ -194,7 +194,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: "
           + th.getMessage();
 
@@ -293,7 +293,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a getTypesOfDocumentsAvailable: "
           + th.getMessage();
 
@@ -339,23 +339,25 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         return generateServerError("El parametre d'entrada languageUI no pot ser null o buit.");
       }
 
-      // XYZ ZZZ ZZZ Per ara collirem el Codi com l'ID de les plantilles !!!!
+      // Per ara collirem el Codi com l'ID de les plantilles !!!!
       String codiPlantilla = signatureRequest.getFlowTemplateCode();
 
       long plantillaDeFluxDeFirmesID;
       try {
         plantillaDeFluxDeFirmesID = Long.parseLong(codiPlantilla);
       } catch (NumberFormatException nfe) {
-        // XYZ ZZZ ZZZ TRA
-        return generateServerError("Durant aquesta fase de desenvolupament requerim que els codis de plantilla de flux siguin els IDs.");
+        // XYZ ZZZ TRA
+        return generateServerError("Durant aquesta fase de desenvolupament"
+            + " requerim que els codis de plantilla de flux siguin els IDs.");
       }
 
-      // XYZ ZZZ ZZZ Cercar per codi no per ID !!!!!!
+      // Cercar per ID
       FluxDeFirmesJPA flux = fluxDeFirmesLogicaEjb
           .findByPrimaryKeyFullForPlantilla(plantillaDeFluxDeFirmesID);
       if (flux == null || flux.getPlantillaFluxDeFirmes() == null) {
-        // XYZ ZZZ ZZZ TRA
-        return generateServerError("El codi de plantilla " + codiPlantilla + " no existeix o no és una plantilla.");
+        // XYZ ZZZ TRA
+        return generateServerError("El codi de plantilla " 
+           + codiPlantilla + " no existeix o no és una plantilla.");
       }
       // Check que la plantilla és de l'usuari que crida o esta compartida
       // per algun usuari-entitat o usuari-aplicacio de la pròpia entitat
@@ -363,7 +365,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       if (!plantilla.getCompartir()) {
         String userapp = loginInfo.getUsuariAplicacio().getUsuariAplicacioID();
         if (!userapp.equals(plantilla.getUsuariAplicacioID())) {
-          // TODO XYZ ZZZ ZZZ Traduir i llançar una excepció
+          // TODO XYZ ZZZ TRA Traduir
           String msg = "L'usuari app connectat " + userapp
               + " no té permis sobre la plantilla amd ID " + plantillaDeFluxDeFirmesID;
           log.error(msg);
@@ -443,7 +445,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a createAndStartSignatureRequestWithFlowTemplateCode: "
           + th.getMessage();
       log.error(msg, th);
@@ -569,7 +571,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a createAndStartSignatureRequest: "
           + th.getMessage();
       log.error(msg, th);
@@ -641,7 +643,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
           + ": " + th.getMessage();
 
@@ -703,12 +705,17 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       
 
-      // XYZ ZZZ ZZZ
-      // FALTA API firma Simple per Signatures Asíncrones #224
-      // Falta obtenir de la petició de firma la informació de la POlitica de Firma Utilitzada
-      // !!!!
-      // FALTEN CAMPS A LA BBDD
-      final Boolean policyIncluded = null;
+      // Obtenir de la petició de firma la informació de la POlitica de Firma Utilitzada
+      final Boolean policyIncluded;
+      {
+        UsuariAplicacioConfiguracioJPA config;
+        config = configuracioUsuariAplicacioLogicaLocalEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+        if (SignatureUtils.getPolicyInfoSignature(LoginInfo.getInstance().getEntitat(), config) == null) {
+          policyIncluded = false;
+        } else {
+          policyIncluded = true;
+        }
+      }
 
       FirmaAsyncSimpleCustodyInfo custodyInfo;
       Long custodiInfoId = peticioDeFirma.getCustodiaInfoID();
@@ -808,7 +815,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
           + ": " + th.getMessage();
 
@@ -861,7 +868,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
     } catch (Throwable th) {
 
-      // XYZ ZZZ ZZZ TRA
+      // XYZ ZZZ TRA
       String msg = "Error desconegut cridant a " + ApiFirmaAsyncSimple.SIGNATUREREQUESTSTATE
           + ": " + th.getMessage();
 
@@ -1409,7 +1416,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     }
 
     // TAULA DE FIRMES
-    int posicioTaulaFirmesID = getSignaturesTableLocationOfConfig(solicitantUsuariAplicacioID,
+    int posicioTaulaFirmesID = SignatureUtils.getSignaturesTableLocationOfConfig(solicitantUsuariAplicacioID,
         config, entitatJPA);
 
     // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. Ara cercar-ho de les

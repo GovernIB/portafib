@@ -34,6 +34,7 @@ import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,7 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.CustodiaInfo;
 import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.model.fields.CodiBarresFields;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -288,6 +290,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
       
       // XYZ ZZZ ZZZ  Que passarela retorni dades de la validació de la firma 
       // i que aqui es puguin usar !!!!
+    
       String serialNumberCert = null;
       String issuerCert = null;
       String subjectCert = null;
@@ -298,7 +301,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
 
       sfi = new FirmaSimpleSignedFileInfo(signOperation, signType, signAlgorithm, signMode,
           signaturesTableLocation, timeStampIncluded, policyIncluded, eniTipoFirma,
-          eniPerfilFirma, signerInfo,   custody, validation);
+          eniPerfilFirma, signerInfo, custody, validation);
     }
 
     return new FirmaSimpleSignatureResult(psr.getSignID(), status, file, sfi);
@@ -509,7 +512,7 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
         }
 
         // TAULA DE FIRMES
-        final int signaturesTableLocation = getSignaturesTableLocationOfConfig(
+        final int signaturesTableLocation = SignatureUtils.getSignaturesTableLocationOfConfig(
             usuariAplicacioID, config, entitatJPA);
 
         // TODO XYZ ZZZ Cercar-ho a info de l'usuari-app. #
@@ -609,6 +612,23 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends 
       throw new I18NException(e, "genapp.comodi", new I18NArgumentString(e.getMessage()));
     }
 
+  }
+  
+  protected PassarelaPolicyInfoSignature getPoliticaFirmaOfConfig(
+      final String usuariAplicacioID, final UsuariAplicacioConfiguracio config,
+      EntitatJPA entitatJPA) throws I18NException {
+
+    PolicyInfoSignature politica = SignatureUtils.getPolicyInfoSignature(entitatJPA, config);
+
+    final PassarelaPolicyInfoSignature policyInfoSignature;
+    if (politica == null) {
+      policyInfoSignature = null;
+    } else {
+      policyInfoSignature = new PassarelaPolicyInfoSignature(
+          politica.getPolicyIdentifier(), politica.getPolicyIdentifierHash(),
+          politica.getPolicyIdentifierHashAlgorithm(), politica.getPolicyUrlDocument());
+    }
+    return policyInfoSignature;
   }
   
   
