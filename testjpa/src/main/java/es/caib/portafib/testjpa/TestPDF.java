@@ -1,5 +1,11 @@
 package es.caib.portafib.testjpa;
 
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfObject;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfString;
 import es.caib.portafib.logic.utils.PdfUtils;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
@@ -45,9 +51,45 @@ public class TestPDF extends PdfUtils {
         String newName = System.currentTimeMillis() + "_" + fitxer.getName();
         File newFile = new File(newName);
         try {
-            //newFile = PdfUtils.forceCleanPdfInternal(newList, fitxer, oldList);
-
             PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxer, newFile, null, null, null, null, true, false);
+
+            PdfReader reader = new PdfReader(fitxer.getAbsolutePath());
+
+            PdfDictionary root = reader.getCatalog();
+            PdfDictionary names = root.getAsDict(PdfName.NAMES);
+
+            if (names != null) {
+                PdfDictionary embedded = names.getAsDict(PdfName.EMBEDDEDFILES);
+                if (embedded != null) {
+                    PdfArray filespecs = embedded.getAsArray(PdfName.NAMES);
+
+                    if (filespecs != null) {
+                        for (int i = 0; i < filespecs.size(); ) {
+                            PdfString name = filespecs.getAsString(i++);
+                            PdfDictionary filespecDict = filespecs.getAsDict(i++);
+                            log.info("-----------------------------------------------------------");
+                            log.info(name.toUnicodeString() + ": " + filespecDict.toString());
+                            log.info("-----------------------------------------------------------");
+
+                            for (PdfName key : filespecDict.getKeys()) {
+                                PdfObject directObject = filespecDict.getDirectObject(key);
+                                log.info(key + ": " + directObject.getClass() + ": " + directObject);
+                            }
+                            log.info("-----------------------------------------------------------");
+
+                            PdfDictionary efDict = filespecDict.getAsDict(PdfName.EF);
+                            for (PdfName key : efDict.getKeys()) {
+                                PdfString stringObject = efDict.getAsString(key);
+                                PdfObject directObject = efDict.getDirectObject(key);
+                                log.info(key + ": " + stringObject);
+                                log.info(key + ": " + directObject.getClass() + ": " + directObject);
+                            }
+                            log.info("-----------------------------------------------------------");
+                        }
+                    }
+                }
+            }
+
         } catch (I18NException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {

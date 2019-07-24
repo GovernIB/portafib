@@ -758,7 +758,7 @@ public class PdfUtils implements ConstantsV2 {
               String name = fa.getName();
               PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(stamper.getWriter(),
                   src.getAbsolutePath(), name, null);
-              stamper.getWriter().addFileAttachment(name.substring(0, name.indexOf('.')), fs);
+              stamper.getWriter().addFileAttachment(fa.getDescription(), fs);
             }
           }
         }
@@ -1173,7 +1173,7 @@ public class PdfUtils implements ConstantsV2 {
             String name = fa.getName();
             PdfFileSpecification fs = PdfFileSpecification.fileEmbedded(writer,
                 src.getAbsolutePath(), name, null);
-            writer.addFileAttachment(name.substring(0, name.indexOf('.')), fs);
+            writer.addFileAttachment(fa.getDescription(), fs);
           }
         }
       }
@@ -1249,7 +1249,7 @@ public class PdfUtils implements ConstantsV2 {
   
   
   public static List<AttachedFile> extractAttachments(PdfReader reader) throws IOException {
-   
+
     PdfDictionary root = reader.getCatalog();
     PdfDictionary names = root.getAsDict(PdfName.NAMES);
     List<AttachedFile> files = new ArrayList<AttachedFile>();
@@ -1257,12 +1257,12 @@ public class PdfUtils implements ConstantsV2 {
       PdfDictionary embedded = names.getAsDict(PdfName.EMBEDDEDFILES);
       if (embedded != null) {
         PdfArray filespecs = embedded.getAsArray(PdfName.NAMES);
-        
+
         if (filespecs != null) {
-          for (int i = 0; i < filespecs.size(); ) {
+          // El diccinari FileSpec sempre està en les posicions parells.
+          for (int i = 1; i < filespecs.size(); i+=2) {
             try {
-              files.addAll(extractAttachment(reader, filespecs.getAsString(i++),
-              filespecs.getAsDict(i++)));
+              files.add(extractAttachment(filespecs.getAsDict(i)));
             } catch(Exception e) {
               log.error("Error desconegut extraient attachments del PDF: "
                  + e.getMessage(), e);
@@ -1277,28 +1277,20 @@ public class PdfUtils implements ConstantsV2 {
 
   
   
-  private static List<AttachedFile> extractAttachment(PdfReader reader,
-      PdfString name, PdfDictionary filespec) throws IOException {
-    PRStream stream;
-    FileOutputStream fos;
-    String filename;
-    PdfDictionary refs = filespec.getAsDict(PdfName.EF);
-    
-    List<AttachedFile> files = new ArrayList<AttachedFile>();
-    
-    for (PdfName key : refs.getKeys()) {
-      stream = (PRStream)PdfReader.getPdfObject(refs.getAsIndirectObject(key));
-      filename = filespec.getAsString(key).toString();
-      File output = File.createTempFile("portafib_pdf_attached_", ".file");
-      fos = new FileOutputStream(output);
-      fos.write(PdfReader.getStreamBytes(stream));
-      fos.flush();
-      fos.close();
-      files.add(new AttachedFile(filename, output));
-      break; // Només en volem un (ja que la resta són el mateix)
-    }
-    
-    return files;
+  private static AttachedFile extractAttachment(PdfDictionary filespec) throws IOException {
+    String filename = filespec.getAsString(PdfName.F).toString();
+    String description = filespec.getAsString(PdfName.DESC).toString();
+
+    PdfDictionary contentDict = filespec.getAsDict(PdfName.EF);
+    PRStream stream = (PRStream)PdfReader.getPdfObject(contentDict.getAsIndirectObject(PdfName.F));
+
+    File output = File.createTempFile("portafib_pdf_attached_", ".file");
+    FileOutputStream fos = new FileOutputStream(output);
+    fos.write(PdfReader.getStreamBytes(stream));
+    fos.flush();
+    fos.close();
+
+    return new AttachedFile(filename, description, output);
   }
 
   /**
