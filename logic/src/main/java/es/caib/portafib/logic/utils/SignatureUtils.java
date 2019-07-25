@@ -24,7 +24,6 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.SignBoxRectangle;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -44,7 +43,6 @@ import org.fundaciobit.pluginsib.barcode.IBarcodePlugin;
 import org.fundaciobit.pluginsib.core.utils.PluginsManager;
 
 import javax.activation.DataHandler;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,8 +130,6 @@ public class SignatureUtils {
       UsuariAplicacioConfiguracioJPA config, String languageUI, String username,
       String administrationID) {
 
-    PolicyInfoSignature policyInfoSignature = getPolicyInfoSignature(entitat, config);
-
     String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat
         .getFiltreCertificats();
 
@@ -142,32 +138,17 @@ public class SignatureUtils {
 
     return new CommonInfoSignature(languageUI,
         CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
-        administrationID, policyInfoSignature, alwaysCreateRevision);
+        administrationID, alwaysCreateRevision);
   }
 
   /**
-   * 
-   * @param signatureID
-   * @param fileToSign
-   * @param idname
-   * @param locationSignTableID
-   * @param reason
-   * @param signNumber
-   * @param languageSign
-   * @param signTypeID
-   * @param signAlgorithmID
-   * @param signModeBool
-   * @param firmatPerFormat
-   * @param timeStampGenerator
-   * @return
-   * @throws I18NException
+   *
    */
-  public static FileInfoSignature getFileInfoSignature(String signatureID, File fileToSign,
-      String mimeType, String idname, long locationSignTableID, String reason,
-      String location, String signerEmail, int signNumber, String languageSign,
-      long signTypeID, long signAlgorithmID, boolean signModeBool, String firmatPerFormat,
-      ITimeStampGenerator timeStampGenerator, String expedientCode, String expedientName,
-      String expedientUrl, String procedureCode, String procedureName) throws I18NException {
+  public static FileInfoSignature getFileInfoSignature(String signatureID, File fileToSign, String mimeType,
+       String idname, long locationSignTableID, String reason, String location, String signerEmail, int signNumber,
+       String languageSign, long signTypeID, long signAlgorithmID, boolean signModeBool, String firmatPerFormat,
+       ITimeStampGenerator timeStampGenerator, PolicyInfoSignature policyInfoSignature, String expedientCode,
+       String expedientName, String expedientUrl, String procedureCode, String procedureName) throws I18NException {
 
     PdfVisibleSignature pdfInfoSignature = null;
 
@@ -235,8 +216,8 @@ public class SignatureUtils {
         previusSignatureDetachedFile, mimeType, idname, reason, location, signerEmail,
         signNumber, languageSign, signOperation, signType, signAlgorithm, signMode,
         locationSignTable, signaturesTableHeader, pdfInfoSignature, csvStampInfo,
-        timeStampGenerator != null, timeStampGenerator, expedientCode, expedientName,
-        expedientUrl, procedureCode, procedureName);
+        timeStampGenerator != null, timeStampGenerator, policyInfoSignature,
+          expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 
     return fis;
   }
@@ -309,8 +290,37 @@ public class SignatureUtils {
       Set<String> timeStampUrls) throws I18NException {
     final String signaturesSetID = pss.getSignaturesSetID();
     SignaturesSet ss = new SignaturesSet();
-    {
 
+    // Part comuna
+    CommonInfoSignature commonInfoSignature;
+    PolicyInfoSignature pis;
+    {
+      PassarelaCommonInfoSignature cis = pss.getCommonInfoSignature();
+      final String username = cis.getUsername();
+      final String administrationID = cis.getAdministrationID();
+      final String langUI = cis.getLanguageUI();
+      boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
+            .getEntitatID());
+
+
+      PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
+      if (ppis == null) {
+        log.info(" PassarelaPolicyInfoSignature = NULL");
+        pis = null;
+      } else {
+        pis = new PolicyInfoSignature(ppis.getPolicyIdentifier(),
+              ppis.getPolicyIdentifierHash(), ppis.getPolicyIdentifierHashAlgorithm(),
+              ppis.getPolicyUrlDocument());
+      }
+
+      commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
+            username, administrationID, alwaysCreateRevision);
+
+    }
+    ss.setCommonInfoSignature(commonInfoSignature);
+
+
+    {
       FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[pss
           .getFileInfoSignatureArray().length];
       int count = 0;
@@ -379,7 +389,7 @@ public class SignatureUtils {
         FileInfoSignature fis = getFileInfoSignature(signID, pdfAdaptat, mime, idname,
             posicioTaulaFirmesID, reason, location, signerEmail, sign_number, langDoc,
             signTypeID, signAlgorithm, signMode, getFirmatPerFormat(entitat, config, langDoc),
-            timeStampGenerator, pfis.getExpedientCodi(), pfis.getExpedientNom(),
+            timeStampGenerator, pis, pfis.getExpedientCodi(), pfis.getExpedientNom(),
             pfis.getExpedientUrl(), pfis.getProcedimentCodi(), pfis.getProcedimentNom());
 
         fileInfoSignatureArray[count] = fis;
@@ -395,33 +405,6 @@ public class SignatureUtils {
       }
 
       ss.setFileInfoSignatureArray(fileInfoSignatureArray);
-
-      CommonInfoSignature commonInfoSignature;
-      {
-        PassarelaCommonInfoSignature cis = pss.getCommonInfoSignature();
-        final String username = cis.getUsername();
-        final String administrationID = cis.getAdministrationID();
-        final String langUI = cis.getLanguageUI();
-        boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
-            .getEntitatID());
-
-        PolicyInfoSignature pis;
-        PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
-        if (ppis == null) {
-          log.info(" PassarelaPolicyInfoSignature = NULL");
-          pis = null;
-        } else {
-          pis = new PolicyInfoSignature(ppis.getPolicyIdentifier(),
-              ppis.getPolicyIdentifierHash(), ppis.getPolicyIdentifierHashAlgorithm(),
-              ppis.getPolicyUrlDocument());
-        }
-
-        commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
-            username, administrationID, pis, alwaysCreateRevision);
-
-      }
-      ss.setCommonInfoSignature(commonInfoSignature);
-
       ss.setSignaturesSetID(signaturesSetID);
 
     }

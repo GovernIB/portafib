@@ -1575,8 +1575,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     // POLITICA DE FIRMA
     PolicyInfoSignature policy;
-    policy = MiniAppletUtils.convertPolicy(signaturesSet.getCommonInfoSignature(),
-        configProperties);
+    policy = MiniAppletUtils.convertPolicy(fis, configProperties);
 
     final String signType = fis.getSignType();
     String format;

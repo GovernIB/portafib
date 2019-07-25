@@ -1,5 +1,23 @@
 package org.fundaciobit.plugins.signatureweb.miniappletinclient;
 
+import com.handinteractive.mobile.UAgentInfo;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletConstants;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
+import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,27 +33,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletConstants;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletSignInfo;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
-
-import com.handinteractive.mobile.UAgentInfo;
 
 /**
  * 
@@ -450,7 +447,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
    * @param signatureIndex
    * @param request
    * @param response
-   * @param uploadedFiles
    * @throws Exception
    */
   private void clientErrorPage(String relativePath, SignaturesSetWeb signaturesSet,
@@ -516,7 +512,7 @@ public class MiniAppletInClientSignatureWebPlugin extends
 
     /**
      * @param message
-     * @param cause
+     * @param stacktrace
      */
     public StackTraceException(String message, String stacktrace) {
       super(message);
@@ -1095,15 +1091,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
       
     parameters.put(MiniAppletConstants.APPLET_CERTIFICATE_FILTER , StringEscapeUtils.escapeXml(encoded) );
 
-    PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
-    if (policy != null) {
-      parameters.put(MiniAppletConstants.PROPERTY_POLICY_IDENTIFIER , StringEscapeUtils.escapeXml(policy.getPolicyIdentifier()));
-      parameters.put(MiniAppletConstants.PROPERTY_POLICY_HASH , StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHash()));
-      parameters.put(MiniAppletConstants.PROPERTY_POLICY_HASH_ALGORITHM , StringEscapeUtils.escapeXml(policy.getPolicyIdentifierHashAlgorithm()));
-      if (policy.getPolicyUrlDocument() != null) {
-        parameters.put(MiniAppletConstants.PROPERTY_POLICY_QUALIFIER , StringEscapeUtils.escapeXml(policy.getPolicyUrlDocument()));
-      }
-    }
     parameters.put( MiniAppletConstants.APPLET_ISJNLP ,"true");
     parameters.put( MiniAppletConstants.APPLET_LANGUAGE_UI , commonInfoSignature.getLanguageUI());
 

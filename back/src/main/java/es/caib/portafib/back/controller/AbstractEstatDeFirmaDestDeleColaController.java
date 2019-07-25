@@ -78,6 +78,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
@@ -1531,26 +1532,32 @@ import java.util.Set;
        
        // Nous camps de Peticio de Firma #281
        ITimeStampGenerator timeStampGenerator;
+       // Política de firma #283 -> #287
+       PolicyInfoSignature policyInfoSignature;
        switch (peticioDeFirma.getOrigenPeticioDeFirma()) {
           
           case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:          
           {
             boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
+            policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
           }
           break;
 
           case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
           {
             boolean userRequiresTimeStamp = peticioDeFirma.isSegellatDeTemps();
+            UsuariAplicacioConfiguracio configuracioDefirma = null;
+            if (peticioDeFirma.getConfiguracioDeFirmaID() != null) {
+              configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
+            }
+            policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
+
             if (userRequiresTimeStamp) {
-              if (peticioDeFirma.getConfiguracioDeFirmaID() == null) {
+              if (configuracioDefirma == null) {
                 // Per peticions Antigues
                 timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat, userRequiresTimeStamp);
               } else {
-                UsuariAplicacioConfiguracio configuracioDefirma;
-                configuracioDefirma = configuracioDeFirmaLogicaEjb.findByPrimaryKey(peticioDeFirma.getConfiguracioDeFirmaID());
-
                 timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
                     peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
               }
@@ -1567,6 +1574,8 @@ import java.util.Set;
 
             timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForUsrApp(
                   peticioDeFirma.getSolicitantUsuariAplicacioID(), entitat, configuracioDefirma);
+
+            policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, configuracioDefirma);
           }
           break;
             
@@ -1613,7 +1622,7 @@ import java.util.Set;
        return new FileInfoFull(SignatureUtils.getFileInfoSignature(signatureID, source,mimeType,
             idname, location_sign_table, reason, location, signerEmail,  sign_number, 
             langSign, peticioDeFirma.getTipusFirmaID(), peticioDeFirma.getAlgorismeDeFirmaID(),
-            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator,
+            peticioDeFirma.getModeDeFirma(), firmatPerFormat, timeStampGenerator, policyInfoSignature,
             expedientCode, expedientName, expedientUrl, procedureCode, procedureName),
             originalNumberOfSigns);
     }

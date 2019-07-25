@@ -42,6 +42,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
@@ -271,6 +272,8 @@ public class AutoFirmaController extends FitxerController
     timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb( 
         entitat, userRequiresTimeStamp );
 
+    PolicyInfoSignature policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
+
     //  #174 TODO XYZ ZZZ
     final String expedientCode = null;
     final String expedientName = null;
@@ -285,7 +288,7 @@ public class AutoFirmaController extends FitxerController
         langSign, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langSign), timeStampGenerator,
-        expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
     
     CommonInfoSignature commonInfoSignature;
     {

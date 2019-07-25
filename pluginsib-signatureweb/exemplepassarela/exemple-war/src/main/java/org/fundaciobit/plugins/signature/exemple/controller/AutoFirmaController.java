@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
@@ -237,17 +236,13 @@ public class AutoFirmaController {
 
       // TODO Veure manual de MiniApplet
       final String filtreCertificats = form.getFiltreCertificats(); 
-         
-
-      // TODO Definir politica de Firma (opcional)
-      final PolicyInfoSignature policyInfoSignature = null;
 
       // TODO veure manual integració @firma
       boolean alwaysCreateRevision = true;
 
       commonInfoSignature = new CommonInfoSignature(langUI,
           CommonInfoSignature.cleanFiltreCertificats(filtreCertificats),
-          username, administrationID, policyInfoSignature, alwaysCreateRevision);
+          username, administrationID, alwaysCreateRevision);
     }
     
 

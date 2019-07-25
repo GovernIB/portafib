@@ -1,12 +1,12 @@
 package org.fundaciobit.plugins.signature.exemple.utils;
 
-import java.io.File;
-
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signature.api.PdfVisibleSignature;
 import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
 import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+
+import java.io.File;
 
 /**
  * 
@@ -34,6 +34,7 @@ public class SignatureUtils {
    * @return
    * @throws Exception
    */
+  @Deprecated
   public static FileInfoSignature getFileInfoSignature(String signatureID, File fileToSign,
       String mimeType, String idname, int locationSignTableID,
       SignaturesTableHeader signaturesTableHeader, String reason, String location,

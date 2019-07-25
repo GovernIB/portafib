@@ -19,8 +19,6 @@ public class CommonInfoSignature {
   
   String administrationID;
 
-  PolicyInfoSignature policyInfoSignature = null;
-
   boolean alwaysCreateRevision = true;
 
   /**
@@ -29,27 +27,18 @@ public class CommonInfoSignature {
   public CommonInfoSignature() {
   }
 
-
-
   /**
-   * @param languageUI
-   * @param filtreCertificats
-   * @param username
-   * @param administrationID
-   * @param policyInfoSignature
-   * @param urlFinal
+   *
    */
   public CommonInfoSignature(String languageUI, String filtreCertificats, String username,
-      String administrationID, PolicyInfoSignature policyInfoSignature, boolean alwaysCreateRevision) {
+                             String administrationID, boolean alwaysCreateRevision) {
     super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
     this.username = username;
     this.administrationID = administrationID;
-    this.policyInfoSignature = policyInfoSignature;
     this.alwaysCreateRevision = alwaysCreateRevision;
   }
-
 
 
   public String getLanguageUI() {
@@ -75,15 +64,6 @@ public class CommonInfoSignature {
   public void setUsername(String username) {
     this.username = username;
   }
-
-  public PolicyInfoSignature getPolicyInfoSignature() {
-    return policyInfoSignature;
-  }
-
-  public void setPolicyInfoSignature(PolicyInfoSignature policyInfoSignature) {
-    this.policyInfoSignature = policyInfoSignature;
-  }
-
 
   public String getAdministrationID() {
     return administrationID;

@@ -1,36 +1,5 @@
 package org.fundaciobit.plugins.signatureserver.portafib;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.URL;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-
-import javax.xml.ws.BindingProvider;
-
-import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
-
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.FitxerBean;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.PassarelaCommonInfoSignature;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.PassarelaFileInfoSignature;
@@ -48,6 +17,35 @@ import es.caib.portafib.ws.api.v1.passarelafirmaservidor.WsValidationException;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.utils.I18NUtils;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.utils.PassarelaDeFirmaEnServidorUtils;
 import es.caib.portafib.ws.api.v1.passarelafirmaservidor.utils.WsClientUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.SecureVerificationCodeStampInfo;
+import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.SignaturesTableHeader;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
+import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+
+import javax.xml.ws.BindingProvider;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -477,8 +475,14 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
     pss.setCommonInfoSignature(convert(ss.getCommonInfoSignature()));
 
     List<PassarelaFileInfoSignature> listFirmes = pss.getFileInfoSignatureArray();
-
     listFirmes.addAll(convert(ss.getFileInfoSignatureArray()));
+
+    // Agafam la primera política de firma de la llista de FileInfoSignature
+    if (ss.getFileInfoSignatureArray().length > 0) {
+      FileInfoSignature fileInfoSignature = ss.getFileInfoSignatureArray()[0];
+      PassarelaPolicyInfoSignature ppis = convert(fileInfoSignature.getPolicyInfoSignature());
+      pss.getCommonInfoSignature().setPolicyInfoSignature(ppis);
+    }
 
     return pss;
 
@@ -596,21 +600,21 @@ public class PortaFIBSignatureServerPlugin extends AbstractSignatureServerPlugin
     List<Long> pluginsIDEnabled = getFilterByPluginIDList();
     pcis.getAcceptedPlugins().addAll(pluginsIDEnabled);
 
-    // Politica de Firma
-    PolicyInfoSignature pis = cis.getPolicyInfoSignature();
-    if (pis != null) {
+    return pcis;
 
-      PassarelaPolicyInfoSignature pps = new PassarelaPolicyInfoSignature();
+  }
+
+  private PassarelaPolicyInfoSignature convert(PolicyInfoSignature pis) {
+    PassarelaPolicyInfoSignature pps = null;
+    if (pis != null) {
+      pps = new PassarelaPolicyInfoSignature();
       pps.setPolicyIdentifier(pis.getPolicyIdentifier());
       pps.setPolicyIdentifierHash(pis.getPolicyIdentifierHash());
       pps.setPolicyIdentifierHashAlgorithm(pis.getPolicyIdentifierHashAlgorithm());
       pps.setPolicyUrlDocument(pis.getPolicyUrlDocument());
 
-      pcis.setPolicyInfoSignature(pps);
     }
-
-    return pcis;
-
+    return pps;
   }
 
   protected static List<Long> filteredByPluginIDCache = null;
