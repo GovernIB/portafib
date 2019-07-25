@@ -789,9 +789,9 @@ public class SignatureUtils {
 
     if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
       if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
-        return "TF04"; // (CAdES detached/explicit
-      } else {
         return "TF05"; // (CAdES attached/implicit signature),
+      } else {
+        return "TF04"; // (CAdES detached/explicit
       }
     } else if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
       if (signMode == FileInfoSignature.SIGN_MODE_IMPLICIT) {
