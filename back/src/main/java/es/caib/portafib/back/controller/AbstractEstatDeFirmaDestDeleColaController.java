@@ -99,6 +99,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,6 +109,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
   /**
@@ -700,11 +702,14 @@ import java.util.Set;
         final boolean debug = log.isDebugEnabled();
         final int numberTotalOfSignatures = seleccionats.size();
 
-        UsuariAplicacioConfiguracioJPA config = null;
-        boolean isSameConfig = true;
-        boolean isFirstConfig = true;
+        EntitatJPA entitat = loginInfo.getEntitat();
+        String firstFiltreCertificats = null;
+        Properties firstFiltreProperties = null;
 
-        for (StringKeyValue skv: listIds ) {
+        for (int i = 0; i < listIds.size(); i++) {
+        StringKeyValue skv = listIds.get(i);
+
+
           if (debug) {
             log.info("firmarSeleccionats::SELECCIONAT = " + skv.getKey() + " / "
               + skv.getValue());
@@ -713,17 +718,26 @@ import java.util.Set;
           Long estatDeFirmaID = new Long( skv.getKey());
           Long peticioDeFirmaID = new Long(skv.getValue());
 
-          // Seleccionam la configuració de la primera petició de firma
-          // I a cada iteració comprovam que la configuració de la següent petició
-          // continui siguent la mateixa, o null si la primera era null
-          if (isFirstConfig) {
-            config = configuracio(peticioDeFirmaID);
-            isFirstConfig = false;
-          } else if (isSameConfig) {
-            UsuariAplicacioConfiguracio nextConfig = configuracio(peticioDeFirmaID);
-            isSameConfig = (config == null ?
-                  nextConfig == null :
-                  !(nextConfig == null) && config.getUsuariAplicacioConfigID() == nextConfig.getUsuariAplicacioConfigID());
+          UsuariAplicacioConfiguracioJPA config = configuracio(peticioDeFirmaID);
+          String filtreCertificats = (config != null ? config.getFiltreCertificats() : entitat.getFiltreCertificats());
+          Properties filtreProperties = new Properties();
+          if (filtreCertificats != null) {
+            try {
+              filtreProperties.load(new StringReader(filtreCertificats));
+            } catch (IOException e) {
+              log.warn("Error llegit filtre de certficats " + filtreCertificats);
+            }
+          }
+
+          if (i == 0) {
+            firstFiltreCertificats = filtreCertificats;
+            firstFiltreProperties = filtreProperties;
+          } else {
+            // Si no té el mateix filtre de certificats que el primer no el podem signar. Avisam a l'usuari.
+            if (!firstFiltreProperties.equals(filtreProperties)) {
+              HtmlUtils.saveMessageWarning(request, I18NUtils.tradueix("firmarseleccionats.nomateixfiltre", String.valueOf(peticioDeFirmaID)) );
+              continue;
+            }
           }
 
           // Només permetre una firma per petició (evitar bloc de firmes amb una firma
@@ -751,14 +765,6 @@ import java.util.Set;
           }
         }
 
-        if (!isSameConfig) {
-          // Si no totes tenen la mateixa configuració la fixam a null perquè al signatureSet la commonInfoSignature
-          // és única, i allà és on hi ha el filtre de certificats i la política de firma.
-          // TODO s'hauria d'evitar la signatura de múltiples fitxers si tenen configuracions de firma diferents?
-          // TODO o bé llançar error, o bé refactoritzar el signatureSet i el commonInfoSignature
-          config = null;
-          log.warn("A la signatura múltiple no totes les peticions de firma tenen la mateixa configuració");
-        }
 
         if (fileInfoFullArray.isEmpty()) {
           // TODO avis
@@ -771,9 +777,14 @@ import java.util.Set;
         {
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
+          final boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
+                .getEntitatID());
+          //commonInfoSignature = SignatureUtils.getCommonInfoSignature(
+          //    loginInfo.getEntitat(), config, langUI, username, administrationID);
 
-          commonInfoSignature = SignatureUtils.getCommonInfoSignature(
-              loginInfo.getEntitat(), config, langUI, username, administrationID);
+          commonInfoSignature = new CommonInfoSignature(langUI, firstFiltreCertificats, username, administrationID, alwaysCreateRevision);
+
+
         }
         
         // Vuls suposar que abans de "9 minuts més un minut per cada firma" haurà
