@@ -56,7 +56,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testGetAvailableProfiles();
 
-      tester.testSignatureServerPAdES();
+      //tester.testSignatureServerPAdES();
 
       //tester.testSignatureServerCAdES();
 
@@ -64,15 +64,15 @@ public class ApiFirmaEnServidorSimpleTester {
 
       //tester.testSignatureServerXAdESXml();
 
-      // tester.testSignatureServerPAdESXAdESCAdES();
+      //tester.testSignatureServerPAdESXAdESCAdES();
 
-      // tester.testUpgradeSignaturePAdES();
+      //tester.testUpgradeSignaturePAdES();
 
-      // tester.testUpgradeSignatureXAdESOfBinary();
+      tester.testUpgradeSignatureXAdESOfBinary();
 
-      // tester.testUpgradeSignatureXAdESOfXML();
+      tester.testUpgradeSignatureXAdESOfXML();
 
-      // tester.testUpgradeSignatureCAdES();
+      //tester.testUpgradeSignatureCAdES();
 
     } catch (NoAvailablePluginException nape) {
 
@@ -93,7 +93,7 @@ public class ApiFirmaEnServidorSimpleTester {
 
       server.printStackTrace();
 
-      System.err.println("S'ha produït un error enb el servidor intermedi:"
+      System.err.println("S'ha produït un error en el servidor intermedi:"
           + server.getMessage());
 
     } catch (Exception e) {
@@ -316,20 +316,21 @@ public class ApiFirmaEnServidorSimpleTester {
     String name = fileToSign.getNom();
     String reason = "Per aprovar pressuposts";
     String location = "Palma";
-    String signerEmail = "anadal@ibit.org";
+    
     int signNumber = 1;
     String languageSign = "ca";
 
     FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(
-        fileToSign, signID, name, reason, location, signerEmail, signNumber, languageSign);
+        fileToSign, signID, name, reason, location, signNumber, languageSign);
 
     String languageUI = "ca";
-    String username = null; // "anadal"; // Es la configuració del Servidor (deixam el valor
-                            // per defecte)
+    // Es la configuració del Servidor (deixam el valor per defecte)
+    String username = null; // "anadal"; 
     String administrationID = null;
+    String signerEmail = null;
 
     FirmaSimpleCommonInfo commonInfo;
-    commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID);
+    commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
 
     System.out.println("languageUI = |" + languageUI + "|");
 

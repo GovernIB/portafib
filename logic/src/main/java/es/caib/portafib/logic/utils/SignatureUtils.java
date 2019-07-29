@@ -384,7 +384,6 @@ public class SignatureUtils {
 
         fileInfoSignatureArray[count] = fis;
         count++;
-
       }
 
       if (timeStampUrls.size() > 2) {

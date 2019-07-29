@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  * 
  */
 @Controller
-public class PrincipalController {
+public class PrincipalController implements ConstantsV2 {
 
   protected final Logger log = Logger.getLogger(getClass());
 
@@ -102,31 +102,33 @@ public class PrincipalController {
       if ("webdb".equals(pipella)) {
         return new ModelAndView("webdb");
       }      
-      if ("ROLE_ADEN".equals(pipella)) {
+      if (ROLE_ADEN.equals(pipella)) {
         return new ModelAndView("role_aden");
         //return new ModelAndView(new RedirectView("/aden/peticionscaducades/list/1", true));
       }
-      if ("ROLE_ADMIN".equals(pipella)) {
+      if (ROLE_ADMIN.equals(pipella)) {
         // return new ModelAndView("role_admin");
         // "/admin/fitxersorfes/list/1"
         return new ModelAndView(new RedirectView("/admin/entitat/list/1", true));
       }
-      if ("ROLE_COLA".equals(pipella)) {
+      if (ROLE_COLA.equals(pipella)) {
         //return new ModelAndView("role_cola");
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_COLA_ESTATFIRMA_PENDENT + "/list", true));
       }
-      if ("ROLE_DELE".equals(pipella)) {
+      if (ROLE_DELE.equals(pipella)) {
         //return new ModelAndView("role_dele");
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DELE_ESTATFIRMA_PENDENT + "/list", true));
       }
-      if ("ROLE_DEST".equals(pipella)) {
+      if (ROLE_DEST.equals(pipella)) {
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_DEST_ESTATFIRMA_PENDENT + "/list", true));
       }
-      if ("ROLE_SOLI".equals(pipella)) {
+      if (ROLE_SOLI.equals(pipella)) {
         //return new ModelAndView("role_soli");
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_SOLI_PETICIOFIRMA_ACTIVA + "/list", true));
       }
-      if ("ROLE_REVI".equals(pipella)) {
+      
+      
+      if (ROLE_REVI.equals(pipella)) {
         //return new ModelAndView("role_soli");
         return new ModelAndView(new RedirectView(ConstantsV2.CONTEXT_REVI_ESTATFIRMA_PENDENT + "/list", true));
       }

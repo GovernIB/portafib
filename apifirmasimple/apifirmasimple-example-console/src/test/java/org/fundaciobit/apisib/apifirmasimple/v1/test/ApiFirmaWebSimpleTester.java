@@ -31,7 +31,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
 import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 
 /**
- * 
+ *
  * @author anadal(u80067)
  *
  */
@@ -83,22 +83,27 @@ public class ApiFirmaWebSimpleTester {
         String name = fileToSign.getNom();
         String reason = "Per aprovar pressuposts - " + parts[i];
         String location = "Palma";
-        String signerEmail = "anadal@ibit.org";
+
         int signNumber = 1;
         String languageSign = "ca";
 
         fileInfoSignature = new FirmaSimpleFileInfoSignature(fileToSign, signID, name, reason,
-            location, signerEmail, signNumber, languageSign);
+            location, signNumber, languageSign);
 
         filesToSign[i] = fileInfoSignature;
       }
 
       final String languageUI = "ca";
-      final String username = null; // "anadal";
-      final String administrationID = "12345678C";
+      final String username = prop.getProperty("signer.username");
+      final String administrationID = prop.getProperty("signer.administrationid");
+      String signerEmail = prop.getProperty("signer.email");
+      
+      System.out.println("Signer.Username = |" + username + "|");
+      System.out.println("Signer.administrationid = |" + administrationID + "|");
+      System.out.println("Signer.email = |" + signerEmail + "|");
 
       FirmaSimpleCommonInfo commonInfo;
-      commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID);
+      commonInfo = new FirmaSimpleCommonInfo(perfil, languageUI, username, administrationID, signerEmail);
 
       api = getApiFirmaWebSimple(prop);
 
@@ -106,6 +111,7 @@ public class ApiFirmaWebSimpleTester {
       transactionID = api.getTransactionID(commonInfo);
 
       System.out.println("languageUI = |" + languageUI + "|");
+
       System.out.println("TransactionID = |" + transactionID + "|");
 
       for (int i = 0; i < filesToSign.length; i++) {

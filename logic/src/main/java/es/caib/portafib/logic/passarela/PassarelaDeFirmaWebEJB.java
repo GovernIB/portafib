@@ -33,6 +33,7 @@ import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
+import es.caib.portafib.logic.utils.datasource.FileDataSource;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.logic.validator.SignaturesSetBeanValidator;
 import es.caib.portafib.logic.validator.SignaturesSetValidator;
@@ -243,12 +244,10 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
     final String id = pfis.getSignID();
 
     PassarelaSignatureResult psr = new PassarelaSignatureResult();
-    
-    
-    
+
     // XYZ ZZZ Aqui fa falta obtenir la informació de Custòdia
-    //psr.setCustodyInfo(custodyInfo);
-    
+    // psr.setCustodyInfo(custodyInfo);
+
     psr.setStatus(ss.getStatus());
     psr.setErrorMessage(ss.getErrorMessage());
     psr.setErrorStackTrace(ss.getErrorStackTrace());
@@ -269,12 +268,17 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
       }
     }
 
-
-
     // validationInfo
-    PassarelaValidationInfo pvi = new PassarelaValidationInfo(
-        ss.getCheckAdministrationIDOfSigner(), ss.getCheckDocumentModifications(),
-        ss.getCheckValidationSignature(), null);
+    ValidacioCompletaResponse infoValidacio = ss.getInfoValidacio();
+
+    log.info(" XYZ ZZZ ZZZ  **** infoValidacio = ss.getInfoValidacio() => " + infoValidacio);
+
+    PassarelaValidationInfo pvi = null;
+    if (infoValidacio != null) {
+      pvi = new PassarelaValidationInfo(infoValidacio.getCheckAdministrationIDOfSigner(),
+          infoValidacio.getCheckDocumentModifications(),
+          infoValidacio.getCheckValidationSignature(), null);
+    }
     psr.setValidationInfo(pvi);
 
     return psr;
@@ -309,7 +313,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
   public PassarelaSignaturesSetWebInternalUse finalProcesDeFirma(String transactionID,
       SignaturesSetWeb ss) throws I18NException, IOException {
 
-    log.info(" XYZ ZZZ \n\n finalProcesDeFirma => ENTRA\n\n");
+    log.info(" XYZ ZZZ ZZZ \n\n finalProcesDeFirma => ENTRA\n\n");
 
     StatusSignaturesSet sss = ss.getStatusSignaturesSet();
 
@@ -376,7 +380,7 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         // Validar certificat i firmes, i comprovar que els NIFs corresponen
         final boolean isFirmaServidor = false;
-
+        log.info("\n\n Crida a Validate Signatures ... \n\n");
         validateSignatures(ssf, isFirmaServidor);
       }
 
@@ -471,9 +475,12 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
       try {
 
-        boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb, entitatID);
-        boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb, entitatID);
-        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio, entitatEjb, entitatID);
+        boolean validarFitxerFirma = SignatureUtils.validarFirma(configuracio, entitatEjb,
+            entitatID);
+        boolean comprovarNifFirma = SignatureUtils.comprovarNifFirma(configuracio, entitatEjb,
+            entitatID);
+        boolean checkCanviatDocFirmat = SignatureUtils.checkCanviatDocFirmat(configuracio,
+            entitatEjb, entitatID);
 
         // (A) Validar la Firma
         final IPortaFIBDataSource fitxerOriginal;
@@ -482,12 +489,10 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
             if (isDebug) {
               log.info("fis.getFileToSign() => " + fis.getFileToSign());
-  
-              log.info("fis.getFileToSign().getData() => "
-                  + fis.getFileToSign().getData());
-              log.info("fis.getFileToSign().getNom() => "
-                  + fis.getFileToSign().getNom());
-  
+
+              log.info("fis.getFileToSign().getData() => " + fis.getFileToSign().getData());
+              log.info("fis.getFileToSign().getNom() => " + fis.getFileToSign().getNom());
+
               log.info("fis.getFileToSign().getFitxerID() => "
                   + fis.getFileToSign().getFitxerID());
             }
@@ -542,22 +547,23 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
         final int numFirmaPortaFIB = 1;
         // En passarel.la no hi ha fitxers intermitjos
         final Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = new HashMap<Integer, IPortaFIBDataSource>();
+        
+        
+        IPortaFIBDataSource adaptat = new FileDataSource(getFitxerAdaptatPath(ssf.getSignaturesSet().getSignaturesSetID(), signID));
+        int posTaulaDeFirmes = fis.getSignaturesTableLocation();
 
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
-            validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
+            validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, adaptat,
             signature, documentDetached, signTypeID, signMode, languageUI, fitxersByNumFirma,
-            numFirmaPortaFIB, numFirmesOriginals, expectedNif);
+            numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
 
         // Aqui es fan totes les validacions completes !!!!!!
         ValidacioCompletaResponse validacioResponse;
         validacioResponse = validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
 
-        status.setCheckAdministrationIDOfSigner(validacioResponse
-            .getCheckAdministrationIDOfSigner());
-        status
-            .setCheckDocumentModifications(validacioResponse.getCheckDocumentModifications());
-        status.setCheckValidationSignature(validacioResponse.getCheckValidationSignature());
+        log.info("\n\n   XYZ ZZZ ZZZ VALIDACIO RESPONSE ==>  " + validacioResponse + "\n\n");
 
+        status.setInfoValidacio(validacioResponse);
 
       } catch (I18NException i18n) {
         // Error en la validació

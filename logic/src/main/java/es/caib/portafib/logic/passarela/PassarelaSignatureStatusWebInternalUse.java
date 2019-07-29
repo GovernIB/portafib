@@ -3,6 +3,7 @@ package es.caib.portafib.logic.passarela;
 import java.io.File;
 
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
+import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 
 /**
  * Esta de Firma per ús Intern
@@ -15,11 +16,17 @@ public class PassarelaSignatureStatusWebInternalUse extends PassarelaSignatureSt
 
   protected File fitxerFirmat;
 
+  /*
   protected Boolean checkAdministrationIDOfSigner = null;
 
   protected Boolean checkDocumentModifications = null;
 
   protected Boolean checkValidationSignature = null;
+  
+  */
+  
+  protected ValidacioCompletaResponse infoValidacio;
+  
 
   public PassarelaSignatureStatusWebInternalUse() {
     super();
@@ -33,6 +40,19 @@ public class PassarelaSignatureStatusWebInternalUse extends PassarelaSignatureSt
     this.fitxerFirmat = fitxerFirmat;
   }
 
+  public ValidacioCompletaResponse getInfoValidacio() {
+    return infoValidacio;
+  }
+
+  public void setInfoValidacio(ValidacioCompletaResponse infoValidacio) {
+    this.infoValidacio = infoValidacio;
+  }
+  
+  
+  
+  
+  
+/*
   public Boolean getCheckAdministrationIDOfSigner() {
     return checkAdministrationIDOfSigner;
   }
@@ -56,5 +76,5 @@ public class PassarelaSignatureStatusWebInternalUse extends PassarelaSignatureSt
   public void setCheckValidationSignature(Boolean checkValidationSignature) {
     this.checkValidationSignature = checkValidationSignature;
   }
-
+*/
 }

@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common;
+package es.caib.portafib.back.controller.rest.tipusdocumental;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -38,7 +38,7 @@ import java.util.Locale;
  */
 @Controller
 @RequestMapping(value = "/public/rest")
-public class RestController extends RestUtils {
+public class RestTipusDocumentalController extends RestUtils {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;

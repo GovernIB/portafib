@@ -291,3 +291,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /logic/foto.jpg
 /logic/hola.pdf
 /logic/hola_with_attach.pdf
+/logic/testfiles
+/logic/tmpfiles
+/logic/src/test/java/es/caib/portafib/logic/utils/AttachFileToPDF.java

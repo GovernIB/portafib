@@ -140,17 +140,17 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
     Long pluginSegellatID = getTimestampPluginIDOfConfig(usuariAplicacioID,
          config, entitat, userRequiresTimeStamp);
 
-//    if (pluginSegellatID == null) {
-//      // XYZ ZZZ TRA
-//      throw new I18NException("genapp.comodi", "La petició requereix Segellat de Temps,"
-//          + " però La configuració de Firma amb nom " + config.getNom()
-//          + " associat al Pefil de Firma amb codi " + perfilDeFirma.getCodi()
-//          + " no en té definit cap.");
-//    }
+    if (userRequiresTimeStamp && pluginSegellatID == null) {
+      // XYZ ZZZ TRA
+      throw new I18NException("genapp.comodi", "La petició requereix Segellat de Temps,"
+          + " però La configuració de Firma amb nom " + config.getNom()
+          + " associat al Pefil de Firma amb codi " + perfilDeFirma.getCodi()
+          + " no en té definit cap.");
+    }
 
-    ITimeStampGenerator timeStampGenerator;
+    PortaFIBTimeStampInfo info;
     if (pluginSegellatID == null) {
-      timeStampGenerator = null;
+      info = null;
     } else {
       ITimeStampPlugin plugin = this.getInstanceByPluginID(pluginSegellatID);
   
@@ -160,17 +160,14 @@ public class SegellDeTempsLogicaEJB extends AbstractPluginLogicaEJB<ITimeStampPl
             "No s'ha pogut instanciar el plugin de segellat amb ID " + pluginSegellatID);
       }
   
-      timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
+      ITimeStampGenerator timeStampGenerator = new PortaFIBTimeStampGenerator(plugin);
+      
+      String absoluteURL = LogicUtils.getUrlBase(perfilDeFirma);
+      String timeStampUrl = getTimeStampUrl(absoluteURL, pluginSegellatID);
+      
+      info = new PortaFIBTimeStampInfo(timeStampGenerator, timeStampUrl);
     }
-    
-    
-    
-    String absoluteURL = LogicUtils.getUrlBase(perfilDeFirma);
-    String timeStampUrl = getTimeStampUrl(absoluteURL, pluginSegellatID);
-    PortaFIBTimeStampInfo info;
-    info = new PortaFIBTimeStampInfo(timeStampGenerator, timeStampUrl);
-    
-    
+
     return info;
   }
 

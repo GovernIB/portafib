@@ -239,7 +239,11 @@ public class PassarelaDeFirmaEnServidorEJB extends
         } else {
           documentDetached = new FileDataSource(pfis.getPreviusSignatureDetachedFile());
         }
+        
+        final int posTaulaDeFirmes = pfis.getSignaturesTableLocation();
 
+        final IPortaFIBDataSource adaptat = new FileDataSource( getFitxerAdaptatPath(signaturesSetID, pfis.getSignID()));
+        
         final IPortaFIBDataSource signature = new FileDataSource(status.getSignedData());
 
         final int signTypeID = SignatureUtils.convertApiSignTypeToPortafibSignType(pfis
@@ -258,8 +262,8 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
             validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
-            signature, documentDetached, signTypeID, signMode, languageUI, fitxersByNumFirma,
-            numFirmaPortaFIB, numFirmesOriginals, expectedNif);
+            adaptat, signature, documentDetached, signTypeID, signMode, languageUI, fitxersByNumFirma,
+            numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
 
         // Aqui es fan totes les validacions completes !!!!!!
         ValidacioCompletaResponse validacioResponse;
@@ -474,9 +478,9 @@ public class PassarelaDeFirmaEnServidorEJB extends
     
 
     ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
-        validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
+        validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerOriginal,
         upgradedSignatureDS, documentDetachedDS, signTypeID, signMode, languageUI, fitxersByNumFirma,
-        numFirmaPortaFIB, numFirmesOriginals, expectedNif);
+        numFirmaPortaFIB, numFirmesOriginals, expectedNif, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
     // Aqui es fan totes les validacions completes !!!!!!
     ValidacioCompletaResponse validacioResponse;

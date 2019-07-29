@@ -2229,12 +2229,15 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             .getUsuariEntitatID());
         expectedNif = usuariEntitatEjb.executeQueryOne(NIF, where);
       }
+      
+      IPortaFIBDataSource fitxerAdaptat = new FitxerIdDataSource(
+          peticioDeFirma.getFitxerAdaptatID());
 
       ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
           validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
-          signature, documentDetached, peticioDeFirma.getTipusFirmaID(),
-          peticioDeFirma.getModeDeFirma(), languageUI,
-          fitxersByNumFirma, numFirmaPortaFIB, numFirmesOriginals, expectedNif);
+          fitxerAdaptat, signature, documentDetached, peticioDeFirma.getTipusFirmaID(),
+          peticioDeFirma.getModeDeFirma(), languageUI, fitxersByNumFirma,
+          numFirmaPortaFIB, numFirmesOriginals, expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
 
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;

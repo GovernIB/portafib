@@ -20,6 +20,7 @@ import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleValidationInfo;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
 import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
@@ -464,35 +465,42 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
       FirmaSimpleStatus status = fssfrFull.getStatusSignatureProcess();
 
-      FirmaSimpleSignatureResult result = fssfrFull.getResults().get(0);
+      
+      FirmaSimpleSignatureResult result;
 
-      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK
-          && result.getStatus().getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+      if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+        // Només hi ha una firma
+        result = fssfrFull.getResults().get(0);
+      
+        if (result.getStatus().getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
 
-        // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA VEGADA
-        PassarelaFileInfoSignature fileInfo = pss.getFileInfoSignatureArray()[0];
-
-        final String profileSignType = null;
-
-        final boolean useSignPolicy = (pss.getCommonInfoSignature().getPolicyInfoSignature() != null);
-
-        UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(simpleSignature
-            .getFileInfoSignature().getSignID());
-
-        ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID().get(
-            fileInfo.getSignID());
-
-        result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
-            simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
-            loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
-
-      } else {
-        // Passam l'error de la firma a l'error general
-        if (status.getStatus() == FirmaSimpleStatus.STATUS_FINAL_OK) {
+          // En API DE FIRMA SIMPE; EN SERVIDOR NOMES S'ENVIA UN DOCUMENT DE FIRMA A LA VEGADA
+          PassarelaFileInfoSignature fileInfo = pss.getFileInfoSignatureArray()[0];
+  
+          final String profileSignType = null;
+  
+          final boolean useSignPolicy = (pss.getCommonInfoSignature().getPolicyInfoSignature() != null);
+  
+          UsuariAplicacioConfiguracioJPA config = pcf.configBySignID.get(simpleSignature
+              .getFileInfoSignature().getSignID());
+  
+          ValidacioCompletaResponse vcr = fullResults.getValidacioResponseBySignID().get(
+              fileInfo.getSignID());
+  
+          result.setSignedFileInfo(constructFirmaSimpleSignedFileInfo(config, fileInfo,
+              simpleSignature.getFileInfoSignature(), profileSignType, result.getSignedFile(),
+              loginInfo.getEntitat().getEntitatID(), useSignPolicy, vcr, languageUI));
+  
+        } else {
+          // Passam l'error de la firma a l'error general
           status.setStatus(result.getStatus().getStatus());
           status.setErrorMessage(result.getStatus().getErrorMessage());
           status.setErrorStackTrace(result.getStatus().getErrorStackTrace());
+          result = null;
         }
+      } else {
+        // Error general
+        result = null;        
       }
 
       FirmaSimpleSignDocumentResponse fssfr = new FirmaSimpleSignDocumentResponse(status,
@@ -708,29 +716,36 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
     FirmaSimpleStatus statusSignatureProcess = new FirmaSimpleStatus(passarelaSS.getStatus(),
         passarelaSS.getErrorMessage(), passarelaSS.getErrorStackTrace());
+    
+    
+    List<FirmaSimpleSignatureResult> results;
+    
+    if (passarelaSS.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+    
 
-    List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
-
-    List<FirmaSimpleSignatureResult> results = new ArrayList<FirmaSimpleSignatureResult>();
-
-    Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
-    for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
-
-      infoBySignID.put(pfis.getSignID(), pfis);
-
-    }
-
-    for (PassarelaSignatureResult psr : passarelaSR) {
-
-      // TODO XYZ ZZZ #165 Si s'ha definit una CUSTODIA llavors s'ha de guardar el document
-      // al SISTEMA DE CUSTODIA I retornar informacio al respecte
-      // java.lang.String custodyFileID = ;
-      // java.lang.String custodyFileURL = ;
-
-      results
-          .add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
-              pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()),
-              isSignatureInServer));
+      List<PassarelaSignatureResult> passarelaSR = fullResults.getSignResults();
+  
+      results = new ArrayList<FirmaSimpleSignatureResult>();
+  
+      Map<String, PassarelaFileInfoSignature> infoBySignID = new HashMap<String, PassarelaFileInfoSignature>();
+      for (PassarelaFileInfoSignature pfis : pss.getFileInfoSignatureArray()) {
+  
+        infoBySignID.put(pfis.getSignID(), pfis);
+  
+      }
+  
+      ValidacioCompletaResponse validacioInfo;
+      for (PassarelaSignatureResult psr : passarelaSR) {
+      
+        validacioInfo = completeResults.getValidacioResponseBySignID().get(psr.getSignID());
+  
+        results
+            .add(convertPassarelaSignatureResult2FirmaSimpleSignatureResult(psr,
+                pss.getCommonInfoSignature(), infoBySignID.get(psr.getSignID()),
+                validacioInfo, isSignatureInServer));
+      }
+    } else {
+      results = null;
     }
 
     FirmaSimpleSignDocumentsResponse fssfr;

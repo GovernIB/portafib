@@ -1,4 +1,4 @@
-package es.caib.portafib.back.controller.common;
+package es.caib.portafib.back.controller.rest.infopeticionsdefirmausuari;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
@@ -40,7 +40,7 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = "/common/rest")
-public class RestAutenticatedController extends RestUtils {
+public class RestInfoPeticionsDeFirmaUsuariController extends RestUtils {
 
   @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;

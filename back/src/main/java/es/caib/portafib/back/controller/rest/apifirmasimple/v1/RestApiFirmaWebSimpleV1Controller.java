@@ -29,12 +29,14 @@ import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.passarela.PassarelaSignatureStatusWebInternalUse;
 import es.caib.portafib.logic.passarela.PassarelaSignaturesSetWebInternalUse;
 import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
 import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
 import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.utils.ConstantsV2;
 
@@ -701,11 +703,17 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       PassarelaSignaturesSetWebInternalUse pss = passarelaDeFirmaWebEjb
           .getSignaturesSetFullByTransactionID(transactionID);
       PassarelaFileInfoSignature infoSign = null;
+      ValidacioCompletaResponse infoValidacio = null;
+      
       for (PassarelaFileInfoSignature pfis : pss.getSignaturesSet()
           .getFileInfoSignatureArray()) {
 
         if (signID.equals(pfis.getSignID())) {
           infoSign = pfis;
+          PassarelaSignatureStatusWebInternalUse status = pss.getStatusBySignatureID().get(signID);
+          if (status != null) {
+            infoValidacio = status.getInfoValidacio();
+          }
           break;
         }
       }
@@ -714,7 +722,8 @@ public class RestApiFirmaWebSimpleV1Controller extends RestApiFirmaSimpleUtils<F
       final boolean isSignatureInServer = false;
       FirmaSimpleSignatureResult fssr;
       fssr = convertPassarelaSignatureResult2FirmaSimpleSignatureResult(result, pss
-          .getSignaturesSet().getCommonInfoSignature(), infoSign, isSignatureInServer);
+          .getSignaturesSet().getCommonInfoSignature(), infoSign,
+          infoValidacio, isSignatureInServer);
 
       HttpHeaders headers = addAccessControllAllowOrigin();
       ResponseEntity<?> re = new ResponseEntity<FirmaSimpleSignatureResult>(fssr, headers,

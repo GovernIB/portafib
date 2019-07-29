@@ -31,8 +31,6 @@ public class FirmaSimpleFileInfoSignature {
 
   protected String location;
 
-  protected String signerEmail;
-
   protected int signNumber;
 
   protected String languageSign;
@@ -68,14 +66,13 @@ public class FirmaSimpleFileInfoSignature {
    */
   public FirmaSimpleFileInfoSignature(FirmaSimpleFile fileToSign,
       String signID, String name, String reason, String location,
-      String signerEmail, int signNumber, String languageSign) {
+      int signNumber, String languageSign) {
     super();
     this.fileToSign = fileToSign;
     this.signID = signID;
     this.name = name;
     this.reason = reason;
     this.location = location;
-    this.signerEmail = signerEmail;
     this.signNumber = signNumber;
     this.languageSign = languageSign;
   }
@@ -104,7 +101,6 @@ public class FirmaSimpleFileInfoSignature {
     this.name = name;
     this.reason = reason;
     this.location = location;
-    this.signerEmail = signerEmail;
     this.signNumber = signNumber;
     this.languageSign = languageSign;
     this.additionalInformation = additionalInformation;
@@ -148,14 +144,6 @@ public class FirmaSimpleFileInfoSignature {
 
   public void setLocation(String location) {
     this.location = location;
-  }
-
-  public String getSignerEmail() {
-    return signerEmail;
-  }
-
-  public void setSignerEmail(String signerEmail) {
-    this.signerEmail = signerEmail;
   }
 
   public int getSignNumber() {

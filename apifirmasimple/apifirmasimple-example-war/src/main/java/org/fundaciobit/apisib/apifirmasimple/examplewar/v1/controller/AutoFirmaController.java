@@ -152,13 +152,15 @@ public class AutoFirmaController {
 
       final String username = form.getUsername();
       final String administrationID = form.getNif();
+      final String signerEmail = form.getEmail();
 
       log.info("Username: ]" + username + "[");
       log.info("administrationID: ]" + administrationID + "[");
+      log.info("signerEmail: ]" + signerEmail + "[");
 
       final String reason = form.getMotiu();
       final String location = form.getLocation();
-      final String signerEmail = form.getEmail();
+      
 
       // Només es suporta una firma
       final int signNumber = 1;
@@ -168,7 +170,7 @@ public class AutoFirmaController {
 
       FirmaSimpleCommonInfo commonInfoSignature;
       commonInfoSignature = new FirmaSimpleCommonInfo(esWeb?form.getProfileWeb():form.getProfileServer(),
-          langUI, username, administrationID);
+          langUI, username, administrationID, signerEmail);
       
       
       if (esWeb) {
@@ -202,7 +204,7 @@ public class AutoFirmaController {
         FirmaSimpleFile fileToSign = new FirmaSimpleFile(nomFitxer, mimeTypeFitxer, dataFitxer);
 
         FirmaSimpleFileInfoSignature fileInfoSignature = new FirmaSimpleFileInfoSignature(
-            fileToSign, signID, fileToSign.getNom(), reason, location, signerEmail,
+            fileToSign, signID, fileToSign.getNom(), reason, location, 
             signNumber, langDoc);
 
         fileInfoSignatureList.add(fileInfoSignature);

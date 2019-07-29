@@ -14,13 +14,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class FirmaSimpleCommonInfo {
 
   // Perfil de Firma definit en el servidor intermig
-  String signProfile;
+  protected String signProfile;
 
-  String languageUI;
+  protected String languageUI;
 
-  String username;
+  protected String username;
 
-  String administrationID;
+  protected String administrationID;
+
+  protected String signerEmail;
 
   /**
    * 
@@ -29,12 +31,13 @@ public class FirmaSimpleCommonInfo {
   }
 
   public FirmaSimpleCommonInfo(String signProfile, String languageUI, String username,
-      String administrationID) {
+      String administrationID, String signerEmail) {
     super();
     this.signProfile = signProfile;
     this.languageUI = languageUI;
     this.username = username;
     this.administrationID = administrationID;
+    this.signerEmail = signerEmail;
   }
 
   public String getLanguageUI() {
@@ -67,6 +70,14 @@ public class FirmaSimpleCommonInfo {
 
   public void setSignProfile(String signProfile) {
     this.signProfile = signProfile;
+  }
+
+  public String getSignerEmail() {
+    return signerEmail;
+  }
+
+  public void setSignerEmail(String signerEmail) {
+    this.signerEmail = signerEmail;
   }
 
 }

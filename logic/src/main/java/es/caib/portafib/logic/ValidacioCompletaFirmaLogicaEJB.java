@@ -1,5 +1,6 @@
 package es.caib.portafib.logic;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.logic.utils.PdfComparator;
 import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
@@ -25,6 +27,7 @@ import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.utils.Utils;
@@ -182,7 +185,19 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     if (validacioRequest.isCheckCanviatDocFirmat()) {
 
       if (validacioRequest.getSignTypeID() == ConstantsV2.TIPUSFIRMA_PADES) {
+        
 
+        File tmpDir = new File(FileSystemManager.getFilesPath(), "COMPAREPDF");
+        tmpDir.mkdirs();
+        
+        int posTaulaDeFirmes = validacioRequest.getPosTaulaDeFirmes();
+        
+        PdfComparator.compare(validacioRequest.getAdaptedData(),
+            validacioRequest.getSignatureData(), tmpDir, posTaulaDeFirmes);
+        
+        checkDocumentModifications = true;
+
+        /*
         X509Certificate cert;
 
         cert = checkCanviatDocFirmatPDF(validacioRequest.getOriginalData(),
@@ -207,7 +222,8 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
 
         certificateLastSign = cert;
 
-        checkDocumentModifications = true;
+        
+        */
 
       } else {
         String msg = "No esta implementat el xequeig de modificacio de fitxer signat"
@@ -280,13 +296,12 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     if (validacioRequest.isComprovarNifFirma()) {
 
       if (validacioRequest.getNifEsperat() == null) {
-
+        // XYZ ZZZ TRA
         String msg = "La configuració de firma exigeix que es comprovi que el NIF"
-            + " que ha signat és gual a l'esperat, però en la petició"
-            + " no s'ha enviat cap NIF."
-            + " Consulti amb l'administrador de PortaFIB el valor de la propietat es.caib.portafib.strictvalidation";
+            + " que ha signat és gual a l'esperat, però en la petició no s'ha"
+            + " enviat cap NIF. Consulti amb l'administrador de PortaFIB el valor"
+            + " de la propietat es.caib.portafib.strictvalidation";
         if (PropietatGlobalUtil.isStrictValidation()) {
-          // XYZ ZZZ TRA
           throw new I18NException("genapp.comodi", msg);
         } else {
           log.warn(msg, new Exception());
@@ -303,9 +318,9 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
                 validacioRequest.getSignatureData(), validacioRequest.getNumFirmaPortaFIB(),
                 validacioRequest.getNumFirmesOriginals());
 
-            if (certificateLastSign != null) {
+            //if (certificateLastSign != null) {
               certificateLastSign = cert;
-            }
+            //}
 
             nifFirmant = CertificateUtils.getDNI(cert);
 

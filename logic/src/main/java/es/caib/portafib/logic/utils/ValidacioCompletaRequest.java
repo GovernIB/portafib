@@ -19,24 +19,32 @@ public class ValidacioCompletaRequest {
 
   protected boolean comprovarNifFirma;
 
+  @Deprecated
   protected IPortaFIBDataSource originalData;
 
   protected IPortaFIBDataSource signatureData;
 
+  protected IPortaFIBDataSource adaptedData;
+
   protected IPortaFIBDataSource documentDetachedData;
 
   protected int signTypeID;
-  
+
   protected boolean signMode;
 
   protected String languageUI;
 
+  @Deprecated
   protected Map<Integer, IPortaFIBDataSource> fitxersByNumFirma;
 
+  @Deprecated
   protected int numFirmaPortaFIB;
+  @Deprecated
   protected int numFirmesOriginals;
 
   protected String nifEsperat;
+
+  protected int posTaulaDeFirmes;
 
   /**
    * 
@@ -55,17 +63,19 @@ public class ValidacioCompletaRequest {
    * @param nifEsperat
    */
   public ValidacioCompletaRequest(String entitatID, boolean validarFitxerFirma,
-      boolean checkCanviatDocFirmat, boolean comprovarNifFirma, IPortaFIBDataSource originalData,
+      boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
+      IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
       IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
       int signTypeID, boolean signMode, String languageUI,
-      Map<Integer, IPortaFIBDataSource> fitxersByNumFirma, int numFirmaPortaFIB, int numFirmesOriginals,
-      String nifEsperat) {
+      Map<Integer, IPortaFIBDataSource> fitxersByNumFirma, int numFirmaPortaFIB,
+      int numFirmesOriginals, String nifEsperat, int posTaulaDeFirmes) {
     super();
     this.entitatID = entitatID;
     this.validarFitxerFirma = validarFitxerFirma;
     this.checkCanviatDocFirmat = checkCanviatDocFirmat;
     this.comprovarNifFirma = comprovarNifFirma;
     this.originalData = originalData;
+    this.adaptedData = adaptedData;
     this.signatureData = signatureData;
     this.documentDetachedData = documentDetachedData;
     this.signTypeID = signTypeID;
@@ -75,12 +85,15 @@ public class ValidacioCompletaRequest {
     this.numFirmaPortaFIB = numFirmaPortaFIB;
     this.numFirmesOriginals = numFirmesOriginals;
     this.nifEsperat = nifEsperat;
+    this.posTaulaDeFirmes = posTaulaDeFirmes;
   }
 
+  @Deprecated
   public Map<Integer, IPortaFIBDataSource> getFitxersByNumFirma() {
     return fitxersByNumFirma;
   }
 
+  @Deprecated
   public void setFitxersByNumFirma(Map<Integer, IPortaFIBDataSource> fitxersByNumFirma) {
     this.fitxersByNumFirma = fitxersByNumFirma;
   }
@@ -125,10 +138,12 @@ public class ValidacioCompletaRequest {
     this.checkCanviatDocFirmat = checkCanviatDocFirmat;
   }
 
+  @Deprecated
   public IPortaFIBDataSource getOriginalData() {
     return originalData;
   }
 
+  @Deprecated
   public void setOriginalData(IPortaFIBDataSource originalData) {
     this.originalData = originalData;
   }
@@ -149,18 +164,22 @@ public class ValidacioCompletaRequest {
     this.documentDetachedData = documentDetachedData;
   }
 
+  @Deprecated
   public int getNumFirmaPortaFIB() {
     return numFirmaPortaFIB;
   }
 
+  @Deprecated
   public void setNumFirmaPortaFIB(int numFirmaPortaFIB) {
     this.numFirmaPortaFIB = numFirmaPortaFIB;
   }
 
+  @Deprecated
   public int getNumFirmesOriginals() {
     return numFirmesOriginals;
   }
 
+  @Deprecated
   public void setNumFirmesOriginals(int numFirmesOriginals) {
     this.numFirmesOriginals = numFirmesOriginals;
   }
@@ -187,6 +206,22 @@ public class ValidacioCompletaRequest {
 
   public void setSignMode(boolean signMode) {
     this.signMode = signMode;
+  }
+
+  public IPortaFIBDataSource getAdaptedData() {
+    return adaptedData;
+  }
+
+  public void setAdaptedData(IPortaFIBDataSource adaptedData) {
+    this.adaptedData = adaptedData;
+  }
+
+  public int getPosTaulaDeFirmes() {
+    return posTaulaDeFirmes;
+  }
+
+  public void setPosTaulaDeFirmes(int posTaulaDeFirmes) {
+    this.posTaulaDeFirmes = posTaulaDeFirmes;
   }
 
 }

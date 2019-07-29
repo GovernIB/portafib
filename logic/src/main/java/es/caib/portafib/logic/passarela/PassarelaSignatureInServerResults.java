@@ -12,9 +12,8 @@ import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
  */
 public class PassarelaSignatureInServerResults {
 
-  
   protected final PassarelaFullResults passarelaFullResults;
-  
+
   protected final Map<String, ValidacioCompletaResponse> validacioResponseBySignID;
 
   public PassarelaSignatureInServerResults(PassarelaFullResults passarelaFullResults,
