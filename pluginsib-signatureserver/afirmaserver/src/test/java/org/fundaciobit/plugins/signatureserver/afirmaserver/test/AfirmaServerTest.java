@@ -330,19 +330,10 @@ public class AfirmaServerTest extends TestCase {
     String languageUI = "ca";
     String filtreCertificats = "";
     String administrationID = null; // No te sentit en API Firma En Servidor
-    PolicyInfoSignature policyInfoSignature = null;
     boolean alwaysCreateRevision = true;
-    if (epes) {      
-      policyInfoSignature = new PolicyInfoSignature();
-      policyInfoSignature.setPolicyIdentifier("urn:oid:2.16.724.1.3.1.1.2.1.9");
-      policyInfoSignature.setPolicyIdentifierHash("G7roucf600+f03r/o0bAOQ6WAs0=");
-      policyInfoSignature.setPolicyIdentifierHashAlgorithm("SHA1");
-      policyInfoSignature.setPolicyUrlDocument("https://sede.060.gob.es/politica_de_firma_anexo_1.pdf");
-    }
 
-    
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
+        filtreCertificats, username, administrationID, alwaysCreateRevision);
 
     String signID = "999";
 
@@ -377,14 +368,23 @@ public class AfirmaServerTest extends TestCase {
     final String procedureCode = null;
     final String procedureName = null;
 
+    PolicyInfoSignature policyInfoSignature = null;
+    if (epes) {
+      policyInfoSignature = new PolicyInfoSignature();
+      policyInfoSignature.setPolicyIdentifier("urn:oid:2.16.724.1.3.1.1.2.1.9");
+      policyInfoSignature.setPolicyIdentifierHash("G7roucf600+f03r/o0bAOQ6WAs0=");
+      policyInfoSignature.setPolicyIdentifierHashAlgorithm("SHA1");
+      policyInfoSignature.setPolicyUrlDocument("https://sede.060.gob.es/politica_de_firma_anexo_1.pdf");
+    }
+
+
     File source = testFile.getSrcFile();
     FileInfoSignature fileInfo = new FileInfoSignature(signID, source, previusSignatureDetachedFile,
         FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
         languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
-        timeStampGenerator,
-        expedientCode, expedientName,
-        expedientUrl, procedureCode, procedureName);
+        timeStampGenerator, policyInfoSignature, expedientCode, expedientName, expedientUrl,
+          procedureCode, procedureName);
         /*new FileInfoSignature(signID, source, testFile.mime, name,
         reason, location, signerEmail, signNumber, languageSign, signType, signAlgorithm,
         signMode, signaturesTableLocation, signaturesTableHeader, pdfInfoSignature,

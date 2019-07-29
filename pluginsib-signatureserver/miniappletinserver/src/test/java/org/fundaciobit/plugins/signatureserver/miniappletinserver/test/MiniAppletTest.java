@@ -146,11 +146,10 @@ public class MiniAppletTest extends TestCase {
     String filtreCertificats = "";
    
     String administrationID = null; // No te sentit en API Firma En Servidor
-    PolicyInfoSignature policyInfoSignature = null;
     boolean alwaysCreateRevision = true;
 
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, policyInfoSignature, alwaysCreateRevision);
+        filtreCertificats, username, administrationID, alwaysCreateRevision);
 
     String signID = "999";
     File source = new File(pdfsource);
@@ -178,7 +177,8 @@ public class MiniAppletTest extends TestCase {
     
     final  File previusSignatureDetachedFile = null;
     final  int signOperation = FileInfoSignature.SIGN_OPERATION_SIGN;
-    
+    PolicyInfoSignature policyInfoSignature = null;
+
     final String expedientCode = null;
     final String expedientName= null;
     final String expedientUrl = null;
@@ -189,9 +189,8 @@ public class MiniAppletTest extends TestCase {
         FileInfoSignature.PDF_MIME_TYPE, name, reason, location, signerEmail, signNumber,
         languageSign, signOperation, signType, signAlgorithm, signMode, signaturesTableLocation,
         signaturesTableHeader, pdfInfoSignature, csvStampInfo, userRequiresTimeStamp,
-        timeStampGenerator,
-        expedientCode, expedientName,
-        expedientUrl, procedureCode, procedureName);
+        timeStampGenerator, policyInfoSignature, expedientCode,
+          expedientName, expedientUrl, procedureCode, procedureName);
 
     final String signaturesSetID = String.valueOf(System.currentTimeMillis());
     SignaturesSet signaturesSet = new SignaturesSet(signaturesSetID, commonInfoSignature,

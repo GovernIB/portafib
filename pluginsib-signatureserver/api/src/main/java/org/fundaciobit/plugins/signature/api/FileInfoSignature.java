@@ -6,7 +6,6 @@ import java.io.File;
 /**
  * 
  * @author anadal
- *
  */
 public class FileInfoSignature {
 
@@ -109,6 +108,8 @@ public class FileInfoSignature {
   
   StatusSignature statusSignature = new StatusSignature();
 
+  PolicyInfoSignature policyInfoSignature = null;
+
   String expedientCode;
   String expedientName;
   String expedientUrl;
@@ -123,24 +124,7 @@ public class FileInfoSignature {
   }
 
   /**
-   * @param signID
-   * @param fileToSign
-   * @param mimeType
-   * @param name
-   * @param reason
-   * @param location
-   * @param signerEmail
-   * @param signNumber
-   * @param languageSign
-   * @param signType
-   * @param signAlgorithm
-   * @param signMode
-   * @param signaturesTableLocation
-   * @param signaturesTableHeader
-   * @param pdfInfoSignature
-   * @param userRequiresTimeStamp
-   * @param timeStampGenerator
-   * @param statusSignature
+   *
    */
   @Deprecated
   public FileInfoSignature(String signID, File fileToSign, String mimeType, String name,
@@ -172,43 +156,17 @@ public class FileInfoSignature {
 
 
   /**
-   * 
-   * @param signID
-   * @param fileToSign
-   * @param previusSignatureDetachedFile
-   * @param mimeType
-   * @param name
-   * @param reason
-   * @param location
-   * @param signerEmail
-   * @param signNumber
-   * @param languageSign
-   * @param signOperation
-   * @param signType
-   * @param signAlgorithm
-   * @param signMode
-   * @param signaturesTableLocation
-   * @param signaturesTableHeader
-   * @param pdfVisibleSignature
-   * @param userRequiresTimeStamp
-   * @param timeStampGenerator
-   * @param secureVerificationCodeStampInfo
-   * @param statusSignature
-   * @param expedientCode
-   * @param expedientName
-   * @param expedientUrl
-   * @param procedureCode
-   * @param procedureName
+   *
    */
   public FileInfoSignature(String signID, File fileToSign, File previusSignatureDetachedFile,
-      String mimeType, String name, String reason, String location, String signerEmail,
-      int signNumber, String languageSign, int signOperation, String signType,
-      String signAlgorithm, int signMode, int signaturesTableLocation,
-      SignaturesTableHeader signaturesTableHeader, PdfVisibleSignature pdfVisibleSignature,      
-      SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
-      boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator,
-      String expedientCode, String expedientName,
-      String expedientUrl, String procedureCode, String procedureName) {
+                           String mimeType, String name, String reason, String location, String signerEmail,
+                           int signNumber, String languageSign, int signOperation, String signType,
+                           String signAlgorithm, int signMode, int signaturesTableLocation,
+                           SignaturesTableHeader signaturesTableHeader, PdfVisibleSignature pdfVisibleSignature,
+                           SecureVerificationCodeStampInfo secureVerificationCodeStampInfo,
+                           boolean userRequiresTimeStamp, ITimeStampGenerator timeStampGenerator,
+                           PolicyInfoSignature policyInfoSignature, String expedientCode, String expedientName,
+                           String expedientUrl, String procedureCode, String procedureName) {
     super();
     this.signID = signID;
     this.fileToSign = fileToSign;
@@ -230,6 +188,7 @@ public class FileInfoSignature {
     this.userRequiresTimeStamp = userRequiresTimeStamp;
     this.timeStampGenerator = timeStampGenerator;
     this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
+    this.policyInfoSignature = policyInfoSignature;
     this.expedientCode = expedientCode;
     this.expedientName = expedientName;
     this.expedientUrl = expedientUrl;
@@ -406,7 +365,13 @@ public class FileInfoSignature {
     this.secureVerificationCodeStampInfo = secureVerificationCodeStampInfo;
   }
 
+  public PolicyInfoSignature getPolicyInfoSignature() {
+    return policyInfoSignature;
+  }
 
+  public void setPolicyInfoSignature(PolicyInfoSignature policyInfoSignature) {
+    this.policyInfoSignature = policyInfoSignature;
+  }
 
   public String getExpedientCode() {
     return expedientCode;

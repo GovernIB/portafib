@@ -1,5 +1,49 @@
 package org.fundaciobit.plugins.signatureserver.afirmaserver;
 
+import es.gob.afirma.afirma5ServiceInvoker.Afirma5ServiceInvokerException;
+import es.gob.afirma.i18n.Language;
+import es.gob.afirma.integraFacade.GenerateMessageResponse;
+import es.gob.afirma.integraFacade.ValidateRequest;
+import es.gob.afirma.integraFacade.pojo.ServerSignerResponse;
+import es.gob.afirma.integraFacade.pojo.SignatureFormatEnum;
+import es.gob.afirma.integraFacade.pojo.UpgradeSignatureRequest;
+import es.gob.afirma.transformers.TransformersConstants;
+import es.gob.afirma.transformers.TransformersFacade;
+import es.gob.afirma.utils.Base64Coder;
+import es.gob.afirma.utils.DSSConstants.AlgorithmTypes;
+import es.gob.afirma.utils.DSSConstants.DSSTagsRequest;
+import es.gob.afirma.utils.DSSConstants.SignTypesURIs;
+import es.gob.afirma.utils.DSSConstants.SignatureForm;
+import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
+import es.gob.afirma.utils.GeneralConstants;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import net.java.xades.security.xml.XMLSignatureElement;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
+import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
+import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
+import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
+import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
+import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
+import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.Reference;
+import javax.xml.crypto.dsig.XMLSignature;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.ws.BindingProvider;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,53 +62,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.dsig.Reference;
-import javax.xml.crypto.dsig.XMLSignature;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.ws.BindingProvider;
-
-import net.java.xades.security.xml.XMLSignatureElement;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
-import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.SMIMEInputStream;
-import org.fundaciobit.plugins.signatureserver.miniappletutils.MIMEInputStream;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
-import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
-import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.fundaciobit.pluginsib.core.utils.FileUtils;
-import org.fundaciobit.pluginsib.core.utils.XTrustProvider;
-import org.fundaciobit.pluginsib.utils.cxf.CXFUtils;
-import org.fundaciobit.pluginsib.utils.cxf.ClientHandler;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import es.gob.afirma.afirma5ServiceInvoker.Afirma5ServiceInvokerException;
-import es.gob.afirma.i18n.Language;
-import es.gob.afirma.integraFacade.GenerateMessageResponse;
-import es.gob.afirma.integraFacade.ValidateRequest;
-import es.gob.afirma.integraFacade.pojo.ServerSignerResponse;
-import es.gob.afirma.integraFacade.pojo.SignatureFormatEnum;
-import es.gob.afirma.integraFacade.pojo.UpgradeSignatureRequest;
-import es.gob.afirma.transformers.TransformersConstants;
-import es.gob.afirma.transformers.TransformersFacade;
-import es.gob.afirma.utils.Base64Coder;
-import es.gob.afirma.utils.GeneralConstants;
-import es.gob.afirma.utils.DSSConstants.AlgorithmTypes;
-import es.gob.afirma.utils.DSSConstants.DSSTagsRequest;
-import es.gob.afirma.utils.DSSConstants.SignTypesURIs;
-import es.gob.afirma.utils.DSSConstants.SignatureForm;
-import es.gob.afirma.utils.DSSConstants.XmlSignatureMode;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  *
@@ -506,7 +503,7 @@ public class AfirmaServerSignatureServerPlugin extends AbstractSignatureServerPl
         inParams.put(DSSTagsRequest.HASH_ALGORITHM, algorisme);
 
         // Indicamos el formato de la firma a generar
-        PolicyInfoSignature pis = commonInfoSignature.getPolicyInfoSignature();
+        PolicyInfoSignature pis = fileInfo.getPolicyInfoSignature();
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(tipusFirma)) {
           
           if (fileInfo.isUserRequiresTimeStamp()) {

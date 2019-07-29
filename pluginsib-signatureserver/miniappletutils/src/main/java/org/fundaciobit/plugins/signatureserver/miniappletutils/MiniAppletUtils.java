@@ -57,7 +57,7 @@ public class MiniAppletUtils {
     convertCommon(fileInfo, miniAppletProperties);
 
     // POLITICA DE FIRMA
-    PolicyInfoSignature policy = convertPolicy(commonInfoSignature, miniAppletProperties);
+    PolicyInfoSignature policy = convertPolicy(fileInfo, miniAppletProperties);
 
     // ====================  TIPUS DE FIRMA
     String tipusFirma;
@@ -295,10 +295,10 @@ public class MiniAppletUtils {
     }
   }
 
-  public static PolicyInfoSignature convertPolicy(CommonInfoSignature commonInfoSignature,
+  public static PolicyInfoSignature convertPolicy(FileInfoSignature fileInfoSignature,
       Properties miniAppletProperties) {
     
-    PolicyInfoSignature policy = commonInfoSignature.getPolicyInfoSignature();
+    PolicyInfoSignature policy = fileInfoSignature.getPolicyInfoSignature();
     return convertPolicy(policy, miniAppletProperties);
   }
     

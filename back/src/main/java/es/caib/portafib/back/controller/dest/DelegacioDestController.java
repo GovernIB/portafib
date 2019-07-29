@@ -58,6 +58,7 @@ import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
+import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
@@ -1258,7 +1259,9 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
 
     ITimeStampGenerator timeStampGenerator;
     timeStampGenerator = segellDeTempsEjb.getTimeStampGeneratorForWeb(entitat,userRequiresTimeStamp);
-    
+
+    PolicyInfoSignature policyInfoSignature = SignatureUtils.getPolicyInfoSignature(entitat, null);
+
     //  #174 TODO XYZ ZZZ
     final String expedientCode = null;
     final String expedientName = null;
@@ -1272,7 +1275,7 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
         langUI, ConstantsV2.TIPUSFIRMA_PADES, entitat.getAlgorismeDeFirmaID(),
         ConstantsV2.SIGN_MODE_IMPLICIT,
         SignatureUtils.getFirmatPerFormat(loginInfo.getEntitat(), null, langUI), timeStampGenerator,
-        expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
+        policyInfoSignature, expedientCode, expedientName, expedientUrl, procedureCode, procedureName);
 
     FileInfoSignature[] fileInfoSignatureArray = new FileInfoSignature[] { fis };
 
