@@ -1643,25 +1643,30 @@ import java.util.Set;
     public ModelAndView rebutjar(HttpServletRequest request, HttpServletResponse response,
         @PathVariable Long estatDeFirmaID, @PathVariable Long peticioDeFirmaID) throws I18NException {
 
+      rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID);
+      return llistatPaginat(request, response, null);
+    }
 
+    private void rebutjarInternal(HttpServletRequest request, HttpServletResponse response,
+                                  Long estatDeFirmaID, Long peticioDeFirmaID) throws I18NException {
       final long estatFirmaInicial;
       if (ConstantsV2.ROLE_REVI.equals(getRole())) {
         estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_REVISAR;
       } else {
         estatFirmaInicial = ConstantsV2.TIPUSESTATDEFIRMAINICIAL_ASSIGNAT_PER_FIRMAR;
       }
-      
+
       CheckInfo check = checkAll(estatDeFirmaID, peticioDeFirmaID, request, true,estatFirmaInicial);
       if (check == null) {
-        // S'ha produit un error i retornam el control al llistat
-        return llistatPaginat(request, response, null);
+        // S'ha produit un error. Retornam.
+        return;
       }
 
       EstatDeFirmaJPA estatDeFirma = check.estatDeFirma;
       FirmaJPA firma = check.firma;
       PeticioDeFirmaJPA peticioDeFirma = check.peticioDeFirma;
 
-     
+
       // Mirar si aquesta peticio esta bloquejada. Sino la bloquejam per rebutjar
       // !!!
       // TODO AIXO HA d'ANAR a LOGICA
@@ -1670,7 +1675,7 @@ import java.util.Set;
       if (!checkOK) {
         new PeticioDeFirmaController().createMessageError(request, "error.peticiobloquejada",
             peticioDeFirmaID);
-        return llistatPaginat(request, response, null);
+        return;
       }
 
       String motiuDeRebuig = request.getParameter("motiu");
@@ -1687,12 +1692,9 @@ import java.util.Set;
       } catch (I18NException i18ne) {
         HtmlUtils.saveMessageError(request, I18NUtils.getMessage(i18ne));
       }
-
-      return llistatPaginat(request, response, null);
     }
-    
-    
-    
+
+
     @RequestMapping(value = "/rebutjarseleccionats", method = RequestMethod.POST)
     public ModelAndView rebutjarSeleccionats(HttpServletRequest request, HttpServletResponse response,
         @ModelAttribute EstatDeFirmaFilterForm filterForm) throws I18NException {
@@ -1743,8 +1745,7 @@ import java.util.Set;
           Long estatDeFirmaID = new Long( skv.getKey());
           Long peticioDeFirmaID = new Long(skv.getValue());
           
-          rebutjar(request, response, estatDeFirmaID, peticioDeFirmaID);
-          
+          rebutjarInternal(request, response, estatDeFirmaID, peticioDeFirmaID);
         }
       }
       
