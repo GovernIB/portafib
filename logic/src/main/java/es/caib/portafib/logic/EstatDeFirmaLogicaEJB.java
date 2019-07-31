@@ -275,6 +275,7 @@ public class EstatDeFirmaLogicaEJB extends EstatDeFirmaEJB
         
         //Long count = notificacioWSEjb.count(Where.AND(w1,w2,w3,w4,w5));
         
+        // NotificacioWSFields.PETICIODEFIRMAID
         List<Long> peticioIDs = notificacioWSEjb.executeQuery(NotificacioWSFields.PETICIODEFIRMAID, Where.AND(w1,w2,w3,w4,w5));
         
         if (peticioIDs != null && peticioIDs.size() != 0) {

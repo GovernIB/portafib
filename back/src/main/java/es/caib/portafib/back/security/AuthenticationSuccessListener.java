@@ -1,5 +1,6 @@
 package es.caib.portafib.back.security;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -28,9 +29,12 @@ import org.springframework.stereotype.Component;
 
 import es.caib.portafib.back.preparer.BasePreparer;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.RoleUsuariAplicacioJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -42,9 +46,9 @@ import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
- * 
+ *
  * @author anadal
- * 
+ *
  */
 @Component
 public class AuthenticationSuccessListener implements
@@ -227,69 +231,98 @@ public class AuthenticationSuccessListener implements
         // Revisar si és un Usuari-Aplicació que ataca via REST
         // =======================================================
         
-        HttpServletRequest request =  ((ServletRequestAttributes) RequestContextHolder.
-                    currentRequestAttributes()).
-                    getRequest();
-        
+//        HttpServletRequest request =  ((ServletRequestAttributes) RequestContextHolder.
+//                    currentRequestAttributes()).
+//                    getRequest();
+//        
         // TODO Mirar Classe es.caib.portafib.back.controller.apifirmawebsimple.v1.RestApiFirmaWebSimpleV1Controller
         // CONTEXT = /common/rest/apifirmawebsimple/v1  => ServletPath
-        String servletPath = request.getServletPath();
-        boolean found = false;
+//        String servletPath = request.getServletPath();
+//        boolean found = false;
         
-        for (String baseServletPath : allowedApplicationContexts) {
-          if (servletPath.startsWith(baseServletPath)) {
-            log.info("TROBADA BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
-            found = true;
-            break;
-          }
-        }
-        
-        if (!found) {
-        
-          log.info(" +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
-          log.info(" ++++ Scheme: " + request.getScheme() + "\n");
-          log.info(" ++++ ServerName: " + request.getServerName() + "\n");
-          log.info(" ++++ ServerPort: " + request.getServerPort() + "\n");
-          log.info(" ++++ PathInfo: " + request.getPathInfo() + "\n");
-          log.info(" ++++ PathTrans: " + request.getPathTranslated() + "\n");
-          log.info(" ++++ ContextPath: " + request.getContextPath() + "\n");
-          log.info(" ++++ ServletPath: " + request.getServletPath() + "\n");
-          log.info(" ++++ getRequestURI: " + request.getRequestURI() + "\n");
-          log.info(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
-          log.info(" ++++ getQueryString: " + request.getQueryString() + "\n");
-          log.info(" ++++ javax.servlet.forward.request_uri: "
-            + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
-          log.info(" ===============================================================");
-  
-          
-          // XYZ ZZZ Traduir
-          throw new LoginException("Esta intentant accedir a una zona no permesa amb un usuari aplicació");
-        }
-
+//        for (String baseServletPath : allowedApplicationContexts) {
+//          if (servletPath.startsWith(baseServletPath)) {
+//            log.info("TROBADA BASE AUTORITZADA " + baseServletPath + " per RUTA " + servletPath);
+//            found = true;
+//            break;
+//          }
+//        }
+//        
+//        if (!found) {
+//        
+//          log.info(" +++++++++++++++++ SERVLET REQUEST INFO ++++++++++++++++++++++\n");
+//          log.info(" ++++ Scheme: " + request.getScheme() + "\n");
+//          log.info(" ++++ ServerName: " + request.getServerName() + "\n");
+//          log.info(" ++++ ServerPort: " + request.getServerPort() + "\n");
+//          log.info(" ++++ PathInfo: " + request.getPathInfo() + "\n");
+//          log.info(" ++++ PathTrans: " + request.getPathTranslated() + "\n");
+//          log.info(" ++++ ContextPath: " + request.getContextPath() + "\n");
+//          log.info(" ++++ ServletPath: " + request.getServletPath() + "\n");
+//          log.info(" ++++ getRequestURI: " + request.getRequestURI() + "\n");
+//          log.info(" ++++ getRequestURL: " + request.getRequestURL() + "\n");
+//          log.info(" ++++ getQueryString: " + request.getQueryString() + "\n");
+//          log.info(" ++++ javax.servlet.forward.request_uri: "
+//            + (String) request.getAttribute("javax.servlet.forward.request_uri")  + "\n");
+//          log.info(" ===============================================================");
+//          // XYZ ZZZ TRA Traduir
+//          throw new LoginException("Esta intentant accedir a una zona no permesa amb un usuari aplicació");
+//        }
 
 
         UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
         try {
           usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
         } catch (Throwable e) {
-          // TODO traduccio
-          throw new LoginException("No puc accedir al gestor d´obtenció de" +
-                  " informació de usuari-aplicacio per " + name + ": " + e.getMessage(), e);
+          // XYZ ZZZ TRA traduccio
+          throw new LoginException("No puc accedir al EJB d'usuari-aplicacio: " + e.getMessage(), e);
         }
 
         
         UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(name);
         if (usuariAplicacio == null) {
           throw new LoginException("L'usuari " + name
-              + " està autenticat però no s'ha donat d'alta en el PortaFIB ");
+              + " està autenticat però no s'ha donat d'alta en PortaFIB");
         }
         
         
+        if (!Configuracio.isCAIB()) {
+          
+          log.info(" XYZ ZZZ ZZZ  CONF NO CAIB");
+          
+          Set<RoleUsuariAplicacioJPA> roles = usuariAplicacio.getRoleUsuariAplicacios();
+          
+          log.info(" XYZ ZZZ ZZZ  ROLES => " + roles.size());
+          
+          seyconAuthorities = new ArrayList<GrantedAuthority>(seyconAuthorities);
+
+          for (RoleUsuariAplicacioJPA rolUsrApp: roles) {
+            
+            String rol = rolUsrApp.getRoleID();
+           
+            //if (isDebug) { 
+              log.info("Rol SEYCON : " + rol);
+            //}
+            if (ConstantsV2.PFI_USER.equals(rol)) {
+              containsRoleUser = true;
+            }
+            if (ConstantsV2.PFI_ADMIN.equals(rol)) {
+              containsRoleAdmin = true;
+            }
+            
+            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
+          }
+        }
+        
+        
+        
+        
         EntitatJPA entitat = usuariAplicacio.getEntitat();
-        // Check deshabilitada
-        if (!entitat.isActiva()) {        
-          throw new LoginException("L'entitat " + entitat.getNom() 
-              +  " a la que està associat l'usuari-aplicacio " + name + " esta deshabilitada.");
+        if (entitat != null) {
+          // Check deshabilitada
+          if (!entitat.isActiva()) {        
+            throw new LoginException("L'entitat " + entitat.getNom() 
+                +  " a la que està associat l'usuari-aplicacio " + name + " esta deshabilitada.");
+          }
         }
         
         // create a new authentication token for usuariAplicacio
@@ -299,12 +332,12 @@ public class AuthenticationSuccessListener implements
         // and set the authentication of the current Session context
         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
         
-        log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
+        log.info("XYZ ZZZ ZZZ Inicialitzada Informació de UsuariAplicacio dins de LoginInfo");
         
         return;
         
       }
-      */
+       */
       
     }
     

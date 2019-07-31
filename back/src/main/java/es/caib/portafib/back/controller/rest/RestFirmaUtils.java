@@ -1,7 +1,5 @@
 package es.caib.portafib.back.controller.rest;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +7,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.apisib.core.beans.ApisIBAvailableProfile;
-import org.fundaciobit.apisib.core.beans.ApisIBError;
 import org.fundaciobit.apisib.core.beans.ApisIBKeyValue;
-import org.fundaciobit.apisib.core.exceptions.ApisIBServerException;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +29,7 @@ import es.caib.portafib.utils.ConstantsPortaFIB;
  * @author anadal(u80067)
  *
  */
-public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtils {
+public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtilsErrorManager {
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilsPerUsuariAplicacioLocal perfilsPerUsuariAplicacioEjb;
@@ -44,53 +40,6 @@ public class RestFirmaUtils<K extends ApisIBKeyValue> extends RestUtils {
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
 
-  public ResponseEntity<ApisIBError> generateServerError(String msg) {
-    return generateServerError(msg, null, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  public ResponseEntity<ApisIBError> generateServerError(String msg, HttpStatus status) {
-    return generateServerError(msg, null, status);
-  }
-
-  public ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th) {
-    return generateServerError(msg, th, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  public ResponseEntity<ApisIBError> generateServerError(String msg, Throwable th,
-      HttpStatus status) {
-    String sStackTrace = null;
-    if (th != null) {
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      th.printStackTrace(pw);
-      sStackTrace = sw.toString();
-    }
-
-    return new ResponseEntity<ApisIBError>(new ApisIBError(msg,
-        ApisIBServerException.class.getName(), sStackTrace), status);
-  }
-
-  /**
-   *
-   * @param esFirmaEnServidor
-   * @return
-   * @throws I18NException
-   */
-  protected LoginInfo commonChecks() throws I18NException {
-
-    LoginInfo loginInfo = LoginInfo.getInstance();
-
-    log.info(" XYZ ZZZ LOGININFO => " + loginInfo);
-
-    // Checks Globals
-    if (loginInfo.getUsuariEntitat() != null) {
-      // TODO XYZ ZZZ Traduir
-      throw new I18NException("genapp.comodi",
-          "Aquest servei només el poden fer servir els Usuaris Aplicació");
-    }
-
-    return loginInfo;
-  }
 
   /**
    * 

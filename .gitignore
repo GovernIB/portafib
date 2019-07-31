@@ -294,3 +294,4 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /logic/testfiles
 /logic/tmpfiles
 /logic/src/test/java/es/caib/portafib/logic/utils/AttachFileToPDF.java
+/ws/portafib_externalsignature_rest_jersey/apiexternalsignature.properties

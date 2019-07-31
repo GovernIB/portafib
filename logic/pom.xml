@@ -16,19 +16,25 @@
   <name>PortaFIB Logica</name>
 
   <dependencies>
-  
+
     <dependency>
       <artifactId>apifirmasimple-api</artifactId>
       <groupId>org.fundaciobit.apisib.apifirmasimple</groupId>
       <version>1.0</version>
     </dependency>
-    
+
     <dependency>
       <artifactId>apifirmaasyncsimple-api</artifactId>
       <groupId>org.fundaciobit.apisib.apifirmaasyncsimple</groupId>
       <version>2.0</version>
     </dependency>
-    
+
+    <dependency>
+      <artifactId>portafib-externalsignaturerest-api</artifactId>
+      <groupId>es.caib.portafib</groupId>
+      <version>1.0</version>
+    </dependency>
+
     <dependency>
       <groupId>org.fundaciobit.pluginsib.utils</groupId>
       <artifactId>pluginsib-utils-templateengine</artifactId>
@@ -37,7 +43,7 @@
 
     <dependency>
       <groupId>es.caib.portafib</groupId>
-      <artifactId>portafib-persistence-resourcelocal</artifactId> 
+      <artifactId>portafib-persistence-resourcelocal</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
@@ -62,14 +68,14 @@
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.fundaciobit.pluginsib.validatecertificate</groupId>
       <artifactId>pluginsib-validatecertificate-api</artifactId>
       <version>2.0.0</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.fundaciobit.pluginsib.documentcustody</groupId>
       <artifactId>pluginsib-documentcustody-api</artifactId>
@@ -97,14 +103,14 @@
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.fundaciobit.pluginsib.validatesignature</groupId>
       <artifactId>pluginsib-validatesignature-api</artifactId>
       <version>${plugins.version}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.fundaciobit.pluginsib.barcode</groupId>
       <artifactId>pluginsib-barcode-api</artifactId>
@@ -160,7 +166,7 @@
       <version>1.1</version>
     </dependency>
 
-    <!-- CallBack REST v1-->
+    <!-- CallBack REST v1 -->
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
@@ -241,7 +247,7 @@
         <exclusion>
           <groupId>com.itextpdf</groupId>
           <artifactId>itextpdf</artifactId>
-        </exclusion>                
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -279,7 +285,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
+
     <!-- Compare PDF -->
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
@@ -336,7 +342,7 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>${basedir}/../ejb/src/main/resources</directory>
                   <includes>
@@ -347,7 +353,7 @@
                 </resource>
               </resources>
               <overwrite>true</overwrite>
-            </configuration>            
+            </configuration>
           </execution>
         </executions>
       </plugin>
