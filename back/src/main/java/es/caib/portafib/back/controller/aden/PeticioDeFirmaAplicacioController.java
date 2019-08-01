@@ -1,10 +1,13 @@
 package es.caib.portafib.back.controller.aden;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -89,6 +92,36 @@ public class PeticioDeFirmaAplicacioController extends PeticioDeFirmaSoliControl
   @Override
   public String getEntityNameCode() {
     return "peticiodefirma.wsv1";
+  }
+
+
+  @Override
+  public void postValidate(HttpServletRequest request, PeticioDeFirmaForm peticioDeFirmaForm,
+      BindingResult result) throws I18NException {
+    super.postValidate(request, peticioDeFirmaForm, result);
+
+    switch (getOrigenPeticioDeFirma()) {
+
+      case ORIGEN_PETICIO_DE_FIRMA_SOLICITANT_WEB:
+      case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        // NO requereixen CONFIGURACIO DE FIRMA
+      break;
+
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_SIMPLE_WEB_V1:
+      case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
+        // Requereixen CONFIGURACIO DE FIRMA
+        if (peticioDeFirmaForm.getPeticioDeFirma().getConfiguracioDeFirmaID() == null) {
+          result.rejectValue(get(CONFIGURACIODEFIRMAID), "genapp.validation.required",
+              new Object[] { I18NUtils.tradueix(CONFIGURACIODEFIRMAID.fullName) },
+              "Camp Requerit");
+        }
+      break;
+
+      default:
+        // XYZ ZZZ TRA
+        throw new I18NException("genapp.comodi", "getOrigenPeticioDeFirma = "
+            + getOrigenPeticioDeFirma() + " desconegut");
+    }
   }
 
 }

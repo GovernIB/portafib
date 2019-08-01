@@ -16,10 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import es.caib.portafib.back.controller.admin.GestioEntitatAdminController;
 import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
 import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Utils;
 import es.caib.portafib.back.validator.PeticioDeFirmaAmbFitxerAFirmarWebValidator;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
 
 /**
@@ -131,6 +135,23 @@ public abstract class AbstractPeticioDeFirmaController extends PeticioDeFirmaCon
    return __tmp;
  }
   
+  
+  @Override
+  public PeticioDeFirmaForm getPeticioDeFirmaForm(PeticioDeFirmaJPA _jpa2, boolean __isView,
+      HttpServletRequest request, ModelAndView mav) throws I18NException {
+
+    PeticioDeFirmaForm peticioDeFirmaForm = super.getPeticioDeFirmaForm(_jpa2, __isView, request, mav);
+
+
+    if (__isView) {
+      // Ocultar Camps NULL CampsNull
+      Utils.hiddenEmptyFields(peticioDeFirmaForm, 
+          peticioDeFirmaForm.getPeticioDeFirma(), 
+          PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS);
+    }
+
+    return peticioDeFirmaForm;
+  }
   
 
 }
