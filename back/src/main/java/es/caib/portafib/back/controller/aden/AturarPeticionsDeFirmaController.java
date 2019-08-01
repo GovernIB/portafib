@@ -1,12 +1,24 @@
 package es.caib.portafib.back.controller.aden;
 
 
-import java.util.Set;
-
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.controller.common.SearchJSONController;
+import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
+import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
+import es.caib.portafib.back.form.SeleccioUsuariForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.Utils;
+import es.caib.portafib.back.validator.SeleccioUsuariValidator;
+import es.caib.portafib.ejb.FirmaLocal;
+import es.caib.portafib.jpa.PeticioDeFirmaJPA;
+import es.caib.portafib.jpa.UsuariEntitatJPA;
+import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
+import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
+import es.caib.portafib.model.fields.FirmaFields;
+import es.caib.portafib.model.fields.FirmaQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
@@ -23,24 +35,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import es.caib.portafib.back.controller.common.SearchJSONController;
-import es.caib.portafib.back.controller.webdb.PeticioDeFirmaController;
-import es.caib.portafib.back.form.AturarPeticionsDeFirmaFilterForm;
-import es.caib.portafib.back.form.SeleccioUsuariForm;
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.Utils;
-import es.caib.portafib.back.validator.SeleccioUsuariValidator;
-import es.caib.portafib.ejb.FirmaLocal;
-import es.caib.portafib.ejb.UsuariEntitatLocal;
-import es.caib.portafib.jpa.PeticioDeFirmaJPA;
-import es.caib.portafib.jpa.UsuariEntitatJPA;
-import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
-import es.caib.portafib.model.fields.FirmaFields;
-import es.caib.portafib.model.fields.FirmaQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.utils.ConstantsV2;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * 
@@ -55,17 +53,14 @@ public class AturarPeticionsDeFirmaController extends AbstractPeticioDeFirmaAden
   public static final String USUARI_ENTITAT_ID_HOLDER =
         "AturarPeticionsDeFirmaController_USUARI_ENTITAT_ID_HOLDER";
   
-  @EJB(mappedName = UsuariEntitatLocal.JNDI_NAME)
-  protected UsuariEntitatLocal usuariEntitatEjb;
-  
   @EJB(mappedName = FirmaLocal.JNDI_NAME)
   protected FirmaLocal firmaEjb;
 
   @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
-  @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
-  protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
+  @EJB(mappedName = UsuariEntitatLogicaLocal.JNDI_NAME)
+  protected UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
   @Autowired
   protected SeleccioUsuariValidator seleccioUsuariValidator;

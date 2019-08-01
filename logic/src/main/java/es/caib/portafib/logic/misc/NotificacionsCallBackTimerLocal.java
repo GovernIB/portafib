@@ -30,9 +30,10 @@ public interface NotificacionsCallBackTimerLocal /* extends AbstractTimerLocal *
   
   public void startScheduler();
 
-
   public void stopScheduler();
   
   public boolean isTimerRunning();
+
+  public void testCallBackAPI(String usuariAplicacioID) throws Exception;
   
 }

@@ -7,6 +7,10 @@ test_pwd=fundaciobit_app
 
 nifsDestinataris=11223344T,12345678Z
 
+# En el cas d'ExempleMultiple crea el nombre de Threads indicat i cadascun un nombre de peticions.
+#nombreThreads=20
+#peticionsThread=50
+
 # Esperar a que es firmi?
 waittosign=true
 

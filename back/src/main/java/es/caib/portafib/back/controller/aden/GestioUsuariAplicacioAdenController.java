@@ -13,18 +13,18 @@ import es.caib.portafib.back.validator.UsuariAplicacioWebLogicValidator;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.misc.NotificacionsCallBackTimerLocal;
+import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.PerfilsPerUsuariAplicacio;
 import es.caib.portafib.model.entity.RoleUsuariAplicacio;
 import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
-import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.PerfilDeFirmaFields;
+import es.caib.portafib.model.fields.PerfilsPerUsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.ConstantsPortaFIB.POLITICA_CUSTODIA;
-
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -50,7 +50,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -87,6 +86,9 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
 
   @EJB(mappedName = es.caib.portafib.ejb.PerfilDeFirmaLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.PerfilDeFirmaLocal usuariAplicacioPerfilEjb;
+
+  @EJB(mappedName = NotificacionsCallBackTimerLocal.JNDI_NAME)
+  protected NotificacionsCallBackTimerLocal notificacionsCallBackTimerEjb;
 
   @Autowired
   private UsuariAplicacioWebLogicValidator usuariAplicacioWebLogicValidator;
@@ -379,13 +381,13 @@ public class GestioUsuariAplicacioAdenController extends UsuariAplicacioControll
       HttpServletRequest request, HttpServletResponse response) throws I18NException {
 
     try {
-      this.usuariAplicacioLogicaEjb.testCallBackAPI(usuariAplicacioID);
+      this.notificacionsCallBackTimerEjb.testCallBackAPI(usuariAplicacioID);
 
       HtmlUtils.saveMessageSuccess(request, "Test OK");
 
     } catch (Throwable e) {
 
-      UsuariAplicacioJPA usuariAplicacio = (UsuariAplicacioJPA) this.usuariAplicacioLogicaEjb
+      UsuariAplicacioJPA usuariAplicacio = this.usuariAplicacioLogicaEjb
           .findByPrimaryKey(usuariAplicacioID);
 
       // Error provant la URL de CallBack({0}) de l'usuari aplicació {1} : {2}

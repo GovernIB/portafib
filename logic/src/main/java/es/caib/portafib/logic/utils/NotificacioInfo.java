@@ -1,8 +1,17 @@
 package es.caib.portafib.logic.utils;
 
-import java.io.Serializable;
-
 import es.caib.portafib.logic.events.FirmaEvent;
+
+import java.beans.Encoder;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 
@@ -27,12 +36,10 @@ public class NotificacioInfo implements Serializable {
     super();
   }
 
-
-
   /**
    * @param idObjectSent
    * @param firmaEvent
-   * @param notificacio
+   * @param notificacioID
    */
   public NotificacioInfo(long idObjectSent, FirmaEvent firmaEvent, long notificacioID) {
     super();
@@ -41,6 +48,33 @@ public class NotificacioInfo implements Serializable {
     this.notificacioID = notificacioID;
   }
 
+  /**
+   * Deserialitza un notificacioInfo
+   */
+  public static NotificacioInfo readNotificacioInfo(String descripcio)  {
+    ByteArrayInputStream bais = new ByteArrayInputStream(descripcio.getBytes());
+    XMLDecoder decoder = new XMLDecoder(bais);
+    return (NotificacioInfo)decoder.readObject();
+  }
+
+  /**
+   * Serialitza un notificació info
+   */
+  public String writeNotificacioInfo() {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    XMLEncoder encoder = new XMLEncoder(baos);
+    PersistenceDelegate pd=encoder.getPersistenceDelegate(Integer.class);
+    encoder.setPersistenceDelegate(BigDecimal.class,pd );
+    encoder.setPersistenceDelegate( Date.class, new PersistenceDelegate() {
+      protected Expression instantiate(Object oldInstance, Encoder out ) {
+        Date date = (Date)oldInstance;
+        return new Expression( date, date.getClass(), "new", new Object[]{date.getTime()} );
+      }
+    } );
+    encoder.writeObject(this);
+    encoder.close();
+    return baos.toString();
+  }
 
 
   public long getIdObjectSent() {

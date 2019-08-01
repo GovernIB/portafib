@@ -1,14 +1,12 @@
 package es.caib.portafib.logic;
 
-import java.util.Set;
-
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-
-import javax.ejb.Local;
-
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+
+import javax.ejb.Local;
+import java.util.Set;
 
 /**
  * 
@@ -45,7 +43,5 @@ public interface UsuariAplicacioLogicaLocal extends UsuariAplicacioLocal {
   public boolean eliminarRolUser(String usuariAplicacioID) throws I18NException, Exception;
   
   public UsuariAplicacioJPA checkBasicUsuariAplicacioID(String usuariAplicacioID)  throws I18NException;
-  
-  public void testCallBackAPI(String usuariAplicacioID) throws Exception;
 
 }
