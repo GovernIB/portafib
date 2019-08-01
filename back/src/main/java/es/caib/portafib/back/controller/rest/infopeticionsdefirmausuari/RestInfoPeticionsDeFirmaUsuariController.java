@@ -35,6 +35,9 @@ import java.util.Set;
 
 /**
  * Created 01/09/17 10:10
+ * 
+ * IMPORTANT: Han de cridar usuaris persona i no usuaris aplicació !!!!
+ * 
  *
  * @author anadal
  */

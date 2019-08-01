@@ -3,6 +3,7 @@ package es.caib.portafib.logic.utils;
 import es.caib.portafib.logic.PropietatGlobalLogicaLocal;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 
@@ -472,6 +473,21 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     }
     return val;
   }
+
+
+  /**
+   * 
+   * @return
+   */
+  public static String getPortafibUrlForExternalSignatures() {
+    final String partialPropertyName = "portafiburlforexternalsignatures";
+    String val = getString(partialPropertyName);
+    if (log.isDebugEnabled()) {
+      log.debug("getPortafibUrlForExternalSignatures() = " + val);
+    }
+    return val;
+  }
+
 
   // ----------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------

@@ -78,20 +78,30 @@ public class LoginInfo {
     this.springSecurityUser = springSecurityUser;
 
     Map<String, EntitatJPA> entitats = new HashMap<String, EntitatJPA>();
-    entitats.put(entitat.getEntitatID(), entitat);
+    if (entitat != null) {
+      entitats.put(entitat.getEntitatID(), entitat);
+    }
 
     Map<String, Set<GrantedAuthority>> rolesPerEntitat = new HashMap<String, Set<GrantedAuthority>>();
     rolesPerEntitat.put((String) null, new HashSet<GrantedAuthority>(roles));
-    rolesPerEntitat.put(entitat.getEntitatID(), new HashSet<GrantedAuthority>(roles));
+    if (entitat != null) {
+      rolesPerEntitat.put(entitat.getEntitatID(), new HashSet<GrantedAuthority>(roles));
+    }
     
     Map<String, UsuariEntitatJPA> usuariEntitatPerEntitatID = new HashMap<String, UsuariEntitatJPA>();
-    usuariEntitatPerEntitatID.put(entitat.getEntitatID(), null);
+    if (entitat != null) {
+      usuariEntitatPerEntitatID.put(entitat.getEntitatID(), null);
+    }
 
     this.entitats = entitats;
     this.rolesPerEntitat = rolesPerEntitat;
 
     this.usuariAplicacio = usuariAplicacio;
-    setEntitatID(entitat.getEntitatID());
+    if (entitat != null) {
+      setEntitatID(entitat.getEntitatID());
+    } else {
+      setEntitatID(null);
+    }
     // Només per usuari-entitat
     this.usuariPersona = null;
     this.usuariEntitatPerEntitatID = usuariEntitatPerEntitatID;

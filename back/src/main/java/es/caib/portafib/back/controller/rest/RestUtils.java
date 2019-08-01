@@ -1,16 +1,22 @@
 package es.caib.portafib.back.controller.rest;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.jboss.web.tomcat.security.login.WebAuthentication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -19,17 +25,19 @@ import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
+import es.caib.portafib.utils.Constants;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 public class RestUtils {
 
   protected final Logger log = Logger.getLogger(getClass());
-  
+
   protected final ThreadLocal<UsuariAplicacioJPA> usuariAplicacioCache = new ThreadLocal<UsuariAplicacioJPA>();
+
   
   
   public HttpHeaders addAccessControllAllowOrigin() {
@@ -37,7 +45,7 @@ public class RestUtils {
     headers.add("Access-Control-Allow-Origin", "*");
     return headers;
   }
-  
+
   protected String autenticate(HttpServletRequest request) {
 
     try {
@@ -73,41 +81,69 @@ public class RestUtils {
       String password = credentials.substring(p + 1).trim();
 
       log.info("XYZ ZZZ autenticate::username: |" + username + "|");
-      //log.info("XYZ ZZZ autenticate::password: |" + password + "|");
+      // log.info("XYZ ZZZ autenticate::password: |" + password + "|");
       log.info("XYZ ZZZ autenticate:: PRE AUTENTICATE " + request.getUserPrincipal());
-      
+
       boolean autenticat;
-      //if (Configuracio.isCAIB()) 
-      {
-        // En entorns CAIB l'autenticació està en BBDD Seycon 
-        WebAuthentication pwl = new WebAuthentication();
-        autenticat = pwl.login(username, password);
-      }
       
-      /*
-      else {
-        // En entorns CAIB l'autenticació està en BBDD PortaFI, en la taula d'UsuarisAplicació 
+      Set<String> roles = new HashSet<String>();
+//      if (Configuracio.isCAIB()) {
         
-      }
-      */
-      log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal());
-      
+        try {
+          LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
+              new PassiveCallbackHandler(username, password));
+          lc.login();
+
+
+          Set<Principal> principalsCred = lc.getSubject().getPrincipals();
+          if (principalsCred == null ||principalsCred.isEmpty()) {
+            log.warn(" getPrincipals() == BUIT");
+          } else {
+            for (Principal object : principalsCred) {
+              log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
+              if ("Roles".equals(object.getName())
+                  && object instanceof org.jboss.security.SimpleGroup) {
+                org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
+                //iterable
+                Enumeration<Principal> enumPrinc = sg.members();
+                while(enumPrinc.hasMoreElements()) {
+                  Principal rol = enumPrinc.nextElement();
+                  log.debug("           ROL: " + rol.getName());
+                  roles.add(rol.getName());
+                }
+              }
+            }
+          }
+          autenticat = true;
+        } catch (LoginException le) {
+          // Authentication failed.      
+          log.error("CAIB3 Login ERROR" + le.getMessage());
+          autenticat = false;
+        }
+//      } else {
+//        // Accés public, per la qual cosa s'ha de forçar l'autenticació manual
+//        WebAuthentication pwl = new WebAuthentication();
+//        autenticat = pwl.login(username, password);
+//      }
+
+      log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
+          + " [ autenticat => " + autenticat + "]");
+
       if (autenticat) {
 
         log.info(" XYZ ZZZ autenticate::  LOGIN OK OK  OK  OK  OK OK ");
-        
+
         UsuariAplicacioLogicaLocal usuariAplicacioEjb = null;
         try {
           usuariAplicacioEjb = EjbManager.getUsuariAplicacioLogicaEJB();
         } catch (Throwable e) {
           // TODO traduccio
-          final String msg = "No puc accedir al gestor d´obtenció de" +
-                  " informació de usuari-aplicacio per " + username + ": " + e.getMessage();
+          final String msg = "No puc accedir al gestor d´obtenció de"
+              + " informació de usuari-aplicacio per " + username + ": " + e.getMessage();
           log.error(" XYZ ZZZ autenticate:: " + msg, e);
           return msg;
         }
 
-        
         UsuariAplicacioJPA usuariAplicacio = usuariAplicacioEjb.findByPrimaryKeyFull(username);
         if (usuariAplicacio == null) {
           final String msg = "L'usuari " + username
@@ -115,34 +151,54 @@ public class RestUtils {
           log.error(" XYZ ZZZ autenticate:: " + msg);
           return msg;
         }
-        
-        
+
+        Collection<GrantedAuthority> seyconAuthorities;
+
+//        if (Configuracio.isCAIB()) {
+//          log.info(" XYZ ZZZ ZZZ  CONF  CAIB");
+          seyconAuthorities = new ArrayList<GrantedAuthority>();
+          for (String rol : roles) {
+            log.info(" XYZ ZZZ ZZZ  CAIB ROLE => " + rol);
+            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
+          }
+
+//        } else {
+//          log.info(" XYZ ZZZ ZZZ  CONF NO CAIB");
+//          Set<RoleUsuariAplicacioJPA> rolesBBDD = usuariAplicacio.getRoleUsuariAplicacios();
+//          log.info(" XYZ ZZZ ZZZ  ROLES => " + rolesBBDD.size());
+//          seyconAuthorities = new ArrayList<GrantedAuthority>();
+//          for (RoleUsuariAplicacioJPA rolUsrApp : rolesBBDD) {
+//            String rol = rolUsrApp.getRoleID();
+//            // if (isDebug) {
+//            log.info("Rol SEYCON : " + rol);
+//            // }
+//            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
+//          }
+//        }
+
         EntitatJPA entitat = usuariAplicacio.getEntitat();
         // Check deshabilitada
-        if (!entitat.isActiva()) {        
-          final String msg = "L'entitat " + entitat.getNom() 
-              +  " a la que està associat l'usuari-aplicacio " + username + " esta deshabilitada.";
+        if (!entitat.isActiva()) {
+          final String msg = "L'entitat " + entitat.getNom()
+              + " a la que està associat l'usuari-aplicacio " + username
+              + " esta deshabilitada.";
           log.error(" XYZ ZZZ autenticate:: " + msg);
           return msg;
 
         }
 
-        Collection<GrantedAuthority> seyconAuthorities = new ArrayList<GrantedAuthority>();
         User user = new User(username, password, seyconAuthorities);
-        
-        
+
         // create a new authentication token for usuariAplicacio
-        LoginInfo loginInfo = new LoginInfo(user, usuariAplicacio, 
-            entitat, seyconAuthorities);
+        LoginInfo loginInfo = new LoginInfo(user, usuariAplicacio, entitat, seyconAuthorities);
 
         // and set the authentication of the current Session context
         SecurityContextHolder.getContext().setAuthentication(loginInfo.generateToken());
-        
+
         log.info("Inicialitzada Informació de UsuariAPLicacio dins de LoginInfo");
-        
+
         usuariAplicacioCache.set(usuariAplicacio);
-        
-        
+
         return null; // OK
 
       } else {
@@ -153,12 +209,12 @@ public class RestUtils {
 
     } catch (Exception e) {
 
-      final String msg = "Error desconegut intentant autenticar petició REST: " + e.getMessage();
+      final String msg = "Error desconegut intentant autenticar petició REST: "
+          + e.getMessage();
       log.error(" XYZ ZZZ autenticate:: " + msg, e);
       return msg;
     }
 
-   
-
   }
+
 }

@@ -19,6 +19,9 @@
     <module>portafib_client_rest_example</module>
     <module>portafib_revisordefirma_rest_api</module>
 
+    <module>portafib_externalsignature_rest_api</module>
+    <module>portafib_externalsignature_rest_jersey</module>
+
     <!-- NOTA: El mòdul 'portafib_server' conté tant l'API v1 com l'API v2, que 
          s'activen segons els profiles seleccionats. S'ha tengut que fer en un
          sol mòdul a causa de les limitacions dels WS-EJB (llegir ./server/readme.txt).
