@@ -260,7 +260,6 @@ ws/portafib_api/src/main/resources/portafib_genapp_es.properties
 /back/src/main/java/es/caib/portafib/back/controller/admin/AdminController.java
 /back/src/main/java/es/caib/portafib/back/controller/admin/MenuAdmin209Controller.java
 /back/src/main/java/es/caib/portafib/back/controller/common/CommonController.java
-/back/src/main/java/es/caib/portafib/back/controller/user/UserController.java
 /back/src/main/webapp/WEB-INF/jsp/common/option.jsp
 /back/src/main/webapp/WEB-INF/jsp/moduls/menu_admin.jsp
 /back/src/main/webapp/WEB-INF/jsp/moduls/menu_user.jsp

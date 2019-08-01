@@ -22,6 +22,7 @@ import org.fundaciobit.genapp.common.query.OrderType;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalField;
 import org.fundaciobit.genapp.common.web.form.BaseFilterForm;
+import org.fundaciobit.genapp.common.web.form.BaseForm;
 
 /**
  * 
@@ -270,5 +271,30 @@ public class Utils {
         + request.getContextPath();
     return baseUrl;
   }
+  
+  /**
+   * HidddenNullFields
+   */
+  public static void hiddenEmptyFields(BaseForm form, Object obj, Field<?>[]  allFields) {
+    
+    Class<?> objClass = obj.getClass();
+    for (Field<?> field : allFields) {
+      try {
+        java.lang.reflect.Field fieldJava = objClass.getDeclaredField(field.javaName);    
+        fieldJava.setAccessible(true);
+        if (fieldJava.get(obj) == null) {
+          form.addHiddenField(field);
+        };
+      } catch (Exception e) {
+        log.error("Error extraient valors de camps: " + e.getMessage(), e);
+      }
+    }
+    
+      
+    
+    
+  }
+  
+  
 
 }

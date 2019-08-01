@@ -886,6 +886,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
           }
           peticioDeFirma.setRemitentDescripcio(mail);
           
+          peticioDeFirma.setConfiguracioDeFirmaID(null);
           
         break;
         
@@ -1099,9 +1100,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       peticioDeFirmaForm.addHiddenField(TIPUSESTATPETICIODEFIRMAID);
 
 
-      // Nous camps a Firma i a Petició de Firma #281
-      peticioDeFirmaForm.addHiddenField(ORIGENPETICIODEFIRMA);
-
       
       // GESTIONAR VIA JS LA DESCRIPCIO DE TIPUS DE DOCUMENT
       peticioDeFirmaForm.setAttachedAdditionalJspCode(true);
@@ -1110,6 +1108,9 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       for(Field<?> field: PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS) {
         peticioDeFirmaForm.addReadOnlyField(field);
       }
+      
+      Utils.hiddenEmptyFields(peticioDeFirmaForm, peticioDeFirma, PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS);
+      
       peticioDeFirmaForm.setTitleCode("peticiodefirma.veuredetalls");
       peticioDeFirmaForm.setDeleteButtonVisible(false);
       peticioDeFirmaForm.setSaveButtonVisible(false);
@@ -1128,16 +1129,31 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
         peticioDeFirmaForm.addHiddenField(REMITENTNOM);
         peticioDeFirmaForm.addHiddenField(REMITENTDESCRIPCIO);
+        
+        peticioDeFirmaForm.addHiddenField(CONFIGURACIODEFIRMAID);
+        
       break;
 
       case ORIGEN_PETICIO_DE_FIRMA_API_PORTAFIB_WS_V1:
+        
+        peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
+        peticioDeFirmaForm.addHiddenField(CONFIGURACIODEFIRMAID);
+        
+      break;
+        
       case ORIGEN_PETICIO_DE_FIRMA_API_FIRMA_ASYNC_SIMPLE_V2:
         peticioDeFirmaForm.addReadOnlyField(SOLICITANTUSUARIAPLICACIOID);
+        
+        if (peticioDeFirma.getTipusEstatPeticioDeFirmaID() != ConstantsV2.TIPUSESTATPETICIODEFIRMA_NOINICIAT) {
+          peticioDeFirmaForm.addReadOnlyField(CONFIGURACIODEFIRMAID);
+        }
+        
       break;
         
       default:
        // XYZ ZZZ TRA
-        throw new I18NException("genapp.comodi"," No hi ha codi per gestionar camps ocults o readonly de les Peticions de Firma amb Origen " + 
+        throw new I18NException("genapp.comodi",
+          "No hi ha codi per gestionar camps ocults o readonly de les Peticions de Firma amb Origen " + 
           I18NUtils.tradueix("origenpeticiodefirma." + getOrigenPeticioDeFirma()));
     }
     
@@ -1161,6 +1177,15 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
     peticioDeFirmaForm.addHiddenField(AVISWEB);
 
     peticioDeFirmaForm.addHiddenField(CUSTODIAINFOID);
+    
+
+    // Nous camps a Firma i a Petició de Firma #281
+    peticioDeFirmaForm.addHiddenField(ORIGENPETICIODEFIRMA);
+
+    if (__isView) {
+      // Ocultar Camps NULL CampsNull
+      Utils.hiddenEmptyFields(peticioDeFirmaForm, peticioDeFirma, PeticioDeFirmaFields.ALL_PETICIODEFIRMA_FIELDS);
+    }
 
     return peticioDeFirmaForm;
   }
