@@ -1,6 +1,5 @@
 package es.caib.portafib.back.security;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,12 +28,9 @@ import org.springframework.stereotype.Component;
 
 import es.caib.portafib.back.preparer.BasePreparer;
 import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.RoleUsuariAplicacioJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
-import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.UsuariPersonaLogicaLocal;
 import es.caib.portafib.logic.utils.EjbManager;
@@ -47,7 +43,7 @@ import es.caib.portafib.utils.ConstantsV2;
 
 /**
  *
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 @Component

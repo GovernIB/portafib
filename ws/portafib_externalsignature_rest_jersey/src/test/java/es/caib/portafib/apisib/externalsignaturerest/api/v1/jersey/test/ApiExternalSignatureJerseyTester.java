@@ -38,7 +38,6 @@ public class ApiExternalSignatureJerseyTester {
     } catch (ApisIBClientException client) {
 
       client.printStackTrace();
-
       System.err
           .println("S'ha produït un error intentant contactar amb el servidor intermedi:"
               + client.getMessage());
