@@ -1,20 +1,14 @@
 package es.caib.portafib.logic;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import es.caib.portafib.ejb.CustodiaInfoLocal;
 import es.caib.portafib.ejb.EntitatLocal;
+import es.caib.portafib.ejb.IdiomaLocal;
 import es.caib.portafib.ejb.PlantillaFluxDeFirmesLocal;
 import es.caib.portafib.ejb.RoleUsuariAplicacioLocal;
 import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.ejb.UsuariAplicacioEJB;
 import es.caib.portafib.ejb.UsuariAplicacioLocal;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.utils.NotificacionsQueue;
 import es.caib.portafib.logic.validator.UsuariAplicacioBeanLogicValidator;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacio;
@@ -27,6 +21,16 @@ import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.utils.RoleUsuariAplicacioEnum;
+import org.fundaciobit.genapp.common.KeyValue;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NFieldError;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
+import org.fundaciobit.genapp.common.query.Where;
+import org.hibernate.Hibernate;
+import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
@@ -37,17 +41,12 @@ import javax.ejb.Stateless;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 import javax.management.ObjectName;
-
-import org.hibernate.Hibernate;
-import org.fundaciobit.genapp.common.KeyValue;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NFieldError;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.SelectMultipleKeyValue;
-import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -63,29 +62,29 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
   @Resource
   SessionContext ctx;
 
-  @EJB(mappedName = EntitatLocal.JNDI_NAME)
+  @EJB(mappedName = EntitatLocal.JNDI_NAME, beanName = "EntitatEJB")
   protected EntitatLocal entitatEjb;
 
-  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME)
+  @EJB(mappedName = PlantillaFluxDeFirmesLocal.JNDI_NAME, beanName = "PlantillaFluxDeFirmesEJB")
   protected PlantillaFluxDeFirmesLocal plantillaFluxDeFirmesEjb;
   
   @EJB(mappedName = RoleUsuariAplicacioLocal.JNDI_NAME)
   protected RoleUsuariAplicacioLocal roleUsuariAplicacioEjb;
   
-  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME)
+  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
   protected TipusDocumentLocal tipusDocumentEjb;
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = "PeticioDeFirmaLogicaEJB")
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.IdiomaLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.IdiomaLocal idiomaEjb;
+  @EJB(mappedName = IdiomaLocal.JNDI_NAME)
+  protected IdiomaLocal idiomaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.CustodiaInfoLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.CustodiaInfoLocal custodiaInfoEjb;
+  @EJB(mappedName = CustodiaInfoLocal.JNDI_NAME, beanName = "CustodiaInfoEJB")
+  protected CustodiaInfoLocal custodiaInfoEjb;
  
 
   @Override
@@ -430,19 +429,6 @@ public class UsuariAplicacioLogicaEJB extends UsuariAplicacioEJB implements
     }
     
   }
-  
-  
-  @Override
-  public void testCallBackAPI(String usuariAplicacioID) throws Exception {
-    
-    UsuariAplicacioJPA usuariAplicacio =  (UsuariAplicacioJPA)this.findByPrimaryKey(usuariAplicacioID);
-    
-    
-    NotificacionsQueue.testApiCallBack(usuariAplicacio);
-    
-    
-  }
-  
   
   
   /**

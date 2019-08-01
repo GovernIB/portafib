@@ -29,9 +29,22 @@ public class LogInterceptor {
 
    @AroundInvoke
    protected Object interceptMethod(InvocationContext ic) throws Exception {
-      log.info(ic.getTarget().getClass().getSimpleName() + "." + ic.getMethod().getName() + Arrays.toString(ic.getParameters()));
+      final String simpleName = ic.getTarget().getClass().getSimpleName();
+      final String methodName = ic.getMethod().getName();
+      final String message = simpleName + "." + methodName + Arrays.toString(ic.getParameters());
+
+      log.info(message);
+
+      final long startNanoTime = System.nanoTime();
       Object result = ic.proceed();
-      log.info(ic.getTarget().getClass().getSimpleName() + "." + ic.getMethod().getName() + " return " + result);
+      final long elapsedMillis = (System.nanoTime() - startNanoTime) / 1000000;
+
+      if (elapsedMillis > 1000) {
+         log.warn(message + " return(" + result + ") in " + elapsedMillis + "ms!!!");
+      } else {
+         log.info(message + " return(" + result + ") in " + elapsedMillis + "ms");
+      }
+
       return result;
    }
 }

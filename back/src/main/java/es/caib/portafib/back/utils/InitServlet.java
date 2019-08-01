@@ -1,27 +1,5 @@
 package es.caib.portafib.back.utils;
 
-import java.io.File;
-
-import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.naming.InitialContext;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-
-import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.exportdata.IExportDataPlugin;
-import org.fundaciobit.pluginsib.core.utils.PluginsManager;
-import org.fundaciobit.genapp.common.crypt.AlgorithmEncrypter;
-import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.filesystem.IFileSystemManager;
-import org.fundaciobit.genapp.common.filesystem.SimpleFileSystemManager;
-import org.fundaciobit.genapp.common.web.exportdata.DataExporterManager;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.stereotype.Component;
-
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.logic.misc.AvisosFirmesPendentsTimerLocal;
 import es.caib.portafib.logic.misc.EnviarCorreusAgrupatsTimerLocal;
@@ -31,6 +9,26 @@ import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.utils.Build;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+import org.apache.log4j.Logger;
+import org.fundaciobit.genapp.common.crypt.AlgorithmEncrypter;
+import org.fundaciobit.genapp.common.crypt.FileIDEncrypter;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.filesystem.IFileSystemManager;
+import org.fundaciobit.genapp.common.filesystem.SimpleFileSystemManager;
+import org.fundaciobit.genapp.common.web.exportdata.DataExporterManager;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.fundaciobit.pluginsib.core.utils.PluginsManager;
+import org.fundaciobit.pluginsib.exportdata.IExportDataPlugin;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import java.io.File;
 
 /**
  * Servlet emprat per inicialitzar el Back
@@ -195,7 +193,7 @@ public class InitServlet extends HttpServlet {
       sinc.startScheduler();
     } catch (Throwable th) {
       log.error("Error desconegut inicialitzant Timer d'enviament"
-          + " de notificacions agrupades : " + th.getMessage(), th);
+          + " de notificacions agrupades: " + th.getMessage(), th);
     }
 
     // AvisosFirmesPendents
@@ -216,7 +214,7 @@ public class InitServlet extends HttpServlet {
           .lookup(NotificacionsCallBackTimerLocal.JNDI_NAME);
       notifCallback.startScheduler();
     } catch (Throwable th) {
-      log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions Callback"
+      log.error("Error desconegut inicialitzant Timer d'enviament de Notificacions: "
           + th.getMessage(), th);
       throw new ServletException(th);
     }

@@ -1,16 +1,19 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.controller.webdb.NotificacioWSController;
+import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
+import es.caib.portafib.back.form.webdb.NotificacioWSForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.ejb.PeticioDeFirmaLocal;
+import es.caib.portafib.jpa.NotificacioWSJPA;
+import es.caib.portafib.logic.NotificacioWSLogicaLocal;
+import es.caib.portafib.model.entity.NotificacioWS;
+import es.caib.portafib.model.entity.UsuariAplicacio;
+import es.caib.portafib.model.fields.NotificacioWSQueryPath;
+import es.caib.portafib.model.fields.PeticioDeFirmaFields;
+import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -32,20 +35,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.webdb.NotificacioWSController;
-import es.caib.portafib.back.form.webdb.NotificacioWSFilterForm;
-import es.caib.portafib.back.form.webdb.NotificacioWSForm;
-import es.caib.portafib.back.form.webdb.PeticioDeFirmaRefList;
-import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.ejb.PeticioDeFirmaLocal;
-import es.caib.portafib.jpa.NotificacioWSJPA;
-import es.caib.portafib.logic.NotificacioWSLogicaLocal;
-import es.caib.portafib.model.entity.NotificacioWS;
-import es.caib.portafib.model.entity.UsuariAplicacio;
-import es.caib.portafib.model.fields.NotificacioWSQueryPath;
-import es.caib.portafib.model.fields.PeticioDeFirmaFields;
-import es.caib.portafib.model.fields.UsuariAplicacioFields;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -64,7 +62,7 @@ public class GestioNotificacionsWSController extends NotificacioWSController {
   @Autowired
   protected UsuariAplicacioRefList usuariAplicacioRefList;
 
-  @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)  //"portafib/NotificacioLogicaEJB/local")
+  @EJB(mappedName = NotificacioWSLogicaLocal.JNDI_NAME)
   protected NotificacioWSLogicaLocal notificacioLogicaEjb;
   
   @EJB(mappedName = PeticioDeFirmaLocal.JNDI_NAME)
