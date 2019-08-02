@@ -160,6 +160,7 @@ public class ExempleMultiple {
           public void run() {
             log.info(threadName + " iniciat");
 
+            try {
               for (int j = 1; j <= peticionsThread; j++) {
 
                 final String afegit = threadName + "(" + j + "/" + peticionsThread + ")";
@@ -169,33 +170,34 @@ public class ExempleMultiple {
                 Long peticioDeFirmaID = null;
                 try {
 
-                PeticioDeFirmaWs peticioDeFirmaWs = PeticioDeFirmaUtils.constructPeticioDeFirma(apiUE,
-                      titol + afegit, remitent,
-                      fitxerAFirmar, nifsDestinataris);
-                peticioDeFirmaWs.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
+                  PeticioDeFirmaWs peticioDeFirmaWs = PeticioDeFirmaUtils.constructPeticioDeFirma(apiUE,
+                        titol + afegit, remitent,
+                        fitxerAFirmar, nifsDestinataris);
+                  peticioDeFirmaWs.setPosicioTaulaFirmesID(Constants.TAULADEFIRMES_SENSETAULA);
 
-                log.info(afegit + " Enviant petició");
-                // Crear peticio
-                peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
-                peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
-                log.info(afegit + " Creada petició ID=" + peticioDeFirmaID);
+                  log.info(afegit + " Enviant petició");
+                  // Crear peticio
+                  peticioDeFirmaWs = api.createPeticioDeFirma(peticioDeFirmaWs);
+                  peticioDeFirmaID = peticioDeFirmaWs.getPeticioDeFirmaID();
+                  log.info(afegit + " Creada petició ID=" + peticioDeFirmaID);
 
-                // Arrancar
-                api.startPeticioDeFirma(peticioDeFirmaID);
-                log.info(afegit + " Arrancada peticio");
+                  // Arrancar
+                  api.startPeticioDeFirma(peticioDeFirmaID);
+                  log.info(afegit + " Arrancada peticio");
 
                 } catch (WsI18NException i18ne) {
                   log.error(WsClientUtils.toString(i18ne));
                 } catch (WsValidationException ve) {
                   log.error(WsClientUtils.toString(ve));
                 } finally {
-                  peticionsID[threadNumber-1][j-1] = peticioDeFirmaID;
+                  peticionsID[threadNumber - 1][j - 1] = peticioDeFirmaID;
                 }
               }
 
-
-            log.info(threadName + " finalitzat");
-            createCountDown.countDown();
+            } finally {
+              log.info(threadName + " finalitzat");
+              createCountDown.countDown();
+            }
           }
         };
 
@@ -239,28 +241,31 @@ public class ExempleMultiple {
             public void run() {
               log.info(threadName + " iniciat");
 
-              for (int j = 1; j <= peticionsThread; j++) {
+              try {
 
-                final String afegit = threadName + "(" + j + "/" + peticionsThread + ")";
+                for (int j = 1; j <= peticionsThread; j++) {
 
-                Long peticioDeFirmaID = peticionsID[threadNumber-1][j-1];
-                if (peticioDeFirmaID != null) {
-                  log.info(afegit + " Borrant petició amb ID=" + peticioDeFirmaID);
+                  final String afegit = threadName + "(" + j + "/" + peticionsThread + ")";
 
-                  try {
-                    api.deletePeticioDeFirma(peticioDeFirmaID);
-                    log.info(afegit + " Borrada peticio amb ID=" + peticioDeFirmaID);
-                  } catch (WsI18NException i18ne) {
-                    log.error(WsClientUtils.toString(i18ne));
+                  Long peticioDeFirmaID = peticionsID[threadNumber - 1][j - 1];
+                  if (peticioDeFirmaID != null) {
+                    log.info(afegit + " Borrant petició amb ID=" + peticioDeFirmaID);
+
+                    try {
+                      api.deletePeticioDeFirma(peticioDeFirmaID);
+                      log.info(afegit + " Borrada peticio amb ID=" + peticioDeFirmaID);
+                    } catch (WsI18NException i18ne) {
+                      log.error(WsClientUtils.toString(i18ne));
+                    }
+                  } else {
+                    log.info(afegit + " Ometent petició null");
                   }
-                } else {
-                  log.info(afegit + " Ometent petició null");
+
                 }
-
+              } finally {
+                log.info(threadName + " finalitzat");
+                deleteCountDown.countDown();
               }
-
-              log.info(threadName + " finalitzat");
-              deleteCountDown.countDown();
             }
           };
 
