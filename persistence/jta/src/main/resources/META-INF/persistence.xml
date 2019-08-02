@@ -56,7 +56,8 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>es.caib.portafib.jpa.UsuariPersonaJPA</class>
 
         <properties>
-
+            <property name="hibernate.dialect" value="${es.caib.portafib.hibernate.dialect}" />
+            <property name="hibernate.query.substitutions" value="${es.caib.portafib.hibernate.query.substitutions}"/>
         </properties>
     </persistence-unit>
 </persistence>

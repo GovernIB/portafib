@@ -1,6 +1,6 @@
 package es.caib.portafib.back.utils;
 
-import es.caib.portafib.utils.ConstantsV2;
+import es.caib.portafib.utils.Constants;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,8 +52,8 @@ public class ConfigurationJPA {
   private Properties additionalProperties() {
 
     Properties sysProp = System.getProperties();
-    final String hibernateProp = ConstantsV2.PORTAFIB_PROPERTY_BASE + "hibernate.";
-    final int cutIndex = ConstantsV2.PORTAFIB_PROPERTY_BASE.length();
+    final String hibernateProp = Constants.PORTAFIB_PROPERTY_BASE + "hibernate.";
+    final int cutIndex = Constants.PORTAFIB_PROPERTY_BASE.length();
     Properties properties = new Properties();
     for (Object keyObj : sysProp.keySet()) {
       String key = (String) keyObj;
