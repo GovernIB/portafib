@@ -35,15 +35,17 @@ public class CustodiaInfoLogicValidator<T> extends CustodiaInfoValidator<T> {
     
     if (__vr.getFieldErrorCount(PAGINES) == 0) {
       String pagines = (String) __vr.getFieldValue(__target__, PAGINES);
-      final int lastPage = 100;
-      final int posicioTaulaDeFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
-      try {
-        PdfUtils.processarPagines(pagines, posicioTaulaDeFirmes, lastPage);
-      } catch(I18NException i18ne) {
-        I18NTranslation traduccio = i18ne.getTraduccio(); 
-        __vr.rejectValue(PAGINES, traduccio.getCode(), traduccio.getArgs());
-      } catch(Exception e) {
-        __vr.rejectValue(PAGINES, "custodiainfo.pagines.errorformat", new I18NArgumentString(pagines));        
+      if (pagines.trim().length() != 0) {
+        final int lastPage = 100;
+        final int posicioTaulaDeFirmes = ConstantsV2.TAULADEFIRMES_SENSETAULA;
+        try {
+          PdfUtils.processarPagines(pagines, posicioTaulaDeFirmes, lastPage);
+        } catch(I18NException i18ne) {
+          I18NTranslation traduccio = i18ne.getTraduccio(); 
+          __vr.rejectValue(PAGINES, traduccio.getCode(), traduccio.getArgs());
+        } catch(Exception e) {
+          __vr.rejectValue(PAGINES, "custodiainfo.pagines.errorformat", new I18NArgumentString(pagines));        
+        }
       }
     }
     

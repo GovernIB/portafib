@@ -739,12 +739,16 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
 
     } catch(Throwable e) {
-      log.error(e);
       
       if (e instanceof I18NException) {
         String msg = I18NUtils.getMessage((I18NException)e);
         HtmlUtils.saveMessageError(request, msg);
+      } else if (e instanceof I18NValidationException) {
+        String msg = I18NUtils.getMessage((I18NValidationException)e);
+        HtmlUtils.saveMessageError(request, msg);
+        log.error("Error de Validacio: " + e.getMessage(), e);
       } else {
+        log.error("Error desconegut al reinicialitzar la peticio " + peticioDeFirmaID + " :" + e.getMessage(), e);
         createMessageError(request, "error.modification", peticioDeFirmaID);
       }
       

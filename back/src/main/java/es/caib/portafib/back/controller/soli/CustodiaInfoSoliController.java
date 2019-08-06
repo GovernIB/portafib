@@ -19,6 +19,7 @@ import org.fundaciobit.genapp.common.web.HtmlUtils;
 import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -372,7 +373,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
       // Només les finalitzades
       CUSTODIAINFOID.in(
         peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID,
-            PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT))),
+            Where.AND(PeticioDeFirmaFields.TIPUSESTATPETICIODEFIRMAID.equal(ConstantsV2.TIPUSESTATPETICIODEFIRMA_FIRMAT),
+            PeticioDeFirmaFields.CUSTODIAINFOID.isNotNull()))),
       // Les que ja no tenen peticio de firma
       CUSTODIAINFOID.notIn(peticioDeFirmaEjb.getSubQuery(PeticioDeFirmaFields.CUSTODIAINFOID, PeticioDeFirmaFields.CUSTODIAINFOID.isNotNull()))
     );
@@ -380,10 +382,8 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
     // Per usuaris entitat o usuaris aplicacio
     Where wUser;
     if (isUsuariEntitat()) {
-      wUser = Where.AND(
-          USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID()),
-          USUARIAPLICACIOID.isNull()        
-          );
+                  
+      wUser = USUARIENTITATID.equal(LoginInfo.getInstance().getUsuariEntitatID());
     } else {
       wUser = Where.AND(
           USUARIENTITATID.isNull(),
@@ -430,6 +430,30 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
 
   }
   
+  
+  @Override
+  public void preValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
+    
+    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
+    
+    if (pagines == null || pagines.trim().length() == 0) {
+      custodiaInfoForm.getCustodiaInfo().setPagines("buit");
+    }
+  
+    
+  }
+  
+  @Override
+  public void postValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm, BindingResult result)  throws I18NException {
+    
+    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
+    
+    if ("buit".equals(pagines)) {
+      custodiaInfoForm.getCustodiaInfo().setPagines("");
+    }
+  }
+  
+ 
   
   // #199
   @Override
