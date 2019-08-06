@@ -960,9 +960,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacioID);
 
-      // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
-      peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
@@ -1054,8 +1051,26 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
 
     }
-    
-    
+
+    // #293 fer cas dels valors de taula de firmes de l'entitat
+    switch (entitat.getPoliticaTaulaFirmes()) {
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET:
+        // Enitat no permet taula de firmes. Marcam sense taula i feim cap readonly
+        peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
+        peticioDeFirmaForm.addReadOnlyField(POSICIOTAULAFIRMESID);
+        break;
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OBLIGATORI_DEFINIT:
+        // Enitat defineix obligatòriament taula de firmes. Marcam la posició definida a l'entitat i feim cap readonly
+        peticioDeFirma.setPosicioTaulaFirmesID(entitat.getPosicioTaulaFirmes());
+        peticioDeFirmaForm.addReadOnlyField(POSICIOTAULAFIRMESID);
+        break;
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF:
+        // Entitat defineix taula de firmes opicional i valor per defecte. Marcam per defecte posició de l'entitat
+        if (peticioDeFirmaForm.isNou()) {
+          peticioDeFirma.setPosicioTaulaFirmesID(entitat.getPosicioTaulaFirmes());
+        }
+        break;
+    }
 
     switch (entitat.getPoliticaSegellatDeTemps()) {
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
