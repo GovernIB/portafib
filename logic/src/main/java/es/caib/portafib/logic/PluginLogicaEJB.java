@@ -31,22 +31,27 @@ public class PluginLogicaEJB extends PluginEJB implements PluginLogicaLocal {
   @Override
   public Plugin update(Plugin instance) throws I18NException {
     if (instance != null) {
-      synchronized (pluginsCache) {
-        pluginsCache.remove(instance.getPluginID());
-      }
+      deleteOfCache(instance.getPluginID());
     }
     return super.update(instance);
   }
 
   
   @Override
+  public boolean deleteOfCache(Long pluginID) {
+    synchronized (pluginsCache) {
+      IPlugin p = pluginsCache.remove(pluginID);
+      return p != null;
+    }
+  }
+  
+  
+  @Override
   public void delete(Plugin instance) {
     if (instance != null) {
-      synchronized (pluginsCache) {
-        pluginsCache.remove(instance.getPluginID());
-      }
+      deleteOfCache(instance.getPluginID());
+      super.delete(instance);
     }
-    super.delete(instance);
   }
   
   @Override

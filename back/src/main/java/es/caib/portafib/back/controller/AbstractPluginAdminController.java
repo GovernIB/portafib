@@ -6,15 +6,21 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import es.caib.portafib.back.controller.webdb.PluginController;
 import es.caib.portafib.back.form.webdb.PluginFilterForm;
@@ -85,13 +91,35 @@ public abstract class AbstractPluginAdminController extends PluginController {
          
          pluginFilterForm.getDefaultGroupByFields().remove(ENTITATID);
          pluginFilterForm.getDefaultGroupByFields().remove(TIPUS);
-         
+
+         pluginFilterForm.addAdditionalButtonForEachItem(new AdditionalButton(
+             "icon-refresh", "plugin.netejardecache",  getContextWeb() + "/netejarInstanciaDeCache/{0}",
+             "btn-warning"));
+
          
          // TODO Ordenar per camp Traduit
          //pluginFilterForm.setDefaultOrderBy(new OrderBy[] { new OrderBy( new PluginQueryPath().NOM(). )} );
       }
       return pluginFilterForm;
   }
+  
+  
+  
+  @RequestMapping(value = "/netejarInstanciaDeCache/{pluginID}")
+  public ModelAndView netejarInstanciaDeCache(HttpServletRequest request,
+      HttpServletResponse response, @PathVariable Long pluginID) throws I18NException {
+      
+    if (pluginLogicaEjb.deleteOfCache(pluginID)) {
+      HtmlUtils.saveMessageSuccess(request, "XYZ ZZZ TRA Esborrada correctament aquesta instància de la cache.");
+    } else {
+      HtmlUtils.saveMessageInfo(request, "XYZ ZZZ TRA No hi havia cap instància d'aquest plugin a la cache.");
+    }
+
+    return new ModelAndView(new RedirectView(getContextWeb() + "/list", true));
+  }
+
+  
+  
   
   
   @Override
@@ -158,7 +186,7 @@ public abstract class AbstractPluginAdminController extends PluginController {
 
   @Override
   public void delete(HttpServletRequest request, Plugin plugin) throws Exception,I18NException {
-    pluginLogicaEjb.delete(plugin);
+    pluginLogicaEjb.delete(plugin);    
   }
   
   @Override

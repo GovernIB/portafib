@@ -47,24 +47,21 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
     );
   }
   
-  
-  
   @Override
   public I getInstanceByPluginID(long pluginID) throws I18NException {
-  
+
     IPlugin pluginInstance = getPluginFromCache(pluginID);
-    
-    
+
     if (pluginInstance == null) {
 
-        PluginJPA plugin = (PluginJPA)findByPrimaryKey(pluginID);
+      PluginJPA plugin = (PluginJPA) findByPrimaryKey(pluginID);
 
-        if (plugin == null) {
-          return null;
-        }
-        
-        Properties prop = new Properties();
-        
+      if (plugin == null) {
+        return null;
+      }
+
+      Properties prop = new Properties();
+
       if (plugin.getPropertiesAdmin() != null
           && plugin.getPropertiesAdmin().trim().length() != 0) {
         try {
@@ -85,26 +82,21 @@ public abstract class AbstractPluginLogicaEJB<I extends IPlugin> extends PluginL
         } catch (Exception e) {
           // TODO Crec que no es cridarà mai
         }
-      } 
-        pluginInstance = (IPlugin) PluginsManager.instancePluginByClassName(
-            plugin.getClasse(), ConstantsV2.PORTAFIB_PROPERTY_BASE, prop);
-        
-        
-        if (pluginInstance == null) {
-          throw new I18NException("plugin.donotinstantiate",
-              getName() + " (" + plugin.getClasse() + ")");
-        }
-        
-        addPluginToCache(pluginID, pluginInstance); 
-        
-        
-        
-      
+      }
+      pluginInstance = (IPlugin) PluginsManager.instancePluginByClassName(plugin.getClasse(),
+          ConstantsV2.PORTAFIB_PROPERTY_BASE, prop);
+
+      if (pluginInstance == null) {
+        throw new I18NException("plugin.donotinstantiate", getName() + " ("
+            + plugin.getClasse() + ")");
+      }
+
+      addPluginToCache(pluginID, pluginInstance);
+
     }
-    return (I)pluginInstance;
+    return (I) pluginInstance;
 
   }
-
   
   @Override
   public List<I> getPluginInstancesByEntitatID(String entitatID) throws I18NException {
