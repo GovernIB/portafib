@@ -1,14 +1,5 @@
 package es.caib.portafib.ws.v1.utils;
 
-import javax.activation.DataHandler;
-import javax.annotation.security.RolesAllowed;
-import javax.jws.WebMethod;
-import javax.mail.util.ByteArrayDataSource;
-
-import org.apache.commons.io.FileUtils;
-import org.fundaciobit.genapp.common.ws.WsI18NException;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-
 import es.caib.portafib.hibernate.HibernateFileUtil;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.logic.utils.LogicUtils;
@@ -16,6 +7,14 @@ import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.ws.utils.AuthenticatedBaseWsImpl;
 import es.caib.portafib.ws.utils.VersionsWs;
 import es.caib.portafib.ws.v1.impl.FitxerBean;
+import org.apache.commons.io.FileUtils;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.ws.WsI18NException;
+
+import javax.activation.DataHandler;
+import javax.annotation.security.RolesAllowed;
+import javax.jws.WebMethod;
+import javax.mail.util.ByteArrayDataSource;
 
 /**
  * 
@@ -71,7 +70,7 @@ public class AuthenticatedBaseV1WsImpl extends AuthenticatedBaseWsImpl {
 
       fitxerBean.setData(dh);
       
-      System.gc();
+      //System.gc();
 
       return fitxerBean;
 

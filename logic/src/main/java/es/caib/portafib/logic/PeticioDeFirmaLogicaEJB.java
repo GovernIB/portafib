@@ -1120,7 +1120,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
     // Crear nou fitxer amb taula de firmes i adjunts
     File srcPDF = FileSystemManager.getFile(peticioDeFirma.getFitxerAFirmarID());
-    File dstPDF = FileSystemManager.getTmpFile(System.nanoTime());
+    File dstPDF = File.createTempFile("peticio_temp_", ".pdf", FileSystemManager.getFilesPath());
     try {
 
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,

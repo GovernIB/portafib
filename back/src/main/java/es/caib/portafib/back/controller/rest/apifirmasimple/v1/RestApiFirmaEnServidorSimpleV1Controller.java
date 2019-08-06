@@ -1,5 +1,22 @@
 package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
+import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
+import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
+import es.caib.portafib.logic.passarela.UpgradeResponse;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.utils.I18NLogicUtils;
+import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
+import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
+import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaEnServidorSimple;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
@@ -33,30 +50,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.logic.ValidacioCompletaFirmaLogicaLocal;
-import es.caib.portafib.logic.passarela.NoCompatibleSignaturePluginException;
-import es.caib.portafib.logic.passarela.PassarelaSignatureInServerResults;
-import es.caib.portafib.logic.passarela.UpgradeResponse;
-import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaFullResults;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureStatus;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.PerfilConfiguracionsDeFirma;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
-import es.caib.portafib.model.entity.PerfilDeFirma;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -300,7 +298,7 @@ public class RestApiFirmaEnServidorSimpleV1Controller extends
 
       return generateServerError(msg, th);
     } finally {
-      System.gc();
+      //System.gc();
     }
 
   }

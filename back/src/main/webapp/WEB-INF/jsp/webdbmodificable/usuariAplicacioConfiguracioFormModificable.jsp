@@ -60,7 +60,9 @@ var markFieldsRowID = [
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB.fullName%>',
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAWEB.fullName%>',
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAWS1.fullName%>',
-     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2.fullName%>'
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2.fullName%>',
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR.fullName%>',
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB.fullName%>'
  ];
 
 var usFieldsRowID = [
@@ -68,7 +70,9 @@ var usFieldsRowID = [
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAAPISIMPLEWEB.fullName.replace('.','_')%>_rowid',
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAWEB.fullName.replace('.','_')%>_rowid',
      '<%=UsuariAplicacioConfiguracioFields.USENFIRMAWS1.fullName.replace('.','_')%>_rowid',
-     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2.fullName.replace('.','_')%>_rowid'
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAASYNCREST2.fullName.replace('.','_')%>_rowid',
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELASERVIDOR.fullName.replace('.','_')%>_rowid',
+     '<%=UsuariAplicacioConfiguracioFields.USENFIRMAPASSARELAWEB.fullName.replace('.','_')%>_rowid'
  ];
 
  var usLabel = [
@@ -76,17 +80,21 @@ var usFieldsRowID = [
      '<fmt:message key="usuariaplicacioconfig.fsimpleweb"/>',
      '<fmt:message key="usuariaplicacioconfig.fweb"/>',
      '<fmt:message key="usuariaplicacioconfig.fwsv1"/>',
-     '<fmt:message key="usuariaplicacioconfig.fasyncrestv2"/>'
+     '<fmt:message key="usuariaplicacioconfig.fasyncrestv2"/>',
+     '<fmt:message key="usuariaplicacioconfig.fpassservidor"/>',
+     '<fmt:message key="usuariaplicacioconfig.fpassweb"/>'
  ];
 
-var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey' ];
+var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey', 'brown', 'violet' ];
 
  var fieldUses = [              /*FI.CER|TI.OPE|TI.FIR|ALG.FI|MOD.FI|POL.FI|P.TA.F|P.SG.T|HTPLFW|P.F.SV|VAL.FI|CK.N.M|CM.NIF|VAL.CR*/
 /* USENFIRMAAPISIMPLESERVIDOR */ [true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  true,  false ],
 /* USENFIRMAAPISIMPLEWEB      */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, true,  true,  true,  false ],
 /* USENFIRMAWEB               */ [false, true,  false, false, false, false, false, false, false, false, false, false, false, false ],
 /* USENFIRMAWS1               */ [true,  true,  false, false, false, true,  false, true,  false, false, false, false, false, false ],
-/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false ]
+/* USENFIRMAASYNCREST2        */ [true,  true,  true,  true,  true,  true,  true,  true,  true,  false, false, false, false, false ],
+/* USENFIRMAPASSARELASERVIDOR */ [false, false, false, false, false, false, false, true,  false, true,  true,  true,  true,  false ],
+/* USENFIRMAPASSARELAWEB      */ [false, false, false, false, false, false, false, true,  false, false, true,  true,  true,  false ]
  ];
 
  $("input[type='checkbox']").change(function() {
@@ -98,9 +106,6 @@ var usBgColor = [ 'red', 'green', 'blue', 'orange', 'grey' ];
  for (i = 0; i < usFieldsRowID.length; i++) {
      $("#" + usFieldsRowID[i] + " label").append('<span class="usFieldMarker" style="background-color: ' + usBgColor[i] +';">&nbsp;</span>');
  }
-
-$("#usuariAplicacioConfiguracio_usEnFirmaPassarelaServidor_rowid label").append('&nbsp;(deprecat)');
-$("#usuariAplicacioConfiguracio_usEnFirmaPassarelaWeb_rowid label").append('&nbsp;(deprecat)');
 
  for (i = 0; i < markFieldsRowID.length; i++) {
      $("#" + markFieldsRowID[i] + " > td:first-child").prepend('<div class="markerContainer"></div>');

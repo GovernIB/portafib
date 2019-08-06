@@ -1,57 +1,5 @@
 package es.caib.portafib.back.controller.soli;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.fundaciobit.genapp.common.StringKeyValue;
-import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.i18n.I18NValidationException;
-import org.fundaciobit.genapp.common.query.Field;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.OrderType;
-import org.fundaciobit.genapp.common.query.Select;
-import org.fundaciobit.genapp.common.query.SubQuery;
-import org.fundaciobit.genapp.common.query.Where;
-import org.fundaciobit.genapp.common.web.HtmlUtils;
-import org.fundaciobit.genapp.common.web.form.AdditionalButton;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import es.caib.portafib.back.controller.AbstractPeticioDeFirmaController;
 import es.caib.portafib.back.controller.FileDownloadController;
 import es.caib.portafib.back.controller.PortaFIBFilesFormManager;
@@ -59,7 +7,12 @@ import es.caib.portafib.back.controller.aden.CustodiaInfoAdenController;
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.webdb.AnnexController;
 import es.caib.portafib.back.form.SeleccioFluxDeFirmesForm;
-import es.caib.portafib.back.form.webdb.*;
+import es.caib.portafib.back.form.webdb.AnnexFilterForm;
+import es.caib.portafib.back.form.webdb.AnnexForm;
+import es.caib.portafib.back.form.webdb.EstatDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaFilterForm;
+import es.caib.portafib.back.form.webdb.PeticioDeFirmaForm;
+import es.caib.portafib.back.form.webdb.UsuariAplicacioRefList;
 import es.caib.portafib.back.reflist.IdiomaSuportatRefList;
 import es.caib.portafib.back.security.LoginInfo;
 import es.caib.portafib.back.utils.Utils;
@@ -79,9 +32,6 @@ import es.caib.portafib.logic.CustodiaInfoLogicaLocal;
 import es.caib.portafib.logic.FluxDeFirmesLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Annex;
 import es.caib.portafib.model.entity.CustodiaInfo;
@@ -100,6 +50,7 @@ import es.caib.portafib.model.fields.FluxDeFirmesFields;
 import es.caib.portafib.model.fields.GrupEntitatFields;
 import es.caib.portafib.model.fields.GrupEntitatUsuariEntitatFields;
 import es.caib.portafib.model.fields.IdiomaFields;
+import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
 import es.caib.portafib.model.fields.PermisUsuariPlantillaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
@@ -107,9 +58,60 @@ import es.caib.portafib.model.fields.PlantillaFluxDeFirmesFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
-import es.caib.portafib.model.fields.PermisGrupPlantillaFields;
-
+import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.ConstantsPortaFIB;
+import es.caib.portafib.utils.ConstantsV2;
+import org.fundaciobit.genapp.common.StringKeyValue;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+import org.fundaciobit.genapp.common.query.Field;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.OrderType;
+import org.fundaciobit.genapp.common.query.Select;
+import org.fundaciobit.genapp.common.query.SubQuery;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
+import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Controller per gestionar una PeticioDeFirma
@@ -962,9 +964,6 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       peticioDeFirma.setSolicitantUsuariAplicacioID(usuariAplicacioID);
 
-      // #166 XYZ ZZZ Això depen del valor definit en politica de taula de firmes d'entitat
-      peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
-
       peticioDeFirmaForm.addHiddenField(FLUXDEFIRMESID);
 
       HtmlUtils.saveMessageInfo(request, I18NUtils.tradueix("peticiodefirma.modificacionspostcreacio"));
@@ -1056,8 +1055,26 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
       }
 
     }
-    
-    
+
+    // #293 fer cas dels valors de taula de firmes de l'entitat
+    switch (entitat.getPoliticaTaulaFirmes()) {
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_NO_ES_PERMET:
+        // Enitat no permet taula de firmes. Marcam sense taula i feim cap readonly
+        peticioDeFirma.setPosicioTaulaFirmesID(ConstantsV2.TAULADEFIRMES_SENSETAULA);
+        peticioDeFirmaForm.addReadOnlyField(POSICIOTAULAFIRMESID);
+        break;
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OBLIGATORI_DEFINIT:
+        // Enitat defineix obligatòriament taula de firmes. Marcam la posició definida a l'entitat i feim cap readonly
+        peticioDeFirma.setPosicioTaulaFirmesID(entitat.getPosicioTaulaFirmes());
+        peticioDeFirmaForm.addReadOnlyField(POSICIOTAULAFIRMESID);
+        break;
+      case ConstantsPortaFIB.POLITICA_TAULA_FIRMES_OPCIONAL_PER_DEFECTE_DEFINIT_EN_CONF:
+        // Entitat defineix taula de firmes opicional i valor per defecte. Marcam per defecte posició de l'entitat
+        if (peticioDeFirmaForm.isNou()) {
+          peticioDeFirma.setPosicioTaulaFirmesID(entitat.getPosicioTaulaFirmes());
+        }
+        break;
+    }
 
     switch (entitat.getPoliticaSegellatDeTemps()) {
       case ConstantsPortaFIB.POLITICA_DE_SEGELLAT_DE_TEMPS_NOUSAR:
@@ -2117,7 +2134,7 @@ public class PeticioDeFirmaSoliController extends AbstractPeticioDeFirmaControll
 
       baos = null;
       
-      System.gc();
+      //System.gc();
       
       response.getOutputStream().flush();
       

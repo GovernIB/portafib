@@ -1,6 +1,19 @@
 package org.fundaciobit.apisib.apifirmasimple.v1.test;
 
-import java.awt.Desktop;
+import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
+import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
+import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
+
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,19 +29,6 @@ import java.net.Socket;
 import java.net.URI;
 import java.util.List;
 import java.util.Properties;
-
-import org.fundaciobit.apisib.apifirmasimple.v1.ApiFirmaWebSimple;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleAddFileToSignRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFileInfoSignature;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetSignatureResultRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleGetTransactionStatusResponse;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureResult;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleSignatureStatus;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStartTransactionRequest;
-import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleStatus;
-import org.fundaciobit.apisib.apifirmasimple.v1.jersey.ApiFirmaWebSimpleJersey;
 
 /**
  *
@@ -249,7 +249,7 @@ public class ApiFirmaWebSimpleTester {
           fos.flush();
 
           System.out.println("  RESULT: Fitxer signat guardat en '" + outFile + "'");
-          System.gc();
+          //System.gc();
 
           ApiFirmaEnServidorSimpleTester.printSignatureInfo(fssr);
 

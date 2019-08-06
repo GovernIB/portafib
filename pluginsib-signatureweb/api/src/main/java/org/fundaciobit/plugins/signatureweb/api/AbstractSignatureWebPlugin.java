@@ -1,5 +1,17 @@
 package org.fundaciobit.plugins.signatureweb.api;
 
+import org.apache.commons.fileupload.FileItem;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.IRubricGenerator;
+import org.fundaciobit.plugins.signature.api.PropertyInfo;
+import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
+import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
+import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.cert.X509Certificate;
@@ -11,19 +23,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.IRubricGenerator;
-import org.fundaciobit.plugins.signature.api.PropertyInfo;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
-import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 
 /**
  * 
@@ -71,7 +70,7 @@ public abstract class AbstractSignatureWebPlugin
       clearMessages(id);
       infoSign.remove(id);
     }
-    System.gc();
+    //System.gc();
   }
 
 
