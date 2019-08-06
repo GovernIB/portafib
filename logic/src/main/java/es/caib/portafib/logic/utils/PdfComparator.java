@@ -1,5 +1,8 @@
 package es.caib.portafib.logic.utils;
 
+import com.itextpdf.text.pdf.PdfReader;
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -7,13 +10,6 @@ import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-
-import com.itextpdf.text.pdf.PdfReader;
-
-import es.caib.portafib.logic.utils.AttachedFile;
-import es.caib.portafib.logic.utils.PdfUtils;
-import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
-import es.caib.portafib.utils.ConstantsV2;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -102,7 +98,7 @@ public class PdfComparator implements ConstantsV2 {
     } finally {
       clean(adaptades, esborrar);
       clean(signats, esborrar);
-      System.gc();
+      //System.gc();
       adaptades = null;
       signats = null;
     }

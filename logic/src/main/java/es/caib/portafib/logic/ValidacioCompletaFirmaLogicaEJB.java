@@ -1,17 +1,8 @@
 package es.caib.portafib.logic;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.security.Security;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.security.PdfPKCS7;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
@@ -21,10 +12,6 @@ import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.utils.ConstantsV2;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -38,9 +25,19 @@ import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.security.PdfPKCS7;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.Security;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -382,7 +379,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         checkValidationSignature, validateSignatureResponse, numeroSerieCertificat,
         emissorCertificat, subjectCertificat, certificateLastSign, perfilDeFirma);
 
-    System.gc();
+    //System.gc();
 
     return resposta;
   }

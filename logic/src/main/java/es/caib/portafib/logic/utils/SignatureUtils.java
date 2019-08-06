@@ -608,7 +608,7 @@ public class SignatureUtils {
     // Desreferenciam memoria
     originalInfo.setData(null);
     // Alliberar memòria DataSource
-    System.gc();
+    //System.gc();
 
     // (2) Adaptam el fitxer
 
