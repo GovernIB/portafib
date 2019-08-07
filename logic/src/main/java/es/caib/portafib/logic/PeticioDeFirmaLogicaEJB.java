@@ -788,8 +788,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           est.setValor(1.0);
           est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI);
-          est.setUsuariEntitatID(peticioDeFirma.getSolicitantUsuariEntitat1ID());
           String usrent = peticioDeFirma.getSolicitantUsuariEntitat1ID();
+          est.setUsuariEntitatID(usrent);
           {
             Properties params = new Properties();
             params.setProperty("entitatID", entitatID);
@@ -2456,12 +2456,12 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
         // Estadistiques
         try {
 
-          Estadistica est = new EstadisticaJPA();
+          EstadisticaJPA est = new EstadisticaJPA();
 
           est.setValor(1.0);
           est.setUsuariAplicacioID(peticioDeFirma.getSolicitantUsuariAplicacioID());
           est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL);
-          est.setUsuariEntitatID(null);
+          est.setUsuariEntitatID(peticioDeFirma.getSolicitantUsuariEntitat1ID());
           {
             Properties params = new Properties();
             params.setProperty("entitatID", entitatID);
@@ -2481,6 +2481,14 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           est.setData(new Timestamp(System.currentTimeMillis()));
 
           estadisticaEjb.create(est);
+
+          // Estadística amb el nombre de firmes de la petició
+          Estadistica est2 = EstadisticaJPA.copyJPA(est);
+          est2.setEstadisticaID(0);
+          est2.setValor(Double.valueOf(firma.getNumFirmaDocument()));
+          est2.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
+          estadisticaEjb.create(est2);
+
         } catch (Throwable th) {
           log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(),
               th);

@@ -298,10 +298,10 @@ public interface ConstantsV2 {
   public static final int ESTADISTICA_TIPUS_PETICIO_INICI = 0;
   
   public static final int ESTADISTICA_TIPUS_PETICIO_FINAL = 1;
-  
+
   public static final int ESTADISTICA_TIPUS_PETICIO_REBUTJADA = 2;
 
-
+  public static final int ESTADISTICA_TIPUS_PETICIO_FIRMES = 3;
   
  //========================================================
  // -- POLITICA DE CUSTODIA (Es troben a Constants de WS --

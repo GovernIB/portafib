@@ -1,21 +1,15 @@
 package es.caib.portafib.back.controller.aden;
 
-import java.io.OutputStream;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import es.caib.portafib.back.controller.webdb.EstadisticaController;
 import es.caib.portafib.back.form.aden.EstadisticaAdenFilterForm;
+import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
+import es.caib.portafib.back.form.webdb.EstadisticaForm;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.back.utils.DataExporterPortaFIB;
+import es.caib.portafib.model.entity.Estadistica;
+import es.caib.portafib.model.fields.EstadisticaFields;
+import es.caib.portafib.utils.Configuracio;
+import es.caib.portafib.utils.ConstantsV2;
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
@@ -35,15 +29,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import es.caib.portafib.back.controller.webdb.EstadisticaController;
-import es.caib.portafib.back.form.webdb.EstadisticaFilterForm;
-import es.caib.portafib.back.form.webdb.EstadisticaForm;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.back.utils.DataExporterPortaFIB;
-import es.caib.portafib.model.entity.Estadistica;
-import es.caib.portafib.model.fields.EstadisticaFields;
-import es.caib.portafib.utils.Configuracio;
-import es.caib.portafib.utils.ConstantsV2;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -498,7 +496,8 @@ public class EstadisticaAdenController extends EstadisticaController {
 
     final int[] tipus = { ConstantsV2.ESTADISTICA_TIPUS_PETICIO_INICI,
         ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FINAL,
-        ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA, };
+        ConstantsV2.ESTADISTICA_TIPUS_PETICIO_REBUTJADA,
+        ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES};
 
     for (int i = 0; i < tipus.length; i++) {
       __tmp.add(new StringKeyValue(String.valueOf(tipus[i]), I18NUtils
