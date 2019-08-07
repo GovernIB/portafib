@@ -180,6 +180,20 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
         );
   }
   
+  
+  @Override
+  public void preValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
+
+    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
+    
+    if (pagines == null || pagines.trim().length() == 0) {
+      custodiaInfoForm.getCustodiaInfo().setPagines("buit");
+    }
+    
+  }
+  
+  
+  
   @Override
   public void postValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm, BindingResult result)  throws I18NException {
     
@@ -218,6 +232,13 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
       }
       
       
+    }
+
+    
+    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
+    
+    if ("buit".equals(pagines)) {
+      custodiaInfoForm.getCustodiaInfo().setPagines("");
     }
     
 
@@ -260,4 +281,8 @@ public class PlantillaCustodiaAdenController extends CustodiaInfoController {
       ModelAndView mav, Where where)  throws I18NException {
    return CustodiaInfoSoliController.internalReferenceListForPosicioPagina();
   }
+  
+  
+  
+  
 }

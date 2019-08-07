@@ -685,6 +685,25 @@ public java.lang.Long stringToPK(String value) {
     __tmp.add(new StringKeyValue("18" , "18"));
     __tmp.add(new StringKeyValue("19" , "19"));
     __tmp.add(new StringKeyValue("20" , "20"));
+    __tmp.add(new StringKeyValue("69" , "69"));
+    __tmp.add(new StringKeyValue("68" , "68"));
+    __tmp.add(new StringKeyValue("67" , "67"));
+    __tmp.add(new StringKeyValue("66" , "66"));
+    __tmp.add(new StringKeyValue("65" , "65"));
+    __tmp.add(new StringKeyValue("64" , "64"));
+    __tmp.add(new StringKeyValue("63" , "63"));
+    __tmp.add(new StringKeyValue("62" , "62"));
+    __tmp.add(new StringKeyValue("61" , "61"));
+    __tmp.add(new StringKeyValue("60" , "60"));
+    __tmp.add(new StringKeyValue("59" , "59"));
+    __tmp.add(new StringKeyValue("58" , "58"));
+    __tmp.add(new StringKeyValue("57" , "57"));
+    __tmp.add(new StringKeyValue("56" , "56"));
+    __tmp.add(new StringKeyValue("55" , "55"));
+    __tmp.add(new StringKeyValue("54" , "54"));
+    __tmp.add(new StringKeyValue("53" , "53"));
+    __tmp.add(new StringKeyValue("52" , "52"));
+    __tmp.add(new StringKeyValue("51" , "51"));
     __tmp.add(new StringKeyValue("99" , "99"));
     return __tmp;
   }

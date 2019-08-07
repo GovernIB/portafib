@@ -14,7 +14,7 @@ public interface PluginLogicaLocal extends PluginLocal {
   
   public static final String JNDI_NAME = "portafib/PluginLogicaEJB/local";
   
-  
+  public boolean deleteOfCache(Long pluginID);
   
   public void clearCache();
 

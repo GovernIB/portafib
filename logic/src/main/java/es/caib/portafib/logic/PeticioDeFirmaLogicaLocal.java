@@ -118,8 +118,8 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
       PeticioDeFirma peticioDeFirma, String motiuInvalidacio)
       throws I18NException;
 
-  public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA)
-       throws I18NException, Exception;
+public PeticioDeFirmaJPA resetPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA)
+       throws I18NException, I18NValidationException;
 
   public PeticioDeFirmaJPA clonePeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatJPA,
     String newMessageFormaPatternForName) throws I18NException;
@@ -130,7 +130,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
 
 
   public Collection<InfoUser> enviarMailPeticionsPendentsDeFirmar() throws Exception, I18NException;
-  
+
   /**
    * Fa neteja en peticions firmades de:
    *     - Firmes Intermedies
@@ -141,7 +141,7 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * @throws I18NException
    */
   public void cleanOriginalFilesOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
-  
+
   /**
    * Fa neteja en peticions firmades o rebutjades de:
    *     - Firmes Intermedies
@@ -150,10 +150,10 @@ public interface PeticioDeFirmaLogicaLocal extends PeticioDeFirmaLocal {
    * @throws I18NException
    */
   public void cleanAdaptatFileOfPeticioDeFirma(Long peticioDeFirmaID) throws I18NException;
-  
-  
+
+
   public Map<String, Object> getAdditionalParametersForDocumentCustody(
-      PeticioDeFirmaJPA peticioDeFirma, CustodiaInfo custodiaInfo) throws I18NException;
+      PeticioDeFirmaJPA peticioDeFirma, FirmaJPA firma, CustodiaInfo custodiaInfo) throws I18NException;
 
   public CustodiaInfo addCustodiaInfoToPeticioDeFirma(long peticioDeFirmaID, EntitatJPA entitatID) throws I18NException, I18NValidationException;
   

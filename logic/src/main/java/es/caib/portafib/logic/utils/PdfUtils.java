@@ -1577,7 +1577,7 @@ public class PdfUtils implements ConstantsV2 {
       int lastPage) throws I18NException {
 
     Set<Integer> pages = new TreeSet<Integer>();
-    if (pagines == null || pagines.trim().length() == 0) {
+    if (pagines == null || "buit".equals(pagines) || pagines.trim().length() == 0) {
       return pages;
     }
 
