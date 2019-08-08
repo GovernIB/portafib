@@ -80,10 +80,9 @@ public class SignatureInServerTest extends TestCase {
       String filtreCertificats = "";
       String username = "anadal";
       String administrationID = "43096845C";
-      boolean alwaysCreateRevision = true;
       
       CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-          filtreCertificats, username, administrationID, alwaysCreateRevision);
+          filtreCertificats, username, administrationID);
 
       String signID = "999";
       File source = new File(pdfsource);

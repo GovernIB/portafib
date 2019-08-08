@@ -9,6 +9,7 @@ import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
 import javax.ejb.Local;
 
 import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 /**
  * 
@@ -27,6 +28,6 @@ public interface ColaboracioDelegacioLogicaLocal extends ColaboracioDelegacioLoc
 	
 	public ColaboracioDelegacioJPA updateFull(ColaboracioDelegacioJPA instance) throws I18NException;
 	
-	public void assignarAutoritzacioADelegacio(Long delegacioID, File firmat, String nom)
-    throws Exception, I18NException;
+	public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo,
+	    File firmat, String nom)  throws Exception, I18NException;
 }

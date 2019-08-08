@@ -176,9 +176,10 @@ public class RestFirmaExternaController extends RestUtilsErrorManager {
         usuariEntitats = usuariPersona.getUsuariEntitats();
 
       } else if (person.getPositionInTheCompany() != null) {
-        // XYZ ZZZ ZZZ
+        // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "Càrrec no suportat per ara");
       } else {
+        // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "No ha definit cap camp de Persona");
       }
 

@@ -75,28 +75,37 @@ public class LogicUtils {
   }
 
   public static File sobreescriureFitxerChecked(File src, Long fitxerID) throws Exception {
+
     if (!src.exists()) {
-      log.error("El fitxer origen [" + src.getAbsolutePath() + "] no existeix");
-      throw new Exception("El fitxer origen [" + src.getAbsolutePath() + "] no existeix");
+      String msg = "El fitxer origen [" + src.getAbsolutePath() + "] no existeix"; 
+      log.error(msg);
+      throw new Exception(msg);
     }
 
-    long srcLength = src.length();
+    // Revisam que el directori destí existeixi
+    final long srcLength = src.length();
     File dest = FileSystemManager.sobreescriureFitxer(src, fitxerID);
     if (!dest.exists()) {
-      log.error("El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix");
-      throw new Exception("El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix");
+      String msg = "El fitxer resultant [" + dest.getAbsolutePath() + "] no existeix";  
+      log.error(msg);
+      throw new Exception(msg);
     }
+
     if (dest.length() != srcLength) {
-      log.error("La mida del fitxer resultant [" + dest.getAbsolutePath() + "] és inferior a la del fitxer original");
-      throw new Exception("La mida del fitxer resultant [" + dest.getAbsolutePath() + "] és inferior a la del fitxer original");
+      String msg = "La mida del fitxer destí després de fer el rename [" 
+        + dest.getAbsolutePath() + "] és diferent a la del fitxer original"; 
+      log.error(msg);
+      throw new Exception(msg);
     }
+
     if (src.exists()) {
       log.warn("El fitxer origen [" + src.getAbsolutePath() + "] encara existeix");
       if (!src.delete()) {
-        log.warn("El fitxer origen [" + src.getAbsolutePath() + "] no s'ha pogut borrar");
+        log.warn("El fitxer origen [" + src.getAbsolutePath() + "] no s'ha pogut esborrar");
         src.deleteOnExit();
       }
     }
+
     return dest;
   }
   

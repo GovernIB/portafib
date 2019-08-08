@@ -1,7 +1,5 @@
 package es.caib.portafib.logic.utils;
 
-import java.util.Map;
-
 import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 
 /**
@@ -19,7 +17,6 @@ public class ValidacioCompletaRequest {
 
   protected boolean comprovarNifFirma;
 
-  @Deprecated
   protected IPortaFIBDataSource originalData;
 
   protected IPortaFIBDataSource signatureData;
@@ -34,12 +31,8 @@ public class ValidacioCompletaRequest {
 
   protected String languageUI;
 
-  @Deprecated
-  protected Map<Integer, IPortaFIBDataSource> fitxersByNumFirma;
-
-  @Deprecated
   protected int numFirmaPortaFIB;
-  @Deprecated
+
   protected int numFirmesOriginals;
 
   protected String nifEsperat;
@@ -66,8 +59,7 @@ public class ValidacioCompletaRequest {
       boolean checkCanviatDocFirmat, boolean comprovarNifFirma,
       IPortaFIBDataSource originalData, IPortaFIBDataSource adaptedData,
       IPortaFIBDataSource signatureData, IPortaFIBDataSource documentDetachedData,
-      int signTypeID, boolean signMode, String languageUI,
-      Map<Integer, IPortaFIBDataSource> fitxersByNumFirma, int numFirmaPortaFIB,
+      int signTypeID, boolean signMode, String languageUI, int numFirmaPortaFIB,
       int numFirmesOriginals, String nifEsperat, int posTaulaDeFirmes) {
     super();
     this.entitatID = entitatID;
@@ -81,21 +73,18 @@ public class ValidacioCompletaRequest {
     this.signTypeID = signTypeID;
     this.signMode = signMode;
     this.languageUI = languageUI;
-    this.fitxersByNumFirma = fitxersByNumFirma;
     this.numFirmaPortaFIB = numFirmaPortaFIB;
     this.numFirmesOriginals = numFirmesOriginals;
     this.nifEsperat = nifEsperat;
     this.posTaulaDeFirmes = posTaulaDeFirmes;
   }
 
-  @Deprecated
-  public Map<Integer, IPortaFIBDataSource> getFitxersByNumFirma() {
-    return fitxersByNumFirma;
+  public int getNumFirmesOriginals() {
+    return numFirmesOriginals;
   }
 
-  @Deprecated
-  public void setFitxersByNumFirma(Map<Integer, IPortaFIBDataSource> fitxersByNumFirma) {
-    this.fitxersByNumFirma = fitxersByNumFirma;
+  public void setNumFirmesOriginals(int numFirmesOriginals) {
+    this.numFirmesOriginals = numFirmesOriginals;
   }
 
   public boolean isValidarFitxerFirma() {
@@ -138,12 +127,10 @@ public class ValidacioCompletaRequest {
     this.checkCanviatDocFirmat = checkCanviatDocFirmat;
   }
 
-  @Deprecated
   public IPortaFIBDataSource getOriginalData() {
     return originalData;
   }
 
-  @Deprecated
   public void setOriginalData(IPortaFIBDataSource originalData) {
     this.originalData = originalData;
   }
@@ -164,24 +151,12 @@ public class ValidacioCompletaRequest {
     this.documentDetachedData = documentDetachedData;
   }
 
-  @Deprecated
   public int getNumFirmaPortaFIB() {
     return numFirmaPortaFIB;
   }
 
-  @Deprecated
   public void setNumFirmaPortaFIB(int numFirmaPortaFIB) {
     this.numFirmaPortaFIB = numFirmaPortaFIB;
-  }
-
-  @Deprecated
-  public int getNumFirmesOriginals() {
-    return numFirmesOriginals;
-  }
-
-  @Deprecated
-  public void setNumFirmesOriginals(int numFirmesOriginals) {
-    this.numFirmesOriginals = numFirmesOriginals;
   }
 
   public boolean isComprovarNifFirma() {

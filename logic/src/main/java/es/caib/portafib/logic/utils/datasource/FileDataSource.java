@@ -86,4 +86,9 @@ public class FileDataSource implements IPortaFIBDataSource {
     }
   }
 
+  @Override
+  public long size() throws I18NException {
+    return this.file.length();
+  }
+
 }

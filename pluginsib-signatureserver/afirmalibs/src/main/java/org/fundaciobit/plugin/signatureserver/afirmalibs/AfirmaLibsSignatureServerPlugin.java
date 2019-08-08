@@ -31,7 +31,6 @@ import org.fundaciobit.plugins.signatureserver.miniappletutils.MiniAppletUtils;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.core.utils.FileUtils;
 import org.fundaciobit.pluginsib.core.utils.PublicCertificatePrivateKeyPair;
-import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 
 import es.gob.afirma.signers.cades.AOCAdESSigner;
 import es.gob.afirma.signers.pades.AOPDFSigner;

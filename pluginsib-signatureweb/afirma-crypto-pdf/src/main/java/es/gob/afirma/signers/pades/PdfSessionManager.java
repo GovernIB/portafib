@@ -243,8 +243,12 @@ public final class PdfSessionManager
       ((PdfSignatureAppearance)localObject).setLayer4Text(str7);
     }
     ((PdfSignatureAppearance)localObject).setCrypto(null, paramArrayOfCertificate, null, null);
-    if (str6 != null) {}
-    PdfSignature localPdfSignature = new PdfSignature(PdfName.ADOBE_PPKLITE, !str6.isEmpty() ? new PdfName(str6) : PdfName.ADBE_PKCS7_DETACHED);
+    PdfSignature localPdfSignature;
+    if (str6 == null || str6.isEmpty()) {
+      localPdfSignature = new PdfSignature(PdfName.ADOBE_PPKLITE, PdfName.ADBE_PKCS7_DETACHED);
+    } else {
+      localPdfSignature = new PdfSignature(PdfName.ADOBE_PPKLITE, new PdfName(str6) );
+    }
     if (((PdfSignatureAppearance)localObject).getSignDate() != null) {
       localPdfSignature.setDate(new PdfDate(((PdfSignatureAppearance)localObject).getSignDate()));
     }

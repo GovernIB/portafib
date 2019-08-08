@@ -294,8 +294,6 @@ public class MiniAppletInClientSignatureWebPlugin extends
       for (String name : uploadedFiles.keySet()) {
 
         FileItem uploadedFile = uploadedFiles.get(name);
-        
-        
 
         StatusSignature status = fileInfo.getStatusSignature(); 
             // XYZ getStatusSignature(signaturesSet.getSignaturesSetID(), signatureIndex);

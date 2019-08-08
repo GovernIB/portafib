@@ -8,8 +8,6 @@ import com.itextpdf.text.RectangleReadOnly;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.PdfAConformanceLevel;
-import com.itextpdf.text.pdf.PdfAWriter;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
@@ -18,9 +16,7 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfString;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.security.PdfPKCS7;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.Fitxer;
@@ -28,22 +24,16 @@ import es.caib.portafib.utils.ConstantsV2;
 import es.caib.portafib.versio.Versio;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.plugins.certificate.ICertificatePlugin;
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.certificate.ResultatValidacio;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.fundaciobit.pluginsib.documentconverter.IDocumentConverterPlugin;
 import org.fundaciobit.pluginsib.documentconverter.InputDocumentNotSupportedException;
 import org.fundaciobit.pluginsib.documentconverter.OutputDocumentNotSupportedException;
 
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,12 +41,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringReader;
-import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,8 +52,8 @@ import java.util.Vector;
 
 /**
  * 
- * @author anadal
- * 
+ * @author anadal(u80067)
+ *
  */
 public class PdfUtils implements ConstantsV2 {
 
@@ -177,6 +164,7 @@ public class PdfUtils implements ConstantsV2 {
 
   }
 
+  /* XYZ ZZZ ZZZ
   public static InformacioCertificat checkCertificatePADES(Long fitxerOriginalID,
       Map<Integer, Long> fitxersByNumFirma, File signedPDF, int numFirmaPortaFIB,
       int numFirmesOriginals, boolean checkCanviatDocFirmat)
@@ -332,12 +320,12 @@ public class PdfUtils implements ConstantsV2 {
           // =========================================================
     
           if (fitxerID != null) {
-            /*
-             * La diferencia del numero de revisions internes PDF entre la penultima
-             * firma i aquesta darrera firma ha de ser de 1. Si aquest numero es
-             * major significa que s'ha modificat ekl document amb revisions entre
-             * les firmes.
-             */
+            
+//             * La diferencia del numero de revisions internes PDF entre la penultima
+//             * firma i aquesta darrera firma ha de ser de 1. Si aquest numero es
+//             * major significa que s'ha modificat ekl document amb revisions entre
+//             * les firmes.
+             
     
             FileInputStream fis = null;
             int[] revPenultim;
@@ -431,6 +419,7 @@ public class PdfUtils implements ConstantsV2 {
     return info;
 
   }
+  */
 
   public static ResultatValidacio validateCertificat(X509Certificate cert)
       throws I18NException, Exception {
@@ -447,7 +436,7 @@ public class PdfUtils implements ConstantsV2 {
   }
   
  
-
+/*
   public static boolean checkDocumentWhenFirstSign(byte[] originalData, 
       byte[] signedPDFData, int numFirmesOriginals) throws I18NException {
     
@@ -469,19 +458,19 @@ public class PdfUtils implements ConstantsV2 {
     // XYZ ZZZ ZZZ
     //if (numFirmesOriginals == 0) {
     revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, originalData.length - 20);
-    /*} else {
-      revisionLimitSigned = 0;
-      // Final del doc original més final de les "numFirmesOriginals" firmes
-      for (int i = 0; i <= numFirmesOriginals; i++) {
-        revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, revisionLimitSigned + PdfUtils.EOF_PDF.length);
-        log.info(" XYZ ZZZ ZZZ Bucle[" + i + "] = index => " + revisionLimitSigned);
-        if (revisionLimitSigned == revisionLimitOriginal) {
-          log.info(" XYZ ZZZ ZZZ Sortim del Bucle[" + i + "] = trobat Limit abans d'hora"
-              + " (suposam que no te revisió de la primera firma) ");
-          break;
-        }
-      }
-    }*/
+//    } else {
+//      revisionLimitSigned = 0;
+//      // Final del doc original més final de les "numFirmesOriginals" firmes
+//      for (int i = 0; i <= numFirmesOriginals; i++) {
+//        revisionLimitSigned = PdfUtils.indexOf(signedPDFData, PdfUtils.EOF_PDF, revisionLimitSigned + PdfUtils.EOF_PDF.length);
+//        log.info(" XYZ ZZZ ZZZ Bucle[" + i + "] = index => " + revisionLimitSigned);
+//        if (revisionLimitSigned == revisionLimitOriginal) {
+//          log.info(" XYZ ZZZ ZZZ Sortim del Bucle[" + i + "] = trobat Limit abans d'hora"
+//              + " (suposam que no te revisió de la primera firma) ");
+//          break;
+//        }
+//      }
+//    }
 
     
     if (revisionLimitOriginal != revisionLimitSigned) {
@@ -529,7 +518,7 @@ public class PdfUtils implements ConstantsV2 {
     }
 
   }
-
+*/
   /**
    * 
    * @param srcPDF
@@ -550,7 +539,7 @@ public class PdfUtils implements ConstantsV2 {
   public static int add_TableSign_Attachments_CustodyInfo_PDF(File srcPDF, File dstPDF,
       final List<AttachedFile> attachmentsOrig, Long maxSize,
       StampTaulaDeFirmes taulaDeFirmesInfo, StampCustodiaInfo custodiaInfo,
-      boolean transformPdfA, boolean forceCleanPdf) throws Exception, I18NException {
+      boolean acceptTransformPDFA) throws Exception, I18NException {
 
     InputStream isPDF = null;
     final int originalNumberOfSigns;
@@ -611,47 +600,13 @@ public class PdfUtils implements ConstantsV2 {
 
       log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO TENIM TAULA NI CUSTODIA NI ANNEXES");
 
-      // Check PDF-A1?
-      PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
-      try {
+      {
 
-        if (isPdfA1(reader.getMetadata())) {
-
-          if (!transformPdfA) {
-            // El PDF és de tipus PDF/A1 i no es permet la seva transformació.
-            // Per qüestions tècniques els PDF/A1 no es poden signar en PortaFIB. 
-            // Consulti amb l´administrador (Veure propietat es.caib.portafib.transformpdfa)
-            throw new I18NException("error.checkpdf.pdfa1");
-          }
-
-          log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: ES PDF-A1");
-
-          final List<AttachedFile> attachments = new ArrayList<AttachedFile>();
-
-          final List<AttachedFile> attachmentsOriginalPDF = new ArrayList<AttachedFile>();
-
-          // Llegir documents Adjunts del PDF original
-          // (Quan es converteix a PDF/A s'eliminen els adjunts)
-          attachmentsOriginalPDF.addAll(extractAttachments(reader));
-          for (AttachedFile fileAttached : attachmentsOriginalPDF) {
-            fileAttached.getContent().deleteOnExit();
-          }
-          attachments.addAll(attachmentsOriginalPDF);
-
-          //PdfAWriter writer = PdfAWriter.getInstance(document, destiPDFA, PDFA_CONFORMANCE_LEVEL);
-
-          File input3 = forceCleanPdfInternal(attachments, srcPDF, attachmentsOriginalPDF);
-          addPortaFIBVersionToPdf(dstPDF, input3, reader);
-
-        } else {
-
-          log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
-          // Copiar dins dstFile el fitxer Original
-          FileUtils.copyFile(srcPDF, dstPDF);
-        }
-      } finally {
-        reader.close();
+        log.info(" XYZ ZZZ PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF:: NO ADAPTACIO. RETORNA ORIGINAL");
+        // Copiar dins dstFile el fitxer Original
+        FileUtils.copyFile(srcPDF, dstPDF);
       }
+
 
       return originalNumberOfSigns;
     } // Final IF requereixTaula_o_Custodia_o_Annexes
@@ -689,34 +644,35 @@ public class PdfUtils implements ConstantsV2 {
     File fileTmp1 = null;
     FileOutputStream output1 = null;
 
-    File input3 = null;
+    //File input3 = null;
+    FileInputStream readerInputStream = null;
     try {
-      PdfReader reader = new PdfReader(new FileInputStream(srcPDF));
+      readerInputStream = new FileInputStream(srcPDF);
+      PdfReader reader = new PdfReader(readerInputStream);
 
-      // Check PDF-A1 o A2 o A3
-      // final byte[] xmpBytes = reader.getMetadata();
-
+      // Check PDF-A1 o A2 o A3 
       log.info("XYZ ZZZ Comprovant si es PDF/Ax ...");
-
       if (isPdfAx(reader.getMetadata())) {
-        if (!transformPdfA) {
+        if (!acceptTransformPDFA) {
+          
+          // acceptTransformPDFA => Nou a la versió 2.0.1 Opcional. Per defecte false.
+          // En firmes PAdES,
+          // si el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3 i si a més es requereix
+          // Estampar o Afegir Taula de Firmes o Annexar Documents, llavors això
+          // implica una transformació del PDF que a la vegada implica una pèrdua
+          // de la condició de PDF/A. Si val true s'accepta transformar el PDF/A
+          // i perdre a  la condició de PDF/A. Si val false es llança una
+          // excepció indicant que no es permeten Estampacions o Taules de Firmes
+          // o Annexes  en PDF/A.
 
           // El PDF és de tipus PDF/A, el que significa que no se li pot afegir 
           // taula de firmes, estampar custòdia o afegir annexes a no ser que es 
           // transformi el PDF, però la transformació està desactivada.
           // Consulti amb l´administrador (Veure propietat es.caib.portafib.transformpdfa)
-          throw new I18NException(
-              "error.checkpdf.pdfa_no_modificar", "PDF/A");
+          throw new I18NException("error.checkpdf.pdfa_no_modificar", "PDF/A");
         }
-        
-        /// XYZ ZZZ ZZZ forcecleanPdf posarho a true
-        forceCleanPdf = true;
-
-      } else {
-        log.info("XYZ ZZZ ZZZ NO Es PDF/Ax, continuam ...");
       }
 
-      // ByteArrayOutputStream output = new ByteArrayOutputStream();
       fileTmp1 = File.createTempFile("portafib_pdfutils_1_", ".pdf");
       fileTmp1.deleteOnExit();
 
@@ -767,23 +723,11 @@ public class PdfUtils implements ConstantsV2 {
         stamper.close();
       }
 
-      //
       output1.flush();
       output1.close();
       output1 = null;
 
-      // Revisar comportament de Portafib amb els PDF/A #242
-      if (forceCleanPdf) { 
-        // 5.- Netejar PDF anterior
-        log.info(" XYZ ZZZ NETEJAM DE PDF");
-        attachments.addAll(attachmentsOriginalPDF);
-        input3 = forceCleanPdfInternal(attachments, fileTmp1, attachmentsOriginalPDF);
-      } else {
-        log.info(" XYZ ZZZ NOOOOO NETEJA DE PDF");
-        input3 = fileTmp1;
-      }
-
-      addPortaFIBVersionToPdf(dstPDF, input3, reader);
+      addPortaFIBVersionToPdf(dstPDF, fileTmp1, reader);
 
     } finally {
       try {
@@ -799,8 +743,12 @@ public class PdfUtils implements ConstantsV2 {
       } catch (Exception e) {
       }
       try {
-        if (input3 != null) {
-          input3.delete();
+        if (readerInputStream != null) {
+          try {
+            readerInputStream.close();            
+          } catch (Exception e) {
+          }
+
         }
       } catch (Exception e) {
       }
@@ -843,6 +791,7 @@ public class PdfUtils implements ConstantsV2 {
     return false;
   }
 
+  /*
   protected static File forceCleanPdfInternal(List<AttachedFile> attachments,
       File fileTmp1, List<AttachedFile> attachmentsOriginalPDF) throws IOException,
       FileNotFoundException, Exception {
@@ -880,7 +829,16 @@ public class PdfUtils implements ConstantsV2 {
     input3 = fileTmp2;
     return input3;
   }
-
+*/
+  /**
+   * 
+   * @param dstPDF
+   * @param input3
+   * @param reader
+   * @throws IOException
+   * @throws FileNotFoundException
+   * @throws DocumentException
+   */
   protected static void addPortaFIBVersionToPdf(File dstPDF, File input3, PdfReader reader)
       throws IOException, FileNotFoundException, DocumentException {
     PdfReader reader3 = new PdfReader(new FileInputStream(input3));
@@ -892,6 +850,13 @@ public class PdfUtils implements ConstantsV2 {
     stamper3.close();
   }
 
+  /**
+   * 
+   * @param reader
+   * @param stamper
+   * @param taulaDeFirmes
+   * @throws Exception
+   */
   public static void addTaulaDeFirmes(PdfReader reader, PdfStamper stamper,
       StampTaulaDeFirmes taulaDeFirmes) throws Exception {
     if (taulaDeFirmes.getPosicioTaulaDeFirmes() != TAULADEFIRMES_SENSETAULA) {
@@ -1091,6 +1056,7 @@ public class PdfUtils implements ConstantsV2 {
 
   }
 
+  /* XYZ ZZZ ZZZ
   public static int[] splitPDFRevisions(byte[] data) throws Exception {
     int offSet = 0;
     List<Integer> list = new ArrayList<Integer>();
@@ -1113,7 +1079,9 @@ public class PdfUtils implements ConstantsV2 {
       ret[i++] = e.intValue();
     return ret;
   }
+  */
 
+  /* XYZ ZZZ ZZZ
   public static final PdfAConformanceLevel PDFA_CONFORMANCE_LEVEL = PdfAConformanceLevel.PDF_A_3B;
 
   public static void forceCleanPdf(PdfReader reader, OutputStream destiPDFA,
@@ -1186,7 +1154,7 @@ public class PdfUtils implements ConstantsV2 {
     }
 
   }
-  
+  */
   
   public static void show(Rectangle rect) {
     System.out.print("llx: ");

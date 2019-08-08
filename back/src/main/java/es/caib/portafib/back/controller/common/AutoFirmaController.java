@@ -23,6 +23,7 @@ import es.caib.portafib.model.fields.FitxerFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
@@ -63,6 +64,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -669,16 +671,14 @@ public class AutoFirmaController extends FitxerController
     // PortaFIBCommonsMultipartResolver
     final Long maxSizeFitxerAdaptat = null;
     
-    final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
+    final boolean acceptTransformPDFA = PropietatGlobalUtil.acceptTransformPDFA(entitatID);
     
-    final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
-
     return PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxerPDF, dstPDF,
         attachments, maxSizeFitxerAdaptat,
         new StampTaulaDeFirmes(1, posicioTaulaFirmesID,
         signantLabel, resumLabel, descLabel, descripcio, 
-        titolLabel, titol, logoSegell), null, transformPdfA,
-        forceCleanPdf);
+        titolLabel, titol, logoSegell), null ,acceptTransformPDFA);
+        
   }
 
 

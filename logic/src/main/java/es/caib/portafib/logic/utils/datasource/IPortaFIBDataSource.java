@@ -17,4 +17,6 @@ public interface IPortaFIBDataSource {
   
   public String checkSum() throws I18NException;
   
+  public long size() throws I18NException;
+  
 }

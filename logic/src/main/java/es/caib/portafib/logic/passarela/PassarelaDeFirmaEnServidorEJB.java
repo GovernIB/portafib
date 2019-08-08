@@ -257,12 +257,10 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
         // En passarel.la no hi ha flux de firma
         final int numFirmaPortaFIB = 1;
-        // En passarel.la no hi ha fitxers intermitjos
-        final Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = new HashMap<Integer, IPortaFIBDataSource>();
 
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
             validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
-            adaptat, signature, documentDetached, signTypeID, signMode, languageUI, fitxersByNumFirma,
+            adaptat, signature, documentDetached, signTypeID, signMode, languageUI,
             numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
 
         // Aqui es fan totes les validacions completes !!!!!!
@@ -458,9 +456,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     // En firma en servidor no hi ha flux de firma
     final int numFirmaPortaFIB = 1;
-    // En firma en servidor no hi ha fitxers intermitjos
-    final Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = new HashMap<Integer, IPortaFIBDataSource>();
-    
+
     // Deixar-ho així per si algun dia des de Passarela es passa 
     final boolean signMode;
     if (documentDetached == null) {
@@ -479,7 +475,7 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
     ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
         validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, fitxerOriginal,
-        upgradedSignatureDS, documentDetachedDS, signTypeID, signMode, languageUI, fitxersByNumFirma,
+        upgradedSignatureDS, documentDetachedDS, signTypeID, signMode, languageUI,
         numFirmaPortaFIB, numFirmesOriginals, expectedNif, ConstantsV2.TAULADEFIRMES_SENSETAULA);
 
     // Aqui es fan totes les validacions completes !!!!!!

@@ -165,34 +165,33 @@ public class TestPDFUtils implements ConstantsV2 {
   }
   
   
-  public static void main1(String[] args) {
-
-    try {
-     
-    File parent = new File("D:\\dades\\dades\\CarpetesPersonals\\Programacio\\PortaFIB\\applet\\web");
-
-    File docOrig = new File(parent, "hola_amb_taula.pdf");
-    File docFir = new File(parent, "hola_amb_taula_firmat.pdf");
-    
-    
-    byte[] pdfData = FileUtils.readFileToByteArray(docFir);
-    
-    byte[] originalData = FileUtils.readFileToByteArray(docOrig);
-    
-    boolean result = PdfUtils.checkDocumentWhenFirstSign(originalData, pdfData, 0);
-    
-    log.info("Orig Len = " + docOrig.length());
-    
-    log.info("Result = " + result);
-    
-    } catch (I18NException e) {
-      e.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
-  
-  }
+//  public static void main1(String[] args) {
+//
+//    try {
+//     
+//    File parent = new File("D:\\dades\\dades\\CarpetesPersonals\\Programacio\\PortaFIB\\applet\\web");
+//
+//    File docOrig = new File(parent, "hola_amb_taula.pdf");
+//    File docFir = new File(parent, "hola_amb_taula_firmat.pdf");
+//    
+//    
+//    byte[] pdfData = FileUtils.readFileToByteArray(docFir);
+//    
+//    byte[] originalData = FileUtils.readFileToByteArray(docOrig);
+//    
+//    boolean result = PdfUtils.checkDocumentWhenFirstSign(originalData, pdfData, 0);
+//    
+//    log.info("Orig Len = " + docOrig.length());
+//    
+//    log.info("Result = " + result);
+//    
+//
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//    
+//  
+//  }
   
   
   @Test
@@ -216,11 +215,10 @@ public class TestPDFUtils implements ConstantsV2 {
       
       File dstPDF = new File("testAttachingFilesToPDFwithAttachs_test.pdf");
       
-      boolean transformPdfA = false;
-      boolean forceCleanPdf = false;
+      final boolean acceptTransformPDFA = false;
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, files, 
-          null, null, null, transformPdfA, forceCleanPdf);
+          null, null, null,acceptTransformPDFA);
       
       Set<String> attachments = extractDocLevelAttachments(dstPDF.getAbsolutePath());
       
@@ -339,28 +337,26 @@ public class TestPDFUtils implements ConstantsV2 {
   
   
   
-  public static void main5(String[] args) {
-
-    try {
-
-      File parent = new File("C:\\Users\\anadal.IBITNET\\Desktop\\FIRMATS_NO_PORTAFIB");
-      
-      File original = new File(parent, "Fichero 3 MB - firmado.pdf");
-      File firmat = new File(parent, "ELIMINAR_Fichero3mb_firmado_.pdf");
-
-      byte[] originalData = FileUtils.readFileToByteArray(original);
-
-      byte[] firmatData = FileUtils.readFileToByteArray(firmat);
-
-      boolean result = PdfUtils.checkDocumentWhenFirstSign(originalData, firmatData, 1);
-
-      log.info("Result = " + result);
-
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
-
-  }
+//  public static void main5(String[] args) {
+//
+//    try {
+//
+//      File parent = new File("C:\\Users\\anadal.IBITNET\\Desktop\\FIRMATS_NO_PORTAFIB");
+//      
+//      File original = new File(parent, "Fichero 3 MB - firmado.pdf");
+//      File firmat = new File(parent, "ELIMINAR_Fichero3mb_firmado_.pdf");
+//
+//      byte[] originalData = FileUtils.readFileToByteArray(original);
+//
+//      byte[] firmatData = FileUtils.readFileToByteArray(firmat);
+//
+//      
+//
+//    } catch (Throwable e) {
+//      e.printStackTrace();
+//    }
+//
+//  }
   
   
   
@@ -460,7 +456,7 @@ public class TestPDFUtils implements ConstantsV2 {
   public static void main(String[] args) {
     //new TestPDFUtils().generaPDFPerProvesApplet();
     
-    main5(args);
+    main3(args);
     
   }
     
@@ -515,18 +511,16 @@ public class TestPDFUtils implements ConstantsV2 {
 
       log.info(" INICI XX " + dstPDF.getAbsolutePath());
       // File logoFile = null;
-
-      boolean transformPdfA = false;
-      boolean forceCleanPdf = false;
-
+      
       
       final StampTaulaDeFirmes stamp = new StampTaulaDeFirmes(numFirmes, posicio, signantLabel,
           resumLabel, descLabel, desc, titolLabel, titol, logoSegell); 
       
+      final boolean acceptTransformPDFA = false;
       
       
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments,
-           null, stamp,  null, transformPdfA, forceCleanPdf);
+           null, stamp,  null , acceptTransformPDFA);
 
     } catch (Throwable e) {
       e.printStackTrace();
@@ -596,16 +590,15 @@ public class TestPDFUtils implements ConstantsV2 {
     
     StampCustodiaInfo custodiaInfo = null; //getCustodyInfo(barcode);
     
-    boolean transformPdfA = false;
-    boolean forceCleanPdf = false;
+   
+    final boolean acceptTransformPDFA = false;
 
     for (File file : files) {
 
       File dstPDF = new File("testHorizontal_" + file.getName());
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(file, dstPDF, attachments, null,
-          taulaDeFirmesInfo , custodiaInfo, transformPdfA, forceCleanPdf);
-
+          taulaDeFirmesInfo , custodiaInfo, acceptTransformPDFA);
     }
 
   }

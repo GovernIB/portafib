@@ -42,6 +42,7 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
@@ -75,6 +76,7 @@ import org.fundaciobit.genapp.common.query.Where;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +88,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -498,8 +501,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
 
       FirmaAsyncSimpleFile fileToConvertInfo = signatureRequest.getFileToSign();
 
-      log.info(" XYZ ZZZ ZZZ fileToConvertInfo = " + fileToConvertInfo);
-
       if (fileToConvertInfo == null) {
         throw new I18NException("genapp.validation.required",
             PeticioDeFirmaFields.FITXERAFIRMARID.fullName);
@@ -608,7 +609,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
           PeticioDeFirmaFields.PETICIODEFIRMAID.equal(peticioDeFirmaID));
 
       if (estat == null) {
-        // XYZ ZZZ ZZZ
+        // XYZ ZZZ TRA
         throw new I18NException("genapp.comodi", "La peticio de Firma amb ID "
             + peticioDeFirmaID + " no existeix.");
 
@@ -685,7 +686,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       FirmaAsyncSimpleFile signedFile = new FirmaAsyncSimpleFile(fitxerJPA.getNom(),
           fitxerJPA.getMime(), FileSystemManager.getFileContent(fitxerJPA.getFitxerID()));
 
-      // XYZ ZZZ ZZZ
       PeticioDeFirmaJPA peticioDeFirma = (PeticioDeFirmaJPA) peticioDeFirmaLogicaEjb
           .findByPrimaryKeyFullWithUserInfo(peticioDeFirmaID);
 

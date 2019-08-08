@@ -237,16 +237,12 @@ public class AutoFirmaController {
       // TODO Veure manual de MiniApplet
       final String filtreCertificats = form.getFiltreCertificats(); 
 
-      // TODO veure manual integració @firma
-      boolean alwaysCreateRevision = true;
 
       commonInfoSignature = new CommonInfoSignature(langUI,
           CommonInfoSignature.cleanFiltreCertificats(filtreCertificats),
-          username, administrationID, alwaysCreateRevision);
+          username, administrationID);
     }
-    
 
-    
    
     // Esbrinam SI WEB O SERVER
     

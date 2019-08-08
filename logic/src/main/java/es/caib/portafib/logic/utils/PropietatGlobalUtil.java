@@ -11,7 +11,7 @@ import java.util.Locale;
 
 /**
  * 
- * @author anadal
+ * @author anadal(u80067)
  *
  */
 public class PropietatGlobalUtil implements ConstantsV2 {
@@ -45,51 +45,22 @@ public class PropietatGlobalUtil implements ConstantsV2 {
   }
 
   /**
-   * Revisar comportament de Portafib amb els PDF/A #242
+   * es.caib.portafib.acceptTransformPDFA Nou a la versió 2.0.1 Opcional. Per defecte false. En
+   * firmes PAdES, si el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3 i si a més es requereix
+   * Estampar o Afegir Taula de Firmes o Annexar Documents, llavors això implica una
+   * transformació del PDF que a la vegada implica una pèrdua de la condició de PDF/A. Si val
+   * true s'accepta transformar el PDF/A i perdre a la condició de PDF/A. Si val false es
+   * llança una excepció indicant que no es permeten Estampacions o Taules de Firmes o Annexes
+   * en PDF/A.
    * 
    * @param entitatID
    * @return
    */
-  public static boolean isTransformPdfA(String entitatID) {
-    final String partialname = "transformpdfa";
+  public static boolean acceptTransformPDFA(String entitatID) {
+    final String partialname = "acceptTransformPDFA";
     Boolean val = getBooleanByEntitat(entitatID, partialname);
     return (val == null) ? false : val;
   }
-
-  /**
-   * Revisar comportament de Portafib amb els PDF/A #242
-   * 
-   * @param entitatID
-   * @return
-   */
-  public static boolean isForceCleanPdf(String entitatID) {
-    final String partialname = "forcecleanpdf";
-    Boolean val = getBooleanByEntitat(entitatID, partialname);
-    return (val == null) ? false : val;
-  }
-
-  /**
-   * Permetre desactivar la creació automàtica de revisions #289
-   *
-   * @param entitatID
-   * @return per defecte true si no està fixada
-   */
-  public static boolean isAlwaysCreateRevision(String entitatID) {
-    final String partialname = "alwayscreaterevision";
-    Boolean val = getBooleanByEntitat(entitatID, partialname);
-    return (val == null) ? true : val;
-  }
-
-  /**
-   * 
-   * @param entitatID
-   * @return
-   */
-  /*
-   * #191 public static boolean ignoreCheckPostSign(String entitatID) { // Valor per entitat
-   * final String partialPropertyName = "ignorecheckpostsign"; Boolean val =
-   * getBooleanByEntitat(entitatID, partialPropertyName); return (val == null)? false : val; }
-   */
 
   /**
    * 
@@ -474,7 +445,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     return val;
   }
 
-
   /**
    * 
    * @return
@@ -487,7 +457,6 @@ public class PropietatGlobalUtil implements ConstantsV2 {
     }
     return val;
   }
-
 
   // ----------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------

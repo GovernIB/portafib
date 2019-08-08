@@ -777,12 +777,8 @@ import java.util.Set;
         {
           final String username = loginInfo.getUsuariPersona().getUsuariPersonaID();
           final String administrationID = loginInfo.getUsuariPersona().getNif();
-          final boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
-                .getEntitatID());
-          //commonInfoSignature = SignatureUtils.getCommonInfoSignature(
-          //    loginInfo.getEntitat(), config, langUI, username, administrationID);
 
-          commonInfoSignature = new CommonInfoSignature(langUI, firstFiltreCertificats, username, administrationID, alwaysCreateRevision);
+          commonInfoSignature = new CommonInfoSignature(langUI, firstFiltreCertificats, username, administrationID);
 
 
         }

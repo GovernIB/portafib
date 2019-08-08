@@ -545,16 +545,13 @@ public class PassarelaDeFirmaWebEJB extends AbstractPassarelaDeFirmaEJB<ISignatu
 
         // En passarel.la no hi ha flux de firma
         final int numFirmaPortaFIB = 1;
-        // En passarel.la no hi ha fitxers intermitjos
-        final Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = new HashMap<Integer, IPortaFIBDataSource>();
-        
         
         IPortaFIBDataSource adaptat = new FileDataSource(getFitxerAdaptatPath(ssf.getSignaturesSet().getSignaturesSetID(), signID));
         int posTaulaDeFirmes = fis.getSignaturesTableLocation();
 
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
             validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal, adaptat,
-            signature, documentDetached, signTypeID, signMode, languageUI, fitxersByNumFirma,
+            signature, documentDetached, signTypeID, signMode, languageUI, 
             numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
 
         // Aqui es fan totes les validacions completes !!!!!!
