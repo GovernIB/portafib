@@ -537,37 +537,18 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
                 + "d´AutoFirmes del Menú d´Inici. Valors: * true: sempre mostra l´opció"
                 + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
                 + " el role PFI_AUTOFIRMA");
-
-
-        propietatGlobalEjb.create("es.caib.portafib.transformpdfa", null,
-            _entitatID_, "Nou a la versió 2.0.0  Amb firmes PAdES, si aquest valor es true"
-                + " i el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3, llavors es transforma el"
-                + " PDF per a que pugui ser adaptat (taula de firmes, ....), però perd la"
-                + " condició de PDF/A");
-
-        propietatGlobalEjb.create("es.caib.portafib.forcecleanpdf", null,
-            _entitatID_, "Nou a la versió 2.0.0  Opcional. Amb firmes PAdES, si aquesta"
-                + " propietat val true llavors es fa neteja del PDF per a que no tengui"
-                + " problemes amb el plugins de firma. Això implica que algunes"
-                + " caracteristiques del PDF original es perdin.");
-
-        propietatGlobalEjb.create("es.caib.portafib.alwayscreaterevision", "true",
-            _entitatID_, "Nou a la versió 2.0.1 Opcional. Amb firmes PAdES, si aquesta propietat " +
-                    "val true (per defecte i recomanat), la firma sempre es genera mitjançant una revisió. Això permet validar " +
-                    "el contingut a baix nivell del fitxer original amb el del fitxer signat.\n " +
-                    "Però la creació de reivisions pot provocar que en determinats fitxers anteriors a la versió PDF 1.7 es generin signatures " +
-                    "no vàlides amb l'error 'urn:afirma:dss:1.0:profile:XSS:resultminor:PAdESInvalidContentsKey'\n" +
-                    "Fixant aquest propietat a \"false\" permet generar una firma vàlida per aquests fitxers. Però caldrà desactivar l'opció " +
-                    "\"Comprovar que no s'hagi modificat durant la firma\" de l'entitat.");
-
-
-        /** #191
-        propietatGlobalEjb.create("es.caib.portafib.ignorecheckpostsign", "false", 
-            _entitatID_, "Opcional. Serveix per indicar a PortaFIB que "
-                + "revisi(false o no definit) o no revisi(true) la manipulació"
-                + " del PDF firmat");
-            */
-
+        
+        propietatGlobalEjb.create("es.caib.portafib.acceptTransformPDFA", "false",
+            _entitatID_, "Nou a la versió 2.0.1 Opcional. Per defecte false. En"
+                + " firmes PAdES, si el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3"
+                + " i si a més es requereix Estampar o Afegir Taula de Firmes o"
+                + " Annexar Documents, llavors això implica una transformació"
+                + " del PDF que a la vegada implica una pèrdua de la condició de"
+                + " PDF/A. Si val true s'accepta transformar el PDF/A i perdre a"
+                + "  la condició de PDF/A. Si val false es llança una excepció"
+                + " indicant que no es permeten Estampacions o Taules de Firmes"
+                + " o Annexes  en PDF/A.");
+        
         
       } catch(I18NException ie) {
         String msg = I18NUtils.getMessage(ie);

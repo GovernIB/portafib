@@ -26,12 +26,19 @@ import java.util.Map;
  *
  */
 public class PdfComparator implements ConstantsV2 {
-  
+
   protected static Logger log = Logger.getLogger(PdfComparator.class);
 
-  // XYZ ZZZ ZZZ I18NException
+  /**
+   * 
+   * @param adaptat
+   * @param signed
+   * @param tmpDir
+   * @param posTaulaDeFirmes
+   * @throws I18NException
+   */
   public static void compare(IPortaFIBDataSource adaptat, IPortaFIBDataSource signed,
-      File tmpDir, int posTaulaDeFirmes)  throws I18NException {
+      File tmpDir, int posTaulaDeFirmes) throws I18NException {
 
     int esborrar = -1; // -1 significa esborrar les imatges generades
 
@@ -66,7 +73,7 @@ public class PdfComparator implements ConstantsV2 {
     // 1 Compara les Imatges
     try {
 
-      adaptades = generateImagesOfPDF(prefix + "_orig", adaptat, tmpDir, start , end);
+      adaptades = generateImagesOfPDF(prefix + "_orig", adaptat, tmpDir, start, end);
 
       signats = generateImagesOfPDF(prefix + "_sign", signed, tmpDir, start, end);
 
@@ -98,7 +105,7 @@ public class PdfComparator implements ConstantsV2 {
     } finally {
       clean(adaptades, esborrar);
       clean(signats, esborrar);
-      //System.gc();
+      // System.gc();
       adaptades = null;
       signats = null;
     }
@@ -122,10 +129,9 @@ public class PdfComparator implements ConstantsV2 {
         reader2.close();
       } catch (Exception e) {
         // XYZ ZZZ TRA
-        // XYZ ZZZ ZZZ log.error
-        //
-        throw new I18NException("genapp.comodi",
-            "Error desconegut intentant extreure adjunts d'un fitxer PDF: " + e.getMessage());
+        String msg = "Error desconegut intentant extreure adjunts d'un fitxer PDF: " + e.getMessage();
+        log.error(msg, e);
+        throw new I18NException("genapp.comodi", msg);
       }
 
       if (adaptatAdjunts.size() != firmatsAdjunts.size()) {
@@ -257,15 +263,15 @@ public class PdfComparator implements ConstantsV2 {
     }
   }
 
-  protected static File[] generateImagesOfPDF(String prefix, IPortaFIBDataSource original, File tmp, int start,
-      int end) throws I18NException {
+  protected static File[] generateImagesOfPDF(String prefix, IPortaFIBDataSource original,
+      File tmp, int start, int end) throws I18NException {
 
     InputStream is = null;
     try {
 
       is = original.getInputStream();
-      
-      final PDDocument document = PDDocument.load(original.getInputStream());
+
+      final PDDocument document = PDDocument.load(is);
 
       PDFRenderer pdfRenderer = new PDFRenderer(document);
 
@@ -290,7 +296,7 @@ public class PdfComparator implements ConstantsV2 {
     } finally {
       if (is != null) {
         try {
-          is.close(); 
+          is.close();
         } catch (Exception e2) {
           log.error("Error tancant stream.", e2);
         }

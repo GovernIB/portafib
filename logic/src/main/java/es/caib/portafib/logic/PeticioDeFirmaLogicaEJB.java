@@ -81,7 +81,6 @@ import es.caib.portafib.model.fields.MetadadaFields;
 import es.caib.portafib.model.fields.NotificacioWSFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.PeticioDeFirmaQueryPath;
-import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.PropietatGlobalFields;
 import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.RoleUsuariEntitatFields;
@@ -784,11 +783,13 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
             custodiaInfo.setPrintableFileDirectUrl(plugin.getPrintableFileUrl(custodyID, parameters));
             custodiaInfo.setEniFileDirectUrl(plugin.getEniFileUrl(custodyID, parameters));
             
-            log.info(" XYZ ZZZ ZZZ custodiaInfo.CsvGenerationDefinition => " +  custodiaInfo.getCsvGenerationDefinition());
-            log.info(" XYZ ZZZ ZZZ custodiaInfo.getCsvValidationWeb => " +  custodiaInfo.getCsvValidationWeb());
-            log.info(" XYZ ZZZ ZZZ custodiaInfo.setOriginalFileDirectUrl => " +  custodiaInfo.getOriginalFileDirectUrl());
-            log.info(" XYZ ZZZ ZZZ custodiaInfo.setPrintableFileDirectUrl => " +  custodiaInfo.getPrintableFileDirectUrl());
-            log.info(" XYZ ZZZ ZZZ custodiaInfo.setEniFileDirectUrl => " +  custodiaInfo.getEniFileDirectUrl());
+            if (log.isDebugEnabled()) {
+              log.debug("custodiaInfo.CsvGenerationDefinition => " +  custodiaInfo.getCsvGenerationDefinition());
+              log.debug("custodiaInfo.getCsvValidationWeb => " +  custodiaInfo.getCsvValidationWeb());
+              log.debug("custodiaInfo.setOriginalFileDirectUrl => " +  custodiaInfo.getOriginalFileDirectUrl());
+              log.debug("custodiaInfo.setPrintableFileDirectUrl => " +  custodiaInfo.getPrintableFileDirectUrl());
+              log.debug("custodiaInfo.setEniFileDirectUrl => " +  custodiaInfo.getEniFileDirectUrl());
+            }
 
             custodiaInfo.setExpedientArxiuId(null);
             custodiaInfo.setDocumentArxiuId(null);
@@ -1125,13 +1126,11 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
 
       Long maxSize = PdfUtils.selectMin(maxSizeEntitat,
           PropietatGlobalUtil.getMaxFitxerAdaptatSizeInBytes());
-
-      final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
-
-      final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
+      
+      final boolean acceptTransformPDFA = PropietatGlobalUtil.acceptTransformPDFA(entitatID);
 
       PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(srcPDF, dstPDF, attachments, maxSize,
-          taulaDeFirmes, custodiaInfoStamp, transformPdfA, forceCleanPdf);
+          taulaDeFirmes, custodiaInfoStamp, acceptTransformPDFA);
 
       FitxerJPA f = new FitxerJPA();
       f.setDescripcio("");
@@ -2226,12 +2225,6 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       // (a) Validar nova firma si es correcte
       int tipusFirma = peticioDeFirma.getTipusFirmaID();
 
-      Map<Integer, IPortaFIBDataSource> fitxersByNumFirma = null;
-      if (numFirmaPortaFIB != 1) {
-        fitxersByNumFirma = getFitxersFirmatsOfPeticioDeFirma(peticioDeFirma
-            .getPeticioDeFirmaID());
-      }
-
       IPortaFIBDataSource documentDetached;
       {
         Long firmaOriginalDetached = peticioDeFirma.getFirmaOriginalDetachedID();
@@ -2321,8 +2314,8 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
       ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
           validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
           fitxerAdaptat, signature, documentDetached, peticioDeFirma.getTipusFirmaID(),
-          peticioDeFirma.getModeDeFirma(), languageUI, fitxersByNumFirma,
-          numFirmaPortaFIB, numFirmesOriginals, expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
+          peticioDeFirma.getModeDeFirma(), languageUI, numFirmaPortaFIB,
+          numFirmesOriginals, expectedNif, peticioDeFirma.getPosicioTaulaFirmesID());
 
       // Aqui es fan totes les validacions completes !!!!!!
       ValidacioCompletaResponse validacioResponse;

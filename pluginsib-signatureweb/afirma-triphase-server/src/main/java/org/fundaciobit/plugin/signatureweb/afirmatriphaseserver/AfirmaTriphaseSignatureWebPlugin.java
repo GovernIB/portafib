@@ -1582,10 +1582,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
       format = "PAdES";
 
-      // Permetre desactivar la creació automàtica de revisions #289
-      String value = String.valueOf(signaturesSet.getCommonInfoSignature().isAlwaysCreateRevision());
-      configProperties.setProperty("alwaysCreateRevision", value);
-
       MiniAppletUtils.convertPAdES(fis, configProperties, policy);
       
       if (fis.getPdfVisibleSignature() != null 

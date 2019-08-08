@@ -51,7 +51,7 @@ public class TestPDF extends PdfUtils {
         String newName = System.currentTimeMillis() + "_" + fitxer.getName();
         File newFile = new File(newName);
         try {
-            PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxer, newFile, null, null, null, null, true, false);
+            PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(fitxer, newFile, null, null, null, null, false);
 
             PdfReader reader = new PdfReader(fitxer.getAbsolutePath());
 

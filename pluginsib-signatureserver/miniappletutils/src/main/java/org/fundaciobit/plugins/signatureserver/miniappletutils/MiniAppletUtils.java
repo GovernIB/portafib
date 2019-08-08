@@ -65,10 +65,6 @@ public class MiniAppletUtils {
 
       tipusFirma = MiniAppletConstants.VALUE_SIGN_TYPE_PADES;
 
-      // Permetre desactivar la creació automàtica de revisions #289
-      String alwaysCreateRevisionValue = String.valueOf(commonInfoSignature.isAlwaysCreateRevision());
-      miniAppletProperties.setProperty("alwaysCreateRevision", alwaysCreateRevisionValue);
-
       convertPAdES(fileInfo, miniAppletProperties, policy);
 
       // PDF Visible      

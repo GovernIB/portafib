@@ -51,4 +51,9 @@ public class ByteArrayDataSource implements IPortaFIBDataSource {
     return new ByteArrayInputStream(this.byteArray);
   }
 
+  @Override
+  public long size() throws I18NException {
+    return this.byteArray.length;
+  }
+
 }

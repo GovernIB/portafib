@@ -146,10 +146,9 @@ public class MiniAppletTest extends TestCase {
     String filtreCertificats = "";
    
     String administrationID = null; // No te sentit en API Firma En Servidor
-    boolean alwaysCreateRevision = true;
 
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, alwaysCreateRevision);
+        filtreCertificats, username, administrationID);
 
     String signID = "999";
     File source = new File(pdfsource);

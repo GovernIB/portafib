@@ -133,12 +133,9 @@ public class SignatureUtils {
     String filtreCertificats = config != null ? config.getFiltreCertificats() : entitat
         .getFiltreCertificats();
 
-    boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
-        .getEntitatID());
-
     return new CommonInfoSignature(languageUI,
         CommonInfoSignature.cleanFiltreCertificats(filtreCertificats), username,
-        administrationID, alwaysCreateRevision);
+        administrationID);
   }
 
   /**
@@ -299,9 +296,6 @@ public class SignatureUtils {
       final String username = cis.getUsername();
       final String administrationID = cis.getAdministrationID();
       final String langUI = cis.getLanguageUI();
-      boolean alwaysCreateRevision = PropietatGlobalUtil.isAlwaysCreateRevision(entitat
-            .getEntitatID());
-
 
       PassarelaPolicyInfoSignature ppis = cis.getPolicyInfoSignature();
       if (ppis == null) {
@@ -314,7 +308,7 @@ public class SignatureUtils {
       }
 
       commonInfoSignature = new CommonInfoSignature(langUI, cis.getFiltreCertificats(),
-            username, administrationID, alwaysCreateRevision);
+            username, administrationID);
 
     }
     ss.setCommonInfoSignature(commonInfoSignature);
@@ -551,7 +545,8 @@ public class SignatureUtils {
    */
   public static int afegirTaulaDeFirmesCodiSegurVerificacio(File fitxerPDF,
       StampTaulaDeFirmes stampTaulaDeFirmes, StampCustodiaInfo stampCustodiaInfo,
-      boolean transformPdfA, boolean forceCleanPdf) throws I18NException {
+      boolean acceptTransformPDFA
+      ) throws I18NException {
 
     // La pujada de fitxers des d'autofirma ho gestiona la classe
     // PortaFIBCommonsMultipartResolver
@@ -561,9 +556,10 @@ public class SignatureUtils {
 
       final int originalNumberOfSigns = PdfUtils.add_TableSign_Attachments_CustodyInfo_PDF(
           fitxerPDF, tmpDest, null, maxSizeFitxerAdaptat, stampTaulaDeFirmes,
-          stampCustodiaInfo, transformPdfA, forceCleanPdf);
+          stampCustodiaInfo, acceptTransformPDFA);
 
       // Destí no pot existir !!!
+      // XYZ ZZZ ZZZ Avis si no podem esborrar destí !!!
       fitxerPDF.delete();
 
       FileUtils.moveFile(tmpDest, fitxerPDF);
@@ -712,13 +708,11 @@ public class SignatureUtils {
           stampCodiSegurVerificacio.setPosicioCustodiaInfo(pcvsStamp.getMessagePosition());
         }
       }
-
-      final boolean transformPdfA = PropietatGlobalUtil.isTransformPdfA(entitatID);
-
-      final boolean forceCleanPdf = PropietatGlobalUtil.isForceCleanPdf(entitatID);
-
+      
+      final boolean acceptTransformPDFA = PropietatGlobalUtil.acceptTransformPDFA(entitatID);
+      
       int val = SignatureUtils.afegirTaulaDeFirmesCodiSegurVerificacio(adaptat,
-          stampTaulaDeFirmes, stampCodiSegurVerificacio, transformPdfA, forceCleanPdf);
+          stampTaulaDeFirmes, stampCodiSegurVerificacio, acceptTransformPDFA);
 
       // El contingut original els substituim per l'adaptat
       pfis.getFileToSign().setData(

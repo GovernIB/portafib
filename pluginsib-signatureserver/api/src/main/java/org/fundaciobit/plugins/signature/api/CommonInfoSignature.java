@@ -19,8 +19,6 @@ public class CommonInfoSignature {
   
   String administrationID;
 
-  boolean alwaysCreateRevision = true;
-
   /**
    * 
    */
@@ -31,13 +29,12 @@ public class CommonInfoSignature {
    *
    */
   public CommonInfoSignature(String languageUI, String filtreCertificats, String username,
-                             String administrationID, boolean alwaysCreateRevision) {
+                             String administrationID) {
     super();
     this.languageUI = languageUI;
     this.filtreCertificats = filtreCertificats;
     this.username = username;
     this.administrationID = administrationID;
-    this.alwaysCreateRevision = alwaysCreateRevision;
   }
 
 
@@ -71,14 +68,6 @@ public class CommonInfoSignature {
 
   public void setAdministrationID(String administrationID) {
     this.administrationID = administrationID;
-  }
-
-  public boolean isAlwaysCreateRevision() {
-    return alwaysCreateRevision;
-  }
-
-  public void setAlwaysCreateRevision(boolean alwaysCreateRevision) {
-    this.alwaysCreateRevision = alwaysCreateRevision;
   }
 
   public static String cleanFiltreCertificats(String certificateFilter) {

@@ -6,28 +6,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.fundaciobit.plugins.certificate.InformacioCertificat;
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.hibernate.Hibernate;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Where;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import es.caib.portafib.ejb.ColaboracioDelegacioEJB;
+import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.ejb.FitxerLocal;
+import es.caib.portafib.ejb.RoleUsuariEntitatLocal;
+import es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal;
 import es.caib.portafib.jpa.ColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.TipusDocumentColaboracioDelegacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.logic.utils.LogicUtils;
-import es.caib.portafib.logic.utils.PdfUtils;
+import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
+import es.caib.portafib.logic.utils.datasource.FileDataSource;
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import es.caib.portafib.model.entity.Fitxer;
 import es.caib.portafib.model.entity.TipusDocumentColaboracioDelegacio;
 import es.caib.portafib.model.fields.EstatDeFirmaFields;
@@ -46,23 +51,26 @@ import es.caib.portafib.utils.ConstantsV2;
 public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 		implements ColaboracioDelegacioLogicaLocal {
 
-	@EJB(mappedName = "portafib/RoleUsuariEntitatEJB/local")
+	@EJB(mappedName = RoleUsuariEntitatLocal.JNDI_NAME)
 	protected es.caib.portafib.ejb.RoleUsuariEntitatLocal roleUsuariEntitatEjb;
 	
 	@EJB(mappedName = "portafib/EstatDeFirmaEJB/local")
 	protected es.caib.portafib.ejb.EstatDeFirmaLocal estatDeFirmaEjb;
 
-  @EJB(mappedName = "portafib/TipusDocumentColaboracioDelegacioEJB/local")
+  @EJB(mappedName = TipusDocumentColaboracioDelegacioLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.TipusDocumentColaboracioDelegacioLocal tipusDocumentColaboracioDelegacioEjb;
 
-  @EJB(mappedName = "portafib/FitxerEJB/local")
+  @EJB(mappedName = FitxerLocal.JNDI_NAME)
   private FitxerLocal fitxerEjb;
   
   @EJB(mappedName = "portafib/UsuariEntitatLogicaEJB/local")
   protected es.caib.portafib.logic.UsuariEntitatLogicaLocal usuariEntitatLogicaEjb;
   
-  @EJB(mappedName = "portafib/EntitatEJB/local")
+  @EJB(mappedName = EntitatLocal.JNDI_NAME)
   protected es.caib.portafib.ejb.EntitatLocal entitatEjb;
+  
+  @EJB(mappedName = ValidacioCompletaFirmaLogicaLocal.JNDI_NAME)
+  protected ValidacioCompletaFirmaLogicaLocal validacioCompletaLogicaEjb;
   
   
   
@@ -193,9 +201,9 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
 	
 	
 	@Override
-	public void assignarAutoritzacioADelegacio(Long delegacioID, File firmat, String nom)
-    throws Exception, I18NException {
-	  
+	public void assignarAutoritzacioADelegacio(Long delegacioID, FileInfoSignature signFileInfo,
+	    File firmat, String nom)  throws Exception, I18NException {
+
 	  
 	  // Cercar colaboracio delegacio
 	  ColaboracioDelegacioJPA jpa = findByPrimaryKey(delegacioID);
@@ -215,14 +223,60 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
     jpa.setActiva(true);
 	  
 	  // TODO i si no existeix
+    
+    List<UsuariEntitatJPA> usuarisEntitat =
+        usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Arrays.asList(jpa.getDestinatariID()));
+      
+    UsuariEntitatJPA destinatari = usuarisEntitat.get(0); 
+    
+    EntitatJPA entitat = entitatEjb.findByPrimaryKey(destinatari.getEntitatID());
+    
+
+    
+    IPortaFIBDataSource originalData =  new FileDataSource(signFileInfo.getFileToSign());
+    IPortaFIBDataSource adaptedData = originalData;
+    IPortaFIBDataSource signatureData = new FileDataSource(firmat);
+    IPortaFIBDataSource documentDetachedData = null;
+    
+    final int numFirmaPortaFIB = 1; // Només duu 1 firma
+    final int numFirmesOriginals = 0; // Sabem que l'original no contenia cap altre firma
+    
+    String nifEsperat = destinatari.getUsuariPersona().getNif();    
 	  
+    final boolean validarFitxerFirma = (entitat.getPluginValidaFirmesID() != null);
+    final boolean checkCanviatDocFirmat = entitat.isCheckCanviatDocFirmat();
+    final boolean comprovarNifFirma = true; // Forçam a que sigui true
+    
+    boolean signMode = SignatureUtils.convertApiSignMode2PortafibSignMode(signFileInfo.getSignMode());
+    
+    int signType= SignatureUtils.convertApiSignTypeToPortafibSignType(signFileInfo.getSignType());
+    
+    
+    
+    
+    
+    String entitatID = entitat.getEntitatID();
+    
+    
+    
+    ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
+        validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma,
+        originalData, adaptedData, signatureData, documentDetachedData,
+        signType, signMode, signFileInfo.getLanguageSign(),
+        numFirmaPortaFIB, numFirmesOriginals, nifEsperat, ConstantsV2.TAULADEFIRMES_SENSETAULA);
+
+    validacioCompletaLogicaEjb.validateCompletaFirma(validacioRequest);
+    
+
+    
+    /*
 	  List<UsuariEntitatJPA> usuarisEntitat =
 	    usuariEntitatLogicaEjb.findByPrimaryKeyFullWithEntitat(Arrays.asList(jpa.getDestinatariID()));
 	  
 	  UsuariEntitatJPA destinatari = usuarisEntitat.get(0); 
 	  
 	  
-	  
+	 
 	  final Map<Integer,Long>  fitxersByNumFirma = null;
     final int numFirma = 1; // Només du 1 firma
     final int numFirmesOriginals = 0; // Sabem que l'original no contenia cap altre firma
@@ -242,6 +296,7 @@ public class ColaboracioDelegacioLogicaEJB extends ColaboracioDelegacioEJB
       String expectedNif = destinatari.getUsuariPersona().getNif();
 	    LogicUtils.checkExpectedNif(nifFirmant, expectedNif);
     }
+    */
 
 	  
 	  

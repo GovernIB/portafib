@@ -330,10 +330,9 @@ public class AfirmaServerTest extends TestCase {
     String languageUI = "ca";
     String filtreCertificats = "";
     String administrationID = null; // No te sentit en API Firma En Servidor
-    boolean alwaysCreateRevision = true;
 
     CommonInfoSignature commonInfoSignature = new CommonInfoSignature(languageUI,
-        filtreCertificats, username, administrationID, alwaysCreateRevision);
+        filtreCertificats, username, administrationID);
 
     String signID = "999";
 

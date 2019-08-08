@@ -3,6 +3,7 @@ package es.caib.portafib.back.controller.dest;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+
 import es.caib.portafib.back.controller.common.SearchJSONController;
 import es.caib.portafib.back.controller.common.SignatureModuleController;
 import es.caib.portafib.back.controller.webdb.ColaboracioDelegacioController;
@@ -43,6 +44,7 @@ import es.caib.portafib.model.fields.UsuariPersonaQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NException;
@@ -63,6 +65,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,6 +81,7 @@ import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1360,11 +1364,13 @@ public class DelegacioDestController extends ColaboracioDelegacioController impl
             */
             File firmat = status.getSignedData();
 
+
             if(log.isDebugEnabled()) {
               log.debug("Ruta Fitxer Firmat: " + firmat.getAbsolutePath());
             }
 
-            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID, firmat,
+            colaboracioDelegacioLogicaEjb.assignarAutoritzacioADelegacio(delegacioID,
+                signFileInfo, firmat, 
                 DelegacioDestController.FITXER_AUTORITZACIO_PREFIX + delegacioID + ".pdf");
             
             // Enviar mail a delegat o col·laborador

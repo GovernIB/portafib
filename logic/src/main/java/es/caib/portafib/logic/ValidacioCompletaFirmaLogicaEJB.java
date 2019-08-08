@@ -6,7 +6,6 @@ import com.itextpdf.text.pdf.security.PdfPKCS7;
 import es.caib.portafib.ejb.EntitatLocal;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.PdfComparator;
-import es.caib.portafib.logic.utils.PdfUtils;
 import es.caib.portafib.logic.utils.PropietatGlobalUtil;
 import es.caib.portafib.logic.utils.ValidacioCompletaRequest;
 import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
@@ -17,7 +16,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
 import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.utils.Utils;
 import org.fundaciobit.plugins.certificate.InformacioCertificat;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
@@ -29,15 +27,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -121,7 +115,7 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
         log.info("validateCompletaFirma :: getDocumentDetachedData() => "
           + documentDetached);
       }
-
+      
       validateSignatureResponse = validacioFirmesEjb.validateSignature(
           validacioRequest.getEntitatID(), signType, validacioRequest.getSignatureData(),
           documentDetached, validacioRequest.getLanguageUI());
@@ -133,7 +127,6 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
       if (sdi != null) {
 
         // Esbrinar informació de la darrera Firma
-        
         InformacioCertificat info = null;
         Date signDate = null;
         
@@ -384,272 +377,15 @@ public class ValidacioCompletaFirmaLogicaEJB implements ValidacioCompletaFirmaLo
     return resposta;
   }
 
+
   /**
    * 
-   * @param originalData
-   * @param fitxersByNumFirma
    * @param signedPDFData
    * @param numFirmaPortaFIB
    * @param numFirmesOriginals
    * @return
    * @throws I18NException
-   * @throws Exception
    */
-  public static X509Certificate checkCanviatDocFirmatPDF(IPortaFIBDataSource originalData,
-      Map<Integer, IPortaFIBDataSource> fitxersByNumFirma,
-      IPortaFIBDataSource signedPDFDataDS, int numFirmaPortaFIB, int numFirmesOriginals)
-      throws I18NException {
-
-    final boolean isDebug = log.isDebugEnabled();
-
-    long start = isDebug ? System.currentTimeMillis() : 0;
-
-    byte[] signedPDFData = signedPDFDataDS.getByteArray();
-
-    Security.addProvider(new BouncyCastleProvider());
-    ArrayList<String> names;
-
-    PdfReader reader;
-    try {
-      reader = new PdfReader(signedPDFData);
-
-      AcroFields af = reader.getAcroFields();
-      names = af.getSignatureNames();
-
-      if (names == null || names.size() == 0) {
-        // TODO XYZ ZZZ traduir
-        throw new I18NException("genapp.comodi",
-            "No hi ha informació de signatures en el document firmat");
-      }
-      {
-        if (names.size() != (numFirmaPortaFIB + numFirmesOriginals)) {
-          // TODO XYZ ZZZ Traduir
-          throw new I18NException("genapp.comodi", "S´esperaven "
-              + (numFirmaPortaFIB + numFirmesOriginals)
-              + " firmes, però el document pujat conté " + names.size() + " firmes");
-        }
-
-        // TODO fields.getTotalRevisions()
-        if (isDebug) {
-          long now = System.currentTimeMillis();
-          log.debug("checkCertificatePADES - Final init: " + (now - start));
-          start = now;
-        }
-
-        // === Comprovar que el fitxer no s'ha modificat ===
-        if (originalData != null) {
-          if (numFirmaPortaFIB == 1) {
-            // Comprovar fitxer original i pujat
-            // byte[] originalData = FileSystemManager.getFileContent(fitxerOriginalID);
-
-            boolean isOK;
-            isOK = PdfUtils.checkDocumentWhenFirstSign(originalData.getByteArray(),
-                signedPDFData, numFirmesOriginals);
-
-            if (!isOK) {
-              // TODO XYZ ZZZ TRA traduir
-              String msg = "El document original s'ha modificat durant el procés de firma."
-                  + "Abans de realitzar la primera firma del document "
-                  + "que s'acaba de pujar, el document PDF original s´ha modificat.";
-
-              log.error(msg);
-
-              throw new I18NException("genapp.comodi", msg);
-            }
-
-            if (isDebug) {
-              long now = System.currentTimeMillis();
-              log.debug("checkCertificatePADES - Primera Firma: " + (now - start));
-              start = now;
-            }
-
-          } else {
-            // =========================================================
-            // Comprovar checksum de totes les revisions (amb firma)
-            // i comparar-les amb els fitxers guardats
-            // =========================================================
-
-            log.info(" XYZ ZZZ |||||||||||||   FIRMA 2 o SUPERIOR (" + numFirmaPortaFIB + ")");
-
-            // XYZ ZZZ
-            log.info(" XYZ ZZZ numFirmaXYZ  = " + numFirmaPortaFIB);
-            log.info(" XYZ ZZZ numFirmesOriginals = " + numFirmesOriginals);
-            log.info(" XYZ ZZZ names.size = " + names.size());
-            log.info(" XYZ ZZZ names.tostring = " + Arrays.toString(names.toArray()));
-            // XYZ ZZZ
-            for (String nomSignatura : names) {
-              // Obtenim el hash del fitxer del repositori amb numero de firma numRev
-              int numRev = af.getRevision(nomSignatura);
-              log.info(" XYZ ZZZ names[" + nomSignatura + "]: REV => " + numRev);
-            }
-
-            if (fitxersByNumFirma == null) {
-              log.info(" XYZ ZZZ fitxersByNumFirma is NULL");
-            } else {
-              Set<Integer> revisions = fitxersByNumFirma.keySet();
-              for (Integer rev : revisions) {
-                log.info(" XYZ ZZZ fitxersByNumFirma[REv:" + rev + "] = FitxerID:"
-                    + fitxersByNumFirma.get(rev));
-              }
-            }
-
-            IPortaFIBDataSource fitxerID = null;
-            for (String nomSignatura : names) {
-
-              // Obtenim el hash del fitxer del repositori amb numero de firma numRev
-              int numRev = af.getRevision(nomSignatura);
-
-              log.info("XYZ ZZZ FOR numRev for [" + nomSignatura + "]= " + numRev);
-              log.info("XYZ ZZZ FOR [numFirmesOriginals != 0 && numRev < numFirmesOriginals] ="
-                  + numFirmesOriginals + "!= 0 && " + numRev + " < " + numFirmesOriginals);
-              if (numFirmesOriginals != 0 && numRev <= numFirmesOriginals) {
-                log.info("XYZ ZZZ FOR CONTINUE 1");
-                continue;
-              }
-
-              if (numRev == (numFirmaPortaFIB + numFirmesOriginals)) {
-                // ignoram la versió actual que s'ha pujat
-                log.info("XYZ ZZZ FOR CONTINUE 2");
-                continue;
-              }
-
-              final int fitxerREV = (numFirmesOriginals == 0) ? numRev
-                  : (numRev - numFirmesOriginals);
-              log.info("XYZ ZZZ FOR Searching fitxer by index firma PortaFIB = " + fitxerREV);
-
-              fitxerID = fitxersByNumFirma.get(fitxerREV);
-
-              String hashDocRepositori = fitxerID.checkSum();
-
-              // obtenim el hash del fitxer dins el doc
-              InputStream is = af.extractRevision(nomSignatura);
-              String hashDocFirmat = Utils.getChecksum(is);
-
-              if (!hashDocRepositori.equals(hashDocFirmat)) {
-                // TODO XYZ ZZZ traduir
-
-                String msg = "El document s'ha modificat durant el procés de firma:"
-                    + "La signatura " + nomSignatura + " de la revisió " + numRev
-                    + " del document que s'acaba de pujar, no correspon  "
-                    + " amb el fitxer de la posicio/revisio " + fitxerREV
-                    + " que té signatura número " + numRev;
-
-                log.error(msg);
-
-                throw new I18NException("genapp.comodi", msg);
-              }
-
-              if (isDebug) {
-                long now = System.currentTimeMillis();
-                log.debug("checkCertificatePADES - Firma N=" + (fitxersByNumFirma.size() + 1)
-                    + ": " + (now - start));
-                start = now;
-              }
-
-            }
-
-            // =========================================================
-            // Revisar que no s'hagi creat una revisió (no de firma) entre firmes
-            // Es a dir, no volem que mofifiquin el document ni amb revisions
-            // =========================================================
-
-            if (fitxerID != null) {
-              /*
-               * La diferencia del numero de revisions internes PDF entre la penultima firma i
-               * aquesta darrera firma ha de ser de 1. Si aquest numero es major significa que
-               * s'ha modificat ekl document amb revisions entre les firmes.
-               */
-
-              int[] revPenultim;
-              revPenultim = PdfUtils.splitPDFRevisions(fitxerID.getByteArray());
-
-              int[] revDarrer = PdfUtils.splitPDFRevisions(signedPDFData);
-
-              if ((revPenultim.length + 1) != revDarrer.length) {
-                // Han afegit una nova revisió
-
-                // TODO traduir
-                String msg = "S´ha modificat el document abans de la darrera firma."
-                    + "\n - Penultim (Final Revisions): " + Arrays.toString(revPenultim)
-                    + "\n - Darrer (Final Revisions): " + Arrays.toString(revDarrer);
-
-                log.error(msg);
-
-                throw new I18NException("genapp.comodi", msg);
-              }
-
-              if (isDebug) {
-                long now = System.currentTimeMillis();
-                log.debug("checkCertificatePADES - Estructura PDF: " + (now - start));
-                start = now;
-              }
-            }
-
-          }
-        }
-
-      } // Final de Ignore Checks
-
-      // ================ Validar el certificat de la darrera firma
-
-      String name = names.get(numFirmaPortaFIB + numFirmesOriginals - 1); // names.size() - 1
-
-      PdfPKCS7 pk = af.verifySignature(name);
-      // Calendar cal = pk.getSignDate();
-
-      log.info(" XYZ ZZZ PdfPKCS7 pk = " + pk);
-
-      X509Certificate cert = pk.getSigningCertificate();
-
-      log.info(" XYZ ZZZ PdfPKCS7 X509Certificate.cert = " + cert.getSubjectDN());
-
-      log.info(" XYZ ZZZ PdfPKCS7 X509Certificate.getSubjectDN() = " + cert.getSubjectDN());
-
-      return cert;
-
-    } catch (I18NException e1) {
-      throw e1;
-    } catch (Exception e1) {
-      throw new I18NException(
-          e1,
-          "genapp",
-          new I18NArgumentString(
-              "Error desconegut durant la revisio de si el document PDf original ha sigut modificat despres de la firma: "
-                  + e1.getMessage()));
-    }
-
-    /*
-     * ResultatValidacio validacio = validateCertificat(cert);
-     * 
-     * if (isDebug) { long now = System.currentTimeMillis();
-     * log.debug("checkCertificatePADES - Validar Certificat remotament: " + (now - start));
-     * start = now; }
-     * 
-     * InformacioCertificat info = validacio.getInformacioCertificat(); if (info == null) {
-     * info = new InformacioCertificat(); }
-     * 
-     * // Obtenir informació del certificat if (info.getNumeroSerie() == null) {
-     * info.setNumeroSerie(cert.getSerialNumber()); }
-     * 
-     * if (info.getEmissorOrganitzacio() == null) {
-     * info.setEmissorOrganitzacio(cert.getIssuerDN().getName()); }
-     * 
-     * if (info.getSubject() == null) { info.setSubject(cert.getSubjectDN().getName()); }
-     * 
-     * if (info.getNifResponsable() == null) {
-     * info.setNifResponsable(CertificateUtils.getDNI(cert)); }
-     * 
-     * if (log.isDebugEnabled()) { long now = System.currentTimeMillis();
-     * log.debug("checkCertificatePADES - Executed Info Certificat in " + (now - start) +
-     * " ms"); log.debug("Numero Serie: " + info.getNumeroSerie()); log.debug("Emissor: " +
-     * info.getEmissorOrganitzacio()); log.debug("Subject: " + info.getSubject());
-     * log.debug("DNI: " + info.getNifResponsable()); }
-     * 
-     * return info;
-     */
-
-  }
-
   public static X509Certificate getLastCertificateOfSignedPdf(
       IPortaFIBDataSource signedPDFData, int numFirmaPortaFIB, int numFirmesOriginals)
       throws I18NException {
