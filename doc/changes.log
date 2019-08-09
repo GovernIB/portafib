@@ -3,6 +3,18 @@
 PortaFIB 2.0.1
 ==============
 
+2019-08-08 Mostrar estat en les Propietats per Entitat, Propietats Globals i Propietats de Sistema PortaFIB #318
+
+2019-08-07 Check de Modificació de doc. Firmat: Eliminar Codi Deprecated i eliminar càlculs innecessaris #308
+
+2019-08-05 Revisió completa de Custòdia amb Arxiu CAIB #314 
+
+2019-08-01 Primera versió de que Usuaris externs puguin firmar (versió per CAIB) #309 
+
+2019-07-26  Camp "Configuració de Firma" no ha de sortir en Petició de Firma #303 
+
+2019-07-24 Canviar sistema de validacio de document original modificat durant les firmes #300 
+
 2019-06-27 Nous camps a Firma i a Peticio de Firma #281 
 
 2019-06-25 Documentar API firma Simple per Signatures Asíncrones #273 

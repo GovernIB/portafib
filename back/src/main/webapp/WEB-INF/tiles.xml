@@ -387,6 +387,16 @@
     <definition name="bitacolaPeticioListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
     </definition>
+    
+    
+    <definition name="bitacolaFormAden" extends="role_aden">
+        <put-attribute name="titol" value="bitacola.bitacola" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaForm.jsp" />
+    </definition>
+    
+    <definition name="bitacolaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
+    </definition>
 
 
     <!--  ===========  ADMINISTRADOR ================== -->
@@ -504,6 +514,15 @@
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
     </definition>
     
+    
+   <definition name="propietatSistemaFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
+    </definition>
+    
+    <definition name="propietatSistemaListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
     
 
     <!--  ===========  COL·LABORADOR ================== -->

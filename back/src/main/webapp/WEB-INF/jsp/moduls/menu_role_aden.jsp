@@ -43,7 +43,8 @@ final String[] menu1 = {
     "aturarpeticionsdefirma",
     "peticiodefirma.netejaesborrat",
     "",
-    "estadistica.estadistica.plural"
+    "estadistica.estadistica.plural",
+    "bitacola.menu"
 };
 
 public static final String CONFIGURACIO_DE_FIRMA = UsuariAplicacioConfiguracioFields._TABLE_MODEL + "." + UsuariAplicacioConfiguracioFields._TABLE_MODEL + ".plural";
@@ -105,22 +106,24 @@ static {
   mapping.put(CONFIGURACIO_DE_FIRMA, ConfiguracioDeFirmaAdenController.CONTEXT_WEB + "/list");
 
   mapping.put(PERFIL_DE_FIRMA, PerfilDeFirmaAdenController.CONTEXT_WEB + "/list");
-  
+
   mapping.put("plantillaFluxDeFirmes.plantillaFluxDeFirmes.plural", "/aden/plantilla/list/1");
 
   mapping.put("notificaciows.llistat", "/aden/notificaciows/list");
 
   mapping.put("peticiodefirma.wsv1.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA + "/list");
-  
+
   mapping.put("peticiodefirma.asyncsimple.llistar", ConstantsV2.CONTEXT_ADEN_PETICIOFIRMA_ASYNC_SIMPLE + "/list");
-  
+
   mapping.put("custodiaInfo.custodiaInfo.plural", "/aden/peticio/custodiainfo/list");
-  
+
   mapping.put("propietatglobal.entitat.gestio", "/aden/propietatglobal/list");
-  
+
   mapping.put("peticiodefirma.netejaesborrat", "/aden/peticio/netejaesborrat/list");
-  
+
   mapping.put("estadistica.estadistica.plural", "/aden/estadistica/search");
+
+  mapping.put("bitacola.menu", "/aden/bitacola/list");
 }
 
 %><%

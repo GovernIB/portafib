@@ -46,6 +46,7 @@ final String[] menu = {
   //"fluxos.orfes",
   "",
   "propietatglobal.gestio",
+  "propietatSistema.menu",
   "",
   "fitxers.orfes",
 
@@ -81,7 +82,7 @@ static {
   
   mapping.put("propietatglobal.gestio", "/admin/propietatglobal/list");
 
-  //mapping.put("fluxos.orfes", "/admin/fluxosorfes/list");
+  mapping.put("propietatSistema.menu", "/admin/propietatsistema/list");
 
   mapping.put("fitxers.orfes", "/admin/fitxersorfes/list");
 
