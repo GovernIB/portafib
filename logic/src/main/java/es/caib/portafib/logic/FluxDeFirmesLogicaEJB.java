@@ -200,6 +200,12 @@ public class FluxDeFirmesLogicaEJB extends FluxDeFirmesEJB
       if (blocs != null) {
         for (BlocDeFirmesJPA blocDeFirmesJPA : blocs) {
           Hibernate.initialize(blocDeFirmesJPA.getFirmas());
+          Set<FirmaJPA> firmas = blocDeFirmesJPA.getFirmas();
+          if (firmas != null) {
+            for (FirmaJPA firma : firmas) {
+              Hibernate.initialize(firma.getRevisorDeFirmas());
+            }
+          }
         }
       }
     }

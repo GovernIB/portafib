@@ -1,5 +1,23 @@
 package es.caib.portafib.back.controller.rest;
 
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.utils.EjbManager;
+import es.caib.portafib.utils.Constants;
+import org.apache.log4j.Logger;
+import org.fundaciobit.pluginsib.core.utils.Base64;
+import org.jboss.web.tomcat.security.login.WebAuthentication;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,25 +25,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
-import org.fundaciobit.pluginsib.core.utils.Base64;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
-import es.caib.portafib.logic.utils.EjbManager;
-import es.caib.portafib.utils.Constants;
 
 /**
  * 
@@ -70,7 +69,7 @@ public class RestUtils {
       }
 
       String credentials = new String(Base64.decode(st.nextToken()));
-      log.info("XYZ ZZZ autenticate::Credentials: " + credentials);
+      //log.info("XYZ ZZZ autenticate::Credentials: " + credentials);
       int p = credentials.indexOf(":");
       if (p == -1) {
         final String msg = "Credentials amb format incorrecte: " + credentials;
@@ -87,44 +86,46 @@ public class RestUtils {
       boolean autenticat;
       
       Set<String> roles = new HashSet<String>();
-//      if (Configuracio.isCAIB()) {
-        
-        try {
-          LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
-              new PassiveCallbackHandler(username, password));
-          lc.login();
 
+      // L'autenticació següent ens permet comprovarl l'usuari i recuperar el seus rols, però no l'emmagatzema
+      // internament i per tant les cridades a altres capes (EJB) no mantenen l'autenticació.
+      try {
+        LoginContext lc = new LoginContext(Constants.SECURITY_DOMAIN,
+            new PassiveCallbackHandler(username, password));
+        lc.login();
 
-          Set<Principal> principalsCred = lc.getSubject().getPrincipals();
-          if (principalsCred == null ||principalsCred.isEmpty()) {
-            log.warn(" getPrincipals() == BUIT");
-          } else {
-            for (Principal object : principalsCred) {
-              log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
-              if ("Roles".equals(object.getName())
-                  && object instanceof org.jboss.security.SimpleGroup) {
-                org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
-                //iterable
-                Enumeration<Principal> enumPrinc = sg.members();
-                while(enumPrinc.hasMoreElements()) {
-                  Principal rol = enumPrinc.nextElement();
-                  log.debug("           ROL: " + rol.getName());
-                  roles.add(rol.getName());
-                }
+        Set<Principal> principalsCred = lc.getSubject().getPrincipals();
+        if (principalsCred == null ||principalsCred.isEmpty()) {
+          log.warn(" getPrincipals() == BUIT");
+        } else {
+          for (Principal object : principalsCred) {
+            log.debug(" getPrincipals() == " + object.getName() + "(" + object.getClass() + ")");
+            if ("Roles".equals(object.getName())
+                && object instanceof org.jboss.security.SimpleGroup) {
+              org.jboss.security.SimpleGroup sg = (org.jboss.security.SimpleGroup)object;
+              //iterable
+              Enumeration<Principal> enumPrinc = sg.members();
+              while(enumPrinc.hasMoreElements()) {
+                Principal rol = enumPrinc.nextElement();
+                log.debug("           ROL: " + rol.getName());
+                roles.add(rol.getName());
               }
             }
           }
-          autenticat = true;
-        } catch (LoginException le) {
-          // Authentication failed.      
-          log.error("CAIB3 Login ERROR" + le.getMessage());
-          autenticat = false;
         }
-//      } else {
-//        // Accés public, per la qual cosa s'ha de forçar l'autenticació manual
-//        WebAuthentication pwl = new WebAuthentication();
-//        autenticat = pwl.login(username, password);
-//      }
+        autenticat = true;
+      } catch (LoginException le) {
+        // Authentication failed.
+        log.error("CAIB3 Login ERROR" + le.getMessage());
+        autenticat = false;
+      }
+
+      // Amb l'autenticació addicional següent, no podem recuperar els rols, però les credencials es mantenen per
+      // les capes internes.
+      if (autenticat) {
+        WebAuthentication pwl = new WebAuthentication();
+        autenticat = pwl.login(username, password);
+      }
 
       log.info("XYZ ZZZ autenticate:: POST AUTENTICATE " + request.getUserPrincipal()
           + " [ autenticat => " + autenticat + "]");
@@ -154,27 +155,11 @@ public class RestUtils {
 
         Collection<GrantedAuthority> seyconAuthorities;
 
-//        if (Configuracio.isCAIB()) {
-//          log.info(" XYZ ZZZ ZZZ  CONF  CAIB");
-          seyconAuthorities = new ArrayList<GrantedAuthority>();
-          for (String rol : roles) {
-            log.info(" XYZ ZZZ ZZZ  CAIB ROLE => " + rol);
-            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
-          }
-
-//        } else {
-//          log.info(" XYZ ZZZ ZZZ  CONF NO CAIB");
-//          Set<RoleUsuariAplicacioJPA> rolesBBDD = usuariAplicacio.getRoleUsuariAplicacios();
-//          log.info(" XYZ ZZZ ZZZ  ROLES => " + rolesBBDD.size());
-//          seyconAuthorities = new ArrayList<GrantedAuthority>();
-//          for (RoleUsuariAplicacioJPA rolUsrApp : rolesBBDD) {
-//            String rol = rolUsrApp.getRoleID();
-//            // if (isDebug) {
-//            log.info("Rol SEYCON : " + rol);
-//            // }
-//            seyconAuthorities.add(new SimpleGrantedAuthority(rol));
-//          }
-//        }
+        seyconAuthorities = new ArrayList<GrantedAuthority>();
+        for (String rol : roles) {
+          log.info(" XYZ ZZZ ZZZ ROLE => " + rol);
+          seyconAuthorities.add(new SimpleGrantedAuthority(rol));
+        }
 
         EntitatJPA entitat = usuariAplicacio.getEntitat();
         // Check deshabilitada

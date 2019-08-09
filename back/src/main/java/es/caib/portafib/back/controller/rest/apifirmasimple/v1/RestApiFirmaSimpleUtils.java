@@ -1,20 +1,29 @@
 package es.caib.portafib.back.controller.rest.apifirmasimple.v1;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.ejb.EJB;
-
+import es.caib.portafib.back.controller.rest.RestFirmaUtils;
+import es.caib.portafib.back.security.LoginInfo;
+import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
+import es.caib.portafib.jpa.UsuariAplicacioJPA;
+import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
+import es.caib.portafib.logic.passarela.PassarelaKeyValue;
+import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
+import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature;
+import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
+import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
+import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
+import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
+import es.caib.portafib.logic.utils.SignatureUtils;
+import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
+import es.caib.portafib.model.bean.FitxerBean;
+import es.caib.portafib.model.entity.CustodiaInfo;
+import es.caib.portafib.model.entity.PerfilDeFirma;
+import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
+import es.caib.portafib.model.fields.CodiBarresFields;
+import es.caib.portafib.utils.ConstantsV2;
 import org.apache.commons.io.IOUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCommonInfo;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleCustodyInfo;
@@ -40,34 +49,24 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PolicyInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.validatesignature.api.SignatureDetailInfo;
+import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
 import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import es.caib.portafib.back.controller.rest.RestFirmaUtils;
-import es.caib.portafib.back.security.LoginInfo;
-import es.caib.portafib.jpa.EntitatJPA;
-import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
-import es.caib.portafib.jpa.UsuariAplicacioJPA;
-import es.caib.portafib.logic.ConfiguracioUsuariAplicacioLogicaLocal;
-import es.caib.portafib.logic.passarela.PassarelaKeyValue;
-import es.caib.portafib.logic.passarela.api.PassarelaCommonInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaCustodyInfo;
-import es.caib.portafib.logic.passarela.api.PassarelaFileInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaPolicyInfoSignature;
-import es.caib.portafib.logic.passarela.api.PassarelaSecureVerificationCodeStampInfo;
-import es.caib.portafib.logic.passarela.api.PassarelaSignatureResult;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesSet;
-import es.caib.portafib.logic.passarela.api.PassarelaSignaturesTableHeader;
-import es.caib.portafib.logic.passarela.api.PassarelaValidationInfo;
-import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.logic.utils.ValidacioCompletaResponse;
-import es.caib.portafib.model.bean.FitxerBean;
-import es.caib.portafib.model.entity.CustodiaInfo;
-import es.caib.portafib.model.entity.PerfilDeFirma;
-import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
-import es.caib.portafib.model.fields.CodiBarresFields;
-import es.caib.portafib.utils.ConstantsV2;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.ejb.EJB;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -274,13 +273,15 @@ public abstract class RestApiFirmaSimpleUtils<K extends ApisIBKeyValue> extends
         eniSignerName = null;
         if (infoValidacio != null) {
 
-          SignatureDetailInfo[] sdi = infoValidacio.getValidateSignatureResponse()
-              .getSignatureDetailInfo();
+          ValidateSignatureResponse validateSignatureResponse = infoValidacio.getValidateSignatureResponse();
+          if (validateSignatureResponse != null) {
 
-          if (sdi != null && sdi.length != 0) {
-            InformacioCertificat ic = sdi[0].getCertificateInfo();
-            if (ic != null) {
-              eniSignerName = ic.getNomCompletResponsable();
+            SignatureDetailInfo[] sdi = validateSignatureResponse.getSignatureDetailInfo();
+            if (sdi != null && sdi.length != 0) {
+              InformacioCertificat ic = sdi[0].getCertificateInfo();
+              if (ic != null) {
+                eniSignerName = ic.getNomCompletResponsable();
+              }
             }
           }
 
