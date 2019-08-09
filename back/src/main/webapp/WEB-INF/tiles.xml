@@ -505,6 +505,15 @@
     </definition>
     
     
+   <definition name="propietatSistemaFormAdmin" extends="role_admin">
+        <put-attribute name="titol" value="propietatGlobal.propietatGlobal" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalForm.jsp" />
+    </definition>
+    
+    <definition name="propietatSistemaListAdmin" extends="role_admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/propietatGlobalList.jsp" />
+    </definition>
+    
 
     <!--  ===========  COL·LABORADOR ================== -->
     

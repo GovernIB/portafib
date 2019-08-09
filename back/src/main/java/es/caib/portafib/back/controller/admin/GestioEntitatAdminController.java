@@ -7,6 +7,8 @@ import es.caib.portafib.back.form.webdb.EntitatFilterForm;
 import es.caib.portafib.back.form.webdb.EntitatForm;
 import es.caib.portafib.jpa.EntitatJPA;
 import es.caib.portafib.logic.EntitatLogicaLocal;
+import es.caib.portafib.logic.utils.PropietatsConstants;
+import es.caib.portafib.logic.utils.PropietatsConstants.Propietat;
 import es.caib.portafib.logic.validator.EntitatLogicValidator;
 import es.caib.portafib.model.entity.Entitat;
 import es.caib.portafib.model.fields.CustodiaInfoFields;
@@ -15,6 +17,7 @@ import es.caib.portafib.model.fields.PluginFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.ConstantsPortaFIB;
 import es.caib.portafib.utils.ConstantsV2;
+
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
@@ -36,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -497,71 +501,31 @@ INSERT INTO pfi_propietatglobal(entitatid, clau, valor, descripcio) SELECT entit
 */
 
   @Override
-  public EntitatJPA create(HttpServletRequest request, EntitatJPA entitat)
-      throws Exception,I18NException, I18NValidationException {
-      EntitatJPA e = (EntitatJPA) entitatEjb.create(entitat);
-      
+  public EntitatJPA create(HttpServletRequest request, EntitatJPA entitat) throws Exception,
+      I18NException, I18NValidationException {
+    EntitatJPA e = (EntitatJPA) entitatEjb.create(entitat);
+    String _entitatID_ = e.getEntitatID();
+
+    for (Map.Entry<String, Propietat> entry : PropietatsConstants.propietatsEntitat.entrySet()) {
+
       try {
-        String _entitatID_ = e.getEntitatID();
-        propietatGlobalEjb.create("es.caib.portafib.maxitemstoshowinautocomplete",
-            "10", _entitatID_, "Opcional. Valor per defecte 10. En els formularis de cerques"
-                + " dinàmiques d'usuari, indica el màxim de resultats permesos per mostrar"
-                + " resultats de l'usuari.");
-        
-        propietatGlobalEjb.create("es.caib.portafib.mincharstostartautocomplete",
-            "2",  _entitatID_, "Opcional. Valor per defecte 2. En formularis de cerques"
-                + " dinàmiques d'usuari, indica el mínim de caràcters que s'han d'escriure"
-                + " per a que  apareguin resultats. En entitats amb molts d''usuaris es"
-                + " recomana incrementar aquest valor a 3 o 4.");
-        
-        propietatGlobalEjb.create("es.caib.portafib.maxtimelockedsigninms", null,
-            _entitatID_, "Opcional. Indica Temps de validesa del Token de Firma només"
-                + " quan hi ha multiples firmes en un bloc o hi ha delegats definits. "
-                + "Es a dir, el temps màxim que un firmant pot tenir bloquejat un"
-                + " document durant la firma. Per defecte 3 minuts.");
 
-        propietatGlobalEjb.create("es.caib.portafib.notificationwhencreatedelegaciocolaboracio",
-            null,  _entitatID_, "Opcional.Valors posibles true o false.Indica si s’han"
-            + " d’enviar avisos via correu electrònic als delegats o col·laboradors quan"
-            + "són assignats per un destinatari.Si no es defineix s´usa el valor de la" 
-            + " mateixa propietat definida en Propietats Globals");
+        propietatGlobalEjb.create(entry.getValue().clau, null, _entitatID_,
+            entry.getValue().descripcio);
 
-        propietatGlobalEjb.create("es.caib.portafib.avisosfirmespendents.diesabans", null,
-            _entitatID_, "Fa que s'enviïn correus als que tenen peticions de firma pendents."
-            + " Indica el numero de dies abans de la caducitat de la petició en que s'han"
-            + " de començar a enviar correus. Relacionat amb la PropietatGlobal"
-            + " es.caib.portafib.avisosfirmespendents.cron");
-
-        propietatGlobalEjb.create("es.caib.portafib.autofirmaallowed", "true",
-            _entitatID_, "Opcional. Serveix per forçar la visibilitat de l´opció Gestió "
-                + "d´AutoFirmes del Menú d´Inici. Valors: * true: sempre mostra l´opció"
-                + " de menú. * false: mai mostra l´opció de menú. * null: consulta"
-                + " el role PFI_AUTOFIRMA");
-        
-        propietatGlobalEjb.create("es.caib.portafib.acceptTransformPDFA", "false",
-            _entitatID_, "Nou a la versió 2.0.1 Opcional. Per defecte false. En"
-                + " firmes PAdES, si el tipus de PDF és PDF/A1 o PDF/A2 o PDF/A3"
-                + " i si a més es requereix Estampar o Afegir Taula de Firmes o"
-                + " Annexar Documents, llavors això implica una transformació"
-                + " del PDF que a la vegada implica una pèrdua de la condició de"
-                + " PDF/A. Si val true s'accepta transformar el PDF/A i perdre a"
-                + "  la condició de PDF/A. Si val false es llança una excepció"
-                + " indicant que no es permeten Estampacions o Taules de Firmes"
-                + " o Annexes  en PDF/A.");
-        
-        
-      } catch(I18NException ie) {
+      } catch (I18NException ie) {
         String msg = I18NUtils.getMessage(ie);
         // TODO Traduir
-        String missatge = "S'ha produït un error creant les propietats per l'entitat" 
-            +  e.getNom() + ". Haurà de crear-les manualment. Error: " + msg;
-        
+        String missatge = "S'ha produït un error creant les propietats per l'entitat"
+            + e.getNom() + ". Haurà de crear-les manualment. Error: " + msg;
+
         log.error(missatge, ie);
         HtmlUtils.saveMessageError(request, missatge);
       }
-      
-      return e;
-      
+    }
+
+    return e;
+
   }
   
   
