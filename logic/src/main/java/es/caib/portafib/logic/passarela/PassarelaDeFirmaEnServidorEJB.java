@@ -1,17 +1,8 @@
 package es.caib.portafib.logic.passarela;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
+import es.caib.portafib.ejb.EstadisticaLocal;
 import es.caib.portafib.jpa.EntitatJPA;
+import es.caib.portafib.jpa.EstadisticaJPA;
 import es.caib.portafib.jpa.PluginJPA;
 import es.caib.portafib.jpa.UsuariAplicacioConfiguracioJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
@@ -42,12 +33,6 @@ import es.caib.portafib.model.bean.FitxerBean;
 import es.caib.portafib.model.entity.PerfilDeFirma;
 import es.caib.portafib.model.entity.UsuariAplicacioConfiguracio;
 import es.caib.portafib.utils.ConstantsV2;
-
-import javax.activation.DataHandler;
-import javax.annotation.security.RunAs;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmasimple.v1.beans.FirmaSimpleFile;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
@@ -61,7 +46,26 @@ import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeForUpgrade;
 import org.fundaciobit.plugins.signature.api.constants.SignatureTypeFormEnumForUpgrade;
 import org.fundaciobit.plugins.signatureserver.api.ISignatureServerPlugin;
+import org.fundaciobit.plugins.validatesignature.api.ValidateSignatureResponse;
+import org.fundaciobit.plugins.validatesignature.api.ValidationStatus;
 import org.jboss.ejb3.annotation.SecurityDomain;
+
+import javax.activation.DataHandler;
+import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 
@@ -73,6 +77,9 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 public class PassarelaDeFirmaEnServidorEJB extends
     AbstractPassarelaDeFirmaEJB<ISignatureServerPlugin> implements
     PassarelaDeFirmaEnServidorLocal {
+
+  @EJB(mappedName = EstadisticaLocal.JNDI_NAME)
+  protected EstadisticaLocal estadisticaEjb;
 
   @EJB(mappedName = ModulDeFirmaServidorLogicaLocal.JNDI_NAME)
   protected ModulDeFirmaServidorLogicaLocal modulDeFirmaServidorEjb;
@@ -253,15 +260,13 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
         final int numFirmesOriginals = 0;
 
-        final String expectedNif = null;
-
         // En passarel.la no hi ha flux de firma
         final int numFirmaPortaFIB = 1;
 
         ValidacioCompletaRequest validacioRequest = new ValidacioCompletaRequest(entitatID,
             validarFitxerFirma, checkCanviatDocFirmat, comprovarNifFirma, fitxerOriginal,
             adaptat, signature, documentDetached, signTypeID, signMode, languageUI,
-            numFirmaPortaFIB, numFirmesOriginals, expectedNif, posTaulaDeFirmes);
+            numFirmaPortaFIB, numFirmesOriginals, nif, posTaulaDeFirmes);
 
         // Aqui es fan totes les validacions completes !!!!!!
         ValidacioCompletaResponse validacioResponse;
@@ -303,6 +308,51 @@ public class PassarelaDeFirmaEnServidorEJB extends
 
       // XYZ ZZZ ZZZ FALTA CUSTODIA
       PassarelaCustodyInfo custodyInfo = null;
+
+      // Estadistica
+      StatusSignaturesSet ssf = ss.getStatusSignaturesSet();
+      if (ssf.getStatus() == StatusSignaturesSet.STATUS_FINAL_OK) {
+        int signaturesValides = 0;
+        for (FileInfoSignature fis : ss.getFileInfoSignatureArray()) {
+          StatusSignature fiss = fis.getStatusSignature();
+          if (fiss.getStatus() == StatusSignature.STATUS_FINAL_OK) {
+            ValidacioCompletaResponse infoValidacio = validacioResponseBySignID.get(fis.getSignID());
+            if (infoValidacio != null) {
+              ValidateSignatureResponse validateSignatureResponse = infoValidacio.getValidateSignatureResponse();
+              if (validateSignatureResponse != null) {
+                if (validateSignatureResponse.getValidationStatus().getStatus() != ValidationStatus.SIGNATURE_VALID) {
+                  continue;
+                }
+              }
+            }
+            signaturesValides++;
+          }
+        }
+        if (signaturesValides > 0) {
+          try {
+            EstadisticaJPA est = new EstadisticaJPA();
+            est.setValor( (double) signaturesValides);
+            est.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
+            est.setUsuariAplicacioID(usrApp.getUsuariAplicacioID());
+
+            {
+              Properties params = new Properties();
+              params.setProperty("entitatID", entitatID);
+              params.setProperty("username", ss.getCommonInfoSignature().getUsername());
+              params.setProperty("administrationID", ss.getCommonInfoSignature().getAdministrationID());
+              StringWriter writer = new StringWriter();
+              params.store(writer, null);
+              est.setParametres(writer.getBuffer().toString());
+            }
+            est.setEntitatID(entitatID);
+            est.setData(new Timestamp(System.currentTimeMillis()));
+            estadisticaEjb.create(est);
+          } catch (Throwable th) {
+            log.error("Error afegint estadistiques de Peticio Finalitzada: " + th.getMessage(),
+                  th);
+          }
+        }
+      }
 
       return 
           new PassarelaSignatureInServerResults(

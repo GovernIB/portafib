@@ -91,7 +91,6 @@ import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatQueryPath;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.KeyValue;
 import org.fundaciobit.genapp.common.StringKeyValue;
@@ -130,7 +129,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -2566,6 +2564,7 @@ public class PeticioDeFirmaLogicaEJB extends PeticioDeFirmaEJB implements
           // Estadística amb el nombre de firmes de la petició
           Estadistica est2 = EstadisticaJPA.copyJPA(est);
           est2.setEstadisticaID(0);
+          est2.setUsuariEntitatID(null);
           est2.setValor(Double.valueOf(firma.getNumFirmaDocument()));
           est2.setTipus(ConstantsV2.ESTADISTICA_TIPUS_PETICIO_FIRMES);
           estadisticaEjb.create(est2);
