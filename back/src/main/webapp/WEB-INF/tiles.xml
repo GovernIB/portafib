@@ -387,6 +387,16 @@
     <definition name="bitacolaPeticioListAden" extends="role_aden">
         <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
     </definition>
+    
+    
+    <definition name="bitacolaFormAden" extends="role_aden">
+        <put-attribute name="titol" value="bitacola.bitacola" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaForm.jsp" />
+    </definition>
+    
+    <definition name="bitacolaListAden" extends="role_aden">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/bitacolaList.jsp" />
+    </definition>
 
 
     <!--  ===========  ADMINISTRADOR ================== -->
