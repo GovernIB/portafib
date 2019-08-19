@@ -101,7 +101,6 @@ public class PassarelaFileInfoSignature {
    * @param procedimentCodi
    * @param procedimentNom
    * @param additionalInformation
-   * @param custodiaInfo
    */
   public PassarelaFileInfoSignature(FitxerBean fileToSign,
       FitxerBean previusSignatureDetachedFile, String signID, String name, String reason,
@@ -154,7 +153,6 @@ public class PassarelaFileInfoSignature {
    * @param signaturesTableHeader
    * @param secureVerificationCodeStampInfo
    * @param useTimeStamp
-   * @param custodiaInfo
    */
   @Deprecated
   public PassarelaFileInfoSignature(FitxerBean fileToSign, String signID, String name,

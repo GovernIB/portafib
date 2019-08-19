@@ -403,17 +403,11 @@ public class CustodiaInfoLogicaEJB extends CustodiaInfoEJB
                 codiBarresEjb, custodiaInfoEjb, entitatEjb, pluginDeCustodiaLogicaEjb,
                 usuariAplicacioEjb, usuariEntitatEjb);
             final boolean isNou = true;
-            boolean buit = true;
-            if (custodiaInfo.getPagines() != null && custodiaInfo.getPagines().trim().length() == 0) {
-              custodiaInfo.setPagines("buit");
-              buit = true;
-            }
+
             
             custodiaValidator.throwValidationExceptionIfErrors(custodiaInfo, isNou);
             
-            if (buit == true) {
-              custodiaInfo.setPagines("");
-            }
+
             
 
           }

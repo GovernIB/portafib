@@ -430,30 +430,7 @@ public class CustodiaInfoSoliController extends CustodiaInfoController implement
 
   }
   
-  
-  @Override
-  public void preValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm , BindingResult result)  throws I18NException {
-    
-    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
-    
-    if (pagines == null || pagines.trim().length() == 0) {
-      custodiaInfoForm.getCustodiaInfo().setPagines("buit");
-    }
-  
-    
-  }
-  
-  @Override
-  public void postValidate(HttpServletRequest request,CustodiaInfoForm custodiaInfoForm, BindingResult result)  throws I18NException {
-    
-    String pagines = custodiaInfoForm.getCustodiaInfo().getPagines(); 
-    
-    if ("buit".equals(pagines)) {
-      custodiaInfoForm.getCustodiaInfo().setPagines("");
-    }
-  }
-  
- 
+
   
   // #199
   @Override
