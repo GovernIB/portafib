@@ -29,7 +29,6 @@ import es.caib.portafib.logic.PeticioDeFirmaLogicaLocal;
 import es.caib.portafib.logic.PluginDeCustodiaLogicaLocal;
 import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
-import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
 import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
 import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
@@ -43,7 +42,6 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleCustodyInfo;
@@ -87,8 +85,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1447,83 +1443,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     // solicitantUsuariAplicacioID, remitentNom, avisWeb, segellatDeTemps)
 
     return peticio;
-
-  }
-
-  // TODO throw I18NException
-  @Deprecated
-  protected FitxerJPA createFitxer(FirmaAsyncSimpleFile fitxer, FitxerLogicaLocal fitxerEjb,
-      Set<Long> fitxersCreats, Field<?> field) throws I18NException, I18NValidationException {
-
-    if (fitxer == null) {
-      return null;
-    }
-
-    File tmp;
-    try {
-      if (fitxer.getData() == null) {
-        // TODO Translate
-        throw new IOException();
-      }
-
-      tmp = File.createTempFile("ws_", ".tmp", FileSystemManager.getFilesPath());
-
-      FileUtils.writeByteArrayToFile(tmp, fitxer.getData());
-
-    } catch (IOException ioe) {
-
-      log.error("Error escrivint FirmaAsyncSimpleFile a fitxer: " + ioe.getMessage(), ioe);
-
-      throw new I18NException("fitxer.sensedades", field.fullName);
-    }
-
-    /**
-     * if (fitxer.getTamany() != data.length) { // TODO Translate throw new
-     * Exception("El tamany esperat del Fitxer " + field.fullName + " es " + fitxer.getTamany()
-     * + " però el tamany rebut es de " + data.length); }
-     */
-
-    log.info(" TAMANY DE FITXER REBUT = " + tmp.length());
-
-    FitxerJPA fitxerJPA = new FitxerJPA(fitxer.getNom(), null, tmp.length(), fitxer.getMime());
-
-    // TODO Arreglar aquest
-    try {
-      fitxerJPA = fitxerEjb.createFull(fitxerJPA);
-    } catch (I18NValidationException e) {
-      // Si falla la creació per errors de validació, borram el fitxer temporal i rellançam excepció
-      if (tmp.exists()) {
-        if (!tmp.delete()) {
-          tmp.deleteOnExit();
-        }
-      }
-      throw e;
-    }
-
-    long fitxerID = fitxerJPA.getFitxerID();
-
-    log.info("ID FITXER CREAT = " + fitxerID);
-
-    // FileSystemManager.crearFitxer(tmp, fitxerID);
-    //FileSystemManager.sobreescriureFitxer(tmp, fitxerID);
-    try {
-      LogicUtils.sobreescriureFitxerChecked(tmp, fitxerID);
-    } catch (Exception e) {
-      /*
-      Si ha fallat el sobreescriure intentam borrar tot i llançar una runtime.
-       */
-      fitxerEjb.deleteFull(fitxerID);
-      if (tmp.exists()) {
-        if (!tmp.delete()) {
-          tmp.deleteOnExit();
-        }
-      }
-      throw new RuntimeException(e);
-    }
-
-    fitxersCreats.add(fitxerJPA.getFitxerID());
-
-    return fitxerJPA;
 
   }
 
