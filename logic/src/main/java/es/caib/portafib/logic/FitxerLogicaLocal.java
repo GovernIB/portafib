@@ -29,5 +29,7 @@ public interface FitxerLogicaLocal extends FitxerLocal {
   public FitxerJPA createFitxerField(FitxerJPA fitxer, IPortaFIBDataSource data, Set<Long> fitxersCreats, Field<?> field)
           throws I18NException, I18NValidationException;
 
+
+  public void cleanSet(Set<Long> fitxersCreats);
 }
 

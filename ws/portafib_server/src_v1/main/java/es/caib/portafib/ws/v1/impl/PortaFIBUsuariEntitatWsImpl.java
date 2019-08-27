@@ -1,33 +1,5 @@
 package es.caib.portafib.ws.v1.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.WebServiceContext;
-
-import org.fundaciobit.genapp.common.ws.WsI18NException;
-import org.fundaciobit.genapp.common.ws.WsValidationException;
-import org.fundaciobit.pluginsib.userinformation.UserInfo;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
-import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
-import org.fundaciobit.genapp.common.i18n.I18NException;
-import org.fundaciobit.genapp.common.query.OrderBy;
-import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
-
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.RoleUsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
@@ -40,10 +12,35 @@ import es.caib.portafib.model.fields.EntitatFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
 import es.caib.portafib.model.fields.UsuariPersonaFields;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
+import org.fundaciobit.genapp.common.i18n.I18NArgumentString;
+import org.fundaciobit.genapp.common.i18n.I18NException;
+import org.fundaciobit.genapp.common.query.OrderBy;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.ws.WsI18NException;
+import org.fundaciobit.genapp.common.ws.WsValidationException;
+import org.fundaciobit.pluginsib.userinformation.UserInfo;
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.wsf.spi.annotation.TransportGuarantee;
+import org.jboss.wsf.spi.annotation.WebContext;
+
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.WebServiceContext;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -176,7 +173,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
       UsuariPersonaJPA user = JPAConversion.toUsuariPersonaJPA(usuariPersonaBean, fitxerLogicaEjb, fitxersCreats);
       user = usuariPersonaLogicaEjb.createFull(user);
     } catch (Throwable e) {
-      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       throw e;
     }
   }
@@ -369,7 +366,7 @@ public class PortaFIBUsuariEntitatWsImpl extends AuthenticatedBaseV1WsImpl imple
       return UsuariEntitatBean.toBean(user);
       
     } catch (Throwable e) {
-      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       throw e;
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

@@ -1,26 +1,5 @@
 package es.caib.portafib.ws.v1.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
-import org.fundaciobit.genapp.common.ws.WsI18NException;
-import org.fundaciobit.genapp.common.ws.WsValidationException;
-import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
-import org.fundaciobit.genapp.common.query.Where;
-import org.jboss.ejb3.annotation.SecurityDomain;
-import org.jboss.wsf.spi.annotation.TransportGuarantee;
-import org.jboss.wsf.spi.annotation.WebContext;
-
 import es.caib.portafib.ejb.UsuariEntitatLocal;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.UsuariAplicacioJPA;
@@ -29,10 +8,28 @@ import es.caib.portafib.logic.UsuariAplicacioLogicaLocal;
 import es.caib.portafib.model.entity.UsuariAplicacio;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
+import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.ws.WsI18NException;
+import org.fundaciobit.genapp.common.ws.WsValidationException;
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.wsf.spi.annotation.TransportGuarantee;
+import org.jboss.wsf.spi.annotation.WebContext;
+
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -117,7 +114,7 @@ public class PortaFIBUsuariAplicacioWsImpl extends AuthenticatedBaseV1WsImpl
       UsuariAplicacioJPA user = JPAConversion.toUsuariAplicacioJPA(usuariAplicacioBean, fitxerLogicaEjb,fitxersCreats);
       user = usuariAplicacioLogicaEjb.createFull(user, loginUserApp.getEntitatID());
     } catch (Throwable e) {
-      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       throw e;
     }
   }

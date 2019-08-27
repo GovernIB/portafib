@@ -87,6 +87,23 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
   }
 
   @Override
+  public void cleanSet(Set<Long> fitxerIDSet) {
+    if (fitxerIDSet == null) {
+      return;
+    }
+
+    for (Long fileID : fitxerIDSet) {
+      try {
+        delete(fileID);
+      } catch (Throwable e) {
+        // TODO Enviar mail a ADMINISTRADOR
+        log.error("Error esborrant fitxer fent neteja: " + e.getMessage(), e);
+      }
+      FileSystemManager.eliminarArxiu(fileID);
+    }
+  }
+
+  @Override
   public FitxerJPA createFitxerField(FitxerJPA fitxer, IPortaFIBDataSource data, Set<Long> fitxersCreats, Field<?> field)
         throws I18NException, I18NValidationException {
 

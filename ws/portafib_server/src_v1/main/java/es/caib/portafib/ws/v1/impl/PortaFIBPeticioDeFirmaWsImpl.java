@@ -22,7 +22,6 @@ import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.Constants;
-import es.caib.portafib.ws.utils.FitxerUtilsCommon;
 import es.caib.portafib.ws.utils.UsuariAplicacioCache;
 import es.caib.portafib.ws.v1.utils.AuthenticatedBaseV1WsImpl;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
@@ -264,7 +263,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
       return fluxJPA.getFluxDeFirmesID();
     
     } catch (Throwable e) {
-      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       throw e;
     } 
   }
@@ -408,7 +407,7 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
     } catch (Throwable e) {
       log.error("Error en createPeticioDeFirma(): " + e.getMessage(), e);
-      FitxerUtilsCommon.cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       throw e;
     } finally {
       FitxerJPA.disableEncryptedFileIDGeneration();

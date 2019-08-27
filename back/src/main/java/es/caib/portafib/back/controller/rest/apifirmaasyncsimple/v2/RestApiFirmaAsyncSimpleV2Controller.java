@@ -551,14 +551,14 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     } catch (org.fundaciobit.genapp.common.i18n.I18NValidationException ve) {
 
       String msg = I18NLogicUtils.getMessage(ve, new Locale(languageUI));
-      cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       log.error(msg, ve);
       return generateServerError(msg);
 
     } catch (I18NException i18ne) {
 
       String msg = I18NLogicUtils.getMessage(i18ne, new Locale(languageUI));
-      cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       log.error(msg, i18ne);
       return generateServerError(msg);
 
@@ -568,7 +568,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       String msg = "Error desconegut cridant a createAndStartSignatureRequest: "
           + th.getMessage();
       log.error(msg, th);
-      cleanPostError(fitxerLogicaEjb, fitxersCreats);
+      fitxerLogicaEjb.cleanSet(fitxersCreats);
       return generateServerError(msg, th);
     }
 
@@ -1326,23 +1326,6 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
         String msg = "No s'ha definit la implementació per la Politica de Custodia per usuari aplicació amb ID "
             + politica;
         throw new I18NException("genapp.comodi", msg);
-    }
-
-  }
-
-  protected void cleanPostError(FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats) {
-    if (fitxersCreats == null) {
-      return;
-    }
-
-    for (Long fileID : fitxersCreats) {
-      try {
-        fitxerEjb.delete(fileID);
-      } catch (Throwable e) {
-        // TODO Enviar mail a ADMINISTRADOR
-        log.error("Error esborrant fitxer després d'un error: " + e.getMessage(), e);
-      }
-      FileSystemManager.eliminarArxiu(fileID);
     }
 
   }
