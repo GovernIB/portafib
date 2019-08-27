@@ -1,10 +1,5 @@
 package es.caib.portafib.ws.v1.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
-
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.CustodiaInfoJPA;
 import es.caib.portafib.jpa.FitxerJPA;
@@ -14,9 +9,12 @@ import es.caib.portafib.logic.FitxerLogicaLocal;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
-import es.caib.portafib.ws.v1.utils.FitxerUtils;
 import es.caib.portafib.ws.v1.utils.JPAConversion;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -91,22 +89,22 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
 
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAFirmar() != null) {
-      FitxerJPA f = FitxerUtils.createFitxer(peticioDeFirmaWs.getFitxerAFirmar(),
-          fitxerEjb, fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
+      FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerAFirmar(),
+          fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
       jpa.setFitxerAFirmarID(f==null? null : f.getFitxerID());
       jpa.setFitxerAFirmar(null);
     }
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAdaptat() != null) {
-      FitxerJPA f = FitxerUtils.createFitxer(peticioDeFirmaWs.getFitxerAdaptat(),
-          fitxerEjb, fitxersCreats, PeticioDeFirmaFields.FITXERADAPTATID);
+      FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerAdaptat(),
+          fitxersCreats, PeticioDeFirmaFields.FITXERADAPTATID);
       jpa.setFitxerAdaptatID(f==null? 0 : f.getFitxerID());
       jpa.setFitxerAdaptat(null);
     }
     // Fitxer
     if (peticioDeFirmaWs.getLogoSegell() != null) {
-      FitxerJPA f = FitxerUtils.createFitxer(peticioDeFirmaWs.getLogoSegell(),
-          fitxerEjb, fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
+      FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+          fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
       jpa.setLogoSegellID(f == null? 0 : f.getFitxerID());
       jpa.setLogoSegell(null);
     }

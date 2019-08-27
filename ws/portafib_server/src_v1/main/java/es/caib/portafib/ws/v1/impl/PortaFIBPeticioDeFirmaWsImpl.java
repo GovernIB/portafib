@@ -1,5 +1,6 @@
 package es.caib.portafib.ws.v1.impl;
 
+import es.caib.portafib.ejb.TipusDocumentLocal;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.FluxDeFirmesJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
@@ -75,14 +76,14 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
 
   public static final String NAME_WS = NAME + "Ws";
 
-  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME)
+  @EJB(mappedName = PeticioDeFirmaLogicaLocal.JNDI_NAME, beanName = "PeticioDeFirmaLogicaEJB")
   protected PeticioDeFirmaLogicaLocal peticioDeFirmaLogicaEjb;
   
   @EJB(mappedName = FluxDeFirmesLogicaLocal.JNDI_NAME)
   private FluxDeFirmesLogicaLocal fluxDeFirmesLogicaEjb;
   
-  @EJB(mappedName = es.caib.portafib.ejb.TipusDocumentLocal.JNDI_NAME)
-  protected es.caib.portafib.ejb.TipusDocumentLocal tipusDocumentEjb;
+  @EJB(mappedName = TipusDocumentLocal.JNDI_NAME, beanName = "TipusDocumentEJB")
+  protected TipusDocumentLocal tipusDocumentEjb;
   
   @EJB(mappedName = CustodiaInfoLogicaLocal.JNDI_NAME)
   protected CustodiaInfoLogicaLocal custodiaInfoLogicaEjb;
@@ -93,8 +94,8 @@ public class PortaFIBPeticioDeFirmaWsImpl extends AuthenticatedBaseV1WsImpl impl
   @Resource
   private WebServiceContext wsContext;
 
-  
-  
+
+
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
   // --------------------------| Custodia |---------------------------

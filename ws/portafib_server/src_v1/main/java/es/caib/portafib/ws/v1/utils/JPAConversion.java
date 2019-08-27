@@ -1,9 +1,5 @@
 package es.caib.portafib.ws.v1.utils;
 
-import java.util.Set;
-
-import org.fundaciobit.genapp.common.i18n.I18NException;
-
 import es.caib.portafib.jpa.AnnexJPA;
 import es.caib.portafib.jpa.FirmaJPA;
 import es.caib.portafib.jpa.FitxerJPA;
@@ -21,7 +17,10 @@ import es.caib.portafib.ws.v1.impl.FitxerBean;
 import es.caib.portafib.ws.v1.impl.UsuariAplicacioBean;
 import es.caib.portafib.ws.v1.impl.UsuariEntitatBean;
 import es.caib.portafib.ws.v1.impl.UsuariPersonaBean;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
+
+import java.util.Set;
 
 /**
  * 
@@ -39,8 +38,8 @@ public class JPAConversion {
      UsuariAplicacioJPA jpa = toJPA(usuariAplicacioBean);
      
      if (jpa.getLogoSegell() != null) {
-       FitxerJPA f = FitxerUtils.createFitxer(usuariAplicacioBean.getLogoSegell(),
-           fitxerEjb, fitxersCreats, UsuariAplicacioFields.LOGOSEGELLID);
+       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+           fitxersCreats, UsuariAplicacioFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
        jpa.setLogoSegell(null);
      }
@@ -76,8 +75,8 @@ public class JPAConversion {
      UsuariEntitatJPA jpa = toJPA(usuariEntitatBean);
      
      if (jpa.getLogoSegell() != null) {
-       FitxerJPA f = FitxerUtils.createFitxer(usuariEntitatBean.getLogoSegell(),
-           fitxerEjb, fitxersCreats, UsuariEntitatFields.LOGOSEGELLID);
+       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+           fitxersCreats, UsuariEntitatFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
        jpa.setLogoSegell(null);
      }
@@ -113,8 +112,8 @@ public class JPAConversion {
      UsuariPersonaJPA jpa = toJPA(usuariPersonaBean);
      
      if (jpa.getRubrica() != null) {
-       FitxerJPA f = FitxerUtils.createFitxer(usuariPersonaBean.getRubrica(),
-           fitxerEjb, fitxersCreats, UsuariPersonaFields.RUBRICAID);
+       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getRubrica(),
+           fitxersCreats, UsuariPersonaFields.RUBRICAID);
        jpa.setRubricaID(f.getFitxerID());
        jpa.setRubrica(null);
      }
@@ -147,8 +146,8 @@ public class JPAConversion {
      AnnexJPA jpa = toJPA(annexBean);
      
      if (jpa.getFitxerID() == 0) {
-       FitxerJPA f = FitxerUtils.createFitxer(annexBean.getFitxer(),
-           fitxerEjb, fitxersCreats, AnnexFields.FITXERID);
+       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxer(),
+           fitxersCreats, AnnexFields.FITXERID);
        jpa.setFitxerID(f.getFitxerID());
        jpa.setFitxer(null);
      }
@@ -196,8 +195,8 @@ public class JPAConversion {
     FirmaJPA jpa = toJPA(firmaBean);
     
     if (jpa.getFitxerFirmatID() != null) {
-      FitxerJPA f = FitxerUtils.createFitxer(firmaBean.getFitxerFirmat(),
-          fitxerEjb, fitxersCreats, AnnexFields.FITXERID);
+      FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerFirmat(),
+          fitxersCreats, AnnexFields.FITXERID);
       jpa.setFitxerFirmatID(f.getFitxerID());
       jpa.setFitxerFirmat(null);
     }

@@ -30,6 +30,7 @@ public class FitxerUtils extends FitxerUtilsCommon {
   
   
   // TODO throw I18NException
+  @Deprecated
   public static FitxerJPA createFitxer(FitxerBean fitxer,
       FitxerLogicaLocal fitxerEjb, Set<Long> fitxersCreats,
       Field<?> field) throws I18NException, I18NValidationException {
