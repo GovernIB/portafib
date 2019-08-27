@@ -2,6 +2,7 @@ package es.caib.portafib.logic;
 
 import es.caib.portafib.ejb.FitxerLocal;
 import es.caib.portafib.jpa.FitxerJPA;
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.i18n.I18NValidationException;
 import org.fundaciobit.genapp.common.query.Field;
@@ -25,7 +26,7 @@ public interface FitxerLogicaLocal extends FitxerLocal {
   
   public boolean deleteFull(long fitxerID) throws I18NException;
 
-  public FitxerJPA createFitxerField(FitxerJPA fitxer, Set<Long> fitxersCreats, Field<?> field)
+  public FitxerJPA createFitxerField(FitxerJPA fitxer, IPortaFIBDataSource data, Set<Long> fitxersCreats, Field<?> field)
           throws I18NException, I18NValidationException;
 
 }

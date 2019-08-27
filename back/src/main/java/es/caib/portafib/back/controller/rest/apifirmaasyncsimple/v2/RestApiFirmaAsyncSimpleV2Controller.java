@@ -31,7 +31,8 @@ import es.caib.portafib.logic.UsuariEntitatLogicaLocal;
 import es.caib.portafib.logic.utils.I18NLogicUtils;
 import es.caib.portafib.logic.utils.LogicUtils;
 import es.caib.portafib.logic.utils.SignatureUtils;
-import es.caib.portafib.model.entity.Fitxer;
+import es.caib.portafib.logic.utils.datasource.ByteArrayDataSource;
+import es.caib.portafib.logic.utils.datasource.FitxerIdDataSource;
 import es.caib.portafib.model.entity.TipusDocument;
 import es.caib.portafib.model.entity.UsuariEntitat;
 import es.caib.portafib.model.fields.AnnexFields;
@@ -42,7 +43,6 @@ import es.caib.portafib.model.fields.RevisorDeFirmaFields;
 import es.caib.portafib.model.fields.TipusDocumentFields;
 import es.caib.portafib.utils.Configuracio;
 import es.caib.portafib.utils.ConstantsV2;
-
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.ApiFirmaAsyncSimple;
 import org.fundaciobit.apisib.apifirmaasyncsimple.v2.beans.FirmaAsyncSimpleAnnex;
@@ -87,7 +87,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -933,8 +932,11 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
       throw new I18NException("genapp.validation.required", new I18NArgumentCode(
           PeticioDeFirmaFields.FITXERAFIRMARID.fullName));
     } else {
-      FitxerJPA f = createFitxer(signatureRequest.getFileToSign(), fitxerLogicaEjb,
-          fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
+      FirmaAsyncSimpleFile fileToSign = signatureRequest.getFileToSign();
+      FitxerJPA fitxerAFirmar = new FitxerJPA(fileToSign.getNom(), null, fileToSign.getData().length, fileToSign.getMime());
+      FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxerAFirmar,
+            new ByteArrayDataSource(fileToSign.getData()),
+            fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
       jpa.setFitxerAFirmarID(f == null ? null : f.getFitxerID());
       jpa.setFitxerAFirmar(null);
     }
@@ -942,21 +944,12 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     // Fitxer
     if (jpa.getLogoSegellID() != null) {
       // Logo de Segell de l'usuari Aplicacio
-      long fitxerID = jpa.getLogoSegellID();
-      byte[] data;
-      try {
-        data = FileSystemManager.getFileContent(fitxerID);
-      } catch (Exception e) {
-        String msg = "No puc llegir el Logo de l'usuari aplicacio amb ID = " + fitxerID;
-        log.error(msg, e);
-        throw new I18NException("genapp.comodi", msg);
-      }
+      FitxerJPA logoSegell = fitxerLogicaEjb.findByPrimaryKey(jpa.getLogoSegellID());
+      logoSegell.setFitxerID(0);
+      FitxerJPA f = fitxerLogicaEjb.createFitxerField(logoSegell,
+            new FitxerIdDataSource(jpa.getLogoSegellID()),
+            fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
 
-      Fitxer fitxerBBDD = fitxerLogicaEjb.findByPrimaryKey(fitxerID);
-
-      FitxerJPA f = createFitxer(
-          new FirmaAsyncSimpleFile(fitxerBBDD.getNom(), fitxerBBDD.getMime(), data),
-          fitxerLogicaEjb, fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
       jpa.setLogoSegellID(f == null ? 0 : f.getFitxerID());
       jpa.setLogoSegell(null);
     }
@@ -1232,13 +1225,13 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
     }
     AnnexJPA jpa = new AnnexJPA(0, 0, annexBean.isAttach(), annexBean.isSign());
 
-    if (jpa.getFitxerID() == 0) {
-      FitxerJPA f = createFitxer(annexBean.getAnnex(), fitxerEjb, fitxersCreats,
-          AnnexFields.FITXERID);
-      fitxersCreats.add(f.getFitxerID());
-      jpa.setFitxerID(f.getFitxerID());
-      jpa.setFitxer(null);
-    }
+    FirmaAsyncSimpleFile annexFile = annexBean.getAnnex();
+    FitxerJPA fitxer = new FitxerJPA(annexFile.getNom(), null, annexFile.getData().length, annexFile.getMime());
+    FitxerJPA f = fitxerLogicaEjb.createFitxerField(fitxer,
+          new ByteArrayDataSource(annexFile.getData()),
+          fitxersCreats, AnnexFields.FITXERID);
+    jpa.setFitxerID(f.getFitxerID());
+    jpa.setFitxer(null);
 
     return jpa;
 
@@ -1458,6 +1451,7 @@ public class RestApiFirmaAsyncSimpleV2Controller extends
   }
 
   // TODO throw I18NException
+  @Deprecated
   protected FitxerJPA createFitxer(FirmaAsyncSimpleFile fitxer, FitxerLogicaLocal fitxerEjb,
       Set<Long> fitxersCreats, Field<?> field) throws I18NException, I18NValidationException {
 

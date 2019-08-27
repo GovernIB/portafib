@@ -5,6 +5,7 @@ import es.caib.portafib.ejb.FitxerEJB;
 import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.validator.FitxerBeanValidator;
 import es.caib.portafib.logic.utils.LogicUtils;
+import es.caib.portafib.logic.utils.datasource.IPortaFIBDataSource;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.genapp.common.filesystem.FileSystemManager;
 import org.fundaciobit.genapp.common.i18n.I18NArgumentCode;
@@ -86,7 +87,7 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
   }
 
   @Override
-  public FitxerJPA createFitxerField(FitxerJPA fitxer, Set<Long> fitxersCreats, Field<?> field)
+  public FitxerJPA createFitxerField(FitxerJPA fitxer, IPortaFIBDataSource data, Set<Long> fitxersCreats, Field<?> field)
         throws I18NException, I18NValidationException {
 
     if (fitxer == null) {
@@ -95,12 +96,12 @@ public class FitxerLogicaEJB extends FitxerEJB implements FitxerLogicaLocal {
 
     File tmp = null;
     try {
-      if (fitxer.getData() == null) {
+      if (data == null) {
         throw new IOException("No data");
       }
 
       tmp = File.createTempFile("ws_", ".tmp", FileSystemManager.getFilesPath());
-      InputStream is = fitxer.getData().getInputStream();
+      InputStream is = data.getInputStream();
       FileUtils.copyInputStreamToFile(is, tmp);
       is.close();
 

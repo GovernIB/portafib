@@ -7,6 +7,7 @@ import es.caib.portafib.jpa.UsuariAplicacioJPA;
 import es.caib.portafib.jpa.UsuariEntitatJPA;
 import es.caib.portafib.jpa.UsuariPersonaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.utils.datasource.DataHandlerDataSource;
 import es.caib.portafib.model.fields.AnnexFields;
 import es.caib.portafib.model.fields.UsuariAplicacioFields;
 import es.caib.portafib.model.fields.UsuariEntitatFields;
@@ -39,6 +40,7 @@ public class JPAConversion {
      
      if (jpa.getLogoSegell() != null) {
        FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+             new DataHandlerDataSource(jpa.getLogoSegell().getData()),
            fitxersCreats, UsuariAplicacioFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
        jpa.setLogoSegell(null);
@@ -76,6 +78,7 @@ public class JPAConversion {
      
      if (jpa.getLogoSegell() != null) {
        FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+             new DataHandlerDataSource(jpa.getLogoSegell().getData()),
            fitxersCreats, UsuariEntitatFields.LOGOSEGELLID);
        jpa.setLogoSegellID(f.getFitxerID());
        jpa.setLogoSegell(null);
@@ -113,6 +116,7 @@ public class JPAConversion {
      
      if (jpa.getRubrica() != null) {
        FitxerJPA f = fitxerEjb.createFitxerField(jpa.getRubrica(),
+             new DataHandlerDataSource(jpa.getRubrica().getData()),
            fitxersCreats, UsuariPersonaFields.RUBRICAID);
        jpa.setRubricaID(f.getFitxerID());
        jpa.setRubrica(null);
@@ -147,6 +151,7 @@ public class JPAConversion {
      
      if (jpa.getFitxerID() == 0) {
        FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxer(),
+             new DataHandlerDataSource(jpa.getFitxer().getData()),
            fitxersCreats, AnnexFields.FITXERID);
        jpa.setFitxerID(f.getFitxerID());
        jpa.setFitxer(null);
@@ -196,6 +201,7 @@ public class JPAConversion {
     
     if (jpa.getFitxerFirmatID() != null) {
       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerFirmat(),
+            new DataHandlerDataSource(jpa.getFitxerFirmat().getData()),
           fitxersCreats, AnnexFields.FITXERID);
       jpa.setFitxerFirmatID(f.getFitxerID());
       jpa.setFitxerFirmat(null);

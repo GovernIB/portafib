@@ -6,6 +6,7 @@ import es.caib.portafib.jpa.FitxerJPA;
 import es.caib.portafib.jpa.MetadadaJPA;
 import es.caib.portafib.jpa.PeticioDeFirmaJPA;
 import es.caib.portafib.logic.FitxerLogicaLocal;
+import es.caib.portafib.logic.utils.datasource.DataHandlerDataSource;
 import es.caib.portafib.model.entity.PeticioDeFirma;
 import es.caib.portafib.model.fields.PeticioDeFirmaFields;
 import es.caib.portafib.utils.ConstantsV2;
@@ -90,6 +91,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAFirmar() != null) {
       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerAFirmar(),
+            new DataHandlerDataSource(jpa.getFitxerAFirmar().getData()),
           fitxersCreats, PeticioDeFirmaFields.FITXERAFIRMARID);
       jpa.setFitxerAFirmarID(f==null? null : f.getFitxerID());
       jpa.setFitxerAFirmar(null);
@@ -97,6 +99,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     // Fitxer
     if (peticioDeFirmaWs.getFitxerAdaptat() != null) {
       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getFitxerAdaptat(),
+            new DataHandlerDataSource(jpa.getFitxerAdaptat().getData()),
           fitxersCreats, PeticioDeFirmaFields.FITXERADAPTATID);
       jpa.setFitxerAdaptatID(f==null? 0 : f.getFitxerID());
       jpa.setFitxerAdaptat(null);
@@ -104,6 +107,7 @@ public class PeticioDeFirmaWs extends PeticioDeFirmaBean {
     // Fitxer
     if (peticioDeFirmaWs.getLogoSegell() != null) {
       FitxerJPA f = fitxerEjb.createFitxerField(jpa.getLogoSegell(),
+            new DataHandlerDataSource(jpa.getLogoSegell().getData()),
           fitxersCreats, PeticioDeFirmaFields.LOGOSEGELLID);
       jpa.setLogoSegellID(f == null? 0 : f.getFitxerID());
       jpa.setLogoSegell(null);
